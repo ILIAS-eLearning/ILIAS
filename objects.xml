@@ -238,4 +238,11 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_favorite</action>
 </object>
+<object name="st">
+	<subobj name="st">st</subobj>
+	<subobj name="pg">pg</subobj>
+</object>
+<object name="pg">
+	<subobj name="par">par</subobj>
+</object>
 </objects>
