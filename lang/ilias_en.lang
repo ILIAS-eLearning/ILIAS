@@ -47,6 +47,28 @@ administration#:#cleaning_final#:#Final cleaning...
 administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
+common#:#ilinc_classrooms#:#iLinc Classrooms
+common#:#ilinc_courses#:#iLinc Courses
+common#:#objs_icla#:#iLinc Classrooms
+common#:#objs_icrs#:#iLinc Courses
+common#:#icrs#:#iLinc Course
+common#:#icla#:#iLinc Classroom
+common#:#obj_icrs#:#iLinc Course
+common#:#obj_icla#:#iLinc Classroom
+common#:#icla_new#:#New iLinc Classroom
+common#:#icla_add#:#Add iLinc Classroom
+common#:#icrs_new#:#New iLinc Course
+common#:#icrs_add#:#Add iLinc Course
+common#:#icrs_edit_permission#:#Edit permission settings
+common#:#icrs_visible#:#iLinc Course is visible
+common#:#icrs_read#:#Read access to iLinc Course
+common#:#icrs_write#:#Edit iLinc Course
+common#:#icrs_delete#:#Delete iLinc Course
+common#:#icla_edit_permission#:#Edit permission settings
+common#:#icla_visible#:#iLinc Classroom is visible
+common#:#icla_read#:#Read access to iLinc Classroom
+common#:#icla_write#:#Edit iLinc Classroom
+common#:#icla_delete#:#Delete iLinc Classroom
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results

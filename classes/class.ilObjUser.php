@@ -70,6 +70,7 @@ class ilObjUser extends ilObject
     var $referral_comment;
     var $approve_date;
     var $active;
+    var $ilinc_id; // unique Id for netucate ilinc service
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -266,6 +267,8 @@ class ilObjUser extends ilObject
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
 		
+		//iLinc
+		$this->setiLincID($a_data['ilinc_id']);
 	}
 
 	/**
@@ -393,7 +396,8 @@ class ilObjUser extends ilObject
             "time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
             "time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
             "time_limit_message='".$this->getTimeLimitMessage()."', ".
-            "last_update=now() ".
+            "last_update=now(), ".
+            "ilinc_id='".ilUtil::prepareDBString($this->ilinc_id)."' ".
             "WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
@@ -2344,6 +2348,43 @@ class ilObjUser extends ilObject
                                                 }
 					}
 					break;
+					case "icrs":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'icrs' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjilinccoursegui", "target" => "bottom");
+
+					}
+					break;
+					case "icla":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'icla' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						// heavy workaround by setting cmdNode manually !!!
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"link" => "repository.php?cmd=join&ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjilincclassroomgui&cmdNode=60", "target" => "_blank");
+
+					}
+					break;
 			}
 			if ($a_type == "svy" && !empty($foundsurveys))
 			{
@@ -2504,7 +2545,23 @@ class ilObjUser extends ilObject
 		return $id ? $id : 0;
 	}
 
-
+	/**
+    * set iLinc ID
+	* @access	public
+	*/
+	function setiLincID($a_str)
+	{
+		$this->ilinc_id = $a_str;
+	}
+	
+	/**
+    * get iLinc ID
+	* @access	public
+	*/
+	function getiLincID()
+	{
+		return $this->ilinc_id;
+	}
 
 } // END class ilObjUser
 ?>

@@ -5500,10 +5500,75 @@ CREATE TABLE IF NOT EXISTS `crs_objective_tst` (
 ) TYPE=MyISAM;
 <#391>
 ALTER TABLE `crs_settings` ADD `abo` TINYINT( 2 ) DEFAULT '1';
-
 <#392>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
 <#393>
 ALTER TABLE `crs_settings` ADD `objective_view` TINYINT( 2 ) DEFAULT '0';
+<#394>
+<?php
+// insert iLinc course definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'icrs', 'iLinc course object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to iLinc course object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+// insert iLinc classroom definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'icla', 'iLinc class room object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to iLinc course object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+CREATE TABLE IF NOT EXISTS `ilinc_data` (
+  `obj_id` INT(11) UNSIGNED NOT NULL,
+  `type` CHAR(5) NOT NULL,
+  `course_id` INT(11) UNSIGNED NOT NULL,
+  `class_id` INT(11) UNSIGNED,
+  `user_id` INT(11) UNSIGNED,
+  INDEX (`obj_id`)
+) TYPE=MyISAM;
+
+ALTER TABLE `usr_data` ADD `ilinc_id` INT UNSIGNED;
+
+<#395>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

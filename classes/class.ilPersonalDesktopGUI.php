@@ -77,7 +77,15 @@ class ilPersonalDesktopGUI
             array("title" => $this->lng->txt("objs_qpl"),
 				  "types" => "qpl"),
             array("title" => $this->lng->txt("objs_spl"),
-				  "types" => "spl")
+				  "types" => "spl"),
+				  
+           array("title" => $this->lng->txt("objs_icrs"),
+
+				  "types" => "icrs"),
+				  
+           array("title" => $this->lng->txt("objs_icla"),
+
+				  "types" => "icla")
             );
         $html = "";
         foreach($types as $type)

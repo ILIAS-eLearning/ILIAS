@@ -1,0 +1,178 @@
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by Burkhard Bartelt (netucate systems GmbH) -->
+<!--    The netucate XMLAPI DTD -->
+<!-- ***************************************************************** -->
+<!--                                                                   -->
+<!--     main document elements                                        -->
+<!--                                                                   -->
+<!-- ***************************************************************** -->
+<!ENTITY % netucate.Version 'version (1.0) "1.0"'>
+<!-- *********************************** -->
+<!--     the request document wrapper    -->
+<!-- *********************************** -->
+<!ELEMENT netucate.API.Request ((netucate.Task | 
+					(netucate.Task, netucate.Course)) | 
+					((netucate.Command) |
+					(netucate.Command, netucate.User) | 
+					(netucate.Command, netucate.User.List) | 
+					(netucate.Command, netucate.Course) | 
+					(netucate.Command, netucate.Course.List) | 
+					(netucate.Command, netucate.Course, netucate.User.List) | 
+					(netucate.Command, netucate.Course, netucate.User.List, netucate.User) | 
+					(netucate.Command, netucate.Class) | 
+					(netucate.Command, netucate.Class.List)))>
+<!ATTLIST netucate.API.Request
+	%netucate.Version; 
+>
+<!-- ************************************ -->
+<!--     the response document wrapper    -->
+<!-- ************************************ -->
+<!ELEMENT netucate.API.Response (netucate.Result, netucate.Result.List?,
+					(netucate.ElementID |
+					netucate.User.List | 
+					netucate.Class.List)?)>
+<!ATTLIST netucate.API.Response
+	%netucate.Version; 
+	status (success | warning | error) #IMPLIED
+	operationTotal CDATA #REQUIRED
+	successCount CDATA #REQUIRED
+	failureCount CDATA #REQUIRED
+>
+<!-- ***************************************************************** -->
+<!--                                                                   -->
+<!--     utility elements                                              -->
+<!--                                                                   -->
+<!-- ***************************************************************** -->
+
+<!ELEMENT netucate.ID (#PCDATA)>
+<!ATTLIST netucate.ID
+        %netucate.Version;>
+        
+<!ELEMENT netucate.ElementID ((netucate.ID | Centra.Name | Centra.GUID), Centra.Name?)>
+<!ATTLIST netucate.ElementID
+        type (user | 
+              class | 
+              meeting | 
+              course)      #IMPLIED            
+        %netucate.Version;>
+        
+<!ELEMENT netucate.ElementID.List (netucate.ElementID+)>
+<!ATTLIST netucate.ElementID.List
+        %netucate.Version;>
+        
+<!ELEMENT netucate.UserID (#PCDATA)>
+<!ATTLIST netucate.UserID
+	%netucate.Version; 
+>
+<!ELEMENT netucate.Result (#PCDATA)>
+<!ATTLIST netucate.Result
+	%netucate.Version; 
+	code CDATA #REQUIRED
+	request CDATA #IMPLIED
+	id CDATA #IMPLIED
+	name CDATA #IMPLIED
+	message CDATA #IMPLIED
+>
+<!ELEMENT netucate.Result.List (netucate.Result+)>
+<!ATTLIST netucate.Result.List
+	%netucate.Version; 
+>
+<!-- ***************************************************************** -->
+<!--                                                                   -->
+<!--     request elements                                              -->
+<!--                                                                   -->
+<!-- ***************************************************************** -->
+<!ELEMENT netucate.Command EMPTY>
+<!ATTLIST netucate.Command
+	%netucate.Version; 
+	user CDATA #REQUIRED
+	password CDATA #REQUIRED
+	customerid CDATA #REQUIRED
+	id CDATA #REQUIRED
+	command (Add | Edit | Find | Remove | Copy | Register | UnRegister) #REQUIRED
+	object ( Course | DefaultCourses | Class | CourseClasses | User | RegisteredUsersByRole | AllUsersByRole) #REQUIRED
+>
+<!ELEMENT netucate.Task EMPTY>
+<!ATTLIST netucate.Task
+	%netucate.Version; 
+	user CDATA #REQUIRED
+	password CDATA #REQUIRED
+	customerid CDATA #REQUIRED
+	id CDATA #REQUIRED
+	classid CDATA #IMPLIED
+	locale CDATA #IMPLIED
+	task (UserLogin | GetDefaultCourses | RegisteredUsersByRole | GetUserCourses | UnRegisterAllUsersByRole | UploadPicture | JoinClass) #REQUIRED
+>
+<!-- ***************************************************************** -->
+<!--                                                                   -->
+<!--     data elements                                                 -->
+<!--                                                                   -->
+<!-- ***************************************************************** -->
+<!ELEMENT netucate.User EMPTY>
+<!ATTLIST netucate.User
+	%netucate.Version; 
+	userid CDATA #IMPLIED
+	loginname CDATA #REQUIRED
+	fullname CDATA #REQUIRED
+	password CDATA #REQUIRED
+	authority (participant |
+			 Participant |
+			 leader |
+			 Leader) #IMPLIED
+	homepage CDATA #IMPLIED
+	contactinfo CDATA #IMPLIED
+	comments CDATA #IMPLIED
+	email CDATA #IMPLIED
+	phonenumber CDATA #IMPLIED
+	akuservalue1 CDATA #IMPLIED
+	akuservalue2 CDATA #IMPLIED
+	lotnumber CDATA #IMPLIED
+	instructorflag CDATA #IMPLIED
+>
+<!ELEMENT netucate.User.List (netucate.User+)>
+<!ATTLIST netucate.User.List
+	%netucate.Version; 
+>
+<!ELEMENT netucate.Course.List (netucate.Course+)>
+<!ATTLIST netucate.Course.List
+	%netucate.Version; 
+>
+<!ELEMENT netucate.Class.List (netucate.Class+)>
+<!ATTLIST netucate.Class.List
+	%netucate.Version; 
+>
+<!ELEMENT netucate.Course (netucate.User.List?)>
+<!ATTLIST netucate.Course
+	%netucate.Version; 
+	courseid CDATA #REQUIRED
+	name CDATA #IMPLIED
+	newcoursename CDATA #IMPLIED
+	homepage CDATA #IMPLIED
+	download CDATA #IMPLIED
+	description CDATA #IMPLIED
+	lotnumber CDATA #IMPLIED
+	instructorflag CDATA #IMPLIED
+>
+<!ELEMENT netucate.Class EMPTY>
+<!ATTLIST netucate.Class
+	%netucate.Version; 
+	classid CDATA #IMPLIED
+	courseid CDATA #IMPLIED
+	instructoruserid CDATA #IMPLIED
+	bandwidth CDATA #IMPLIED
+	appsharebandwidth CDATA #IMPLIED
+	description CDATA #IMPLIED
+	alwaysopen CDATA #IMPLIED
+	message CDATA #IMPLIED
+	floorpolicy CDATA #IMPLIED
+	conferencetypeid CDATA #IMPLIED
+	videobandwidth CDATA #IMPLIED
+	videoframerate CDATA #IMPLIED
+	enablepush CDATA #IMPLIED
+	issecure CDATA #IMPLIED
+	akclassvalue1 CDATA #IMPLIED
+	akclassvalue2 CDATA #IMPLIED
+	newclassname CDATA #IMPLIED
+	name CDATA #IMPLIED
+	password CDATA #IMPLIED
+	secure (Yes | yes | No | no) #IMPLIED
+>

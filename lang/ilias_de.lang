@@ -47,6 +47,28 @@ administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
+common#:#ilinc_classrooms#:#iLinc Seminarräume
+common#:#ilinc_courses#:#iLinc Seminare
+common#:#objs_icla#:#iLinc Seminarräume
+common#:#objs_icrs#:#iLinc Seminare
+common#:#icrs#:#iLinc Seminar
+common#:#icla#:#iLinc Seminaraum
+common#:#obj_icrs#:#iLinc Seminar
+common#:#obj_icla#:#iLinc Seminaraum
+common#:#icla_new#:#Neuer iLinc Seminarraum
+common#:#icla_add#:#iLinc Seminarraum anlegen
+common#:#icrs_new#:#Neues iLinc Seminar
+common#:#icrs_add#:#iLinc Seminar anlegen
+common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
+common#:#icrs_visible#:#iLinc Seminar ist sichtbar
+common#:#icrs_read#:#Lesezugriff auf iLinc Seminar
+common#:#icrs_write#:#iLinc Seminar bearbeiten
+common#:#icrs_delete#:#iLinc Seminar löschen
+common#:#icla_edit_permission#:#Rechteeinstellungen ändern
+common#:#icla_visible#:#iLinc Seminarraum ist sichtbar
+common#:#icla_read#:#Lesezugriff auf iLinc Seminarraum
+common#:#icla_write#:#iLinc Seminarram bearbeiten
+common#:#icla_delete#:#iLinc Seminarraum löschen
 administration#:#found#:#Gefunden
 administration#:#found_none#:#Nicht gefunden
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
