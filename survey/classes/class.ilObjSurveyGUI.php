@@ -749,9 +749,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$startrow = $_GET["startrow"];
 		}
+		if (!$_GET["sort"])
+		{
+			// default sort order
+			$_GET["sort"] = array("title" => "ASC");
+		}
 		if ($browsequestions)
 		{
-			$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+			$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow, 1);
 		}
 		else
 		{

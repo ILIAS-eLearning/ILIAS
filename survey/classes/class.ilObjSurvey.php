@@ -2793,7 +2793,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0)
 	{
 		global $ilUser;
 		$where = "";
@@ -2855,6 +2855,10 @@ class ilObjSurvey extends ilObject
 		if (count($forbidden_pools))
 		{
 			$forbidden = " AND survey_question.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+		}
+		if ($completeonly)
+		{
+			$forbidden .= " AND survey_question.complete = " . $this->ilias->db->quote("1");
 		}
 
 		$existing = "";
