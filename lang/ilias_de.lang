@@ -1183,6 +1183,7 @@ common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
+common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
