@@ -603,7 +603,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* export question
 	*/
-	function exportObject()
+	function _exportObject()
 	{
 		// export button was pressed
 		if (count($_POST["q_id"]) > 0)
@@ -1217,5 +1217,159 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->object->getRefId());
 	}
 
+	/*
+	* list all export files
+	*/
+	function exportObject()
+	{
+		global $tree;
+
+		//$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
+		$this->tpl->parseCurrentBlock();
+
+		// view last export log button
+		/*
+		if (is_file($this->object->getExportDirectory()."/export.log"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$export_dir = $this->object->getExportDirectory();
+
+		$export_files = $this->object->getExportFiles($export_dir);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+
+		$tbl->setTitle($this->lng->txt("ass_export_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
+			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "export", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	
+	/**
+	* create export file
+	*/
+	function createExportFileObject()
+	{
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			require_once("assessment/classes/class.ilQuestionpoolExport.php");
+			$qpl_exp = new ilQuestionpoolExport($this->object);
+			$qpl_exp->buildExportFile();
+			$this->exportObject();
+
+			//ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+			
+			/*
+			$add_parameter = $this->getAddParameter();
+			if (!defined("ILIAS_MODULE"))
+			{
+				define("ILIAS_MODULE", "assessment");
+			}
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_export.html", true);
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORMACTION", $add_parameter);
+			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
+			$this->tpl->parseCurrentBlock();*/
+		}
+		else
+		{
+			sendInfo("cannot_export_qpl");
+		}
+	}
+	
+	
 } // END class.ilObjQuestionPoolGUI
 ?>

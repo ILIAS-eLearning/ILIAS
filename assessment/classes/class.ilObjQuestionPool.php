@@ -679,5 +679,317 @@ class ilObjQuestionPool extends ilObject
 		);
 	}
 
+	/**
+	* export pages of test to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
+	{
+		global $ilBench;
+		
+		$this->mob_ids = array();
+		$this->file_ids = array();
+
+		$attrs = array();
+		$attrs["Type"] = "Questionpool_Test";
+		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		// PageObjects
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Page Objects");
+		$ilBench->start("ContentObjectExport", "exportPageObjects");
+		$this->exportXMLPageObjects($a_xml_writer, $a_inst, $expLog, $questions);
+		$ilBench->stop("ContentObjectExport", "exportPageObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Page Objects");
+
+		// MediaObjects
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
+		$ilBench->start("ContentObjectExport", "exportMediaObjects");
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportMediaObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
+
+		// FileItems
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
+		$ilBench->start("ContentObjectExport", "exportFileItems");
+		$this->exportFileItems($a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportFileItems");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
+
+		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "modifyExportIdentifier");
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param == "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
+	}
+
+
+	/**
+	* export page objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions)
+	{
+		global $ilBench;
+
+		include_once "./content/classes/class.ilLMPageObject.php";
+
+		foreach ($questions as $question_id)
+		{
+			$ilBench->start("ContentObjectExport", "exportPageObject");
+			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$question_id);
+
+			$attrs = array();
+			$a_xml_writer->xmlStartTag("PageObject", $attrs);
+
+			
+			// export xml to writer object
+			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
+			$page_object = new ilPageObject("qpl", $question_id);
+			$page_object->buildDom();
+			$page_object->insertInstIntoIDs($a_inst);
+			$mob_ids = $page_object->collectMediaObjects(false);
+			$file_ids = $page_object->collectFileItems();
+			$xml = $page_object->getXMLFromDom(false, false, false, "", true);
+			$xml = str_replace("&","&amp;", $xml);
+			$a_xml_writer->appendXML($xml);
+			$page_object->freeDom();
+			unset ($page_object);
+			
+			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
+
+			// collect media objects
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
+			//$mob_ids = $page_obj->getMediaObjectIDs();
+			foreach($mob_ids as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
+
+			// collect all file items
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
+			//$file_ids = $page_obj->getFileItemIds();
+			foreach($file_ids as $file_id)
+			{
+				$this->file_ids[$file_id] = $file_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
+			
+			$a_xml_writer->xmlEndTag("PageObject");
+			//unset($page_obj);
+
+			$ilBench->stop("ContentObjectExport", "exportPageObject");
+			
+
+		}
+	}
+
+	/**
+	* export media objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+	{
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
+
+		foreach ($this->mob_ids as $mob_id)
+		{
+			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
+			$media_obj = new ilObjMediaObject($mob_id);
+			$media_obj->exportXML($a_xml_writer, $a_inst);
+			$media_obj->exportFiles($a_target_dir);
+			unset($media_obj);
+		}
+	}
+
+	/**
+	* export files of file itmes
+	*
+	*/
+	function exportFileItems($a_target_dir, &$expLog)
+	{
+		include_once("classes/class.ilObjFile.php");
+
+		foreach ($this->file_ids as $file_id)
+		{
+			$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
+			$file_obj = new ilObjFile($file_id, false);
+			$file_obj->export($a_target_dir);
+			unset($file_obj);
+		}
+	}	
+
+	/**
+	* creates data directory for export files
+	* (data_dir/qpl_data/qpl_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
+		ilUtil::makeDir($qpl_data_dir);
+		if(!is_writable($qpl_data_dir))
+		{
+			$this->ilias->raiseError("Questionpool Data Directory (".$qpl_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$qpl_dir = $qpl_data_dir."/qpl_".$this->getId();
+		ilUtil::makeDir($qpl_dir);
+		if(!@is_dir($qpl_dir))
+		{
+			$this->ilias->raiseError("Creation of Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
+		$export_dir = $qpl_dir."/export";
+		ilUtil::makeDir($export_dir);
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of questionpool
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export";
+
+		return $export_dir;
+	}
+	
+	/**
+	* get export files
+	*/
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(qpl_)*[0-9]+\.zip\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+	/**
+	* creates data directory for import files
+	* (data_dir/qpl_data/qpl_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createImportDirectory()
+	{
+		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
+		ilUtil::makeDir($qpl_data_dir);
+		
+		if(!is_writable($qpl_data_dir))
+		{
+			$this->ilias->raiseError("Questionpool Data Directory (".$qpl_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create questionpool directory (data_dir/qpl_data/qpl_<id>)
+		$qpl_dir = $qpl_data_dir."/qpl_".$this->getId();
+		ilUtil::makeDir($qpl_dir);
+		if(!@is_dir($qpl_dir))
+		{
+			$this->ilias->raiseError("Creation of Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create import subdirectory (data_dir/qpl_data/qpl_<id>/import)
+		$import_dir = $qpl_dir."/import";
+		ilUtil::makeDir($import_dir);
+		if(!@is_dir($import_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get import directory of lm
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/qpl_data".
+			"/qpl_".$this->getId()."/import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	* Returns a QTI xml representation of a list of questions
+	*
+	* Returns a QTI xml representation of a list of questions
+	*
+	* @param array $questions An array containing the question ids of the questions
+	* @return string The QTI xml representation of the questions
+	* @access public
+	*/
+	function to_xml($questions)
+	{
+	}
 } // END class.ilObjQuestionPool
 ?>
