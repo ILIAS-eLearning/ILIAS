@@ -701,7 +701,9 @@ class ilObjectGUI
 
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
 			$actions = $objDefinition->getActions($object->getType());
-
+			
+			
+				
 			if ($actions["link"]["exec"] == 'false')
 			{
 				$no_link[] = $object->getType();
@@ -1496,7 +1498,7 @@ class ilObjectGUI
 		
 		if ($limit == 0)
 		{
-			$limit = 10;	// TODO: move to user settings
+			$limit = 100;	// TODO: move to user settings
 		}
 		
 		// set default sort column
@@ -1527,10 +1529,10 @@ class ilObjectGUI
 
 //var_dump("<pre>",$this->data,"</pre>");exit;
 
-require_once "./include/inc.sort.php";
+//require_once "./include/inc.sort.php";
 $maxcount = count($this->data["data"]);
-$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-$this->data["data"] = array_slice($this->data["data"],$offset,$limit);
+//$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+//$this->data["data"] = array_slice($this->data["data"],$offset,$limit);
 
 // create table
 $tbl = new ilTableGUI();
