@@ -20,6 +20,9 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
+// catch stored message
+sendInfo();
+
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
@@ -111,8 +114,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 		if ($errors != "")
 		{
-			//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
-			sendInfo($lng->txt("form_empty_fields"));
+			sendInfo($lng->txt("form_empty_fields")." ".$errors);
 		}
 		else
 		{			
@@ -120,7 +122,6 @@ if (is_array($topicData = $frm->getOneTopic()))
 			{
 				// reply: new post
 				$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
-				//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_new_entry"));
 				sendInfo($lng->txt("forums_post_new_entry"));
 			}
 			else
@@ -128,7 +129,6 @@ if (is_array($topicData = $frm->getOneTopic()))
 				// edit: update post
 				if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
 				{
-					//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_modified"));
 					sendInfo($lng->txt("forums_post_modified"));
 				}
 			}
@@ -143,11 +143,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 		// if complete thread was deleted ...
 		if ($dead_thr == $_GET["thr_pk"])
 		{
-			header("location: forums.php?ref_id=".$_GET["ref_id"]."&feedback=".urlencode($lng->txt("forums_post_deleted")));
+			sendInfo($lng->txt("forums_post_deleted"),true);
+			header("location: forums.php?ref_id=".$_GET["ref_id"]);
 			exit();
 		}
 		
-		//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_deleted"));
 		sendInfo($lng->txt("forums_post_deleted"));
 	}
 	

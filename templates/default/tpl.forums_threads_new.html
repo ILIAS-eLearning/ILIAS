@@ -1,9 +1,6 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
 {MESSAGE}
-<!-- BEGIN form_feedback -->
-<p><b>{TXT_FORM_FEEDBACK}</b></p>
-<!-- END form_feedback -->
 <!-- BEGIN new_thread -->
 <p>
 <form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
@@ -16,7 +13,7 @@
 <tr>
     <td class="option" valign="top">{TXT_MESSAGE}<span class="asterisk">*</span></td>
     <td class="option_value">
-	<textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{MESSAGE}</textarea>
+	<textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{FORM_MESSAGE}</textarea>
 	</td>
 </tr>
 <tr>

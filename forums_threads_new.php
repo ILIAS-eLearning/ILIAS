@@ -76,7 +76,7 @@ if ($_GET["cmd"] == "newthread")
 	
 	if ($errors != "")
 	{
-		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
+		sendInfo($lng->txt("form_empty_fields")." ".$errors);
 	}
 	else
 	{		
@@ -92,7 +92,8 @@ if ($_GET["cmd"] == "newthread")
 
 		if (is_array($thrData = $frm->getOneThread()))
 		{
-			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId()."&feedback=".urlencode($lng->txt("forums_thread_new_entry")));
+			sendInfo($lng->txt("forums_thread_new_entry"),true);
+			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId());
 			exit();
 		} 
 	}
@@ -106,14 +107,6 @@ $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
 $tpl->parseCurrentBlock("new_thread");
-
-if ($_GET["message"])
-{
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-	$tpl->parseCurrentBlock();
-}
 
 $tpl->show();
 ?>
