@@ -3,43 +3,43 @@
 <table class="std">
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value"><input name="title" type="text" value="{VALUE_CLOZE_TITLE}" size="50" /></td></tr>
+  <td class="option_value" colspan="2"><input name="title" type="text" value="{VALUE_CLOZE_TITLE}" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value"><input name="author" type="text" value="{VALUE_CLOZE_AUTHOR}" size="50" /></td></tr>
+  <td class="option_value" colspan="2"><input name="author" type="text" value="{VALUE_CLOZE_AUTHOR}" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value"><input name="comment" type="text" value="{VALUE_CLOZE_COMMENT}" id="comment" size="50" /></td></tr>
+  <td class="option_value" colspan="2"><input name="comment" type="text" value="{VALUE_CLOZE_COMMENT}" id="comment" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
-  <td class="option_value"><textarea name="clozetext" cols="50" rows="5" id="clozetext">{VALUE_CLOZE_TEXT}</textarea></td>
+  <td class="option_value" colspan="2"><textarea name="clozetext" cols="50" rows="5" id="clozetext">{VALUE_CLOZE_TEXT}</textarea></td>
 </tr>
 {QUESTION_MATERIAL}
 <tr>
   <td class="option">{TEXT_TYPE}:</td>
-  <td class="option_value"><select name="clozetype" id="clozetype">
+  <td class="option_value" colspan="2"><select name="clozetype" id="clozetype">
     <option value="0"{SELECTED_TEXT_GAP}>{TEXT_TEXT_GAP}</option>
     <option value="1"{SELECTED_SELECT_GAP}>{TEXT_SELECT_GAP}</option>
   </select></td>
 </tr>
-<tr><td colspan="2" class="option"><input name="creategaps" type="submit" class="submit" id="creategaps" value="{TEXT_CREATE_GAPS}" /></td>
+<tr><td colspan="3" class="option"><input name="creategaps" type="submit" class="submit" id="creategaps" value="{TEXT_CREATE_GAPS}" /></td>
 </tr>
 <!-- BEGIN textgap -->
-<tr><td colspan="2" class="tblheader">{TEXT_TEXT_GAP} {VALUE_GAP_COUNTER}</td></tr>
+<tr><td colspan="3" class="tblheader">{TEXT_TEXT_GAP} {VALUE_GAP_COUNTER}</td></tr>
 <!-- BEGIN textgap_value -->
 <tr>
   <td class="option">{TEXT_POSSIBLE_GAP_TEXT}: </td>
-  <td class="option_value"><input name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="50" value="{VALUE_TEXT_GAP}" />
+  <td class="option_value" colspan="2"><input name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="50" value="{VALUE_TEXT_GAP}" />
   <input type="submit" class="submit" name="delete_{VALUE_GAP_COUNTER}" value="{DELETE}" />
   </td>
 </tr>
 <!-- END textgap_value -->
 <tr>
   <td class="option">{TEXT_POINTS}:</td>
-  <td class="option_value"><input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="10" value="{VALUE_TEXT_GAP_POINTS}" /></td>
+  <td class="option_value" colspan="2"><input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="10" value="{VALUE_TEXT_GAP_POINTS}" /></td>
 </tr>
 <!-- END textgap -->
-<tr><td colspan="2" class="submit">
+<tr><td colspan="3" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
 <input name="cmd[apply]" type="submit" class="submit" id="apply_multiple_choice" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />

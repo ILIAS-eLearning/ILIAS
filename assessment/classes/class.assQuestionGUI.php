@@ -200,30 +200,51 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_material_question_data() {
 
+		$question_type = $this->get_question_type();
+			switch ($question_type) {
+			case "qt_multiple_choice_sr":
+			case "qt_multiple_choice_mr":
+			case "qt_ordering":
+			case "qt_imagemap":
+				$colspan = " colspan=\"3\"";
+				break;
+			case "qt_matching":
+				$colspan = " colspan=\"4\"";
+				break;
+			case "qt_cloze":
+				if ($this->question->get_cloze_type() == CLOZE_TEXT) {
+				$colspan = " colspan=\"3\"";
+				} else {
+				$colspan = " colspan=\"4\"";
+				}
+				break;
+		}
     if (!empty($this->question->materials)) {
-		$this->tpl->setCurrentBlock("mainselect_block");
-
-		$this->tpl->setCurrentBlock("select_block");
-		foreach ($this->question->materials as $key => $value) {
-		  $this->tpl->setVariable("MATERIAL_VALUE", $value);
-		  $this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("mainselect_block");
+	
+			$this->tpl->setCurrentBlock("select_block");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("MATERIAL_VALUE", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("materiallist_block");
+			$i = 1;
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
+				$this->tpl->setVariable("MATERIAL_VALUE", $value);
+				$this->tpl->parseCurrentBlock();
+				$i++;
+			}
+			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
+			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
+	    $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
+			$this->tpl->parse("mainselect_block");
 		}
-		$this->tpl->setCurrentBlock("materiallist_block");
-		$i = 1;
-		foreach ($this->question->materials as $key => $value) {
-		  $this->tpl->setVariable("MATERIAL_COUNTER", $i);
-		  $this->tpl->setVariable("MATERIAL_VALUE", $value);
-		  $this->tpl->parseCurrentBlock();
-		  $i++;
-		}
-		$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-		$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-		$this->tpl->parse("mainselect_block");
-	}
 
     $this->tpl->setCurrentBlock("question_material");
     $this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
     $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
+    $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
     $this->tpl->parseCurrentBlock();
 }
 
@@ -830,6 +851,14 @@ class ASS_QuestionGUI extends PEAR {
     if ($_POST["multiple_choice_id"] > 0)
       $this->question->set_id($_POST["multiple_choice_id"]);
 
+		if ($saved) {
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->question->save_to_db();
+		}
+
     return $result;
   }
 
@@ -842,6 +871,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_cloze_question_template() {
+		$saved = false;    
     $result = 0;
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
@@ -861,7 +891,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding materials uris
-    $this->set_question_material_from_material_template();
+    $saved = $saved | $this->set_question_material_from_material_template();
     
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
@@ -949,6 +979,13 @@ class ASS_QuestionGUI extends PEAR {
         }
       }
     }
+		if ($saved) {
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->question->save_to_db();
+		}
     return $result;
   }
 
@@ -961,6 +998,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_matching_question_template() {
+		$saved = false;
     $result = 0;
 
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
@@ -977,7 +1015,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     // adding materials uris
-    $this->set_question_material_from_material_template();
+    $saved = $saved | $this->set_question_material_from_material_template();
 		$this->question->set_matching_type($_POST["matching_type"]);
 
     // Delete all existing answers and create new answers from the form data
@@ -1041,6 +1079,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_ordering_question_template() {
+		$saved = false;
     $result = 0;
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
@@ -1059,7 +1098,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     // adding materials uris
-    $this->set_question_material_from_material_template();
+    $saved = $saved | $this->set_question_material_from_material_template();
     // Add answers from the form
     foreach ($_POST as $key => $value) {
       if (preg_match("/answer_(\d+)/", $key, $matches)) {
@@ -1077,6 +1116,13 @@ class ASS_QuestionGUI extends PEAR {
         $this->question->delete_answer($matches[1]);
       }
     }
+		if ($saved) {
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->question->save_to_db();
+		}
     return $result;
   }
 
@@ -1088,6 +1134,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_imagemap_question_template() {
+		$saved = false;
 		$result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
@@ -1144,27 +1191,36 @@ class ASS_QuestionGUI extends PEAR {
 *
 * Sets the materials uris of a question from a posted create/edit form
 *
+* @return boolean Returns true, if the question had to be autosaved to get a question id for the save path of the material, otherwise returns false.
 * @access private
 */
-  function set_question_material_from_material_template() {
-	// Add all materials uris from the form into the object
-	$this->question->flush_materials();
-	foreach ($_POST as $key => $value) {
-		if (preg_match("/material_list(\d+)/", $key, $matches)) {
-			$this->question->add_materials($value);
+	function set_question_material_from_material_template() {
+		// Add all materials uris from the form into the object
+		$saved = false;
+		$this->question->flush_materials();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/material_list(\d+)/", $key, $matches)) {
+				$this->question->add_materials($value);
+			}
 		}
-	}
-	if (!empty($_FILES['materialName']['tmp_name'])) {
-		$this->question->set_materialsfile($_FILES['materialName']['name'], $_FILES['materialName']['tmp_name']);
+		if (!empty($_FILES['materialName']['tmp_name'])) {
+			if ($this->question->get_id() <= 0) {
+				$this->question->save_to_db();
+				$saved = true;
+				sendInfo($this->lng->txt("question_saved_for_upload"));
+			}
+			$this->question->set_materialsfile($_FILES['materialName']['name'], $_FILES['materialName']['tmp_name']);
+		}
+	
+		// Delete material if the delete button was pressed
+		if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
+			foreach ($_POST[materialselect] as $value) {
+				$this->question->delete_material($value);
+			}
+		}
+		return $saved;
 	}
 
-	// Delete material if the delete button was pressed
-	if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
-		foreach ($_POST[materialselect] as $value) {
-			$this->question->delete_material($value);
-		}
-	}
-}
 /**
 * Sets the content of a question from a posted create/edit form
 *

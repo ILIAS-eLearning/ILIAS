@@ -1,31 +1,23 @@
 <tr>
   <td class="option">{TEXT_MATERIAL}:</td>
   <td class="option_value">
-
-  <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-  <input name="materialName" type="file" id="materialName" size="30" />
+  	<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+	  <input name="materialName" type="file" id="materialName" size="30" />
 	</td>
-	<td class="option_value" colspan="3" > <input name="cmd[uploadingMaterial]" type="submit" class="submit" id="upload_material" value={VALUE_MATERIAL_UPLOAD} /></td>
+	<td class="option_value"{COLSPAN_MATERIAL}> <input name="cmd[uploadingMaterial]" type="submit" class="submit" id="upload_material" value={VALUE_MATERIAL_UPLOAD} /></td>
 </tr>
     <!-- BEGIN mainselect_block -->
 <tr>
-
 	<td class="option">{UPLOADED_MATERIAL}:</td>
 	<td class="option_value">
-
-
     <!-- BEGIN materiallist_block -->
     <input type="hidden" name="material_list{MATERIAL_COUNTER}" value="{MATERIAL_VALUE}">
     <!-- END materiallist_block -->
-
-
-	<select name="materialselect[]" MULTIPLE>
+		<select name="materialselect[]" multiple>
      <!-- BEGIN select_block -->
 	  <option VALUE="{MATERIAL_VALUE}">{MATERIAL_VALUE}</option>
      <!-- END select_block -->
     </select> </td>
-
-	<td class="option_value" colspan="3" > <input name="cmd[deletematerial]" type="submit" class="submit" id="deletematerial" value={VALUE_MATERIAL_DELETE} /></td>
+	<td class="option_value"{COLSPAN_MATERIAL}> <input name="cmd[deletematerial]" type="submit" class="submit" id="deletematerial" value={VALUE_MATERIAL_DELETE} /></td>
 </tr>
-
 <!-- END mainselect_block -->
