@@ -49,15 +49,16 @@ class ilGroupTree extends ilTree
 	/**
 	* save subtree: copy a subtree (defined by node_id) to a new tree
 	* with $this->tree_id -node_id. This is neccessary for undelete functionality
+	* TODO: If entire group is deleted entries of object in group that are lying in trash (-> negative tree ID) are not removed!
 	* @param	integer	node_id
-	* @return	integer
+	* @return	boolean
 	* @access	public
 	*/
 	function saveSubTree($a_node_id)
 	{	
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::saveSubTree(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::saveSubTree(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 
 		// GET LEFT AND RIGHT VALUE
@@ -65,7 +66,7 @@ class ilGroupTree extends ilTree
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND child = '".$a_node_id."' ";
 		
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{	
@@ -79,7 +80,7 @@ class ilGroupTree extends ilTree
 			 "AND lft >= '".$lft."' ".
 			 "AND rgt <= '".$rgt."'";
 		
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -93,7 +94,7 @@ class ilGroupTree extends ilTree
 				 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
 				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."','".
 				 $node["perm"]."','".$node["obj_id"]."')";
-			$r = $this->ilias->db->query($q);
+			$r = $this->ilDB->db->query($q);
 		}
 
 		return true;
