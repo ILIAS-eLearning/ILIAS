@@ -14,6 +14,12 @@ require_once "./include/inc.header.php";
 //
 
 // determine post or get command
+/*
+echo "POST: ";
+var_dump($_POST);
+echo "<br>GET, cmd: ";
+echo $_GET["cmd"];
+echo "<br>";*/
 if ($_GET["cmd"] == "post")
 {
 	$cmd = key($_POST["cmd"]);
@@ -27,7 +33,7 @@ if(empty($cmd))
 	$cmd = "view";
 }
 $type = (empty($_POST["type"])) ? $_GET["type"] : $_POST["type"];
-if(!empty($type))
+if(!empty($type) && ($cmd != "delete"))
 {
 	$cmd.= $objDefinition->getClassName($type);
 }

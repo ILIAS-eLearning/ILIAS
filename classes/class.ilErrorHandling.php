@@ -99,6 +99,7 @@ class ilErrorHandling
 			}
 
 			$_SESSION["message"] = $a_error_obj->getMessage();
+			$_SESSION["error_post_vars"] = $_POST;
 
 			header("location: ".$_SESSION["referer"].$glue);
 			exit;

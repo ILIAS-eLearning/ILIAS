@@ -19,7 +19,7 @@ class ilTemplate extends IntegratedTemplateExtension
 
 	/**
 	* Aktueller Block
-	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
+	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
 	* vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
 	* @var	string
 	*/
@@ -189,7 +189,7 @@ class ilTemplate extends IntegratedTemplateExtension
 	}
 	
 	/**
-	* überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
+	* überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
 	* @access	public
 	* @param	string
 	* @return	string
