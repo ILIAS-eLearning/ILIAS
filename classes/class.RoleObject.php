@@ -67,218 +67,135 @@ class RoleObject extends Object
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
-
-	function permObject()
+	function permObject() 
 	{
-		global $ilias;
 		global $tree;
 		global $tplContent;
 
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$rbacreview = new RbacReviewH($ilias->db);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacreview = new RbacReviewH($this->ilias->db);
+		$rbacsystem = new RbacSystemH($this->ilias->db);
 
 		$tplContent = new Template("role_perm.html",true,true);
 		$tplContent->setVariable("TPOS",$_GET["parent"]);
-		$tplContent->setVariable("SHOW",$_GET["show"]);
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-		$tplContent->setVariable($ilias->ini["layout"]);
+		$tplContent->setVariable($this->ilias->ini["layout"]);
 
-		// set Path
-		$tree = new Tree($_GET["parent"],1,1);
-		$tree->getPath();
-		$path = showPath($tree->Path,"content.php");
+		$path = $this->getPath($_GET["parent"]);
 		$tplContent->setVariable("TREEPATH",$path);
 
 		$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 		$tplContent->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
 
-		// Abfrage der Objekte
-		$query = "SELECT title,description FROM object_data WHERE type='".$type."'"; // WHERE class = 'y'"; 
-		$res = $ilias->db->query($query);
-		$anz_title = $res->numRows();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$obj_data = getTypeList();
+		// BEGIN OBJECT_TYPES
+		$tplContent->setCurrentBlock("OBJECT_TYPES");
+		foreach($obj_data as $data)
 		{
-			$obj_type[] = $row->title;
-			$title[$row->title] = $row->description; 	
-		}          	
-
-		// Abfrage der Operationen und OperationID
-		foreach($obj_type as $o)
-		{ 		
-			$query = "SELECT * FROM rbac_operations
-					  LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id
-					  LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj.id
-					  WHERE object_data.title='".$o."' AND object_data.type='type'"; 
-				
-	//		$query = "SELECT operation,ops_id FROM rbac_operations WHERE obj_type = '".$o."'";
-	
-			$res = $ilias->db->query($query);
-			$operation["$o"] = array();
-			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$operation[$o][] = $row['operation'];
-				$ops_id[$o][$row['operation']] = $row['ops_id'];
-			}
-		}
-		// Begin HEADER
-		$tplContent->setCurrentBlock("TABLE_HEADER");
-       	foreach($obj_type as $o)
-		{
-			$tplContent->setVariable("OBJECT",$_GET["obj_id"]);
-			$tplContent->setVariable("COLUMN",$o);
-			$tplContent->setVariable("PARENT",$_GET["parent"]);
-			$tplContent->setVariable("HEADER",$title["$o"]);
+			$tplContent->setVariable("OBJ_TYPES",$data["type"]);
 			$tplContent->parseCurrentBlock();
 		}
-		// END HEADER
-
-		//Abfrage der Permissions
-		$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$_GET["show"],$_GET["parent"]);
-		foreach($operation["$_GET[show]"] as $ope)
-			// BEGIN TABLE_OUTER
+		// END OBJECT TYPES
+		$all_ops = getOperationList();
+		// BEGIN TABLE_DATA_OUTER
+		foreach($all_ops as $key => $operations)
 		{
-			$tplContent->setCurrentBlock("TABLE_INNER");
-			foreach($obj_type as $obj)
+			// BEGIN CHECK_PERM
+			$tplContent->setCurrentBlock("CHECK_PERM");
+			foreach($obj_data as $data)
 			{
-				// TABLE INNER
-				if($obj == $_GET["show"])
+				if(in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
 				{
-					$checked = 0;
-					foreach($selected as $s)
-					{
-						if($s == $ops_id["$_GET[show]"]["$ope"])
-							$checked = 1;
-					}
-					$box = TUtil::formCheckBox($checked,$ope,1);
-					$tplContent->setVariable("CHECK_TOP",$box);
-					$tplContent->setVariable("PERM",$ope);
+					$selected = $rbacadmin->getRolePermission($_GET["obj_id"],$data["type"],$_GET["parent"]);
+					$checked = in_array($operations["ops_id"],$selected);
+					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+					$box = TUtil::formCheckBox($checked,"template_perm[".$data["type"]."][]",$operations["ops_id"]);
+					$tplContent->setVariable("CHECK_PERMISSION",$box);
 				}
 				else
 				{
-					$tplContent->setVariable("CHECK","");
-					$tplContent->setVariable("PERM","");
+					$tplContent->setVariable("CHECK_PERMISSION","");
 				}
 				$tplContent->parseCurrentBlock();
-				// END TABLE_INNER
 			}
-			$tplContent->setCurrentBlock("TABLE_OUTER");
+			// END CHECK_PERM
+			$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
+			$css_row = $key % 2 ? "row_low" : "row_high";
+			$tplContent->setVariable("CSS_ROW",$css_row);
+			$tplContent->setVariable("PERMISSION",$operations["operation"]);
 			$tplContent->parseCurrentBlock();
 		}
-		// END TABLE OUTER
-		$tplContent->setVariable("COL_ANZ",2*$anz_title);
-		$tplContent->parseCurrentBlock();
-		// END TABLE 
+		$box = TUtil::formCheckBox($checked,"recursive",1);
+		$tplContent->setVariable("COL_ANZ",count($obj_data));
+		$tplContent->setVariable("CHECK_BOTTOM",$box);
+		
+		// USER ASSIGNMENT
+		$users = getUserList();
+		$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 
-//
-// FORMULAR "USER ASSIGNMENT"
-//
-		$tplContent->setVariable("MESSAGE_MIDDLE","User Assignment To Role: ".$role_data["title"]); 
-	
-		$query = "SELECT usr_id FROM user_data";
-		$res = $ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$tplContent->setVariable("MESSAGE_MIDDLE","Assign User To Role");
+		$tplContent->setCurrentBLock("TABLE_USER");
+		foreach($users as $key => $user)
 		{
-			$id[] = $row->usr_id;
+			$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
+			$checked = in_array($user["obj_id"],$assigned_users);
+			$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
+			$tplContent->setVariable("CHECK_USER",$box);
+			$tplContent->setVariable("USERNAME",$user["title"]);
+			$tplContent->parseCurrentBlock();
 		}
-		foreach($id as $i)
-		{
-			$udata[] = $rbacreview->getUserData($i);
-		}	    
-		$assignedUsers = $rbacreview->assignedUsers($_GET["obj_id"]);
-
-		foreach($udata as $u)
-		{
-			// TABLE DATA
-			$tplContent->setCurrentBlock("TABLE_DATA");
-			$checked = 0;
-			foreach($assignedUsers as $a)
-			{
-				if($a == $u["usr_id"])
-					$checked = 1;
-			}
-			$box = TUtil::formCheckBox($checked,'user[]',$u["usr_id"]);
-			$tplContent->setVariable("CHECK_BOTTOM",$box);
-			$tplContent->setVariable("USER",$u["login"]);
-			$tplContent->parseCurrentBlock();
-			// END TABLE_DATA
-			$tplContent->setCurrentBlock("OUTER");
-			$tplContent->parseCurrentBlock();
-		}             
 	}
-	function perms_saveObject()
+	function permSaveObject()
 	{
-
-		global $ilias;
 		global $tree;
-		global $tplContent;
 
-		$ope_list = getOperationList($_GET["show"]);
-		// Liest die neuen Operationen aus
-		foreach($ope_list as $o)
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+
+		// Alle Template Eintraege loeschen
+		$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+
+		foreach($_POST["template_perm"] as $key => $ops_array)
 		{
-			if($_POST[$o["operation"]] == 1)
-				$new_ops[] = $o["ops_id"];
+			// Setzen der neuen template permissions
+			$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
 		}
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$rbacadmin->setRolePermission($_GET["obj_id"],$_GET["show"],$new_ops,$_GET["parent"]);
-       	if($_POST["recursive"] == "on")
+		// Existierende Objekte anpassen 
+		if($_POST["recursive"])
 		{
-			// Alle Objecte des aktuellen Typs unterhalb des aktuellen Knotens
 			$parent_obj = $rbacadmin->getParentObject($_GET["parent"]);
-			$obj_list = $tree->getAllChildsByType($parent_obj,$_GET["show"]);
-			// Alle set_id speichern
-			foreach($obj_list as $o)
+			// Liegt der RoleFolder im SystemFolder wird der RootFolder genommen
+			$parent_obj = $parent_obj == $this->SYSTEM_FOLDER_ID ? $this->ROOT_FOLDER_ID : $parent_obj;
+			foreach($_POST["template_perm"] as $key => $ops_array)
 			{
-				$set_id[$o["obj_id"]] = $rbacadmin->getSetIdByObject($o["obj_id"]);
-			}
-			foreach($obj_list as $obj)
-			{
-				foreach($set_id[$obj["obj_id"]] as $set)
+				$objects = $tree->getAllChildsByType($parent_obj,$key);
+				foreach($objects as $object)
 				{
-					$rbacadmin->revokePermission($obj["obj_id"],$_GET["obj_id"],$set);
-					$rbacadmin->grantPermission($_GET["obj_id"],$new_ops,$obj["obj_id"],$set);
+					$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
+					$rbacadmin->grantPermission($_GET["obj_id"],$ops_array,$object["obj_id"],$object["parent"]);
 				}
 			}
 		}
-		header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]&show=$_GET[show]");
-		break;
-	}
-	function assign_saveObject()
-	{
-		global $ilias;
-		global $tplContent;
-		global $tree;
+		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 
-		if(!$_POST["user"])
+	}
+	function assignSaveObject()
+	{
+		global $tree;
+		 
+		$rbacreview = new RbacReviewH($this->ilias->db);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+
+		$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+		$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
+		foreach( array_diff($assigned_users,$_POST["user"]) as $user)
 		{
-			$_POST["user"] = array();
+			$rbacadmin->deassignUser($_GET["obj_id"],$user);
 		}
-		$rbacreview = new RbacReviewH($ilias->db);
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$assignedUser = $rbacreview->assignedUsers($_GET["obj_id"]);
-		foreach($_POST["user"] as $u)
+		foreach( array_diff($_POST["user"],$assigned_users) as $user)
 		{
-			$assign = true;
-			foreach($assignedUser as $a)
-			{
-				if($u == $a)
-					$assign = false;
-			}
-			if($assign)
-				$rbacadmin->assignUser($_GET["obj_id"],$u);
+			$rbacadmin->assignUser($_GET["obj_id"],$user);
 		}
-		foreach ($assignedUser as $a)
-		{
-			$deassign = true;
-			foreach($_POST["user"] as $u)
-			{
-				if($u == $a)
-					$deassign = false;
-			}
-			if($deassign)
-				$rbacadmin->deassignUser($_GET["obj_id"],$a);
-		}
-       	header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]&show=$_GET[show]");
+       	header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 }
 ?>

@@ -223,9 +223,9 @@
         global $ilias;
         $db = $ilias->db;
 
-        $query = "SELECT * FROM object_data
-                  WHERE type = 'type'
-                  ORDER BY title ASC";
+        $query = "SELECT * FROM object_data,object_types ".
+			"WHERE object_data.obj_id = object_types.typ_id ".
+			"ORDER BY object_data.title ASC";
         $res = $db->query($query);
 
         if (DB::isError($res))
@@ -236,6 +236,7 @@
 		{
 			$arr[] = array(
 				"obj_id"       => $data->obj_id,
+				"type"         => $data->type,
 				"title"        => $data->title,
 				"desc"         => $data->description,
 				"usr_id"       => $data->owner,

@@ -11,6 +11,7 @@ class Object
 	{
 		$this->ilias = $a_ilias;
 		$this->SYSTEM_FOLDER_ID = "9";
+		$this->ROOT_FOLDER_ID = "1";
 	}
 	function ownerObject()
 	{
@@ -262,12 +263,16 @@ class Object
 		}
 	}
 // PRIVATE METHODEN
-	function getPath()
+	function getPath($a_id = "")
 	{
 		// Erzeugt den Path der in jedem Template angezeigt wird
 		global $tree;
-
-		$tree = new Tree($_GET["obj_id"],1,1);
+		
+		if(!$a_id)
+		{
+			$a_id = $_GET["obj_id"];
+		}
+		$tree = new Tree($a_id,1,1);
 		$tree->getPath();
 		return showPath($tree->Path,"content.php");
 	}

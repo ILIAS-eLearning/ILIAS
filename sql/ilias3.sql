@@ -1,17 +1,17 @@
 # phpMyAdmin MySQL-Dump
-# version 2.2.6
+# version 2.2.6-rc1
 # http://phpwizard.net/phpMyAdmin/
-# http://www.phpmyadmin.net/ (download page)
+# http://phpmyadmin.sourceforge.net/ (download page)
 #
 # Host: localhost
-# Erstellungszeit: 16. Juli 2002 um 16:25
-# Server Version: 3.23.44
-# PHP-Version: 4.2.1
-# Datenbank : `ilias3g`
+# Generation Time: Jul 22, 2002 at 04:28 PM
+# Server version: 3.23.44
+# PHP Version: 4.2.1
+# Database : `uni-koeln_ilias3f_smeyer`
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `object_data`
+# Table structure for table `object_data`
 #
 
 CREATE TABLE object_data (
@@ -26,7 +26,7 @@ CREATE TABLE object_data (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `object_data`
+# Dumping data for table `object_data`
 #
 
 INSERT INTO object_data VALUES (2, 'role', 'Adminstrator', 'Rolle des Systemadministrators (darf alles)', -1, '2002-01-16 15:31:45', '2002-01-16 15:32:49');
@@ -58,10 +58,15 @@ INSERT INTO object_data VALUES (23, 'type', 'rolf', 'Role Folder object', -1, '2
 INSERT INTO object_data VALUES (24, 'type', 'objf', 'Object-Type Folder object', -1, '2002-07-15 15:57:17', '2002-07-15 15:57:17');
 INSERT INTO object_data VALUES (25, 'type', 'set', 'Set object', -1, '2002-07-15 15:57:57', '2002-07-15 15:57:57');
 INSERT INTO object_data VALUES (26, 'type', 'type', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
+INSERT INTO object_data VALUES (150, 'grp', 'closed', 'Closed Group', 6, '2002-07-22 16:25:54', '2002-07-22 16:25:54');
+INSERT INTO object_data VALUES (149, 'grp', 'open', '', 6, '2002-07-22 16:25:37', '2002-07-22 16:25:37');
+INSERT INTO object_data VALUES (148, 'cat', 'Uni Köln', '', 6, '2002-07-22 16:25:15', '2002-07-22 16:25:15');
+INSERT INTO object_data VALUES (151, 'le', 'secret', '', 6, '2002-07-22 16:26:17', '2002-07-22 16:26:17');
+INSERT INTO object_data VALUES (152, 'rolf', 'Role Folder', 'Automatisch genierter Role Folder', 6, '2002-07-22 16:26:51', '2002-07-22 16:26:51');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `object_types`
+# Table structure for table `object_types`
 #
 
 CREATE TABLE object_types (
@@ -74,29 +79,28 @@ CREATE TABLE object_types (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `object_types`
+# Dumping data for table `object_types`
 #
 
-INSERT INTO object_types VALUES (1, 'role', 'n', 'Rolle', 'Rollenobjekt');
-INSERT INTO object_types VALUES (2, 'adm', 'n', 'Administration', 'Contains all system settings');
-INSERT INTO object_types VALUES (3, 'le', 'y', 'Lerneinheit', 'Objekt erzeugt eine Lerneinheit');
-INSERT INTO object_types VALUES (4, 'frm', 'y', 'Forum', 'Objekt erzeugt ein Forum');
-INSERT INTO object_types VALUES (5, 'grp', 'y', 'Arbeitsgruppe', 'Objekt erzeugt eine Arbeitsgruppe');
-INSERT INTO object_types VALUES (6, 'cat', 'y', 'Kategorie', 'Erzeugt ein Kategorienobjekt');
-INSERT INTO object_types VALUES (7, 'file', 'y', 'File Sharing', 'Erzeugt ein File Sharing Objekt');
-INSERT INTO object_types VALUES (9, 'abo', 'n', 'Abonnentengruppe', 'erzeugt einen Abo-Set');
-INSERT INTO object_types VALUES (10, 'kurs', 'y', 'Kurs', 'erzeugt ein Kurs Objekt');
-INSERT INTO object_types VALUES (11, 'set', 'n', 'Set', 'Container für alles mögliche');
-INSERT INTO object_types VALUES (12, 'none', 'n', 'None', 'Dummy Objekt ohne Funktion');
-INSERT INTO object_types VALUES (13, 'user', 'n', 'Benutzer', 'Ein normales Personenobjekt');
-INSERT INTO object_types VALUES (14, 'usrf', 'y', 'User Folder', 'Folder der alle User enthält');
-INSERT INTO object_types VALUES (15, 'rolf', 'y', 'Role Folder', 'Folder der Rollen enthält');
-INSERT INTO object_types VALUES (16, 'objf', 'y', 'Type folder', 'Contains all object type definitions');
-INSERT INTO object_types VALUES (17, 'type', 'n', 'Object type', 'Defines an object type');
+INSERT INTO object_types VALUES (11, 'role', 'n', 'Rolle', 'Rollenobjekt');
+INSERT INTO object_types VALUES (21, 'adm', 'n', 'Administration', 'Contains all system settings');
+INSERT INTO object_types VALUES (13, 'le', 'y', 'Lerneinheit', 'Objekt erzeugt eine Lerneinheit');
+INSERT INTO object_types VALUES (14, 'frm', 'y', 'Forum', 'Objekt erzeugt ein Forum');
+INSERT INTO object_types VALUES (15, 'grp', 'y', 'Arbeitsgruppe', 'Objekt erzeugt eine Arbeitsgruppe');
+INSERT INTO object_types VALUES (16, 'cat', 'y', 'Kategorie', 'Erzeugt ein Kategorienobjekt');
+INSERT INTO object_types VALUES (18, 'file', 'y', 'File Sharing', 'Erzeugt ein File Sharing Objekt');
+INSERT INTO object_types VALUES (20, 'abo', 'n', 'Abonnentengruppe', 'erzeugt einen Abo-Set');
+INSERT INTO object_types VALUES (17, 'kurs', 'y', 'Kurs', 'erzeugt ein Kurs Objekt');
+INSERT INTO object_types VALUES (25, 'set', 'n', 'Set', 'Container für alles mögliche');
+INSERT INTO object_types VALUES (12, 'user', 'n', 'Benutzer', 'Ein normales Personenobjekt');
+INSERT INTO object_types VALUES (22, 'usrf', 'y', 'User Folder', 'Folder der alle User enthält');
+INSERT INTO object_types VALUES (23, 'rolf', 'y', 'Role Folder', 'Folder der Rollen enthält');
+INSERT INTO object_types VALUES (24, 'objf', 'y', 'Type folder', 'Contains all object type definitions');
+INSERT INTO object_types VALUES (26, 'type', 'n', 'Object type', 'Defines an object type');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_fa`
+# Table structure for table `rbac_fa`
 #
 
 CREATE TABLE rbac_fa (
@@ -106,17 +110,20 @@ CREATE TABLE rbac_fa (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_fa`
+# Dumping data for table `rbac_fa`
 #
 
 INSERT INTO rbac_fa VALUES (2, 8);
 INSERT INTO rbac_fa VALUES (3, 8);
+INSERT INTO rbac_fa VALUES (3, 152);
 INSERT INTO rbac_fa VALUES (4, 8);
+INSERT INTO rbac_fa VALUES (4, 152);
 INSERT INTO rbac_fa VALUES (5, 8);
+INSERT INTO rbac_fa VALUES (5, 152);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_operations`
+# Table structure for table `rbac_operations`
 #
 
 CREATE TABLE rbac_operations (
@@ -127,7 +134,7 @@ CREATE TABLE rbac_operations (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_operations`
+# Dumping data for table `rbac_operations`
 #
 
 INSERT INTO rbac_operations VALUES (1, 'visible', 'view object');
@@ -140,7 +147,7 @@ INSERT INTO rbac_operations VALUES (7, 'leave', 'leave group');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_pa`
+# Table structure for table `rbac_pa`
 #
 
 CREATE TABLE rbac_pa (
@@ -152,19 +159,20 @@ CREATE TABLE rbac_pa (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_pa`
+# Dumping data for table `rbac_pa`
 #
 
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 1, 0);
+INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', 1, 0);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
 INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 7, 9);
+INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', 7, 9);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 7, 9);
 INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 7, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 7, 9);
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 8, 9);
-INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 8, 9);
+INSERT INTO rbac_pa VALUES (2, 'a:1:{i:0;s:1:"2";}', 8, 9);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 150, 148);
+INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"2";}', 8, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 8, 9);
 INSERT INTO rbac_pa VALUES (5, 'N;', 8, 9);
 INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 9, 1);
@@ -175,10 +183,29 @@ INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 10, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 10, 9);
 INSERT INTO rbac_pa VALUES (5, 'N;', 10, 9);
+INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 150, 148);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 149, 148);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 149, 148);
+INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"1";}', 149, 148);
+INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"4";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"1";}', 149, 148);
+INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 148, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"1";}', 148, 1);
+INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 148, 1);
+INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"1";}', 148, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";}', 150, 148);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"5";i:1;s:1:"4";i:2;s:1:"3";i:3;s:1:"2";i:4;s:1:"1";}', 151, 150);
+INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 151, 150);
+INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 151, 150);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 151, 150);
+INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 150, 148);
+INSERT INTO rbac_pa VALUES (2, 'a:1:{i:0;s:1:"2";}', 152, 150);
+INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"2";}', 152, 150);
+INSERT INTO rbac_pa VALUES (4, 'a:0:{}', 152, 150);
+INSERT INTO rbac_pa VALUES (5, 'a:0:{}', 152, 150);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_ta`
+# Table structure for table `rbac_ta`
 #
 
 CREATE TABLE rbac_ta (
@@ -188,7 +215,7 @@ CREATE TABLE rbac_ta (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_ta`
+# Dumping data for table `rbac_ta`
 #
 
 INSERT INTO rbac_ta VALUES (11, 1);
@@ -245,7 +272,7 @@ INSERT INTO rbac_ta VALUES (26, 2);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_templates`
+# Table structure for table `rbac_templates`
 #
 
 CREATE TABLE rbac_templates (
@@ -256,99 +283,88 @@ CREATE TABLE rbac_templates (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_templates`
+# Dumping data for table `rbac_templates`
 #
 
-INSERT INTO rbac_templates VALUES (2, 'le', 12, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'usrf', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'usrf', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'usrf', 1, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 5, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 4, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 3, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 2, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 1, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 13, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 14, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 15, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 21, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 22, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 6, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 7, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 8, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 9, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 10, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 11, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 16, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 17, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 18, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 19, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 20, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 23, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 24, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 25, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 26, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 27, 8);
-INSERT INTO rbac_templates VALUES (2, 'rolf', 28, 8);
-INSERT INTO rbac_templates VALUES (2, 'rolf', 29, 8);
-INSERT INTO rbac_templates VALUES (2, 'rolf', 30, 8);
-INSERT INTO rbac_templates VALUES (2, 'rolf', 31, 8);
-INSERT INTO rbac_templates VALUES (2, 'rolf', 32, 8);
-INSERT INTO rbac_templates VALUES (3, 'le', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'rolf', 2, 8);
+INSERT INTO rbac_templates VALUES (3, 'usrf', 2, 8);
+INSERT INTO rbac_templates VALUES (3, 'usrf', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'le', 3, 8);
 INSERT INTO rbac_templates VALUES (3, 'le', 2, 8);
-INSERT INTO rbac_templates VALUES (3, 'frm', 13, 8);
-INSERT INTO rbac_templates VALUES (3, 'frm', 14, 8);
-INSERT INTO rbac_templates VALUES (3, 'grp', 6, 8);
-INSERT INTO rbac_templates VALUES (3, 'grp', 7, 8);
-INSERT INTO rbac_templates VALUES (3, 'cat', 16, 8);
-INSERT INTO rbac_templates VALUES (3, 'cat', 17, 8);
-INSERT INTO rbac_templates VALUES (3, 'usrf', 23, 8);
-INSERT INTO rbac_templates VALUES (3, 'usrf', 24, 8);
-INSERT INTO rbac_templates VALUES (3, 'rolf', 28, 8);
-INSERT INTO rbac_templates VALUES (3, 'rolf', 29, 8);
-INSERT INTO rbac_templates VALUES (4, 'grp', 6, 8);
+INSERT INTO rbac_templates VALUES (3, 'le', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'grp', 2, 8);
+INSERT INTO rbac_templates VALUES (3, 'grp', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'frm', 4, 8);
+INSERT INTO rbac_templates VALUES (3, 'frm', 2, 8);
+INSERT INTO rbac_templates VALUES (3, 'frm', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (3, 'cat', 1, 8);
+INSERT INTO rbac_templates VALUES (4, 'cat', 1, 8);
+INSERT INTO rbac_templates VALUES (4, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (4, 'frm', 1, 8);
+INSERT INTO rbac_templates VALUES (4, 'frm', 2, 8);
+INSERT INTO rbac_templates VALUES (4, 'grp', 1, 8);
+INSERT INTO rbac_templates VALUES (4, 'grp', 2, 8);
 INSERT INTO rbac_templates VALUES (4, 'le', 1, 8);
-INSERT INTO rbac_templates VALUES (4, 'frm', 13, 8);
-INSERT INTO rbac_templates VALUES (4, 'grp', 7, 8);
-INSERT INTO rbac_templates VALUES (4, 'cat', 16, 8);
-INSERT INTO rbac_templates VALUES (4, 'cat', 17, 8);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 23, 8);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 24, 8);
-INSERT INTO rbac_templates VALUES (5, 'le', 1, 8);
-INSERT INTO rbac_templates VALUES (5, 'frm', 13, 8);
-INSERT INTO rbac_templates VALUES (5, 'grp', 6, 8);
-INSERT INTO rbac_templates VALUES (5, 'grp', 7, 8);
-INSERT INTO rbac_templates VALUES (5, 'cat', 16, 8);
-INSERT INTO rbac_templates VALUES (5, 'cat', 17, 8);
-INSERT INTO rbac_templates VALUES (5, 'usrf', 23, 8);
 INSERT INTO rbac_templates VALUES (4, 'le', 2, 8);
-INSERT INTO rbac_templates VALUES (4, 'frm', 14, 8);
-INSERT INTO rbac_templates VALUES (4, 'grp', 6, 145);
-INSERT INTO rbac_templates VALUES (4, 'grp', 6, 149);
-INSERT INTO rbac_templates VALUES (4, 'frm', 13, 145);
-INSERT INTO rbac_templates VALUES (4, 'grp', 7, 145);
-INSERT INTO rbac_templates VALUES (4, 'cat', 16, 145);
-INSERT INTO rbac_templates VALUES (4, 'cat', 17, 145);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 23, 145);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 24, 145);
-INSERT INTO rbac_templates VALUES (4, 'le', 1, 145);
-INSERT INTO rbac_templates VALUES (4, 'frm', 14, 145);
-INSERT INTO rbac_templates VALUES (4, 'le', 2, 149);
-INSERT INTO rbac_templates VALUES (4, 'frm', 13, 149);
-INSERT INTO rbac_templates VALUES (4, 'grp', 7, 149);
-INSERT INTO rbac_templates VALUES (4, 'cat', 16, 149);
-INSERT INTO rbac_templates VALUES (4, 'cat', 17, 149);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 23, 149);
-INSERT INTO rbac_templates VALUES (4, 'usrf', 24, 149);
-INSERT INTO rbac_templates VALUES (4, 'le', 1, 149);
-INSERT INTO rbac_templates VALUES (4, 'frm', 14, 149);
-INSERT INTO rbac_templates VALUES (4, 'le', 3, 149);
-INSERT INTO rbac_templates VALUES (2, 'objf', 33, 8);
-INSERT INTO rbac_templates VALUES (2, 'objf', 34, 8);
-INSERT INTO rbac_templates VALUES (2, 'objf', 35, 8);
-INSERT INTO rbac_templates VALUES (2, 'objf', 36, 8);
-INSERT INTO rbac_templates VALUES (2, 'objf', 37, 8);
+INSERT INTO rbac_templates VALUES (4, 'usrf', 1, 8);
+INSERT INTO rbac_templates VALUES (4, 'usrf', 2, 8);
+INSERT INTO rbac_templates VALUES (5, 'cat', 1, 8);
+INSERT INTO rbac_templates VALUES (5, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (5, 'frm', 1, 8);
+INSERT INTO rbac_templates VALUES (5, 'grp', 1, 8);
+INSERT INTO rbac_templates VALUES (5, 'le', 1, 8);
+INSERT INTO rbac_templates VALUES (5, 'le', 2, 8);
+INSERT INTO rbac_templates VALUES (5, 'usrf', 1, 8);
+INSERT INTO rbac_templates VALUES (3, 'rolf', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'usrf', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'usrf', 1, 152);
+INSERT INTO rbac_templates VALUES (3, 'le', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'le', 1, 152);
+INSERT INTO rbac_templates VALUES (3, 'grp', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'grp', 1, 152);
+INSERT INTO rbac_templates VALUES (3, 'frm', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'frm', 1, 152);
+INSERT INTO rbac_templates VALUES (3, 'cat', 2, 152);
+INSERT INTO rbac_templates VALUES (3, 'cat', 1, 152);
+INSERT INTO rbac_templates VALUES (4, 'usrf', 2, 152);
+INSERT INTO rbac_templates VALUES (4, 'usrf', 1, 152);
+INSERT INTO rbac_templates VALUES (4, 'le', 1, 152);
+INSERT INTO rbac_templates VALUES (4, 'grp', 2, 152);
+INSERT INTO rbac_templates VALUES (4, 'grp', 1, 152);
+INSERT INTO rbac_templates VALUES (4, 'frm', 1, 152);
+INSERT INTO rbac_templates VALUES (4, 'cat', 2, 152);
+INSERT INTO rbac_templates VALUES (4, 'cat', 1, 152);
+INSERT INTO rbac_templates VALUES (5, 'usrf', 1, 152);
+INSERT INTO rbac_templates VALUES (5, 'le', 1, 152);
+INSERT INTO rbac_templates VALUES (5, 'grp', 1, 152);
+INSERT INTO rbac_templates VALUES (5, 'frm', 1, 152);
+INSERT INTO rbac_templates VALUES (5, 'cat', 1, 152);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rbac_ua`
+# Table structure for table `rbac_ua`
 #
 
 CREATE TABLE rbac_ua (
@@ -357,7 +373,7 @@ CREATE TABLE rbac_ua (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `rbac_ua`
+# Dumping data for table `rbac_ua`
 #
 
 INSERT INTO rbac_ua VALUES (140, 4);
@@ -365,11 +381,15 @@ INSERT INTO rbac_ua VALUES (141, 3);
 INSERT INTO rbac_ua VALUES (140, 5);
 INSERT INTO rbac_ua VALUES (141, 5);
 INSERT INTO rbac_ua VALUES (142, 5);
+INSERT INTO rbac_ua VALUES (6, 4);
+INSERT INTO rbac_ua VALUES (141, 4);
+INSERT INTO rbac_ua VALUES (6, 5);
 INSERT INTO rbac_ua VALUES (6, 2);
+INSERT INTO rbac_ua VALUES (6, 3);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `tree`
+# Table structure for table `tree`
 #
 
 CREATE TABLE tree (
@@ -381,18 +401,23 @@ CREATE TABLE tree (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `tree`
+# Dumping data for table `tree`
 #
 
-INSERT INTO tree VALUES (1, 1, 0, 1, 10);
-INSERT INTO tree VALUES (1, 7, 9, 3, 4);
-INSERT INTO tree VALUES (1, 8, 9, 5, 6);
-INSERT INTO tree VALUES (1, 9, 1, 2, 9);
-INSERT INTO tree VALUES (1, 10, 9, 7, 8);
+INSERT INTO tree VALUES (1, 1, 0, 1, 20);
+INSERT INTO tree VALUES (1, 7, 9, 13, 14);
+INSERT INTO tree VALUES (1, 8, 9, 15, 16);
+INSERT INTO tree VALUES (1, 9, 1, 12, 19);
+INSERT INTO tree VALUES (1, 10, 9, 17, 18);
+INSERT INTO tree VALUES (1, 150, 148, 3, 8);
+INSERT INTO tree VALUES (1, 149, 148, 9, 10);
+INSERT INTO tree VALUES (1, 148, 1, 2, 11);
+INSERT INTO tree VALUES (1, 151, 150, 6, 7);
+INSERT INTO tree VALUES (1, 152, 150, 4, 5);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `user_data`
+# Table structure for table `user_data`
 #
 
 CREATE TABLE user_data (
@@ -412,7 +437,7 @@ CREATE TABLE user_data (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `user_data`
+# Dumping data for table `user_data`
 #
 
 INSERT INTO user_data VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'ad', 'min2', 'fd', 'm', 'a@b', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
@@ -422,7 +447,7 @@ INSERT INTO user_data VALUES (142, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', '
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `user_session`
+# Table structure for table `user_session`
 #
 
 CREATE TABLE user_session (
@@ -433,7 +458,7 @@ CREATE TABLE user_session (
 ) TYPE=MyISAM;
 
 #
-# Daten für Tabelle `user_session`
+# Dumping data for table `user_session`
 #
 
 
