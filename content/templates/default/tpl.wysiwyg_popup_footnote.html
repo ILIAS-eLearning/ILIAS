@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<title>{TXT_FOOTNOTES}</title>
 <link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
 </head>
 
@@ -8,24 +9,28 @@
 
 <b>{TXT_FOOTNOTES}</b>
 
+<form method="post" name="footnotes">
 <ul>
 
 <script>	
 	for (i=0;i<opener.fussnoten.length;i++) 
 	{
 		j=i+1;
-		document.write( "["+j+"]&nbsp;"+opener.fussnoten[i]+"<br>"); 
+		document.write( "["+j+"]&nbsp;<input type='text' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\" size=40><br>");
+		document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
 	}
 </script>
 
 </ul>
+<input type="button" value="{BTN_SUBMIT}" onClick="refreshFootnotes();">
+</form>
 	
 <form name='form'>
 <hr size=1>
 {TXT_INSERT_NEW_FOOTNOTES}:<br>
 <input type='text' size=30 style='width:100%' name='fn'>
 <p>
-<table cellspacing=0 cellpadding=0 width=100%>
+<table cellspacing=0 cellpadding=0 width="100%">
 	<tr>
 		<td>
 			<input 	type='button' 
@@ -39,10 +44,30 @@
 		</td>
 	</tr>
 </table>
-
-
-
 </form>
+
+<script>
+function refreshFootnotes() {
+
+	TX = opener.editor.getHTML();
+
+	for (i=0;i<opener.fussnoten.length;i++) 
+	{
+		fn = "document.footnotes.fn"+i+"";
+		obj1 = eval(fn);
+		fn = "document.footnotes.fnold"+i+"";
+		obj2 = eval(fn);
+		opener.fussnoten[i] = obj1.value;
+		j = i+1;
+		TX = TX.replace("<span class=\"footnote\" value=\""+obj2.value+"\">["+j+"]</span>","<span class=\"footnote\" value=\""+obj1.value+"\">["+j+"]</span>");
+		TX = TX.replace("<span value=\""+obj2.value+"\" class=\"footnote\">["+j+"]</span>","<span class=\"footnote\" value=\""+obj1.value+"\">["+j+"]</span>");
+		
+	}
+	opener.editor.setHTML(TX);
+	window.close();
+
+}
+</script>
 
 </body>
 </html>
