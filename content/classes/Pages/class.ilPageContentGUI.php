@@ -193,7 +193,19 @@ class ilPageContentGUI
 	*/
 	function splitPage()
 	{
-		$this->pg_obj->split();
+		global $ilErr;
+		
+		if ($this->pg_obj->getParentType() != "lm" &&
+			$this->pg_obj->getParentType() != "dbk")
+		{
+			$ilErr->raiseError("Split method called for wrong parent type (".
+			$this->pg_obj->getParentType().")", $ilErr->FATAL);
+		}
+		else
+		{
+			ilLMPageObject::splitPage($this->pg_obj->getId(),
+				$this->pg_obj->getParentType(),);
+		}
 	}
 
 
