@@ -1,0 +1,18 @@
+<form name="assessment_settings" action="{FORMACTION}" method="POST">
+<table class="std">
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_ASSESSMENT_SETTINGS}</td>
+	</tr>
+	<tr>
+		<td class="option"><label for="chb_assessment_logging">{TXT_ACTIVATE_ASSESSMENT_LOGGING}</label></td>
+		<td class="option_value"><input type="checkbox" name="chb_assessment_logging" id="chb_assessment_logging" value="1"{ASSESSMENT_LOGGING_CHECKED} /></td>
+	</tr>
+	<tr class="tablefooter">
+	<td class="submit" colspan="2">
+		<div align="right">
+			<input class="submit" type="SUBMIT" name="cmd[saveSettings]" value="{TXT_SAVE}">
+		</div>
+	</td>
+	</tr>
+</table>
+</form>
