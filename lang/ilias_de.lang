@@ -1826,6 +1826,7 @@ content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_media#:#Medienobjekte inaktiv
+content#:#cont_download_title#:#Link-Bezeichner 
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
@@ -1833,6 +1834,7 @@ content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bear
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
+content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
@@ -1859,6 +1861,7 @@ content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
+content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal#:#intern
@@ -1982,8 +1985,10 @@ content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
+content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
+content#:#cont_src#:#Programmiersprache
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
