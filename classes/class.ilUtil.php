@@ -850,12 +850,12 @@ class ilUtil
 			 "LEFT JOIN usr_data ON user_id=usr_id ".
 			 "WHERE user_id != 0";
 		$r = $ilias->db->query($q);
-		
+
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$users[$user["user_id"]] = $user;
 		}
-		
+
 		return $users ? $users : array();
 	}
 
@@ -867,6 +867,59 @@ class ilUtil
 	{
 		@mkdir($a_dir);
 		@chmod($a_dir, $a_mod);
+	}
+
+
+	/**
+	* unzip file
+	*
+	* @param	string	$a_file		full path/filename
+	*/
+	function unzip($a_file)
+	{
+		global $ilias;
+
+		$pathinfo = pathinfo($a_file);
+		$dir = $pathinfo["dirname"];
+		$file = $pathinfo["basename"];
+
+		// unzip
+		$cdir = getcwd();
+		chdir($dir);
+		$unzip = $ilias->getSetting("unzip_path");
+
+		// workaround for unzip problem (unzip of subdirectories fails, so
+		// we create the subdirectories ourselves first)
+		// get list
+		$unzipcmd = $unzip." -Z -1 ".$file;
+		exec($unzipcmd, $arr);
+		foreach($arr as $line)
+		{
+			if(is_int(strpos($line, "/")))
+			{
+				$zdir = substr($line, 0, strrpos($line, "/"));
+				$nr = substr_count($zdir, "/");
+				//echo $dir." ".$nr."<br>";
+				while ($zdir != "")
+				{
+					$nr = substr_count($zdir, "/");
+					$zdirs[$zdir] = $nr;				// collect directories
+					//echo $dir." ".$nr."<br>";
+					$zdir = substr($zdir, 0, strrpos($zdir, "/"));
+				}
+			}
+		}
+		asort($zdirs);
+		foreach($zdirs as $zdir => $nr)				// create directories
+		{
+			ilUtil::createDirectory($zdir);
+		}
+
+		// real unzip
+		$unzipcmd = $unzip." ".$file;
+		exec($unzipcmd);
+
+		chdir($cdir);
 	}
 
 } // END class.ilUtil

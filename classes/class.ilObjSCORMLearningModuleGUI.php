@@ -134,47 +134,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
 		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
-		//chmod($file_path, 0777);
-
-		// unzip (note: unzip command must be specified in ILIAS 3 administration !)
-		$cdir = getcwd();
-		chdir($newObj->getDataDirectory());
-		$unzip = $this->ilias->getSetting("unzip_path");
-
-		// workaround for unzip problem (unzip of subdirectories fails, so
-		// we create the subdirectories ourselves first)
-		// get list
-		$unzipcmd = $unzip." -Z -1 ".$file["basename"];
-		exec($unzipcmd, $arr);
-		foreach($arr as $line)
-		{
-			if(is_int(strpos($line, "/")))
-			{
-				$dir = substr($line, 0, strrpos($line, "/"));
-				$nr = substr_count($dir, "/");
-				//echo $dir." ".$nr."<br>";
-				while ($dir != "")
-				{
-					$nr = substr_count($dir, "/");
-					$dirs[$dir] = $nr;				// collect directories
-					//echo $dir." ".$nr."<br>";
-					$dir = substr($dir, 0, strrpos($dir, "/"));
-				}
-			}
-		}
-		asort($dirs);
-		foreach($dirs as $dir => $nr)				// create directories
-		{
-			//echo $dir."<br>";
-			mkdir($dir);
-			chmod($dir, 0770);
-		}
-
-
-		// real unzip
-		$unzipcmd = $unzip." ".$file["basename"];
-		exec($unzipcmd);
-		chdir($cdir);
+		ilUtil::unzip($file_path);
 
 		//validate the XML-Files in the SCORM-Package
 		$newObj->validate($newObj->getDataDirectory());
