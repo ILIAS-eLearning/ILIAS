@@ -588,6 +588,7 @@ common#:#contact_data#:#Contact Information
 common#:#container#:#Container
 common#:#context#:#Context
 common#:#copy#:#Copy
+common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
 common#:#country#:#Country
 common#:#course#:#Course
@@ -620,7 +621,6 @@ common#:#cur_number_rec#:#Current number of records
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
-common#:#copyPage#:#Copy
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item

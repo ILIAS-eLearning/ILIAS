@@ -588,6 +588,7 @@ common#:#contact_data#:#Contact Information###25 Mar 2003 new variable
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#context
 common#:#copy#:#copy
+common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copy of###22 Oct 2003 new variable
 common#:#country#:#country
 common#:#course#:#course
