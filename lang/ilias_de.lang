@@ -223,6 +223,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
+common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -259,9 +260,13 @@ common#:#attachments#:#Attachments
 common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#available_languages#:#Verfügbare Sprachen
+common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
+common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
+common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
+common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
@@ -378,6 +383,7 @@ common#:#crs_new#:#Neuer Kurs
 common#:#crs_read#:#Kurs lesen
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
+common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -822,6 +828,7 @@ common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
+common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
@@ -944,6 +951,7 @@ common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
@@ -1198,6 +1206,7 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
+common#:#show#:#Show###16 Mar 2004 new variable
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
@@ -1565,224 +1574,224 @@ content#:#pg#:#Seite
 content#:#read offline#:#Offline lesen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
-dateplaner#:#Language_file#:#german
-dateplaner#:#application#:#Terminplaner
-dateplaner#:#title#:#Ilias Terminplaner
-dateplaner#:#app_#:#Gruppen Termine Eingang
-dateplaner#:#app_inbox#:#Gruppen Termine Eingang
-dateplaner#:#app_day#:#Tagesansicht
-dateplaner#:#app_week#:#Wochenansicht
-dateplaner#:#app_month#:#Monatsansicht
-dateplaner#:#app_list#:#Terminliste
-dateplaner#:#app_properties#:#Einstellungen
-dateplaner#:#app_date#:#Termin eintragen
-dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
-dateplaner#:#new_doc#:#neuer Termin
-dateplaner#:#open_day#:#Tagesansicht
-dateplaner#:#week#:#Woche
-dateplaner#:#year#:#Jahr
-dateplaner#:#month#:#Monat
-dateplaner#:#hour#:#Stunde
-dateplaner#:#o_day_date#:#24h Termin
-dateplaner#:#date_format#:#d.m.Y H:i //day.month.Year4Digits Hour24:Minutes
-dateplaner#:#date_format_middle#:#d/m/y//month/day/Year
-dateplaner#:#myeahr#:#letztes Jahr
-dateplaner#:#mmonth#:#letzter Monat
-dateplaner#:#mweek#:#letzte Woche
-dateplaner#:#today#:#Heute
-dateplaner#:#pweek#:#nächste Woche
-dateplaner#:#pmonth#:#nächsten Monat
-dateplaner#:#pyear#:#nächstes Jahr
-dateplaner#:#long_01#:#Januar
-dateplaner#:#long_02#:#Februar
-dateplaner#:#long_03#:#März
-dateplaner#:#long_04#:#April
-dateplaner#:#long_05#:#Mai
-dateplaner#:#long_06#:#Juni
-dateplaner#:#long_07#:#Juli
-dateplaner#:#long_08#:#August
-dateplaner#:#long_09#:#September
-dateplaner#:#long_10#:#Oktober
-dateplaner#:#long_11#:#November
-dateplaner#:#long_12#:#Dezember
-dateplaner#:#short_01#:#Jan
-dateplaner#:#short_02#:#Feb
-dateplaner#:#short_03#:#Mär
-dateplaner#:#short_04#:#Apr
-dateplaner#:#short_05#:#Mai
-dateplaner#:#short_06#:#Jun
-dateplaner#:#short_07#:#Jul
-dateplaner#:#short_08#:#Aug
-dateplaner#:#short_09#:#Sep
-dateplaner#:#short_10#:#Oct
-dateplaner#:#short_11#:#Nov
-dateplaner#:#short_12#:#Dec
-dateplaner#:#Mo_long#:#Montag
-dateplaner#:#Tu_long#:#Dienstag
-dateplaner#:#We_long#:#Mittwoch
-dateplaner#:#Th_long#:#Donnerstag
-dateplaner#:#Fr_long#:#Freitag
-dateplaner#:#Sa_long#:#Samstag
-dateplaner#:#Su_long#:#Sonntag
-dateplaner#:#Mo_short#:#Mo
-dateplaner#:#Tu_short#:#Di
-dateplaner#:#We_short#:#Mi
-dateplaner#:#Th_short#:#Do
-dateplaner#:#Fr_short#:#Fr
-dateplaner#:#Sa_short#:#Sa
-dateplaner#:#Su_short#:#So
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###TEST
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <BR> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
-dateplaner#:#ERROR_TS#:#Falsches Datumsformat
-dateplaner#:#ERROR_DB#:#Database write error!
-dateplaner#:#ERROR_STARTDATE#:#Falsche Eingaben bei Termin Startdatum. Format: dd/mm/jjjj
-dateplaner#:#ERROR_STARTTIME#:#Falsche Eingaben bei Termin Startuhrzeit. Format: hh:mm
+dateplaner#:#DateText#:#Nachricht
+dateplaner#:#Day_long#:#Tagesansicht
+dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
+dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
+dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <BR> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
-dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
-dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
-dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
-dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
-dateplaner#:#date#:#Termin
-dateplaner#:#begin_date#:#Termin Anfang
-dateplaner#:#end_date#:#Termin Ende
-dateplaner#:#created#:#erstellt am
-dateplaner#:#last_change#:#letzte Änderung am
-dateplaner#:#rotation#:#Turnus
-dateplaner#:#rotation_dates#:#Turnus Termine
-dateplaner#:#dv_date_begin#:#Termin Beginn:
-dateplaner#:#dv_date_end#:#Termin Ende:
-dateplaner#:#dv_whole_day#:#Ganztägig:
-dateplaner#:#dv_rotation_date#:#Turnus Termine:
-dateplaner#:#dv_rotation_end#:#Turnus Ende:
-dateplaner#:#dv_startdate#:#Startdatum:
-dateplaner#:#dv_enddate#:#Enddatum:
-dateplaner#:#dv_date_hm#:#Stunde:Minute
-dateplaner#:#dv_rotation#:#Turnus:
-dateplaner#:#dv_message#:#Mitteilung:
-dateplaner#:#dv_shorttext#:#Kurztext:
-dateplaner#:#dv_text#:#Text:
-dateplaner#:#dv_groupselect#:#Gruppenauswahl:
-dateplaner#:#dv_keywords#:#Keyword:
-dateplaner#:#dv_keywordselect#:#Keywordauswahl:
-dateplaner#:#dv_button_insert#:#Einfügen
-dateplaner#:#dv_button_cancel#:#Abbrechen
-dateplaner#:#dv_button_update#:#Update
-dateplaner#:#dv_button_delete#:#Löschen
-dateplaner#:#dv_groupview#:#Gruppentermin:
-dateplaner#:#dv_groupview_text#:#Gruppe:<br> 
-dateplaner#:#dv_noKey#:#kein Keyword
-dateplaner#:#dv_noGroup#:#keine Gruppe
-dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
-dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
-dateplaner#:#dv_preview#:#<b>! Vorschau !</b>
-dateplaner#:#r_nonrecurring#:#Einmalig
-dateplaner#:#r_day#:#jeden Tag
-dateplaner#:#r_week#:#jede Woche
-dateplaner#:#r_14#:#alle 14 Tage
-dateplaner#:#r_4_weeks#:#alle 4 Wochen
-dateplaner#:#r_month#:#jeden Monat
-dateplaner#:#r_halfyear#:#jedes halbe Jahr
-dateplaner#:#r_year#:#jedes Jahr
-dateplaner#:#semester_name#:#Semester Name
-dateplaner#:#keyword#:#Schlagwort
-dateplaner#:#keywords#:#Schlagwörter
-dateplaner#:#shorttext#:#Kurztext
-dateplaner#:#Text#:#Text
-dateplaner#:#DateText#:#Nachricht
+dateplaner#:#ERROR_STARTDATE#:#Falsche Eingaben bei Termin Startdatum. Format: dd/mm/jjjj
+dateplaner#:#ERROR_STARTTIME#:#Falsche Eingaben bei Termin Startuhrzeit. Format: hh:mm
+dateplaner#:#ERROR_TS#:#Falsches Datumsformat
+dateplaner#:#Fr_long#:#Freitag
+dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
+dateplaner#:#Language_file#:#german
+dateplaner#:#Listbox_long#:#Terminliste
+dateplaner#:#Mo_long#:#Montag
+dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
+dateplaner#:#Month_long#:#Monatsansicht
+dateplaner#:#Sa_long#:#Samstag
+dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
+dateplaner#:#Su_long#:#Sonntag
+dateplaner#:#Su_short#:#So
+dateplaner#:#Text#:#Text###16 Mar 2004 new variable
+dateplaner#:#Th_long#:#Donnerstag
+dateplaner#:#Th_short#:#Do
+dateplaner#:#Tu_long#:#Dienstag
+dateplaner#:#Tu_short#:#Di
+dateplaner#:#View#:#Ansicht:
+dateplaner#:#We_long#:#Mittwoch
+dateplaner#:#We_short#:#Mi
+dateplaner#:#Week_long#:#Wochenansicht
 dateplaner#:#add_data#:#zusätzliche Informationen
-dateplaner#:#menue#:#Menue
-dateplaner#:#k_alldates#:#alle Termine
-dateplaner#:#main_dates#:#Normale Termine
-dateplaner#:#extra_dates#:#Ganztages Termine
-dateplaner#:#no_entry#:#keine Termine vorhanden
-dateplaner#:#more#:#weitere
-dateplaner#:#to#:#bis
-dateplaner#:#of#:#von
+dateplaner#:#app_#:#Gruppen Termine Eingang
+dateplaner#:#app_date#:#Termin eintragen
+dateplaner#:#app_day#:#Tagesansicht
+dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
+dateplaner#:#app_inbox#:#Gruppen Termine Eingang
+dateplaner#:#app_list#:#Terminliste
+dateplaner#:#app_month#:#Monatsansicht
+dateplaner#:#app_properties#:#Einstellungen
+dateplaner#:#app_week#:#Wochenansicht
+dateplaner#:#application#:#Terminplaner
+dateplaner#:#apply#:#übernehmen
 dateplaner#:#back#:#zurück
+dateplaner#:#begin_date#:#Termin Anfang
+dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
+dateplaner#:#c_date#:#erstelle Termin
+dateplaner#:#changeTo#:#Ändern zu:
+dateplaner#:#changedDates#:#Geänderte Termine
+dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
+dateplaner#:#created#:#erstellt am
+dateplaner#:#date#:#Termin
+dateplaner#:#date_format#:#d.m.Y H:i //day.month.Year4Digits Hour24:Minutes
+dateplaner#:#date_format_middle#:#d/m/y//month/day/Year
 dateplaner#:#del_all#:#alle Termine löschen
 dateplaner#:#del_one#:#einmalig löschen
-dateplaner#:#viewlist#:#Ansicht aktualisieren
-dateplaner#:#printlist#:#Termin Liste ausdrucken
-dateplaner#:#apply#:#übernehmen
-dateplaner#:#discard#:#abweisen
 dateplaner#:#delete#:#löschen
-dateplaner#:#keep#:#unverändert
-dateplaner#:#timedate#:#Zeit / Datum
-dateplaner#:#group#:#Gruppe
-dateplaner#:#newDates#:#Neue Termine
-dateplaner#:#changedDates#:#Geänderte Termine
 dateplaner#:#deletedDates#:#Gelöschte Termine
-dateplaner#:#singleDate#:#Einzeltermin
-dateplaner#:#changeTo#:#Ändern zu:
-dateplaner#:#newKeyword#:#Neu:
-dateplaner#:#View#:#Ansicht:
-dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
+dateplaner#:#discard#:#abweisen
+dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
+dateplaner#:#dv_button_cancel#:#Abbrechen
+dateplaner#:#dv_button_delete#:#Löschen
+dateplaner#:#dv_button_insert#:#Einfügen
+dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
+dateplaner#:#dv_date_begin#:#Termin Beginn:
+dateplaner#:#dv_date_end#:#Termin Ende:
+dateplaner#:#dv_date_hm#:#Stunde:Minute
+dateplaner#:#dv_enddate#:#Enddatum:
+dateplaner#:#dv_groupselect#:#Gruppenauswahl:
+dateplaner#:#dv_groupview#:#Gruppentermin:
+dateplaner#:#dv_groupview_text#:#Gruppe:<br> 
+dateplaner#:#dv_keywords#:#Keyword:
+dateplaner#:#dv_keywordselect#:#Keywordauswahl:
+dateplaner#:#dv_message#:#Mitteilung:
+dateplaner#:#dv_noGroup#:#keine Gruppe
+dateplaner#:#dv_noKey#:#kein Keyword
+dateplaner#:#dv_preview#:#<b>! Vorschau !</b>
+dateplaner#:#dv_rotation#:#Turnus:
+dateplaner#:#dv_rotation_date#:#Turnus Termine:
+dateplaner#:#dv_rotation_end#:#Turnus Ende:
+dateplaner#:#dv_shorttext#:#Kurztext:
+dateplaner#:#dv_startdate#:#Startdatum:
+dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
+dateplaner#:#dv_whole_day#:#Ganztägig:
+dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
+dateplaner#:#end_date#:#Termin Ende
 dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
-dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
-dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
-dateplaner#:#timeslice#:#Zeitraum:
-dateplaner#:#readimportfile#:#Einlesen
-dateplaner#:#Listbox_long#:#Terminliste
-dateplaner#:#Month_long#:#Monatsansicht
-dateplaner#:#Week_long#:#Wochenansicht
-dateplaner#:#Day_long#:#Tagesansicht
-dateplaner#:#inbox#:#Inbox
-dateplaner#:#properties#:#Einstellungen
-dateplaner#:#c_date#:#erstelle Termin
+dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###TEST
+dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
-dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
-dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
-dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
-dateplaner#:#help_startdate#:#Startdatum - Syntax[dd//mm/yyyy]
-dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
-dateplaner#:#help_enddate#:#Enddatum - Syntax[dd//mm/yyyy]
-dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_rotation#:#Rotation
-dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
-dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd//mm/yyyy]
-dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
-dateplaner#:#help_group#:#Gruppentermine Auswahl
-dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
-dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
-dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
-dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
-dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
-dateplaner#:#help_text#:#Text
-dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
-dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
-dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br>TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
-dateplaner#:#help_inbox#:#Terminplaner Inbox
-dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
+dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
-dateplaner#:#help_week#:#Terminplaner Wochenansicht
-dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
-dateplaner#:#help_month#:#Terminplaner Monatsansicht
-dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
+dateplaner#:#help_enddate#:#Enddatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
+dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
+dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
+dateplaner#:#help_group#:#Gruppentermine Auswahl
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_inbox#:#Terminplaner Inbox
+dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
+dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
+dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br>TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
+dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
 dateplaner#:#help_list#:#Terminplaner Terminliste
 dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
-dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
-dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
+dateplaner#:#help_month#:#Terminplaner Monatsansicht
+dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
 dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
 dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br>Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
+dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
+dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
 dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
 dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
 dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
-dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
-dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
+dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
+dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
+dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
+dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
+dateplaner#:#help_startdate#:#Startdatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
+dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
+dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
+dateplaner#:#help_week#:#Terminplaner Wochenansicht
+dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
+dateplaner#:#hour#:#Stunde
+dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
+dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
+dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
+dateplaner#:#k_alldates#:#alle Termine
+dateplaner#:#keep#:#unverändert
+dateplaner#:#keyword#:#Schlagwort
+dateplaner#:#keywords#:#Schlagwörter
+dateplaner#:#last_change#:#letzte Änderung am
+dateplaner#:#long_01#:#Januar
+dateplaner#:#long_02#:#Februar
+dateplaner#:#long_03#:#März
+dateplaner#:#long_04#:#April###16 Mar 2004 new variable
+dateplaner#:#long_05#:#Mai
+dateplaner#:#long_06#:#Juni
+dateplaner#:#long_07#:#Juli
+dateplaner#:#long_08#:#August###16 Mar 2004 new variable
+dateplaner#:#long_09#:#September###16 Mar 2004 new variable
+dateplaner#:#long_10#:#Oktober
+dateplaner#:#long_11#:#November###16 Mar 2004 new variable
+dateplaner#:#long_12#:#Dezember
+dateplaner#:#main_dates#:#Normale Termine
+dateplaner#:#menue#:#Menue
+dateplaner#:#mmonth#:#letzter Monat
+dateplaner#:#month#:#Monat
+dateplaner#:#more#:#weitere
+dateplaner#:#mweek#:#letzte Woche
+dateplaner#:#myeahr#:#letztes Jahr
+dateplaner#:#newDates#:#Neue Termine
+dateplaner#:#newKeyword#:#Neu:
+dateplaner#:#new_doc#:#neuer Termin
+dateplaner#:#no_entry#:#keine Termine vorhanden
+dateplaner#:#o_day_date#:#24h Termin
+dateplaner#:#of#:#von
+dateplaner#:#open_day#:#Tagesansicht
+dateplaner#:#pmonth#:#nächsten Monat
+dateplaner#:#printlist#:#Termin Liste ausdrucken
+dateplaner#:#properties#:#Einstellungen
+dateplaner#:#pweek#:#nächste Woche
+dateplaner#:#pyear#:#nächstes Jahr
+dateplaner#:#r_14#:#alle 14 Tage
+dateplaner#:#r_4_weeks#:#alle 4 Wochen
+dateplaner#:#r_day#:#jeden Tag
+dateplaner#:#r_halfyear#:#jedes halbe Jahr
+dateplaner#:#r_month#:#jeden Monat
+dateplaner#:#r_nonrecurring#:#Einmalig
+dateplaner#:#r_week#:#jede Woche
+dateplaner#:#r_year#:#jedes Jahr
+dateplaner#:#readimportfile#:#Einlesen
+dateplaner#:#rotation#:#Turnus
+dateplaner#:#rotation_dates#:#Turnus Termine
+dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
+dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
+dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
+dateplaner#:#short_03#:#Mär
+dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
+dateplaner#:#short_05#:#Mai
+dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
+dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
+dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
+dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
+dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
+dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
+dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
+dateplaner#:#shorttext#:#Kurztext
+dateplaner#:#singleDate#:#Einzeltermin
+dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
+dateplaner#:#timedate#:#Zeit / Datum
+dateplaner#:#timeslice#:#Zeitraum:
+dateplaner#:#title#:#Ilias Terminplaner
+dateplaner#:#to#:#bis
+dateplaner#:#today#:#Heute
+dateplaner#:#viewlist#:#Ansicht aktualisieren
+dateplaner#:#week#:#Woche
+dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
 forum#:#forums_articles#:#Beiträge
 forum#:#forums_attachments#:#Dateianhänge
