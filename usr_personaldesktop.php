@@ -186,8 +186,8 @@ if ($frmNum > 0)
 					$tpl->setCurrentBlock("tbl_frm_row");
 					$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
 					$tpl->setVariable("ROWCOL", $rowCol);				
-					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?obj_id=".$frm_data["obj_id"]."&parent=".$frm_data["parent"]."\">".$topicData["top_name"]."</a>");								
-					$tpl->setVariable("LAST_POST", Format::formatDate($lastPost["pos_date"]));
+					$tpl->setVariable("FRM_TITLE","<a href=\"forums_threads_liste.php?ref_id=".$frm_data["ref_id"]."\">".$topicData["top_name"]."</a>");								
+					$tpl->setVariable("LAST_POST", $lastPost["pos_date"]);
 					$tpl->parseCurrentBlock("tbl_frm_row");
 				}
 				
