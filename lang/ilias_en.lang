@@ -1283,7 +1283,7 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
-common#:#grp_add_member#:#Add member(s)
+common#:#grp_add_member#:#Add Member(s)
 common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 common#:#grp_app_send_mail#:#Send applicant a message
@@ -2834,8 +2834,8 @@ crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Add HTML-Archive
 crs#:#crs_add_archive_xml#:#Add XML-Archive
 crs#:#crs_add_html_archive#:#Add HTML archive
-crs#:#crs_add_member#:#Add member(s)
-crs#:#crs_add_subscribers#:#Add subscriber
+crs#:#crs_add_member#:#Add Member(s)
+crs#:#crs_add_subscribers#:#Add Subscriber
 crs#:#crs_added#:#Added new course
 crs#:#crs_added_member#:#Course membership
 crs#:#crs_added_member_body#:#You have been accepted to this course.
@@ -2873,7 +2873,7 @@ crs#:#crs_delete_member#:#Deassign member(s)
 crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
-crs#:#crs_details#:#Course details
+crs#:#crs_details#:#Course Details
 crs#:#crs_dismiss_member#:#Course membership
 crs#:#crs_dismiss_member_body#:#You membership has been terminated
 crs#:#crs_edit_archive#:#Edit Archives
