@@ -540,13 +540,13 @@ class ilObjSurveyQuestionPool extends ilObject
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
 				case "title":
-					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND qpl_questions.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND survey_question.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
