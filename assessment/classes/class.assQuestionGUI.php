@@ -1329,17 +1329,19 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
-	if (!empty($this->question->materials)) {
-		$i=1;
-		$this->tpl->setCurrentBlock("material_preview");
-		foreach ($this->question->materials as $key => $value) {
-
-		    $this->tpl->setVariable("COUNTER", $i++);
-			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
-			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
     if ($this->question->response == RESPONSE_SINGLE) {
       $this->tpl->setCurrentBlock("single");
@@ -1369,9 +1371,6 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("multiple_choice");
     $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->question->get_title() . $postponed);
-    if (!empty($this->question->materials)) {
-    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-    }
     $this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1393,17 +1392,19 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
-	if (!empty($this->question->materials)) {
-		$i=1;
-		$this->tpl->setCurrentBlock("material_preview");
-		foreach ($this->question->materials as $key => $value) {
-
-		    $this->tpl->setVariable("COUNTER", $i++);
-			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
-			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
     if ($this->question->cloze_type == CLOZE_TEXT) {
       $this->tpl->setCurrentBlock("cloze");
@@ -1447,9 +1448,6 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("cloze_test");
     $this->tpl->setVariable("CLOZE_TEST_HEADLINE", $this->question->get_title() . $postponed);
-    if (!empty($this->question->materials)) {
-    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-    }
     $this->tpl->parseCurrentBlock();
   }
 
@@ -1475,17 +1473,20 @@ class ASS_QuestionGUI extends PEAR {
     asort($array_matching);
 
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
-	if (!empty($this->question->materials)) {
-		$i=1;
-		$this->tpl->setCurrentBlock("material_preview");
-		foreach ($this->question->materials as $key => $value) {
-
-			$this->tpl->setVariable("COUNTER", $i++);
-			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
-			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
     $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
@@ -1517,9 +1518,6 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("matching");
     $this->tpl->setVariable("MATCHING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
-    if (!empty($this->question->materials)) {
-    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-    }
     $this->tpl->setVariable("MATCHING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1541,17 +1539,20 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
-	if (!empty($this->question->materials)) {
-		$i=1;
-		$this->tpl->setCurrentBlock("material_preview");
-		foreach ($this->question->materials as $key => $value) {
-
-		    $this->tpl->setVariable("COUNTER", $i++);
-			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
-			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
     $this->tpl->setCurrentBlock("orderingQuestion");
     foreach ($this->question->answers as $key => $value) {
@@ -1567,10 +1568,6 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("ordering");
     $this->tpl->setVariable("ORDERING_QUESTION_HEADLINE", $this->question->get_title() . $postponed);
-	if (!empty($this->question->materials)) {
-		$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-	}
-
     $this->tpl->setVariable("ORDERING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
@@ -1594,23 +1591,23 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
-	if (!empty($this->question->materials)) {
-		$i=1;
-		$this->tpl->setCurrentBlock("material_preview");
-		foreach ($this->question->materials as $key => $value) {
-
-		    $this->tpl->setVariable("COUNTER", $i++);
-			$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
-			$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
 
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
-    if (!empty($this->question->materials)) {
-    	$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
-    }
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents($formaction));
 		if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) {
@@ -1708,36 +1705,51 @@ class ASS_QuestionGUI extends PEAR {
     }
     $this->tpl->setCurrentBlock("adm_content");
 		$eval_result = $this->question->get_reached_information($ilUser->id, $test_id);
+		$bool = array("false", "true");
     switch($question_type)
     {
       case "qt_cloze":
 				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "Gap " . $value["gap"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_cloze_result"), $value["gap"], $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
 				}
         break;
       case "qt_multiple_choice_sr":
       case "qt_multiple_choice_mr":
 				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "Choice " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+					$class = "";
+					if (!$value["true"]) {
+						$class = " class=\"warning\"";
+					}
+					$out_eval_results .= "<li$class>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_choice_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
 				}
         break;
       case "qt_ordering":
 				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "Order " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_order_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
 				}
         break;
       case "qt_matching":
 				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "Matching pair " . $value["order"] . " " . $value["value1"] . " - " . $value["value2"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_matching_result"), $value["value1"], $value["value2"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
 				}
         break;
       case "qt_imagemap":
 				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "Selection " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_imagemap_result"), $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
 				}
         break;
     }
-    $this->tpl->setVariable("EVALUATION_RESULTS", $out_eval_results);
+    $this->tpl->setVariable("EVALUATION_RESULTS", "<ul>\n$out_eval_results\n</ul>");
     $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
     $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
     $this->tpl->parseCurrentBlock();

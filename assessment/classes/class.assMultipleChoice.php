@@ -498,9 +498,9 @@ class ASS_MultipleChoice extends ASS_Question {
 				"value" => "",
 			);
       if (strlen($value) > 0) {
+        $solution["value"] = $this->answers[$value]->get_answertext();
         if ($this->answers[$value]->is_true()) {
           $solution["points"] = $this->answers[$value]->get_points();
-          $solution["value"] = $this->answers[$value]->get_answertext();
           $solution["true"] = 1;
         }
       }
