@@ -16,21 +16,39 @@ include_once("DB.php");
 
 class Setup
 {
+	/**
+	 * ini file
+	 * @var string
+	 * @access private
+	 */
 	var $INI_FILE = "./ilias.ini";
+	
+	/**
+	 * sql-template-file
+	 * @var string
+	 * @access private
+	 */
 	var $SQL_FILE = "./sql/ilias3.sql";
-
+	
     /**
-    *  database connector
-    *  @var string
-    *  @access public
+	 * default ini file
+	 * @access private
+	 * @var string
+	 */
+	var $DEFAULT_INI_FILE = "./ilias.master.ini";
+	
+    /**
+	 *  database connector
+	 *  @var string
+	 *  @access public
 	*/
     var $dsn = "";
-
+	
     /**
-    *  database handle
-    *  @var object
-    *  @access private
-    */
+	 *  database handle
+	 *  @var object
+	 *  @access private
+	 */
     var $db = "";
 	
     /**
@@ -39,7 +57,7 @@ class Setup
 	 *  @access private
 	 */
 	var $ini;
-
+	
 	/**
 	 * default array for ini-file
 	 * @var array
@@ -55,35 +73,8 @@ class Setup
 
     function getDefaults()
     {
-	//initialize default values in case of error
+	//default values are in $DEFAULTINIFILE
 	//NOTE: please don't use any brackets
-	
-	// ******************** DEPRECATED BEGIN *************************
-	$this->default["server"]["tpl_path"] = "./templates";
-	$this->default["server"]["lang_path"] = "./lang";
-		
-	$this->default["db"]["type"] = "mysql";
-	$this->default["db"]["host"] = "localhost";
-	$this->default["db"]["user"] = "your db username";
-	$this->default["db"]["pass"] = "";
-	$this->default["db"]["name"] = "your db name";
-
-	$this->default["session"]["save_db"] = "true";
-
-	$this->default["auth"]["table"] = "user_data";
-	$this->default["auth"]["usercol"] = "login";
-	$this->default["auth"]["passcol"] = "passwd";
-
-	$this->default["language"]["default"] = "en";
-
-	$this->default["error"]["debug"] = "false";
-	$this->default["error"]["haltonerror"] = "false";
-
-	$this->default["layout"]["TABLE_BGCOLOR"] = "#DCDCFF";
-	$this->default["layout"]["TABLE_BORDER"] = "1";
-	$this->default["layout"]["TABLE_CELLSPACING"] = "0";
-	$this->default["layout"]["TABLE_CELLPADDING"] = "5";
-	//******************** DEPRECATED END ****************************
 	$this->default = parse_ini_file("./ilias.master.ini", true);
 	
 	//build list of databasetypes
@@ -146,8 +137,7 @@ class Setup
 			 "://".$this->dbuser.
 			 ":".$this->dbpass.
 			 "@".$this->dbhost.
-			 "/".$this->dbname;
-		 echo $this->dsn;
+
 		 $this->db = DB::connect($this->dsn,true);
 
 		 if (DB::isError($this->db)) {
@@ -155,7 +145,7 @@ class Setup
 			 $this->error = "not_connected_to_db";
 			 return false;
 		 }
-		 echo "hallo";
+
 		 return true;
 	 }
 

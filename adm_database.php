@@ -10,6 +10,14 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
+include_once("./classes/class.DBUpdate.php");
+
+$myDB = new DBUpdate();
+
+echo "Your DB Version: ".$myDB->getCurrentVersion();
+echo "File Version: ".$myDB->getFileVersion();
+
+
 $lng = new Language($ilias->account->data["language"]);
 
 $tpl = new Template("tpl.adm_database.html", false, false);

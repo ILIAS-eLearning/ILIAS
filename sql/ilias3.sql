@@ -514,10 +514,12 @@ CREATE TABLE user_session (
 #
 # settings table
 #
+
 CREATE TABLE settings (
-key VARCHAR(255) NOT NULL, 
-value_str VARCHAR(255) NOT NULL, 
-value_int BIGINT NOT NULL,
-UNIQUE (key)
-); 
-INSERT INTO settings (key, value_str, value_int) VALUES ('db_version', '', '1'); 
+  keyword varchar(255) NOT NULL default '',
+  value_str varchar(255) NOT NULL default '',
+  value_int bigint(20) NOT NULL default '0',
+  UNIQUE KEY keyword (keyword)
+) TYPE=MyISAM;
+
+INSERT INTO settings VALUES ('db_version', '', 1);
