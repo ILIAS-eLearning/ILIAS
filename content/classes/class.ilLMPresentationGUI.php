@@ -1474,5 +1474,13 @@ class ilLMPresentationGUI
 		$fileObj->sendFile();
 		exit;
 	}
+	
+	
+	
+	function download_paragraph () {			
+		require_once("content/classes/Pages/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
+		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
+	}
 }
 ?>

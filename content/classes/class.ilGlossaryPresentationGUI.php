@@ -259,6 +259,7 @@ class ilGlossaryPresentationGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
@@ -419,6 +420,13 @@ class ilGlossaryPresentationGUI
 			"");
 
 	}
+	
+	function download_paragraph () {
+		require_once("content/classes/Pages/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject("gdf", $_GET["pg_id"]);
+		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
+	}
+
 
 }
 

@@ -54,6 +54,7 @@ class ilPageObjectGUI
 	var $link_params;
 	var $bib_id;
 	var $citation;
+	var $sourcecode_download_script;
 
 	/**
 	* Constructor
@@ -216,6 +217,18 @@ class ilPageObjectGUI
 		return $this->output_submode;
 	}
 
+	
+	function setSourcecodeDownloadScript ($script_name) {
+		$this->sourcecode_download_script = $script_name;
+	}
+	
+	function getSourcecodeDownloadScript () {
+		return $this->sourcecode_download_script;
+	}
+
+	
+	
+
 	function enableCitation($a_enabled)
 	{
 		$this->citation = $a_enabled;
@@ -317,6 +330,10 @@ class ilPageObjectGUI
 		{
 			$this->obj->addHierIDs();
 		}
+		
+
+		$this->obj->addSourceCodeHighlighting();
+
 		$content = $this->obj->getXMLFromDom(false, true, true, $this->getLinkXML());
 
 		// check validation errors
@@ -356,6 +373,7 @@ class ilPageObjectGUI
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'med_disabled_path' => $med_disabled_path,
+						 'download_script' => $this->sourcecode_download_script,
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"));
 
