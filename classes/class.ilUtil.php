@@ -61,7 +61,7 @@ class ilUtil
 
 		if(defined("ILIAS_MODULE"))
 		{
-			$dir = ".."; // j.kistler and p.schmitt: .. instead of . (15.7.2004)
+			$dir = ".";
 		}
 		else
 		{
