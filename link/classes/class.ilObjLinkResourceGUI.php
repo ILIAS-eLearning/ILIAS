@@ -235,7 +235,20 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			}
 			$tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check_table'));
 			$tpl->setVariable("LAST_CHECK",$last_check);
-			$tpl->setVariable("TARGET",$item['target']);
+
+			$target = substr($item['target'],0,70);
+			if(strlen($item['target']) > 70)
+			{
+				$target = substr($item['target'],0,70).'...';
+			}
+			else
+			{
+				$target = $item['target'];
+			}
+
+				
+
+			$tpl->setVariable("TARGET",$target);
 			$tpl->setVariable("VALID",ilUtil::formCheckbox($item['valid'] ? 1 : 0,'valid['.$item['link_id'].']',1));
 			$tpl->setVariable("ACTIVE",ilUtil::formCheckbox($item['active'] ? 1 : 0,'active['.$item['link_id'].']',1));
 			$tpl->setVariable("DISABLE_CHECK",ilUtil::formCheckbox($item['disable_check'] ? 1 : 0,'disable['.$item['link_id'].']',1));
