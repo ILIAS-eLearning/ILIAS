@@ -396,6 +396,8 @@ common#:#forums_the_post#:#article
 common#:#forums_thread_create#:#created from
 common#:#operation#:#Operation
 common#:#edit_operations#:#edit operations
+common#:#file_not_found#:#File not found
+common#:#new_language#:#New language
 common#:#forums_threads_not_available#:#topics not available
 common#:#forums_posts_not_available#:#articles not available
 common#:#author#:#author

@@ -372,11 +372,11 @@ common#:#default_role#:#Standardrolle
 common#:#enabled#:#eingeschaltet
 common#:#disabled#:#ausgeschaltet
 common#:#import#:#import
-common#:#change_language#:#Sprache wechseln
+common#:#change_language#:#Benutzersprache ändern
 common#:#update_language#:#Sprache updaten
 common#:#check_language#:#Sprache checken
-common#:#set_system_language#:#Systemsprache &auml;ndern
-common#:#in_use#:#Usersprache
+common#:#set_system_language#:#Systemsprache ändern
+common#:#in_use#:#Benutzersprache
 common#:#lang_de#:#Deutsch
 common#:#lang_en#:#Englisch
 common#:#lang_dk#:#D&auml;nisch
@@ -403,6 +403,8 @@ common#:#forums_the_post#:#Beitrag
 common#:#forums_thread_create#:#Erstellt von
 common#:#operation#:#Operation
 common#:#edit_operations#:#Operationen bearbeiten
+common#:#file_not_found#:#Datei nicht gefunden
+common#:#new_language#:#Neue Sprache
 common#:#forums_threads_not_available#:#Keine Themen verfügbar
 common#:#forums_posts_not_available#:#Keine Artikel verfügbar
 common#:#author#:#Autor
