@@ -47,66 +47,9 @@ class ilObjForum extends ilObject
 	* @return	integer		new obj_id
 	* @access	public
 	*/
-	//function create($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	function create()
 	{
 		$newFrm_ID = parent::create();
-	}
-
-	/**
-	* put forum into tree
-	*/
-	function putInTree($a_parent)
-	{
-		global $tree, $rbacadmin;
-
-		// put forum in tree
-		parent::putInTree($a_parent);
-
-		// create new forum tree -- DEPRECATED. no extra tree for forum objects!!
-		//$tree->addTree($this->id);
-
-		// create a local role folder
-		require_once "class.ilObjRoleFolder.php";
-		$rfoldObj = new ilObjRoleFolder();
-		$rfoldObj->setTitle("Local roles");
-		$rfoldObj->setDescription("Role Folder of forum ref_no.".$this->ref_id);
-		$rfoldObj->create();
-		$rfoldObj->createReference();
-		$rfoldObj->putInTree($this->ref_id);
-
-		// create moderator role...
-		require_once "class.ilObjRole.php";
-		$roleObj = new ilObjRole();
-		$roleObj->setTitle("moderator_".$this->ref_id);
-		$roleObj->setDescription("moderator of forum ref_no.".$this->ref_id);
-		$roleObj->create();
-		
-		// ...and put the role into local role folder...
-		$rbacadmin->assignRoleToFolder($roleObj->getId(),$rfoldObj->getRefId(),$this->ref_id,"y");
-		
-		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
-		
-		// insert new forum as new topic into frm_data
-		$top_data = array(
-            "top_frm_fk"   		=> $this->getId(),
-			"top_name"   		=> addslashes($this->getTitle()),
-            "top_description" 	=> addslashes($this->getDescription()),
-            "top_num_posts"     => 0,
-            "top_num_threads"   => 0,
-            "top_last_post"     => "",
-			"top_mods"      	=> $roleObj->getId(),
-			"top_usr_id"      	=> $_SESSION["AccountId"],
-            "top_date" 			=> date("Y-m-d H:i:s")
-        );
-
-		$q = "INSERT INTO frm_data ";
-		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
-		$q .= "VALUES ";
-		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
-		$this->ilias->db->query($q);
-		//echo "roleID: ".$roleID." owner: ".$frm_data["owner"]."<br>";
 	}
 
 	/**
