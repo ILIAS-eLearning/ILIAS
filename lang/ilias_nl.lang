@@ -2666,8 +2666,8 @@ crs#:#crs_max_members_reached#:#Voor registratie is een geldig wachtwoord nodig.
 crs#:#crs_mem_change_status#:#Lijst gebruikers
 crs#:#crs_mem_send_mail#:#Het maximum aantal leden is bereikt
 crs#:#crs_member#:#Wijzig status
-crs#:#crs_member_blocked#:#Zend mail
-crs#:#crs_member_unblocked#:#Lid
+crs#:#crs_member_blocked#:#Zend mail###03 Nov 2004 content changed
+crs#:#crs_member_unblocked#:#Lid###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Lid (ongeblokkeerd)
 crs#:#crs_members_deleted#:#Lid (geblokkeerd)
 crs#:#crs_members_print_title#:#Het lid is bijgewerkt
@@ -2682,7 +2682,7 @@ crs#:#crs_no_archive_selected#:#Nieuw cursus-abonnement
 crs#:#crs_no_archives_available#:#Een nieuwe gebruiker heeft zich geabonneerd
 crs#:#crs_no_archives_selected#:#Geen archief geselecteerd
 crs#:#crs_no_groups_selected#:#Er zijn geen archiven beschikbaar
-crs#:#crs_no_items_found#:#Selecteer a.u.b een archief
+crs#:#crs_no_items_found#:#Selecteer a.u.b een archief###03 Nov 2004 content changed
 crs#:#crs_no_language#:#Selecteer a.u.b. een groep
 crs#:#crs_no_member_selected#:#Er zijn geen cursus-onderdelen
 crs#:#crs_no_members_assigned#:#geen taal

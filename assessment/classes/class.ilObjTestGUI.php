@@ -77,14 +77,16 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("tst_select_questionpools"));
 			$this->createObject();
+			return;
 		}
-		if (strcmp($_FILES["tmp_name"], "") == 0)
+		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
 			sendInfo($this->lng->txt("tst_select_file_for_import"));
 			$this->createObject();
+			return;
 		}
 		$this->uploadObject(false);
-		ilUtil::redirect("repository.php?".$this->link_params);
+		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
 	}
 	
 	/**
@@ -4185,7 +4187,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
 		}
 	}
-	
 } // END class.ilObjTestGUI
 
 ?>

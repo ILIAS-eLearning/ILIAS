@@ -388,7 +388,7 @@ assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
-assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
+assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
 assessment#:#tst_sequence#:#Reihenfolge
@@ -2670,8 +2670,8 @@ crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritt
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
 crs#:#crs_member#:#Mitglied
-crs#:#crs_member_blocked#:#Mitglied (gesperrt)
-crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
+crs#:#crs_member_blocked#:#Mitglied (gesperrt)###03 Nov 2004 content changed
+crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
 crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
 crs#:#crs_members_print_title#:#Kursmitglieder
@@ -2686,7 +2686,7 @@ crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
-crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
+crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden ###03 Nov 2004 content changed
 crs#:#crs_no_language#:#Keine Sprache angegeben
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet

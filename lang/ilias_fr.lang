@@ -2654,8 +2654,8 @@ crs#:#crs_max_members_reached#:#Le nombre maximal de membres a été atteint
 crs#:#crs_mem_change_status#:#Changer statut
 crs#:#crs_mem_send_mail#:#Envoyer message
 crs#:#crs_member#:#Membre
-crs#:#crs_member_blocked#:#Membre (non bloqué) XXX
-crs#:#crs_member_unblocked#:#Membre (bloqué)
+crs#:#crs_member_blocked#:#Membre (non bloqué) XXX###03 Nov 2004 content changed
+crs#:#crs_member_unblocked#:#Membre (bloqué)###03 Nov 2004 content changed
 crs#:#crs_member_updated#:#Le membre a été mis à jour
 crs#:#crs_members_deleted#:#Membres détruits
 crs#:#crs_members_print_title#:#Membres du cours
@@ -2670,7 +2670,7 @@ crs#:#crs_no_archive_selected#:#Pas d'archive sélectionnée
 crs#:#crs_no_archives_available#:#Aucune archive disponible
 crs#:#crs_no_archives_selected#:#Veuillez sélectionner une archive
 crs#:#crs_no_groups_selected#:#Veuillez choisir un groupe
-crs#:#crs_no_items_found#:#Pas d'objets de cours
+crs#:#crs_no_items_found#:#Pas d'objets de cours###03 Nov 2004 content changed
 crs#:#crs_no_language#:#Pas de langue
 crs#:#crs_no_member_selected#:#Veuillez choisir un membre
 crs#:#crs_no_members_assigned#:#Pas de membres assignés à ce cours
