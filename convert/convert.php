@@ -22,20 +22,22 @@ if ($_REQUEST["ok"] == "ok")
 	$host = $_REQUEST["host"];
 	$dbname = $_REQUEST["dbname"];
 	
-	// id of the Learningunit, ILIAS 2 directory, source directory, target directory
+	// zip command, id of the Learningunit, ILIAS 2 directory, source directory, target directory
+	$zipCmd = $_REQUEST["zipCmd"];
 	$luId = (integer) $_REQUEST["luId"];
 	$iliasDir = $_REQUEST["iliasDir"];
 	$sDir = $_REQUEST["sDir"];
 	$tDir = $_REQUEST["tDir"];
 	
 	// check if set
-	if (is_integer($luId) and
+	if (is_string($zipCmd) and
+		is_integer($luId) and
 		is_string($iliasDir) and
 		is_string($sDir) and
 		is_string($tDir))
 	{
 		// initialize object
-		$exp = new ILIAS2To3Converter($user, $pass, $host, $dbname, $iliasDir, $sDir, $tDir);
+		$exp = new ILIAS2To3Converter($user, $pass, $host, $dbname, $zipCmd, $iliasDir, $sDir, $tDir);
 		// convert
 		$exp->dumpLearningModuleFile($luId);
 		// destroy object
@@ -43,7 +45,7 @@ if ($_REQUEST["ok"] == "ok")
 	}
 	else
 	{
-		die ("ERROR: Fill all fields, please."); // ***
+		die ("ERROR: Fill all fields, please.");
 	}
 }
 else // display form
@@ -60,6 +62,8 @@ else // display form
 					"pass:<br /><input type=\"password\" name=\"pass\" maxlengh=\"30\" size=\"20\" value=\"\"><br />\n".
 					"host:<br /><input type=\"text\" name=\"host\" maxlengh=\"30\" size=\"20\" value=\"localhost\"><br />\n".
 					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"virtus\"><br /><br />\n".
+					"Zip command:<br /><br />\n".
+					"<input type=\"text\" name=\"zipCmd\" maxlengh=\"50\" size=\"40\" value=\"c:/zip/zip\"><br /><br />\n".
 					"Id of the Learningunit:<br /><br />\n".
 					"<input type=\"text\" name=\"luId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />\n".
 					"Full path to the ILIAS 2 base directory:<br /><br />\n".

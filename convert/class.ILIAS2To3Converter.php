@@ -88,6 +88,20 @@ class ILIAS2To3Converter
 	var $targetDir;
 	
 	/**
+	* directory name
+	* @var		string
+	* @access	private 
+	*/
+	var $dir;
+	
+	/**
+	* file name
+	* @var		string
+	* @access	private 
+	*/
+	var $file;
+	
+	/**
 	* current language 
 	* @var		string
 	* @access	private 
@@ -107,9 +121,13 @@ class ILIAS2To3Converter
 	* @param	string	password
 	* @param	string	host
 	* @param	string	database
+	* @param	string	complete path to zip command
+	* @param	string	complete path to ILIAS 2 directory
+	* @param	string	complete path to ILIAS 2 data directory
+	* @param	string	complete path to target directory
 	* @access	public
 	*/
-	function ILIAS2To3Converter ($user, $pass, $host, $dbname, $iliasDir, $sDir, $tDir)
+	function ILIAS2To3Converter ($user, $pass, $host, $dbname, $zipCmd, $iliasDir, $sDir, $tDir)
 	{
 		// set member vars
 		$this->iliasDir = $iliasDir;
@@ -128,7 +146,7 @@ class ILIAS2To3Converter
 		}
 		
 		// create utility object
-		$this->utils = new ILIAS2To3Utils;
+		$this->utils = new ILIAS2To3Utils($zipCmd);
 	}
 	
 	/**
@@ -234,7 +252,7 @@ class ILIAS2To3Converter
 				}
 				
 				// set array with mimetype, size and location for the image file
-				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
+				$tech[] = $this->utils->getTechInfo($this->dir, "objects/image".$id."/".$image["datei"]);
 				break;
 			
 			case "imap":
@@ -254,7 +272,7 @@ class ILIAS2To3Converter
 				$result->free();
 				
 				// set array with mimetype, size and location for the image file
-				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/imagemap".$id."/".$id.".".$map["type"]);
+				$tech[] = $this->utils->getTechInfo($this->dir, "objects/imagemap".$id."/".$id.".".$map["type"]);
 				break;
 			
 			case "mm":
@@ -276,7 +294,7 @@ class ILIAS2To3Converter
 				if ($mm["st_type"] == "file")
 				{
 					// set array with mimetype, size and location for the image file
-					$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["file"]);
+					$tech[] = $this->utils->getTechInfo($this->dir, "objects/mm".$id."/".$mm["file"]);
 				}
 				else // referenced file (object)
 				{
@@ -291,7 +309,7 @@ class ILIAS2To3Converter
 					if ($mm["full_type"] == "file")
 					{
 						// set array with mimetype, size and location for the image file
-						$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["full_file"]);
+						$tech[] = $this->utils->getTechInfo($this->dir, "objects/mm".$id."/".$mm["full_file"]);
 					}
 					else // referenced file (object)
 					{
@@ -314,7 +332,7 @@ class ILIAS2To3Converter
 				$result->free();
 				
 				// set array with mimetype, size and location for the image file
-				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/file".$id."/".$file["file"]);
+				$tech[] = $this->utils->getTechInfo($this->dir, "objects/file".$id."/".$file["file"]);
 				break;
 			
 			case "el":
@@ -835,7 +853,7 @@ class ILIAS2To3Converter
 		//--------------
 		// copy file(s):
 		//--------------
-		$this->utils->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
+		$this->utils->copyObjectFiles ($this->iliasDir."bilder/", $this->dir."objects/", $id, "img", $image["datei"]);
 		
 		//-------------------------
 		// create MediaObject tree:
@@ -882,7 +900,7 @@ class ILIAS2To3Converter
 		//--------------
 		// copy file(s):
 		//--------------
-		$this->utils->copyObjectFiles ($this->iliasDir."imagemaps/", $this->targetDir."objects/", $id, "imap", $id.".".$map["type"]);
+		$this->utils->copyObjectFiles ($this->iliasDir."imagemaps/", $this->dir."objects/", $id, "imap", $id.".".$map["type"]);
 		
 		//-------------------------
 		// create MediaObject tree:
@@ -931,7 +949,7 @@ class ILIAS2To3Converter
 		if ($mm["st_type"] == "file" or
 			$mm["full_type"] == "file")
 		{
-			$this->utils->copyObjectFiles ($this->iliasDir."objects/", $this->targetDir."objects/", $id, "mm");
+			$this->utils->copyObjectFiles ($this->iliasDir."objects/", $this->dir."objects/", $id, "mm");
 		}
 		
 		//-------------------------
@@ -1010,7 +1028,7 @@ class ILIAS2To3Converter
 		//--------------
 		// copy file(s):
 		//--------------
-		$this->utils->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
+		$this->utils->copyObjectFiles ($this->sourceDir."files/", $this->dir."objects/", $id, "file");
 		
 		//-------------------------
 		// create MediaObject tree:
@@ -2416,7 +2434,7 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* Outputs ILIAS 3 LearninigModule and corresponding raw data files into a (Todo: zip) file
+	* Outputs ILIAS 3 LearninigModule and corresponding raw data files into a zip file
 	* @param	integer	learningunit id
 	* @param	boolean	indent text (TRUE) or not (FALSE)
 	* @access	public
@@ -2425,6 +2443,16 @@ class ILIAS2To3Converter
 	{
 		// set member var for Learningunit
 		$this->luId = $luId;
+		
+		// get timestamp for names
+		$date = time();
+		
+		// set dir and file names *** an ilias2 export anpassen inkl. inst
+		$this->dir = $this->targetDir.$date."__lm__le_".$this->luId."/";
+		$this->file = $this->dir.$date."__lm__le_".$this->luId.".xml";
+		
+		// create dir
+		$this->utils->makeDir($this->dir);
 		
 		//-------------------------
 		// create new xml document:
@@ -2450,10 +2478,16 @@ class ILIAS2To3Converter
 		echo "</PRE>";
 		
 		// dump xml document to file ***
-		$this->xml->xmlDumpFile($this->targetDir."lm.xml", $format);
+		$this->xml->xmlDumpFile($this->file, $format);
 		
 		// destroy writer object
 		$this->xml->_XmlWriter;
+		
+		// chage to target dir
+		chdir($this->targetDir);
+		
+		// zip whole stuff (xml file and the copied object files)
+		$this->utils->zipDir(basename($this->dir));
 	}
 }
 

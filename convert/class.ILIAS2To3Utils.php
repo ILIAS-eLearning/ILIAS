@@ -12,12 +12,20 @@
 class ILIAS2To3Utils
 {
 	/**
+	* complete path to zip command
+	* @var		array
+	* @access	private 
+	*/
+	var $zipCmd;
+	
+	/**
 	* constructor 
 	* @access	public
 	*/
-	function ILIAS2To3Utils ()
+	function ILIAS2To3Utils ($zipCmd)
 	{
-		// no operation
+		// set member var
+		$this->zipCmd = $zipCmd;
 	}
 	
 	/**
@@ -727,6 +735,20 @@ class ILIAS2To3Utils
 			}
 		}
 		return TRUE;
+	}
+	
+	/**
+	* Zips a whole directory or file
+	* @param	string	directory or file (complete path)
+	* @access	public
+	*/
+	function zipDir($dir)
+	{
+		// execute zip	
+		if (@is_dir($dir))
+		{
+			exec($this->zipCmd." -mr ".$dir." ".$dir);
+		}
 	}
 	
 	/**
