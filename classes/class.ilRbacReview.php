@@ -322,6 +322,18 @@ class ilRbacReview
 		
 		return $usr_arr;
 	}
+
+	/**
+	* check if a specific user is assigned to specific role
+	* @access	public
+	* @param	integer		usr_id
+	* @param	integer		role_id
+	* @return	boolean
+	*/
+	function isAssigned($a_usr_id,$a_role_id)
+	{
+		return in_array($a_usr_id,$this->assignedUsers($a_role_id));
+	}
 	
 	/**
 	* get all assigned roles to a given user
