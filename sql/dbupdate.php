@@ -129,3 +129,7 @@ VALUES (
 '14', '10'
 );
 
+<#8>
+# new column in `frm_posts`
+ALTER TABLE `frm_posts` ADD `update_user` INT NOT NULL ;
+
