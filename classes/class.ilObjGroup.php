@@ -40,6 +40,7 @@ require_once "class.ilObject.php";
 require_once "class.perm.php";
 
 require_once "class.ilObjectGUI.php";
+require_once "class.ilTree.php";
 
 class ilObjGroup extends ilObject
 {
@@ -75,7 +76,7 @@ class ilObjGroup extends ilObject
 		$this->type = "grp";
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		if($a_call_by_reference)
+		/*if($a_call_by_reference)
 		{
 			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
 			
@@ -86,7 +87,7 @@ class ilObjGroup extends ilObject
 		else
 		{
 			$this->obj_grpId = $a_id;		
-		}
+		}*/
 
 		$this->tree = $tree;
 
@@ -746,11 +747,22 @@ class ilObjGroup extends ilObject
 
 	}
 
-	function createNewGroupTree()
+	function createNewGroupTree($objGrpId,$objGrpRefId)
 	{
-		$this->grp_tree = new ilTree($this->object->getId());
+		require_once "class.ilTree.php";
+		
+		$this->grp_tree = new ilTree($objGrpId);
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		$this->grp_tree->addTree($this->object->getId());
+		$this->grp_tree->addTree($objGrpId);
+		
+		$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=0 AND child=".$objGrpId." AND ref_id IS NULL";
+		$this->ilias->db->query($q1);
+		
+		$q2 = "UPDATE grp_tree SET ref_id=".$objGrpRefId." WHERE parent=0 AND child=".$objGrpId." AND ref_id IS NULL";
+		$this->ilias->db->query($q2);
+			
+		
+		
 		//var_dump($this->grp_tree);
 		//return $this->grp_tree;
 	}
@@ -841,15 +853,52 @@ class ilObjGroup extends ilObject
 	*/
 	function delete()
 	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
 		
 		// put here group specific stuff
 		
-		return true;
+		// always call parent delete function at the end!!		
+		return (parent::delete()) ? true : false;
+	}
+	
+	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initRoleFolder()
+	{	
+		global $rbacadmin;
+		
+		// create a local role folder
+		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+
+		return $rfoldObj;
+	}
+	
+	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles($rfoldObj)
+	{
+		global $rbacadmin;
+		
+		// create a local role folder
+		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+
+		// create moderator role and assign role to rolefolder...
+		$roleObj = $rfoldObj->createRole("Administrator","Administrator of group obj_no.".$this->getId());
+		$roles[] = $roleObj->getId();
+		
+		// create moderator role and assign role to rolefolder...
+		$roleObj = $rfoldObj->createRole("Memebr","Member of group obj_no.".$this->getId());
+		$roles[] = $roleObj->getId();
+		
+		unset($rfoldObj);
+		unset($roleObj);
+
+		return $roles ? $roles : array();
 	}
 
 } //END class.ilObjGroup

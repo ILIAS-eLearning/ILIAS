@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.17 2003/07/14 15:04:16 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.18 2003/07/15 08:23:56 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -34,6 +34,7 @@
 
 require_once "class.ilObjectGUI.php";
 require_once "class.ilObjGroup.php";
+
 
 class ilObjGroupGUI extends ilObjectGUI
 {	
@@ -108,20 +109,40 @@ class ilObjGroupGUI extends ilObjectGUI
 	{
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacadmin,$ilias;
-		
+	
 		// always call parent method first to create an object_data entry & a reference
-		$newObj = parent::saveObject();
-
+		$groupObj = parent::saveObject();
+		
+		$rfoldObj = $groupObj->initRoleFolder();
+		
 		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-		$roles = $newObj->initDefaultRoles();
+		$roles = $groupObj->initDefaultRoles($rfoldObj);
+		
+		// ...finally assign moderator role to creator of forum object
+		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
+			
+		//0=public,1=private,2=closed
+		$groupObj->setGroupStatus($_POST["group_status_select"]);
+		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
+		
+		// always send a message
+		sendInfo($this->lng->txt("grp_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 
+		exit();
+
+		//wenn keine Fehlerauftauchen , dann auskommentierte Zeilen löschen
+		
+		
 		// TODO: An die Leute, die an der Gruppenfunktionalität arbeiten:
 		// Bitte schiebt alle Dinge, die die lokalen Rollen und den Rollenordner betreffen in die Methode ilObjGroup::initDefaultRoles()
 		// Schaut euch hierzu bitte an, wie das in ilObjForum/GUI gemacht wurde.
 		// Bitte auch ilObjGroup::clone entsprechend anpassen (dort sollte nach dem parent-Aufruf nur noch initDefaultRoles aufgerufen. Ggf. spezielle Gruppendatgen noch mit kopiert werden.
 		
-		$refGrpId = $newObj->getRefId();
-		$GrpId = $newObj->getId();
+		/*$refGrpId = $newObj->getRefId();
+		$objGrpId = $newObj->getId();
 
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
@@ -141,6 +162,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$newObj->setPermissions($refGrpId);
 
 		$refRolf = $newObj->getRefId();
+		$objRolf = $newObj->getId();
 		unset($newObj);
 
 		// create new role objects
@@ -152,18 +174,26 @@ class ilObjGroupGUI extends ilObjectGUI
 		//creator becomes admin of group
 		//$newGrp->joinGroup($ilias->account->getId(),"admin");
 		$newGrp->joinGroup($ilias->account->getId(),1);
-
+		*/
 		//0=public,1=private,2=closed
-		$newGrp->setGroupStatus($_POST["group_status_select"]);
-
+		//$groupObj->setGroupStatus($_POST["group_status_select"]);
+		
+		//$refGrpId = $groupObj->getRefId();
+		//$objGrpId = $groupObj->getId();
 		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
-		$newGrp->createNewGroupTree();
-
+		
+		//echo $refGrpId;
+		//$grp_tree = new ilTree($objGrpId);
+		
+		/*$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
+		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 		
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+
+		exit();*/
 
 	}
 
