@@ -616,20 +616,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Creates a preview of the question
-	*
-	* Creates a preview of the question
-	*
-	* @access private
-	*/
-	function outPreviewForm()
-	{
-		$this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
-		$empty = $_SERVER['PHP_SELF'] . "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"] . "&preview=" . $_GET["preview"];
-		$this->outWorkingForm("", "", $empty);
-	}
-
-	/**
 	* Creates an output of the user's solution
 	*
 	* Creates an output of the user's solution

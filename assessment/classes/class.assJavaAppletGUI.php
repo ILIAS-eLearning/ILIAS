@@ -377,18 +377,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* Creates a preview of the question
-	*
-	* Creates a preview of the question
-	*
-	* @access private
-	*/
-	function outPreviewForm()
-	{
-		$this->outWorkingForm();
-	}
-
-	/**
 	* Creates an output of the user's solution
 	*
 	* Creates an output of the user's solution

@@ -147,28 +147,6 @@ class ASS_QuestionGUI
 	}
 
 	/**
-	* Creates a preview of the question
-	*
-	* Creates a preview of the question
-	*
-	* @access private
-	*/
-	function outPreviewForm()
-	{
-	}
-
-	function preview()
-	{
-		//$question =& $this->object->createQuestion("", $_GET["q_id"]);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
-		$this->outPreviewForm();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_PREVIEW", $this->ctrl->getParentReturn($this));
-		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
 	* output assessment
 	*/
 	function assessment()
