@@ -38,7 +38,8 @@ class ilGroupExplorer extends ilExplorer
 		$this->grp_id = $a_ref_id;
 		$this->tree = new ilTree($a_ref_id,$a_ref_id);
 		$this->tree->setTableNames("grp_tree","object_data","object_reference");
-		
+		$this->setSessionExpandVariable("grp_expand");				
+		$this->setExpandTarget("group.php?cmd=show_content&ref_id=".$a_ref_id."&tree=true");
 		// temp. disabled for folders
 		$this->rbac_check = false;
 	}
@@ -251,7 +252,7 @@ class ilGroupExplorer extends ilExplorer
 				break;
 	
 			case "fold":
-				$URL = "group.php?ref_id=".$cont_data["child"]."&cmd=show_content";
+				$URL = "group.php?cmd=show_content&ref_id=".$cont_data["child"]."&tree=true&type=fold";
 				break;
 
 			case "file":
