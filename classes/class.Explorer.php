@@ -217,7 +217,7 @@ class Explorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("LINK_TARGET", $this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]."&amp;expand=".$_GET["expand"]);
+		$tpl->setVariable("LINK_TARGET", $this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
@@ -238,24 +238,13 @@ class Explorer
 	*/
 	function createTarget($a_type,$a_obj_id)
 	{
-		$tmp_expanded = $this->expanded;
+		// SET expand parameter:
+		//     positive if object is expanded
+		//     negative if object is compressed
+		$a_obj_id = $a_type == '+' ? $a_obj_id : -(int) $a_obj_id;
 
-		if ($a_type == '+')
-		{
-			return $_SERVER["SCRIPT_NAME"]."?expand=".$_GET["expand"]."|".$a_obj_id.
-				"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
-		}
-
-		if ($a_type == '-')
-		{
-			$tmp = "?expand=";
-			$tmp_expanded = array_flip($tmp_expanded);
-			unset($tmp_expanded["$a_obj_id"]);
-			$tmp_expanded = array_flip($tmp_expanded);
-			
-			return $tmp.implode('|',$tmp_expanded).
-				"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
-		}
+		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_obj_id.
+			"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
 	}
 
 	/**
@@ -432,12 +421,29 @@ class Explorer
 	
 	/**
 	* set the expand option
+	* this value is stored in a SESSION variable to save it different view (lo view, frm view,...)
 	* @access	private
 	* @param	string		pipe-separated integer
 	*/
-	function setExpand($str)
+	function setExpand($a_node_id)
 	{
-		$this->expanded = explode('|',$str);
+		// IF ISN'T SET CREATE SESSION VARIABLE
+		if(!is_array($_SESSION["expand"]))
+		{
+			$_SESSION["expand"] = array();
+		}
+		// IF $_GET["expand"] is positive => expand this node
+		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["expand"]))
+		{
+			array_push($_SESSION["expand"],$a_node_id);
+		}
+		// IF $_GET["expand"] is negative => compress this node
+		if($a_node_id < 0)
+		{
+			$key = array_keys($_SESSION["expand"],-(int) $a_node_id);
+			unset($_SESSION["expand"][$key[0]]);
+		}
+		$this->expanded = $_SESSION["expand"];
 	}
 	
 	/**
