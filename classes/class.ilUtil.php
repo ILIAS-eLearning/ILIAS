@@ -1474,5 +1474,36 @@ class ilUtil
 		
 		return $array;
 	}
+    
+    
+    function copyfiles($source,$dest)
+    {
+       if (!is_dir($source))
+       return 0;
+       if (!is_dir($dest))
+       {
+           mkdir($dest, 0777);
+           chmod($dest, 0777);
+       }
+       $h=@dir($source);
+       while (@($entry=$h->read()) !== false)
+       {
+           if (($entry!=".")&&($entry!=".."))
+           {
+               if (is_dir("$source/$entry")&&$dest!=="$source/$entry")
+               {
+                   ilUtil::copyfiles("$source/$entry","$dest/$entry");
+               }
+               else
+               {
+                   @copy("$source/$entry","$dest/$entry");
+               }
+           }
+       }
+       $h->close();
+       return 1;
+    }    
+    
+    
 } // END class.ilUtil
 ?>
