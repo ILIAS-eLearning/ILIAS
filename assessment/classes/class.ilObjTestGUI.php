@@ -1179,8 +1179,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 
 				if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-					$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.gif", true) . "\" alt=\"Up\" border=\"0\" /></a>");
-					$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.gif", true) . "\" alt=\"Down\" border=\"0\" /></a>");
+					$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.png", true) . "\" alt=\"Up\" border=\"0\" /></a>");
+					$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.png", true) . "\" alt=\"Down\" border=\"0\" /></a>");
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
