@@ -3886,10 +3886,11 @@ class ilObjTest extends ilObject
 		foreach ($original->questions as $key => $question_id)
 		{
 			$question = ilObjTest::_instanciateQuestion($question_id);
-			$question->id = -1;
+			$newObj->questions[$key] = $question->duplicate();
+//			$question->id = -1;
 			$original_id = ASS_Question::_getOriginalId($question_id);
+			$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
 			$question->saveToDb($original_id);
-			$newObj->questions[$key] = $question->getId();
 		}
 
 		$newObj->saveToDb();		

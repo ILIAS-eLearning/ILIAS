@@ -788,7 +788,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		if ($this->get_matching_type() == MT_TERMS_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
-			$imagepath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $imagepath);
+			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 			if (!file_exists($imagepath))
 			{
 				ilUtil::makeDirParents($imagepath);
