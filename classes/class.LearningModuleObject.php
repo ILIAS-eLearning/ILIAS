@@ -33,24 +33,21 @@ class LearningModuleObject extends Object
 
 
 	/**
-	* extents inherited saveObject method by
-	* creating a tree entry for each LearningModule
+	* create new learning module object
 	*
-	* @param	integer	object id of new object
-	* @param	integer	object id of parent object
-	* @param	string	object type of parent object
-	* @param	string	object type of new object
-	* @param	array	object data (title,description,owner)
-	* @access	public
 	*/
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
+	function putInTree($a_parent)
 	{
 		global $tree;
-		
-		$obj_id = parent::saveObject($a_obj_id, $a_parent, $a_type, $a_new_type, $a_data);
 
-		$tree->addTree($obj_id);
+		// put this object in tree under $a_parent
+		parent::putInTree($a_parent);
+
+		// make new tree for this object
+		$tree->addTree($this->getId());
 	}
+
+
 
 	/**
 	* uploads a complete LearningModule from a LO-XML file
