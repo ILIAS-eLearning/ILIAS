@@ -45,7 +45,5 @@ class ilObjTypeDefinition extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 		$this->type = "typ";
 	}
-
-
 }
 ?>
