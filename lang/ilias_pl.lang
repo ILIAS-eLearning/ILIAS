@@ -119,6 +119,7 @@ assessment#:#create_new#:#Twórz nowe
 assessment#:#delete_area#:#Usuń obszar
 assessment#:#detail_ending_time_reached#:#Wyczerpałeś czas wykonania testu. Test nie jest dostępny do %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
+assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#Kopiuj
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
@@ -172,6 +173,7 @@ assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
+assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#please_select#:#---- wybierz ----
 assessment#:#points#:#Punkty
 assessment#:#polygon#:#Wielobok

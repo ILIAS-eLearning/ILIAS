@@ -122,6 +122,7 @@ assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
+assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#Дублювати
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
@@ -180,6 +181,7 @@ assessment#:#no_target_selected_for_move#:#You must select a target position!###
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Бали
 assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
