@@ -257,14 +257,17 @@ class ilObjGroup extends ilObject
 		foreach ($role_arr as $role_id)
 		{
 			$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+			
+			$grp_Member ="grp_member_ref_id_".$grp_id;
+			$grp_Admin  ="grp_admin_ref_id_".$grp_id;
 
-			if(strcmp($role_Obj->getTitle(), "grp_Member") == 0 )
+			if(strcmp($role_Obj->getTitle(), $grp_Member) == 0 )
 				$arr_grpDefaultRoles["grp_member_role"] = $role_Obj->getId();
 
-			if(strcmp($role_Obj->getTitle(), "grp_Administrator") == 0 )
+			if(strcmp($role_Obj->getTitle(), $grp_Admin) == 0 )
 				$arr_grpDefaultRoles["grp_admin_role"] = $role_Obj->getId();
 		}
-
+		
 		return $arr_grpDefaultRoles;
 
 	}
@@ -662,7 +665,7 @@ class ilObjGroup extends ilObject
 	{	
 		$grp_tree->setTreeId($parent_obj_id);
 		
-		//todo überprüfen ob eintrag schon existiert
+		//todo berprfen ob eintrag schon existiert
 		
 		$grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
 			
