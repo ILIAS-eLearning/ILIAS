@@ -566,16 +566,16 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_characteristic#:#Characteristic
-content#:#cont_Headline#:#Headline
-content#:#cont_Example#:#Example
-content#:#cont_Citation#:#Citation
-content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Additional#:#Additional
+content#:#cont_Citation#:#Citation
+content#:#cont_Example#:#Example
+content#:#cont_Headline#:#Headline
+content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_all_pages#:#All Pages
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
 content#:#cont_chapters#:#Chapters
+content#:#cont_characteristic#:#Characteristic
 content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
