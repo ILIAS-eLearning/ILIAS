@@ -553,7 +553,7 @@ class ilExerciseMembers
 		
 		return true;
 	}
-	function clone($a_new_id)
+	function ilClone($a_new_id)
 	{
 		$data = array();
 
