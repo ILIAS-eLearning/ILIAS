@@ -34,27 +34,27 @@ require_once "./classes/class.ilUtil.php";
 * @module   class.ilImagemapPreview.php
 * @modulegroup   Assessment
 */
-class ilImagemapPreview {
+class ilImagemapPreview
+{
 	var $imagemap_filename;
 	var $preview_filename;
 	var $areas;
 	var $linewidth_outer;
 	var $linewidth_inner;
-	
-/**
-* ilImagemapPreview constructor
-*
-* Creates an instance of the ilImagemapPreview class
-*
-* @param integer $id The database id of a image map question object
-* @access public
-*/
-  function ilImagemapPreview(
-		$imagemap_filename = "",
-		$preview_filename = ""
-  )
 
-  {
+/**
+	* ilImagemapPreview constructor
+	*
+	* Creates an instance of the ilImagemapPreview class
+	*
+	* @param integer $id The database id of a image map question object
+	* @access public
+	*/
+	function ilImagemapPreview(
+			$imagemap_filename = "",
+			$preview_filename = ""
+	)
+	{
 		$this->imagemap_filename = $imagemap_filename;
 		$this->preview_filename = $preview_filename;
 		if (!is_file($this->preview_filename))
@@ -88,26 +88,26 @@ class ilImagemapPreview {
 			"visible" => (int)$visible
 		));
 	}
-	
+
 	function deleteArea($key, $value)
 	{
 		foreach ($this->areas as $areakey => $areavalue)
 		{
 			if (strcmp($value, $areavalue[$key]) == 0)
 			{
-				unset($this->areas[$areakey]);				
+				unset($this->areas[$areakey]);
 			}
 		}
 		$this->areas = array_values($this->areas);
 	}
-	
+
 	function createPreview()
 	{
 		if (!count($this->areas)) return;
 		$convert_prefix = ilUtil::getConvertCmd() . " -quality 100 ";
 		foreach ($this->areas as $area)
 		{
-			if ($area["visible"] and strcmp(strtolower($area["shape"]), "rect") == 0) 
+			if ($area["visible"] and strcmp(strtolower($area["shape"]), "rect") == 0)
 			{
 				preg_match("/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/", $area["coords"], $matches);
 				$x0 = $matches[1];
@@ -119,8 +119,8 @@ class ilImagemapPreview {
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
 				"-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"rectangle " .
 				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" ";
-			} 
-			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "circle") == 0) 
+			}
+			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "circle") == 0)
 			{
 				preg_match("/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/", $area["coords"], $matches);
 				$x = $matches[1];
@@ -131,20 +131,20 @@ class ilImagemapPreview {
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
 				"-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"circle " .
 				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" ";
-			} 
-			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "poly") == 0) 
+			}
+			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "poly") == 0)
 			{
 				// draw a polygon around the selection
 				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill none -linewidth $this->linewidth_outer -draw \"polygon ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
-				for ($i = 0; $i < count($matches[0]); $i++) 
+				for ($i = 0; $i < count($matches[0]); $i++)
 				{
 					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
 				}
 				$convert_cmd .= "\" ";
 				$convert_cmd .= "-stroke " . $area["linecolor"] . " -fill none -linewidth $this->linewidth_inner -draw \"polygon ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
-				for ($i = 0; $i < count($matches[0]); $i++) 
+				for ($i = 0; $i < count($matches[0]); $i++)
 				{
 					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
 				}
@@ -152,9 +152,10 @@ class ilImagemapPreview {
 			}
 		}
 		$convert_cmd = $convert_prefix . $convert_cmd .  "$this->imagemap_filename $this->preview_filename";
+//echo "<br><br>convert:".$convert_cmd;
 		system($convert_cmd);
 	}
-	
+
 	function getPreviewFilename()
 	{
 		return $this->preview_filename;
