@@ -21,8 +21,6 @@ require_once "PEAR.php";
 require_once "DB.php";
 require_once "Auth/Auth.php";
 
-require_once "include/inc.xml.php";
-
 //include classes and function libraries
 require_once "classes/class.IniFile.php";
 require_once "classes/class.DBx.php";
