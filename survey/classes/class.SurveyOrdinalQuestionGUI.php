@@ -22,6 +22,7 @@
 */
 
 require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
+require_once "./survey/classes/class.SurveyQuestionGUI.php";
 
 /**
 * Ordinal survey question GUI representation
@@ -34,18 +35,7 @@ require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
 * @module   class.SurveyOrdinalQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyOrdinalQuestionGUI {
-/**
-* Question object
-*
-* A reference to the ordinal question object
-*
-* @var object
-*/
-  var $object;
-	
-	var $tpl;
-	var $lng;
+class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 
 /**
 * SurveyOrdinalQuestionGUI constructor
@@ -60,12 +50,7 @@ class SurveyOrdinalQuestionGUI {
   )
 
   {
-		global $lng;
-		global $tpl;
-		
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-		
+		$this->SurveyQuestionGUI();
 		$this->object = new SurveyOrdinalQuestion();
 		if ($id >= 0)
 		{
@@ -86,123 +71,6 @@ class SurveyOrdinalQuestionGUI {
 		return "qt_ordinal";
 	}
 
-/**
-* Creates an output for the addition of phrases
-*
-* Creates an output for the addition of phrases
-*
-* @access public
-*/
-  function showAddPhraseForm() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", true);
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$phrases =& $this->object->getAvailablePhrases();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($phrases as $phrase_id => $phrase_array)
-		{
-			$this->tpl->setCurrentBlock("phraserow");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
-			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-			$categories =& $this->object->getCategoriesForPhrase($phrase_id);
-			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
-		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Creates an output for the addition of standard numbers
-*
-* Creates an output for the addition of standard numbers
-*
-* @access public
-*/
-  function showStandardNumbersForm() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", true);
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
-		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
-		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
-		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
-		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
-		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Creates an output to save a phrase
-*
-* Creates an output to save a phrase
-*
-* @access public
-*/
-  function showSavePhraseForm() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", true);
-		$rowclass = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
-				$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", $key);
-				$this->tpl->setVariable("HIDDEN_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "category_$matches[1]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $_POST["category_$matches[1]"]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
-		$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-		$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
-		$this->tpl->parseCurrentBlock();
-	}
-	
 /**
 * Creates an output for the confirmation to delete categories
 *
@@ -250,7 +118,7 @@ class SurveyOrdinalQuestionGUI {
 *
 * @access public
 */
-  function showEditForm() {
+  function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_ordinal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
     // output of existing single response answers
@@ -266,7 +134,7 @@ class SurveyOrdinalQuestionGUI {
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
 			$this->tpl->parseCurrentBlock();
 		}
-		if (strlen($_POST["cmd"]["add"]) > 0) {
+		if (strcmp($_POST["cmd"]["addCategory"], "") != 0) {
 			// Create template for a new category
 			$this->tpl->setCurrentBlock("categories");
 			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->getCategoryCount());
@@ -274,34 +142,6 @@ class SurveyOrdinalQuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($_POST["cmd"]["move"])
-		{
-			$checked_move = 0;
-			foreach ($_POST as $key => $value) 
-			{
-				if (preg_match("/chb_category_(\d+)/", $key, $matches))
-				{
-					$checked_move++;
-					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if ($checked_move)
-			{
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-				sendInfo($this->lng->txt("select_target_position_for_move"));
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_move"));
-			}
-		}
-		
 		// call to other question data
 		$this->outOtherQuestionData();
 		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
@@ -342,7 +182,7 @@ class SurveyOrdinalQuestionGUI {
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -428,10 +268,12 @@ class SurveyOrdinalQuestionGUI {
 *
 * @access private
 */
-	function outPreviewForm()
+	function preview()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
 		$this->tpl->addBlockFile("ORDINAL", "ordinal", "tpl.il_svy_out_ordinal.html", true);
 		$this->outWorkingForm();
+		$this->tpl->parseCurrentBlock();
 	}
 	
 /**
@@ -472,86 +314,6 @@ class SurveyOrdinalQuestionGUI {
 	}
 
 /**
-* Removes selected categories from the question
-*
-* Removes selected categories from the question
-*
-* @access public
-*/
-	function removeCategories() {
-		if ($_POST["cmd"]["confirm_delete"]) {
-			$delete_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($delete_categories, $matches[1]);
-				}
-			}
-			if (count($delete_categories))
-			{
-				$this->object->removeCategories($delete_categories);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_deleting"));
-			}
-		}
-	}
-
-/**
-* Saves selected categories to a new phrase
-*
-* Saves selected categories to a new phrase
-*
-* @access public
-*/
-	function saveNewPhrase() {
-		if ($_POST["cmd"]["confirm_savephrase"]) {
-			$save_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($save_categories, $matches[1]);
-				}
-			}
-			if (count($save_categories))
-			{
-				$this->object->savePhrase($save_categories, $_POST["phrase_title"]);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_saving"));
-			}
-		}
-	}
-
-/**
-* Checks if there are any categories selected for deleting
-*
-* Checks if there are any categories selected for deleting
-*
-* @result boolean TRUE, if there are categories checked for deleting, otherwise FALSE
-* @access public
-*/
-	function canRemoveCategories() {
-		if ($_POST["cmd"]["delete"]) {
-			$delete_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($delete_categories, $matches[1]);
-				}
-			}
-			if (count($delete_categories))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
-		return FALSE;
-	}
-
-/**
 * Evaluates a posted edit form and writes the form data in the question object
 *
 * Evaluates a posted edit form and writes the form data in the question object
@@ -567,24 +329,6 @@ class SurveyOrdinalQuestionGUI {
     // Set the question id from a hidden form parameter
     if ($_POST["id"] > 0)
       $this->object->setId($_POST["id"]);
-
-		if (($result) and ($_POST["cmd"]["add"])) {
-			// You cannot add answers before you enter the required data
-      sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"));
-			$_POST["cmd"]["add"] = "";
-		}
-
-		// Check for blank fields before a new category field is inserted
-		if ($_POST["cmd"]["add"]) {
-			foreach ($_POST as $key => $value) {
-	   		if (preg_match("/category_(\d+)/", $key, $matches)) {
-					if (!$value) {
-						$_POST["cmd"]["add"] = "";
-						sendInfo($this->lng->txt("fill_out_all_category_fields"));
-					}
-			 	}
-		  }
-		}
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -608,56 +352,12 @@ class SurveyOrdinalQuestionGUI {
     $this->object->flushCategories();
 
 		$array1 = array();
-		$array2 = array();
-	
-		// Move selected categories
-		$move_categories = array();
-		$selected_category = -1;
-		if (($_POST["cmd"]["insert_before"]) or ($_POST["cmd"]["insert_after"]))
-		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/^move_(\d+)$/", $key, $matches))
-				{
-					array_push($move_categories, $value);
-					array_push($array2, ilUtil::stripSlashes($_POST["category_$value"]));
-				}
-				if (preg_match("/^chb_category_(\d+)/", $key, $matches))
-				{
-					if ($selected_category < 0)
-					{
-						// take onley the first checked category (if more categories are checked)
-						$selected_category = $matches[1];
-					}
-				}
-			}
-		}
-		
     // Add all categories from the form into the object
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
-				{
-					array_push($array1, ilUtil::stripSlashes($value));
-				}
+				array_push($array1, ilUtil::stripSlashes($value));
 			}
 		}
-		if ($selected_category >= 0)
-		{
-			$array_pos = array_search($_POST["category_$selected_category"], $array1);
-			if ($_POST["cmd"]["insert_before"])
-			{
-				$part1 = array_slice($array1, 0, $array_pos);
-				$part2 = array_slice($array1, $array_pos);
-			}
-			else if ($_POST["cmd"]["insert_after"])
-			{
-				$part1 = array_slice($array1, 0, $array_pos + 1);
-				$part2 = array_slice($array1, $array_pos + 1);
-			}
-			$array1 = array_merge($part1, $array2, $part2);
-		}
-		
 		$this->object->addCategoryArray($array1);
 		
 		if ($saved) {
@@ -705,6 +405,9 @@ class SurveyOrdinalQuestionGUI {
 		return $saved;
 	}
 
-
+	function setQuestionTabs()
+	{
+		$this->setQuestionTabsForClass("surveyordinalquestiongui");
+	}
 }
 ?>

@@ -5003,4 +5003,8 @@ $tree->renumber();
 
 <#341>
 REPLACE INTO settings (keyword, value) VALUES ('enable_js_edit', 1);
+<#342>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

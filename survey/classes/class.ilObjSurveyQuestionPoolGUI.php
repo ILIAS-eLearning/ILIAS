@@ -33,6 +33,8 @@ require_once "./classes/class.ilMetaDataGUI.php";
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version  $Id$
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyNominalQuestionGUI, SurveyMetricQuestionGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyOrdinalQuestionGUI, SurveyTextQuestionGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -55,7 +57,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey"));
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		if (!defined("ILIAS_MODULE"))
 		{
@@ -118,22 +120,82 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 */
 	function cancelAction($question_id = "") 
 	{
-		if ($_SESSION["survey_id"])
-		{
-			if ($question_id) {
-				$add_question = "&browsetype=1&add=$question_id";
+		header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+	}
+
+/**
+* Copies checked questions in the questionpool to a clipboard
+*
+* Copies checked questions in the questionpool to a clipboard
+*
+* @access public
+*/
+	function copyObject()
+	{
+    // create an array of all checked checkboxes
+    $checked_questions = array();
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+        array_push($checked_questions, $matches[1]);
+      }
+    }
+		
+		// copy button was pressed
+		if (count($checked_questions) > 0) {
+			$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
+		} elseif (count($checked_questions) == 0) {
+			sendInfo($this->lng->txt("qpl_copy_select_none"), true);
+			$_SESSION["spl_copied_questions"] = "";
+		}
+		$this->ctrl->redirect($this, "questions");
+	}	
+	
+/**
+* Duplicates checked questions in the questionpool
+*
+* Duplicates checked questions in the questionpool
+*
+* @access public
+*/
+	function duplicateObject()
+	{
+    // create an array of all checked checkboxes
+    $checked_questions = array();
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+        array_push($checked_questions, $matches[1]);
+      }
+    }
+		
+		if (count($checked_questions) > 0) {
+			foreach ($checked_questions as $key => $value) {
+				$this->object->duplicateQuestion($value);
 			}
-	    header("location:" . "survey.php" . "?ref_id=" . $_SESSION["survey_id"] . "&cmd=questions$add_question");
-		} 
-		elseif ($_SESSION["calling_survey"])
+		} elseif (count($checked_questions) == 0) {
+			sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	function exportQuestionsObject()
+	{
+    // create an array of all checked checkboxes
+    $checked_questions = array();
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+        array_push($checked_questions, $matches[1]);
+      }
+    }
+		
+		// export button was pressed
+		if (count($checked_questions) > 0)
 		{
-			$ref_id = $_SESSION["calling_survey"];
-			unset($_SESSION["calling_survey"]);
-			ilUtil::redirect("survey.php?ref_id=$ref_id&cmd=questions");
+			$this->createExportFileObject($checked_questions);
 		}
 		else
 		{
-			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+			sendInfo($this->lng->txt("qpl_export_select_none"), true);
+			$this->ctrl->redirect($this, "questions");
 		}
 	}
 	
@@ -142,12 +204,34 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 *
 * Creates a confirmation form to delete questions from the question pool
 *
-* @param array $checked_questions An array with the id's of the questions checked for deletion
 * @access public
 */
-	function deleteQuestionsForm($checked_questions)
+	function deleteQuestionsObject()
 	{
+		global $rbacsystem;
+		
 		sendInfo();
+    // create an array of all checked checkboxes
+    $checked_questions = array();
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+        array_push($checked_questions, $matches[1]);
+      }
+    }
+		
+		if (count($checked_questions) > 0) {
+			if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+				sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
+			} else {
+				sendInfo($this->lng->txt("qpl_delete_rbac_error"), true);
+				$this->ctrl->redirect($this, "questions");
+				return;
+			}
+		} elseif (count($checked_questions) == 0) {
+			sendInfo($this->lng->txt("qpl_delete_select_none"), true);
+			$this->ctrl->redirect($this, "questions");
+			return;
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_questions.html", true);
 		$whereclause = join($checked_questions, " OR survey_question.question_id = ");
 		$whereclause = " AND (survey_question.question_id = " . $whereclause . ")";
@@ -185,8 +269,45 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* delete questions
+	*/
+	function confirmDeleteQuestionsObject()
+	{
+		// delete questions after confirmation
+		sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/id_(\d+)/", $key, $matches)) {
+				array_push($checked_questions, $matches[1]);
+			}
+		}
+
+		foreach ($checked_questions as $key => $value) {
+			$this->object->removeQuestion($value);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* cancel delete questions
+	*/
+	function cancelDeleteQuestionsObject()
+	{
+		// delete questions after confirmation
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* cancel an action
+	*/
+	function cancelObject()
+	{
+		$this->ctrl->redirect($this, "questions");
 	}
 	
 /**
@@ -194,12 +315,26 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 *
 * Creates a confirmation form to paste copied questions in the question pool
 *
-* @param array $copied_questions An array with the id's of the copied questions
 * @access public
 */
-	function pasteQuestionsForm($copied_questions)
+	function pasteObject()
 	{
 		sendInfo();
+
+    // create an array of all checked checkboxes
+    $checked_questions = array();
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/cb_(\d+)/", $key, $matches)) {
+        array_push($checked_questions, $matches[1]);
+      }
+    }
+		
+		// paste button was pressed
+		if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
+		{
+			$copied_questions = split("/,/", $_SESSION["spl_copied_questions"]);
+			sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", true);
 		$questions_info =& $this->object->getQuestionsInfo($copied_questions);
 		$colors = array("tblrow1", "tblrow2");
@@ -228,318 +363,95 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Displays a preview of a question
-*
-* Displays a preview of a question
-*
-* @param string $question_id The database id of the question
-* @access public
-*/
-	function outPreviewForm($question_id)
-	{
-		$questiontype = $this->object->getQuestiontype($question_id);
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				$question = new SurveyNominalQuestionGUI();
-				break;
-			case "qt_ordinal":
-				$question = new SurveyOrdinalQuestionGUI();
-				break;
-			case "qt_metric":
-				$question = new SurveyMetricQuestionGUI();
-				break;
-			case "qt_text":
-				$question = new SurveyTextQuestionGUI();
-				break;
-		}
-		$question->object->loadFromDb($question_id);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
-		$question->outPreviewForm();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function originalSyncForm($question_object, $ref_id)
+	/**
+	* paste questions
+	*/
+	function confirmPasteQuestionsObject()
 	{
-		$this->tpl->setVariable("HEADER", $question_object->getTitle());
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", true);
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter() . "&calling_survey=" . $ref_id . "&qcopy=" . $question_object->getId());
-		$this->tpl->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Displays a form to edit/create a survey question
-*
-* Displays a form to edit/create a survey question
-*
-* @param string $questiontype The questiontype of the question
-* @access public
-*/
-	function editQuestionForm($questiontype)
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_qpl_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		if (!$questiontype)
-		{
-			$questiontype = $this->object->getQuestiontype($_GET["edit"]);
-		}
-
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				$question = new SurveyNominalQuestionGUI();
-				break;
-			case "qt_ordinal":
-				$question = new SurveyOrdinalQuestionGUI();
-				break;
-			case "qt_metric":
-				$question = new SurveyMetricQuestionGUI();
-				break;
-			case "qt_text":
-				$question = new SurveyTextQuestionGUI();
-				break;
-		}
-		$limit_error = 0;
-		if ($_GET["edit"] > 0)
-		{
-			$question->object->loadFromDb($_GET["edit"]);
-		}
-		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["confirm_savephrase"] or $_POST["cmd"]["select_phrase"] or $_POST["cmd"]["cancel_savephrase"] or $_POST["cmd"]["cancel_standard_numbers"] or $_POST["cmd"]["add_standard_numbers"] or $_POST["cmd"]["cancel_viewphrase"])
-		{ 
-			$question->object->loadFromDb($_POST["id"]);
-			if ($_POST["cmd"]["add_standard_numbers"])
-			{
-				if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
-				{
-					sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
-					$limit_error = 1;
-				}
-				else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
-				{
-					sendInfo($this->lng->txt("upper_limit_must_be_greater"));
-					$limit_error = 1;
-				}
-				else
-				{
-					$question->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
-				}
-			}
-			if ($_POST["cmd"]["select_phrase"])
-			{
-				if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
-				{
-					$question->object->addPhrase($_POST["phrases"]);
-				}
+		// paste questions after confirmation
+		sendInfo($this->lng->txt("qpl_questions_pasted"), true);
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/id_(\d+)/", $key, $matches)) {
+				array_push($checked_questions, $matches[1]);
 			}
 		}
-		$question->object->setObjId($this->object->getId());
-
-		if ($_POST["cmd"]["delete"])
-		{
-			if ($question->canRemoveCategories())
-			{
-				sendInfo($this->lng->txt("category_delete_confirm"));
-			}
-			else
-			{
-				sendInfo($this->lng->txt("category_delete_select_none"));
-				$_POST["cmd"]["delete"] = "";
-			}
+		foreach ($checked_questions as $key => $value) {
+			$this->object->paste($value);
 		}
 		
-    if (strlen($_POST["cmd"]["cancel"]) > 0) {
-      // Cancel
-      $this->cancelAction();
-      exit();
-    }
-
-    $question_type = $question->getQuestionType();
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["cancel_savephrase"]) and (!$_POST["cmd"]["cancel_viewphrase"]) and (!$_POST["cmd"]["select_phrase"]) and (!$_POST["cmd"]["confirm_savephrase"]) and (!$_POST["cmd"]["add_standard_numbers"]) and (!$_POST["cmd"]["cancel_standard_numbers"])) {
-      $missing_required_fields = $question->writePostData();
-    }
-
-		// catch feedback message
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* cancel paste questions
+	*/
+	function cancelPasteQuestionsObject()
+	{
+		// delete questions after confirmation
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* cancel delete phrases
+	*/
+	function cancelDeletePhraseObject()
+	{
+		$this->ctrl->redirect($this, "phrases");
+	}
+	
+	/**
+	* confirm delete phrases
+	*/
+	function confirmDeletePhraseObject()
+	{
+		$phrases = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/phrase_(\d+)/", $key, $matches))
+			{
+				array_push($phrases, $matches[1]);
+			}
+		}
+		$this->object->deletePhrases($phrases);
+		sendInfo($this->lng->txt("qpl_phrases_deleted"), true);
+		$this->ctrl->redirect($this, "phrases");
+	}
+	
+/**
+* Creates a confirmation form to delete personal phases from the database
+*
+* Creates a confirmation form to delete personal phases from the database
+*
+* @access public
+*/
+	function deletePhraseObject()
+	{
 		sendInfo();
 
-		$this->setLocator("", "", "", $question->object->getTitle());
-
-		if ($_POST["cmd"]["confirm_delete"]) 
+		$checked_phrases = array();
+		foreach ($_POST as $key => $value)
 		{
-			$question->removeCategories();
-		}
-		
-		if ($_POST["cmd"]["confirm_savephrase"]) 
-		{
-			if (!$_POST["phrase_title"])
+			if (preg_match("/phrase_(\d+)/", $key, $matches))
 			{
-				$savephrase_error = 1;
-				sendInfo($this->lng->txt("qpl_savephrase_empty"));
-			}
-			if ((!$savephrase_error) and ($question->object->phraseExists($_POST["phrase_title"])))
-			{
-				$savephrase_error = 1;
-				sendInfo($this->lng->txt("qpl_savephrase_exists"));
-			}
-			if (!$savephrase_error)
-			{
-				$question->saveNewPhrase();
+				array_push($checked_phrases, $matches[1]);
 			}
 		}
-		
-    if (strlen($_POST["cmd"]["save"]) > 0) {
-      // Save and continue editing
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
-				if ($_SESSION["survey_id"])
-				{
-					$this->cancelAction($question->object->getId());
-					exit;
-				}
-				if ($_SESSION["calling_survey"])
-				{
-					$ref_id = $_SESSION["calling_survey"];
-					unset($_SESSION["calling_survey"]);
-					$this->originalSyncForm($question->object, $ref_id);
-					return;
-				}
-				sendInfo($this->lng->txt("msg_obj_modified"));
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
-		
-    if ($question->object->getId() > 0) {
-      $title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
-    } else {
-      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($question_type);
-    }
-		$this->tpl->setVariable("HEADER", $title);
-
-		if ($_POST["cmd"]["delete"])
+		if (count($checked_phrases))
 		{
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
-				$question->showDeleteCategoryForm();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-				$question->showEditForm();
-      }
-		}
-		else if ($_POST["cmd"]["add_phrase"])
-		{
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
-				$question->showAddPhraseForm();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-				$question->showEditForm();
-      }
-		}
-		else if (($_POST["cmd"]["select_phrase"]) or ($limit_error == 1))
-		{
-			if ((strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") == 0) or ($limit_error == 1))
-			{
-				$question->showStandardNumbersForm();
-				return;
-			}
-			else
-			{
-				$question->showEditForm();
-			}
-		}
-		else if (($_POST["cmd"]["save_phrase"]) or ($savephrase_error))
-		{
-			$checked_categories = 0;
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/chb_category_(\d+)/", $key))
-				{
-					$checked_categories++;
-				}
-			}
-			if ($checked_categories < 2)
-			{
-        sendInfo($this->lng->txt("save_phrase_categories_not_checked"));
-				$question->showEditForm();
-				return;
-			}
-      if (!$missing_required_fields) {
-        if (!$savephrase_error)
-				{
-					$question->object->saveToDb();
-				}
-				$question->showSavePhraseForm();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-				$question->showEditForm();
-      }
+			sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
 		}
 		else
 		{
-			$question->showEditForm();
+			sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
+			$this->phrasesObject();
+			return;
 		}
-	}
-	
-/**
-* Displays the definition form for a question block
-*
-* Displays the definition form for a question block
-*
-* @access public
-*/
-	function defineQuestionblock()
-	{
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
-			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "cb_$matches[1]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $matches[1]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setCurrentBlock("obligatory");
-		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
-		$this->tpl->parseCurrentBlock();
-	}
-
-
-/**
-* Creates a confirmation form to delete personal phases from the database
-*
-* Creates a confirmation form to delete personal phases from the database
-*
-* @param array $checked_phrases An array with the id's of the phrases checked for deletion
-* @access public
-*/
-	function deletePhrasesForm($checked_phrases)
-	{
-		sendInfo();
+		
 		$ordinal = new SurveyOrdinalQuestion();
 		$phrases =& $ordinal->getAvailablePhrases(1);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_phrases.html", true);
@@ -564,10 +476,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
-
+	
 	/**
 	* Displays a form to manage the user created phrases
 	*
@@ -579,40 +491,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
-			if ($_POST["cmd"]["delete_phrase"])
-			{
-				$phrases = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/phrase_(\d+)/", $key, $matches))
-					{
-						array_push($phrases, $matches[1]);
-					}
-				}
-				if (count($phrases))
-				{
-					sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
-					$this->deletePhrasesForm($phrases);
-					return;
-				}
-				else
-				{
-					sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
-				}
-			}
-			if ($_POST["cmd"]["confirm_delete"])
-			{
-				$phrases = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/phrase_(\d+)/", $key, $matches))
-					{
-						array_push($phrases, $matches[1]);
-					}
-				}
-				$this->object->deletePhrases($phrases);
-				sendInfo($this->lng->txt("qpl_phrases_deleted"));
-			}
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
 			$ordinal = new SurveyOrdinalQuestion();
 			$phrases =& $ordinal->getAvailablePhrases(1);
@@ -645,7 +523,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("INTRODUCTION_MANAGE_PHRASES", $this->lng->txt("introduction_manage_phrases"));
 			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));
 			$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
-			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -664,14 +542,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
 		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
 		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getAddParameter());
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function uploadObject()
+	function uploadQuestionsObject()
 	{
 		// check if file was uploaded
 		$source = $_FILES["qtidoc"]["tmp_name"];
@@ -731,6 +609,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 			}
 		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	function filterObject()
+	{
+		$this->questionsObject();
+	}
+	
+	function resetObject()
+	{
+		$this->questionsObject();
 	}
 	
 	/**
@@ -741,242 +630,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   {
     global $rbacsystem;
 
-		if ($_POST["cmd"]["sync"])
-		{
-			$questiontype = $this->object->getQuestiontype($_GET["qcopy"]);
-			switch ($questiontype)
-			{
-				case "qt_nominal":
-					$question = new SurveyNominalQuestionGUI();
-					break;
-				case "qt_ordinal":
-					$question = new SurveyOrdinalQuestionGUI();
-					break;
-				case "qt_metric":
-					$question = new SurveyMetricQuestionGUI();
-					break;
-				case "qt_text":
-					$question = new SurveyTextQuestionGUI();
-					break;
-			}
-			$question->object->loadFromDb($_GET["qcopy"]);
-			$question->object->syncWithOriginal();
-			ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
-			exit;
-		}
-		
-		if ($_POST["cmd"]["cancelSync"])
-		{
-			ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
-			exit;
-		}
-		if ($_POST["cmd"]["importQuestions"])
-		{
-			$this->importQuestionsObject();
-			return;
-		}
-		
-		if ($_POST["cmd"]["upload"])
-		{
-			$this->uploadObject();
-		}
-		
-    if ($_GET["preview"]) {
-      $this->outPreviewForm($_GET["preview"]);
-      return;
-    }
-
-		if ($_GET["create"]) 
-		{
-			// create a new question from a survey
-			$this->editQuestionForm($_GET["create"]);
-			return;
-		}
-		
-    $type = $_GET["sel_question_types"];
-		if (!$type) {
-			$type = $_POST["sel_question_types"];
-		}
-    if (($_POST["cmd"]["create"]) or ($_GET["sel_question_types"]) or ($_GET["edit"])) {
-      $this->editQuestionForm($type);
-      return;
-    }
-
-		// reset survey_id SESSION variable (only needed to create new questions from a question pool)
-		$_SESSION["survey_id"] = "";
-		
     $add_parameter = $this->getAddParameter();
 
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
-    
-/*    if (strlen($_POST["cmd"]["edit"]) > 0) {
-      // edit button was pressed
-      if (count($checked_questions) > 1) {
-        sendInfo($this->lng->txt("qpl_edit_select_multiple"));
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_edit_select_none"));
-      } else {
-        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-          header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question" . "&edit=" . $checked_questions[0]);
-          exit();
-        } else {
-          sendInfo($this->lng->txt("qpl_edit_rbac_error"));
-        }
-      }
-    }
-*/    
-		if ($_POST["cmd"]["questionblock"])
-		{
-			$questionblock = array();
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/cb_(\d+)/", $key, $matches))
-				{
-					array_push($questionblock, $value);
-				}
-			}
-			if (count($questionblock) < 2)
-			{
-        sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"));
-			}
-			else
-			{
-				$this->defineQuestionblock();
-				return;
-			}
-		}
-		
-		if ($_POST["cmd"]["save_questionblock"])
-		{
-			if ($_POST["title"])
-			{
-				$questionblock = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/cb_(\d+)/", $key, $matches))
-					{
-						array_push($questionblock, $value);
-					}
-				}
-//				$this->object->createQuestionblock($_POST["title"], $_POST["obligatory"], $questionblock);
-			}
-		}
-
-		if ($_POST["cmd"]["unfold"])
-		{
-			$unfoldblocks = array();
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
-				{
-					array_push($unfoldblocks, $matches[1]);
-				}
-			}
-			if (count($unfoldblocks))
-			{
-//				$this->object->unfoldQuestionblocks($unfoldblocks);
-			}
-			else
-			{
-        sendInfo($this->lng->txt("qpl_unfold_select_none"));
-			}
-		}
-		
-    if (strlen($_POST["cmd"]["delete"]) > 0) {
-      // delete button was pressed
-      if (count($checked_questions) > 0) {
-        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-					sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
-					$this->deleteQuestionsForm($checked_questions);
-					return;
-				} else {
-          sendInfo($this->lng->txt("qpl_delete_rbac_error"));
-        }
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_delete_select_none"));
-      }
-    }
-    
-		if (strlen($_POST["cmd"]["confirm_delete"]) > 0)
-		{
-			// delete questions after confirmation
-			sendInfo($this->lng->txt("qpl_questions_deleted"));
-			$checked_questions = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					array_push($checked_questions, $matches[1]);
-				}
-			}
-      foreach ($checked_questions as $key => $value) {
-        $this->object->removeQuestion($value);
-      }
-		}
-		
-		if (strlen($_POST["cmd"]["duplicate"]) > 0) {
-      // duplicate button was pressed
-      if (count($checked_questions) > 0) {
-        foreach ($checked_questions as $key => $value) {
-					$this->object->duplicateQuestion($value);
-        }
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_duplicate_select_none"));
-      }
-    }
-  
-		if (strlen($_POST["cmd"]["copy"]) > 0) {
-      // copy button was pressed
-      if (count($checked_questions) > 0) {
-				$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_copy_select_none"));
-				$_SESSION["spl_copied_questions"] = "";
-      }
-    }
-  
-		if (strlen($_POST["cmd"]["export"]) > 0) {
-      // export button was pressed
-			if (count($checked_questions) > 0)
-			{
-				$this->createExportFileObject($checked_questions);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("qpl_export_select_none"));
-			}
-    }
-  
-		if (strlen($_POST["cmd"]["paste"]) > 0) {
-      // paste button was pressed
-			if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
-			{
-				$copied_questions = split("/,/", $_SESSION["spl_copied_questions"]);
-				sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
-				$this->pasteQuestionsForm($copied_questions);
-				return;
-			}
-    }
-  
-		if (strlen($_POST["cmd"]["confirm_paste"]) > 0)
-		{
-			// paste questions after confirmation
-			sendInfo($this->lng->txt("qpl_questions_pasted"));
-			$checked_questions = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					array_push($checked_questions, $matches[1]);
-				}
-			}
-      foreach ($checked_questions as $key => $value) {
-        $this->object->paste($value);
-      }
-		}
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", true);
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
   	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", true);
@@ -1073,12 +728,33 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("QTab");
-			if ($editable) {
-				$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
+
+			$class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));
+			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
+			$sel_question_types = "";
+			switch ($class)
+			{
+				case "surveynominalquestiongui":
+					$sel_question_types = "qt_nominal";
+					break;
+				case "surveyordinalquestiongui":
+					$sel_question_types = "qt_ordinal";
+					break;
+				case "surveymetricquestiongui":
+					$sel_question_types = "qt_metric";
+					break;
+				case "surveytextquestiongui":
+					$sel_question_types = "qt_text";
+					break;
+			}
+			$this->ctrl->setParameterByClass($class, "sel_question_types", $sel_question_types);
+			if ($editable)
+			{
+				$this->tpl->setVariable("EDIT", "[<a href=\"" . $this->ctrl->getLinkTargetByClass($class, "editQuestion") . "\">" . $this->lng->txt("edit") . "</a>]");
 			}
 			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 			//$this->lng->txt("preview")
-			$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+			$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTargetByClass($class, "preview") . "\">" . $this->lng->txt("preview") . "</a>]");
 			$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
 			$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
@@ -1186,7 +862,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
     $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
     $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
-    $this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter . $sort);
+    $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
     $this->tpl->parseCurrentBlock();
 		unset($_SESSION["calling_survey"]);
   }
@@ -1215,7 +891,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$meta_gui->setObject($this->object);
 			$meta_gui->save($_POST["meta_section"]);
 		}
-		ilUtil::redirect("$this->defaultscript?ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "editMeta");
 	}
 
 	// called by administration
@@ -1673,7 +1349,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("svy_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 
@@ -1692,7 +1368,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "questionpool.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
@@ -1823,7 +1499,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "questionpool.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -1860,7 +1536,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function cancelDeleteExportFileObject()
 	{
 		session_unregister("ilExportFiles");
-		ilUtil::redirect("questionpool.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "export");
 	}
 
 
@@ -1883,7 +1559,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				ilUtil::delDir($exp_dir);
 			}
 		}
-		ilUtil::redirect("questionpool.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "export");
 	}
 
 	/**
@@ -2023,6 +1699,143 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		$this->uploadSplObject(false);
 		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd("questions");
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "questions");
+		$q_type = ($_POST["sel_question_types"] != "")
+			? $_POST["sel_question_types"]
+			: $_GET["sel_question_types"];
+
+//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
+		switch($next_class)
+		{
+			case "surveynominalquestiongui":
+				$this->ctrl->setParameterByClass("surveynominalquestiongui", "sel_question_types", $q_type);
+				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "surveyordinalquestiongui":
+				$this->ctrl->setParameterByClass("surveyordinalquestiongui", "sel_question_types", $q_type);
+				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "surveymetricquestiongui":
+				$this->ctrl->setParameterByClass("surveymetricquestiongui", "sel_question_types", $q_type);
+				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			case "surveytextquestiongui":
+				$this->ctrl->setParameterByClass("surveytextquestiongui", "sel_question_types", $q_type);
+				$q_gui =& SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$q_gui->setQuestionTabs();
+				$ret =& $this->ctrl->forwardCommand($q_gui);
+				break;
+
+			default:
+				if (($cmd != "createQuestion") and (!$_GET["calling_survey"]) and (!$_GET["new_for_survey"]))
+				{
+					$this->setAdminTabs();
+				}
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+		}
+	}
+
+	/**
+	* create new question
+	*/
+	function &createQuestionObject()
+	{
+		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+		$q_gui->object->setObjId($this->object->getId());
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("editQuestion");
+
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setAdminTabs($_POST["new_type"]);
+		}
+		$this->setLocator();
+
+	}
+	
+	/**
+	* edit question
+	*/
+	function &editQuestionForSurveyObject()
+	{
+//echo "<br>create--".$_GET["new_type"];
+		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
+		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["q_id"]);
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("editQuestion");
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+
+	/**
+	* create question from survey
+	*/
+	function &createQuestionForSurveyObject()
+	{
+//echo "<br>create--".$_GET["new_type"];
+		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("editQuestion");
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+
+	/**
+	* create preview of object
+	*/
+	function &previewObject()
+	{
+		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
+		$_GET["q_id"] = $_GET["preview"];
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
+		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["preview"]);
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("preview");
+		$ret =& $this->executeCommand();
+		return $ret;
 	}
 
 } // END class.ilObjSurveyQuestionPoolGUI
