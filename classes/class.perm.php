@@ -105,16 +105,16 @@ function getTypeList ($a_order = '',$a_direction = '')
 * @param	string	$AObjType
 * @return array/boolean	returns array of objects or false if no objects found
 */
-function getObjectList ($AObjType = "",$AOffset = "",$ALimit = "")
+function getObjectList ($a_obj_type = "",$a_offset = "",$a_limit = "")
 {
 	global $ilias;
 
-	if (!empty($ALimit))
+	if (!empty($a_limit))
 	{
-		$limit_clause = " LIMIT $AOffset,$ALimit";
+		$limit_clause = " LIMIT ".$a_offset.",".$a_limit;
 	}
 
-	if (empty($AObjType))
+	if (empty($a_obj_type))
 	{
 		$query = "SELECT * FROM object_data ".
 				 "ORDER BY obj_id ASC".$limit_clause;
@@ -122,7 +122,7 @@ function getObjectList ($AObjType = "",$AOffset = "",$ALimit = "")
 	else
 	{
 		$query = "SELECT * FROM object_data ".
-				 "WHERE type = '".$AObjType."' ".
+				 "WHERE type = '".$a_obj_type."' ".
 				 "ORDER BY obj_id ASC".$limit_clause;
 	}
 	
@@ -135,8 +135,8 @@ function getObjectList ($AObjType = "",$AOffset = "",$ALimit = "")
 			$arr[] = array (
 							"obj_id"		=> $data->obj_id,
 							"type"			=> $data->type,
-							"title"			=> $data->title,
-							"desc"			=> $data->description,
+							"title"			=> stripslashes($data->title),
+							"desc"			=> stripslashes($data->description),
 							"usr_id"		=> $data->owner,
 							"create_date"	=> $data->create_date,
 							"last_update"	=> $data->last_update,
@@ -190,14 +190,19 @@ function getLangList ($a_order = '',$a_direction = '')
 * @param	array	 $AObjData
 * @return int	 returns object id
 */
-function createNewObject ($AObjType,$AObjData)
+function createNewObject ($a_obj_type,$a_obj_data)
 {
 	global $ilias;
+	
+	// dirty: cut string length & addslashes
+	$title = addslashes(substr($a_obj_data["title"],0,69));
+	$desc = addslashes(substr($a_obj_data["desc"],0,127));
+	
 	
 	$query = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update) ".
 			 "VALUES ".
-			 "('".$AObjType."','".$AObjData["title"]."','".$AObjData["desc"]."',".
+			 "('".$a_obj_type."','".$title."','".$desc."',".
 			 "'".$ilias->account->Id."',now(),now())";
 	$res = $ilias->db->query($query);
 	
@@ -290,15 +295,15 @@ function deleteObject ($a_obj_id)
 * @param	array	 $AObjData
 * @return boolean	returns true if successful otherwise false
 */
-function updateObject ($AObjId,$AObjType,$AObjData)
+function updateObject ($a_obj_id,$a_obj_type,$a_obj_data)
 {
 	global $ilias;
 
 	$query = "UPDATE object_data ".
 			 "SET ".
-			 "title = '".$AObjData["title"]."',".
-			 "description = '".$AObjData["desc"]."' ".
-			 "WHERE obj_id = '".$AObjId."'";
+			 "title = '".$a_obj_data["title"]."',".
+			 "description = '".$a_obj_data["desc"]."' ".
+			 "WHERE obj_id = '".$a_obj_id."'";
 	$res = $ilias->db->query($query);
 
 	return true;
@@ -320,9 +325,8 @@ function getObject ($AObjId)
 	$data = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	$obj = array(
 				"obj_id"		=> $data->obj_id,
-				"type"			=> $data->type,
-				"title"			=> $data->title,
-				"description"	=> $data->description,
+				"title"			=> stripslashes($data->title),
+				"desc"			=> stripslashes($data->description),
 				"owner"			=> $data->owner,
 				"create_date"	=> $data->create_date,
 				"last_update"	=> $data->last_update
@@ -406,5 +410,4 @@ function trimDeluxe ($a_text)
 
 	return $a_text;
 }
-
 ?>
