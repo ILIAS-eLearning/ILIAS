@@ -105,20 +105,14 @@ class ilObjGroup extends ilObject
 	* @access	private
 	* @param	integer	member status [0=member|1=admin]
 	*/
-	function joinGroup($a_memStatus=0)
+	function join($a_user_id, $a_grp_role="")
 	{
 		global $rbacadmin;
 		//get default group roles (member, admin)
 		$grp_DefaultRoles = $this->getDefaultGroupRoles();
-
-		if(!$this->isMember($this->ilias->account->getId()))
-		{
-			$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$this->ilias->account->getId(), false);
-			ilObjUser::updateActiveRoles($this->ilias->account->getId());
-			return true;
-		}
-		else
-			return false;
+		$rbacadmin->assignUser($grp_DefaultRoles[$a_grp_role],$a_user_id, false);
+		ilObjUser::updateActiveRoles($a_user_id);
+		return true;
 	}
 	
 	/**
@@ -133,16 +127,19 @@ class ilObjGroup extends ilObject
 		$grp_DefaultRoles = $this->getDefaultGroupRoles();
 		if(isset($a_user_id) && isset($a_mem_status) && !$this->isMember($a_user_id) )
 		{
-			//assignUser needs to be renamed into assignObject
-			if( (strcmp($a_memStatus,"member") == 0) || $a_mem_status == 0)		//member
-			{
-				$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$a_user_id, false);
-			}
-			else if( (strcmp($a_memStatus,"admin") == 0) || $a_mem_status == 1)		//admin
-			{
-				$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_user_id, true);
-			}
-			ilObjUser::updateActiveRoles($a_user_id);
+
+				//assignUser needs to be renamed into assignObject
+				if( (strcmp($a_memStatus,"member") == 0) || $a_mem_status == 0)		//member
+				{
+					$this->join($a_user_id, "grp_member_role");
+//					$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$a_user_id, false);
+				}
+				else if( (strcmp($a_memStatus,"admin") == 0) || $a_mem_status == 1)		//admin
+				{
+					$this->join($a_user_id, "grp_admin_role");				
+//					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_user_id, true);
+				}
+			
 			return true;
 		}
 		else
