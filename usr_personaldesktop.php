@@ -36,6 +36,12 @@ require_once "./include/inc.header.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
+// catch hack attempts; temp. disabled
+/*if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+{
+	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+}*/
+
 switch($_GET["cmd"])
 {
 	case "dropItem":
@@ -72,20 +78,23 @@ $tpl->setVariable("BTN_LINK","usr_profile.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
 $tpl->parseCurrentBlock();
 
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_password.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_agreement.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
-$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
-$tpl->parseCurrentBlock();
+if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+{
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_password.php");
+	$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_agreement.php");
+	$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
+	$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
@@ -349,6 +358,7 @@ if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
 	
 	$tpl->setVariable("USER_LIST",$user_list);		
 
+	// display details of users online
 	if ($_GET["cmd"] == "whoisdetail")
 	{
 		$z = 0;
