@@ -1,6 +1,6 @@
 <?PHP
 
-require_once dirname(__FILE__) . "/class.Element.php";
+require_once dirname(__FILE__) . "/class.ilElement.php";
 
 /**
 * list of elements
@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . "/class.Element.php";
 * @access   public
 * @version  $Id$
 */
-class ElementList {
+class ilElementList {
 
     /**
     * database handle
@@ -77,14 +77,14 @@ class ElementList {
     */
     var $element;
 
-    function ElementList() {
+    function ilElementList() {
 
 	    $this->idField="id";
 	    $this->orderField="id";
 		$this->orderDirection="ASC";
 		$this->whereCond="1";
 
-        $this->element = new Element();
+        $this->element = new ilElement();
     }
 
     /**
