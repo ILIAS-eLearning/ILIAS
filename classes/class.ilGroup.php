@@ -101,7 +101,9 @@ class ilGroup
 		}
 		return $ids ? $ids : array();
 	}
-		
+	
+	
+	
 
 }
 ?>

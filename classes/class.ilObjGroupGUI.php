@@ -26,14 +26,15 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.22 2003/07/18 13:16:35 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.23 2003/07/21 10:21:23 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
-require_once "class.ilObjGroup.php";
+
+include_once "class.ilObjectGUI.php";
+include_once "class.ilObjGroup.php";
 
 
 class ilObjGroupGUI extends ilObjectGUI
@@ -59,7 +60,8 @@ class ilObjGroupGUI extends ilObjectGUI
 
 
 
-		$this->grp_tree = new ilTree($this->object->getRefId());
+		//$this->grp_tree = new ilTree($this->object->getRefId());
+		$this->grp_tree = new ilTree($this->object->getId());
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
 
@@ -149,17 +151,20 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
 
-// tmp display std tree
+
+		// tmp display std tree
 		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
+		
 
 		foreach ($childs as $key => $val)
 		{
+			
 			//nur fr Objecte mit Rechten
 			// visible
-			/*if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
+			if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
 			{
 				continue;
-			}*/
+			}
 
 			//visible data part
 			$this->data["data"][] = array(
@@ -189,7 +194,7 @@ class ilObjGroupGUI extends ilObjectGUI
 											"tree_id" => $_GET["ref_id"],
 											"tree_table" => $this->grp_tree->table_tree
 											);
-
+			//"tree_id" => $_GET["ref_id"],
 			unset($this->data["data"][$key]["ref_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
@@ -1121,6 +1126,11 @@ class ilObjGroupGUI extends ilObjectGUI
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
 			
+				//paste the node also into the "grp_tree" table
+				//todo
+				$groupObj = new ilObjGroup($_GET["ref_id"]);
+				$groupObj->insertGroupNode($obj_data->getId(),$obj_data->getRefId(), $groupObj->getId(),$this->grp_tree );
+				
 				// ... remove top_node from list....
 				array_shift($subnode);
 				
@@ -1143,7 +1153,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			// TODO:i think this can be substituted by $this->object ????
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	
+			
 			// this loop does all checks
 			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
@@ -1179,6 +1189,13 @@ class ilObjGroupGUI extends ilObjectGUI
 				{
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
+				
+				//todo
+				if( $object->objectExist($this->grp_tree->getTreeId(), $obj_data->getId()))
+				{
+					$is_already_node[]= $obj_data->getId();
+				}
+				
 			}
 
 //////////////////////////
@@ -1206,6 +1223,10 @@ class ilObjGroupGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 										 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 			}
+			if(count($is_already_node))
+			{
+				$this->ilias->raiseError("Das gewählte Objekt existiert bereits unter dem Gruppen Knoten",$this->ilias->error_obj->MESSAGE);
+			}
 /////////////////////////////////////////
 // everything ok: now paste the objects to new location
 
@@ -1227,18 +1248,13 @@ class ilObjGroupGUI extends ilObjectGUI
 				$obj_data->createReference();
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
-				var_dump($_POST);var_dump($_GET);
+				//var_dump($_POST);var_dump($_GET);
 				
 				
 				//paste the node also into the "grp_tree" table
 				//todo
-				//baue group_obj
-				//include_once("classes/class.ilObjGroup.php");
-				//$groupObj = new ilObjGroup($_GET["ref_id"]);
-				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-				//$groupObj->insertGroupNode($obj_data->getId(),$obj_data->getRefId(), $parent_obj_id,$thisgrp_tree );
-				
-				//$this->grp_tree->insertNode($obj_data->getRefId(), $_GET["ref_id"]);
+				$groupObj = new ilObjGroup($_GET["ref_id"]);
+				$groupObj->insertGroupNode($obj_data->getId(),$obj_data->getRefId(), $groupObj->getId(),$this->grp_tree );
 				
 				
 				// ... remove top_node from list....
@@ -1255,7 +1271,7 @@ class ilObjGroupGUI extends ilObjectGUI
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
 						
-						//is obsolet !!!
+						//todo !!!
 						//$this->grp_tree->insertNode($obj_data->getRefId(), $node["parent"]);
 					
 					}

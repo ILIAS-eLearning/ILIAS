@@ -35,68 +35,19 @@
 
 class ilFolder
 {
-	/**
-	* ilias object
-	* @var object ilias
-	* @access private
-	*/
-	var $ilias;
-
-	/**
-	* lng object
-	* @var		object language
-	* @access	private
-	*/
-	var $lng;
-
-	/**
-	* tree object
-	* @var object tree
-	* @access private
-	*/
-	var $gtree;
-
-	/**
-	* group_id
-	* @var int group_id
-	* @access private
-	*/
-	var $group_id;
-
-
-
-	/**
-	* table name of table mail object data
-	* @var string
-	* @access private
-	*/
-	var $table_mail_obj_data;
-
-	/**
-	* table name of tree table
-	* @var string
-	* @access private
-	*/
-	var $table_tree;
-
+	
 	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilFolder($a_group_id)
 	{
-		require_once("classes/class.ilTree.php");
+		
 		global $ilias,$lng;
 
-		$this->ilias = &$ilias;
-		$this->lng = &$lng;
-		$this->group_id = $a_group_id;
 		
-		$this->table_mail_obj_data = 'obj_data';
-		$this->table_tree = 'grp_tree';
-		
-		$this->gtree = new ilTree($this->group_id);
-		$this->gtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
 	}
+	
+	
 }
 ?>
