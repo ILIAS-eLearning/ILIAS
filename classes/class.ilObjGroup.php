@@ -884,6 +884,8 @@ class ilObjGroup extends ilObject
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
+	* TODO: Grouplinking is not longer permitted -> no other referneces possible
+	* TODO: If entire group is deleted entries of object in group that are lying in trash (-> negative tree ID) are not removed!
 	*/
 	function delete()
 	{
