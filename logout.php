@@ -52,6 +52,13 @@ if ($ilias->getSetting("pub_section"))
 	$tpl->parseCurrentBlock();
 }
 
+if ($ilias->ini_ilias->readVariable("clients","list"))
+{
+	$tpl->setCurrentBlock("client_list");
+	$tpl->setVariable("TXT_CLIENT_LIST",$lng->txt("to_client_list"));
+	$tpl->parseCurrentBlock();	
+}
+
 $tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
 $tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
 $tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
