@@ -144,6 +144,7 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question
