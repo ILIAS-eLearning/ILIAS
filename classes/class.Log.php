@@ -44,6 +44,21 @@ class Log
 		return true;
 	}
 
+	
+	/**
+	* special language checking routine
+	* 
+	* only add a log entry to the logfile
+	* if there isn't a logentry for the topic
+	* 
+	*/
+	function writeLanguageLog($topic)
+	{
+		//TODO: go through logfile and search for the topic
+		//only write the log if the error wasn't reported yet
+		$this->write("Language: "."topic -".$topic."- not present");
+	}
+	
 	/**
 	* logging 
 	* 

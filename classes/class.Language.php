@@ -103,7 +103,7 @@ class Language
 
 	    if ($translation == "")
 		{
-			$this->log->write("Language: "."topic -".$topic."- not present");
+			$this->log->writeLanguageLog($topic);
 			return "-".$topic."-";
 		}
 	    else
