@@ -75,8 +75,17 @@ class ilObjGroup extends ilObject
 	function join($a_user_id, $a_grp_role="")
 	{
 		global $rbacadmin;
-		//get default group roles (member, admin)
-		$rbacadmin->assignUser($a_grp_role,$a_user_id, false);
+		if(is_array($a_grp_role))
+		{
+			foreach($a_grp_role as $role)
+			{
+				$rbacadmin->assignUser($role,$a_user_id, false);
+			}
+		}
+		else
+		{
+			$rbacadmin->assignUser($a_grp_role,$a_user_id, false);
+		}
 		ilObjUser::updateActiveRoles($a_user_id);
 		return true;
 	}
@@ -147,6 +156,10 @@ class ilObjGroup extends ilObject
 		return $appList;
 	}
 
+	/**
+	* deletes an Entry from application list
+	* @access	public
+	*/
 	function deleteApplicationListEntry($a_userId)
 	{
 		$q = "DELETE FROM grp_registration WHERE user_id=".$a_userId." AND grp_id=".$this->getId();
@@ -154,7 +167,7 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* leave Group
+	* is called when a member decides to leave group
 	* @access	public
 	* @param	integer	user-Id
 	* @param	integer group-Id
@@ -170,8 +183,9 @@ class ilObjGroup extends ilObject
 		{
 			if(!$this->isAdmin($this->ilias->account->getId()))
 			{
-				$rbacadmin->deassignUser($this->getGroupRoleId($this->ilias->account->getId()), $this->ilias->account->getId());
-				ilObjUser::updateActiveRoles($this->ilias->account->getId());
+				$this->leave($this->ilias->account->getId());
+				$member = new ilObjUser($this->ilias->account->getId());
+				$member->dropDesktopItem($this->getRefId(), "grp");
 				return 0;
 			}
 			else if(count($this->getGroupAdminIds()) == 1)
@@ -181,13 +195,27 @@ class ilObjGroup extends ilObject
 		}
 	}
 
+	/**
+	* deassign member from group role
+	* @access	private
+	*/
 	function leave($a_user_id)
 	{
 		global $rbacadmin;
-		$rbacadmin->deassignUser($this->getGroupRoleId($a_user_id), $a_user_id);
+		$arr_groupRoles = $this->getMemberRoles($a_user_id);
+		if(is_array($arr_groupRoles))
+		{
+			foreach($arr_groupRoles as $groupRole)
+			{
+				$rbacadmin->deassignUser($groupRole, $a_user_id);
+			}
+		}
+		else
+		{
+			$rbacadmin->deassignUser($arr_groupRoles, $a_user_id);
+		}
 		ilObjUser::updateActiveRoles($a_user_id);
 		return true;
-
 	}
 
 	/**
@@ -196,7 +224,7 @@ class ilObjGroup extends ilObject
 	*/
 	function removeMember($a_user_id, $a_grp_id="")
 	{
-		if( isset($a_user_id) && isset($a_grp_id) )
+		if( isset($a_user_id) && isset($a_grp_id) && $this->isMember($a_user_id))
 		{
 			if( count($this->getGroupMemberIds()) > 1)
 			{
@@ -314,6 +342,11 @@ class ilObjGroup extends ilObject
 
 	}
 
+	/**
+	* get local roles of group
+	* @access	public
+	* @param	return array [title|id] of roles...
+	*/
 	function getLocalGroupRoles($a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
@@ -322,24 +355,19 @@ class ilObjGroup extends ilObject
 			$grp_id = $a_grp_id;
 		else
 			$grp_id = $this->getRefId();
-
-
-		//$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		foreach ($role_arr as $role_id)
 		{
-			$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			if(!strncmp($role_Obj->getTitle(), "il_grp_",7 ))
+			if($rbacreview->isAssignable($role_id,$rolf["ref_id"])==true )
 			{
+				$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
 				$arr_grpDefaultRoles[$role_Obj->getTitle()] = $role_Obj->getId();
 			}
 		}
 		return $arr_grpDefaultRoles;
-
 	}
-
 
 	/**
 	* get group status closed template
@@ -587,11 +615,14 @@ class ilObjGroup extends ilObject
 	/**
 	* get group member status
 	* @access	public
-	* @param	returns [0=grp_member_role|1=grp_admin_role]
+	* @param	returns array of obj_ids of assigned local roles
 	*/
-	function getMemberStatus($a_user_id, $a_grp_id="")
+//	function getMemberStatus($a_user_id, $a_grp_id="")
+	function getMemberRoles($a_user_id, $a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
+
+		$arr_assignedRoles = array();
 
 		if(strlen($a_grp_id) > 0)
 			$grp_id = $a_grp_id;
@@ -600,79 +631,30 @@ class ilObjGroup extends ilObject
 
 		$roles = $this->getLocalGroupRoles($grp_id);
 
-		$countRole = 0;
 		foreach($roles as $role)
 		{
 			if( in_array($a_user_id,$rbacreview->assignedUsers($role) ))
-				return $role;
+			{
+				array_push($arr_assignedRoles, $role);
+			}
 		}
-	}
-
-	/**
-	* set member role
-	* @access	public
-	* @param	integer	user id
-	* @param	integer	grp_id (optional)
-	* @param	returns id of member_role
-	*/
-	function getMemberRole($a_user_id, $a_grp_id="")
-	{
-		global $rbacadmin, $rbacreview;
-
-		if(strlen($a_grp_id) > 0)
-			$grp_id = $a_grp_id;
-		else
-			$grp_id = $this->getRefId();
-
-		$roles = $this->getDefaultGroupRoles($grp_id);
-
-		foreach($roles as $role)
-		{
-			if( in_array($a_user_id,$rbacreview->assignedUsers($role) ))
-				return $role;
-		}
+		//return $role;
+		return $arr_assignedRoles;
 	}
 
 	/**
 	* set member status
 	* @access	public
 	* @param	integer	user id
-	* @param	integer member status (0=member|1=admin)
+	* @param	integer member role id
 	*/
-	function setMemberStatus($a_user_id, $a_member_status)
+	function setMemberStatus($a_user_id, $a_member_role)
 	{
-		if(isset($a_user_id) && isset($a_member_status))
+		if(isset($a_user_id) && isset($a_member_role))
 		{
 			$this->removeMember($a_user_id);
-			$this->join($a_user_id,$a_member_status);
+			$this->join($a_user_id,$a_member_role);
 		}
-	}
-
-	/**
-	* get Group Role
-	* @access	public
-	* @param	return the id of the group role user is assigned to (grp_Member, grp_Admin)
-	*/
-	function getGroupRoleId($a_user_id, $a_grp_id="")
-	{
-		global $rbacadmin, $rbacreview;
-
-
-		if(strlen($a_grp_id) > 0)
-			$grp_id = $a_grp_id;
-		else
-			$grp_id = $this->getRefId();
-
-		$grp_Roles = $this->getLocalGroupRoles($grp_id);
-
-		foreach ($grp_Roles as $role_id)
-		{
-			if( in_array($a_user_id,$rbacreview->assignedUsers($role_id) ))
-			{
-				return $role_id;
-			}
-		}
-		return NULL;
 	}
 
 	/**
@@ -1119,7 +1101,7 @@ class ilObjGroup extends ilObject
 				$this->insertGroupNode($new_node->getRefId(),$this->getRefId(),$this->getRefId(),$new_node->getId());
 			}
 			//get (direct) children of the node where the event occured
-			/*$childrenNodes = $this->tree->getChilds($_GET["ref_id"]); 
+			/*$childrenNodes = $this->tree->getChilds($_GET["ref_id"]);
 		
 			//filter only the nodes which were linked
 			foreach ( $childrenNodes as $child)
