@@ -10,11 +10,6 @@
 class TUtil
 {
 	/**
-	* Properties
-	*/
-	var $ClassName = "TUtil";	// Eigentlich unnötig
-	
-	/**
 	* Fetch system_roles and return them in array(role_id => role_name)
 	*/
 	function getRoles ()
@@ -89,33 +84,6 @@ class TUtil
 		return $arr;
 	}
 
-	
-	/**
-	* Fetch system_roles and return them in array(role_id => role_name)
-	*/
-	function getGroups ()
-	{
-		global $ilias;
-		
-		$db = $ilias->db;
-		
-		$db->query("SELECT grp_id,grp_name FROM group_data ORDER BY grp_id");
-		
-		if ($db->num_rows())
-		{
-			while ($db->next_record())
-			{
-				$arr[$db->f("grp_id")] = $db->f("grp_name");
-			}
-		}
-		else
-		{
-			return false;
-		}
-		
-		return $arr;
-	}
-	
 	/**
 	* Builds aa select form field with options and shows the selected option first
 	* @param string value to be selected
@@ -125,7 +93,7 @@ class TUtil
 	*/
 	function formSelect ($selected,$varname,$options,$multiple = false)
 	{
-		$multiple ? $multiple = "multiple" : "";
+		$multiple ? $multiple = "multiple=\"multiple\" " : "";
 		$str = "<select name=\"".$varname ."\" ".$multiple.">\n";
 
 		foreach ($options as $key => $val)
@@ -134,7 +102,7 @@ class TUtil
 			
 			if ($selected == $key)
 			{
-				$str .= " selected";
+				$str .= " selected=\"selected\"";
 			}
 			
 			$str .= ">".$val."</option>\n";
@@ -167,10 +135,10 @@ class TUtil
 		
 		if ($checked == 1)
 		{
-			$str .= " checked";
+			$str .= " checked=\"checked\"";
 		}
 		
-		$str .= " value=\"".$value."\">\n";
+		$str .= " value=\"".$value."\" />\n";
 		
 		return $str;
 	}
@@ -186,10 +154,10 @@ class TUtil
 	$str = "<input type=\"radio\" name=\"".$varname."\"";
 		if ($checked == 1)
 		{
-			$str .= " checked";
+			$str .= " checked=\"checked\"";
 		}
 		
-		$str .= " value=\"".$value."\">\n";
+		$str .= " value=\"".$value."\" />\n";
 		
 		return $str;
 	}
