@@ -102,15 +102,29 @@ class ilRepositoryGUI
 			}
 		}
 
-		// get current mode
+		// set current repository view mode
 		if (!empty($_GET["set_mode"]))
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
+			if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->ilias->account->writePref("il_rep_mode", $_GET["set_mode"]);
+			}
 		}
-		
+
+		// get user setting
 		if ($_SESSION["il_rep_mode"] == "")
 		{
-			$_SESSION["il_rep_mode"] = $this->ilias->getSetting("default_repository_view"); 
+			if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
+			{
+				$_SESSION["il_rep_mode"] = $this->ilias->account->getPref("il_rep_mode");
+			}
+		}
+
+		// if nothing set, get default view
+		if ($_SESSION["il_rep_mode"] == "")
+		{
+			$_SESSION["il_rep_mode"] = $this->ilias->getSetting("default_repository_view");
 		}
 
 		$this->mode = ($_SESSION["il_rep_mode"] != "")
@@ -147,7 +161,7 @@ class ilRepositoryGUI
 		$this->ilinc_classrooms = array();
 		$this->link_resources = array();
 	}
-	
+
 	/**
 	* execute command
 	*/
@@ -374,7 +388,7 @@ class ilRepositoryGUI
 				break;
 		}
 	}
-	
+
 	/**
 	* output tree frameset
 	*/
@@ -853,9 +867,9 @@ class ilRepositoryGUI
 			? "tree"
 			: "flat";
 		$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
-		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$s_mode."view.gif"));
 	}
-	
+
 
 	/**
 	* set admin tabs

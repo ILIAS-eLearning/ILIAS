@@ -717,9 +717,10 @@ class ilObjUser extends ilObject
 	function writePref($a_keyword, $a_value)
 	{
 		ilObjUser::_writePref($this->id, $a_keyword, $a_value);
+		$this->setPref($a_keyword, $a_value);
 	}
-	
-	
+
+
 	function _writePref($a_usr_id, $a_keyword, $a_value)
 	{
 		global $ilDB;
@@ -1703,7 +1704,7 @@ class ilObjUser extends ilObject
 
 		$this->applied_users = array();
 		$this->__readAppliedUsers($this->getId());
-		
+
 		return in_array($a_usr_id,$this->applied_users);
 	}
 
