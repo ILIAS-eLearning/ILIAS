@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.10 2003/04/01 14:49:34 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.11 2003/04/01 16:16:54 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -381,11 +381,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		// TODO: get rid of $_GET variables
 		 
-		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
 		{
-			if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+			if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 			{
-				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+				$assigned_users = $rbacreview->assignedUsers($_GET["ref_id"]);
 				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
 
 				foreach (array_diff($assigned_users,$_POST["user"]) as $user)

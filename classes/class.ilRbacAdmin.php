@@ -351,7 +351,7 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::grantPermission(): Missing parameter! ".
-							"role_id: ".$a_rol_id." ref_id: ".$a_ref_id." operations: ".var_dump($a_ops),$this->ilias->error_obj->WARNING);
+							"role_id: ".$a_rol_id." ref_id: ".$a_ref_id." operations: ",$this->ilias->error_obj->WARNING);
 		}
 
 		if (!is_array($a_ops))
