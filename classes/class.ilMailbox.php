@@ -66,7 +66,7 @@ class ilMailbox
 	*/
 	function ilMailbox($a_user_id = 0)
 	{
-		require_once("classes/class.tree.php");
+		require_once("classes/class.ilTree.php");
 		global $ilias,$lng;
 
 		$this->ilias = &$ilias;
@@ -78,7 +78,7 @@ class ilMailbox
 
 		if($a_user_id)
 		{
-			$this->mtree = new Tree($this->user_id);
+			$this->mtree = new ilTree($this->user_id);
 			$this->mtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
 		}
 		
