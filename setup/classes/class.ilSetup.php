@@ -596,6 +596,8 @@ class ilSetup extends PEAR
 		$status["ini"] = $this->checkClientIni($client);
 		$status["db"] = $this->checkClientDatabase($client);
 		
+		//var_dump($status["db"],$client->db_exists,$client->db_installed);
+		
 		if ($status["db"]["comment"] == "no database" or $status["db"]["comment"] == "not installed")
 		{
 			$status["lang"]["status"] = false;
@@ -672,7 +674,7 @@ class ilSetup extends PEAR
 //		if ($arr["status"] = $client->connect())
 		if (!$arr["status"] = $client->db_installed)
 		{
-			$arr["comment"] = "no installed";
+			$arr["comment"] = "not installed";
 			return $arr;
 		}
 		
