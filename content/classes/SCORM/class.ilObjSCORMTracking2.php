@@ -62,14 +62,14 @@ class ilObjSCORMTracking2
 		{
 			foreach($_GET["uL"] as $key => $value)
 			{
-				$this->update[] = array("left" => $value, "right" => $_GET["iR"][$key]);
+				$this->update[] = array("left" => $value, "right" => $_GET["uR"][$key]);
 			}
 		}
 		if (is_array($_POST["uL"]))
 		{
 			foreach($_POST["uL"] as $key => $value)
 			{
-				$this->update[] = array("left" => $value, "right" => $_POST["iR"][$key]);
+				$this->update[] = array("left" => $value, "right" => $_POST["uR"][$key]);
 			}
 		}
 	}
@@ -107,7 +107,7 @@ class ilObjSCORMTracking2
 				"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
 				$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
 			$ilDB->query($q);*/
-			fwrite($f, "Insert - L:".$update["left"].",R:".
+			fwrite($f, "Update - L:".$update["left"].",R:".
 				$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
 		}
 		fclose($f);
