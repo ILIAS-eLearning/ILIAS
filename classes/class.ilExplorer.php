@@ -110,6 +110,14 @@ class ilExplorer
 	*/
 	var $rbac_check;
 
+
+	/**
+	* output icons true/false (default true)
+	* @var boolean
+	* @access private
+	*/
+	var $output_icons;
+
 	/**
 	* Constructor
 	* @access	public
@@ -134,6 +142,7 @@ class ilExplorer
 		$this->tree = new ilTree(ROOT_FOLDER_ID);
 		$this->expand_target = $_SERVER["SCRIPT_NAME"];
 		$this->rbac_check = true;
+		$this->output_icons = true;
 	}
 
 	/**
@@ -201,6 +210,16 @@ class ilExplorer
 	function checkPermissions($a_check)
 	{
 		$this->rbac_check = $a_check;
+	}
+
+	/**
+	* output icons
+	*
+	* @param	boolean		$a_icons		output icons true/false
+	*/
+	function outputIcons($a_icons)
+	{
+		$this->output_icons = $a_icons;
 	}
 
 
@@ -307,9 +326,25 @@ class ilExplorer
 			{
 				$this->formatObject($options["child"],$options);
 			}
+			if ($key == 0)
+			{
+				$this->formatHeader($options["child"],$options);
+			}
 		}
 
 		return implode('',$this->output);
+	}
+
+	/**
+	* Creates output for header
+	* (is empty here but can be overwritten in derived classes)
+	*
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	*/
+	function formatHeader($a_obj_id,$a_option)
+	{
 	}
 
 	/**
@@ -362,9 +397,14 @@ class ilExplorer
 			}
 		}
 
+		if ($this->output_icons)
+		{
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->parseCurrentBlock();
+		}
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
@@ -411,7 +451,7 @@ class ilExplorer
 	* frame or not frame?
 	* @param	string
 	* @access	public
-	*/	
+	*/
 	function setFrameTarget($a_target)
 	{
 		$this->frameTarget = $a_target;
@@ -530,7 +570,7 @@ class ilExplorer
 		if ($is_present == 0)
 		{
 			$this->filter[] = $a_item;
-			
+
 		}
 
 		return true;
