@@ -1,0 +1,44 @@
+<form action="{FORMACTION}" name="post" method="post">
+
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- Width -->
+<tr class="std">
+	<td class="option">
+	{TXT_MOB_WIDTH}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_MOB_WIDTH}" value="{VAL_MOB_WIDTH}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- Height -->
+<tr class="std">
+	<td class="option">
+	{TXT_MOB_HEIGHT}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_MOB_HEIGHT}" value="{VAL_MOB_HEIGHT}" size="8" maxlength="8" />
+	</td>
+</tr>
+<!-- Caption -->
+<tr class="std">
+	<td class="option">
+	{TXT_CAPTION}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_CAPTION}" value="{VAL_CAPTION}" size="40" maxlength="100" />
+	{SELECT_CAPTION}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</form>
