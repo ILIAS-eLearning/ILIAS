@@ -1,22 +1,22 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
 <form action="usr_agreement.php" method="post" name="form">
 <input type="hidden" name="back" value="index.php">
 <input type="hidden" name="act" value="modify_u_agreement">
 <input type="hidden" name="u_id" value="2">
 
-<table cellpadding=3 border=0>
-<tr class="tblheader">
+<table cellpadding=3 cellspacing=0 border=0>
+<tr bgcolor="#bbbbcc">
  <td><b>{TXT_AGREEMENT}</b></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
  <td>{TXT_USR_AGREEMENT}</td>
 </tr>
-<tr class="tblrow1">
- <td align=center><b>{TXT_ACCEPT}</b></td>
+<tr bgcolor="#ddddee">
+ <td align=center>{TXT_ACCEPT}</td>
 </tr>
-<tr class="tblrow2">
- <td align=center><input type="radio" name="agreement" checked value="y"><b>{TXT_YES}</b><input type="radio" name="agreement" value="n"><b>{TXT_NO}</b<</td>
+<tr bgcolor="#ddddee">
+ <td align=center><input type="radio" name="agreement" checked value="y">{TXT_YES}<input type="radio" name="agreement" value="n">{TXT_NO}</td>
 </tr>
 </table>
   <br>

@@ -1,42 +1,49 @@
 <h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
 <FORM ACTION="{ACTION}" METHOD="post">
-    <table CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <table bgcolor="#ddddee" CELLPADDING=4 CELLSPACING=0 BORDER=0>
     <TR>
-      <TD ALIGN=right><a href="{LINK_SEARCH_RECIPIENT}">{TXT_RECIPIENT}</a></TD>
-      <td><input name="msg_to" value="{RECIPIENT}" SIZE=20></TD>
+      <TD><a href="{LINK_SEARCH_RECIPIENT}"><b>{TXT_RECIPIENT}</b></a></TD>
+      <td><input name="msg_to" value="{RECIPIENT}" SIZE=24></TD>
     </TR>
     <TR>
-      <TD ALIGN=right><a href="{LINK_SEARCH_CC_RECIPIENT}">{TXT_CC}</a></TD>
-      <td><INPUT name="msg_to_cc" value="{CC}" SIZE=20></TD>
+      <TD><a href="{LINK_SEARCH_CC_RECIPIENT}"><b>{TXT_CC}</b></a></TD>
+      <td><INPUT name="msg_to_cc" value="{CC}" SIZE=24></TD>
     </TR>
     <TR>
-      <TD ALIGN=right><a href="{LINK_SEARCH_BC_RECIPIENT}">{TXT_BC}</a></TD>
-      <TD><INPUT name="msg_bc" value="{BC}" SIZE=20></TD>
+      <TD><a href="{LINK_SEARCH_BC_RECIPIENT}"><b>{TXT_BC}</b></a></TD>
+      <TD><INPUT name="msg_bc" value="{BC}" SIZE=24></TD>
     </TR>
     <TR>
-      <td colspan=2>{TXT_SUBJECT}<br>
-	  <INPUT name="msg_subject" value="{SUBJECT}" SIZE=20></TD>
+      <td><b>{TXT_SUBJECT}<b></td>
+	  <td><INPUT name="msg_subject" value="{SUBJECT}" SIZE=24></TD>
     </TR>
     <TR>
-      <td align="right">{TXT_TYPE}</TD>
-      <td><input type="radio" name="msg_status" CHECKED value="0">{TXT_NORMAL}<input type="radio" name="msg_status" value="5">{TXT_SYSTEM_MSG}</td>
+      <td align="right"><b>{TXT_TYPE}<b></TD>
+      <td><input type="radio" name="msg_status" CHECKED value="0">{TXT_NORMAL}</td><br>
     </TR>
     <TR>
-      <td colspan=2>{TXT_ALSO_AS_EMAIL}<input type="checkbox" name="msg_internet" value="1"></TD>
+      <td align="right"></TD>
+      <td><input type="radio" name="msg_status" value="5">{TXT_SYSTEM_MSG}</td>
+    </TR>
+    <TR>
+      <td align="right"></TD>
+      <td colspan=2><input type="checkbox" name="msg_internet" value="1">{TXT_ALSO_AS_EMAIL}</TD>
     </tr>
     <tr>
-      <TD colspan=2>{TXT_URL}<br>
-	  <INPUT name="msg_url" value="{URL}" SIZE=20></TD>
+      <TD colspan=2><b>{TXT_URL}</b><br>
+	  <INPUT name="msg_url" value="{URL}" SIZE=24></TD>
     </TR>
     <TR>
-      <TD colspan=2>{TXT_URL_DESC}<br>
-	  <INPUT name="msg_urltext" value="{URLTEXT}" SIZE=20></TD>
+      <TD colspan=2><b>{TXT_URL_DESC}</b><br>
+	  <INPUT name="msg_urltext" value="{URLTEXT}" SIZE=24></TD>
     </TR>
     <TR>
-      <td valign="top" colspan=2>{TXT_MSG_CONTENT}<br>
-	  <TEXTAREA name="msg_content" ROWS=10 COLS=60>{CONTENT}</TEXTAREA></TD>
+      <td valign="top" colspan=3><b>{TXT_MSG_CONTENT}</b><br>
+	  <TEXTAREA name="msg_content" ROWS=10 COLS=24>{CONTENT}</TEXTAREA></TD>
     </TR>
     </table>
-    <input type="submit" name="msg_send" value="{TXT_SEND}"><input type="submit" name="msg_save" value="{TXT_MSG_SAVE}">
+     <br><input type="submit" name="msg_send" value="{TXT_SEND}">
+     <br>
+     <br><input type="submit" name="msg_save" value="{TXT_MSG_SAVE}">
     </form>

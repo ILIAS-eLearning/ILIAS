@@ -1,24 +1,24 @@
 <!-- $Id$ -->
 <!-- author: Eva Wenzl <ewenzl@databay.de> -->
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
     <form action="/projekte/uni-koeln/ilias/mail.php" METHOD="post">
 
-    <table CELLPADDING=4 CELLSPACING=0 BORDER=0>
-    <TR class="tblrow2">
-      <TD ALIGN="right" class="tblheader">{TXT_FROM}</TD>
+    <table CELLPADDING=3 CELLSPACING=0 BORDER=0>
+    <TR bgcolor="#ddddee">
+      <TD ALIGN="right" bgcolor="#bbbbcc"><b>{TXT_FROM}<b></TD>
       <TD>{FROM}</TD>
     </TR>
-    <TR class="tblrow1">
-      <TD ALIGN="right" class="tblheader">{TXT_TO}</TD>
+    <TR bgcolor="#ddddee">
+      <TD ALIGN="right" bgcolor="#bbbbcc"><b>{TXT_TO}<b></TD>
       <TD>{TO}</TD>
     </TR>
-    <TR class="tblrow2">
-      <TD ALIGN="right" class="tblheader">{TXT_SUBJECT}</TD>
+    <TR bgcolor="#ddddee">
+      <TD ALIGN="right" bgcolor="#bbbbcc"><b>{TXT_SUBJECT}<b></TD>
       <TD>{SUBJECT}</TD>
     </TR>
-    <TR class="tblrow1">
-      <TD ALIGN="right" class="tblheader">{TXT_DATE}</TD>
+    <TR bgcolor="#ddddee">
+      <TD ALIGN="right" bgcolor="#bbbbcc"><b>{TXT_DATE}<b></TD>
       <TD>{DATE}</TD>
     </TR>
 </table>
@@ -26,19 +26,17 @@
 
 {BUTTONS2}
 
-    <table CELLPADDING=4 CELLSPACING=0 BORDER=0>
-    <TR class="tblrow1" colspan=2>
-      <TD ALIGN="right" VALIGN="top" class="tblheader">{TXT_MESSAGE}</TD>
-		</tr>
-		<tr class="tblrow2">
+    <table CELLPADDING=3 CELLSPACING=0 BORDER=0>
+    <TR bgcolor="#ddddee" colspan=2>
+      <TD ALIGN="right" VALIGN="top" bgcolor="#bbbbcc"><b>{TXT_MESSAGE}<b></TD>
       <TD colspan=2>{MESSAGE}</TD>
     </TR>
-<!-- BEGIN urlblock -->		
-    <TR class="tblrow1">
-      <TD ALIGN="right" class="tblheader">{TXT_URL}</TD>
+<!-- BEGIN urlblock -->
+    <TR bgcolor="#ddddee">
+      <TD ALIGN="right" bgcolor="#bbbbcc"><b>{TXT_URL}<b></TD>
       <TD><A HREF="{LINK_URL}" CLASS="navigation"  TARGET="_blank">{URL_DESC} ({LINK_URL})</A></TD>
-		</tr>
-<!-- BEGIN urlblock -->		
+    </tr>
+<!-- BEGIN urlblock -->
     </TABLE>
     </BODY>
     </HTML>

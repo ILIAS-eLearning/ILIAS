@@ -1,7 +1,7 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
     <form action="{FORMACTION}" method="post">
-    <p class="tblrow2"><input type="checkbox" {SEQ_CHECKED} name="seq_edit" value=1>{TXT_SEQUENCES}
+      <p><input type="checkbox" {SEQ_CHECKED} name="seq_edit" value=1>{TXT_SEQUENCES}
       <input type="checkbox" {ONL_CHECKED} name="online" value=1>{TXT_ONLINE_CHAPTER}&nbsp;
 	  -&nbsp;{TXT_VISIBLE_LAYERS}&nbsp;<select name="glevel">
 <!-- BEGIN level -->
@@ -9,11 +9,13 @@
 <!-- END level -->
 	  </select>
       <br>
-      <input type=submit name="refresh" value="{TXT_REFRESH}">&nbsp;<input type="submit" name="special" value="{TXT_FAQ_EXERCISE}">
+      <input type=submit name="refresh" value="{TXT_REFRESH}">&nbsp;
+
+      <input type="submit" name="special" value="{TXT_FAQ_EXERCISE}">
     </p>
 
     <TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0>
-    <TR class="tblheader">
+    <TR bgcolor="#bbbbcc">
 	  <td>&nbsp;</td>
       <TD ALIGN="center" colspan=3>&nbsp;{TXT_CHAPTER_NUMBER}<input type=checkbox checked name=kap_nr value=1>&nbsp;</TD>
 
@@ -22,7 +24,7 @@
       <TD ALIGN="center">&nbsp;{TXT_FORUM}<input type=checkbox checked name=forum value=1>&nbsp;</TD>
     </TR>
 <!-- BEGIN row -->
-    <TR class="{ROWCOL}">
+    <TR bgcolor="#ddddee">
       <TD ALIGN="center">&nbsp;<A HREF="{LINK_SWITCHSTATUS}" onMouseOver="window.status='{TXT_STATUS}'; return true;"><IMG SRC="./images/{STATUS}.gif" BORDER=0 WIDTH=16 HEIGHT=16 ALT="{TXT_STATUS}"></A></TD>
 	  <td>&nbsp;{NUMBER}&nbsp;</td>
       <TD ALIGN="center">&nbsp;<A HREF="{LINK_NEWSUBCHAPTER}" onMouseOver="window.status='{TXT_NEWSUBCHAPTER}'; return true;"><IMG SRC="./images/new.gif" BORDER=0 WIDTH=16 HEIGHT=16 ALT="{TXT_NEWSUBCHAPTER}"></A></TD>

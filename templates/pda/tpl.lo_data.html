@@ -1,16 +1,16 @@
     <form action="{ACTION}" method="post">
 
-    <h1>{TXT_EDIT_DATA}: {LO_TITLE}</h1>
+    <h3>{TXT_EDIT_DATA}: {LO_TITLE}</h3>
 	<table cellpadding=2 cellspacing=0 border=0>
 
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_TITLE}</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_TITLE}</b></td>
     </tr>
-    <tr class="tblrow2">
-      <td colspan=2><input type="text" name="title" value="{TITLE}" size=45></td>
+    <tr bgcolor="#ddddee">
+      <td colspan=2><input type="text" name="title" value="{TITLE}" size=28></td>
     </tr>
-    <tr class="tblrow1">
+    <tr bgcolor="#ddddee">
       <td colspan=2>{TXT_UID}</td>
     </tr>
     <tr>
@@ -18,32 +18,32 @@
     </tr>
 
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_PUBLISHING_ORGANISATION}</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_PUBLISHING_ORGANISATION}</b></td>
     </tr>
-    <tr class="tblrow2">
-      <td colspan=2><input type="text" name="publishing_organisation" value="{PUBLISHING_ORGANISATION}" size=45></td>
-    </tr>
-    <tr>
-      <td colspan=2>&nbsp;</td>
-    </tr>
-
-
-    <tr class="tblheader">
-      <td colspan=2>{TXT_SUMMARY}</td>
-    </tr>
-    <tr class="tblrow2">
-      <td colspan=2><textarea name="description" cols=45 rows=10></textarea></td>
+    <tr bgcolor="#ddddee">
+      <td colspan=2><input type="text" name="publishing_organisation" value="{PUBLISHING_ORGANISATION}" size=28></td>
     </tr>
     <tr>
       <td colspan=2>&nbsp;</td>
     </tr>
 
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_AUTHORS}</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_SUMMARY}</b></td>
     </tr>
-    <tr class="tblrow2">
+    <tr bgcolor="#ddddee">
+      <td colspan=2><textarea name="description" cols=22 rows=12></textarea></td>
+    </tr>
+    <tr>
+      <td colspan=2>&nbsp;</td>
+    </tr>
+
+
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_AUTHORS}</b></td>
+    </tr>
+    <tr bgcolor="#ddddee">
       <td>
 	  	<select name="sel_auths[]" size=8 multiple>
 <!-- BEGIN selauthors -->
@@ -56,10 +56,10 @@
         <table border=0>
         <tr>
           <td>{TXT_FIRSTNAME}</td>
-          <td><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size=20></td>
+          <td><input type="text" name="author_firstname" value="{AUTHOR_FIRSTNAME}" size=14></td>
         <tr>
           <td>{TXT_LASTNAME}</td>
-          <td><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size=20></td>
+          <td><input type="text" name="author_surname" value="{AUTHOR_SURNAME}" size=14></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -73,10 +73,10 @@
     </tr>
 
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_MEMBERS}</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_MEMBERS}<b></td>
     </tr>
-    <tr class="tblrow2">
+    <tr bgcolor="#ddddee">
       <td>
 	    <select name="sel_cons[]" size=8 multiple>
 <!-- BEGIN selmembers -->
@@ -89,10 +89,10 @@
         <table border=0>
         <tr>
           <td>{TXT_FIRSTNAME}</td>
-          <td><input type="text" name="contrib_firstname" value="{FIRSTNAME}" size=20></td>
+          <td><input type="text" name="contrib_firstname" value="{FIRSTNAME}" size=14></td>
         <tr>
           <td>{TXT_LASTNAME}</td>
-          <td><input type="text" name="contrib_surname" value="{LASTNAME}" size=20></td>
+          <td><input type="text" name="contrib_surname" value="{LASTNAME}" size=14></td>
         </tr>
         <tr>
           <td>&nbsp;</td>
@@ -106,21 +106,21 @@
     </tr>
 
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_KEYWORDS} ({TXT_COMMA_SEPARATED})</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_KEYWORDS}<b> ({TXT_COMMA_SEPARATED})</td>
     </tr>
-    <tr class="tblrow2">
-      <td colspan=2 ><input type=text name=keys value="" size=45 maxlength=3000></td>
+    <tr bgcolor="#ddddee">
+      <td colspan=2 ><input type=text name=keys value="" size=28 maxlength=3000></td>
     </tr>
     <tr>
       <td colspan=2>&nbsp;</td>
     </tr>
-    <tr>
-      <td class="tblheader">{TXT_LANGUAGE}</td>
-      <td class="tblheader">{TXT_LEVEL}</td>
+    <tr bgcolor="#bbbbcc">
+      <td class="tblheader"><b>{TXT_LANGUAGE}</b></td>
+      <td class="tblheader"><b>{TXT_LEVEL}</b></td>
     </tr>
 
-    <tr class="tblrow2">
+    <tr bgcolor="#ddddee">
       <td>
 	    <select name="lang">
 <!-- BEGIN language -->
@@ -143,11 +143,11 @@
       <td colspan=2>&nbsp;</td>
     </tr>
 
-    <tr class="tblheader">
-      <td colspan=2>{TXT_CATEGORIES}</td>
+    <tr bgcolor="#bbbbcc">
+      <td colspan=2><b>{TXT_CATEGORIES}</b></td>
     </tr>
 
-    <tr class="tblrow2">
+    <tr bgcolor="#ddddee">
       <td colspan=2>
 <!-- BEGIN category -->
         {TXT_NAME}<br>

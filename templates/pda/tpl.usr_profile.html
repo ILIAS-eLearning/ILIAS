@@ -1,5 +1,5 @@
 {RELOAD}
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h3>{TXT_PAGEHEADLINE}</h3>
 {BUTTONS}
 <!-- BEGIN message -->
 	<p><font color="red">{MSG}</font></p>
@@ -9,15 +9,15 @@
 <input type=hidden name="u_id" value="1">
 <input type=hidden name="type" value="4">
 <input type=hidden name="back" value="index.php">
-<table cellpadding=3 cellspacing=0 BORDER=0>
-<tr class="tblheader">
+<table cellpadding=2 cellspacing=0 BORDER=0>
+<tr bgcolor="#bbbbcc">
   <td colspan=2><b>{TXT_USR_DATA}</b></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_NICKNAME}</b></td>
-        <td><input type="text" name="usr_nick" maxlength=64 size=32 value="{NICKNAME}"></td>
+        <td><input type="text" name="usr_nick" maxlength=64 size=16 value="{NICKNAME}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_SALUTATION}</b></td>
         <td>
                 <select name="usr_gender">
@@ -26,47 +26,47 @@
                 </select>
         </td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_FIRSTNAME}</b></td>
-        <td><input type="text" name="usr_fname" maxlength=64 size=32 value="{FIRSTNAME}"></td>
+        <td><input type="text" name="usr_fname" maxlength=64 size=16 value="{FIRSTNAME}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_LASTNAME}</b></td>
-        <td><input type="text" name="usr_lname" maxlength=64 size=32 value="{LASTNAME}"></td>
+        <td><input type="text" name="usr_lname" maxlength=64 size=16 value="{LASTNAME}"></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_TITLE}</b></td>
-        <td><input type="text" name="usr_title" maxlength=64 size=32 value="{TITLE}"></td>
+        <td><input type="text" name="usr_title" maxlength=64 size=16 value="{TITLE}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_INSTITUTION}</b></td>
-        <td><input type="text" name="usr_institution" maxlength=64 size=32 value="{INSTITUTION}"></td>
+        <td><input type="text" name="usr_institution" maxlength=64 size=16 value="{INSTITUTION}"></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_STREET}</b></td>
-        <td><input type="text" name="usr_street" maxlength=64 size=32 value="{STREET}"></td>
+        <td><input type="text" name="usr_street" maxlength=64 size=16 value="{STREET}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_ZIPCODE}</b></td>
-        <td><input type="text" name="usr_zipcode" maxlength=64 size=32 value="{ZIPCODE}"></td>
+        <td><input type="text" name="usr_zipcode" maxlength=64 size=16 value="{ZIPCODE}"></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_CITY}</b></td>
-        <td><input type="text" name="usr_city" maxlength=64 size=32 value="{CITY}"></td>
+        <td><input type="text" name="usr_city" maxlength=64 size=16 value="{CITY}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_COUNTRY}</b></td>
-        <td><input type="text" name="usr_country" maxlength=64 size=32 value="{COUNTRY}"></td>
+        <td><input type="text" name="usr_country" maxlength=64 size=16 value="{COUNTRY}"></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_PHONE}</b></td>
-        <td><input type="text" name="usr_phone" maxlength=64 size=32 value="{PHONE}"></td>
+        <td><input type="text" name="usr_phone" maxlength=64 size=16 value="{PHONE}"></td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_EMAIL}</b></td>
-        <td><input type="text" name="usr_email" maxlength=64 size=32 value="{EMAIL}"></td>
+        <td><input type="text" name="usr_email" maxlength=64 size=16 value="{EMAIL}"></td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_STATUS}</b></td>
         <td>
                 <select name="usr_status">
@@ -76,7 +76,7 @@
                 </select>
         </td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_LANGUAGE}</b></td>
         <td>
                 <select name="usr_language">
@@ -86,15 +86,15 @@
                 </select>
         </td>
 </tr>
-<tr class="tblrow2">
+<tr bgcolor="#ddddee">
         <td align="right" valign="middle"><b>{TXT_SYS_GRP}</b></td>
         <td>{SYS_GRP}</td>
 </tr>
-<tr class="tblrow1">
+<tr bgcolor="#ddddee">
   <td align="right"><b>{TXT_USR_SKIN}</b></td>
   <td>
    <select name="usr_skin">
-<!-- BEGIN selectskin -->   
+<!-- BEGIN selectskin -->
    <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
 <!-- END selectskin -->
    </select>
