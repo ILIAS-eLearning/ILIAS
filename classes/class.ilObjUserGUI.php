@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.26 2003/06/23 11:11:20 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.27 2003/06/23 15:29:10 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -107,7 +107,7 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		require_once "classes/class.ilSetup.php";
 		$mySetup = new ilSetup();
 		$mySetup->readIniFile();
-		$webspace_dir = $mySetup->image_path;
+		$webspace_dir = $mySetup->getWebspacePath();
 		$tpl->setVariable("TXT_IMAGE","Image");	$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 
 		}

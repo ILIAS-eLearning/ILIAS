@@ -46,6 +46,7 @@ database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
 data_path#:#data path
+webspace_dir#:#webspace data path
 date#:#date
 db_host#:#database host
 db_name#:#database name
