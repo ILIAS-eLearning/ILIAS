@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.71 2004/04/12 13:46:52 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.72 2004/04/15 11:57:46 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -191,6 +191,8 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		include_once "./classes/class.ilGroup.php";
+
 		global $rbacadmin;
 
 		// check required fields
