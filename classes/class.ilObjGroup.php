@@ -253,26 +253,18 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get all group Members regardless of role
+	* get all group Member ids regardless of role
 	* @access	public
-	* @param	integer	group id
-	* @param	return array of users (obj_ids) that are assigned to the groupspecific roles (grp_member,grp_admin)
+	* @return	return array of users (obj_ids) that are assigned to
+	* the groupspecific roles (grp_member,grp_admin)
 	*/
-	function getGroupMemberIds($a_grpId="")
+	function getGroupMemberIds()
 	{
 		global $rbacadmin, $rbacreview;
 
-		if (!empty($a_grpId) )
-		{
-			$grp_id = $a_grpId;
-		}
-		else
-		{
-			$grp_id = $this->getRefId();
-		}
 		$usr_arr= array();
 
-		$rol  = $this->getLocalGroupRoles($grp_id);
+		$rol  = $this->getLocalGroupRoles();
 
 		foreach ($rol as $value)
 		{
@@ -283,6 +275,37 @@ class ilObjGroup extends ilObject
 		}
 
 		$mem_arr = array_unique($usr_arr);
+		
+		return $mem_arr ? $mem_arr : array();
+	}
+	
+	/**
+	* get all group Members regardless of group role.
+	* fetch all users data in one shot to improve performance
+	* @access	public
+	* @param	array	of user ids
+	* @return	return array of userdata
+	*/
+	function getGroupMemberData($a_mem_ids)
+	{
+		global $rbacadmin, $rbacreview, $ilBench, $ilDB;
+
+		$usr_arr= array();
+		
+		$q = "SELECT login,firstname,lastname,title,usr_id ".
+			 "FROM usr_data ".
+			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
+		$r = $ilDB->query($q);
+		
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$mem_arr[] = array("id" => $row->usr_id,
+								"login" => $row->login,
+								"firstname" => $row->firstname,
+								"lastname" => $row->lastname
+								);
+		}
+
 		return $mem_arr ? $mem_arr : array();
 	}
 
@@ -365,35 +388,31 @@ class ilObjGroup extends ilObject
 
 	/**
 	* get ALL local roles of group, also those created and defined afterwards
+	* only fetch data once from database. info is stored in object variable
 	* @access	public
-	* @param	return array [title|id] of roles...
+	* @return	return array [title|id] of roles...
 	*/
-	function getLocalGroupRoles($a_grp_id="")
+	function getLocalGroupRoles()
 	{
-		global $rbacadmin, $rbacreview;
-
-		if (strlen($a_grp_id) > 0)
+		global $rbacadmin,$rbacreview;
+		
+		if (empty($this->local_roles))
 		{
-			$grp_id = $a_grp_id;
-		}
-		else
-		{
-			$grp_id = $this->getRefId();
-		}
+			$this->local_roles = array();
+			$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
+			$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-
-		foreach ($role_arr as $role_id)
-		{
-			if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+			foreach ($role_arr as $role_id)
 			{
-				$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-				$arr_grpDefaultRoles[$role_Obj->getTitle()] = $role_Obj->getId();
+				if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+				{
+					$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+					$this->local_roles[$role_Obj->getTitle()] = $role_Obj->getId();
+				}
 			}
 		}
-
-		return $arr_grpDefaultRoles;
+		
+		return $this->local_roles;
 	}
 
 	/**
@@ -689,36 +708,57 @@ class ilObjGroup extends ilObject
 	/**
 	* get group member status
 	* @access	public
-	* @param	returns array of obj_ids of assigned local roles
+	* @param	integer	user_id
+	* @return	returns array of obj_ids of assigned local roles
 	*/
-	function getMemberRoles($a_user_id, $a_grp_id="")
+	function getMemberRoles($a_user_id)
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview,$ilBench;
+
+		$ilBench->start("Group", "getMemberRoles");
 
 		$arr_assignedRoles = array();
 
-		if (strlen($a_grp_id) > 0)
-		{
-			$grp_id = $a_grp_id;
-		}
-		else
-		{
-			$grp_id = $this->getRefId();
-		}
+		$arr_assignedRoles = array_intersect($rbacreview->assignedRoles($a_user_id),$this->getLocalGroupRoles());
 
-		$roles = $this->getLocalGroupRoles($grp_id);
-
-		foreach ($roles as $role)
-		{
-			if (in_array($a_user_id,$rbacreview->assignedUsers($role)))
-			{
-				array_push($arr_assignedRoles, $role);
-			}
-		}
+		$ilBench->stop("Group", "getMemberRoles");
 
 		return $arr_assignedRoles;
 	}
+	
+	/**
+	* get group member status
+	* @access	public
+	* @param	integer	user_id
+	* @return	returns string of role titles
+	*/
+	function getMemberRolesTitle($a_user_id)
+	{
+		global $ilDB,$ilBench;
 
+		$ilBench->start("Group", "getMemberRolesTitle");
+		
+		$str_member_roles ="";
+
+		$q = "SELECT title ".
+			 "FROM object_data ".
+			 "LEFT JOIN rbac_ua ON object_data.obj_id=rbac_ua.rol_id ".
+			 "WHERE object_data.type = 'role' ".
+			 "AND rbac_ua.usr_id = ".$ilDB->quote($a_user_id)." ".
+			 "AND rbac_ua.rol_id IN (".implode(',',$this->getLocalGroupRoles()).")";
+
+		$r = $ilDB->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$str_member_roles .= $row["title"].", ";
+		}
+
+		$ilBench->stop("Group", "getMemberRolesTitle");
+				
+		return substr($str_member_roles,0,-2);
+	}
+	
 	/**
 	* set member status
 	* @access	public

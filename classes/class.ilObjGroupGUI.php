@@ -720,11 +720,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->lng->txt("grp_err_no_permission"),$this->ilErr->MESSAGE);
 		}
 
-		$local_roles = $this->object->getLocalGroupRoles();
-
-		$flipped_local_roles = array_flip($local_roles);
-		$stati = array();
-		$stati = $flipped_local_roles;
+		$stati = array_flip($this->object->getLocalGroupRoles());
 
 		//build data structure
 		foreach ($member_ids as $member_id)
@@ -803,42 +799,51 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function membersObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilBench,$ilDB;
 
-		$member_ids = $this->object->getGroupMemberIds($this->object->getRefId());
-
+		$ilBench->start("GroupGUI", "membersObject");
+		
 		//if current user is admin he is able to add new members to group
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
-		$account_id = $this->ilias->account->getId();
+		// store access checks to improve performance
+		$access_delete = $rbacsystem->checkAccess("delete",$this->object->getRefId());
+		$access_leave = $rbacsystem->checkAccess("leave",$this->object->getRefId());
+		$access_write = $rbacsystem->checkAccess("write",$this->object->getRefId());
 
+		$member_ids = $this->object->getGroupMemberIds();
+		
+		// fetch all users data in one shot to improve performance
+		$members = $this->object->getGroupMemberData($member_ids);
+		
+		$account_id = $this->ilias->account->getId();
 		$counter = 0;
 
-		foreach ($member_ids as $member_id)
+		foreach ($members as $mem)
 		{
-			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
-			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$member->getLogin();
-			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$member->getId();
-
-			if (($member_id == $account_id && $rbacsystem->checkAccess('leave',$this->ref_id,'usr')) || $rbacsystem->checkAccess("delete",$this->object->getRefId() ))
+			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$mem["login"];
+			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
+		
+			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
 			{
-				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$member->getId();
+				$link_leave = $this->ctrl->getLinkTarget($this,"RemoveMember")."&mem_id=".$mem["id"];
 			}
 
 			//build function
-			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ) )
+			if ($access_delete && $access_write)
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
 
-			if (($member_id == $account_id && $rbacsystem->checkAccess('leave',$this->ref_id,'usr')) || $rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
+			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
 			{
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
 
-			$grp_role_id = $this->object->getMemberRoles($member->getId());
+
+			/*$grp_role_id = $this->object->getMemberRoles($mem["id"]);
 			$str_member_roles ="";
 
 			if (is_array($grp_role_id))
@@ -848,34 +853,39 @@ class ilObjGroupGUI extends ilObjectGUI
 				foreach ($grp_role_id as $role_id)
 				{
 					$count--;
-					$groupRole =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-					$str_member_roles .= $groupRole->getTitle();
-
+					#$groupRole =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+					#$str_member_roles .= $groupRole->getTitle();
+					# improved performance: this way it is 2.5 to 3 times faster
+					$str_member_roles .= ilObject::_lookupTitle($role_id);
+				
 					if ($count > 0)
 					{
 						$str_member_roles .= ", ";
 					}
 				}
-			}
+			}*/
+			
+			// this is twice as fast than the code above
+			$str_member_roles = $this->object->getMemberRolesTitle($mem["id"]);
 
-			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId()))
+			if ($access_delete && $access_write)
 			{
-				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$member->getId());
+				$result_set[$counter][] = ilUtil::formCheckBox(0,"user_id[]",$mem["id"]);
 			}
 
             //discarding the checkboxes
-			$result_set[$counter][] = $member->getLogin();
-			$result_set[$counter][] = $member->getFirstname();
-			$result_set[$counter][] = $member->getLastname();
+			$result_set[$counter][] = $mem["login"];
+			$result_set[$counter][] = $mem["firstname"];
+			$result_set[$counter][] = $mem["lastname"];
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
 
 			++$counter;
 
 			unset($member_functions);
-			unset($member);
-			unset($groupRole);
 		}
+
+		$ilBench->stop("GroupGUI", "membersObject");
 
 		return $this->__showMembersTable($result_set);
     }
@@ -1615,7 +1625,9 @@ class ilObjGroupGUI extends ilObjectGUI
 	
 	function __showMembersTable($a_result_set)
 	{
-        global $rbacsystem;
+        global $rbacsystem,$ilBench;
+
+		$ilBench->start("GroupGUI", "__showMembersTable");
 
 		$actions = array("RemoveMember"  => $this->lng->txt("remove"),"changeMember"  => $this->lng->txt("change"));
 
@@ -1677,6 +1689,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
 		$tbl->render();
 		$this->tpl->setVariable("ADM_CONTENT",$tbl->tpl->get());
+		
+		$ilBench->stop("GroupGUI", "__showMembersTable");
 
 		return true;
 	}
@@ -1971,7 +1985,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt($data)), $format_title);
 		}
-		$member_ids = $this->object->getGroupMemberIds($this->object->getRefId());
+		$member_ids = $this->object->getGroupMemberIds();
 		$row = 1;
 		foreach ($member_ids as $member_id)
 		{
