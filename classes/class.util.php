@@ -93,8 +93,8 @@ class TUtil
 	*/
 	function formSelect ($selected,$varname,$options,$multiple = false)
 	{
-		$multiple ? $multiple = "multiple=\"multiple\" " : "";
-		$str = "<select name=\"".$varname ."\" ".$multiple.">\n";
+		$multiple ? $multiple = " multiple=\"multiple\"" : "";
+		$str = "<select name=\"".$varname ."\"".$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
