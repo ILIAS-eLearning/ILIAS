@@ -106,10 +106,23 @@ class ilSetup extends PEAR
 		// init setup.ini
 		$this->ini_ilias_exists = $this->init();
 
-		//if ($this->ini_ilias_exists)
-		//{
-		//	$
-		//}
+		if ($this->ini_ilias_exists)
+		{
+			if ($this->ini->readVariable("log","path") != "")
+			{
+				$log->path = $this->ini->readVariable("log","path");
+			}
+
+			if ($this->ini->readVariable("log","file") != "")
+			{
+				$log->filename = $this->ini->readVariable("log","file");
+			}
+
+			if ($this->ini->readVariable("log","enabled") != "")
+			{
+				$log->enabled = $this->ini->readVariable("log","enabled");
+			}
+		}
 	}
 
 	function init()

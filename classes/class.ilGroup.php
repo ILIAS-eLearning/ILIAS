@@ -71,12 +71,9 @@ class ilGroup
 	*/
 	function groupNameExists($a_group_name,$a_id = 0)
 	{
-		global $log;
-		
 		if (empty($a_group_name))
 		{
 			$message = get_class($this)."::groupNameExists(): No groupname given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

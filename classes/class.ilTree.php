@@ -268,12 +268,9 @@ class ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		global $log;
-
 		if (!isset($a_node_id))
 		{
 			$message = get_class($this)."::getChilds(): No node_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -333,12 +330,9 @@ class ilTree
 	*/
 	function getChildsByType($a_node_id,$a_type)
 	{
-		global $log;
-
 		if (!isset($a_node_id) or !isset($a_type))
 		{
 			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_type;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

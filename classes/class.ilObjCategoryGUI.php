@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.9 2003/10/31 12:32:15 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.10 2003/11/01 17:34:59 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -481,12 +481,9 @@ class ilObjCategoryGUI extends ilObjectGUI
 	*/
 	function addTranslationObject()
 	{
-		global $log;
-
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::addTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -503,12 +500,9 @@ class ilObjCategoryGUI extends ilObjectGUI
 	*/
 	function removeTranslationObject()
 	{
-		global $log;
-
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::removeTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

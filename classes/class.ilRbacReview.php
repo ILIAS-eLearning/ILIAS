@@ -64,12 +64,9 @@ class ilRbacReview
 	*/
 	function roleExists($a_title,$a_id = 0)
 	{
-		global $log;
-		
 		if (empty($a_title))
 		{
 			$message = get_class($this)."::roleExists(): No title given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -101,12 +98,9 @@ class ilRbacReview
 	*/
 	function getParentRoles($a_path,$a_templates = false)
 	{
-		global $log;
-
 		if (!isset($a_path) or !is_array($a_path))
 		{
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -154,12 +148,11 @@ class ilRbacReview
 	*/
 	function getParentRoleIds($a_endnode_id,$a_templates = false)
 	{
-		global $tree, $log;
+		global $tree;
 
 		if (!isset($a_endnode_id))
 		{
 			$message = get_class($this)."::getParentRoleIds(): No node_id (ref_id) given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 	
@@ -180,14 +173,11 @@ class ilRbacReview
 	*/
 	function getRoleListByObject($a_ref_id,$a_templates = false)
 	{
-		global $log;
-
 		if (!isset($a_ref_id) or !isset($a_templates))
 		{
 			$message = get_class($this)."::getRoleListByObject(): Missing parameter!".
 					   "ref_id: ".$a_ref_id.
 					   "tpl_flag: ".$a_templates;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -310,12 +300,9 @@ class ilRbacReview
 	*/
 	function assignedUsers($a_rol_id)
 	{
-		global $log;
-
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -340,12 +327,9 @@ class ilRbacReview
 	*/
 	function assignedRoles($a_usr_id)
 	{
-		global $log;
-
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignedRoles(): No user_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -362,7 +346,6 @@ class ilRbacReview
 		if (!count($role_arr))
 		{
 			$message = get_class($this)."::assignedRoles(): No assigned roles found or user doesn't exists!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -378,8 +361,6 @@ class ilRbacReview
 	*/
 	function isAssignable($a_rol_id, $a_ref_id)
 	{
-		global $log;
-		
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
@@ -390,7 +371,6 @@ class ilRbacReview
 		{
 			$message = get_class($this)."::isAssignable(): Missing parameter!".
 					   " role_id: ".$a_rol_id." ,ref_id: ".$a_ref_id;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -414,12 +394,9 @@ class ilRbacReview
 	*/
 	function getFoldersAssignedToRole($a_rol_id, $a_assignable = false)
 	{
-		global $log;
-
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getFoldersAssignedToRole(): No role_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -450,12 +427,9 @@ class ilRbacReview
 	*/
 	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
-		global $log;
-
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRolesifRoleFolder(): No ref_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -515,12 +489,11 @@ class ilRbacReview
 	*/
 	function getRoleFolderOfObject($a_ref_id)
 	{
-		global $tree, $log;
+		global $tree;
 		
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -540,15 +513,12 @@ class ilRbacReview
 	*/
 	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
 	{
-		global $log;
-
 		if (!isset($a_rol_id) or !isset($a_type) or func_num_args() != 3)
 		{
 			$message = get_class($this)."::getOperationsOfRole(): Missing Parameter!".
 					   "role_id: ".$a_rol_id.
 					   "type: ".$a_type.
 					   "parent_id: ".$a_parent;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -578,12 +548,9 @@ class ilRbacReview
 	*/
 	function getOperationsOnType($a_typ_id)
 	{
-		global $log;
-
 		if (!isset($a_typ_id))
 		{
 			$message = get_class($this)."::getOperationsOnType(): No type_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -607,12 +574,9 @@ class ilRbacReview
 	*/
 	function getObjectsWithStopedInheritance($a_rol_id)
 	{
-		global $log;
-		
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 			
@@ -640,8 +604,6 @@ class ilRbacReview
 	*/
 	function isDeleted($a_node_id)
 	{
-		global $log;
-
 		$q = "SELECT tree FROM tree WHERE child ='".$a_node_id."'";
 		$r = $this->ilias->db->query($q);
 		
@@ -650,7 +612,6 @@ class ilRbacReview
 		if (!$row)
 		{
 			$message = get_class($this)."::isDeleted(): Rolefolder with ref_id '".$a_node_id."' not found!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

@@ -64,12 +64,9 @@ class ilRbacAdmin
 	*/
 	function removeUser($a_usr_id)
 	{
-		global $log;
-
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -155,12 +152,9 @@ class ilRbacAdmin
 	*/
 	function deleteLocalRole($a_rol_id,$a_ref_id = 0)
 	{
-		global $log;
-
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: '".$a_rol_id."'";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -492,15 +486,12 @@ class ilRbacAdmin
 	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
-		global $log;
-
 		if (!isset($a_rol_id) or !isset($a_parent) or func_num_args() != 3)
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
 					   " role_id: ".$a_rol_id.
 					   " parent_id: ".$a_parent.
 					   " assign: ".$a_assign;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
@@ -533,14 +524,11 @@ class ilRbacAdmin
 	*/
 	function assignOperationToObject($a_type_id,$a_ops_id)
 	{
-		global $log;
-
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
 			$message = get_class($this)."::assignOperationToObject(): Missing parameter!".
 					   "type_id: ".$a_type_id.
 					   "ops_id: ".$a_ops_id;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -561,14 +549,11 @@ class ilRbacAdmin
 	*/
 	function deassignOperationFromObject($a_type_id,$a_ops_id)
 	{
-		global $log;
-
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
 			$message = get_class($this)."::deassignPermissionFromObject(): Missing parameter!".
 					   "type_id: ".$a_type_id.
 					   "ops_id: ".$a_ops_id;
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
