@@ -48,7 +48,7 @@ if (empty($anon))
 	echo "<li>Remember the object_id of a user account designated for anonymous access (you may also add a new user)</li>";
 	echo "<li>Username and password MUST BE 'anonymous','anonymous'</li>";
 	echo "<li>Open your ilias.ini.php and enter the object_id to the directive 'ANONYMOUS_USER_ID'</li></ul></p>";
-	exit;
+	exit();
 }
 
 if (!$ilias->getSetting("pub_section"))
@@ -59,6 +59,12 @@ if (!$ilias->getSetting("pub_section"))
 	exit();
 }
 
+// catch reload
+if ($_GET["reload"])
+{
+	echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n";
+	exit();
+}
 // check for auth
 if ($ilias->auth->getAuth())
 {

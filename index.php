@@ -52,6 +52,13 @@ require_once "include/inc.header.php";
 // display client selection list if enabled
 if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
 {	
+	// catch reload
+	if ($_GET["reload"])
+	{
+		echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n";
+	
+	}
+
 	include_once "./include/inc.client_list.php";
 	exit();
 }
