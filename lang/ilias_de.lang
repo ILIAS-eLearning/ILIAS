@@ -138,7 +138,8 @@ common#:#file_version#:#verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
-common#:#flatview#:#Flache Ansichtcommon#:#folder#:#Ordner
+common#:#flatview#:#Flache Ansicht
+common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
