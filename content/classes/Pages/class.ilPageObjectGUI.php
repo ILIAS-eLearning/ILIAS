@@ -212,7 +212,7 @@ class ilPageObjectGUI
 	{
 		global $tree;
 		$this->setOutputMode("preview");
-		$this->showPage();
+		return $this->showPage();
 	}
 
 	/*
@@ -222,7 +222,7 @@ class ilPageObjectGUI
 	{
 		global $tree;
 		$this->setOutputMode("edit");
-		$this->showPage();
+		return $this->showPage();
 	}
 
 	function edit()

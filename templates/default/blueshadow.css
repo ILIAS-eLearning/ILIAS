@@ -409,7 +409,7 @@ input {
 }
 
 
-input.submit {
+input.submit, a.submit {
 	background-color:#ffffff;
 	color:#2255a0;
 	border-width:1px;
@@ -465,7 +465,7 @@ textarea {
 	font-size:13px;
 }
 
-input.submit:hover, input.ilEditSubmit:hover {
+input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color:#000000;
 }
 
@@ -645,6 +645,20 @@ table.ilc_Media
 td.ilc_MediaCaption
 {
 	padding:5px;
+}
+
+div.ilc_DefinitionHeader
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size:18px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #000000;
 }
 
 table.ilc_Fullscreen

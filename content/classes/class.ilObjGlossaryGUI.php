@@ -287,7 +287,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
-					$_GET["ref_id"]."&cmd=editTerm&term_id=".$term["id"]);
+					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
@@ -304,18 +304,46 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function listDefinitions()
 	{
-		$this->admin_tabs[] = array("cont_definitions","listDefinitions");
-		$this->admin_tabs[] = array("meta_data","editTerm");
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
 
-		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_gui->setOutputMode("edit");
-		$page_gui->setPresentationTitle($this->term->getTerm());
-		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
-			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
-			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
+		//$this->admin_tabs[] = array("cont_definitions","listDefinitions");
+		//$this->admin_tabs[] = array("meta_data","editTerm");
+		$term =& new ilGlossaryTerm($_GET["term_id"]);
+
+		// load template for table
+		$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
+		$this->setLocator();
+		$this->setAdminTabs("term_edit");
+		$this->tpl->setVariable("TXT_HEADER",
+			$this->lng->txt("cont_term").": ".$term->getTerm());
+
+		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
+		for($j=0; $j<count($defs); $j++)
+		{
+			$def = $defs[$j];
+			$page =& new ilPageObject("gdf", $def["id"]);
+			$page_gui =& new ilPageObjectGUI($page);
+			//$page_gui->setOutputMode("edit");
+			//$page_gui->setPresentationTitle($this->term->getTerm());
+			$page_gui->setTemplateOutput(false);
+			$output = $page_gui->preview();
+
+			$this->tpl->setCurrentBlock("definition");
+			$this->tpl->setVariable("TXT_DEFINITION",
+				$this->lng->txt("cont_definition")." ".($j+1));
+			$this->tpl->setVariable("PAGE_CONTENT", $output);
+			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$this->tpl->setVariable("LINK_EDIT",
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("def_list");
+		$this->tpl->parseCurrentBlock();
 
 	}
 
@@ -356,7 +384,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("locator_item");
 					$this->tpl->setVariable("ITEM", $term->getTerm());
 					$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-						"&cmd=editTerm&term_id=".$term->getId());
+						"&cmd=listDefinitions&term_id=".$term->getId());
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -517,8 +545,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			switch($mode)
 			{
 				case "term_edit":
-					$tabs[] = array("properties","editTerm");
 					$tabs[] = array("cont_definitions","listDefinitions");
+					$tabs[] = array("properties","editTerm");
 					break;
 			}
 
