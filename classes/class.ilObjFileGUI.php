@@ -56,10 +56,12 @@ class ilObjFileGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
-		
-		if (!$rbacsystem->checkAccess("create_file", ilObjFile::__getGroupId($_GET["ref_id"])))
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
 
 		// fill in saved values in case of error
@@ -125,6 +127,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->create();
 		$fileObj->createReference();
 		$fileObj->putInTree($_GET["ref_id"]);
+		$fileObj->setPermissions($_GET["ref_id"]);
 		// upload file to filesystem
 		$fileObj->createDirectory();
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
@@ -138,7 +141,7 @@ class ilObjFileGUI extends ilObjectGUI
 	* @access	public
 	*
 	*/
-	function cancelObject()
+	/*function cancelObject()
 	{
 		$this->link_params = "ref_id=".$this->tree->getParentId($this->ref_id);
 
@@ -147,13 +150,13 @@ class ilObjFileGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
 		ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
-	}
+	}*/
 
 	/**
 	* updates object entry in object_data
 	*
 	* @access	public
-	*/
+	*
 	function updateObject()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -163,6 +166,6 @@ class ilObjFileGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		$this->link_params = "ref_id=".$this->tree->getParentId($this->ref_id);
 		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?".$this->link_params));
-	}
+	}*/
 } // END class.ilObjFileGUI
 ?>

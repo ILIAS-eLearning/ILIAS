@@ -597,7 +597,7 @@ class ilRbacReview
 	*/
 	function getObjectsWithStopedInheritance($a_rol_id)
 	{
-		global $tree;
+		$tree = new ilTree(ROOT_FOLDER_ID);
 
 		if (!isset($a_rol_id))
 		{

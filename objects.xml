@@ -89,11 +89,15 @@
 </object>
 <object name="fold" class_name="Folder" checkbox="1" inherit="0" translate="0" rbac="1">
 	<subobj name="frm">frm</subobj>
+	<subobj name="chat">chat</subobj>
 	<subobj name="lm" import="1">lm</subobj>
-	<subobj name="fold">fold</subobj>
-	<subobj name="file">file</subobj>
+	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="fold" module="1">fold</subobj>
+	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -315,6 +319,7 @@
 </object>
 <object name="file" class_name="File" checkbox="1" inherit="0" translate="0" rbac="1">
 	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>

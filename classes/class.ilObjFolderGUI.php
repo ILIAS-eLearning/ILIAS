@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.18 2004/04/12 13:46:52 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.19 2004/04/16 03:35:35 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -47,8 +47,6 @@ class ilObjFolderGUI extends ilObjectGUI
 	{
 		$this->type = "fold";
 		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
-		//$this->lng =& $lng;
 	}
 
 	/**
@@ -67,15 +65,6 @@ class ilObjFolderGUI extends ilObjectGUI
 	function createObject()
 	{
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// creates a child object
-		global $rbacsystem;
-
-		/*if (!$rbacsystem->checkAccess("create_fold", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			exit();
-		}*/
 
 		// fill in saved values in case of error
 		$data = array();
@@ -132,13 +121,11 @@ class ilObjFolderGUI extends ilObjectGUI
 		}
 
 		if ($this->withReferences())		// check if this folders use references
-		{								// note: e.g. folders in media pools don't
+		{									// note: e.g. folders in media pools don't
 			$folderObj->createReference();
 			$folderObj->putInTree($a_parent);
+			$folderObj->setPermissions($a_parent);
 		}
-
-		// no notify for folders
-		//$folderObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$folderObj->getRefId());
 
 		sendInfo($this->lng->txt("fold_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
