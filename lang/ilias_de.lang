@@ -83,6 +83,8 @@ administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten.
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
+common#:#grp_no_roles_selected#:#Keine Rolle ausgewählt
+common#:#grp_no_groups_selected#:#Keine Gruppe ausgewählt
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details

@@ -57,6 +57,8 @@ administration#:#purge_missing_desc#:#Remove all missing and unbound objects fou
 administration#:#purge_trash#:#Purge deleted objects
 common#:#exc_roles#:#Roles
 common#:#grp_search_members#:#User search
+common#:#grp_no_roles_selected#:#No roles selected
+common#:#grp_no_groups_selected#:#No group selected
 common#:#grp_header_edit_members#:#Edit members
 common#:#grp_list_users#:#List users
 common#:#grp_count_members#:#Number of members

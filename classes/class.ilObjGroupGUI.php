@@ -1759,7 +1759,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","listUsers");
+		$tpl->setVariable("BTN_NAME","listUsersRole");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
 		$tpl->parseCurrentBlock();
 
@@ -1809,7 +1809,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","listUsers");
+		$tpl->setVariable("BTN_NAME","listUsersGroup");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("grp_list_users"));
 		$tpl->parseCurrentBlock();
 
@@ -1883,7 +1883,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->setData($result_set);
 	}
 	
-	function listUsersObject()
+	function listUsersRoleObject()
 	{
 		global $rbacsystem,$rbacreview;
 
@@ -1911,6 +1911,71 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach($_POST["role"] as $role_id)
 		{
 			$members = array_merge($rbacreview->assignedUsers($role_id),$members);
+		}
+
+		$members = array_unique($members);
+
+		// FORMAT USER DATA
+		$counter = 0;
+		$f_result = array();
+		foreach($members as $user)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user,false))
+			{
+				continue;
+			}
+			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
+			$f_result[$counter][] = $tmp_obj->getLogin();
+			$f_result[$counter][] = $tmp_obj->getLastname();
+			$f_result[$counter][] = $tmp_obj->getFirstname();
+
+			unset($tmp_obj);
+			++$counter;
+		}
+		$this->__showSearchUserTable($f_result,"listUsers");
+
+		return true;
+	}
+	
+	function listUsersGroupObject()
+	{
+		global $rbacsystem,$rbacreview,$tree;
+
+		$_SESSION["grp_group"] = $_POST["group"] = $_POST["group"] ? $_POST["group"] : $_SESSION["grp_group"];
+
+		// MINIMUM ACCESS LEVEL = 'administrate'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!is_array($_POST["group"]))
+		{
+			sendInfo($this->lng->txt("grp_no_groups_selected"));
+			$this->searchObject();
+
+			return false;
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		//$this->__showButton("searchUser",$this->lng->txt("grp_new_search"));
+
+		// GET ALL MEMBERS
+		$members = array();
+		foreach($_POST["group"] as $group_id)
+		{
+			if (!$tree->isInTree($group_id))
+			{
+				continue;
+			}
+			if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($group_id))
+			{
+				continue;
+			}
+
+			$members = array_merge($tmp_obj->getGroupMemberIds(),$members);
+
+			unset($tmp_obj);
 		}
 
 		$members = array_unique($members);
