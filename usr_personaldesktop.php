@@ -139,8 +139,8 @@ foreach ($lo_items as $lo_item)
 	$i++;
 	$tpl->setCurrentBlock("tbl_lo_row");
 	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVAriable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"]);
-	$tpl->setVAriable("LO_TITLE", $lo_item["title"]);
+	$tpl->setVariable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"]);
+	$tpl->setVariable("LO_TITLE", $lo_item["title"]);
 	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=lm&id=".$lo_item["id"]);
 	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
 	$tpl->parseCurrentBlock();
@@ -165,8 +165,8 @@ foreach ($frm_items as $frm_item)
 	$i++;
 	$tpl->setCurrentBlock("tbl_frm_row");
 	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVAriable("FRM_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
-	$tpl->setVAriable("FRM_TITLE", $frm_item["title"]);
+	$tpl->setVariable("FRM_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
+	$tpl->setVariable("FRM_TITLE", $frm_item["title"]);
 	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=frm&id=".$frm_item["id"]);
 	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
 	$tpl->parseCurrentBlock();

@@ -263,8 +263,6 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setEmail($_POST["usr_email"]);
 	$ilias->account->setHobby($_POST["usr_hobby"]);
 
-	$ilias->account->setLanguage($_POST["usr_language"]);
-
 	// everthing's ok. save form data
 	if ($form_valid)
 	{
@@ -277,13 +275,17 @@ if ($_GET["cmd"] == "save")
 			$ilias->account->setPref("skin", $_POST["usr_skin"]);
 			$reload = true;
 		}
-		else	// set user style only if skin wasn't changed
+		// set user style only if skin wasn't changed
+		elseif ($_POST["usr_style"] != "" and $_POST["usr_style"] != $ilias->account->getPref("style"))
 		{
-			if ($_POST["usr_style"] != "" and $_POST["usr_style"] != $ilias->account->getPref("style"))
-			{
 				$ilias->account->setPref("style", $_POST["usr_style"]);
 				$reload = true;
-			}
+		}
+		// set user language
+		elseif ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
+		{
+				$ilias->account->setLanguage($_POST["usr_language"]);
+				$reload = true;
 		}
 
 		// save user data & object_data
