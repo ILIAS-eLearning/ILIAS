@@ -2290,4 +2290,20 @@ while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	$this->db->query($query);
 }
 ?>
+<#156>
+ALTER  TABLE  `qpl_answers`  ADD  `cloze_type` ENUM(  '0',  '1'  )  AFTER  `gap_id` ;
 
+<#157>
+<?php
+// save the cloze type from the qpl_questions table into the qpl_answers table
+$query = "SELECT * FROM qpl_questions WHERE cloze_type >= 0";
+$res = $this->db->query($query);
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$update_query = sprintf("UPDATE qpl_answers SET cloze_type = %s WHERE question_fi = %s",
+		$this->db->quote("$row->cloze_type"),
+		$this->db->quote("$row->question_id")
+	);
+	$update_res = $this->db->query($update_query);
+}
+?>
