@@ -65,10 +65,10 @@ class ilAddressbook
 		if($a_query_str)
 		{
 			$query = "SELECT * FROM $this->table_addr ".
-				"WHERE login LIKE '%".$a_search_str."%' ".
-				"OR firstname LIKE '%".$a_search_str."%' ".
-				"OR lastname LIKE '%".$a_search_str."%' ".
-				"OR email LIKE '%".$a_search_str."%'";
+				"WHERE (login LIKE '%".$a_query_str."%' ".
+				"OR firstname LIKE '%".$a_query_str."%' ".
+				"OR lastname LIKE '%".$a_query_str."%' ".
+				"OR email LIKE '%".$a_query_str."%') ";
 				"AND user_id = '".$this->user_id."'";
 		}
 		else
