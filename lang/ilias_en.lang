@@ -316,20 +316,20 @@ assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_stat_all_users#:#All users
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work
-assessment#:#tst_stat_result_mark_median#:#Mark of median
-assessment#:#tst_stat_result_rank_participant#:#Rank of participant
-assessment#:#tst_stat_result_rank_median#:#Rank of median
-assessment#:#tst_stat_result_total_participants#:#Total number of participants
-assessment#:#tst_stat_result_median#:#Median of test result in points
 assessment#:#tst_stat_result_distancemedian#:#Distance to median
 assessment#:#tst_stat_result_firstvisit#:#First visit
 assessment#:#tst_stat_result_lastvisit#:#Last visit
+assessment#:#tst_stat_result_mark_median#:#Mark of median
+assessment#:#tst_stat_result_median#:#Median of test result in points
 assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through
 assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through
+assessment#:#tst_stat_result_rank_median#:#Rank of median
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant
 assessment#:#tst_stat_result_resultsmarks#:#Test results in marks
 assessment#:#tst_stat_result_resultspoints#:#Test results in points
 assessment#:#tst_stat_result_specification#:#Specification of evaluation data
 assessment#:#tst_stat_result_timeofwork#:#Time of work
+assessment#:#tst_stat_result_total_participants#:#Total number of participants
 assessment#:#tst_stat_selected_users#:#Selected users
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool
@@ -1517,6 +1517,8 @@ common#:#obj_notf#:#Note Administration
 common#:#obj_objf#:#Objectdefinitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
+common#:#obj_pays#:#Payment settings
+common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool (Assessment)
 common#:#obj_recf#:#Restored Objects
@@ -1621,6 +1623,10 @@ common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Pathes
 common#:#payment_system#:#Payment System
+common#:#pays_edit#:#Edit payment settings
+common#:#pays_edit_permission#:#Change permission settings
+common#:#pays_read#:#Access payment settings
+common#:#pays_visible#:#Payment settings are visible
 common#:#per_object#:#Access per object
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
@@ -3616,9 +3622,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-common#:#pays_edit_permission#:#Change permission settings
-common#:#pays_visible#:#Payment settings are visible
-common#:#pays_read#:#Access payment settings
-common#:#pays_edit#:#Edit payment settings
-common#:#obj_pays#:#Payment settings
-common#:#obj_pays_desc#:#Configure payment settings and vendors

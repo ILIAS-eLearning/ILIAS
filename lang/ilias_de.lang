@@ -314,16 +314,20 @@ assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle NutzerInnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
+assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
 assessment#:#tst_stat_result_pworkedthrough#:#Prozentsatz (vollständig bearbeitet)
 assessment#:#tst_stat_result_qworkedthrough#:#Bereits bearbeitete Fragen
+assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
+assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
 assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
 assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
@@ -1506,6 +1510,8 @@ common#:#obj_notf#:#Notizen
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#obj_pays#:#Paymenteinstellungen
+common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pg#:#Seite
 common#:#obj_qpl#:#Fragenpool
 common#:#obj_recf#:#Wiederhergestellte Objekte
@@ -1610,6 +1616,10 @@ common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
 common#:#pathes#:#Pfade
 common#:#payment_system#:#Bezahlungssystem
+common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
+common#:#pays_edit_permission#:#Rechteeinstellungen ändern
+common#:#pays_read#:#Lesezugrif auf Paymenteinstellungen
+common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
@@ -3604,9 +3614,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#pays_edit_permission#:#Rechteeinstellungen ändern
-common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
-common#:#pays_read#:#Lesezugrif auf Paymenteinstellungen
-common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
-common#:#obj_pays#:#Paymenteinstellungen
-common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...

@@ -316,16 +316,20 @@ assessment#:#tst_starting_time#:#Ora di inizio
 assessment#:#tst_stat_all_users#:#tutti gli utenti
 assessment#:#tst_stat_choose_users#:#(seleziona almeno uno o pi&#249; utenti dalla lista)
 assessment#:#tst_stat_result_atimeofwork#:#Tempo medio di esecuzione
-assessment#:#tst_stat_result_distancemean#:#Distanza dalla media aritmetica
-assessment#:#tst_stat_result_distancequintile#:#Distanza dal quintile aritmetico
+assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Prima visita
 assessment#:#tst_stat_result_lastvisit#:#Ultima visita
+assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
 assessment#:#tst_stat_result_pworkedthrough#:#Percentuale del lavoro eseguito
 assessment#:#tst_stat_result_qworkedthrough#:#Domande gi&#224; eseguite
+assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
 assessment#:#tst_stat_result_resultsmarks#:#Risultati dei test in voti
 assessment#:#tst_stat_result_resultspoints#:#Risultati dei test in punti
 assessment#:#tst_stat_result_specification#:#Specifiche per la valutazione dei dati
 assessment#:#tst_stat_result_timeofwork#:#Tempo di esecuzione
+assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
 assessment#:#tst_stat_selected_users#:#Utenti selezionati
 assessment#:#tst_stat_users_intro#:#Mostra le statistiche per
 assessment#:#tst_statistical_evaluation#:#Strumenti di valutazione statistica
@@ -1511,6 +1515,8 @@ common#:#obj_notf#:#Gestione note
 common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS 3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
+common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
+common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 new variable
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande
 common#:#obj_recf#:#Oggetti ripristinati
@@ -1615,6 +1621,10 @@ common#:#path_to_unzip#:#Percorso di UNZIP
 common#:#path_to_zip#:#Percorso di ZIP
 common#:#pathes#:#Percorsi
 common#:#payment_system#:#Sistema a pagamento
+common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
+common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
+common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
+common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
 common#:#per_object#:#Permessi sull'oggetto
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso

@@ -316,16 +316,20 @@ assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
 assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
+assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
 assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through###20 Mar 2004 new variable
 assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through###20 Mar 2004 new variable
+assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
+assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
 assessment#:#tst_stat_result_resultsmarks#:#Test results in marks###20 Mar 2004 new variable
 assessment#:#tst_stat_result_resultspoints#:#Test results in points###20 Mar 2004 new variable
 assessment#:#tst_stat_result_specification#:#Specification of evaluation data###20 Mar 2004 new variable
 assessment#:#tst_stat_result_timeofwork#:#Time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
 assessment#:#tst_stat_selected_users#:#Selected users###20 Mar 2004 new variable
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 2004 new variable
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
@@ -1512,6 +1516,8 @@ common#:#obj_notf#:#-Administración de Notas-
 common#:#obj_objf#:#Administración de Objetos
 common#:#obj_objf_desc#:#Gestión de tipos de objetos ILIAS y permisos (sólo para expertos!)
 common#:#obj_owner#:#Este objeto es propiedad de
+common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
+common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 new variable
 common#:#obj_pg#:#Página
 common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_recf#:#Objetos Restaurados
@@ -1616,6 +1622,10 @@ common#:#path_to_unzip#:#ruta de unzip
 common#:#path_to_zip#:#ruta de zip
 common#:#pathes#:#Rutas
 common#:#payment_system#:#sistema de pago
+common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
+common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
+common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
+common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
 common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#permisos
 common#:#permission#:#permiso
