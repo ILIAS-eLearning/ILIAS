@@ -314,17 +314,19 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-			if ($this->object->getSolutionHint())
+			if (count($this->object->suggested_solutions))
 			{
-				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+	//			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSuggestedSolution(0) . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
 				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+				$solution_array = $this->object->getSuggestedSolution(0);
+				$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
 			}
 			else
 			{
 				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
 			}
-			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 
 			$this->tpl->setVariable("ADD_AREA", $this->lng->txt("add_area"));
 			$this->tpl->setVariable("TEXT_RECT", $this->lng->txt("rectangle"));
@@ -476,7 +478,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 			$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
-			$this->object->setSolutionHint($_POST["solution_hint"]);
+			$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 			$this->object->setShuffle($_POST["shuffle"]);
 
 			// adding estimated working time

@@ -1965,13 +1965,14 @@ class ilObjTest extends ilObject
 			} else {
 				$percentvalue = 0;
 			}
+			$solution_array = $question->getSuggestedSolution(0);
 			$row = array(
 				"nr" => "$key",
 				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-				"solution" => sprintf("%d", $question->getSolutionHint())
+				"solution" => sprintf("%d", $solution_array["internal_link"])
 			);
 			array_push($result_array, $row);
 			$key++;

@@ -4898,3 +4898,16 @@ ALTER TABLE `qpl_answer_enhanced` CHANGE `answer_fi` `answer_fi` VARCHAR( 20 ) D
 ALTER TABLE `qpl_answer_enhanced` CHANGE `answer_fi` `value1` INT DEFAULT '0' NOT NULL;
 ALTER TABLE `qpl_answer_enhanced` ADD `value2` INT DEFAULT '0' NOT NULL AFTER `value1`;
 ALTER TABLE `qpl_answer_enhanced` DROP `answer_boolean_connection`;
+<#324>
+CREATE TABLE IF NOT EXISTS `qpl_suggested_solutions` (
+  `suggested_solution_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL default '0',
+  `internal_link` varchar(50) default '',
+  `import_id` varchar(50) default '',
+  `subquestion_index` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`suggested_solution_id`),
+  KEY `question_fi` (`question_fi`)
+);
+
+
