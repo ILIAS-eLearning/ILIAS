@@ -2,12 +2,12 @@ body {
 	color:#222222;
 	background-color:#b9c0d5;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
-	font-size:small;
+	font-size:13px;
 	margin:10px;
 }
 
 td {
-        font-size:small;
+	font-size:13px;
 }
 
 .btnbar {
@@ -25,12 +25,14 @@ input, textarea {
 .tblrow2 {
 	background-color:#F7F7F7;
 	color:#222222;
+	font-size:13px;
 	padding:4px;
 }
 
 .tblrow1 {
 	background-color:#EEEEEE;
 	color:#222222;
+	font-size:13px;
 	padding:4px;
 }
 
@@ -61,7 +63,9 @@ td.std {
 }
 
 .tblheader {
-	color: #000000; font-size: 13px; font-weight : bold;
+	color: #000000;
+	font-size:13px;
+	font-weight:bold;
 }
 
 tr.tblheader {
@@ -81,7 +85,8 @@ td.option {
 	background-color:#E2E2E2;
 	color:#222222;
 	padding:4px;
-	font-size: 13px; font-weight : bold;
+	font-size:13px;
+	font-weight : bold;
 	vertical-align:top;
 	text-align:right;
 }
@@ -90,7 +95,7 @@ td.option_value {
 	background-color:#F7F7F7;
 	color:#222222;
 	padding:4px;
-	font-size: 13px;
+	font-size:13px;
 	vertical-align:top;
 	text-align:left;
 }
@@ -110,7 +115,7 @@ a.tblheader:hover
 /* ---------------- headlines ------------------ */
 
 h1 {
-	font-size:medium;
+	font-size:16px;
 	color:#222222;
 	background-color: #C0C0C0;
 	border-width:2px;
@@ -121,7 +126,7 @@ h1 {
 }
 
 h2 {
-	font-size:medium;
+	font-size:16px;
 	color:#222222;
 	background-color: #CCCCCC;
 	border-width:1px;
@@ -144,23 +149,86 @@ div.invisible_border {
 
 /* ----------------- alternative text styles ------------- */
 .small {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 }
 
 .smallgreen {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 	color:green;
 }
 
 .smallred {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 	color:red;
 }
 
+.warning {
+	text-decoration:none;
+	font-weight;bold;
+	color:red;
+}
+
+.asterisk {
+	color:red;
+	font-size:9px;
+}
+
+.default {
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.quote {
+	font-style:italic;
+	font-weight:normal;
+}
+
+/* ---------------- forum design ----------------- */
+
+.frm_header {
+	padding:3px;
+	font-size:11px;
+	font-weight:bold;
+}
+
+.frm_topic {
+	text-decoration:none;
+	font-size:13px;
+}
+
+.frm_desc {
+	font-style:italic;
+	font-size:13px;
+}
+
+.frm_context {
+	font-size:9px;
+}
+
+.frm_column2 {
+	color:#222222;
+	background-color:#eeeeee;
+	text-decoration:none;
+	font-size:9px;
+}
+
+.frm_column1 {
+	color:#222222;
+	background-color:#bbbbbb;
+	text-decoration:none;
+	font-size:9px;
+}
+
+.frm_option {
+	text-decoration:none;
+	font-size:9px;
+}
+
 /* ----------------- normal links ------------- */
+
 a:link, a:visited {
 	font-weight:bold;
 	text-decoration:none;
@@ -171,18 +239,17 @@ a:hover {
 	color:#000000;
 }
 
-
 /* ------------------- mail links ----------- */
 a.mailread
 {
-        font-weight: normal;
-        color: #2255A0;
+	font-weight: normal;
+	color: #2255A0;
 }
 
 a.mailunread
 {
-        color: #2255A0;
-        font-weight: bold;
+	color: #2255A0;
+	font-weight: bold;
 }
 
 /* ------------------ buttons -------------- */
@@ -214,7 +281,7 @@ input {
 	border-width:2px;
 	border-color:#BBBBBB;
 	border-style:inset;
-	font-size:small;
+	font-size:13px;
 }
 
 
@@ -227,7 +294,7 @@ input.submit {
 	padding:3px;
 	background-image: url(blueshadow/images/cellpic2.jpg);
 	text-decoration:none;
-	font-size:small;
+	font-size:13px;
 	font-weight:bold;
 	cursor:pointer;
 }
@@ -248,7 +315,7 @@ textarea {
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
-	font-size:small;
+	font-size:13px;
 }
 
 input.submit:hover {
@@ -257,34 +324,34 @@ input.submit:hover {
 
 
 .message {
-  color: #dd0000;
-  font-weight: bold;
-  text-align: center;
+	color: #dd0000;
+	font-weight: bold;
+	text-align: center;
 }
 
 /* ------------------ tabs -------------- */
 .tab {
-        font-size: x-small;
-        color: #000000;
-        font-weight: bold;
-        background-color:#000000;
+	font-size:9px;
+	color: #000000;
+	font-weight: bold;
+	background-color:#000000;
 }
 
 .tabactive {
-        background-color:#dddddd;
+	background-color:#dddddd;
 }
 .tabinactive {
-        background-color:#bbbbbb;
+	background-color:#bbbbbb;
 }
 
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
-        margin:0px;
+	margin:0px;
 }
 
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
-        display: block;
+	display: block;
 }
 
 sup {
