@@ -255,7 +255,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "lang")
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -266,7 +266,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "contact":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "contact")
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "contact")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -277,7 +277,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "nic")
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "nic")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -288,7 +288,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "finish":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] = "finish")
+				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "finish")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
