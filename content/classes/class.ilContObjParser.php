@@ -173,16 +173,16 @@ class ilContObjParser extends ilSaxParser
 								echo "No PageObject for PageAlias ".$pg["id"]." found! Aborting.";
 								exit;
 							}
-//echo "storeTree.pg_alias:".$pg["id"].":".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
-							$this->lm_tree->insertNode($this->pg_mapping[$pg["id"]], $st["id"]);
-//echo "done<br>";
+							$pg_id = $this->pg_mapping[$pg["id"]];
 							break;
 
 						case "pg":
-//echo "storeTree.pg:".$pg["id"].":".$st["id"].":<br>";
-							$this->lm_tree->insertNode($pg["id"], $st["id"]);
-//echo "done<br>";
+							$pg_id = $pg["id"];
 							break;
+					}
+					if (!$this->lm_tree->isInTree($pg_id))
+					{
+						$this->lm_tree->insertNode($pg_id, $st["id"]);
 					}
 				}
 			}
