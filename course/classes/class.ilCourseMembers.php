@@ -600,7 +600,7 @@ class ilCourseMembers
 				break;
 			case $this->NOTIFY_STATUS_CHANGED:
 				$subject = $this->lng->txt("crs_status_changed")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
-				$body = $this->lng->txt("crs_status_changed_body");
+				$body = $this->__buildStatusBody($tmp_user);
 				break;
 
 			case $this->NOTIFY_ADMINS:
@@ -777,6 +777,54 @@ class ilCourseMembers
 		
 		return $res->numRows() ? true : false;
 	}
+
+	function __buildStatusBody(&$user_obj)
+	{
+		$this->__read($user_obj->getId());
+
+		$body = $this->lng->txt('crs_status_changed_body').':<br />';
+		$body .= $this->lng->txt('login').': '.$user_obj->getLogin().'<br />';
+		$body .= $this->lng->txt('role').': ';
+
+		switch($this->member_data['role'])
+		{
+			case $this->ROLE_MEMBER:
+				$body .= $this->lng->txt('crs_member').'<br />';
+				break;
+
+			case $this->ROLE_TUTOR:
+				$body .= $this->lng->txt('crs_tutor').'<br />';
+				break;
+
+			case $this->ROLE_ADMIN:
+				$body .= $this->lng->txt('crs_admin').'<br />';
+				break;
+		}
+		$body .= $this->lng->txt('status').': ';
+		switch($this->member_data['status'])
+		{
+			case $this->STATUS_NOTIFY:
+				$body .= $this->lng->txt("crs_notify").'<br />';
+				break;
+
+			case $this->STATUS_NO_NOTIFY:
+				$body .= $this->lng->txt("crs_no_notify").'<br />';
+				break;
+
+			case $this->STATUS_BLOCKED:
+				$body .= $this->lng->txt("crs_blocked").'<br />';
+				break;
+
+			case $this->STATUS_UNBLOCKED:
+				$body .= $this->lng->txt("crs_unblocked").'<br />';
+				break;
+		}
+		$passed = $this->member_data['passed'] ? $this->lng->txt('yes') : $this->lng->txt('no');
+		$body .= $this->lng->txt('crs_passed').': '.$passed.'<br />';
+
+		return $body;
+	}
+
 
 }
 ?>
