@@ -263,7 +263,6 @@ common#:#last_visit#:#Last visit###07 Feb 2003 new variable
 common#:#lastname#:#lastname
 common#:#launch#:#launch
 common#:#ldap#:#LDAP
-common#:#le#:#le
 common#:#level#:#level
 common#:#link#:#link
 common#:#linked_pages#:#linked pages
@@ -353,6 +352,7 @@ common#:#nickname#:#nickname
 common#:#no#:#no
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date###25 Mar 2003 new variable
+common#:#no_import_available#:#Import not available for type###18 Jun 2003 new variable
 common#:#no_objects#:#no objects
 common#:#no_title#:#no title
 common#:#none#:#none
@@ -367,6 +367,7 @@ common#:#obj_file#:#File###15 May 2003 new variable
 common#:#obj_frm#:#Forum###15 May 2003 new variable
 common#:#obj_grp#:#Group###15 May 2003 new variable
 common#:#obj_le#:#Learning Module###15 May 2003 new variable
+common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
 common#:#obj_lng#:#Language###15 May 2003 new variable
 common#:#obj_lngf#:#Language Administration###15 May 2003 new variable
 common#:#obj_lo#:#LearningObject###15 May 2003 new variable
@@ -380,6 +381,7 @@ common#:#obj_role#:#Role###15 May 2003 new variable
 common#:#obj_rolf#:#Role Administration###15 May 2003 new variable
 common#:#obj_rolt#:#Role Template###15 May 2003 new variable
 common#:#obj_root#:#root###15 May 2003 new variable
+common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#obj_typ#:#Objecttype Definition###15 May 2003 new variable
 common#:#obj_type#:#Object Type###01 Apr 2003 new variable
 common#:#obj_uset#:#User Settings###15 May 2003 new variable
@@ -497,6 +499,7 @@ common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
+common#:#slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#sort_by_this_column#:#Sort by this column###30 May 2003 new variable
 common#:#startpage#:#startpage
