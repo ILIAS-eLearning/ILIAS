@@ -44,10 +44,10 @@ class ilObjRoleFolder extends ilObject
 		return true;
 	}
 
-	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
+	function clone($a_parent_ref)
 	{
 		// DO NOTHING ROLE FOLDERS AREN'T COPIED
-		//	$new_id = parent::cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
+		//	$new_id = parent::clone($a_parent_ref);
 		return true;
 	}
 
