@@ -19,10 +19,11 @@ $lit = $ilias->account->getLiterature();
 
 foreach ($lit as $row)
 {
-        $tpl->setCurrentBlock("row");
-        $tpl->setVariable("DESC", $row["desc"]);
-        $tpl->setVariable("URL", $row["url"]);
-        $tpl->parseCurrentBlock();
+	$tpl->setCurrentBlock("row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
+	$tpl->setVariable("DESC", $row["desc"]);
+	$tpl->setVariable("URL", $row["url"]);
+	$tpl->parseCurrentBlock();
 }
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());

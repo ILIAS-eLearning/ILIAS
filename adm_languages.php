@@ -47,9 +47,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("languages"));
 
 
 
-
-
-if ($_POST["func"]=="gen_langs")
+if ($_GET["func"]=="gen_langs")
 
 
 {
@@ -236,8 +234,7 @@ $tpl->setVariable("LANGMASTERFILE", "languages.txt");
 
 
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-
-
+$tpl->setVariable("FORMACTION", "adm_languages.php?func=gen_langs");
 
 
 

@@ -9,6 +9,19 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
+if ($_GET["func"] != "")
+{
+	switch ($_GET["func"])
+	{
+		case "del":
+			break;
+		case "edit":
+			break;
+	}
+	header("location: bookmarks.php");
+	exit();
+}
+
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","bookmark_newfolder.php");
@@ -33,13 +46,21 @@ $bm = $ilias->account->getBookmarks();
 
 foreach ($bm as $row)
 {
-        $i++;
-        $tpl->setCurrentBlock("bookmarkrow");
-        $tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
-        $tpl->setVariable("URL", $row["url"]);
-        $tpl->setVariable("DESC", $row["desc"]);
-        $tpl->parseCurrentBlock();
+	$i++;
+	$tpl->setCurrentBlock("bookmarkrow");
+	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
+	$tpl->setVariable("URL", $row["url"]);
+	$tpl->setVariable("DESC", $row["desc"]);
+	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+	$tpl->setVariable("TXT_DEL", $lng->txt("delete"));
+	$tpl->setVariable("LINK_DEL", "bookmarks.php?func=del&amp;id=".$row["id"]);
+	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+	$tpl->setVariable("LINK_EDIT", "bookmarks.php?func=edit&amp;id=".$row["id"]);
+	$tpl->parseCurrentBlock();
 }
+
+
+
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
