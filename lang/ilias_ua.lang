@@ -260,7 +260,7 @@ assessment#:#log_no_test_fields_changed#:#Збережено, але змін н
 assessment#:#log_question_added#:#Питання додане на позицію
 assessment#:#log_question_position_changed#:#Позиція питання змінена
 assessment#:#log_question_removed#:#Питання видалене
-assessment#:#log_user_data_removed#:#Removed all user data###01 Mar 2005 new variable
+assessment#:#log_user_data_removed#:#Видалити усі дані користувача
 assessment#:#maintenance#:#Підтримка
 assessment#:#mark_schema#:#Схема оцінок
 assessment#:#match_terms_and_definitions#:#Співпадаючі терміни та визначення
@@ -388,13 +388,13 @@ assessment#:#tst_delete_results#:#Обнулити тест
 assessment#:#tst_ending_time#:#Кінцевий час
 assessment#:#tst_enter_questionpool#:#Будь ласка введіть ім'я пулу питань де будуть зберігатись нові питання
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ніхто ще не увійшов у цей тест. Ще не має доступних анонімно зібраних результатів теста.
-assessment#:#tst_eval_show_answer#:#Show answer###01 Mar 2005 new variable
+assessment#:#tst_eval_show_answer#:#Показати відповідь
 assessment#:#tst_eval_total_finished#:#Загальна кількість закінчених тестів
 assessment#:#tst_eval_total_finished_average_time#:#Середній щас проходження для завершених тестів
 assessment#:#tst_eval_total_passed#:#Загальна кількість пройдених тестів
 assessment#:#tst_eval_total_passed_average_points#:#Середній бал пройдених тестів
 assessment#:#tst_eval_total_persons#:#Загальна кількість осіб, що увійшли в тест
-assessment#:#tst_eval_user_answer#:#User answer###01 Mar 2005 new variable
+assessment#:#tst_eval_user_answer#:#Відповідь користувача
 assessment#:#tst_general_properties#:#Загальні властивості
 assessment#:#tst_generate_xls#:#Сгенерувати Excel
 assessment#:#tst_in_use_edit_questions_disabled#:#Тест виконують користувачі: %d осіб. Вам не дозволено редагувати або переміщувати питання в цьому тесті!
@@ -737,7 +737,7 @@ common#:#approve_date#:#Схвалено
 common#:#approve_recipient#:#ID логіну, що схвалив
 common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
-common#:#articels_unread#:#Непрочитані статті:###01 Mar 2005 content changed
+common#:#articels_unread#:#Непрочитані статті:
 common#:#as_of#:#як в
 common#:#assessment_log#:#Створити лог по Тестування & Оцінювання для вказаного періоду часу
 common#:#assessment_log_datetime#:#Дата/Час
@@ -747,8 +747,8 @@ common#:#assessment_log_open_calendar#:#Натисніть сюди щоб ві�
 common#:#assessment_log_question#:#Питання
 common#:#assessment_log_select_test#:#--- Будь ласка виберіть тест ---
 common#:#assessment_log_text#:#Лог повідомлення
-common#:#assessment_log_user_answer#:#User answered a question###01 Mar 2005 new variable
-common#:#assessment_log_user_answers#:#Show user actions###01 Mar 2005 new variable
+common#:#assessment_log_user_answer#:#Користувач відповів на питання
+common#:#assessment_log_user_answers#:#Показати дії користувача
 common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання
 common#:#assf_edit_permission#:#Змінити настройки прав
 common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням
@@ -761,7 +761,7 @@ common#:#assign_local_role#:#Призначити локальну роль
 common#:#assign_user_to_role#:#Призначити Користувачу Роль
 common#:#assigned_roles#:#Призначити ролі
 common#:#assigned_users#:#Призначені користувачі
-common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
+common#:#at_least_one_style#:#Принаймні один стиль повинен залишитись активованим.
 common#:#at_location#:#знаходиться
 common#:#attachment#:#Прикріплення
 common#:#attachments#:#Прикріплення
@@ -816,7 +816,7 @@ common#:#cannot_find_xml#:#Неможливо знайти жнодного XML-
 common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
 common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
 common#:#cannot_unzip_file#:#Неможливо розпакувати файл.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
+common#:#cant_deactivate_if_users_assigned#:#Ви не можете деактивувати стиль якщо ще залишились користувачі що його використовують.
 common#:#cat#:#Категорія
 common#:#cat_a#:#Категорія
 common#:#cat_add#:#Додати Категорію
@@ -921,8 +921,8 @@ common#:#condition#:#Умова
 common#:#condition_already_assigned#:#Об'єкт вже призначений.
 common#:#condition_circle_created#:#Ця асоціація не є можливою, поки об'єкти будуть залежні один від одного.
 common#:#condition_deleted#:#Умова видалена.
-common#:#condition_finished#:#Finished###01 Mar 2005 new variable
-common#:#condition_not_finished#:#Not finished###01 Mar 2005 new variable
+common#:#condition_finished#:#Закінчений
+common#:#condition_not_finished#:#Не закінчений
 common#:#condition_passed#:#Пройдений
 common#:#condition_precondition#:#Попередні умови:
 common#:#condition_select_object#:#Будь ласка виберіть один об'єкт.
@@ -934,7 +934,7 @@ common#:#confirmation#:#Підтвердження
 common#:#cont_object#:#Об'єкт
 common#:#contact_data#:#Контактна Інформація
 common#:#container#:#Контейнер
-common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
+common#:#content_styles#:#Стилі Вмісту
 common#:#context#:#Контекст
 common#:#continue_work#:#Продовжити
 common#:#copied_object#:#Скопійовані об'єкти
@@ -956,7 +956,7 @@ common#:#crs#:#Курс
 common#:#crs_a#:#Курс
 common#:#crs_add#:#Додати Курс
 common#:#crs_added#:#Курс додано
-common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###01 Mar 2005 new variable
+common#:#crs_all_questions_answered_successfully#:#Ви вдало відповіли на усі питання.
 common#:#crs_archives#:#Архіви
 common#:#crs_at_least_one_admin#:#Повинен бути принаймні один адміністратор курсу.
 common#:#crs_available#:#Доступні Курси
@@ -1027,7 +1027,7 @@ common#:#dbk_new#:#Нова Digilib Book
 common#:#dbk_read#:#Доступ на читання до Digilib Книги
 common#:#dbk_visible#:#Digilib Книга є видимою
 common#:#dbk_write#:#Редагувати Digilib Книгу
-common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
+common#:#def_repository_view#:#Вид репозіторію по замовчанню
 common#:#default#:#Замовчання
 common#:#default_language#:#Мова за Умовчанням
 common#:#default_perm_settings#:#Права по замовчанню
@@ -1256,8 +1256,8 @@ common#:#glo_upload_file#:#Файл
 common#:#glo_visible#:#Глосарій є видимим
 common#:#glo_write#:#Редагувати Глосарій
 common#:#global#:#Глобальний
-common#:#global_default#:#Global Default###01 Mar 2005 new variable
-common#:#global_fixed#:#Global Fixed###01 Mar 2005 new variable
+common#:#global_default#:#Global Default
+common#:#global_fixed#:#Global Fixed
 common#:#global_settings#:#Глобальні настройки
 common#:#global_user#:#Глобальні користувачі
 common#:#glossaries#:#Глосарії
@@ -1300,7 +1300,7 @@ common#:#groups_overview#:#Огляд Груп
 common#:#grp#:#Група
 common#:#grp_a#:#Група
 common#:#grp_add#:#Додати Групу
-common#:#grp_add_member#:#Додати членів###01 Mar 2005 content changed
+common#:#grp_add_member#:#Додати членів
 common#:#grp_added#:#Група додана
 common#:#grp_already_applied#:#Ви вже прикріплені до цієї групи! Будь ласка зачекайте на підтвердження
 common#:#grp_app_send_mail#:#Відіслати кандидату повідомлення
@@ -1407,29 +1407,29 @@ common#:#htlm_write#:#Редагувати HTML Учбовий Модуль
 common#:#http_not_possible#:#Цей сервер не підтримує http запити.
 common#:#http_path#:#Http Шлях
 common#:#https_not_possible#:#Цей сервер не підтримує HTTPS з'єднання.
-common#:#icla#:#iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_add#:#Add iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_delete#:#Delete iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
-common#:#icla_new#:#New iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_read#:#Read access to iLinc Classroom###01 Mar 2005 new variable
-common#:#icla_visible#:#iLinc Classroom is visible###01 Mar 2005 new variable
-common#:#icla_write#:#Edit iLinc Classroom###01 Mar 2005 new variable
-common#:#icrs#:#iLinc Course###01 Mar 2005 new variable
-common#:#icrs_add#:#Add iLinc Course###01 Mar 2005 new variable
-common#:#icrs_delete#:#Delete iLinc Course###01 Mar 2005 new variable
-common#:#icrs_edit_permission#:#Edit permission settings###01 Mar 2005 new variable
-common#:#icrs_new#:#New iLinc Course###01 Mar 2005 new variable
-common#:#icrs_read#:#Read access to iLinc Course###01 Mar 2005 new variable
-common#:#icrs_visible#:#iLinc Course is visible###01 Mar 2005 new variable
-common#:#icrs_write#:#Edit iLinc Course###01 Mar 2005 new variable
+common#:#icla#:#iLinc клас
+common#:#icla_add#:#Додати iLinc Клас
+common#:#icla_delete#:#Видалити iLinc Клас
+common#:#icla_edit_permission#:#Редагувати настройки прав
+common#:#icla_new#:#Новий iLinc Клас
+common#:#icla_read#:#Доступ на читання до iLinc Класу
+common#:#icla_visible#:#iLinc Клас є видимим
+common#:#icla_write#:#Редагувати iLinc Клас
+common#:#icrs#:#iLinc Курс
+common#:#icrs_add#:#Додати iLinc Курс
+common#:#icrs_delete#:#Видалити iLinc Курс
+common#:#icrs_edit_permission#:#Редагувати настройки прав
+common#:#icrs_new#:#Новий iLinc Курс
+common#:#icrs_read#:#Доступ на читання до iLinc Курсу
+common#:#icrs_visible#:#iLinc Курс є видимим
+common#:#icrs_write#:#Редагувати iLinc Курс
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
 common#:#if_no_title_then_url#:#Залиште порожнім для відображення URL
 common#:#ilias_version#:#ILIAS версія
-common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
-common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
+common#:#ilinc_classrooms#:#iLinc Клас
+common#:#ilinc_courses#:#iLinc Курси
 common#:#image#:#Зображення
 common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях до програми конвертації.
 common#:#import#:#Імпорт
@@ -1537,7 +1537,7 @@ common#:#languages#:#Мови
 common#:#languages_already_installed#:#Вибрані мови вже встановлені
 common#:#languages_already_uninstalled#:#Вибрані моваи вже деінстальовані
 common#:#languages_updated#:#Усі встановлені мови були обновлені
-common#:#last_access#:#Last access:###01 Mar 2005 new variable
+common#:#last_access#:#Останній доступ:
 common#:#last_change#:#Остання Зміна
 common#:#last_update#:#Останнє Оновлення
 common#:#last_visit#:#Останній Візит
@@ -1718,7 +1718,7 @@ common#:#move#:#Перемістити
 common#:#moveChapter#:#Перемістити
 common#:#movePage#:#Перемістити
 common#:#move_to#:#Перемістити в
-common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
+common#:#move_users_to_style#:#Перемістити користувачів до стилю
 common#:#msg_cancel#:#Дія відмінена
 common#:#msg_changes_ok#:#Зміни відбулись добре
 common#:#msg_clear_clipboard#:#Буфер обміну очищений
@@ -1844,11 +1844,11 @@ common#:#no_zip_file#:#Ні один zip файл не знайдений.
 common#:#non_internal_local_roles_only#:#Локальні ролі (тільки визначені користувачем)
 common#:#none#:#Ніщо
 common#:#normal#:#Нормальний
-common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
+common#:#not_accessed#:#Не доступний
 common#:#not_implemented_yet#:#Ще не реалізовано
 common#:#not_installed#:#Не Інстальовано
 common#:#not_logged_in#:#Ви не залогінені в
-common#:#num_users#:#Number of users###02 Mar 2005 new variable
+common#:#num_users#:#Кількість користувачів
 common#:#number_of_accesses#:#Кількість доступів
 common#:#number_of_records#:#Кількість записів
 common#:#obj#:#Об'єкт
@@ -1873,8 +1873,8 @@ common#:#obj_glo#:#Глосарій
 common#:#obj_grp#:#Група
 common#:#obj_hlm#:#HACP Учбовий Модуль
 common#:#obj_htlm#:#HTML Учбовий Модуль
-common#:#obj_icla#:#iLinc Classroom###01 Mar 2005 new variable
-common#:#obj_icrs#:#iLinc Course###01 Mar 2005 new variable
+common#:#obj_icla#:#iLinc Клас
+common#:#obj_icrs#:#iLinc Курс
 common#:#obj_ldap#:#LDAP Настройки
 common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
 common#:#obj_lm#:#Учбовий Модуль ILIAS
@@ -1908,8 +1908,8 @@ common#:#obj_root#:#root
 common#:#obj_sahs#:#SCORM/AICC Учбовий Модуль
 common#:#obj_spl#:#Банк Питань (Опитування)
 common#:#obj_st#:#Глава
-common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
-common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
+common#:#obj_stys#:#Настройки Стилю
+common#:#obj_stys_desc#:#Управляйте системними скінами та настройками стилів тут
 common#:#obj_svy#:#Опитування
 common#:#obj_tax#:#Таксономія
 common#:#obj_taxf#:#Таксономії
@@ -1947,8 +1947,8 @@ common#:#objs_glo#:#Глосарії
 common#:#objs_grp#:#Групи
 common#:#objs_hlm#:#HACP Учбові Модулі
 common#:#objs_htlm#:#HTML Учбові Модулі
-common#:#objs_icla#:#iLinc Classrooms###01 Mar 2005 new variable
-common#:#objs_icrs#:#iLinc Courses###01 Mar 2005 new variable
+common#:#objs_icla#:#iLinc Класи
+common#:#objs_icrs#:#iLinc Курси
 common#:#objs_lm#:#Учбові Модулі
 common#:#objs_lng#:#Мови
 common#:#objs_lo#:#Учбові Об'єкти
@@ -2042,7 +2042,7 @@ common#:#please_select_a_delivered_file_to_delete#:#Ви маєте вибрат
 common#:#please_select_a_delivered_file_to_download#:#Ви маєте вибрати принаймні один доставлений файл щоб завантажити його!
 common#:#port#:#Порт
 common#:#position#:#Позиція
-common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
+common#:#preconditions#:#Передумови
 common#:#presentation_options#:#Опції Показу
 common#:#previous#:#попередній
 common#:#print#:#Друкувати
@@ -2050,83 +2050,83 @@ common#:#profile_changed#:#Ваш провіль був змінений
 common#:#profile_of#:#Профіль
 common#:#properties#:#Параметри
 common#:#pub_section#:#Публічна Секція
-common#:#public#:#public###23 Dec 2004 new variable
+common#:#public#:#публічний
 common#:#public_profile#:#Публічний Профіль
 common#:#publication#:#Публікація
 common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
-common#:#publishing_organisation#:#Організація що Публікує###14 Sep 2004 content changed
-common#:#purpose#:#Purpose###01 Mar 2005 new variable
-common#:#qpl#:#Черга питань###07 May 2004 content changed
-common#:#qpl_add#:#Додати чергу питань###24 Sep 2004 content changed
-common#:#qpl_delete#:#Видалити Чергу Питань###24 Sep 2004 content changed
+common#:#publishing_organisation#:#Організація що Публікує
+common#:#purpose#:#Призначення
+common#:#qpl#:#Банк Питань для Тесту
+common#:#qpl_add#:#Додати банк питань для тесту
+common#:#qpl_delete#:#Видалити Пул Питань для Тесту
 common#:#qpl_edit_permission#:#Змінити настройки прав
-common#:#qpl_new#:#Нова черга питань###24 Sep 2004 content changed
-common#:#qpl_read#:#Доступ на читання до черги питань###24 Sep 2004 content changed
-common#:#qpl_upload_file#:#Upload file###16 Nov 2004 new variable
-common#:#qpl_visible#:#Черга питань є видимою###24 Sep 2004 content changed
-common#:#qpl_write#:#Редагувати Чергу Птань###24 Sep 2004 content changed
-common#:#query_data#:#Query data###02 Jul 2004 new variable
+common#:#qpl_new#:#Новий пул питань для тесту
+common#:#qpl_read#:#Доступ на читання до Банку Питань до Тесту
+common#:#qpl_upload_file#:#Завантажити файл
+common#:#qpl_visible#:#Банк Питань для Тесту є видимим
+common#:#qpl_write#:#Редагувати Пул Питань для Тесту
+common#:#query_data#:#Дані запиту
 common#:#question#:#Питання
 common#:#question_pools#:#Черги питань
 common#:#quit#:#Вихід
 common#:#quote#:#Цитата
 common#:#read#:#Читати
-common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
+common#:#recf_edit#:#Редагувати RecoveryFolder
 common#:#recipient#:#Одержувач
-common#:#referral_comment#:#How did you hear about ILIAS?###14 Sep 2004 new variable
+common#:#referral_comment#:#Звідки ви взнали про ILIAS?
 common#:#refresh#:#Обновити
 common#:#refresh_languages#:#Обновити Мови
 common#:#refresh_list#:#Обновити Список
-common#:#refuse#:#Refuse###18 Apr 2004 new variable
-common#:#reg_mail_body_salutation#:#Hello###29 Nov 2004 new variable
-common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!###29 Nov 2004 new variable
-common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:###29 Nov 2004 new variable
-common#:#reg_mail_body_text3#:#Further personal information:###29 Nov 2004 new variable
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data###29 Nov 2004 new variable
-common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.###29 Nov 2004 new variable
+common#:#refuse#:#Відхилити
+common#:#reg_mail_body_salutation#:#Привіт
+common#:#reg_mail_body_text1#:#Ласково просимо до ILIAS eLearning!
+common#:#reg_mail_body_text2#:#Для доступу в ILIAs використовуйте наступні дані:
+common#:#reg_mail_body_text3#:#Подальша персональна інформація:
+common#:#reg_mail_subject#:#ILIAS eLearning - Ваші дані доступу
+common#:#reg_passwd_via_mail#:#Ваш пароль буде відсланий на вашу поштову адресу вказану нижче.
 common#:#register#:#Зареєструвати
 common#:#register_info#:#Будь ласка заповніть форму для реєстрації (Поля позначені зірочкою обов'язкові для заповнення).
 common#:#registered_since#:#Зареєстрований з
 common#:#registered_user#:#зареєстрований Користувач
 common#:#registered_users#:#зареєстровані Користувачі
 common#:#registration#:#Новий акаунт реєстрації
-common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
+common#:#registration_disabled#:#Доступне тільки коли використовується локальна аутентифікація
 common#:#registration_expired#:#Період реєстрації скінчився...
-common#:#remove#:#Вилучити###25 Mar 2004 content changed
-common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
+common#:#remove#:#Видалити
+common#:#remove_personal_picture#:#Видалити
 common#:#remove_translation#:#Видалити переклад
 common#:#rename#:#Переіменувати
-common#:#rename_file#:#Rename File###03 May 2004 new variable
-common#:#repeat_scan#:#Repeating virus scan...###07 Jan 2005 new variable
-common#:#repeat_scan_failed#:#Repeat scan failed.###07 Jan 2005 new variable
-common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
-common#:#replace_file#:#Replace File###29 Nov 2004 new variable
+common#:#rename_file#:#Переіменувати Файл
+common#:#repeat_scan#:#Повторити сканування на віруси...
+common#:#repeat_scan_failed#:#Повторне сканування завершився невдало.
+common#:#repeat_scan_succeded#:#Повторне сканування завершилось вдало.
+common#:#replace_file#:#Замінити Файл
 common#:#reply#:#Відповісти
 common#:#repository#:#Репозиторій
-common#:#require_city#:#Require city###14 Sep 2004 new variable
-common#:#require_country#:#Require country###14 Sep 2004 new variable
-common#:#require_default_role#:#Require role###14 Sep 2004 new variable
-common#:#require_department#:#Require department###14 Sep 2004 new variable
-common#:#require_email#:#Require email###14 Sep 2004 new variable
-common#:#require_fax#:#Require fax###14 Sep 2004 new variable
-common#:#require_firstname#:#Require first name###14 Sep 2004 new variable
-common#:#require_gender#:#Require gender###14 Sep 2004 new variable
-common#:#require_hobby#:#Require hobby###14 Sep 2004 new variable
-common#:#require_institution#:#Require institution###14 Sep 2004 new variable
-common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
-common#:#require_login#:#Require login###14 Sep 2004 new variable
-common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
-common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
-common#:#require_passwd#:#Require password###14 Sep 2004 new variable
-common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
-common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
-common#:#require_phone_mobile#:#Require mobile phone###14 Sep 2004 new variable
-common#:#require_phone_office#:#Require office phone###14 Sep 2004 new variable
-common#:#require_referral_comment#:#Require referral comment###14 Sep 2004 new variable
-common#:#require_street#:#Require street###14 Sep 2004 new variable
-common#:#require_zipcode#:#Require zip code###14 Sep 2004 new variable
-common#:#required_field#:#Потрібні Поля###14 Sep 2004 content changed
+common#:#require_city#:#Потрібне місто
+common#:#require_country#:#Потрібна страна
+common#:#require_default_role#:#Потрібна роль
+common#:#require_department#:#Потрібен відділ
+common#:#require_email#:#Потрібен email
+common#:#require_fax#:#ПОтрібен fax
+common#:#require_firstname#:#Потрібне ім'я
+common#:#require_gender#:#Потрібна стать
+common#:#require_hobby#:#Потрібне хоббі
+common#:#require_institution#:#Потрібна організація
+common#:#require_lastname#:#Потрібне прізвище
+common#:#require_login#:#Потрібен логін
+common#:#require_mandatory#:#обов'язковий
+common#:#require_matriculation#:#Потрібен номер зачислення
+common#:#require_passwd#:#Потрібен пароль
+common#:#require_passwd2#:#Потрібне підтвердження паролю
+common#:#require_phone_home#:#Потрібен домашній телефон
+common#:#require_phone_mobile#:#Потрібен мобільний телефон
+common#:#require_phone_office#:#Потрібен офісний телефон
+common#:#require_referral_comment#:#Потрібен referral коментарій
+common#:#require_street#:#Потрібна вулиця
+common#:#require_zipcode#:#Потрібен поштовий код
+common#:#required_field#:#Потрібний
 common#:#reset#:#Сбросити
 common#:#resources#:#Ресурси
 common#:#retype_password#:#Введіть Пароль ще раз
@@ -2136,26 +2136,26 @@ common#:#role#:#Роль
 common#:#role_a#:#Роль
 common#:#role_add#:#Додати Роль
 common#:#role_add_local#:#Додати локальну Роль
-common#:#role_add_user#:#Add User(s) to role###15 Sep 2004 new variable
+common#:#role_add_user#:#Додати користувачів до ролі
 common#:#role_added#:#Роль додана
 common#:#role_assignment#:#Призначення Ролі
-common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
-common#:#role_count_users#:#Number of users###15 Sep 2004 new variable
+common#:#role_assignment_updated#:#Призначення ролі було оновлено.
+common#:#role_count_users#:#Кількість користувачів
 common#:#role_deleted#:#Роль видалена
 common#:#role_edit#:#Редагувати Роль
-common#:#role_header_edit_users#:#Change userassignment###15 Sep 2004 new variable
-common#:#role_list_users#:#List users###15 Sep 2004 new variable
+common#:#role_header_edit_users#:#Змінити призначення користувача
+common#:#role_list_users#:#Список користувачів
 common#:#role_new#:#Нова Роль
-common#:#role_new_search#:#New search###15 Sep 2004 new variable
-common#:#role_no_groups_selected#:#Please select a group###15 Sep 2004 new variable
-common#:#role_no_results_found#:#No results found###15 Sep 2004 new variable
-common#:#role_no_roles_selected#:#Please select a role###15 Sep 2004 new variable
-common#:#role_search_enter_search_string#:#Please enter a search string###15 Sep 2004 new variable
-common#:#role_search_users#:#User search###15 Sep 2004 new variable
-common#:#role_templates_only#:#Role templates only###16 Sep 2004 new variable
-common#:#role_user_deassign#:#Deassign user from role###15 Sep 2004 new variable
-common#:#role_user_edit#:#Edit account data###15 Sep 2004 new variable
-common#:#role_user_send_mail#:#Send user a message###15 Sep 2004 new variable
+common#:#role_new_search#:#Новий пошук
+common#:#role_no_groups_selected#:#Будь ласка виберіть групу
+common#:#role_no_results_found#:#Жодного результату не знайдено
+common#:#role_no_roles_selected#:#Будь ласка виберіть роль
+common#:#role_search_enter_search_string#:#Будь ласка введіть строку пошуку
+common#:#role_search_users#:#Пошук користувача
+common#:#role_templates_only#:#Тільки шаблони ролі
+common#:#role_user_deassign#:#Відмінити назначення ролі користувачу
+common#:#role_user_edit#:#Редагувати дані акаунту
+common#:#role_user_send_mail#:#Послати повідомлення користувачу
 common#:#roles#:#Ролі
 common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
 common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
