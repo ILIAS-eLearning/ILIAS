@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.21 2004/05/06 18:42:47 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.22 2004/05/07 16:03:13 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -89,6 +89,10 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
+		global $lng;
+
+		$this->lng =& $lng;
+
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		// fill in saved values in case of error
@@ -123,6 +127,10 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function saveObject($a_parent = 0)
 	{
+		global $lng;
+
+		$this->lng =& $lng;
+
 		if ($a_parent == 0)
 		{
 			$a_parent = $_GET["ref_id"];
