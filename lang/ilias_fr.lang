@@ -798,6 +798,7 @@ common#:#bookmarks_of#:#Liens internet de
 common#:#btn_remove_system#:#Supprimer du système
 common#:#btn_undelete#:#Restaurer
 common#:#by#:#par
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annuler
 common#:#cannot_find_xml#:#Aucun fichier XML n'a été trouvé

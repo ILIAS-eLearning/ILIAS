@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Zakładki do
 common#:#btn_remove_system#:#Usuń z systemu
 common#:#btn_undelete#:#Przywróć
 common#:#by#:#Przez
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Terminarz
 common#:#cancel#:#Anuluj
 common#:#cannot_find_xml#:#Nie można znaleźć żadnego pliku XML.
