@@ -439,9 +439,13 @@ class ilPageEditorGUI
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
 		if ($ilias->getSetting("enable_js_edit"))
 		{
+			if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
+			{
+				$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
+			}
 			$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		}
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
 	}
 	
 	/**

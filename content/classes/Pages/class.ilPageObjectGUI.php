@@ -417,6 +417,22 @@ class ilPageObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+			
+			if ($_GET["reloadTree"] == "y")
+			{
+				$this->tpl->setCurrentBlock("reload_tree");
+				if ($this->obj->getParentType() == "dbk")
+				{
+					$this->tpl->setVariable("LINK_TREE",
+						$this->ctrl->getLinkTargetByClass("ilobjdlbookgui", "explorer"));
+				}
+				else
+				{
+					$this->tpl->setVariable("LINK_TREE",
+						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer"));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
 
 		}
 		
@@ -533,8 +549,10 @@ class ilPageObjectGUI
 
 		// page splitting to next page only for learning modules and
 		// digital books if next page exists in tree
-		if ($this->obj->getParentType() == "lm" ||
-			$this->obj->getParentType() == "dbk")
+		if (($this->obj->getParentType() == "lm" ||
+			$this->obj->getParentType() == "dbk") &&
+			ilObjContentObject::hasSuccessorPage($this->obj->getParentId(),
+				$this->obj->getId()))
 		{
 			$enable_split_next = "y";
 		}

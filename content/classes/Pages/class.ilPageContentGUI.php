@@ -189,7 +189,7 @@ class ilPageContentGUI
 	
 	
 	/**
-	* split page at specified position
+	* split page to new page at specified position
 	*/
 	function splitPage()
 	{
@@ -209,6 +209,26 @@ class ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
 	}
 
+	/**
+	* split page to next page at specified position
+	*/
+	function splitPageNext()
+	{
+		global $ilErr;
+		
+		if ($this->pg_obj->getParentType() != "lm" &&
+			$this->pg_obj->getParentType() != "dbk")
+		{
+			$ilErr->raiseError("Split method called for wrong parent type (".
+			$this->pg_obj->getParentType().")", $ilErr->FATAL);
+		}
+		else
+		{
+			ilLMPageObject::_splitPageNext($this->pg_obj->getId(),
+				$this->pg_obj->getParentType(), $this->hier_id);
+		}
+		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
+	}
 
 	/**
 	* display validation errors

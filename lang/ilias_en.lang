@@ -2409,7 +2409,8 @@ content#:#cont_ed_new_row_before#:#new row before
 content#:#cont_ed_paste_clip#:#paste from clipboard
 content#:#cont_ed_row_down#:#move row down
 content#:#cont_ed_row_up#:#move row up
-content#:#cont_ed_split_page#:#split Page
+content#:#cont_ed_split_page#:#split to new page
+content#:#cont_ed_split_page_next#:#split to next page
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_area#:#Edit Area
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
