@@ -36,6 +36,36 @@ require_once "./include/inc.header.php";
 
 global $ilias_locator;
 
+// navigate locator
+if ($_GET["cmd"] == "highest_level" )
+{
+	$ilias_locator->navigate(0,$lng->txt("personal_desktop"),"start.php","bottom");
+}
+elseif($_GET["cmd"] == "cal" )
+{
+	$ilias_locator->navigate(1,$lng->txt("calendar"),"search.php","bottom");
+}
+elseif($_GET["cmd"] == "mail" )
+{
+	$ilias_locator->navigate(1,$lng->txt("email"),"mail_frameset.php","bottom");
+}
+elseif($_GET["cmd"] == "search" )
+{
+	$ilias_locator->navigate(1,$lng->txt("search"),"search.php","bottom");
+}
+elseif($_GET["cmd"] == "feedback" )
+{
+	$ilias_locator->navigate(1,$lng->txt("feedback"),"feedback.php","bottom");
+}
+elseif($_GET["cmd"] == "repos" )
+{
+	$ilias_locator->navigate(1,$lng->txt("repository"),"repository.php","bottom");
+}
+elseif($_GET["cmd"] == "admin" )
+{
+	$ilias_locator->navigate(1,"ILIAS","adm_index.php","_top");
+}
+
 // get skin = path to the specific template
 $template_path = $ilias->tplPath.$ilias->account->getPref("skin");
 // menu bar for the personal desktop
@@ -113,7 +143,7 @@ if ($_GET["cmd"] == "highest_level")
 	$tpl->setVariable("SHOW_EMPTY_BUTTON_SRC",$template_path."/images/navigation/go_empty.gif");
 	$tpl->parseCurrentBlock();
 
-	// content schließen
+	// content schlieï¿½n
 	$tpl->parseCurrentBlock();
 }########################################cmd=highest_level
 
@@ -180,7 +210,7 @@ if ($_GET["cmd"] == "cal")
 	$tpl->setVariable("SHOW_UP_BUTTON_FRAME2","bottom");
 	$tpl->parseCurrentBlock();
 	
-	// content schließen
+	// content schlieï¿½n
 	$tpl->parseCurrentBlock();
 }#########################cmd=cal
 
@@ -250,14 +280,14 @@ if ($_GET["cmd"] == "mail")
 	$tpl->setVariable("SHOW_UP_BUTTON_FRAME2","bottom");
 	$tpl->parseCurrentBlock();
 	
-	// content schließen
+	// content schlieï¿½n
 	$tpl->parseCurrentBlock();
 }#########################cmd=mail
 
 
 // menu bar for search, feedback and repository
 if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or 
-    ($_GET["cmd"] == "repos" ))
+    ($_GET["cmd"] == "repos" ) or ($_GET["cmd"] == "admin" ) )
 {
 	//add template for content within the linkbar
 	$tpl->addBlockfile("CONTENT", "content", "tpl.content_start.html");
@@ -287,26 +317,23 @@ if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or
 	
 	if ($_GET["cmd"] == "search" )
 	{
-	// navigate locator
-	$ilias_locator->navigate(1,$lng->txt("search"),"search.php","bottom");
-	
-	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Suchen.gif");
+		$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Suchen.gif");
 	}
 	
 	if ($_GET["cmd"] == "feedback" )
 	{
-	// navigate locator
-	$ilias_locator->navigate(1,$lng->txt("feedback"),"feedback.php","bottom");
-	
-	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Feedback.gif");
-	}
-	
+		$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Feedback.gif");
+	}	
 
 	if ($_GET["cmd"] == "repos" )
 	{
-	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Forum.gif");
+		$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Forum.gif");
 	}
 	
+	if ($_GET["cmd"] == "admin" )
+	{
+		$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/admin.gif");
+	}
 
 	// define show_up-button
 	$tpl->setcurrentBlock("showupbutton");
@@ -318,7 +345,7 @@ if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or
 	$tpl->setVariable("SHOW_UP_BUTTON_FRAME2","bottom");
 	$tpl->parseCurrentBlock();
 	
-	// content schließen
+	// content schlieï¿½n
 	$tpl->parseCurrentBlock();
 }#########################cmd=search, or feedback,or groups or forum
 
