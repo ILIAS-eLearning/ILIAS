@@ -34,8 +34,8 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#Software di terze parti
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
-common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -47,7 +47,7 @@ common#:#add_author#:#Aggiungi autore
 common#:#add_member#:#Aggiungi membro
 common#:#add_translation#:#Aggiungi traduzione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
-common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema###24 Jan 2004 content changed
+common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
 common#:#administrate#:#Amministra
@@ -209,7 +209,7 @@ common#:#dbk_visible#:#Il libro digitale &#232; visibile
 common#:#dbk_write#:#Modifica il libro digitale
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
-common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
+common#:#default_perm_settings#:#Impostazioni predefinite dei permessi
 common#:#default_role#:#Ruolo predefinito
 common#:#default_roles#:#Ruoli predefiniti
 common#:#default_skin#:#Tema predefinito
@@ -249,7 +249,7 @@ common#:#err_in_line#:#Errore nella linea
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
+common#:#err_role_not_assignable#:#Non puoi assegnare utenti a questo ruolo in questo caso
 common#:#err_session_expired#:#La sessione &#232; scaduta!
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
@@ -335,9 +335,9 @@ common#:#frm_edit#:#Modifica forum
 common#:#frm_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#frm_edit_post#:#Modifica un post
 common#:#frm_new#:#Nuovo forum
-common#:#frm_read#:#Read access to Forum###17 Jan 2004 new variable
-common#:#frm_visible#:#Forum is visible###17 Jan 2004 new variable
-common#:#frm_write#:#Edit forum###17 Jan 2004 new variable
+common#:#frm_read#:#Accedere in lettura ai forum
+common#:#frm_visible#:#Vedere i forum
+common#:#frm_write#:#Modificare i forum
 common#:#from#:#da:
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funzioni
@@ -415,7 +415,7 @@ common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazion
 common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
 common#:#grp_join#:#Iscriversi al gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
-common#:#grp_mem_change_status#:#Cambia stato del membro
+common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
 common#:#grp_msg_membership_annulled#:#Membership annulled
@@ -448,7 +448,7 @@ common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
 common#:#info_assign_sure#:#Sei sicuro di voler assegnare i seguenti utenti?
 common#:#info_delete_sure#:#Sei sicuro di voler cancellare i seguenti oggetti
-common#:#info_deleted#:#Oggetti cancellati
+common#:#info_deleted#:#Cancellazione eseguita
 common#:#info_trash#:#Oggetti cancellati
 common#:#inform_user_mail#:#Invia una email per informare gli utenti dei cambiamenti
 common#:#information_abbr#:#Informazioni
@@ -623,22 +623,22 @@ common#:#mob#:#Media Object
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
 common#:#month#:#Mese
-common#:#move#:#Move###20 Jan 2004 new variable
+common#:#move#:#Muovi
 common#:#moveChapter#:#Muovi
 common#:#movePage#:#Muovi
 common#:#move_to#:#Inserisci in cartella
 common#:#msg_cancel#:#Esecuzione annullata
 common#:#msg_changes_ok#:#Modifiche effettuate
-common#:#msg_clear_clipboard#:#Appunti cancellati.
+common#:#msg_clear_clipboard#:#Cancellazione eseguita
 common#:#msg_cloned#:#Gli oggetti selezionati sono stati copiati.
 common#:#msg_copy_clipboard#:#Gli oggetti selezionati sono immagazzinati negli appunti (Azione: copia).
 common#:#msg_cut_clipboard#:#Gli oggetti selezionati sono immagazzinati negli appunti (Azione: taglia).
 common#:#msg_cut_copied#:#Gli oggetti selezionati sono stati copiati.
-common#:#msg_deleted_role#:#Ruolo cancellato
-common#:#msg_deleted_roles#:#Ruoli cancellati
-common#:#msg_deleted_roles_rolts#:#Ruoli e Template di ruoli cancellati
-common#:#msg_deleted_rolt#:#Template di ruolo cancellato
-common#:#msg_deleted_rolts#:#Template di ruoli cancellati
+common#:#msg_deleted_role#:#Cancellazione eseguita
+common#:#msg_deleted_roles#:#Cancellazione eseguita
+common#:#msg_deleted_roles_rolts#:#Cancellazione eseguita
+common#:#msg_deleted_rolt#:#Cancellazione eseguita
+common#:#msg_deleted_rolts#:#Cancellazione eseguita
 common#:#msg_error_copy#:#Errore di copia
 common#:#msg_failed#:#Fallito
 common#:#msg_is_last_role#:#I seguenti utenti sono stati rimossi dal loro precedente ruolo
@@ -818,7 +818,7 @@ common#:#payment_system#:#Sistema a pagamento
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
-common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#permission_settings#:#Impostazione dei permessi
 common#:#personal_data#:#Informazioni Personali
 common#:#personal_desktop#:#Desktop personale
 common#:#personal_picture#:#Immagine Personale
@@ -879,7 +879,7 @@ common#:#rights#:#Diritti
 common#:#role#:#Ruolo
 common#:#role_a#:#un ruolo
 common#:#role_add#:#Aggiungi ruolo
-common#:#role_add_local#:#Aggiungi un ruolo locale
+common#:#role_add_local#:#Aggiungi ruolo locale
 common#:#role_added#:#Ruolo aggiunto
 common#:#role_assignment#:#Ruolo assegnato
 common#:#role_deleted#:#Ruolo eliminato
@@ -891,11 +891,11 @@ common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Cancellare un ruolo o un template di ruolo
-common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo###22 Jan 2004 content changed
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
+common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
+common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
-common#:#rolf_write#:#Modificare i ruoli o i template di ruolo###22 Jan 2004 content changed
+common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
 common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo
 common#:#rolt_add#:#Aggiungi template di ruolo
@@ -1019,7 +1019,7 @@ common#:#url_description#:#Descrizione URL
 common#:#user#:#Utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utente assegnato
-common#:#user_deleted#:#Utente cancellato
+common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_language#:#la tua lingua utente
 common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#userdata#:#Dati utente
@@ -1039,8 +1039,8 @@ common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
 common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Cancellare un utente
-common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti###22 Jan 2004 content changed
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
+common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
+common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#usrf_read#:#Accedere in lettura alla registrazione utente
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
@@ -1052,7 +1052,7 @@ common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
 common#:#week#:#Settimana
-common#:#welcome#:#Welcome###20 Jan 2004 new variable
+common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
 common#:#with#:#con
 common#:#write#:#Scrivi
@@ -1066,7 +1066,7 @@ content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
 content#:#all#:#Tutti
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#Cerchio
 content#:#cont_Citation#:#Citazione
 content#:#cont_Example#:#Esempio
 content#:#cont_Headline1#:#Intestazione 1
@@ -1076,8 +1076,8 @@ content#:#cont_List#:#Lista
 content#:#cont_LocalFile#:#File locale
 content#:#cont_Mnemonic#:#Mnemonico
 content#:#cont_Number#:#Numero
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:#Poligono
+content#:#cont_Rect#:#Rettangolo
 content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
@@ -1927,7 +1927,7 @@ search#:#search_no_results_saved#:#Nessun risultato salvato.
 search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca
 search#:#search_no_selection#:#Non hai selezionato niente.
 search#:#search_object_renamed#:#Oggetto rinominato.
-search#:#search_objects_deleted#:#Oggetto(i) cancellato.
+search#:#search_objects_deleted#:#Cancellazione eseguita
 search#:#search_objects_moved#:#Oggetto spostato.
 search#:#search_one_action#:#Seleziona una azione.
 search#:#search_rename_title#:#Rinomina il titolo
