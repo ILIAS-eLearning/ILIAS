@@ -161,7 +161,7 @@ class ilLMObject
 	}
 
 
-	function create()
+	function create($a_upload = false)
 	{
 		// insert object data
 		$query = "INSERT INTO lm_data (title, type, lm_id, import_id) ".
@@ -169,12 +169,16 @@ class ilLMObject
 		$this->ilias->db->query($query);
 		$this->setId(getLastInsertId());
 
-		// create meta data
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->setObject($this);
-		$this->meta_data->create();
-
+		if (!$a_upload)
+		{
+			// create meta data
+			$this->meta_data->setId($this->getId());
+			$this->meta_data->setType($this->getType());
+			$this->meta_data->setTitle($this->getTitle());
+			$this->meta_data->setDescription($this->getDescription());
+			$this->meta_data->setObject($this);
+			$this->meta_data->create();
+		}
 	}
 
 	function assignMetaData(&$a_meta_data)

@@ -741,7 +741,7 @@ class ilNestedSetXML
 		if ($xml=="") {
 			return(false);
 		} else {
-		//echo "<pre>".htmlspecialchars($xml)."</pre>";
+#		echo "<pre>".htmlspecialchars($xml)."</pre>";
 			$this->dom = domxml_open_mem($xml);
 			return(true);
 		}

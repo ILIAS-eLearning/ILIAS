@@ -252,6 +252,10 @@ class ilLMEditorGUI
 							break;
 
 						case "st":
+							if (!is_object($obj))
+							{
+								$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $this->ref_id);
+							}
 							$st_gui =& new ilStructureObjectGUI($this->lm_obj, $this->tree);
 							$st_gui->setStructureObject($obj);
 							$st_gui->$cmd();

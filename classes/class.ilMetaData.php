@@ -74,7 +74,7 @@ class ilMetaData
 		$this->import_id = array();
 		$this->title = "";
 		$this->language = array();
-		$this->description = array();
+		$this->description = "";
 		$this->keyword = array();
 		$this->technicals = array();	// technical sections
 		$this->coverage = "";
@@ -105,6 +105,7 @@ class ilMetaData
 		{
 			include_once("./classes/class.ilNestedSetXML.php");
 			$this->nested = new ilNestedSetXML();
+#			echo "ID: " . $this->getID() . ", Type: " . $this->getType() . "<br>";
 			$this->nested->init($this->id, $this->getType());
 			if ( !$this->nested->initDom() )
 			{
@@ -130,10 +131,6 @@ class ilMetaData
 		} 
 		
 		$this->setTitle($meta_rec["title"]);
-/*		$this->setDescription($meta_rec["description"]);
-		$this->setLanguage($meta_rec["language"]);
-		$this->readKeywords();
-		$this->readTechnicalSections();*/
 	}
 
 	/**
@@ -427,17 +424,20 @@ class ilMetaData
 		include_once("./classes/class.ilNestedSetXML.php");
 		$this->nested = new ilNestedSetXML();
 		$this->nested->init($this->id, $this->getType());
-		$xml = '
-			<MetaData>
-				<General Structure="Hierarchical">
-					<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
-					<Title Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getTitle() . '</Title>
-					<Description Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getDescription() . '</Description>
-					<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>
-				</General>
-			</MetaData>
-		';
-		$this->nested->import($xml, $this->getID(), $this->getType());
+		if ( !$this->nested->initDom() )
+		{
+			$xml = '
+				<MetaData>
+					<General Structure="Hierarchical">
+						<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
+						<Title Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getTitle() . '</Title>
+						<Description Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getDescription() . '</Description>
+						<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>
+					</General>
+				</MetaData>
+			';
+			$this->nested->import($xml, $this->getID(), $this->getType());
+		}
 	}
 
 	/**
