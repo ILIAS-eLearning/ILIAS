@@ -407,23 +407,32 @@ class SurveyQuestion {
 	   return false;
   }
 
-/**
-* Sets and uploads the materials uri
-*
-* Sets and uploads the materials uri
-*
-* @param string $materials_filename, string $materials_tempfilename, string $materials
-* @access public
-* @see $materials
-*/  function setMaterialsfile($materials_filename, $materials_tempfilename="", $materials_name="") {
-		if (!empty($materials_filename)) {
+	/**
+	* Sets and uploads the materials uri
+	*
+	* Sets and uploads the materials uri
+	*
+	* @param string $materials_filename, string $materials_tempfilename, string $materials
+	* @access public
+	* @see $materials
+	*/
+	function setMaterialsfile($materials_filename, $materials_tempfilename="", $materials_name="")
+	{
+		if (!empty($materials_filename))
+		{
 			$materialspath = $this->getMaterialsPath();
-			if (!file_exists($materialspath)) {
+			if (!file_exists($materialspath))
+			{
 				ilUtil::makeDirParents($materialspath);
 			}
-			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
+			//if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename))
+			if (ilUtil::moveUploadedFile($materials_tempfilename, $materials_filename,
+				$materialspath.$materials_filename))
+			{
 				print "image not uploaded!!!! ";
-			} else {
+			}
+			else
+			{
 				$this->addMaterials($materials_filename, $materials_name);
 			}
 		}

@@ -2355,10 +2355,10 @@ $a_allow = "<strong><em><code><cite><gap>";
 	/**
 	* move uploaded file
 	*/
-	function moveUploadedFile($a_file, $a_name, $a_target)
+	function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true)
 	{
 		global $lng, $ilias;
-		
+//echo "<br>ilUtli::moveuploadedFile($a_name)";		
 		if (!is_file($a_file))
 		{
 			$lng->txt("upload_error_file_not_found");
@@ -2369,9 +2369,18 @@ $a_allow = "<strong><em><code><cite><gap>";
 		if (!$vir[0])
 		{
 			unlink($a_file);
-			$ilias->raiseError($lng->txt("file_is_infected")."<br />".
-				$vir[1],
-				$ilias->error_obj->MESSAGE);
+			if ($a_raise_errors)
+			{
+				$ilias->raiseError($lng->txt("file_is_infected")."<br />".
+					$vir[1],
+					$ilias->error_obj->MESSAGE);
+			}
+			else
+			{
+				sendInfo($lng->txt("file_is_infected")."<br />".
+					$vir[1], true);
+			}
+			return false;
 		}
 		else
 		{

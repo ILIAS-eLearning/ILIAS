@@ -138,7 +138,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		if ($_POST["standard_type"] == "File")
 		{
 			$file = $mob_dir."/".$_FILES['standard_file']['name'];
-			move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+			//move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+			if (!ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
+				$_FILES['standard_file']['name'], $file, false))
+			{
+				$this->content_obj->delete();
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				return;
+			}
 
 			// set real meta and object data
 			$format = ilObjMediaObject::getMimeType($file);
@@ -205,7 +212,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				if ($_FILES['full_file']['name'] != "")
 				{
 					$file = $mob_dir."/".$_FILES['full_file']['name'];
-					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					//move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					if (!ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
+						$_FILES['full_file']['name'], $file, false))
+					{
+						$this->content_obj->delete();
+						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+						return;
+					}
 
 					// set real meta and object data
 					$format = ilObjMediaObject::getMimeType($file);

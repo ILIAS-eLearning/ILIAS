@@ -754,6 +754,9 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 	}
 
+	/**
+	* export questions to xml
+	*/
 	function to_xml($questions)
 	{
 		if (!is_array($questions))
@@ -765,6 +768,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$questions =& $this->getQuestions();
 		}
 		$xml = "";
+
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
@@ -798,10 +802,12 @@ class ilObjSurveyQuestionPool extends ilObject
 		$xml_header .= "<questestinterop></questestinterop>\n";
 		$domxml = domxml_open_mem($xml_header);
 		$root = $domxml->document_element();
+
 		// qti section
 		$qtiSection = $domxml->create_element("section");
 		$qtiSection->set_attribute("ident", "qpl_" . $this->getId());
 		$qtiSection->set_attribute("title", $this->getTitle());
+
 		// qti metadata
 		$qtiMetadata = $domxml->create_element("qtimetadata");
 		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
@@ -810,6 +816,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qtiFieldlabel->append_child($qtiFieldlabelText);
 		$qtiFieldentry = $domxml->create_element("fieldentry");
 		$this->initMeta();
+
 		$metadata = $this->meta_data->nested_obj->dom->dump_mem(0);
 		$qtiFieldentryText = $domxml->create_CDATA_Section($metadata);
 		$qtiFieldentry->append_child($qtiFieldentryText);

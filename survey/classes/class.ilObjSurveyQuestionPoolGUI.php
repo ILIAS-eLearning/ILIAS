@@ -187,15 +187,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 
+	/**
+	* export a question
+	*/
 	function exportQuestionsObject()
 	{
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
+		// create an array of all checked checkboxes
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/cb_(\d+)/", $key, $matches)) {
+				array_push($checked_questions, $matches[1]);
+			}
+		}
 		
 		// export button was pressed
 		if (count($checked_questions) > 0)
@@ -602,7 +605,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 			// copy uploaded file to import directory
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
-			move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
+
+			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
+				$_FILES["qtidoc"]["name"], $full_path);
+			//move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
 			$source = $full_path;
 
 			$fh = fopen($source, "r") or die("");
@@ -1636,7 +1642,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// set title of questionpool object to "dummy"
 		$newObj->setTitle("dummy");
 		// set description of questionpool object to "dummy"
-		$newObj->setDescription("dummy");
+		//$newObj->setDescription("dummy");
 		// create the questionpool class in the ILIAS database (object_data table)
 		$newObj->create(true);
 		// create a reference for the questionpool object in the ILIAS database (object_reference table)
@@ -1654,7 +1660,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], 
+			$_FILES["xmldoc"]["name"], $full_path);
+		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// import qti data
 		$qtiresult = $newObj->importObject($full_path);
