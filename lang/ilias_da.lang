@@ -529,7 +529,6 @@ bibitem#:#bibitem_year#:#&aring;r
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Bruger (aktiv)
 chat#:#chat_add_allowed_hosts#:#Tilf&oslash;j venligst adressen p&aring; den v&aelig;rt der er tilladt at bruge chat serveren.
-chat#:#chat_add_ip#:#Tilf&oslash;j venligst serverens IP.
 chat#:#chat_add_moderator_password#:#Tilf&oslash;j venligst et password.
 chat#:#chat_add_port#:#Tilf&oslash;j venligst en server port.
 chat#:#chat_aqua#:#aqua
@@ -590,7 +589,6 @@ chat#:#chat_rooms_deleted#:#Chat rum slettet.
 chat#:#chat_select_one_room#:#V&aelig;lg venligst et chat rum
 chat#:#chat_server_allowed#:#Tilladte v&aelig;rter
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Server IP
 chat#:#chat_server_logfile#:#Log fil sti
 chat#:#chat_server_loglevel#:#Log level
 chat#:#chat_server_not_active#:#Chat serveren er ikke aktiv
@@ -1605,6 +1603,7 @@ common#:#msg_no_perm_modify_rolt#:#du har ikke rettigheder til at &aelig;ndre re
 common#:#msg_no_perm_modify_user#:#du har ikke rettigneder til at &aelig;ndre bruger data
 common#:#msg_no_perm_paste#:#du har ikke rettighedert til at inds&aelig;tte f&oslash;lgende objekt
 common#:#msg_no_perm_perm#:#du har ikke rettigheder til at &aelig;ndre rettigheds indstillinger
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#du har ingen rettigheder l&aelig;se dette l&aelig;ringsmodul.
 common#:#msg_no_perm_read_track#:#du har ingen rettigheder til at komme ind p&aring; brugeren.
 common#:#msg_no_perm_undelete#:#du har ingen rettigheder til at undelete f&oslash;lgende objekt:
@@ -1656,6 +1655,8 @@ common#:#news#:#Nyheder
 common#:#next#:#n&aelig;ste
 common#:#nickname#:#&oslash;genavn
 common#:#no#:#Nej
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#Du har ikke tilladelse til at linke til dette objekt
 common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
@@ -2603,6 +2604,8 @@ crs#:#crs_end#:#Slut
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file_name#:#Filnavn
 crs#:#crs_from#:#Fra:
+crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
 crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
 crs#:#crs_header_edit_members#:#Rediger medlem
@@ -2638,7 +2641,6 @@ crs#:#crs_no_items_found#:#Ingen genstande
 crs#:#crs_no_language#:#Intet sprog
 crs#:#crs_no_member_selected#:#V&aelig;lg venligst et medlem
 crs#:#crs_no_members_assigned#:#Ingen medlemmer tilmeldt dette kursus
-crs#:#crs_no?notify#:#No notify for new registrations
 crs#:#crs_no_results_found#:#Ingen resultater fundet
 crs#:#crs_no_roles_selected#:#V&aelig;lg venligst en rolle
 crs#:#crs_no_subscribers_selected#:#V&aelig;lg venligst en bruger
@@ -2650,6 +2652,7 @@ crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_number_users_added#:#Det f&oslash;lgende antal brugere er blevet tilmeldt kurset:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Egenskaber
+crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_pdf#:#PDF
@@ -2973,7 +2976,6 @@ forum#:#forums_thread_articles#:#Artikler om alle emner
 forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.
-forum#:#fo?ums_thread_new_entry#:#Nyt emne oprettet
 forum#:#forums_threads#:#Tr&aring;de
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige
 forum#:#forums_topics_overview#:#Emne Oversigt
@@ -2988,8 +2990,6 @@ jscalendar#:#close#:#Luk
 jscalendar#:#day_first#:#Vis %s f&oslash;rst
 jscalendar#:#def_date_format#:#%d-%m-%y
 jscalendar#:#drag_to_move#:#Tr&aelig;k til
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
 jscalendar#:#go_today#:#G&aring; til dag
 jscalendar#:#l_01#:#Januar
 jscalendar#:#l_02#:#Feburar
@@ -3017,6 +3017,8 @@ jscalendar#:#part_today#:# (idag)
 jscalendar#:#prev_month#:#Tidligere m&aring;ned (hold for menu)
 jscalendar#:#prev_year#:#Tidligere &aring;r (hold for menu)
 jscalendar#:#s_01#:#Jan
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mar
 jscalendar#:#s_04#:#Apr
 jscalendar#:#s_05#:#Maj
 jscalendar#:#s_06#:#Jun
@@ -3849,8 +3851,8 @@ pwassist#:#pwassist_not_permitted#:#Indtast venligst et andet brugernavn.\nPassw
 pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til bruger "%1$s".
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\nDin passwordassistancesession er udl&oslash;bet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig p&aring; email mere end 1 gang, eller fordi der er g&aring;et for lang tid siden linket blev sendt til dig.
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.
-search#:#search_and#:#og
 search#:#search_all_results#:#Alle resultater
+search#:#search_and#:#og
 search#:#search_concatenation#:#Sammenk&aelig;dning
 search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
@@ -4136,7 +4138,6 @@ survey#:#search_questions#:#S&oslash;g efter sp&oslash;rgsm&aring;l
 survey#:#search_term#:#S&oslash;ge krav
 survey#:#search_type_all#:#S&oslash;g i alle sp&oslash;rgsm&aring;ls typer
 survey#:#search_users#:#Brugere
-survey#:#select_max_one_item#:#V&aelig;lg kun en ting
 survey#:#select_prior_question#:#V&aelig;lg et tidligere sp&oslash;rgsm&aring;l
 survey#:#select_questionpool#:#V&aelig;lg en sp&oslash;rgs,&aring;lsgruppe for at gemme sp&oslash;rgsm&aring;let
 survey#:#select_questionpool_short#:#Sp&oslash;rgsm&aring;lsgruppe for sp&oslash;rgeskema

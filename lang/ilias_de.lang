@@ -1763,6 +1763,7 @@ common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung 
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_read_track#:#Sie besitzen keine ausreichende Berechtigung um Tracking-Daten anzuzeigen.
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
@@ -1818,6 +1819,8 @@ common#:#news#:#News
 common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verknüpfen
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
@@ -2971,8 +2974,10 @@ crs#:#crs_export#:#Kursexport
 crs#:#crs_file_name#:#Dateiname
 crs#:#crs_from#:#Von:
 crs#:#crs_grouping#:#Kursgruppierung
+crs#:#crs_grouping_assign#:#Zuordnung ändern
 crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
+crs#:#crs_grouping_modified_assignment#:#Die Zuordnung wurde geändert.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
 crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
@@ -3100,6 +3105,7 @@ crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, daß Sie alle Ergebnisse dies
 crs#:#crs_objectives_reseted#:#Alle Ergebnisse wurden zurückgesetzt.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Optionen
+crs#:#crs_other_groupings#:#Gruppierungen anderer Kurse
 crs#:#crs_other_resources#:#Andere Objekte
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
@@ -4715,6 +4721,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-crs#:#crs_other_groupings#:#Gruppierungen anderer Kurse
-crs#:#crs_grouping_assign#:#Zuordnung ändern
-crs#:#crs_grouping_modified_assignment#:#Die Zuordnung wurde geändert.

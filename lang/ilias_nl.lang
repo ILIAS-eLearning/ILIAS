@@ -1764,6 +1764,7 @@ common#:#msg_no_perm_modify_rolt#:#U heeft geen toestemming voor het wijzigen va
 common#:#msg_no_perm_modify_user#:#U heeft geen rechten om gebruikers-gegevens te wijzigen!
 common#:#msg_no_perm_paste#:#U heeft geen toestemming voor het plakken van het/de volgende object(en):
 common#:#msg_no_perm_perm#:#U heeft geen toestemming voor het wijzigen van de instellingen van rechten
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#U heeft geen rechten om deze lesmodule te lezen.
 common#:#msg_no_perm_read_track#:#U heeft geen toegang tot de gebruikers-tracking.
 common#:#msg_no_perm_undelete#:#U heeft geen toestemming voor het herstellen van het/de volgende object(en):
@@ -1819,6 +1820,8 @@ common#:#news#:#Nieuws
 common#:#next#:#volgende
 common#:#nickname#:#Login
 common#:#no#:#No###05 Nov 2004 new variable
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#Uw mag dit object niet linken
 common#:#no_bm_in_personal_list#:#Geen bookmarken gedefiniëerd.
 common#:#no_chat_in_personal_list#:#Geen chats in persoonlijke lijst
@@ -2972,8 +2975,10 @@ crs#:#crs_export#:#Wijzig archiveringen
 crs#:#crs_file_name#:#Eind
 crs#:#crs_from#:#Cursus-export
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
 crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -3101,6 +3106,7 @@ crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course.
 crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
 crs#:#crs_offline#:#Melding bij nieuwe registraties
 crs#:#crs_options#:#Het volgende aantal gebruikers heeft op de cursus ingeschreven.
+crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
 crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
 crs#:#crs_passed#:#Offline
 crs#:#crs_password_not_valid#:#Opties

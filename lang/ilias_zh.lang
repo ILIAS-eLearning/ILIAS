@@ -1782,6 +1782,7 @@ common#:#msg_no_perm_modify_rolt#:#您无权限修改角色模板
 common#:#msg_no_perm_modify_user#:#您无权限修改用户日期　###14 Sep 2004 content changed
 common#:#msg_no_perm_paste#:#您无权限粘贴下列对象
 common#:#msg_no_perm_perm#:#您无权限编辑权限设置
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#您没有恢复下列对象的许可
@@ -1837,6 +1838,8 @@ common#:#news#:#新闻
 common#:#next#:#下一个
 common#:#nickname#:#昵称
 common#:#no#:#否
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#You are not allowed to link this object###07 Aug 2004 new variable
 common#:#no_bm_in_personal_list#:#未定义书签
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
@@ -2990,8 +2993,10 @@ crs#:#crs_export#:#Course export###07 Aug 2004 new variable
 crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
 crs#:#crs_from#:#From:###07 Aug 2004 new variable
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
 crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -3119,6 +3124,7 @@ crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course.
 crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
 crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
 crs#:#crs_options#:#Options###07 Aug 2004 new variable
+crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
 crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
 crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
 crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable

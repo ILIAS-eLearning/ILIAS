@@ -1764,6 +1764,7 @@ common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template d
 common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedre a questo modulo.
 common#:#msg_no_perm_read_track#:#Non hai i diritti per accedere al tracciamento utente.
 common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:
@@ -1819,6 +1820,8 @@ common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
@@ -2969,8 +2972,10 @@ crs#:#crs_export#:#Esportazione corso
 crs#:#crs_file_name#:#Nome file
 crs#:#crs_from#:#Da:
 crs#:#crs_grouping#:#Piano formativo
+crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Vuoi veramente eliminare il seguente piano formativo?
 crs#:#crs_grouping_deleted#:#Rimossi piani formativi.
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Scegli il piano formativo.
 crs#:#crs_groupings#:#Piani formativi
 crs#:#crs_groupings_ask_delete#:#Elimina il piano formativo
@@ -3098,6 +3103,7 @@ crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di q
 crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opzioni
+crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
 crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
