@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjGroupGUI.php,v 1.5 2003/05/12 13:02:48 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.6 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -87,7 +87,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	
 	
 	/**
-	* save Object
+	*  Object
 	* @access public
 	*/
 	function saveObject()
@@ -106,6 +106,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$GrpId = $newObj->getId();
 
 		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		
 		unset($newObj);
 		//rolefolder
 
@@ -118,25 +120,82 @@ class ilObjGroupGUI extends ilObjectGUI
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($refGrpId);		//assign rolefolder to group
+		$newObj->setPermissions($refGrpId);
+		
 		$refRolf = $newObj->getRefId();
 		unset($newObj);
 		
 		// create new role objects
-		$newGrp = new ilObjGroup($GrpId,false);
+		$newGrp = new ilObjGroup($refGrpId,true);
 
 		//0=public,1=private,2=closed
 		$newGrp->setGroupStatus($_POST["group_status_select"]);
 
 		//create standard group roles:member,admin,request(!),depending on group status(public,private,closed)
+
 		$newGrp->createGroupRoles($refRolf); 		
 		//creator becomes admin of group
 		$newGrp->joinGroup($ilias->account->getId(),"admin");
-		
-		
+	
 		header("Location: adm_object.php?".$this->link_params);
 		exit();
 
 	}
+
+	/**
+	* update GroupObject
+	* @access public
+	*/
+	function updateObject()
+	{
+		global $rbacadmin,$rbacsystem;
+		
+		if($rbacsystem->checkAccess("write",$this->object->getRefId()) )
+		{
+			$this->object->setGroupStatus($_POST["group_status_select"]);
+			parent::updateObject();
+		}
+		
+	}
+	/**
+	* edit Group
+	* @access public
+	*/
+	function editObject()
+	{
+		global $rbacsystem;
+		
+
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["group_name"] = "";
+		$data["fields"]["desc"] = "";
+		
+		$this->getTemplateFile("new","group");
+		foreach ($data["fields"] as $key => $val)
+		{  
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$stati = array("group_status_public","group_status_private","group_status_closed");
+		
+		//build form
+		$selected = $this->object->getGroupStatus();
+		$opts = ilUtil::formSelect($selected,"group_status_select",$stati);
+		
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=update"."&ref_id=".$_GET["ref_id"].
+			"&new_type=".$_POST["new_type"]);
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TITLE",$this->object->getTitle() );
+		$this->tpl->setVariable("DESC",$this->object->getDescription() );
+		
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
+	}
+	
 	
 	/**
 	* leave Group
@@ -202,7 +261,8 @@ class ilObjGroupGUI extends ilObjectGUI
 					
 			//todo: chechAccess, each user sees only the symbols belonging to his rigths
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
-			$link_change = "adm_object.php?cmd=editMembership&mem_id=".$member->getId();		
+			$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
+//			$link_change = "adm_object.php?cmd=perm&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
 			$link_leave = "adm_object.php?type=grp&cmd=leaveGrp&ref_id=".$this->ref_id."&mem_id=".$member->getId();					
 			$img_contact = "pencil";
 			$img_change = "change";
@@ -247,7 +307,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	}	
 
 
-	function editObject()
+	function editMemberObject()
 	{
 		global $rbacsystem;
 
