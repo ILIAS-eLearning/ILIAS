@@ -7,14 +7,14 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup">
-<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup">
-<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
-<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Annotation | ExtLink | IntLink">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Annotation | ExtLink | IntLink">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | ExtLink | IntLink">
 <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
-<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | ExtLink | IntLink">
 <!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
-<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
 
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
@@ -120,22 +120,19 @@
 <!ATTLIST Strong
 	Reason (Keyword | Intuition | MetaLanguageUse) #IMPLIED
 >
+
 <!-- Quotation -->
 <!ELEMENT Quotation (%text;)*>
 <!ATTLIST Quotation
 	Language (%langcode;) #REQUIRED
 	Reference IDREF #IMPLIED
 >
+
 <!-- Code -->
 <!ELEMENT Code (#PCDATA | br)*>
 <!ATTLIST Code
 	Id ID #IMPLIED
 	ProgrammingLanguage CDATA #IMPLIED
->
-<!-- Formula -->
-<!ELEMENT Formula (#PCDATA | br)*>
-<!ATTLIST Formula
-	Id ID #IMPLIED
 >
 
 <!-- List -->
@@ -184,6 +181,7 @@
 	Href CDATA #REQUIRED
 	Title CDATA #IMPLIED
 >
+
 <!-- IntLink -->
 <!-- An element to link to _internal_ resources via XML ID/IDREF -->
 <!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
@@ -193,37 +191,9 @@
 <!ELEMENT IntLink (%linktext;)*>
 <!ATTLIST IntLink
 	Target CDATA #REQUIRED
-	Type (StructureObject | PageObject | MediaObject | Test | TestItem | Glossary | GlossaryItem | Bibliography | Anchor) #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | GlossaryItem) #REQUIRED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 >
-<!-- Anchor -->
-<!-- Allows to jump to a specified target point within a page; the use of anchors in ILIAS is equal to its use in HTML-->
-<!ELEMENT Anchor (%linktext;)*>
-<!ATTLIST Anchor
-	Id ID #REQUIRED
->
-<!-- Markup -->
-<!-- Markup element can be used for not supported items; the processing of this element can be adjusted in the XSLT stylesheet -->
-<!ELEMENT Markup (%text;)*>
-<!ATTLIST Markup
-	Type CDATA #REQUIRED
-	Attribute1 CDATA #IMPLIED
-	Attribute2 CDATA #IMPLIED
-	Attribute3 CDATA #IMPLIED
-	Attribute4 CDATA #IMPLIED
-	Attribute5 CDATA #IMPLIED
->
-<!-- Test -->
-<!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
-<!ELEMENT Test (MetaData, TestItem+)>
-<!ELEMENT TestItem (MetaData, Introduction*, Question, Answer+, Hint*)>
-<!ELEMENT Introduction (Paragraph | MediaObject)+>
-<!ELEMENT Question (Paragraph | MediaObject)+>
-<!ELEMENT Answer (Paragraph | MediaObject)+>
-<!ATTLIST Answer
-	Solution (Right | Wrong) #IMPLIED
->
-<!ELEMENT Hint (Paragraph | MediaObject)+>
 
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
@@ -266,7 +236,6 @@
 <!ATTLIST Booktitle
 	Language (%langcode;) #REQUIRED
 >
-<!-- <!ELEMENT CrossRef (#PCDATA | IntLink)> 	this doesnt work with libxml -->
 <!ELEMENT CrossRef (#PCDATA)>
 <!ELEMENT Edition (#PCDATA)>
 <!ELEMENT Editor (#PCDATA)>
