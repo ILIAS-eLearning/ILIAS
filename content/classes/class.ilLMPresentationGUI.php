@@ -100,7 +100,7 @@ class ilLMPresentationGUI
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
 			"VALUES ".
-			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".$this->lm->getTitle()."')";
+			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".ilUtil::prepareDBString($this->lm->getTitle())."')";
 		$this->ilias->db->query($q);
 	}
 
