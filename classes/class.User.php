@@ -1062,10 +1062,11 @@ class User
 	*/
 	function searchUsers($a_search_str)
 	{
-		$query = "SELECT usr_id,login,firstname,lastname FROM usr_data ".
+		$query = "SELECT usr_id,login,firstname,lastname,email FROM usr_data ".
 			"WHERE login LIKE '%".$a_search_str."%' ".
 			"OR firstname LIKE '%".$a_search_str."%' ".
-			"OR lastname LIKE '%".$a_search_str."%'";
+			"OR lastname LIKE '%".$a_search_str."%' ".
+			"OR email LIKE '%".$a_search_str."%'";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1074,7 +1075,8 @@ class User
 				"usr_id"     => $row->usr_id,
 				"login"      => $row->login,
 				"firstname"  => $row->firstname,
-				"lastname"   => $row->lastname);
+				"lastname"   => $row->lastname,
+				"email"      => $row->email);
 		}
 		return $ids ? $ids : array();
 	}
