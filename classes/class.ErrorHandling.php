@@ -1,30 +1,63 @@
 <?php
 /**
- * Error Handling
- * @version $Id$
- * @author Stefan Meyer <smeyer@databay.de>
- * @package application
- */
+* Error Handling
+* uses PEAR error class
+*
+* @version $Id$
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
+*
+* @package application
+* @see PEAR
+* @todo when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
+*/
 class ErrorHandling
 {
+	/**
+	* Toggle debugging on/off
+	* @var		boolean
+	* @access	private
+	*/
 	var $DEBUG_ENV;
-	var $FATAL = 1;
-	var $WARNING = 2;
-	var $MESSAGE = 3;
+
+	/**
+	* Error level 1: exit application immedietly
+	* @var		integer
+	* @access	public
+	*/
+	var $FATAL;
+
+	/**
+	* Error level 2: show warning page
+	* @var		integer
+	* @access	public
+	*/
+	var $WARNING;
+
+	/**
+	* Error level 3: show message in recent page
+	* @var		integer
+	* @access	public
+	*/
+	var $MESSAGE;
 
 	/**
 	* Constructor
-	* @access public
-	* 
+	* @access	public
 	*/
 	function ErrorHandling()
 	{
-		$this->DEBUG_ENV = 1;
+		// init vars
+		$this->DEBUG_ENV = true;
+		$this->FATAL	 = 1;
+		$this->WARNING	 = 2;
+		$this->MESSAGE	 = 3;
 	}
 	
 	/**
 	* defines what has to happen in case of error
-	* @param object Error
+	* @access	private
+	* @param	object	Error
 	*/
 	function errorHandler($a_error_obj)
 	{
@@ -35,7 +68,7 @@ class ErrorHandling
 		
 		if ($a_error_obj->getCode() == $this->WARNING)
 		{
-			if ($this->DEBUG_ENV == 1)
+			if ($this->DEBUG_ENV)
 			{
 				$message = $a_error_obj->getMessage();
 			}
@@ -63,5 +96,5 @@ class ErrorHandling
 			exit;
 		}
 	}
-}
+} // END class.ErrorHandling
 ?>
