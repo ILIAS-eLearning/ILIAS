@@ -1753,30 +1753,50 @@ class ASS_QuestionGUI extends PEAR {
 				$y0 = $matches[2];
 				$x1 = $matches[3];
 				$y1 = $matches[4];
-				$i0 = $x0-1;
-				$j0 = $y0-1;
-				$i1 = $x1+1;
-				$j1 = $y1+1;
-//				$coords = preg_replace("/(\d+,\d+),(\d+,\d+)/", "$1 $2", $coords);
-//				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 -fill red -draw \"rectangle " . $coords . "\" $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				// draw a rect around the selection
 				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
-				"-fill red -draw \"line " . 
-				$x0 . "," . $y0 .	" " . $x0 . "," . $y1 . "\" " .
-				"-fill red -draw \"line " . 
-				$x0 . "," . $y1 .	" " . $x1 . "," . $y1 . "\" " .
-				"-fill red -draw \"line " . 
-				$x1 . "," . $y1 .	" " . $x1 . "," . $y0 . "\" " .
-				"-fill red -draw \"line " . 
-				$x1 . "," . $y0 .	" " . $x0 . "," . $y0 . "\" " .
-				"-fill white -draw \"line " . 
-				$i0 . "," . $j0 .	" " . $i0 . "," . $j1 . "\" " .
-				"-fill white -draw \"line " . 
-				$i0 . "," . $j1 .	" " . $i1 . "," . $j1 . "\" " .
-				"-fill white -draw \"line " . 
-				$i1 . "," . $j1 .	" " . $i1 . "," . $j0 . "\" " .
-				"-fill white -draw \"line " . 
-				$i1 . "," . $j0 .	" " . $i0 . "," . $j0 . "\" " .
+				"-stroke white -fill none -linewidth 5 -draw \"rectangle " . 
+				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
+				"-stroke red -fill none -linewidth 3 -draw \"rectangle " . 
+				$x0 . "," . $y0 .	" " . ($x1) . "," . $y1 . "\" " .
+				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
+				system($convert_cmd);
+			} else if (strcmp($this->question->answers[$solutions[0]->value1]->get_area(), "circle") == 0) {
+				$imagepath_working = $this->question->get_image_path() . $this->question->get_image_filename();
+				$coords = $this->question->answers[$solutions[0]->value1]->get_coords();
+				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
+				$x = $matches[1];
+				$y = $matches[2];
+				$r = $matches[3];
+				// draw a circle around the selection
+				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 " .
+				"-stroke white -fill none -linewidth 5 -draw \"circle " . 
+				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
+				"-stroke red -fill none -linewidth 3 -draw \"circle " . 
+				$x . "," . $y .	" " . ($x+$r) . "," . $y . "\" " .
+				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
+				system($convert_cmd);
+			} else if (strcmp($this->question->answers[$solutions[0]->value1]->get_area(), "poly") == 0) {
+				$imagepath_working = $this->question->get_image_path() . $this->question->get_image_filename();
+				$coords = $this->question->answers[$solutions[0]->value1]->get_coords();
+				preg_match("/(\d+),(\d+),(\d+)/", $coords, $matches);
+				$x = $matches[1];
+				$y = $matches[2];
+				$r = $matches[3];
+				// draw a polygon around the selection
+				$convert_cmd = ilUtil::getConvertCmd() . " -quality 100 ";
+				$convert_cmd .= "-stroke white -fill none -linewidth 5 -draw \"polygon ";
+				preg_match_all("/(\d+),(\d+)/", $coords, $matches, PREG_PATTERN_ORDER);
+				for ($i = 0; $i < count($matches[0]); $i++) {
+					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
+				}
+				$convert_cmd .= "\" ";
+				$convert_cmd .= "-stroke red -fill none -linewidth 3 -draw \"polygon ";
+				preg_match_all("/(\d+),(\d+)/", $coords, $matches, PREG_PATTERN_ORDER);
+				for ($i = 0; $i < count($matches[0]); $i++) {
+					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
+				}
+				$convert_cmd .= "\" " .
 				 " $imagepath_working $imagepath_working.sel" . $ilUser->id . ".jpg";
 				system($convert_cmd);
 			}
