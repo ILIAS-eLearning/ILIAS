@@ -218,13 +218,13 @@ class XmlWriter
 		// dtd definition
 		if ($this->dtdDef <> "")
 		{
-			$this->xmlStr .= $this->dtdDef; // *** splitten
+			$this->xmlStr .= $this->dtdDef; // ***
 		}
 		
 		// stSheet
 		if ($this->stSheet <> "")
 		{
-			$this->xmlStr .= $this->stSheet;  // *** splitten
+			$this->xmlStr .= $this->stSheet;  // ***
 		}
 		
 		// generated comment
@@ -238,7 +238,7 @@ class XmlWriter
 	
 	// write starttag
 	// takes an array of attributes (name => value)
-	function xmlStartTag ($tag, $attrs = NULL, $empty = FALSE)
+	function xmlStartTag ($tag, $attrs = NULL, $empty = FALSE, $encode = TRUE, $escape = TRUE)
 	{
 		// write first part of the starttag
 		$this->xmlStr .= "<".$tag;
@@ -249,6 +249,18 @@ class XmlWriter
 			// write attributes
 			foreach ($attrs as $name => $value)
 			{
+				// encode
+				if ($encode)
+				{
+		    		$value = $this->xmlEncodeData($value);
+				}
+				
+				// escape
+				if ($escape)
+				{
+	    			 $value = $this->xmlEscapeData($value);
+	    		}
+				
 				$this->xmlStr .= " ".$name."=\"".$value."\"";
 			}
 		}
