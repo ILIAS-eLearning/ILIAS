@@ -36,7 +36,8 @@ require_once "classes/class.ilObjForum.php";
 $lng->loadLanguageModule("forum");
 
 $forumObj = new ilObjForum($_GET["ref_id"]);
-$frm = new ilForum();
+$frm =& $forumObj->Forum;
+
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
 
