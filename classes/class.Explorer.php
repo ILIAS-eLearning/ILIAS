@@ -5,7 +5,7 @@
  * @author Stefan Meyer <smeyer@databay.de>
  * @version $Id$
  * @package ilias-core
- * @todo maybe only container should be visible, because the number oj objects could be to big for recursion
+ * @todo maybe only container should be visible, because the number of objects could be to big for recursion
  * implement a sort function
  */
 class Explorer extends PEAR
@@ -56,18 +56,24 @@ class Explorer extends PEAR
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
-	* @param int
-	* @param int
-	* @access public
-	* @return string
+	* @param	integer	$a_depth	depth level where to start (default=1)
+	* @param	integer	$a_parent	parent_node_id where to start from (default=0, 'root')
+	* @access	public
+	* @return	string
 	*/
-	function setOutput($a_depth,$a_parent)
+	function setOutput($a_parent,$a_depth = "")
 	{
 		global $rbacadmin, $rbacsystem, $expanded;
 
-		if($objects =  $this->tree->getChildsByDepth($a_depth,$a_parent))
+		if (empty($a_depth))
+		{
+		 	$a_depth = 1;
+		}
+		
+		if($objects =  $this->tree->getChilds($a_parent,"title"))
 		{
 			$tab = ++$a_depth - 2;
+			
 			// Maybe call a lexical sort function for the child objects
 			foreach($objects as $key => $object)
 			{
@@ -105,7 +111,7 @@ class Explorer extends PEAR
 							$this->format_options["$object[parent]"]["tab"][($tab-2)] = 'plus';
 					}
 					// Recursive
-					$this->setOutput($a_depth,$object["id"]);
+					$this->setOutput($object["id"],$a_depth);
 				} //if
 			} //foreach
 		} //if
