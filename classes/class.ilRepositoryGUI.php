@@ -2664,6 +2664,12 @@ class ilRepositoryGUI
 					$tpl->setVariable("DL_TITLE", $cont_data["title"]);
 					$tpl->setVariable("DL_TARGET", "bottom");
 					$tpl->parseCurrentBlock();
+					
+					$tpl->setCurrentBlock("file_history");
+					$tpl->setVariable("TXT_HISTORY", $this->lng->txt("versions"));
+					$tpl->setVariable("HISTORY_LINK", "repository.php?cmd=history&cmdClass=ilobjfilegui&cmdNode=32&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("HISTORY_TARGET", "bottom");
+					$tpl->parseCurrentBlock();
 
 				}
 				else
@@ -3408,7 +3414,7 @@ class ilRepositoryGUI
 					{
 						$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
 					}
-					$this->gui_obj->object->sendfile();
+					$this->gui_obj->object->sendfile($_GET["hist_id"]);
 					break;
 					
 			}

@@ -258,14 +258,43 @@ class ilObjFile extends ilObject
 	}
 
 
-	function sendFile()
-	{
-		$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
-
-		// if not found lookup for file in file object's main directory for downward compability
-		if (@!is_file($file))
+	function sendFile($a_hist_entry_id = null)
+	{	
+		if (is_null($a_hist_entry_id))
 		{
-			$file = $this->getDirectory()."/".$this->getFileName();
+			$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+
+			// if not found lookup for file in file object's main directory for downward c	ompability
+			if (@!is_file($file))
+			{
+				$file = $this->getDirectory()."/".$this->getFileName();
+			}
+		}
+		else
+		{
+			require_once("classes/class.ilHistory.php");
+			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
+			
+			if ($entry === false)
+			{
+				return false;
+			}
+
+			$data = explode(",",$entry["info_params"]);
+
+			$file = $this->getDirectory($data[1])."/".$data[0];
+			
+			// if not found lookup for file in file object's main directory for downward c	ompability
+			if (@!is_file($file))
+			{
+				$file = $this->getDirectory()."/".$data[0];
+			}
+			
+			if (@is_file($file))
+			{
+				ilUtil::deliverFile($file, $data[0]);
+				return true;
+			}
 		}
 
 		if (@is_file($file))

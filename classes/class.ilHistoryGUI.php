@@ -59,6 +59,8 @@ class ilHistoryGUI
 	*/
 	function getHistoryTable($a_header_params, $a_user_comment = false)
 	{
+		$ref_id = $a_header_params["ref_id"];
+		
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI(0, false);
 		
@@ -68,16 +70,16 @@ class ilHistoryGUI
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("date"),
 				$this->lng->txt("user"), $this->lng->txt("action"),
-				$this->lng->txt("user_comment")));
-			$tbl->setColumnWidth(array("15%", "15%", "30%", "40%"));
-			$cols = array("date", "user", "action", "comment");
+				$this->lng->txt("user_comment"), ""));
+			$tbl->setColumnWidth(array("15%", "15%", "45%", "20%","5%"));
+			$cols = array("date", "user", "action", "comment", "");
 		}
 		else
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("date"),
-				$this->lng->txt("user"), $this->lng->txt("action")));
-			$tbl->setColumnWidth(array("30%", "30%", "40%"));
-			$cols = array("date", "user", "action");
+				$this->lng->txt("user"), $this->lng->txt("action"),""));
+			$tbl->setColumnWidth(array("25%", "25%", "45%", "5%"));
+			$cols = array("date", "user", "action", "");
 		}
 
 		if ($a_header_params == "")
@@ -103,12 +105,9 @@ class ilHistoryGUI
 		$tbl->setMaxCount(count($entries));
 		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 
-		//$tbl->render();
-
 		$this->tpl =& $tbl->getTemplateObject();
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html", false);
-		//$this->tpl->setVariable("TBL_CONTENT", "<tr><td>kkk</td></tr>");
-		//$tbl->render();
+
 		if(count($entries) > 0)
 		{
 			$i=0;
@@ -138,6 +137,8 @@ class ilHistoryGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("tbl_content");
 				}
+				$this->tpl->setVariable("TXT_DL", $this->lng->txt("download"));
+				$this->tpl->setVariable("DL_LINK", "repository.php?cmd=sendfile&hist_id=".$entry["hist_entry_id"]."&ref_id=".$ref_id);
 				$this->tpl->parseCurrentBlock();
 			}
 		} //if is_array

@@ -145,7 +145,8 @@ class ilHistory
 				"obj_id" => $a_obj_id,
 				"action" => $hist_rec["action"],
 				"info_params" => $hist_rec["info_params"],
-				"user_comment" => $hist_rec["user_comment"]);
+				"user_comment" => $hist_rec["user_comment"],
+				"hist_entry_id" => $hist_rec["id"]);
 		}
 		
 		return $hist_items;
@@ -200,6 +201,20 @@ class ilHistory
 		
 		return true;
 	}
+	
+	/**
+	 * returns a single history entry
+	 * 
+	 * 
+	 */
+	function _getEntryByHistoryID($a_hist_entry_id)
+	{
+		global $ilDB;
 
+		$q = "SELECT * FROM history WHERE id = ".$ilDB->quote($a_hist_entry_id);
+		$r = $ilDB->query($q);
+		
+		return $r->fetchRow(DB_FETCHMODE_ASSOC);
+	}
 } // END class.ilHistory
 ?>

@@ -2287,6 +2287,7 @@ common#:#usr_a#:#ein Benutzer
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_added#:#Benutzer angelegt
 common#:#usr_agreement#:#Nutzervereinbarung
+common#:#versions#:#Versionen
 common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
