@@ -73,17 +73,19 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		//vd($this->tpl);
 		$this->tpl->addBlockfile("CONTENT", "offline_content", "tpl.offline_export.html", true);
 		$this->tpl->touchBlock("offline_content");
-		$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline / print");
 		
 		$this->tpl->setVariable("TXT_TYPE","Export-Type");
 
 		if ($_GET["print"]==1) 
 		{
+			$this->tpl->setVariable("TXT_ACTION","Digilib-Book - print");
 			$this->tpl->setVariable("TXT_PRINTEXPORT",$this->lng->txt("Print") );
 			$this->tpl->setVariable("PRINT_CHECKED","checked");
+			$this->tpl->setVariable("EXPORT_TARGET","_blank");
 		} 
 		else 
 		{
+			$this->tpl->setVariable("TXT_ACTION","Digilib-Book - read offline");
 			$this->tpl->setVariable("TXT_HTMLEXPORT",$this->lng->txt("HTML export") );
 			$this->tpl->setVariable("TXT_PDFEXPORT",$this->lng->txt("PDF export") );
 			$this->tpl->setVariable("OFFLINE_CHECKED","checked");
