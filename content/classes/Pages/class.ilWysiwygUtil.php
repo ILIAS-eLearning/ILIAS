@@ -25,6 +25,49 @@
 class ilWysiwygUtil
 {
     
+	var $tpl;
+	
+	function ilWysiwygUtil() 
+	{
+		
+	}
+	
+	function show($ptype) 
+	{
+		$this->showHeader();
+		switch ($ptype) {
+			case "xtl" : {
+							$this->showXtl();
+							break;
+						}
+			case "itl" : {
+							$this->showItl();
+							break;
+						}
+		}
+		
+		$this->tpl->show();
+		
+	}
+	
+	function showXtl() 
+	{
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_xtl.html",false,false,true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+	}
+	
+	function showItl() 
+	{
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_itl.html",false,false,true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+	}
+	
+	
+	function showHeader() {
+		
+	}
+	
+	
     var $struct = array();
     var $depth;
     var $newXml;
@@ -80,6 +123,11 @@ class ilWysiwygUtil
         $new["convert2"] = "</".$name.">";
         
 		
+		if ($attrs["class"] == "iliasxln") 
+		{
+			$new["convert"] = "[xln url=\"".$attrs[url]."\"]";
+            $new["convert2"] = "[/xln]";
+		}
 		
         if ($attrs["class"] == "iliasstrong") 
 		{
