@@ -673,7 +673,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $rbacreview;
 
 		if (!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
@@ -701,8 +701,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
 		
-		// exclude allow register option for anonymous role
-		if ($this->object->getId() != ANONYMOUS_ROLE_ID)
+		// exclude allow register option for anonymous role and all local roles
+		$global_roles = $rbacreview->getGlobalRoles();
+
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID and in_array($this->object->getId(),$global_roles))
 		{
 			$this->tpl->setCurrentBlock("allow_register");
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
