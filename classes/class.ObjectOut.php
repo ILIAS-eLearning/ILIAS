@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.3 2002/12/05 16:10:39 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.4 2002/12/11 17:43:31 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -71,7 +71,7 @@ class ObjectOut
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 		$this->setAdminTabs();
-//		$this->setLocator();
+		$this->setLocator();
 	}
 	/**
 	* set admin tabs
@@ -117,13 +117,17 @@ class ObjectOut
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		if ($_GET["parent_parent"] != "")
+		if ($_GET["parent_parent"])
+		{
 			$path = $this->tree->getPathFull($_GET["parent"], $_GET["parent_parent"]);
+		}
 		else
+		{
 			$path = $this->tree->getPathFull($_GET["obj_id"], $_GET["parent"]);
+		}
 
         //check if object isn't in tree, this is the case if parent_parent is set
-		if ($_GET["parent_parent"] != "")
+		if ($_GET["parent_parent"])
 		{
 			$path[] = array(
 				"id"	 => $_GET["obj_id"],

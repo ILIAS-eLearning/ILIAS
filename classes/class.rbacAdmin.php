@@ -54,20 +54,13 @@ class RbacAdmin
 	* @param	array
 	* @return	boolean
 	*/
-	function deleteUser($a_usr_id)
+	function deleteUserData($a_usr_id)
 	{
-		foreach($a_usr_id as $id)
-		{
 			// Einträge in object_data
-			$res = $this->ilias->db->query("DELETE FROM object_data ".
-									"WHERE obj_id='".$id."'");
-			$res = $this->ilias->db->query("DELETE FROM rbac_pa ".
-									"WHERE obj_id='".$id."'");
-			$res = $this->ilias->db->query("DELETE FROM rbac_ua ".
-									"WHERE usr_id='".$id."'");
-			$res = $this->ilias->db->query("DELETE FROM usr_data ".
-									"WHERE usr_id='".$id."'");
-		}
+		$res = $this->ilias->db->query("DELETE FROM rbac_ua ".
+									   "WHERE usr_id='".$id."'");
+		$res = $this->ilias->db->query("DELETE FROM usr_data ".
+									   "WHERE usr_id='".$id."'");
 		return true;
 	}
 

@@ -265,6 +265,7 @@ class Admin
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
 		
+		$this->ilias->error_obj->sentMessage("hallo");
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN. 
 		if (!isset($_POST["id"]))
 		{

@@ -49,6 +49,7 @@ class DBx extends PEAR
 		$parent = get_parent_class($this);
 		$this->$parent();
 
+
 		//set up error handling
 		$this->error_class = new ErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
