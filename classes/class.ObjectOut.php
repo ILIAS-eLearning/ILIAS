@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.2 2002/12/05 15:16:31 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.3 2002/12/05 16:10:39 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -71,7 +71,7 @@ class ObjectOut
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 		$this->setAdminTabs();
-		$this->setLocator();
+//		$this->setLocator();
 	}
 	/**
 	* set admin tabs

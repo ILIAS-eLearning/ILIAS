@@ -9,6 +9,7 @@
 <!ELEMENT object (subobj*, property*, action*)>
 <!ATTLIST object
 	name (%objecttype;) #REQUIRED
+    class_name CDATA #IMPLIED
 >
 
 <!ELEMENT subobj (%objecttype;)>

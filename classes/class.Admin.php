@@ -263,123 +263,91 @@ class Admin
 	*/
 	function deleteObject()
 	{
-		global $tree, $rbacsystem, $rbacadmin;
+		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
 		
-		$perform_delete = true;
-
-		// at least one object has to be chosen. 
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN. 
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
 		}
-		else
-		{		
-			// first check if chosen object(s) are deletable by current user
-			foreach ($_POST["id"] as $id)
-			{
-				// get complete node_data of node
-				$node_data = $tree->getNodeData($id,$_GET["obj_id"]);
-				// get subtree of node
-				$subtree = $tree->getSubTree($node_data);
-				// node & subtree of that node is saved here
-				$all_subtree[] = $subtree;
-				// remove node from subtree list
-				$node_data = array_shift($subtree);
-				
-				// all node_data of each node is saved into this place
-				$all_node_data[] = $node_data;
+		// FOR ALL SELECTED OBJECTS
+		foreach($_POST["id"] as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $tree->getNodeData($id,$_GET["obj_id"]);
+			$subtree_nodes = $tree->getSubTree($node_data);
+			
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
 
-				// check delete permission of each node
-				if (!$rbacsystem->checkAccess("delete",$node_data["obj_id"],$node_data["parent"]))
+			// CHECK DELETE PERMISSION OF ALL OBJECTS
+			foreach($subtree_nodes as $node)
+			{
+				if(!$rbacsystem->checkAccess('delete',$node["obj_id"],$node["parent"]))
 				{
-					// ids of objects with no delete permission
-					$not_deletable[] = $id;
+					$not_deletable[] = $node["obj_id"];
 					$perform_delete = false;
 				}
-				
-				// now do the same for the subtree of that node
-				if ($subtree)
-				{
-					foreach ($subtree as $subnode_data)
-					{
-						if (!$rbacsystem->checkAccess("delete",$subnode_data["obj_id"],$subnode_data["parent"]))
-						{
-							// ids of objects which contain objects with no delete permission 
-							$not_empty[] = $node_data["obj_id"];
-							$perform_delete = false;
-							break;
-						}
-					}
-				}
-			}
-			
-			if ($not_deletable)
-			{
-				$not_deletable = implode(",",$not_deletable);
-				$this->ilias->raiseError("You have no permission to delete object(s) No. ".
-										 $not_deletable."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
-			}
-
-			if ($not_empty)
-			{
-				$not_empty = implode(",",$not_empty);
-				$this->ilias->raiseError("Following objects contain objects with no permission to delete: ".
-										 $not_empty."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
-			}
-			
-			// all chosen nodes & their subnodes are deletable => perform deletion 
-			if ($perform_delete)
-			{
-				// remove data from tbl.tree
-				foreach ($all_node_data as $node_data)
-				{
-					$tree->deleteTree($node_data);
-				}
-				
-				foreach ($all_subtree as $subtree)
-				{
-					foreach ($subtree as $node_data)
-					{
-						// remove data from tbl.rbac_pa
-						$rbacadmin->revokePermission($node_data["obj_id"],$node_data["parent"]);
-
-						// remove data from tbl.rbac_fa & tbl.rbac_templates
-						if ($node_data["type"] == "rolf")
-						{
-							// remove rolefolder from system
-							deleteObject($node_data["obj_id"]);
-							
-							// fetch all roles assigned to this role folder
-							$query = "SELECT * FROM rbac_fa ".
-									 "WHERE parent = '".$node_data["obj_id"]."' ".
-									 "AND parent_obj = '".$node_data["parent"]."'";
-							$res = $this->ilias->db->query($query);
-							
-							$data = array();
-
-							while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-							{
-								$data[] = array (
-												"rol_id"	 => $row->rol_id,
-												"parent"	 => $row->parent,
-												"parent_obj" => $row->parent_obj,
-												"assign"	 => $row->assign
-												);
-							}
-							
-							// remove all local roles from system
-							foreach ($data as $role)
-							{							
-								$rbacadmin->deleteLocalRole($role["rol_id"],$role["parent"]);
-								
-								deleteObject($role["rol_id"]);
-							}
-						}
-					}
-				}
-				$this->ilias->raiseError("Object(s) deleted!",$this->ilias->error_obj->MESSAGE);
 			}
 		}
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
+		if(count($not_deletable))
+		{
+			$not_deletable = implode(',',$not_deletable);
+			$this->ilias->raiseError("You have no permission to delete object(s) No. ".
+									 $not_deletable."<br />Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// DELETE THEM
+		
+		if(!$all_node_data[0]["type"])
+		{
+			// OBJECTS ARE NO 'TREE OBJECTS'
+			
+			if($rbacsystem->checkAccess('delete',$_GET["obj_id"],$_GET["parent"]))
+			{
+				foreach($_POST["id"] as $id)
+				{
+					$obj = getObject($id);
+					$this->callDeleteMethod($id,$_GET["obj_id"],$obj["type"]);
+				}
+			}
+			else
+			{
+				$this->ilias->raiseError("You have no permission to delete these objects",$this->ilias->error_obj->MESSAGE);
+			}
+		}
+		else
+		{
+			// FIRST DELETE AL ENTRIES IN TREE
+			foreach($all_node_data as $node_data)
+			{
+				$tree->deleteTree($node_data);
+			}
+			foreach($all_subtree_nodes as $subtree_nodes)
+			{
+				foreach($subtree_nodes as $node)
+				{
+					$this->callDeleteMethod($node["obj_id"],$node["parent"],$node["type"]);
+				}
+			}
+		}
+		$this->ilias->error_obj->sentMessage("Object(s) deleted!");
+	}
+
+	/**
+	* Call delete method of a specific object type
+	* @access private
+	*/	
+	function callDeleteMethod($a_obj_id, $a_parent, $a_type)
+	{
+		global $objDefinition;
+
+		$class_name = $objDefinition->getClassName($a_type);
+		$class_constr = $class_name."Object";
+		require_once("./classes/class.".$class_name."Object.php");
+		$obj = new $class_constr();
+		$obj->deleteObject($a_obj_id,$a_parent);
 	}
 
 	/**

@@ -304,15 +304,6 @@ class Tree
 				break;
 			}
 		}
-
-		// has to be checked by other functions!!!!
-		// delete the kat
-		if ($res->numRows() == 1)
-		{
-			$res = $this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$a_node_id."'");
-			
-		}
-
 		// delete node
 		$query = "DELETE FROM tree ".
 				 "WHERE child = '".$a_node_id."' ".
@@ -365,7 +356,9 @@ class Tree
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
 	function getSubTree($a_node)
-	{	
+	{
+		$subtree = array();
+	
 		$query = "SELECT * FROM tree ".
 				 "LEFT JOIN object_data ON object_data.obj_id = tree.child ".
 				 "WHERE tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
@@ -388,6 +381,18 @@ class Tree
 	*/
 	function deleteTree($a_node)
 	{
+		// GET LEFT AND RIGHT VALUES
+		$query = "SELECT * FROM tree ".
+			"WHERE tree = '".$a_node["tree"]."' ".
+			"AND child = '".$a_node["obj_id"]."' ".
+			"AND parent = '".$a_node["parent"]."'";
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$a_node["lft"] = $row->lft;
+			$a_node["rgt"] = $row->rgt;
+		}
+
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
 		// delete subtree
@@ -864,6 +869,22 @@ class Tree
 		$res = $this->ilias->db->query($query);
 		
 		return true;
+	}
+	/**
+	* get number of references of a specific object
+	* @access	public
+ 	* @param	int tree_id
+ 	* @param	int obj_id
+	* @return	int 
+	*/
+	function countTreeEntriesOfObject($a_tree_id,$a_obj_id)
+	{
+		$query = "SELECT * FROM tree ".
+			"WHERE tree = '".$a_tree_id."' ".
+			"AND child = '".$a_obj_id."'";
+
+		$res = $this->ilias->db->query($query);
+		return $res->numRows();
 	}
 } // END class.tree
 ?>

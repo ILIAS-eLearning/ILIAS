@@ -43,6 +43,7 @@ class ObjectDefinition extends PEAR
 			$obj = $this->rawdata->ChildNodes[0]->ChildNodes[$i];
 
 			$data["name"] = $obj->getAttr("NAME");
+			$data["class_name"] = $obj->getAttr("CLASS_NAME");
 			$data["subobjects"] = array();
 			$data["properties"] = array();
 			$data["actions"] = array();
@@ -97,6 +98,11 @@ class ObjectDefinition extends PEAR
 	function getDefinition($a_objname)
 	{
 		return $this->data[$a_objname];
+	}
+
+	function getClassName($a_objname)
+	{
+		return $this->data[$a_objname]["class_name"];
 	}
 	
 	function getProperties($a_objname)

@@ -181,10 +181,10 @@ class RbacAdmin
 		$this->ilias->db->query("DELETE FROM rbac_ua ".
 						 "WHERE rol_id = '".$a_rol_id ."'");
 						 
-		// das geht so nicht: obj_id ist nicht rol_id!!!
-		$this->revokePermission($a_rol_id,$a_parent_id);
-		
-		$this->deleteLocalRole($a_rol_id,$a_obj_id);
+		$this->ilias->db->query("DELETE FROM rbac_pa ".
+								"WHERE rol_id = '".$a_rol_id."'");
+
+		$this->deleteLocalRole($a_rol_id,$a_parent_id);
 		
 		// at last: remove role entry in object_data
 		deleteObject($a_rol_id);						 
