@@ -951,20 +951,31 @@ class ASS_MultipleChoice extends ASS_Question
 	function getMaximumPoints()
 	{
 		$points = array("set" => 0, "unset" => 0);
-		foreach ($this->answers as $key => $value) {
-			if ($value->isStateChecked())
-			{
-				if ($value->get_points() > $points["set"])
+		if ($this->get_response() == RESPONSE_SINGLE)
+		{
+			foreach ($this->answers as $key => $value) {
+				if ($value->isStateChecked())
 				{
-					$points["set"] = $value->get_points();
+					if ($value->get_points() > $points["set"])
+					{
+						$points["set"] = $value->get_points();
+					}
+				}
+				else
+				{
+					$points["unset"] += $value->get_points();
 				}
 			}
-			else
-			{
-				$points["unset"] += $value->get_points();
-			}
+			return $points["set"] + $points["unset"];
 		}
-		return $points["set"] + $points["unset"];
+		else
+		{
+			$allpoints = 0;
+			foreach ($this->answers as $key => $value) {
+				$allpoints += $value->get_points();
+			}
+			return $allpoints;
+		}
 	}
 
 	/**
@@ -995,24 +1006,23 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 		}
 		$points = 0;
-		if ((count($found_values) > 0) and ($this->get_response() == RESPONSE_SINGLE))
+		if (count($found_values) > 0)
 		{
-			return $points;
-		}
-		foreach ($this->answers as $key => $answer)
-		{
-			if ($answer->isStateChecked())
+			foreach ($this->answers as $key => $answer)
 			{
-				if (in_array($key, $found_values))
+				if ($answer->isStateChecked())
 				{
-					$points += $answer->get_points();
+					if (in_array($key, $found_values))
+					{
+						$points += $answer->get_points();
+					}
 				}
-			}
-			else
-			{
-				if (!in_array($key, $found_values))
+				else
 				{
-					$points += $answer->get_points();
+					if (!in_array($key, $found_values))
+					{
+						$points += $answer->get_points();
+					}
 				}
 			}
 		}
@@ -1209,6 +1219,7 @@ class ASS_MultipleChoice extends ASS_Question
 
 	function createRandomSolution($test_id, $user_id)
 	{
+		mt_srand((double)microtime()*1000000);
 		$answer = mt_rand(0, count($this->answers)-1);
 
 		global $ilDB;

@@ -1281,6 +1281,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	function pc_array_shuffle($array) {
+		mt_srand((double)microtime()*1000000);
 		$i = count($array);
 		while(--$i) 
 		{

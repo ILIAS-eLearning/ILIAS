@@ -2947,7 +2947,7 @@ class ilObjTest extends ilObject
 		}
 		$result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-		if (($row[0]-count($this->questions)) <= $nr_of_questions)
+		if (($row[0]) <= $nr_of_questions)
 		{
 			// take all available questions
 			if ($questionpool == 0)
@@ -2972,8 +2972,10 @@ class ilObjTest extends ilObject
 			else
 		{
 			// select a random number out of the maximum number of questions
+			mt_srand((double)microtime()*1000000);
 			$random_number = mt_rand(0, $row[0] - 1);
-			while (count($result_array) < $nr_of_questions)
+			$securitycounter = 500;
+			while ((count($result_array) < $nr_of_questions) && ($securitycounter > 0))
 			{
 				if ($questionpool == 0)
 				{
@@ -2992,6 +2994,7 @@ class ilObjTest extends ilObject
 					$result_array[$result_row[0]] = $result_row[0];
 				}
 				$random_number = mt_rand(0, $row[0] - 1);
+				$securitycounter--;
 			}
 		}
 		return $result_array;
