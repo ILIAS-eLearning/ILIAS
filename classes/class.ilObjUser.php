@@ -1244,10 +1244,13 @@ class ilObjUser extends ilObject
 																		 "zipcode","country","phone_home","fax"));
 		$in = $a_search_obj->getInStatement("usr_id");
 
-		$query = "SELECT usr_id FROM usr_data ".
+		$query = "SELECT usr_data.usr_id FROM usr_data ".
+			"LEFT JOIN usr_pref USING (usr_id) ".
 			$where_condition." ".
 			$in." ".
-			"AND usr_id != '".ANONYMOUS_USER_ID."'";
+			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ".
+			"AND usr_pref.keyword = 'public_profile' ".
+			"AND usr_pref.value = 'y'";
 
 		$res = $a_search_obj->ilias->db->query($query);
 		
