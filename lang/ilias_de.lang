@@ -54,6 +54,7 @@ common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
+common#:#application_date#:#Anmeldedatum
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
@@ -276,6 +277,8 @@ common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
 common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
 common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
+common#:#group_registration_expiration_date#:#Anmeldezeitraum
+common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
