@@ -7,6 +7,8 @@
 * 
 * @package	mail
 */
+require_once("classes/class.ilFile.php");
+
 class ilFileData extends ilFile
 {
 
