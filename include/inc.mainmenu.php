@@ -4,14 +4,20 @@
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
 */
+if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
+{
+	$tpl->setCurrentBlock("userisadmin");
+	$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
+	$tpl->parseCurrentBlock();
+}
+// limit access only to authors
+if ($rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
+{
+	$tpl->setCurrentBlock("userisauthor");
+	$tpl->setVariable("TXT_EDITOR", $lng->txt("editor"));
+	$tpl->parseCurrentBlock();
+}
 
-$tpl->setCurrentBlock("userisadmin");
-$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("userisauthor");
-$tpl->setVariable("TXT_EDITOR", $lng->txt("editor"));
-$tpl->parseCurrentBlock();
 
 $tpl->setCurrentBlock("navigation");
 $tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
@@ -26,5 +32,4 @@ $tpl->setVariable("TXT_HELP", $lng->txt("help"));
 $tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
 $tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 $tpl->parseCurrentBlock();
-
 ?>

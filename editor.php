@@ -5,9 +5,15 @@
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
 *
-* @package ilias
+* @package ilias-core
 */
 require_once "./include/inc.header.php";
+
+// limit access only to authors
+if (!$rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
+{
+	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
+}
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.editor.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");

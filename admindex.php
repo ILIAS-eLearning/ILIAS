@@ -10,6 +10,12 @@
 */
 require_once "./include/inc.header.php";
 
+// limit access only to admins
+if (!$rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
+{
+	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
+}
+
 //look if there is a file tpl.adm.html
 $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 
 
