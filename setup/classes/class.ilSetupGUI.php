@@ -1666,10 +1666,10 @@ class ilSetupGUI extends ilSetup
 				$this->lng->setDbHandler($this->client->db);
 
 				// referencing does not work in dbupdate-script
-				$ilDB = $this->client->db;
+				$ilDB = new ilDbx($this->client->dsn);
 
 				// run dbupdate
-				$dbupdate = new ilDBUpdate($this->client->db);
+				$dbupdate = new ilDBUpdate($ilDB);
 				$dbupdate->applyUpdate();
 			
 				if ($dbupdate->updateMsg == "no_changes")
@@ -1702,7 +1702,8 @@ class ilSetupGUI extends ilSetup
 			$this->lng->setDbHandler($this->client->db);
 
 			include_once "../classes/class.ilDBUpdate.php";
-			$dbupdate = new ilDBUpdate($this->client->db);
+			$ilDB = new ilDbx($this->client->dsn);
+			$dbupdate = new ilDBUpdate($ilDB);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())
 			{
