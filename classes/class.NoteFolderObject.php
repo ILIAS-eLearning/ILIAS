@@ -42,6 +42,13 @@ class NoteFolderObject
 	*/
 	function addNote($note_id)
 	{
+/*
+		global $rbacadmin;
+
+		$roles = $rbacadmin->getRoleData(247); 
+		print_r($roles);
+*/
+	
 		$myTree = new tree(0, 0, 0, $this->m_usr_id); 
 
 		//get parent_id of usersettingfolder...	
@@ -50,7 +57,9 @@ class NoteFolderObject
 		$node_data = $myTree->getNodeDataByType("notf");
 
 		$myTree->insertNode($note_id, $node_data[0]["obj_id"], $rootid["child"]);
+
 	} 
+
 
 	/**
 	* delete one specific note 
@@ -85,21 +94,30 @@ class NoteFolderObject
 	* @return	array 	data of notes [note_id|lo_id|text|create_date]
 	* @access	public
 	*/
-	function getNotes()
+	function getNotes($note_id = "")
 	{
 		$notes = array();
 		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
 	
 		$nodes = $myTree->getNodeDataByType("note");
-		
-		foreach($nodes as $node_data)
+				
+		if($note_id == "")
 		{
-			$note_data = NoteObject::viewObject($node_data["child"]);
-			array_push($notes, $note_data);
-		}
+			foreach($nodes as $node_data)
+			{
+				$note_data = NoteObject::viewObject($node_data["child"]);
+				array_push($notes, $note_data);
+			}
 
-		return $notes;
+		}
+		else
+		{	
+			$node_data["child"] = $note_id;
+			$notes = NoteObject::viewObject($node_data["child"]);		
+		}
+		return $notes;					
 	}
+
 
 }
 
