@@ -9,7 +9,7 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class domxml
+class ilDOMXML
 {
 	/**
 	* domxml object
@@ -52,7 +52,7 @@ class domxml
 	* @param	string	charset (optional)
 	* @access	public 
 	*/
-	function domxml ()
+	function ilDOMXML ()
 	{
 		$num = func_num_args();
 		$args = func_get_args();
@@ -67,7 +67,7 @@ class domxml
 		}
 	}
 	
-	function _domxml ()
+	function _ilDOMXML ()
 	{
 		if (DEBUG)
 		{

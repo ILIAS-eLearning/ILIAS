@@ -30,8 +30,8 @@ class ilObjLearningObject extends ilObject
 	*/
 	function ilObjLearningObject($a_id = 0,$a_call_by_reference = true)
 	{
-		//require_once "classes/class.domxml.php";
-		//$this->domxml = new domxml();
+		//require_once "classes/class.ilDOMXML.php";
+		//$this->domxml = new ilDOMXML();
 		$this->type = "lo";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}

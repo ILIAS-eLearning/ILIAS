@@ -61,12 +61,12 @@ class ilObjLearningModule extends ilObject
 	function upload($a_parse_mode, $a_file, $a_name)
 	{
 		require_once "classes/class.xml2sql.php";
-		require_once "classes/class.domxml.php";
+		require_once "classes/class.ilDOMXML.php";
 
 		$source = $a_file;
 
 		// create domxml-handler
-		$domxml = new domxml();
+		$domxml = new ilDOMXML();
 
 		//get XML-file, parse and/or validate the document
 		$file = $a_name;
@@ -101,7 +101,7 @@ class ilObjLearningModule extends ilObject
 					$element->unlink_node();
 
 					// create a new domDocument containing the isolated LearningObject in $subtree
-					$lo = new domxml();
+					$lo = new ilDOMXML();
 					$node  = $lo->appendChild($subtree);
 
 					// get LO informationen (title & description)
@@ -146,7 +146,7 @@ class ilObjLearningModule extends ilObject
 		//echo "<pre>".htmlentities($domxml->dumpDocument())."</pre>";
 
 		// insert the remaining root-LO into DB
-		$lo = new domxml($domxml->doc);
+		$lo = new ilDOMXML($domxml->doc);
 		$obj_data = $lo->getInfo();
 
 		require_once "classes/class.ilObjLearningObject.php";
