@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорр�
 content#:#cont_citations#:#Цитати
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#ідентифікатор
 content#:#cont_insert_file_item#:#Вставити Елемент Файлу
 content#:#cont_insert_file_list#:#Вставити Список Файлів
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
 content#:#cont_list_properties#:#Властивості Списку
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Термін Глосарія
 content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
 content#:#cont_lm_properties#:#Властивості Учбового Модуля
 content#:#cont_manifest#:#Маніфест
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Файли Об'єкта
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Властивості Об'єкта
 content#:#cont_mob_usages#:#Usage###17 Dec 2003 new variable
 content#:#cont_month#:#Місяць
 content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Нове призначення
 content#:#cont_new_dir#:#Нова Директорія
 content#:#cont_new_file#:#Новий Файл
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Назва серій
 content#:#cont_series_volume#:#Гучність серій
 content#:#cont_set_class#:#Встановити Класс
 content#:#cont_set_width#:#Встановити Ширину
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Показати
 content#:#cont_show_citation#:#Показати з цитуванням
 content#:#cont_size#:#Розмір (Байтів)

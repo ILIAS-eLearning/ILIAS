@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bi
 content#:#cont_citations#:#Zitate
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Schlagwort
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_type#:#Linktyp
 content#:#cont_list_properties#:#Listen-Eigenschaften
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Objektdateien
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe

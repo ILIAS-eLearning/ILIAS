@@ -1097,6 +1097,7 @@ content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
 content#:#cont_citations#:#Citaten
 content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
+content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_create_dir#:#Creëer directory
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -1125,6 +1126,7 @@ content#:#cont_height#:#Hoogte
 content#:#cont_how_published#:#Hoe gepubliceerd
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Invoegen bestand
 content#:#cont_insert_file_list#:#Invoegen bestandslijst
@@ -1140,6 +1142,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journaal
 content#:#cont_keyword#:#Sleutelwoord
+content#:#cont_link#:#Link###14 Jan 2004 new variable
 content#:#cont_link_select#:#Interne link
 content#:#cont_link_type#:#Link-type
 content#:#cont_list_properties#:#Lijst-eigenschappen
@@ -1156,6 +1159,7 @@ content#:#cont_lk_term#:#Woordenlijst begrip
 content#:#cont_lk_term_new#:#Woordenlijst begrip (Nieuw Frame)
 content#:#cont_lm_properties#:#Eigenschappen leermodule
 content#:#cont_manifest#:#Manifest
+content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Object-bestanden
@@ -1164,6 +1168,7 @@ content#:#cont_mob_prop#:#Object-eigenschappen
 content#:#cont_mob_usages#:#Gebruik
 content#:#cont_month#:#Maand
 content#:#cont_msg_multiple_editions#:#Het is niet mogelijk om details van meerdere edities te laten zien
+content#:#cont_name#:#Name###14 Jan 2004 new variable
 content#:#cont_new_assignment#:#Nieuwe toewijzing
 content#:#cont_new_dir#:#Nieuwe directory
 content#:#cont_new_file#:#Nieuw bestand
@@ -1216,6 +1221,7 @@ content#:#cont_series_title#:#Titel van de serie
 content#:#cont_series_volume#:#Band van de serie
 content#:#cont_set_class#:#Instellen class
 content#:#cont_set_width#:#Instellen breedte
+content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#laat zien
 content#:#cont_show_citation#:#Laat zien met citaat
 content#:#cont_size#:#Grootte (Bytes)
