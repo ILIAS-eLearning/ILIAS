@@ -33,64 +33,64 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#apply#:#Apply###05 Feb 2004 new variable
-assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-assessment#:#by#:#by###05 Feb 2004 new variable
-assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
-assessment#:#create_date#:#Created###05 Feb 2004 new variable
-assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
-assessment#:#create_new#:#Create new###05 Feb 2004 new variable
-assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#export#:#Export###05 Feb 2004 new variable
-assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#filter#:#Filter###05 Feb 2004 new variable
-assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
-assessment#:#last_update#:#Last update###05 Feb 2004 new variable
-assessment#:#matches#:#matches###05 Feb 2004 new variable
-assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
-assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
-assessment#:#preview#:#Preview###07 Feb 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
-assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
-assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
-assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
-assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
-assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
-assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
-assessment#:#true#:#True###05 Feb 2004 new variable
-assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
-assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
-assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
-assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
-assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
-assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
-assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
-assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
-assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
-assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
-assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
-assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
-assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
-assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
+assessment#:#add_answer#:#Dodaj odpowiedź
+assessment#:#add_matching_pair#:#dodaj pasującą parę
+assessment#:#answer#:#Odpowiedź
+assessment#:#answer_text#:#Tekst odpowiedzi
+assessment#:#apply#:#Zastosuj
+assessment#:#ass_questions#:#Pytania
+assessment#:#by#:#przez
+assessment#:#cloze_text#:#Uzupełnij tekst
+assessment#:#create_date#:#Utworzony
+assessment#:#create_gaps#:#Twórz odstęp
+assessment#:#create_new#:#Twórz nowy
+assessment#:#duplicate#:#Kopiuj
+assessment#:#export#:#Eksport
+assessment#:#false#:#Fałsz
+assessment#:#filter#:#Filtr
+assessment#:#gap_selection#:#Wybór odstępu
+assessment#:#last_update#:#Ostatnia aktualizacja
+assessment#:#matches#:#zgodne
+assessment#:#matching_pair#:#Pasujące pary
+assessment#:#no_questions_available#:#Brak dostępnych pytań!
+assessment#:#points#:#Punkty
+assessment#:#possible_gap_text#:#Możliwy tekst odstępu
+assessment#:#preview#:#Podgląd
+assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
+assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
+assessment#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania
+assessment#:#qpl_edit_rbac_error#:#Nie masz uprawnień do edycji tego pytania!
+assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
+assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
+assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
+assessment#:#qt_cloze#:#Uzupełnij pytanie
+assessment#:#qt_matching#:#Pasujące pytanie
+assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
+assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
+assessment#:#qt_ordering#:#Pytanie porządkowe
+assessment#:#question_type#:#Typ pytania
+assessment#:#reset_filter#:#Resetuj filtr
+assessment#:#select_gap#:#Wybierz odstęp
+assessment#:#set_filter#:#Ustaw filtr
+assessment#:#solution_order#:#Porządek rozwiązywania
+assessment#:#text_gap#:#Tekst odstępu
+assessment#:#true#:#Prawda
+assessment#:#tst_general_properties#:#Cechy ogólne
+assessment#:#tst_introduction#:#Wstęp
+assessment#:#tst_nr_of_tries#:#Maks. ilość prób
+assessment#:#tst_processing_time#:#Maks. czas wykonania
+assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
+assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
+assessment#:#tst_score_reporting#:#Raport punktacji
+assessment#:#tst_score_reporting_date#:#Data raportu punktacji
+assessment#:#tst_score_type#:#Typ raportu punktacji
+assessment#:#tst_sequence#:#Sekwencja
+assessment#:#tst_sequence_fixed#:#Sekwencja pytań została ustawiona
+assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu
+assessment#:#tst_sequence_properties#:#Cechy sekwencji
+assessment#:#tst_session_settings#:#Ustawienia sesji
+assessment#:#tst_starting_time#:#Czas rozpoczęcia
+assessment#:#tst_types#:#Typy testów
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
@@ -162,7 +162,7 @@ common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 common#:#cat_create#:#Twórz Kategorię
 common#:#cat_create_cat#:#Twórz Kategorię
-common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
+common#:#cat_create_chat#:#Twórz czat
 common#:#cat_create_crs#:#Twórz Kurs
 common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
 common#:#cat_create_exc#:#Twórz Ćwiczenie
@@ -170,9 +170,9 @@ common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
+common#:#cat_create_qpl#:#Twórz pulę pytań
 common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
+common#:#cat_create_tst#:#Twórz test
 common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
 common#:#cat_edit_permission#:#Zmień ustawienia uprawnień
@@ -183,10 +183,10 @@ common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
-common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
-common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
-common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
+common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
+common#:#chac_read#:#Prawo czytania ustawień czatu
+common#:#chac_visible#:#Ustawienia czatu są widoczne
+common#:#chac_write#:#Edytcja ustawienia czatu
 common#:#change#:#Zmień
 common#:#change_active_assignment#:#Zmień aktywny przydział
 common#:#change_assignment#:#Zmień przydział
@@ -198,11 +198,11 @@ common#:#changed_to#:#zmienione na
 common#:#chapter#:#Rozdział
 common#:#chapter_number#:#Numer rozdziału
 common#:#chapter_title#:#Tytuł rozdziału
-common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
-common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
-common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
-common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
+common#:#chat_delete#:#Usuń czat
+common#:#chat_edit_permission#:#Zmień ustawienia uprawnień
+common#:#chat_read#:#Czytanie/Pisanie w czacie
+common#:#chat_visible#:#Czat jest widoczny
+common#:#chat_write#:#Edycja czatu
 common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
@@ -305,7 +305,7 @@ common#:#drop#:#Drop
 common#:#edit#:#Edytuj
 common#:#edit_data#:#Edytuj dane
 common#:#edit_operations#:#Edytuj operacje
-common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
+common#:#edit_perm_ruleset#:#Edycja domyślnych reguł uprawnień
 common#:#edit_properties#:#Edytuj właściwości
 common#:#edit_stylesheet#:#Edytuj styl
 common#:#edited_at#:#Edytowany
@@ -396,9 +396,9 @@ common#:#force_accept_usr_agreement#:#Musisz zaakceptować zasady użytkowania.
 common#:#forename#:#Nazwisko
 common#:#form_empty_fields#:#Wypełnij te pola:
 common#:#forum#:#Forum
-common#:#forum_notification#:#Notification###06 Feb 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
+common#:#forum_notification#:#Powiadomienie
+common#:#forum_notify_me#:#Powiadom mnie kiedy odpowiedź jest wysłana
+common#:#forum_post_replied#:#Twój wpis w forum uzyskał odpowiedź.
 common#:#forums#:#Fora
 common#:#forums_overview#:#Przegląd forów
 common#:#frm#:#Forum
@@ -442,7 +442,7 @@ common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
 common#:#group_access_denied#:#Dostęp zabroniony
 common#:#group_any_objects#:#Obiekty podrzędne niedostępne
-common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
+common#:#group_create_chat#:#Twórz czat
 common#:#group_desc#:#Opis grupy
 common#:#group_details#:#Szczegóły grupy
 common#:#group_filesharing#:#Group File Sharing
@@ -476,15 +476,15 @@ common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_create#:#Twórz Grupę
-common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
+common#:#grp_create_chat#:#Twórz czat
 common#:#grp_create_file#:#Użytkownik może przysyłać pliki
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
 common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#grp_delete#:#Usuń Grupę
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
+common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
 common#:#grp_edit#:#Edytuj Grupę
 common#:#grp_edit_permission#:#Zmień ustawienia uprawnień
 common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
@@ -731,9 +731,9 @@ common#:#msg_min_one_role#:#Każdy użytkownik musi posiadać conajmniej jedną 
 common#:#msg_multi_language_selected#:#Wybrałeś ten sam język dla różnych tłumaczeń!
 common#:#msg_no_default_language#:#Domyślny język nie został wybrany! Musisz zdefiniować jedno tłumaczenie jako tłumaczenie domyślne.
 common#:#msg_no_delete_yourself#:#Nie możesz usunąć swojego konta.
-common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
+common#:#msg_no_file#:#Nie wybrałeś pliku
 common#:#msg_no_language_selected#:#Nie podano języka tłumaczenia! Musisz zdefiniować język dla każdego tłumaczenia.
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
+common#:#msg_no_perm_assign_role_to_user#:#Nie masz uprawnień do zmiany przydziału ról użytkowników
 common#:#msg_no_perm_copy#:#Nie masz uprawnień do tworzenia kopii następujących obiektów:
 common#:#msg_no_perm_create#:#Nie masz uprawnień do tworzenia następujących obiektów:
 common#:#msg_no_perm_create_object1#:#Nie masz uprawnień do tworzenia
@@ -756,14 +756,14 @@ common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Roli.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Nie możesz przydzielić użytkowników do roli Administratora Systemu nie mając sam takiej roli.
 common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
 common#:#msg_not_in_itself#:#Nie można wkleić obiektu do samego siebie.
 common#:#msg_nothing_found#:#Nic nie znaleziono.
 common#:#msg_obj_created#:#Obiekt został utworzony.
 common#:#msg_obj_exists#:#Tem obiekt już istnieje w tym folderze.
 common#:#msg_obj_modified#:#Zmiany zostały zachowane.
-common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
+common#:#msg_obj_no_link#:#nie może być połączony
 common#:#msg_perm_adopted_from1#:#Ustawienia uprawnień zostały przejęte od
 common#:#msg_perm_adopted_from2#:#(Ustawienia zostały zachowane!)
 common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącej roli/szablonu roli.
@@ -815,8 +815,8 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
-common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
-common#:#obj_chat#:#Chat###18 Feb 2004 new variable
+common#:#obj_chac#:#Ustawienia czatu
+common#:#obj_chat#:#Czat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
 common#:#obj_exc#:#Ćwiczenie
@@ -842,7 +842,7 @@ common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_qpl#:#Pula pytań
 common#:#obj_role#:#Rola
 common#:#obj_rolf#:#Role
 common#:#obj_rolf_desc#:#Zarządzanie rolami.
@@ -850,9 +850,9 @@ common#:#obj_rolf_local#:#Lokalne role
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
-common#:#obj_slm#:#SCORM (MN)###31 Jan 2004 content changed
+common#:#obj_slm#:#SCORM (MN)
 common#:#obj_st#:#Rozdział
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
 common#:#obj_uset#:#Ustawienia użytkownika
@@ -865,31 +865,31 @@ common#:#objf_edit_permission#:#Zmień ustawienia uprawnień
 common#:#objf_read#:#Prawo czytania definicji obiektów
 common#:#objf_visible#:#Definicje obiektów są widoczne
 common#:#objf_write#:#Edycja definicji obiektów
-common#:#objs_cat#:#Categories###18 Feb 2004 new variable
+common#:#objs_cat#:#Kategorie
 common#:#objs_confirm#:#Potwierdź usunięcie
-common#:#objs_crs#:#Courses###18 Feb 2004 new variable
-common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
+common#:#objs_crs#:#Kursy
+common#:#objs_dbk#:#Książki cyfrowe
 common#:#objs_delete#:#Usuń obiekty
-common#:#objs_exc#:#Exersices###18 Feb 2004 new variable
-common#:#objs_file#:#Files###18 Feb 2004 new variable
-common#:#objs_fold#:#Folders###18 Feb 2004 new variable
-common#:#objs_frm#:#Forums###18 Feb 2004 new variable
-common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
-common#:#objs_grp#:#Groups###18 Feb 2004 new variable
-common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
-common#:#objs_lng#:#Languages###18 Feb 2004 new variable
-common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
-common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
-common#:#objs_note#:#Notes###18 Feb 2004 new variable
-common#:#objs_pg#:#Pages###18 Feb 2004 new variable
-common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
-common#:#objs_role#:#Roles###18 Feb 2004 new variable
-common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
-common#:#objs_st#:#Chapters###18 Feb 2004 new variable
-common#:#objs_tst#:#Tests###18 Feb 2004 new variable
-common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
-common#:#objs_usr#:#Users###18 Feb 2004 new variable
+common#:#objs_exc#:#Ćwiczenia
+common#:#objs_file#:#Pliki
+common#:#objs_fold#:#Foldery
+common#:#objs_frm#:#Fora
+common#:#objs_glo#:#Słowniki
+common#:#objs_grp#:#Grupy
+common#:#objs_lm#:#Moduły nauczania
+common#:#objs_lng#:#Języki
+common#:#objs_lo#:#Obiekty nauczania
+common#:#objs_mob#:#Obiekty multimedialne
+common#:#objs_note#:#Notatki
+common#:#objs_pg#:#Strony
+common#:#objs_qpl#:#Pule pytań
+common#:#objs_role#:#Role
+common#:#objs_rolt#:#Szablony Ról
+common#:#objs_slm#:#Moduły nauczania SCORM
+common#:#objs_st#:#Rozdziały
+common#:#objs_tst#:#Testy
+common#:#objs_type#:#Typy obiektów
+common#:#objs_usr#:#Użytkownicy
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
 common#:#ok#:#OK
@@ -961,16 +961,16 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#Pula pytań
+common#:#qpl_add#:#Dodaj pulę pytań
+common#:#qpl_delete#:#Usuń pulę pytań
+common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
+common#:#qpl_new#:#Nowa pula pytań
+common#:#qpl_read#:#Prawo czytania puli pytań
+common#:#qpl_visible#:#Pula pytań jest widoczna
+common#:#qpl_write#:#Edycja puli pytań
 common#:#question#:#Pytanie
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#Pule pytań
 common#:#quit#:#Wyjście
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
@@ -979,7 +979,7 @@ common#:#refresh#:#Odśwież
 common#:#refresh_languages#:#Odśwież języki
 common#:#refresh_list#:#Lista odświeżona
 common#:#register#:#Rejestruj
-common#:#register_info#:#Wypełnij formularz do rejestracji (Pola zaznaczone gwiazdką są niezbędne).###09 Feb 2004 content changed
+common#:#register_info#:#Wypełnij formularz do rejestracji (Pola zaznaczone gwiazdką są niezbędne).
 common#:#registered_since#:#Zarejestrowany od
 common#:#registered_user#:#zarejestrowany użytkownik
 common#:#registered_users#:#zarejestrowani użytkownicy
@@ -1011,11 +1011,11 @@ common#:#rolf_added#:#Folder roli został dodany
 common#:#rolf_create_role#:#Twórz definicję Roli
 common#:#rolf_create_rolt#:#Twórz nowy szablon Roli
 common#:#rolf_delete#:#Usuń Role/Szablony ról
-common#:#rolf_edit_permission#:#Zmień usawienia uprawnie�###31 Jan 2004 content changed
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###25 Jan 2004 new variable
+common#:#rolf_edit_permission#:#Zmień ustawienia uprawnień
+common#:#rolf_edit_userassignment#:#Zmień przydział użytkowników do ról
 common#:#rolf_read#:#Prawo czytania Ról/Szablonów ról
 common#:#rolf_visible#:#Role/Szablony ról są widoczne
-common#:#rolf_write#:#Edycja Ról/Szablonów ról###01 Feb 2004 content changed
+common#:#rolf_write#:#Edycja Ról/Szablonów ról
 common#:#rolt#:#Szablon roli
 common#:#rolt_a#:#Szablon roli
 common#:#rolt_add#:#Dodaj szablon roli
@@ -1023,11 +1023,11 @@ common#:#rolt_added#:#Szablon roli został dodany
 common#:#rolt_edit#:#Edytuj szablon roli
 common#:#rolt_new#:#Nowy szablon roli
 common#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
+common#:#root_edit#:#Edycja korzenia systemu
 common#:#root_edit_permission#:#Zmień ustawienia uprawnień
 common#:#root_read#:#Prawo czytania systemu ILIAS
 common#:#root_visible#:#System ILIAS jest widoczny
-common#:#root_write#:#Edycja danych korzenia systemu ILIAS###29 Jan 2004 content changed
+common#:#root_write#:#Edycja danych korzenia systemu ILIAS
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
@@ -1108,7 +1108,7 @@ common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
 common#:#term#:#Termin
 common#:#test_intern#:#Test wewnętrzny
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#Testy
 common#:#time#:#Czas
 common#:#title#:#Tytuł
 common#:#to#:#Do
@@ -1120,14 +1120,14 @@ common#:#tpl_path#:#Scieżka do szablonu
 common#:#translation#:#Tłumaczenmie
 common#:#trash#:#Kosz
 common#:#treeview#:#Widok drzewa
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#Test
+common#:#tst_add#:#Dodaj test
+common#:#tst_delete#:#Usuń Test
+common#:#tst_edit_permission#:#Zmień ustawienia uprawnień
+common#:#tst_new#:#Nowy test
+common#:#tst_read#:#Prawo czytania testu
+common#:#tst_visible#:#Test jest widoczny
+common#:#tst_write#:#Edycja Testu
 common#:#txt_add_object_instruction1#:#Przejdź do miejsca gdzie chcesz dodać
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Zostałeś zarejestrowany w systemie ILIAS. Kliknij na przycisk poniżej aby się zalogować do ILIAS na swoje konto.
@@ -1169,8 +1169,8 @@ common#:#usr_style#:#Styl użytkownika
 common#:#usrf#:#Folder użytkownika
 common#:#usrf_create_user#:#Twórz nowe konto użytkownika
 common#:#usrf_delete#:#Usuń konta użytkowników
-common#:#usrf_edit_permission#:#Zmień ustawienia uprawnie�
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###25 Jan 2004 new variable
+common#:#usrf_edit_permission#:#Zmień ustawienia uprawnień
+common#:#usrf_edit_roleassignment#:#Zmień przydział ról do kont użytkowników
 common#:#usrf_read#:#Prawo czytania kont użytkowników
 common#:#usrf_visible#:#Konta użytkowników są widoczne
 common#:#usrf_write#:#Edycja kont użytkowników
@@ -1218,7 +1218,7 @@ content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
 content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#Obszar mapy usunięty.
 content#:#cont_assign_full#:#Przydziel pełny widok
 content#:#cont_assign_std#:#Przydziel standardowy widok
 content#:#cont_assign_translation#:#Wyznacz tłumaczenie
@@ -1239,13 +1239,13 @@ content#:#cont_choose_glossary#:#Wybierz słownik
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#Kliknij na prawy dolny róg określanej powierzchni.
+content#:#cont_click_center#:#Kliknij na środek określanej powierzchni.
+content#:#cont_click_circle#:#Kliknij na środek określanej powierzchni.
+content#:#cont_click_next_or_save#:#Kliknij na następny punkt wielokąta lub zachowaj powierzchnię. (Nie jest konieczne ponowne kliknięcie  na punkt startowy wielokąta!)
+content#:#cont_click_next_point#:#Kliknij na następny punkt wielokąta.
+content#:#cont_click_starting_point#:#Kliknij na punkt startowy wielokąta.
+content#:#cont_click_tl_corner#:#Kliknij na lewy górny róg określanej powierzchni.
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
 content#:#cont_coords#:#Koordynaty
@@ -1269,12 +1269,12 @@ content#:#cont_edit_par#:#Edytuj Paragraf
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#podaj łącznik
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
@@ -1288,7 +1288,7 @@ content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
 content#:#cont_insert_par#:#Wstaw paragraf
 content#:#cont_insert_search#:#Wstaw szukany termin
 content#:#cont_insert_table#:#Wstaw tablicę
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#wewnętrzny
 content#:#cont_internal_link#:#Łącznik wewnętrzny
 content#:#cont_is_visible#:#niewidoczny
 content#:#cont_isbn#:#ISBN
@@ -1296,9 +1296,9 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
 content#:#cont_keyword#:#Słowo kluczowe
-content#:#cont_link#:# Łącznik
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link#:#Łącznik
+content#:#cont_link_ext#:#Łącznik (zewnętrzny)
+content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
 content#:#cont_list_properties#:#Lista właściwości
@@ -1325,7 +1325,7 @@ content#:#cont_mob_usages#:#Użycie
 content#:#cont_month#:#Miesiąc
 content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu
 content#:#cont_name#:#Nazwa
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_new_area#:#Nowy obszar łącznika
 content#:#cont_new_assignment#:#Nowy przydział
 content#:#cont_new_dir#:#Nowy katalog
 content#:#cont_new_file#:#Nowy plik
@@ -1362,7 +1362,7 @@ content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
 content#:#cont_roman#:#Rzymskie i, ii, ...
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
+content#:#cont_saved_map_area#:#Zachowany obszar mapy
 content#:#cont_saved_map_data#:#Zachowana mapa danych
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
@@ -1493,10 +1493,10 @@ mail#:#mail_folder_name_changed#:#Zmieniono nazwę folderu
 mail#:#mail_folder_options#:#Opcje Folderu
 mail#:#mail_following_rcp_not_valid#:#Następujący odbiorcy nie są prawidłowi:
 mail#:#mail_global_options#:#Opcje globalne
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
+mail#:#mail_incoming#:#Poczta przychodząca
+mail#:#mail_incoming_both#:#lokalna i przesyłana dalej
+mail#:#mail_incoming_local#:#tylko lokalna
+mail#:#mail_incoming_smtp#:#przesłanie dalej na adres email
 mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
 mail#:#mail_intern#:#Wewnętrzny
@@ -1511,7 +1511,7 @@ mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
 mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej
 mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
