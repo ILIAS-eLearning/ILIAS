@@ -28,7 +28,7 @@ class ILIAS2To3Utils
 				$str = "Hierarchical";
 				break;
 			
-			case "gd": // *** st
+			case "st":
 				$str = "Hierarchical";
 				break;
 			
@@ -36,27 +36,34 @@ class ILIAS2To3Utils
 				$str = "Collection";
 				break;
 			
-			case "mc": // *** -> test element ohne eigene Daten
-				$str = "Collection";
-				break;
-			
-			case "gl": // *** -> glossary element ohne eigene Daten ***
-				$str = "Collection";
-				break;
-			
-			case "el":
-				$str = "Atomic"; // *** -> nicht immer Atomic
-				break;
-			
 			case "mm":
-				$str = "Atomic"; // *** mm und el metadaten für mm_el
+				$str = "Atomic";
 				break;
 			
 			case "file":
 				$str = "Atomic";
 				break;
+			
+			case "el":
+				$str = "Atomic";
+				break;
+			
+			case "test":
+				$str = "Collection";
+				break;
+			
+			case "mc":
+				$str = "Collection";
+				break;
+			
+			case "glos":
+				$str = "Collection";
+				break;
+			
+			case "gl":
+				$str = "Collection";
+				break;
 		}
-		
 		return $str;
 	}
 	
@@ -69,30 +76,15 @@ class ILIAS2To3Utils
 			case "le":
 				$str = "";
 				break;
-			*/
 			
-			case "st": // gd ***
+			case "st":
 				$str = "StructureObject";
 				break;
+			*/
 			
 			case "pg":
-			case "ab":
 				$str = "PageObject";
 				break;
-			
-			case "mc":
-				$str = "TestItem";
-				break;
-			
-			case "gl":
-				$str = "GlossryItem";
-				break;
-			
-			/* ***
-			case "el":
-				$str = "";
-				break;
-			*/
 			
 			case "mm":
 				$str = "MediaObject";
@@ -102,9 +94,30 @@ class ILIAS2To3Utils
 			case "file":
 				$str = "";
 				break;
+			
+			case "el":
+				$str = "";
+				break;
+			
+			case "test":
+				$str = "Collection";
+				break;
 			*/
+			
+			case "mc":
+				$str = "TestItem";
+				break;
+			
+			/* ***
+			case "glos":
+				$str = "";
+				break;
+			*/
+			
+			case "gl":
+				$str = "GlossaryItem";
+				break;
 		}
-		
 		return $str;
 	}
 	
@@ -147,8 +160,7 @@ class ILIAS2To3Utils
 			
 			default: // all exceptions
 				$str = "NarrativeText";
-		}		
-		
+		}
 		return $str;
 	}
 	
@@ -176,7 +188,6 @@ class ILIAS2To3Utils
 			default: // all exceptions
 				$str = "Unavailable";
 		}
-		
 		return $str;
 	}
 	
@@ -208,7 +219,6 @@ class ILIAS2To3Utils
 			default: // all exceptions
 				$str = "Medium";
 		}
-		
 		return $str;
 	}
 	
@@ -268,7 +278,6 @@ class ILIAS2To3Utils
 			default: // all exceptions
 				$str = "Other";
 		}
-		
 		return $str;
 	}
 	
@@ -288,7 +297,6 @@ class ILIAS2To3Utils
 			default: // all exceptions
 				$str = "Unknown";
 		}
-		
 		return $str;
 	}
 	
@@ -315,7 +323,6 @@ class ILIAS2To3Utils
 				$str = "No";
 				break;
 		}
-		
 		return $str;
 	}
 	
@@ -324,18 +331,42 @@ class ILIAS2To3Utils
 	{
 		switch ($data) 
 		{
+			case "w":
+			case "r":
 			case "y":
 			case "j":
-				$str = "TRUE";
+				$str = TRUE;
 				break;
 			
 			case "n":
 			case "f":
-				$str = "FALSE";
+				$str = FALSE;
 				break;
 			
 			default:
-				$str = "FALSE";
+				$str = FALSE;
+		}
+		return $str;
+	}
+	
+	// convert area shape ***
+	function selectShape ($shape)
+	{
+		switch ($shape) 
+		{
+			case "rect":
+				$str = "Rect";
+				break;
+			
+			case "circle":
+				$str = "Circle";
+				break;
+			
+			case "poly":
+				$str = "Poly";
+				break;
+			default:
+				$str = "Rect";
 		}
 		return $str;
 	}
@@ -520,7 +551,6 @@ class ILIAS2To3Utils
 		{
 			$size = 0;
 		}
-		
 		return $size;
 	}
 	
@@ -535,7 +565,6 @@ class ILIAS2To3Utils
 		{
 			$mime = "application-octet-stream";
 		}
-		
 		return $mime;
 	}
 	
@@ -550,9 +579,9 @@ class ILIAS2To3Utils
 		// if (file_exists($path))
 		// {
 				// set technical information
-				$arr = array(	"Format" => $this->getMimeType($path),
-								"Size" => $this->getFileSize($path),
-								"Location" => $relPath);
+				$arr["Format"]		= $this->getMimeType($path);
+				$arr["Size"]		= $this->getFileSize($path);
+				$arr["Location"]	= $relPath;
 		// }
 		return $arr;
 	}

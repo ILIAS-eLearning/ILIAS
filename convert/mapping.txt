@@ -125,8 +125,8 @@ ELEMENT (id, parent)
 									9 sourcecode
 									10 survey
 		page				-->		***
-		src					-->		*** (text formatting -> paragraph..code)
-		bsp					-->		*** (text formatting -> paragraph.characteristic)
+		src					-->		*** j | n (text formatting -> paragraph..code)
+		bsp					-->		*** j | n (text formatting -> paragraph.characteristic)
 	
 	el_text (*** METADATA -> no LearningObject)
 		text				-->		Paragraph *** (convert VRIs, HTML and Layout (alignment))
