@@ -2872,5 +2872,170 @@ class ilObjTest extends ilObject
 		return $questiontypes;
 	}
 	
+	/**
+	* Returns a QTI xml representation of the test
+	*
+	* Returns a QTI xml representation of the test
+	*
+	* @return string The QTI xml representation of the test
+	* @access public
+	*/
+	function to_xml()
+	{
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$domxml = domxml_open_mem($xml_header);
+		$root = $domxml->document_element();
+		// qti assessment
+		$qtiAssessment = $domxml->create_element("assessment");
+		$qtiAssessment->set_attribute("ident", $this->getTestId());
+		$qtiAssessment->set_attribute("title", $this->getTitle());
+		
+		// add qti comment
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node($this->getDescription());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiAssessment->append_child($qtiComment);
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiAssessment->append_child($qtiComment);
+		// add qti duration
+		if ($this->enable_processing_time)
+		{
+			$qtiDuration = $domxml->create_element("duration");
+			preg_match("/(\d+):(\d+):(\d+)/", $this->processing_time, $matches);
+			$qtiDurationText = $domxml->create_text_node(sprintf("P0Y0M0DT%dH%dM%dS", $matches[1], $matches[2], $matches[3]));
+			$qtiDuration->append_child($qtiDurationText);
+			$qtiAssessment->append_child($qtiDuration);
+		}
+		// add qti assessmentcontrol
+		$qtiAssessmentcontrol = $domxml->create_element("assessmentcontrol");
+		$qtiAssessmentcontrol->set_attribute("solutionswitch", sprintf("%d", $this->getScoreReporting()));
+		$qtiAssessment->append_child($qtiAssessmentcontrol);
+		// add qti objectives
+		$qtiObjectives = $domxml->create_element("objectives");
+		$qtiMaterial = $domxml->create_element("material");
+		$qtiMaterial->set_attribute("label", "introduction");
+		$qtiMatText = $domxml->create_element("mattext");
+		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiObjectives->append_child($qtiMaterial);
+		$qtiAssessment->append_child($qtiObjectives);
+		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
+		$qtiMetadata = $domxml->create_element("qtimetadata");
+		// sequence settings
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("sequence_settings");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getSequenceSettings()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// author
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("author");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getAuthor());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// description
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("description");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getDescription());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// test type
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("test_type");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getTestType()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// score reporting date
+		if ($this->getReportingDate())
+		{
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("reporting_date");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->reporting_date, $matches);
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
+		// number of tries
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("nr_of_tries");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getNrOfTries()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// starting time
+		if ($this->getStartingTime())
+		{
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("starting_time");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->starting_time, $matches);
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
+		// ending time
+		if ($this->getEndingTime())
+		{
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("ending_time");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->ending_time, $matches);
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
+		$qtiAssessment->append_child($qtiMetadata);
+		$root->append_child($qtiAssessment);
+		$xml = $domxml->dump_mem(true);
+		$domxml->free();
+		foreach ($this->questions as $question_id) {
+			$question =& ilObjTest::_instanciateQuestion($question_id);
+			$qti_question = $question->to_xml(false);
+			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
+			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
+			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
+		}
+		return $xml;
+	}
 } // END class.ilObjTest
 ?>

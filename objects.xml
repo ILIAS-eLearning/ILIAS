@@ -365,6 +365,7 @@
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
 	<property name="marks" module="1">mark_schema</property>
+	<property name="export">export</property>
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
 	<property name="editMeta">meta_data</property>

@@ -26,7 +26,7 @@
 * Class ilObjTestGUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* $Id$
+* @version		$Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -111,10 +111,34 @@ class ilObjTestGUI extends ilObjectGUI
 		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
 	}
 
+	function exportObject()
+	{
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			if ($_POST["cmd"]["export"])
+			{
+				ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+			}
+			$add_parameter = $this->getAddParameter();
+			if (!defined("ILIAS_MODULE"))
+			{
+				define("ILIAS_MODULE", "assessment");
+			}
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_export.html", true);
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORMACTION", $add_parameter);
+			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			sendInfo("cannot_export_test");
+		}
+	}
+	
 	function propertiesObject()
 	{
 		global $rbacsystem;
-
 		$deleteuserdata = false;
 		if ($_POST["cmd"]["save"])
 		{

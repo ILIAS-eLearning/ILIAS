@@ -112,6 +112,7 @@ assessment#:#available_points#:#Available points
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Cancel the test
 assessment#:#test_cancelled#:#The test was cancelled
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 assessment#:#change_solution#:#Change suggested solution
