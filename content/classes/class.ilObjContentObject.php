@@ -730,9 +730,9 @@ class ilObjContentObject extends ilObject
 
 				// BEGINNING SELECT WITH SEARCH RESULTS IS MUCH FASTER
 				$query1 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					" JOIN xmlnestedset AS xm ON xm.ns_tag_fk=xv.tag_fk ".
-					" JOIN object_data AS o ON o.obj_id = xm.ns_book_fk ".
-					" JOIN object_reference AS r ON o.obj_id = r.obj_id ".
+					"LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk=xv.tag_fk ".
+					"LEFT JOIN object_data AS o ON o.obj_id = xm.ns_book_fk ".
+					"LEFT JOIN object_reference AS r ON o.obj_id = r.obj_id ".
 					$where.
 					$in.
 					" AND o.type = 'lm' AND xm.ns_type IN ('lm','bib')";
@@ -747,10 +747,10 @@ class ilObjContentObject extends ilObject
 					"AND o.type= 'lm'";
 
 				$query2 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					" JOIN xmlnestedset AS xm ON xm.ns_tag_fk = xv.tag_fk ".
-					" JOIN lm_data AS l ON l.obj_id = xm.ns_book_fk ".
-					" JOIN object_data AS o ON o.obj_id = l.lm_id ".
-					" JOIN object_reference AS r ON r.obj_id = o.obj_id ".
+					"LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk = xv.tag_fk ".
+					"LEFT JOIN lm_data AS l ON l.obj_id = xm.ns_book_fk ".
+					"LEFT JOIN object_data AS o ON o.obj_id = l.lm_id ".
+					"LEFT JOIN object_reference AS r ON r.obj_id = o.obj_id ".
 					$where.
 					$in.
 					"AND o.type = 'lm'";
@@ -799,8 +799,8 @@ class ilObjContentObject extends ilObject
 					" AND pg.parent_type = 'lm' ";
 
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
-					" JOIN object_data AS o ON o.obj_id = pg.parent_id ".
-					" JOIN object_reference AS r ON o.obj_id = r.obj_id ".
+					"LEFT JOIN object_data AS o ON o.obj_id = pg.parent_id ".
+					"LEFT JOIN object_reference AS r ON o.obj_id = r.obj_id ".
 					$where.
 					$in.
 					" AND pg.parent_type = 'lm'";
