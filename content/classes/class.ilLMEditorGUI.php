@@ -27,6 +27,8 @@ require_once ("classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/class.ilParagraphGUI.php");
+require_once ("content/classes/class.ilLearningModuleGUI.php");
+require_once ("content/classes/class.ilMetaDataGUI.php");
 
 /**
 * GUI class for learning module editor
@@ -46,6 +48,7 @@ class ilLMEditorGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $objDefinition;
 	var $lm_id;
 	var $lm_obj;
 
@@ -58,12 +61,13 @@ class ilLMEditorGUI
 	*/
 	function ilLMEditorGUI()
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $objDefinition;
 
 		// initiate variables
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->objDefinition = $objDefinition;
 		$this->lm_id = $_GET["lm_id"];
 		$this->obj_id = $_GET["obj_id"];
 
@@ -85,10 +89,21 @@ class ilLMEditorGUI
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
 				$this->lm_obj =& new ilObjLearningModule($this->lm_id, false);
-				$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
-
-				$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle());
-				$type = ($cmd == "create") ? $_POST["new_type"] : $obj->getType();
+				if(!empty($_GET["obj_id"]))		// we got a page or structure object
+				{
+					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
+					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
+					$type = ($cmd == "create") ? $_POST["new_type"] : $obj->getType();
+				}
+				else		// command belongs to learning module
+				{
+					$this->main_header($this->lng->txt("lm").": ".$this->lm_obj->getTitle(),"lm");
+					$type = "lm";
+				}
+				if ($cmd == "meta")
+				{
+					$type = "meta";
+				}
 				if(($_GET["cont_cnt"] > 0) || ($type == "par"))
 				{
 			 		$content =& $obj->getContent();
@@ -116,6 +131,18 @@ class ilLMEditorGUI
 							$st_gui->setStructureObject($obj);
 							$st_gui->$cmd();
 							break;
+
+						case "lm":
+							$lm_gui =& new ilLearningModuleGUI($this->tree);
+							$lm_gui->setLearningModuleObject($this->lm_obj);
+							$lm_gui->$cmd();
+							break;
+
+						case "meta":
+							$meta_gui =& new ilMetaDataGUI();
+							$meta_gui->edit();
+							break;
+
 					}
 				}
 				$this->tpl->show();
@@ -186,13 +213,14 @@ class ilLMEditorGUI
 	/**
 	* output main header (title and locator)
 	*/
-	function main_header($a_header_title)
+	function main_header($a_header_title, $a_type)
 	{
 		global $lng;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->setVariable("HEADER", $a_header_title);
 		$this->displayLocator();
+		$this->setAdminTabs($a_type);
 	}
 
 
@@ -223,14 +251,16 @@ class ilLMEditorGUI
 	{
 		global $lng;
 
-		if(empty($this->obj_id))
-		{
-			return;
-		}
-
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$path = $this->tree->getPathFull($this->obj_id);
+		if(!empty($this->obj_id))
+		{
+			$path = $this->tree->getPathFull($this->obj_id);
+		}
+		else
+		{
+			$path = $this->tree->getPathFull($this->tree->getRootId());
+		}
 
 		$modifier = 1;
 
@@ -246,9 +276,11 @@ class ilLMEditorGUI
 				$this->lm_obj->getTitle() :
 				$row["title"];
 			$this->tpl->setVariable("ITEM", $title);
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$obj_str = ($row["child"] == 1)
+				? ""
+				: "&obj_id=".$row["child"];
 			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=view&lm_id=".
-				$this->lm_id."&obj_id=".$row["child"]);
+				$this->lm_id.$obj_str);
 			$this->tpl->parseCurrentBlock();
 
 		}
@@ -269,6 +301,50 @@ class ilLMEditorGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+	function setAdminTabs($a_type)
+	{
+		$tabs = array();
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		$d = $this->objDefinition->getProperties($a_type);
+
+		foreach ($d as $key => $row)
+		{
+			$tabs[] = array($row["lng"], $row["name"]);
+		}
+
+		if (isset($_GET["obj_id"]))
+		{
+			$object_link = "&obj_id=".$_GET["obj_id"];
+		}
+
+		foreach ($tabs as $row)
+		{
+			$i++;
+
+			if ($row[1] == $_GET["cmd"])
+			{
+				$tabtype = "tabactive";
+				$tab = $tabtype;
+			}
+			else
+			{
+				$tabtype = "tabinactive";
+				$tab = "tab";
+			}
+
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", $tabtype);
+			$this->tpl->setVariable("TAB_TYPE2", $tab);
+			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
+			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
+			$this->tpl->setVariable("TAB_LINK", "lm_edit.php?lm_id=".$_GET["lm_id"]."&obj_id=".
+				$_GET["obj_id"]."&cmd=".$row[1]);
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 
 }
 ?>

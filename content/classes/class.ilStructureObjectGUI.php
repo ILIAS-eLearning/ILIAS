@@ -37,6 +37,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 {
 	var $st_obj;	// structure object
 	var $tree;
+	var $lm_object;
 
 	/**
 	* Constructor
@@ -46,7 +47,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilias, $tpl, $lng;
 
-		parent::ilLMObjectGUI($a_lm_object);
+		parent::ilLMObjectGUI();
+		$this->lm_obj =& $a_lm_object;
 		$this->st_obj =& $a_st_object;
 		$this->tree =& $a_tree;
 	}
@@ -110,7 +112,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// type
 			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
 				$child["obj_id"];
-			$this->add_cell($this->lng->txt("cont_".$child["type"]), $link);
+			$this->add_cell($this->lng->txt($child["type"]), $link);
 
 			// title
 			$this->add_cell($child["title"], $link);
