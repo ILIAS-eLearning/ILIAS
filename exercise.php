@@ -23,7 +23,7 @@
 
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilObjExerciseGUIAdapter.php";
-
+$ilCtrl->getCallStructure(strtolower("ilObjExerciseGUI"));
 $exc_adapter =& new ilObjExerciseGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
 
 $tpl->show();
