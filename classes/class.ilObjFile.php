@@ -226,23 +226,31 @@ class ilObjFile extends ilObject
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
+	{
+		// check, if file is used somewhere
+		$usages = $this->getUsages();
+
+		if (count($usages) == 0)
 		{
-			return false;
+			// always call parent delete function first!!
+			if (!parent::delete())
+			{
+				return false;
+			}
+
+			// delete file data entry
+			$q = "DELETE FROM file_data WHERE file_id = '".$this->getId()."'";
+			$this->ilias->db->query($q);
+
+			// unlink file
+			$file = $this->getDirectory()."/".$this->getFileName();
+			unlink($file);
+			rmdir($this->getDirectory());
+
+			return true;
 		}
-		
-		// delete file data entry
-		$q = "DELETE FROM file_data WHERE file_id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
-		
-		// unlink file
-		$file = $this->getDirectory()."/".$this->getFileName();
-		unlink($file);
-		rmdir($this->getDirectory());
-		
-		return true;
+
+		return false;
 	}
 
 	/**
@@ -260,5 +268,45 @@ class ilObjFile extends ilObject
 		$filedir = $this->getDirectory();
 		ilUtil::rCopy($filedir, $a_target_dir."/objects/".$subdir);
 	}
+
+	/**
+	* static delete all usages of
+	*/
+	function _deleteAllUsages($a_type, $a_id)
+	{
+		$q = "DELETE FROM file_usage WHERE usage_type='$a_type' AND usage_id='$a_id'";
+		$this->ilias->db->query($q);
+	}
+
+	/**
+	* save usage
+	*/
+	function _saveUsage($a_mob_id, $a_type, $a_id)
+	{
+		$q = "REPLACE INTO file_usage (id, usage_type, usage_id) VALUES".
+			" ('$a_mob_id', '$a_type', '$a_id')";
+		$this->ilias->db->query($q);
+	}
+
+	/**
+	* get all usages of file object
+	*/
+	function getUsages()
+	{
+		global $ilDB;
+
+		// get usages in learning modules
+		$q = "SELECT * FROM file_usage WHERE id = '".$this->getId()."'";
+		$us_set = $ilDB->query($q);
+		$ret = array();
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ret[] = array("type" => $us_rec["usage_type"],
+				"id" => $us_rec["usage_id"]);
+		}
+
+		return $ret;
+	}
+
 } // END class.ilObjFile
 ?>

@@ -2778,3 +2778,12 @@ $this->db->query($query);
 <#177>
 ALTER TABLE `usr_data` CHANGE `login` `login` VARCHAR (80) NOT NULL;
 ALTER TABLE `usr_data` CHANGE `email` `email` VARCHAR (80) NOT NULL;
+
+<#178>
+CREATE TABLE file_usage
+(
+	id INT NOT NULL,
+	usage_type VARCHAR(10) NOT NULL,
+	usage_id INT NOT NULL,
+	PRIMARY KEY (id, usage_type, usage_id)
+);
