@@ -164,7 +164,8 @@ function fetchObjectData($a_row)
 					"create_date"	=> $a_row->create_date,
 					"last_update"	=> $a_row->last_update,
 					"last_login"	=> $a_row->last_login,	// maybe senseless
-					"assign"		=> $a_row->assign	// maybe senseless
+					"assign"		=> $a_row->assign,	// maybe senseless
+					"parent"		=> $a_row->parent	// role folder 
 				);
 
 	return $arr ? $arr : array();	// maybe senseless

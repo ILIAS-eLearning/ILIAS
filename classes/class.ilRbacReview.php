@@ -206,7 +206,7 @@ class ilRbacReview
 			$role_list[] = fetchObjectData($row);
 		}
 		
-		$role_list = $this->setRoleType($role_list,$a_ref_id);
+		$role_list = $this->setRoleType($role_list);
 		
 		return $role_list;
 	}
@@ -234,7 +234,7 @@ class ilRbacReview
 			$role_list[] = fetchObjectData($row);
 		}
 		
-		$role_list = $this->setRoleType($role_list,ROLE_FOLDER_ID);
+		$role_list = $this->setRoleType($role_list);
 		
 		return $role_list;
 	}
@@ -268,13 +268,10 @@ class ilRbacReview
 	* 
 	* @access	private
 	* @param	array	role list
-	* @param	integer	ref_id (sets internal var to true if ROLE_FOLDER_ID)
 	* @return	array	role list with additional entry for role_type
 	*/
-	function setRoleType($a_role_list,$a_folder_id)
+	function setRoleType($a_role_list)
 	{
-		$global = ($a_folder_id == ROLE_FOLDER_ID) ? true : false;
-		
 		foreach ($a_role_list as $key => $val)
 		{
 			// determine role type
@@ -286,7 +283,7 @@ class ilRbacReview
 			{
 				if ($val["assign"] == "y")
 				{
-					if ($global)
+					if ($val["parent"] == ROLE_FOLDER_ID)
 					{
 						$a_role_list[$key]["role_type"] = "global";
 					}
