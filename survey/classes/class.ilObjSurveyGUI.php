@@ -54,7 +54,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function ilObjSurveyGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-    global $lng;
+    global $lng, $ilCtrl;
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
@@ -69,6 +69,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($a_prepare_output) {
 			$this->prepareOutput();
 		}
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, "ref_id");
 	}
 
 	/**
@@ -81,6 +84,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 		return "survey.php";
 	}
 	
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd("properties");
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "properties");
+
+		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
+		switch($next_class)
+		{
+			default:
+				if (($cmd != "run") and ($cmd != "evaluation") and ($cmd != "evaluationdetails") and ($cmd != "evaluationuser"))
+				{
+					$this->setAdminTabs();
+				}
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+		}
+	}
+
 	/**
 	* save object
 	* @access	public
@@ -213,7 +239,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
-		$this->setLocator();
+		//$this->setLocator();
 
 		if (!empty($title))
 		{
@@ -2601,7 +2627,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	function evaluationdetailsObject()
 	{
-		$this->evaluationObject();
+//		$this->ctrl->setCmd("evaluationdetails");
+//		$this->ctrl->setCmdClass("ilobjsurveygui");
+		$this->evaluationObject(1);
 	}
 	
 	/**
@@ -2611,10 +2639,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function evaluationObject()
+	function evaluationObject($details = 0)
 	{
 		global $ilUser;
 
+//		$this->ctrl->setCmd("evaluation");
+//		$this->ctrl->setCmdClass("ilobjsurveygui");
 		require_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
@@ -2690,7 +2720,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// catch feedback message
 		sendInfo();
-		$this->setLocator();
+		//$this->setLocator();
 		$this->tpl->setVariable("HEADER", $title);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
@@ -2759,7 +2789,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
-			if ($_GET["details"])
+			if ($details)
 			{
 				$printDetail = array();
 				switch ($_POST["export_format"])
@@ -3111,6 +3141,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		if ($details)
+		{
+			$this->tpl->setVariable("CMD_EXPORT", "evaluationdetails");
+		}
+		else
+		{
+			$this->tpl->setVariable("CMD_EXPORT", "evaluation");
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -3947,18 +3988,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->getRefId());
 	}
 
-	/*function prepareOutput()
+	function prepareOutput()
 	{
-		$this->tpl->addBlockFile("JAVASCRIPT_EDITOR", "javascript", "tpl.il_svy_editor_javascript.html", true);
-		$this->tpl->setCurrentBlock("javascript");
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
-		$this->tpl->setVariable("TEXTAREA_NAME", "introduction");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("BODY_ONLOAD", " onload=\"initDocument()\"");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
 		$title = $this->object->getTitle();
 
 		// catch feedback message
@@ -3968,13 +4001,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-
-		$this->setAdminTabs($_POST["new_type"]);
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setAdminTabs($_POST["new_type"]);
+		}
 		$this->setLocator();
 
 	}
-*/
-
+	
 	/*
 	* list all export files
 	*/
@@ -4415,9 +4449,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./classes/class.ilTabsGUI.php";
 		$tabs_gui =& new ilTabsGUI();
 		
-		$tabs_gui->addTarget("svy_eval_cumulated", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=evaluation", "evaluation",	"ilobjsurveygui");
-		$tabs_gui->addTarget("svy_eval_detail", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=evaluationdetails" . "&details=1", "evaluationdetails",	"ilobjsurveygui");
-		$tabs_gui->addTarget("svy_eval_user", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=evaluationuser", "evaluationuser",	"ilobjsurveygui");
+		$tabs_gui->addTarget("svy_eval_cumulated", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluation"), "evaluation",	"ilobjsurveygui");
+		$tabs_gui->addTarget("svy_eval_detail", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluationdetails"), "evaluationdetails",	"ilobjsurveygui");
+		$tabs_gui->addTarget("svy_eval_user", $this->ctrl->getLinkTargetByClass(get_class($this), "evaluationuser"), "evaluationuser",	"ilobjsurveygui");
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
