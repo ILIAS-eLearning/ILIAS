@@ -4038,11 +4038,12 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
-survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.
-survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span>.<br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
+survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 32stelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Umfragecode in das untere Textfeld ein.###20 Dec 2004 content changed
+survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 32stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span>.<br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.###20 Dec 2004 content changed
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
 survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerinnendaten anonymisiert und können nicht zurückverfolgt werden
+survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
@@ -4051,6 +4052,7 @@ survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten.
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrechte, um den Fragenpool zu exportieren!
 survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu exportieren!
@@ -4065,6 +4067,7 @@ survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategor
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
+survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraints#:#Beschränkungen
@@ -4143,6 +4146,7 @@ survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
@@ -4205,6 +4209,7 @@ survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
+survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
 survey#:#next_question_rows#:#Fragen %d - %d von %d >>
 survey#:#no_available_constraints#:#Es sind keine Beschränkungen definiert!
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
@@ -4222,6 +4227,7 @@ survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antwort
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_finished#:#noch nicht abgeschlossen
 survey#:#not_started#:#noch nicht gestartet
+survey#:#not_used#:#not used###20 Dec 2004 new variable
 survey#:#obligatory#:#verpflichtend
 survey#:#off#:#aus
 survey#:#offline#:#offline (nicht aktiviert)
@@ -4303,7 +4309,10 @@ survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s
 survey#:#subtype#:#Untertyp
+survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
@@ -4348,6 +4357,7 @@ survey#:#unlimited_users#:#Unbegrenzt
 survey#:#uploaded_material#:#Hochgeladene Materialien
 survey#:#upper_limit#:#Obere Schranke
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
+survey#:#used#:#used###20 Dec 2004 new variable
 survey#:#users_answered#:#Beantwortet
 survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben

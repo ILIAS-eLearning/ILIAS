@@ -3933,6 +3933,7 @@ survey#:#already_completed_survey#:#Ya ha completado esta encuesta! No le está 
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_survey#:#Ocultar datos de usuario en la encuesta
 survey#:#anonymize_survey_explanation#:#Cuando se activa, todos los usuarios serán anónimos y no pueden ser monitorizados
+survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
 survey#:#answer#:#Respuesta
 survey#:#apply#:#Aplicar
 survey#:#arithmetic_mean#:#Media aritmética
@@ -3941,6 +3942,7 @@ survey#:#ask_insert_questions#:#Está seguro de que quiere insertar las siguient
 survey#:#back#:#<< Volver
 survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el repositorio de preguntas!
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!
@@ -3954,6 +3956,7 @@ survey#:#category_delete_confirm#:#Está seguro de querer eliminar la(s) siguien
 survey#:#category_delete_select_none#:#Por favor seleccione al menos una categoría para eliminar!
 survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categoría
 survey#:#chart#:#Chart###17 Dec 2004 new variable
+survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Concatenación
 survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha sido creada para usar con la encuesta activa. Quiere modificar la pregunta original también?
 survey#:#constraints#:#Restricciones
@@ -4031,6 +4034,7 @@ survey#:#edit_heading#:#Editar cabecera
 survey#:#end_date#:#Fecha fin
 survey#:#end_date_reached#:#No puede comenzar la encuesta. Se ha superado la fecha límite!
 survey#:#enter_phrase_title#:#Por favor introduzca un título de frase
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Introduzca un valor
 survey#:#error_add_heading#:#Por favor añada una cabecera!
 survey#:#error_importing_question#:#Hubo un error importando las preguntas desde el fichero seleccionado!
@@ -4084,6 +4088,7 @@ survey#:#mode_nr_of_selections#:#Número de selecciones
 survey#:#mode_text#:#Valor más seleccionado (Texto)
 survey#:#multiple_choice_multiple_response#:#Elección Múltiple (respuesta multiple)
 survey#:#multiple_choice_single_response#:#Elección Multiple (respuesta única)
+survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
 survey#:#next_question_rows#:#Preguntas %d - %d de %d >>
 survey#:#no_available_constraints#:#No hay restricciones definidas!
 survey#:#no_category_selected_for_deleting#:#Por favor seleccione al menos una categoría si quiere eliminar categorías!
@@ -4101,6 +4106,7 @@ survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuest
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
 survey#:#not_finished#:#not finished###07 Jun 2004 new variable
 survey#:#not_started#:#not started###12 Jun 2004 new variable
+survey#:#not_used#:#not used###20 Dec 2004 new variable
 survey#:#obligatory#:#obligatory###24 May 2004 new variable
 survey#:#off#:#off###23 May 2004 new variable
 survey#:#offline#:#offline###23 May 2004 new variable
@@ -4182,7 +4188,10 @@ survey#:#start_date_not_reached#:#You cannot start the survey until the start da
 survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
+survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
@@ -4227,6 +4236,7 @@ survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
 survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Jun 2004 new variable
+survey#:#used#:#used###20 Dec 2004 new variable
 survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
 survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
 survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
