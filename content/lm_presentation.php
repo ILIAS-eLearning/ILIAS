@@ -35,6 +35,12 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
+// check read permission
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
+
 // learning module presentation class does the rest
 require_once "./content/classes/class.ilLMPresentationGUI.php";
 $lm_presentation = new ilLMPresentationGUI();
