@@ -49,7 +49,9 @@
 				
 				<tr><td align="left" valign="top">Authors</td><td align="left" valign="top">Stefan Meyer &lt;<a href="mailto:smeyer@databay.de">smeyer@databay.de</a>&gt;</td></tr>
 				
-				<tr><td align="left" valign="top">Version</td><td align="left" valign="top">$Id$</td></tr>
+				<tr><td align="left" valign="top">Version</td><td align="left" valign="top">$Id$
+
+@extends PEAR</td></tr>
 				
 				
 				
@@ -58,12 +60,6 @@
 	</tr>
 	<tr>
 		<td height="10" align="left" valign="top">&nbsp;</td>
-	</tr>
-	
-	<tr>
-		<td align="left" valign="top">
-			<b>Direct known subclasses:</b> <a href="RbacAdminH.html">RbacAdminH</a>
-		</td>
 	</tr>
 	
 	<tr>
@@ -84,12 +80,12 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_roleExists()"><h4>roleExists(string $a_title)</h4></a>Checks if a role exists</td>
+					<td align="right" valign="top">int</td>
+					<td align="left" valign="top" width="100%"><a href="#function_roleExists()"><h4>roleExists(string $a_title)</h4></a>Checks if a role already exists. Role title should be unique</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
+					<td align="right" valign="top">boolean</td>
 					<td align="left" valign="top" width="100%"><a href="#function_addUser()"><h4>addUser(array $a_data)</h4></a>Inserts userdata in user_data table</td>
 				</tr>
 				
@@ -99,113 +95,113 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
+					<td align="right" valign="top">boolean</td>
 					<td align="left" valign="top" width="100%"><a href="#function_updateUser()"><h4>updateUser(array $a_userdata)</h4></a>updates user data in table user_data &amp; object_data</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">int</td>
+					<td align="right" valign="top">integer</td>
 					<td align="left" valign="top" width="100%"><a href="#function_addRole()"><h4>addRole(string $a_title, string $a_description)</h4></a>Creates a role, inserts data in object_data, rbac_ua, rbac_pa</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deleteRole()"><h4>deleteRole(int $a_obj_id)</h4></a>Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteRole()"><h4>deleteRole(integer $a_obj_id)</h4></a>Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deleteTemplate()"><h4>deleteTemplate(int $a_obj_id,  $a_parent)</h4></a>Deletes a template from role folder and deletes all entries in object_data, rbac_templates, rbac_fa</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteTemplate()"><h4>deleteTemplate(integer $a_obj_id, integer $a_parent)</h4></a>Deletes a template from role folder and deletes all entries in object_data, rbac_templates, rbac_fa</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deleteLocalRole()"><h4>deleteLocalRole(int $a_rol_id, int $a_parent)</h4></a>Deletes a local role and entries in rbac_fa and rbac_templates</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteLocalRole()"><h4>deleteLocalRole(integer $a_rol_id, integer $a_parent)</h4></a>Deletes a local role and entries in rbac_fa and rbac_templates</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getParentRoles()"><h4>getParentRoles(array $a_path, [ string $a_child, boolean $a_templates ])</h4></a>Get parent roles in a path. If last parameter is set 'true'</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getParentRoles()"><h4>getParentRoles(array $a_path, [ boolean $a_templates ])</h4></a>Get parent roles in a path. If last parameter is set 'true'</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignUser()"><h4>assignUser(int $a_rol_id, [ integer $a_usr_id ])</h4></a>Assigns a user to a role</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignUser()"><h4>assignUser(integer $a_rol_id, [ integer $a_usr_id ])</h4></a>Assigns a user to a role</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deassignUser()"><h4>deassignUser(int $a_rol_id, int $a_usr_id)</h4></a>Deassigns a user from a role</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deassignUser()"><h4>deassignUser(integer $a_rol_id, integer $a_usr_id)</h4></a>Deassigns a user from a role</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_grantPermission()"><h4>grantPermission(int $a_rol_id, array $a_ops_id, int $a_obj_id, int $a_setid)</h4></a>Grants permissions to an object</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_grantPermission()"><h4>grantPermission(integer $a_rol_id, array $a_ops_id, integer $a_obj_id, integer $a_setid)</h4></a>Grants permissions to an object</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_revokePermission()"><h4>revokePermission(int $a_obj_id, [ string $a_rol_id, string $a_set_id ])</h4></a>Revokes permissions of object</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRolePermission()"><h4>getRolePermission(int $a_rol_id, string $a_type, int $a_parent)</h4></a>Return template permissions of an role</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_copyRolePermission()"><h4>copyRolePermission(int $a_rol_id, int $a_from, int $a_to, [ string $a_dest_rol_id ])</h4></a>Copies template permissions</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deleteRolePermission()"><h4>deleteRolePermission(int $a_rol_id, int $a_parent)</h4></a>Deletes a template</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_setRolePermission()"><h4>setRolePermission(int $a_rol_id, string $a_type, array $a_ops_id, object id $a_parent)</h4></a>Inserts template permissions in rbac_templates</td>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_revokePermission()"><h4>revokePermission(integer $a_obj_id, [ string $a_rol_id, string $a_set_id ])</h4></a>Revokes permissions of object</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getSetIdByObject()"><h4>getSetIdByObject(int $a_obj_id)</h4></a>Returns parent id of an object (obsolete)</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRolePermission()"><h4>getRolePermission(integer $a_rol_id, string $a_type, integer $a_parent)</h4></a>Return template permissions of an role</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_copyRolePermission()"><h4>copyRolePermission(integer $a_rol_id, integer $a_from, integer $a_to, [ string $a_dest_rol_id ])</h4></a>Copies template permissions</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteRolePermission()"><h4>deleteRolePermission(integer $a_rol_id, integer $a_parent)</h4></a>Deletes a template</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_setRolePermission()"><h4>setRolePermission(integer $a_rol_id, string $a_type, array $a_ops_id, object id $a_parent)</h4></a>Inserts template permissions in rbac_templates</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRoleListByObject()"><h4>getRoleListByObject(int $a_parent, [ string $a_order, string $a_direction ])</h4></a>Returns a list of roles in an container</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getSetIdByObject()"><h4>getSetIdByObject(integer $a_obj_id)</h4></a>Returns parent id of an object (obsolete)</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRoleAndTemplateListByObject()"><h4>getRoleAndTemplateListByObject(int $a_parent, [ string $a_order, string $a_direction ])</h4></a>Returns a list of roles  and templates of an container</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignRoleToFolder()"><h4>assignRoleToFolder(int $a_rol_id, object id $a_parent, [ string $a_assign ])</h4></a>Assigns a role to an role folder</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_isAssignable()"><h4>isAssignable(int $a_rol_id, int $a_parent)</h4></a>Check if its possible to assign users</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRoleListByObject()"><h4>getRoleListByObject(integer $a_parent, [ string $a_order, string $a_direction ])</h4></a>Returns a list of roles in an container</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRoleData()"><h4>getRoleData(int $a_obj_id)</h4></a>gets data of an role</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRoleAndTemplateListByObject()"><h4>getRoleAndTemplateListByObject(integer $a_parent, [ string $a_order, string $a_direction ])</h4></a>Returns a list of roles  and templates of an container</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignRoleToFolder()"><h4>assignRoleToFolder(integer $a_rol_id, integer $a_parent, [ string $a_assign ])</h4></a>Assigns a role to an role folder</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_isAssignable()"><h4>isAssignable(integer $a_rol_id, integer $a_parent)</h4></a>Check if its possible to assign users</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getFoldersAssignedToRole()"><h4>getFoldersAssignedToRole(int $a_rol_id)</h4></a>returns an array with role ids assigned to a role folder</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRoleData()"><h4>getRoleData(integer $a_obj_id)</h4></a>gets data of an role</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRolesAssignedToFolder()"><h4>getRolesAssignedToFolder(int $a_parent)</h4></a>return an array with role ids</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getFoldersAssignedToRole()"><h4>getFoldersAssignedToRole(integer $a_rol_id)</h4></a>returns an array with role ids assigned to a role folder</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRolesAssignedToFolder()"><h4>getRolesAssignedToFolder(integer $a_parent)</h4></a>return an array with role ids</td>
 				</tr>
 				
 				<tr>
@@ -215,17 +211,37 @@
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getRoleFolderOfObject()"><h4>getRoleFolderOfObject(int $a_parent)</h4></a>returns the data of a role folder assigned to an object</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getRoleFolderOfObject()"><h4>getRoleFolderOfObject(integer $a_parent)</h4></a>returns the data of a role folder assigned to an object</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getParentObject()"><h4>getParentObject(int $a_child)</h4></a>return id of parent object</td>
+					<td align="right" valign="top">integer</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getParentObject()"><h4>getParentObject(integer $a_child)</h4></a>return id of parent object</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getOperationsOnType()"><h4>getOperationsOnType(int $a_typ_id)</h4></a>all possible operations of a type</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getOperationsOnType()"><h4>getOperationsOnType(integer $a_typ_id)</h4></a>all possible operations of a type</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_addInheritance()"><h4>addInheritance()</h4></a></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteInheritance()"><h4>deleteInheritance()</h4></a></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_addAscendant()"><h4>addAscendant()</h4></a></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_addDescendant()"><h4>addDescendant()</h4></a></td>
 				</tr>
 				
 			</table>
@@ -241,7 +257,12 @@
 				
 				<tr>
 					<td align="right" valign="top">string</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getParentRoleIds()"><h4>getParentRoleIds([ string $a_start_node ], string $a_start_parent)</h4></a>get role ids of all parent roles</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getParentRoleIds()"><h4>getParentRoleIds([ integer $a_start_node, integer $a_start_parent, boolean $a_templates ])</h4></a>get role ids of all parent roles, if last parameter is set true</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_RbacAdminH()"><h4>RbacAdminH(object db &$dbhandle)</h4></a>database handle</td>
 				</tr>
 				
 			</table>
@@ -315,7 +336,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
+								<td colspan="2" align="left" valign="top">db-handler</td>
 							</tr>
 						</table>
 					</td>
@@ -346,13 +367,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_roleExists()"><h4>roleExists</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array roleExists( string $a_title )</b><p>
+						<b>public    int roleExists( string $a_title )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						Checks if a role exists
+						Checks if a role already exists. Role title should be unique
 						<br>
 						
 						<p>
@@ -385,7 +406,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>array <p></td>
+					<td>int <p></td>
 				</tr>
 				
 				
@@ -406,7 +427,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_addUser()"><h4>addUser</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool addUser( array $a_data )</b><p>
+						<b>public    boolean addUser( array $a_data )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -445,7 +466,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -505,7 +526,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>boolean <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -526,7 +547,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_updateUser()"><h4>updateUser</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool updateUser( array $a_userdata )</b><p>
+						<b>public    boolean updateUser( array $a_userdata )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -555,7 +576,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">with user data</td>
+								<td colspan="2" align="left" valign="top">user data</td>
 							</tr>
 						</table>
 					</td>
@@ -565,7 +586,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -586,7 +607,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_addRole()"><h4>addRole</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int addRole( string $a_title, string $a_description )</b><p>
+						<b>public    integer addRole( string $a_title, string $a_description )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -642,7 +663,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p>new obj_id</td>
+					<td>integer <p>new obj_id</td>
 				</tr>
 				
 				
@@ -663,7 +684,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteRole()"><h4>deleteRole</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool deleteRole( int $a_obj_id )</b><p>
+						<b>public    boolean deleteRole( integer $a_obj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -686,7 +707,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -702,7 +723,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -723,7 +744,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteTemplate()"><h4>deleteTemplate</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool deleteTemplate( int $a_obj_id,  $a_parent )</b><p>
+						<b>public    boolean deleteTemplate( integer $a_obj_id, integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -746,7 +767,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -763,13 +784,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top">Id</td>
 							</tr>
 						</table>
 					</td>
@@ -779,7 +800,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -800,7 +821,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteLocalRole()"><h4>deleteLocalRole</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool deleteLocalRole( int $a_rol_id, int $a_parent )</b><p>
+						<b>public    boolean deleteLocalRole( integer $a_rol_id, integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -823,7 +844,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -840,7 +861,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -856,7 +877,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -877,7 +898,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getParentRoles()"><h4>getParentRoles</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool getParentRoles( array $a_path, [ string $a_child, boolean $a_templates ] )</b><p>
+						<b>public    boolean getParentRoles( array $a_path, [ boolean $a_templates ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -917,23 +938,6 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">string</td>
-								<td align="left" valign="top">$a_child</td>
-								<td align="left" valign="top"><code>= >>&quot;&quot;<<</code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
 								<td align="left" valign="top">boolean</td>
 								<td align="left" valign="top">$a_templates</td>
 								<td align="left" valign="top"><code>= >>false<<</code></td>
@@ -950,7 +954,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -971,7 +975,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignUser()"><h4>assignUser</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool assignUser( int $a_rol_id, [ integer $a_usr_id ] )</b><p>
+						<b>public    boolean assignUser( integer $a_rol_id, [ integer $a_usr_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -994,7 +998,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1027,7 +1031,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1048,7 +1052,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_deassignUser()"><h4>deassignUser</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool deassignUser( int $a_rol_id, int $a_usr_id )</b><p>
+						<b>public    boolean deassignUser( integer $a_rol_id, integer $a_usr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1071,7 +1075,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1088,7 +1092,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1104,7 +1108,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1125,7 +1129,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_grantPermission()"><h4>grantPermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool grantPermission( int $a_rol_id, array $a_ops_id, int $a_obj_id, int $a_setid )</b><p>
+						<b>public    boolean grantPermission( integer $a_rol_id, array $a_ops_id, integer $a_obj_id, integer $a_setid )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1148,7 +1152,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1182,7 +1186,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1199,7 +1203,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_setid</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1215,7 +1219,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1236,7 +1240,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_revokePermission()"><h4>revokePermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool revokePermission( int $a_obj_id, [ string $a_rol_id, string $a_set_id ] )</b><p>
+						<b>public    boolean revokePermission( integer $a_obj_id, [ string $a_rol_id, string $a_set_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1259,7 +1263,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1309,7 +1313,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1330,7 +1334,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRolePermission()"><h4>getRolePermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRolePermission( int $a_rol_id, string $a_type, int $a_parent )</b><p>
+						<b>public    array getRolePermission( integer $a_rol_id, string $a_type, integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1353,7 +1357,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1387,7 +1391,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1424,7 +1428,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_copyRolePermission()"><h4>copyRolePermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool copyRolePermission( int $a_rol_id, int $a_from, int $a_to, [ string $a_dest_rol_id ] )</b><p>
+						<b>public    boolean copyRolePermission( integer $a_rol_id, integer $a_from, integer $a_to, [ string $a_dest_rol_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1447,7 +1451,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1464,7 +1468,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_from</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1481,7 +1485,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_to</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1514,7 +1518,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p></td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1535,7 +1539,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteRolePermission()"><h4>deleteRolePermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool deleteRolePermission( int $a_rol_id, int $a_parent )</b><p>
+						<b>public    boolean deleteRolePermission( integer $a_rol_id, integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1558,7 +1562,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1575,7 +1579,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1591,7 +1595,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p></td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1612,7 +1616,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_setRolePermission()"><h4>setRolePermission</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool setRolePermission( int $a_rol_id, string $a_type, array $a_ops_id, object id $a_parent )</b><p>
+						<b>public    boolean setRolePermission( integer $a_rol_id, string $a_type, array $a_ops_id, object id $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1635,7 +1639,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1702,7 +1706,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p></td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1723,7 +1727,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getSetIdByObject()"><h4>getSetIdByObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getSetIdByObject( int $a_obj_id )</b><p>
+						<b>public    array getSetIdByObject( integer $a_obj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1746,7 +1750,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1783,7 +1787,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRoleListByObject()"><h4>getRoleListByObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRoleListByObject( int $a_parent, [ string $a_order, string $a_direction ] )</b><p>
+						<b>public    array getRoleListByObject( integer $a_parent, [ string $a_order, string $a_direction ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1806,7 +1810,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1877,7 +1881,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRoleAndTemplateListByObject()"><h4>getRoleAndTemplateListByObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRoleAndTemplateListByObject( int $a_parent, [ string $a_order, string $a_direction ] )</b><p>
+						<b>public    array getRoleAndTemplateListByObject( integer $a_parent, [ string $a_order, string $a_direction ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1900,7 +1904,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1971,7 +1975,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignRoleToFolder()"><h4>assignRoleToFolder</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool assignRoleToFolder( int $a_rol_id, object id $a_parent, [ string $a_assign ] )</b><p>
+						<b>public    boolean assignRoleToFolder( integer $a_rol_id, integer $a_parent, [ string $a_assign ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1994,7 +1998,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2011,13 +2015,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">object id</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
+								<td colspan="2" align="left" valign="top">object id</td>
 							</tr>
 						</table>
 					</td>
@@ -2044,7 +2048,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p></td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -2065,7 +2069,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_isAssignable()"><h4>isAssignable</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool isAssignable( int $a_rol_id, int $a_parent )</b><p>
+						<b>public    boolean isAssignable( integer $a_rol_id, integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2088,7 +2092,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2105,7 +2109,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2121,7 +2125,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p></td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -2142,7 +2146,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRoleData()"><h4>getRoleData</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRoleData( int $a_obj_id )</b><p>
+						<b>public    array getRoleData( integer $a_obj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2165,7 +2169,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2202,7 +2206,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getFoldersAssignedToRole()"><h4>getFoldersAssignedToRole</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getFoldersAssignedToRole( int $a_rol_id )</b><p>
+						<b>public    array getFoldersAssignedToRole( integer $a_rol_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2225,7 +2229,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2262,7 +2266,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRolesAssignedToFolder()"><h4>getRolesAssignedToFolder</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRolesAssignedToFolder( int $a_parent )</b><p>
+						<b>public    array getRolesAssignedToFolder( integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2285,7 +2289,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2360,7 +2364,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getRoleFolderOfObject()"><h4>getRoleFolderOfObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getRoleFolderOfObject( int $a_parent )</b><p>
+						<b>public    array getRoleFolderOfObject( integer $a_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2383,7 +2387,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2420,7 +2424,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getParentObject()"><h4>getParentObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int getParentObject( int $a_child )</b><p>
+						<b>public    integer getParentObject( integer $a_child )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2443,7 +2447,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_child</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2459,7 +2463,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p></td>
+					<td>integer <p></td>
 				</tr>
 				
 				
@@ -2480,7 +2484,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getOperationsOnType()"><h4>getOperationsOnType</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getOperationsOnType( int $a_typ_id )</b><p>
+						<b>public    array getOperationsOnType( integer $a_typ_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -2503,7 +2507,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_typ_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -2537,6 +2541,158 @@
 					<td colspan="2" align="left" valign="top"><hr></td>
 				</tr>
 				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_addInheritance()"><h4>addInheritance</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void addInheritance(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteInheritance()"><h4>deleteInheritance</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void deleteInheritance(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_addAscendant()"><h4>addAscendant</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void addAscendant(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_addDescendant()"><h4>addDescendant</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void addDescendant(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
 			</table>
 	</tr>
 	
@@ -2550,13 +2706,107 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getParentRoleIds()"><h4>getParentRoleIds</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private    string getParentRoleIds( [ string $a_start_node ], string $a_start_parent )</b><p>
+						<b>private    string getParentRoleIds( [ integer $a_start_node, integer $a_start_parent, boolean $a_templates ] )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						get role ids of all parent roles
+						get role ids of all parent roles, if last parameter is set true
+						<br>
+						you get also all parent templates
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_start_node</td>
+								<td align="left" valign="top"><code>= >>0<<</code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">id of start node</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_start_parent</td>
+								<td align="left" valign="top"><code>= >>0<<</code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">id of start parent</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">boolean</td>
+								<td align="left" valign="top">$a_templates</td>
+								<td align="left" valign="top"><code>= >>false<<</code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>string <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_RbacAdminH()"><h4>RbacAdminH</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private    void RbacAdminH( object db &$dbhandle )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						database handle
 						<br>
 						
 						<p>
@@ -2573,30 +2823,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">string</td>
-								<td align="left" valign="top">$a_start_node</td>
-								<td align="left" valign="top"><code>= >>&quot;&quot;<<</code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">id of start node</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">string</td>
-								<td align="left" valign="top">$a_start_parent</td>
+								<td align="left" valign="top">object db</td>
+								<td align="left" valign="top">&$dbhandle</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -2606,7 +2839,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>string <p></td>
+					<td>void <p></td>
 				</tr>
 				
 				

@@ -34,6 +34,9 @@ require_once "classes/class.UserMail.php";
 require_once "classes/class.rbacAdmin.php";
 require_once "classes/class.rbacSystem.php";
 require_once "classes/class.rbacReview.php";
+require_once "classes/class.rbacAdminH.php";
+require_once "classes/class.rbacSystemH.php";
+require_once "classes/class.rbacReviewH.php";
 
 // include error_handling
 require_once "classes/class.ErrorHandling.php";

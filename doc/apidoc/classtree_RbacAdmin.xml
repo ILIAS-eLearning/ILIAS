@@ -1,1 +1,1 @@
-<?xml version="1.0"?><phpdoc><classtree baseclass="RbacAdmin"><class name="RbacAdminH"></class><class name="RbacAdmin"><subclass>RbacAdminH</subclass></class></classtree></phpdoc>
+<?xml version="1.0"?><phpdoc><classtree baseclass="RbacAdmin"><class name="RbacAdmin"></class></classtree></phpdoc>

@@ -246,42 +246,4 @@ class RbacSystem extends PEAR
 		return in_array($ops_id,$ops);
 	}
 } // END class.RbacSystem
-
-
-/**
-* Class RbacSystemH
-* extensions for hierachical Rbac (maybe later)
-* 
-* @author Stefan Meyer <smeyer@databay.de> 
-* 
-* @extends RbacSystem 
-* @package rbac
-*/
-class RbacSystemH extends RbacSystem
-{
-	/**
-	* Constructor
-	* @param object ilias
-	*/
-    function RbacSystemH(&$a_ilias)
-    {
-        $this->RbacSystem($a_ilias);
-    }
-
-	/**
-	* @access public
-	*/
-    function createSession()
-    {
-	
-    }
-
-	/**
-	* @access public
-	*/
-    function addActiveRole()
-    {
-
-    }
-} // END class.RbacSystemH
 ?>
