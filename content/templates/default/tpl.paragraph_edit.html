@@ -317,6 +317,14 @@ function storeCaret(textEl) {
 
 <div id="footnotelist"></div>
 
+<div id="subformeditor" style="visibility:hidden;">
+<p>
+<form name="subform">
+<textarea rows=3 cols=80 style="width=100%" name="subform" id="subform"></textarea>
+</form>
+</div>
+
+
 <!-- Configure the path to the editor.  We make it relative now, so that the
     example ZIP file will work anywhere, but please NOTE THAT it's better to
     have it an absolute path, such as '/htmlarea/'. -->
@@ -329,6 +337,33 @@ function storeCaret(textEl) {
 
 <script type="text/javascript">
 var editor = null;
+var subeditor = null;
+
+function initSubEditor(TextAreaName) 
+{
+  subeditor = new HTMLArea(TextAreaName);
+  var subcfg = subeditor.config; // this is the default configuration
+
+	subcfg.statusBar = false;
+
+	subcfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
+	subcfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
+	
+	
+	subcfg.toolbar = [
+		[ 
+		  "bold","italic"
+          ],
+
+	];
+
+  subeditor.config = subcfg;
+  subeditor.generate();
+  return false;
+	
+ }
+
+
 function initEditor(TextAreaName) 
 {
 
@@ -1219,6 +1254,9 @@ function buttonInternalLink()
         obj.value = T;
     
         initEditor("{PAR_TA_NAME}");
+
+		initSubEditor("subform");
+
         obj = document.getElementById("usedwsiwygeditor");
         obj.value = "1";
         obj = document.getElementById("bbcodebuttons");
