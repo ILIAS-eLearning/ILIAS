@@ -217,7 +217,7 @@ class ilObject
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
-		$this->setImportId($obj["import_id"]);
+		$this->import_id = $obj["import_id"];
 
 		// multilingual support systemobjects (sys) & categories (db)
 		$translation_type = $objDefinition->getTranslationType($this->type);

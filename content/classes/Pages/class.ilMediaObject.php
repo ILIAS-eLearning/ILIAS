@@ -214,6 +214,18 @@ class ilMediaObject extends ilObjMediaObject
 		}
 	}
 
+	function setImportId($a_id)
+	{
+		if($this->isAlias())
+		{
+			$this->meta_data->setOriginID($a_id);
+		}
+		else
+		{
+			$this->meta_data->setImportIdentifierEntryID($a_id);
+		}
+	}
+
 	/**
 	* create media object in db
 	*/
