@@ -28,6 +28,7 @@ infoPanel();
 // LOCATOR
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
+// SEND MESSAGE
 if(isset($_POST["cmd"]["send"]))
 {
 	$f_message = $umail->formatLinebreakMessage($_POST["m_message"]);
@@ -42,6 +43,8 @@ if(isset($_POST["cmd"]["send"]))
 		sendInfo($lng->txt("mail_message_send"));
 	}
 }
+
+// SAVE IN DRAFT FOLDER
 if(isset($_POST["cmd"]["save_message"]))
 {
 	$mbox = new ilMailbox($_SESSION["AccountId"]);
@@ -57,6 +60,8 @@ if(isset($_POST["cmd"]["save_message"]))
 		sendInfo($lng->txt("mail_send_error"));
 	}
 }
+
+// SEARCH RECIPIENTS
 if(isset($_POST["cmd"]["rcp_to"]))
 {
 	$_SESSION["mail_search"] = 'to';
@@ -72,6 +77,8 @@ if(isset($_POST["cmd"]["rcp_bc"]))
 	$_SESSION["mail_search"] = 'bc';
 	sendInfo($lng->txt("mail_insert_query"));
 }
+
+// EDIT ATTACHMENTS
 if(isset($_POST["cmd"]["edit"]))
 {
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
@@ -79,20 +86,28 @@ if(isset($_POST["cmd"]["edit"]))
 						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
 	header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
 }
-if(isset($_POST["cmd"]["search_system"]))
+
+// SEARCH BUTTON CLICKED
+if(isset($_POST["cmd"]["search"]))
 {
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=system");
-	exit();
-}
-if(isset($_POST["cmd"]["search_addr"]))
-{
-	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
-						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=addr");
+	// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
+	if(!$_POST["type_system"] and !$_POST["type_addressbook"])
+	{
+		$_POST["type_system"] = $_POST["type_addressbook"] = 1;
+	}
+	$get = '';
+	if($_POST["type_system"])
+	{
+		$get .= "&system=1";
+	}
+	if($_POST["type_addressbook"])
+	{
+		$get .= "&addressbook=1";
+	}
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"]).$get);
 	exit();
 }
 if(isset($_POST["cmd"]["search_cancel"]) or isset($_POST["cmd"]["cancel"]))
@@ -167,8 +182,9 @@ if(isset($_POST["cmd"]["rcp_to"]) or
 #   isset($_POST["cmd"][""] == $lng->txt("search"))
 {
 	$tpl->setCurrentBlock("search");
-	$tpl->setVariable("BUTTON_SEARCH_SYSTEM",$lng->txt("search_system"));
-	$tpl->setVariable("BUTTON_SEARCH_ADDRESSBOOK",$lng->txt("search_addressbook"));
+	$tpl->setVariable("TXT_SEARCH_SYSTEM",$lng->txt("mail_search_system"));
+	$tpl->setVariable("TXT_SEARCH_ADDRESS",$lng->txt("mail_search_addressbook"));
+	$tpl->setVariable("BUTTON_SEARCH",$lng->txt("search"));
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 }
 

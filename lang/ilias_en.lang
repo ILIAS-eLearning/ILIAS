@@ -605,7 +605,7 @@ mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
-mail#:#search_addressbook#:#Addressbook search
+mail#:#mail_search_addressbook#:#search in addressbook
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
-mail#:#search_system#:#System search
+mail#:#mail_search_system#:#search in system

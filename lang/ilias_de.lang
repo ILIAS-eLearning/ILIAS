@@ -605,7 +605,7 @@ mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelös
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
 mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
-mail#:#search_addressbook#:#Adressbuchsuche
+mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
-mail#:#search_system#:#Systemsuche
+mail#:#mail_search_system#:#im System suchen
