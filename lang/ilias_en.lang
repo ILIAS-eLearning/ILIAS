@@ -130,6 +130,7 @@ common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
 common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
+common#:#crs_edit#:#Edit Course
 common#:#crs_added#:#Course added
 common#:#crs_available#:#Available Courses
 common#:#crs_management_system#:#Course Management System
@@ -215,6 +216,7 @@ common#:#forums_overview#:#Forums Overview
 common#:#frm#:#Forum
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#Add Forum
+common#:#frm_edit#:#Edit Forum
 common#:#frm_added#:#Forum added
 common#:#frm_new#:#New Forum
 common#:#from#:#From
@@ -241,6 +243,7 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
+common#:#grp_edit#:#Edit Group
 common#:#grp_added#:#Group added
 common#:#grp_new#:#New Group
 common#:#guest#:#Guest

@@ -1226,9 +1226,12 @@ class ilObjectGUI
 				}
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 	}
@@ -1370,9 +1373,13 @@ class ilObjectGUI
 		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
