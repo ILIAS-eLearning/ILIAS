@@ -139,7 +139,7 @@ class RoleTemplateObject extends Object
 	{
 		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES

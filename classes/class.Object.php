@@ -248,7 +248,7 @@ class Object
 
 		$obj = getObject($_GET["obj_id"]);
 
-		if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+		if ($rbacsystem->checkAccess("edit permission", $_GET["obj_id"], $_GET["parent"]))
 		{
 
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
