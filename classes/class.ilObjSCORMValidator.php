@@ -41,6 +41,7 @@ class ilObjSCORMValidator {
 						if (!eregi("^[\.]{1,2}",$file)) {
 							//2DO FIXME regex machen dass nur . und .. erkannt werden und nicht .lala. oder so
 							if (is_dir($dir.$file)) {
+								// This is commented because subdirecories of my scromexamples contain xml files which aren't valid!
 								//$this->searchDir($dir.$file."/");
 							}
 							if (eregi("(\.xml)$",$file)) {
