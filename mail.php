@@ -36,6 +36,12 @@ require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilMail.php";
 
+// catch hack attempts
+if (!$rbacsystem->checkAccess("visible,read",MAIL_SETTINGS_ID))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
+}
+
 $lng->loadLanguageModule("mail");
 $umail = new ilMail($_SESSION["AccountId"]);
 $mbox = new ilMailBox($_SESSION["AccountId"]);
