@@ -877,11 +877,15 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Create Group###16 Mar 2004 new variable
 common#:#grp_create_chat#:#Create Chat###16 Mar 2004 new variable
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#User may upload Files###16 Mar 2004 new variable
 common#:#grp_create_fold#:#User may create Folders###16 Mar 2004 new variable
 common#:#grp_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
 common#:#grp_delete#:#Delete Group###16 Mar 2004 new variable
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###16 Mar 2004 new variable
@@ -1282,6 +1286,7 @@ common#:#no_title#:#Žádný název
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
 common#:#none#:#Neurčeno
 common#:#normal#:#Normální
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Není instalován
 common#:#not_logged_in#:#Nejste přihlášen(a)
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
@@ -1463,6 +1468,7 @@ common#:#question_pools#:#Question pools###16 Mar 2004 new variable
 common#:#quit#:#Odejít
 common#:#quote#:#Citace
 common#:#read#:#Číst
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Příjemce
 common#:#refresh#:#Aktualizovat
 common#:#refresh_languages#:#Aktualizovat jazyky

@@ -877,11 +877,15 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_chat#:#Twórz czat
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#Użytkownik może przysyłać pliki###17 Apr 2004 content changed
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
@@ -1282,6 +1286,7 @@ common#:#no_title#:#Brak tytułu
 common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
 common#:#none#:#Brak
 common#:#normal#:#Normalny
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
 common#:#number_of_records#:#Liczba rekordów
@@ -1463,6 +1468,7 @@ common#:#question_pools#:#Pule pytań
 common#:#quit#:#Wyjście
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Odbiorca
 common#:#refresh#:#Odśwież
 common#:#refresh_languages#:#Odśwież języki
@@ -2306,7 +2312,7 @@ mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
 mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
-mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej
+mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej###15 May 2004 content changed
 mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.

@@ -877,11 +877,15 @@ common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspe
 common#:#grp_back#:#Indietro
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_chat#:#Creare Chat
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#Eseguire upload di file
 common#:#grp_create_fold#:#Creare cartelle
 common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_glo#:#Creare glossario
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Creare moduli
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Cancellare il gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
@@ -1282,6 +1286,7 @@ common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Non installato
 common#:#not_logged_in#:#Non sei entrato in ILIAS3
 common#:#number_of_records#:#Numero di record
@@ -1463,6 +1468,7 @@ common#:#question_pools#:#Raccolte di domande
 common#:#quit#:#Esci
 common#:#quote#:#Virgolette
 common#:#read#:#Leggi
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Destinario
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
@@ -2306,7 +2312,7 @@ mail#:#mail_moved_to_trash#:#Le email sono state spostate nel cestino
 mail#:#mail_new_file#:#Aggiungi un nuovo file:
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere attachment
 mail#:#mail_no_attachments_found#:#Non sono stati trovati attachment
-mail#:#mail_no_permissions_write_smtp#:#Non hai i permessi per scrivere mail all&#039;esterno
+mail#:#mail_no_permissions_write_smtp#:#Non hai i permessi per scrivere mail all&#039;esterno###15 May 2004 content changed
 mail#:#mail_options_of#:#Opzioni:
 mail#:#mail_options_saved#:#Opzioni salvate
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
