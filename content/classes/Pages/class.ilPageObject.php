@@ -669,6 +669,14 @@ class ilPageObject
 		}
 	}
 
+	function delete()
+	{
+		$query = "DELETE FROM page_object ".
+			"WHERE page_id = '".$this->getId().
+			"' AND parent_type='".$this->getParentType()."'";
+		$this->ilias->db->query($query);
+	}
+
 	function create()
 	{
 		$this->setXMLContent("<PageObject></PageObject>");

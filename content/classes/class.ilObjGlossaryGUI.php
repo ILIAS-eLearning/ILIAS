@@ -243,7 +243,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-		$this->setActions(array("deleteTerm" => "delete", "addDefinition" => "cont_add_definition"));
+		$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
 		$this->setSubObjects(array("term" => array()));
 		$this->showActions(true);
 
@@ -354,6 +354,87 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//$this->tpl->setCurrentBlock("def_list");
 		//$this->tpl->parseCurrentBlock();
 
+	}
+
+
+	function confirmTermDeletion()
+	{
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// save values to
+		$_SESSION["term_delete"] = $_POST["id"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post");
+
+		// output table header
+		$cols = array("cont_term");
+		foreach ($cols as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		foreach($_POST["id"] as $id)
+		{
+			$term = new ilGlossaryTerm($id);
+
+			// output title
+			$this->tpl->setCurrentBlock("table_cell");
+			$this->tpl->setVariable("TEXT_CONTENT", $term->getTerm());
+			$this->tpl->parseCurrentBlock();
+
+			// output table row
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel and confirm button
+		$buttons = array( "cancelTermDeletion"  => $this->lng->txt("cancel"),
+			"deleteTerms"  => $this->lng->txt("confirm"));
+		foreach($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+
+	}
+
+	/**
+	* cancel deletion of object
+	*
+	* @access	public
+	*/
+	function cancelTermDeletion()
+	{
+		session_unregister("term_delete");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		header("Location: glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
+		exit();
+	}
+
+	function deleteTerms()
+	{
+		foreach($_SESSION["term_delete"] as $id)
+		{
+			$term = new ilGlossaryTerm($id);
+			$term->delete();
+		}
+		session_unregister("term_delete");
+
+		header("Location: glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
+		exit();
 	}
 
 	/**

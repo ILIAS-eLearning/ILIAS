@@ -175,6 +175,40 @@ class ilGlossaryDefinition
 		$this->page_object->create();
 	}
 
+	function delete()
+	{
+		// lock glossary_definition table
+		$q = "LOCK TABLES glossary_definition WRITE";
+		$this->ilias->db->query($q);
+
+		// be sure to get the right number
+		$q = "SELECT * FROM glossary_definition WHERE id = '".$this->id."'";
+		$def_set = $this->ilias->db->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setNr($def_rec["nr"]);
+
+		// update numbers of other definitions
+		$q = "UPDATE glossary_definition SET ".
+			" nr = nr - 1 ".
+			" WHERE term_id = '".$this->getTermId()."' ".
+			" AND nr > ".$this->getNr();
+		$this->ilias->db->query($q);
+
+		// delete current definition
+		$q = "DELETE FROM glossary_definition ".
+			" WHERE id = '".$this->getId()."' ";
+		$this->ilias->db->query($q);
+
+		// unlock glossary_definition table
+		$q = "UNLOCK TABLES";
+		$this->ilias->db->query($q);
+
+		// delete page and meta data
+		$this->page_object->delete();
+		$this->meta_data->delete();
+
+	}
+
 	function update()
 	{
 		$q = "UPDATE glossary_definition SET ".
