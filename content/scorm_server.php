@@ -30,9 +30,12 @@
 * @package content
 */
 chdir("..");
+session_id($_GET["PHPSESSID"]);
+
 require_once "./include/inc.header.php";
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
 require_once "./content/classes/SCORM/class.ilObjDebug.php";
+
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
 $debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
 

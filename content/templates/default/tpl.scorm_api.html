@@ -3,35 +3,21 @@
 <head>
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<script language="JavaScript">
+	//window.document.writeln('<applet CODE="Ilias.class" ID="APIAdapter" NAME="APIAdapter" width="100" height="100"></applet>');			
+	var code_base="{CODE_BASE}";
+	var user_id="{USER_ID}";
+	var item_id="{ITEM_ID}";
+	var session_id="{SESSION_ID}";	
+	
+</script>
 
 {SCORM_FUNCTIONS}
 
 </head>
 
 <body onLoad="parent.start();">
-<script language="JavaScript">
-	document.writeln('<applet CODE="Ilias.class" archive="sIlias.jar" ID="APIAdapter" NAME="APIAdapter" width="0" height="0">');
-	document.writeln('<param name = "code" value = "Ilias.class" >');
-	document.writeln('<param name = "type" value="application/x-java-applet">');
-	document.writeln('<param name = "mayscript" value="true" >');
-	document.writeln('<param name = "scriptable" value="true" >');
-	document.writeln('<param name = "item_id" value="{ITEM_ID}">');
-	document.writeln('<param name = "user_id" value="{USER_ID}">');
-	document.writeln('<param name = "session_id" value="{SESSION_ID}">');	
-	document.writeln('<param name = "code_base" value="{CODE_BASE}">');
-	document.writeln('<param name = "language" value="de_DE">');
-	document.writeln('</applet>');
-	
-	// this one works in ns 4.x only, some switch implementation has still to be provided
-	//document.writeln('<EMBED  Name="APIAdapter" type="application/x-java-applet;version=1.3" code="ILIAS.class" WIDTH="0" HEIGHT="0">');
-    //document.writeln('</object>');
-	//parent.init();
-	
-	
-	//setTimeout("start()",10000);
-	
-	
-</script>
+
 
 </body>
 </html>

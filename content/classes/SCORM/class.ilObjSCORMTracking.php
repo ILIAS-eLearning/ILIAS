@@ -158,6 +158,8 @@ class ilObjSCORMTracking
 			$query2="UPDATE scorm_tracking SET lesson_status='$status' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
 			
 			
+									
+			
 			if($record['entry']=='ab-initio')
 			{
 				if(!isset($query1))
@@ -184,10 +186,16 @@ class ilObjSCORMTracking
 		 {
 		 	$this->ilias->db->query($query3);
 		 }
-		 
+
+			//now insert the total_time.
+    	$query4="UPDATE scorm_tracking SET total_time =date_format(date_add( concat(  '1970-01-01 ', TIME_FORMAT( total_time,  '%H:%i:%S'  )  ) ,  INTERVAL session_time HOUR_SECOND  ), '%H:%i:%S') WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";    		    		    			    	
+		 	if(isset($query4))
+		 	{    		
+				$this->ilias->db->query($query4);
+			}
     	 
-    	 echo "true";
-    }
+    	echo "true";
+  	}
 
     /**
 	* gets value from database for the passed data
