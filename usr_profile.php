@@ -99,6 +99,13 @@ $tpl->setVariable("TXT_STUDENT",$lng->txt("student"));
 $tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
 $tpl->setVariable("TXT_SYS_GRP",$lng->txt("system_grp"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
+$tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
+
+
+//what gui's are available for ilias?
+$ilias->getSkins();
+vd($this->skins);
+
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->data["login"]);
 $tpl->setVariable("FIRSTNAME", $ilias->account->data["FirstName"]);

@@ -289,3 +289,5 @@ position	position	Position	posizione	position
 inst_name	installation name	Installationsname	nome per l´istallazione	installation name
 usr_skin	user skin	Benutzeroberfläche	user skin	user skin
 default	default	default	default	default
+tpl_path	template path	Template-Pfad	tpl_path	tpl_path
+lang_path	language path	Sprachdateien-Pfad	lang_path	lang_path
