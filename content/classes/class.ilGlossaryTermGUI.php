@@ -40,6 +40,7 @@ class ilGlossaryTermGUI
 	var $tpl;
 	var $glossary;
 	var $term;
+	var $link_xml;
 
 	/**
 	* Constructor
@@ -89,6 +90,16 @@ class ilGlossaryTermGUI
 	function setGlossary(&$a_glossary)
 	{
 		$this->glossary =& $a_glossary;
+	}
+
+	function setLinkXML($a_link_xml)
+	{
+		$this->link_xml = $a_link_xml;
+	}
+
+	function getLinkXML()
+	{
+		return $this->link_xml;
 	}
 
 	/**
@@ -184,11 +195,14 @@ class ilGlossaryTermGUI
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
 
+	/**
+	* output glossary content
+	*/
 	function output()
 	{
-
 		require_once("content/classes/class.ilGlossaryDefinition.php");
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
@@ -201,8 +215,9 @@ class ilGlossaryTermGUI
 			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
+			$page_gui->setLinkXML($this->getLinkXML());
 			$page_gui->setTemplateOutput(false);
-			$output = $page_gui->preview();
+			$output = $page_gui->presentation();
 
 			if (count($defs) > 1)
 			{
@@ -242,6 +257,31 @@ class ilGlossaryTermGUI
 		}
 	}
 
+	/**
+	* output glossary content
+	*/
+	function getInternalLinks()
+	{
+		require_once("content/classes/class.ilGlossaryDefinition.php");
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+
+		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
+
+		$term_links = array();
+		for($j=0; $j<count($defs); $j++)
+		{
+			$def = $defs[$j];
+			$page =& new ilPageObject("gdf", $def["id"]);
+			$page->buildDom();
+			$page_links = $page->getInternalLinks();
+			foreach($page_links as $key => $page_link)
+			{
+				$term_links[$key] = $page_link;
+			}
+		}
+
+		return $term_links;
+	}
 
 	/**
 	* list definitions

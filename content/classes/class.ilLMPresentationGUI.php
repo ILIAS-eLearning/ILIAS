@@ -1008,6 +1008,9 @@ class ilLMPresentationGUI
 
 	}
 
+	/**
+	* get xml for links
+	*/
 	function getLinkXML($a_int_links, $a_layoutframes)
 	{
 		if ($a_layoutframes == "")
@@ -1109,6 +1112,10 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
+
+		$int_links = $term_gui->getInternalLinks();
+		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
+		$term_gui->setLinkXML($link_xml);
 
 		$term_gui->output();
 
