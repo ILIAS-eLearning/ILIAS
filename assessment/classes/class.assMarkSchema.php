@@ -22,6 +22,7 @@
 */
 
 require_once "./assessment/classes/class.assMark.php";
+require_once "./assessment/classes/class.ilObjTest.php";
 
 /**
 * A class defining mark schemas for assessment test objects
@@ -390,7 +391,7 @@ class ASS_MarkSchema {
 
 		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, NULL, NULL)",
 			$ilDB->quote($ilUser->id . ""),
-			$ilDB->quote($test_id . ""),
+			$ilDB->quote(ilObjTest::_getObjectIDFromTestID($test_id) . ""),
 			$ilDB->quote($logtext . "")
 		);
 		$result = $ilDB->query($query);

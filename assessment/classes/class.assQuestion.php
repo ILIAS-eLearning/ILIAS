@@ -1112,6 +1112,33 @@ class ASS_Question
   }
 
 /**
+* Returns the question title of a question with a given id
+* 
+* Returns the question title of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question title
+* @access private
+*/
+  function _getQuestionTitle($question_id) {
+		global $ilDB;
+
+    if ($question_id < 1)
+      return "";
+
+    $query = sprintf("SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
+      $ilDB->quote($question_id)
+    );
+    $result = $ilDB->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_ASSOC);
+      return $data["title"];
+    } else {
+      return "";
+    }
+  }
+
+/**
 * Loads the question from the database
 *
 * Loads the question from the database

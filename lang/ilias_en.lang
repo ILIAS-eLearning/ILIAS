@@ -733,6 +733,14 @@ common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#articels_unread#:#Unread articels:
 common#:#as_of#:#as of
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
+common#:#assessment_log_datetime#:#Date/Time
+common#:#assessment_log_question#:#Question
+common#:#assessment_log_text#:#Log message
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!
+common#:#assessment_log_for_test#:#For test
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
+common#:#assessment_log_select_test#:#--- Please select a test ---
 common#:#assessment_settings#:#Test&Assessment administration settings
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment administration
@@ -1026,6 +1034,7 @@ common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
+common#:#disable#:#disable
 common#:#disabled#:#Disabled
 common#:#domain#:#Domain
 common#:#down#:#Down
@@ -1232,6 +1241,7 @@ common#:#glo_upload_file#:#File
 common#:#glo_visible#:#Glossary is visible
 common#:#glo_write#:#Edit Glossary
 common#:#global#:#Global
+common#:#global_settings#:#Global settings
 common#:#global_user#:#Global users
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
@@ -1338,6 +1348,7 @@ common#:#guest#:#Guest
 common#:#guests#:#Guests
 common#:#header_title#:#Header Title
 common#:#help#:#Help
+common#:#hide#:#hide
 common#:#hide_details#:#hide details
 common#:#hide_structure#:#Disable Structured-View
 common#:#hist_dbk:pg_create#:#Page created
@@ -2191,6 +2202,7 @@ common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show users online
 common#:#signature#:#Signature
 common#:#size#:#Size
+common#:#skin_style#:#Default Skin / Style
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question Pool Survey
@@ -2366,7 +2378,11 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
+common#:#usr_settings_header_profile#:#User profile settings
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  
+common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_skin_style#:#Skin / Style
+common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
 common#:#usrf_create_user#:#Create new user account

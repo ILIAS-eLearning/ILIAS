@@ -57,6 +57,34 @@ $settings = $ilias->getAllSettings();
 
 //$image_dir = $webspace_dir."/usr_images";
 
+// Returns TRUE if working with the given
+// user setting is allowed, FALSE otherwise
+function workWithUserSetting($setting)
+{
+	global $settings;
+	$result = TRUE;
+	if ($settings["usr_settings_hide_".$setting] == 1)
+	{
+		$result = FALSE;
+	}
+	if ($settings["usr_settings_disable_".$setting] == 1)
+	{
+		$result = FALSE;
+	}
+	return $result;
+}
+
+function userSettingVisible($setting)
+{
+	global $settings;
+	$result = TRUE;
+	if ($settings["usr_settings_hide_".$setting] == 1)
+	{
+		$result = FALSE;
+	}
+	return $result;
+}
+
 // purpose is to upload file of user
 // function added by ratana ty
 function upload_file()
@@ -269,22 +297,23 @@ include "./include/inc.personaldesktop_buttons.php";
 //$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
 
 // if data are posted check on upload button
-
 //if data are posted
 if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 {
 	$upload_error;
-
-	// upload usr_image
-	if (!empty($_POST["usr_upload"]))
+	if (workWithUserSetting("upload"))
 	{
-		upload_file();
-	}
-
-	// remove user image
-	if (!empty($_POST["removePicture"]))
-	{
-		removePicture();
+		// upload usr_image
+		if (!empty($_POST["usr_upload"]))
+		{
+			upload_file();
+		}
+	
+		// remove user image
+		if (!empty($_POST["removePicture"]))
+		{
+			removePicture();
+		}
 	}
 
 	// error content
@@ -344,6 +373,8 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
         $system_fields = array("login", "default_role", "passwd", "passwd2");
         if (!in_array($val, $system_fields))
         {
+					if (workWithUserSetting($val))
+					{
             if (isset($settings["require_" . $val]) && $settings["require_" . $val])
             {
                 if (empty($_POST["usr_" . $val]))
@@ -352,38 +383,96 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
                     $form_valid = false;
                 }
             }
+					}
         }
     }
 
-	// check email adress
-	if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
+	if (workWithUserSetting("email"))
 	{
-		sendInfo($lng->txt("email_not_valid"));
-		$form_valid = false;
+		// check email adress
+		if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
+		{
+			sendInfo($lng->txt("email_not_valid"));
+			$form_valid = false;
+		}
 	}
 
 	//update user data (not saving!)
-    $ilias->account->setFirstName(ilUtil::stripSlashes($_POST["usr_firstname"]));
-    $ilias->account->setLastName(ilUtil::stripSlashes($_POST["usr_lastname"]));
-	$ilias->account->setGender($_POST["usr_gender"]);
-	$ilias->account->setUTitle(ilUtil::stripSlashes($_POST["usr_title"]));
+	if (workWithUserSetting("firstname"))
+	{
+	  $ilias->account->setFirstName(ilUtil::stripSlashes($_POST["usr_firstname"]));
+	}
+	if (workWithUserSetting("lastname"))
+	{
+	  $ilias->account->setLastName(ilUtil::stripSlashes($_POST["usr_lastname"]));
+	}
+	if (workWithUserSetting("gender"))
+	{
+		$ilias->account->setGender($_POST["usr_gender"]);
+	}
+	if (workWithUserSetting("title"))
+	{
+		$ilias->account->setUTitle(ilUtil::stripSlashes($_POST["usr_title"]));
+	}
 	$ilias->account->setFullname();
 	// added for upload by ratana ty
 	//$ilias->account->setFile($_POST["usr_file"]);
-	$ilias->account->setInstitution(ilUtil::stripSlashes($_POST["usr_institution"]));
-	$ilias->account->setDepartment(ilUtil::stripSlashes($_POST["usr_department"]));
-	$ilias->account->setStreet(ilUtil::stripSlashes($_POST["usr_street"]));
-	$ilias->account->setZipcode(ilUtil::stripSlashes($_POST["usr_zipcode"]));
-	$ilias->account->setCity(ilUtil::stripSlashes($_POST["usr_city"]));
-	$ilias->account->setCountry(ilUtil::stripSlashes($_POST["usr_country"]));
-	$ilias->account->setPhoneOffice(ilUtil::stripSlashes($_POST["usr_phone_office"]));
-	$ilias->account->setPhoneHome(ilUtil::stripSlashes($_POST["usr_phone_home"]));
-	$ilias->account->setPhoneMobile(ilUtil::stripSlashes($_POST["usr_phone_mobile"]));
-	$ilias->account->setFax(ilUtil::stripSlashes($_POST["usr_fax"]));
-	$ilias->account->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
-	$ilias->account->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
-  $ilias->account->setComment(ilUtil::stripSlashes($_POST["usr_referral_comment"]));
-	$ilias->account->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
+	if (workWithUserSetting("institution"))
+	{
+		$ilias->account->setInstitution(ilUtil::stripSlashes($_POST["usr_institution"]));
+	}
+	if (workWithUserSetting("department"))
+	{
+		$ilias->account->setDepartment(ilUtil::stripSlashes($_POST["usr_department"]));
+	}
+	if (workWithUserSetting("street"))
+	{
+		$ilias->account->setStreet(ilUtil::stripSlashes($_POST["usr_street"]));
+	}
+	if (workWithUserSetting("zipcode"))
+	{
+		$ilias->account->setZipcode(ilUtil::stripSlashes($_POST["usr_zipcode"]));
+	}
+	if (workWithUserSetting("city"))
+	{
+		$ilias->account->setCity(ilUtil::stripSlashes($_POST["usr_city"]));
+	}
+	if (workWithUserSetting("country"))
+	{
+		$ilias->account->setCountry(ilUtil::stripSlashes($_POST["usr_country"]));
+	}
+	if (workWithUserSetting("phone_office"))
+	{
+		$ilias->account->setPhoneOffice(ilUtil::stripSlashes($_POST["usr_phone_office"]));
+	}
+	if (workWithUserSetting("phone_home"))
+	{
+		$ilias->account->setPhoneHome(ilUtil::stripSlashes($_POST["usr_phone_home"]));
+	}
+	if (workWithUserSetting("phone_mobile"))
+	{
+		$ilias->account->setPhoneMobile(ilUtil::stripSlashes($_POST["usr_phone_mobile"]));
+	}
+	if (workWithUserSetting("fax"))
+	{
+		$ilias->account->setFax(ilUtil::stripSlashes($_POST["usr_fax"]));
+	}
+	if (workWithUserSetting("email"))
+	{
+		$ilias->account->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
+	}
+	if (workWithUserSetting("hobby"))
+	{
+		$ilias->account->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
+	}
+	if (workWithUserSetting("referral_comment"))
+	{
+		$ilias->account->setComment(ilUtil::stripSlashes($_POST["usr_referral_comment"]));
+	}
+	if (workWithUserSetting("matriculation"))
+	{
+		$ilias->account->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
+	}
 
 	// everthing's ok. save form data
 	if ($form_valid)
@@ -391,27 +480,33 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 		// init reload var. page should only be reloaded if skin or style were changed
 		$reload = false;
 
-		//set user skin and style
-		if ($_POST["usr_skin_style"] != "")
+		if (workWithUserSetting("skin_style"))
 		{
-			$sknst = explode(":", $_POST["usr_skin_style"]);
-
-			if ($ilias->account->getPref("style") != $sknst[1] ||
-				$ilias->account->getPref("skin") != $sknst[0])
+			//set user skin and style
+			if ($_POST["usr_skin_style"] != "")
 			{
-				$ilias->account->setPref("skin", $sknst[0]);
-				$ilias->account->setPref("style", $sknst[1]);
-				$reload = true;
+				$sknst = explode(":", $_POST["usr_skin_style"]);
+	
+				if ($ilias->account->getPref("style") != $sknst[1] ||
+					$ilias->account->getPref("skin") != $sknst[0])
+				{
+					$ilias->account->setPref("skin", $sknst[0]);
+					$ilias->account->setPref("style", $sknst[1]);
+					$reload = true;
+				}
 			}
 		}
 
-		// set user language
-		if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
+		if (workWithUserSetting("language"))
 		{
-				$ilias->account->setPref("language",$_POST["usr_language"]);
-				$reload = true;
+			// set user language
+			if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
+			{
+					$ilias->account->setPref("language",$_POST["usr_language"]);
+					$reload = true;
+			}
 		}
-
+		
 		// set user hits per page
 		if ($_POST["usr_hits_per_page"] != "")
 		{
@@ -462,50 +557,56 @@ if ($_GET["cmd"] == "save" and empty($_POST["usr_reload"]))
 	}
 }
 
-//get all languages
-$languages = $lng->getInstalledLanguages();
-
-// preselect previous chosen language otherwise saved language
-$selected_lang = (isset($_POST["usr_language"])) ? $_POST["usr_language"] : $ilias->account->getLanguage();
-
-//go through languages
-foreach($languages as $lang_key)
+if (userSettingVisible("language"))
 {
-	$tpl->setCurrentBlock("sel_lang");
-	$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
-	$tpl->setVariable("LANGSHORT", $lang_key);
-
-	if ($selected_lang == $lang_key)
+	//get all languages
+	$languages = $lng->getInstalledLanguages();
+	
+	// preselect previous chosen language otherwise saved language
+	$selected_lang = (isset($_POST["usr_language"])) ? $_POST["usr_language"] : $ilias->account->getLanguage();
+	
+	//go through languages
+	foreach($languages as $lang_key)
 	{
-		$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+		$tpl->setCurrentBlock("sel_lang");
+		$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+		$tpl->setVariable("LANGSHORT", $lang_key);
+	
+		if ($selected_lang == $lang_key)
+		{
+			$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+		}
+	
+		$tpl->parseCurrentBlock();
 	}
-
-	$tpl->parseCurrentBlock();
 }
 
 // get all templates
 $templates = $styleDefinition->getAllTemplates();
 
-foreach($templates as $template)
+if (userSettingVisible("skin_style"))
 {
-	// get styles information of template
-	$styleDef =& new ilStyleDefinition($template["id"]);
-	$styleDef->startParsing();
-	$styles = $styleDef->getStyles();
-
-	foreach($styles as $style)
+	foreach($templates as $template)
 	{
-		$tpl->setCurrentBlock("selectskin");
-
-		if ($ilias->account->skin == $template["id"] &&
-			$ilias->account->prefs["style"] == $style["id"])
+		// get styles information of template
+		$styleDef =& new ilStyleDefinition($template["id"]);
+		$styleDef->startParsing();
+		$styles = $styleDef->getStyles();
+	
+		foreach($styles as $style)
 		{
-			$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+			$tpl->setCurrentBlock("selectskin");
+	
+			if ($ilias->account->skin == $template["id"] &&
+				$ilias->account->prefs["style"] == $style["id"])
+			{
+				$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+			}
+	
+			$tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+			$tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
+			$tpl->parseCurrentBlock();
 		}
-
-		$tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
-		$tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
-		$tpl->parseCurrentBlock();
 	}
 }
 
@@ -609,63 +710,88 @@ foreach($data["fields"] as $key => $val)
 				$str = $str . '<span class="asterisk">*</span>';
     }
 
-    $tpl->setVariable("TXT_".strtoupper($key), $str);
+		if (userSettingVisible("$key"))
+		{
+			$tpl->setVariable("TXT_".strtoupper($key), $str);
+		}
 }
 
-$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
-$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
+if (userSettingVisible("gender"))
+{
+	$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
+	$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
+}
 
 // todo
 // capture image name including path ($archive_dir/$filename)
 //$tpl->setVariable("IMAGE_PATH",$return_path);
 //$tpl->setVariable("IMAGE_PATH",'$archive_dir."/".$filename');
 
-$tpl->setVariable("TXT_TITLE",$lng->txt("person_title"));
-$tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
-
-$webspace_dir = ilUtil::getWebspaceDir("output");
-$full_img = $ilias->account->getPref("profile_image");
-$last_dot = strrpos($full_img, ".");
-$small_img = substr($full_img, 0, $last_dot).
-    "_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
-$image_file = $webspace_dir."/usr_images/".$small_img;
-
-if (@is_file($image_file))
+if (userSettingVisible("upload"))
 {
-    $tpl->setCurrentBlock("pers_image");
-    $tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
-    $tpl->parseCurrentBlock();
-    $tpl->setCurrentBlock("remove_pic");
-    $tpl->setVariable("TXT_REMOVE_PIC",$lng->txt("remove_personal_picture"));
-    $tpl->parseCurrentBlock();
-    $tpl->setCurrentBlock("content");
+	$tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
+	$webspace_dir = ilUtil::getWebspaceDir("output");
+	$full_img = $ilias->account->getPref("profile_image");
+	$last_dot = strrpos($full_img, ".");
+	$small_img = substr($full_img, 0, $last_dot).
+			"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
+	$image_file = $webspace_dir."/usr_images/".$small_img;
+	
+	if (@is_file($image_file))
+	{
+			$tpl->setCurrentBlock("pers_image");
+			$tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("remove_pic");
+			$tpl->setVariable("TXT_REMOVE_PIC",$lng->txt("remove_personal_picture"));
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("content");
+	}
+	
+	$tpl->setVariable("UPLOAD",$lng->txt("upload"));
+	$tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
+	$tpl->setVariable("USER_FILE", $lng->txt("user_file"));
 }
 
-$tpl->setVariable("UPLOAD",$lng->txt("upload"));
-$tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
-$tpl->setVariable("USER_FILE", $lng->txt("user_file"));
-
-$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
-$tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
+if (userSettingVisible("language"))
+{
+	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
+}
+if (userSettingVisible("skin_style"))
+{
+	$tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
+}
 $tpl->setVariable("TXT_USR_HITS_PER_PAGE",$lng->txt("usr_hits_per_page"));
 $tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_SYSTEM_INFO", $lng->txt("system_information"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
-$tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+if (userSettingVisible("matriculation"))
+{
+	$tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+}
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
 $tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()));
-$tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilias->account->getFirstname()));
-$tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($ilias->account->getLastname()));
-
-// gender selection
-$gender = strtoupper($ilias->account->getGender());
-
-if (!empty($gender))
+if (userSettingVisible("firstname"))
 {
-	$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+	$tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilias->account->getFirstname()));
+}
+if (userSettingVisible("lastname"))
+{
+	$tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($ilias->account->getLastname()));
+}
+
+if (userSettingVisible("gender"))
+{
+	// gender selection
+	$gender = strtoupper($ilias->account->getGender());
+	
+	if (!empty($gender))
+	{
+		$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+	}
 }
 
 $tpl->setVariable("CREATE_DATE", $ilias->account->getCreateDate());
@@ -676,21 +802,66 @@ if ($ilias->account->getActive())
     $tpl->setVariable("ACTIVE", "checked=\"checked\"");
 }
 
-$tpl->setVariable("TITLE", ilUtil::prepareFormOutput($ilias->account->getUTitle()));
-$tpl->setVariable("INSTITUTION", ilUtil::prepareFormOutput($ilias->account->getInstitution()));
-$tpl->setVariable("DEPARTMENT", ilUtil::prepareFormOutput($ilias->account->getDepartment()));
-$tpl->setVariable("STREET", ilUtil::prepareFormOutput($ilias->account->getStreet()));
-$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
-$tpl->setVariable("CITY", ilUtil::prepareFormOutput($ilias->account->getCity()));
-$tpl->setVariable("COUNTRY", ilUtil::prepareFormOutput($ilias->account->getCountry()));
-$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
-$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
-$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
-$tpl->setVariable("FAX", $ilias->account->getFax());
-$tpl->setVariable("EMAIL", $ilias->account->getEmail());
-$tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		// here
-$tpl->setVariable("REFERRAL_COMMENT", ilUtil::stripSlashes($ilias->account->getComment()));
-$tpl->setVariable("MATRICULATION", $ilias->account->getMatriculation());
+if (userSettingVisible("title"))
+{
+	$tpl->setVariable("TITLE", ilUtil::prepareFormOutput($ilias->account->getUTitle()));
+}
+if (userSettingVisible("institution"))
+{
+	$tpl->setVariable("INSTITUTION", ilUtil::prepareFormOutput($ilias->account->getInstitution()));
+}
+if (userSettingVisible("department"))
+{
+	$tpl->setVariable("DEPARTMENT", ilUtil::prepareFormOutput($ilias->account->getDepartment()));
+}
+if (userSettingVisible("street"))
+{
+	$tpl->setVariable("STREET", ilUtil::prepareFormOutput($ilias->account->getStreet()));
+}
+if (userSettingVisible("zipcode"))
+{
+	$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
+}
+if (userSettingVisible("city"))
+{
+	$tpl->setVariable("CITY", ilUtil::prepareFormOutput($ilias->account->getCity()));
+}
+if (userSettingVisible("country"))
+{
+	$tpl->setVariable("COUNTRY", ilUtil::prepareFormOutput($ilias->account->getCountry()));
+}
+if (userSettingVisible("phone_office"))
+{
+	$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
+}
+if (userSettingVisible("phone_home"))
+{
+	$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
+}
+if (userSettingVisible("phone_mobile"))
+{
+	$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
+}
+if (userSettingVisible("fax"))
+{
+	$tpl->setVariable("FAX", $ilias->account->getFax());
+}
+if (userSettingVisible("email"))
+{
+	$tpl->setVariable("EMAIL", $ilias->account->getEmail());
+}
+if (userSettingVisible("hobby"))
+{
+	$tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		// here
+}
+if (userSettingVisible("referral_comment"))
+{
+	$tpl->setVariable("REFERRAL_COMMENT", ilUtil::stripSlashes($ilias->account->getComment()));
+}
+if (userSettingVisible("matriculation"))
+{
+	$tpl->setVariable("MATRICULATION", $ilias->account->getMatriculation());
+}
 
 // get assigned global roles (default roles)
 $global_roles = $rbacreview->getGlobalRoles();
@@ -705,13 +876,17 @@ foreach($global_roles as $role_id)
 	}
 }
 
+$tpl->setVariable("TXT_DEFAULT_ROLES",$lng->txt("default_roles"));
 $tpl->setVariable("DEFAULT_ROLES",substr($role_names,0,-2));
 
 $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 // addeding by ratana ty
-$tpl->setVariable("UPLOAD", $lng->txt("upload"));
+if (userSettingVisible("upload"))
+{
+	$tpl->setVariable("UPLOAD", $lng->txt("upload"));
+}
 // end adding
 // Testing by ratana ty
 // Show check if value in table usr_pref is y
@@ -727,9 +902,12 @@ $val_array = array("institution", "department", "upload", "street",
 
 foreach($val_array as $key => $value)
 {
-	if ($ilias->account->prefs["public_".$value] == "y")
+	if (userSettingVisible("$value"))
 	{
-		$tpl->setVariable("CHK_".strtoupper($value), "checked");
+		if ($ilias->account->prefs["public_".$value] == "y")
+		{
+			$tpl->setVariable("CHK_".strtoupper($value), "checked");
+		}
 	}
 }
 // End of showing
@@ -738,6 +916,40 @@ foreach($val_array as $key => $value)
 if ($ilias->account->prefs["show_users_online"] == "y")
 {
 	$tpl->setVariable("CHK_SHOW_USERS_ONLINE", "checked");
+}
+
+$profile_fields = array(
+	"gender",
+	"firstname",
+	"lastname",
+	"title",
+	"upload",
+	"institution",
+	"department",
+	"street",
+	"city",
+	"zipcode",
+	"country",
+	"phone_office",
+	"phone_home",
+	"phone_mobile",
+	"fax",
+	"email",
+	"hobby",
+	"matriculation",
+	"referral_comment",
+	"language",
+	"skin_style"
+);
+foreach ($profile_fields as $field)
+{
+	if (!$ilias->getSetting("usr_settings_hide_" . $field))
+	{
+		if ($ilias->getSetting("usr_settings_disable_" . $field))
+		{
+			$tpl->setVariable("DISABLED_" . strtoupper($field), " disabled=\"disabled\"");
+		}
+	}
 }
 
 $tpl->parseCurrentBlock();
