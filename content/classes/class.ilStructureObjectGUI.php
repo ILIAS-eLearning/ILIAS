@@ -235,24 +235,33 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function save()
 	{
 		// create new object
+echo "1";
 		$meta_gui =& new ilMetaDataGUI();
+echo "2";
 		$meta_data =& $meta_gui->create();
+echo "3";
 		$this->obj =& new ilStructureObject();
+echo "4";
 		$this->obj->assignMetaData($meta_data);
+echo "5";
 		$this->obj->setType($_GET["new_type"]);
-		$this->obj->setLMId($_GET["lm_id"]);
+echo "6";
+		$this->obj->setLMId($this->lm_obj->getId());
+echo "7";
 		$this->obj->create();
+echo "8";
 
 		$this->putInTree();
+echo "9";
 
 		if (!empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=subchap&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			header("location: lm_edit.php?cmd=subchap&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 		else
 		{
-			header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId());
+			header("location: lm_edit.php?cmd=chapters&ref_id=".$this->lm_obj->getRefId());
 		}
 
 	}
@@ -264,7 +273,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// the last child of type pg
 		if ($_GET["target"] == IL_FIRST_NODE)
 		{
-			$tree = new ilTree($_GET["lm_id"]);
+			$tree = new ilTree($this->lm_obj->getId());
 			$tree->setTableNames('lm_tree','lm_data');
 			$tree->setTreeTablePK("lm_id");
 

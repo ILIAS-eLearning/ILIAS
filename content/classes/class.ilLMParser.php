@@ -79,8 +79,9 @@ class ilLMParser extends ilSaxParser
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM lm_page_object WHERE lm_id ='".$a_lm_id."'";
 		$this->ilias->db->query($query);
+		/*
 		$query = "DELETE FROM meta_data";
-		$this->ilias->db->query($query);
+		$this->ilias->db->query($query);*/
 
 		$this->lm_tree = new ilTree($a_lm_id);
 		$this->lm_tree->setTreeTablePK("lm_id");
@@ -245,48 +246,6 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 			case "PageAlias":
 				$this->page_object->setAlias(true);
 				$this->page_object->setOriginID($a_attribs["OriginId"]);
-				break;
-
-			case "Paragraph":
-				/*
-echo "start paragraph<br>";
-				$cur_container =& $this->container[count($this->container) - 1];
-				if (is_object($cur_container))
-				{
-echo "in container!<br>";
-					$this->paragraph =& new ilParagraph();
-					$this->paragraph->setLanguage($a_attribs["Language"]);
-					$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
-					$cur_container->appendContent($this->paragraph);
-				}*/
-				break;
-
-			case "Table":	// todo: allow nesting in tables and lists here
-				/*
-				$cur_container =& $this->container[count($this->container) - 1];
-				if (is_object($cur_container))
-				{
-					$this->table =& new ilLMTable();
-					// todo: attribute handling here
-					$cur_container->appendContent($this->table);
-				}
-				$this->container[] =& $this->table;*/
-				break;
-
-			case "TableRow":
-				/*
-				if  (is_object($this->table))
-				{
-					$this->table->newRow();
-				}*/
-				break;
-
-			case "TableData":
-				/*
-				if  (is_object($this->table))
-				{
-					$this->table->newCol();
-				}*/
 				break;
 
 			case "MetaData":

@@ -139,7 +139,6 @@
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<action name="import">import</action>
 	<action name="confirmDeletion">delete</action>
 </object>
 <object name="lng" class_name="Language" checkbox="1">
