@@ -62,7 +62,7 @@ class ilObjFile extends ilObject
 	function create()
 	{
 		parent::create();
-		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".addslashes($this->getFileName())."','".$this->getFileType()."')";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."')";
 		$this->ilias->db->query($q);
 	}
 
