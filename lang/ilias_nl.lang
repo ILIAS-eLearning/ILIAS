@@ -365,6 +365,7 @@ assessment#:#tst_status_progress#:#werkend###30 Apr 2004 content changed
 assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test-type
 assessment#:#tst_types#:#Test types
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
 assessment#:#tst_your_mark_is#:#Uw cijfer is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Besturen leerlings navigatie-test
@@ -2305,6 +2306,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link gebieden
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#matches###16 Aug 2004 new variable
+content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Bron
 content#:#cont_mep_structure#:#Media Pool Structuur
@@ -2354,6 +2356,8 @@ content#:#cont_purpose#:#Doel
 content#:#cont_ref_helptext#:#(bijv. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Referentie
 content#:#cont_remove_fullscreen#:#Verwijder Fullscreen###14 Sep 2004 content changed
+content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
+content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
 content#:#cont_resource#:#Middelen
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Bronnen

@@ -265,7 +265,6 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
-assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
@@ -366,6 +365,7 @@ assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
@@ -2306,8 +2306,6 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#matches
-content#:#cont_reset_pictures#:#Reset picture positions
-content#:#cont_reset_definitions#:#Reset definition positions
 content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
@@ -2358,6 +2356,8 @@ content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
 content#:#cont_remove_fullscreen#:#Remove Full Screen
+content#:#cont_reset_definitions#:#Reset definition positions
+content#:#cont_reset_pictures#:#Reset picture positions
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
