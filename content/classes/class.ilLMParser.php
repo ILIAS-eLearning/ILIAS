@@ -76,18 +76,6 @@ class ilLMParser extends ilSaxParser
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
 
-		// Todo: The following has to go to other places
-		/*
-		$query = "DELETE FROM lm_tree WHERE lm_id ='".$a_lm_id."'";
-		$this->ilias->db->query($query);
-		$query = "DELETE FROM lm_data WHERE lm_id ='".$a_lm_id."'";
-		$this->ilias->db->query($query);
-		$query = "DELETE FROM lm_page_object WHERE lm_id ='".$a_lm_id."'";
-		$this->ilias->db->query($query);*/
-		/*
-		$query = "DELETE FROM meta_data";
-		$this->ilias->db->query($query);*/
-
 		$this->lm_tree = new ilTree($this->lm_object->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
@@ -113,6 +101,9 @@ class ilLMParser extends ilSaxParser
 		$this->storeTree();
 	}
 
+	/**
+	* insert StructureObjects and PageObjects into tree
+	*/
 	function storeTree()
 	{
 		foreach($this->st_into_tree as $st)
@@ -304,24 +295,16 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "PageObject":
+
 				$this->in_page_object = false;
 				if (!$this->page_object->isAlias())
 				{
 //echo "PageObject ".$this->page_object->getImportId().":<br>";
-					/*
-					$content = $this->page_object->getContent();
-					foreach($content as $co_object)
-					{
-						if (get_class($co_object) == "ilparagraph")
-						{
-							echo nl2br($co_object->getText())."<br><br>";
-						}
-					}*/
 					$this->page_object->createFromXML();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
-
 				}
+
 				// if we are within a structure object: put page in tree
 				$cnt = count($this->structure_objects);
 				if ($cnt > 0)
@@ -388,16 +371,24 @@ class ilLMParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+		// i don't know why this is necessary, but
+		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
+		// in character data, but we don't want that, because it's the
+		// way we mask user html in our content, so we convert back...
+		$a_data = str_replace("<","&lt;",$a_data);
+		$a_data = str_replace(">","&gt;",$a_data);
+
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
 		if(!empty($a_data))
 		{
+			// append all data to page, if we are within PageObject,
+			// but not within MetaData
 			if($this->in_page_object && !$this->in_meta_data)
 			{
 				$this->page_object->appendXMLContent($a_data);
 			}
-
 
 			switch($this->getCurrentElement())
 			{
