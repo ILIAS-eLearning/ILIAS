@@ -43,6 +43,7 @@ $frm->setForumRefId($forumObj->getRefId());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+$tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 // catch stored message
 sendInfo();
 // display infopanel if something happened
@@ -115,23 +116,33 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
 	
-	// TREEVIEW <-> FLATVIEW
+	// set tabs
+	// display different buttons depending on viewmode
 	if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 	{
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK","forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("BTN_TXT", $lng->txt("treeview"));
-		$tpl->parseCurrentBlock();
+		$ftabtype = "tabactive";
+		$ttabtype = "tabinactive";
 	}
 	else
 	{
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK","forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-		$tpl->setVariable("BTN_TARGET","target=\"_parent\"");
-		$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
-		$tpl->parseCurrentBlock();
+		$ftabtype = "tabinactive";
+		$ttabtype = "tabactive";
 	}
-	
+
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVariable("TAB_TYPE", $ttabtype);
+	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("treeview"));
+	$tpl->setVariable("TAB_TARGET", "bottom");
+	$tpl->parseCurrentBlock();
+
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVariable("TAB_TYPE", $ftabtype);
+	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
+	$tpl->setVariable("TAB_TARGET", "bottom");
+	$tpl->parseCurrentBlock();
+		
 	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
