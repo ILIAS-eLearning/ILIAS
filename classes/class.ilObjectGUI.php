@@ -191,6 +191,7 @@ class ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
 		$title = $this->object->getTitle();
 
 		// catch feedback message
@@ -203,6 +204,7 @@ class ilObjectGUI
 
 		$this->setAdminTabs($_POST["new_type"]);
 		$this->setLocator();
+
 	}
 
 	/**
@@ -379,7 +381,8 @@ class ilObjectGUI
 	* @param	scriptanme that is used for linking; if not set adm_object.php is used
 	* @access	public
 	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
+	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php",
+		$a_child_param = "ref_id", $a_output_obj = true)
 	{
 		global $ilias_locator;
 
@@ -413,7 +416,7 @@ class ilObjectGUI
 		// this is a stupid workaround for a bug in PEAR:IT
 		$modifier = 1;
 
-		if (isset($_GET["obj_id"]))
+		if (isset($_GET["obj_id"]) && $a_output_obj)
 		{
 			$modifier = 0;
 		}
@@ -431,27 +434,31 @@ class ilObjectGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
 
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM",
+				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]));
 			$this->tpl->parseCurrentBlock();
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
-			$ilias_locator->navigate($i++,$row["title"],$scriptname."?ref_id=".$row["child"],"bottom");
+			$ilias_locator->navigate($i++,$row["title"],
+				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]),"bottom");
 		}
 
-		if (isset($_GET["obj_id"]))
+		if (isset($_GET["obj_id"]) && $a_output_obj)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
 
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ITEM",
+				ilUtil::appendUrlParameterString($scriptname, "ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]));
 			$this->tpl->parseCurrentBlock();
 
 			// ### AA 03.11.10 added new locator GUI class ###
 			// navigate locator
-			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
+			$ilias_locator->navigate($i++,$obj_data->getTitle(),
+				ilUtil::appendUrlParameterString($scriptname, "ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]),"bottom");
 		}
 
 		$this->tpl->setCurrentBlock("locator");
@@ -1205,7 +1212,7 @@ class ilObjectGUI
 	function cancelDeleteObject()
 	{
 		session_unregister("saved_post");
-		
+
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		
 		ilUtil::redirect($this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
@@ -1446,17 +1453,17 @@ class ilObjectGUI
 		else
 		{
 			$fields = array();
-			
+
 			if ($_SESSION["error_post_vars"])
 			{
 				// fill in saved values in case of error
 				$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-				$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);			
+				$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 			}
 			else
 			{
 				$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-				$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());			
+				$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
 			}
 
 			$this->displayEditForm($fields);
@@ -1481,7 +1488,7 @@ class ilObjectGUI
 		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		
+
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
