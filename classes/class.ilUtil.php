@@ -861,6 +861,16 @@ class ilUtil
 	}
 
 	/**
+	* get data directory (outside webspace)
+	*/
+	function getDataDir()
+	{
+		global $ilias;
+
+		return $ilias->ini->readVariable("server", "data_dir");
+	}
+
+	/**
 	* reads all active sessions from db and returns users that are online
 	* OR returns only one active user if a user_id is given
 	*
