@@ -253,7 +253,7 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get group Members
+	* get all group Members regardless of role
 	* @access	public
 	* @param	integer	group id
 	* @param	return array of users (obj_ids) that are assigned to the groupspecific roles (grp_member,grp_admin)

@@ -2425,6 +2425,7 @@ crs#:#crs_move_down#:#Move down
 crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_new_search#:#New search
+common#:#grp_new_search#:#New search
 crs#:#crs_new_subscription#:#New course subscription
 crs#:#crs_new_subscription_body#:#A new user has been subscribed
 crs#:#crs_no_archive_selected#:#No archives selected
@@ -2447,6 +2448,7 @@ crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
+common#:#grp_options#:#Options
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_pdf#:#PDF

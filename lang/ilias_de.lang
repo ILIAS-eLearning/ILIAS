@@ -2418,6 +2418,7 @@ crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
+common#:#grp_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
 crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
@@ -2438,7 +2439,8 @@ crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_offline#:#Offline
-crs#:#crs_options#:#Aktionen
+crs#:#crs_options#:#Optionen
+common#:#grp_options#:#Optionen
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
