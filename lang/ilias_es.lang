@@ -744,7 +744,10 @@ content#:#cont_change_type#:#Change Type###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Chapters and Pages###04 Aug 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
+content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
+content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
+content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
@@ -1318,3 +1321,20 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+search#:#search_all_results#:#All results###10 Sep 2003 new variable
+search#:#search_concatenation#:#Concatenation###10 Sep 2003 new variable
+search#:#search_content#:#Page Content###10 Sep 2003 new variable
+search#:#search_dbk_content#:#Digital Library (content)###10 Sep 2003 new variable
+search#:#search_dbk_meta#:#Digital Library (meta data)###10 Sep 2003 new variable
+search#:#search_in_result#:#Search within results###10 Sep 2003 new variable
+search#:#search_lm_content#:#Learning materials (content)###10 Sep 2003 new variable
+search#:#search_lm_meta#:#Learning materials (meta data)###10 Sep 2003 new variable
+search#:#search_meta#:#Meta data###10 Sep 2003 new variable
+search#:#search_minimum_three#:#Your search has to be at least three characters long###10 Sep 2003 new variable
+search#:#search_no_category#:#You haven't selected any search category###10 Sep 2003 new variable
+search#:#search_no_match#:#Your search didn't match any results###10 Sep 2003 new variable
+search#:#search_no_search_term#:#You haven't selected any search term###10 Sep 2003 new variable
+search#:#search_search_for#:#Search for###10 Sep 2003 new variable
+search#:#search_search_term#:#Search term###10 Sep 2003 new variable
+search#:#search_show_result#:#Show###10 Sep 2003 new variable
+search#:#search_user#:#Users###10 Sep 2003 new variable

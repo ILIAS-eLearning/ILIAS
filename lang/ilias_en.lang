@@ -722,9 +722,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
-content#:#cont_choose_cont_obj#:#Choose Content Object
-content#:#cont_choose_glossary#:#Choose Glossary
-content#:#cont_content_obj#:#Content Object
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -750,7 +747,10 @@ content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
+content#:#cont_choose_cont_obj#:#Choose Content Object
+content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_content#:#Content
+content#:#cont_content_obj#:#Content Object
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_organization#:#default
@@ -1325,20 +1325,20 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
-search#:#search_no_match#:#Your search didn't match any results
-search#:#search_user#:#Users
-search#:#search_dbk_meta#:#Digital Library (meta data)
-search#:#search_dbk_content#:#Digital Library (content)
-search#:#search_lm_meta#:#Learning materials (meta data)
-search#:#search_lm_content#:#Learning materials (content)
 search#:#search_all_results#:#All results
-search#:#search_show_result#:#Show
-search#:#search_search_term#:#Search term
 search#:#search_concatenation#:#Concatenation
-search#:#search_search_for#:#Search for
-search#:#search_in_result#:#Search within results
-search#:#search_no_search_term#:#You haven't selected any search term
-search#:#search_no_category#:#You haven't selected any search category
-search#:#search_minimum_three#:#Your search has to be at least three characters long
-search#:#search_meta#:#Meta data
 search#:#search_content#:#Page Content
+search#:#search_dbk_content#:#Digital Library (content)
+search#:#search_dbk_meta#:#Digital Library (meta data)
+search#:#search_in_result#:#Search within results
+search#:#search_lm_content#:#Learning materials (content)
+search#:#search_lm_meta#:#Learning materials (meta data)
+search#:#search_meta#:#Meta data
+search#:#search_minimum_three#:#Your search has to be at least three characters long
+search#:#search_no_category#:#You haven't selected any search category
+search#:#search_no_match#:#Your search didn't match any results
+search#:#search_no_search_term#:#You haven't selected any search term
+search#:#search_search_for#:#Search for
+search#:#search_search_term#:#Search term
+search#:#search_show_result#:#Show
+search#:#search_user#:#Users
