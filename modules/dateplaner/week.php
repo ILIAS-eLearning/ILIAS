@@ -1,4 +1,4 @@
-<?
+<?php
 // CSCW HEader includieren
 require			('./includes/inc.cscw.header.php');
 require_once	('./includes/inc.week.php');

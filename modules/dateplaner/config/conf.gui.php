@@ -1,4 +1,4 @@
-<?
+<?php
 //	if(!$actualIliasDir) {
 //		require_once	('./classes/class.interface.php');
 //		$interface = new Interface(nb);

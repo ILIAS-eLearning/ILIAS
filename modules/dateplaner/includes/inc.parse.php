@@ -1,4 +1,4 @@
-<?
+<?php
 function getCSV($file){
 	$handle = fopen ($file,"r"); 
 	while ($data = fgetcsv ($handle, 1000, ",")) { // Daten werden aus der Datei

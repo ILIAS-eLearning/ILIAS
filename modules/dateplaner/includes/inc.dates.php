@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * 	void function setDateView ($DateValues, $flag )
 * 	

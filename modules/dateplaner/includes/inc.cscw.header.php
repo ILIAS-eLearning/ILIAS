@@ -1,4 +1,4 @@
-<? 
+<?php 
 /**
 * Include file cscw.header
 *

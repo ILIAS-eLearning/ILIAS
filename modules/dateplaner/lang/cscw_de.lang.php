@@ -1,4 +1,4 @@
-<?
+<?php
 /* --------------------------------------- Language file german --------------------------------------*/
 
 $CSCW_language[Language_file]				= "german";
