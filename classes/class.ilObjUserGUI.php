@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.33 2003/07/09 18:36:58 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.34 2003/07/16 07:05:24 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -59,7 +59,6 @@ class ilObjUserGUI extends ilObjectGUI
 							  'f'    => "salutation_f"
 							  );
 	}
-
 
 	/**
 	* display public profile
@@ -323,17 +322,6 @@ class ilObjUserGUI extends ilObjectGUI
 			// gender selection
 			$gender = ilUtil::formSelect($this->object->gender,"Fobject[gender]",$this->gender);
 
-			// role selection
-			$obj_list = getObjectList("role");
-
-			foreach ($obj_list as $obj_data)
-			{
-				$rol[$obj_data["obj_id"]] = $obj_data["title"];
-			}
-
-			$def_role = $rbacadmin->getDefaultRole($this->object->getId());
-			$role = ilUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
-
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["login"] = $this->object->getLogin();
@@ -351,32 +339,35 @@ class ilObjUserGUI extends ilObjectGUI
 			$data["fields"]["phone"] = $this->object->getPhone();
 			$data["fields"]["email"] = $this->object->getEmail();
 			$data["fields"]["hobby"] = $this->object->getHobby();
-			$data["fields"]["default_role"] = $role;
 
-			$data["active_role"]["access"] = true;
-
-			// BEGIN ACTIVE ROLE
+			// gather data for active roles
 			$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
 			foreach ($assigned_roles as $key => $role)
 			{
-				// BEGIN TABLE_ROLES
-				include_once "classes/class.ilObjRole.php";
-				$roleObj = new ilObjRole($role);
+				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role);
 
-				if ($this->object->getId() == $_SESSION["AccountId"])
-				{
-					$data["active_role"]["access"] = true;
-					$box = ilUtil::formCheckBox(in_array($role, $_SESSION["RoleId"]),'active[]',$role);
-				}
-				else
-				{
-					$data["active_role"]["access"] = false;
-					$box = "";
-				}
+				// fetch context path of role
+				$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
+			
+				$path = "";		
+					
+				$tmpPath = $this->tree->getPathFull($rolf[0]);		
 
-				$data["active_role"][$role]["checkbox"] = $box;
+				// count -1, to exclude the role folder itself
+				for ($i = 0; $i < (count($tmpPath)-1); $i++)
+				{
+					if ($path != "")
+					{
+						$path .= " > ";
+					}
+
+					$path .= $tmpPath[$i]["title"];						
+				}					
+
 				$data["active_role"][$role]["title"] = $roleObj->getTitle();
+				$data["active_role"][$role]["context"] = $path;
+								
 				unset($roleObj);
 			}
 		}
@@ -410,32 +401,29 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
 
-		// BEGIN ACTIVE ROLES
-		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
-
 		// BEGIN TABLE ROLES
 		$this->tpl->setCurrentBlock("TABLE_ROLES");
-
+		
 		$counter = 0;
 
 		foreach ($data["active_role"] as $role_id => $role)
 		{
-		   ++$counter;
-		   $this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
-		   $this->tpl->setVariable("CHECK_ROLE",$role["checkbox"]);
-		   $this->tpl->setVariable("ROLENAME",$role["title"]);
-		   $this->tpl->parseCurrentBlock();
+			++$counter;
+			$this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
+			$this->tpl->setVariable("ROLECONTEXT",$role["context"]);
+			$this->tpl->setVariable("ROLENAME",$role["title"]);
+			$this->tpl->parseCurrentBlock();
 		}
 		// END TABLE ROLES
-		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=activeRoleSave&ref_id=".
+
+		// BEGIN ACTIVE ROLES
+		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
+		$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION","adm_object.php?cmd=roleassignment&ref_id=".
 								$_GET["ref_id"]."&obj_id=$_GET[obj_id]");
+		$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
+		$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_assignment"));
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
-
-		if ($data["active_role"]["access"] == true)
-		{
-		   $this->tpl->touchBlock("TABLE_SUBMIT");
-	    }
 	}
 
 	/**
@@ -606,7 +594,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->update = $this->object->update();
-		$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
+		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
 		// sent email
 		if ($_POST["send_mail"] == "y")
@@ -673,5 +661,247 @@ class ilObjUserGUI extends ilObjectGUI
 		exit;
 	}
 
+	/**
+	* assign users to role
+	*
+	* @access	public
+	*/
+	function assignSaveObject()
+	{
+		global $rbacsystem, $rbacadmin, $rbacreview;
+
+		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
+			
+			$assigned_roles = array_intersect($rbacreview->assignedRoles($this->object->getId()),$_SESSION["role_list"]);
+				
+			foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
+			{
+				$rbacadmin->deassignUser($role,$this->object->getId());
+			}
+
+			foreach (array_diff($_POST["id"],$assigned_roles) as $role)
+			{
+				$rbacadmin->assignUser($role,$this->object->getId(),false);
+			}
+				
+			if ($_SESSION["AccountId"] == $this->object->getId())
+			{
+				$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$this->object->getId()."'";
+				$r = $this->ilias->db->query($q);
+
+				while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$role_arr[] = $row->rol_id;
+				}
+				
+				$_SESSION["RoleId"] = $role_arr;
+			}
+		}
+		
+		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
+		
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		exit();
+	}
+
+	/**
+	* display roleassignment panel
+	* 
+	* @access	public
+	*/
+	function roleassignmentObject ()
+	{
+		global $rbacreview;
+		
+		$obj_str = "&obj_id=".$this->obj_id;
+				
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+
+		$this->data["cols"] = array("", "type", "role", "desc", "context");
+
+		// get all assignable roles
+		$all_roles = getObjectList("role");
+		
+		foreach ($all_roles as $key => $val)
+		{
+			// fetch context path of role
+			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
+			
+			$path = "";		
+					
+			$tmpPath = $this->tree->getPathFull($rolf[0]);		
+
+			// count -1, to exclude the role folder itself
+			for ($i = 1; $i < (count($tmpPath)-1); $i++)
+			{
+				if ($path != "")
+				{
+					$path .= " > ";
+				}
+
+				$path .= $tmpPath[$i]["title"];						
+			}	
+
+			//visible data part
+			$this->data["data"][] = array(
+						"type"			=> $val["type"],
+						"role"			=> $val["title"],
+						"desc"			=> $val["desc"],
+						//"last_change"	=> $val["last_update"],
+						"context"		=> $path,
+						"obj_id"		=> $val["obj_id"]
+					);
+		} //foreach role
+
+		$this->maxcount = count($this->data["data"]);
+
+		// TODO: correct this in objectGUI
+		if ($_GET["sort_by"] == "title")
+		{
+			$_GET["sort_by"] = "role";
+		}		
+		
+		// sorting array
+		include_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$checked = in_array($this->data["data"][$key]["obj_id"],$assigned_roles);
+
+			$this->data["ctrl"][$key] = array(
+											"ref_id"	=> $this->id,
+											"obj_id"	=> $val["obj_id"],
+											"type"		=> $val["type"],
+											"assigned"	=> $checked
+											);
+			$tmp[] = $val["obj_id"];
+
+			unset($this->data["data"][$key]["obj_id"]);
+
+			//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+		}
+
+		// remember filtered users
+		$_SESSION["role_list"] = $tmp;		
+	
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+
+		include_once "./classes/class.ilTableGUI.php";
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+		
+		$tbl->setHeaderNames($header_names);
+		
+		$header_params = array(
+								"ref_id"	=> $this->ref_id,
+								"obj_id"	=> $this->obj_id,
+								"cmd"		=> "roleassignment"
+							  );
+
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		//$tbl->setColumnWidth(array("4","","15%","30%","24%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
+
+		// display action button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignSave");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
+		$this->tpl->parseCurrentBlock();
+
+		// display arrow
+		$this->tpl->touchBlock("tbl_action_row");
+	
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// render table
+		$tbl->render();
+
+		if (is_array($this->data["data"][0]))
+		{
+			//table cell
+			for ($i=0; $i < count($this->data["data"]); $i++)
+			{
+				$data = $this->data["data"][$i];
+				$ctrl = $this->data["ctrl"][$i];
+
+				//var_dump("<pre>",$ctrl,"</pre>");
+				// color changing
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+
+				($ctrl["assigned"]) ? $checked = "checked=\"checked\"" : $checked = "";
+				
+				$this->tpl->setCurrentBlock("checkbox");
+				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+				$this->tpl->setVariable("CHECKED", $checked);
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+	
+
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+				$this->tpl->parseCurrentBlock();
+
+				foreach ($data as $key => $val)
+				{
+					$this->tpl->setCurrentBlock("text");
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+					}
+
+					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+				} //foreach
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+
+		} //if is_array
+	}
 } // END class.ilObjUserGUI
 ?>

@@ -218,6 +218,7 @@
 	<subobj name="favf" max="1">favf</subobj>
 	<subobj name="datf" max="1">datf</subobj>
 	<property name="edit">edit_properties</property>
+	<property name="roleassignment">role_assignment</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="usrf" class_name="UserFolder" checkbox="0" inherit="0">

@@ -33,16 +33,22 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
 common#:#who_is_online#:#Who is online?
+common#:#msg_no_search_string#:#Please enter your query
+common#:#msg_no_search_result#:#No entries found
+common#:#with#:#with
+common#:#search_result#:#Search result
 common#:#users_online#:#Users online
 common#:#login_time#:#Current online time
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#user_assignment#:#User Assignment
+common#:#role_assignment#:#Role Assignment
 common#:#err_session_expired#:#Your session is expired!
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add
 common#:#search_user#:#Search User
+common#:#search_new#:#New Search
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -342,6 +348,7 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
 common#:#min_one_active_role#:#Each user must have at least one active role!
+common#:#active_roles#:#Active Roles
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
@@ -395,7 +402,8 @@ common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
-common#:#msg_userassignment_changed#:#Userassigment changed.
+common#:#msg_userassignment_changed#:#Userassigment changed
+common#:#msg_roleassignment_changed#:#Roleassigment changed
 common#:#change_assignment#:#change assignment
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name

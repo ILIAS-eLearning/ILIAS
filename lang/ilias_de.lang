@@ -32,15 +32,22 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
+common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
+common#:#msg_no_search_result#:#Keine Eintr&auml;ge gefunden
+common#:#with#:#mit
 common#:#who_is_online#:#Wer ist Online?
+common#:#search_result#:#Suchergebnis
 common#:#users_online#:#Aktive Benutzer
 common#:#login_time#:#Onlinezeit
 common#:#user_assignment#:#Benutzerzuweisung
+common#:#role_assignment#:#Rollenzuweisung
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
 common#:#search_user#:#Benutzer suchen
+common#:#search_new#:#Neue Suche
+common#:#active_roles#:#Aktive Rollen
 common#:#change_assignment#:#Zuweisung &auml;ndern
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#add#:#hinzuf&uuml;gen
@@ -343,7 +350,7 @@ common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Roll
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
-common#:#msg_cancel_delete#:#Aktion abgebrochen.
+common#:#msg_cancel_delete#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die &Auml;nderungen wurden &uuml;bernommen.
 common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
 common#:#msg_cloned#:#Objekt(e) kopiert.
@@ -393,7 +400,8 @@ common#:#msg_trash_empty#:#In diesem Ordner existieren keine gel&ouml;schten Obj
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:###10 Jul 2003 content changed
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
-common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert.
+common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert
+common#:#msg_roleassignment_changed#:#Rollenzuweisung ge&auml;ndert
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
