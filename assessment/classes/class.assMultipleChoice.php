@@ -22,6 +22,7 @@
 */
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerBinaryState.php";
+require_once "./assessment/classes/class.ilQTIUtils.php";
 
 define("RESPONSE_SINGLE", "0");
 define("RESPONSE_MULTIPLE", "1");
@@ -135,6 +136,99 @@ class ASS_MultipleChoice extends ASS_Question
 	}
 
 	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		$root = $this->domxml->document_element();
+		$item = $root->first_child();
+		$this->setTitle($item->get_attribute("title"));
+		$this->gaps = array();
+		$comment = $item->first_child();
+		if (strcmp($comment->node_name(), "qticomment") == 0)
+		{
+			$this->setComment($comment->get_content());
+		}
+		$itemnodes = $item->child_nodes();
+		foreach ($itemnodes as $index => $node)
+		{
+			switch ($node->node_name())
+			{
+				case "presentation":
+					$flow = $node->first_child();
+					$flownodes = $flow->child_nodes();
+					foreach ($flownodes as $idx => $flownode)
+					{
+						if (strcmp($flownode->node_name(), "material") == 0)
+						{
+							$mattext = $flownode->first_child();
+							$this->set_question($mattext->get_content());
+						}
+						elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+						{
+							$ident = $flownode->get_attribute("ident");
+							if (strcmp($ident, "MCSR") == 0)
+							{
+								$this->set_response(RESPONSE_SINGLE);
+							}
+							else
+							{
+								$this->set_response(RESPONSE_MULTIPLE);
+							}
+							$shuffle = "";
+							$render_choice = $flownode->first_child();
+							if (strcmp($render_choice->node_name(), "render_choice") == 0)
+							{
+								// select gap
+								$shuffle = $render_choice->get_attribute("shuffle");
+								$labels = $render_choice->child_nodes();
+								foreach ($labels as $lidx => $response_label)
+								{
+									$material = $response_label->first_child();
+									$mattext = $material->first_child();
+									$shuf = 0;
+									if (strcmp(strtolower($shuffle), "yes") == 0)
+									{
+										$shuf = 1;
+									}
+									$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
+								}
+							}
+						}
+					}
+					break;
+				case "resprocessing":
+					$resproc_nodes = $node->child_nodes();
+					foreach ($resproc_nodes as $index => $respcondition)
+					{
+						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						{
+							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+							$found_answer = 0;
+							$this->answers[$respcondition_array["conditionvar"]["value"]]->set_points($respcondition_array["setvar"]["points"]);
+							if ($respcondition_array["conditionvar"]["selected"])
+							{
+								$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
+							}
+						}
+					}
+					break;
+			}
+		}
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -240,12 +334,13 @@ class ASS_MultipleChoice extends ASS_Question
 		foreach ($this->answers as $index => $answer)
 		{
 			$qtiRespcondition = $this->domxml->create_element("respcondition");
-			if ($this->response == RESPONSE_MULTIPLE)
-			{
-				$qtiRespcondition->set_attribute("continue", "Yes");
-			}
+			$qtiRespcondition->set_attribute("continue", "Yes");
 			// qti conditionvar
 			$qtiConditionvar = $this->domxml->create_element("conditionvar");
+			if (!$answer->isStateSet())
+			{
+				$qtinot = $this->domxml->create_element("not");
+			}
 			$qtiVarequal = $this->domxml->create_element("varequal");
 			if ($this->response == RESPONSE_SINGLE)
 			{
@@ -257,10 +352,18 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 			$qtiVarequalText = $this->domxml->create_text_node($index);
 			$qtiVarequal->append_child($qtiVarequalText);
-			$qtiConditionvar->append_child($qtiVarequal);
+			if (!$answer->isStateSet())
+			{
+				$qtiConditionvar->append_child($qtinot);
+				$qtinot->append_child($qtiVarequal);
+			}
+			else
+			{
+				$qtiConditionvar->append_child($qtiVarequal);
+			}
 			// qti setvar
 			$qtiSetvar = $this->domxml->create_element("setvar");
-			$qtiSetvar->set_attribute("action", "Set");
+			$qtiSetvar->set_attribute("action", "Add");
 			$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
 			$qtiSetvar->append_child($qtiSetvarText);
 			// qti displayfeedback

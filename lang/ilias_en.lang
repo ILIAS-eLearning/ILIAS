@@ -140,6 +140,7 @@ assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
 assessment#:#false#:#False
+assessment#:#import_question#:#Import question(s)
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
