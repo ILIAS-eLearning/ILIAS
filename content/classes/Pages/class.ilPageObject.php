@@ -1498,9 +1498,9 @@ class ilPageObject
 
 			//if ($subchar == "html")
 			//{
-			$content = str_replace("&amp;lt;", "&lt;", $content);
-			$content = str_replace("&amp;gt;", "&gt;", $content);
-			$content = str_replace("&", "&amp;amp;", $content);
+			//$content = str_replace("&amp;lt;", "&lt;", $content);
+			//$content = str_replace("&amp;gt;", "&gt;", $content);
+			//$content = str_replace("&", "&amp;amp;", $content);
 			//}
 
 			while ($context_node->has_child_nodes ())
@@ -1517,6 +1517,10 @@ class ilPageObject
 			$plain_content = preg_replace ("/\&#x([1-9a-f]{2});?/ise","chr (base_convert (\\1, 16, 10))",$plain_content);
 			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);
 			$content = $this->highlightText($plain_content, $subchar, $autoindent);
+
+			$content = str_replace("&amp;lt;", "&lt;", $content);
+			$content = str_replace("&amp;gt;", "&gt;", $content);
+			$content = str_replace("&", "&amp;", $content);
 
 			//$rows  	 = htmlentities ("<TR valign=\"top\">");
 			$rows  	 = "<TR valign=\"top\">";
