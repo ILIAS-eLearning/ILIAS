@@ -859,12 +859,13 @@ class ilPageObject
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
 
+	/*
 	function &copy()
 	{
 		$page_object =& new ilPageObject($this->getParentType());
 		$page_object->setParentId($this->getParentId());
 		$page_object->setXMLXContent($this->getXMLContent());
-	}
+	}*/
 
 
 	/**
@@ -916,6 +917,7 @@ class ilPageObject
 
 			$this->ilias->db->query($query);
 			$this->saveMobUsage($this->getXMLFromDom());
+			$this->saveFileUsage();
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
@@ -942,6 +944,10 @@ class ilPageObject
 
 		// delete internal links
 		$this->saveInternalLinks("<dummy></dummy>");
+
+		// delete all file usages
+		include_once("classes/class.ilObjFile.php");
+		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 
 		// delete page_object entry
 		$query = "DELETE FROM page_object ".
@@ -1024,6 +1030,20 @@ class ilPageObject
 		foreach($usages as $mob_id => $val)
 		{
 			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
+		}
+	}
+
+	/**
+	* save file usages
+	*/
+	function saveFileUsage()
+	{
+		$file_ids = $this->collectFileItems();
+		include_once("classes/class.ilObjFile.php");
+		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
+		foreach($file_ids as $file_id)
+		{
+			ilObjFile::_saveUsage($file_id, $this->getParentType().":pg", $this->getId());
 		}
 	}
 

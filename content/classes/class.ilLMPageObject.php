@@ -139,7 +139,8 @@ class ilLMPageObject extends ilLMObject
 
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
-		$page->updateFromXML();
+		$page->buildDom();
+		$page->update();
 
 		return $lm_page;
 	}
