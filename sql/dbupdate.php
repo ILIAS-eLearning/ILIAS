@@ -805,3 +805,20 @@ DELETE FROM lm_page_object;
 DELETE FROM meta_data;
 INSERT INTO lm_data (obj_id, title, type, lm_id) VALUES (1, 'dummy', 'du', 0);
 
+<#33>
+
+# new column in `frm_posts`
+ALTER TABLE `frm_posts` ADD `pos_cens` tinyint(4) NOT NULL;
+
+# new column in `frm_posts`
+ALTER TABLE `frm_posts` ADD `pos_cens_com` text NOT NULL ;
+
+<?php
+// set pos_cens = 0
+$query = "UPDATE frm_posts SET pos_cens = 0 WHERE pos_cens != 0";
+$res = $this->db->query($query);
+
+?>
+
+
+
