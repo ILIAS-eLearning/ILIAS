@@ -108,6 +108,7 @@ common#:#course#:#Course
 common#:#courses#:#Courses
 common#:#create#:#Create
 common#:#create_in#:#Create in
+common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
 common#:#crs_available#:#Available Courses
 common#:#crs_management_system#:#Course Management System
@@ -144,14 +145,13 @@ common#:#edit#:#Edit
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
+common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
-common#:#create_stylesheet#:#Create Style
-common#:#edit_stylesheet#:#Edit Style
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
@@ -332,26 +332,20 @@ common#:#min_one_active_role#:#Each user must have at least one active role!
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
+common#:#msg_cancel_delete#:#Action cancelled.
+common#:#msg_changes_ok#:#The changes were OK
+common#:#msg_clear_clipboard#:#Clipboard cleared.
+common#:#msg_cloned#:#Selected object(s) copied.
 common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).
 common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).
-common#:#msg_clear_clipboard#:#Clipboard cleared.
-common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
-common#:#msg_cloned#:#Selected object(s) copied.
-common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_cut_copied#:#Selected object(s) moved.
-common#:#msg_changes_ok#:#The changes were OK
-common#:#msg_undeleted#:#Object(s) undeleted.
-common#:#msg_removed#:#Object(s) removed from system.
-common#:#msg_cancel_delete#:#Action cancelled.
-common#:#msg_obj_created#:#Object created.
-common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
+common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
-common#:#msg_no_rolf_allowed1#:#The object
-common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
 common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
@@ -365,16 +359,22 @@ common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_write#:#You have no permission to write
+common#:#msg_no_rolf_allowed1#:#The object
+common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
+common#:#msg_removed#:#Object(s) removed from system.
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name.
 common#:#msg_trash_empty#:#There are no deleted objects
+common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#Userassigment changed.
@@ -442,6 +442,7 @@ common#:#overview#:#Overview
 common#:#owner#:#Owner
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
+common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
@@ -595,7 +596,6 @@ common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
 common#:#value#:#Value
-common#:#parameter#:#Parameter
 common#:#version#:#Version
 common#:#view#:#View
 common#:#view_content#:#View Content

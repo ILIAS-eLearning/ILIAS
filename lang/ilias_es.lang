@@ -108,6 +108,7 @@ common#:#course#:#course
 common#:#courses#:#courses
 common#:#create#:#create
 common#:#create_in#:#create in
+common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
 common#:#crs#:#crs
 common#:#crs_available#:#available courses
 common#:#crs_management_system#:#course management system
@@ -144,6 +145,7 @@ common#:#edit#:#edit
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#edit operations
 common#:#edit_properties#:#edit properties
+common#:#edit_stylesheet#:#Edit Style###10 Jul 2003 new variable
 common#:#edited_at#:#edited at
 common#:#editor#:#editor
 common#:#email#:#email
@@ -330,13 +332,22 @@ common#:#min_one_active_role#:#Each user must have at least one active role!###0
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#move to
+common#:#msg_cancel_delete#:#Action cancelled.###10 Jul 2003 new variable
 common#:#msg_changes_ok#:#the changes were ok
+common#:#msg_clear_clipboard#:#Clipboard cleared.###10 Jul 2003 new variable
+common#:#msg_cloned#:#Selected object(s) copied.###10 Jul 2003 new variable
+common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).###10 Jul 2003 new variable
+common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).###10 Jul 2003 new variable
+common#:#msg_cut_copied#:#Selected object(s) moved.###10 Jul 2003 new variable
 common#:#msg_error_copy#:#Copy Error###04 Jul 2003 new variable
 common#:#msg_failed#:#sorry, action failed
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).###10 Jul 2003 new variable
+common#:#msg_linked#:#Selected object(s) linked.###10 Jul 2003 new variable
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create_role#:#You have no permission to add roles###08 Jul 2003 new variable
+common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.###10 Jul 2003 new variable
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates###08 Jul 2003 new variable
 common#:#msg_no_perm_create_user#:#You have no permission to create users###07 Jul 2003 new variable
 common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.###04 Jul 2003 content changed
@@ -348,16 +359,22 @@ common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas##
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings###08 Jul 2003 new variable
 common#:#msg_no_perm_write#:#You have no permission to write###07 Jul 2003 new variable
+common#:#msg_no_rolf_allowed1#:#The object###10 Jul 2003 new variable
+common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.###10 Jul 2003 new variable
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_obj_created#:#Object created.###10 Jul 2003 new variable
 common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_obj_modified#:#Modifications saved.###10 Jul 2003 new variable
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from2#:#(The setting have been saved!)###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.###09 Jul 2003 new variable
+common#:#msg_removed#:#Object(s) removed from system.###10 Jul 2003 new variable
 common#:#msg_role_exists1#:#A role/role template with the name###08 Jul 2003 new variable
 common#:#msg_role_exists2#:#already exists! Please choose another name.###08 Jul 2003 new variable
 common#:#msg_trash_empty#:#There are no deleted objects
+common#:#msg_undeleted#:#Object(s) undeleted.###10 Jul 2003 new variable
 common#:#msg_user_last_role1#:#The following users are only assigned to this role:###04 Jul 2003 new variable
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.###04 Jul 2003 new variable
 common#:#msg_userassignment_changed#:#Userassigment changed.###08 Jul 2003 new variable
@@ -380,7 +397,6 @@ common#:#no_title#:#no title
 common#:#none#:#none
 common#:#normal#:#normal
 common#:#not_installed#:#not installed
-common#:#nothing_checked#:#Funny, no checkbox checked.###20 Mar 2003 new variable
 common#:#obj#:#obj
 common#:#obj_adm#:#System Settings###15 May 2003 new variable
 common#:#obj_cat#:#Category###15 May 2003 new variable
@@ -426,6 +442,7 @@ common#:#overview#:#overview
 common#:#owner#:#owner
 common#:#page#:#page
 common#:#page_edit#:#edit page
+common#:#parameter#:#Parameter###10 Jul 2003 new variable
 common#:#parse#:#Parse###04 Mar 2003 new variable
 common#:#passwd#:#passwd
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.###25 Mar 2003 new variable
@@ -483,6 +500,7 @@ common#:#right#:#right
 common#:#rights#:#rights
 common#:#role#:#role
 common#:#role_added#:#Role added###02 Apr 2003 new variable
+common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
 common#:#roles#:#roles
 common#:#rolf#:#rolf
 common#:#rolt#:#rolt
@@ -566,6 +584,7 @@ common#:#url#:#url
 common#:#url_description#:#url description
 common#:#user#:#user
 common#:#user_added#:#User added###02 Apr 2003 new variable
+common#:#user_deleted#:#User deleted###10 Jul 2003 new variable
 common#:#user_language#:#User Language###20 Mar 2003 new variable
 common#:#userdata#:#userdata
 common#:#username#:#username
