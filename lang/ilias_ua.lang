@@ -87,11 +87,11 @@ administration#:#systemcheck#:#Перевірка системи
 administration#:#view_last_log#:#Подивитись останній Сканлог
 administration#:#view_log#:#Подивитись деталі
 assessment#:#0_unlimited#:#(0 = безлімітний)
-assessment#:#action#:#Action###20 Oct 2004 new variable
+assessment#:#action#:#Дія
 assessment#:#add_answer#:#Додати віповідь
 assessment#:#add_answer_tf#:#Додати відповіді правда/неправда
 assessment#:#add_answer_yn#:#Додати відповіді так/ні
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
+assessment#:#add_answerblock#:#Додати блок с відповідями
 assessment#:#add_applet_parameter#:#Додати параметри аплету
 assessment#:#add_area#:#Додати область
 assessment#:#add_gap#:#Додати текст з проміжком
@@ -104,17 +104,17 @@ assessment#:#answer_is_right#:#Ваша відповідь вірна
 assessment#:#answer_is_wrong#:#Вага відповідь невірна
 assessment#:#answer_picture#:#Картинка з відповіддю
 assessment#:#answer_text#:#Текст з відповідю
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
+assessment#:#answerblock#:#Блок с відповідями
 assessment#:#applet_attributes#:#Атрибути аплету
 assessment#:#applet_new_parameter#:#Новий параметр
 assessment#:#applet_parameter#:#Параметр
 assessment#:#applet_parameters#:#Параметри аплета
 assessment#:#apply#:#Примінити
-assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
-assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
-assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_create_export_file#:#Створити файл експорту
+assessment#:#ass_export_files#:#Файли експорту
+assessment#:#ass_file#:#Файл
 assessment#:#ass_questions#:#Питання
-assessment#:#ass_size#:#Size###19 Oct 2004 new variable
+assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
@@ -171,7 +171,7 @@ assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень,
 assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
 assessment#:#end_tag#:#Кігцевий тег
 assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
+assessment#:#enhanced#:#Розширений режим
 assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!
 assessment#:#error_image_upload_wrong_format#:#Будь ласка завантажте дійсний файл с зображенням! Графічні формати що підтримуються є gif, jpeg and png.
 assessment#:#error_importing_question#:#Відбулась помилка при імпорті питань з вибраного вами файлу!
@@ -235,10 +235,10 @@ assessment#:#material_download#:#Матеріал для завантаженн�
 assessment#:#material_file#:#Файл матеріалу
 assessment#:#maximum_nr_of_tries_reached#:#Ви досялги максимальної кількості спроб на цей тест. Неможливо увійти в тест!
 assessment#:#meaning#:#Значення
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#min_percentage_ne_0#:#Ви маєете вказати мінімальне процентне співвідношення до нуля процентів! Схема оцінок не збережена.
 assessment#:#negative_points_not_allowed#:#Вам не дозволено вводити від'ємні бали!
 assessment#:#next_question_rows#:#Питання %d - %d з %d >>
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#no_passed_mark#:#Ви маєте вказати принаймні одні оцінку для результату ПРОЙДЕНО! Схема оцінок не збережена.
 assessment#:#no_question_selected_for_move#:#Будь ласка виберіть принаймні одне питання щоб перенести його!
 assessment#:#no_questions_available#:#Немає доступних питань!
 assessment#:#no_target_selected_for_move#:#Ви повинні вибрати цільову позицію!
@@ -281,7 +281,7 @@ assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
+assessment#:#question_no_answerblocks#:#Не визначено жодного блоку відповідей
 assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
 assessment#:#question_short#:#П
 assessment#:#question_type#:#Тип Питання
@@ -302,12 +302,12 @@ assessment#:#reset_filter#:#Скинути фільтр
 assessment#:#result#:#Результат
 assessment#:#save_before_upload_imagemap#:#Ви маєте прийняти ваші зміни перед тим як завантажувати карту зображення!
 assessment#:#save_before_upload_javaapplet#:#Ви маєте прийняти ваші зміни перед тим як завантажувати ява аплет!
-assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
-assessment#:#save_finish#:#Зберігтри та закінчити тест
-assessment#:#save_introduction#:#Зберігти та перейти до передмови
-assessment#:#save_next#:#Зберігти та перейти до наступного питання
-assessment#:#save_previous#:#Зберігти та перейти до попереднього питання
-assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
+assessment#:#save_edit#:#Зберегти та редагувати вміст
+assessment#:#save_finish#:#Зберегтри та закінчити тест
+assessment#:#save_introduction#:#Зберегти та перейти до передмови
+assessment#:#save_next#:#Зберегти та перейти до наступного питання
+assessment#:#save_previous#:#Зберегти та перейти до попереднього питання
+assessment#:#select_an_answer#:#--- Будь ласка виберіть відповідь ---
 assessment#:#select_gap#:#Вибрати проміжок
 assessment#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для перміщення питань та натисніть одну з кнопок вставки!
 assessment#:#selected_image#:#Помічене зображення
@@ -324,17 +324,17 @@ assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Будь ласка заповніть пусті параметри аплету перед додаванням нових параметрів!
 assessment#:#true#:#Правда
-assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!###19 Oct 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
 assessment#:#tst_already_taken#:#Тест вже вибраний
 assessment#:#tst_anon_eval#:#Анонімно зібрані результати
 assessment#:#tst_browse_for_questions#:#Огляд для питань
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
-assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
-assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
-assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
-assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results#:#Ви видаляєте усі ваші попередньо введені результати цього тесту. Це знищить усі питання на їх початкове значення. БУдь ласка зауважте, що ви не можете обнулити кількість спроб, вони ще потрібні для цього тесту. Ви дійсно бажаєте обнулити усі попередньо введені результати ?
+assessment#:#tst_confirm_delete_results_info#:#Ваші попередньо введені результати по питанням тесту були видалені. Ви вдало обнулили тест!
+assessment#:#tst_delete_all_user_data#:#Видалити усі дані користувача
+assessment#:#tst_delete_missing_mark#:#Будь ласка виберіть принаймні одну відмітку для видалення
+assessment#:#tst_delete_results#:#Обнулити тест
+assessment#:#tst_ending_time#:#Кінцевий час
+assessment#:#tst_enter_questionpool#:#Будь ласка введіть ім'я пулу питань де будуть зберігатись нові питання
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
