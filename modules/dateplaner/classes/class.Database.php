@@ -167,7 +167,7 @@ class Database
 				$result = mysql_query ("SELECT DISTINCT count(id) as numOfNegDates FROM ".$this->dbase_cscw.".dp_neg_dates WHERE date_id = '".$a_date_id."' AND timestamp = '0'", $this->dlI);	//Counts how many users have deleted this date
 				$numOfNegDates = mysql_fetch_array($result);
 				mysql_free_result ($result);
-				if ($numOfNegDates[0] >= interface::getNumOfMembers($group_id[0]))	//Checks if the number of users who have deleted this date is equal to the number of members of this group
+				if ($numOfNegDates[0] >= ilCalInterface::getNumOfMembers($group_id[0]))	//Checks if the number of users who have deleted this date is equal to the number of members of this group
 				{
 					mysql_query ("DELETE FROM ".$this->dbase_cscw.".dp_dates WHERE id = '".$a_date_id."'", $this->dlI);				//Deletes all traces of this date from all tables
 					mysql_query ("DELETE FROM ".$this->dbase_cscw.".dp_changed_dates WHERE date_id = '".$a_date_id."'", $this->dlI);	//			/
@@ -234,12 +234,12 @@ class Database
 				$dp_neg_dates[$i] = $row[0];
 			}
 			mysql_free_result ($result);
-			$group_ids = interface::getMemberGroups($a_user_id);//Gets all groups in which the user is a member via the interface class
+			$group_ids = ilCalInterface::getMemberGroups($a_user_id);//Gets all groups in which the user is a member via the interface class
 
 			if ($group_ids == false) $group_ids = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($dp_neg_dates == false) $dp_neg_dates = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($a_keyword_ids[0] == '*') $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin != 86399) ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user and time period which have the following stats: date is NOT a full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
-			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin != 86399) AND dp_keywords.keyword_id IN ('!§$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is NOT a full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
+			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin != 86399) AND dp_keywords.keyword_id IN ('!ï¿½$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is NOT a full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
 			$dp_dates = false;
 			for ($i = 0; $row = mysql_fetch_array($result); $i++)
 			{
@@ -274,11 +274,11 @@ class Database
 				$dp_neg_dates[$i] = $row[0];
 			}
 			mysql_free_result ($result);
-			$group_ids = interface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
+			$group_ids = ilCalInterface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
 			if ($group_ids == false) $group_ids = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($dp_neg_dates == false) $dp_neg_dates = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($a_keyword_ids[0] == '*') $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin = 86399) ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);		//Gets all dp_dates by user and time period which have the following stats: is a full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
-			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin = 86399) AND dp_keywords.keyword_id IN ('!§$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
+			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end > '".$a_end."') AND dp_dates.rotation = '0' AND (dp_dates.end - dp_dates.begin = 86399) AND dp_keywords.keyword_id IN ('!ï¿½$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is full day date, date is NOT a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
 			$dp_dates = false;
 			for ($i = 0; $row = mysql_fetch_array($result); $i++)
 			{
@@ -312,11 +312,11 @@ class Database
 				$dp_neg_dates[$i] = $row[0];
 			}
 			mysql_free_result ($result);
-			$group_ids = interface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
+			$group_ids = ilCalInterface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
 			if ($group_ids == false) $group_ids = array('-2');		//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($dp_neg_dates == false) $dp_neg_dates = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($a_keyword_ids[0] == '*') $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin != 86399) ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user and time period which have the following stats: date is NOT a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
-			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin != 86399) AND dp_keywords.keyword_id IN ('!§$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is NOT a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
+			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin != 86399) AND dp_keywords.keyword_id IN ('!ï¿½$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is NOT a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
 			$dp_dates = false;
 			for ($i = 0; $row = mysql_fetch_array($result); $i++)
 			{
@@ -350,11 +350,11 @@ class Database
 				$dp_neg_dates[$i] = $row[0];
 			}
 			mysql_free_result ($result);
-			$group_ids = interface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
+			$group_ids = ilCalInterface::getMemberGroups($a_user_id);	//Gets all groups in which the user is a member via the interface class
 			if ($group_ids == false) $group_ids = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($dp_neg_dates == false) $dp_neg_dates = array('-2');	//Adds a dummy to the array to avoid "Cannot implode" errors
 			if ($a_keyword_ids[0] == '*') $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin = 86399) ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user and time period which have the following stats: date is NOT a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
-			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin = 86399) AND dp_keywords.keyword_id IN ('!§$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
+			else			 			  $result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation FROM ".$this->dbase_cscw.".dp_dates, ".$this->dbase_cscw.".dp_keyword, ".$this->dbase_cscw.".dp_keywords WHERE (dp_dates.group_id IN ('".$this->alluser_id."','".implode("','",$group_ids)."') OR dp_dates.user_id = '".$a_user_id."') AND dp_dates.id NOT IN ('-2','".implode("','",$dp_neg_dates)."') AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' AND (dp_dates.end - dp_dates.begin = 86399) AND dp_keywords.keyword_id IN ('!ï¿½$%&/=', '".implode("','",$a_keyword_ids)."') AND dp_keywords.date_id = dp_dates.id ORDER BY dp_dates.begin, dp_dates.end DESC, dp_dates.changed, dp_dates.created", $this->dlI);	//Gets all dp_dates by user, dp_keyword and time period which have the following stats: date is a full day date, date is a rotation date, user is owner of date or user is member in the group of date, NOT in $dp_neg_dates
 			$dp_dates = false;
 			for ($i = 0; $row = mysql_fetch_array($result); $i++)
 			{
@@ -444,7 +444,7 @@ class Database
 	{
 		if (isset($this->dlI) && isset($a_user_id))	//Checks if connected to database and if all parameters are set
 		{
-			$groups = interface::getUserGroups($a_user_id);	//Forwards the request to the interface class
+			$groups = ilCalInterface::getUserGroups($a_user_id);	//Forwards the request to the interface class
 			return $groups;
 		}
 		else
@@ -566,7 +566,7 @@ class Database
 	{	
 		if (isset($this->dlI) && $a_begin <= $a_end && isset($a_group_id) && isset($a_begin) && isset($a_end))	//Checks if connected to database and if all parameters are set
 		{   
-			$user_ids = interface::getOtherMembers($a_group_id, -1);	//Gets all members of this group via the interface class
+			$user_ids = ilCalInterface::getOtherMembers($a_group_id, -1);	//Gets all members of this group via the interface class
 			$result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation  FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id = '".$a_group_id."' OR dp_dates.user_id IN ('".$this->alluser_id."','".implode("','",$user_ids)."')) AND rotation = '0' AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end = '".$a_begin."')  ORDER BY begin, end DESC", $this->dlI);	//Gets all dp_dates by group and time period and all dp_dates of all members of this group which have the following stats: date is NOT a full day date, date is NOT a Rotationdate
 			$dp_dates = false;
 
@@ -596,7 +596,7 @@ class Database
 	{
 		if (isset($this->dlI) && $a_begin <= $a_end && isset($a_group_id) && isset($a_begin) && isset($a_end))	//Checks if connected to database and if all parameters are set
 		{
-			$user_ids = interface::getOtherMembers($a_group_id, -1);	//Gets all members of this group via the interface class
+			$user_ids = ilCalInterface::getOtherMembers($a_group_id, -1);	//Gets all members of this group via the interface class
 			$result = mysql_query ("SELECT DISTINCT dp_dates.id as date_id, dp_dates.begin, dp_dates.end, dp_dates.group_id, dp_dates.user_id, dp_dates.shorttext, dp_dates.text, dp_dates.rotation, dp_dates.end_rotation  FROM ".$this->dbase_cscw.".dp_dates WHERE (dp_dates.group_id = '".$a_group_id."' OR dp_dates.user_id IN ('".$this->alluser_id."','".implode("','",$user_ids)."')) AND (dp_dates.begin <= '".$a_end."' AND dp_dates.end_rotation >= '".$a_begin."') AND NOT (dp_dates.begin < '".$a_begin."' AND dp_dates.end_rotation = '".$a_begin."') AND NOT (dp_dates.begin = '".$a_end."' AND dp_dates.end_rotation > '".$a_end."') AND dp_dates.rotation != '0' ORDER BY begin, end DESC", $this->dlI);	
 			//Gets all dp_dates by group and time period and all dp_dates of all members of this group which have the following stats: date is NOT a full day date, date is NOT a Rotationdate
 			$dp_dates = false;
@@ -622,7 +622,7 @@ class Database
 	{
 		if (isset($this->dlI) && isset($a_group_id))	//Checks if connected to database and if all parameters are set
 		{
-			$groupname = interface::getGroupName($a_group_id);	//Forwards the request to the interface class
+			$groupname = ilCalInterface::getGroupName($a_group_id);	//Forwards the request to the interface class
 			return $groupname;
 		}
 		else
@@ -740,7 +740,7 @@ class Database
 				if ($a_group_id != '0')	//Checks if date is a date of a group
 				{
 					$users = false;
-					$users = interface::getOtherMembers($a_group_id, $a_user_id);	//Gets all other members of this group from database via the interface class
+					$users = ilCalInterface::getOtherMembers($a_group_id, $a_user_id);	//Gets all other members of this group from database via the interface class
 					if($users) {
 						for ($i = 0; $i < count($users); $i++)
 						{
@@ -785,7 +785,7 @@ class Database
 				if ($date[1] != '0')	//Date is a date of a group
 				{
 					$users = false;
-					$users = interface::getOtherMembers($date[1], $a_user_id);	//Gets all other members of this group from database via the interface class
+					$users = ilCalInterface::getOtherMembers($date[1], $a_user_id);	//Gets all other members of this group from database via the interface class
 					if($users) {
 					for ($i = 0; $i < count($users); $i++)
 					{
@@ -871,7 +871,7 @@ class Database
 				{
 
 					$users = false;
-					$users = interface::getOtherMembers($date[0], $a_user_id);	//Gets all other members of this group from database via the interface class
+					$users = ilCalInterface::getOtherMembers($date[0], $a_user_id);	//Gets all other members of this group from database via the interface class
 					if($users) {
 						for ($i = 0; $i < count($users); $i++)
 						{
@@ -904,7 +904,7 @@ class Database
 				$numOfNegDates = mysql_fetch_array($result);
 				mysql_free_result ($result);
 
-				if ($numOfNegDates[0] >= interface::getNumOfMembers($date[0]))	//Checks if the number of users who have deleted this date is equal to the number of members of this group
+				if ($numOfNegDates[0] >= ilCalInterface::getNumOfMembers($date[0]))	//Checks if the number of users who have deleted this date is equal to the number of members of this group
 
 				{
 					mysql_query ("DELETE FROM ".$this->dbase_cscw.".dp_dates WHERE id = '".$a_date_id."'", $this->dlI);				//Deletes all traces of this date from all tables
@@ -965,7 +965,7 @@ class Database
 	{
 		if (isset($this->dlI))	//Checks if connected to database
 		{
-			$groups = interface::getGroups();	//Gets all groups of the system
+			$groups = ilCalInterface::getGroups();	//Gets all groups of the system
 			$ago = strtotime ("-6 month");	//Sets the time which date have to be ago to be deleted
 			$tobedeleted = false;
 			
