@@ -2,7 +2,7 @@
 {INFOPANEL}
 {BUTTONS}
 {MESSAGE}
-<form method="POST" action="{FORMACTION}">
+<form method="POST" action="{FORMACTION}" ENCTYPE="MULTIPART/FORM-DATA">
 <table class="std">
 <tr class="tblheader">
 	<td class="std" colspan="4">{TXT_USR_DATA} {TXT_OF} {USR_FULLNAME}</td>
@@ -33,7 +33,7 @@
 <tr>
 	<td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
 	<td class="option_value"><input type="text" name="usr_fname" maxlength="32" size="40" value="{FIRSTNAME}"/></td>
-	<td class="option_value" colspan="2">&nbsp;</td>
+	<td class="option_value" colspan="2"><img src="{IMAGE_PATH}"></td>
 </tr>
 <tr>
 	<td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
@@ -45,6 +45,16 @@
 	<td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"/></td>
 	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
+
+<tr>
+	<td class="option">{TXT_UPLOAD}</td>
+	<td class="option_value"><input type="file" name="userfile" >
+	<INPUT TYPE="hidden" NAME="action" VALUE="{UPLOAD}">
+	 <input type="submit" name="usr_upload" VALUE="{UPLOAD}">
+	</td>
+	<td class="option_value" colspan="2"><center><input type="checkbox" name="chk_upload" {CHK_UPLOAD}></center></td>
+</tr>
+
 <tr class="tblheader">
 	<td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
 	<td class="option_value" colspan="2">&nbsp;</td>
