@@ -47,7 +47,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 						"type" => "<img src=\"".$tpl->tplPath."/images/".$image.".gif\" border=\"0\">",
 						"name" => $val["title"],
 						"description" => $val["desc"],
-						"last_change" => Format::formatDate($val["last_update"])
+						"last_change" => ilFormat::formatDate($val["last_update"])
 					);
 					//control information
 					$this->data["ctrl"][] = array(

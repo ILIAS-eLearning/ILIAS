@@ -88,7 +88,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 					$data = array("type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_type_b.gif\" border=\"0\">",
 							"name" => $obj["title"],
 							"description" => $obj["desc"],
-							"last_change" => Format::formatDate($obj["last_update"]));
+							"last_change" => ilFormat::formatDate($obj["last_update"]));
 
 					foreach ($data as $key => $val)
 					{

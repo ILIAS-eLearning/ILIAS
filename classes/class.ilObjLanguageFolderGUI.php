@@ -3,7 +3,7 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 *
 * @extends	ilObject
 * @package	ilias-core
@@ -144,7 +144,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 						"name" => $lang_data["name"].$status,
 						"status" => $this->lng->txt($lang_data["desc"]),
 						"remark" => $remark,
-						"last_change" => Format::formatDate($lang_data["last_update"])
+						"last_change" => ilFormat::formatDate($lang_data["last_update"])
 						);
 			
 			foreach ($data as $key => $val)

@@ -231,7 +231,7 @@ foreach ($mail_data as $mail)
 						  $mail["mail_id"]."&mobj_id=$_GET[mobj_id]");
 	}
 	$tpl->setVariable("MAIL_SUBJECT", $mail["m_subject"]);
-	$tpl->setVariable("MAIL_DATE", Format::formatDate($mail["send_time"]));
+	$tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 	$tpl->parseCurrentBlock();
 }
 // END MAILS

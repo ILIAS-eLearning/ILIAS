@@ -12,12 +12,11 @@
 
 /**
 * format conversions
-* @version $Id$
 * @package application
 */
-class Format
+class ilFormat
 {
-	function Format ()
+	function ilFormat ()
 	{
 		return;
 	}
@@ -365,7 +364,7 @@ class Format
 			$timeformat = "";
 		}
 	
-		return Format::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
+		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
 	}
 }
 ?>

@@ -177,6 +177,7 @@
 <object name="usr" class_name="User" checkbox="1">
 	<subobj name="favf" max="1">favf</subobj>
 	<subobj name="datf" max="1">datf</subobj>
+	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

@@ -718,7 +718,7 @@ class Forum
 			return  $lng->txt("today").", ".Format::formatDate($date,"time");
 		}
 		
-		return Format::formatDate($date);
+		return ilFormat::formatDate($date);
     }
 	
 	/**
@@ -1061,4 +1061,4 @@ class Forum
 		return $text;
 	}
 } // END class.Forum
-?>
+
