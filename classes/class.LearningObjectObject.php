@@ -24,14 +24,21 @@ class LearningObjectObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function LearningObjectObject($a_domdocument = "")
+	function LearningObjectObject($a_id)
 	{
 		require_once "classes/class.domxml.php";
-		$this->Object();
+		$this->Object($a_id);
+	}
+	
+	/**
+	* set DOM Document
+	*/
+	function setDocument($a_domdocument)
+	{
 		$this->domxml = new domxml($a_domdocument);
 	}
 
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $tree, $lotree, $tpl;
 		
@@ -41,6 +48,7 @@ class LearningObjectObject extends Object
 			$_GET["lo_parent"] = $_GET["parent"];
 		}
 		
+		// TODO get rid of these $_GET variables
 		$lotree = new Tree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
 		//prepare objectlist
 		$this->objectList = array();
@@ -49,7 +57,7 @@ class LearningObjectObject extends Object
 
 		$this->objectList["cols"] = array("", "view", "title", "description", "last_change");
 		
-		if ($lotree->getChilds($_GET["lo_id"], $_GET["order"], $_GET["direction"]))
+		if ($lotree->getChilds($_GET["lo_id"], $a_order, $a_direction))
 		{
 			foreach ($lotree->Childs as $key => $val)
 		    {

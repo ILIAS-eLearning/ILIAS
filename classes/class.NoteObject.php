@@ -1,9 +1,9 @@
 <?php
 /**
 * Class NoteObject
-	*
+*
 * @author M.Maschke
-* @version $Id: 
+* @version $Id$
 * 
 * @extends Object
 * @package ilias-core

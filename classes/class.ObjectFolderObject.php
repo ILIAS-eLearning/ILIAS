@@ -14,13 +14,12 @@ class ObjectFolderObject extends Object
 	* Constructor
 	* @access	public
 	**/
-	function ObjectFolderObject()
+	function ObjectFolderObject($a_id)
 	{
-		$this->Object();
-		$_GET["message"] = "Do not change any of the existing Object Definitons";
+		$this->Object($a_id);
 	}
 	
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
 
@@ -33,7 +32,7 @@ class ObjectFolderObject extends Object
 		
 		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
 		{
-			if ($list = getTypeList($_GET["order"],$_GET["direction"]))
+			if ($list = getTypeList($a_order, $a_direction))
 			{
 				foreach ($list as $key => $val)
 				{

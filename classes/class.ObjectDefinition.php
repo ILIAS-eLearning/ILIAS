@@ -99,7 +99,10 @@ class ObjectDefinition extends SaxParser
 	*/
 	function getActions($a_obj_name)
 	{
-		return $this->obj_data[$a_obj_name]["actions"];
+		$ret = (is_array($this->obj_data[$a_obj_name]["actions"])) ?
+			$this->obj_data[$a_obj_name]["actions"] :
+			array();
+		return $ret;
 	}
 	/**
 	* get default property by type

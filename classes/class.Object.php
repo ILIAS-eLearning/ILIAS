@@ -42,14 +42,14 @@ class Object
 	* Constructor
 	* @access	public
 	*/
-	function Object()
+	function Object($a_id)
 	{
 		global $ilias, $lng;
 		
 		$this->ilias =& $ilias;
 		$this->lng = &$lng; 
 
-		$this->id = $_GET["obj_id"];
+		$this->id = $a_id;
 		$this->parent = $_GET["parent"]; // possible deprecated
 		$this->parent_parent = $_GET["parent_parent"]; // // possible deprecated
 
@@ -88,6 +88,7 @@ class Object
 		}
 		return $new_id;
 	}
+
 	/**
 	* gateway for all button actions
 	* @access	public
@@ -142,12 +143,13 @@ class Object
 	* create object in admin interface
 	* @access	public
 	*/
-	function createObject()
+	function createObject($a_id, $a_new_type)
 	{
 		// creates a child object
 		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_POST["new_type"]))
+		// TODO: get rid of $_GET variable
+		if ($rbacsystem->checkAccess("create", $a_id, $_GET["parent"], $a_new_type))
 		{
 			$data = array();
 			$data["fields"] = array();						
@@ -172,17 +174,10 @@ class Object
 	* @return	integer		new obj_id
 	* @access	public
 	**/
-	function saveObject($a_obj_id = '', $a_parent = '' ,$a_type = '' , $a_new_type = '' , $a_data = '')
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 
-		// GET DEFAULT VALUES
-		$a_obj_id = $a_obj_id ? $a_obj_id : $_GET["obj_id"];
-		$a_parent = $a_parent ? $a_parent : $_GET["parent"];
-		$a_type = $a_type ? $a_type : $_GET["type"];
-		$a_new_type = $a_new_type ? $a_new_type : $_GET["new_type"];
-		$a_data = $a_data ? $a_data : $_POST["Fobject"];
-		
 		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_new_type))
 		{
 			// create and insert object in objecttree
@@ -210,7 +205,7 @@ class Object
 	* edit object
 	* @access	public
 	**/
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $lng;
 
@@ -232,7 +227,7 @@ class Object
 	}
 	
 
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $tree, $tpl;
 		
@@ -242,8 +237,8 @@ class Object
 		$this->objectList["ctrl"] = array();
 
 		$this->objectList["cols"] = array("", "type", "title", "description", "last_change");
-		
-		if ($tree->getChilds($this->id, $_GET["order"], $_GET["direction"]))
+
+		if ($tree->getChilds($this->id, $a_order, $a_direction))
 		{
 			foreach ($tree->Childs as $key => $val)
 		    {
@@ -279,13 +274,13 @@ class Object
 	* update an object
 	* @access	public
 	**/
-	function updateObject()
+	function updateObject($a_data)
 	{
 		global $rbacsystem;
 
 		if($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
-			updateObject($this->id, $this->type, $_POST["Fobject"]);
+			updateObject($this->id, $this->type, $a_data);
 			$this->update = true;
 			return true;
 		}
@@ -303,10 +298,12 @@ class Object
 	{
 		global $lng, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
+		
+		// TODO: get rif of $_GET["parent"] in this function
 
-		$obj = getObject($_GET["obj_id"]);
+		$obj = getObject($this->id);
 
-		if ($rbacsystem->checkAccess("edit permission", $_GET["obj_id"], $_GET["parent"]))
+		if ($rbacsystem->checkAccess("edit permission", $this->id, $_GET["parent"]))
 		{
 
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
@@ -317,7 +314,7 @@ class Object
 			foreach ($parentRoles as $r)
 			{
 				// GET ALL LOCAL ROLE IDS
-				$role_folders = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+				$role_folders = $rbacadmin->getRoleFolderOfObject($this->id);
 				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folders["child"]);
 				$data["rolenames"][] = $r["title"];
 				if(!in_array($r["obj_id"],$local_roles))
@@ -339,7 +336,7 @@ class Object
 				
 				foreach ($parentRoles as $role)
 				{
-					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"],$_GET["parent"]);
+					$checked = $rbacsystem->checkPermission($this->id,$role["obj_id"],$operation["operation"],$_GET["parent"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
 					$opdata["values"][] = $box;
@@ -352,12 +349,12 @@ class Object
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
 		
-		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+		$rolf_data = $rbacadmin->getRoleFolderOfObject($this->id);
 		$permission = $rolf_data ? 'write' : 'create';
-		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $_GET["obj_id"];
+		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->id;
 		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
 		
-		if ($rbacsystem->checkAccess("edit permission", $_GET["obj_id"], $_GET["parent"]) &&
+		if ($rbacsystem->checkAccess("edit permission", $this->id, $_GET["parent"]) &&
 		   $rbacsystem->checkAccess($permission, $rolf_id, $rolf_parent, "rolf"))
 		{
 			// Check if object is able to contain role folder
@@ -365,7 +362,7 @@ class Object
 			
 			if ($child_objects["rolf"])
 			{
-				$data["local_role"]["id"] = $_GET["obj_id"];
+				$data["local_role"]["id"] = $this->id;
 				$data["local_role"]["parent"] = $_GET["parent"];
 			}
 		}
@@ -376,18 +373,20 @@ class Object
 	* save permissions of object
 	* @access public
 	**/
-	function permSaveObject()
+	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree,$rbacsystem,$rbacreview,$rbacadmin;
+		
+		// TODO: get rid of $_GET variables
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$this->id, $_GET["parent"]))
 		{
-			$rbacadmin->revokePermission($_GET["obj_id"],$_GET["parent"]);
+			$rbacadmin->revokePermission($this->id, $_GET["parent"]);
 			
-			foreach ($_POST["perm"] as $key => $new_role_perms)
+			foreach ($a_perm as $key => $new_role_perms)
 			{
 				// $key enthaelt die aktuelle Role_Id
-				$rbacadmin->grantPermission($key,$new_role_perms,$_GET["obj_id"],$_GET["parent"]);
+				$rbacadmin->grantPermission($key,$new_role_perms, $this->id, $_GET["parent"]);
 			}
 		}
 		else
@@ -401,19 +400,19 @@ class Object
 		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
 		//   und das Permission Template an den Wert des nächst höher gelegenen Permission Templates angepasst
 
-		if ($_POST["stop_inherit"])
+		if ($a_stop_inherit)
 		{
-			foreach ($_POST["stop_inherit"] as $stop_inherit)
+			foreach ($a_stop_inherit as $stop_inherit)
 			{
-				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+				$rolf_data = $rbacadmin->getRoleFolderOfObject($this->id);
 				if (!($rolf_id = $rolf_data["child"]))
 				{
 					// CHECK ACCESS 'create' rolefolder
-					if ($rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],'rolf'))
+					if ($rbacsystem->checkAccess('create', $this->id, $_GET["parent"],'rolf'))
 					{
 						$role_obj["title"] = "Local roles";
-						$role_obj["desc"] = "Role Folder of object no. ".$_GET["obj_id"];
-						$this->saveObject($_GET["obj_id"],$_GET["parent"],$_GET["type"],'rolf',$role_obj);
+						$role_obj["desc"] = "Role Folder of object no. ".$this->id;
+						$this->saveObject($this->id,$_GET["parent"],$a_type,'rolf',$role_obj);
 					}
 					else
 					{
@@ -421,13 +420,13 @@ class Object
 					}
 				}
 				// CHECK ACCESS 'write' of role folder
-				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
-				if ($rbacsystem->checkAccess('write',$rolf_data["child"],$_GET["obj_id"]))
+				$rolf_data = $rbacadmin->getRoleFolderOfObject($this->id);
+				if ($rbacsystem->checkAccess('write',$rolf_data["child"],$this->id))
 				{
 					$parentRoles = $rbacadmin->getParentRoleIds();
 					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 												   $rolf_data["child"],$stop_inherit);
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["obj_id"],'n');
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$this->id,'n');
 				}
 				else
 				{
@@ -569,6 +568,8 @@ class Object
 
 		return true;
 	}
+
+
 	function confirmDeleteAdmObject()
 	{
 		global $lng;

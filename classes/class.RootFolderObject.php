@@ -3,7 +3,7 @@
 * Class RootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.RootFolderObject.php,v 1.2 2002/12/23 23:45:00 smeyer Exp $
+* @version $Id$Id: class.RootFolderObject.php,v 1.3 2003/01/16 14:09:48 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -14,12 +14,12 @@ class RootFolderObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function RootFolderObject()
+	function RootFolderObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 
-	function deleteObject($a_obj_id,$a_parent,$a_tree_id = 1)
+	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
 	{
 		global $rbacadmin;
 

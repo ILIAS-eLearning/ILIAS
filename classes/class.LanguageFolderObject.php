@@ -59,9 +59,9 @@ class LanguageFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function LanguageFolderObject()
+	function LanguageFolderObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 
 		// init language support
 		global $lng;
@@ -290,7 +290,7 @@ class LanguageFolderObject extends Object
 	*
 	* @return	array	data to view passed to Out class
 	*/		
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $lng, $tpl;
 
@@ -368,6 +368,7 @@ class LanguageFolderObject extends Object
 	{
 		global $lng;
 		
+		// get rid of $_POST var and checkbox messages
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
@@ -435,6 +436,7 @@ class LanguageFolderObject extends Object
 	{
 		global $lng;
 		
+		// get rid of $_POST var and checkbox messages
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
@@ -549,6 +551,7 @@ class LanguageFolderObject extends Object
 	{
 		global $lng;
 		
+		// get rid of $_POST var and checkbox messages
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);
@@ -595,6 +598,7 @@ class LanguageFolderObject extends Object
 	{
 		global $lng;
 
+		// get rid of $_POST var and checkbox messages
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_obj->MESSAGE);

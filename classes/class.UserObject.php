@@ -21,11 +21,11 @@ class UserObject extends Object
 	* Contructor
 	* @access	public
 	*/
-	function UserObject()
+	function UserObject($a_id)
 	{
 		global $lng;
 
-		$this->Object();
+		$this->Object($a_id);
 
 		$this->gender = array(
 							  'm'    => "salutation_m",
@@ -37,13 +37,15 @@ class UserObject extends Object
 	* create user
 	* @access	public
 	*/
-	function createObject()
+	function createObject($a_id, $a_new_type)
 	{
 		global $tree,$tpl,$rbacsystem;
 
-		$obj = getObject($_GET["obj_id"]);
+		$obj = getObject($a_id);
+		
+		// TODO: get rid of $_GET variables
 
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$a_id,$_GET["parent"]))
 		{
 			// gender selection
 			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
@@ -73,13 +75,13 @@ class UserObject extends Object
 	* save user data
 	* @access	public
 	*/
-	function saveObject()
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem,$rbacadmin,$tree;
 		
-		$Fuserdata = $_POST["Fuserdata"];
+		$Fuserdata = $a_data;
 
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write', $a_obj_id, $a_parent))
 		{
 			
 			// create object
@@ -132,19 +134,21 @@ class UserObject extends Object
 	* edit user data
 	* @access	public
 	*/
-	function editObject()
+	function editObject($a_order, $a_direction)
 	{
 		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
+		
+		// TODO: get rid of $_GET vars
 
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
-			$user = new User($_GET["obj_id"]);
+			$user = new User($this->id);
 			// gender selection
 			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection
 			$rol = TUtil::getRoles();
-			$def_role = $rbacadmin->getDefaultRole($_GET["obj_id"]);
+			$def_role = $rbacadmin->getDefaultRole($this->id);
 			$role = TUtil::formSelectWoTranslation($def_role,"Fuserdata[Role]",$rol);
 
 			$data = array();
@@ -161,12 +165,12 @@ class UserObject extends Object
 			
 			$data["active_role"]["access"] = true;
 			// BEGIN ACTIVE ROLE
-			$assigned_roles = $rbacreview->assignedRoles($_GET["obj_id"]);
+			$assigned_roles = $rbacreview->assignedRoles($this->id);
 			foreach ($assigned_roles as $key => $role)
 			{
 			   // BEGIN TABLE_ROLES
 			   $obj = getObject($role);
-			   if($_GET["obj_id"] == $_SESSION["AccountId"])
+			   if($this->id == $_SESSION["AccountId"])
 			   {
 				  $data["active_role"]["access"] = true;
 				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
@@ -192,16 +196,19 @@ class UserObject extends Object
 	* TODO: The entry in object_data must be changed too!!
 	* @access	public
 	*/
-	function updateObject()
+	function updateObject($a_data)
 	{
 		global $rbacsystem,$rbacadmin;
 		
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		// TODO: get rid of $_GET vars and evil $_POST var Fuserdata
+		
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
 		{
+			$Fuserdata = $a_data;
 			$Fuserdata = $_POST["Fuserdata"];
 			$Fuserdata["Id"] = $this->id;
 			$rbacadmin->updateUser($Fuserdata);
-			$rbacadmin->updateDefaultRole($Fuserdata["Role"],$_GET["obj_id"]);
+			$rbacadmin->updateDefaultRole($Fuserdata["Role"], $this->id);
 			// TODO: Passwort muss gesondert abgefragt werden
 		}
 		else
@@ -218,6 +225,7 @@ class UserObject extends Object
 	**/
 	function activeRoleSaveObject()
 	{
+		// TODO: get rif of $_POST var
 	   if (!count($_POST["active"]))
 	   {
 		  $this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->MESSAGE);

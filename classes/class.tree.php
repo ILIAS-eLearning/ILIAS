@@ -385,7 +385,9 @@ class Tree
 		}
 		else
 		{
-			$this->ilias->raiseError("Error: No path found!",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Error in class.tree.php: No path found!".
+				" startnode:".$a_startnode.", startparent:".$a_startparent.
+				", endparent:".$a_endparent.", endnode:".$a_endnode,$this->ilias->error_obj->FATAL);
 		}
 	}
 

@@ -16,9 +16,9 @@ class LearningModuleObject extends Object
 	* 
 	* @access public
 	*/
-	function LearningModuleObject()
+	function LearningModuleObject($a_id)
 	{
-		$this->Object();
+		$this->Object($a_id);
 	}
 	
 	/**
@@ -43,17 +43,17 @@ class LearningModuleObject extends Object
 				break;
 
 			case "upload":
-				return $this->uploadObject();
+				return $this->uploadObject($_POST["parse_mode"]);
 				break;
 		}
 		parent::gatewayObject();
 	}
 
-	function viewObject()
+	function viewObject($a_order, $a_direction)
 	{
 		global $rbacsystem, $tree, $tpl;
 		
-		$lotree = new Tree($_GET["obj_id"],0,0,$_GET["obj_id"]);
+		$lotree = new Tree($this->id,0,0,$this->id);
 		//prepare objectlist
 		$this->objectList = array();
 		$this->objectList["data"] = array();
@@ -61,7 +61,7 @@ class LearningModuleObject extends Object
 
 		$this->objectList["cols"] = array("", "view", "title", "description", "last_change");
 		
-		if ($lotree->getChilds($this->id, $_GET["order"], $_GET["direction"]))
+		if ($lotree->getChilds($this->id, $a_order, $a_direction))
 		{
 			foreach ($lotree->Childs as $key => $val)
 		    {
@@ -82,10 +82,10 @@ class LearningModuleObject extends Object
 				//control information
 				$this->objectList["ctrl"][] = array(
 					"type" => $val["type"],
-					"obj_id" => $_GET["obj_id"],
+					"obj_id" => $this->id,
 					"parent" => $_GET["parent"],
 					"parent_parent" => $val["parent_parent"],
-					"lm_id" => $_GET["obj_id"],
+					"lm_id" => $this->id,
 					"lo_id" => $val["id"]
 				);
 				
@@ -111,7 +111,7 @@ class LearningModuleObject extends Object
 	* @param	array	object data (title,description,owner)
 	* @access	public
 	*/
-	function saveObject($a_obj_id = '', $a_parent = '' ,$a_type = '' , $a_new_type = '' , $a_data = '')
+	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $tree;
 		
@@ -125,7 +125,7 @@ class LearningModuleObject extends Object
 	* 
 	* @access	public
 	*/
-	function uploadObject()
+	function uploadObject($a_parse_mode)
 	{
 		global $HTTP_POST_FILES;
 		
@@ -152,7 +152,7 @@ class LearningModuleObject extends Object
 				
 		//get XML-file, parse and/or validate the document
 		$file = $HTTP_POST_FILES["xmldoc"]["name"];
-		$root = $domxml->loadDocument(basename($source),dirname($source),$_POST["parse_mode"]);
+		$root = $domxml->loadDocument(basename($source),dirname($source),$a_parse_mode);
 
 		// remove empty text nodes
 		$domxml->trimDocument();
@@ -225,7 +225,8 @@ class LearningModuleObject extends Object
 		
 		// insert the remaining root-LO into DB
 ///*
-		$lo = new LearningObjectObject($domxml->doc);
+		$lo = new LearningObjectObject();
+		$lo->setDocument($domxml->doc);
 		$obj_data = $lo->getInfo();
 		$lo_id = createNewObject("lo",$obj_data);
 		$lotree = $lo->domxml->buildTree();
