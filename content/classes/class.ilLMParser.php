@@ -24,7 +24,7 @@
 require_once("content/classes/class.ilPageObject.php");
 require_once("content/classes/class.ilStructureObject.php");
 require_once("content/classes/class.ilLearningModule.php");
-require_once("content/classes/class.ilMetaData.php");
+require_once("classes/class.ilMetaData.php");
 require_once("content/classes/class.ilParagraph.php");
 require_once("content/classes/class.ilLMTable.php");
 
@@ -48,45 +48,50 @@ class ilLMParser extends ilSaxParser
 	var $meta_data;			// current meta data object
 	var $paragraph;
 	var $table;
-	var $lm_id;
 	var $lm_tree;
 	var $pg_into_tree;
 	var $st_into_tree;
 	var $container;
 	var $in_page_object;	// are we currently within a PageObject? true/false
 	var $in_meta_data;		// are we currently within MetaData? true/false
-
+	var $lm_object;
 	var $keyword_language;
+
 
 	/**
 	* Constructor
+	*
+	* @param	object		$a_lm_object	must be of type ilObjLearningModule
+	* @param	string		$a_xml_file		xml file
 	* @access	public
 	*/
-	function ilLMParser($a_lm_id, $a_xml_file)
+	function ilLMParser(&$a_lm_object, $a_xml_file)
 	{
 		parent::ilSaxParser($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
-		$this->lm_id = $a_lm_id;
+		$this->lm_object =& $a_lm_object;
+		//$this->lm_id = $a_lm_id;
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
 
 		// Todo: The following has to go to other places
+		/*
 		$query = "DELETE FROM lm_tree WHERE lm_id ='".$a_lm_id."'";
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM lm_data WHERE lm_id ='".$a_lm_id."'";
 		$this->ilias->db->query($query);
 		$query = "DELETE FROM lm_page_object WHERE lm_id ='".$a_lm_id."'";
-		$this->ilias->db->query($query);
+		$this->ilias->db->query($query);*/
 		/*
 		$query = "DELETE FROM meta_data";
 		$this->ilias->db->query($query);*/
 
-		$this->lm_tree = new ilTree($a_lm_id);
+		$this->lm_tree = new ilTree($this->lm_object->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
-		$this->lm_tree->addTree($a_lm_id, 1);
+		//$this->lm_tree->addTree($a_lm_id, 1); happens in ilObjLearningModuleGUI
 
 	}
 
@@ -120,19 +125,19 @@ class ilLMParser extends ilSaxParser
 					switch ($pg["type"])
 					{
 						case "pg_alias":
-echo "storeTree.pg_alias:".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
+//echo "storeTree.pg_alias:".$this->pg_mapping[$pg["id"]].":".$st["id"].":<br>";
 							$this->lm_tree->insertNode($this->pg_mapping[$pg["id"]], $st["id"]);
 							break;
 
 						case "pg":
-echo "storeTree.pg:".$pg["id"].":".$st["id"].":<br>";
+//echo "storeTree.pg:".$pg["id"].":".$st["id"].":<br>";
 							$this->lm_tree->insertNode($pg["id"], $st["id"]);
 							break;
 					}
 				}
 			}
 		}
-echo "6";
+//echo "6";
 	}
 
 
@@ -221,22 +226,21 @@ echo "6";
 		switch($a_name)
 		{
 			case "ContentObject":
-				$this->learning_module =& new ilLearningModule($this->lm_id);
-				$this->current_object =& $this->learning_module;
+				$this->current_object =& $this->lm_object;
 				break;
 
 			case "StructureObject":
-echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
+//echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->structure_objects[count($this->structure_objects)]
 					=& new ilStructureObject();
 				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
-				$this->current_object->setLMId($this->lm_id);
+				$this->current_object->setLMId($this->lm_object->getId());
 				break;
 
 			case "PageObject":
 				$this->in_page_object = true;
 				$this->page_object =& new ilPageObject();
-				$this->page_object->setLMId($this->lm_id);
+				$this->page_object->setLMId($this->lm_object->getId());
 				//$this->container = array();
 				//$this->container[] =& $this->page_object;
 				$this->current_object =& $this->page_object;
@@ -252,9 +256,10 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->in_meta_data = true;
 				$this->meta_data =& new ilMetaData();
 				$this->current_object->assignMetaData($this->meta_data);
-				if(get_class($this->current_object) == "illearningmodule")
+				if(get_class($this->current_object) == "ilobjlearningmodule")
 				{
-					$this->meta_data->setId($this->lm_id);
+//echo "starting new meta data for lm<br>";
+					$this->meta_data->setId($this->lm_object->getId());
 					$this->meta_data->setType("lm");
 				}
 				break;
@@ -302,7 +307,7 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 				$this->in_page_object = false;
 				if (!$this->page_object->isAlias())
 				{
-					echo "PageObject ".$this->page_object->getImportId().":<br>";
+//echo "PageObject ".$this->page_object->getImportId().":<br>";
 					/*
 					$content = $this->page_object->getContent();
 					foreach($content as $co_object)
@@ -359,7 +364,7 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
 				}
-				if(get_class($this->current_object) == "illearningmodule")
+				if(get_class($this->current_object) == "ilobjlearningmodule")
 				{
 					$this->current_object->update();
 				}
@@ -415,7 +420,7 @@ echo "<br><br>StructureOB-SET-".count($this->structure_objects)."<br>";
 
 				case "Keyword":
 					$this->meta_data->addKeyword($this->keyword_language, $a_data);
-echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
+//echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
 					break;
 
 			}
