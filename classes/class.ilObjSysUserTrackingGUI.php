@@ -137,6 +137,80 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	}
 
 	/**
+	* display tracking settings form
+	*/
+	function manageDataObject()
+	{
+		global $tpl,$lng,$ilias;
+
+		// tracking settings
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_manage_data.html");
+		$tpl->setVariable("FORMACTION", "adm_object?ref_id=".$_GET["ref_id"].
+			"&cmd=gateway");
+		$tpl->setVariable("TXT_TRACKING_DATA", $this->lng->txt("tracking_data"));
+		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
+		$tpl->setVariable("TXT_NUMBER_OF_ACC", $lng->txt("number_of_accesses"));
+		$tpl->setVariable("TXT_DELETE_OLDER", $lng->txt("delete"));
+		$overw = $this->object->getMonthTotalOverview();
+		foreach($overw as $month)
+		{
+			$tpl->setCurrentBlock("load_row");
+			$rcol = ($rcol != "tblrow1") ? "tblrow1" : "tblrow2";
+			$tpl->setVariable("ROWCOL", $rcol);
+			$tpl->setVariable("VAL_MONTH", $month["month"]);
+			$tpl->setVariable("VAL_NUMBER_OF_ACC", $month["cnt"]);
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->parseCurrentBlock();
+	}
+
+	/**
+	* confirm delete tracking data
+	*/
+	function confirmDeletionDataObject()
+	{
+		global $tpl, $lng;
+
+		if (!isset($_POST["month"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		$nr = $this->object->getTotalOlderThanMonth($_POST["month"]);
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_confirm_data_deletion.html");
+		$tpl->setVariable("FORMACTION", "adm_object?ref_id=".$_GET["ref_id"].
+			"&cmd=gateway&month=".$_POST["month"]);
+		$tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("tracking_data_del_confirm"));
+		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
+		$tpl->setVariable("VAL_MONTH", $_POST["month"]);
+		$tpl->setVariable("TXT_NUMBER_OF_RECORDS", $lng->txt("number_of_records"));
+		$tpl->setVariable("VAL_NUMBER_OF_RECORDS", $nr);
+		$tpl->setVariable("TXT_NUMBER_OF_ACC", $lng->txt("number_of_accesses"));
+		$tpl->setVariable("TXT_DELETE_DATA", $lng->txt("delete_tr_data"));
+		$tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
+	}
+
+	/**
+	* cancel deletion of tracking data
+	*/
+	function cancelDeleteDataObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
+	}
+
+	/**
+	* delete tracking data
+	*/
+	function deleteDataObject()
+	{
+		$this->object->deleteTrackingDataBeforeMonth($_GET["month"]);
+
+		sendInfo($this->lng->txt("tracking_data_deleted"),true);
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
+	}
+
+	/**
 	* display tracking query form
 	*/
 	function trackingDataQueryFormObject()
@@ -515,8 +589,11 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 					$k = $i+1;
 					$data[0] = $i.":00:00  ~  ".$k.":00:00";
 					$data[1] = $count[$i];
+					$width = ($max > 0)
+						? round($count[$i] / $max * 100)
+						: 0;
 					$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
-						"width=\"".round($count[$i] / $max * 100)."\" height=\"10\"/>";
+						"width=\"".$width."\" height=\"10\"/>";
 					$css_row = $i%2==0?"tblrow1":"tblrow2";
 					foreach ($data as $key => $val)
 					{

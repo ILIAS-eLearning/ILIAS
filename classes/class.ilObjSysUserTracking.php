@@ -224,6 +224,54 @@ class ilObjSysUserTracking extends ilObject
 		return $cnt_rec["cnt"];
 	}
 
+	/**
+	* get total number of accesses per month
+	*/
+	function getMonthTotalOverview()
+	{
+		global $ilDB;
+
+		$q = "SELECT count(*) as cnt, count(distinct user_id) as user_cnt, date_format(acc_time,'%Y-%m') AS month FROM ut_access".
+			" GROUP BY month ORDER BY month DESC";
+		$min_set = $ilDB->query($q);
+		$months = array();
+		while ($min_rec = $min_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$months[] = array("month" => $min_rec["month"],
+				"cnt" => $min_rec["cnt"], "user_cnt" => $min_rec["user_cnt"]);
+		}
+		return $months;
+	}
+
+	/**
+	* get total number of records older than given month (YYYY-MM)
+	*/
+	function getTotalOlderThanMonth($a_month)
+	{
+		global $ilDB;
+
+		$q = "SELECT count(*) as cnt, date_add('$a_month-01', INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time < ".
+			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+
+		$cnt_set = $ilDB->query($q);
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+//echo "cnt:".$cnt_rec["cnt"].":date:".$cnt_rec["d"].":";
+
+		return $cnt_rec["cnt"];
+	}
+
+	/**
+	* delete tracking data of month (YYYY-MM) and before
+	*/
+	function deleteTrackingDataBeforeMonth($a_month)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM ut_access WHERE acc_time < ".
+			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+
+		$ilDB->query($q);
+	}
 
 	/**
 	* enable user tracking
