@@ -871,10 +871,10 @@ common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen überprüfen
 common#:#check_link#:#Externen Link überprüfen
-common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.###24 Dec 2004 content changed
+common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.###24 Dec 2004 content changed
+common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -882,8 +882,8 @@ common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
-common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
-common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
+common#:#cleaned_file#:#File has been cleaned.
+common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client ip#:#Client IP
@@ -1129,7 +1129,7 @@ common#:#file_added#:#Datei hochgeladen
 common#:#file_delete#:#Datei löschen
 common#:#file_edit#:#Datei bearbeiten
 common#:#file_edit_permission#:#Rechteeinstellungen ändern
-common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
+common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
@@ -1568,7 +1568,7 @@ common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
-common#:#logs#:#Log data###07 Jan 2005 new variable
+common#:#logs#:#Log-Daten
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
@@ -2036,9 +2036,9 @@ common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
-common#:#repeat_scan#:#Repeating virus scan...###07 Jan 2005 new variable
-common#:#repeat_scan_failed#:#Repeat scan failed.###07 Jan 2005 new variable
-common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
+common#:#repeat_scan#:#Repeating virus scan...
+common#:#repeat_scan_failed#:#Repeat scan failed.
+common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
@@ -2444,7 +2444,7 @@ content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
-content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
+content#:#cont_browser_not_js_capable#:#Der JavaScript-Editor wird für Ihre Browserversion leider nicht unterstützt. 
 content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
@@ -2479,7 +2479,7 @@ content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
-content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
+content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
 content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_folder#:#Ordner anlegen
@@ -2583,7 +2583,7 @@ content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
-content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen###07 Jan 2005 content changed
+content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_src#:#Sourcecode einfügen
