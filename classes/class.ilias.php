@@ -91,9 +91,10 @@ class ILIAS extends PEAR
     *  @access public
     */
 	var $ini = array();
+	
     /**
      * Error Handling
-     * @var object
+     * @var object Error
      * @access public
      */
 	var $error_class;

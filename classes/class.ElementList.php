@@ -210,11 +210,12 @@ class ElementList {
 
     /**
     * select all datasets of one database table without any limitations
-    * @return object $result result identifier for use with getDbNextElement()
+    * @return object result result identifier for use with getDbNextElement()
     * @access public
     * @see checkDb(), selectDbAllLimited(), getDbNextElement()
     */
-    function selectDbAll() {
+    function selectDbAll()
+	{
         $this->checkDb("Liste::selectDbAll()");
 		
 #		echo "SELECT * FROM " . $this->getDbTable() . " WHERE (".$this->whereCond.") ORDER BY " . $this->orderField . " " . $this->orderDirection;

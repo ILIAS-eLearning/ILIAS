@@ -28,6 +28,7 @@ class Log
 	 * 
 	 * set the filename
 	 * 
+	 * @param string
 	 * @return boolean 
 	 * @access public
 	 * @author Peter Gabriel <pgabriel@databay.de>
@@ -51,6 +52,8 @@ class Log
 	* only add a log entry to the logfile
 	* if there isn't a logentry for the topic
 	* 
+	* @param string
+	* @access public
 	*/
 	function writeLanguageLog($topic)
 	{
@@ -64,6 +67,9 @@ class Log
 	* 
 	* this method logs anything you want. It appends a line to the given logfile:
 	* date: message
+	*
+	* @param string
+	* @access public
 	*/
 	function write($msg)
 	{

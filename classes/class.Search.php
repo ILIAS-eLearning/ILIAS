@@ -21,7 +21,6 @@ class Search extends PEAR
      * setup database
      *
      * @param object database handler
-     * @param string UserID
      */
     function Search(&$dbhandle)
     {
