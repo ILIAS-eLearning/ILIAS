@@ -2208,3 +2208,9 @@ ALTER  TABLE  `qpl_questions`  ADD  `ordering_type` enum('0','1') default NULL  
 
 <#144>
 UPDATE content_object SET default_layout = '1window' WHERE default_layout='no_menu';
+
+<#145>
+ALTER TABLE mail DROP COLUMN timest;
+
+<#146>
+ALTER TABLE mail CHANGE m_type m_type VARCHAR( 255 ) DEFAULT NULL;
