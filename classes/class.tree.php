@@ -121,11 +121,6 @@ class Tree extends PEAR
 		
 		$res = $this->db->query($query);
 		
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-
 		if ($res->numRows() > 0)
 		{
 			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -233,12 +228,7 @@ class Tree extends PEAR
 				 "AND parent = '".$a_parent_id."'";
 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-		
+	
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$left = $row->lft;
@@ -251,11 +241,6 @@ class Tree extends PEAR
 				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."'";
 
 		$res = $this->db->query($query);
-		
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -302,11 +287,6 @@ class Tree extends PEAR
 
 		$res = $this->db->query($query);
 
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-
 		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$left = $data["lft"];
@@ -328,12 +308,7 @@ class Tree extends PEAR
 				 "WHERE tree = '".$this->tree_id."'";
 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-		
+	
 		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"])+1;
 		
 		// insert node
@@ -342,11 +317,6 @@ class Tree extends PEAR
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 				 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
 	}
 
 	/**
@@ -378,12 +348,7 @@ class Tree extends PEAR
 				 "AND tree = '".$this->tree_id."'";
 				 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-		
+	
 		while($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($data["parent"] == $a_parent_id)
@@ -401,10 +366,6 @@ class Tree extends PEAR
 		{
 			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$a_node_id."'");
 			
-		 	if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-			}
 		}
 
 		// delete node
@@ -414,11 +375,6 @@ class Tree extends PEAR
 				 "AND tree = '".$this->tree_id."'";
 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
 
 		// close up the gap
 		$query = "UPDATE tree SET ".
@@ -439,11 +395,6 @@ class Tree extends PEAR
 				 "WHERE tree = '".$this->tree_id."'";
 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}		
 		
 		$this->node_id = $new_parent;
 	}
@@ -494,12 +445,7 @@ class Tree extends PEAR
 				 "AND tree = '".$this->tree_id."'";
 		
 		$res = $this->db->query($query);
-		
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}	
-		
+	
 		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$left = $data["lft"];
@@ -516,11 +462,6 @@ class Tree extends PEAR
 		
 		$res = $this->db->query($query);
 		
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}	
-
 		// delete the the childs from tree
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -530,32 +471,12 @@ class Tree extends PEAR
 		foreach ($delete as $val)
 		{
 			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
-			
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-			}
-				
+		
 			$res = $this->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
-
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-			}
-			
+		
 			$res = $this->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
 
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-			}
-
 			$res = $this->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
-
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-			}
 		}
 
 		// delete subtree
@@ -580,11 +501,6 @@ class Tree extends PEAR
 				 "WHERE tree = '".$this->tree_id."'";
 
 		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{	
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
 
 		$this->parent_id = $new_parent;
 	}
@@ -614,7 +530,9 @@ class Tree extends PEAR
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
 				 "WHERE T1.child = '".$a_startnode." '".
+				 "AND T1.parent = '0'".
 				 "AND T3.child = '".$a_endnode." '".
+				 "AND T3.parent = '".$this->parent_id." '".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
 				 "AND T2.tree = '".$this->tree_id." '".
@@ -622,18 +540,13 @@ class Tree extends PEAR
 
 		$res = $this->db->query($query);
 		
-		if (DB::isError($res))
-		{	
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
-		}
-		
 		if ($res->numRows() > 0)
 		{
 			return $res;
 		}
 		else
 		{
-			return $this->raiseError("Error: No path found!",$this->error_obj->WARNING);
+			$this->raiseError("Error: No path found!",$this->error_obj->MESSAGE);
 		}
 	}
 
@@ -868,7 +781,6 @@ class Tree extends PEAR
 					$node_data["open"] = "?obj_id=".$child["id"]."&parent=".$child["parent"];
 					
 					$node_data["level"] = $level;
-				
 					
 					// only display categories
 					//if ($child["type"] == "cat")
