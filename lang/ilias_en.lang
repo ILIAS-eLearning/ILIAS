@@ -157,6 +157,7 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to d
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)

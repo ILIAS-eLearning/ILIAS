@@ -32,7 +32,7 @@
 * @package assessment
 */
 
-require_once "classes/class.ilObjectGUI.php";
+require_once "classes/class.ilObject.php";
 require_once "class.assMarkSchema.php";
 
 define("TEST_FIXED_SEQUENCE", 0);
@@ -227,9 +227,9 @@ class ilObjTest extends ilObject
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function ilObjTest($a_id = 0,$a_call_by_reference = true)
-	{
+	{ 
 		$this->type = "tst";
-		$this->ilObject($a_id,$a_call_by_reference);
+		$this->ilObject($a_id, $a_call_by_reference);
 		$this->retrieve_test_types();
 		$this->test_id = -1;
     $this->author = $this->ilias->account->fullname;
@@ -1086,13 +1086,16 @@ class ilObjTest extends ilObject
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
 	
-	function get_active_test_user() {
+	function get_active_test_user($user_id = "") {
 		global $ilDB;
 		global $ilUser;
 		
 		$db =& $ilDB->db;
+		if (!$user_id) {
+			$user_id = $ilUser->id;
+		}
 		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$db->quote($ilUser->id),
+			$db->quote($user_id),
 			$db->quote($this->test_id)
 		);
 		
@@ -1146,5 +1149,58 @@ class ilObjTest extends ilObject
 		}
 		$db->query($query);
 	}
+	
+	function &get_test_result($user_id) {
+		$total_max_points = 0;
+		$total_reached_points = 0;
+		$active = $this->get_active_test_user($user_id);
+		$sequence_array = split(",", $active->sequence);
+		$key = 1;
+		$result_array = array();
+    foreach ($sequence_array as $idx => $seq) {
+			$value = $this->questions[$seq];
+      $question_type = $this->get_question_type($value);
+      switch ($question_type) {
+        case "qt_cloze":
+          $question = new ASS_ClozeTest();
+          break;
+        case "qt_matching":
+          $question = new ASS_MatchingQuestion();
+          break;
+        case "qt_ordering":
+          $question = new ASS_OrderingQuestion();
+          break;
+				case "qt_imagemap":
+					$question = new ASS_ImagemapQuestion();
+					break;
+        case "qt_multiple_choice_sr":
+        case "qt_multiple_choice_mr":
+          $question = new ASS_MultipleChoice();
+          break;
+      }
+      $question->load_from_db($value);
+      $max_points = $question->get_maximum_points();
+      $total_max_points += $max_points;
+      $reached_points = $question->get_reached_points($user_id, $this->get_test_id());
+      $total_reached_points += $reached_points;
+			$row = array(
+				"nr" => "$key",
+				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->get_id() . "\">" . $question->get_title() . "</a>",
+				"max" => sprintf("%d", $max_points),
+				"reached" => sprintf("%d", $reached_points),
+				"percent" => sprintf("%2.2f ", ($reached_points / $max_points) * 100) . "%"
+			);
+			array_push($result_array, $row);
+			$key++;
+    }
+		foreach ($result_array as $key => $value) {
+			$result_array[$key]["total_max_points"] = $total_max_points;
+			$result_array[$key]["total_reached_points"] = $total_reached_points;
+			$result_array[$key]["test_title"] = $this->getTitle();
+			$result_array[$key]["test_type"] = $this->get_test_type();
+		}
+		return $result_array;
+	}
+	
 } // END class.ilObjTest
 ?>
