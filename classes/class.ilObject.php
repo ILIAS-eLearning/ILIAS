@@ -211,8 +211,8 @@ class ilObject
 
 		$this->id = $obj["obj_id"];
 		$this->type = $obj["type"];
-		$this->title = ilUtil::stripSlashes($obj["title"]);
-		$this->desc = ilUtil::stripSlashes($obj["description"]);
+		$this->title = $obj["title"];
+		$this->desc = $obj["description"];
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
@@ -223,8 +223,8 @@ class ilObject
 
 		if ($translation_type == "sys")
 		{
-			$this->title = ilUtil::stripSlashes($this->lng->txt("obj_".$this->type));
-			$this->desc = ilUtil::stripSlashes($this->lng->txt("obj_".$this->type."_desc"));
+			$this->title = $this->lng->txt("obj_".$this->type);
+			$this->desc = $this->lng->txt("obj_".$this->type."_desc");
 		}
 		elseif ($translation_type == "db")
 		{
@@ -237,8 +237,8 @@ class ilObject
 
 			if ($row)
 			{
-				$this->title = ilUtil::stripSlashes($row->title);
-				$this->desc = ilUtil::stripSlashes($row->description);
+				$this->title = $row->title;
+				$this->desc = $row->description;
 			}
 		}
 	}

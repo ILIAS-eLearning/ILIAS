@@ -78,8 +78,8 @@ class ilObjFileGUI extends ilObjectGUI
 		// fill in saved values in case of error
 		$data = array();
 		$data["fields"] = array();
-		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 		$data["fields"]["file"] = $_SESSION["error_post_vars"]["Fobject"]["file"];
 
 		$this->getTemplateFile("new",$this->type);
@@ -87,7 +87,7 @@ class ilObjFileGUI extends ilObjectGUI
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -136,8 +136,8 @@ class ilObjFileGUI extends ilObjectGUI
 		include_once("classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType($this->type);
-		$fileObj->setTitle($_POST["Fobject"]["title"]);
-		$fileObj->setDescription($_POST["Fobject"]["desc"]);
+		$fileObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$fileObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->create();

@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.9 2003/09/30 17:44:20 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.10 2003/10/29 15:01:09 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -78,8 +78,8 @@ class ilObjFolderGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil:stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit");
 			
@@ -92,7 +92,7 @@ class ilObjFolderGUI extends ilObjectGUI
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+				$this->tpl->setVariable(strtoupper($key), $val);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -130,8 +130,8 @@ class ilObjFolderGUI extends ilObjectGUI
 		include_once("classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder();
 		$folderObj->setType($this->type);
-		$folderObj->setTitle($_POST["Fobject"]["title"]);
-		$folderObj->setDescription($_POST["Fobject"]["desc"]);
+		$folderObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$folderObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$folderObj->create();
 		$folderObj->createReference();
 		//insert folder in grp_tree

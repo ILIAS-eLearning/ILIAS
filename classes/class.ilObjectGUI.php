@@ -1243,8 +1243,8 @@ class ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]);
-			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit",$new_type);
 
@@ -1313,8 +1313,8 @@ class ilObjectGUI
 			include_once($module_dir."classes/class.".$class_name.".php");
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_POST["Fobject"]["title"]);
-			$newObj->setDescription($_POST["Fobject"]["desc"]);
+			$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+			$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
@@ -1374,13 +1374,13 @@ class ilObjectGUI
 			if ($_SESSION["error_post_vars"])
 			{
 				// fill in saved values in case of error
-				$fields["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-				$fields["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];			
+				$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+				$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);			
 			}
 			else
 			{
-				$fields["title"] = $this->object->getTitle();
-				$fields["desc"] = $this->object->getDescription();			
+				$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
+				$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());			
 			}
 
 			$this->displayEditForm($fields);
@@ -1400,7 +1400,7 @@ class ilObjectGUI
 		foreach ($fields as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1423,8 +1423,8 @@ class ilObjectGUI
 	*/
 	function updateObject()
 	{
-		$this->object->setTitle($_POST["Fobject"]["title"]);
-		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->setTitle(ilUtil::prepareFormOutput($_POST["Fobject"]["title"]),true);
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
