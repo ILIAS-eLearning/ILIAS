@@ -19,6 +19,14 @@
 	{TXT_LOCATION}
 	</td>
 </tr>
+<!-- Format -->
+<tr class="std">
+	<td class="option">{TXT_FORMAT}
+	</td>
+	<td class="option_value">
+	{VAL_FORMAT}
+	</td>
+</tr>
 <!-- Width -->
 <tr class="std">
 	<td class="option">
@@ -68,6 +76,14 @@
 	{TXT_FULL_LOCATION}
 	</td>
 </tr>
+<!-- Format -->
+<tr class="std">
+	<td class="option">{TXT_FULL_FORMAT}
+	</td>
+	<td class="option_value">
+	{VAL_FULL_FORMAT}
+	</td>
+</tr>
 <!-- Width -->
 <tr class="std">
 	<td class="option">
@@ -109,6 +125,10 @@
 <tr>
 	<td class="submit" colspan="2">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<!-- BEGIN remove_full -->
+		&nbsp;
+		<input class="submit" type="submit" name="cmd[{CMD_REMOVE_FULL}]" value="{TXT_REMOVE_FULL}" />
+		<!-- END remove_full -->
 	</td>
 </tr>
 <!-- END commands -->

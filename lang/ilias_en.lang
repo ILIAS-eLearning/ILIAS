@@ -1384,6 +1384,8 @@ content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
+content#:#cont_format#:#Format
+content#:#cont_remove_fullscreen#:#Remove Fullscreen
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
