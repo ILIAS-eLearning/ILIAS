@@ -369,6 +369,23 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* lookup user name
+	*/
+	function _lookupName($a_user_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT firstname, lastname, title FROM usr_data".
+			" WHERE usr_id =".$ilDB->quote($a_user_id);
+		$user_set = $ilDB->query($q);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return array("user_id" => $a_user_id,
+			"firstname" => $user_rec["firstname"],
+			"lastname" => $user_rec["lastname"],
+			"title" => $user_rec["title"]);
+	}
+
+	/**
 	* updates the login data of a "user"
 	* // TODO set date with now() should be enough
 	* @access	public

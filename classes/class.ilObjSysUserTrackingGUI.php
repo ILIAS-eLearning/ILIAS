@@ -44,8 +44,16 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	*/
 	function ilObjSysUserTrackingGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $rbacsystem;
+
 		$this->type = "trac";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+
+		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_track"),$this->ilias->error_obj->WARNING);
+		}
+
 	}
 
 	/**
@@ -169,7 +177,12 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	*/
 	function confirmDeletionDataObject()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete_track"),$this->ilias->error_obj->WARNING);
+		}
 
 		if (!isset($_POST["month"]))
 		{
@@ -204,6 +217,13 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	*/
 	function deleteDataObject()
 	{
+		global $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete_track"),$this->ilias->error_obj->WARNING);
+		}
+
 		$this->object->deleteTrackingDataBeforeMonth($_GET["month"]);
 
 		sendInfo($this->lng->txt("tracking_data_deleted"),true);
@@ -221,6 +241,18 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$day = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
 		//subject module
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_tracking.html");
+
+		if (ilObjSysUserTracking::_enabledUserRelatedData())
+		{
+			$tpl->setCurrentBlock("user_stat");
+			$tpl->setVariable("TXT_STATISTIC_U", $lng->txt("user_access"));
+			if ($_SESSION["il_track_stat"] == "u")
+			{
+				$tpl->setVariable("U_CHK", " checked=\"1\" ");
+			}
+			$tpl->parseCurrentBlock();
+		}
+
 		//$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$usertracking = new ilUserTracking();
 		//$usertracking->_locator();
@@ -232,7 +264,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_STATISTIC", $lng->txt("statistic"));
 		$tpl->setVariable("TXT_STATISTIC_H", $lng->txt("hours_of_day"));
 		$tpl->setVariable("TXT_STATISTIC_D", $lng->txt("days_of_period"));
-		$tpl->setVariable("TXT_STATISTIC_U", $lng->txt("user_access"));
 		$tpl->setVariable("TXT_USER_LANGUAGE",$lng->txt("user_language"));
 		$tpl->setVariable("TXT_LM",$lng->txt("lm"));
 		$tpl->setVariable("TXT_SHOW_TR_DATA",$lng->txt("query_data"));
@@ -334,11 +365,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		{
 			$tpl->setVariable("D_CHK", " checked=\"1\" ");
 		}
-		else if ($_SESSION["il_track_stat"] == "u")
-		{
-			$tpl->setVariable("U_CHK", " checked=\"1\" ");
-		}
-		else
+		else if ($_SESSION["il_track_stat"] != "u")
 		{
 			$tpl->setVariable("H_CHK", " checked=\"1\" ");
 		}
@@ -467,16 +494,17 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		// user access statistic
 		if($_POST["stat"] == "u")	// user access
 		{
-			$title_new = array("login", "learning module", "language","client ip","time");
+			$title_new = array("user", "count", "");
 
 			// condition
-			$condition = $this->getCondition()." and b.acc_time>='".$from."' and b.acc_time<'".$to."'";
+			$condition = $this->getCondition()." and acc_time>='".$from."' and acc_time<'".$to."'";
 
-			$this->data["data"] = $usertracking->searchResults($condition);
-			$this->maxcount = count($this->data["data"]);
+			$user_acc = $this->object->getAccessTotalPerUser($condition);
+
+			$this->maxcount = count($user_acc);
 
 			// check if result is given
-			if(count($this->data["data"])<1)
+			if (count($user_acc) < 1)
 			{
 				$this->ilias->raiseError($lng->txt("msg_no_search_result"),
 					$this->ilias->error_obj->MESSAGE);
@@ -490,32 +518,42 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$tbl->setHeaderNames($header_names);
 			//$tbl->setColumnWidth(array("15","75%","25%"));
 			$tbl->setMaxCount($this->maxcount);
+			$tbl->setStyle("table", "std");
 			$tbl->render();
-			if (is_array($this->data["data"]))
+			$max = 0;
+			foreach ($user_acc as $user)
 			{
-			//table cell
-				for ($i=0; $i < count($this->data["data"]); $i++)
-				{
-					$data = $this->data["data"][$i];
-					$css_row = $i%2==0?"tblrow1":"tblrow2";
-					foreach ($this->data["data"][$i] as $key => $val)
-					{
-						if($val=="")
-						{
-							$val=0;
-						}
-						$tpl->setCurrentBlock("text");
-						$tpl->setVariable("TEXT_CONTENT", $val);
-						$tpl->parseCurrentBlock();
-						$tpl->setCurrentBlock("table_cell");
-						$tpl->parseCurrentBlock();
-					} //foreach
-					$tpl->setCurrentBlock("tbl_content");
-					$tpl->setVariable("CSS_ROW", $css_row);
-					$tpl->parseCurrentBlock();
-				} //for
-				//$tpl->show();
+				$max = ($max > $user["cnt"]) ? $max : $user["cnt"];
 			}
+
+			foreach ($user_acc as $user)
+			{
+				$data[0] = $user["name"];
+				$data[1] = $user["cnt"];
+				$width = ($max > 0)
+					? round($data[1] / $max * 100)
+					: 0;
+				$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+					"width=\"".$width."\" height=\"10\"/>";
+
+				$css_row = $i%2==0?"tblrow1":"tblrow2";
+				foreach ($data as $key => $val)
+				{
+					if($val=="")
+					{
+						$val=0;
+					}
+					$tpl->setCurrentBlock("text");
+					$tpl->setVariable("TEXT_CONTENT", $val);
+					$tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("table_cell");
+					$tpl->parseCurrentBlock();
+				} //foreach
+				$tpl->setCurrentBlock("tbl_content");
+				$tpl->setVariable("CSS_ROW", $css_row);
+				$tpl->parseCurrentBlock();
+			} //for
+
 		}
 		else //user not selected
 		{
@@ -612,19 +650,25 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 			else //day selected
 			{
+				$max = 0;
 				for($i=0;$i<$num;$i++)
 				{
-					$data[0] = $usertracking->countNum($from,$from1,$condition);
-					if ($_POST["lm"] != 0) //lm selected
-					{
-						$data[1] = $_POST["lm"];
-					}
-					else
-					{
-						$data[1] = "all of your subjects!";
-					}
-					$data[2] = $_POST["language"];
-					$data[3] = $from."  ~  ".$from1;
+					$fro[$i] = $from;
+					$cou[$i] = $usertracking->countNum($from,$from1,$condition);
+					$from = $from1;
+					$from1 = $usertracking->addDay($from);
+					$max = ($max > $cou[$i]) ? $max : $cou[$i];
+				}
+				for($i=0;$i<$num;$i++)
+				{
+					$data[0] = $fro[$i];
+					$data[1] = $cou[$i];
+					$width = ($max > 0)
+						? round($cou[$i] / $max * 100)
+						: 0;
+					$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+						"width=\"".$width."\" height=\"10\"/>";
+
 					$css_row = $i%2==0?"tblrow1":"tblrow2";
 
 					foreach ($data as $key => $val)
@@ -638,8 +682,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 					$tpl->setCurrentBlock("tbl_content");
 					$tpl->setVariable("CSS_ROW", $css_row);
 					$tpl->parseCurrentBlock();
-					$from = $from1;
-					$from1 = $usertracking->addDay($from);
 				} //for
 			}
 		}//else

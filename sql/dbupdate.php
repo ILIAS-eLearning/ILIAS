@@ -3884,3 +3884,26 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 
 ?>
+
+<#233>
+<?php
+
+// insert media pool definition in object_data
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'trac'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operations to media pool
+// 1: edit_permissions, 2: visible, 3: read, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+?>

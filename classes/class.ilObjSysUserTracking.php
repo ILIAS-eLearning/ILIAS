@@ -261,6 +261,34 @@ class ilObjSysUserTracking extends ilObject
 	}
 
 	/**
+	* get total number of records older than given month (YYYY-MM)
+	*/
+	function getAccessTotalPerUser($a_condition)
+	{
+		global $ilDB;
+
+		$q = "SELECT count(*) AS cnt, user_id ".
+			"FROM ut_access WHERE ".$a_condition.
+			" GROUP BY user_id";
+		$cnt_set = $ilDB->query($q);
+
+		$acc = array();
+		while ($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$name = ilObjUser::_lookupName($cnt_rec["user_id"]);
+
+			if ($cnt_rec["user_id"] != 0)
+			{
+				$acc[] = array("user_id" => $cnt_rec["user_id"],
+					"name" => $name["lastname"].", ".$name["firstname"],
+					"cnt" => $cnt_rec["cnt"]);
+			}
+		}
+
+		return $acc;
+	}
+
+	/**
 	* delete tracking data of month (YYYY-MM) and before
 	*/
 	function deleteTrackingDataBeforeMonth($a_month)
