@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.51 2003/10/20 13:30:15 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.52 2003/10/27 16:46:39 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -54,6 +54,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
 		// for gender selection. don't change this
+		// maybe deprecated
 		$this->gender = array(
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
@@ -75,11 +76,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
-			// gender selection
-			$gender = ilUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
-
 			// role selection
-//			$obj_list = getObjectList("role");
 			$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
 
 			foreach ($obj_list as $obj_data)
@@ -98,7 +95,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$data["fields"]["passwd"] = "";
 			$data["fields"]["passwd2"] = "";
 			$data["fields"]["title"] = "";
-			$data["fields"]["gender"] = $gender;
+			$data["fields"]["gender"] = "";
 			$data["fields"]["firstname"] = "";
 			$data["fields"]["lastname"] = "";
 			$data["fields"]["institution"] = "";
@@ -134,6 +131,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 			$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
+			$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
+			$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
 			// FILL SAVED VALUES IN CASE OF ERROR
 			$this->tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
@@ -148,6 +147,18 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
 			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
+			
+			// gender selection
+			if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
+			{
+				$gender_sel = "BTN_GENDER_F";
+			}
+			else
+			{
+				$gender_sel = "BTN_GENDER_M";
+			}
+
+			$this->tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 			// language selection
 			$languages = $this->lng->getInstalledLanguages();
@@ -165,9 +176,6 @@ class ilObjUserGUI extends ilObjectGUI
 	
 				$this->tpl->parseCurrentBlock();
 			} // END language selection
-
-			// EMPTY SAVED VALUES not needed; done by system
-			//unset($_SESSION["error_post_vars"]);
 		}
 	}
 
@@ -189,16 +197,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		else
 		{
-			// gender selection
-			$gender = ilUtil::formSelect($this->object->gender,"Fobject[gender]",$this->gender);
-
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["login"] = $this->object->getLogin();
 			$data["fields"]["passwd"] = "********";	// will not be saved
 			$data["fields"]["passwd2"] = "********";	// will not be saved
 			$data["fields"]["title"] = $this->object->getUTitle();
-			$data["fields"]["gender"] = $gender;
+			$data["fields"]["gender"] = $this->object->getGender();
 			$data["fields"]["firstname"] = $this->object->getFirstname();
 			$data["fields"]["lastname"] = $this->object->getLastname();
 			$data["fields"]["institution"] = $this->object->getInstitution();
@@ -280,6 +285,21 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
+		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+
+		
+		// gender selection
+		if ($data["fields"]["gender"] == "f")
+		{
+			$gender_sel = "BTN_GENDER_F";
+		}
+		else
+		{
+			$gender_sel = "BTN_GENDER_M";
+		}
+
+		$this->tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();

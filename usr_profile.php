@@ -86,8 +86,6 @@ function change_password()
 {	
 	
 	global $ilias, $lng, $tpl, $password_error;
-	require_once "./classes/class.perm.php";
-	require_once "./classes/class.ilUtil.php";
 	
 	// catch hack attempts
 	if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
@@ -468,9 +466,9 @@ $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 $tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
 $tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
 $tpl->setVariable("TXT_PUBLIC_PROFILE", $lng->txt("public_profile"));
-$tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
-$tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
-$tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
+$tpl->setVariable("TXT_GENDER",$lng->txt("gender"));
+$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
+$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
 $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 // todo
 // capture image name including path ($archive_dir/$filename)
@@ -509,9 +507,21 @@ $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->getLogin());
-$tpl->setVariable("SELECTED_".strtoupper($ilias->account->getGender()), "selected");
 $tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
 $tpl->setVariable("LASTNAME", $ilias->account->getLastname());
+
+// gender selection
+if ($ilias->account->getGender() == "f")
+{
+	$gender_sel = "BTN_GENDER_F";
+}
+elseif ($ilias->account->getGender() == "m")
+{
+	$gender_sel = "BTN_GENDER_M";
+}
+
+$tpl->setVariable($gender_sel,"checked=\"checked\"");
+
 
 $tpl->setVariable("TITLE", $ilias->account->getUTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());

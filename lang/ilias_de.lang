@@ -245,6 +245,8 @@ common#:#functions#:#Funktionen
 common#:#gdf_add#:#Add Definition###22 Sep 2003 new variable
 common#:#gdf_new#:#New Definition###22 Sep 2003 new variable
 common#:#gender#:#Geschlecht
+common#:#gender_f#:#Weiblich
+common#:#gender_m#:#Männlich
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar

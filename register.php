@@ -157,12 +157,6 @@ function displayForm ()
 	//instantiate login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
 
-	// for gender selection. don't change this
-	$gender_arr = array('m' => "salutation_m",'f'=> "salutation_f");
-
-	// gender selection
-	$gender = ilUtil::formSelect($Fobject["gender"],"Fobject[gender]",array('m' => "salutation_m",'f'=> "salutation_f"));
-	
 	// role selection (only those roles marked with allow_register)
 	$q = "SELECT * FROM role_data ".
 		 "LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
@@ -190,7 +184,7 @@ function displayForm ()
 	$data["fields"]["passwd"] = "";
 	$data["fields"]["passwd2"] = "";
 	$data["fields"]["title"] = "";
-	$data["fields"]["gender"] = $gender;
+	$data["fields"]["gender"] = "";
 	$data["fields"]["firstname"] = "";
 	$data["fields"]["lastname"] = "";
 	$data["fields"]["institution"] = "";
@@ -218,6 +212,8 @@ function displayForm ()
 	$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 	$tpl->setVariable("TXT_PASSWD2", $lng->txt("retype_password"));
 	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
+	$tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
+	$tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
 
 	// language selection
 	$languages = $lng->getInstalledLanguages();
@@ -249,6 +245,18 @@ function displayForm ()
 	$tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 	$tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
 	$tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
+	
+	// gender selection
+	if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
+	{
+		$gender_sel = "BTN_GENDER_F";
+	}
+	else
+	{
+		$gender_sel = "BTN_GENDER_M";
+	}
+
+	$tpl->setVariable($gender_sel,"checked=\"checked\"");
 	
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
