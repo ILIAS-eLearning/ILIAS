@@ -14,14 +14,14 @@ require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilFileDataMail.php";
 
+#var_dump("<pre>",$_POST,"</pre");
+
 $lng->loadLanguageModule("mail");
 
 $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
 
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
-// NOW HANDLED WITH CHECK ACCESS
-#$allow_smtp = $ilias->getSetting("mail_allow_smtp");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
@@ -35,7 +35,7 @@ if(isset($_POST["cmd"]["send"]))
 	$f_message = $umail->formatLinebreakMessage($_POST["m_message"]);
 	if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
 										 $_POST["rcp_bcc"],$_POST["m_subject"],$f_message,
-										 $_POST["attachments"],$_POST["m_type"],$_POST["m_email"]))
+										 $_POST["attachments"],$_POST["m_type"]))
 	{
 		sendInfo($error_message);
 	}
@@ -189,16 +189,21 @@ $tpl->setVariable("TXT_SEARCH_BC_RECIPIENT", $lng->txt("search_bc_recipient"));
 $tpl->setVariable("BUTTON_BC",$lng->txt("mail_bc_search"));
 // SUBJECT
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+
 // TYPE
 $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
 $tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
+if(is_array($mail_data["m_type"]) and in_array('normal',$mail_data["m_type"]))
+{
+	$tpl->setVariable("CHECKED_NORMAL",'CHECKED');
+}
 
 // ONLY IF SYSTEM MAILS ARE ALLOWED
 if($rbacsystem->checkAccess("system message",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("system_message");
 	$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
-	if($mail_data["m_type"] == 'system')
+	if(is_array($mail_data["m_type"]) and in_array('system',$mail_data["m_type"]))
 	{
 		$tpl->setVariable("CHECKED_SYSTEM",'CHECKED');
 	}
@@ -210,15 +215,10 @@ if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("allow_smtp");
 	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-	if($mail_data["m_type"] == 'email')
+	if(is_array($mail_data["m_type"]) and in_array('email',$mail_data["m_type"]))
 	{
 		$tpl->setVariable("CHECKED_EMAIL",'CHECKED');
 	}
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("smtp");
-	$tpl->setVariable("TXT_ALSO_AS_EMAIL", $lng->txt("also_as_email"));
-	$tpl->setVariable("CHECKED_ALSO_EMAIL",$mail_data["m_email"] ? 'CHECKED' : ''); 
 	$tpl->parseCurrentBlock();
 }
 
@@ -251,10 +251,6 @@ if(count($mail_data["attachments"]))
 	$tpl->setVariable("ROWS",count($mail_data["attachments"]));
 	$tpl->setVariable("FILES",implode("\n",$mail_data["attachments"]));
 	$tpl->parseCurrentBlock();
-}
-if($mail_data["m_type"] == 'normal' or !$mail_data["m_type"])
-{
-	$tpl->setVariable("CHECKED_NORMAL",'CHECKED');
 }
 $tpl->setVariable("M_MESSAGE",$mail_data["m_message"]);
 $tpl->parseCurrentBlock();

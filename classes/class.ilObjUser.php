@@ -972,17 +972,35 @@ class ilObjUser extends ilObject
 	}
 
 	/*
-	* get the user_id of a login name
-	* @param	string login name
-	* @access	public
-	*/
-	function getUserId($a_login)
+	 * STATIC METHOD
+	 * get the user_id of a login name
+	 * @param	string login name
+	 * @static
+	 * @access	public
+	 */
+	function getUserIdByLogin($a_login)
 	{
 		$query = "SELECT usr_id FROM usr_data ".
 			"WHERE login = '".$a_login."'";
 
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
+		return $row->usr_id ? $row->usr_id : 0;
+	}
+
+	/*
+	 * STATIC METHOD
+	 * get the user_id of a login name
+	 * @param	string login name
+	 * @static
+	 * @access	public
+	 */
+	function getUserIdByEmail($a_email)
+	{
+		$query = "SELECT usr_id FROM usr_data ".
+			"WHERE email = '".$a_email."'";
+
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		return $row->usr_id ? $row->usr_id : 0;
 	}
 
