@@ -192,7 +192,7 @@ class ilObjectDefinition extends ilSaxParser
 					$subs[$data] = $sub;
 				}
 			}
-			
+
 			return $subs;
 		}
 		else
@@ -382,9 +382,6 @@ class ilObjectDefinition extends ilSaxParser
 				$this->current_tag_name = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"] = $a_attribs["module"];
-//echo "name:".$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["name"].":".
-//	"mode:".$this->obj_data[$this->parent_tag_name]["properties"][$this->current_tag_name]["module"].":<br>";
-
 				break;
 			case 'action':
 				$this->current_tag = "action";
@@ -396,7 +393,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* end tag handler
-	* 
+	*
 	* @param	ressouce	internal xml_parser_handler
 	* @param	string		data
 	* @access	private
