@@ -463,12 +463,12 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
-common#:#msg_is_last_role#:#You deassigned the following users from their last role
+common#:#msg_is_last_role#:#You deassigned the following users from their last global role
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active role!
-common#:#msg_min_one_role#:#Each user must have at least one role!
+common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.

@@ -462,12 +462,12 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Rollenzuweisung genommen
+common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
-common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
+common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.

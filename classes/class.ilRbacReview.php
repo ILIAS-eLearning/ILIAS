@@ -369,7 +369,7 @@ class ilRbacReview
 
 		if (!isset($a_ref_id))
 		{
-			$message = get_class($this)."::getRolesAssignedToFolder(): No ref_id given!";
+			$message = get_class($this)."::getRolesifRoleFolder(): No ref_id given!";
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
@@ -390,6 +390,16 @@ class ilRbacReview
 		}
 
 		return $rol_id ? $rol_id : array();
+	}
+	
+	/**
+	* get only 'global' roles (all assignabel roles from main rolefolder with ROLE_FOLDER_ID
+	* @access	public
+	* @return	array		Array with rol_ids
+	*/
+	function getGlobalRoles()
+	{
+		return $this->getRolesOfRoleFolder(ROLE_FOLDER_ID,false);
 	}
 
 	/**
