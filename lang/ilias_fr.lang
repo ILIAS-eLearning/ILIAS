@@ -35,7 +35,6 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_desc#:#Recherche des objets  corrompus/invalides/absents/orphelins dans le système
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###05 Nov 2004 new variable
 administration#:#analyzing#:#Analyse en cours...
 administration#:#clean#:#Nettoyage
 administration#:#clean_desc#:#Suppression des références et des branches invalides.  Suppression des lacunes dans  l'arborescence.
