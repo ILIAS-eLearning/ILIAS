@@ -209,7 +209,8 @@ common#:#institution#:#Institution
 common#:#ip_address#:#IP Adresse
 common#:#item#:#Begriff
 common#:#keywords#:#Schlüsselwörter
-common#:#lang_dateformat#:#DD.MM.YYYY
+common#:#lang_timeformat#:#H:i:s
+common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
 common#:#lang_dk#:#D&auml;nisch
 common#:#lang_en#:#Englisch
@@ -379,8 +380,8 @@ common#:#selected#:#Ausgewählte
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
-common#:#sep_decimal#:#,
-common#:#sep_thousand#:#.
+common#:#lang_sep_decimal#:#,
+common#:#lang_sep_thousand#:#.
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server

@@ -3,7 +3,7 @@
 * Class UserFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserFolderObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.UserFolderObjectOut.php,v 1.2 2003/02/25 17:36:49 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -44,7 +44,7 @@ class UserFolderObjectOut extends ObjectOut
 						"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_user_b.gif\" border=\"0\">",
 						"name" => $val["title"],
 						"description" => $val["desc"],
-						"last_change" => $val["last_update"]
+						"last_change" => Format::formatDate($val["last_update"])
 					);
 
 					//control information

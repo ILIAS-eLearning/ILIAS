@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de> 
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.5 2003/02/21 08:58:16 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.6 2003/02/25 17:36:49 akill Exp $
 * 
 * @extends	Object
 * @package	ilias-core
@@ -140,17 +140,18 @@ class LanguageFolderObjectOut extends ObjectOut
 				"name" => $lang_data["name"].$status,
 				"status" => $lng->txt($lang_data["desc"]),
 				"remark" => $remark,
-				"last_change" => $lang_data["last_update"]
+				"last_change" => Format::formatDate($lang_data["last_update"])
 			);
 			foreach ($data as $key => $val)
 			{
-					$this->tpl->setCurrentBlock("text");
+				$this->tpl->setCurrentBlock("text");
 				$this->tpl->setVariable("TEXT_CONTENT", $val);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
-				} //foreach
-				$this->tpl->setCurrentBlock("table_row");
+			} //foreach
+			
+			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		} //for

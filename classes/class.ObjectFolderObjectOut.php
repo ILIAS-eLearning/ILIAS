@@ -3,7 +3,7 @@
 * Class ObjectFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ObjectFolderObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.ObjectFolderObjectOut.php,v 1.2 2003/02/25 17:36:49 akill Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -90,7 +90,7 @@ class ObjectFolderObjectOut extends ObjectOut
 				$data = array("type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_type_b.gif\" border=\"0\">",
 					"name" => $obj["title"],
 					"description" => $obj["desc"],
-					"last_change" => $obj["last_update"]);
+					"last_change" => Format::formatDate($obj["last_update"]));
 
 				foreach ($data as $key => $val)
 				{

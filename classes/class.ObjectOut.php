@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.25 2003/02/21 14:02:53 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.26 2003/02/25 17:36:49 akill Exp $
 *
 * @package ilias-core
 */
@@ -478,7 +478,7 @@ class ObjectOut
 	*/
 	function viewObject()
 	{
-		global $tree, $rbacsystem;
+		global $tree, $rbacsystem,$lng;
 
 		//prepare objectlist
 		$this->objectList = array();
@@ -500,7 +500,7 @@ class ObjectOut
 					"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
 					"title" => $val["title"],
 					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
+					"last_change" => Format::formatDate($val["last_update"])
 				);
 
 				//control information
