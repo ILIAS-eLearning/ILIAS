@@ -77,7 +77,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		//$this->obj =& $this->lm_obj;
 	}*/
 
-	function view()
+	function properties()
 	{
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -595,6 +595,11 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	function owner()
 	{
 		$this->ownerObject();
+	}
+
+	function view()
+	{
+		$this->viewObject();
 	}
 }
 ?>

@@ -3,7 +3,6 @@
 <objects xmlns="http://www.w3.org" version="$Id$">
 <object name="root" class_name="RootFolder" checkbox="0" inherit="0">
 	<subobj name="cat">cat</subobj>
-	<subobj name="grp">grp</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -96,7 +95,7 @@
 	<action name="delete">delete</action>
 	<action name="link">link</action>
 	<action name="paste">paste</action>
-	<action name="clear">clear</action>	
+	<action name="clear">clear</action>
 </object>
 <object name="frm" class_name="Forum" checkbox="1" inherit="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -134,8 +133,8 @@
 </object>
 <object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<subobj name="st">st</subobj>
-	<property name="view">edit_properties</property>
+	<property name="properties" module="1">properties</property>
+	<property name="view">subobjects</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="editMeta">meta_data</property>
