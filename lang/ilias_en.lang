@@ -463,3 +463,16 @@ common#:#default_language#:#Default Language
 common#:#pathes#:#Pathes
 common#:#modules#:#Modules
 common#:#input_error#:#Input error
+common#:#language_not_installed#:#is not installed. Please install that language first.
+common#:#changed_to#:#changed to
+common#:#nothing_checked#:#Funny, no checkbox checked.
+common#:#user_language#:#User Language
+common#:#choose_only_one_language#:#Please choose only one language.
+common#:#action_aborted#:#Action aborted!
+common#:#is_already_your#:#is already your
+common#:#languages_updated#:#All installed languages have been updated.
+common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.
+common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.
+common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
+common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
+common#:#uninstalled#:#uninstalled.
