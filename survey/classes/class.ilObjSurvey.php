@@ -1242,8 +1242,9 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($questionblock_id)
 			);
 			$result = $this->ilias->db->query($query);
-			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s",
-				$this->ilias->db->quote($questionblock_id)
+			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
+				$this->ilias->db->quote($questionblock_id),
+				$this->ilias->db->quote($this->getSurveyId())
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -1267,8 +1268,9 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($index)
 			);
 			$result = $this->ilias->db->query($query);
-			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s",
-				$this->ilias->db->quote($index)
+			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
+				$this->ilias->db->quote($index),
+				$this->ilias->db->quote($this->getSurveyId())
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -1332,7 +1334,8 @@ class ilObjSurvey extends ilObject
 			$questionblock_id = $this->ilias->db->getLastInsertId();
 			foreach ($questions as $index)
 			{
-				$query = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, questionblock_fi, question_fi) VALUES (NULL, %s, %s)",
+				$query = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
+					$this->ilias->db->quote($this->getSurveyId()),
 					$this->ilias->db->quote($questionblock_id),
 					$this->ilias->db->quote($index)
 				);
@@ -1354,7 +1357,7 @@ class ilObjSurvey extends ilObject
 	{
 		$query = sprintf("SELECT * FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
 			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getId())
+			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1366,7 +1369,7 @@ class ilObjSurvey extends ilObject
 		}
 		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
 			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getId())
+			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$delresult = $this->ilias->db->query($query);
 	}
@@ -1389,7 +1392,7 @@ class ilObjSurvey extends ilObject
 		$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s AND question_fi = %s AND survey_fi = %s",
 			$this->ilias->db->quote($constraint_id),
 			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($this->getId())
+			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$delresult = $this->ilias->db->query($query);
 	}
@@ -1418,7 +1421,9 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), ",");
 		if ($in)
 		{
-			$query = "SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.question_fi IN ($in)";
+			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
 			$result = $this->ilias->db->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -1471,7 +1476,9 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), ",");
 		if ($in)
 		{
-			$query = "SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.question_fi IN ($in)";
+			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ($in)",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
 			$result = $this->ilias->db->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -1600,8 +1607,9 @@ class ilObjSurvey extends ilObject
 	function getConstraints($question_id)
  	{
 		$result_array = array();
-		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.question_fi = %s AND survey_question_constraint.survey_fi = %s",
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1654,7 +1662,7 @@ class ilObjSurvey extends ilObject
 		if ($result == DB_OK) {
 			$constraint_id = $this->ilias->db->getLastInsertId();
 			$query = sprintf("INSERT INTO survey_question_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
-				$this->ilias->db->quote($this->getId()),
+				$this->ilias->db->quote($this->getSurveyId()),
 				$this->ilias->db->quote($to_question_id),
 				$this->ilias->db->quote($constraint_id)
 			);
@@ -2056,6 +2064,67 @@ class ilObjSurvey extends ilObject
 		}
 		return 0;
 	}
-		
+
+/**
+* Calculates the evaluation data for a question
+*
+* Calculates the evaluation data for a question
+*
+* @param integer $question_id The database id of the question
+* @param integer $user_id The database id of the user
+* @return array An array containing the evaluation parameters for the question
+* @access public
+*/
+	function getEvaluation($question_id)
+	{
+		$questions =& $this->getSurveyQuestions();
+		$result_array = array();
+		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		$nr_of_users = $result->numRows();
+				
+		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		$cumulated = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cumulated["$row->value"]++;
+		}
+		asort($cumulated, SORT_NUMERIC);
+		end($cumulated);
+		$result_array["USERS_ANSWERED"] = $result->numRows();
+		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
+		$variables =& $this->getVariables($question_id);
+		switch ($questions[$question_id]["type_tag"])
+		{
+			case "qt_nominal":
+				$result_array["MODE"] = $variables[key($cumulated)]->title;
+				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				break;
+			case "qt_ordinal":
+				$result_array["MODE"] = $variables[key($cumulated)]->title;
+				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				break;
+			case "qt_metric":
+				$result_array["MODE"] = key($cumulated);
+				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				break;
+			case "qt_text":
+				$result_array["MODE"] = "";
+				$result_array["MODE_NR_OF_SELECTIONS"] = "";
+				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				break;
+		}
+		return $result_array;
+	}
+			
 } // END class.ilObjSurvey
 ?>

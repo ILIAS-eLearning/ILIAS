@@ -1900,12 +1900,23 @@ class ilRepositoryGUI
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_svy_row.html");
 			// counter for rowcolor change
 			$num = 0;
+			global $ilDB;
+			foreach ($surveys as $key => $svy_data) {
+				$q = sprintf("SELECT * FROM survey_survey WHERE ref_fi=%s",
+					$ilDB->quote($svy_data["ref_id"])
+				);
+				$result = $ilDB->query($q);
+				if ($result->numRows() == 1) {
+					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+					$surveys[$key]["complete"] = $row->complete;
+				}
+			}
 			
 			foreach ($surveys as $svy_data)
 			{
           $obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
 
-				if ($this->rbacsystem->checkAccess('read',$svy_data["ref_id"]))
+				if (($this->rbacsystem->checkAccess('read',$svy_data["ref_id"])) and ($svy_data["complete"]))
 				{
 					$tpl->setCurrentBlock("svy_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
@@ -1945,6 +1956,15 @@ class ilRepositoryGUI
 						"&item_ref_id=".$svy_data["ref_id"]."&type=svy");
 
 					$tpl->setVariable("TXT_SUBSCRIBE", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
+
+				// add statistical evaluation tool
+				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]) and ($svy_data["complete"]))
+				{
+					$tpl->setCurrentBlock("svy_evaluation");
+					$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$svy_data["ref_id"]);
+					$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
 					$tpl->parseCurrentBlock();
 				}
 

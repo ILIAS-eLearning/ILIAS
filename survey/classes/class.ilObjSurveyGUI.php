@@ -1618,6 +1618,75 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Creates the evaluation form
+	*
+	* Creates the evaluation form
+	*
+	* @access	public
+	*/
+	function evaluationObject()
+	{
+		global $ilUser;
+
+    $add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+		$this->setLocator();
+		$this->tpl->setVariable("HEADER", $title);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
+		$counter = 0;
+		$classes = array("tblrow1", "tblrow2");
+		$questions =& $this->object->getSurveyQuestions();
+		foreach ($questions as $data)
+		{
+			$eval = $this->object->getEvaluation($data["question_id"], $ilUser->id);
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+			$maxlen = 37;
+			if (strlen($data["questiontext"]) > $maxlen + 3)
+			{
+				$questiontext = substr($data["questiontext"], 0, $maxlen) . "...";
+			}
+			else
+			{
+				$questiontext = $data["questiontext"];
+			}
+			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
+			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
+			$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $eval["QUESTION_TYPE"]);
+			$this->tpl->setVariable("MODE", $eval["MODE"]);
+			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
+			$this->tpl->setVariable("MEDIAN", "");
+			$this->tpl->setVariable("ARITHMETIC_MEAN", "");
+			$this->tpl->setVariable("GEOMETRIC_MEAN", "");
+			$this->tpl->setVariable("HARMONIC_MEAN", "");
+			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
+		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("USERS_ANSWERED", $this->lng->txt("users_answered"));
+		$this->tpl->setVariable("USERS_SKIPPED", $this->lng->txt("users_skipped"));
+		$this->tpl->setVariable("MODE", $this->lng->txt("mode"));
+		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
+		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
+		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
+		$this->tpl->setVariable("GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
+		$this->tpl->setVariable("HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* Extracts the results of a posted invitation form
 	*
 	* Extracts the results of a posted invitation form

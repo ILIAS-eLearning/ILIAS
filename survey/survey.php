@@ -114,8 +114,7 @@ require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 switch ($_GET["cmd"]) 
 {
 	case "run":
-	case "eval_a":
-	case "eval_stat":
+	case "evaluation":
 		$prepare_output = false;
 		break;
 	default:

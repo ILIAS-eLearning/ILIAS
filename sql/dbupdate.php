@@ -3375,4 +3375,6 @@ CREATE TABLE `survey_variable` (
   PRIMARY KEY  (`variable_id`)
 ) TYPE=MyISAM ;
 
-    
+<#205>
+
+ALTER TABLE `survey_questionblock_question` ADD `survey_fi` INT NOT NULL AFTER `questionblock_question_id` ;
