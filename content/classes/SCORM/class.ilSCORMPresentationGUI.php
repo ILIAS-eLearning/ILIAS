@@ -368,6 +368,35 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
+
+	function launchAsset()
+	{
+		global $ilUser, $ilDB;
+
+		$sco_id = ($_GET["asset_id"] == "")
+			? $_POST["asset_id"]
+			: $_GET["asset_id"];
+		$ref_id = ($_GET["ref_id"] == "")
+			? $_POST["ref_id"]
+			: $_GET["ref_id"];
+
+		$this->slm =& new ilObjSCORMLearningModule($ref_id, true);
+
+		include_once("content/classes/SCORM/class.ilSCORMItem.php");
+		include_once("content/classes/SCORM/class.ilSCORMResource.php");
+		$item =& new ilSCORMItem($sco_id);
+
+		$id_ref = $item->getIdentifierRef();
+		$resource =& new ilSCORMResource();
+		$resource->readByIdRef($id_ref, $item->getSLMId());
+		$href = $resource->getHref();
+		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
+		$this->tpl = new ilTemplate("tpl.scorm_launch_asset.html", true, true, true);
+		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
+		$this->tpl->show();
+	}
+
+
 	/**
 	* set single value
 	*/
