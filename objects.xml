@@ -34,7 +34,6 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
-	<subobj name="crs">crs</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
     <subobj name="dbk">dbk</subobj>
@@ -81,7 +80,6 @@
 <object name="fold" class_name="Folder" checkbox="0" inherit="0" translate="0">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
-	<subobj name="crs">crs</subobj>
 	<subobj name="mob" max="1">mob</subobj>
 	<subobj name="fold">fold</subobj>
 	<subobj name="file">file</subobj>
