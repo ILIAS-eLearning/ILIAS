@@ -216,21 +216,9 @@ class ilObjRole extends ilObject
 	{		
 		global $rbacadmin, $rbacreview;
 		
-		// TODO: unassign users from deleted role
-		
-		// first get all rolefolders where role is assigned to (by linking operation)
-		// before the role is deleted. $role_folders is used later on
-		// because rolefolders are always created new if linked, there may be another rolefolder containing the
-		// same local roles. So first check if any local role in the current rolefolder is assigned to another
-		// role folder too. In this case skip role removal
-
 		$role_folders = $rbacreview->getFoldersAssignedToRole($this->getId());
 		
-		if (count($role_folders) > 1)
-		{
-			$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
-		} // check if role is a linked local role or not
-		elseif ($rbacreview->isAssignable($this->getId(),$this->getParent()))
+		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
 			// do not delete role if this role is the last role a user is assigned to
 			
