@@ -242,7 +242,7 @@ class ilObjForum extends ilObject
 		$counter = 0;
 		
 		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
-		
+
 		// CHECK FOR NEW
 		$query = "SELECT pos_pk FROM frm_posts ".
 			"WHERE pos_thr_fk = '".$a_thread_id."' ".
@@ -278,6 +278,32 @@ class ilObjForum extends ilObject
 		$res = $this->ilias->db->query($query);
 
 		return $res->numRows() ? true : false;
+	}
+	
+	function updateUserAccess($a_thread_id)
+	{
+		// Get all users
+		$query = "SELECT usr_id FROM usr_data ";
+		$res = $this->ilias->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->usr_id;
+		}
+
+		foreach($usr_ids as $usr_id)
+		{
+			$query = "REPLACE INTO frm_thread_access ".
+				"SET usr_id = '".$usr_id."', ".
+				"obj_id = '".$this->getId()."', ".
+				"thread_id = '".$a_thread_id."', ".
+				"access_old = '".(time()-60)."', ".
+				"access_last = '".(time()-60)."' ";
+
+			$this->ilias->db->query($query);
+
+		}
+		return true;
 	}
 
 	function updateLastAccess($a_usr_id,$a_thread_id)
