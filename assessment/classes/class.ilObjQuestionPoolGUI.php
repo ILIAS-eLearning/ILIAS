@@ -107,25 +107,29 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			case "ass_orderingquestiongui":
 				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_ordering");
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setRefId($_GET["ref_id"]);
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_matchingquestiongui":
 				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_matching");
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setRefId($_GET["ref_id"]);
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_imagemapquestiongui":
 				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_imagemap");
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setRefId($_GET["ref_id"]);
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_javaquestiongui":
 				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_java");
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setRefId($_GET["ref_id"]);
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
