@@ -250,7 +250,6 @@ class ilRbacAdmin
 	/**
 	* get Default role
 	* @access	public
-	* @param	integer		object id of role
 	* @param	integer		user id
 	* @return	boolean
 	*/
@@ -454,6 +453,7 @@ class ilRbacAdmin
 	* @access	public
 	* @param	integer		object id of role
 	* @param	integer		ref_id of role folder
+	* @param    integer     ref_id of role folders parent
 	* @param	string		assignable('y','n'); default: 'y'
 	* @return	boolean
 	*/
@@ -486,13 +486,13 @@ class ilRbacAdmin
 	* @param	integer	operation_id
 	* @return	boolean
 	*/
-	function assignPermissionToObject($a_type_id,$a_ops_id)
+	function assignOperationToObject($a_type_id,$a_ops_id)
 	{
 		global $log;
 
 		if (!isset($a_type_id) or !isset($a_ops_id))
 		{
-			$message = get_class($this)."::assignPermissionToObject(): Missing parameter!".
+			$message = get_class($this)."::assignOperationToObject(): Missing parameter!".
 					   "type_id: ".$a_type_id.
 					   "ops_id: ".$a_ops_id;
 			$log->writeWarning($message);
