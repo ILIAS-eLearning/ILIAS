@@ -315,3 +315,8 @@ CREATE TABLE exc_members
 	sent TINYINT(1) NULL,
 	PRIMARY KEY(obj_id,usr_id)
 	);
+	
+<#40>
+INSERT INTO rbac_templates VALUES(81,"frm",4,8);
+INSERT INTO rbac_templates VALUES(80,"frm",9,8);
+INSERT INTO rbac_templates VALUES(80,"frm",10,8);
