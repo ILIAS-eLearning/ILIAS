@@ -1,0 +1,236 @@
+body {
+	color:#222222;
+	background-color:#b9c0d5;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:small;
+	margin:10px;
+}
+
+td {
+        font-size:small;
+}
+
+.btnbar {
+	background-color:#FFFFFF;
+	background-image: url(blueshadow/images/navbar/back.gif);
+}
+
+input, textarea {
+        font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblrow2 {
+	background-color:#F7F7F7; border: #FFFFFF; border-style: solid;
+	color:#222222;
+	padding:4px;
+}
+
+.tblrow1 {
+	background-color:#EEEEEE; border: #FFFFFF; border-style: solid;
+	color:#222222;
+	padding:4px;
+}
+
+td.cell {
+	padding:4px;
+}
+
+/* -------------------- table formatting ------------------ */
+
+table.normal {
+	width: 100%;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: #BBBBBB;
+	border-width: 1px;
+}
+
+.tblheader {
+	color: #000000; font-size: 13px; font-weight : bold;
+}
+
+tr.tblheader {
+	color: #000000; font-size: 13px; font-weight : bold;
+	background-color: #006699;
+	background-image: url(blueshadow/images/cellpic1.gif);
+}
+
+a.tblheader, a.tblheader:visited
+{
+	color:#3444AA;
+}
+
+a.tblheader:hover
+{
+	color:#000000;
+}
+
+
+/* ---------------- headlines ------------------ */
+
+h1 {
+	font-size:medium;
+	color:#222222;
+	background-color: #C0C0C0;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:7px;
+	background-image: url(blueshadow/images/cellpic5.gif);
+}
+
+h2 {
+	font-size:medium;
+	color:#222222;
+	background-color: #CCCCCC;
+	border-width:1px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:4px;
+	margin-top:25px;
+	margin-bottom:0px;
+	background-image: url(blueshadow/images/cellpic5.gif);
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+        text-decoration:none;
+        font-size:x-small;
+}
+
+.smallgreen {
+        text-decoration:none;
+        font-size:x-small;
+	color:green;
+}
+
+.smallred {
+        text-decoration:none;
+        font-size:x-small;
+	color:red;
+}
+
+/* ----------------- normal links ------------- */
+a:link, a:visited {
+	font-weight:bold;
+	text-decoration:none;
+	color:#2255A0;
+}
+
+a:hover {
+	color:#000000;
+}
+
+
+/* ------------------- mail links ----------- */
+a.mailread
+{
+        font-weight: normal;
+        color: #2255A0;
+}
+
+a.mailunread
+{
+        color: #2255A0;
+        font-weight: bold;
+}
+
+/* ------------------ buttons -------------- */
+
+td.btn {
+	background-color:#006699;
+	color:#BBBBBB;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:3px;
+	background-image: url(blueshadow/images/cellpic2.jpg);
+}
+
+a.btn:link, a.btn:visited {
+	color:#2255A0;
+	text-decoration:none;
+	font-size:small;
+}
+
+
+a.btn:hover {
+	color:#000000;
+}
+
+
+input {
+	background-color:#FFFFFF;
+	color:#2255A0;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:outset;
+	padding:3px;
+	background-image: url(blueshadow/images/cellpic2.jpg);
+	text-decoration:none;
+	font-size:small;
+	font-weight:bold;
+}
+
+input.tblrow1, input.tblrow2
+{
+	background-color:#FFFFFF;
+	color:#000000;
+	background-image: none;
+	padding:0px;
+}
+
+textarea {
+	background-color:#FFFFFF;
+	color:#000000;
+	border-width:2px;
+	border-color:#BBBBBB;
+	border-style:inset;
+	padding:3px;
+	text-decoration:none;
+	font-size:small;
+	font-weight:bold;
+}
+
+/*input:hover {
+	color:#000000;
+}*/
+
+
+.message {
+  color: #dd0000;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ------------------ tabs -------------- */
+.tab {
+        font-size: x-small;
+        color: #000000;
+        font-weight: bold;
+        background-color:#000000;
+}
+
+.tabactive {
+        background-color:#dddddd;
+}
+.tabinactive {
+        background-color:#bbbbbb;
+}
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+        margin:0px;
+}
+
+/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
+img {
+        display: block;
+}
+
+sup {
+	color:ff0000;
+}
