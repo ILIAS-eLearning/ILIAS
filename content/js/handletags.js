@@ -120,7 +120,7 @@ function nurTag(nTag) {
 function addTag(Text,tagName,className) {
 
 	// ----------------------------------------------------------------------
-	// Hier werden doppelte geschachtelte Tags entfernt.
+	// {{{ Hier werden doppelte geschachtelte Tags entfernt.
 	T1 = splitTags(Text);
 	T2 = new Array();
 	
@@ -158,6 +158,7 @@ function addTag(Text,tagName,className) {
 	for(i=0;i<T2.length;i++) {
 		Text += T2[i];
 	}
+	// }}}
 	// ----------------------------------------------------------------------
 	
 	Vor = tt_bis(Text,startMarker);
@@ -177,6 +178,17 @@ function addTag(Text,tagName,className) {
 		Zwischen = Z2;
 	}
 
+	while (Zwischen.substr(0,1)==" ") {
+		Zwischen = Zwischen.substring(1,Zwischen.length);
+		Vor += " ";
+	}
+
+	while (Zwischen.substr(Zwischen.length-1,1)==" ") {
+		Zwischen = Zwischen.substring(0,Zwischen.length-1);
+		Hinter = " "+Hinter;
+	}
+
+	
 	//alert(Vor+"\n"+Zwischen+"\n"+Hinter);
 	while (Zwischen.substr(Zwischen.length-1,1)==">") {
 		ip = Zwischen.lastIndexOf("<");
@@ -189,7 +201,7 @@ function addTag(Text,tagName,className) {
 		} else break;
 	}
 
-	//alert(Vor+"\n"+Zwischen+"\n"+Hinter);
+	//alert(Vor+"\n#"+Zwischen+"#\n"+Hinter);
 	
 	//addLine(Vor);
 	
