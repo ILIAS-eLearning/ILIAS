@@ -3944,10 +3944,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			require_once("survey/classes/class.ilSurveyExport.php");
+			require_once("./survey/classes/class.ilSurveyExport.php");
 			$survey_exp = new ilSurveyExport($this->object);
 			$survey_exp->buildExportFile();
-			$this->exportObject();
+			ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
 		}
 		else
 		{
@@ -4265,6 +4265,5 @@ class ilObjSurveyGUI extends ilObjectGUI
 		ilUtil::redirect("survey.php?cmd=export&ref_id=".$_GET["ref_id"]);
 	}
 
-	
 } // END class.ilObjSurveyGUI
 ?>
