@@ -26,7 +26,6 @@
 *
 * @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
-
 *
 * @package	ilias-tools
 */
@@ -42,7 +41,7 @@ class ilValidator extends PEAR
 	* list of object types to exclude from recovering
 	* @var	array
 	*/
-	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf");
+	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf","file");
 	
 	/**
 	* set mode
@@ -1637,7 +1636,7 @@ restore starts here
 		return false;
 	}
 	
-	function checkTreeStructure($a_testmode,$a_startnode = null)
+	function checkTreeStructure($a_startnode = null)
 	{
 		global $tree;
 
