@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
 
 /**
 * SCORM Item
@@ -53,7 +53,8 @@ class ilSCORMItem extends ilSCORMObject
 	*/
 	function ilSCORMItem($a_id = 0)
 	{
-		parent::ilSCORMOject($a_id);
+		parent::ilSCORMObject($a_id);
+		$this->setType("sit");
 	}
 
 	function getImportId()
@@ -192,7 +193,7 @@ class ilSCORMItem extends ilSCORMObject
 			? "true"
 			: "false";
 
-		$q = "INSERT INTO sc_organization (obj_id, import_id, identifierref,".
+		$q = "INSERT INTO sc_item (obj_id, import_id, identifierref,".
 			"isvisible, parameters, prereq_type, prerequisites, maxtimeallowed,".
 			"timelimitaction, datafromlms, masteryscore) VALUES ".
 			"('".$this->getId()."', '".$this->getImportId()."','".$this->getIdentifierRef().
@@ -202,6 +203,29 @@ class ilSCORMItem extends ilSCORMObject
 			$this->getMasteryScore()."')";
 		$this->ilias->db->query($q);
 	}
+
+	function update()
+	{
+		$str_visible = ($this->getVisible())
+			? "true"
+			: "false";
+
+		parent::update();
+		$q = "UPDATE sc_item SET ".
+			"import_id = '".$this->getImportId()."', ".
+			"identifierref = '".$this->getIdentifierRef()."', ".
+			"isvisible = '".$str_visible."', ".
+			"parameters = '".$this->getParameters()."', ".
+			"prereq_type = '".$this->getPrereqType()."', ".
+			"prerequisites = '".$this->getPrerequisites()."', ".
+			"maxtimeallowed = '".$this->getMaxTimeAllowed()."', ".
+			"timelimitaction = '".$this->getTimeLimitAction()."', ".
+			"datafromlms = '".$this->getDataFromLms()."', ".
+			"masteryscore = '".$this->getMasteryScore()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 
 }
 ?>

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
 
 /**
 * SCORM Manifest
@@ -48,6 +48,7 @@ class ilSCORMManifest extends ilSCORMObject
 	function ilSCORMManifest($a_id = 0)
 	{
 		parent::ilSCORMObject($a_id);
+		$this->setType("sma");
 	}
 
 	function getImportId()
@@ -58,6 +59,7 @@ class ilSCORMManifest extends ilSCORMObject
 	function setImportId($a_import_id)
 	{
 		$this->import_id = $a_import_id;
+		$this->setTitle($a_import_id);
 	}
 
 	function getVersion()
@@ -65,7 +67,7 @@ class ilSCORMManifest extends ilSCORMObject
 		return $this->version;
 	}
 
-	function setId($a_version)
+	function setVersion($a_version)
 	{
 		$this->version = $a_version;
 	}
@@ -100,6 +102,18 @@ class ilSCORMManifest extends ilSCORMObject
 		$q = "INSERT INTO sc_manifest (obj_id, import_id, version, xml_base) VALUES ".
 			"('".$this->getId()."', '".$this->getImportId().
 			"', '".$this->getVersion()."', '".$this->getXmlBase()."')";
+		$this->ilias->db->query($q);
+	}
+
+	function update()
+	{
+		parent::update();
+
+		$q = "UPDATE sc_manifest SET ".
+			"import_id = '".$this->getImportId()."', ".
+			"version = '".$this->getVersion()."', ".
+			"xml_base = '".$this->getXmlBase()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
 

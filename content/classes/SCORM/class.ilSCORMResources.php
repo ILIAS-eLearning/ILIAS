@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
 
 /**
 * SCORM Resources Element
@@ -46,6 +46,7 @@ class ilSCORMResources extends ilSCORMObject
 	function ilSCORMResources($a_id = 0)
 	{
 		parent::ilSCORMObject($a_id);
+		$this->setType("srs");
 	}
 
 	function getXmlBase()
@@ -77,6 +78,17 @@ class ilSCORMResources extends ilSCORMObject
 			"('".$this->getId()."', '".$this->getXmlBase()."')";
 		$this->ilias->db->query($q);
 	}
+
+	function update()
+	{
+		parent::update();
+
+		$q = "UPDATE sc_resources SET ".
+			"xml_base = '".$this->getXmlBase()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 
 }
 ?>

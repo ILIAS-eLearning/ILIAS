@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
 
 /**
 * SCORM Organization
@@ -47,6 +47,7 @@ class ilSCORMOrganization extends ilSCORMObject
 	function ilSCORMOrganization($a_id = 0)
 	{
 		parent::ilSCORMObject($a_id);
+		$this->setType("sor");
 	}
 
 	function getImportId()
@@ -89,6 +90,18 @@ class ilSCORMOrganization extends ilSCORMObject
 			"('".$this->getId()."', '".$this->getImportId()."','".$this->getStructure()."')";
 		$this->ilias->db->query($q);
 	}
+
+	function update()
+	{
+		parent::update();
+
+		$q = "UPDATE sc_organization SET ".
+			"import_id = '".$this->getImportId()."', ".
+			"structure = '".$this->getStructure()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 
 }
 ?>

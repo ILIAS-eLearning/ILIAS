@@ -1508,3 +1508,5 @@ CREATE TABLE sc_resource_dependency (
 ALTER TABLE sc_resource_file ADD COLUMN nr INT;
 ALTER TABLE sc_resource_dependency ADD COLUMN nr INT;
 
+<#85>
+ALTER TABLE sc_resource CHANGE type resourcetype VARCHAR(30);

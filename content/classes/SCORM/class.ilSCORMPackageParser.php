@@ -21,7 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php"); // i guess we will neet this sometime
+require_once("content/classes/SCORM/class.ilSCORMManifest.php");
+require_once("content/classes/SCORM/class.ilSCORMOrganizations.php");
+require_once("content/classes/SCORM/class.ilSCORMOrganization.php");
+require_once("content/classes/SCORM/class.ilSCORMItem.php");
+require_once("content/classes/SCORM/class.ilSCORMTree.php");
 
 /**
 * SCORM Package Parser
@@ -37,6 +41,11 @@ class ilSCORMPackageParser extends ilSaxParser
 	var $cnt;				// counts open elements
 	var $current_element;	// store current element type
 	var $slm_object;
+	var $parent_stack;		// stack of current parent nodes
+	var $tree_created;		// flag that determines wether the scorm tree has been created
+	var $scorm_tree;		// manifest tree
+	var $current_organization;	// current organization object
+	var $item_stack;		// current open item objects
 
 
 	/**
@@ -52,7 +61,9 @@ class ilSCORMPackageParser extends ilSaxParser
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->slm_object =& $a_slm_object;
-
+		$this->tree_created = false;
+		$this->parent_stack = array();
+		$this->item_stack = array();
 	}
 
 	/**
@@ -106,6 +117,14 @@ class ilSCORMPackageParser extends ilSaxParser
 	}
 
 	/*
+	* returns current element
+	*/
+	function getAncestorElement($nr = 1)
+	{
+		return ($this->current_element[count($this->current_element) - 1 - $nr]);
+	}
+
+	/*
 	* returns number of current open elements of type $a_name
 	*/
 	function getOpenCount($a_name)
@@ -148,6 +167,11 @@ class ilSCORMPackageParser extends ilSaxParser
 		return $tag;
 	}
 
+	function getCurrentParent()
+	{
+		return $this->parent_stack[count($this->parent_stack) - 1];
+	}
+
 	/**
 	* handler for begin of element
 	*/
@@ -156,7 +180,67 @@ class ilSCORMPackageParser extends ilSaxParser
 
 		switch($a_name)
 		{
-			case "":
+			case "manifest":
+				$manifest =& new ilSCORMManifest();
+				$manifest->setSLMId($this->slm_object->getId());
+				$manifest->setImportId($a_attribs["identifier"]);
+				$manifest->setVersion($a_attribs["version"]);
+				$manifest->setXmlBase($a_attribs["xml:base"]);
+				$manifest->create();
+				if (!$this->tree_created)
+				{
+					$this->sc_tree =& new ilSCORMTree($this->slm_object->getId());
+					$this->sc_tree->addTree($this->slm_object->getId(), $manifest->getId());
+				}
+				else
+				{
+					$this->sc_tree->insertNode($manifest->getId(), $this->getCurrentParent());
+				}
+				array_push($this->parent_stack, $manifest->getId());
+				break;
+
+			case "organizations":
+				$organizations =& new ilSCORMOrganizations();
+				$organizations->setSLMId($this->slm_object->getId());
+				$organizations->setDefaultOrganization($a_attribs["default"]);
+				$organizations->create();
+				$this->sc_tree->insertNode($organizations->getId(), $this->getCurrentParent());
+				array_push($this->parent_stack, $organizations->getId());
+				break;
+
+			case "organization":
+				$organization =& new ilSCORMOrganization();
+				$organization->setSLMId($this->slm_object->getId());
+				$organization->setImportId($a_attribs["identifier"]);
+				$organization->setStructure($a_attribs["structure"]);
+				$organization->create();
+				$this->current_organization =& $organization;
+				$this->sc_tree->insertNode($organization->getId(), $this->getCurrentParent());
+				array_push($this->parent_stack, $organization->getId());
+				break;
+
+			case "item":
+				$item =& new ilSCORMItem();
+				$item->setSLMId($this->slm_object->getId());
+				$item->setImportId($a_attribs["identifier"]);
+				$item->setIdentifierRef($a_attribs["identifierref"]);
+				if (strtolower($a_attribs["isvisible"]) != "false")
+				{
+					$item->setVisible(true);
+				}
+				else
+				{
+					$item->setVisible(false);
+				}
+				$item->setParameters($a_attribs["parameters"]);
+				$item->create();
+				$this->sc_tree->insertNode($item->getId(), $this->getCurrentParent());
+				array_push($this->parent_stack, $item->getId());
+				$this->item_stack[count($this->item_stack)] =& $item;
+				break;
+
+			case "adlcp:prerequisites":
+				$this->item_stack[count($this->item_stack) - 1]->setPrereqType($a_attribs["type"]);
 				break;
 
 		}
@@ -171,8 +255,22 @@ class ilSCORMPackageParser extends ilSaxParser
 
 		switch($a_name)
 		{
-			case "":
+			case "manifest":
+			case "organizations":
+				array_pop($this->parent_stack);
 				break;
+
+			case "organization":
+				$this->current_organization->update();
+				array_pop($this->parent_stack);
+				break;
+
+			case "item":
+				$this->item_stack[count($this->item_stack) - 1]->update();
+				unset($this->item_stack[count($this->item_stack) - 1]);
+				array_pop($this->parent_stack);
+				break;
+
 		}
 		$this->endElement($a_name);
 
@@ -190,8 +288,40 @@ class ilSCORMPackageParser extends ilSaxParser
 		{
 			switch($this->getCurrentElement())
 			{
-				case "":
+				case "title":
+					switch ($this->getAncestorElement(1))
+					{
+						case "organization":
+							$this->current_organization->setTitle($a_data);
+							break;
+
+						case "item":
+							$this->item_stack[count($this->item_stack) - 1]->setTitle($a_data);
+							break;
+					}
 					break;
+
+				case "adlcp:prerequisites":
+					$this->item_stack[count($this->item_stack) - 1]->setPrerequisites($a_data);
+					break;
+
+				case "adlcp:maxtimeallowed":
+					$this->item_stack[count($this->item_stack) - 1]->setMaxTimeAllowed($a_data);
+					break;
+
+				case "adlcp:timelimitaction":
+					$this->item_stack[count($this->item_stack) - 1]->setTimeLimitAction($a_data);
+					break;
+
+				case "adlcp:datafromlms":
+					$this->item_stack[count($this->item_stack) - 1]->setDataFromLms($a_data);
+					break;
+
+				case "adlcp:masteryscore":
+					$this->item_stack[count($this->item_stack) - 1]->setMasteryScore($a_data);
+					break;
+
+
 			}
 		}
 

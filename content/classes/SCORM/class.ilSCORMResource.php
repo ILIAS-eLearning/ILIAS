@@ -21,9 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
-require_once("content/classes/class.ilSCORMResourceFile");
-require_once("content/classes/class.ilSCORMResourceDependency");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
+require_once("content/classes/SCORM/class.ilSCORMResourceFile.php");
+require_once("content/classes/SCORM/class.ilSCORMResourceDependency.php");
 
 /**
 * SCORM Resource
@@ -37,7 +37,7 @@ require_once("content/classes/class.ilSCORMResourceDependency");
 class ilSCORMResource extends ilSCORMObject
 {
 	var $import_id;
-	var $type;
+	var $resourcetype;
 	var $scormtype;
 	var $href;
 	var $xml_base;
@@ -54,6 +54,7 @@ class ilSCORMResource extends ilSCORMObject
 	function ilSCORMResource($a_id = 0)
 	{
 		parent::ilSCORMObject($a_id);
+		$this->setType("sre");
 
 		$this->files = array();
 		$this->dependencies = array();
@@ -69,14 +70,14 @@ class ilSCORMResource extends ilSCORMObject
 		$this->import_id = $a_import_id;
 	}
 
-	function getType()
+	function getResourceType()
 	{
-		return $this->type;
+		return $this->resourcetype;
 	}
 
-	function setType($a_type)
+	function setResourceType($a_type)
 	{
-		$this->type = $a_type;
+		$this->resourcetype = $a_type;
 	}
 
 	function getScormType()
@@ -138,7 +139,7 @@ class ilSCORMResource extends ilSCORMObject
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setImportId($obj_rec["import_id"]);
-		$this->setType($obj_rec["type"]);
+		$this->setResourceType($obj_rec["resourcetype"]);
 		$this->setScormType($obj_rec["scormtype"]);
 		$this->setHRef($obj_rec["href"]);
 		$this->setXmlBase($obj_rec["xml_base"]);
@@ -171,10 +172,10 @@ class ilSCORMResource extends ilSCORMObject
 	{
 		parent::create();
 
-		$q = "INSERT INTO sc_resource (obj_id, import_id, type, scormtype, href, ".
+		$q = "INSERT INTO sc_resource (obj_id, import_id, resourcetype, scormtype, href, ".
 			"xml_base) VALUES ".
 			"('".$this->getId()."', '".$this->getImportId()."',".
-			"'".$this->getType()."','".$this->getScormType()."','".$this->getHref()."')";
+			"'".$this->getResourceType()."','".$this->getScormType()."','".$this->getHref()."')";
 		$this->ilias->db->query($q);
 
 		// save files
@@ -186,6 +187,40 @@ class ilSCORMResource extends ilSCORMObject
 		}
 
 		// save dependencies
+		for($i=0; $i<count($this->dependencies); $i++)
+		{
+			$q = "INSERT INTO sc_resource_dependency (res_id, identifierref, nr) VALUES ".
+				"('".$this->getId()."', '".$this->dependencies[$i]->getIdentifierRef().
+				"','".($i + 1)."')";
+			$this->ilias->db->query($q);
+		}
+	}
+
+	function update()
+	{
+		parent::update();
+
+		$q = "UPDATE sc_resource SET ".
+			"import_id = '".$this->getImportId()."', ".
+			"resourcetype = '".$this->getResourceType()."', ".
+			"scormtype = '".$this->getScormType()."', ".
+			"xml_base = '".$this->getXmlBase()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+
+		// save files
+		$q = "DELETE FROM sc_resource_file WHERE res_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+		for($i=0; $i<count($this->files); $i++)
+		{
+			$q = "INSERT INTO sc_resource_file (res_id, href, nr) VALUES ".
+				"('".$this->getId()."', '".$this->files[$i]->getHref()."','".($i + 1)."')";
+			$this->ilias->db->query($q);
+		}
+
+		// save dependencies
+		$q = "DELETE FROM sc_resource_dependency WHERE res_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
 		for($i=0; $i<count($this->dependencies); $i++)
 		{
 			$q = "INSERT INTO sc_resource_dependency (res_id, identifierref, nr) VALUES ".
