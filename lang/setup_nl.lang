@@ -98,6 +98,7 @@ db_conn#:#Databank-verbinding
 db_host#:#Databank-host
 db_name#:#databank-naam
 db_needs_update#:#Databank moet worden bijgewerkt
+db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#Databank-wachtwoord
 db_type#:#databank-type
 db_user#:#Databank gebruiker
@@ -198,12 +199,13 @@ ip_address#:#IP-adres
 java_path#:#Pad naar Java
 java_path_comment#:#vereist voor SCORM les-modules
 lang_cs#:#Tsjechisch
+lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Duits
-lang_dk#:#Deens
 lang_en#:#Engels
 lang_error_occurred#:#Fout ontdekt. Activiteit afgebroken.
 lang_es#:#Spaans
 lang_fr#:#Frans
+lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indonesisch
 lang_it#:#Italiaans
 lang_lt#:#Litausch

@@ -97,6 +97,7 @@ db_conn#:#Podłączenie do bazy danych
 db_host#:#Serwer bazy danych
 db_name#:#Nazwa bazy danych
 db_needs_update#:#Baza danych wymaga uaktualnienia
+db_not_installed#:#Database not installed###01 Mar 2005 new variable
 db_pass#:#Hasło użytkownika bazy danych
 db_type#:#Typ bazy danych
 db_user#:#Użytkownik bazy danych
@@ -197,12 +198,13 @@ ip_address#:#Adres IP
 java_path#:#Ścieżka do Javy
 java_path_comment#:#wymagany dla modułów nauczania SCORM.
 lang_cs#:#Czeski
+lang_da#:#Danish###01 Mar 2005 new variable
 lang_de#:#Niemiecki
-lang_dk#:#Duński
 lang_en#:#Angielski
 lang_error_occurred#:#Wystąpił błąd. akcja przerwana.
 lang_es#:#Hiszpański
 lang_fr#:#Francuski
+lang_hu#:#Hungarian###01 Mar 2005 new variable
 lang_id#:#Indonezyjski
 lang_it#:#Włoski
 lang_lt#:#Litewski
