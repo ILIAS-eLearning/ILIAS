@@ -280,9 +280,10 @@ class ilLMPageObject extends ilLMObject
 			$source_page->addHierIds();
 			ilPageObject::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
 			//$source_page->deleteContentFromHierId($a_hier_id);
+			
+			return $succ["child"];
 		}
-		
-		return $lm_page;		
+				
 	}
 
 	

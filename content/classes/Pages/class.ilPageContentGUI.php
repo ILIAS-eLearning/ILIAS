@@ -203,9 +203,14 @@ class ilPageContentGUI
 		}
 		else
 		{
-			ilLMPageObject::_splitPage($this->pg_obj->getId(),
+			$lm_page =& ilLMPageObject::_splitPage($this->pg_obj->getId(),
 				$this->pg_obj->getParentType(), $this->hier_id);
+				
+			// jump to new page
+			$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $lm_page->getId());
+			$this->ctrl->redirectByClass("illmpageobjectgui", "view");
 		}
+		
 		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
 	}
 
@@ -224,8 +229,16 @@ class ilPageContentGUI
 		}
 		else
 		{
-			ilLMPageObject::_splitPageNext($this->pg_obj->getId(),
+			$succ_id = ilLMPageObject::_splitPageNext($this->pg_obj->getId(),
 				$this->pg_obj->getParentType(), $this->hier_id);
+			
+			// jump to successor page
+			if ($succ_id > 0)
+			{
+				$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $succ_id);
+				$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+			}
+
 		}
 		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
 	}
