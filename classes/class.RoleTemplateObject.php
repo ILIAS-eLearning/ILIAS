@@ -118,13 +118,11 @@ class RoleTemplateObject extends Object
 	{
 		global $tplContent, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 
@@ -149,13 +147,11 @@ class RoleTemplateObject extends Object
 	{
 		global $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
 
-			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$parent_obj_id);
+			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
 			exit;
 		}
 		else
@@ -170,17 +166,16 @@ class RoleTemplateObject extends Object
 	**/
 	function permObject() 
 	{
-		global $tree, $tplContent, $rbacssystem, $rbacadmin, $rbacreview;
+		global $tree, $tplContent, $rbacssystem, $rbacadmin, $rbacreview, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-		
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("role_perm.html",true,true);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 
 			$role_data = getObject($_GET["obj_id"]);
 			$tplContent->setVariable("MESSAGE_TOP","Permissions of template: ".$role_data["title"]);
@@ -220,7 +215,7 @@ class RoleTemplateObject extends Object
 				}
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
-				$css_row = TUtil::switchColor($key,"row_hig","row_low");
+				$css_row = TUtil::switchColor($key,"row_high","row_low");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operations["operation"]);
 				$tplContent->parseCurrentBlock();
@@ -233,18 +228,15 @@ class RoleTemplateObject extends Object
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"]);
+			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],$_GET["parent_parent"]);
 
 			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key,"row_hig","row_low"));
+				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key,"row_high","row_low"));
 				$tplContent->setVariable("CHECK_ADOPT",$radio);
 				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
 				$tplContent->setVariable("ROLE_NAME",$par["title"]);
-				$object = $this->getParentObjectId($par["parent"]);
-				$object = getObject($object);
-				$tplContent->setVariable("LOCATION",$object["title"]);
 				$tplContent->parseCurrentBlock();
 			}
 			// END ADOPT_PERMISSIONS
