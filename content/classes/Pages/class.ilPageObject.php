@@ -93,6 +93,10 @@ class ilPageObject
 	*/
 	function read()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilPageObject_read");
+
 		$query = "SELECT * FROM page_object WHERE page_id = '".$this->id."' ".
 			"AND parent_type='".$this->getParentType()."'";
 		$pg_set = $this->ilias->db->query($query);
@@ -112,6 +116,7 @@ class ilPageObject
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
 
+		$ilBench->stop("ContentPresentation", "ilPageObject_read");
 	}
 
 	function buildDom()

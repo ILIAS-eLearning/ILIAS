@@ -131,7 +131,9 @@ class ilBenchmark
 	{
 		global $ilDB;
 
-		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark FROM benchmark".
+		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark,".
+			" MIN(duration) AS min_dur, MAX(duration) AS max_dur".
+			" FROM benchmark".
 			" WHERE module = '".$a_module."' ".
 			" GROUP BY benchmark".
 			" ORDER BY benchmark";
@@ -140,7 +142,8 @@ class ilBenchmark
 		while($bench_rec = $bench_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$eva[] = array("benchmark" => $bench_rec["benchmark"],
-				"cnt" => $bench_rec["cnt"], "duration" => $bench_rec["avg_dur"]);
+				"cnt" => $bench_rec["cnt"], "duration" => $bench_rec["avg_dur"],
+				"min" => $bench_rec["min_dur"], "max" => $bench_rec["max_dur"]);
 		}
 		return $eva;
 	}

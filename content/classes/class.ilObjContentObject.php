@@ -932,8 +932,10 @@ class ilObjContentObject extends ilObject
 			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
 
 			// export xml to writer object
-			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
+			$ilBench->start("ContentObjectExport", "exportPageObject_getLMPageObject");
 			$page_obj = new ilLMPageObject($this, $page["obj_id"]);
+			$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
+			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 

@@ -405,6 +405,8 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
+common#:#min_time#:#Minimum time
+common#:#max_time#:#Maximum time
 common#:#cumulative_time#:#Cumulative time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
