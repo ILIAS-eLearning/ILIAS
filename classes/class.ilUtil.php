@@ -1,24 +1,24 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+| ILIAS open source                                                           |
++-----------------------------------------------------------------------------+
+| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+|                                                                             |
+| This program is free software; you can redistribute it and/or               |
+| modify it under the terms of the GNU General Public License                 |
+| as published by the Free Software Foundation; either version 2              |
+| of the License, or (at your option) any later version.                      |
+|                                                                             |
+| This program is distributed in the hope that it will be useful,             |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+| GNU General Public License for more details.                                |
+|                                                                             |
+| You should have received a copy of the GNU General Public License           |
+| along with this program; if not, write to the Free Software                 |
+| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
++-----------------------------------------------------------------------------+
 */
 
 
@@ -78,8 +78,8 @@ class ilUtil
 		{
 			$st_image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
 			$user_skin_and_style = $base.$ilias->account->skin."/".
-				$st_image_dir.
-				"/images/".$img;
+			$st_image_dir.
+			"/images/".$img;
 		}
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
@@ -91,7 +91,7 @@ class ilUtil
 		{
 			return $dir.$user_skin;
 		}
-		
+
 		return $dir.$default;
 	}
 
@@ -209,7 +209,7 @@ class ilUtil
 	*
 	* @access	public
 	* @param string
-	* @param string	 
+	* @param string
 	*/
 	function getSelectName ($selected,$values)
 	{
@@ -228,7 +228,7 @@ class ilUtil
 	function formCheckbox ($checked,$varname,$value,$disabled = false)
 	{
 		$str = "<input type=\"checkbox\" name=\"".$varname."\"";
-		
+
 		if ($checked == 1)
 		{
 			$str .= " checked=\"checked\"";
@@ -237,10 +237,10 @@ class ilUtil
 		if ($disabled)
 		{
 			$str .= " disabled=\"disabled\"";
-		}		
+		}
 
 		$str .= " value=\"".$value."\" id=\"".$varname."\" />\n";
-		
+
 		return $str;
 	}
 
@@ -254,20 +254,20 @@ class ilUtil
 	*/
 	function formRadioButton($checked,$varname,$value)
 	{
-	$str = "<input type=\"radio\" name=\"".$varname."\"";
+		$str = "<input type=\"radio\" name=\"".$varname."\"";
 		if ($checked == 1)
 		{
 			$str .= " checked=\"checked\"";
 		}
 
 		$str .= " value=\"".$value."\" />\n";
-		
+
 		return $str;
 	}
 
 	/**
 	* ???
-	* @param string	 
+	* @param string
 	*/
 	function checkInput ($vars)
 	{
@@ -287,7 +287,7 @@ class ilUtil
 			$a_path .= "/";
 			//$a_path = substr($a_path,1);
 		}
-	
+
 		//return getcwd().$a_path;
 		return $a_path;
 	}
@@ -295,7 +295,7 @@ class ilUtil
 	/**
 	* switches style sheets for each even $a_num
 	* (used for changing colors of different result rows)
-	* 
+	*
 	* @access	public
 	* @param	integer	$a_num	the counter
 	* @param	string	$a_css1	name of stylesheet 1
@@ -313,10 +313,10 @@ class ilUtil
 			return $a_css2;
 		}
 	}
-	
+
 	/**
 	* show the tabs in admin section
-	* 
+	*
 	* @access	public
 	* @param	integer	column to highlight
 	* @param	array	array with templatereplacements
@@ -324,7 +324,7 @@ class ilUtil
 	function showTabs($a_hl, $a_o)
 	{
 		global $lng;
-		
+
 		$tpltab = new ilTemplate("tpl.tabs.html", true, true);
 
 		for ($i=1; $i<=4; $i++)
@@ -344,17 +344,17 @@ class ilUtil
 			switch ($i)
 			{
 				case 1:
-					$txt = $lng->txt("view_content");
-					break;
+				$txt = $lng->txt("view_content");
+				break;
 				case 2:
-					$txt = $lng->txt("edit_properties");
-					break;
-				case 3: 
-					$txt = $lng->txt("perm_settings");
-					break;
-				case 4: 
-					$txt = $lng->txt("show_owner");
-					break;
+				$txt = $lng->txt("edit_properties");
+				break;
+				case 3:
+				$txt = $lng->txt("perm_settings");
+				break;
+				case 4:
+				$txt = $lng->txt("show_owner");
+				break;
 			} // switch
 			$tpltab->setVariable("CONTENT", $txt);
 			$tpltab->setVariable("TABTYPE", $tabtype);
@@ -369,9 +369,9 @@ class ilUtil
 	/**
 	* Get all objects of a specific type and check access
 	* recursive method
-	* 
+	*
 	* Get all objects of a specific type where access is granted for the given list
-	* of operations. This function does a checkAccess call for all objects 
+	* of operations. This function does a checkAccess call for all objects
 	* in the object hierarchy and return only the objects of the given type.
 	* Please note if access is not granted to any object in the hierarchy
 	* the function skips all objects under it.
@@ -384,7 +384,7 @@ class ilUtil
 	* for the user. Therefore course A won't appear in the result list although
 	* the queried operations 'visible' and 'read' would actually permit the user
 	* to access course A.
-	* 
+	*
 	* @access	public
 	* @param	string	type or 'all' to get all objects
 	* @param	string	permissions to check e.g. 'visible','read'
@@ -423,7 +423,7 @@ class ilUtil
 
 		return $objects;
 	}
-	
+
 	/**
 	* ???
 	* @access	public
@@ -431,18 +431,18 @@ class ilUtil
 	* @return	string
 	*/
 	function checkFormEmpty ($emptyFields)
-	{		
-		
-		$feedback = "";		
+	{
+
+		$feedback = "";
 
 		foreach ($emptyFields as $key => $val)
-		{				
+		{
 			if ($val == "") {
 				if ($feedback != "") $feedback .= ", ";
-				$feedback .= $key;					
-			}			
-		}		
-	
+				$feedback .= $key;
+			}
+		}
+
 		return $feedback;
 	}
 
@@ -466,7 +466,7 @@ class ilUtil
 	* 					link	=> css name for <a>-tag
 	* 					prev	=> value for 'previous page' (default: '<<')
 	* 					next	=> value for 'next page' (default: '>>')
- 	* @return	array	linkbar or false on error
+	* @return	array	linkbar or false on error
 	*/
 	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array())
 	{
@@ -520,26 +520,26 @@ class ilUtil
 
 			// Wenn ein Rest bleibt, addiere eine Seite
 			if (($AHits % $ALimit))
-				$pages++;
+			$pages++;
 
-// Bei Offset = 0 keine Seitenzahlen anzeigen : DEAKTIVIERT
-//			if ($AOffset != 0) {
+			// Bei Offset = 0 keine Seitenzahlen anzeigen : DEAKTIVIERT
+			//			if ($AOffset != 0) {
 
-				// ansonsten zeige Links zu den anderen Seiten an
-				for ($i = 1 ;$i <= $pages ; $i++)
+			// ansonsten zeige Links zu den anderen Seiten an
+			for ($i = 1 ;$i <= $pages ; $i++)
+			{
+				$newoffset=$ALimit*($i-1);
+
+				if ($newoffset == $AOffset)
 				{
-					$newoffset=$ALimit*($i-1);
-
-					if ($newoffset == $AOffset)
-					{
-						$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font> ";
-					}
-					else
-					{
-						$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>] ";
-					}
+					$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font> ";
 				}
-//			}
+				else
+				{
+					$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>] ";
+				}
+			}
+			//			}
 
 			// Checken, ob letze Seite erreicht ist
 			// Wenn nicht, gebe einen "Weiter"-Link aus
@@ -569,19 +569,19 @@ class ilUtil
 	{
 		// URL mit ://-Angabe
 		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
-							 "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
+		"<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
 
 		// www-URL ohne ://-Angabe
 		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
-							 "\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+		"\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 
 		// ftp-URL ohne ://-Angabe
 		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
-							 "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+		"\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 
 		// E-Mail
 		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
-							 "<a  href=\"mailto:\\1\">\\1</a>", $ret);
+		"<a  href=\"mailto:\\1\">\\1</a>", $ret);
 
 		return($ret);
 	}
@@ -739,7 +739,7 @@ class ilUtil
 		if (!$short) {
 			// build seconds select
 			$sel_second .= "<select name=\"".$prefix."[s]\">\n";
-	
+
 			for ($i = 0; $i <= 59; $i++)
 			{
 				$sel_second .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
@@ -759,7 +759,7 @@ class ilUtil
 		}
 		return $timeformat;
 	}
-	
+
 	/*
 	* This preg-based function checks whether an e-mail address is formally valid.
 	* It works with all top level domains including the new ones (.biz, .info, .museum etc.)
@@ -777,7 +777,7 @@ class ilUtil
 
 	/*
 	* validates a password
- 	* @access	public
+	* @access	public
 	* @param	string	password
 	* @return	boolean	true if valid
 	*/
@@ -803,7 +803,7 @@ class ilUtil
 
 	/*
 	* validates a login
- 	* @access	public
+	* @access	public
 	* @param	string	login
 	* @return	boolean	true if valid
 	*/
@@ -895,7 +895,7 @@ class ilUtil
 	{
 		// check if arguments are directories
 		if (!@is_dir($a_sdir) or
-			!@is_dir($a_tdir))
+		!@is_dir($a_tdir))
 		{
 			return FALSE;
 		}
@@ -905,16 +905,16 @@ class ilUtil
 
 		while($file = readdir($dir))
 		{
-	    	if ($file != "." and
-				$file != "..")
+			if ($file != "." and
+			$file != "..")
 			{
 				// directories
-	         	if (@is_dir($a_sdir."/".$file))
+				if (@is_dir($a_sdir."/".$file))
 				{
 					if (!@is_dir($a_tdir."/".$file))
 					{
 						if (!ilUtil::makeDir($a_tdir."/".$file))
-							return FALSE;
+						return FALSE;
 
 						//chmod($a_tdir."/".$file, 0775);
 					}
@@ -928,7 +928,7 @@ class ilUtil
 				// files
 				if (@is_file($a_sdir."/".$file))
 				{
-	            	if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
+					if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
 					{
 						return FALSE;
 					}
@@ -988,7 +988,7 @@ class ilUtil
 	function getUsersOnline($a_user_id = 0)
 	{
 		global $ilias;
-		
+
 		if ($a_user_id == 0)
 		{
 			$where = "WHERE user_id != 0";
@@ -999,8 +999,8 @@ class ilUtil
 		}
 
 		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
-			 "LEFT JOIN usr_data ON user_id=usr_id ".$where.
-			 " AND expires>UNIX_TIMESTAMP() GROUP BY user_id";
+		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
+		" AND expires>UNIX_TIMESTAMP() GROUP BY user_id";
 		$r = $ilias->db->query($q);
 
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1131,20 +1131,20 @@ class ilUtil
 	function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "")
 	{
 		$format_str = ($a_target_format != "")
-			? strtoupper($a_target_format).":"
-			: "";
+		? strtoupper($a_target_format).":"
+		: "";
 		$geometry = ($a_geometry != "")
-			? " -geometry ".$a_geometry."x".$a_geometry." "
-			: "";
+		? " -geometry ".$a_geometry."x".$a_geometry." "
+		: "";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
-			ilUtil::escapeShellArg($a_from)." ".$geometry.ilUtil::escapeShellArg($format_str.$a_to);
+		ilUtil::escapeShellArg($a_from)." ".$geometry.ilUtil::escapeShellArg($format_str.$a_to);
 		system($convert_cmd);
 	}
 
 	/**
 	*	produce pdf out of html with htmldoc
-    *   @param  html    String  HTML-Data given to create pdf-file
-    *   @param  pdf_file    String  Filename to save pdf in
+	*   @param  html    String  HTML-Data given to create pdf-file
+	*   @param  pdf_file    String  Filename to save pdf in
 	*/
 	function html2pdf($html, $pdf_file)
 	{
@@ -1184,7 +1184,7 @@ class ilUtil
 	function deliverData($a_data, $a_filename, $mime = "application/octet-stream")
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
-//		$mime = "application/octet-stream"; // or whatever the mime type is
+		//		$mime = "application/octet-stream"; // or whatever the mime type is
 
 		if (isset($_SERVER["HTTPS"])) {
 			/**
@@ -1332,8 +1332,8 @@ class ilUtil
 	function appendUrlParameterString($a_url, $a_par)
 	{
 		$url = (is_int(strpos($a_url, "?")))
-			? $a_url."&".$a_par
-			: $a_url."?".$a_par;
+		? $a_url."&".$a_par
+		: $a_url."?".$a_par;
 
 		return $url;
 	}
@@ -1405,8 +1405,8 @@ class ilUtil
 			{
 				if (! mkdir($dir, $umask))
 				{
-						error_log("Can't make directory: $dir");
-						return false;
+					error_log("Can't make directory: $dir");
+					return false;
 				}
 			}
 			elseif (! is_dir($dir))
@@ -1420,7 +1420,7 @@ class ilUtil
 				$umask = fileperms($dir);
 			}
 		}
-    	return true;
+		return true;
 	}
 
 	/**
@@ -1475,7 +1475,7 @@ class ilUtil
 			{
 				$size = filesize($a_dir."/".$entry);
 				$files[$entry] = array("type" => "file", "entry" => $entry,
-					"size" => $size);
+				"size" => $size);
 			}
 		}
 		ksort($dirs);
@@ -1495,7 +1495,7 @@ class ilUtil
 	function getGroupId($a_parent_ref)
 	{
 		return false;
-		
+
 		global $ilias;
 
 		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
@@ -1617,9 +1617,9 @@ class ilUtil
 			$cpar = substr($a_parstr,0,$spos);
 			$a_parstr = substr($a_parstr,$spos,strlen($a_parstr)-$spos);
 			while(substr($cpar,0,1)=="," ||substr($cpar,0,1)==" " || substr($cpar,0,1)==chr(13) || substr($cpar,0,1)==chr(10))
-				$cpar = substr($cpar,1,strlen($cpar)-1);
+			$cpar = substr($cpar,1,strlen($cpar)-1);
 			while(substr($cpar,strlen($cpar)-1,1)==" " || substr($cpar,strlen($cpar)-1,1)==chr(13) || substr($cpar,strlen($cpar)-1,1)==chr(10))
-				$cpar = substr($cpar,0,strlen($cpar)-1);
+			$cpar = substr($cpar,0,strlen($cpar)-1);
 
 			// extract value
 			if($spos=strpos($a_parstr,"\""))
@@ -1633,10 +1633,10 @@ class ilUtil
 					$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos-1);
 				}
 				else
-					$ok=false;
+				$ok=false;
 			}
 			else
-				$ok=false;
+			$ok=false;
 		}
 
 		if($ok) return $par; else return false;
@@ -1704,7 +1704,7 @@ class ilUtil
 	/**
 	* sub-function to sort an array
 	*
-	* @param	array	$a	
+	* @param	array	$a
 	* @param	array	$b
 	*
 	* @return	boolean	true on success / false on error
@@ -1715,19 +1715,19 @@ class ilUtil
 
 		if ($array_sortorder == "asc")
 		{
-			return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
+			return strcasecmp($a[$array_sortby], $b[$array_sortby]);
 		}
 
 		if ($array_sortorder == "desc")
 		{
-			return strcasecmp($b[$array_sortby], $a[$array_sortby]);	
-		}		
+			return strcasecmp($b[$array_sortby], $a[$array_sortby]);
+		}
 	}
-	
+
 	/**
 	* sub-function to sort an array
 	*
-	* @param	array	$a	
+	* @param	array	$a
 	* @param	array	$b
 	*
 	* @return	boolean	true on success / false on error
@@ -1738,13 +1738,13 @@ class ilUtil
 
 		if ($array_sortorder == "asc")
 		{
-			return $a["$array_sortby"] > $b["$array_sortby"];	
+			return $a["$array_sortby"] > $b["$array_sortby"];
 		}
 
 		if ($array_sortorder == "desc")
 		{
 			return $a["$array_sortby"] < $b["$array_sortby"];
-		}		
+		}
 	}
 	/**
 	* sortArray
@@ -1761,7 +1761,7 @@ class ilUtil
 		global $array_sortby,$array_sortorder;
 
 		$array_sortby = $a_array_sortby;
-		
+
 		if ($a_array_sortorder == "desc")
 		{
 			$array_sortorder = "desc";
@@ -1786,7 +1786,7 @@ class ilUtil
 	/**
 	* Make a multi-dimensional array to have only DISTINCT values for a certain "column".
 	* It's like using the DISTINCT parameter on a SELECT sql statement.
-	* 
+	*
 	* @param	array	your multi-dimensional array
 	* @param	string	'column' to filter
 	* @return	array	filtered array
@@ -1796,7 +1796,7 @@ class ilUtil
 	{
 		$target = array();
 		$existing_sub_key_values = array();
-		
+
 		foreach ($array as $key=>$sub_array)
 		{
 			if (!in_array($sub_array[$sub_key], $existing_sub_key_values))
@@ -1826,22 +1826,22 @@ class ilUtil
 		switch($a_desired_type)
 		{
 			case "jpg":
-				if ($im_types & IMG_JPG) return "jpg";
-				if ($im_types & IMG_GIF) return "gif";
-				if ($im_types & IMG_PNG) return "png";
-				break;
+			if ($im_types & IMG_JPG) return "jpg";
+			if ($im_types & IMG_GIF) return "gif";
+			if ($im_types & IMG_PNG) return "png";
+			break;
 
 			case "gif":
-				if ($im_types & IMG_GIF) return "gif";
-				if ($im_types & IMG_JPG) return "jpg";
-				if ($im_types & IMG_PNG) return "png";
-				break;
+			if ($im_types & IMG_GIF) return "gif";
+			if ($im_types & IMG_JPG) return "jpg";
+			if ($im_types & IMG_PNG) return "png";
+			break;
 
 			case "png":
-				if ($im_types & IMG_PNG) return "png";
-				if ($im_types & IMG_JPG) return "jpg";
-				if ($im_types & IMG_GIF) return "gif";
-				break;
+			if ($im_types & IMG_PNG) return "png";
+			if ($im_types & IMG_JPG) return "jpg";
+			if ($im_types & IMG_GIF) return "gif";
+			break;
 		}
 
 		return "";
@@ -1857,9 +1857,9 @@ class ilUtil
 	function deducibleSize($a_mime)
 	{
 		if (($a_mime == "image/gif") || ($a_mime == "image/jpeg") ||
-			($a_mime == "image/png") || ($a_mime == "application/x-shockwave-flash") ||
-			($a_mime == "image/tiff") || ($a_mime == "image/x-ms-bmp") ||
-			($a_mime == "image/psd") || ($a_mime == "image/iff"))
+		($a_mime == "image/png") || ($a_mime == "application/x-shockwave-flash") ||
+		($a_mime == "image/tiff") || ($a_mime == "image/x-ms-bmp") ||
+		($a_mime == "image/psd") || ($a_mime == "image/iff"))
 		{
 			return true;
 		}
@@ -1903,13 +1903,13 @@ class ilUtil
 	* static function
 	* @access	public
 	* @param	string	groupname
-	* @param	integer	obj_id of group to exclude from the check. 
+	* @param	integer	obj_id of group to exclude from the check.
 	* @return	boolean	true if exists
 	*/
 	function groupNameExists($a_group_name,$a_id = 0)
 	{
 		global $ilDB,$ilErr;
-		
+
 		if (empty($a_group_name))
 		{
 			$message = get_class($this)."::_NameExists(): No groupname given!";
@@ -1919,9 +1919,9 @@ class ilUtil
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
 
 		$q = "SELECT obj_id FROM object_data ".
-			 "WHERE title = '".addslashes($a_group_name)."' ".
-			 "AND type = 'grp'".
-			 $clause;
+		"WHERE title = '".addslashes($a_group_name)."' ".
+		"AND type = 'grp'".
+		$clause;
 		$r = $ilDB->query($q);
 
 		if ($r->numRows() == 1)
@@ -1936,7 +1936,7 @@ class ilUtil
 
 	/*
 	* get the user_ids which correspond a search string
-	* static function 
+	* static function
 	* @param	string search string
 	* @access	public
 	*/
@@ -1945,11 +1945,11 @@ class ilUtil
 		global $ilDB;
 
 		$q = "SELECT * ".
-			"FROM object_data ,object_reference ".
-			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
-			"OR object_data.description LIKE '%".$a_search_str."%') ".
-			"AND object_data.type = 'grp' ".
-			"AND object_data.obj_id = object_reference.obj_id";
+		"FROM object_data ,object_reference ".
+		"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
+		"OR object_data.description LIKE '%".$a_search_str."%') ".
+		"AND object_data.type = 'grp' ".
+		"AND object_data.obj_id = object_reference.obj_id";
 
 		$res = $ilDB->query($q);
 
@@ -1958,9 +1958,9 @@ class ilUtil
 			// STORE DATA IN ARRAY WITH KEY obj_id
 			// SO DUPLICATE ENTRIES ( LINKED OBJECTS ) ARE UNIQUE
 			$ids[$row->obj_id] = array(
-				"ref_id"        => $row->ref_id,
-				"title"         => $row->title,
-				"description"   => $row->description);
+			"ref_id"        => $row->ref_id,
+			"title"         => $row->title,
+			"description"   => $row->description);
 		}
 
 		return $ids ? $ids : array();
@@ -1994,7 +1994,7 @@ class ilUtil
 			return escapeshellarg($a_arg);
 		}
 	}
-	
+
 	/*
 	* Calculates a Microsoft Excel date/time value
 	*
@@ -2004,7 +2004,7 @@ class ilUtil
 	* If you don't enter parameters the date/time value for the actual date/time
 	* will be calculated.
 	*
-	* static function 
+	* static function
 	*
 	* @param	integer $year Year
 	* @param	integer $month Month
@@ -2026,7 +2026,7 @@ class ilUtil
 		{
 			if ($year < 1970)
 			{
-				return 0;			
+				return 0;
 			}
 		}
 		$target_time = mktime($hour, $minute, $second, $month, $day, $year);
@@ -2068,8 +2068,8 @@ class ilUtil
 
 		while($file = readdir($dir))
 		{
-	    	if ($file != "." and
-				$file != "..")
+			if ($file != "." and
+			$file != "..")
 			{
 				// directories
 				if (@is_dir($a_dir."/".$file))
@@ -2082,7 +2082,7 @@ class ilUtil
 				{
 					$path_info = pathinfo($a_dir."/".$file);
 					if (strtolower($path_info["extension"]) ==
-						strtolower($a_old_suffix))
+					strtolower($a_old_suffix))
 					{
 						$pos = strrpos($a_dir."/".$file, ".");
 						$new_name = substr($a_dir."/".$file, 0, $pos).".".$a_new_suffix;
@@ -2093,10 +2093,26 @@ class ilUtil
 		}
 		return true;
 	}
-	
+
 	function isAPICall () {
 		return  strpos($_SERVER["SCRIPT_FILENAME"],"api") !== false ||
-				  strpos($_SERVER["SCRIPT_FILENAME"],"dummy") !== false;
+		strpos($_SERVER["SCRIPT_FILENAME"],"dummy") !== false;
+	}
+
+	function KT_replaceParam($qstring, $paramName, $paramValue) {
+		if (preg_match("/&" . $paramName . "=/", $qstring)) {
+			return preg_replace("/&" . $paramName . "=[^&]+/", "&" . $paramName . "=" . urlencode($paramValue), $qstring);
+		} else {
+			return $qstring . "&" . $paramName . "=" . urlencode($paramValue);
+		}
+	}
+
+	function replaceUrlParameterString ($url, $parametersArray) {
+		
+		foreach ($parametersArray as $paramName => $paramValue ) {
+			$url = ilUtil::KT_replaceParam($url, $paramName, $paramValue);
+		}
+		return $url;
 	}
 
 } // END class.ilUtil
