@@ -90,7 +90,7 @@ class ilObjectFactory
 			: $module."/";
 
 		// create instance
-		require_once($module_dir."classes/class.".$class_name.".php");
+		include_once($module_dir."classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
 		$obj->setObjDataRecord($object_rec);
@@ -151,7 +151,7 @@ class ilObjectFactory
 			: $module."/";
 
 		// create instance
-		require_once($module_dir."classes/class.".$class_name.".php");
+		include_once($module_dir."classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);
