@@ -472,6 +472,19 @@ class ilPageObject
 			$mob_ids[$res->nodeset[$i]->get_attribute("OriginId")] = true;
 		}
 
+		// determine all inline internal media links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink[@Type = 'MediaObject']";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			if ($res->nodeset[$i]->get_attribute("TargetFrame") == "")
+			{
+				$id = explode("_", $res->nodeset[$i]->get_attribute("Target"));
+				$mob_ids[$id[1]] = true;
+			}
+		}
+
 		// get xml of corresponding media objects
 		$mobs_xml = "";
 		require_once("content/classes/Pages/class.ilMediaObject.php");

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ilFrame name="fullscreen" template="tpl.fullscreen.html" template_location="module">
-	<ilMedia />
-</ilFrame>
+<ilLayout>
+	<ilFrame name="fullscreen" template="tpl.fullscreen.html" template_location="module">
+		<ilMedia />
+	</ilFrame>
+</ilLayout>

@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
-	<ilPage />
-	<ilLMNavigation />
-	<ilLocator />
-</ilFrame>
-
+<ilLayout>
+	<ilFrame name="maincontent">
+		<StructureObject template="tpl.page.html" template_location="module">
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+		</StructureObject>
+		<PageObject template="tpl.page.html" template_location="module">
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+		</PageObject>
+		<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
+			<ilGlossary/>
+		</GlossaryItem>
+	</ilFrame>
+	<ilLinkTargets>
+		<LinkTarget Type="New" Frame="_new"/>
+		<LinkTarget Type="FAQ" Frame="_new"/>
+		<LinkTarget Type="Glossary" Frame="_new"/>
+		<LinkTarget Type="Media" Frame="_new"/>
+	</ilLinkTargets>
+</ilLayout>
