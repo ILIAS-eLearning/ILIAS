@@ -186,6 +186,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutt
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
+assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
@@ -3676,6 +3680,10 @@ survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
 survey#:#filter#:#Filtro
+survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 survey#:#finished#:#finito
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico

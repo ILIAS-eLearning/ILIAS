@@ -186,6 +186,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
 assessment#:#filter#:#Filter
+assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
@@ -3675,6 +3679,10 @@ survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
+survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 survey#:#finished#:#beendet
 survey#:#found_questions#:#Gefundene Fragen
 survey#:#geometric_mean#:#Geometrisches Mittel
