@@ -4266,3 +4266,34 @@ insert into rbac_ta (typ_id, ops_id) (SELECT 39, ops_id FROM rbac_ta WHERE typ_i
 
 
 
+<#258>
+<?php
+// fix: remove duplicate auth entry in tree or references table
+$query = "SELECT ref_id FROM object_reference LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE object_data.type = 'auth'";
+$res = $this->db->query($query);
+
+if ($res->numRows() > 1)
+{
+	$tree = new ilTree(ROOT_FOLDER_ID);
+
+	while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$query = "SELECT * FROM tree WHERE child='".$row->ref_id."' AND parent='9'";
+		$res2 = $this->db->query($query);
+
+		if ($res2->numRows() == 1)
+		{
+			continue;
+		}
+		else
+		{
+			$query = "DELETE FROM tree WHERE child='".$row->ref_id."'";
+			$this->db->query($query);
+			$query = "DELETE FROM object_reference WHERE ref_id='".$row->ref_id."'";
+			$this->db->query($query);
+		}
+	}
+	
+	$tree->renumber();
+}
+?>
