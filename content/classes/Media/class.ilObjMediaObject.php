@@ -120,6 +120,11 @@ class ilObjMediaObject extends ilObject
 			// remove directory
 			ilUtil::delDir(ilObjMediaObject::_getDirectory($this->getId()));
 
+			// delete meta data of mob
+			$nested = new ilNestedSetXML();
+			$nested->init($this->getId(), $this->getType());
+			$nested->deleteAllDBData();
+
 			// delete media items
 			ilMediaItem::deleteAllItemsOfMob($this->getId());
 
