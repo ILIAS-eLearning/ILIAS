@@ -37,73 +37,73 @@ common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
-common#:#add#:#hinzuf&uuml;gen
-common#:#add_author#:#Autor hinzuf&uuml;gen
-common#:#add_member#:#Mitglied hinzuf&uuml;gen
+common#:#add#:#hinzufügen
+common#:#add_author#:#Autor hinzufügen
+common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#adopt#:#&Uuml;bernehmen
-common#:#adopt_perm_from_template#:#&Uuml;bernehme Rechteeinstellungen von Rollenvorlage
-common#:#all_objects#:#All Objects###04 Aug 2003 new variable
-common#:#announce#:#ank&uuml;ndigen
-common#:#announce_changes#:#&Auml;nderungen bekanntgeben
+common#:#adopt#:#Übernehmen
+common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
+common#:#all_objects#:#Alle Objekte
+common#:#announce#:#Ankündigen
+common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
-common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen
+common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
-common#:#attachment#:#Attachment###28 Mar 2003 new variable
-common#:#attachments#:#Attachments###28 Mar 2003 new variable
+common#:#attachment#:#Attachment
+common#:#attachments#:#Attachments
 common#:#author#:#Autor
 common#:#authors#:#Autoren
-common#:#available_languages#:#Verf&uuml;gbare Sprachen
-common#:#back#:#Zur&uuml;ck
+common#:#available_languages#:#Verfügbare Sprachen
+common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
-common#:#bm#:#Bookmark###09 Apr 2003 new variable
-common#:#bmf#:#Bookmark Folder###09 Apr 2003 new variable
-common#:#bookmark_edit#:#Edit Bookmark###09 Apr 2003 new variable
-common#:#bookmark_folder_edit#:#Edit Bookmark Folder###09 Apr 2003 new variable
-common#:#bookmark_folder_new#:#New Bookmark Folder###09 Apr 2003 new variable
-common#:#bookmark_new#:#Bookmark hinzuf&uuml;gen
-common#:#bookmark_target#:#Target###09 Apr 2003 new variable
+common#:#bm#:#Bookmark
+common#:#bmf#:#Bookmark Ordner
+common#:#bookmark_edit#:#Bookmark bearbeiten
+common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
+common#:#bookmark_folder_new#:#Neuer Bookmark Ordner
+common#:#bookmark_new#:#Bookmark hinzufügen
+common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
-common#:#bookmarks_of#:#Bookmarks of###09 Apr 2003 new variable
+common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-common#:#cancel#:#Verwerfen
-common#:#cannot_uninstall_language_in_use#:#Sie k&ouml;nnen keine aktuell benutzte Sprache deinstallieren!
-common#:#cannot_uninstall_systemlanguage#:#Sie k&ouml;nnen die Systemsprache nicht deinstallieren.
+common#:#cancel#:#Abbrechen
+common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
+common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cat#:#Kategorie
 common#:#cat_added#:#Kategorie angelegt
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
-common#:#change#:#&auml;ndern
-common#:#change_assignment#:#Zuweisung &auml;ndern
-common#:#change_existing_objects#:#Vorhandene Objekte &auml;ndern
-common#:#change_lo_info#:#Lerneinheiten-Infos &auml;ndern
-common#:#change_metadata#:#Metadaten &auml;ndern
-common#:#change_sort_direction#:#Sortierrichtung &auml;ndern
+common#:#change#:#ändern
+common#:#change_assignment#:#Zuweisung ändern
+common#:#change_existing_objects#:#Vorhandene Objekte ändern
+common#:#change_lo_info#:#Lerneinheiten-Infos ändern
+common#:#change_metadata#:#Metadaten ändern
+common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
-common#:#check#:#Pr&uuml;fen
-common#:#check_langfile#:#Bitte &uuml;berpr&uuml;fen Sie die Sprachdatei.
+common#:#check#:#Prüfen
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
-common#:#chg_language#:#Sprache &auml;ndern
-common#:#chg_password#:#Passwort &auml;ndern
-common#:#choose_language#:#Bitte w&auml;hlen Sie Ihre Sprache
-common#:#choose_only_one_language#:#Bitte nur eine Sprache ausw&auml;hlen.
+common#:#chg_language#:#Sprache ändern
+common#:#chg_password#:#Passwort ändern
+common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
-common#:#confirm#:#Best&auml;tigen
+common#:#confirm#:#Bestätigen
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
@@ -112,10 +112,10 @@ common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#Erstellen
 common#:#create_in#:#Erstellen in
-common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
+common#:#create_stylesheet#:#Style erstellen
 common#:#crs#:#Kurs
 common#:#crs_added#:#Kurs angelegt
-common#:#crs_available#:#Verf&uuml;gbare Kurse
+common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
@@ -126,35 +126,35 @@ common#:#date#:#Datum
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
-common#:#db_pass#:#Datenbankpassword
+common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
-common#:#default#:#default
+common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_role#:#Standardrolle
-common#:#default_skin#:#Standard-Benutzeroberfl&auml;che
+common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_style#:#Standard-Stylesheet
-common#:#delete#:#L&ouml;schen
-common#:#delete_all#:#Alle l&ouml;schen
-common#:#delete_object#:#L&ouml;sche Objekte
-common#:#delete_selected#:#Auswahl l&ouml;schen
-common#:#deleted#:#Gel&ouml;scht
+common#:#delete#:#Löschen
+common#:#delete_all#:#Alle löschen
+common#:#delete_object#:#Lösche Objekte
+common#:#delete_selected#:#Auswahl löschen
+common#:#deleted#:#Gelöscht
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#download#:#Herunterladen
-common#:#drafts#:#Entw&uuml;rfe
+common#:#drafts#:#Entwürfe
 common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_properties#:#Eigenschaften
-common#:#edit_stylesheet#:#Edit Style###10 Jul 2003 new variable
+common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#Email
-common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht g&uuml;ltig!
+common#:#email#:#E-Mail
+common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
@@ -167,21 +167,21 @@ common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header.
-common#:#err_wrong_login#:#Login ung&uuml;ltig
-common#:#error_recipient#:#Empf&auml;nger von Fehlermeldungen
-common#:#execute#:#Ausf&uuml;hren
+common#:#err_wrong_login#:#Login ungültig
+common#:#error_recipient#:#Empfänger von Fehlermeldungen
+common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
-common#:#faq_exercise#:#FAQ/&Uuml;bungskapitel
+common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Empf&auml;nger von Feedbackmeldungen
+common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_not_found#:#Datei nicht gefunden
-common#:#file_not_valid#:#Datei ist ung&uuml;ltig!
-common#:#file_valid#:#Datei ist g&uuml;ltig!
-common#:#file_version#:#Verf&uuml;gbare Version
+common#:#file_not_valid#:#Datei ist ungültig!
+common#:#file_valid#:#Datei ist gültig!
+common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
-common#:#fill_out_all_required_fields#:#Bitte f&uuml;llen Sie alle ben&ouml;tigten Felder aus
+common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
@@ -189,7 +189,7 @@ common#:#folder#:#Ordner
 common#:#folder_added#:#Ordner angelegt
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
-common#:#form_empty_fields#:#Diese Felder bitte noch ausf&uuml;llen:
+common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_added#:#Forum angelegt
 common#:#forum_new#:#Neues Forum
@@ -200,42 +200,42 @@ common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
 common#:#glossary#:#Glossar
-common#:#group_any_objects#:#keine Unterobjekte vorhanden  
-common#:#group_details#:#Gruppen Details
-common#:#group_filesharing#:#Gruppen Filesharing
-common#:#group_members#:#Gruppen Mitglieder
-common#:#group_name#:#Groupname###29 Apr 2003 new variable
+common#:#group_any_objects#:#Keine Unterobjekte vorhanden  
+common#:#group_details#:#Gruppen-Details
+common#:#group_filesharing#:#Gruppen-Filesharing
+common#:#group_members#:#Gruppen-Mitglieder
+common#:#group_name#:#Gruppenname
 common#:#group_new#:#Neue Gruppe
-common#:#group_not_available#:#keine Gruppe verf&uuml;gbar
-common#:#group_status#:#Group Status###29 Apr 2003 new variable
-common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
-common#:#group_status_private#:#Private###29 Apr 2003 new variable
-common#:#group_status_public#:#Public###29 Apr 2003 new variable
+common#:#group_not_available#:#keine Gruppe verfügbar
+common#:#group_status#:#Gruppenstatus
+common#:#group_status_closed#:#Geschlossen
+common#:#group_status_private#:#Privat
+common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
-common#:#groups_overview#:#Gruppen &Uuml;bersicht
+common#:#groups_overview#:#Gruppen übersicht
 common#:#grp#:#Gruppe
 common#:#grp_added#:#Gruppe angelegt
 common#:#help#:#Hilfe
-common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
+common#:#hobby#:#Interessen/Hobbies
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
 common#:#import#:#Import
-common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
-common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
+common#:#import_lm#:#Import Lernmodul
+common#:#import_slm#:#Import SCORM-Datei
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
-common#:#info_delete_sure#:#Sind Sie sicher, da� folgende Objekte gel&ouml;scht werden sollen:
-common#:#info_deleted#:#Objekt(e) gel&ouml;scht
-common#:#info_trash#:#Gel&ouml;schte Objekte
-common#:#inform_user_mail#:#Benutzer per Email &uuml;ber &Auml;nderungen informieren
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#info_trash#:#Gelöschte Objekte
+common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
-common#:#inifile#:#Ini-Datei
+common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
-common#:#insert#:#Insert###30 May 2003 new variable
-common#:#inst_id#:#Installations ID
+common#:#insert#:#Einfügen
+common#:#inst_id#:#Installations-ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
@@ -246,13 +246,13 @@ common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#kb#:#KByte
-common#:#keywords#:#Schl&uuml;sselw&ouml;rter
-common#:#lang_dateformat#:#d.m.Y
+common#:#keywords#:#Schlüsselwörter
+common#:#lang_dateformat#:#TT.MM.JJ
 common#:#lang_de#:#Deutsch
-common#:#lang_dk#:#D&auml;nisch
+common#:#lang_dk#:#Dänisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
-common#:#lang_fr#:#Franz&ouml;sisch
+common#:#lang_fr#:#Französisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_no#:#Norwegisch
@@ -268,65 +268,65 @@ common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Lustig! Angew&auml;hlte Sprache(n) sind bereits installiert.
-common#:#languages_already_uninstalled#:#Lustig! Angew&auml;hlte Sprache(n) sind bereits deinstalliert.
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert.
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert.
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
-common#:#last_change#:#Letzte &Auml;nderung
+common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#learning_objects#:#Learning Objects###04 Aug 2003 new variable
+common#:#learning_objects#:#Lernobjekte
 common#:#level#:#Stufe
-common#:#link#:#verkn&uuml;pfen
-common#:#linked_pages#:#Verkn&uuml;pft mit den Seiten
+common#:#link#:#verknüpfen
+common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
-common#:#literature_bookmarks#:#Literatur Bookmarks
+common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul
 common#:#lm_added#:#Lernmodul angelegt
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
-common#:#lo_available#:#&Uuml;bersicht Lerneinheiten & Kurse
-common#:#lo_categories#:#Lerneinheiten Kategorien
-common#:#lo_edit#:#Lerneinheiten editieren
-common#:#lo_new#:#neue Lerneinheit
+common#:#lo_available#:#Lernmaterialien
+common#:#lo_categories#:#Kategorien
+common#:#lo_edit#:#Lernmodule editieren
+common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
-common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
-common#:#lo_overview#:#LE &Uuml;bersicht
-common#:#locator#:#Locator:###04 Aug 2003 new variable
+common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
+common#:#lo_overview#:#Übersicht Lernmaterialien
+common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w&auml;hlen Sie einen anderen Benutzernamen
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
-common#:#los#:#Lerneinheiten
-common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
+common#:#los#:#Lernmodule
+common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
-common#:#mail_d_drafts#:#Entw&uuml;rfe
-common#:#mail_delete_error#:#Fehler beim L&ouml;schen###28 Mar 2003 content changed
-common#:#mail_delete_error_file#:#Fehler beim L&ouml;schen der Datei
+common#:#mail_d_drafts#:#Entwürfe
+common#:#mail_delete_error#:#Fehler beim Löschen
+common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_folders#:#Mail Folders###04 Aug 2003 new variable
+common#:#mail_folders#:#Mail-Ordner
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Nachrichten###24 Apr 2003 content changed
-common#:#mail_maxsize_attach#:#Max. Attachmentgr&ouml;sse
-common#:#mail_maxsize_box#:#Max. Mailboxgr&ouml;sse
-common#:#mail_maxsize_mail#:#Max. Mailgr&ouml;sse
-common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit f&uuml;r Attachments
-common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit f&uuml;r Mails###16 Apr 2003 content changed
+common#:#mail_mails_of#:#Nachrichten
+common#:#mail_maxsize_attach#:#Max. Attachment-Grösse
+common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
+common#:#mail_maxsize_mail#:#Max. Mail-Grösse
+common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
+common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
-common#:#mail_select_one#:#Sie m&uuml;�en mindestens eine Nachricht ausw&auml;hlen
+common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
@@ -338,66 +338,66 @@ common#:#members#:#Mitglieder
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
-common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
+common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
 common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel_delete#:#Aktion abgebrochen
-common#:#msg_changes_ok#:#Die &Auml;nderungen wurden &uuml;bernommen.
-common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
+common#:#msg_clear_clipboard#:#Zwischenablage gelöscht.
 common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_copy_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
-common#:#msg_cut_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben).
+common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
+common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben).
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
-common#:#msg_deleted_role#:#Rolle gel&ouml;scht
-common#:#msg_deleted_roles#:#Rollen gel&ouml;scht
-common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gel&ouuml;scht
-common#:#msg_deleted_rolt#:#Rollenvorlage gel&ouml;scht
-common#:#msg_deleted_rolts#:#Rollenvorlagen gel&ouml;scht
+common#:#msg_deleted_role#:#Rolle gelöscht
+common#:#msg_deleted_roles#:#Rollen gelöscht
+common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gelöscht
+common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
+common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_link_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verkn&uuml;pfen).
-common#:#msg_linked#:#Objekt(e) verkn&uuml;pft.
-common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: ###16 Jul 2003 content changed
-common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:###04 Jul 2003 content changed
-common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:###04 Jul 2003 content changed
-common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen
-common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb k&ouml;nnen Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
-common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen
-common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen###08 Jul 2003 content changed
-common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:###04 Jul 2003 content changed
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu l&ouml;schen:###04 Jul 2003 content changed
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verkn&uuml;pfung f&uuml;r die folgenden Objekte zu erstellen:###04 Jul 2003 content changed
-common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu &auml;ndern
-common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu &auml;ndern
-common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu &auml;ndern
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
-common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen
-common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
+common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen).
+common#:#msg_linked#:#Objekt(e) verknüpft.
+common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
+common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
+common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen!
+common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
+common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen!
+common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen!
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
+common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu ändern!
+common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu ändern!
+common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
+common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
+common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
-common#:#msg_no_search_result#:#Keine Eintr&auml;ge gefunden
-common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#msg_not_in_itself#:#Es ist nicht m&ouml;glich die folgenden Objekte in sich selbst einzuf&uuml;gen:
-common#:#msg_not_possible_link#:#Es ist nicht m&ouml;glich die folgenden Objekte zu verkn&uuml;pfen: Typ
-common#:#msg_nothing_found#:#Nichts gefunden
-common#:#msg_obj_created#:#Objekt angelegt.
-common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
-common#:#msg_obj_modified#:#&Auml;nderungen gespeichert.
-common#:#msg_perm_adopted_from1#:#Rechteeinstellungen &uuml;bernommen von
-common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)###09 Jul 2003 content changed
-common#:#msg_perm_adopted_from_itself#:#Es ist nicht m&ouml;glich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu &uuml;bernehmen.
+common#:#msg_no_search_result#:#Keine Einträge gefunden!
+common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein!
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
+common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
+common#:#msg_nothing_found#:#Nichts gefunden!
+common#:#msg_obj_created#:#Objekt angelegt!
+common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
+common#:#msg_obj_modified#:#Änderungen gespeichert!
+common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
+common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
+common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
-common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
-common#:#msg_roleassignment_changed#:#Rollenzuweisung ge&auml;ndert
-common#:#msg_trash_empty#:#In diesem Ordner existieren keine gel&ouml;schten Objekte 
-common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
-common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:###10 Jul 2003 content changed
-common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
-common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert###04 Aug 2003 content changed
+common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen.
+common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte !
+common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
+common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
+common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
+common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
@@ -411,7 +411,7 @@ common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
-common#:#no_import_available#:#Import not available for type###18 Jun 2003 new variable
+common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_objects#:#Keine Objekte
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
@@ -422,24 +422,24 @@ common#:#obj_adm#:#Systemverwaltung
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
-common#:#obj_frm#:#Forum###15 May 2003 new variable
+common#:#obj_frm#:#Forum
 common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
-common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
+common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachenverwaltung
-common#:#obj_lo#:#LearningObject###15 May 2003 new variable
+common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizenverwaltung
 common#:#obj_objf#:#Objektverwaltung
-common#:#obj_owner#:#Besitzer des Objekts ist###04 Jun 2003 content changed
+common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollenverwaltung
 common#:#obj_rolt#:#Rollenvorlage
-common#:#obj_root#:#root###15 May 2003 new variable
-common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM Lernmodul
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
@@ -449,7 +449,7 @@ common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
-common#:#ok#:#OK###09 May 2003 new variable
+common#:#ok#:#OK
 common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
@@ -458,18 +458,18 @@ common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#order_by#:#Sortieren nach
 common#:#other#:#Andere
-common#:#overview#:#&Uuml;bersicht
+common#:#overview#:#übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
-common#:#parameter#:#Parameter###10 Jul 2003 new variable
+common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
-common#:#passwd_invalid#:#Das neue Passwort ist ung&uuml;ltig! Bitte w&auml;hlen Sie ein anderes Passwort.
-common#:#passwd_not_match#:#Ihre Eingaben f&uuml;r das neue Passwort stimmen nicht &uuml;berein! Bitte das neue Passwort erneut eingeben.
+common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
+common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
-common#:#paste#:#Einf&uuml;gen
+common#:#paste#:#Einfügen
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -482,47 +482,47 @@ common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#personal_data#:#Daten zur Person
-common#:#personal_desktop#:#Pers&ouml;nlicher Schreibtisch
-common#:#personal_picture#:#Personal Picture###07 Jun 2003 new variable
-common#:#personal_profile#:#Pers&ouml;nliches Profil
-common#:#persons#:#Personen###28 Mar 2003 new variable
+common#:#personal_desktop#:#Persönlicher Schreibtisch
+common#:#personal_picture#:#Persönliches Bild
+common#:#personal_profile#:#Persönliches Profil
+common#:#persons#:#Personen
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
-common#:#please_enter_target#:#Please enter a target.###12 Apr 2003 new variable
-common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
+common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein!
+common#:#please_enter_title#:#Bitte geben Sie einen Titel ein!
 common#:#port#:#Port
 common#:#position#:#Position
-common#:#presentation_options#:#Pr&auml;sentationsoptionen
-common#:#previous#:#zur&uuml;ck
+common#:#presentation_options#:#Präsentationsoptionen
+common#:#previous#:#zurück
 common#:#print#:#Drucken
-common#:#profile_changed#:#Ihr Profil wurde ge&auml;ndert
-common#:#properties#:#Properties###04 Aug 2003 new variable
-common#:#pub_section#:#&ouml;ffentlicher Bereich
-common#:#public_profile#:#Public Profile###14 May 2003 new variable
-common#:#publication#:#Ver&ouml;ffentlichung
-common#:#publication_date#:#Ver&ouml;ffentlichungsdatum
-common#:#published#:#Ver&ouml;ffentlicht
-common#:#publishing_organisation#:#Ver&ouml;ffentlichende Organisation
+common#:#profile_changed#:#Ihr Profil wurde geändert
+common#:#properties#:#Eigenschaften
+common#:#pub_section#:#öffentlicher Bereich
+common#:#public_profile#:#Öffentliches Profil
+common#:#publication#:#Veröffentlichung
+common#:#publication_date#:#Veröffentlichungsdatum
+common#:#published#:#Veröffentlicht
+common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#question#:#Frage
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
-common#:#recipient#:#Empf&auml;nger
+common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
-common#:#refresh_list#:#Refresh List
+common#:#refresh_list#:#Liste aktualisieren
 common#:#registered_since#:#Eingetragen seit
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
-common#:#reset#:#Zur&uuml;cksetzen
+common#:#reset#:#Zurücksetzen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
-common#:#role_deleted#:#Rolle gel&ouml;scht
+common#:#role_deleted#:#Rolle gelöscht
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
@@ -532,24 +532,24 @@ common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#save#:#Speichern
-common#:#save_and_back#:#Speichern und zur&uuml;ck
+common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Nachricht speichern
-common#:#save_refresh#:#Save and Refresh###11 Jul 2003 new variable
-common#:#save_return#:#Save and Return###11 Jul 2003 new variable
+common#:#save_refresh#:#Speichern und aktualisieren
+common#:#save_return#:#Speichern und zurückkehren
 common#:#saved#:#Gespeichert
-common#:#saved_successfully#:#Ihre &Auml;nderungen wurden gespeichert
+common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_new#:#Neue Suche
-common#:#search_recipient#:#Empf&auml;nger suchen
+common#:#search_recipient#:#Empfänger suchen
 common#:#search_result#:#Suchergebnis
 common#:#search_user#:#Benutzer suchen
 common#:#sections#:#Bereiche
-common#:#select#:#Select###12 May 2003 new variable
-common#:#select_all#:#Alle ausw&auml;hlen
-common#:#select_file#:#Datei w&auml;hlen
-common#:#select_mode#:#Modus w&auml;hlen
-common#:#selected#:#Ausgew&auml;hlte
+common#:#select#:#Auswählen
+common#:#select_all#:#Alle auswählen
+common#:#select_file#:#Datei wählen
+common#:#select_mode#:#Modus wählen
+common#:#selected#:#Ausgewählte
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
@@ -558,8 +558,8 @@ common#:#sequences#:#Sequenzen
 common#:#server#:#Server
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
-common#:#setSystemLanguage#:#Systemsprache &auml;ndern
-common#:#setUserLanguage#:#Benutzersprache &auml;ndern
+common#:#setSystemLanguage#:#Systemsprache ändern
+common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
@@ -567,7 +567,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
-common#:#slm#:#SCORM LM###18 Jun 2003 new variable
+common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
@@ -575,17 +575,17 @@ common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
-common#:#street#:#Stra�e
+common#:#street#:#Straﬂe
 common#:#structure#:#Gliederung
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
 common#:#submit#:#Abschicken
-common#:#subobjects#:#Subobjects###04 Aug 2003 new variable
+common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#system#:#System
-common#:#system_choose_language#:#Systemsprache w&auml;hlen
+common#:#system_choose_language#:#Systemsprache wählen
 common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
@@ -593,7 +593,7 @@ common#:#system_message#:#Systemnachricht
 common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
-common#:#to#:#An###04 Apr 2003 content changed
+common#:#to#:#An
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
@@ -615,7 +615,7 @@ common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_deleted#:#Benutzer gel&ouml;scht
+common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
@@ -623,12 +623,12 @@ common#:#users#:#Benutzer
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enth�lt keinen Text.
-common#:#usr_skin#:#Benutzeroberfl&auml;che
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text.
+common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
-common#:#value#:#Wert###10 Jul 2003 content changed
+common#:#value#:#Wert
 common#:#version#:#Version
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
@@ -638,163 +638,163 @@ common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
 common#:#yes#:#Ja
-common#:#you_may_add_local_roles#:#Sie k&ouml;nnen lokale Rollen hinzuf&uuml;gen
+common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-content#:#cont_Additional#:#Additional###23 Jun 2003 new variable
-content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
-content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
-content#:#cont_Example#:#Example###23 Jun 2003 new variable
-content#:#cont_Headline#:#Headline###23 Jun 2003 new variable
-content#:#cont_List#:#List###12 Jul 2003 new variable
-content#:#cont_Mnemonic#:#Mnemonic###23 Jun 2003 new variable
-content#:#cont_Number#:#Number###12 Jul 2003 new variable
-content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
-content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
-content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
-content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
-content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
-content#:#cont_caption#:#Caption###11 Jun 2003 new variable
-content#:#cont_chap_and_pages#:#Chapters and Pages###04 Aug 2003 new variable
-content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
-content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
-content#:#cont_content#:#Content###12 May 2003 new variable
-content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
-content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
-content#:#cont_def_organization#:#default###04 Aug 2003 new variable
-content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
-content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
-content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
-content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
-content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
-content#:#cont_file#:#File###08 Jul 2003 new variable
-content#:#cont_files#:#Files###04 Aug 2003 new variable
-content#:#cont_fullscreen#:#Fullscreen###04 Aug 2003 new variable
-content#:#cont_height#:#Height###08 Jul 2003 new variable
-content#:#cont_href#:#href###04 Aug 2003 new variable
-content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
-content#:#cont_import_id#:#identifier###04 Aug 2003 new variable
-content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
-content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
-content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
-content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
-content#:#cont_is_visible#:#isvisible###04 Aug 2003 new variable
-content#:#cont_item#:#Item###04 Aug 2003 new variable
-content#:#cont_list_properties#:#List Properties###16 Jul 2003 new variable
-content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
-content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
-content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
-content#:#cont_none#:#None###16 Jul 2003 new variable
-content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
-content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
-content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
-content#:#cont_order#:#Order Type###16 Jul 2003 new variable
-content#:#cont_organization#:#Organization###04 Aug 2003 new variable
-content#:#cont_organizations#:#Organizations###04 Aug 2003 new variable
-content#:#cont_orig_size#:#Original Size###04 Aug 2003 new variable
-content#:#cont_page_header#:#Page Header###16 Jul 2003 new variable
-content#:#cont_pages#:#Pages###28 May 2003 new variable
-content#:#cont_parameter#:#Parameter###04 Aug 2003 new variable
-content#:#cont_parameters#:#parameters###04 Aug 2003 new variable
-content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
-content#:#cont_pg_title#:#Page Title###16 Jul 2003 new variable
-content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
-content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
-content#:#cont_preview#:#Preview###07 Jun 2003 new variable
-content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
-content#:#cont_reference#:#Reference###04 Aug 2003 new variable
-content#:#cont_resource#:#Resource###04 Aug 2003 new variable
-content#:#cont_resource_type#:#type###04 Aug 2003 new variable
-content#:#cont_resources#:#Resources###04 Aug 2003 new variable
-content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
-content#:#cont_sc_title#:#title###04 Aug 2003 new variable
-content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
-content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
-content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
-content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
-content#:#cont_std_view#:#Standard View###04 Aug 2003 new variable
-content#:#cont_structure#:#structure###04 Aug 2003 new variable
-content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
-content#:#cont_table#:#Table###11 Jun 2003 new variable
-content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
-content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
-content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
-content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
-content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
-content#:#cont_top#:#Top###11 Jun 2003 new variable
-content#:#cont_version#:#version###04 Aug 2003 new variable
-content#:#cont_width#:#Width###08 Jul 2003 new variable
-content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
-content#:#cont_xml_base#:#xml:base###04 Aug 2003 new variable
-content#:#par#:#Paragraph###12 May 2003 new variable
-content#:#pg#:#Page###12 May 2003 new variable
-content#:#st#:#Chapter###12 May 2003 new variable
+content#:#cont_Additional#:#Zusätzlich
+content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
+content#:#cont_Citation#:#Zitat
+content#:#cont_Example#:#Beispiel
+content#:#cont_Headline#:#Überschrift
+content#:#cont_List#:#ListListe
+content#:#cont_Mnemonic#:#Merksatz
+content#:#cont_Number#:#Nummer
+content#:#cont_Roman#:#Römisch I, II, ...
+content#:#cont_Unordered#:#Ungeordnet
+content#:#cont_all_pages#:#Alle Seiten
+content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_bottom#:#Unten
+content#:#cont_caption#:#Bildunterschrift
+content#:#cont_chap_and_pages#:#Kapitel und Seiten
+content#:#cont_chapters#:#Kapitel
+content#:#cont_characteristic#:#Art
+content#:#cont_content#:#Inhalt
+content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_def_layout#:#Standard-Layout
+content#:#cont_def_organization#:#Standard
+content#:#cont_dependencies#:#Dependencies
+content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
+content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
+content#:#cont_edit_par#:#Absatz bearbeiten
+content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
+content#:#cont_file#:#Datei
+content#:#cont_files#:#Dateien
+content#:#cont_fullscreen#:#Vollbild
+content#:#cont_height#:#Höhe
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#identifier
+content#:#cont_insert_list#:#Liste einfügen
+content#:#cont_insert_mob#:#Mediaobjekt
+content#:#cont_insert_par#:#Absatz einfügen
+content#:#cont_insert_table#:#Tabelle einfügen
+content#:#cont_is_visible#:#isvisible
+content#:#cont_item#:#Item
+content#:#cont_list_properties#:#Listen-Eigenschaften
+content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
+content#:#cont_manifest#:#Manifest
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_none#:#Keine
+content#:#cont_nr_cols#:#Zahl der Spalten
+content#:#cont_nr_items#:#Anzahl der Einträge
+content#:#cont_nr_rows#:#Zahl der Zeilen
+content#:#cont_order#:#Aufzählungstyp
+content#:#cont_organization#:#Organisation
+content#:#cont_organizations#:#Organisationen
+content#:#cont_orig_size#:#Originalgröße
+content#:#cont_page_header#:#Seitentitel
+content#:#cont_pages#:#PagesSeiten
+content#:#cont_parameter#:#Parameter
+content#:#cont_parameters#:#Parameter
+content#:#cont_pg_content#:#Seiteninhalt
+content#:#cont_pg_title#:#Seitentitel
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_preview#:#Vorschau
+content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Referenz
+content#:#cont_resource#:#Ressource
+content#:#cont_resource_type#:#Typ
+content#:#cont_resources#:#Ressourcen
+content#:#cont_roman#:#Römisch i, ii, ...
+content#:#cont_sc_title#:#Titel
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_set_class#:#Klasse festlegen
+content#:#cont_set_width#:#Breite festlegen
+content#:#cont_st_title#:#Kapitel-Titel
+content#:#cont_std_view#:#Standardsicht
+content#:#cont_structure#:#Struktur
+content#:#cont_subchapters#:#Unterkapitel
+content#:#cont_table#:#Tabelle
+content#:#cont_table_border#:#Tabellenrand
+content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
+content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
+content#:#cont_table_width#:#Tabellenbreite
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_top#:#Oben
+content#:#cont_version#:#version
+content#:#cont_width#:#Breite
+content#:#cont_wysiwyg#:#Inhalt Wysiwyg
+content#:#cont_xml_base#:#xml:base
+content#:#par#:#Absatz
+content#:#pg#:#Seite
+content#:#st#:#Kapitel
 forum#:#forums#:#Foren
-forum#:#forums_articles#:#Beitr&auml;ge
-forum#:#forums_available#:#Verf&uuml;gbare Foren
+forum#:#forums_articles#:#Beiträge
+forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_count#:#Anzahl Foren
-forum#:#forums_count_art#:#Anzahl Beitr&auml;ge
+forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_info_censor2_post#:#Sind Sie sicher, da� dieser Beitrag auch weiterhin nicht angezeigt werden soll?
-forum#:#forums_info_censor_post#:#Sind Sie sicher, da� dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_delete_post#:#Sind Sie sicher, da� dieser Beitrag inklusive aller Antworten gel&ouml;scht werden soll?
+forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?
+forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
+forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_entries#:#Neue Foren-Eintr&auml;ge
+forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_not_available#:#Keine Foren verf&uuml;gbar
-forum#:#forums_overview#:#&Uuml;bersicht Foren
-forum#:#forums_post_deleted#:#Beitrag wurde gel&ouml;scht
+forum#:#forums_not_available#:#Keine Foren verfügbar
+forum#:#forums_overview#:#Übersicht Foren
+forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-forum#:#forums_posts#:#Alle Beitr&auml;ge
-forum#:#forums_posts_not_available#:#Keine Artikel verf&uuml;gbar
+forum#:#forums_posts#:#Alle Beiträge
+forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_respond#:#Beitrag beantworten
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Beitr&auml;ge zum Thema
+forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads#:#Themen
-forum#:#forums_threads_not_available#:#Keine Themen verf&uuml;gbar
-forum#:#forums_topics_overview#:#Themen&uuml;bersicht
+forum#:#forums_threads_not_available#:#Keine Themen verfügbar
+forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
-mail#:#also_as_email#:#Auch als eMail
-mail#:#bc#:#BC###16 Apr 2003 new variable
+mail#:#also_as_email#:#Auch als E-Mail
+mail#:#bc#:#BC
 mail#:#forward#:#Weiterleiten
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_add_recipient#:#Bitte geben Sie einen Empf&auml;nger ein
-mail#:#mail_add_subfolder#:#Unterordner hinzuf&uuml;gen
+mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzuf&uuml;gen
+mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
 mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
-mail#:#mail_addr_entries#:#Eintr&auml;ge
-mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
-mail#:#mail_bc_not_valid#:#Der Bc Empf&auml;nger ist nicht g&uuml;ltig
-mail#:#mail_bc_search#:#BC Empf&auml;nger suchen
-mail#:#mail_cc_not_valid#:#Der Cc Empf&auml;nger ist nicht g&uuml;ltig
-mail#:#mail_cc_search#:#CC Empf&auml;nger suchen
+mail#:#mail_addr_entries#:#Einträge
+mail#:#mail_attachments#:#Attachments
+mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
+mail#:#mail_bc_search#:#BC-Empfänger suchen
+mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
+mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
-mail#:#mail_check_your_email_addr#:#Bitte &uuml;berpr&uuml;fen Sie Ihre eMail Adresse
+mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre E-Mail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_deleted#:#Die Nachricht(en) wurden gel&ouml;scht
-mail#:#mail_deleted_entry#:#Die Eintr&auml;ge wurden gel&ouml;scht
-mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
-mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugef&uuml;gt
-mail#:#mail_entry_changed#:#Der Eintrag wurde ge&auml;ndert
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
+mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
+mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
+mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
+mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_file_name#:#Dateiname
-mail#:#mail_file_size#:#Dateigr&ouml;�e
-mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gel&ouml;scht
+mail#:#mail_file_size#:#Dateigrösse
+mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
-mail#:#mail_folder_deleted#:#Der Ordner wurde gel&ouml;scht
+mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_folder_options#:#Ordner Einstellungen
-mail#:#mail_following_rcp_not_valid#:#Die folgenden Empf&auml;nger sind nicht g&uuml;ltig:
+mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
@@ -803,338 +803,338 @@ mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
-mail#:#mail_move_to#:#Verschieben nach:###24 Apr 2003 content changed
+mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
-mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben###25 Apr 2003 content changed
-mail#:#mail_new_file#:#Neue Datei hinzuf&uuml;gen:
-mail#:#mail_no_attach_allowed#:#Systemnachrichten k&ouml;nnen keine Attachments beinhalten
+mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+mail#:#mail_new_file#:#Neue Datei hinzufügen:
+mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
-mail#:#mail_options_of#:#Einstellungen###24 Apr 2003 content changed
-mail#:#mail_recipient_not_valid#:#Der Empf&auml;nger ist nicht g&uuml;ltig
+mail#:#mail_options_of#:#Einstellungen
+mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
-mail#:#mail_select_one_entry#:#Sie m&uuml;ssen mindestens einen Eintrag ausw&auml;hlen
-mail#:#mail_select_one_file#:#Sie m&uuml;ssen mindestens eine Datei ausw&auml;hlen
-mail#:#mail_sure_delete#:#Sind Sie sicher, da� die markierten Nachrichten gel&ouml;scht werden sollen
-mail#:#mail_sure_delete_entry#:#Sind Sie sicher, da� die markierten Eintr&auml;ge gel&ouml;scht werden sollen
-mail#:#mail_sure_delete_file#:#Sind Sie sicher, da� die markierten Dateien gel&ouml;scht werden sollen
-mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gel&ouml;scht
-mail#:#mail_to_search#:#Empf&auml;nger suchen
-mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine g&uuml;ltige eMail Adresse
-mail#:#search_bc_recipient#:#BC Empf&auml;nger suchen
-mail#:#search_cc_recipient#:#CC Empf&auml;nger suchen
-meta#:#meta_c_AD#:#Andorra###14 May 2003 new variable
-meta#:#meta_c_AE#:#United Arab Emirates###14 May 2003 new variable
-meta#:#meta_c_AF#:#Afghanistan###14 May 2003 new variable
-meta#:#meta_c_AG#:#Antigua And Barbuda###14 May 2003 new variable
-meta#:#meta_c_AI#:#Anguilla###14 May 2003 new variable
-meta#:#meta_c_AL#:#Albania###14 May 2003 new variable
-meta#:#meta_c_AM#:#Armenia###14 May 2003 new variable
-meta#:#meta_c_AN#:#Netherlands Antilles###14 May 2003 new variable
-meta#:#meta_c_AO#:#Angola###14 May 2003 new variable
-meta#:#meta_c_AQ#:#Antarctica###14 May 2003 new variable
-meta#:#meta_c_AR#:#Argentina###14 May 2003 new variable
-meta#:#meta_c_AS#:#American Samoa###14 May 2003 new variable
-meta#:#meta_c_AT#:#Austria###14 May 2003 new variable
-meta#:#meta_c_AU#:#Australia###14 May 2003 new variable
-meta#:#meta_c_AW#:#Aruba###14 May 2003 new variable
-meta#:#meta_c_AZ#:#Azerbaijan###14 May 2003 new variable
-meta#:#meta_c_BA#:#Bosnia And Herzegowina###14 May 2003 new variable
-meta#:#meta_c_BB#:#Barbados###14 May 2003 new variable
-meta#:#meta_c_BD#:#Bangladesh###14 May 2003 new variable
-meta#:#meta_c_BE#:#Belgium###14 May 2003 new variable
-meta#:#meta_c_BF#:#Burkina Faso###14 May 2003 new variable
-meta#:#meta_c_BG#:#Bulgaria###14 May 2003 new variable
-meta#:#meta_c_BH#:#Bahrain###14 May 2003 new variable
-meta#:#meta_c_BI#:#Burundi###14 May 2003 new variable
-meta#:#meta_c_BJ#:#Benin###14 May 2003 new variable
-meta#:#meta_c_BM#:#Bermuda###14 May 2003 new variable
-meta#:#meta_c_BN#:#Brunei Darussalam###14 May 2003 new variable
-meta#:#meta_c_BO#:#Bolivia###14 May 2003 new variable
-meta#:#meta_c_BR#:#Brazil###14 May 2003 new variable
-meta#:#meta_c_BS#:#Bahamas###14 May 2003 new variable
-meta#:#meta_c_BT#:#Bhutan###14 May 2003 new variable
-meta#:#meta_c_BV#:#Bouvet Island###14 May 2003 new variable
-meta#:#meta_c_BW#:#Botswana###14 May 2003 new variable
-meta#:#meta_c_BY#:#Belarus###14 May 2003 new variable
-meta#:#meta_c_BZ#:#Belize###14 May 2003 new variable
-meta#:#meta_c_CA#:#Canada###14 May 2003 new variable
-meta#:#meta_c_CC#:#Cocos (Keeling) Islands###14 May 2003 new variable
-meta#:#meta_c_CF#:#Central African Republic###14 May 2003 new variable
-meta#:#meta_c_CG#:#Congo###14 May 2003 new variable
-meta#:#meta_c_CH#:#Switzerland###14 May 2003 new variable
-meta#:#meta_c_CI#:#Cote D' Ivoire###14 May 2003 new variable
-meta#:#meta_c_CK#:#Cook Islands###14 May 2003 new variable
-meta#:#meta_c_CL#:#Chile###14 May 2003 new variable
-meta#:#meta_c_CM#:#Cameroon###14 May 2003 new variable
+mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
+mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?
+mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen?
+mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen?
+mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
+mail#:#mail_to_search#:#Empfänger suchen
+mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
+mail#:#search_bc_recipient#:#BC-Empfänger suchen
+mail#:#search_cc_recipient#:#CC-Empfänger suchen
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
+meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AG#:#Antigua und Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albanien
+meta#:#meta_c_AM#:#Armenien
+meta#:#meta_c_AN#:#Niederländische Antillen
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarktis
+meta#:#meta_c_AR#:#Argentinien
+meta#:#meta_c_AS#:#Amerikanisch Samoa###14 May 2003 new variable
+meta#:#meta_c_AT#:#Österreich
+meta#:#meta_c_AU#:#Australien
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbaidschan
+meta#:#meta_c_BA#:#Bosnien-Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BE#:#Belgien
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgarien
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermudas
+meta#:#meta_c_BN#:#Brunei
+meta#:#meta_c_BO#:#Bolivien
+meta#:#meta_c_BR#:#Brasilien
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Weißrußland
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Kanada
+meta#:#meta_c_CC#:#Kokos (Keeling) Inseln###14 May 2003 new variable
+meta#:#meta_c_CF#:#Zentralafrikanische Republik
+meta#:#meta_c_CG#:#Kongo
+meta#:#meta_c_CH#:#Schweiz
+meta#:#meta_c_CI#:#Elfenbeinküste
+meta#:#meta_c_CK#:#Cook Inseln
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Kamerun
 meta#:#meta_c_CN#:#China###14 May 2003 new variable
-meta#:#meta_c_CO#:#Colombia###14 May 2003 new variable
-meta#:#meta_c_CR#:#Costa Rica###14 May 2003 new variable
-meta#:#meta_c_CU#:#Cuba###14 May 2003 new variable
-meta#:#meta_c_CV#:#Cape Verde###14 May 2003 new variable
-meta#:#meta_c_CX#:#Christmas Island###14 May 2003 new variable
-meta#:#meta_c_CY#:#Cyprus###14 May 2003 new variable
-meta#:#meta_c_CZ#:#Czech Republic###14 May 2003 new variable
-meta#:#meta_c_DE#:#Germany###14 May 2003 new variable
-meta#:#meta_c_DJ#:#Djibouti###14 May 2003 new variable
-meta#:#meta_c_DK#:#Denmark###14 May 2003 new variable
-meta#:#meta_c_DM#:#Dominica###14 May 2003 new variable
-meta#:#meta_c_DO#:#Dominican Republic###14 May 2003 new variable
-meta#:#meta_c_DZ#:#Algeria###14 May 2003 new variable
-meta#:#meta_c_EC#:#Ecuador###14 May 2003 new variable
-meta#:#meta_c_EE#:#Estonia###14 May 2003 new variable
-meta#:#meta_c_EG#:#Egypt###14 May 2003 new variable
-meta#:#meta_c_EH#:#Western Sahara###14 May 2003 new variable
-meta#:#meta_c_ER#:#Eritrea###14 May 2003 new variable
-meta#:#meta_c_ES#:#Spain###14 May 2003 new variable
-meta#:#meta_c_ET#:#Ethiopia###14 May 2003 new variable
-meta#:#meta_c_FI#:#Finland###14 May 2003 new variable
-meta#:#meta_c_FJ#:#Fiji###14 May 2003 new variable
-meta#:#meta_c_FK#:#Falkland Islands###14 May 2003 new variable
-meta#:#meta_c_FM#:#Micronesia###14 May 2003 new variable
-meta#:#meta_c_FO#:#Faroe Islands###14 May 2003 new variable
-meta#:#meta_c_FR#:#France###14 May 2003 new variable
-meta#:#meta_c_FX#:#France, Metropolitan###14 May 2003 new variable
-meta#:#meta_c_GA#:#Gabon###14 May 2003 new variable
-meta#:#meta_c_GB#:#United Kingdom###14 May 2003 new variable
-meta#:#meta_c_GD#:#Grenada###14 May 2003 new variable
-meta#:#meta_c_GE#:#Giorgia###14 May 2003 new variable
-meta#:#meta_c_GF#:#French Guiana###14 May 2003 new variable
-meta#:#meta_c_GH#:#Ghana###14 May 2003 new variable
-meta#:#meta_c_GI#:#Gibraltar###14 May 2003 new variable
-meta#:#meta_c_GL#:#Greenland###14 May 2003 new variable
-meta#:#meta_c_GM#:#Gambia###14 May 2003 new variable
-meta#:#meta_c_GN#:#Guinea###14 May 2003 new variable
-meta#:#meta_c_GP#:#Guadeloupe###14 May 2003 new variable
-meta#:#meta_c_GQ#:#Equatorial Guinea###14 May 2003 new variable
-meta#:#meta_c_GR#:#Greece###14 May 2003 new variable
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###14 May 2003 new variable
-meta#:#meta_c_GT#:#Guatemala###14 May 2003 new variable
-meta#:#meta_c_GU#:#Guam###14 May 2003 new variable
-meta#:#meta_c_GW#:#Guinea-Bissau###14 May 2003 new variable
-meta#:#meta_c_GY#:#Guyana###14 May 2003 new variable
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands###14 May 2003 new variable
-meta#:#meta_c_HN#:#Honduras###14 May 2003 new variable
-meta#:#meta_c_HR#:#Croatia###14 May 2003 new variable
-meta#:#meta_c_HT#:#Haiti###14 May 2003 new variable
-meta#:#meta_c_HU#:#Hungary###14 May 2003 new variable
-meta#:#meta_c_ID#:#Indonesia###14 May 2003 new variable
-meta#:#meta_c_IE#:#Ireland###14 May 2003 new variable
-meta#:#meta_c_IL#:#Israel###14 May 2003 new variable
-meta#:#meta_c_IN#:#India###14 May 2003 new variable
-meta#:#meta_c_IO#:#British Indian Ocean Territory###14 May 2003 new variable
-meta#:#meta_c_IQ#:#Iraq###14 May 2003 new variable
-meta#:#meta_c_IR#:#Iran###14 May 2003 new variable
-meta#:#meta_c_IS#:#Iceland###14 May 2003 new variable
-meta#:#meta_c_IT#:#Italy###14 May 2003 new variable
-meta#:#meta_c_JM#:#Jamaica###14 May 2003 new variable
-meta#:#meta_c_JO#:#Jordan###14 May 2003 new variable
-meta#:#meta_c_JP#:#Japan###14 May 2003 new variable
-meta#:#meta_c_KE#:#Kenya###14 May 2003 new variable
-meta#:#meta_c_KG#:#Kyrgyzstan###14 May 2003 new variable
-meta#:#meta_c_KH#:#Cambodia###14 May 2003 new variable
-meta#:#meta_c_KI#:#Kiribati###14 May 2003 new variable
-meta#:#meta_c_KM#:#Comoros###14 May 2003 new variable
-meta#:#meta_c_KN#:#Saint Kitts And Nevis###14 May 2003 new variable
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)###14 May 2003 new variable
-meta#:#meta_c_KR#:#South Korea (Republic Of Korea)###14 May 2003 new variable
+meta#:#meta_c_CO#:#Kolumbien
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CV#:#Kapverdische Inseln###14 May 2003 new variable
+meta#:#meta_c_CX#:#Weihnachtsinseln###14 May 2003 new variable
+meta#:#meta_c_CY#:#Zypern
+meta#:#meta_c_CZ#:#Tschechische Republik
+meta#:#meta_c_DE#:#Deutschland
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Dänemark
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Dominikanische Republik
+meta#:#meta_c_DZ#:#Algerien
+meta#:#meta_c_EC#:#Ekuador
+meta#:#meta_c_EE#:#Estland
+meta#:#meta_c_EG#:#Ägypten
+meta#:#meta_c_EH#:#West-Sahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Spanien
+meta#:#meta_c_ET#:#Äthiopien
+meta#:#meta_c_FI#:#Finnland
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FK#:#Falkland Inseln
+meta#:#meta_c_FM#:#Mikronesien
+meta#:#meta_c_FO#:#Faroer
+meta#:#meta_c_FR#:#Frankreich
+meta#:#meta_c_FX#:#Frankreich
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#Vereinigtes Königreich
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Georgien
+meta#:#meta_c_GF#:#Französich Guyana
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Grönland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Äquatorial-Guinea###14 May 2003 new variable
+meta#:#meta_c_GR#:#Griechenland
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Kroatien
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Ungarn
+meta#:#meta_c_ID#:#Indonesien
+meta#:#meta_c_IE#:#Irland
+meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IN#:#Indien
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IQ#:#Irak
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IS#:#Iceland
+meta#:#meta_c_IT#:#Italien
+meta#:#meta_c_JM#:#Jamaika
+meta#:#meta_c_JO#:#Jordanien
+meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_KE#:#Kenia
+meta#:#meta_c_KG#:#Kirgisien
+meta#:#meta_c_KH#:#Kambodscha
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Komoren
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)###14 May 2003 new variable
+meta#:#meta_c_KR#:#Süd-Korea (Republik)###14 May 2003 new variable
 meta#:#meta_c_KW#:#Kuwait###14 May 2003 new variable
-meta#:#meta_c_KY#:#Cayman Islands###14 May 2003 new variable
-meta#:#meta_c_KZ#:#Kazakhstan###14 May 2003 new variable
-meta#:#meta_c_LA#:#Lao People's Republic###14 May 2003 new variable
-meta#:#meta_c_LB#:#Lebanon###14 May 2003 new variable
-meta#:#meta_c_LC#:#Saint Lucia###14 May 2003 new variable
-meta#:#meta_c_LI#:#Liechtenstein###14 May 2003 new variable
-meta#:#meta_c_LK#:#Sri Lanka###14 May 2003 new variable
-meta#:#meta_c_LR#:#Liberia###14 May 2003 new variable
-meta#:#meta_c_LS#:#Lesotho###14 May 2003 new variable
-meta#:#meta_c_LT#:#Lithunia###14 May 2003 new variable
-meta#:#meta_c_LU#:#Luxembourg###14 May 2003 new variable
-meta#:#meta_c_LV#:#Latvia###14 May 2003 new variable
-meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###14 May 2003 new variable
-meta#:#meta_c_MA#:#Morocco###14 May 2003 new variable
-meta#:#meta_c_MC#:#Monaco###14 May 2003 new variable
-meta#:#meta_c_MD#:#Moldova###14 May 2003 new variable
-meta#:#meta_c_MG#:#Madagascar###14 May 2003 new variable
-meta#:#meta_c_MH#:#Marshall Islands###14 May 2003 new variable
-meta#:#meta_c_MK#:#Macedonia###14 May 2003 new variable
-meta#:#meta_c_ML#:#Mali###14 May 2003 new variable
-meta#:#meta_c_MM#:#Myanmar###14 May 2003 new variable
-meta#:#meta_c_MN#:#Mongolia###14 May 2003 new variable
-meta#:#meta_c_MO#:#Macau###14 May 2003 new variable
+meta#:#meta_c_KY#:#Kaiman Inseln###14 May 2003 new variable
+meta#:#meta_c_KZ#:#Kasachstan
+meta#:#meta_c_LA#:#Laos
+meta#:#meta_c_LB#:#Libanon
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Litauen
+meta#:#meta_c_LU#:#Luxemburg###14 May 2003 new variable
+meta#:#meta_c_LV#:#Lettland
+meta#:#meta_c_LY#:#Libyen
+meta#:#meta_c_MA#:#Morokko
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Moldawien
+meta#:#meta_c_MG#:#Madagaskar
+meta#:#meta_c_MH#:#Marshall Inseln
+meta#:#meta_c_MK#:#Mazedonien
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongolei
+meta#:#meta_c_MO#:#Macau
 meta#:#meta_c_MP#:#Northern Mariana Islands###14 May 2003 new variable
-meta#:#meta_c_MQ#:#Martinique###14 May 2003 new variable
-meta#:#meta_c_MR#:#Mauritania###14 May 2003 new variable
-meta#:#meta_c_MS#:#Montserrat###14 May 2003 new variable
-meta#:#meta_c_MT#:#Malta###14 May 2003 new variable
-meta#:#meta_c_MU#:#Mauritius###14 May 2003 new variable
-meta#:#meta_c_MV#:#Maldives###14 May 2003 new variable
-meta#:#meta_c_MW#:#Malawi###14 May 2003 new variable
-meta#:#meta_c_MX#:#Mexico###14 May 2003 new variable
-meta#:#meta_c_MY#:#Malaysia###14 May 2003 new variable
-meta#:#meta_c_MZ#:#Mozambique###14 May 2003 new variable
-meta#:#meta_c_NA#:#Namibia###14 May 2003 new variable
-meta#:#meta_c_NC#:#New Caledonia###14 May 2003 new variable
-meta#:#meta_c_NE#:#Niger###14 May 2003 new variable
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauretanien
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Malediven
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexiko
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MZ#:#Mozambik
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NC#:#Neu Kaledonien
+meta#:#meta_c_NE#:#Niger
 meta#:#meta_c_NF#:#Norfolk Island###14 May 2003 new variable
-meta#:#meta_c_NG#:#Nigeria###14 May 2003 new variable
-meta#:#meta_c_NI#:#Nicaragua###14 May 2003 new variable
-meta#:#meta_c_NL#:#Netherlands###14 May 2003 new variable
-meta#:#meta_c_NO#:#Norway###14 May 2003 new variable
-meta#:#meta_c_NP#:#Nepal###14 May 2003 new variable
-meta#:#meta_c_NR#:#Nauru###14 May 2003 new variable
-meta#:#meta_c_NU#:#Niue###14 May 2003 new variable
-meta#:#meta_c_NZ#:#New Zealand###14 May 2003 new variable
-meta#:#meta_c_OM#:#Oman###14 May 2003 new variable
-meta#:#meta_c_PA#:#Panama###14 May 2003 new variable
-meta#:#meta_c_PE#:#Peru###14 May 2003 new variable
-meta#:#meta_c_PF#:#French Polynesia###14 May 2003 new variable
-meta#:#meta_c_PG#:#Papua New Guinea###14 May 2003 new variable
-meta#:#meta_c_PH#:#Philippines###14 May 2003 new variable
-meta#:#meta_c_PK#:#Pakistan###14 May 2003 new variable
-meta#:#meta_c_PL#:#Poland###14 May 2003 new variable
-meta#:#meta_c_PM#:#St. Pierre And Miquelon###14 May 2003 new variable
-meta#:#meta_c_PN#:#Pitcairn###14 May 2003 new variable
-meta#:#meta_c_PR#:#Puerto Rico###14 May 2003 new variable
-meta#:#meta_c_PT#:#Portugal###14 May 2003 new variable
-meta#:#meta_c_PW#:#Palau###14 May 2003 new variable
-meta#:#meta_c_PY#:#Paraguay###14 May 2003 new variable
-meta#:#meta_c_QA#:#Qatar###14 May 2003 new variable
-meta#:#meta_c_RE#:#Reunion###14 May 2003 new variable
-meta#:#meta_c_RO#:#Romania###14 May 2003 new variable
-meta#:#meta_c_RU#:#Ran Federation###14 May 2003 new variable
-meta#:#meta_c_RW#:#Rwanda###14 May 2003 new variable
-meta#:#meta_c_SA#:#Saudi Arabia###14 May 2003 new variable
-meta#:#meta_c_SB#:#Solomon Islands###14 May 2003 new variable
-meta#:#meta_c_SC#:#Seychelles###14 May 2003 new variable
-meta#:#meta_c_SD#:#Sudan###14 May 2003 new variable
-meta#:#meta_c_SE#:#Sweden###14 May 2003 new variable
-meta#:#meta_c_SG#:#Singapore###14 May 2003 new variable
-meta#:#meta_c_SH#:#St. Helena###14 May 2003 new variable
-meta#:#meta_c_SI#:#Slovenia###14 May 2003 new variable
-meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands###14 May 2003 new variable
-meta#:#meta_c_SK#:#Slovakia###14 May 2003 new variable
-meta#:#meta_c_SL#:#Siearra Leone###14 May 2003 new variable
-meta#:#meta_c_SM#:#San Marino###14 May 2003 new variable
-meta#:#meta_c_SN#:#Senegal###14 May 2003 new variable
-meta#:#meta_c_SO#:#Somalia###14 May 2003 new variable
-meta#:#meta_c_SR#:#Suriname###14 May 2003 new variable
-meta#:#meta_c_ST#:#Sao Tome And Principe###14 May 2003 new variable
-meta#:#meta_c_SV#:#El Salvador###14 May 2003 new variable
-meta#:#meta_c_SY#:#Syrian Arab Republic###14 May 2003 new variable
-meta#:#meta_c_SZ#:#Swaziland###14 May 2003 new variable
-meta#:#meta_c_TC#:#Turks And Caicos Islands###14 May 2003 new variable
-meta#:#meta_c_TD#:#Chad###14 May 2003 new variable
-meta#:#meta_c_TF#:#French Southern Territories###14 May 2003 new variable
-meta#:#meta_c_TG#:#Togo###14 May 2003 new variable
-meta#:#meta_c_TH#:#Thailand###14 May 2003 new variable
-meta#:#meta_c_TJ#:#Tajikistan###14 May 2003 new variable
-meta#:#meta_c_TK#:#Tokelau###14 May 2003 new variable
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Niederlande###14 May 2003 new variable
+meta#:#meta_c_NO#:#Norwegen
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#Neuseeland###14 May 2003 new variable
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#Französich Polynesien
+meta#:#meta_c_PG#:#Papua-Neuguinea
+meta#:#meta_c_PH#:#Philippinen
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Polen
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Katar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Rumänien
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Ruanda
+meta#:#meta_c_SA#:#Saudi-Arabien
+meta#:#meta_c_SB#:#Solomon Inseln
+meta#:#meta_c_SC#:#Seychellen
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Schweden
+meta#:#meta_c_SG#:#Singapur
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SI#:#Slowenien
+meta#:#meta_c_SJ#:#Svalbard und Jan Mayen Inseln###14 May 2003 new variable
+meta#:#meta_c_SK#:#Slowakei
+meta#:#meta_c_SL#:#Siera Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SR#:#Surinam
+meta#:#meta_c_ST#:#Sao Tome und Principe
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SY#:#Syrien
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_TC#:#Turks und Caicos Inseln
+meta#:#meta_c_TD#:#Tschad
+meta#:#meta_c_TF#:#Französiche Südliche Territorien
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TJ#:#Tadschikistan
+meta#:#meta_c_TK#:#Tokelau
 meta#:#meta_c_TM#:#Turkmenistan###14 May 2003 new variable
-meta#:#meta_c_TN#:#Tunisia###14 May 2003 new variable
-meta#:#meta_c_TO#:#Tonga###14 May 2003 new variable
-meta#:#meta_c_TP#:#East Timor###14 May 2003 new variable
-meta#:#meta_c_TR#:#Turkey###14 May 2003 new variable
-meta#:#meta_c_TT#:#Trinidad And Tobago###14 May 2003 new variable
-meta#:#meta_c_TV#:#Tuvalu###14 May 2003 new variable
-meta#:#meta_c_TW#:#Taiwan###14 May 2003 new variable
-meta#:#meta_c_TZ#:#Tanzania###14 May 2003 new variable
-meta#:#meta_c_UA#:#Ukraine###14 May 2003 new variable
-meta#:#meta_c_UG#:#Uganda###14 May 2003 new variable
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###14 May 2003 new variable
-meta#:#meta_c_US#:#U.S.A###14 May 2003 new variable
-meta#:#meta_c_UY#:#Uruguay###14 May 2003 new variable
-meta#:#meta_c_UZ#:#Uzbekistan###14 May 2003 new variable
-meta#:#meta_c_VA#:#Vatican City State###14 May 2003 new variable
-meta#:#meta_c_VC#:#Saint Vincent And The Grenadines###14 May 2003 new variable
-meta#:#meta_c_VE#:#Venezuela###14 May 2003 new variable
-meta#:#meta_c_VG#:#Virgin Islands (British)###14 May 2003 new variable
-meta#:#meta_c_VI#:#Virgin Islands (US)###14 May 2003 new variable
-meta#:#meta_c_VN#:#Viet Nam###14 May 2003 new variable
-meta#:#meta_c_VU#:#Vanuatu###14 May 2003 new variable
-meta#:#meta_c_WF#:#Wallis And Futuna Islands###14 May 2003 new variable
-meta#:#meta_c_WS#:#Samoa###14 May 2003 new variable
-meta#:#meta_c_YE#:#Yemen###14 May 2003 new variable
-meta#:#meta_c_YT#:#Mayotte###14 May 2003 new variable
-meta#:#meta_c_ZA#:#South Africa###14 May 2003 new variable
-meta#:#meta_c_ZM#:#Zambia###14 May 2003 new variable
-meta#:#meta_c_ZR#:#Zaire###14 May 2003 new variable
-meta#:#meta_c_ZW#:#Zimbabwe###14 May 2003 new variable
-meta#:#meta_c_ZZ#:#Other Country###14 May 2003 new variable
-meta#:#meta_general#:#General###14 May 2003 new variable
-meta#:#meta_identifier#:#Identifier###14 May 2003 new variable
+meta#:#meta_c_TN#:#Tunesien
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#Ost-Timor
+meta#:#meta_c_TR#:#Turkei
+meta#:#meta_c_TT#:#Trinidad und Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tansania
+meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#Vereinigte Staaten
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Usbekistan
+meta#:#meta_c_VA#:#Vatikan
+meta#:#meta_c_VC#:#Saint Vincent und Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin Islands (Britisch)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VN#:#Vietnam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis und Futuna
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Jemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#Südafrika
+meta#:#meta_c_ZM#:#Sambia
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZW#:#Simbabwe
+meta#:#meta_c_ZZ#:#Andere Länder
+meta#:#meta_general#:#General
+meta#:#meta_identifier#:#Identifier
 meta#:#meta_l_aa#:#afar###28 May 2003 new variable
-meta#:#meta_l_ab#:#abkhazian###28 May 2003 new variable
-meta#:#meta_l_af#:#afrikaans###28 May 2003 new variable
-meta#:#meta_l_am#:#amharic###28 May 2003 new variable
-meta#:#meta_l_ar#:#arabic###28 May 2003 new variable
+meta#:#meta_l_ab#:#Abchasisch
+meta#:#meta_l_af#:#Afrikaans
+meta#:#meta_l_am#:#Amharic
+meta#:#meta_l_ar#:#Arabisch
 meta#:#meta_l_as#:#assamese###28 May 2003 new variable
 meta#:#meta_l_ay#:#aymara###28 May 2003 new variable
-meta#:#meta_l_az#:#azerbaijani###28 May 2003 new variable
+meta#:#meta_l_az#:#Aserbaidschanisch
 meta#:#meta_l_ba#:#bashkir###28 May 2003 new variable
-meta#:#meta_l_be#:#byelorussian###28 May 2003 new variable
-meta#:#meta_l_bg#:#bulgarian###28 May 2003 new variable
+meta#:#meta_l_be#:#Weißrussisch
+meta#:#meta_l_bg#:#Bulgarisch
 meta#:#meta_l_bh#:#bihari###28 May 2003 new variable
 meta#:#meta_l_bi#:#bislama###28 May 2003 new variable
-meta#:#meta_l_bn#:#bengali;bangla###28 May 2003 new variable
-meta#:#meta_l_bo#:#tibetan###28 May 2003 new variable
-meta#:#meta_l_br#:#breton###28 May 2003 new variable
-meta#:#meta_l_ca#:#catalan###28 May 2003 new variable
-meta#:#meta_l_co#:#corsican###28 May 2003 new variable
-meta#:#meta_l_cs#:#czech###28 May 2003 new variable
-meta#:#meta_l_cy#:#welsh###28 May 2003 new variable
-meta#:#meta_l_da#:#danish###28 May 2003 new variable
-meta#:#meta_l_de#:#german###28 May 2003 new variable
+meta#:#meta_l_bn#:#Bengalisch
+meta#:#meta_l_bo#:#Tibetanisch
+meta#:#meta_l_br#:#Bretonisch
+meta#:#meta_l_ca#:#Katalanisch
+meta#:#meta_l_co#:#Korsisch
+meta#:#meta_l_cs#:#Tschechisch
+meta#:#meta_l_cy#:#Walisisch
+meta#:#meta_l_da#:#Dänisch
+meta#:#meta_l_de#:#Deutsch
 meta#:#meta_l_dz#:#bhutani###28 May 2003 new variable
-meta#:#meta_l_el#:#greek###28 May 2003 new variable
-meta#:#meta_l_en#:#english###28 May 2003 new variable
-meta#:#meta_l_eo#:#esperanto###28 May 2003 new variable
-meta#:#meta_l_es#:#spanish###28 May 2003 new variable
-meta#:#meta_l_et#:#estonian###28 May 2003 new variable
-meta#:#meta_l_eu#:#basque###28 May 2003 new variable
-meta#:#meta_l_fa#:#persian (farsi)###28 May 2003 new variable
-meta#:#meta_l_fi#:#finnish###28 May 2003 new variable
+meta#:#meta_l_el#:#Griechisch
+meta#:#meta_l_en#:#Englisch
+meta#:#meta_l_eo#:#Esperanto
+meta#:#meta_l_es#:#Spanisch
+meta#:#meta_l_et#:#Estisch
+meta#:#meta_l_eu#:#Baskisch
+meta#:#meta_l_fa#:#Persisch
+meta#:#meta_l_fi#:#Finnisch
 meta#:#meta_l_fj#:#fiji###28 May 2003 new variable
 meta#:#meta_l_fo#:#faroese###28 May 2003 new variable
-meta#:#meta_l_fr#:#french###28 May 2003 new variable
-meta#:#meta_l_fy#:#frisian###28 May 2003 new variable
-meta#:#meta_l_ga#:#irish###28 May 2003 new variable
-meta#:#meta_l_gd#:#scots gaelic###28 May 2003 new variable
-meta#:#meta_l_gl#:#galician###28 May 2003 new variable
+meta#:#meta_l_fr#:#Französisch
+meta#:#meta_l_fy#:#Friesisch
+meta#:#meta_l_ga#:#Irisch
+meta#:#meta_l_gd#:#Gälisch
+meta#:#meta_l_gl#:#Galizisch
 meta#:#meta_l_gn#:#guarani###28 May 2003 new variable
 meta#:#meta_l_gu#:#gujarati###28 May 2003 new variable
-meta#:#meta_l_ha#:#hausa###28 May 2003 new variable
-meta#:#meta_l_he#:#hebrew###28 May 2003 new variable
-meta#:#meta_l_hi#:#hindi###28 May 2003 new variable
-meta#:#meta_l_hr#:#croatian###28 May 2003 new variable
-meta#:#meta_l_hu#:#hungarian###28 May 2003 new variable
-meta#:#meta_l_hy#:#armenian###28 May 2003 new variable
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Israelisch
+meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hr#:#Kroatisch
+meta#:#meta_l_hu#:#Ungarisch
+meta#:#meta_l_hy#:#Armenisch
 meta#:#meta_l_ia#:#interlingua###28 May 2003 new variable
-meta#:#meta_l_id#:#indonesian###28 May 2003 new variable
+meta#:#meta_l_id#:#Indonesisch
 meta#:#meta_l_ie#:#interlingue###28 May 2003 new variable
 meta#:#meta_l_ik#:#inupiak###28 May 2003 new variable
 meta#:#meta_l_is#:#icelandic###28 May 2003 new variable
-meta#:#meta_l_it#:#italian###28 May 2003 new variable
+meta#:#meta_l_it#:#Italienisch
 meta#:#meta_l_iu#:#inuktitut###28 May 2003 new variable
-meta#:#meta_l_ja#:#japanese###28 May 2003 new variable
-meta#:#meta_l_jv#:#javanese###28 May 2003 new variable
-meta#:#meta_l_ka#:#georgian###28 May 2003 new variable
+meta#:#meta_l_ja#:#Japanisch
+meta#:#meta_l_jv#:#Javanesisch
+meta#:#meta_l_ka#:#Georgisch
 meta#:#meta_l_kk#:#kazakh###28 May 2003 new variable
 meta#:#meta_l_kl#:#greenlandic###28 May 2003 new variable
 meta#:#meta_l_km#:#cambodian###28 May 2003 new variable
 meta#:#meta_l_kn#:#kannada###28 May 2003 new variable
-meta#:#meta_l_ko#:#korean###28 May 2003 new variable
+meta#:#meta_l_ko#:#Koreanisch
 meta#:#meta_l_ks#:#kashmiri###28 May 2003 new variable
-meta#:#meta_l_ku#:#kurdish###28 May 2003 new variable
-meta#:#meta_l_ky#:#kirghiz###28 May 2003 new variable
-meta#:#meta_l_la#:#latin###28 May 2003 new variable
+meta#:#meta_l_ku#:#Kurdisch
+meta#:#meta_l_ky#:#Kirgisisch
+meta#:#meta_l_la#:#Lateinisch
 meta#:#meta_l_ln#:#lingala###28 May 2003 new variable
 meta#:#meta_l_lo#:#laothian###28 May 2003 new variable
-meta#:#meta_l_lt#:#lithuanian###28 May 2003 new variable
-meta#:#meta_l_lv#:#latvian;lettish###28 May 2003 new variable
+meta#:#meta_l_lt#:#Litauisch
+meta#:#meta_l_lv#:#Lettisch
 meta#:#meta_l_mg#:#malagasy###28 May 2003 new variable
 meta#:#meta_l_mi#:#maori###28 May 2003 new variable
 meta#:#meta_l_mk#:#macedonian###28 May 2003 new variable
@@ -1142,68 +1142,68 @@ meta#:#meta_l_ml#:#malayalam###28 May 2003 new variable
 meta#:#meta_l_mn#:#mongolian###28 May 2003 new variable
 meta#:#meta_l_mo#:#moldavian###28 May 2003 new variable
 meta#:#meta_l_mr#:#marathi###28 May 2003 new variable
-meta#:#meta_l_ms#:#malay###28 May 2003 new variable
+meta#:#meta_l_ms#:#Malayisch
 meta#:#meta_l_mt#:#maltese###28 May 2003 new variable
 meta#:#meta_l_my#:#burmese###28 May 2003 new variable
 meta#:#meta_l_na#:#nauru###28 May 2003 new variable
 meta#:#meta_l_ne#:#nepali###28 May 2003 new variable
-meta#:#meta_l_nl#:#dutch###28 May 2003 new variable
-meta#:#meta_l_no#:#norwegian###28 May 2003 new variable
+meta#:#meta_l_nl#:#Niederländisch
+meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#occitan###28 May 2003 new variable
 meta#:#meta_l_om#:#afan (oromo)###28 May 2003 new variable
 meta#:#meta_l_or#:#oriya###28 May 2003 new variable
 meta#:#meta_l_pa#:#punjabi###28 May 2003 new variable
-meta#:#meta_l_pl#:#polish###28 May 2003 new variable
+meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#pashto;pushto###28 May 2003 new variable
-meta#:#meta_l_pt#:#portuguese###28 May 2003 new variable
+meta#:#meta_l_pt#:#Portugisisch
 meta#:#meta_l_qu#:#quechua###28 May 2003 new variable
-meta#:#meta_l_rm#:#rhaeto-romance###28 May 2003 new variable
+meta#:#meta_l_rm#:#Rätoromanisch
 meta#:#meta_l_rn#:#kurundi###28 May 2003 new variable
-meta#:#meta_l_ro#:#romanian###28 May 2003 new variable
-meta#:#meta_l_ru#:#russian###28 May 2003 new variable
+meta#:#meta_l_ro#:#Rumänisch
+meta#:#meta_l_ru#:#Russisch
 meta#:#meta_l_rw#:#kinyarwanda###28 May 2003 new variable
-meta#:#meta_l_sa#:#sanskrit###28 May 2003 new variable
+meta#:#meta_l_sa#:#Sanskrit
 meta#:#meta_l_sd#:#sindhi###28 May 2003 new variable
 meta#:#meta_l_sg#:#sangho###28 May 2003 new variable
-meta#:#meta_l_sh#:#serbo-croatian###28 May 2003 new variable
+meta#:#meta_l_sh#:#Serbo-Kroatisch
 meta#:#meta_l_si#:#singhalese###28 May 2003 new variable
-meta#:#meta_l_sk#:#slovak###28 May 2003 new variable
-meta#:#meta_l_sl#:#slovenian###28 May 2003 new variable
+meta#:#meta_l_sk#:#Slowakisch
+meta#:#meta_l_sl#:#Slowenisch
 meta#:#meta_l_sm#:#samoan###28 May 2003 new variable
 meta#:#meta_l_sn#:#shona###28 May 2003 new variable
 meta#:#meta_l_so#:#somali###28 May 2003 new variable
-meta#:#meta_l_sq#:#albanian###28 May 2003 new variable
-meta#:#meta_l_sr#:#serbian###28 May 2003 new variable
+meta#:#meta_l_sq#:#Albanisch
+meta#:#meta_l_sr#:#Serbisch
 meta#:#meta_l_ss#:#siswati###28 May 2003 new variable
 meta#:#meta_l_st#:#sesotho###28 May 2003 new variable
 meta#:#meta_l_su#:#sundanese###28 May 2003 new variable
-meta#:#meta_l_sv#:#swedish###28 May 2003 new variable
-meta#:#meta_l_sw#:#swahili###28 May 2003 new variable
-meta#:#meta_l_ta#:#tamil###28 May 2003 new variable
+meta#:#meta_l_sv#:#Schwedisch
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
 meta#:#meta_l_te#:#telugu###28 May 2003 new variable
 meta#:#meta_l_tg#:#tajik###28 May 2003 new variable
-meta#:#meta_l_th#:#thai###28 May 2003 new variable
+meta#:#meta_l_th#:#Thai###28 May 2003 new variable
 meta#:#meta_l_ti#:#tigrinya###28 May 2003 new variable
-meta#:#meta_l_tk#:#turkmen###28 May 2003 new variable
+meta#:#meta_l_tk#:#Turkmenisch###28 May 2003 new variable
 meta#:#meta_l_tl#:#tagalog###28 May 2003 new variable
 meta#:#meta_l_tn#:#setswana###28 May 2003 new variable
 meta#:#meta_l_to#:#tonga###28 May 2003 new variable
-meta#:#meta_l_tr#:#turkish###28 May 2003 new variable
+meta#:#meta_l_tr#:#Türkisch
 meta#:#meta_l_ts#:#tsonga###28 May 2003 new variable
 meta#:#meta_l_tt#:#tatar###28 May 2003 new variable
 meta#:#meta_l_tw#:#twi###28 May 2003 new variable
 meta#:#meta_l_ug#:#uigur###28 May 2003 new variable
-meta#:#meta_l_uk#:#ukrainian###28 May 2003 new variable
+meta#:#meta_l_uk#:#Ukrainisch
 meta#:#meta_l_ur#:#urdu###28 May 2003 new variable
-meta#:#meta_l_uz#:#uzbek###28 May 2003 new variable
-meta#:#meta_l_vi#:#vietnamese###28 May 2003 new variable
+meta#:#meta_l_uz#:#Usbekisch
+meta#:#meta_l_vi#:#Vietnamesisch
 meta#:#meta_l_vo#:#volapuk###28 May 2003 new variable
 meta#:#meta_l_wo#:#wolof###28 May 2003 new variable
-meta#:#meta_l_xh#:#xhosa###28 May 2003 new variable
-meta#:#meta_l_yi#:#yiddish###28 May 2003 new variable
+meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_yi#:#Jiddish
 meta#:#meta_l_yo#:#yoruba###28 May 2003 new variable
 meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
-meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
-meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
-meta#:#meta_language#:#Language###14 May 2003 new variable
-meta#:#meta_title#:#Title###14 May 2003 new variable
+meta#:#meta_l_zh#:#Chinesisch
+meta#:#meta_l_zu#:#Zulu
+meta#:#meta_language#:#Sprache
+meta#:#meta_title#:#Titel
