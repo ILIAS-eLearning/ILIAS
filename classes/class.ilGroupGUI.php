@@ -1024,6 +1024,13 @@ class ilGroupGUI extends ilObjectGUI
 //		$cb_password = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_password", 1, false);
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
+		
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -1095,7 +1102,7 @@ class ilGroupGUI extends ilObjectGUI
 				break;
 
 			case "fold":
-				$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=show_content";
+				$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=view";
 				break;
 			
 			case "glo":
@@ -1384,6 +1391,13 @@ class ilGroupGUI extends ilObjectGUI
 		$this->prepareOutput(true, 7);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
+		
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
 		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
 		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
@@ -1495,11 +1509,11 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo();
 		$counter = 3;
 		$tab = array();
-		$tab[0] = array ();
+		/*$tab[0] = array ();
 		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id;//link for tab
 		$tab[0]["ftabtype"] = 'tabinactive';  					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='resources';
+		$tab[0]["tab_text"] ='resources';*/
 
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
@@ -1507,12 +1521,12 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
 
-		$tab[2] = array ();
+		/*$tab[2] = array ();
 		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id;			//link for tab
 		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
-
+		*/
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[5] = array ();
@@ -1978,7 +1992,13 @@ class ilGroupGUI extends ilObjectGUI
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
+		
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
 		$this->data["buttons"] = array( "Cancel"  => $this->lng->txt("cancel"),
 						"AssignApplicants"  => $this->lng->txt("assign"));
 
@@ -2192,6 +2212,15 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+		
+		
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
+		
 		// set offset & limit
 
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
@@ -2318,43 +2347,17 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));// footer
 		$tbl->render();		// render table
 
-// SHOW GROUP-RESOURCE-STRUCTURE
-		if($_GET["tree"] == true)
-		{
-
-			$this->tpl->setCurrentBlock("content");
-			$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_explorer.html");
-
-			$exp = new ilGroupExplorer("group.php?cmd=show_content",$this->grp_id);
-			
-			$expanded = array();
-
-			if ($_GET["grp_expand"] == "")
-				$expanded = $this->tree->readRootId();
-			else
-				$expanded = $_GET["grp_expand"];
-
-			$exp->setExpand($expanded);
-
-			// build html-output
-			$exp->setOutput(0);
-			$output = $exp->getOutput();
-
-			$this->tpl->setCurrentBlock("objects");
-			$this->tpl->setVariable("EXPLORER", $output);
-			$this->tpl->parseCurrentBlock();
-		}
 
 		$this->tpl->show();
 	}
-
+	
+	
 	/**
 	* calls current view mode (tree frame or list)
 	*/
 	function view()
 	{
 		global $rbacsystem,$ilias;
-
 
 		$obj_grp = & $this->ilias->obj_factory->getInstanceByRefId($this->grp_id);
 		if (isset($_GET["viewmode"]))
@@ -2365,11 +2368,15 @@ class ilGroupGUI extends ilObjectGUI
 			$_SESSION["viewmode"] = "flat";	//default viewmode
 
 		//any suggestions to check SystemSuperUser-Permissions ?
-		if($obj_grp->isMember() == true || $rbacsystem->checkAccess("create,delete,read,write,join,leave,visible",$this->grp_id,$this->object->getType()))
+		if($_SESSION["viewmode"] == 'flat' && ($obj_grp->isMember() == true || $rbacsystem->checkAccess("create,delete,read,write,join,leave,visible",$this->grp_id,$this->object->getType())))
 		{
 			$this->show_content();
 		}
-		else if ($obj_grp->isMember()==false && $rbacsystem->checkAccess("join", $this->ref_id))
+		elseif($_SESSION["viewmode"] == 'tree' && ($obj_grp->isMember() == true || $rbacsystem->checkAccess("create,delete,read,write,join,leave,visible",$this->grp_id,$this->object->getType())))
+		{
+			$this->show_tree();
+		}
+		elseif ($obj_grp->isMember()==false && $rbacsystem->checkAccess("join", $this->ref_id))
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
@@ -2379,9 +2386,9 @@ class ilGroupGUI extends ilObjectGUI
 			header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 		}
 
-/*
+
 		// tree frame
-		if ($_SESSION["viewmode"] == "tree")
+/*		if ($_SESSION["viewmode"] == "tree")
 		{
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
 			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
@@ -2394,7 +2401,65 @@ class ilGroupGUI extends ilObjectGUI
 		}
 */
 	}
+	/**
+	* display tree view
+	**/
+	function show_tree()
+	{
+		$this->prepareOutput(false,1);
+		
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
+		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
+		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+		
+		//$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
+		
+		$this->tpl->addBlockfile("CONTENT", "group_content", "tpl.grp_view.html");
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_explorer.html");
+
+
+		$exp = new ilGroupExplorer("group.php?cmd=show_tree",$this->grp_id);
+			
+		$expanded = array();
+
+		if ($_GET["grp_expand"] == "")
+			$expanded = $this->grp_tree->readRootId();
+		else
+			$expanded = $_GET["grp_expand"];
+		
+//			$_SESSION["grp_expanded"] = $expanded;
+/*
+			echo "<br><br>POST:";print_r($_POST);
+			echo "<br><br>GET:";print_r($_GET);
+			echo "<br><br>SESSION:";print_r($_SESSION);
+*/
+
+
+//			$expanded = array(0=>264,1=>265);
+
+//			$exp->setExpand($_GET["grp_expand"]);
+		$exp->setExpand($expanded);
+
+			// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setCurrentBlock("objects");
+		
+		$this->tpl->setVariable("EXPLORER", $output);
+		$this->tpl->parseCurrentBlock();
+		
+		
+		$this->tpl->show();
+	}
+	
 
 	/**
 	* show trash content of object
@@ -2665,6 +2730,12 @@ class ilGroupGUI extends ilObjectGUI
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
+	
+		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
 
 		$this->data["buttons"] = array( "RemoveMember"  => $this->lng->txt("remove"),
 						"changeMember"  => $this->lng->txt("change"));
