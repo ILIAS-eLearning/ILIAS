@@ -20,7 +20,7 @@ if (file_exists($startfilename))
 }
 else
 {
-	header("location: content.php?expand=1");
+	header("location: adm_object.php?expand=1");
 }
 
 ?>

@@ -47,7 +47,7 @@ class Log extends PEAR
 
 		$this->PEAR();
 		$this->error_class = new ErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
 	
 		//TODO: check logfile accessable, creatable, writable and so on
 		return true;

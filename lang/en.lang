@@ -305,5 +305,14 @@ visible_layers#:#visible layers
 write#:#write
 yes#:#yes
 your_message#:#your message
-zipcode#:#zip code
-object_not_found#:#object not found
+zip#:#zip code
+obj_not_found#:#object not found
+cut#:#cut
+copy#:#copy
+paste#:#paste
+clear#:#clear
+required_field#:#required field
+you_may_add_local_roles#:#you may add local roles
+obj_owner#:#This Object is owned by
+permission#:#permission
+roles#:#roles

@@ -122,7 +122,7 @@ $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
-$tpl->setVariable("TXT_ZIPCODE",$lng->txt("zip_code"));
+$tpl->setVariable("TXT_ZIP",$lng->txt("zip"));
 $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
 $tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
@@ -145,7 +145,7 @@ $tpl->setVariable("SELECTED_".strtoupper($ilias->account->data["Gender"]), "sele
 $tpl->setVariable("TITLE", $ilias->account->data["Title"]);
 $tpl->setVariable("INSTITUTION", $ilias->account->data["inst"]);
 $tpl->setVariable("CITY", $ilias->account->data["city"]);
-$tpl->setVariable("ZIPCODE", $ilias->account->data["zipcode"]);
+$tpl->setVariable("ZIP", $ilias->account->data["zip"]);
 $tpl->setVariable("PHONE", $ilias->account->data["phone"]);
 
 $tpl->setVariable("SYS_GRP", $lng->txt("administrator"));

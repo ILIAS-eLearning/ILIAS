@@ -307,5 +307,14 @@ visible_layers	visible layers	sichtbare Ebenen	#visible layers	visible layers
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
-zipcode	zip code	Postleitzahl	codice postale	zip code
-object_not_found	object not found	Kein Objekt gefunden	object_not_found	object_not_found
+zip	zip code	Postleitzahl	codice postale	zip code
+obj_not_found	object not found	Kein Objekt gefunden	object_not_found	object_not_found
+cut	cut	ausschneiden	cut	cut
+copy	copy	kopieren	copy	copy
+paste	paste	einfügen	paste	paste
+clear	clear	abbrechen	clear	clear
+required_field	required field	erforderliches Feld	required	required
+you_may_add_local_roles	you may add local roles	Sie können lokale Rollen hinzufügen	you_may_add_local_roles	you_may_add_local_roles
+obj_owner	This Object is owned by	Besitzer des Objekts ist	This Object is owned by	This Object is owned by 
+permission	permission	Recht	permission	permission
+roles	roles	Rollen	roles	roles

@@ -26,39 +26,38 @@ class Object
 		global $ilias;
 		
 		$this->ilias =& $ilias;
+
+		$this->id = $_GET["obj_id"];
+		$this->parent = $_GET["parent"];
+		$this->parent_parent = $_GET["parent_parent"];
+
+		$sql = "SELECT * FROM object_data
+				WHERE obj_id='".$this->id."'";
+		$res = $this->ilias->db->query($sql);
+		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->type = $data["type"];
+		$this->title = $data["title"];
+		$this->desc = $data["description"];
+		$this->owner = $data["owner"];
+		$this->create_date = $data["create_date"];
+		$this->last_update = $data["last_update"];
 	}
-	
+
 	/**
 	* create object in admin interface
 	* @access	public
 	*/
 	function createObject()
 	{
-		// Creates a child object
-		global $tpl, $rbacsystem;
+		// creates a child object
+		global $rbacsystem;
 
-		if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
+		if ($rbacsystem->checkAccess("create", $_GET["obj_id"], $_GET["parent"], $_POST["type"]))
 		{
+			$data = array();
+									
+			return $data;
 
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_form.html");
-
-			//show tabs
-			$o = array();
-			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
-			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
-			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
-			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tpl->setVariable("TABS", TUtil::showTabs(2,$o));			
-			
-			$tpl->setCurrentBlock("adm_content");
-			$tpl->setVariable("TREEPATH",$this->getPath());
-			$tpl->setVariable("CMD", "save");
-			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tpl->setVariable("TPOS",$_GET["parent"]);
-			$tpl->setVariable("TYPE",$_POST["type"]);
-			$tpl->parseCurrentBlock();
-			
 		}
 		else
 		{
@@ -76,8 +75,8 @@ class Object
 		
 		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
 		{
-			// Erzeugen und Eintragen eines Objektes in Tree
-			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
+			// create and insert object in objecttree
+			$new_obj_id = createNewObject($_POST["type"], $_POST["Fobject"]);
 			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
@@ -85,17 +84,15 @@ class Object
 			foreach($parentRoles as $parRol)
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-				$ops = $rbacreview->getOperations($parRol["obj_id"],$_POST["type"],$parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops,$new_obj_id,$_GET["obj_id"]);
+				$ops = $rbacreview->getOperations($parRol["obj_id"], $_POST["type"], $parRol["parent"]);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_obj_id, $_GET["obj_id"]);
 			}
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to create object",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
-		
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -104,48 +101,71 @@ class Object
 	**/
 	function editObject()
 	{
-		global $tpl,$rbacsystem, $lng;
+		global $rbacsystem, $lng;
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_form.html");
-			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
-			//show tabs
-			$o = array();
-			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
-			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
-			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
-			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tpl->setVariable("TABS", TUtil::showTabs(2,$o));			
-
-			//show locator
-			$tpl->setCurrentBlock("locator");
-			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
-			$tpl->setVariable("TREEPATH",$this->getPath());
-			$tpl->parseCurrentBlock();
+			$obj = getObject($this->id);
 			
-			$obj = getObject($_GET["obj_id"]);
-
-			$tpl->setCurrentBlock("adm_content");
-			$tpl->setVariable($this->ilias->ini["layout"]);
-			$tpl->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-			$tpl->setVariable("CMD","update");
-			$tpl->setVariable("TPOS",$_GET["parent"]);
-			$tpl->setVariable("TYPE",$obj["type"]);
-			$tpl->setVariable("OBJ_ID",$obj["obj_id"]);
-			$tpl->setVariable("OBJ_TITLE",$obj["title"]);
-			$tpl->setVariable("OBJ_DESC",$obj["desc"]);
-			$tpl->parseCurrentBlock();
-		}
+			$data = array();
+			$data["fields"] = array();
+			
+			$data["cmd"] = "update";
+			$data["title"] = $obj["title"];
+			$data["desc"] = $obj["desc"];
+			return $data;
+ 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
-			
 	}
 	
+
+	function viewObject()
+	{
+		global $rbacsystem, $tree, $tpl;
+		
+		//prepare objectlist
+		$this->objectList = array();
+		$this->objectList["data"] = array();
+		$this->objectList["ctrl"] = array();
+
+		$this->objectList["cols"] = array("", "type", "title", "description", "last_change");
+		
+		if ($tree->getChilds($this->id, $_GET["order"], $_GET["direction"]))
+		{
+			foreach ($tree->Childs as $key => $val)
+		    {
+				// visible
+				if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				{
+					continue;
+				}
+		
+				//visible data part
+				$this->objectList["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+
+				//control information
+				$this->objectList["ctrl"][] = array(
+					"type" => $val["type"],
+					"obj_id" => $val["id"],
+					"parent" => $val["parent"],
+					"parent_parent" => $val["parent_parent"],
+				);
+				
+		    } //foreach
+		} //if 
+
+		return $this->objectList;		
+	}
+
 	/**
 	* update an object
 	* @access	public
@@ -154,12 +174,11 @@ class Object
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
 		{
-			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-			
-			header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-			exit;
+			updateObject($this->id, $this->type, $_POST["Fobject"]);
+			$this->update = true;
+			return true;
 		}
 		else
 		{
@@ -173,54 +192,29 @@ class Object
 	**/
 	function permObject()
 	{
-		global $tpl, $lng, $rbacsystem, $rbacreview, $rbacadmin;
+		global $lng, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
 
 		$obj = getObject($_GET["obj_id"]);
 
-		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
 		{
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm.html");
-			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");	
-
-			//show locator
-			$tpl->setCurrentBlock("locator");
-			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
-			$tpl->setVariable("TREEPATH",$this->getPath());
-			$tpl->parseCurrentBlock();
-
-			//show tabs
-			$o = array();
-			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
-			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
-			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
-			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-			$tpl->setVariable("TABS", TUtil::showTabs(3,$o));	
-						
-			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tpl->setVariable("TPOS",$_GET["parent"]);
 
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 			$parentRoles = $rbacadmin->getParentRoleIds();
-		
-			// BEGIN ROLENAMES
-			$tpl->setCurrentBlock("ROLENAMES");
+
+			$data = array();
 
 			foreach ($parentRoles as $r)
 			{
-				$tpl->setVariable("ROLE_NAME",$r["title"]);
-				$tpl->parseCurrentBlock();
+				$data["rolenames"][] = $r["title"];
 			}
 			
-			// BEGIN CHECK_INHERIT
-			$tpl->setCurrentBLock("CHECK_INHERIT");
 
 			foreach ($parentRoles as $r)
 			{
 				$box = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
-				$tpl->setVariable("CHECK_INHERITANCE",$box);
-				$tpl->parseCurrentBlock();
+				$data["check_inherit"][] = $box;
 			}
 			
 			$ope_list = getOperationList($obj["type"]);
@@ -228,59 +222,42 @@ class Object
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($ope_list as $key => $operation)
 			{
-				$num++;
-				
-				// BEGIN CHECK_PERM
-				$tpl->setCurrentBlock("CHECK_PERM");
+				$opdata = array();
+				$opdata["name"] = $operation["operation"];
 				
 				foreach ($parentRoles as $role)
 				{
 					$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
 					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
-					$tpl->setVariable("CHECK_PERMISSION",$box);
-					$tpl->parseCurrentBlock();
+					$opdata["values"][] = $box;
 				}
-				
-				// END CHECK_PERM
-				$tpl->setCurrentBlock("TABLE_DATA_OUTER");
-				$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
-				$tpl->setVariable("CSS_ROW",$css_row);
-				$tpl->setVariable("PERMISSION",$operation["operation"]);
-				$tpl->parseCurrentBlock();
+				$data["permission"][] = $opdata;
 			}
-			// END TABLE_DATA_OUTER
 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
-		// if exists rolefolder:
-		// 		=> checkaccess('write') from rolefolder
-		// else
-		//      => checkaccess('create') from rolefolder
 		
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $_GET["obj_id"];
 		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
 		
-		if ($rbacsystem->checkAccess('edit permission',$_GET["obj_id"],$_GET["parent"]) &&
-		   $rbacsystem->checkAccess($permission,$rolf_id,$rolf_parent,'rolf'))
+		if ($rbacsystem->checkAccess("edit permission", $_GET["obj_id"], $_GET["parent"]) &&
+		   $rbacsystem->checkAccess($permission, $rolf_id, $rolf_parent, "rolf"))
 		{
 			// Check if object is able to contain role folder
-			$child_objects = TUtil::getModules($ilias->typedefinition["$obj[type]"]);
+			$child_objects = TUtil::getModules($ilias->typedefinition[$obj[type]]);
 			
 			if ($child_objects["rolf"])
 			{
-				// ADD LOCAL ROLE
-				$tpl->setCurrentBlock("LOCAL_ROLE");
-				$tpl->setVariable("MESSAGE_BOTTOM","You can also add local roles");
-				$tpl->setVariable("LR_OBJ_ID",$_GET["obj_id"]);
-				$tpl->setVariable("LR_TPOS",$_GET["parent"]);
-				$tpl->parseCurrentBlock();
+				$data["local_role"]["id"] = $_GET["obj_id"];
+				$data["local_role"]["parent"] = $_GET["parent"];
 			}
 		}
+		return $data;
 	}
 	
 	/**
@@ -289,7 +266,7 @@ class Object
 	**/
 	function permSaveObject()
 	{
-		global $tplContent,$tree,$rbacsystem,$rbacreview,$rbacadmin;
+		global $tree,$rbacsystem,$rbacreview,$rbacadmin;
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["obj_id"],$_GET["parent"]))
 		{
@@ -371,9 +348,7 @@ class Object
 				}
 			}
 		}
-		
-		header ("location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
-		exit;
+		return true;
 	}
 	
 	/**
@@ -440,37 +415,17 @@ class Object
 	**/
 	function ownerObject()
 	{
-		global $tpl, $tree, $lng;
+		global $tree, $lng;
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_owner.html");
-		$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");	
-
-		//show tabs
-		$o = array();
-		$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
-		$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
-		$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
-		$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
-		$tpl->setVariable("TABS", TUtil::showTabs(4,$o));
-
-		//show locator
-		$tpl->setCurrentBlock("locator");
-		$tpl->setVariable("TXT_PATH", $lng->txt("path"));
-		$tpl->setVariable("TREEPATH",$this->getPath());
-		$tpl->parseCurrentBlock();
-					
 		$owner = TUtil::getOwner($_GET["obj_id"]);
-		
-		$tpl->setCurrentBlock("adm_content");
+
 		if (is_object($owner))
-			$tpl->setVariable("OWNER_NAME",$owner->buildFullName());
+			$data = $owner->buildFullName();
 		else
-			$tpl->setVariable("OWNER_NAME",$lng->txt("unknown"));
-		$tpl->setVariable("CMD","update");
-		$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
-		$tpl->setVariable("TPOS",$_GET["parent"]);
-		$tpl->parseCurrentBlock();
+			$data = $lng->txt("unknown");
+
+		return $data;
+
 	}
 
 	/**
@@ -503,10 +458,7 @@ class Object
 				}
 			}
 		}
-		
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -516,6 +468,7 @@ class Object
 	* @param	integer	node_id
 	* @param	integer	node_id of parent_node
 	* @return	string
+	* @deprecated
 	*/
 	function getPath($a_id = 0, $a_id_parent = 0)
 	{		
@@ -533,6 +486,13 @@ class Object
 
 		$path = $tree->getPathFull($a_id,$a_id_parent);
 
+		$path[] = array(
+			"id"	 => $_GET["obj_id"],
+			"title"  => "Titel",
+			"parent" => $_GET["parent"],
+			"parent_parent" => $_GET["parent_parent"]
+		);
+		
 		return $tree->showPath($path,"content.php");
 	}
 
@@ -552,6 +512,28 @@ class Object
 		array_pop($path_ids);
 		
 		return array_pop($path_ids);
+	} //function
+	
+	function getSubObjects()
+	{
+		global $rbacsystem;
+		
+		if (!empty($this->ilias->typedefinition[$this->type]))
+		{
+			// show only objects with permission 'create'
+			$objects = TUtil::getModules($this->ilias->typedefinition[$this->type]);
+
+			foreach ($objects as $key => $object)
+			{
+				if ($rbacsystem->checkAccess("create", $this->id, $obj->parent, $key))
+				{
+					$data[$key] = $object;
+				} //if
+			} //foreach
+			return $data;
+		} //if
+		return false;	
 	}
-} // END class.Object
+	
+} // class
 ?>

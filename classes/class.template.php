@@ -285,6 +285,11 @@ class Template extends IntegratedTemplateExtension
 	{
 		return $this->checkTopic("__global__", "TREE");
 	}
+	
+	function fileExists($filename)
+	{
+		return file_exists($this->tplPath."/".$filename);
+	}
 }
 
 ?>

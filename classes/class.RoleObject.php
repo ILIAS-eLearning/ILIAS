@@ -214,11 +214,12 @@ class RoleObject extends Object
 			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
 			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
+//			$tabs = new Tabs();
+			
 			//show tabs
 			$o = array();
 			$o["LINK1"] = "content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"];
 			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
-//			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
 			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm";
 			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
 			$tpl->setVariable("TABS", TUtil::showTabs(3,$o));	
