@@ -414,7 +414,7 @@ class ilObjDlBook extends ilObjContentObject
 					"AND o.type= 'dbk'"; */
 
 				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					"xmlnestedset AS xm,xmlvalue AS xv ".
 					$where.
 					$in.
 					"AND r.obj_id=o.obj_id AND ( ".

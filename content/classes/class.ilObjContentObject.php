@@ -700,7 +700,7 @@ class ilObjContentObject extends ilObject
 					"AND o.type= 'lm'";*/
 
 				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					"xmlnestedset AS xm,xmlvalue AS xv ".
 					$where.
 					$in.
 					"AND r.obj_id=o.obj_id AND ( ".
@@ -717,16 +717,6 @@ class ilObjContentObject extends ilObject
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'lm'";
 
-/*
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
-					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
-					"INNER JOIN lm_data AS l ON l.lm_id = o.obj_id ".
-					"INNER JOIN xmlnestedset AS xm ON (xm.ns_book_fk = l.obj_id OR xm.ns_type= 'lm' ) ".
-					"INNER JOIN xmlvalue AS xv ON xm.ns_tag_fk = xv.tag_fk ".
-					$where.
-					$in.
-					"AND o.type = 'lm'";
-*/
 				$ilBench->start("Search", "ilObjContentObject_search_meta");
 				$res1 = $search_obj->ilias->db->query($query1);
 				$res2 = $search_obj->ilias->db->query($query2);
