@@ -2447,6 +2447,12 @@ class ilObjectGUI
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// check if role title has il_ prefix
+		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// if the current object is no role folder, create one
 		if ($this->object->getType() != "rolf")
 		{
