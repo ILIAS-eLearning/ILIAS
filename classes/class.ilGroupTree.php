@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("IL_LAST_NODE", -2);
-define("IL_FIRST_NODE", -1);
 
 /**
 * Tree class
@@ -38,105 +36,14 @@ define("IL_FIRST_NODE", -1);
 class ilGroupTree extends ilTree
 {
 	/**
-	* ilias object
-	* @var		object	ilias
-	* @access	private
-	*/
-	var $ilias;
-
-	/**
-	* points to root node (may be a subtree)
-	* @var		integer
-	* @access	public
-	*/
-	var $root_id;
-
-	/**
-	* to use different trees in one db-table
-	* @var		integer
-	* @access	public
-	*/
-	var $tree_id;
-
-	/**
-	* table name of tree table
-	* @var		string
-	* @access	private
-	*/
-	var $table_tree;
-
-	/**
-	* table name of object_data table
-	* @var		string
-	* @access	private
-	*/
-	var $table_obj_data;
-
-	/**
-	* table name of object_reference table
-	* @var		string
-	* @access	private
-	*/
-	var $table_obj_reference;
-
-	/**
-	* column name containing primary key in reference table
-	* @var		string
-	* @access	private
-	*/
-	var $ref_pk;
-
-	/**
-	* column name containing primary key in object table
-	* @var		string
-	* @access	private
-	*/
-	var $obj_pk;
-
-	/**
-	* column name containing tree id in tree table
-	* @var		string
-	* @access	private
-	*/
-	var $tree_pk;
-
-	/**
 	* Constructor
 	* @access	public
 	* @param	integer	$a_tree_id		tree_id
-	* @param	integer	$a_root_id		root_id (optional)
 	*/
-	function ilGroupTree($a_tree_id, $a_root_id = 0)
+	function ilGroupTree($a_tree_id)
 	{
-		global $ilias;
-
-		// set ilias
-		$this->ilias =& $ilias;
-
-		if (!isset($a_tree_id) or (func_num_args() == 0) )
-		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilias->error_obj->WARNING);
-		}
-
-		if (func_num_args() > 2)
-		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilias->error_obj->WARNING);
-		}
-
-		//init variables
-		if (empty($a_root_id))
-		{
-			$a_root_id = $a_tree_id;
-		}
-
-		$this->tree_id		  = $a_tree_id;
-		$this->root_id		  = $a_root_id;
-		$this->table_tree     = 'grp_tree';
-		$this->table_obj_data = 'object_data';
-		$this->table_obj_reference = 'object_reference';
-		$this->ref_pk = 'ref_id';
-		$this->obj_pk = 'obj_id';
-		$this->tree_pk = 'tree';
+		$this->ilTree($a_tree_id,$a_tree_id);
+		$this->setTableNames("grp_tree","object_data","object_reference");
 	}
 
 	/**
@@ -191,7 +98,5 @@ class ilGroupTree extends ilTree
 
 		return true;
 	}
-
-	
-} // END class.grouptree
+} // END class.ilGroupTree
 ?>
