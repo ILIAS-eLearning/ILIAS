@@ -2,7 +2,7 @@
 <!-- Generated with PHPDoc, http://www.phpdoc.de -->
 <html>
 <head>
-	<title>ILIAS3 - ilias-core - Class: Tree</title>
+	<title>ILIAS 3 - ilias-core - Class: Tree</title>
 	<link href="phpdoc.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -27,8 +27,8 @@
 	</tr>
 	<tr>
 		<td align="left" valign="top">			
-			File: <a href="file:///home/pgabriel/public_html/ilias3/classes/class.tree.php" target="_new">/home/pgabriel/public_html/ilias3/classes/class.tree.php</a>
-			<h5>ILIAS3 - ilias-core</h5>
+			File: <a href="file:///home/smeyer/public_html/ilias_unstable_uk/classes/class.tree.php" target="_new">/home/smeyer/public_html/ilias_unstable_uk/classes/class.tree.php</a>
+			<h5>ILIAS 3 - ilias-core</h5>
 			<h1>Tree</h1>
 			Tree<br>
 			<p>
@@ -79,7 +79,7 @@
 				
 				<tr>
 					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getLeafs()"><h4>getLeafs()</h4></a>get leaf-nodes of tree</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getLeafs()"><h4>getLeafs([ integer $a_tree_id ])</h4></a>get leaf-nodes of given tree</td>
 				</tr>
 				
 				<tr>
@@ -94,22 +94,12 @@
 				
 				<tr>
 					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_insertNode()"><h4>insertNode(integer $a_node_id, [ integer $a_parent_id ])</h4></a>insert node under parent node</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_deleteNode()"><h4>deleteNode([ integer $a_node_id, integer $a_parent_id ])</h4></a>delete node under parent node</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_moveNode()"><h4>moveNode(integer $a_node_id, integer $a_parent_id, integer $a_target_id)</h4></a>move a node into another position within the tree</td>
+					<td align="left" valign="top" width="100%"><a href="#function_insertNode()"><h4>insertNode(integer $a_node_id, integer $a_parent_id,  $a_parent_parent_id)</h4></a>insert node under parent node</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getSubTree()"><h4>getSubTree(array $a_node)</h4></a>get all nodes in the subtree under specified node.</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getSubTree()"><h4>getSubTree(array $a_node)</h4></a>get all nodes in the subtree under specified node</td>
 				</tr>
 				
 				<tr>
@@ -119,7 +109,7 @@
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getPathFull()"><h4>getPathFull([ integer $a_endnode, integer $a_endparent, integer $a_startnode, integer $a_startparent ])</h4></a>get path from a given startnode to a given endnode</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getPathFull()"><h4>getPathFull(integer $a_endnode, integer $a_endparent, [ integer $a_startnode, integer $a_startparent ])</h4></a>get path from a given startnode to a given endnode</td>
 				</tr>
 				
 				<tr>
@@ -138,11 +128,6 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">string</td>
-					<td align="left" valign="top" width="100%"><a href="#function_showPath()"><h4>showPath(array $a_path, string $a_scriptname)</h4></a>builds a string in HTML to output path information</td>
-				</tr>
-				
-				<tr>
 					<td align="right" valign="top">array</td>
 					<td align="left" valign="top" width="100%"><a href="#function_getChildsByDepth()"><h4>getChildsByDepth(integer $a_depth, integer $a_parent)</h4></a>get all childs from a node by depth</td>
 				</tr>
@@ -153,28 +138,48 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">integer</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getDepth()"><h4>getDepth(integer $a_child, integer $a_parent, [ integer $a_tree ])</h4></a>Return depth of an object</td>
-				</tr>
-				
-				<tr>
 					<td align="right" valign="top">array</td>
 					<td align="left" valign="top" width="100%"><a href="#function_calculateFlatTree()"><h4>calculateFlatTree([ integer $a_tree_id ])</h4></a>Calculates additional information for each node in tree-structure:</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">object db</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getNodeData()"><h4>getNodeData([ integer $a_obj_id, integer $a_parent_id ])</h4></a>get all information of a node.</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getNodeData()"><h4>getNodeData(integer $a_obj_id, integer $a_parent_id)</h4></a>get all information of a node.</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getParentNodeData()"><h4>getParentNodeData(integer $a_obj_id, integer $a_parent_id)</h4></a>get data of parent node from tree and object_data</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getParentNodeData()"><h4>getParentNodeData(integer $a_node_id, integer $a_parent_id)</h4></a>get data of parent node from tree and object_data</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">integer</td>
+					<td align="left" valign="top" width="100%"><a href="#function_isGrandChild()"><h4>isGrandChild(integer $a_start_node, integer $a_start_parent, integer $a_query_node, integer $a_query_parent)</h4></a>checks if a node is in the path of an other node</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">boolean</td>
-					<td align="left" valign="top" width="100%"><a href="#function_isGrandChild()"><h4>isGrandChild(integer $a_startnode, integer $a_startparent, integer $a_query_node, integer $a_query_parent)</h4></a>checks if a node is in the path of an other node</td>
+					<td align="left" valign="top" width="100%"><a href="#function_addTree()"><h4>addTree(integer $a_tree_id, [ integer $a_node_id ])</h4></a>create a new tree</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_removeTree()"><h4>removeTree(integer $a_tree_id)</h4></a>remove an existing tree</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">integer</td>
+					<td align="left" valign="top" width="100%"><a href="#function_countTreeEntriesOfObject()"><h4>countTreeEntriesOfObject(integer $a_tree_id, integer $a_obj_id)</h4></a>get number of references of a specific object</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">integer</td>
+					<td align="left" valign="top" width="100%"><a href="#function_saveSubtree()"><h4>saveSubtree(integer $a_obj_id, integer $a_parent, integer $a_tree)</h4></a>save subtree: copy a subtree (defined by obj_id and parent) to a new tree</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getSavedNodeData()"><h4>getSavedNodeData()</h4></a>get data saved/deleted nodes</td>
 				</tr>
 				
 			</table>
@@ -190,7 +195,12 @@
 				
 				<tr>
 					<td align="right" valign="top">object query</td>
-					<td align="left" valign="top" width="100%"><a href="#function_fetchPath()"><h4>fetchPath([ integer $a_endnode, integer $a_endparent, integer $a_startnode, integer $a_startparent ])</h4></a>get path from a given startnode to a given endnode</td>
+					<td align="left" valign="top" width="100%"><a href="#function_fetchPath()"><h4>fetchPath(integer $a_endnode, integer $a_endparent, [ integer $a_startnode, integer $a_startparent ])</h4></a>get path from a given startnode to a given endnode</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">integer</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getDepth()"><h4>getDepth(integer $a_node_id, integer $a_parent_id)</h4></a>Return depth of an object</td>
 				</tr>
 				
 				<tr>
@@ -392,19 +402,41 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getLeafs()"><h4>getLeafs</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    void getLeafs(  )</b><p>
+						<b>public    void getLeafs( [ integer $a_tree_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						get leaf-nodes of tree
+						get leaf-nodes of given tree
 						<br>
-						
+						if no tree_id was given, uses default tree in $this-&gt;tree_id
 						<p>
 						
 					</td>
 				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_tree_id</td>
+								<td align="left" valign="top"><code>= >>0<<</code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
 				
 				
 				<tr>
@@ -618,7 +650,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_insertNode()"><h4>insertNode</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    void insertNode( integer $a_node_id, [ integer $a_parent_id ] )</b><p>
+						<b>public    void insertNode( integer $a_node_id, integer $a_parent_id,  $a_parent_parent_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -660,7 +692,7 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent_id</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -670,172 +702,18 @@
 					</td>
 				</tr>
 				
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>void <p></td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteNode()"><h4>deleteNode</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    void deleteNode( [ integer $a_node_id, integer $a_parent_id ] )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						delete node under parent node
-						<br>
-						
-						<p>
-						
-					</td>
-				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
 				<tr>
 					<td></td>
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_node_id</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_parent_id</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">(optional)</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>void <p></td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_moveNode()"><h4>moveNode</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    void moveNode( integer $a_node_id, integer $a_parent_id, integer $a_target_id )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						move a node into another position within the tree
-						<br>
-						
-						<p>
-						
-					</td>
-				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_node_id</td>
+								<td align="left" valign="top"></td>
+								<td align="left" valign="top">$a_parent_parent_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_parent_id</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_target_id</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">of parent node where the node is moved to</td>
+								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
 							</tr>
 						</table>
 					</td>
@@ -872,9 +750,9 @@
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						get all nodes in the subtree under specified node.
+						get all nodes in the subtree under specified node
 						<br>
-						When no node was given starts at the current node
+						
 						<p>
 						
 					</td>
@@ -905,7 +783,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>array <p> 2-dim (int/array) key, node_data of each subtree node</td>
+					<td>array <p> 2-dim (int/array) key, node_data of each subtree node including the specified node</td>
 				</tr>
 				
 				
@@ -986,7 +864,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getPathFull()"><h4>getPathFull</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getPathFull( [ integer $a_endnode, integer $a_endparent, integer $a_startnode, integer $a_startparent ] )</b><p>
+						<b>public    array getPathFull( integer $a_endnode, integer $a_endparent, [ integer $a_startnode, integer $a_startparent ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1011,7 +889,7 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_endnode</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -1028,7 +906,7 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_endparent</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -1303,83 +1181,6 @@
 					<td colspan="2" align="left" valign="top"><hr></td>
 				</tr>
 				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_showPath()"><h4>showPath</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    string showPath( array $a_path, string $a_scriptname )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						builds a string in HTML to output path information
-						<br>
-						
-						<p>
-						
-					</td>
-				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">array</td>
-								<td align="left" valign="top">$a_path</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">path information</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">string</td>
-								<td align="left" valign="top">$a_scriptname</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">to use for hyperlinks</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>string <p>HTML -formatted string</td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getChildsByDepth()"><h4>getChildsByDepth</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
@@ -1495,100 +1296,6 @@
 					<td colspan="2" align="left" valign="top"><hr></td>
 				</tr>
 				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_getDepth()"><h4>getDepth</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    integer getDepth( integer $a_child, integer $a_parent, [ integer $a_tree ] )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						Return depth of an object
-						<br>
-						
-						<p>
-						
-					</td>
-				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_child</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">of node in question</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_parent</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">of parent node</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_tree</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">(optional)</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>integer <p>depth of node</td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
 				<tr><td colspan="2" align="left" valign="top"><a name="function_calculateFlatTree()"><h4>calculateFlatTree</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
@@ -1652,7 +1359,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getNodeData()"><h4>getNodeData</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    object db getNodeData( [ integer $a_obj_id, integer $a_parent_id ] )</b><p>
+						<b>public    object db getNodeData( integer $a_obj_id, integer $a_parent_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1660,7 +1367,7 @@
 					<td align="left" valign="top">
 						get all information of a node.
 						<br>
-						get data of a specific node from tree and object_dataWhen no node_id was given the method returns data of current node
+						get data of a specific node from tree and object_data
 						<p>
 						
 					</td>
@@ -1677,11 +1384,11 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_obj_id</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">/node_id of node (optional)</td>
+								<td colspan="2" align="left" valign="top">id</td>
 							</tr>
 						</table>
 					</td>
@@ -1694,11 +1401,11 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_parent_id</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">(optional)</td>
+								<td colspan="2" align="left" valign="top">id</td>
 							</tr>
 						</table>
 					</td>
@@ -1708,7 +1415,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>object db <p>db result object</td>
+					<td>object db <p>result object</td>
 				</tr>
 				
 				
@@ -1729,7 +1436,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getParentNodeData()"><h4>getParentNodeData</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getParentNodeData( integer $a_obj_id, integer $a_parent_id )</b><p>
+						<b>public    array getParentNodeData( integer $a_node_id, integer $a_parent_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1753,7 +1460,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_obj_id</td>
+								<td align="left" valign="top">$a_node_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -1806,7 +1513,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_isGrandChild()"><h4>isGrandChild</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    boolean isGrandChild( integer $a_startnode, integer $a_startparent, integer $a_query_node, integer $a_query_parent )</b><p>
+						<b>public    integer isGrandChild( integer $a_start_node, integer $a_start_parent, integer $a_query_node, integer $a_query_parent )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1830,7 +1537,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_startnode</td>
+								<td align="left" valign="top">$a_start_node</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -1847,7 +1554,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$a_startparent</td>
+								<td align="left" valign="top">$a_start_parent</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -1896,7 +1603,353 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>boolean <p></td>
+					<td>integer <p>number of entries</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_addTree()"><h4>addTree</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    boolean addTree( integer $a_tree_id, [ integer $a_node_id ] )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						create a new tree
+						<br>
+						to do: ???
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_tree_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">: obj_id of object where tree belongs to</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_node_id</td>
+								<td align="left" valign="top"><code>= >>-1<<</code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">: root node of tree (optional; default is tree_id itself)</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>boolean <p>true on success</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_removeTree()"><h4>removeTree</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    boolean removeTree( integer $a_tree_id )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						remove an existing tree
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_tree_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">: tree to be removed</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>boolean <p>true on success</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_countTreeEntriesOfObject()"><h4>countTreeEntriesOfObject</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    integer countTreeEntriesOfObject( integer $a_tree_id, integer $a_obj_id )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						get number of references of a specific object
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_tree_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_obj_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>integer <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_saveSubtree()"><h4>saveSubtree</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    integer saveSubtree( integer $a_obj_id, integer $a_parent, integer $a_tree )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						save subtree: copy a subtree (defined by obj_id and parent) to a new tree
+						<br>
+						with tree_id -obj_id.This is neccessary for cut/copy
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_obj_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_parent</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_tree</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>integer <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getSavedNodeData()"><h4>getSavedNodeData</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    array getSavedNodeData(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						get data saved/deleted nodes
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>array <p>data </td>
 				</tr>
 				
 				
@@ -1927,7 +1980,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_fetchPath()"><h4>fetchPath</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private    object query fetchPath( [ integer $a_endnode, integer $a_endparent, integer $a_startnode, integer $a_startparent ] )</b><p>
+						<b>private    object query fetchPath( integer $a_endnode, integer $a_endparent, [ integer $a_startnode, integer $a_startparent ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1935,7 +1988,7 @@
 					<td align="left" valign="top">
 						get path from a given startnode to a given endnode
 						<br>
-						if startnode is not given the rootnode is startnodeif endnode is not given the current node is endnode
+						if startnode is not given the rootnode is startnode
 						<p>
 						
 					</td>
@@ -1952,11 +2005,11 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_endnode</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">of endnode (optional)</td>
+								<td colspan="2" align="left" valign="top">of endnode</td>
 							</tr>
 						</table>
 					</td>
@@ -1969,11 +2022,11 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_endparent</td>
-								<td align="left" valign="top"><code>= >>0<<</code></td>
+								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">of endparent (optional)</td>
+								<td colspan="2" align="left" valign="top">of endparent</td>
 							</tr>
 						</table>
 					</td>
@@ -2018,6 +2071,83 @@
 				<tr>
 					<td align="left" valign="top">Returns</td>
 					<td>object query <p>result</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getDepth()"><h4>getDepth</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private    integer getDepth( integer $a_node_id, integer $a_parent_id )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						Return depth of an object
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_node_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">of parent's node_id</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_parent_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top">of parent's node parent_id</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>integer <p>depth of node</td>
 				</tr>
 				
 				

@@ -2,7 +2,7 @@
 <!-- Generated with PHPDoc, http://www.phpdoc.de -->
 <html>
 <head>
-	<title>ILIAS3 - ilias-core - Class: ILIAS</title>
+	<title>ILIAS 3 - ilias-core - Class: ILIAS</title>
 	<link href="phpdoc.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -27,8 +27,8 @@
 	</tr>
 	<tr>
 		<td align="left" valign="top">			
-			File: <a href="file:///home/pgabriel/public_html/ilias3/classes/class.ilias.php" target="_new">/home/pgabriel/public_html/ilias3/classes/class.ilias.php</a>
-			<h5>ILIAS3 - ilias-core</h5>
+			File: <a href="file:///home/smeyer/public_html/ilias_unstable_uk/classes/class.ilias.php" target="_new">/home/smeyer/public_html/ilias_unstable_uk/classes/class.ilias.php</a>
+			<h5>ILIAS 3 - ilias-core</h5>
 			<h1>ILIAS</h1>
 			ILIAS<br>
 			<p>
@@ -204,16 +204,37 @@
 					<td align="left" valign="top" width="100%"><a href="#variable_$operations"><h4>$operations</h4></a>operation list</td>
 				</tr>
 				
-				<tr>
-					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#variable_$typedefinition"><h4>$typedefinition</h4></a>type definition</td>
-				</tr>
-				
 			</table>
 		</td>
 	</tr>
 	
 	
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td align="left" valign="top" colspan=3><h3>Private Constant Summary</h3></td>
+				</tr>
+				
+				<tr>
+					<td align="left" valign="top"><a href="#constants_DEBUG",$this->ini->readVariable("system">DEBUG",$this->ini->readVariable("system</a></td>
+					<td align="left" valign="top">>><code>DEBUG&quot;));
+		define (&quot;ROOT_FOLDER_ID&quot;,$this-&gt;ini-&gt;readVariable('system','ROOT_FOLDER_ID')); 
+		define (&quot;SYSTEM_FOLDER_ID&quot;,$this-&gt;ini-&gt;readVariable('system','SYSTEM_FOLDER_ID'));
+		
+		// build dsn of database connection and connect
+		$this-&gt;dsn = $this-&gt;ini-&gt;readVariable(&quot;db&quot;,&quot;type&quot;).
+					 &quot;://&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;user&quot;).
+					 &quot;:&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;pass&quot;).
+					 &quot;@&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;host&quot;).
+					 &quot;/&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;name</code><<</td>
+					<td align="left" valign="top" width="100%">Warning: documentation is missing.</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
 	
 	
 	
@@ -420,7 +441,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>integer <p>value </td>
+					<td>integer <p>value TODO: change to replace-statement</td>
 				</tr>
 				
 				
@@ -985,26 +1006,33 @@
 					<td colspan="2" align="left" valign="top"><hr></td>
 				</tr>
 				
-				<tr><td colspan="2" align="left" valign="top"><a name="variable_$typedefinition"><h4>$typedefinition</h4></a></td></tr>
+			</table>
+	</tr>
+		
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Private Constant Details</h2></td>
+				</tr>
+				
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private   array $typedefinition</b>
+						<a name="constant_DEBUG",$this->ini->readVariable("system"><h4>DEBUG",$this->ini->readVariable("system</h4></a>
+						<code>define( DEBUG",$this->ini->readVariable("system, >>DEBUG&quot;));
+		define (&quot;ROOT_FOLDER_ID&quot;,$this-&gt;ini-&gt;readVariable('system','ROOT_FOLDER_ID')); 
+		define (&quot;SYSTEM_FOLDER_ID&quot;,$this-&gt;ini-&gt;readVariable('system','SYSTEM_FOLDER_ID'));
+		
+		// build dsn of database connection and connect
+		$this-&gt;dsn = $this-&gt;ini-&gt;readVariable(&quot;db&quot;,&quot;type&quot;).
+					 &quot;://&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;user&quot;).
+					 &quot;:&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;pass&quot;).
+					 &quot;@&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;host&quot;).
+					 &quot;/&quot;.$this-&gt;ini-&gt;readVariable(&quot;db&quot;, &quot;name<< )</code><br>
+						Case: default: case sensitive
 						<p>
-						>><code>array(
-								&quot;grp&quot;  =&gt; &quot;'frm','le','crs','file','rolf'&quot;,
-								&quot;cat&quot;  =&gt; &quot;'cat','frm','le','grp','crs','file','rolf'&quot;,
-								&quot;frm&quot;  =&gt; &quot;'rolf'&quot;,
-								&quot;le&quot;   =&gt; &quot;'rolf'&quot;,
-								&quot;crs&quot;  =&gt; &quot;'le','frm','grp','file','rolf'&quot;,
-								&quot;file&quot; =&gt; &quot;'rolf'&quot;,
-								&quot;adm&quot;  =&gt; &quot;'usrf','rolf','objf','lngf'&quot;,
-								&quot;usrf&quot; =&gt; &quot;'user'&quot;,
-								&quot;rolf&quot; =&gt; &quot;'role','rolt'&quot;,
-								&quot;objf&quot; =&gt; &quot;'type'&quot;,
-								&quot;lngf&quot; =&gt; &quot;'lang'&quot;
-							)</code><<
-						<p>
-						type definition
+						
 						<br>
 						
 					</td>
@@ -1024,7 +1052,6 @@
 				
 			</table>
 	</tr>
-		
 	
 	
 	<tr>
