@@ -48,11 +48,11 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 
 	/**
-	* insert new list form
+	* insert new file list form
 	*/
 	function insert()
 	{
-		// new list form (list item number)
+		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
 		$this->tpl->setVariable("FORMACTION",
@@ -105,7 +105,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 //echo "::".is_object($this->dom).":";
 		$this->content_obj = new ilPCFileList($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
-		$this->content_obj->setListTitle($_POST["flst_title"], $_POST["flst_language"]);
+		$this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]), $_POST["flst_language"]);
 		$this->content_obj->appendItem($fileObj->getId(), $fileObj->getFileName(),
 			$fileObj->getFileType());
 		$this->updated = $this->pg_obj->update();
@@ -126,7 +126,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	function edit()
 	{
 		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_file_list_properties"));
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
@@ -137,7 +137,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("INPUT_TITLE", "flst_title");
+//echo htmlentities($this->content_obj->getListTitle())."<br>";
+//echo addslashes($this->content_obj->getListTitle())."<br>";
+//echo $this->content_obj->getListTitle()."<br>";
 		$this->tpl->setVariable("VALUE_TITLE", $this->content_obj->getListTitle());
+		//$this->tpl->setVariable("VALUE_TITLE", "--papp \"Huhu\"--");
+		//$this->tpl->setVariable("VALUE_TITLE2", "--papp \"Huhu\"--");
 
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
@@ -162,7 +167,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function saveProperties()
 	{
-		$this->content_obj->setListTitle($_POST["flst_title"], $_POST["flst_language"]);
+		$this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]),
+			$_POST["flst_language"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{

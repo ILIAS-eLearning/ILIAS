@@ -681,12 +681,15 @@ table.ilc_FileList
 	border-style: outset;
 	border-color: #bbbbbb;
 	border-width: 1px;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
 th.ilc_FileList
 {
 	font-size: 13px;
 	text-align: left;
+	padding: 3px;
 }
 
 td.ilc_FileItem
@@ -696,4 +699,5 @@ td.ilc_FileItem
 	border-left-width: 0px;
 	border-right-width: 0px;
 	background-color: #FFFFFF;
+	padding: 3px;
 }

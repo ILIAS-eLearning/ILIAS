@@ -1101,5 +1101,21 @@ class ilUtil
 		
 		return $row[0] ? $row[0] : false;
 	}
+
+	/**
+	* strip slashes if magic qoutes is enabled
+	*/
+	function stripSlashes($a_str)
+	{
+		if (ini_get("magic_quotes_gpc"))
+		{
+			return stripslashes($a_str);
+		}
+		else
+		{
+			return $a_str;
+		}
+	}
+
 } // END class.ilUtil
 ?>
