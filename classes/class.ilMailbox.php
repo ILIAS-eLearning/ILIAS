@@ -266,7 +266,7 @@ class ilMailbox
 				"title = '$key',".
 				"type = '$folder'";
 			$res = $this->ilias->db->query($query);
-			$this->mtree->insertNode($last_id,$root_id,0);
+			$this->mtree->insertNode($last_id,$root_id);
 		}
 	}
 	/**
