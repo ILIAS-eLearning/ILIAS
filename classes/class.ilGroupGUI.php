@@ -227,6 +227,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 	/**
+	* DEPRECATED!!!!
 	* displays list of groups that are located under the node given by ref_id
 	*/
 	function displayList()
@@ -587,7 +588,7 @@ class ilGroupGUI extends ilObjectGUI
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 
-					if ($access and $cont_data["type"] != "fold")
+					if ($access)
 					{
 						$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 					}
