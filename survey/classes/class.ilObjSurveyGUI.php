@@ -145,6 +145,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Creates an input form to enter the anonymous survey id to resume a survey
+*
+* Creates an input form to enter the anonymous survey id to resume a survey
+*
+* @access public
+*/
+	function resumeSurveyForm()
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_resume_survey.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("LABEL_RESUME_SURVEY", $this->lng->txt("label_resume_survey"));
+		$this->tpl->setVariable("TEXT_RESUME_SURVEY", $this->lng->txt("text_resume_survey"));
+		$this->tpl->setVariable("TITLE_RESUME_SURVEY", $this->lng->txt("title_resume_survey"));
+		$this->tpl->setVariable("BUTTON_RESUME", $this->lng->txt("resume_survey"));
+		$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Creates the form output for running the survey
 *
 * Creates the form output for running the survey
@@ -153,11 +174,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function runObject() {
 		global $ilUser;
-
-		if ($_POST["cmd"]["start"])
-		{
-			$this->object->startSurvey($ilUser->id);
-		}
 
 		if ($_POST["cmd"]["exit"])
 		{
@@ -182,11 +198,43 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
+		if ($_POST["cmd"]["resume"])
+		{
+			$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
+			if ($anonymize_key)
+			{
+				$_SESSION["anonymous_id"] = $anonymize_key;
+			}
+			else
+			{
+				unset($_POST["cmd"]["resume"]);
+				sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
+			}
+		}
+
+		if ($_POST["cmd"]["resume_check"])
+		{
+			if ($this->object->getAnonymize())
+			{
+				$this->resumeSurveyForm();
+				return;
+			}
+			else
+			{
+				$_POST["cmd"]["resume"] = "resume";
+			}
+		}
+
 		$direction = 0;
 		$page_error = 0;
 		$errormsg = "";
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"] or $_POST["cmd"]["skip_next"] or $_POST["cmd"]["skip_previous"])
 		{
+			if ($_POST["cmd"]["start"])
+			{
+				$anonymize_key = md5($ilUser->getLogin() . strftime('%c'));
+				$_SESSION["anonymous_id"] = $anonymize_key;
+			}
 			$activepage = "";
 			$direction = 0;
 			if ($_POST["cmd"]["resume"])

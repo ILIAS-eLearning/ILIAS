@@ -629,17 +629,18 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $this->ilias->db->quote($this->getId()),
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->introduction),
-        $this->ilias->db->quote($this->status),
+        $this->ilias->db->quote($this->author . ""),
+        $this->ilias->db->quote($this->introduction . ""),
+        $this->ilias->db->quote($this->status . ""),
         $startdate,
 				$enddate,
-        $this->ilias->db->quote($this->evaluation_access),
-				$this->ilias->db->quote("$this->invitation"),
-				$this->ilias->db->quote("$this->invitation_mode"),
-				$this->ilias->db->quote("$complete"),
+        $this->ilias->db->quote($this->evaluation_access . ""),
+				$this->ilias->db->quote($this->invitation . ""),
+				$this->ilias->db->quote($this->invitation_mode . ""),
+				$this->ilias->db->quote($complete . ""),
+				$this->ilias->db->quote($this->getAnonymize() . ""),
         $this->ilias->db->quote($created)
       );
       $result = $this->ilias->db->query($query);
@@ -648,16 +649,17 @@ class ilObjSurvey extends ilObject
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s WHERE survey_id = %s",
-        $this->ilias->db->quote($this->author),
-        $this->ilias->db->quote($this->introduction),
-        $this->ilias->db->quote($this->status),
+      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s WHERE survey_id = %s",
+        $this->ilias->db->quote($this->author . ""),
+        $this->ilias->db->quote($this->introduction . ""),
+        $this->ilias->db->quote($this->status . ""),
         $startdate,
 				$enddate,
-        $this->ilias->db->quote($this->evaluation_access),
-				$this->ilias->db->quote("$this->invitation"),
-				$this->ilias->db->quote("$this->invitation_mode"),
-				$this->ilias->db->quote("$complete"),
+        $this->ilias->db->quote($this->evaluation_access . ""),
+				$this->ilias->db->quote($this->invitation . ""),
+				$this->ilias->db->quote($this->invitation_mode . ""),
+				$this->ilias->db->quote($complete . ""),
+				$this->ilias->db->quote($this->getAnonymize() . ""),
         $this->ilias->db->quote($this->survey_id)
       );
       $result = $this->ilias->db->query($query);
@@ -690,6 +692,32 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($key)
 			);
 			$result = $this->ilias->db->query($query);
+		}
+	}
+
+/**
+* Checks for an anomyous survey id in the database an returns the id
+* 
+* Checks for an anomyous survey id in the database an returns the id
+*
+* @param string $id A 32 digit MD5 key
+* @result object Anonymous survey id if found, empty string otherwise
+* @access public
+*/
+	function getAnonymousId($id)
+	{
+		$query = sprintf("SELECT anonymous_id FROM survey_answer WHERE anonymous_id = %s",
+			$this->ilias->db->quote($id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["anonymous_id"];
+		}
+		else
+		{
+			return "";
 		}
 	}
 
@@ -897,6 +925,14 @@ class ilObjSurvey extends ilObject
 				else
 				{
 					$this->enddate_enabled = 1;
+				}
+				if (!$data->anonymize)
+				{
+					$this->setAnonymize(ANONYMIZE_OFF);
+				}
+				else
+				{
+					$this->setAnonymize(ANONYMIZE_ON);
 				}
         $this->evaluation_access = $data->evaluation_access;
 				$this->loadQuestionsFromDb();
@@ -2467,11 +2503,23 @@ class ilObjSurvey extends ilObject
 */
 	function deleteWorkingData($question_id, $user_id)
 	{
-		$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($user_id)
-		);
+		$query = "";
+		if ($this->getAnonymize())
+		{
+			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND anonymous_id = %s",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($question_id),
+				$this->ilias->db->quote($_SESSION["anonymous_id"])
+			);
+		}
+		else
+		{
+			$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($question_id),
+				$this->ilias->db->quote($user_id)
+			);
+		}
 		$result = $this->ilias->db->query($query);
 	}
 	
@@ -2488,6 +2536,10 @@ class ilObjSurvey extends ilObject
 */
 	function saveWorkingData($question_id, $user_id, $value = "", $text = "")
 	{
+		if ($this->isSurveyStarted($user_id) === false)
+		{
+			$this->startSurvey($user_id);
+		}
 		if (strcmp($value, "") == 0)
 		{
 			$value = "NULL";
@@ -2504,10 +2556,15 @@ class ilObjSurvey extends ilObject
 		{
 			$text = $this->ilias->db->quote($text);
 		}
-		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($user_id),
+		if ($this->getAnonymize())
+		{
+			$user_id = 0;
+		}
+		$query = sprintf("INSERT INTO survey_answer (answer_id, survey_fi, question_fi, user_fi, anonymous_id, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getSurveyId() . ""),
+			$this->ilias->db->quote($question_id . ""),
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($_SESSION["anonymous_id"]),
 			$value,
 			$text
 		);
@@ -2527,11 +2584,23 @@ class ilObjSurvey extends ilObject
 	function loadWorkingData($question_id, $user_id)
 	{
 		$result_array = array();
-		$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($question_id),
-			$this->ilias->db->quote($user_id)
-		);
+		$query = "";
+		if ($this->getAnonymize())
+		{
+			$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND anonymous_id = %s",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($question_id. ""),
+				$this->ilias->db->quote($_SESSION["anonymous_id"])
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT * FROM survey_answer WHERE survey_fi = %s AND question_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($question_id . ""),
+				$this->ilias->db->quote($user_id . "")
+			);
+		}
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() >= 1)
 		{
@@ -2557,12 +2626,35 @@ class ilObjSurvey extends ilObject
 */
 	function startSurvey($user_id)
 	{
+		global $ilUser;
+		
 		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote("0")
+			$this->ilias->db->quote($this->getSurveyId() . ""),
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote(0 . "")
 		);
 		$result = $this->ilias->db->query($query);
+		if ($this->getAnonymize())
+		{
+			require_once "./include/inc.mail.php";
+			require_once "./classes/class.ilFormatMail.php";
+			require_once "./classes/class.ilMailbox.php";
+			$subject = sprintf($this->lng->txt("subject_mail_survey_id"), $this->getTitle());
+			$message = sprintf($this->lng->txt("message_mail_survey_id"), $this->getTitle(), $_SESSION["anonymous_id"]);
+			$umail = new ilFormatMail($ilUser->id);
+			$f_message = $umail->formatLinebreakMessage($message);
+			$umail->setSaveInSentbox(true);
+			if($error_message = $umail->sendMail($ilUser->getLogin(),"",
+												 "",$subject,$f_message,
+												 "",array("normal")))
+			{
+				sendInfo($error_message);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("survey_code_message_sent"));
+			}
+		}
 	}
 			
 /**
@@ -2621,10 +2713,21 @@ class ilObjSurvey extends ilObject
 */
 	function getLastActivePage($user_id)
 	{
-		$query = sprintf("SELECT question_fi FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP DESC",
-			$this->ilias->db->quote($this->getSurveyId()),
-			$this->ilias->db->quote($user_id)
-		);
+		$query = "";
+		if ($this->getAnonymize())
+		{
+			$query = sprintf("SELECT question_fi FROM survey_answer WHERE survey_fi = %s AND anonymous_id = %s ORDER BY TIMESTAMP DESC",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($_SESSION["anonymous_id"])
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT question_fi FROM survey_answer WHERE survey_fi = %s AND user_fi = %s ORDER BY TIMESTAMP DESC",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($user_id . "")
+			);
+		}
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 0)
 		{
