@@ -39,6 +39,23 @@ $lng->loadLanguageModule("forum");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+
+// FIRST ITEM IS INBOX
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
+$tpl->setVariable("LINK_ITEM", "forums.php");
+$tpl->parseCurrentBlock();
+
+
+// display buttons
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","forum_new.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("forum_new"));
+$tpl->parseCurrentBlock();
+
 // catch stored message
 sendInfo();
 // display infopanel if something happened
@@ -246,14 +263,15 @@ if ($frmNum > 0)
 			$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);		
 			$tpl->setVariable("NUM_VISITS",$topicData["visits"]);		
 		
-			$tpl->parseCurrentBlock("forum_row");	
+			$tpl->parseCurrentBlock();	
 					
 		} // if (($frmNum > $pageHits && $z >= $Start) || $frmNum <= $pageHits)
 		
 		$z ++;		
 		
 	} // foreach($frm_obj as $data)
-	
+
+	$tpl->setCurrentBlock("forum_options");	
 	$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 	$tpl->setVariable("IMGPATH",$tpl->tplPath);
 	$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?ref_id=".$_GET["ref_id"]);
@@ -261,13 +279,14 @@ if ($frmNum > 0)
 	//$tpl->setVariable("TXT_PRINT", $lng->txt("print"));
 	$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
 	$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
+	$tpl->parseCurrentBlock();
 	
 } // if ($frmNum > 0)
 else
 {
 	$tpl->setCurrentBlock("forum_no");
-	$tpl->setVAriable("TXT_MSG_NO_FORUMS_AVAILABLE",$lng->txt("forums_not_available"));
-	$tpl->parseCurrentBlock("forum_no");
+	$tpl->setVariable("TXT_MSG_NO_FORUMS_AVAILABLE",$lng->txt("forums_not_available"));
+	$tpl->parseCurrentBlock();
 }
 
 $tpl->setCurrentBlock("forum");
@@ -282,7 +301,7 @@ $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
 $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
-$tpl->parseCurrentBlock("forum");
+$tpl->parseCurrentBlock();
 
 $tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
 

@@ -1,13 +1,14 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
-{INFOPANEL}<br/>
+<style>
+body { margin:0px; }
+</style>
 {LOCATOR}
-<table class="fullwidth">
-<tr>
-	<td width="1%" nowrap="nowrap" valign="top">{COUNT_POST}</td>
-	<td align="right">{BUTTONS}</td>
-</tr>
-</table>
+<div class="invisible_border">
+<h1>{TXT_PAGEHEADLINE}</h1>
+{INFOPANEL}
 {NO_BTN}
+{BUTTONS}
+{MESSAGE}
+{COUNT_POST}
 <table class="fullwidth">
 <tr>
 	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>
@@ -22,7 +23,6 @@
 	</td>
 </tr>
 </table>
-{MESSAGE}
 <!-- BEGIN posttable -->
 <table class="fullwidth">
 <tr class="tblheader">
@@ -117,3 +117,4 @@
 <!-- END posts_no -->
 </table>
 <!-- END posttable -->
+</div>

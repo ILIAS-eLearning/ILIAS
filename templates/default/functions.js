@@ -56,3 +56,15 @@ function printPage()
 	window.print();
 	return true;
 }
+
+function CheckAllBoxes(form){
+	if(form.all)
+	{
+		var c = form.all.checked;
+	}
+	for (var i=0;i<form.elements.length;i++)
+	{
+		var e = form.elements[i];
+ 	  	if(e.name != 'all') e.checked = c;
+   	}
+}

@@ -689,7 +689,7 @@ content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
 content#:#st#:#Chapter###12 May 2003 new variable
-forum#:#forums#:#Forums###08 May 2003 new variable
+forum#:#forums#:#Foren
 forum#:#forums_articles#:#Beitr&auml;ge
 forum#:#forums_available#:#Verf&uuml;gbare Foren
 forum#:#forums_count#:#Anzahl Foren
@@ -719,7 +719,7 @@ forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads#:#Themen
 forum#:#forums_threads_not_available#:#Keine Themen verf&uuml;gbar
-forum#:#forums_topics_overview#:#Themen-&Uuml;bersicht
+forum#:#forums_topics_overview#:#Themen&uuml;bersicht
 forum#:#forums_your_reply#:#Ihre Antwort
 mail#:#also_as_email#:#Auch als eMail
 mail#:#bc#:#BC###16 Apr 2003 new variable
