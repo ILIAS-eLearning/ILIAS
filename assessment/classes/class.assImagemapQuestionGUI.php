@@ -320,7 +320,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", htmlspecialchars($this->object->getComment()));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
+			$questiontext = $this->object->get_question();
+			$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
+			$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -491,7 +493,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-			$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
+			$questiontext = ilUtil::stripSlashes($_POST["question"]);
+			$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+			$this->object->set_question($questiontext);
 			$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 			$this->object->setShuffle($_POST["shuffle"]);
 

@@ -264,7 +264,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $this->object->get_cloze_text());
+		$cloze_text = $this->object->get_cloze_text();
+		$cloze_text = preg_replace("/<br \/>/", "\n", $cloze_text);
+		$this->tpl->setVariable("VALUE_CLOZE_TEXT", $cloze_text);
 		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
 		$this->tpl->setVariable("CLOZE_ID", $this->object->getId());
 
@@ -335,7 +337,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"], false));
+		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false);
+		$cloze_text = preg_replace("/\n/", "<br />", $cloze_text);
+		$this->object->set_cloze_text($cloze_text);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 		$this->object->suggested_solutions = array();

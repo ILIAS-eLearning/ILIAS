@@ -217,7 +217,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_ORDERING_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
+		$questiontext = $this->object->get_question();
+		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
@@ -358,7 +360,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$questiontext = ilUtil::stripSlashes($_POST["question"]);
+		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
+		$this->object->set_question($questiontext);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 
