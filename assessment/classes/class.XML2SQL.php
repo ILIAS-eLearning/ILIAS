@@ -25,6 +25,7 @@
 * Class for importing XML documents into a relational database
 *  
 * @author	Sascha Hofmann <shofmann@databay.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 */
 

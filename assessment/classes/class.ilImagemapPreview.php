@@ -29,7 +29,7 @@ require_once "./classes/class.ilUtil.php";
 * Takes an image and imagemap areas and creates a preview image containing
 * the imagemap areas.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.ilImagemapPreview.php
 * @modulegroup   Assessment

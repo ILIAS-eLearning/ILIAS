@@ -26,7 +26,7 @@
 * 
 * ASS_AnswerSimple is a class for matching question answers
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerMatching.php
 * @modulegroup   Assessment

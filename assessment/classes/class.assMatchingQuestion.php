@@ -32,7 +32,7 @@ define ("MATCHING_QUESTION_IDENTIFIER", "MATCHING QUESTION");
 *
 * ASS_MatchingQuestion is a class for matching questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMatchingQuestion.php
 * @modulegroup   Assessment

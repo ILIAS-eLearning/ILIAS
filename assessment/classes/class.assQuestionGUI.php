@@ -29,7 +29,7 @@ require_once "./assessment/classes/class.assQuestion.php";
 * The ASS_QuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assQuestionGUI.php
 * @modulegroup   Assessment

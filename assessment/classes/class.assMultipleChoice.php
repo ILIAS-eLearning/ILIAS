@@ -38,7 +38,7 @@ define("MULTIPLE_CHOICE_QUESTION_IDENTIFIER", "MULTIPLE CHOICE QUESTION");
 * ASS_MultipleChoice is a class for multiple choice tests. It
 * supports single and multiple response.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMultipleChoice.php
 * @modulegroup   Assessment

@@ -28,7 +28,7 @@ require_once "./assessment/classes/class.assMark.php";
 * 
 * A class defining mark schemas for assessment test objects
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMarkSchema.php
 * @modulegroup   Assessment
@@ -126,14 +126,14 @@ class ASS_MarkSchema {
 		$db =& $ilias->db->db;
 		
     if (!$test_id) return;
-    // Alte Einträge löschen
+    // Alte Eintrï¿½ge lï¿½schen
     $query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
       $db->quote($test_id)
     );
     $result = $db->query($query);
     if (count($this->mark_steps) == 0) return;
     
-    // Neue Datensätze schreiben
+    // Neue Datensï¿½tze schreiben
     foreach ($this->mark_steps as $key => $value) {
       $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
         $db->quote($test_id),

@@ -28,7 +28,7 @@ require_once "./assessment/classes/class.assAnswerSimple.php";
 * 
 * ASS_AnswerOrdering is a class for ordering question answers used in ordering questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerOrdering.php
 * @modulegroup   Assessment

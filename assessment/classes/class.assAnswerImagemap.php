@@ -28,7 +28,7 @@ require_once "./assessment/classes/class.assAnswerBinaryState.php";
 * 
 * ASS_AnswerImagemap is a class for true/false or yes/no answers used for example in multiple choice tests.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerImagemap.php
 * @modulegroup   Assessment

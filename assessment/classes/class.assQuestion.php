@@ -38,7 +38,7 @@ define("LIMIT_TIME_ONLY", 1);
 * The ASS_Question class defines and encapsulates basic methods and attributes
 * for assessment question types to be used for all parent classes.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assQuestion.php
 * @modulegroup   Assessment

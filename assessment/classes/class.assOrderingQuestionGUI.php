@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assOrderingQuestion.php";
 * The ASS_OrderingQuestionGUI class encapsulates the GUI representation
 * for ordering questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assOrderingQuestionGUI.php
 * @modulegroup   Assessment
