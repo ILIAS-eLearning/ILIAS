@@ -1,25 +1,25 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+  /*
+   +-----------------------------------------------------------------------------+
+   | ILIAS open source                                                           |
+   +-----------------------------------------------------------------------------+
+   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+   |                                                                             |
+   | This program is free software; you can redistribute it and/or               |
+   | modify it under the terms of the GNU General Public License                 |
+   | as published by the Free Software Foundation; either version 2              |
+   | of the License, or (at your option) any later version.                      |
+   |                                                                             |
+   | This program is distributed in the hope that it will be useful,             |
+   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+   | GNU General Public License for more details.                                |
+   |                                                                             |
+   | You should have received a copy of the GNU General Public License           |
+   | along with this program; if not, write to the Free Software                 |
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+   +-----------------------------------------------------------------------------+
+  */
 
 
 
@@ -43,41 +43,41 @@ class ilPersonalDesktopGUI
 
 
     /**
-    * display selected items
-    */
+	 * display selected items
+	 */
     function displaySelectedItems()
     {
         $types = array(
             array("title" => $this->lng->txt("objs_cat"),
-            "types" => "cat"),
+				  "types" => "cat"),
             array("title" => $this->lng->txt("objs_fold"),
-            "types" => "fold"),
+				  "types" => "fold"),
             array("title" => $this->lng->txt("objs_crs"),
-            "types" => "crs"),
+				  "types" => "crs"),
             array("title" => $this->lng->txt("objs_grp"),
-            "types" => "grp"),
+				  "types" => "grp"),
             array("title" => $this->lng->txt("objs_chat"),
-            "types" => "chat"),
+				  "types" => "chat"),
             array("title" => $this->lng->txt("objs_frm"),
-            "types" => "frm"),
+				  "types" => "frm"),
             array("title" => $this->lng->txt("learning_objects"),
-            "types" => array("lm", "htlm", "sahs", "dbk")),
+				  "types" => array("lm", "htlm", "sahs", "dbk")),
             array("title" => $this->lng->txt("objs_glo"),
-            "types" => "glo"),
+				  "types" => "glo"),
             array("title" => $this->lng->txt("objs_file"),
-            "types" => "file"),
+				  "types" => "file"),
             array("title" => $this->lng->txt("objs_exc"),
-            "types" => "exc"),
+				  "types" => "exc"),
             array("title" => $this->lng->txt("objs_tst"),
-            "types" => "tst"),
+				  "types" => "tst"),
             array("title" => $this->lng->txt("objs_svy"),
-            "types" => "svy"),
+				  "types" => "svy"),
             array("title" => $this->lng->txt("objs_mep"),
-            "types" => "mep"),
+				  "types" => "mep"),
             array("title" => $this->lng->txt("objs_qpl"),
-            "types" => "qpl"),
+				  "types" => "qpl"),
             array("title" => $this->lng->txt("objs_spl"),
-            "types" => "spl")
+				  "types" => "spl")
             );
         $html = "";
         foreach($types as $type)
@@ -95,8 +95,8 @@ class ilPersonalDesktopGUI
 
 
     /**
-    * get selected item block
-    */
+	 * get selected item block
+	 */
     function getSelectedItemBlockHTML($a_title, $a_type)
     {
         include_once './classes/class.ilRepositoryExplorer.php';
@@ -388,83 +388,85 @@ class ilPersonalDesktopGUI
 
 
     /**
-    * display New Mails
-    */
+	 * display New Mails
+	 */
 
 
-      function displayMails()
-          {
+	function displayMails()
+	{
 
-              // MAILS
-              // GET INBOX FOLDER FOR LINK_READ
-              require_once "./include/inc.header.php";
-              require_once "./include/inc.mail.php";
-              require_once "classes/class.ilObjUser.php";
-              require_once "classes/class.ilMailbox.php";
-              require_once "classes/class.ilMail.php";
-
-
-              // BEGIN MAILS
-              $umail = new ilMail($_SESSION["AccountId"]);
-              $mbox = new ilMailBox($_SESSION["AccountId"]);
-              $inbox = $mbox->getInboxFolder();
-
-              //anzeige mails für jeden user
-              $mail_data = $umail->getMailsOfFolder($inbox);
-              $mail_counter = $umail->getMailCounterData();
-              $this->tpl->setVariable("MAIL_COUNTER", $mail_counter["total"]);
-              $this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
+		// MAILS
+		// GET INBOX FOLDER FOR LINK_READ
+		require_once "./include/inc.header.php";
+		require_once "./include/inc.mail.php";
+		require_once "classes/class.ilObjUser.php";
+		require_once "classes/class.ilMailbox.php";
+		require_once "classes/class.ilMail.php";
 
 
-              // Um die Seite nicht zu voll erscheinen zu lassen max. 20 Einträge
-              $mail_max_hits = 20;
-              $counter = 0;
+		// BEGIN MAILS
+		$umail = new ilMail($_SESSION["AccountId"]);
+		$mbox = new ilMailBox($_SESSION["AccountId"]);
+		$inbox = $mbox->getInboxFolder();
 
-              foreach ($mail_data as $mail)
-                      {
-
-                       $zahl = $mail_counter["unread"];
-                       if($zahl>"0")
-                       {
-
-
-              $this->tpl->setCurrentBlock("tbl_mails");
-              $this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
-              $this->tpl->setVariable("NEW_MAIL",$this->lng->txt("email"));
-
-              // GET SENDER NAME
-              $user = new ilObjUser($mail["sender_id"]);
-
-              if(!($fullname = $user->getFullname()))
-                       {
-                       $fullname = $this->lng->txt("unknown");
-                       }
+		//anzeige mails für jeden user
+		$mail_data = $umail->getMailsOfFolder($inbox);
+		$mail_counter = $umail->getMailCounterData();
+		$this->tpl->setVariable("MAIL_COUNTER", $mail_counter["total"]);
+		$this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
 
 
-              $this->tpl->setCurrentBlock("tbl_mails");
-              //columns headlines
-              $this->tpl->setVariable("NEW_TXT_SENDER", $this->lng->txt("sender"));
-              $this->tpl->setVariable("NEW_TXT_SUBJECT", $this->lng->txt("subject"));
-              $this->tpl->setVariable("NEW_TXT_DATE",$this->lng->txt("date")."/".$this->lng->txt("time"));
-              $this->tpl->parseCurrentBlock();
+		// Um die Seite nicht zu voll erscheinen zu lassen max. 20 Einträge
+		$mail_max_hits = 20;
+		$counter = 0;
 
-              $this->tpl->setCurrentBlock("tbl_mails_row");
-              $this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
-              $this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
-              $this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
-              $this->tpl->setVariable("NEW_MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
-              $target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
-              $this->tpl->setVariable("NEW_MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
-              $this->tpl->parseCurrentBlock();
+		foreach ($mail_data as $mail)
+		{
 
-        }
+			$zahl = $mail_counter["unread"];
+			if($zahl>"0")
+			{
+
+
+				$this->tpl->setCurrentBlock("tbl_mails");
+				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
+				$this->tpl->setVariable("NEW_MAIL",$this->lng->txt("email"));
+
+				// GET SENDER NAME
+				$user = new ilObjUser($mail["sender_id"]);
+
+				if(!($fullname = $user->getFullname()))
+				{
+					$fullname = $this->lng->txt("unknown");
+				}
+
+
+				$this->tpl->setCurrentBlock("tbl_mails");
+				//columns headlines
+				$this->tpl->setVariable("NEW_TXT_SENDER", $this->lng->txt("sender"));
+				$this->tpl->setVariable("NEW_TXT_SUBJECT", $this->lng->txt("subject"));
+				$this->tpl->setVariable("NEW_TXT_DATE",$this->lng->txt("date")."/".$this->lng->txt("time"));
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("tbl_mails_row");
+				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+				$this->tpl->setVariable("NEW_MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
+				$this->tpl->setVariable("NEW_MAIL_SUBJ", $mail["m_subject"]);
+				$this->tpl->setVariable("NEW_MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
+				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
+				$this->tpl->setVariable("NEW_MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
+				$this->tpl->parseCurrentBlock();
+
+			}
+		}
+	}
 
 
 
 
     /**
-    * display users online
-    */
+	 * display users online
+	 */
     function displayUsersOnline()
     {
         global $ilUser;
@@ -625,8 +627,8 @@ class ilPersonalDesktopGUI
 
 
     /**
-    * display bookmarks
-    */
+	 * display bookmarks
+	 */
     function displayBookmarks()
     {
         include_once("classes/class.ilBookmarkFolder.php");
@@ -644,9 +646,9 @@ class ilPersonalDesktopGUI
             $this->tpl->setCurrentBlock("tbl_bm_row");
             $this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
             $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-                ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;"."..");
+									ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;"."..");
             $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".
-                ilBookmarkFolder::getRootFolder());
+									ilBookmarkFolder::getRootFolder());
             $this->tpl->setVariable("BM_TARGET", "");
             $this->tpl->parseCurrentBlock();
         }
@@ -662,14 +664,14 @@ class ilPersonalDesktopGUI
             {
                 case "bmf":
                     $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-                        ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;".$bm_item["title"]);
+											ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;".$bm_item["title"]);
                     $this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".$bm_item["obj_id"]);
                     $this->tpl->setVariable("BM_TARGET", "");
                     break;
 
                 case "bm":
                     $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-                        ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
+											ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
                     $this->tpl->setVariable("BM_LINK", $bm_item["target"]);
                     $this->tpl->setVariable("BM_TARGET", "_blank");
                     break;
@@ -693,15 +695,15 @@ class ilPersonalDesktopGUI
     }
 
 /**
-* Returns the multidimenstional sorted array
-*
-* Returns the multidimenstional sorted array
-*
-* @author       Muzaffar Altaf <maltaf@tzi.de>
-* @param array $arrays The array to be sorted
-* @param string $key_sort The keys on which array must be sorted
-* @access public
-*/
+ * Returns the multidimenstional sorted array
+ *
+ * Returns the multidimenstional sorted array
+ *
+ * @author       Muzaffar Altaf <maltaf@tzi.de>
+ * @param array $arrays The array to be sorted
+ * @param string $key_sort The keys on which array must be sorted
+ * @access public
+ */
     function multiarray_sort ($array, $key_sort)
     {
         if ($array) {
