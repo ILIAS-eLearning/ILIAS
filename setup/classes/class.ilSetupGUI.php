@@ -545,20 +545,19 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->btn_prev_on = true;
 		$this->btn_prev_cmd = ($a_cmd) ? $a_cmd : "gateway";
-		$this->btn_prev_lng = ($a_lng) ? $this->lng->txt($a_lng) : "<< ".$this->lng->txt("prev");
+		$this->btn_prev_lng = ($a_lng) ? $this->lng->txt($a_lng) : "<<&nbsp;&nbsp;&nbsp;".$this->lng->txt("prev");
 	}
 
 	function SetButtonNext($a_cmd,$a_lng = 0)
 	{
 		$this->btn_next_on = true;
 		$this->btn_next_cmd = ($a_cmd) ? $a_cmd : "gateway";
-		$this->btn_next_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("next")." >>";
+		$this->btn_next_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("next")."&nbsp;&nbsp;&nbsp;>>";
 	}
 
 	function displayPreliminaries()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
-		$FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 		
 		$this->tpl->addBlockFile("CONTENT","content","tpl.preliminaries.html");
 		
@@ -1390,7 +1389,6 @@ class ilSetupGUI extends ilSetup
 	function displayProcessPanel()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
-		$FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 		
 		$steps = array();
 		$steps = $this->getStatus();
@@ -1516,24 +1514,34 @@ class ilSetupGUI extends ilSetup
 		{
 			$message = "";
 			
-			//echo "hier";exit;
-
 			if (!$this->client->db_installed)
 			{
 				if (!$this->client->db_exists)
 				{
-					$this->createDatabase();
+					if ($_POST["form"]["chk_db_create"])
+					{
+						if (!$this->createDatabase())
+						{
+							$message = $this->getError();
+							$this->raiseError($message,$this->error_obj->MESSAGE);
+						}
+					}
+					else
+					{
+						$message = $this->lng->txt("database_not_exists_create_first");
+						$this->raiseError($message,$this->error_obj->MESSAGE);					
+					}
 				}
 				
 				if (!$this->installDatabase())
 				{
-					$message = $this->error;
+					$message = $this->getError();
 					$this->client->status["db"]["status"] = false;
 					$this->client->status["db"]["comment"] = "install_error";
 				}
 				else
 				{
-					$message = "database_installed";
+					$message = $this->lng->txt("database_installed");
 				}
 			}
 			else
@@ -1596,7 +1604,19 @@ class ilSetupGUI extends ilSetup
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_create"));
+			$checked = "";
+
+			if ($_SESSION["error_post_vars"]["form"]["chk_db_create"])
+			{
+				$checked = "checked=\"checked\"";
+			}
+
+			$this->tpl->setCurrentBlock("option_db_create");
+			$this->tpl->setVariable("TXT_DB_CREATE", $this->lng->txt("database_create"));
+			$this->tpl->setVariable("DB_CREATE_CHECK",$checked);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db"));
 		}
 		
