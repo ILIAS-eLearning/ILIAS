@@ -49,36 +49,5 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 	}
 
-	function save()
-	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
-
-		parent::save();
-
-		/*
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		{
-			// create and insert object in objecttree
-			require_once("classes/class.ilObjLearningModule.php");
-			$newObj = new ilObjSCORMLearningModule();
-			$newObj->setType("slm");
-			$newObj->setTitle("");
-			$newObj->setDescription("");
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-
-			unset($newObj);
-		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
-		}
-
-		header("Location: adm_object.php?".$this->link_params);
-		exit();*/
-	}
-
 }
 ?>

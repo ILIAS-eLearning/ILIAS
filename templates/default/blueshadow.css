@@ -413,6 +413,26 @@ span.ilComment
 	color: blue;
 }
 
+div.ilLMNavigation
+{
+	background-color:#FFFFFF;
+	padding:5px;
+	border-spacing: 1px;
+	border-style: solid;
+	border-color: #000000;
+	border-width: 1px;
+}
+
+div.ilPage
+{
+	background-color:#FFFFFF;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: solid;
+	border-color: #000000;
+	border-width: 1px;
+}
+
 .ilc_red
 {
 	background-color:#FFCCCC;
