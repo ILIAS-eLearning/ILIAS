@@ -372,5 +372,14 @@ class ILIAS extends PEAR
 	{
 		return file_exists($this->tplPath.$a_name);
 	}
+
+	/**
+	* get current user account
+	*/
+	function &getCurrentUser()
+	{
+		return $this->account;
+	}
+
 } // END class.ilias
 ?>
