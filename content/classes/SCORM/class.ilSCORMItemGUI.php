@@ -58,9 +58,13 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 			if ($resource->getHref() != "")
 			{
+				$param_str = ($this->sc_object->getParameters() != "")
+					? "?".$this->sc_object->getParameters()
+					: "";
+
 				//header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
 				$this->tpl =& new ilTemplate("tpl.scorm_content_frameset.html", true, true, true);
-				$this->tpl->setVariable("ITEM_LOCATION","../".$slm_obj->getDataDirectory()."/".$resource->getHref());
+				$this->tpl->setVariable("ITEM_LOCATION","../".$slm_obj->getDataDirectory()."/".$resource->getHref().$param_str);
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
