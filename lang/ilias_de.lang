@@ -95,7 +95,7 @@ common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_new#:#Neue Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
-common#:#censorship#:#Zensur
+common#:#censorship#:#Zensur###10 Nov 2003 content changed
 common#:#change#:#ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
@@ -1109,6 +1109,7 @@ forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
+forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
 forum#:#forums_the_post#:#Beitrag
