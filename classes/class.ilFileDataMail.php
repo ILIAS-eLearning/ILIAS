@@ -65,12 +65,8 @@ class ilFileDataMail extends ilFileData
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;
 
-		$this->mail_maxsize_attach = $this->ilias->getSetting("mail_maxsize_attach") ? 
-			$this->ilias->getSetting("mail_maxsize_attach") : 100000000;
 
-		$this->mail_maxsize_attach_message = $this->ilias->getSetting("mail_maxsize_attach") ? 
-			$this->ilias->getSetting("mail_maxsize_attach") :
-			ini_get("upload_max_filesize");
+		$this->__initAttachmentMaxSize();
 	}
 
 	/**
@@ -467,4 +463,15 @@ class ilFileDataMail extends ilFileData
 
 		return true;
 	}
+	function __initAttachmentMaxSize()
+	{
+
+		$this->mail_maxsize_attach = $this->ilias->getSetting("mail_maxsize_attach") ? 
+			$this->ilias->getSetting("mail_maxsize_attach") * 1024 : 1024 * 1024 * 64;
+
+		$this->mail_maxsize_attach_message = $this->ilias->getSetting("mail_maxsize_attach") ? 
+			$this->ilias->getSetting("mail_maxsize_attach") :
+			ini_get("upload_max_filesize");
+	}
 }
+?>

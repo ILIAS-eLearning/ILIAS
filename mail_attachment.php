@@ -84,7 +84,7 @@ if(isset($_POST["cmd"]["upload"]))
 {
 	if($mfile->storeUploadedFile($HTTP_POST_FILES['userfile']) == 1)
 	{
-		sendInfo($lng->txt("mail_maxsize_attachment_error")." ".$mfile->getUploadLimit()." ".$lng->txt("mail_byte"));
+		sendInfo($lng->txt("mail_maxsize_attachment_error")." ".$mfile->getUploadLimit()." K".$lng->txt("mail_byte"));
 	}
 }
 // CONFIRM CANCELED
