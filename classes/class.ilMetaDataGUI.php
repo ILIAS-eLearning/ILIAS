@@ -80,13 +80,18 @@ class ilMetaDataGUI
 		}
 	}
 
-	function edit($a_temp_var, $a_temp_block, $a_formaction)
+	function edit($a_temp_var, $a_temp_block, $a_formaction, $a_section = "general")
 	{
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
-		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data.html", false);
+		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data_editor.html", false);
 		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
-		$this->tpl->setVariable("FORMACTION", $a_formaction);
+		$this->tpl->setVariable("CHOOSE_SECTION_ACTION", $a_formaction . "&cmd=choose_meta_section");
+		$this->tpl->setVariable("TXT_CHOOSE_SECTION", $this->lng->txt("meta_choose_section"));
+		$this->tpl->setVariable("META_SECTION_" . strtoupper($_POST["meta_section"]), " selected");
+		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
+		$this->tpl->setVariable("EDIT_ACTION", $a_formaction . "&cmd=save_meta");
+		$this->tpl->setVariable("VAL_SECTION", $_POST["meta_section"]);
 		$this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
 		$this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 		$this->tpl->setVariable("VAL_IDENTIFIER", $this->curValue("ID"));
