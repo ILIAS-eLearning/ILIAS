@@ -575,6 +575,23 @@ class ilObject
 	}
 
 	/**
+	* get all reference ids of object
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _getAllReferences($a_id)
+	{
+		$q = "SELECT * FROM object_reference WHERE obj_id = '".$a_id."'";
+		$obj_set = $this->ilias->db->query($q);
+		$ref = array();
+		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ref[$obj_rec["ref_id"]] = $obj_rec["ref_id"];
+		}
+		return $ref;
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff

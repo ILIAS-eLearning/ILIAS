@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ilLayout>
-	<ilFrame rows="43,*" frameborder="0" framespacing="0" border="0">
-		<ilFrame name="mainmenu" template="tpl.main_buttons.html" scrolling="no">
-			<ilMainMenu/>
+	<ilFrame name="content" cols="50%,50%">
+		<ilFrame name="maincontent">
+			<StructureObject template="tpl.page.html" template_location="module">
+				<ilPage/>
+				<ilLMNavigation/>
+				<ilLocator/>
+			</StructureObject>
+			<PageObject template="tpl.page.html" template_location="module">
+				<ilPage/>
+				<ilLMNavigation/>
+				<ilLocator/>
+			</PageObject>
 		</ilFrame>
-		<ilFrame name="content" cols="50%,50%">
-			<ilFrame name="maincontent">
-				<StructureObject template="tpl.page.html" template_location="module">
-					<ilPage/>
-					<ilLMNavigation/>
-					<ilLocator/>
-				</StructureObject>
+		<ilFrame rows="66%,34%">
+			<ilFrame name="topright" template="tpl.blank.html" template_location="module">
 				<PageObject template="tpl.page.html" template_location="module">
 					<ilPage/>
-					<ilLMNavigation/>
-					<ilLocator/>
 				</PageObject>
+				<MediaObject template="tpl.fullscreen.html" template_location="module">
+					<ilMedia/>
+				</MediaObject>
 			</ilFrame>
-			<ilFrame rows="66%,34%">
-				<ilFrame name="topright" template="tpl.blank.html" template_location="module">
-					<PageObject template="tpl.page.html" template_location="module">
-						<ilPage/>
-					</PageObject>
-					<MediaObject template="tpl.fullscreen.html" template_location="module">
-						<ilMedia/>
-					</MediaObject>
-				</ilFrame>
-				<ilFrame name="botright" template="tpl.blank.html" template_location="module">
-					<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
-						<ilGlossary/>
-					</GlossaryItem>
-				</ilFrame>
+			<ilFrame name="botright" template="tpl.blank.html" template_location="module">
+				<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
+					<ilGlossary/>
+				</GlossaryItem>
 			</ilFrame>
 		</ilFrame>
 	</ilFrame>

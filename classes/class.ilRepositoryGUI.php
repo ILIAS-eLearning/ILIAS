@@ -617,7 +617,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					{
 						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $obj_link);
-						$tpl->setVariable("VIEW_TARGET", "_top");
+						$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
 						$tpl->parseCurrentBlock();

@@ -1576,7 +1576,7 @@ class ilObjUser extends ilObject
 			case "tst":
 			case "dbk":
 			case "slm":
-				$q = "SELECT oref.ref_id, obj.title, parameters FROM desktop_item AS it, object_reference AS oref ".
+				$q = "SELECT oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
@@ -1612,7 +1612,7 @@ class ilObjUser extends ilObject
 							"&obj_id=".$item_rec["parameters"];
 						$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"].
 							"&obj_id=".$item_rec["parameters"];
-						$target = "_top";
+						$target = "ilContObj".$item_rec["obj_id"];
 					}
 					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"parameters" => $item_rec["parameters"],
@@ -1676,7 +1676,7 @@ class ilObjUser extends ilObject
 			case "tst":
 				// get the users test status from the database
 				global $ilUser;
-				
+
 				$whereclause = preg_replace("/ OR $/", "", $whereclause);
 				if ($whereclause) {
 					$status_array = array();
