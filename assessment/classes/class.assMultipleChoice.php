@@ -677,6 +677,15 @@ class ASS_MultipleChoice extends ASS_Question
 			{
 				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 				{
+					if ($this->response == RESPONSE_SINGLE)
+					{
+						if ($data->correctness == 0)
+						{
+							// fix for older single response answers where points could be given for unchecked answers
+							$data->correctness = 1;
+							$data->points = 0;
+						}
+					}
 					array_push($this->answers, new ASS_AnswerBinaryState($data->answertext, $data->points, $data->aorder, $data->correctness));
 				}
 			}

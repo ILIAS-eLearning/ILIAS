@@ -574,7 +574,7 @@ class ilObjSurveyQuestionPool extends ilObject
             $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
-            $order = " ORDER BY TIMESTAMP $value";
+            $order = " ORDER BY survey_question.TIMESTAMP $value";
             $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
         }

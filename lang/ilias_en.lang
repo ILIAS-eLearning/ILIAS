@@ -140,6 +140,8 @@ assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
+assessment#:#question_title#:#Question title
+assessment#:#average_reached_points#:#Average reached points
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created

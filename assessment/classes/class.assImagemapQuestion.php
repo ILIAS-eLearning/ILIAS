@@ -236,8 +236,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
 
 		if ($result == DB_OK)
 		{
-			// Antworten schreiben
-			// alte Antworten l�schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -366,6 +364,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $result = $db->query($query);
       if (strcmp(strtolower(get_class($result)), db_result) == 0) {
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+					if ($data->correctness == 0)
+					{
+						// fix for older single response answers where points could be given for unchecked answers
+						$data->correctness = 1;
+						$data->points = 0;
+					}
           array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->correctness, $data->coords, $data->area));
         }
       }

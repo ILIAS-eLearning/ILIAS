@@ -290,6 +290,15 @@ class ASS_ClozeTest extends ASS_Question
             array_push($this->gaps, $answer_array);
             $counter = $data->gap_id;
           }
+					if ($data->cloze_type == CLOZE_SELECT)
+					{
+						if ($data->correctness == 0)
+						{
+							// fix for older single response answers where points could be given for unchecked answers
+							$data->correctness = 1;
+							$data->points = 0;
+						}
+					}
           array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle, $data->answer_id));
         }
       }
@@ -1413,7 +1422,7 @@ class ASS_ClozeTest extends ASS_Question
 			{
         foreach ($this->gaps[$gap_id] as $k => $v) {
           if (strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) {
-            $points += $v->get_points();
+            $points = $v->get_points();
           }
         }
       } 
