@@ -246,9 +246,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
 			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-			
+
 			// setup rolefolder & default local roles (moderator)
-			$roles = $newObj->initDefaultRoles();
+			//$roles = $newObj->initDefaultRoles();
 			// assign author role to creator of forum object
 			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
