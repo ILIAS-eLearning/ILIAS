@@ -727,6 +727,36 @@ class ilUtil
 	}
 
 	/**
+	* converts a string of format var1 = "val1" var2 = "val2" ... into an array
+	*
+	* @param	string		$a_str		string in format: var1 = "val1" var2 = "val2" ...
+	*
+	* @return	array		array of variable value pairs
+	*/
+	function attribsToArray($a_str)
+	{
+		$attribs = array();
+		while (is_int(strpos($a_str, "=")))
+		{
+			$eq_pos = strpos($a_str, "=");
+			$qu1_pos = strpos($a_str, "\"");
+			$qu2_pos = strpos(substr($a_str, $qu1_pos + 1), "\"") + $qu1_pos + 1;
+			if (is_int($eq_pos) && is_int($qu1_pos) && is_int($qu2_pos))
+			{
+				$var = trim(substr($a_str, 0, $eq_pos));
+				$val = trim(substr($a_str, $qu1_pos + 1, ($qu2_pos - $qu1_pos) - 1));
+				$attribs[$var] = $val;
+				$a_str = substr($a_str, $qu2_pos + 1);
+			}
+			else
+			{
+				$a_str = "";
+			}
+		}
+		return $attribs;
+	}
+
+	/**
 	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
 	* @param	string	$a_sdir		source directory
 	* @param	string	$a_tdir		target directory
@@ -780,7 +810,6 @@ class ilUtil
 		}
 		return TRUE;
 	}
-
 
 } // END class.util
 ?>

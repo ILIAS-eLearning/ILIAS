@@ -451,6 +451,19 @@ div.ilc_Footnote
 	font-style: italic;
 }
 
+a.ilc_IntLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.ilc_IntLink:hover
+{
+	color:#000000;
+}
+
+
 div.ilLMNavigation
 {
 	background-color:#EEEEEE;

@@ -157,9 +157,10 @@
 <!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
 <!-- Other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element; they should be ignored! -->
 <!-- In case of Anchor the concerning attribute Id of the Anchor should be used! -->
+<!-- Target Type differs from ilias_co.dtd (there: IDREF) -->
 <!ELEMENT IntLink (%linktext;)*>
 <!ATTLIST IntLink
-	Target IDREF #REQUIRED
+	Target CDATA #REQUIRED
 	Type (StructureObject | PageObject | MediaObject | Test | TestItem | Glossary | GlossaryItem | Bibliography | Anchor) #REQUIRED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 >

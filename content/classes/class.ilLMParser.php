@@ -59,6 +59,7 @@ class ilLMParser extends ilSaxParser
 	var $in_media_object;
 	var $lm_object;
 	var $keyword_language;
+	var $pages_with_int_links;
 	var $mob_mapping;
 	var $subdir;
 
@@ -81,6 +82,7 @@ class ilLMParser extends ilSaxParser
 		//$this->lm_id = $a_lm_id;
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
+		$this->pages_with_int_links = array();
 		$this->mob_mapping = array();
 		$this->subdir = $a_subdir;
 
@@ -107,6 +109,7 @@ class ilLMParser extends ilSaxParser
 	{
 		parent::startParsing();
 		$this->storeTree();
+		$this->processIntLinks();
 		$this->copyMobFiles();
 	}
 
@@ -138,6 +141,27 @@ class ilLMParser extends ilSaxParser
 			}
 		}
 //echo "6";
+	}
+
+
+	/**
+	* updates all internal links
+	*/
+	function processIntLinks()
+	{
+		$pg_mapping = array();
+		foreach($this->pg_mapping as $key => $value)
+		{
+			$pg_mapping[$key] = "pg_".$value;
+		}
+		foreach($this->pages_with_int_links as $page_id)
+		{
+			$page_obj =& new ilPageObject($page_id);
+			$page_obj->buildDom();
+			$page_obj->mapIntLinks($pg_mapping);
+			$page_obj->update(false);
+			unset($page_obj);
+		}
 	}
 
 
@@ -340,6 +364,13 @@ class ilLMParser extends ilSaxParser
 				$this->keyword_language = $a_attribs["Language"];
 				break;
 
+			case "IntLink":
+				if(is_object($this->page_object))
+				{
+					$this->page_object->setContainsIntLink(true);
+				}
+				break;
+
 			// TECHNICAL
 			case "Technical":
 				$this->meta_technical =& new ilMetaTechnical($this->meta_data);
@@ -433,6 +464,10 @@ class ilLMParser extends ilSaxParser
 					$this->page_object->createFromXML();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
+					if ($this->page_object->containsIntLink())
+					{
+						$this->pages_with_int_links[] = $this->page_object->getId();
+					}
 				}
 
 				// if we are within a structure object: put page in tree

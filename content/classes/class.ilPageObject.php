@@ -51,6 +51,7 @@ class ilPageObject extends ilLMObject
 	var $encoding;
 	var $node;
 	var $cur_dtd = "ilias_pg_0_1.dtd";
+	var $contains_int_link;
 	//var $cur_dtd = "ilias_co.dtd";
 
 	/**
@@ -68,6 +69,7 @@ class ilPageObject extends ilLMObject
 
 		$this->is_alias = false;
 		$this->content = array();
+		$this->contains_int_link = false;
 
 		if($a_id != 0)
 		{
@@ -317,6 +319,28 @@ class ilPageObject extends ilLMObject
 		}
 	}
 
+	
+	/**
+	* lm parser set this flag to true, if the page contains intern links
+	* (this method should only be called by the import parser)
+	*
+	* @param	boolean		$a_contains_link		true, if page contains intern link tag(s)
+	*/
+	function setContainsIntLink($a_contains_link)
+	{
+		$this->contains_int_link = $a_contains_link;
+	}
+
+	/**
+	* returns true, if page was marked as containing an intern link (via setContainsIntLink)
+	* (this method should only be called by the import parser)
+	*/
+	function containsIntLink()
+	{
+		return $this->contains_int_link;
+	}
+
+
 	/**
 	* get a xml string that contains all media object elements, that
 	* are referenced by any media alias in the page
@@ -447,6 +471,32 @@ class ilPageObject extends ilLMObject
 		unset($xpc);
 	}
 
+	/**
+	* converts all internal link targets of the page
+	*
+	* @param	array		$a_mapping		mapping array (keys: old targets, values: new targets)
+	*/
+	function mapIntLinks(&$a_mapping)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			switch($type)
+			{
+				case "PageObject":
+					if(!empty($a_mapping[$target]))
+					{
+						$res->nodeset[$i]->set_attribute("Target", $a_mapping[$target]);
+					}
+					break;
+			}
+		}
+		unset($xpc);
+	}
 
 	/**
 	* create new page object with current xml content
@@ -464,15 +514,18 @@ class ilPageObject extends ilLMObject
 	/**
 	* update complete page content in db (dom xml content is used)
 	*/
-	function update()
+	function update($a_validate = true)
 	{
 		// test validating
-		$errors = $this->validateDom();
+		if($a_validate)
+		{
+			$errors = $this->validateDom();
+		}
 		if(empty($errors))
 		{
 			parent::update();
 			$query = "UPDATE lm_page_object ".
-				"SET content = '".$this->getXMLFromDom()."' ".
+				"SET content = '".addslashes($this->getXMLFromDom())."' ".
 				"WHERE page_id = '".$this->getId()."'";
 			$this->ilias->db->query($query);
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
