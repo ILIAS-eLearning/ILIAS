@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilFolderGUI.php,v 1.2 2003/07/14 07:50:36 mrus Exp $
+* $Id$Id: class.ilFolderGUI.php,v 1.3 2003/07/29 13:04:23 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -132,7 +132,12 @@ class ilFolderGUI extends ilObjFolderGUI
 
 		
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]));
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->show();
 		//}
