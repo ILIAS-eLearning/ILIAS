@@ -476,3 +476,5 @@ common#:#languages_already_installed#:#Lustig! Angewählte Sprache(n) sind bereit
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#uninstalled#:#deinstalliert.
+common#:#mail_sent#:#Mail erfolgreich versendet!
+common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
