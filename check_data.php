@@ -40,94 +40,119 @@ require_once "./classes/class.ilValidator.php";
 //define("INVALID_PARAM",INVALID_PARAM);
 
 $validator = new ilValidator();
-$validator->setMode("all",true);
+//$validator->setMode("all",true);
+//$validator->setMode("clean",true);
 
 // STEP 1: Analyzing: Get all incomplete entries
 echo "<br/><br/>Analyzing...";
 
-echo "<br/>Search unbound references...";
-if ($validator->findUnboundReferences())
+if (!$validator->isModeEnabled("analyze"))
 {
-	echo "done (".count($validator->getUnboundReferences())." found).";
+	echo "disabled.";
 }
 else
 {
-	echo "nothing found.";
-}
-
-echo "<br/>Search for unbound tree entries...";
-if ($validator->findUnboundChilds())
-{
-	echo "done (".count($validator->getUnboundChilds())." found).";
-}
-else
-{
-	echo "nothing found.";
-}
-
-echo "<br/>Search for missing objects...";
-if ($validator->findMissingObjects())
-{
-	echo "done (".count($validator->getMissingObjects())." found).";
-}
-else
-{
-	echo "nothing found.";
+	echo "<br/>Search unbound references...";
+	if ($validator->findUnboundReferences())
+	{
+		echo "done (".count($validator->getUnboundReferences())." found).";
+	}
+	else
+	{
+		echo "nothing found.";
+	}
+	
+	echo "<br/>Search for unbound tree entries...";
+	if ($validator->findUnboundChilds())
+	{
+		echo "done (".count($validator->getUnboundChilds())." found).";
+	}
+	else
+	{
+		echo "nothing found.";
+	}
+	
+	echo "<br/>Search for missing objects...";
+	if ($validator->findMissingObjects())
+	{
+		echo "done (".count($validator->getMissingObjects())." found).";
+	}
+	else
+	{
+		echo "nothing found.";
+	}
 }
 
 // STEP 2: Cleaning: Remove unbound references & tree entries
 echo "<br/><br/>Cleaning...";
 
-echo "<br/>Removing unbound references...";
-if ($validator->removeUnboundReferences())
+if (!$validator->isModeEnabled("clean"))
 {
-	echo "done.";
+	echo "disabled.";
 }
 else
-{
-	echo "none. passed.";
-}
-
-echo "<br/>Removing unbound tree entries...";
-if ($validator->removeUnboundChilds())
-{
-	echo "done.";
-}
-else
-{
-	echo "none. passed.";
+	{
+	echo "<br/>Removing unbound references...";
+	if ($validator->removeUnboundReferences())
+	{
+		echo "done.";
+	}
+	else
+	{
+		echo "none. passed.";
+	}
+	
+	echo "<br/>Removing unbound tree entries...";
+	if ($validator->removeUnboundChilds())
+	{
+		echo "done.";
+	}
+	else
+	{
+		echo "none. passed.";
+	}
 }
 
 // STEP 3: Restore objects
 echo "<br/><br/>Restoring...";
 
-echo "<br/>Restoring missing Objects...";
-if ($validator->restoreMissingObjects())
+if (!$validator->isModeEnabled("restore"))
 {
-	echo "done.";
+	echo "disabled.";
 }
 else
 {
-	echo "none. passed.";
+	echo "<br/>Restoring missing Objects...";
+	if ($validator->restoreMissingObjects())
+	{
+		echo "done.";
+	}
+	else
+	{
+		echo "none. passed.";
+	}
+	
+	echo "<br/>Restoring unbounded childs & subtree entries...";
+	$validator->getChildsWithInvalidParent();
+	if ($validator->restoreUnboundChilds())
+	{
+		echo "done.";
+	}
+	else
+	{
+		echo "none. passed.";
+	}
 }
 
-echo "<br/>Restoring unbounded childs & subtree entries...";
-$validator->getChildsWithInvalidParent();
-if ($validator->restoreUnboundChilds())
-{
-	echo "done.";
-}
-else
-{
-	echo "none. passed.";
-}
 
-
-// STEP $: Close gaps in tree
-echo "<br/><br/>Cleaning...";
-if ($validator->closeGapsInTree())
+// STEP 4: Close gaps in tree
+if ($validator->isModeEnabled("clean"))
 {
-	echo "<br/>Closed gaps in tree...done";
+	echo "<br/><br/>Cleaning...";
+	if ($validator->closeGapsInTree())
+	{
+		echo "<br/>Closed gaps in tree...done";
+	}
 }
 
 // check RBAC starts here
