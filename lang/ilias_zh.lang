@@ -108,6 +108,9 @@ assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new var
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
+assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
+assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
+assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
 common#:#3rd_party_software#:#第三方软件
 common#:#DD.MM.YYYY#:#日（二位数字）.月（二位数字）.年（四位数字）
 common#:#HH:MM#:#小时（二位数字）:分（二位数字）
