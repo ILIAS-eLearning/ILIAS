@@ -100,7 +100,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("post_save");
 
 			// java applet block
-			$javaapplet = $this->object->get_javaapplet_filename();
+			$javaapplet = $this->object->getJavaAppletFilename();
 			$this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
 			if (!empty($javaapplet))
 			{
@@ -119,7 +119,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			if ($javaapplet)
 			{
 				$emptyname = 0;
-				for ($i = 0; $i < $this->object->get_parameter_count(); $i++)
+				for ($i = 0; $i < $this->object->getParameterCount(); $i++)
 				{
 					// create template for existing applet parameters
 					$this->tpl->setCurrentBlock("delete_parameter");
@@ -130,7 +130,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_parameter") . " " . ($i+1));
 					$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
 					$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-					$param = $this->object->get_parameter($i);
+					$param = $this->object->getParameter($i);
 					$this->tpl->setVariable("PARAM_NAME_VALUE", $param["name"]);
 					$this->tpl->setVariable("PARAM_VALUE_VALUE", $param["value"]);
 					$this->tpl->setVariable("PARAM_COUNTER", $i);
@@ -149,7 +149,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 						$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_new_parameter"));
 						$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
 						$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-						$this->tpl->setVariable("PARAM_COUNTER", $this->object->get_parameter_count());
+						$this->tpl->setVariable("PARAM_COUNTER", $this->object->getParameterCount());
 						$this->tpl->parseCurrentBlock();
 					}
 					else
@@ -163,9 +163,9 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
 				$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
 				$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
-				$this->tpl->setVariable("VALUE_CODE", $this->object->get_java_code());
-				$this->tpl->setVariable("VALUE_WIDTH", $this->object->get_java_width());
-				$this->tpl->setVariable("VALUE_HEIGHT", $this->object->get_java_height());
+				$this->tpl->setVariable("VALUE_CODE", $this->object->getJavaCode());
+				$this->tpl->setVariable("VALUE_WIDTH", $this->object->getJavaWidth());
+				$this->tpl->setVariable("VALUE_HEIGHT", $this->object->getJavaHeight());
 				$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_parameters"));
 				$this->tpl->setVariable("VALUE_ADD_PARAMETER", $this->lng->txt("add_applet_parameter"));
 				$this->tpl->parseCurrentBlock();
@@ -183,7 +183,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", htmlspecialchars($this->object->getAuthor()));
-		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->get_question()));
+		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($this->object->getQuestion()));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -270,7 +270,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->object->setQuestion(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		if ($_POST["id"] > 0)
@@ -279,31 +279,31 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			//setting java applet
 			if (empty($_FILES['javaappletName']['tmp_name']))
 			{
-				$this->object->set_javaapplet_filename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
+				$this->object->setJavaAppletFilename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
 			}
 			else
 			{
-				$this->object->set_javaapplet_filename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
+				$this->object->setJavaAppletFilename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
-			if ($this->object->get_javaapplet_filename())
+			if ($this->object->getJavaAppletFilename())
 			{
-				$this->object->set_java_code($_POST["java_code"]);
-				$this->object->set_java_width($_POST["java_width"]);
-				$this->object->set_java_height($_POST["java_height"]);
+				$this->object->setJavaCode($_POST["java_code"]);
+				$this->object->setJavaWidth($_POST["java_width"]);
+				$this->object->setJavaHeight($_POST["java_height"]);
 				if ((!$_POST["java_width"]) or (!$_POST["java_height"])) $result = 1;
-				$this->object->flush_params();
+				$this->object->flushParams();
 				foreach ($_POST as $key => $value)
 				{
 					if (preg_match("/param_name_(\d+)/", $key, $matches))
 					{
-						$this->object->add_parameter_at_index($matches[1], $value, $_POST["param_value_$matches[1]"]);
+						$this->object->addParameterAtIndex($matches[1], $value, $_POST["param_value_$matches[1]"]);
 					}
 				}
 				foreach ($_POST["cmd"] as $key => $value)
 				{
 					if (preg_match("/delete_(\d+)/", $key, $matches))
 					{
-						$this->object->remove_parameter($_POST["param_name_$matches[1]"]);
+						$this->object->removeParameter($_POST["param_name_$matches[1]"]);
 					}
 				}
 			}
@@ -350,10 +350,10 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("PARAM_NAME", "question_id");
 		$this->tpl->setVariable("PARAM_VALUE", $this->object->getId());
 		$this->tpl->parseCurrentBlock();
-		for ($i = 0; $i < $this->object->get_parameter_count(); $i++)
+		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
 		{
 			$this->tpl->setCurrentBlock("additional_params");
-			$param = $this->object->get_parameter($i);
+			$param = $this->object->getParameter($i);
 			$this->tpl->setVariable("PARAM_NAME", $param["name"]);
 			$this->tpl->setVariable("PARAM_VALUE", $param["value"]);
 			$this->tpl->parseCurrentBlock();
@@ -361,17 +361,17 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 		$this->tpl->setCurrentBlock("javaappletblock");
 		$this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->object->getTitle());
-		$this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->object->get_question());
-		$javaappletpath_working = $this->object->getJavaPathWeb() . $this->object->get_javaapplet_filename();
+		$this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->object->getQuestion());
+		$javaappletpath_working = $this->object->getJavaPathWeb() . $this->object->getJavaAppletFilename();
 		$this->tpl->setVariable("PARAM_ARCHIVE", "archive=$javaappletpath_working ");
 
-		if ($this->object->get_java_code())
+		if ($this->object->getJavaCode())
 		{
-			$this->tpl->setVariable("PARAM_CODE", "code=" . $this->object->get_java_code() . " ");
+			$this->tpl->setVariable("PARAM_CODE", "code=" . $this->object->getJavaCode() . " ");
 		}
 
-		$this->tpl->setVariable("PARAM_WIDTH", $this->object->get_java_width());
-		$this->tpl->setVariable("PARAM_HEIGHT", $this->object->get_java_height());
+		$this->tpl->setVariable("PARAM_WIDTH", $this->object->getJavaWidth());
+		$this->tpl->setVariable("PARAM_HEIGHT", $this->object->getJavaHeight());
 		$this->tpl->parseCurrentBlock();
 	}
 
