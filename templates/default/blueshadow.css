@@ -32,6 +32,11 @@ input {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 }
 
+input.marked {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	background: #FFFFCC;
+}
+
 textarea {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 }
@@ -39,6 +44,12 @@ textarea {
 input.fullwidth {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	width: 98%
+}
+
+input.fullwidth_marked {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%;
+	background: #FFFFCC
 }
 
 textarea.fullwidth {
