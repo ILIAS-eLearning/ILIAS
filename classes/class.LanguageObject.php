@@ -136,7 +136,9 @@ class LanguageObject extends Object
 				// ...re-insert data from lang-file
 				$this->insert();
 				// update information in db-table about available/installed languages
-				updateObject($this->id,$lang_key,"installed");
+				$this->setTitle($lang_key);
+				$this->setDescription("installed");
+				$this->update();
 				$this->optimizeData();
 				$lang_installed[] = $lang_key;
 				return $lang_key;
@@ -155,8 +157,9 @@ class LanguageObject extends Object
 		if (($this->status == "installed") && ($this->key != $this->lang_default) && ($this->key != $this->lang_user))
 		{
 			$this->flush();
-			updateObject($this->id,$this->key,"not_installed");
-
+			$this->setTitle($this->key);
+			$this->setDescription("not_installed");
+			$this->update();
 			$this->resetUserLanguage($this->key);
 
 			return $this->key;

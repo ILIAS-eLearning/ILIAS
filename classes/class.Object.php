@@ -241,7 +241,7 @@ class Object
 	*/
 	function setTitle($a_title)
 	{
-		$this->title = $a_title;
+		$this->title = addslashes(shortenText($a_title, $this->max_title, $this->add_dots));
 	}
 
 
@@ -263,7 +263,7 @@ class Object
 	*/
 	function setDescription($a_desc)
 	{
-		$this->desc = $a_desc;
+		$this->desc = addslashes(shortenText($a_desc, $this->max_desc, $this->add_dots));
 	}
 
 
@@ -310,6 +310,7 @@ class Object
 		return $this->last_update;
 	}
 
+
 	/**
 	* create
 	*
@@ -336,6 +337,31 @@ class Object
 		$this->read();						// to get all data (incl. dates!)
 
 		return $this->id;
+	}
+
+	
+	/*
+	* update object in db
+	*/
+	function update()
+	{
+		global $ilias;
+		
+		// cut length of text
+		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
+		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
+
+		$q = "UPDATE object_data ".
+			"SET ".
+			"title = '".$this->title."',".
+			"description = '".$this->desc."', ".
+			"last_update = now() ".
+			"WHERE obj_id = '".$this->id."'";
+		$ilias->db->query($q);
+
+		$this->read();						// to get all data (incl. dates!)
+
+		return true;
 	}
 
 
@@ -566,26 +592,6 @@ class Object
 		}
 	}
 
-	/**
-	* update an object
-	* @access	public
-	**/
-	function updateObject($a_data)
-	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			updateObject($this->id,$a_data["title"],$a_data["desc"]);
-			$this->update = true;
-
-			return true;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}
-	}
 	
 	/**
 	* show permissions of object

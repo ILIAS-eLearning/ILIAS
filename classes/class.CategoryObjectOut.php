@@ -3,7 +3,7 @@
 * Class CategoryObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.CategoryObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.CategoryObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core

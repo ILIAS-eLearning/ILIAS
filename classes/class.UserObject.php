@@ -195,38 +195,7 @@ class UserObject extends Object
 		}
 	}
 
-	/**
-	* update user data
-	* TODO: The entry in object_data must be changed too!!
-	* @access	public
-	*/
-	function updateObject($a_data)
-	{
-		global $rbacsystem,$rbacadmin;
-		
-		// TODO: get rid of $_GET vars and evil $_POST var Fuserdata
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
-		{
-			$user = new User($this->id);
-			$user->setData($a_data);
-			$user->update();
-			
-			// update object_data entry
-			updateObject($user->getId(),$user->getFullname(),$user->getEmail());
 
-			// update default role if changed
-			$rbacadmin->updateDefaultRole($a_data["default_role"], $user->getId());
-			
-			// TODO: Passwort muss gesondert abgefragt werden
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to modify user",$this->ilias->error_obj->WARNING);
-		}
-		
-		return true;
-	}
-	
 	/**
 	* add active role in session
 	* @access	public

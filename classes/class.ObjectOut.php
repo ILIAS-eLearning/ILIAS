@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.34 2003/03/12 16:52:25 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.35 2003/03/13 11:03:54 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -58,12 +58,15 @@ class ObjectOut
 	* @access       private
 	*/
 	var $object;
+	
+	var $ref_id;
+	var $obj_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ObjectOut($a_data,$a_id,$a_call_by_reference)
+	function ObjectOut($a_data, $a_id, $a_call_by_reference)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
 
@@ -76,27 +79,53 @@ class ObjectOut
 		$this->data = $a_data;
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
-
 		if ($this->call_by_reference)
 		{
 			$this->id_name = "ref_id";
-			$this->object =& new Object($_GET["ref_id"], true);
 		}
 		else
 		{
 			$this->id_name = "obj_id";
-			$this->object =& new Object($_GET["obj_id"]);
 		}
+		$this->ref_id = $_GET["ref_id"];
+		$this->obj_id = $_GET["obj_id"];
+	}
 
-		//prepare output of administration view
+	/**
+	* prepare output of administration view
+	*/
+	function prepareOutput()
+	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
 		if(!empty($title))
+		{
 			$this->tpl->setVariable("HEADER", $title);
-
+		}
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
+
+	
+	/**
+	* read corresponding object
+	*
+	* @param	string		$obj_class		object class name - working with getclass
+	*										would be better, but getclass returns lowercase only :-(
+	*/
+	function readObject($obj_class)
+	{
+		require_once("./classes/class.".$obj_class.".php");
+		if ($this->call_by_reference)
+		{
+			$this->object =& new $obj_class($_GET["ref_id"], true);
+		}
+		else
+		{
+			$this->object =& new $obj_class($_GET["obj_id"], false);
+		}
+	}
+
 
 	/**
 	* set admin tabs
@@ -348,16 +377,35 @@ class ObjectOut
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?".$this->id_name."=".$this->id."&cmd=update");
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
+
+	/**
+	* update object in db
+	*/
 	function updateObject()
 	{
+		global $rbacsystem;
+
+		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->object->setTitle($_POST["Fobject"]["title"]);
+			$this->object->setDescription($_POST["Fobject"]["desc"]);
+			$this->update = $this->object->update();
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+		}
+
 		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
 		exit();
 	}
+
 
 	function permObject()
 	{
@@ -471,7 +519,10 @@ class ObjectOut
 		return true;
 	}
 
-
+	
+	/**
+	* display object list
+	*/
 	function displayList()
 	{
 		global $tree, $rbacsystem;
@@ -479,7 +530,8 @@ class ObjectOut
 	    $this->getTemplateFile("view");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?".$this->id_name."=".$this->id."&cmd=gateway");
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
@@ -511,7 +563,7 @@ class ObjectOut
 				$ctrl = $this->data["ctrl"][$i];
 
 				// color changing
-				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+				$css_row = TUtil::switchColor($i+1,"tblrow1","tblrow2");
 
 				// surpress checkbox for particular object types
 				if (!$this->objDefinition->hasCheckbox($ctrl["type"]))
@@ -594,7 +646,7 @@ class ObjectOut
 	}
 
 	/**
-	* list childs of current object
+	* list childs of current object"
 	*/
 	function viewObject()
 	{

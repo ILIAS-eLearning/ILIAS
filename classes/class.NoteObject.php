@@ -118,7 +118,9 @@ class NoteObject extends Object
 		$this->ilias->db->query($q);
 
 		//update table object_data
-		updateObject($obj_id,$note_text,$note_text,37);
+		$this->setTitle($note_text);
+		$this->setDescription($note_text);
+		$this->update();
 		
 		// deprecated
 		//$query_od = "UPDATE object_data SET description='".$obj_title."' WHERE obj_id='".$obj_id."'";

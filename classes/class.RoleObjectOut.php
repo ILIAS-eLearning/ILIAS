@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.3 2003/03/12 13:05:57 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.4 2003/03/12 16:52:25 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -21,12 +21,6 @@ class RoleObjectOut extends ObjectOut
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
-	function updateObject()
-	{
-		header("Location: adm_object.php?obj_id=".$_GET["parent"]."&parent=".
-			   $_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
 
 	/**
 	* save a new role object

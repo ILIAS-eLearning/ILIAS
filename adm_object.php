@@ -86,7 +86,7 @@ switch ($_GET["cmd"])
 
 	// update object
 	case "update":
-		$data = $obj->updateObject($_POST["Fobject"]);
+		//$data = $obj->updateObject($_POST["Fobject"]);
 		break;
 
 	// edit object
@@ -130,7 +130,9 @@ switch ($_GET["cmd"])
 $class_constr = $class_name."ObjectOut";
 require_once("./classes/class.".$class_name."ObjectOut.php");
 //echo "$class_constr().$method<br>";
-$obj = new $class_constr($data,$id,$call_by_reference);
+$obj = new $class_constr($data, $id, $call_by_reference);
+$obj->readObject($class_name."Object");
+$obj->prepareOutput();
 $obj->$method();
 
 // display basicdata formular
