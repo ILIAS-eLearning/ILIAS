@@ -1506,11 +1506,12 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo();
 		$counter = 3;
 		$tab = array();
-		/*$tab[0] = array ();
+		
+		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id;//link for tab
 		$tab[0]["ftabtype"] = 'tabinactive';  					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='resources';*/
+		$tab[0]["tab_text"] ='resources';
 
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
@@ -1914,43 +1915,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->prepareOutput(false, 6);
 
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-		$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
-		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='resources';
-
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';						//tab -text
-
-		$tab[2] = array ();
-		$tab[2]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
-		$tab[2]["ftabtype"] = 'tabactive';						//tab is marked
-		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
-
-		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
-		if (count($objects) > 0)
-		{
-			$tab[4] = array ();
-			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
-			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
-
-		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
-		{
-			$tab[3] = array ();
-			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[3]["tab_text"] = "properties";				//tab -text
-		}
 		$applications = $this->object->getApplicationList();
 
 		$img_contact = "pencil";
@@ -1989,13 +1953,13 @@ class ilGroupGUI extends ilObjectGUI
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-		
+
 		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
 		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
 		$this->tpl->setVariable("LINK_TREE", "group.php?viewmode=tree&ref_id=".$this->ref_id);
 		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
-		
+
 		$this->data["buttons"] = array( "Cancel"  => $this->lng->txt("cancel"),
 						"AssignApplicants"  => $this->lng->txt("assign"));
 
@@ -2203,7 +2167,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->prepareOutput(false,99);
+		$this->prepareOutput(false,1);
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2403,7 +2367,7 @@ class ilGroupGUI extends ilObjectGUI
 	**/
 	function show_tree()
 	{
-		$this->prepareOutput(false,99);
+		$this->prepareOutput(false,1);
 		
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2727,7 +2691,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-	
+
 		$this->tpl->setVariable("LINK_FLAT", "group.php?viewmode=flat&ref_id=".$this->ref_id);
 		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
@@ -2808,9 +2772,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
-
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
 		$tbl->render();
 		$this->tpl->show();
 	}
