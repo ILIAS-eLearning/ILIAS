@@ -526,7 +526,8 @@ class ilLMParser extends ilSaxParser
 				if (!$this->page_object->isAlias())
 				{
 //echo "ENDPageObject ".$this->page_object->getImportId().":<br>";
-					$this->page_object->createFromXML();
+					//$this->page_object->createFromXML();
+					$this->page_object->updateFromXML();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();
 					if ($this->page_object->containsIntLink())
