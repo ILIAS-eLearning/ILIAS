@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.36 2003/07/29 14:02:40 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.37 2003/08/06 13:27:12 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -468,11 +468,20 @@ class ilObjRoleGUI extends ilObjectGUI
 			else
 			{
 				$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-				
+
+				$online_users_all = ilUtil::getUsersOnline();
 				$assigned_users = array_intersect($rbacreview->assignedUsers($_GET["obj_id"]),$_SESSION["user_list"]);
-				$online_users = array_intersect(ilUtil::getUsersOnline(),$_SESSION["user_list"]);
-				$affected_users = array();				
+				$online_users_keys = array_intersect(array_keys($online_users_all),$_SESSION["user_list"]);
+				$affected_users = array();
 				
+				foreach ($online_users_all as $user_id => $user_data)
+				{
+					if (in_array($user_id,$online_users_keys))
+					{
+						$online_users[$user_id] = $user_data;
+					}
+				}
+
 				foreach (array_diff($assigned_users,$_POST["id"]) as $user)
 				{
 					$rbacadmin->deassignUser($_GET["obj_id"],$user);
@@ -493,6 +502,8 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 				
+				//var_dump("<pre>",$online_users,$assigned_users,$_SESSION["user_list"],$affected_users,"</pre>");exit;
+
 				foreach ($affected_users as $affected_user)
 				{
 					$role_arr = array();
@@ -505,11 +516,18 @@ class ilObjRoleGUI extends ilObjectGUI
 						$role_arr[] = $row->rol_id;
 					}
 
-					$roles = "RoleId|".serialize($role_arr);
-					$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$affected_user["data"]);
+					if ($affected_user["user_id"] == $_SESSION["AccountId"])
+					{
+						$_SESSION["RoleId"] = $role_arr;
+					}
+					else
+					{
+						$roles = "RoleId|".serialize($role_arr);
+						$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$affected_user["data"]);
 			
-					$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$affected_user["user_id"]."'";
-					$this->ilias->db->query($q);
+						$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$affected_user["user_id"]."'";
+						$this->ilias->db->query($q);
+					}
 				}
 			}
 		}

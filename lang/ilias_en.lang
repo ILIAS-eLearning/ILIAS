@@ -86,7 +86,8 @@ common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#censorship
 common#:#change#:#Change
-common#:#change_assignment#:#change assignment
+common#:#change_assignment#:#Change assignment
+common#:#change_active_assignment#:#Change active assignment
 common#:#change_existing_objects#:#Change existing Objects
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
