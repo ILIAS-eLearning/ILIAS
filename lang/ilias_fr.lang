@@ -2369,7 +2369,7 @@ content#:#cont_click_next_or_save#:#Veuillez cliquer sur le point suivant du pol
 content#:#cont_click_next_point#:# Veuillez cliquer sur le point suivant du polygone
 content#:#cont_click_starting_point#:# Veuillez cliquer sur le point de départ du polygone
 content#:#cont_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée
-content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
+content#:#cont_confirm_delete#:#Etes-vous sûr(e) de vouloir détruire cet objet?
 content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
 content#:#cont_contents#:#Contenus
