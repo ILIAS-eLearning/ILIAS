@@ -1883,7 +1883,7 @@ class ilObjectGUI
 		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
 		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
 		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
-		//   und das Permission Template an den Wert des n�hst hher gelegenen Permission Templates angepasst
+		//   und das Permission Template an den Wert des nihst hher gelegenen Permission Templates angepasst
 
 		// get rolefolder data if a rolefolder already exists
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
@@ -1891,7 +1891,7 @@ class ilObjectGUI
 
 		if ($_POST["stop_inherit"])
 		{
-			// rolefolder doesn't exists, so create one
+			// rolefolder does not exist, so create one
 			if (empty($rolf_id))
 			{
 				// create a local role folder

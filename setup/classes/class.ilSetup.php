@@ -907,7 +907,7 @@ class ilSetup extends PEAR
 			}
 		}
 
-		// create webspace dir if not exists
+		// create webspace dir if it does not exist
 		if (!@file_exists(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")) and !@is_dir(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")))
 		{
 			if (!ilUtil::makeDir(ILIAS_ABSOLUTE_PATH."/".$this->ini->readVariable("clients","path")))

@@ -353,7 +353,7 @@ class ilValidator extends PEAR
 			$this->invalid_references[] = array(
 											"ref_id"	=> $row->ref_id,
 											"obj_id"	=> $row->obj_id,
-											"msg"		=> "Object does not exists."
+											"msg"		=> "Object does not exist."
 											);
 		}
 
@@ -558,7 +558,7 @@ class ilValidator extends PEAR
 	*		child		=> actual entry with broken uplink to its parent
 	*		parent		=> parent of child that does not exist
 	*		grandparent	=> grandparent of child (where path to root node continues)
-	* 		deleted		=> containing a negative number (= parent in trash) or NULL (parent does not exists at all)
+	* 		deleted		=> containing a negative number (= parent in trash) or NULL (parent does not exist at all)
 	* 
 	* @access	public
 	* @return	array

@@ -357,7 +357,7 @@ class ilIniFile
 	{
 		if (!$this->groupExists($a_group_name))
 		{
-			$this->error("Group '".$a_group_name."' does not exists");
+			$this->error("Group '".$a_group_name."' does not exist");
 			return false;		
 		}
 

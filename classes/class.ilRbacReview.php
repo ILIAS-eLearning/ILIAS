@@ -385,7 +385,7 @@ class ilRbacReview
 
 		if (!count($role_arr))
 		{
-			$message = get_class($this)."::assignedRoles(): No assigned roles found or user doesn't exists!";
+			$message = get_class($this)."::assignedRoles(): No assigned roles found or user does not exist!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
