@@ -377,9 +377,15 @@ class ilSCORMExplorer extends ilExplorer
 			}
 		}
 		
+		$sc_object =& new ilSCORMItem($a_node_id);
+		$id_ref = $sc_object->getIdentifierRef();
+		$sc_res =& new ilSCORMResource();
+		$sc_res->readByIdRef($id_ref, $sc_object->getSLMId());
+		$scormtype = strtolower($sc_res->getScormType());
+
 		if ($this->output_icons)	{
 			if ($this->isClickable($a_option["type"], $a_node_id))
-				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
+				$this->getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype);
 		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
@@ -392,22 +398,11 @@ class ilSCORMExplorer extends ilExplorer
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
-				$sc_object =& new ilSCORMItem($a_node_id);
-				$id_ref = $sc_object->getIdentifierRef();
-				$sc_res =& new ilSCORMResource();
-				$sc_res->readByIdRef($id_ref, $sc_object->getSLMId());
-				if (strtolower($sc_res->getScormType()) == "asset")
-				{
-					$call = "IliasLaunchAsset";
-				}
-				else
-				{
-					$call = "IliasLaunchSahs";
-				}
-
 				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.".$call."('".$a_node_id."');return false;\"");
+				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API."
+					.($scormtype == 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
+					."('".$a_node_id."');return false;\"");
 			}
 			$tpl->parseCurrentBlock();
 		}
@@ -425,13 +420,22 @@ class ilSCORMExplorer extends ilExplorer
 		$this->output[] = $tpl->get();
 	}
 	
-	function getOutputIcons(&$tpl, $a_option, $a_node_id) {
+	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype) {
 		global $lng;
+
+			$tpl->setCurrentBlock("icon");
+
+			if ($scormtype == 'asset') 
+			{
+				$tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix()."asset.gif"));
+				$tpl->setVariable('TXT_ALT_IMG', '');
+				$tpl->parseCurrentBlock();
+				return;
+			}
 		
 			$sc_object = & $this->getItem($a_node_id);
 
 			$trdata = $sc_object->getTrackingDataOfUser();
-			$tpl->setCurrentBlock("icon");
 			// status
 			$status = ($trdata["cmi.core.lesson_status"] == "")
 				? "not attempted"
@@ -472,10 +476,8 @@ class ilSCORMExplorer extends ilExplorer
 				": ".$trdata["cmi.core.total_time"];
 			}
 
-			$tpl->setVariable("ICON_NAME",
-				'scoIcon'.$a_node_id);
-			$tpl->setVariable("ICON_IMAGE",
-				ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".gif"));
+			$tpl->setVariable("ICON_NAME", 'scoIcon'.$a_node_id);
+			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".gif"));
 			$tpl->setVariable("TXT_ALT_IMG", $alt);
 			$tpl->parseCurrentBlock();
 
