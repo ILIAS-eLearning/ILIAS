@@ -71,7 +71,7 @@ class RbacAdmin
 			 "SET ".
 			 "login = '".$a_userdata["Login"]."',".
 			 "firstname = '".$a_userdata["FirstName"]."',".
-			 "surname = '".$a_userdata["SurName"]."',".
+			 "lastname = '".$a_userdata["lastname"]."',".
 			 "title = '".$a_userdata["Title"]."',".
 			 "gender = '".$a_userdata["Gender"]."',".
 			 "email = '".$a_userdata["Email"]."', ".
@@ -79,7 +79,7 @@ class RbacAdmin
 			 "WHERE usr_id = '".$a_userdata["Id"]."'";
 		$r = $this->ilias->db->query($q);
 
-		$fullname = User::buildFullName($a_userdata["Title"],$a_userdata["FirstName"],$a_userdata["SurName"]);
+		$fullname = User::buildFullName($a_userdata["Title"],$a_userdata["FirstName"],$a_userdata["lastname"]);
 
 		$q = "UPDATE object_data ".
 			 "SET ".

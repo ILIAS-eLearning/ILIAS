@@ -22,7 +22,7 @@ class User
 	var $title;
 	var $firstname;
 	var $lastname;
-	var $fullname;	// title + firstname + surname in one string
+	var $fullname;	// title + firstname + lastname in one string
  	// address data
 	var $institution;
 	var $street;
@@ -426,7 +426,7 @@ class User
 	}
 	
 	/**
-	* builds a string with title + firstname + surname
+	* builds a string with title + firstname + lastname
 	* @access	public
 	*/
 	function setFullname ()

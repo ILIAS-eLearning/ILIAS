@@ -231,7 +231,7 @@ class Forum
 	*/
 	function getOnePost($post)
 	{				
-		$q = "SELECT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";		
+		$q = "SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";		
 		$q .= "pos_pk = '".$post."' AND ";
 		$q .= "pos_usr_id = usr_id";		
 
@@ -494,7 +494,7 @@ class Forum
    	*/
 	function getThreadList($topic)
 	{
-		$q = "SELECT frm_threads.*, usr_data.surname FROM frm_threads, usr_data WHERE ";
+		$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
 		$q .= "thr_top_fk ='".$topic."' AND ";
 		$q .= "thr_usr_id = usr_id";
 		if ($this->orderField != "")
@@ -517,7 +517,7 @@ class Forum
    	*/
 	function getPostList($topic, $thread)
 	{
-		$q = "SELECT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";
+		$q = "SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk ='".$topic."' AND ";
 		$q .= "pos_thr_fk ='".$thread."' AND ";
 		$q .= "pos_usr_id = usr_id";
@@ -542,7 +542,7 @@ class Forum
 	{
 		$LP = explode("#", $lastPost);		
 		
-		$q = "SELECT DISTINCT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";
+		$q = "SELECT DISTINCT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk = '".$LP[0]."' AND ";
 		$q .= "pos_thr_fk = '".$LP[1]."' AND ";
 		$q .= "pos_pk = '".$LP[2]."' AND ";

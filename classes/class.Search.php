@@ -77,10 +77,10 @@ class Search
 			return false;
 		}
 		//now only user search and phrase search
-		//search for login  firstname  surname email
+		//search for login  firstname  lastname email
 		$w = "login LIKE '%".$this->text."%'";
 		$w .= " OR firstname LIKE '%".$this->text."%'";
-		$w .= " OR surname LIKE '%".$this->text."%'";
+		$w .= " OR lastname LIKE '%".$this->text."%'";
 		$w .= " OR email LIKE '%".$this->text."%'";
 		
 		$query = "SELECT * FROM usr_data WHERE ".$w;	
@@ -93,7 +93,7 @@ class Search
 			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$this->result[] = array(
-										"text" => $row["firstname"]." ".$row["surname"],
+										"text" => $row["firstname"]." ".$row["lastname"],
 										"link" => "mail.php?to=".$row["usr_id"]
 										);
 			}
