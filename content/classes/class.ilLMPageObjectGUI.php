@@ -158,8 +158,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->obj =& new ilLMPageObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType("pg");
-		$this->obj->setTitle($_POST["Fobject"]["title"]);
-		$this->obj->setDescription($_POST["Fobject"]["desc"]);
+		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->obj->setLMId($this->content_object->getId());
 		$this->obj->create();
 

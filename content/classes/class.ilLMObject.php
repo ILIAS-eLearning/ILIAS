@@ -221,7 +221,9 @@ class ilLMObject
 	*/
 	function updateMetaData()
 	{
-		$this->meta_data->update();
+		global $ilDB;
+
+		//$this->meta_data->update();
 		if ($this->meta_data->section != "General")
 		{
 			$meta = $this->meta_data->getElement("Title", "General");
@@ -234,6 +236,12 @@ class ilLMObject
 			$this->setTitle($this->meta_data->getTitle());
 			$this->setDescription($this->meta_data->getDescription());
 		}
+		$query = "UPDATE lm_data SET ".
+			" title = ".$ilDB->quote($this->getTitle()).
+			", last_update = now() WHERE obj_id = ".$ilDB->quote($this->getId());
+
+		$this->ilias->db->query($query);
+		$this->meta_data->update();
 	}
 
 	/**
@@ -241,7 +249,10 @@ class ilLMObject
 	*/
 	function update()
 	{
+		global $ilDB;
+
 		$this->updateMetaData();
+
 	}
 
 

@@ -318,8 +318,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->obj =& new ilStructureObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType("st");
-		$this->obj->setTitle($_POST["Fobject"]["title"]);
-		$this->obj->setDescription($_POST["Fobject"]["desc"]);
+		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->obj->setLMId($this->content_object->getId());
 		$this->obj->create();
 
@@ -344,6 +344,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 //echo "lmobjectgui_Savemeta2<br>"; exit;
+//echo "title_value:".htmlentities($_POST["meta"]["Title"]["Value"]); exit;
 		$meta_gui->save($_POST["meta_section"]);
 //echo "lmobjectgui_Savemeta3<br>";
 		$this->ctrl->redirect($this, "view");
