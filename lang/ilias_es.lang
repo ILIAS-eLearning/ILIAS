@@ -840,6 +840,7 @@ content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Delete assignment###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
 content#:#cont_details#:#Details###19 Sep 2003 new variable
+content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
@@ -855,6 +856,8 @@ content#:#cont_how_published#:#How published###19 Sep 2003 new variable
 content#:#cont_href#:#href###04 Aug 2003 new variable
 content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
 content#:#cont_import_id#:#identifier###04 Aug 2003 new variable
+content#:#cont_insert_file_item#:#Insert File Item###14 Oct 2003 new variable
+content#:#cont_insert_file_list#:#Insert File List###14 Oct 2003 new variable
 content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable

@@ -800,9 +800,6 @@ content#:#Pages#:#Pages
 content#:#all#:#All
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
-content#:#cont_insert_file_list#:#Insert File List
-content#:#cont_edit_file_list_properties#:#Edit File List Properties
-content#:#cont_insert_file_item#:#Insert File Item
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -846,6 +843,7 @@ content#:#cont_definitions#:#Definitions
 content#:#cont_del_assignment#:#Delete assignment
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details
+content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties
@@ -861,6 +859,8 @@ content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
+content#:#cont_insert_file_item#:#Insert File Item
+content#:#cont_insert_file_list#:#Insert File List
 content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
