@@ -1274,12 +1274,12 @@ class ilNestedSetXML
  */
 	function replace_content( &$node, &$new_content )
 	{
-		$newnode =& $this->dom->create_element( $node->tagname );
+		$newnode =& $this->dom->create_element( $node->tagname() );
 		$newnode->set_content( $new_content );
 		$atts =& $node->attributes();
 		foreach ( $atts as $att )
 		{
-			$newnode->set_attribute( $att->name, $att->value );
+			$newnode->set_attribute( $att->name(), $att->value() );
 		}
 		$kids =& $node->child_nodes();
 		foreach ( $kids as $kid )

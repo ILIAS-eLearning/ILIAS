@@ -306,6 +306,11 @@ class php4DOMNode
 		//}
 	}
 
+	function replace_node($newnode)
+	{
+		return $this->set_content($newnode->myDOMNode->textContent);
+	}
+	
 	function append_sibling($newnode)
 	{
 		return new php4DOMElement($this->myDOMNode->parentNode->appendChild($newnode->myDOMNode));
