@@ -305,3 +305,4 @@ view_content	view content	Inhalt	content	content
 edit_properties	edit properties	Eigenschaften	properties	properties
 perm_settings	permissions	Rechte	permissions	permissions
 show_owner	show owner	Besitzerinfo	owner	owner
+optimize	optimize	Optimieren	optimize	optimize
