@@ -1,25 +1,25 @@
-<form action = 'inbox.php' method='post'>
+<form action = 'dateplaner.php?app=inbox' method='post'>
 <table style="border-width:0; BORDER-COLLAPSE: collapse"  cellSpacing="0" cellPadding="0" border="0" class="fullwidth" >
   <tr class="tblheader" height=20 >
 	<td align="middle" colspan=7>
 		<b>Inbox</b>
 <!-- Hilfe Funktion Start -->
 {jsscriptIn}
-<a onMouseOver=show('302') onMouseOut=hide('302') href="lang/dp_help_de.htm#_Toc59013354" target="_blank">
-	<IMG src="$templatefolder/$actualtemplate/images/help.gif" border=0>
+<a onMouseOver=show('302') onMouseOut=hide('302') href=".{DATEPLANER_ROOT_DIR}/lang/dp_help_de.htm#_Toc59013354" target="_blank">
+	<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0>
 </a>
 <div id='302' style='position:absolute; top:400px; left:0px; width:250; visibility:hidden; z-index:1; background-color:white'>
 <table border="0" cellpadding="2" cellspacing="2" style="border-collapse: collapse"  width="100%" height="100%">
   <tr>
-    <td width="100%" bgcolor="#000080"><b><font color="#FFFFFF">$CSCW_language[help_inbox]</font></b> </td>
+    <td width="100%" bgcolor="#000080"><b><font color="#FFFFFF">$DP_language[help_inbox]</font></b> </td>
   </tr>
   <tr>
-    <td width="100%" height="100%" valign="top" bgcolor="#FFFFFF" ><font color="#000000">$CSCW_language[help_inbox_l] $CSCW_language[help_further]</font></td>
+    <td width="100%" height="100%" valign="top" bgcolor="#FFFFFF" ><font color="#000000">$DP_language[help_inbox_l] $DP_language[help_further]</font></td>
   </tr>
 </table>
 </div>
 {jsscriptOut}
-<noscript><a href="lang/dp_help_de.htm#_Toc59013354" target="_blank" TITLE="$CSCW_language[help_inbox]" ><IMG src="$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
+<noscript><a href=".{DATEPLANER_ROOT_DIR}/lang/dp_help_de.htm#_Toc59013354" target="_blank" TITLE="$DP_language[help_inbox]" ><IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/help.gif" border=0></a></noscript>	
 <!-- Hilfe Funktion End -->
 
 	</td>
@@ -41,17 +41,17 @@
   </tr>
   <tr height=20 class="tblheader">
 	<td align="middle"  colspan=7 >
-		<b>$CSCW_language[newDates]</b>
+		<b>$DP_language[newDates]</b>
 	</td>
   </tr>
   <tr class="tblrow1" height=20>
-	<td width = '10%' align = "center">$CSCW_language[apply]</td>
-	<td width = '10%' align = "center">$CSCW_language[discard]</td>
-	<td width = '10%' align = "center">$CSCW_language[keep]</td>
-	<td width = '25%' align = "center">$CSCW_language[timedate]</td>
-	<td width = '30%' align = "center">$CSCW_language[shorttext]</td>
-	<td width = '10%' align = "center">$CSCW_language[group]</td>
-	<td width = '5%' align = "center">$CSCW_language[rotation]</td>
+	<td width = '10%' align = "center">$DP_language[apply]</td>
+	<td width = '10%' align = "center">$DP_language[discard]</td>
+	<td width = '10%' align = "center">$DP_language[keep]</td>
+	<td width = '25%' align = "center">$DP_language[timedate]</td>
+	<td width = '30%' align = "center">$DP_language[shorttext]</td>
+	<td width = '10%' align = "center">$DP_language[group]</td>
+	<td width = '5%' align = "center">$DP_language[rotation]</td>
   </tr>
 	$neueTermine
   <tr>
@@ -61,17 +61,17 @@
   </tr>
   <tr height=20 class="tblheader">
 	<td align="middle" colspan=7 >
-		<b>$CSCW_language[changedDates]</b>
+		<b>$DP_language[changedDates]</b>
 	</td>
   </tr>
   <tr class="tblrow1" height=20>
-	<td width = '10%' align = "center">$CSCW_language[apply]</td>
-	<td width = '10%' align = "center">$CSCW_language[delete]</td>
-	<td width = '10%' align = "center">$CSCW_language[keep]</td>
-	<td width = '25%' align = "center">$CSCW_language[timedate]</td>
-	<td width = '30%' align = "center">$CSCW_language[shorttext]</td>
-	<td width = '10%' align = "center">$CSCW_language[group]</td>
-	<td width = '5%' align = "center">$CSCW_language[rotation]</td>
+	<td width = '10%' align = "center">$DP_language[apply]</td>
+	<td width = '10%' align = "center">$DP_language[delete]</td>
+	<td width = '10%' align = "center">$DP_language[keep]</td>
+	<td width = '25%' align = "center">$DP_language[timedate]</td>
+	<td width = '30%' align = "center">$DP_language[shorttext]</td>
+	<td width = '10%' align = "center">$DP_language[group]</td>
+	<td width = '5%' align = "center">$DP_language[rotation]</td>
   </tr>
 	$geänderteTermine
   <tr>
@@ -81,17 +81,17 @@
   </tr>
   <tr class="tblheader" height=20>
 	<td align="middle" colspan=7 >
-		<b>$CSCW_language[deletedDates]</b>
+		<b>$DP_language[deletedDates]</b>
 	</td>
   </tr>
   <tr class="tblrow1" height=20>
 	<td width = '10%' align = "center"></td>
-	<td width = '10%' align = "center">$CSCW_language[delete]</td>
-	<td width = '10%' align = "center">$CSCW_language[keep]</td>
-	<td width = '25%' align = "center">$CSCW_language[timedate]</td>
-	<td width = '30%' align = "center">$CSCW_language[shorttext]</td>
-	<td width = '10%' align = "center">$CSCW_language[group]</td>
-	<td width = '5%' align = "center">$CSCW_language[rotation]</td>
+	<td width = '10%' align = "center">$DP_language[delete]</td>
+	<td width = '10%' align = "center">$DP_language[keep]</td>
+	<td width = '25%' align = "center">$DP_language[timedate]</td>
+	<td width = '30%' align = "center">$DP_language[shorttext]</td>
+	<td width = '10%' align = "center">$DP_language[group]</td>
+	<td width = '5%' align = "center">$DP_language[rotation]</td>
   </tr>
 	$gelöschteTermine
   <tr>

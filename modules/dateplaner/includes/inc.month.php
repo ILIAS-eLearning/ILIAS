@@ -18,14 +18,14 @@
 * 	@description : stet variables in the navigation of week 
 * 	@param int timestamp
 * 	@global string month_navigation		( contains the output ) 
-*	@global Array CSCW_language			( include Languageproperties )
+*	@global Array DP_language			( include Languageproperties )
 */
 
 function setNavigation($timestamp)
 
 {
 
-	global $CSCW_language;
+	global $DP_language;
 
 	$Gui		= new Gui();
 	$ttd		= new TimestampToDate;
@@ -34,15 +34,15 @@ function setNavigation($timestamp)
 	$ttd->ttd($timestamp);
 	$today		= mktime(0,0,0);
 	$lastweek	= strtotime ("last week" , $timestamp) ;
-	$nextweek	= strtotime ("next week" , $timestamp) ;
+	$nextweek	= strtotime ("+7 days" , $timestamp) ;
 
 	$monthnumber	= $ttd->monthnumber;
 	$jahreszahl	= $ttd->year_long;
 	$timestamp	= mktime(0,0,0,$monthnumber,1,$jahreszahl);		// first day of the month
 	$lastmonth	= strtotime ("last month", $timestamp) ;
-	$nextmonth	= strtotime ("next month", $timestamp) ;
+	$nextmonth	= strtotime ("+1 month", $timestamp) ;
 	$lastyear	= strtotime ("last year" , $timestamp) ;
-	$nextyear	= strtotime ("next year" , $timestamp) ;
+	$nextyear	= strtotime ("+1 year" , $timestamp) ;
 
 	eval ("\$month_navigation = \"".$Gui->gettemplate("month_navigation")."\";");
 
@@ -79,19 +79,20 @@ function getDayInWeek($week_ts)
 * 	@description : get Content for the Week View from the sortdates functions 
 * 	@param int begin_ts
 * 	@param int end_ts
-* 	@global string CSCW_UId     ( actual User ID )
-* 	@global Array CSCW_Keywords ( actuel Keywords)
+* 	@param int $DB			  (object of th db class ) 
+* 	@global string DP_UId     ( actual User ID )
+* 	@global $_SESSION			( Array DP_Keywords ( actual Keywords)
 * 	@return Array [][][] 
 * 			[0]	Dates			( normel Dates )
 * 			[1] WholeDates		( one day Dates )
 */
-function getContent($start_ts, $end_ts)
+function getContent($start_ts, $end_ts, $DB)
 
 {
-	global $CSCW_UId , $CSCW_Keywords ;
+	global $DP_UId , $_SESSION ;
 
-	$Dates				= getDateList ($CSCW_UId, $start_ts, $end_ts, $CSCW_Keywords);
-	$WholeDates			= getWholeDayDateList ($CSCW_UId, $start_ts, $end_ts, $CSCW_Keywords);
+	$Dates				= getDateList ($DP_UId, $start_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
+	$WholeDates			= getWholeDayDateList ($DP_UId, $start_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
 	$DATE[0]=$Dates;
 	$DATE[1]=$WholeDates;
 
@@ -104,18 +105,18 @@ function getContent($start_ts, $end_ts)
 *	@param int date_ts
 *	@param Array DATE[][][]				( Date Data )
 *	@param string style					( to format rows, control variable )
-*	@global Array CSCW_language			( include Languageproperties )
-*	@global Array CSCW_SceenHeight		( include the vertical Resolution )
-*	@global Array CSCW_CSCW_SceenWith	( include horizontal Resolution )
-* 	@global array CSCW_CSS				( contains CSS Strings from the conf.gui file )
-*	@global	bol $CSCW_JSscript			( is 1 if JavaScript disabled )
+*	@global Array DP_language			( include Languageproperties )
+*	@global Array $_SESSION				( include the Resolution, java script options )
+*	@global Array DP_DP_SceenWith	( include horizontal Resolution )
+* 	@global array DP_CSS				( contains CSS Strings from the conf.gui file )
+*	@global	bol $DP_JSscript			( is 1 if JavaScript disabled )
 *	@return string month_float			( contains the output )
 */
 
 function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 
 {
-		global  $CSCW_language, $CSCW_ScreenHeight, $CSCW_ScreenWith, $CSCW_CSS, $CSCW_JSscript, $templatefolder, $actualtemplate;
+		global  $DP_language, $DP_CSS, $templatefolder, $actualtemplate, $_SESSION;
 
 		$ttd		= new TimestampToDate;
 		$Gui		= new Gui();
@@ -125,37 +126,40 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 		$ttd->ttd($dayinmonth_ts);
 		
 		// if java script disabeld set standard view
-		if($CSCW_ScreenWith == "" or !$CSCW_ScreenWith) {
-			$CSCW_ScreenHeight	= "768";
-			$CSCW_ScreenWith	= "1024" ;
+		if($_SESSION[DP_ScreenWith] == "" or !$_SESSION[DP_ScreenWith]) {
+			$DP_ScreenHeight	= "768";
+			$DP_ScreenWith		= "1024" ;
+		}else {
+			$DP_ScreenHeight	= $_SESSION[DP_ScreenHeight];
+			$DP_ScreenWith		= $_SESSION[DP_ScreenWith] ;
 		}
 
 		// change colour of months
 		$day		= $ttd->day_of_month ;
 		if ("01" == $day)
 		{
-			if ($style == $CSCW_CSS[tblrow1])	
+			if ($style == $DP_CSS[tblrow1])	
 			{ 
-				$style = $CSCW_CSS[tblrow2]; 
+				$style = $DP_CSS[tblrow2]; 
 			}
 			else								
 			{ 
-				$style = $CSCW_CSS[tblrow1]; 
+				$style = $DP_CSS[tblrow1]; 
 			}
 		}
 
 		// change table height for Browse comatibility
 		// it depends on the the screen Height and width 
-		if (!$CSCW_ScreenHeight)  
+		if (!$DP_ScreenHeight)  
 		{
 			$height			="15%"	;
 		}
 		else 
 		{
-			$height=(15*($CSCW_ScreenHeight - 150))/100	;
+			$height=(15*($DP_ScreenHeight - 150))/100	;
 		}
 
-		if (!$CSCW_ScreenWith) 
+		if (!$DP_ScreenWith) 
 		{
 			$shorttextmax2		= 9; // max lenght of shorttext in one day dates
 			$shorttextmax		= 5; // max lenght of shorttext in normal dates
@@ -164,9 +168,9 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 		else 
 		{
 			// Height an width dedected
-			$width=(13*($CSCW_ScreenWith - 180))/100	;
+			$width=(13*($DP_ScreenWith - 180))/100	;
 
-			switch ($CSCW_ScreenWith) 
+			switch ($DP_ScreenWith) 
 			{
 				case '800':
 					$datesperdaymax		= 2 ; // max dates in a day 
@@ -195,12 +199,12 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 			}
 		}
 
-		$month_float = $month_float."<td width=\"".$width."\" height=\"".$height."\" valign=\"top\" style=\"border-style: solid;  border-width: 1; background-image:url(".$templatefolder."/".$actualtemplate."/images/".$day.".gif); background-repeat:no-repeat ; background-position:center center \" ";
+		$month_float = $month_float."<td width=\"".$width."\" height=\"".$height."\" valign=\"top\" style=\"border-style: solid;  border-width: 1; background-image:url(.".DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/images/".$day.".gif); background-repeat:no-repeat ; background-position:center center \" ";
 
 		// if today change background
 		if ($dayinmonth_ts >=  mktime(0,0,0) and $dayinmonth_ts <=  mktime(23,59,59)) 
 		{
-			$month_float = $month_float."$CSCW_CSS[tblrow1] >";
+			$month_float = $month_float."$DP_CSS[tblrow1] >";
 			$month_float = $month_float."
 <table border=\"0\" cellpadding=\"3\" cellspacing=\"0\" style=\"border-collapse: collapse\" width=\"100%\" height=\"100%\">
 			";
@@ -218,7 +222,7 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 		{
 			$month_float = $month_float."
 	<tr>
-		<td height=\"8\" style=\"border-style: solid; border-width: 1\" $CSCW_CSS[tblheader] ><center><span $CSCW_CSS[small]>$ttd->monthname</span></center></td>
+		<td height=\"8\" style=\"border-style: solid; border-width: 1\" $DP_CSS[tblheader] ><center><span $DP_CSS[small]>$ttd->monthname</span></center></td>
 	</tr>
 			";
 		}
@@ -256,10 +260,10 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 				$id = rand(1,100);
 
 
-				if($CSCW_JSscript != 1) {
-					$month_float = $month_float."<span ".$CSCW_CSS[small]."><a TITLE=\"".$alttag."\" href=\"date.php?timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$shortext."</a> </span><br>"; 
+				if($_SESSION[DP_JSscript] != 1) {
+					$month_float = $month_float."<span ".$DP_CSS[small]."><a TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$shortext."</a> </span><br>"; 
 				}else {
-					$month_float = $month_float."<span ".$CSCW_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('date.php?timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$shortext."</a> </span><br>"; 
+					$month_float = $month_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$WholeDates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$shortext."</a> </span><br>"; 
 					$month_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
 				}
 
@@ -268,7 +272,7 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 			}
 			if ($datesperdaymax == $datesperday) 
 			{
-				$month_float = $month_float."<span ".$CSCW_CSS[small]."><a href=\"day.php?timestamp=".$dayinmonth_ts."\">".$CSCW_language[more]."</a> </span>";
+				$month_float = $month_float."<span ".$DP_CSS[small]."><a href=\"dateplaner.php?app=day&timestamp=".$dayinmonth_ts."\">".$DP_language[more]."</a> </span>";
 				break ;  
 			}
 		}
@@ -299,19 +303,19 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 				$starttime	= $ttd->hour_long.":".$ttd->minutes ;
 				$ttd->ttd($Dates[$i][2]);
 				$endtime	= $ttd->hour_long.":".$ttd->minutes ;
-				$alttag = $starttime." ".$CSCW_language[to]." ".$endtime." [ ".$Dates[$i][5]." ]";
+				$alttag = $starttime." ".$DP_language[to]." ".$endtime." [ ".$Dates[$i][5]." ]";
 
-				if($CSCW_JSscript != 1) {
-					$month_float = $month_float."<span ".$CSCW_CSS[small]."><a TITLE=\"".$alttag."\" href=\"date.php?timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$starttime."</a> - ".$shortext."</a> </span><br>"; 
+				if($_SESSION[DP_JSscript] != 1) {
+					$month_float = $month_float."<span ".$DP_CSS[small]."><a TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\" >".$starttime."</a> - ".$shortext."</a> </span><br>"; 
 				}else {
-					$month_float = $month_float."<span ".$CSCW_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')   href=\"javascript:popup('date.php?timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime."</a> - ".$shortext." </span><br>"; 
+					$month_float = $month_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')   href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime."</a> - ".$shortext." </span><br>"; 
 					$month_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
 				}
 
 		}
 			if ($datesperdaymax == $datesperday) {
 
-				$month_float = $month_float."<span ".$CSCW_CSS[small]."><a href=\"day.php?timestamp=".$dayinmonth_ts."\">".$CSCW_language[more]."</a> </span>";
+				$month_float = $month_float."<span ".$DP_CSS[small]."><a href=\"dateplaner.php?app=day&timestamp=".$dayinmonth_ts."\">".$DP_language[more]."</a> </span>";
 				break ;  
 			}
 		}
@@ -325,11 +329,11 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 	</tr>
 	<tr>
 		<td height=\"8\">
-			<a href=\"javascript:popup('date.php?timestamp=".$dayinmonth_ts."&PHPSESSID=$PHPSESSID','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" TITLE=\"".$CSCW_language[new_doc]."\" ".$CSCW_CSS[navi_new]." >
-				<img border='0' src='".$templatefolder."/".$actualtemplate."/images/blind_1515.gif' width='15' height='15'  align='left' hspace='0'>
+			<a href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$dayinmonth_ts."&PHPSESSID=$PHPSESSID','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" TITLE=\"".$DP_language[new_doc]."\" ".$DP_CSS[navi_new]." >
+				<img border='0' src='.".DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/images/blind_1515.gif' width='15' height='15'  align='left' hspace='0'>
 			</a>	
-			<a href=\"day.php?timestamp=".$dayinmonth_ts."\" TITLE=\"".$CSCW_language[open_day]."\" ".$CSCW_CSS[navi_open].">
-				<img border='0' src='".$templatefolder."/".$actualtemplate."/images/blind_1515.gif' width='15' height='15' align='left' space='0'>
+			<a href=\"dateplaner.php?app=day&timestamp=".$dayinmonth_ts."\" TITLE=\"".$DP_language[open_day]."\" ".$DP_CSS[navi_open].">
+				<img border='0' src='.".DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/images/blind_1515.gif' width='15' height='15' align='left' space='0'>
 			</a>
 		</td>
 	</tr>
@@ -350,18 +354,19 @@ function setDaysInMonth($dayinmonth_ts, $DATE, &$style)
 * 	@param int week_ts				( one timestamp in the week, which should be shown ) 
 * 	@param string first_change		( control variable )
 * 	@param string week_s			( control variable , identify the action source)
+* 	@param int $DB					(object of th db class ) 
 * 	@global string S_Datum			( contains Date from Table Top )
 * 	@global string style			( to format rows, control variable )
-* 	@global array CSCW_CSS			( contains CSS Strings from the conf.gui file )
+* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
 *   @return Array Return
 *						[0] string month_navigation	( contains the navigation output )
 *						[1] string month_float		( contains the output )
 *						[2] string month_string		( contains the month / year name for the output )
 */
-function setMonthView($week_ts, $week_s, $first_change)
+function setMonthView($week_ts, $week_s, $first_change, $DB)
 {
 
-	global $CSCW_CSS ;
+	global $DP_CSS ;
 	srand(microtime()*1000000);
 
 	$ttd					= new TimestampToDate;
@@ -428,13 +433,13 @@ function setMonthView($week_ts, $week_s, $first_change)
 	$weeknumber = $ttd->weeknumber;
 
 	$dayinmonth_ts	= $mondaybefore_ts ;
-	$style			= $CSCW_CSS[tblrow1];
+	$style			= $DP_CSS[tblrow1];
 
 				
 	// set Month view start and End 
 	$start_ts		= $dayinmonth_ts;
 	$end_ts			= strtotime ("+".$weeks." week", $week_ts );	
-	$DATE			= getContent($start_ts, $end_ts);
+	$DATE			= getContent($start_ts, $end_ts, $DB);
 
 	
 	// gerate Data for Output .. pass the month
@@ -445,7 +450,7 @@ function setMonthView($week_ts, $week_s, $first_change)
 			if ($i==0) 
 			{
 				$month_float = $month_float."<tr>\n";
-				$month_float = $month_float."<td width=\"4%\" style=\"border-style: solid; border-width: 1\" $CSCW_CSS[tblrow2] ><center><a href=\"week.php?timestamp=".$dayinmonth_ts."\">".$weeknumber."</a><center></td>";
+				$month_float = $month_float."<td width=\"4%\" style=\"border-style: solid; border-width: 1\" $DP_CSS[tblrow2] ><center><a href=\"dateplaner.php?app=week&timestamp=".$dayinmonth_ts."\">".$weeknumber."</a><center></td>";
 			}
 			else 
 			{

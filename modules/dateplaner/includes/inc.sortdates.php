@@ -88,6 +88,7 @@ function cmp ($a, $b) {
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
+*	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
 *	
@@ -97,8 +98,7 @@ function cmp ($a, $b) {
 *			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 */
 
-function getDateList($id, $start, $end, $Keywords){
-    $DB				= new Database(); // connect to database
+function getDateList($id, $start, $end, $Keywords, $DB){
     $neg_dates			= $DB->getNegRotationDates ($id, $start, $end);
     $resultRotation		= $DB->getRotationDates($id, $start, $end, $Keywords);
     $resultArray		= $DB->getDates($id, $start, $end, $Keywords);
@@ -131,6 +131,7 @@ function getDateList($id, $start, $end, $Keywords){
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
+*	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
 *	
@@ -140,8 +141,7 @@ function getDateList($id, $start, $end, $Keywords){
 *			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 *			
 */
-function getWholeDayDateList($id, $start, $end, $Keywords){
-    $DB				= new Database();
+function getWholeDayDateList($id, $start, $end, $Keywords, $DB){
     $neg_dates			= $DB->getNegRotationDates ($id, $start, $end);
     $resultRotation		= $DB->getFullDayRotationDates($id, $start, $end, $Keywords);
     $resultArray		= $DB->getFullDayDates($id, $start, $end, $Keywords);
@@ -174,6 +174,7 @@ function getWholeDayDateList($id, $start, $end, $Keywords){
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
+*	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
 *	
@@ -182,8 +183,8 @@ function getWholeDayDateList($id, $start, $end, $Keywords){
 *			is created, the first dimension holds 2-dimensional arrays of not colliding dates. 
 */
 
-function getDayList($id, $start, $end, $Keywords){
-    $unstreamedDates= getDateList($id, $start, $end, $Keywords);
+function getDayList($id, $start, $end, $Keywords, $DB){
+    $unstreamedDates= getDateList($id, $start, $end, $Keywords, $DB);
     //echo $unstreamedDates;
     
 
@@ -289,6 +290,7 @@ return $resultRotationCalculation;
 *	@param $groupID, the Group ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
+*	@param $DB, a DB class object.
 *	
 *	@description This function fetches date arrays from the database for a 
 *			given time frame, calls for the calculation of rotation dates and sorts these
@@ -296,10 +298,11 @@ return $resultRotationCalculation;
 *			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 *
 */
-function getGroupDatesForDisplay($groupID, $start, $end) {
-	  $DB						= new Database();
+function getGroupDatesForDisplay($groupID, $start, $end, $DB) {
 	  $GroupDates				= $DB->getGroupDates($groupID, $start, $end); //get dates
 	  $GroupRotationDates		= $DB->getGroupRotationDates ($groupID, $start, $end);
+
+
 
 	if ($GroupRotationDates && $GroupDates) {
 	    $rotationDates	= calculateDatesFromRotatation($start, $end, $GroupRotationDates, $neg_dates);

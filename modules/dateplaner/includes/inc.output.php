@@ -21,9 +21,9 @@
 */
 
 function doOutput($template) {
-		global $actualIliasDir,$templatefolder, $actualtemplate ,$PAGETITLE, $CSCW_StyleFname, $CSCW_Style, $CSCW_language, $CSCW_JSscript;
+		global $templatefolder, $actualtemplate ,$PAGETITLE, $DP_StyleFname, $DP_Style, $DP_language, $_SESSION;
 
-		if($CSCW_JSscript != "1") {
+		if($_SESSION[DP_JSscript] != "1" ) {
 			$jsscriptIn			= "<!-- ";
 			$jsscriptOut		= " -->";
 			$template	= str_replace("{jsscriptIn}","$jsscriptIn",$template);
@@ -33,14 +33,17 @@ function doOutput($template) {
 			$template	= str_replace("{jsscriptOut}","",$template);
 		}
 
+		$template	= str_replace("{TITLE}","$DP_language[title]",$template);
 		$template	= str_replace("{PAGETITLE}","$PAGETITLE",$template);
+		
+		$template	= str_replace("{DATEPLANER_ROOT_DIR}",DATEPLANER_ROOT_DIR,$template);
+		$template	= str_replace("{ILIAS_HTTP_PATH}",ILIAS_HTTP_PATH,$template);
 
-		$css		= '<LINK href="'.$templatefolder."/".$actualtemplate."/".$CSCW_Style.'.css" type="text/css" rel="stylesheet" />';
-        $template	= str_replace("{css}","$css",$template);
-
-		$css_ilias	= '<LINK href="'.$actualIliasDir.$CSCW_StyleFname.'" type="text/css" rel="stylesheet" />';
+		$css_ilias	= '<LINK href="'.$DP_StyleFname.'" type="text/css" rel="stylesheet" />';
         $template	= str_replace("{css_ilias}","$css_ilias",$template);
 
+		$css		= '<LINK href=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$DP_Style.'.css" type="text/css" rel="stylesheet" />';
+        $template	= str_replace("{css}","$css",$template);
         echo $template;
 	}
 ?>

@@ -1,24 +1,29 @@
 <?php
-/**
-* freetime
-*
-* Calculates and displays the free time of all members of a group.
-*   
-@author        Matthias Pohl <pohlm@operamail.com>    
-@module        Freetime.php                            
-@modulegroup   CSCW                    
-@version       $Id$                                    
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul - freetime												  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
 */
-
-//session_start() ;
-
-// CSCW HEader includieren
-require		 ('./includes/inc.cscw.header.php');
-require_once	('./includes/inc.output.php');
+// include DP freetime functions
+include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.freetime.php');
 		
-$DB				 = new Database();
-$Gui				= new Gui();
-$PAGETITLE		  = $CSCW_language[checkforfreetime];
 
 // Generiere Frames
 // -----------------------------------------  FEST ---------------------------------//
@@ -26,17 +31,12 @@ $PAGETITLE		  = $CSCW_language[checkforfreetime];
 $left	= '';
 // --------------------------------------  ende Fest -------------------------------//
 
-require_once	('./includes/inc.freetime.php');
-
-	global $CSCW_CSS, $CSCW_language, $templatefolder, $actualtemplate;
-
-
 //get start- and end-time for the view-area
-$viewTsBegin = strtotime($CSCW_Starttime);
-if ($CSCW_Endtime=="24:00:00"){
+$viewTsBegin = strtotime($_SESSION[DP_Starttime]);
+if ($DP_Endtime=="24:00:00"){
 $viewTsEnd = strtotime("23:59:59");
 }else{
-$viewTsEnd = strtotime($CSCW_Endtime);
+$viewTsEnd = strtotime($_SESSION[DP_Endtime]);
 }
 
 //convert the strings into timestamps 
@@ -85,16 +85,15 @@ $weekTs= str2date($_POST[date2]);
 $weekTs= mktime(0,0,0,date("m",$weekTs),(date("d",$weekTs)-((date("w",$weekTs)+6))%7),date("Y",$weekTs)); 
 
 // set variables 4 table-header
-setDateInTblHead($weekTs) ;
+$S_Datum = setDateInTblHead($weekTs) ;
 
 //get DB-result 4 current week
 for ($j=0;$j<7;$j++){
 	$begin= $weekTs+((24*60*60)*$j); 	//start of day 
 	$end= $begin+((24*60*60)-1); //end of day
 	$groupIDs=$_POST[DateValuesGroup_id];		//groupIds
-	$groupDates[$j]= getGroupDatesForDisplay($groupIDs, $begin, $end); //get dates
+	$groupDates[$j]= getGroupDatesForDisplay($groupIDs, $begin, $end, $DB); //get dates
 }
-
 //clear display-data
 for ($j=0;$j<7;$j++){
 	$dTargetTable[$j]=array_fill(0, 96, 0);
@@ -149,14 +148,14 @@ for($i=$startDisplayQuarters; $i <=$endDisplayQuarters-1; $i++){
 	for($j=0;$j<7;$j++){
 		$actTS=$weekTs+($min*60)+($j*24*60*60);	
 		if ($dTargetTable[$j][$i]==0){
-			$htmlBuffer=$htmlBuffer. "<TD ".$CSCW_CSS[tblrow02]." align=\"top\"".'>';
-			$htmlBuffer=$htmlBuffer. '<a TITLE='.$CSCW_language[free].' href="javascript:document.feedback.timestamp.value='.$actTS.';document.getElementsByName('."'feedback'".')[0].submit()'.'">';
-			$htmlBuffer=$htmlBuffer. '<img src="'.$templatefolder."/".$actualtemplate.'/images/filler.gif" width="60" height="10" border="0"></a>'."</TD>\n"; 
+			$htmlBuffer=$htmlBuffer. "<TD ".$DP_CSS[tblrow02]." align=\"top\"".'>';
+			$htmlBuffer=$htmlBuffer. '<a TITLE='.$DP_language[free]."&nbsp;".$hour.":".$quarter.' href="javascript:document.feedback.timestamp.value='.$actTS.';document.getElementsByName('."'feedback'".')[0].submit()'.'">';
+			$htmlBuffer=$htmlBuffer. '<img src=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate.'/images/filler.gif" width="60" height="10" border="0"></a>'."</TD>\n"; 
 		}
 		else{
 
-	  	  $htmlBuffer=$htmlBuffer. "<TD ".$CSCW_CSS[tblrow03]." align=\"top\"".'>';
-  		  $htmlBuffer=$htmlBuffer. '<img src="'.$templatefolder."/".$actualtemplate.'/images/filler.gif" width="60" height="10" border="0" >'."</TD>\n";
+	  	  $htmlBuffer=$htmlBuffer. "<TD ".$DP_CSS[tblrow03]." align=\"top\"".'>';
+  		  $htmlBuffer=$htmlBuffer. '<img src=".'.DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate.'/images/filler.gif" width="60" height="10" border="0" >'."</TD>\n";
   		  
 		}
 	}

@@ -1,38 +1,50 @@
 <?php
-
-//session_start() ;
-
-
-// CSCW HEader includieren
-require			('./includes/inc.cscw.header.php');
-require_once	('./includes/inc.day.php');
-require_once	('./includes/inc.output.php');
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul - day													  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+// include DP day functions
+include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.day.php');
 		
-$DB					= new Database();
-$Gui				= new Gui();
-$PAGETITLE			= "Day View";
 // Generiere Frames
 // -----------------------------------------  FEST ---------------------------------//
-$minical_show = setMinicalendar($month,$year, $CSCW_Lang);
-$keywords_float	= showKeywords($S_Keywords);
+$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
+$keywords_float	= showKeywords($_REQUEST[S_Keywords], $DB);
+//$keywords_float	= showKeywords($_REQUEST[S_Keywords], $DB);
 
 eval ("\$keywords_show = \"".$Gui->getTemplate("menue_keyword")."\";");
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
 // --------------------------------------  ende Fest -------------------------------//
 
-
-
-if ($timestamp) {
-	 $showdate = getDateForDay($timestamp);
-	 $day_navigation = navigation($timestamp);
-	 $wholeDayDayDates = getWholeDay($timestamp);
-	 $dayString = generateDay($timestamp);
+if ($_REQUEST[timestamp]) {
+	 $showdate = getDateForDay($_REQUEST[timestamp]);
+	 $day_navigation = navigation($_REQUEST[timestamp]);
+	 $wholeDayDayDates = getWholeDay($_REQUEST[timestamp], $DB);
+	 $dayString = generateDay($_REQUEST[timestamp], $DB);
 }else {	 $timestamp=(int)mktime(0,0,0);
 	 $showdate = getDateForDay($timestamp);
 	 $day_navigation = navigation($timestamp);
-	 $wholeDayDayDates = getWholeDay($timestamp);
-	 $dayString = generateDay($timestamp);
+	 $wholeDayDayDates = getWholeDay($timestamp, $DB);
+	 $dayString = generateDay($timestamp, $DB);
 	 
 }
 

@@ -21,19 +21,19 @@ class TimestampToDate {
 		* function ttd($timestamp)
 		* @description : send formated timstamp strings back
 		* @param int timestamp
-		* @global Array CSCW_language ( iunclude Langeproperties )
+		* @global Array DP_language ( iunclude Langeproperties )
 		* @return object
 		*/
 
 	    function ttd($timestamp) {
 
-			global $CSCW_language;
+			global $DP_language;
 
 	    	$tdd		=  date("d:w:m:Y:H:i:s",$timestamp);
 
-    	  	$months		= array("01"=>$CSCW_language[long_01],"02"=>$CSCW_language[long_02],"03"=>$CSCW_language[long_03],"04"=>$CSCW_language[long_04],"05"=>$CSCW_language[long_05],"06"=>$CSCW_language[long_06],"07"=>$CSCW_language[long_07],"08"=>$CSCW_language[long_08],"09"=>$CSCW_language[long_09],"10"=>$CSCW_language[long_10],"11"=>$CSCW_language[long_11],"12"=>$CSCW_language[long_12]);
+    	  	$months		= array("01"=>$DP_language[long_01],"02"=>$DP_language[long_02],"03"=>$DP_language[long_03],"04"=>$DP_language[long_04],"05"=>$DP_language[long_05],"06"=>$DP_language[long_06],"07"=>$DP_language[long_07],"08"=>$DP_language[long_08],"09"=>$DP_language[long_09],"10"=>$DP_language[long_10],"11"=>$DP_language[long_11],"12"=>$DP_language[long_12]);
 
-        	$days		=   array("0"=>$CSCW_language[Mo_long],"1"=>$CSCW_language[Tu_long],"2"=>$CSCW_language[We_long],"3"=>$CSCW_language[Th_long],"4"=>$CSCW_language[Fr_long],"5"=>$CSCW_language[Sa_long],"6"=>$CSCW_language[Su_long]);
+        	$days		=   array("0"=>$DP_language[Mo_long],"1"=>$DP_language[Tu_long],"2"=>$DP_language[We_long],"3"=>$DP_language[Th_long],"4"=>$DP_language[Fr_long],"5"=>$DP_language[Sa_long],"6"=>$DP_language[Su_long]);
 
 	        list($monthsday, $day,$month,$year,$hour,$minute,$second) = explode(":",$tdd);
 
@@ -58,22 +58,25 @@ class TimestampToDate {
 			$leapyear				= (date("L",$timestamp)) ? "0" : "1";
 			$this->leapyear			= $leapyear; // schaltjahr
 
-			$Date_format_middle		= $CSCW_language[date_format_middle];
+			$Date_format_middle		= $DP_language[date_format_middle];
 			switch($Date_format_middle) {
 				case 'd/m/y':
 					$this->longtime			= "$this->day_of_month_short. $months[$month] $year / $hour:$minute:$second $sl_language[hour] ";
 	       			$this->middletime		= "$this->day_of_month_short. $months[$month] $year / $hour:$minute $sl_language[hour] ";
 					$this->shorttime		= "$this->day_of_month_short. $months[$month] $year";
+					$this->extrashorttime	= "$this->day_of_month_short.$this->monthnumber_long.<BR>$year";
 					break; 
 				case 'm/d/y':
 					$this->longtime			= "$months[$month] $this->day_of_month_short$this->addEng  $year / $hour:$minute:$second $sl_language[hour] ";
 	       			$this->middletime		= "$months[$month] $this->day_of_month_short$this->addEng $year / $hour:$minute $sl_language[hour] ";
 					$this->shorttime		= "$months[$month] $this->day_of_month_short$this->addEng $year";
-					break;
+					$this->extrashorttime	= "$this->monthnumber_long/$this->day_of_month_short/<BR>$year";
+				break;
 				default :
 					$this->longtime			= "$this->day_of_month_short. $months[$month] $year / $hour:$minute:$second $sl_language[hour] ";
 	       			$this->middletime		= "$this->day_of_month_short. $months[$month] $year / $hour:$minute $sl_language[hour] ";
 					$this->shorttime		= "$this->day_of_month_short. $months[$month] $year";
+					$this->extrashorttime	= "$this->day_of_month_short.$this->monthnumber_long.<BR>$year";
 					break; 
 			}
 

@@ -4,7 +4,7 @@
       <tr>
         <td width="10">
 			<font color="#000000">
-				$CSCW_language[of]
+				$DP_language[of]
 			</font>
 		</td>
         <td width="75%">&nbsp;</td>
@@ -16,7 +16,7 @@
 		</td>
         <td width="75%">
 			<A id=anchor2 onclick="cal2.select(document.forms[1].date2,'anchor2','dd/MM/yyyy'); return false;" href="#" name=anchor2>
-				<IMG src="$templatefolder/$actualtemplate/images/cal.gif" border=0>
+				<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/cal.gif" border=0>
 			</A>
 		</td>
       </tr>
@@ -27,7 +27,7 @@
       <tr>
         <td width="10">
 			<font color="#000000">
-				$CSCW_language[to]	
+				$DP_language[to]	
 			</font>
 		</td>
         <td width="75%">&nbsp;</td>
@@ -39,7 +39,7 @@
 		</td>
         <td width="75%">
 			<A id=anchor4 onclick="cal4.select(document.forms[1].date4,'anchor4','dd/MM/yyyy'); return false;" href="#" name=anchor4>
-				<IMG src="$templatefolder/$actualtemplate/images/cal.gif" border=0>
+				<IMG src=".{DATEPLANER_ROOT_DIR}$templatefolder/$actualtemplate/images/cal.gif" border=0>
 			</A>
 		</td>
       </tr>
@@ -52,8 +52,8 @@
 		<input type="hidden" name="timestamp" value="$fromtime_ts" >
 		<input type="hidden" name="timestamp2" value="$totime_ts" >
 
-		<input type="submit" value="$CSCW_language[viewlist]">
-		<input type="button" value="$CSCW_language[printlist]" onclick="javascript:popup('list.php?PHPSESSID=$PHPSESSID&action=print','Date','width=640,height=640,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')" >
+		<input type="submit" value="$DP_language[viewlist]">
+		<input type="button" value="$DP_language[printlist]" onclick="javascript:popup('dateplaner.php?app=list&PHPSESSID=$PHPSESSID&action=print','Date','width=640,height=640,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')" >
 		 
 	</td>
   </tr>

@@ -1,66 +1,80 @@
 <?php
-//session_start() ;
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul - properties											  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+// include som properties functions
+include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.parse.php');
 
-// CSCW HEader includieren
-require			('./includes/inc.cscw.header.php');
-require_once	('./includes/inc.parse.php');
-require_once	('./includes/inc.output.php');
 
-// Objects
-$db = new Database();
-$Gui = new Gui($db);
-
-$PAGETITLE	= "Properties";
 $tableBorder = 0;
 // Generiere Frames
 // -----------------------------------------  FEST ---------------------------------//
-$minical_show = setMinicalendar($month,$year, $CSCW_Lang);
+$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
 //$keywords_show = showKeywords();
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
 // --------------------------------------  ende Fest -------------------------------//
 //*******************************************************************************************************
 	
-if ( $btn_accept == "OK" )
+if ($_REQUEST[btn_accept] == "OK" )
 {
-	if ($newKeyword != "")
+	if ($_REQUEST[newKeyword] != "")
 	{
-		$db->addKeyword( $CSCW_UId, $newKeyword );
+		$DB->addKeyword( $DP_UId, $_REQUEST[newKeyword] );
 	}
 
-	if ($keyword != "" AND $changedKeyword != "")
+	if ($_REQUEST[keyword] != "" AND $_REQUEST[changedKeyword] != "")
 	{	
-		$db->updateKeyword( $keyword, $changedKeyword );
+		$DB->updateKeyword( $_REQUEST[keyword], $_REQUEST[changedKeyword] );
 	}
 	
 }
 
-if ( $btn_delete == "$CSCW_language[delete]" )
+if ( $_REQUEST[btn_delete] == "$DP_language[delete]" )
 {
-		$db->delKeyword( $keyword );
+		$DB->delKeyword( $_REQUEST[keyword] );
 }
 
-if ( $btn_time == "OK" )
+if ( $_REQUEST[btn_time] == "OK" )
 {
-	$startEnd = $db->getStartEnd( $CSCW_UId );
+	$startEnd = $DB->getStartEnd( $DP_UId );
 	if ( $startEnd[0] != "" )
 	{	// Es ist schon ein Eintrag vorhanden
-		$db->updateStartEnd( $startEnd[0], $starttime, $endtime );
+		$DB->updateStartEnd( $startEnd[0], $_REQUEST[starttime], $endtime );
 		
 	}
 	else
 	{
 		// Noch kein Eintrag vorhanden
-		$db->addStartEnd( $CSCW_UId, $starttime, $endtime );
+		$DB->addStartEnd( $DP_UId, $_REQUEST[starttime], $_REQUEST[endtime] );
 		
 	}
-	$CSCW_Starttime		= $starttime;
-	$CSCW_Endtime		= $endtime;		
+	$_SESSION[DP_Starttime]	= $_REQUEST[starttime];
+	$_SESSION[DP_Endtime]	= $_REQUEST[endtime];		
 }
 
 
 
-$keywords = $db->getKeywords($CSCW_UId);
+$keywords = $DB->getKeywords($DP_UId);
 $x="";
 for ($i = 0; $i < count($keywords); $i++)
 {
@@ -75,7 +89,7 @@ $optionBox = $x;
 //*******************************************************************************************************
 if($_FILES) {
 
-$parsedata = parse($db,$_FILES);
+$parsedata = parse($DB,$_FILES);
 
 }
 
