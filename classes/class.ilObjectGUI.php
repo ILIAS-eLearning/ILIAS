@@ -1768,10 +1768,11 @@ class ilObjectGUI
 			if (empty($rolf_id))
 			{
 				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
+				// DEPRECATED
+				/*if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
-				}
+				}*/
 
 				// create a local role folder
 				$rfoldObj = $this->object->createRoleFolder();
