@@ -1721,6 +1721,21 @@ class ilObjSurvey extends ilObject
 		$part1 = array_values($part1);
 		$part2 = array_values($part2);
 		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
+		foreach ($move_questions as $question_id)
+		{
+			$constraints = $this->getConstraints($question_id);
+			foreach ($constraints as $idx => $constraint)
+			{
+				foreach ($part2 as $next_question_id)
+				{
+					if ($constraint["question"] == $next_question_id)
+					{
+						// constraint concerning a question that follows -> delete constraint
+						$this->deleteConstraint($constraint["id"], $question_id);
+					}
+				}
+			}
+		}
 		$this->saveQuestionsToDb();
 	}
 	
@@ -1736,6 +1751,44 @@ class ilObjSurvey extends ilObject
 	{
 		$question = new SurveyQuestion();
 		$question->delete($question_id);
+		$this->removeConstraintsConcerningQuestion($question_id);
+	}
+	
+/**
+* Remove constraints concerning a question with a given question_id
+*
+* Remove constraints concerning a question with a given question_id
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+	function removeConstraintsConcerningQuestion($question_id)
+	{
+		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($question_id . ""),
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() > 0)
+		{
+			$remove_constraints = array();
+			while ($row = $result->fetchRow(DB_FETCHMODE_HASHREF))
+			{
+				array_push($remove_constraints, $row["constraint_fi"]);
+			}
+			$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+				$this->ilias->db->quote($question_id . ""),
+				$this->ilias->db->quote($this->getSurveyId() . "")
+			);
+			$result = $this->ilias->db->query($query);
+			foreach ($remove_constraints as $key => $constraint_id)
+			{
+				$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+					$this->ilias->db->quote($constraint_id . "")
+				);
+				$result = $this->ilias->db->query($query);
+			}
+		}
 	}
 		
 /**
