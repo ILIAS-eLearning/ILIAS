@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Akces
@@ -117,6 +118,7 @@ common#:#choose_location#:#wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
+common#:#client_id#:#Client ID###19 Nov 2003 new variable
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#comma_separated#:#Odzielony przecinkiem
@@ -153,6 +155,7 @@ common#:#day#:#Dzień
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
 common#:#db_name#:#Nazwa bazy danych
+common#:#db_need_update#:#Database needs an update!###19 Nov 2003 new variable
 common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#Użytkownik bazy danych
@@ -167,6 +170,7 @@ common#:#default_language#:#Domyślny język
 common#:#default_role#:#Domyślne stanowisko
 common#:#default_roles#:#Domyślne stanowiska
 common#:#default_skin#:#Domyślna skórka
+common#:#default_skin_style#:#Default Skin / Style###19 Nov 2003 new variable
 common#:#default_style#:#Domyślny styl
 common#:#delete#:#Usuń
 common#:#delete_all#:#Usuń wszystko
@@ -244,8 +248,8 @@ common#:#feedback#:#Informacja systemowa
 common#:#feedback_recipient#:#Odbiorca
 common#:#file#:#Plik
 common#:#file_a#:#Plik
-common#:#file_added#:#Plik załadowany
 common#:#file_add#:#Wyślij plik
+common#:#file_added#:#Plik załadowany
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
@@ -257,8 +261,8 @@ common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
 common#:#fold#:#Folder
 common#:#fold_a#:#Folder
-common#:#fold_added#:#Folder dodany
 common#:#fold_add#:#Dodaj Folder
+common#:#fold_added#:#Folder dodany
 common#:#fold_new#:#Nowy Folder
 common#:#folders#:#Foldery
 common#:#force_accept_usr_agreement#:#Musisz zaakceptować zgodę użytkownika.
@@ -356,9 +360,9 @@ common#:#inform_user_mail#:#Wyślij email aby poinformować użytkownika o zmian
 common#:#information_abbr#:#Informacje
 common#:#ingmedia_all_offers#:#Wszystkie LE
 common#:#ingmedia_back_to_le#:#Powrót do LE
-common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_afternoon#:#Dzień dobry
 common#:#ingmedia_good_evening#:#Dobry wieczór
+common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_night#:#Dobranoc
 common#:#ingmedia_hello#:#Cześć
 common#:#ingmedia_info_about_work1#:#Na
@@ -537,6 +541,7 @@ common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
+common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###19 Nov 2003 new variable
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Stanowiska.
@@ -668,8 +673,10 @@ common#:#paste#:#Wklej
 common#:#pasteChapter#:#Wklej rozdział
 common#:#pastePage#:#Wklej stronę
 common#:#path#:#Scieżka
+common#:#path_not_set#:#Path not set###19 Nov 2003 new variable
 common#:#path_to_babylon#:#Ścieżka do Babylon
 common#:#path_to_convert#:#Ściezka do Convert
+common#:#path_to_htmldoc#:#Path to HTMLdoc###19 Nov 2003 new variable
 common#:#path_to_java#:#Ścieżka do Javy
 common#:#path_to_unzip#:#Ściezka do Unzip
 common#:#path_to_zip#:#Ścieżka do Zip
@@ -780,6 +787,7 @@ common#:#sent#:#Wyślij
 common#:#sequence#:#Sekwencja
 common#:#sequences#:#Sekwencje
 common#:#server#:#Serwer
+common#:#server_data#:#Server data ###19 Nov 2003 new variable
 common#:#server_software#:#Oprogramowanie serwera
 common#:#set#:#Ustaw
 common#:#setSystemLanguage#:#Ustaw język systemowy
@@ -868,7 +876,6 @@ common#:#usr_agreement#:#Zgoda użytkownika
 common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
 common#:#usr_edit#:#Edytuj użytkownika
 common#:#usr_new#:#Nowy użytkownik
-common#:#usr_skin#:#Skórka użytkownika
 common#:#usr_style#:#Styl użytkownika
 common#:#usrf#:#Folder użytkownika
 common#:#validate#:#Zatwierdź
@@ -879,7 +886,6 @@ common#:#view_content#:#Zawartość widoku
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
 common#:#week#:#Tydzień
-common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
@@ -961,7 +967,6 @@ content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
-ontent#:#cont_insert_file_item#:#Wstaw plik
 content#:#cont_insert_file_list#:#Wstaw listę plików
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny

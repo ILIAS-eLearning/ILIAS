@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
 common#:#absolute_path#:#absolute path###20 Mar 2003 new variable
 common#:#accept_usr_agreement#:#accept user agreement?###20 Mar 2003 new variable
 common#:#access#:#access###20 Mar 2003 new variable
@@ -117,6 +118,7 @@ common#:#choose_location#:#Choose Location###06 Aug 2003 new variable
 common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 2003 new variable
 common#:#city#:#ciudad
 common#:#clear#:#clear
+common#:#client_id#:#Client ID###19 Nov 2003 new variable
 common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
 common#:#close#:#Close###28 Sep 2003 new variable
 common#:#comma_separated#:#comma separated
@@ -153,6 +155,7 @@ common#:#day#:#Day###01 Sep 2003 new variable
 common#:#days#:#Days###25 Mar 2003 new variable
 common#:#db_host#:#database host
 common#:#db_name#:#database name
+common#:#db_need_update#:#Database needs an update!###19 Nov 2003 new variable
 common#:#db_pass#:#database password
 common#:#db_type#:#database type
 common#:#db_user#:#database user
@@ -167,6 +170,7 @@ common#:#default_language#:#Default Language###20 Mar 2003 new variable
 common#:#default_role#:#Default Role###05 Nov 2003 new variable
 common#:#default_roles#:#Default Roles###01 Nov 2003 new variable
 common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
+common#:#default_skin_style#:#Default Skin / Style###19 Nov 2003 new variable
 common#:#default_style#:#Default Style###20 Mar 2003 new variable
 common#:#delete#:#delete
 common#:#delete_all#:#delete all
@@ -537,6 +541,7 @@ common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templat
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas###07 Jul 2003 new variable
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings###08 Jul 2003 new variable
+common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###19 Nov 2003 new variable
 common#:#msg_no_perm_write#:#You have no permission to write###07 Jul 2003 new variable
 common#:#msg_no_rolf_allowed1#:#The object###10 Jul 2003 new variable
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.###10 Jul 2003 new variable
@@ -668,8 +673,10 @@ common#:#paste#:#paste
 common#:#pasteChapter#:#Paste###19 Sep 2003 new variable
 common#:#pastePage#:#Paste###19 Sep 2003 new variable
 common#:#path#:#path
+common#:#path_not_set#:#Path not set###19 Nov 2003 new variable
 common#:#path_to_babylon#:#path to babylon
 common#:#path_to_convert#:#path to convert
+common#:#path_to_htmldoc#:#Path to HTMLdoc###19 Nov 2003 new variable
 common#:#path_to_java#:#path to java
 common#:#path_to_unzip#:#path to unzip
 common#:#path_to_zip#:#path to zip
@@ -780,6 +787,7 @@ common#:#sent#:#sent
 common#:#sequence#:#sequence
 common#:#sequences#:#sequences
 common#:#server#:#server
+common#:#server_data#:#Server data ###19 Nov 2003 new variable
 common#:#server_software#:#server software
 common#:#set#:#set
 common#:#setSystemLanguage#:#Set System Language###19 Apr 2003 new variable
