@@ -651,6 +651,7 @@ common#:#msg_multi_language_selected#:#Vous avez choisi la même langue pour plu
 common#:#msg_no_default_language#:#Pas de langage par défaut spécifié !  Vous devez définir une traduction comme traduction par défaut.
 common#:#msg_no_delete_yourself#:#Vous ne pouvez pas détruire votre propre compte utilisateur.
 common#:#msg_no_language_selected#:#Pas de langue de traduction spécifiée !  Vous devez définir une langue pour chaque traduction.
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Vous n'avez pas la permission de créer une copie des objets suivants : 
 common#:#msg_no_perm_create#:#Vous n'avez pas la permission de créer les objets suivants :
 common#:#msg_no_perm_create_object1#:#Vous n'avez pas la permission de créer
@@ -673,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#L'objet
 common#:#msg_no_rolf_allowed2#:#ne peut pas contenir un dossier de rôles.
 common#:#msg_no_search_result#:#Pas d'entrée trouvée
 common#:#msg_no_search_string#:#Veuillez saisir votre requête
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#La page que vous avez choisie n'est accessible que pour les utilisateurs enregistrés.
 common#:#msg_not_in_itself#:#Il n'est pas possible de coller l'objet en lui-même
 common#:#msg_not_possible_link#:#Il n'est pas possible de créer un lien depuis l'objet : Type

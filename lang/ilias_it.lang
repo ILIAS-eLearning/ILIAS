@@ -651,6 +651,7 @@ common#:#msg_multi_language_selected#:#Hai selezionato la stessa lingua per trad
 common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predefinita! Devi indicare una traduzione come predefinita.
 common#:#msg_no_delete_yourself#:#Non puoi cancellare il tuo stesso utente.
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Non hai i permessi per creare una copia dei seguenti oggetti: 
 common#:#msg_no_perm_create#:#Non hai i permessi per creare i seguenti oggetti: 
 common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione
@@ -673,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#L&#039;oggetto
 common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_not_possible_link#:#Non &#232; possibile creare il collegamento dell&#039;oggetto: Tipo
@@ -895,7 +897,7 @@ common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruol
 common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
-common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
+common#:#rolf_write#:#Modificare i ruoli o i template di ruolo###01 Feb 2004 content changed
 common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo
 common#:#rolt_add#:#Aggiungi template di ruolo

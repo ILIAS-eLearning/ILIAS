@@ -651,6 +651,7 @@ common#:#msg_multi_language_selected#:#U hebt dezelfde taal voor verschillende v
 common#:#msg_no_default_language#:#Geen standaard-taal gespecificeerd! U moet één  default-taal definiëren.
 common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-account niet verwijderen.
 common#:#msg_no_language_selected#:#Geen vertaal-taal gespecificeerd! U moet een taal  definiëren voor elke vertaling
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#U heeft geen toestemming voor het creëren van een kopie van het/de volgende object(en):
 common#:#msg_no_perm_create#:#U heeft geen toestemming voor het creëren van het/de volgende object(en):
 common#:#msg_no_perm_create_object1#:#U heeft geen toestemming voor het creëren van
@@ -673,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#Het object
 common#:#msg_no_rolf_allowed2#:#kan geen rollen-map bevatten
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
 common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
 common#:#msg_not_possible_link#:#Het is niet mogelijk een link te creëren van dit object: Type

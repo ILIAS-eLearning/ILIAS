@@ -43,8 +43,6 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role 
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
@@ -653,6 +651,7 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -675,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role 
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
