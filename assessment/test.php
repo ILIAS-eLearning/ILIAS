@@ -118,6 +118,7 @@ switch ($_GET["cmd"])
 {
 	case "run":
 	case "eval_a":
+	case "eval_stat":
 		$prepare_output = false;
 		break;
 	default:
