@@ -66,7 +66,7 @@ class ilLMPresentationGUI
 				$this->lm_gui = new ilObjDlBookGUI($data,$_GET["ref_id"],true,false);
 				break;
 			case "lm":
-				include_once("./content/classes//class.ilObjLearningModuleGUI.php");
+				include_once("./content/classes/class.ilObjLearningModuleGUI.php");
 
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
 				break;
@@ -308,7 +308,7 @@ class ilLMPresentationGUI
 	* generates frame layout
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
-	{
+	{ 
 		global $tpl;
 		$layout = $this->lm->getLayout();
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
@@ -367,7 +367,7 @@ class ilLMPresentationGUI
 				$childs = $node->child_nodes();
 				$found = false;
 				foreach($childs as $child)
-				{
+				{ 
 					if ($child->node_name() == $obj_type)
 					{
 						$found = true;
@@ -862,7 +862,7 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
-		return $page_object_gui->presentation();
+		return $page_object_gui->presentation(); 
 	}
 
 
