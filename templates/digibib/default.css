@@ -45,7 +45,7 @@ a.btn {
 }
 
 a.tblheader:visited, a.tblheader:hover {
-                color:#ffffff;
+        color:#000000;
 }
 
 a.btn:visited {
@@ -92,7 +92,7 @@ table {
 	border-width: 0px;
 	border-spacing: 0px;
 	border-collapse: collapse;
-	
+
 }
 
 tr.treeTopline {
@@ -161,7 +161,7 @@ td.treeCenter {
 /*------------- style for buttons ------------------------------*/
 .btn {
 /*        background-color:#006699; */
-        background-color: #ff9900; 
+        background-color: #ff9900;
         color:#ffffff;
 }
 
@@ -189,8 +189,10 @@ td.treeCenter {
 /* -------------------- table formatting ------------------ */
 
 .tblheader {
-     color:#ffffff;
-     background-color:#ff9900;
+     color:#000000;
+     background-color:#ffcc66;
+     font-size:18px;
+     font-family: Times, Times New Roman;
 }
 
 /* ----------------- alternative text styles ------------- */

@@ -1,7 +1,7 @@
 if (document.images)
 {
-	var path = "./templates/default/images/navbar/";
-	
+	var path = "./templates/digibib/images/navbar/";
+
 	imag = new Array();
 	imag[0]  = path + "desk.gif";
 	imag[1]  = path + "course.gif";
@@ -33,7 +33,7 @@ if (document.images)
 	imag[27] = path + "admin_o.gif";
 
 	im = new Array();
-	
+
 	for (var i = 0; i < imag.length; i++)
 	{
 		im[i] = new Image();
