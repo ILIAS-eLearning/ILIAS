@@ -764,6 +764,8 @@ class ilObjUser extends ilObject
 		$this->ilias->db->query($q);
 
 		// DELETE FORUM ENTRIES (not complete in the moment)
+		include_once './classes/class.ilObjForum.php';
+
 		ilObjForum::_deleteUser($this->getId());
 
 

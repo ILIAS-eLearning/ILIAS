@@ -534,6 +534,11 @@ class ilForum
 		// if deletePost is thread opener ...
 		if ($p_node["parent"] == 0)
 		{
+			// delete thread access data
+			include_once './classes/class.ilObjForum.php';
+
+			ilObjForum::_deleteAccessEntries($p_node['tree']);
+
 			// delete thread
 			$dead_thr = $p_node["tree"];
 			$query = "DELETE FROM frm_threads ".
