@@ -1364,7 +1364,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable(strtoupper($key), $val);
 		}
 
-		$stati = array("group_status_public","group_status_private","group_status_closed");
+		$stati = array("group_status_public","group_status_closed");
 
 		//build form
 		$opts = ilUtil::formSelect(0,"group_status_select",$stati);

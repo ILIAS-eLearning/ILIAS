@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.36 2003/09/29 13:03:58 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.37 2003/09/30 12:35:34 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,7 +81,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$stati = array("group_status_public","group_status_private","group_status_closed");
+		$stati = array("group_status_public","group_status_closed");
 
 		//build form
 		$opts = ilUtil::formSelect(0,"group_status",$stati);
