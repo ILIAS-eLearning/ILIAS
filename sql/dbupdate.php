@@ -2264,7 +2264,6 @@ ALTER  TABLE  `qpl_questions`  ADD  `working_time` TIME DEFAULT  '00:00:00' NOT 
 ALTER  TABLE  `qpl_questions`  ADD  `shuffle` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `working_time` ;
 <#152>
 ALTER TABLE `frm_posts` ADD `pos_subject` TEXT NOT NULL AFTER `pos_message` ;
-ALTER TABLE `frm_posts` ADD `pos_subject` TEXT NOT NULL AFTER `pos_message` ;
 <#153>
 ALTER TABLE content_object ADD COLUMN toc_active ENUM('y','n') DEFAULT 'y';
 ALTER TABLE content_object ADD COLUMN lm_menu_active ENUM('y','n') DEFAULT 'y';
