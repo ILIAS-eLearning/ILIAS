@@ -38,6 +38,14 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#guest#:#Guest
+common#:#guests#:#Guests
+common#:#and#:#and
+common#:#msg_sysrole_not_deletable#:#The systemrole cannot be deleted
+common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
+common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
+common#:#show_details#:#show details
+common#:#hide_details#:#hide details
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate

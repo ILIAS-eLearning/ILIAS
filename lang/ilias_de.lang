@@ -38,6 +38,15 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
+common#:#guest#:#Gast
+common#:#guests#:#Gäste
+common#:#and#:#und
+common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
+common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle können nicht geändert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschränkten Zugriff auf alle Objekte und Funktionen.
+common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
+common#:#fullname#:#Voller Name
+common#:#show_details#:#Details anzeigen
+common#:#hide_details#:#Details ausblenden
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
