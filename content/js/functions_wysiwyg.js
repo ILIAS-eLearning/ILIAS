@@ -101,7 +101,12 @@ function initEditor(TextAreaName)
                   }
     });
 	
-  	cfg.pageStyle = ".footnote { color:0000FF; } .iliasquot {color: rgb(165, 42, 42); font-style: italic;} .iliascom {color: rgb(0, 128, 0);} .iliasstrong {font-weight: bold;} .iliasemp {font-style: italic;} ";
+  	cfg.pageStyle = ".footnote { color:0000FF; } ";
+	cfg.pageStyle += ".iliasquot {color: rgb(165, 42, 42); font-style: italic;} ";
+	cfg.pageStyle += ".iliascom {color: rgb(0, 128, 0);} ";
+	cfg.pageStyle += ".iliasstrong {font-weight: bold;} ";
+	cfg.pageStyle += ".iliasemp {font-style: italic;} ";
+	cfg.pageStyle += ".iliasxln {color: 800000;text-decoration:underline;}";
 	cfg.statusBar = false;
 	
 	cfg.toolbar = [
@@ -212,11 +217,13 @@ function buttonFootnote()
 */
 function buttonExternalLink() 
 {
-	
+	w = window.open("lm_edit.php?cmd=popup&ptype=xtl","xtl","width=500,height=450,resizable=yes");
+	setTimeout("w.focus()",500);
 }	
 	
 function buttonInternalLink() 
 {
-	
+	w = window.open("lm_edit.php?cmd=popup&ptype=xtl","xtl","width=500,height=450,resizable=yes");
+	setTimeout("w.focus()",500);
 }	
 	

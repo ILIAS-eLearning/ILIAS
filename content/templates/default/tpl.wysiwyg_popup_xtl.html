@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+</head>
+
+<body onLoad="initForm();">
+
+<form method=post name="form">
+<br>
+Externe URL:<br>
+<input type="text" size="30" name="externalurl" value="http://www." style="width:100%">
+<p>
+Titel:<br>
+<input type="text" size="30" name="externaltitle" value="" style="width:100%">
+<p>
+<table cellspacing="0" cellpadding="0" width="100%"><tr><td>
+	<input type="button" value="Link übernehmen" onClick="returnXtlLink();">
+</td><td align=right>
+	<input type="button" value="Fenster schließen" onClick="window.close();">
+</td></tr></table>
+
+</form>
+
+
+<script>
+
+function initForm()
+{
+	if ( opener.editor.hasSelectedText() )
+	{
+		document.form.externaltitle.value = opener.editor.getSelectedHTML();
+		if(document.form.externaltitle.value=="&nbsp;") document.form.externaltitle.value = "";
+		document.form.externalurl.focus();
+	}
+	window.focus();		
+}
+
+function returnXtlLink() 
+{
+	//opener.editor.surroundHTML("[xln url=&quot;"+document.form.externalurl.value+"&quot;]"+document.form.externaltitle.value,"[/xln]");
+	opener.editor.insertHTML("<span class=\"iliasxln\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</span>");
+	window.close();
+}
+</script>
+
+</body>
+</html>
