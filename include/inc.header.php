@@ -113,7 +113,7 @@ if (DEBUG)
 $ilias->auth->start();
 
 // start logging
-$log = new ilLog("ilias.log");
+$log = new ilLog(ILIAS_LOG_PATH,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
 
 // load object definitions
 $objDefinition = new ilObjectDefinition();

@@ -68,7 +68,11 @@ require_once "../classes/class.ilErrorHandling.php";
 // set ilias pathes
 define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
 define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
+
 define ("TPLPATH","./templates/blueshadow");
+
+//define ("ILIAS_ABSOLUTE_PATH",dirname(__FILE__));
+//var_dump(ILIAS_ABSOLUTE_PATH);exit;
 
 // init session
 $sess = new Session();
@@ -77,7 +81,7 @@ $sess = new Session();
 $lng = new ilLanguage($_GET["lang"]);
 
 // init log
-$log = new ilLog("ilias.log");
+$log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
