@@ -98,6 +98,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			default:
+				if (isset($_POST["editImagemapForward"]))
+				{
+					$cmd = "editImagemapForward";
+				}
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
@@ -1634,6 +1638,27 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+
+	/**
+	* get image map coords
+	*/
+	function editImagemapForwardObject()
+	{
+		ilObjMediaObjectGUI::_recoverParameters();
+
+		if ($_SESSION["il_map_edit_coords"] != "")
+		{
+			$_SESSION["il_map_edit_coords"] .= ",";
+		}
+
+		$_SESSION["il_map_edit_coords"] .= $_POST["editImagemapForward_x"].",".
+			$_POST["editImagemapForward_y"];
+
+		// call lm_edit script
+		ilUtil::redirect($_SESSION["il_map_edit_target_script"]);
+	}
+
 
 	/**
 	*
