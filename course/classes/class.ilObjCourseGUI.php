@@ -224,12 +224,12 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 
-		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.crs_htmleditor.html", true);
-		$this->tpl->setCurrentBlock("htmlarea");
-		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
-		$this->tpl->setVariable("JAVASCRIPT_PATH", "./assessment/templates/default/javascript");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
+		#$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.crs_htmleditor.html", true);
+		#$this->tpl->setCurrentBlock("htmlarea");
+		#$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		#$this->tpl->setVariable("JAVASCRIPT_PATH", "./assessment/templates/default/javascript");
+		#$this->tpl->parseCurrentBlock();
+		#$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html",true);
@@ -575,6 +575,8 @@ class ilObjCourseGUI extends ilObjectGUI
 			? true : false;
 
 		$this->object->initCourseArchiveObject();
+		$this->object->archives_obj->initCourseFilesObject();
+
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive.html",true);
 
@@ -597,7 +599,10 @@ class ilObjCourseGUI extends ilObjectGUI
 			{
 				$f_result[$counter][]	= ilUtil::formCheckbox(0,"archives[]",$id);
 			}
-			$f_result[$counter][]	= $archive_data["archive_name"];
+			$link = '<a href="'.$this->object->archives_obj->course_files_obj->getOnlineLink($archive_data['archive_name']).'"'.
+				' target="_blank">'.$archive_data["archive_name"].'</a>';
+
+			$f_result[$counter][]	= $link;
 			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
 			$f_result[$counter][]	= $archive_data["archive_size"];
 
@@ -649,6 +654,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->object->initCourseArchiveObject();
+		$this->object->archives_obj->initCourseFilesObject();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html",true);
 
@@ -679,7 +685,17 @@ class ilObjCourseGUI extends ilObjectGUI
 		foreach($archives as $id => $archive_data)
 		{
 			$f_result[$counter][]	= ilUtil::formCheckbox(in_array($id,$_POST["archives"]),"archives[]",$id);
-			$f_result[$counter][]	= $archive_data["archive_name"];
+
+			if($archive_data['archive_type'] == $this->object->archives_obj->ARCHIVE_HTML)
+			{
+				$link = '<a href="'.$this->object->archives_obj->course_files_obj->getOnlineLink($archive_data['archive_name']).'"'.
+					' target="_blank">'.$archive_data["archive_name"].'</a>';
+			}
+			else
+			{
+				$link = $archive_data["archive_name"];
+			}
+			$f_result[$counter][]	= $link;
 			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
 			$f_result[$counter][]	= $archive_data["archive_size"];
 
