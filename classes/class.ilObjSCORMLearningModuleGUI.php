@@ -310,8 +310,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// include_once("include/inc.convertcharset.php");
 		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
 
-		// check if manifestfile exists...if not, give out errormessage!
-		if (is_file($manifest_file)) {
+		// check if manifestfile exists and space left on device...
+		$check_for_manifest_file=is_file($manifest_file);
+		if ($check_for_manifest_file) {
+			// to copy the file we need some extraspace, counted in bytes *2 ... we need 2 copies....
+			$estimated_manifest_filesize=filesize($manifest_file) * 2;
+			$check_disc_free=disk_free_space($newObj->getDataDirectory()) - $estimated_manifest_filesize;
+		}
+		
+		// if file exists and enough space left on device		
+		if ($check_for_manifest_file && ($check_disc_free > 1)) {
 			
 			// create backup from original
 			if (!copy($manifest_file, $manifest_file.".old")) {
@@ -341,7 +349,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 				$this->ilias->error_obj->WARNING);
 			}
 		} else { 
-			echo "Manifestfile $manifest_file not found!";
+			// gives out the specific error
+			if (!$check_for_manifest_file) echo "Manifestfile $manifest_file not found!";
+			if (!($check_disc_free > 1)) echo "Not enough space left on device!";			
 		}
 			
 		//validate the XML-Files in the SCORM-Package
