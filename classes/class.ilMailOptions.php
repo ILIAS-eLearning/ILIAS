@@ -81,14 +81,13 @@ class ilMailOptions
 	* @access	public
 	* @return	boolean
 	*/
-	function createMailOptionsEntry()
-	{
-		$query = "INSERT INTO $this->table_mail_options ".
-			"VALUES('".$this->user_id."','".DEFAULT_LINEBREAK."','',0)";
-
-		$res = $this->ilias->db->query($query);
-		return true;
-	}
+    function createMailOptionsEntry()
+    {
+        $query = "INSERT INTO $this->table_mail_options VALUES('" . 
+            $this->user_id . "','" . DEFAULT_LINEBREAK . "','',0)";
+        $res = $this->ilias->db->query($query);
+        return true;
+    }
 
 	/**
 	* get options of user and set variables $signature and $linebreak
