@@ -92,9 +92,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				//$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
 				//$contObjLocator->setObject($this->obj);
 				//$contObjLocator->setContentObject($this->content_object);
-
-				$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+				$page_object =& $this->obj->getPageObject();
+				$page_object->buildDom();
+				$int_links = $page_object->getInternalLinks();
+				$link_xml = $this->getLinkXML($int_links);
+				$page_gui =& new ilPageObjectGUI($page_object);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setLinkXML($link_xml);
 				$page_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
@@ -190,6 +194,78 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		}
 		//$this->ctrl->returnToParent($this);
 	}
+
+	/**
+	* get link targets
+	*/
+	function getLinkXML($a_int_links)
+	{
+		if ($a_layoutframes == "")
+		{
+			$a_layoutframes = array();
+		}
+		$link_info = "<IntLinkInfos>";
+		foreach ($a_int_links as $int_link)
+		{
+			$target = $int_link["Target"];
+			if (substr($target, 0, 4) == "il__")
+			{
+				$target_arr = explode("_", $target);
+				$target_id = $target_arr[count($target_arr) - 1];
+				$type = $int_link["Type"];
+				$targetframe = ($int_link["TargetFrame"] != "")
+					? $int_link["TargetFrame"]
+					: "None";
+
+				switch($type)
+				{
+					case "PageObject":
+					case "StructureObject":
+						$lm_id = ilLMObject::_lookupContObjID($target_id);
+						$cont_obj =& $this->content_object;
+						if ($lm_id == $cont_obj->getId())
+						{
+							if ($type == "PageObject")
+							{
+								$this->ctrl->setParameter($this, "obj_id", $target_id);
+								$href = $this->ctrl->getLinkTargetByClass(get_class($this), "view", "", true);
+							}
+							else
+							{
+								$this->ctrl->setParameterByClass("ilstructureobjectgui", "obj_id", $target_id);
+								$href = $this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view", "", true);
+							}
+							$href = str_replace("&", "&amp;", $href);
+							$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+						}
+						else
+						{
+							$href = "../goto.php?target=pg_".$target_id;
+							$ltarget = "ilContObj".$lm_id;
+						}
+						break;
+
+					case "GlossaryItem":
+						$ltarget = $nframe = "_new";
+						$href = "lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
+							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+						break;
+
+					case "MediaObject":
+						$ltarget = $nframe = "_new";
+						$href = "lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
+						break;
+				}
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+			}
+		}
+		$link_info.= "</IntLinkInfos>";
+
+		return $link_info;
+	}
+
 
 	/**
 	* output tabs
