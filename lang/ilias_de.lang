@@ -528,6 +528,11 @@ common#:#other#:#Andere
 common#:#overview#:#übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
+common#:#pg_a#:#eine Seite
+common#:#pg_add#:#Seite anlegen
+common#:#pg_added#:#Seite angelegt
+common#:#pg_edit#:#Seite bearbeiten
+common#:#pg_new#:#Neue Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
@@ -650,6 +655,11 @@ common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
+common#:#st_a#:#ein Kapitel
+common#:#st_add#:#Kapitel anlegen
+common#:#st_added#:#Kapitel angelegt
+common#:#st_edit#:#Kapitel bearbeiten
+common#:#st_new#:#Neues Kapitel
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
@@ -948,6 +958,8 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
+meta#:#meta_add#:#Hinzufügen
+meta#:#meta_atomic#:#Atomar
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
 meta#:#meta_c_AF#:#Afghanistan
@@ -1186,8 +1198,17 @@ meta#:#meta_c_ZM#:#Sambia
 meta#:#meta_c_ZR#:#Zaire
 meta#:#meta_c_ZW#:#Simbabwe
 meta#:#meta_c_ZZ#:#Andere Länder
-meta#:#meta_general#:#General
-meta#:#meta_identifier#:#Identifier
+meta#:#meta_catalog#:#Katalog
+meta#:#meta_collection#:#Sammlung
+meta#:#meta_choose_element#:#Bitte wählen Sie das Element, das Sie hinzufügen möchten!
+meta#:#meta_choose_language#:#Bitte wählen Sie eine Sprache
+meta#:#meta_choose_section#:#Bitte wählen Sie einen Bereich
+meta#:#meta_delete#:#Löschen
+meta#:#meta_description#:#Beschreibung
+meta#:#meta_entry#:#Eintrag
+meta#:#meta_general#:#Allgemein
+meta#:#meta_hierarchical#:#Hierarchisch
+meta#:#meta_identifier#:#Kennung
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#Abchasisch
 meta#:#meta_l_af#:#Afrikaans
@@ -1328,7 +1349,14 @@ meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
 meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
+meta#:#meta_linear#:#Linear
+meta#:#meta_keyword#:#Schlagwort
+meta#:#meta_networked#:#Vernetzt
+meta#:#meta_new_element#:#Neues Element
+meta#:#meta_please_select#:#Bitte wählen Sie
+meta#:#meta_structure#:#Struktur
 meta#:#meta_title#:#Titel
+meta#:#meta_value#:#Wert
 search#:#search_all_results#:#Alle Resultate
 search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt

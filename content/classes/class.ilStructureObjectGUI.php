@@ -232,12 +232,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 	function save()
 	{
-		// create new object
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_data =& $meta_gui->create();
+		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
+
 		$this->obj =& new ilStructureObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType($_GET["new_type"]);
+		$this->obj->setTitle($_POST["Fobject"]["title"]);
+		$this->obj->setDescription($_POST["Fobject"]["desc"]);
 		$this->obj->setLMId($this->content_object->getId());
 		$this->obj->create();
 

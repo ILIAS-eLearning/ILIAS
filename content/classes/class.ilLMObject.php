@@ -43,6 +43,7 @@ class ilLMObject
 	var $data_record;		// assoc array of lm_data record
 	var $content_object;
 	var $title;
+	var $description;
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
@@ -95,6 +96,17 @@ class ilLMObject
 	function getTitle()
 	{
 		return $this->title ? $this->title : $this->meta_data->getTitle();
+	}
+
+	function setDescription($a_description)
+	{
+		$this->meta_data->setDescription($a_description);
+		$this->description = $a_description;
+	}
+
+	function getDescription()
+	{
+		return $this->description ? $this->description : $this->meta_data->getDescription();
 	}
 
 	function setType($a_type)
@@ -151,7 +163,6 @@ class ilLMObject
 
 	function create()
 	{
-
 		// insert object data
 		$query = "INSERT INTO lm_data (title, type, lm_id, import_id) ".
 			"VALUES ('".$this->getTitle()."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId()."')";
@@ -161,6 +172,7 @@ class ilLMObject
 		// create meta data
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
+		$this->meta_data->setObject($this);
 		$this->meta_data->create();
 
 	}
@@ -202,7 +214,11 @@ class ilLMObject
 
 	function delete()
 	{
-		$this->meta_data->delete();
+		/* Delete meta data in nested set table for given object and type */
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+
 		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
 	}

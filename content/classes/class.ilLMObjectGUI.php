@@ -54,24 +54,26 @@ class ilLMObjectGUI
 		$this->content_object =& $a_content_obj;
 	}
 
-	function add_meta()
+	function addMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-		if ($_POST["meta_name"] != "" &&
-			$_POST["meta_path"] != "")
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
 		{
-			$meta_gui->meta_obj->add($_POST["meta_name"], $_POST["meta_path"]);
+			$meta_gui->meta_obj->add($meta_name, $meta_path);
 		}
 		else
 		{
 			sendInfo($this->lng->txt("meta_choose_element"));
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $meta_section);
 	}
 
-	function delete_meta()
+	function deleteMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
@@ -80,7 +82,7 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"]);
 	}
 
-	function choose_meta_section()
+	function chooseMetaSection()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
@@ -96,18 +98,126 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId());
 	}
 
-	function save_meta()
+	function saveMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-		$meta_gui->save();
+		$meta_gui->save($_POST["meta_section"]);
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 	}
 
+	/**
+	* get target frame for command (command is method name without "Object", e.g. "perm")
+	* @param	string		$a_cmd			command
+	* @param	string		$a_target_frame	default target frame (is returned, if no special
+	*										target frame was set)
+	* @access	public 
+	*/
+	function getTargetFrame($a_cmd, $a_target_frame = "")
+	{
+		if ($this->target_frame[$a_cmd] != "")
+		{
+			return $this->target_frame[$a_cmd];
+		}
+		elseif (!empty($a_target_frame))
+		{
+			return "target=\"".$a_target_frame."\"";
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	/**
+	* get form action for command (command is method name without "Object", e.g. "perm")
+	* @param	string		$a_cmd			command
+	* @param	string		$a_formaction	default formaction (is returned, if no special
+	*										formaction was set)
+	* @access	public
+	* @return	string
+	*/
+	function getFormAction($a_cmd, $a_formaction ="")
+	{
+		if ($this->formaction[$a_cmd] != "")
+		{
+			return $this->formaction[$a_cmd];
+		}
+		else
+		{
+			return $a_formaction;
+		}
+	}
+
+	/**
+	* get a template blockfile
+	* format: tpl.<objtype>_<command>.html
+	*
+	* @param	string	command
+	* @param	string	object type definition
+	* @access	public
+ 	*/
+	function getTemplateFile($a_cmd,$a_type = "")
+	{
+		if (!$a_type)
+		{
+			$a_type = $_GET["type"];
+		}
+
+		$template = "tpl.".$a_type."_".$a_cmd.".html";
+
+		if (!$this->tpl->fileExists($template))
+		{
+			$template = "tpl.obj_".$a_cmd.".html";
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
+	}
+	
 	function create()
 	{
-		if(count($_POST["id"]) > 1)
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+			$this->getTemplateFile("edit",$new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","lm_edit.php?cmd=post&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
+
+
+
+/*		if(count($_POST["id"]) > 1)
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_max_one_pos"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -121,7 +231,7 @@ class ilLMObjectGUI
 			: "";
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->content_object->getRefId().$obj_str."&new_type=".$_POST["new_type"].
-			"&target=".$target."&cmd=save");
+			"&target=".$target."&cmd=saveMeta");*/
 	}
 
 	function putInTree()
