@@ -2234,14 +2234,28 @@ class ilObjTest extends ilObject
 */
 	function randomSelectQuestions($nr_of_questions, $questionpool)
 	{
+		// get all questions in the test
+		$query = "SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi";
+		$result = $this->ilias->db->query($query);
+		$original_ids = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+		{
+			array_push($original_ids, $row[0]);
+		}
+		$original_clause = "";
+		if (count($original_ids))
+		{
+			$original_clause = " AND qpl_questions.question_id NOT IN (" . join($original_ids, ",") . ")";
+		}
+				
 		$result_array = array();
 		if ($questionpool == 0)
 		{
-			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'";
+			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'$original_clause";
 		}
 			else
 		{
-			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ref_fi = %s",
+			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ref_fi = %s$original_clause",
 				$this->ilias->db->quote("$questionpool")
 			);
 		}
@@ -2252,11 +2266,11 @@ class ilObjTest extends ilObject
 			// take all available questions
 			if ($questionpool == 0)
 			{
-				$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'";
+				$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'$original_clause";
 			}
 				else
 			{
-				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1'",
+				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1'$original_clause",
 					$this->ilias->db->quote("$questionpool")
 				);
 			}
@@ -2275,11 +2289,11 @@ class ilObjTest extends ilObject
 			{
 				if ($questionpool == 0)
 				{
-					$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1' LIMIT $random_number, 1";
+					$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
 				}
 					else
 				{
-					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1' LIMIT $random_number, 1",
+					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
 						$this->ilias->db->quote("$questionpool")
 					);
 				}
