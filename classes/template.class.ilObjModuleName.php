@@ -46,5 +46,118 @@ class ilObj<module_name> extends ilObject
 		$this->type = "<type ID>";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+
+	/**
+	* update object data
+	*
+	* @access	public
+	* @return	boolean
+	*/
+	function update()
+	{
+		if (!parent::update())
+		{			
+			return false;
+		}
+
+		// put here object specific stuff
+		
+		return true;
+	}
+	
+	/**
+	* copy all entries of your object.
+	* 
+	* @access	public
+	* @param	integer	ref_id of parent object
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// get object instance of cloned object
+		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
+
+		// create a local role folder & default roles
+		//$roles = $newObj->initDefaultRoles();
+
+		// ...finally assign role to creator of object
+		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
+
+		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
+		//unset($newObj);
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete object and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		//put here your module specific stuff
+		
+		return true;
+	}
+
+	/**
+	* init default roles settings
+	* 
+	* If your module does not require any default roles, delete this method 
+	* (For an example how this method is used, look at ilObjForum)
+	* 
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles()
+	{
+		global $rbacadmin;
+		
+		// create a local role folder
+		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+
+		// create moderator role and assign role to rolefolder...
+		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
+		//$roles[] = $roleObj->getId();
+
+		//unset($rfoldObj);
+		//unset($roleObj);
+
+		return $roles ? $roles : array();
+	}
+
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	* 
+	* If you are not required to handle any events related to your module, just delete this method.
+	* (For an example how this method is used, look at ilObjGroup)
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional parameters if required
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id,$a_params = 0)
+	{
+		// object specific event handling
+			
+		parent::notify($a_event,$a_ref_id,$a_params);
+	}
 } // END class.ilObj<module_name>
 ?>
