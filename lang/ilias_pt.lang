@@ -60,6 +60,7 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions###08 Mar 
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###08 Mar 2004 new variable
 assessment#:#matches#:#correspondências
 assessment#:#matching_pair#:#Par correspondente
+assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
 assessment#:#points#:#Pontos
 assessment#:#possible_gap_text#:#Texto possível do espaço
@@ -239,6 +240,7 @@ common#:#administrate#:#Administrar
 common#:#administration#:#Administração
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
+common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###08 Mar 2004 new variable
 common#:#all_objects#:#Todos os Objectos
 common#:#allow_register#:#Disponível no registo de novos utilizadores
 common#:#and#:#e
