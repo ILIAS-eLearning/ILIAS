@@ -26,7 +26,7 @@
 * Class ilObjQuestionPoolGUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* $Id$
+* @version  $Id$
 *
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
@@ -53,7 +53,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     	global $lng, $ilCtrl;
 
 		$this->type = "qpl";
-    	$lng->loadLanguageModule("assessment");
+		$lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id"));
@@ -884,105 +884,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function editMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
-	}
-
-	function saveMetaObject()
-	{
-		global $rbacsystem;
-		
-		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			sendInfo($this->lng->txt("cannot_save_metaobject"));
-			$this->editMetaObject();
-			return;
-		}
-		else
-		{
-			$meta_gui =& new ilMetaDataGUI();
-			$meta_gui->setObject($this->object);
-			$meta_gui->save($_POST["meta_section"]);
-		}
-		ilUtil::redirect("questionpool.php?ref_id=".$_GET["ref_id"]);
-	}
-
-	// called by administration
-	function chooseMetaSectionObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
-	}
-
-	// called by editor
-	function chooseMetaSection()
-	{
-		$this->chooseMetaSectionObject("questionpool.php?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function addMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		if ($meta_index == "")
-			$meta_index = 0;
-		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
-		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
-		if ($meta_name != "")
-		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
-		}
-		else
-		{
-			sendInfo($this->lng->txt("meta_choose_element"), true);
-		}
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
-	}
-
-	function addMeta()
-	{
-		$this->addMetaObject("questionpool.php?ref_id=".
-			$this->object->getRefId());
-	}
-
-	function deleteMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
-		}
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
-	}
-
-	function deleteMeta()
-	{
-		$this->deleteMetaObject("questionpool.php?ref_id=".
-			$this->object->getRefId());
-	}
-
 	function updateObject()
 	{
 		$this->update = $this->object->updateMetaData();
@@ -1042,7 +943,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"target=\"bottom\"");
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		}
 		else
@@ -1056,7 +957,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				if ($this->ref_id == $row["child"])
 				{
 					$param = "&cmd=questions";
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"");
 					switch ($_GET["cmd"])
 					{
 						case "question":
@@ -1069,7 +970,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 							{
 								if ($id > 1)
 								{
-									$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","target=\"bottom\"");
+									$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","");
 								}
 							}
 							break;
@@ -1077,14 +978,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"");
 				}
 			}
 
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"target=\"bottom\"");
+				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
 			}
 		}
 		$ilias_locator->output(true);
@@ -1104,6 +1005,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
+		$this->setAdminTabs($_POST["new_type"]);
 		$this->setLocator();
 
 	}
@@ -1154,6 +1056,97 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "questions"), "questions",
 			"ilObjQuestionPoolGUI");
 
+	}
+
+	function editMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+	}
+
+		function saveMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		if (!strcmp($_POST["meta_section"], "General")) {
+			//$this->updateObject();
+		}
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
+	}
+
+	// called by administration
+	function chooseMetaSectionObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
+	}
+
+	// called by editor
+	function chooseMetaSection()
+	{
+		$this->chooseMetaSectionObject($this->getTabTargetScript()."?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function addMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
+	}
+
+	function addMeta()
+	{
+		$this->addMetaObject($this->getTabTargetScript()."?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function deleteMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
+	}
+
+	function deleteMeta()
+	{
+		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
+			$this->object->getRefId());
 	}
 
 } // END class.ilObjQuestionPoolGUI

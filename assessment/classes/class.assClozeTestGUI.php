@@ -278,7 +278,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
+		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"], false));
 		$this->object->setSolutionHint($_POST["solution_hint"]);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
@@ -297,30 +297,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->object->set_cloze_type($matches[1], $value);
 				}
 			}
-
-			/*
-			for ($i=0; $i<=$this->object->get_gap_count();$i++)
-			{
-				if (strlen($_POST["textgap_add_".$i]) > 0)
-				{
-					$j = $i-1;
-					$this->object->set_answertext(
-						ilUtil::stripSlashes($j),
-						ilUtil::stripSlashes($this->object->get_gap_text_count($j)),
-						"",
-						1
-					);
-				}
-				elseif (strlen($_POST["selectgap_add_".$i]) > 0)
-				{
-					$this->object->set_answertext(
-						ilUtil::stripSlashes($i),
-						ilUtil::stripSlashes($this->object->get_gap_text_count($i)),
-						"",
-						1
-					);
-				}
-			}*/
 		}
 
 		$this->object->update_all_gap_params();
@@ -451,7 +427,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						else
 						{
 							$points = 0.0;
- 						}
+						}
 						$this->object->set_single_answer_points($matches[1], $matches[2], $points);
 						$state = 0;
 						if ($_POST["status_$matches[1]"] == $matches[2])
