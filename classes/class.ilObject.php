@@ -125,6 +125,7 @@ class ilObject
 		$this->add_dots = true;
 
 		$this->referenced = $a_reference;
+		$this->call_by_reference = $a_reference;
 
 		if ($a_id == 0)
 		{
@@ -147,6 +148,15 @@ class ilObject
 
 		$ilBench->stop("Core", "ilObject_Constructor");
 	}
+
+	/**
+	* determines wehter objects are referenced or not (got ref ids or not)
+	*/
+	function withReferences()
+	{
+		return $this->call_by_reference;
+	}
+
 
 	/**
 	* read object data from db into object

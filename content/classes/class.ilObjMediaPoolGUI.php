@@ -95,7 +95,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function save()
 	{
-return;
 		switch($_GET["cmdClass"])
 		{
 			case "ilObjFolderGUI":
@@ -106,6 +105,7 @@ return;
 				$parent = ($_GET["obj_id"] == "")
 					? $tree->getRootId()
 					: $_GET["obj_id"];
+				$folder_gui->setFolderTree($tree);
 				$folder_gui->saveObject($parent);
 				break;
 

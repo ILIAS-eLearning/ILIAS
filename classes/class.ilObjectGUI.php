@@ -168,6 +168,9 @@ class ilObjectGUI
 		}
 	}
 
+	/**
+	* determines wether objects are referenced or not (got ref ids or not)
+	*/
 	function withReferences()
 	{
 		return $this->call_by_reference;
