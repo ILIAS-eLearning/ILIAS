@@ -158,6 +158,8 @@ common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#recipiente di errori
 common#:#execute#:#esegui
+common#:#export_html#:#export as html file###09 May 2003 new variable
+common#:#export_xml#:#export as xml file###09 May 2003 new variable
 common#:#faq_exercise#:#FAQ/esercizi
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#recipiente feedback
@@ -350,6 +352,7 @@ common#:#objects#:#oggetti
 common#:#objf#:#objf
 common#:#of#:#di
 common#:#offline_version#:#versione offline
+common#:#ok#:#OK###09 May 2003 new variable
 common#:#old#:#vecchio
 common#:#online_chapter#:#capitolo online
 common#:#online_version#:#versione online

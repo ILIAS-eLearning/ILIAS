@@ -158,6 +158,8 @@ common#:#err_wrong_header#:#Grund: Falscher Header.
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#Ausführen
+common#:#export_html#:#Exportieren als HTML-Datei
+common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
@@ -350,6 +352,7 @@ common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
+common#:#ok#:#OK###09 May 2003 new variable
 common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
@@ -609,6 +612,3 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
-common#:#export_html#:#Exportieren als HTML-Datei
-common#:#export_xml#:#Exportieren als XML-Datei
-common#:#ok#:#OK

@@ -158,6 +158,8 @@ common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#error_recipient#:#Error Recipient
 common#:#execute#:#Execute
+common#:#export_html#:#export as html file
+common#:#export_xml#:#export as xml file
 common#:#faq_exercise#:#FAQ Exercise
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
@@ -350,6 +352,7 @@ common#:#objects#:#Objects
 common#:#objf#:#Object Folder
 common#:#of#:#Of
 common#:#offline_version#:#Offline Version
+common#:#ok#:#OK
 common#:#old#:#Old
 common#:#online_chapter#:#Online Chapter
 common#:#online_version#:#Online Version
@@ -609,6 +612,3 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
-common#:#export_html#:#export as html file
-common#:#export_xml#:#export as xml file
-common#:#ok#:#OK
