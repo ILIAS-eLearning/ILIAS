@@ -193,8 +193,8 @@ HTMLArea.Config = function () {
 	// italic: [ "Italic", "ed_format_italic.gif", false, function(e) {e.execCommand("italic");} ],
 
 	this.btnList = {
-		bold: [ "Bold", "<span class=ilc_Strong>Str</span>", false, function(e) {if (checkAllowTagInside("str"))e.execCommand("bold");} ],
-		italic: [ "Italic", "<span class=ilc_Emph>Em</span>", false, function(e) {if (checkAllowTagInside("emp"))e.execCommand("italic");} ],
+		bold: [ "Bold", "<span class=ilc_Strong>[str]</span>", false, function(e) {if (checkAllowTagInside("str"))e.execCommand("bold");} ],
+		italic: [ "Italic", "<span class=ilc_Emph>[emp]</span>", false, function(e) {if (checkAllowTagInside("emp"))e.execCommand("italic");} ],
 		underline: [ "Underline", "ed_format_underline.gif", false, function(e) {e.execCommand("underline");} ],
 		strikethrough: [ "Strikethrough", "ed_com.gif", false, function(e) {e.execCommand("strikethrough");} ],
 		subscript: [ "Subscript", "ed_format_sub.gif", false, function(e) {e.execCommand("subscript");} ],

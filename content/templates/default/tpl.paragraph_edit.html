@@ -312,12 +312,14 @@ function storeCaret(textEl) {
 <!-- END content_selection -->
 </table>
 
+<input type="hidden" value="" name="footnotelist">
+
 </form>
 
 
-<div id="footnotelist"></div>
+<div id="footnotelistdiv"></div>
 
-<div id="subformeditor" style="visibility:visible;">
+<div id="subformeditor" style="visibility:hidden;">
 <p>
 <form name="subform">
 <textarea rows=3 cols=80 style="width:100%" name="subform" id="subform"></textarea>
@@ -520,6 +522,9 @@ function initEditor(TextAreaName)
                   }
     });
 
+	
+	
+	
 
 	//alert("{XX}");
 	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
@@ -591,98 +596,6 @@ function initEditor(TextAreaName)
   editor.generate();
   return false;
   // }}}
-}
-
-function addTagInEditor(tagName,className) 
-{
-// {{{
-	
-	if (editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;"  && editor.getSelectedHTML()!=" ") 
-	{
-		editor.surroundHTML(startMarker,endMarker);
-		text = editor.getHTML();
-		
-		text = replaceAll(text, "<br />","%%BR%%");
-		text = replaceAll(text, "<br/>","%%BR%%");
-		text = replaceAll(text, "<br>","%%BR%%");
-		
-		text = replaceAll(text,"&nbsp;"," ");
-		text2 = addTag(text, tagName, className);
-		
-		// Zur Sicherheit alle eventuell übriggebliebenen Hilfszeichen entfernen.
-		for(i=1;i<=10;i++) 
-		{
-			for(j=1;j<=10;j++) 
-			{
-				text2 = replaceAll(text2,"%%"+i+"x"+j+"x%%","");
-				text2 = replaceAll(text2,"+%"+i+"x"+j+"x%+","");
-			}
-		}
-		
-		
-		
-		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
-		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
-		
-		text2 = replaceAll(text2, "%%BR%%", "<br />");
-		
-		editor.setHTML(text2);
-		
-		text2 = editor.getHTML();
-
-		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
-
-		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"> </span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"> </span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"> </span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"> </span>", " ");
-		text2 = replaceAll(text2, "<code class=\"ilc_Code\"> </code>", " ");
-		
-		for (i=0;i<10;i++) {
-			text2 = replaceAll(text2, " <\/span>","</span> ");
-			text2 = replaceAll(text2, " <\/code>","</code> ");
-		}
-		
-		text2 = replaceAll(text2,"&nbsp;"," ");
-		
-		editor.setHTML(text2);
-	} 
-	else 
-	{
-		text2 = editor.getHTML();
-		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
-		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
-		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
-
-		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
-		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
-		
-		text2 = replaceAll(text2,"&nbsp;"," ");
-
-		for (i=0;i<10;i++) {
-			text2 = replaceAll(text2, " <\/span>","</span> ");
-			text2 = replaceAll(text2, " <\/code>","</code> ");
-		}
-
-		editor.setHTML(text2);
-	}
-	
-	editor.updateToolbar();
-		// }}}
 }
 
 var notAllowedTagsInside = new Array();
@@ -987,40 +900,45 @@ function getClearTags()
 	// }}}
 }
 
-function replaceAll(heystack, needle, newneedle) 
-{
-	while (heystack.indexOf(needle)!=-1) 
-	{
-		heystack = heystack.replace(needle, newneedle);
-	}
-	return(heystack);
-}
 
 var fussnoten = new Array();
 var fnCount = 0;
 
 function addFussnote(Tb)
 {
+
 	fussnoten[fnCount] = Tb;
+	r = fnCount;
 	fnCount++;
+	return(r);
 }
 
 function refreshFootnotelist() 
 {
 	// {{{
+	fhidden = "";
 	fhtml = "<ul>";
+	fhtml += "<table>";
 	for (i=0;i<fussnoten.length;i++) 
 	{
 		j=i+1;
 		if(fussnoten[i]!="") {
-			fhtml += "["+j+"]&nbsp;"+fussnoten[i];
-			fhtml += "<br>";
-			fhtml += "";
+			//fhtml += "<tr><td valign=top>["+j+"]&nbsp;</td><td valign=top>"+fussnoten[i]+"<p>"+replaceAll(fussnoten[i],"<","&lt;");
+			fhtml += "<tr><td valign=top>["+j+"]&nbsp;</td><td valign=top>"+fussnoten[i];
+			fhtml += "</td>";
+			fhtml += "</tr>";
+			
+			fhidden += i+"|*#"+fussnoten[i]+"|**#";
+			
 		}
 	}
-	fhtml += "<ul>";
+	fhtml += "</table>";
+	fhtml += "</ul>";
 	
-	document.getElementById("footnotelist").innerHTML = fhtml;
+	//document.post.footnotelist.value = replaceAll(fhidden,"\"","&quot;");
+	document.post.footnotelist.value = fhidden;
+	
+	document.getElementById("footnotelistdiv").innerHTML = fhtml;
 	// }}}
 }
 
@@ -1048,6 +966,7 @@ function buttonFootnote()
 	{
 		text = editor.getSelectedHTML();
 		
+		/*
 		isbr = false;
 		if(	text.indexOf("<br>")!=-1 || text.indexOf("<br/>")!=-1 ||text.indexOf("<br />")!=-1 || text.indexOf("<BR>")!=-1 || text.indexOf("<BR/>")!=-1 ||text.indexOf("<BR />")!=-1) 
 		{
@@ -1062,12 +981,16 @@ function buttonFootnote()
 		text = replaceAll(text,"<BR>","");
 		text = replaceAll(text,"<BR/>","");
 		text = replaceAll(text,"<BR />","");
+		*/
 		
-		addFussnote(text);
+		r = addFussnote(text);
 		//editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
 		
-		ins = "<span class=\"footnote\" value=\""+text+"\">["+fnCount+"]</span>";
-		if(isbr) ins += "<br>";
+		//ins = "<span class=\"footnote\" value=\""+text+"\">["+fnCount+"]</span>";
+		r2 = r+1;
+		
+		ins = "<span class=\"footnote\" value=\""+r+"\">["+r2+"]</span>";
+		//if(isbr) ins += "<br>";
 		editor.insertHTML(ins);
 		
 		refreshFootnotelist()
@@ -1076,7 +999,7 @@ function buttonFootnote()
 	} 
 	else 
 	{
-		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
+		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes,scrollbars=yes");
 		setTimeout("w.focus()",500);
 	}
 	// }}}
@@ -1205,7 +1128,8 @@ function buttonInternalLink()
         T = replaceAll(T, "[code]","<code class=\"ilc_Code\">");
         T = replaceAll(T, "[/code]","</code>");
 
-		
+
+
 		/**
 		*	find all footnotes and copy to array
 		*/
@@ -1217,9 +1141,10 @@ function buttonInternalLink()
 			Tc = T2.substring(T2.indexOf("[/fn]")+5,T2.length);
 			
 			T2 = Tc;
-			addFussnote(Tb);
-			
-			T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+Tb+"\">["+fnCount+"]</span>");
+			r = addFussnote(Tb);
+			r2 = r+1;
+			//T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+Tb+"\">["+fnCount+"]</span>");
+			T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+r+"\">["+r2+"]</span>");
 		}
 		refreshFootnotelist();
 		
@@ -1275,7 +1200,9 @@ function buttonInternalLink()
         obj.value = T;
     
         initEditor("{PAR_TA_NAME}");
+		
 		//initSubEditor("subform");
+		
         obj = document.getElementById("usedwsiwygeditor");
         obj.value = "1";
         obj = document.getElementById("bbcodebuttons");
