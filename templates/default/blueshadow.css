@@ -565,6 +565,12 @@ span.il_Helptext {
 	font-weight:normal;
 }
 
+.inactivepage {
+	text-decoration:none;
+	font-weight: bold;
+	color: gray;
+}
+
 .quote {
 	font-style:italic;
 	font-weight:normal;
