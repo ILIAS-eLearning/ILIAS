@@ -135,7 +135,12 @@ class ilPageObjectGUI extends ilLMObjectGUI
 			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// setting to utf-8 here
-		$content = $this->obj->getXMLContent(true, false, true);
+		//$content = $this->obj->getXMLContent(true, false, true);
+
+		// try dom output
+		$dom =& $this->obj->getDom();
+		$content = $dom->dump_mem(0, "UTF-8");
+
 		header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");

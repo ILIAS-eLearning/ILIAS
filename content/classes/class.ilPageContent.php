@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("IL_AFTER_PRED", 1);
+define("IL_BEFORE_SUCC", 0);
+
 
 /**
 * Class ilPageContent
@@ -97,5 +100,44 @@ class ilPageContent
 		}
 		return implode($id, "_");
 	}
+
+	/**
+	* static class method
+	* decreases an hierarchical editing id at lowest level (last number)
+	*/
+	function decEdId($ed_id)
+	{
+		$id = explode("_", $ed_id);
+		if (!is_int(strpos($id[count($id) - 1] ,"r")))	// don't increase "r...c.." table cell numbers
+		{
+			$id[count($id) - 1]--;
+		}
+		return implode($id, "_");
+	}
+
+	/**
+	* static class method
+	* check, if two ids are in same container
+	*/
+	function haveSameContainer($ed_id1, $ed_id2)
+	{
+		$id1 = explode("_", $ed_id1);
+		$id2 = explode("_", $ed_id1);
+		if(count($id1) == count($id2))
+		{
+			array_pop($id1);
+			array_pop($id2);
+			foreach ($id1 as $key => $id)
+			{
+				if($id != $id2[$key])
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 }
 ?>

@@ -22,6 +22,8 @@
 */
 
 require_once("content/classes/class.ilPageContent.php");
+define("IL_AFTER_PRED", 1);
+define("IL_BEFORE_SUCC", 0);
 
 /**
 * Class ilLMTable
@@ -165,17 +167,20 @@ class ilLMTable extends ilPageContent
 		}
 	}
 
-	function insertContent(&$a_cont_obj, $a_pos)
+	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_AFTER_PRED)
 	{
 		$pos = explode("_", $a_pos);
+//echo "TI1";
 		if(isset($pos[1]))		// content should be child of a container
 		{
+//echo "TI2";
 			$tpos = $this->seq2TablePos($pos[0]);
 			unset($pos[0]);
-			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->insertContent($a_cont_obj, implode($pos, "_"));
+			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->insertContent($a_cont_obj, implode($pos, "_"), $a_mode);
 		}
 		else		// insert as child element of the table
 		{
+//echo "TI3";
 			// if $pos[0] has format "r...c..." then an insert at the top
 			// of a table cell should be made
 			$r = strpos($pos[0] ,"r");
@@ -191,18 +196,22 @@ class ilLMTable extends ilPageContent
 					$this->cell[$row][$col][$i] =& $this->cell[$row][$col][$i - 1];
 				}
 				$this->cell[$row][$col][0] =& $a_cont_obj;
+//echo "TIsetting:r$row:c$col:".htmlentities($a_cont_obj->getText()).":";
 			}
 			else		// if $pos[0] is number, insert object at sequential position $pos[0]
 			{
-				$tpos = $this->seq2TablePos($pos[0] - 1);
+				$tpos = $this->seq2TablePos($pos[0] - $a_mode);
+//echo "seq:".$pos[0]."<br>";
+//echo "mode:$a_mode:<br>";
+//echo "r:".$tpos["row"].":c:".$tpos["col"].":p:".$tpos["pos"].":<br>";
 				for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
 				{
-					if($i >= ($tpos["pos"] + 2))
+					if($i >= ($tpos["pos"] + 1 + $a_mode))
 					{
 						$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
 					}
 				}
-				$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + 1] =& $a_cont_obj;
+				$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + $a_mode] =& $a_cont_obj;
 			}
 		}
 	}
@@ -223,15 +232,15 @@ class ilLMTable extends ilPageContent
 		{
 			$tpos = $this->seq2TablePos($pos[0]);
 			$cnt = 0;
-			foreach($this->cell[$tpos["row"]][$tpos["col"]] as $content)
+			for($i=1; $i<count($this->cell[$tpos["row"]][$tpos["col"]]); $i++)
 			{
 				$cnt++;
-				if ($cnt > $tpos["pos"])
+				if ($i > $tpos["pos"])
 				{
-					$this->cell[$tpos["row"]][$tpos["col"]][$cnt - 1] =& $this->cell[$tpos["row"]][$tpos["col"]][$cnt];
+					$this->cell[$tpos["row"]][$tpos["col"]][$i - 1] =& $this->cell[$tpos["row"]][$tpos["col"]][$i];
 				}
 			}
-			unset($this->cell[$tpos["row"]][$tpos["col"]][count($this->cell[$tpos["row"]][$tpos["col"]]) - 1]);
+			array_pop($this->cell[$tpos["row"]][$tpos["col"]]);
 		}
 	}
 
@@ -253,6 +262,7 @@ class ilLMTable extends ilPageContent
 				reset($this->cell[$this->row][$this->col]);
 				for($j=0; $j<count($this->cell[$this->row][$this->col]); $j++)
 				{
+//echo ":jr".$r."c".$c.":$j:";
 					$co_object =& $this->cell[$this->row][$this->col][$j];
 					$current++;
 					if($current == $a_seq_pos)
