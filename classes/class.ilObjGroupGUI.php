@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.49 2003/10/31 12:32:54 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.51 2003/11/05 16:30:12 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -239,7 +239,7 @@ class ilObjGroupGUI extends ilObjectGUI
 //		print_r($_POST);
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->object->setGroupStatus($_POST["Fobject"]["group_status"]);
+		$this->object->setGroupStatus($_POST["group_status"]);
 		$this->object->setRegistrationFlag($_POST["enable_registration"]);
 		$this->object->setPassword($_POST["password"]);
 		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
@@ -307,7 +307,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		//build form
 
 		$grp_status = $this->object->getGroupStatus();
-		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+		$grp_status_options = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$checked = array(0=>0,1=>0,2=>0);
 
 		switch($this->object->getRegistrationFlag())
@@ -332,7 +332,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration_mode"));
 
 		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));
 		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
@@ -348,24 +348,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);
 		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));
 		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));
-		$this->tpl->setVariable("SELECT_GROUPSTATUS", $opts);
+		$this->tpl->setVariable("SELECT_GROUPSTATUS", $grp_status_options);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-
-
-/*
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("CMD_CANCEL", "cancel");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
------------*/
 	}
 
 	/**
