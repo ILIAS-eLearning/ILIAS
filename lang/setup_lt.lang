@@ -120,17 +120,17 @@ set_newpasswd#:#Įveskite naują slaptažodį
 set_oldpasswd#:#Įveskite seną slaptažodį
 setup#:#diegimo programa
 setup_database#:#įdiegti duomenų bazę
-setup_database_desc#:#diegiame duomenų bazę
+setup_database_desc#:#įdiegti duomenų bazę
 setup_db_first#:#Pirmiau įdiekite duomenų bazę!
 setup_ini_first#:#Pirmiau sukurkite nustatymų bylą!
 setup_inifile#:#sukurti nustatymų bylą
-setup_inifile_desc#:#kuriame nustatymų bylą
+setup_inifile_desc#:#sukurti nustatymų bylą
 setup_languages#:#įdiegti kalbas
-setup_languages_desc#:#diegiame kalbas
+setup_languages_desc#:#įdiegti kalbas
 setup_mainmenu#:#Pagrindinis meniu
 setup_menu#:#diegimo menių
 setup_password#:#sukurti slaptažodį
-setup_password_desc#:#priskirkite slaptažodį priėjimui prie diegimo programos apriboti.
+setup_password_desc#:#sukurti slaptažodį
 setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.
 setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite
 submit#:#Patvirtinti
