@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.29 2003/03/06 20:56:39 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.30 2003/03/07 17:14:49 akill Exp $
 *
 * @package ilias-core
 */
@@ -53,17 +53,10 @@ class ObjectOut
 	var $data;
 
 	/**
-	* object
-	* @var		object
-	* @access	private
-	*/
-	var $object;
-
-	/**
 	* Constructor
 	* @access	public
 	*/
-	function ObjectOut($a_data)
+	function ObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
 
@@ -72,14 +65,23 @@ class ObjectOut
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
+		
 		$this->data = $a_data;
-		$this->object =& new Object($_GET["obj_id"]);
-        
+		$this->id = $a_id;
+		$this->call_by_reference = $a_call_by_reference;
+		
+		if ($this->call_by_reference)
+		{
+			$this->id_name = "ref_id";
+		}
+		else
+		{
+			$this->id_name = "obj_id";
+		}
+		
 		//prepare output of administration view
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$title = $this->object->getTitle();
-		if(!empty($title))
-			$this->tpl->setVariable("HEADER", $title);
+
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
@@ -90,18 +92,25 @@ class ObjectOut
 	*/
 	function setAdminTabs()
 	{
-		global $lng;
-
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		$d = $this->objDefinition->getProperties($_GET["type"]);
+		$d = $this->objDefinition->getProperties($this->type);
 
 		foreach ($d as $key => $row)
+		{
 			$tabs[] = array($row["lng"], $row["name"]);
+		}
+		
+		if (isset($_GET["obj_id"]))
+		{
+			$object_link = "&obj_id=".$_GET["obj_id"];
+		}
 
 		foreach ($tabs as $row)
 		{
 			$i++;
+
+			// TODO: get rid of $_GET["cmd"]
 			if ($row[1] == $_GET["cmd"])
 			{
 				$tabtype = "tabactive";
@@ -116,90 +125,89 @@ class ObjectOut
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $tabtype);
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("TAB_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".
-							  $_GET["parent_parent"]."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $lng->txt($row[0]));
+			$this->tpl->setVariable("TAB_LINK", "adm_object.php?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
 		}	
 	}
 
-	function setLocator($a_tree = "", $a_obj_id = "", $a_parent = "", $a_parent_parent = "")
+	function setLocator($a_tree = "", $a_id = "")
 	{
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
 		}
 		
-		if (!($a_obj_id))
+		if (!($a_id))
 		{
-			$a_obj_id = $_GET["obj_id"]; 
+			$a_id = $_GET["ref_id"]; 
 		}
-
-		if (!($a_parent))
-		{
-			$a_parent = $_GET["parent"]; 
-		}
-
-		if (!($a_parent_parent))
-		{
-			$a_parent_parent = $_GET["parent_parent"]; 
-		}
-
-		global $lng;
-
+		
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		if ($a_parent_parent)
-		{
-			$path = $a_tree->getPathFull($a_parent, $a_parent_parent);
-		}
-		else
-		{
-			$path = $a_tree->getPathFull($a_obj_id, $a_parent);
-		}
+		$path = $a_tree->getPathFull($a_id);
 
         //check if object isn't in tree, this is the case if parent_parent is set
+		// TODO: parent_parent no longer exist. need another marker
 		if ($a_parent_parent)
 		{
-			$subObj = getObject($a_obj_id);
+			$subObj = getObject($a_ref_id);
 
 			$path[] = array(
-				"id"	 => $a_obj_id,
-				"title"  => $this->lng->txt($subObj["title"]),
-				"parent" => $a_parent,
-				"parent_parent" => $a_parent_parent
+				"id"	 => $a_ref_id,
+				"title"  => $this->lng->txt($subObj["title"])
 				);
+		}
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
 		}
 
 		foreach ($path as $key => $row)
 		{
-			if ($key < count($path)-1)
+			if ($key < count($path)-$modifier)
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
+
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?obj_id=".$row["id"].
-							  "&parent=".$row["parent"]."&parent_parent=".$row["parent_parent"]);
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["id"]);
 			$this->tpl->parseCurrentBlock();
+			
+		}
+		
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data = getObject($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $obj_data["title"]);
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->parseCurrentBlock();		
 		}
 
 		$this->tpl->setCurrentBlock("locator");
 
 		if (DEBUG)
 		{
-			$debug = "DEBUG: <font color=\"red\">".$_GET["type"]."::".$a_obj_id."::".$_GET["cmd"]."</font><br>";
+			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
 		}
 		
-		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$_GET["type"]);
+		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
 
-		if($_GET["cmd"] == "confirmDeleteAdm")
+		if ($_GET["cmd"] == "confirmDeleteAdm")
 		{
 			$prop_name = "delete_object";
 		}
 
-		$this->tpl->setVariable("TXT_PATH",$debug.$lng->txt($prop_name)." ".$lng->txt("of"));
+		$this->tpl->setVariable("TXT_PATH",$debug.$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -209,9 +217,7 @@ class ObjectOut
 	*/
 	function gatewayObject()
 	{
-		global $lng;
-
-		include_once ("classes/class.Admin.php");
+		require_once ("classes/class.Admin.php");
 
 		$admin = new Admin();
 
@@ -275,39 +281,6 @@ class ObjectOut
 		}
 	}
 
-
-	/**
-	* this methods handles all button actions
-	* @access	public
-	*/
-	/*
-	function gatewayObject()
-	{
-		global $lng;
-
-		switch(key($_POST["cmd"]))
-		{
-			case "delete":
-				$this->confirmDeleteAdmObject();
-				break;
-
-			case "btn_undelete":
-				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
-				exit();
-
-			case "btn_remove_system":
-				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
-				exit();
-
-			default:
-				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-				exit();
-		}
-	}*/
-
 	function createObject()
 	{
 		$this->getTemplateFile("edit");
@@ -317,58 +290,17 @@ class ObjectOut
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&obj_id=".$_GET["obj_id"].
-						  "&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&new_type=".$_POST["new_type"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$this->id."&new_type=".$_POST["new_type"]);
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 	}
 
-
-	/**
-	* save object
-	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
-
-		require_once("./classes/class.Object.php");
-		
-		// $_GET["obj_id"], $_GET["parent"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]
-
-		if ($rbacsystem->checkAccess("create",$_GET["obj_id"], $_GET["parent"], $_GET["new_type"]))
-		{
-			// create object
-			$newObj = new Object();
-			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_POST["Fobject"]["title"]);
-			$newObj->setDescription($_POST["Fobject"]["desc"]);
-			$newObj->create();
-
-			// insert object in objecttree
-			$tree->insertNode($newObj->getId(), $_GET["obj_id"], $_GET["parent"]);
-
-			$parentRoles = $rbacadmin->getParentRoleIds();
-			
-			foreach ($parentRoles as $parRol)
-			{
-				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-				$ops = $rbacreview->getOperations($parRol["obj_id"], $_GET["new_type"], $parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $newObj->getId(), $_GET["obj_id"]);
-			}
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}
-		
-		//$this->data = $this->id;
-
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
 		exit();
 	}
-
 
 	function editObject()
 	{
@@ -379,18 +311,17 @@ class ObjectOut
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&cmd=update&obj_id=".$_GET["obj_id"]."&parent=".
-						  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?".$this->id_name."=".$this->id."&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
 	function updateObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
 		exit();
 	}
+
 	function permObject()
 	{
 		$this->getTemplateFile("perm");
@@ -400,6 +331,7 @@ class ObjectOut
 		$this->tpl->parseCurrentBlock();
 
 		$num = 0;
+
 		foreach($this->data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
@@ -413,9 +345,9 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 		$num = 0;
+
 		foreach($this->data["permission"] as $ar_perm)
 		{
-
 			foreach ($ar_perm["values"] as $box)
 			{
 				// BEGIN TABLE CHECK PERM
@@ -432,8 +364,6 @@ class ObjectOut
 			$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
 			$this->tpl->parseCurrentBlock();
 			// END TABLE DATA OUTER
-
-
 		}
 		if ($this->data["local_role"] != "")
 		{
@@ -441,22 +371,20 @@ class ObjectOut
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("FORMACTION_LR","adm_object.php?cmd=addRole&obj_id=".$_GET["obj_id"]."&parent=".
+			$this->tpl->setVariable("FORMACTION_LR","adm_object.php?cmd=addRole&ref_id=".$_GET["ref_id"]."&parent=".
 									$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 
 			$this->tpl->parseCurrentBlock();
 		}
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION","adm_object.php?cmd=permSave&obj_id=".$_GET["obj_id"]."&parent=".
-								$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->id_name."=".$this->id."&cmd=perm");
 		$this->tpl->parseCurrentBlock();
 	}
 
 	function permSaveObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=perm");
 		exit();
 	}
 
@@ -464,6 +392,7 @@ class ObjectOut
 	function addRoleObject()
 	{
 	}
+
 	function ownerObject()
 	{
 		$this->getTemplateFile("owner");
@@ -472,6 +401,7 @@ class ObjectOut
 		$this->tpl->setVariable("CMD","update");
 		$this->tpl->parseCurrentBlock();
 	}
+
 	function alterOperationsOnObject()
 	{
 	}
@@ -483,8 +413,7 @@ class ObjectOut
 	    $this->getTemplateFile("view");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-								$_GET["parent"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?".$this->id_name."=".$this->id."&cmd=gateway");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
@@ -500,8 +429,7 @@ class ObjectOut
 			}
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?ref_id=".$_GET["ref_id"]."&order=type&direction=".
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 
 			$this->tpl->parseCurrentBlock();
@@ -528,7 +456,7 @@ class ObjectOut
 				else
 				{
 					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["ref_id"]);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -546,12 +474,16 @@ class ObjectOut
 						$link = "lo_view.php?";
 					}
 
+					$n = 0;
+
 					foreach ($ctrl as $key2 => $val2)
 					{
 						$link .= $key2."=".$val2;
-						if ($key2 != $ctrl[count($ctrl)-1][$key2])
+
+						if ($n < count($ctrl)-1)
 						{
 					    	$link .= "&";
+							$n++;
 						}
 					}
 
@@ -594,16 +526,14 @@ class ObjectOut
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
-
 	}
-
 
 	/**
 	* list childs of current object
 	*/
 	function viewObject()
 	{
-		global $tree, $rbacsystem,$lng;
+		global $tree,$rbacsystem,$lng;
 
 		//prepare objectlist
 		$this->objectList = array();
@@ -611,12 +541,12 @@ class ObjectOut
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
 
-		if ($tree->getChilds($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
+		if ($tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]))
 		{
 			foreach ($tree->Childs as $key => $val)
 		    {
 				// visible
-				if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
 				{
 					continue;
 				}
@@ -631,9 +561,7 @@ class ObjectOut
 				//control information
 				$this->data["ctrl"][] = array(
 					"type" => $val["type"],
-					"obj_id" => $val["id"],
-					"parent" => $val["parent"],
-					"parent_parent" => $val["parent_parent"]
+					"ref_id" => $val["ref_id"]
 				);
 		    } //foreach
 		} //if
@@ -641,10 +569,8 @@ class ObjectOut
 		$this->displayList();
 	}
 
-
 	function confirmDeleteAdmObject()
 	{
-
 		global $lng;
 
 		if(!isset($_POST["id"]))
@@ -671,7 +597,7 @@ class ObjectOut
 
 		$this->getTemplateFile("confirm");
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
 								$_GET["parent"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -684,10 +610,10 @@ class ObjectOut
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+
 		foreach($this->data["data"] as $key => $value)
 		{
 			// BEGIN TABLE CELL
-
 			foreach($value as $key => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
@@ -703,6 +629,7 @@ class ObjectOut
 				}
 				$this->tpl->parseCurrentBlock();
 			}
+
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->parseCurrentBlock();
@@ -720,19 +647,19 @@ class ObjectOut
 		}
 	}
 
-
 	function trashObject()
 	{
 		$this->getTemplateFile("confirm");
 
-		if($this->data["empty"] == true)
+		if ($this->data["empty"] == true)
 		{
 			return;
 		}
 
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_trash"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
 								$_GET["parent"]."&cmd=gateway");
+
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -744,10 +671,10 @@ class ObjectOut
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+
 		foreach($this->data["data"] as $key1 => $value)
 		{
 			// BEGIN TABLE CELL
-			
 			foreach($value as $key2 => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
@@ -766,8 +693,10 @@ class ObjectOut
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
+
 				$this->tpl->parseCurrentBlock();
 			}
+
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->parseCurrentBlock();
@@ -805,6 +734,7 @@ class ObjectOut
 		$operations = array();
 
 		$d = $this->objDefinition->getActions($_GET["type"]);
+
 		foreach ($d as $row)
 		{
 			if (!in_array($row["name"], $notoperations))
@@ -813,7 +743,8 @@ class ObjectOut
 			}
 		}
 
-		if (count($operations)>0) {
+		if (count($operations)>0)
+		{
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("operation_btn");
@@ -821,6 +752,7 @@ class ObjectOut
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}
+
 			$this->tpl->setCurrentBlock("operation");
 			$this->tpl->parseCurrentBlock();
 		}
@@ -860,8 +792,8 @@ class ObjectOut
 
 			$this->tpl->setCurrentBlock("add_obj");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&obj_id=".
-							  $_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".
+							  $_GET["ref_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -869,14 +801,15 @@ class ObjectOut
 
 	function getTemplateFile($a_cmd,$a_type = "")
 	{
-		if(!$a_type)
+		// <get rid of $_GET variable
+		if (!$a_type)
 		{
 			$a_type = $_GET["type"];
 		}
 
 		$template = "tpl.".$a_type."_".$a_cmd.".html";
 
-		if(!$this->tpl->fileExists($template))
+		if (!$this->tpl->fileExists($template))
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
