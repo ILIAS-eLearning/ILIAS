@@ -182,23 +182,49 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
 	{
-		// get lm/dbk id
+		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
-		$source_lm_page = 
+		$type = ilObject::_lookupType($lm_id, false);
 		
+		switch ($type)
+		{
+			case "lm":
+				$cont_obj = new ilObjLearningModule($lm_id, false);
+				break;
+				
+			case "dbk":
+				$cont_obj = new ilObjDlBook($lm_id, false);
+				break;
+		}
+		
+		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
+		
+		// create new page
 		$meta =& new ilMetaData();
-		$lm_page =& new ilLMPageObject($this->getContentObject());
+		$lm_page =& new ilLMPageObject($cont_obj);
 		$lm_page->assignMetaData($meta);
-		$lm_page->setTitle($this->getTitle());
-		$lm_page->setLMId($this->getLMId());
-		$lm_page->setType($this->getType());
-		$lm_page->setDescription($this->getDescription());
+		$lm_page->setTitle($source_lm_page->getTitle());
+		$lm_page->setLMId($source_lm_page->getLMId());
+		$lm_page->setType($source_lm_page->getType());
+		$lm_page->setDescription($source_lm_page->getDescription());
 		$lm_page->create();
 
+		// copy complete content of source page to new page
+		$source_page =& $source_lm_page->getPageObject();
 		$page =& $lm_page->getPageObject();
-		$page->setXMLContent($this->page_object->getXMLContent());
+		$page->setXMLContent($source_page->getXMLContent());
 		$page->buildDom();
 		$page->update();
+		
+		// insert new page in tree (after original page)
+		$tree = new ilTree($cont_obj->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		if ($tree->isInTree($source_lm_page->getId()))
+		{
+			$parent_node = $tree->getParentNodeData($source_lm_page->getId());
+			$tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
+		}
 
 		return $lm_page;
 		
