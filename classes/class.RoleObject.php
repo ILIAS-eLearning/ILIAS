@@ -46,6 +46,7 @@ class RoleObject extends Object
 	/**
 	* save a new role object
 	* @access	public
+	* @return new ID
 	**/
 	function saveObject($a_obj_id = '', $a_parent = '' , $a_data = '')
 	{
