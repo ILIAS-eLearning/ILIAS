@@ -54,6 +54,7 @@ common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
+common#:#application_date#:#Application date
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
@@ -276,6 +277,8 @@ common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
 common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.
+common#:#group_registration_expiration_date#:#Expiration Date
+common#:#group_registration_mode#:#Registration Mode
 common#:#group_registration_expired#:#Period of registraton expired
 common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
