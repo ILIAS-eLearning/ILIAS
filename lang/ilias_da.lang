@@ -1603,7 +1603,7 @@ common#:#msg_no_perm_modify_rolt#:#du har ikke rettigheder til at &aelig;ndre re
 common#:#msg_no_perm_modify_user#:#du har ikke rettigneder til at &aelig;ndre bruger data
 common#:#msg_no_perm_paste#:#du har ikke rettighedert til at inds&aelig;tte f&oslash;lgende objekt
 common#:#msg_no_perm_perm#:#du har ikke rettigheder til at &aelig;ndre rettigheds indstillinger
-common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#msg_no_perm_read#:#Du har ikke rettigheder til adgang af objekterne
 common#:#msg_no_perm_read_lm#:#du har ingen rettigheder l&aelig;se dette l&aelig;ringsmodul.
 common#:#msg_no_perm_read_track#:#du har ingen rettigheder til at komme ind p&aring; brugeren.
 common#:#msg_no_perm_undelete#:#du har ingen rettigheder til at undelete f&oslash;lgende objekt:
@@ -1655,8 +1655,8 @@ common#:#news#:#Nyheder
 common#:#next#:#n&aelig;ste
 common#:#nickname#:#&oslash;genavn
 common#:#no#:#Nej
-common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
+common#:#no_access_item#:#Du har ikke rettigheder til adgang af objekterne.
+common#:#no_access_item_public#:#Kan ikke faa adgang til objekterne fra den offentlige sektion.
 common#:#no_access_link_object#:#Du har ikke tilladelse til at linke til dette objekt
 common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
@@ -2604,8 +2604,8 @@ crs#:#crs_end#:#Slut
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file_name#:#Filnavn
 crs#:#crs_from#:#Fra:
-crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
-crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Rediger Opgave
+crs#:#crs_grouping_modified_assignment#:#Redigeret Opgave.
 crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
 crs#:#crs_header_edit_members#:#Rediger medlem
@@ -2652,7 +2652,7 @@ crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_number_users_added#:#Det f&oslash;lgende antal brugere er blevet tilmeldt kurset:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Egenskaber
-crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
+crs#:#crs_other_groupings#:#Gruppering af andre kurser
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_pdf#:#PDF
