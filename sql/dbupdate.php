@@ -903,3 +903,6 @@ CREATE TABLE search_tree (
   DELETE FROM usr_search;
   DELETE FROM search_data;
   DELETE FROM search_tree;
+
+<#70>
+UPDATE settings SET value = '3.0.0_beta2' WHERE keyword = 'ilias_version' LIMIT 1;
