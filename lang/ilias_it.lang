@@ -86,6 +86,7 @@ common#:#categories#:#categorie
 common#:#cc#:#cc
 common#:#censorship#:#censorship###13 May 2003 new variable
 common#:#change#:#cambiare
+common#:#change_active_assignment#:#Change active assignment###07 Aug 2003 new variable
 common#:#change_assignment#:#change assignment###04 Aug 2003 new variable
 common#:#change_existing_objects#:#Change existing Objects###29 Mar 2003 new variable
 common#:#change_lo_info#:#cambia LO Informazioni
@@ -684,6 +685,7 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
+content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable

@@ -86,8 +86,8 @@ common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#censorship
 common#:#change#:#Change
-common#:#change_assignment#:#Change assignment
 common#:#change_active_assignment#:#Change active assignment
+common#:#change_assignment#:#Change assignment
 common#:#change_existing_objects#:#Change existing Objects
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -685,9 +685,9 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_organization#:#default
 content#:#cont_dependencies#:#Dependencies
+content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties
-content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_file#:#File
