@@ -127,9 +127,16 @@ class ilPageObject extends ilLMObject
 		$this->content[] =& $a_content_obj;
 	}
 
-	function getContent()
+	function getContent($a_nr = 0)
 	{
-		return $this->content;
+		if($a_nr == 0)
+		{
+			return $this->content;
+		}
+		else
+		{
+			return $this->content[$a_nr];
+		}
 	}
 
 	function getXMLContent()

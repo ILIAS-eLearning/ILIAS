@@ -39,34 +39,83 @@ class ilParagraphGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $lm_obj;
+	var $pg_obj;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraphGUI(&$a_para_obj)
+	function ilParagraphGUI(&$a_lm_obj, &$a_pg_obj, &$a_para_obj)
 	{
 		global $ilias, $tpl, $lng;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->lm_obj =& $a_lm_obj;
+		$this->pg_obj =& $a_pg_obj;
 		$this->para_obj =& $a_para_obj;
 	}
 
-	function edit($a_template_var)
+	function edit()
 	{
-		$this->tpl->addBlockFile($a_template_var, "paragraph_edit", "tpl.paragraph_edit.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit.html", true);
+		$content = $this->pg_obj->getContent();
+		$cnt = 1;
+
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+			"&cont_cnt=".$_GET["cont_cnt"]."&cmd=post");
+
+		// content edit
+		$cur_content_obj = $content[$_GET["cont_cnt"] - 1];
+
+		$this->tpl->addBlockFile("EDIT_CONTENT", "paragraph_edit", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		//echo htmlentities($this->para_obj->getText());
 		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2output($this->para_obj->getText()));
 		//$this->tpl->setVariable("PAR_TA_CONTENT", "Hallo Echo");
 		$this->tpl->parseCurrentBlock();
+
+		reset($content);
+		foreach ($content as $content_obj)
+		{
+			switch (get_class($content_obj))
+			{
+				case "ilparagraph":
+					$cont_sel[$cnt] = ilUtil::shortenText($content_obj->getText(),40);
+					break;
+			}
+			$cnt++;
+		}
+		$this->tpl->setCurrentBlock("content_selection");
+		$this->tpl->setVariable("SELECT_CONTENT" ,
+			ilUtil::formSelect($_GET["cont_cnt"], "cont_cnt",$cont_sel, false, true));
+		$this->tpl->setVariable("BTN_NAME", "edit");
+		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt("select"));
+		$this->tpl->parseCurrentBlock();
+
+		// operations
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "update");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
 	}
 
-	function processInput()
+	function update()
 	{
+		//$content = $this->pg_obj->getContent();
+
+		//$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
+
 		$this->para_obj->setText($this->input2xml($_POST["par_content"]));
+		$this->pg_obj->update();
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$this->pg_obj->getId());
+		exit;
+
 	}
 
 	function input2xml($a_text)
