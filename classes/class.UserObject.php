@@ -144,7 +144,7 @@ class UserObject extends Object
 
 		$parent_obj_id = $this->getParentObjectId();
 
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
 			$user = new User($this->ilias->db,$_GET["obj_id"]);
@@ -213,14 +213,13 @@ class UserObject extends Object
  */
 	function updateObject()
 	{
-		$Fuserdata = $_POST["Fuserdata"];
-
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-
-		$parent_obj_id = $this->getParentObjectId();
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
+			$Fuserdata = $_POST["Fuserdata"];
+			$rbacadmin = new RbacAdminH($this->ilias->db);
+			$rbacsystem = new RbacSystemH($this->ilias->db);
+			
+			$parent_obj_id = $this->getParentObjectId();
 			$rbacadmin->updateUser($Fuserdata);
 			$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
 			// TODO: Passwort muss gesondert abgefragt werden
