@@ -747,7 +747,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->prepareOutput(false);
+		$this->prepareOutput(true,1);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_edit"));
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -1028,15 +1028,80 @@ class ilGroupGUI extends ilObjectGUI
 	* @param	multidimensional array for additional tabs; is only passed on;optional
 	* @param	script that is used for linking in loacator;optional; default: "group.php"
 	**/
-	function prepareOutput($tabs=true, $addtab="")
+	function prepareOutput($tabs=true, $active="")
 	{
+		global $rbacsystem;
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		//$title = $this->object->getTitle();
+
 		infoPanel();
 		sendInfo();
-		$this->setAdminTabs($tabs, $addtab);
+		$tab = array();
+		$tab[0] = array ();
+		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"]."&active=0";//link for tab
+		$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] ='resources';
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id."&active=1";			//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';						//tab -text
+
+		$tab[2] = array ();
+		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id."&active=2";			//link for tab
+		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
+
+		$tab[5] = array ();
+		$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id."&active=5";			//link for tab
+		$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[5]["tab_text"] = 'application_list';						//tab -text
+
+		//check if trash is filled
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+
+		if (count($objects) > 0)
+		{
+			$tab[4] = array ();
+			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
+			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[4]["tab_text"] = 'trash';						//tab -text
+		}
+
+		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
+		{
+			$tab[3] = array ();
+			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"]."&active=3";		//link for tab
+			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[3]["tab_text"] = "properties";				//tab -text
+		}
+
+		if ($this->grp_object->isAdmin($_SESSION["AccountId"]))
+		{
+			$tab[6] = array ();
+			$tab[6]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"]."&active=6";		//link for tab
+			$tab[6]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[6]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[6]["tab_text"] = "permission";				//tab -text
+		}
+
+		if ( empty ($_GET["active"]))
+		{
+			$_GET["active"] = $active;
+		}
+		$tab[$_GET["active"]]["ftabtype"] = "tabactive";
+
+
+		$this->setAdminTabs($tabs, $tab);
 		$this->setLocator();
+
 	}
 
 	/**
@@ -1119,56 +1184,15 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 	}
-			
+
 	function showApplicationList()
 	{
 		global $rbacsystem;
 
-		$tab = array();
-
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-		$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
-		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='resources';
-
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';						//tab -text
-		
-		$tab[2] = array ();
-		$tab[2]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
-		$tab[2]["ftabtype"] = 'tabactive';						//tab is marked
-		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[2]["tab_text"] = 'application_list';						//tab -text
-				
-		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
-		
-		if (count($objects) > 0)
-		{
-			$tab[4] = array ();
-			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
-			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
-
-		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
-		{
-			$tab[3] = array ();
-			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[3]["tab_text"] = "properties";				//tab -text
-		}
-
 		$this->prepareOutput(false, $tab);
-		
+
 		$applications = $this->object->getApplicationList();
-				
+
 		$img_contact = "pencil";
 		$img_change = "change";
 		$img_leave = "group_out";
@@ -1221,7 +1245,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		//sort data array
 		include_once "./include/inc.sort.php";
 		include_once "./classes/class.ilTableGUI.php";
@@ -1261,7 +1285,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 		$this->tpl->show();
 	}
-	
+
 	/**
 	* show possible action (form buttons)
 	*
@@ -1396,60 +1420,14 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$tab = array();
 
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-		$tab[0]["ftabtype"] = "tabactive";  					//tab is marked
-		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='resources';
-
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';						//tab -text
-
-		$tab[2] = array ();
-		$tab[2]["tab_cmd"]  = $_GET["tree"] ? 'cmd=show_content&ref_id='.$this->grp_id : 'cmd=show_content&tree=true&ref_id='.$this->grp_id;			//link for tab
-		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
-
-		$tab[5] = array ();
-		$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
-		$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[5]["tab_text"] = 'application_list';						//tab -text
-				
-		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
-		
-		if (count($objects) > 0)
-		{
-			$tab[4] = array ();
-			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
-			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
-
-		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
-		{
-			$tab[3] = array ();
-			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[3]["tab_text"] = "properties";				//tab -text
-		}
-
-		$this->prepareOutput(false, $tab);
+		$this->prepareOutput(false, 0);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 		// set offset & limit
-		
+
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 		if (count($objects) > 0)
 		{
@@ -1558,13 +1536,12 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		// render table
 		$tbl->render();
 //		$this->tpl->show();
-		
+
 // SHOW GROUP-RESOURCE-STRUCTURE
 		if($_GET["tree"] == true)
 		{
@@ -1840,28 +1817,13 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
 		}
 
-		$tab = array();
-
-		//create additional tabs for tab-bar
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
-		$tab[0]["ftabtype"] = 'tabinactive';
-		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'resources';
-
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
-		$tab[1]["ftabtype"] = 'tabactive';
-		$tab[1]["target"] = "bottom";
-		$tab[1]["tab_text"] = 'group_members';
-
-		$this->prepareOutput(false, $tab);
+		$this->prepareOutput(false, 1);
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$admin_ids = $newGrp->getGroupAdminIds();
 
 		//if current user is admin he is able to add new members to group
-		
+
 		/*$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		if (in_array($_SESSION["AccountId"], $admin_ids))
 		{
