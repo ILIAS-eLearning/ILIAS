@@ -260,7 +260,7 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function sendFileObject()
 	{
-		$this->object->sendFile();
+		$this->object->sendFile($_GET["hist_id"]);
 		
 		return true;
 	}
@@ -293,7 +293,7 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
