@@ -34,6 +34,7 @@
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
+common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -61,6 +62,8 @@ common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
 common#:#cancel#:#Verwerfen
+common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
+common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
@@ -68,6 +71,7 @@ common#:#change#:#ändern
 common#:#change_language#:#Benutzersprache ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
+common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
@@ -76,6 +80,7 @@ common#:#check_language#:#Sprache checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
@@ -104,7 +109,10 @@ common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
 common#:#default#:#default
+common#:#default_language#:#Standard-Sprache
 common#:#default_role#:#Standardrolle
+common#:#default_skin#:#Standard-Benutzeroberfläche
+common#:#default_style#:#Standard-Stylesheet
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_object#:#Lösche Objekte
@@ -122,6 +130,7 @@ common#:#edit_properties#:#Eigenschaften
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#Email
+common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
 common#:#employee#:#Angestellter
 common#:#enable#:#Aktivieren
 common#:#enabled#:#Eingeschaltet
@@ -200,6 +209,7 @@ common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_trash#:#Gelöschte Objekte
 common#:#information_abbr#:#Infos
 common#:#inifile#:#Ini-Datei
+common#:#input_error#:#Eingabefehler
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
@@ -207,6 +217,7 @@ common#:#install#:#Installieren
 common#:#installed#:#Installiert
 common#:#institution#:#Institution
 common#:#ip_address#:#IP Adresse
+common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_dateformat#:#d.m.Y
@@ -227,7 +238,11 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
 common#:#language#:#Sprache
+common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
+common#:#languages_already_installed#:#Lustig! Angewählte Sprache(n) sind bereits installiert.
+common#:#languages_already_uninstalled#:#Lustig! Angewählte Sprache(n) sind bereits deinstalliert.
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
@@ -258,8 +273,10 @@ common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
 common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
+common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Ungelesene Mail(s)
+common#:#mail_sent#:#Mail erfolgreich versendet!
 common#:#mails#:#Mails
 common#:#mandatory_fields#:#Pflichtfelder
 common#:#mark_all_read#:#Als gelesen markieren
@@ -269,6 +286,7 @@ common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#migrate#:#Migrieren
+common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_failed#:#Aktion fehlgeschlagen
@@ -301,6 +319,7 @@ common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
+common#:#nothing_checked#:#Lustig! Keine Checkbox angekreuzt.
 common#:#obj#:#Objekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_owner#:#Besitzer des Objekts ist
@@ -330,6 +349,7 @@ common#:#path_to_convert#:#CONVERT Befehlszeile
 common#:#path_to_java#:#JAVA Befehlszeile
 common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
+common#:#pathes#:#Pfade
 common#:#payment_system#:#Bezahlungssystem
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
@@ -398,6 +418,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
+common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
@@ -425,10 +446,11 @@ common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#type#:#Typ
+common#:#typ#:#Objekttyp-Definitioncommon#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
 common#:#uninstall#:#Deinstallieren
+common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
 common#:#update_applied#:#Datenbankupdate erfolgreich
@@ -437,6 +459,7 @@ common#:#upload#:#Hochladen
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
+common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
@@ -456,27 +479,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#default_skin#:#Standard-Benutzeroberfläche
-common#:#default_style#:#Standard-Stylesheet
-common#:#default_language#:#Standard-Sprache
-common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
-common#:#pathes#:#Pfade
-common#:#modules#:#Module
-common#:#input_error#:#Eingabefehler
-common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
-common#:#changed_to#:#gewechselt zu
-common#:#nothing_checked#:#Lustig! Keine Checkbox angekreuzt.
-common#:#user_language#:#Benutzersprache
-common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
-common#:#action_aborted#:#Aktion abgebrochen!
-common#:#is_already_your#:#ist bereits Ihre
-common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
-common#:#languages_already_uninstalled#:#Lustig! Angewählte Sprache(n) sind bereits deinstalliert.
-common#:#languages_already_installed#:#Lustig! Angewählte Sprache(n) sind bereits installiert.
-common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
-common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
-common#:#uninstalled#:#deinstalliert.
-common#:#mail_sent#:#Mail erfolgreich versendet!
-common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
-common#:#smtp#:#SMTP
-common#:#typ#:#Objekttyp-Definition

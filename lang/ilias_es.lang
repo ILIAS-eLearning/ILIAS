@@ -34,6 +34,7 @@
 common#:#absolute_path#:#absolute path
 common#:#accept_usr_agreement#:#accept user agreement?
 common#:#access#:#access
+common#:#action_aborted#:#Action aborted!###20 Mar 2003 new variable
 common#:#actions#:#actions
 common#:#add#:#add
 common#:#add_author#:#add author
@@ -61,6 +62,8 @@ common#:#btn_remove_system#:#remove from system
 common#:#btn_undelete#:#undelete
 common#:#by#:#by
 common#:#cancel#:#cancel
+common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
+common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
 common#:#cat#:#cat
 common#:#categories#:#categories
 common#:#cc#:#cc
@@ -68,6 +71,7 @@ common#:#change#:#change
 common#:#change_language#:#set user language
 common#:#change_lo_info#:#change lo info
 common#:#change_metadata#:#change metadata
+common#:#changed_to#:#changed to###20 Mar 2003 new variable
 common#:#chapter#:#chapter
 common#:#chapter_number#:#chapter number
 common#:#chapter_title#:#chapter title
@@ -76,6 +80,7 @@ common#:#check_language#:#check language
 common#:#chg_language#:#change language
 common#:#chg_password#:#change password
 common#:#choose_language#:#choose your language
+common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 2003 new variable
 common#:#city#:#ciudad
 common#:#clear#:#clear
 common#:#comma_separated#:#comma separated
@@ -104,7 +109,10 @@ common#:#db_type#:#database type
 common#:#db_user#:#database user
 common#:#db_version#:#database version
 common#:#default#:#default
+common#:#default_language#:#Default Language###20 Mar 2003 new variable
 common#:#default_role#:#def_role
+common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
+common#:#default_style#:#Default Style###20 Mar 2003 new variable
 common#:#delete#:#delete
 common#:#delete_all#:#delete all
 common#:#delete_object#:#delete object(s)
@@ -122,6 +130,7 @@ common#:#edit_properties#:#edit properties
 common#:#edited_at#:#edited at
 common#:#editor#:#editor
 common#:#email#:#email
+common#:#email_not_valid#:#The email addess you entered is not valid!###20 Mar 2003 new variable
 common#:#employee#:#employee
 common#:#enable#:#enable
 common#:#enabled#:#enabled
@@ -200,6 +209,7 @@ common#:#info_deleted#:#Object(s) deleted
 common#:#info_trash#:#Deleted Objects
 common#:#information_abbr#:#info
 common#:#inifile#:#ini-file
+common#:#input_error#:#Input error###20 Mar 2003 new variable
 common#:#inst_id#:#installation ID
 common#:#inst_info#:#installation info
 common#:#inst_name#:#installation name
@@ -207,6 +217,7 @@ common#:#install#:#install
 common#:#installed#:#installed
 common#:#institution#:#institution
 common#:#ip_address#:#IP address
+common#:#is_already_your#:#is already your###20 Mar 2003 new variable
 common#:#item#:#item
 common#:#keywords#:#keywords
 common#:#lang_dateformat#:#Y-m-d
@@ -227,7 +238,11 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#language#:#language
+common#:#language_not_installed#:#is not installed. Please install that language first.###20 Mar 2003 new variable
 common#:#languages#:#languages
+common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.###20 Mar 2003 new variable
+common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.###20 Mar 2003 new variable
+common#:#languages_updated#:#All installed languages have been updated.###20 Mar 2003 new variable
 common#:#last_change#:#last change
 common#:#last_visit#:#Last visit###07 Feb 2003 new variable
 common#:#lastname#:#lastname
@@ -258,8 +273,10 @@ common#:#logout#:#logout
 common#:#los#:#learning objects
 common#:#los_last_visited#:#last visited learning objects
 common#:#mail#:#mail
+common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
 common#:#mail_s#:#mail(s)
 common#:#mail_s_unread#:#unread mail(s)
+common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
 common#:#mails#:#mails
 common#:#mandatory_fields#:#mandatory fields
 common#:#mark_all_read#:#mark all as read
@@ -269,6 +286,7 @@ common#:#message#:#message
 common#:#message_content#:#message content
 common#:#message_to#:#message to:
 common#:#migrate#:#migrate
+common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#move to
 common#:#msg_changes_ok#:#the changes were ok
 common#:#msg_failed#:#sorry, action failed
@@ -300,6 +318,7 @@ common#:#no_title#:#no title
 common#:#none#:#none
 common#:#normal#:#normal
 common#:#not_installed#:#not installed
+common#:#nothing_checked#:#Funny, no checkbox checked.###20 Mar 2003 new variable
 common#:#obj#:#obj
 common#:#obj_not_found#:#object_not_found
 common#:#obj_owner#:#This Object is owned by
@@ -329,6 +348,7 @@ common#:#path_to_convert#:#path to convert
 common#:#path_to_java#:#path to java
 common#:#path_to_unzip#:#path to unzip
 common#:#path_to_zip#:#path to zip
+common#:#pathes#:#Pathes###20 Mar 2003 new variable
 common#:#payment_system#:#payment system
 common#:#perm_settings#:#permissions
 common#:#permission#:#permission
@@ -397,6 +417,7 @@ common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
+common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#startpage#:#startpage
 common#:#status#:#status
 common#:#step#:#step
@@ -424,10 +445,12 @@ common#:#total#:#total
 common#:#tpl_path#:#template path
 common#:#trash#:#trash
 common#:#treeview#:#Tree view###07 Feb 2003 new variable
+common#:#typ#:#Object Type Definition###20 Mar 2003 new variable
 common#:#type#:#type
 common#:#type_your_message_here#:#type your message here
 common#:#uid#:#uid
 common#:#uninstall#:#uninstall
+common#:#uninstalled#:#uninstalled.###20 Mar 2003 new variable
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#unread
 common#:#update_applied#:#update applied###22 Jan 2003 new variable
@@ -436,6 +459,7 @@ common#:#upload#:#Upload###04 Mar 2003 new variable
 common#:#url#:#url
 common#:#url_description#:#url description
 common#:#user#:#user
+common#:#user_language#:#User Language###20 Mar 2003 new variable
 common#:#userdata#:#userdata
 common#:#username#:#username
 common#:#users#:#users
