@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.42 2004/10/14 10:33:16 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.41.2.1 2004/10/14 10:24:59 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -363,9 +363,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
-				$settings["enable_registration"] = $_POST["enable_registration"];
+				$settings["password_assistance"] = $_POST["password_assistance"];
 				$settings["https"] = $_POST["https"];
-
+				
 				// contact
 				$settings["admin_firstname"] = $_POST["admin_firstname"];
 				$settings["admin_lastname"] = $_POST["admin_lastname"];
@@ -378,6 +378,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["admin_country"] = $_POST["admin_country"];
 				$settings["admin_phone"] = $_POST["admin_phone"];
 				$settings["admin_email"] = $_POST["admin_email"];
+
+				// registration
+				$settings["enable_registration"] = $_POST["enable_registration"];
 			}
 			else // all required fields ok
 			{
@@ -402,20 +405,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						$this->ilias->ini->setVariable("layout","style",$sknst[1]);
 					}
 				}
-                                // set default view target
-                                if ($_POST["open_views_inside_frameset"] == "1")
-                                {
-                                    $this->ilias->ini->setVariable("layout","view_target","frame");
-                                }
-                                else
-                                {
-                                    $this->ilias->ini->setVariable("layout","view_target","window");
-                                }
+				// set default view target
+				if ($_POST["open_views_inside_frameset"] == "1")
+				{
+					$this->ilias->ini->setVariable("layout","view_target","frame");
+				}
+				else
+				{
+					$this->ilias->ini->setVariable("layout","view_target","window");
+				}
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
-				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
 				$this->ilias->setSetting('https',$_POST['https']);
+				$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
 
 				// contact
 				$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -429,6 +432,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ilias->setSetting("admin_country",$_POST["admin_country"]);
 				$this->ilias->setSetting("admin_phone",$_POST["admin_phone"]);
 				$this->ilias->setSetting("admin_email",$_POST["admin_email"]);
+
+				// Registration
+				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
 
                 // mandatory user information, overrides next section
                 $_POST["require_default_role"]  = 1;
@@ -515,9 +521,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_DB_UPDATE", "&nbsp;(<span class=\"warning\">".$this->lng->txt("db_need_update")."</span>)");
 		}
 
-		// modules
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
+		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
+		if (AUTH_CURRENT != AUTH_LOCAL)
+		{
+			$this->tpl->setVariable("DISABLE_PASSWORD_ASSISTANCE", 'disabled=\"disabled\"');
+			$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_DISABLED", $this->lng->txt("password_assistance_disabled"));
+		}
+		$this->tpl->setVariable("TXT_PASSWORD_ASSISTANCE_INFO", $this->lng->txt("password_assistance_info"));
+
+
+		// Registration
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("registration"));
 		$this->tpl->setVariable("TXT_ENABLE_REGISTRATION", $this->lng->txt("enable_registration"));
 
 		if (AUTH_CURRENT != AUTH_LOCAL)
@@ -626,16 +642,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			}
 		}
 
-                // default view target
+		// default view target
 		$view_target = $this->ilias->ini->readVariable("layout","view_target");
-                if ($view_target == "frame") 
-                {
-                    $this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","checked=\"checked\"");
-                }
-                else
-                {
-                    $this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","");
-                }
+		if ($view_target == "frame") 
+		{
+			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","checked=\"checked\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","");
+		}
  
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
@@ -653,7 +669,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// modules
 		if ($settings["pub_section"])
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
@@ -662,6 +677,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HTTPS","checked=\"checked\"");
 		}
+		if($settings['password_assistance'])
+		{
+			$this->tpl->setVariable("PASSWORD_ASSISTANCE","checked=\"checked\"");
+		}
+
+
+        // registration
 		if ($settings["enable_registration"])
 		{
 			$this->tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
