@@ -450,7 +450,9 @@ class ilObjCourse extends ilObject
 
 		$this->initCourseMemberObject();
 		$this->members_obj->deleteAllEntries();
-		
+
+		$this->initCourseArchiveObject();
+		$this->archives_obj->deleteAll();
 
 		return true;
 	}

@@ -593,6 +593,16 @@ class ilObjCourseGUI extends ilObjectGUI
 			$f_result[$counter][]	= $archive_data["archive_name"];
 			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
 			$f_result[$counter][]	= $archive_data["archive_size"];
+
+			if($archive_data["archive_lang"])
+			{
+				$f_result[$counter][]	= $this->lng->txt('lang_'.$archive_data["archive_lang"]);
+			}
+			else
+			{
+				$f_result[$counter][]	= $this->lng->txt('crs_no_value');
+			}
+				
 			switch($archive_data["archive_type"])
 			{
 				case $this->object->archives_obj->ARCHIVE_XML:
@@ -636,8 +646,10 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html",true);
 
 		$this->__showButton('addXMLArchive',$this->lng->txt("crs_add_archive_xml"));
-		$this->__showButton('addHTMLArchive',$this->lng->txt("crs_add_archive_html"));
-		$this->__showButton('addPDFArchive',$this->lng->txt("crs_add_archive_pdf"));
+		$this->__showButton('selectArchiveLanguage',$this->lng->txt("crs_add_archive_html"));
+
+		// Temporaly disabled
+		#$this->__showButton('addPDFArchive',$this->lng->txt("crs_add_archive_pdf"));
 
 
 		if($a_show_confirm)
@@ -663,6 +675,16 @@ class ilObjCourseGUI extends ilObjectGUI
 			$f_result[$counter][]	= $archive_data["archive_name"];
 			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
 			$f_result[$counter][]	= $archive_data["archive_size"];
+
+			if($archive_data["archive_lang"])
+			{
+				$f_result[$counter][]	= $this->lng->txt('lang_'.$archive_data["archive_lang"]);
+			}
+			else
+			{
+				$f_result[$counter][]	= $this->lng->txt('crs_no_value');
+			}
+
 			switch($archive_data["archive_type"])
 			{
 				case $this->object->archives_obj->ARCHIVE_XML:
@@ -756,6 +778,39 @@ class ilObjCourseGUI extends ilObjectGUI
 			unset($_SESSION["crs_archives"]);
 		}
 	}
+	function selectArchiveLanguageObject()
+	{
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'write'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach($this->lng->getInstalledLanguages() as $lang_code)
+		{
+			$actions["$lang_code"] = $this->lng->txt('lang_'.$lang_code);
+
+			if($this->lng->getLangKey() == $lang_code)
+			{
+				$selected = $lang_code;
+			}
+		}
+
+		sendInfo($this->lng->txt('crs_select_archive_language'));
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html",true);
+
+		$this->tpl->setVariable("SELECT_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("LANG_SELECTOR",ilUtil::formSelect($selected,'lang',$actions,false,true));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('crs_add_html_archive'));
+		$this->tpl->setVariable("CMD_SUBMIT",'addHTMLArchive');
+
+		return true;
+	}
+
 	function addXMLArchiveObject()
 	{
 		global $rbacsystem;
@@ -785,6 +840,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		
 		$this->object->initCourseArchiveObject();
+		$this->object->archives_obj->setLanguage($_POST['lang']);
 		$this->object->archives_obj->addHTML();
 
 		sendInfo($this->lng->txt("crs_added_new_archive"));
@@ -2206,7 +2262,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($a_download_perm)
 		{
 			$tpl->setCurrentBlock("tbl_action_row");
-			$tpl->setVariable("COLUMN_COUNTS",5);
+			$tpl->setVariable("COLUMN_COUNTS",6);
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 			#$tpl->setCurrentBlock("tbl_action_btn");
@@ -2231,12 +2287,14 @@ class ilObjCourseGUI extends ilObjectGUI
 								  $this->lng->txt("file_name"),
 								  $this->lng->txt("create_date"),
 								  $this->lng->txt("size"),
+								  $this->lng->txt("archive_lang"),
 								  $this->lng->txt("archive_type"));
 
 			$header_vars = array("",
 								 "name",
 								 "type",
 								 "date",
+								 "lang",
 								 "size");
 			$column_width = array("4%","26%","20%","10%","20%");
 		}
@@ -2245,11 +2303,13 @@ class ilObjCourseGUI extends ilObjectGUI
 			$header_names = array($this->lng->txt("file_name"),
 								  $this->lng->txt("create_date"),
 								  $this->lng->txt("size"),
+								  $this->lng->txt("archive_lang"),
 								  $this->lng->txt("archive_type"));
 
 			$header_vars = array("name",
 								 "type",
 								 "date",
+								 "lang",
 								 "size");
 			$column_width = array("28%","22%","10%","20%");
 		}
@@ -2285,7 +2345,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 
-		$tpl->setVariable("COLUMN_COUNTS",5);
+		$tpl->setVariable("COLUMN_COUNTS",6);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -2308,11 +2368,13 @@ class ilObjCourseGUI extends ilObjectGUI
 								   $this->lng->txt("file_name"),
 								   $this->lng->txt("create_date"),
 								   $this->lng->txt("size"),
+								   $this->lng->txt("language"),
 								   $this->lng->txt("archive_type")));
 		$tbl->setHeaderVars(array("",
 								  "name",
 								  "type",
 								  "date",
+								  "language",
 								  "size"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "archive",
