@@ -615,6 +615,8 @@ class ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "glo":
+				sendInfo("glossary links are not yet supported!");
+				$this->editQuestion();
 				break;
 			case "lm":
 				$subquestion_index = 0;

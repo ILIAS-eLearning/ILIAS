@@ -1168,14 +1168,34 @@ class ASS_Question
 		}
 	}
 	
+/**
+* Deletes all suggestes solutions in the database
+*
+* Deletes all suggestes solutions in the database
+*
+* @access public
+*/
 	function deleteSuggestedSolutions()
 	{
+		// delete the links in the qpl_suggested_solutions table
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote($this->getId() . "")
 		);
 		$result = $this->ilias->db->query($query);
+		// delete the links in the int_link table
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 	}
 	
+/**
+* Returns a suggested solution for a given subquestion index
+*
+* Returns a suggested solution for a given subquestion index
+*
+* @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
+* @return array A suggested solution array containing the internal link
+* @access public
+*/
 	function getSuggestedSolution($subquestion_index = 0)
 	{
 		if (array_key_exists($subquestion_index, $this->suggested_solutions))
@@ -1187,7 +1207,42 @@ class ASS_Question
 			return array();
 		}
 	}
-	
+
+/**
+* Returns the title of a suggested solution at a given subquestion_index
+*
+* Returns the title of a suggested solution at a given subquestion_index.
+* This can be usable for displaying suggested solutions
+*
+* @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
+* @return string A string containing the type and title of the internal link
+* @access public
+*/
+	function getSuggestedSolutionTitle($subquestion_index = 0)
+	{
+		if (array_key_exists($subquestion_index, $this->suggested_solutions))
+		{
+			$title = $this->suggested_solutions[$subquestion_index]["internal_link"];
+			// TO DO: resolve internal link an get link type and title
+		}
+		else
+		{
+			$title = "";
+		}
+		return $title;
+	}
+
+/**
+* Sets a suggested solution for the question
+*
+* Sets a suggested solution for the question.
+* If there is more than one subquestion (i.e. close questions) may enter a subquestion index.
+*
+* @param string $solution_id An internal link pointing to the suggested solution
+* @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
+* @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
+* @access public
+*/
 	function setSuggestedSolution($solution_id = "", $subquestion_index = 0, $is_import = false)
 	{
 		if (strcmp($solution_id, "") != 0)
@@ -1195,36 +1250,97 @@ class ASS_Question
 			$import_id = "";
 			if ($is_import)
 			{
-				if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $solution_id, $matches))
-				{
-					require_once "./content/classes/Pages/class.ilInternalLink.php";
-					require_once "./content/classes/class.ilLMObject.php";
-					$import_id = $solution_id;
-					switch ($matches[2])
-					{
-						case "pg":
-							$solution_id = ilInternalLink::_getIdForImportId("PageObject", $import_id);
-							break;
-						case "st":
-							$solution_id = ilInternalLink::_getIdForImportId("StructureObject", $import_id);
-							break;
-						case "git":
-							$solution_id = ilInternalLink::_getIdForImportId("GlossaryItem", $import_id);
-							break;
-						case "mob":
-							$solution_id = ilInternalLink::_getIdForImportId("MediaObject", $import_id);
-							break;
-					}
-					if (strcmp($solution_id, "") == 0)
-					{
-						$solution_id = $import_id;
-					}
-				}
+				$import_id = $solution_id;
+				$solution_id = $this->_resolveInternalLink($import_id);
 			}
 			$this->suggested_solutions[$subquestion_index] = array(
 				"internal_link" => $solution_id,
 				"import_id" => $import_id
 			);
+		}
+	}
+	
+	function _resolveInternalLink($internal_link)
+	{
+		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
+		{
+			require_once "./content/classes/Pages/class.ilInternalLink.php";
+			require_once "./content/classes/class.ilLMObject.php";
+			switch ($matches[2])
+			{
+				case "pg":
+					$resolved_link = ilInternalLink::_getIdForImportId("PageObject", $internal_link);
+					break;
+				case "st":
+					$resolved_link = ilInternalLink::_getIdForImportId("StructureObject", $internal_link);
+					break;
+				case "git":
+					$resolved_link = ilInternalLink::_getIdForImportId("GlossaryItem", $internal_link);
+					break;
+				case "mob":
+					$resolved_link = ilInternalLink::_getIdForImportId("MediaObject", $internal_link);
+					break;
+			}
+			if (strcmp($resolved_link, "") == 0)
+			{
+				$resolved_link = $internal_link;
+			}
+		}
+		else
+		{
+			$resolved_link = $internal_link;
+		}
+		return $resolved_link;
+	}
+	
+	function _resolveIntLinks($question_id)
+	{
+		global $ilDB;
+		$resolvedlinks = 0;
+		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_HASHREF))
+			{
+				$internal_link = $row["internal_link"];
+				$resolved_link = ASS_Question::_resolveInternalLink($internal_link);
+				if (strcmp($internal_link, $resolved_link) != 0)
+				{
+					// internal link was resolved successfully
+					$queryupdate = sprintf("UPDATE qpl_suggested_solutions SET internal_link = %s WHERE suggested_solution_id = %s",
+						$ilDB->quote($resolved_link),
+						$ilDB->quote($row["suggested_solution_id"] . "")
+					);
+					$updateresult = $ilDB->query($queryupdate);
+					$resolvedlinks++;
+				}
+			}
+		}
+		if ($resolvedlinks)
+		{
+			// there are resolved links -> reenter theses links to the database
+
+			// delete all internal links from the database
+			require_once "./content/classes/Pages/class.ilInternalLink.php";
+			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
+
+			$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_HASHREF))
+				{
+					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
+					{
+						ilInternalLink::_saveLink("qst", $question_id, $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
 		}
 	}
 	
