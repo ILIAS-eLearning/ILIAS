@@ -449,12 +449,14 @@ class ilGroupGUI extends ilObjectGUI
 
 		$member_ids = array();
 		if(isset($_POST["user_id"]))
+		{
 			$member_ids = $_POST["user_id"];
+		}
 		else
 		{
 			if(isset($_GET["mem_id"]))
 			{
-			$member_ids[0] = $_GET["mem_id"];
+				$member_ids[0] = $_GET["mem_id"];
 			}
 			else
 			{
@@ -480,7 +482,7 @@ class ilGroupGUI extends ilObjectGUI
 				"login"        => $member->getLogin(),
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
-				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,false,true,0)
+				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3) //displays selectionbox with multiple selection !!!
 				);
 			unset($member);
 		}
@@ -668,6 +670,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 	/**
+	* assign applicants object calls the confirmation method with correct parameter
 	* @access	public
 	*/
 	function confirmedAssignApplicantsObject()
@@ -696,6 +699,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 	/**
+	* adds member to group as member	
 	* @access	public
 	*/
 	function confirmedAssignMemberObject($a_userIds="")
@@ -1774,14 +1778,12 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$this->prepareOutput(false, 6);
-
-		$applications = $this->object->getApplicationList();
+		//get new applicants
+		$applications = $this->object->getNewRegistrations();
 
 		$img_contact = "pencil";
 		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-
 //		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-
 		foreach($applications as $applicant)
 		{
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
