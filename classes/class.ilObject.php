@@ -211,8 +211,8 @@ class ilObject
 
 		$this->id = $obj["obj_id"];
 		$this->type = $obj["type"];
-		$this->title = $obj["title"];
-		$this->desc = $obj["description"];
+		$this->title = ilUtil::stripSlashes($obj["title"]);
+		$this->desc = ilUtil::stripSlashes($obj["description"]);
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
@@ -223,8 +223,8 @@ class ilObject
 
 		if ($translation_type == "sys")
 		{
-			$this->title = $this->lng->txt("obj_".$this->type);
-			$this->desc = $this->lng->txt("obj_".$this->type."_desc");
+			$this->title = ilUtil::stripSlashes($this->lng->txt("obj_".$this->type));
+			$this->desc = ilUtil::stripSlashes($this->lng->txt("obj_".$this->type."_desc"));
 		}
 		elseif ($translation_type == "db")
 		{
@@ -237,8 +237,8 @@ class ilObject
 
 			if ($row)
 			{
-				$this->title = $row->title;
-				$this->desc = $row->description;
+				$this->title = ilUtil::stripSlashes($row->title);
+				$this->desc = ilUtil::stripSlashes($row->description);
 			}
 		}
 	}
@@ -327,7 +327,7 @@ class ilObject
 			$a_title = "NO TITLE";
 		}
 
-		$this->title = addslashes(ilUtil::shortenText($a_title, $this->max_title, $this->add_dots));
+		$this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
 	}
 
 	/**
@@ -349,7 +349,7 @@ class ilObject
 	*/
 	function setDescription($a_desc)
 	{
-		$this->desc = addslashes(ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots));
+		$this->desc = ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots);
 	}
 
 	/**
@@ -473,13 +473,13 @@ class ilObject
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$this->title = addslashes(ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots));
-		$this->desc = addslashes(ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots));
+		$this->title = ilUtil::shortenText($this->getTitle(), $this->max_title, $this->add_dots);
+		$this->desc = ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots);
 
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
-			 "('".$this->type."','".$this->getTitle()."','".$this->getDescription()."',".
+			 "('".$this->type."','".addslashes($this->getTitle())."','".addslashes($this->getDescription())."',".
 			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
 		$this->ilias->db->query($q);
 
@@ -511,8 +511,8 @@ class ilObject
 	{
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = '".$this->getTitle()."',".
-			"description = '".$this->getDescription()."', ".
+			"title = '".addslashes($this->getTitle())."',".
+			"description = '".addslashes($this->getDescription())."', ".
 			"import_id = '".$this->getImportId()."', ".
 			"last_update = now() ".
 			"WHERE obj_id = '".$this->getId()."'";

@@ -624,7 +624,7 @@ class ilObjUser extends ilObject
 	*/
 	function getFullname()
 	{
-		return $this->fullname;
+		return ilUtil::stripSlashes($this->fullname);
 	}
 
 // ### AA 03.09.01 updated page access logger ###

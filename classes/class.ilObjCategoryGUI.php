@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.5 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.6 2003/08/28 13:09:21 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -173,8 +173,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 				$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
 				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-				$this->tpl->setVariable("TITLE", $val["title"]);
-				$this->tpl->setVariable("DESC", $val["desc"]);
+				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"]));
+				$this->tpl->setVariable("DESC", ilUtil::prepareFormOutput($val["desc"]));
 				$this->tpl->setVariable("NUM", $key);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -384,8 +384,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 				$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
 				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-				$this->tpl->setVariable("TITLE", $val["title"]);
-				$this->tpl->setVariable("DESC", $val["desc"]);
+				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"]));
+				$this->tpl->setVariable("DESC", ilUtil::prepareFormOutput($val["desc"]));
 				$this->tpl->setVariable("NUM", $key);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -469,7 +469,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$q = "INSERT INTO object_translation ".
 					 "(obj_id,title,description,lang_code,lang_default) ".
 					 "VALUES ".
-					 "(".$this->object->getId().",'".$this->object->getTitle()."','".$this->object->getDescription()."','".$val["lang"]."',".$default.")";
+					 "(".$this->object->getId().",'".addslashes($this->object->getTitle())."','".addslashes($this->object->getDescription())."','".$val["lang"]."',".$default.")";
 				$this->ilias->db->query($q);
 			}
 

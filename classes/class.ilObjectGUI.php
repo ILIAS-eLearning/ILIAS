@@ -708,7 +708,6 @@ class ilObjectGUI
 		}
 		
 		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	} // END PASTE
 
@@ -726,7 +725,6 @@ class ilObjectGUI
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
 			
 			header("location:".$this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
-			
 			exit();
 		}
 	}
@@ -779,7 +777,6 @@ class ilObjectGUI
 		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
 		header("Location:".$this->getReturnLocation("cut","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	} // END CUT
 
@@ -979,7 +976,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("msg_undeleted"),true);
 		
 		header("Location:".$this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	}
 
@@ -1116,7 +1112,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("info_deleted"),true);
 		
 		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	}
 
@@ -1132,7 +1127,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		
 		header("Location:".$this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	}
 
@@ -1180,7 +1174,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("msg_removed"),true);
 		
 		header("Location:".$this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	}
 
@@ -1245,8 +1238,8 @@ class ilObjectGUI
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]);
+			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit",$new_type);
 
@@ -1402,7 +1395,7 @@ class ilObjectGUI
 		foreach ($fields as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			$this->tpl->parseCurrentBlock();
 		}
 

@@ -223,7 +223,7 @@ class ILIAS extends PEAR
 		if ($res->numRows() > 0)
 		{
 			$row = $res->fetchRow();
-			return $row[0];
+			return ilUtil::stripSlashes($row[0]);
 		}
 		else
 		{
@@ -243,7 +243,7 @@ class ILIAS extends PEAR
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$arr[$row["keyword"]] = $row["value"];
+			$arr[$row["keyword"]] = ilUtil::stripSlashes($row["value"]);
 		}
 		
 		return $arr;
@@ -263,7 +263,7 @@ class ILIAS extends PEAR
 		$sql = "DELETE FROM settings WHERE keyword='".$a_key."'";
 		$r = $this->db->query($sql);
 
-		$sql = "INSERT INTO settings (keyword, value) VALUES ('".$a_key."','".$a_val."')";
+		$sql = "INSERT INTO settings (keyword, value) VALUES ('".$a_key."','".addslashes($a_val)."')";
 		$r = $this->db->query($sql);
 
 		return true;

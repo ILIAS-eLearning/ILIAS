@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.54 2003/10/27 22:19:01 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.55 2003/10/29 08:48:47 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -75,114 +75,118 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
+
+		// role selection
+		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
+
+		foreach ($obj_list as $obj_data)
 		{
-			// role selection
-			$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-
-			foreach ($obj_list as $obj_data)
+			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
-				if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
-				{
-					$rol[$obj_data["obj_id"]] = $obj_data["title"];
-				}
+				$rol[$obj_data["obj_id"]] = $obj_data["title"];
 			}
+		}
 
-			$role = ilUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
+		$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol);
 
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["login"] = "";
-			$data["fields"]["passwd"] = "";
-			$data["fields"]["passwd2"] = "";
-			$data["fields"]["title"] = "";
-			$data["fields"]["gender"] = "";
-			$data["fields"]["firstname"] = "";
-			$data["fields"]["lastname"] = "";
-			$data["fields"]["institution"] = "";
-			$data["fields"]["department"] = "";
-			$data["fields"]["street"] = "";
-			$data["fields"]["city"] = "";
-			$data["fields"]["zipcode"] = "";
-			$data["fields"]["country"] = "";
-			$data["fields"]["phone_office"] = "";
-			$data["fields"]["phone_home"] = "";
-			$data["fields"]["phone_mobile"] = "";
-			$data["fields"]["fax"] = "";
-			$data["fields"]["email"] = "";
-			$data["fields"]["hobby"] = "";
-			$data["fields"]["default_role"] = $role;
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["login"] = "";
+		$data["fields"]["passwd"] = "";
+		$data["fields"]["passwd2"] = "";
+		$data["fields"]["title"] = "";
+		$data["fields"]["gender"] = "";
+		$data["fields"]["firstname"] = "";
+		$data["fields"]["lastname"] = "";
+		$data["fields"]["institution"] = "";
+		$data["fields"]["department"] = "";
+		$data["fields"]["street"] = "";
+		$data["fields"]["city"] = "";
+		$data["fields"]["zipcode"] = "";
+		$data["fields"]["country"] = "";
+		$data["fields"]["phone_office"] = "";
+		$data["fields"]["phone_home"] = "";
+		$data["fields"]["phone_mobile"] = "";
+		$data["fields"]["fax"] = "";
+		$data["fields"]["email"] = "";
+		$data["fields"]["hobby"] = "";
+		$data["fields"]["default_role"] = $role;
 
-			$this->getTemplateFile("edit","usr");
+		$this->getTemplateFile("edit","usr");
 
-			foreach ($data["fields"] as $key => $val)
+		// fill presets
+		foreach ($data["fields"] as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+
+			if ($key == "default_role")
 			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
+			}
+			else
+			{
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			}
+			
+			if ($this->prepare_output)
+			{
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 
-				if ($this->prepare_output)
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
+		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
+		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
+		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
+		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
+		$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
+		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
+
+		// FILL SAVED VALUES IN CASE OF ERROR
+		if (isset($_SESSION["error_post_vars"]["Fobject"]))
+		{
+			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
+			{
+				if ($key != "default_role" and $key != "language")
 				{
-					$this->tpl->parseCurrentBlock();
+					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
 			}
-
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-			$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
-			$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
-			$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
-			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
-			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
-			$this->tpl->setVariable("TXT_LANGUAGE",$this->lng->txt("language"));
-			$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
-			$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
-
-			// FILL SAVED VALUES IN CASE OF ERROR
-			$this->tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
-			$this->tpl->setVariable("FIRSTNAME",$_SESSION["error_post_vars"]["Fobject"]["firstname"]);
-			$this->tpl->setVariable("LASTNAME",$_SESSION["error_post_vars"]["Fobject"]["lastname"]);
-			$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
-			$this->tpl->setVariable("INSTITUTION",$_SESSION["error_post_vars"]["Fobject"]["institution"]);
-			$this->tpl->setVariable("DEPARTMENT",$_SESSION["error_post_vars"]["Fobject"]["department"]);
-			$this->tpl->setVariable("STREET",$_SESSION["error_post_vars"]["Fobject"]["street"]);
-			$this->tpl->setVariable("CITY",$_SESSION["error_post_vars"]["Fobject"]["city"]);
-			$this->tpl->setVariable("ZIPCODE",$_SESSION["error_post_vars"]["Fobject"]["zipcode"]);
-			$this->tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
-			$this->tpl->setVariable("PHONE_OFFICE",$_SESSION["error_post_vars"]["Fobject"]["phone_office"]);
-			$this->tpl->setVariable("PHONE_HOME",$_SESSION["error_post_vars"]["Fobject"]["phone_home"]);
-			$this->tpl->setVariable("PHONE_MOBILE",$_SESSION["error_post_vars"]["Fobject"]["phone_mobile"]);
-			$this->tpl->setVariable("FAX",$_SESSION["error_post_vars"]["Fobject"]["fax"]);
-			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
-			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
 
 			// gender selection
 			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-			
+
 			if (!empty($gender))
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
-
-			// language selection
-			$languages = $this->lng->getInstalledLanguages();
-
-			foreach ($languages as $lang_key)
-			{
-				$this->tpl->setCurrentBlock("language_selection");
-				$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
-				$this->tpl->setVariable("LANGSHORT", $lang_key);
-
-				if ($this->ilias->getSetting("language") == $lang_key)
-				{
-					$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
-				}
-
-				$this->tpl->parseCurrentBlock();
-			} // END language selection
 		}
-	}
 
+		// language selection
+		$languages = $this->lng->getInstalledLanguages();
+
+		// preselect previous chosen language otherwise default language
+		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
+
+		foreach ($languages as $lang_key)
+		{
+			$this->tpl->setCurrentBlock("language_selection");
+			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
+			$this->tpl->setVariable("LANGSHORT", $lang_key);
+
+			if ($selected_lang == $lang_key)
+			{
+				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+			}
+
+			$this->tpl->parseCurrentBlock();
+		} // END language selection
+	}
 
 	/**
 	* display user edit form
@@ -199,88 +203,118 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
+
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["login"] = $this->object->getLogin();
+		$data["fields"]["passwd"] = "********";	// will not be saved
+		$data["fields"]["passwd2"] = "********";	// will not be saved
+		$data["fields"]["title"] = $this->object->getUTitle();
+		$data["fields"]["gender"] = $this->object->getGender();
+		$data["fields"]["firstname"] = $this->object->getFirstname();
+		$data["fields"]["lastname"] = $this->object->getLastname();
+		$data["fields"]["institution"] = $this->object->getInstitution();
+		$data["fields"]["department"] = $this->object->getDepartment();
+		$data["fields"]["street"] = $this->object->getStreet();
+		$data["fields"]["city"] = $this->object->getCity();
+		$data["fields"]["zipcode"] = $this->object->getZipcode();
+		$data["fields"]["country"] = $this->object->getCountry();
+		$data["fields"]["phone_office"] = $this->object->getPhoneOffice();
+		$data["fields"]["phone_home"] = $this->object->getPhoneHome();
+		$data["fields"]["phone_mobile"] = $this->object->getPhoneMobile();
+		$data["fields"]["fax"] = $this->object->getFax();
+		$data["fields"]["email"] = $this->object->getEmail();
+		$data["fields"]["hobby"] = $this->object->getHobby();
+
+		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
+		{
+			$user_is_online = false;
+		}
 		else
 		{
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["login"] = $this->object->getLogin();
-			$data["fields"]["passwd"] = "********";	// will not be saved
-			$data["fields"]["passwd2"] = "********";	// will not be saved
-			$data["fields"]["title"] = $this->object->getUTitle();
-			$data["fields"]["gender"] = $this->object->getGender();
-			$data["fields"]["firstname"] = $this->object->getFirstname();
-			$data["fields"]["lastname"] = $this->object->getLastname();
-			$data["fields"]["institution"] = $this->object->getInstitution();
-			$data["fields"]["department"] = $this->object->getDepartment();
-			$data["fields"]["street"] = $this->object->getStreet();
-			$data["fields"]["city"] = $this->object->getCity();
-			$data["fields"]["zipcode"] = $this->object->getZipcode();
-			$data["fields"]["country"] = $this->object->getCountry();
-			$data["fields"]["phone_office"] = $this->object->getPhoneOffice();
-			$data["fields"]["phone_home"] = $this->object->getPhoneHome();
-			$data["fields"]["phone_mobile"] = $this->object->getPhoneMobile();
-			$data["fields"]["fax"] = $this->object->getFax();
-			$data["fields"]["email"] = $this->object->getEmail();
-			$data["fields"]["hobby"] = $this->object->getHobby();
+			$user_is_online = true;
 
-			if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
+			// extract serialized role Ids from session data
+			preg_match("/RoleId.*?;\}/",$user_online[$this->object->getId()]["data"],$matches);
+
+			$active_roles = unserialize(substr($matches[0],7));
+
+			// gather data for active roles
+			$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
+
+			foreach ($assigned_roles as $key => $role)
 			{
-				$user_is_online = false;
-			}
-			else
-			{
-				$user_is_online = true;
+				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role);
 
-				// extract serialized role Ids from session data
-				preg_match("/RoleId.*?;\}/",$user_online[$this->object->getId()]["data"],$matches);
+				// fetch context path of role
+				$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
 
-				$active_roles = unserialize(substr($matches[0],7));
+				$path = "";
 
-				// gather data for active roles
-				$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
+				$tmpPath = $this->tree->getPathFull($rolf[0]);
 
-				foreach ($assigned_roles as $key => $role)
+				// count -1, to exclude the role folder itself
+				for ($i = 0; $i < (count($tmpPath)-1); $i++)
 				{
-					$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role);
-
-					// fetch context path of role
-					$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
-
-					$path = "";
-
-					$tmpPath = $this->tree->getPathFull($rolf[0]);
-
-					// count -1, to exclude the role folder itself
-					for ($i = 0; $i < (count($tmpPath)-1); $i++)
+					if ($path != "")
 					{
-						if ($path != "")
-						{
-							$path .= " > ";
-						}
-
-						$path .= $tmpPath[$i]["title"];
+						$path .= " > ";
 					}
 
-					if (in_array($role,$active_roles))
-					{
-						$data["active_role"][$role]["active"] = true;
-					}
-
-					$data["active_role"][$role]["title"] = $roleObj->getTitle();
-					$data["active_role"][$role]["context"] = $path;
-
-					unset($roleObj);
+					$path .= $tmpPath[$i]["title"];
 				}
+
+				if (in_array($role,$active_roles))
+				{
+					$data["active_role"][$role]["active"] = true;
+				}
+
+				$data["active_role"][$role]["title"] = $roleObj->getTitle();
+				$data["active_role"][$role]["context"] = $path;
+
+				unset($roleObj);
 			}
 		}
 
 		$this->getTemplateFile("edit","usr");
 
-		foreach ($data["fields"] as $key => $val)
+		// FILL SAVED VALUES IN CASE OF ERROR
+		if (isset($_SESSION["error_post_vars"]["Fobject"]))
 		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
+			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+
+				if ($key != "default_role" and $key != "language")
+				{
+					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+				}
+			}
+
+			// gender selection
+			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
+
+			if (!empty($gender))
+			{
+				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+			}
+		}
+		else
+		{
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// gender selection
+			$gender = strtoupper($data["fields"]["gender"]);
+		
+			if (!empty($gender))
+			{
+				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+			}
 		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
@@ -296,16 +330,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_GENDER_F",$this->lng->txt("gender_f"));
 		$this->tpl->setVariable("TXT_GENDER_M",$this->lng->txt("gender_m"));
 
-		// gender selection
-		$gender = strtoupper($data["fields"]["gender"]);
-		
-		if (!empty($gender))
-		{
-			$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
-		}
-
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
+
+		// preselect previous chosen language otherwise default language
+		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $this->object->getLanguage();
 
 		foreach ($languages as $lang_key)
 		{
@@ -313,7 +342,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
 			$this->tpl->setVariable("LANGSHORT", $lang_key);
 
-			if ($this->object->getLanguage() == $lang_key)
+			if ($selected_lang == $lang_key)
 			{
 				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 			}
@@ -428,7 +457,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$userObj->saveAsNew();
 
 		// setup user preferences
-		$userObj->setLanguage($_POST["usr_language"]);
+		$userObj->setLanguage($_POST["Fobject"]["language"]);
 		$userObj->writePrefs();
 
 		//set role entries
@@ -539,7 +568,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->updateLogin($_POST["Fobject"]["login"]);
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
-		$this->object->setLanguage($_POST["usr_language"]);
+		$this->object->setLanguage($_POST["Fobject"]["language"]);
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
@@ -966,10 +995,11 @@ class ilObjUserGUI extends ilObjectGUI
 			"getPhoneMobile" => "phone_mobile", "getEmail" => "email",
 			"getHobby" => "hobby");
 
-		foreach($val_arr as $key => $value)
+		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
 			$this->tpl->setVariable("TXT_".strtoupper($value),$this->lng->txt($value));
+
 			if ($userObj->getPref("public_".$value) == "y")
 			{
 				$this->tpl->setVariable(strtoupper($value), $userObj->$key());
