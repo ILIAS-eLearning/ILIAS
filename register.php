@@ -193,7 +193,7 @@ function displayForm ()
 		$rol[$obj_data["obj_id"]] = $obj_data["title"];
 	}
 
-	$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol);
+	$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol,false,true);
 
 	$data = array();
 	$data["fields"] = array();

@@ -143,7 +143,7 @@ class ilUtil
 	* Builds a select form field with options and shows the selected option first
 	*
 	* @access	public
-	* @param	string	value to be selected
+	* @param	string/array	value to be selected
 	* @param	string	variable name in formular
 	* @param	array	array with $options (key = lang_key, value = long name)
 	* @param	boolean
@@ -155,7 +155,7 @@ class ilUtil
 	{
 		global $lng;
 
-		if($multiple == true)
+		if ($multiple == true)
 		{
 			$multiple = "multiple";
 		}
@@ -169,7 +169,7 @@ class ilUtil
 
 		foreach ($options as $key => $val)
 		{
-			if($direct_text)
+			if ($direct_text)
 			{
 				$str .= " <option value=\"".$key."\"";
 			}
@@ -178,17 +178,19 @@ class ilUtil
 				$str .= " <option value=\"".$val."\"";
 			}
 
-			if(is_array($selected) )
+			if (is_array($selected) )
 			{
-				if(in_array($key,$selected))
+				if (in_array($key,$selected))
+				{
 					$str .= " selected=\"selected\"";
+				}
 			}
 			else if ($selected == $key)
 			{
 				$str .= " selected=\"selected\"";
 			}
 
-			if($direct_text)
+			if ($direct_text)
 			{
 				$str .= ">".$val."</option>\n";
 			}
@@ -200,38 +202,6 @@ class ilUtil
 
 		$str .= "</select>\n";
 
-		return $str;
-	}
-
-	/**
-	* ???
-	* @access	public
-	* @param	string
-	* @param	string
-	* @param	array
-	* @param	boolean
-	* @return	string 
-	*/
-	function formSelectWoTranslation ($selected,$varname,$options,$multiple = false)
-	{
-		$multiple ? $multiple = " multiple=\"multiple\"" : "";
-		$str = "<select name=\"".$varname ."\"".$multiple.">\n";
-
-		foreach ($options as $key => $val)
-		{
-		
-			$str .= " <option value=\"".$key."\"";
-			
-			if ($selected == $key)
-			{
-				$str .= " selected=\"selected\"";
-			}
-			
-			$str .= ">".$val."</option>\n";
-		}
-
-		$str .= "</select>\n";
-		
 		return $str;
 	}
 
