@@ -129,6 +129,8 @@ class ilTemplate extends ilTemplateX
 	*/
 	function show($part = "DEFAULT")
 	{
+		global $ilias;
+		
 		header('Content-type: text/html; charset=UTF-8');
 
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
@@ -148,7 +150,7 @@ class ilTemplate extends ilTemplateX
 #			$this->parseCurrentBlock();
 			}
 		}
-		if ($part == "DEFAULT")
+		if ($part == "DEFAULT" or is_bool($part))
 		{
 			parent::show();
 		}
@@ -187,6 +189,17 @@ class ilTemplate extends ilTemplateX
 			}
 
 			unset($_SESSION["error_post_vars"]);
+			
+			// display ILIAS footer
+			if ($part !== false)
+			{
+				$footer = "<div class=\"il_Footer\">powered by ".
+						  "<a href=\"http://www.ilias.uni-koeln.de\" target=\"_blank\" ".
+						  "onmouseover=\"window.status='ILIAS open source - Homepage';return true;\" ".
+						  "onmouseout=\"window.status='';\">ILIAS</a> (v".$ilias->getSetting("ilias_version").")</div>";
+			
+				echo $footer;
+			}
 		}
 	}
 

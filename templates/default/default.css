@@ -158,6 +158,14 @@ div.invisible_border {
 	margin-left:15px;
 }
 
+div.il_Footer
+{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-size: 10px;
+	text-align:center;
+}
+
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;
