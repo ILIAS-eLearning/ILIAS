@@ -1550,6 +1550,8 @@ class ilObjGroup extends ilObject
 	 */
 	function _search(&$a_search_obj)
 	{
+		global $ilBench;
+
 		// NO CLASS VARIABLES IN STATIC METHODS
 
 		$where_condition = $a_search_obj->getWhereCondition("like",array("title","description"));
@@ -1561,8 +1563,10 @@ class ilObjGroup extends ilObject
 			"AND od.obj_id = ore.obj_id ".
 			"AND od.type = 'grp' ";
 
+		$ilBench->start("Search", "ilObjGroup_search");
 		$res = $a_search_obj->ilias->db->query($query);
-		
+		$ilBench->stop("Search", "ilObjGroup_search");
+
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

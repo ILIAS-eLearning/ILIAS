@@ -402,6 +402,8 @@ class ilObjDlBook extends ilObjContentObject
 	 */
 	function _search(&$search_obj,$a_search_in)
 	{
+		global $ilBench;
+
 		switch($a_search_in)
 		{
 			case 'meta':
@@ -409,7 +411,7 @@ class ilObjDlBook extends ilObjContentObject
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("xv.tag_value"));
 
-
+				/* very slow on mysql < 4.0.18
 				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
 					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
 					$where.
@@ -417,7 +419,26 @@ class ilObjDlBook extends ilObjContentObject
 					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) OR ".
 					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('dbk','bib'))) ".
 					"AND xm.ns_tag_fk=xv.tag_fk ".
+					"AND o.type= 'dbk'"; */
+
+				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
+					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					$where.
+					$in.
+					"AND r.obj_id=o.obj_id AND ( ".
+					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('dbk','bib'))) ".
+					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'dbk'";
+
+				$query2 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
+					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					$where.
+					$in.
+					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) ".
+					") ".
+					"AND xm.ns_tag_fk=xv.tag_fk ".
+					"AND o.type= 'dbk'";
+
 
 				/*
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
@@ -429,14 +450,27 @@ class ilObjDlBook extends ilObjContentObject
 					$in.
 					"AND o.type = 'dbk'";
 				*/
-				$res = $search_obj->ilias->db->query($query);
+
+				$ilBench->start("Search", "ilObjDlBook_search_meta");
+				$res1 = $search_obj->ilias->db->query($query1);
+				$res2 = $search_obj->ilias->db->query($query2);
+				$ilBench->stop("Search", "ilObjDlBook_search_meta");
+
 				$counter = 0;
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]		=  $row->ref_id;
 					#$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
 					#$result[$counter]["target"]	=  "_top";
-					
+
+					++$counter;
+				}
+				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$result[$counter]["id"]		=  $row->ref_id;
+					#$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
+					#$result[$counter]["target"]	=  "_top";
+
 					++$counter;
 				}
 				break;
@@ -451,7 +485,10 @@ class ilObjDlBook extends ilObjContentObject
 					$in.
 					"AND pg.parent_type = 'dbk' ";
 
+				$ilBench->start("Search", "ilObjDlBook_search_content");
 				$res = $search_obj->ilias->db->query($query);
+				$ilBench->stop("Search", "ilObjDlBook_search_content");
+
 				$counter = 0;
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
@@ -459,7 +496,7 @@ class ilObjDlBook extends ilObjContentObject
 					$result[$counter]["page_id"] = $row->page_id;
 					#$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
 					#$result[$counter]["target"]	= "_top";
-					
+
 					++$counter;
 				}
 				break;

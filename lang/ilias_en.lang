@@ -1400,6 +1400,8 @@ common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
 common#:#unsubscribe#:#unsubscribe
 common#:#up#:#Up
+common#:#save_settings#:#Save Settings
+common#:#delete_all_rec#:#Delete all records
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
 common#:#upload#:#Upload

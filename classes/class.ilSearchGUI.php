@@ -128,7 +128,7 @@ class ilSearchGUI
 		$this->__show();
 
 		return true;
-	}		
+	}
 
 	// SET/GET
 	function setUserId($a_user_id)
@@ -174,6 +174,9 @@ class ilSearchGUI
 
 	function search($a_search_type = 'new')
 	{
+		global $ilBench;
+
+		$ilBench->start("Search", "search");
 		$this->search->setSearchString($_POST["search_str"]);
 		$this->search->setCombination($_POST["combination"]);
 		$this->search->setSearchFor($_POST["search_for"]);
@@ -185,6 +188,7 @@ class ilSearchGUI
 		}
 		// TEMP MESSAGE
 		$this->__show();
+		$ilBench->stop("Search", "search");
 	}
 
 	function searchInResult()
@@ -216,9 +220,13 @@ class ilSearchGUI
 		}
 		return $select_str = ilUtil::formSelect(0,$a_type."_".$a_search_in_type,$options,false,true);
 	}
-		
+
 	function __showResult()
 	{
+		global $ilBench;
+
+		$ilBench->start("Search", "showResult");
+
 		if(!$this->search->getNumberOfResults() && $this->search->getSearchFor())
 		{
 			$this->message .= $this->lng->txt("search_no_match")."<br />";
@@ -251,9 +259,14 @@ class ilSearchGUI
 			}
 			if(count($res["content"]))
 			{
-				$this->__showResultTable("lm","content");
+				$ilBench->start("Search", "showResultTable_lm_content");
+				$this->__showResultTable("lm","content");$ilBench->start("Search", "showResultTable_lm_content");
+				$ilBench->stop("Search", "showResultTable_lm_content");
 			}
 		}
+
+		$ilBench->stop("Search", "showResult");
+
 	}
 
 	function __addAction($a_type,$a_search_in_type = '')
@@ -268,13 +281,15 @@ class ilSearchGUI
 		$this->tpl->setVariable("COLUMN_COUNTS",5);
 		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$this->tpl->parseCurrentBlock();
-	}		
-		
-	function __showResultTable($a_type,$a_search_in_type = '')
+	}
+
+	function __showResultTable($a_type, $a_search_in_type = '')
 	{
+		global $ilBench;
+
 		// FOR ALL TYPES
 		$tbl = new ilTableGUI();
-		
+
 		$this->tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
 
 		$this->__addAction($a_type,$a_search_in_type);
@@ -283,81 +298,93 @@ class ilSearchGUI
 		switch($a_type)
 		{
 			case "usr":
+				$ilBench->start("Search", "showResultTable_usr");
 				$tbl->setTitle($this->lng->txt("search_user"),"icon_usr_b.gif",$this->lng->txt("search_user"));
 				$tbl->setHeaderNames(array("",$this->lng->txt("login"),$this->lng->txt("firstname")
 										   ,$this->lng->txt("lastname"),$this->lng->txt("search_show_result")));
 				$tbl->setHeaderVars(array("","login","firstname","lastname",""),array("res_type" => "usr"));
 				$tbl->setColumnWidth(array("3%","25%","25%","25%","25%"));
 				$tbl->setData(array_values($this->__formatUserResult($this->search->getResultByType("usr"))));
+				$ilBench->stop("Search", "showResultTable_usr");
 				break;
 
 			case "grp":
+				$ilBench->start("Search", "showResultTable_grp");
 				$tbl->setTitle($this->lng->txt("search_group"),"icon_grp_b.gif",$this->lng->txt("search_group"));
 				$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),
 										   $this->lng->txt("search_show_result")));
 				$tbl->setHeaderVars(array("","title","description",""),array("res_type" => "grp"));
 				$tbl->setColumnWidth(array("3%","25%","25%","22%"));
 				$tbl->setData(array_values($this->__formatGroupResult($this->search->getResultByType("grp"))));
+				$ilBench->stop("Search", "showResultTable_grp");
 				break;
 
-				
+
 			case "dbk":
 				// SWITCH 'meta','content'
 				switch($a_search_in_type)
 				{
 					case "meta":
+						$ilBench->start("Search", "showResultTable_dbk_meta");
 						$tbl->setTitle($this->lng->txt("search_dbk_meta"),"icon_dbk_b.gif",$this->lng->txt("search_dbk_meta"));
 						$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("context"),
 												   $this->lng->txt("search_show_result")));
 						$tbl->setHeaderVars(array("","title","context",""),array("res_type" => "dbk"));
-						
+
 						$tbl->setColumnWidth(array("3%","50%","30%","17%"));
-						
+
 						$tmp_res = $this->search->getResultByType("dbk");
 						$tbl->setData($this->__formatDigiLibResult($tmp_res["meta"],"meta"));
+						$ilBench->stop("Search", "showResultTable_dbk_meta");
 						break;
 
 					case "content":
+						$ilBench->start("Search", "showResultTable_dbk_content");
 						$tbl->setTitle($this->lng->txt("search_dbk_content"),"icon_dbk_b.gif",$this->lng->txt("search_dbk_content"));
 						$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("page"),$this->lng->txt("context"),
 												   $this->lng->txt("search_show_result")));
 						$tbl->setHeaderVars(array("","title","page","context",""),array("res_type" => "dbk"));
-						
+
 						$tbl->setColumnWidth(array("3%","30%","20%","30%","17%"));
-						
+
 						$tmp_res = $this->search->getResultByType("dbk");
 						$tbl->setData($this->__formatDigiLibResult($tmp_res["content"],"content"));
+						$ilBench->stop("Search", "showResultTable_dbk_content");
 						break;
 				}
 				break;
-			
+
 			case "lm":
 
 				// SWITCH 'meta','content'
 				switch($a_search_in_type)
 				{
 					case "meta":
+						$ilBench->start("Search", "showResultTable_lm_meta");
 						$tbl->setTitle($this->lng->txt("search_lm_meta"),"icon_lm_b.gif",$this->lng->txt("search_lm_meta"));
 						$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("context"),
 												   $this->lng->txt("search_show_result")));
 						$tbl->setHeaderVars(array("","title","context",""),array("res_type" => "lm"));
-						
+
 						$tbl->setColumnWidth(array("3%","50%","30%","17%"));
-						
+
 						$tmp_res = $this->search->getResultByType("lm");
 						$tbl->setData($this->__formatLearningModuleResult($tmp_res["meta"],"meta"));
+						$ilBench->stop("Search", "showResultTable_lm_meta");
 						break;
 
 					case "content":
+						$ilBench->start("Search", "showResultTable_lm_content");
 						$tbl->setTitle($this->lng->txt("search_lm_content"),"icon_lm_b.gif",$this->lng->txt("search_lm_content"));
 						$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("page"),$this->lng->txt("context"),
 												   $this->lng->txt("search_show_result")));
 						$tbl->setHeaderVars(array("","title","page","context",""),array("res_type" => "lm"));
-						
+
 						$tbl->setColumnWidth(array("3%","30%","20%","30%","17%"));
-						
+
 						$tmp_res = $this->search->getResultByType("lm");
 						$tbl->setData($this->__formatLearningModuleResult($tmp_res["content"],"content"));
+						$ilBench->stop("Search", "showResultTable_lm_content");
 						break;
 				}
 				break;
@@ -384,7 +411,7 @@ class ilSearchGUI
 		$this->tpl->setVariable("SEARCH_ACTION","./search.php");
 
 		#$this->tpl->setVariable("TXT_SEARCH",$this->lng->txt("search"));
-		
+
 		$this->__showHeader();
 		$this->__showLocator();
 		$this->__showTabs();
