@@ -179,7 +179,9 @@ common#:#folders#:#Folders
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
+common#:#forum_added#:#Forum added
 common#:#forum_new#:#New Forum
+common#:#forums#:#Forums
 common#:#frm#:#Forum
 common#:#from#:#From
 common#:#functions#:#Functions
@@ -348,9 +350,31 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
 common#:#nothing_checked#:#Funny, no checkbox checked.
 common#:#obj#:#Object
+common#:#obj_adm#:#System Settings
+common#:#obj_cat#:#Category
+common#:#obj_crs#:#Course
+common#:#obj_file#:#File
+common#:#obj_frm#:#Forum
+common#:#obj_grp#:#Group
+common#:#obj_le#:#Learning Module
+common#:#obj_lng#:#Language
+common#:#obj_lngf#:#Language Administration
+common#:#obj_lo#:#LearningObject
+common#:#obj_mail#:#Mail Settings
 common#:#obj_not_found#:#Object Not Found
+common#:#obj_note#:#Note
+common#:#obj_notf#:#Note Administration
+common#:#obj_objf#:#Object Administration
 common#:#obj_owner#:#This Object Is Owned by
+common#:#obj_role#:#Role
+common#:#obj_rolf#:#Role Administration
+common#:#obj_rolt#:#Role Template
+common#:#obj_root#:#root
+common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
+common#:#obj_uset#:#User Settings
+common#:#obj_usr#:#User
+common#:#obj_usrf#:#User Administration
 common#:#objects#:#Objects
 common#:#objf#:#Object Folder
 common#:#of#:#Of
@@ -867,27 +891,3 @@ meta#:#meta_general#:#General
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
-common#:#forum_added#:#Forum added
-common#:#forums#:#Forums
-common#:#obj_usr#:#User
-common#:#obj_le#:#Learning Module
-common#:#obj_frm#:#Forum
-common#:#obj_grp#:#Group
-common#:#obj_cat#:#Category
-common#:#obj_crs#:#Course
-common#:#obj_file#:#File
-common#:#obj_mail#:#Mail Settings
-common#:#obj_adm#:#System Settings
-common#:#obj_usrf#:#User Administration
-common#:#obj_rolf#:#Role Administration
-common#:#obj_objf#:#Object Administration
-common#:#obj_typ#:#Objecttype Definition
-common#:#obj_rolt#:#Role Template
-common#:#obj_lngf#:#Language Administration
-common#:#obj_lng#:#Language
-common#:#obj_role#:#Role
-common#:#obj_lo#:#LearningObject
-common#:#obj_uset#:#User Settings
-common#:#obj_root#:#root
-common#:#obj_notf#:#Note Administration
-common#:#obj_note#:#Note
