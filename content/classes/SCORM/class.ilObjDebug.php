@@ -32,7 +32,7 @@ class ilObjDebug {
         }
                                                                                                                              
         function debug($message) {
-                fwrite($this->file,$message.'\n');
+                fwrite($this->file,$message);
         }
 }
 ?>
