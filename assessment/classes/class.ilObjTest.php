@@ -1292,6 +1292,7 @@ class ilObjTest extends ilObject
 		$total_reached_points = 0;
 		$active = $this->get_active_test_user($user_id);
 		$sequence_array = split(",", $active->sequence);
+		sort($sequence_array, SORT_NUMERIC);
 		$key = 1;
 		$result_array = array();
     foreach ($sequence_array as $idx => $seq) {
@@ -1590,12 +1591,18 @@ class ilObjTest extends ilObject
 		$mark_obj = $test_result["test"]["test"]->mark_schema->get_matching_mark($percentage);
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
+		$qworkedthrough = 0;
+		$query_worked_through = sprintf("SELECT DISTINCT(question_fi) FROM tst_solutions WHERE user_fi = %s AND test_fi = %s",
+			$this->ilias->db->quote("$user_id"),
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$worked_through_result = $this->ilias->db->query($query_worked_through);
 		$result_array = array(
-			"qworkedthrough" => (count($test_result) - 1),
+			"qworkedthrough" => $worked_through_result->numRows(),
 			"qmax" => count($test_result["test"]["test"]->questions),
-			"pworkedthrough" => (count($test_result) - 1) / count($test_result["test"]["test"]->questions),
+			"pworkedthrough" => ($worked_through_result->numRows()) / count($test_result["test"]["test"]->questions),
 			"timeofwork" => $max_time,
-			"atimeofwork" => $max_time / (count($test_result) - 1),
+			"atimeofwork" => $max_time / ($worked_through_result->numRows()),
 			"firstvisit" => $first_date,
 			"lastvisit" => $last_date,
 			"resultspoints" => $test_result["test"]["total_reached_points"],
@@ -1678,7 +1685,7 @@ class ilObjTest extends ilObject
 			if (!$res["test"]["total_reached_points"]) {
 				$percentage = 0.0;
 			} else {
-				$percentage = ($res["test"]["total_max_points"] / $res["test"]["total_reached_points"]) * 100.0;
+				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
 			}
 			$mark_obj = $res["test"]["test"]->mark_schema->get_matching_mark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
