@@ -1,9 +1,9 @@
 <h1>{TXT_PAGEHEADLINE}</h1>
 {BUTTONS}
-    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <FORM ACTION="/projekte/uni-koeln/ilias/gruppe.php" METHOD="POST">
+ <FORM ACTION="/projekte/uni-koeln/ilias/gruppe.php" METHOD="POST">
     <INPUT TYPE=hidden NAME="act" VALUE="gen_new_grp">
     <INPUT TYPE=hidden NAME="back" VALUE="/projekte/uni-koeln/ilias/gruppe.php?act=">
+    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
     <TR>
       <TD ALIGN=right>{TXT_GROUPNAME}</TD>
       <TD><INPUT TYPE=text NAME="g_name" SIZE=20></TD>
@@ -24,7 +24,5 @@
       <td><small>&nbsp;</small></td>
       <td><INPUT TYPE=submit VALUE="{TXT_SAVE}" NAME="save"></td>
     </tr>
-    </FORM>
     </TABLE>
-    </BODY>
-    </HTML>
+    </FORM>

@@ -1,16 +1,16 @@
-<h1>{TXT_PAGEHEADLINE}</h2>
+<h1>{TXT_PAGEHEADLINE}</h1>
 {BUTTONS}
 <!-- BEGIN message -->
 	<p><font color="red">{MSG}</font></p>
 <!-- END message -->
-<form method="POST">
+<form method="POST"action="{ACTION}">
 <input type=hidden name="act" value="confirm_u_entry">
 <input type=hidden name="u_id" value="1">
 <input type=hidden name="type" value="4">
 <input type=hidden name="back" value="index.php">
 <table cellpadding=3 cellspacing=0 BORDER=0>
 <tr class="tblheader">
-<td colspan=2><b>{TXT_USR_DATA}</b></td>
+  <td colspan=2><b>{TXT_USR_DATA}</b></td>
 </tr>
 <tr class="tblrow2">
         <td align="right" valign="middle"><b>{TXT_NICKNAME}</b></td>
@@ -33,7 +33,6 @@
         <td align="right" valign="middle"><b>{TXT_LASTNAME}</b></td>
         <td><input type="text" name="usr_lname" maxlength=64 size=32 value="{LASTNAME}"></td>
 </tr>
-<tr>
 <tr class="tblrow2">
         <td align="right" valign="middle"><b>{TXT_TITLE}</b></td>
         <td><input type="text" name="usr_title" maxlength=64 size=32 value="{TITLE}"></td>
@@ -90,6 +89,8 @@
         <td align="right" valign="middle"><b>{TXT_SYS_GRP}</b></td>
         <td>{SYS_GRP}</td>
 </tr>
+<tr>
 <td><input type="submit" value="{BTN_SUBMIT}"></td>
+</tr>
 </table>
 </form>
