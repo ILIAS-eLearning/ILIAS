@@ -335,7 +335,17 @@ if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
 			{
 				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 				$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
-		
+
+				// hide mail-to icon for anonymous users
+				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+				{
+					$tpl->setCurrentBlock("mailto_link");
+					$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
+					$tpl->setVariable("ALT_TXT_MAIL",$lng->txt("mail"));
+					$tpl->setVariable("USR_LOGIN",$user["login"]);	
+					$tpl->parseCurrentBlock();
+				}		
+
 				$tpl->setCurrentBlock("tbl_users_row");
 				$tpl->setVariable("ROWCOL",$rowCol);		
 				$tpl->setVariable("USR_LOGIN",$user["login"]);	
@@ -344,10 +354,8 @@ if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
 				$tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
 				$tpl->setVariable("ALT_TXT_VIEW",$lng->txt("view"));
 				$tpl->setVariable("USR_ID",$user_id);
-				$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
-				$tpl->setVariable("ALT_TXT_MAIL",$lng->txt("mail"));
 				$tpl->parseCurrentBlock();
-			
+
 				$z++;	
 			}
 		}
