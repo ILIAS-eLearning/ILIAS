@@ -197,7 +197,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
 					
 					if ($_GET["cmd"] == "showreply")
-						$tpl->setVariable("FORM_MESSAGE", "[quote]".$node["message"]."[/quote]");
+						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
 					else
 						$tpl->setVariable("FORM_MESSAGE", $node["message"]);
 						

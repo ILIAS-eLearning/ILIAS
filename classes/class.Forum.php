@@ -434,9 +434,9 @@ class Forum
 			
 			$query4 = "UPDATE frm_threads ".
 					 "SET ".
-					 "thr_last_post = '".$lastPost_thr."'";					
+					 "thr_last_post = '".$lastPost_thr."' ".					
 					 "WHERE thr_pk = '".$p_node["tree"]."'";
-			$this->ilias->db->query($query4);			
+			$this->ilias->db->query($query4);	
 			
 		}
 		
@@ -469,7 +469,7 @@ class Forum
 		
 		$query5 = "UPDATE frm_data ".
 				 "SET ".
-				 "top_last_post = '".$lastPost_top."'";					
+				 "top_last_post = '".$lastPost_top."' ".					
 				 "WHERE top_frm_fk = '".$_GET["obj_id"]."'";
 		$this->ilias->db->query($query5);		
 		
@@ -545,20 +545,15 @@ class Forum
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);		
 		
 		// limit the message-size
-		$QU = 0;			
-		if (strpos($result["pos_message"], $this->txtQuote1) > 0 || strpos($result["pos_message"], $this->txtQuote2) > 0)
+		$result["pos_message"] = $this->prepareText($result["pos_message"],2);
+		
+		if (strpos($result["pos_message"], $this->txtQuote2) > 0)
 		{			
-			// if [quote] is include ...
-			$C1 = substr_count($result["pos_message"], $this->txtQuote1);
-			$C2 = substr_count($result["pos_message"], $this->txtQuote2);
-			
-			$N1 = $C1 * strlen($this->txtQuote1);
-			$N2 = $C2 * strlen($this->txtQuote2);
-			
-			$QU = $N1 + $N2;
+			$viewPos = strrpos($result["pos_message"], $this->txtQuote2) + strlen($this->txtQuote2);
+			$result["pos_message"] = substr($result["pos_message"], $viewPos);				
 		}			
-		if (strlen($result["pos_message"]) > (40+$QU))
-			$result["pos_message"] = substr($result["pos_message"], 0, (40+$QU-3))."...";
+		if (strlen($result["pos_message"]) > 40)
+			$result["pos_message"] = substr($result["pos_message"], 0, 37)."...";
 				
 		// convert date
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);
@@ -971,37 +966,67 @@ class Forum
 	* prepares given string
 	* @access	public
 	* @param	string	
+	* @param	int	
 	* @return	string	
 	*/
-	function prepareText($text)
+	function prepareText($text,$edit=0)
 	{		
-		// check for quotation		
-		$startZ = substr_count ($text, $this->txtQuote1);
-		$endZ = substr_count ($text, $this->txtQuote2);
-		
-		if ($startZ > 0 || $endZ > 0)
+		if ($edit == 1)
 		{
-			if ($startZ > $endZ) 
-			{
-				$diff = $startZ - $endZ;
-				for ($i = 0; $i < $diff; $i++)
-				{
-					$text .= $this->txtQuote2;
-				}
-			}
-			elseif ($startZ < $endZ)
-			{
-				$diff = $endZ - $startZ;
-				for ($i = 0; $i < $diff; $i++)
-				{				
-					$text = $this->txtQuote1.$text;
-				}
-			}
+			$text = str_replace($this->txtQuote1, "", $text);		
+			$text = str_replace($this->txtQuote2, "", $text);		
+			$text = $this->txtQuote1.$text.$this->txtQuote2;
+		}
+		else
+		{		
+			// check for quotation		
+			$startZ = substr_count ($text, $this->txtQuote1);
+			$endZ = substr_count ($text, $this->txtQuote2);
 			
-			$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
-			$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
-		
-		}		
+			
+			if ($startZ > 0 || $endZ > 0)
+			{
+				if ($startZ > $endZ) 
+				{
+					$diff = $startZ - $endZ;
+					for ($i = 0; $i < $diff; $i++)
+					{
+						$text .= $this->txtQuote2;
+					}
+				}
+				elseif ($startZ < $endZ)
+				{
+					$diff = $endZ - $startZ;
+					for ($i = 0; $i < $diff; $i++)
+					{				
+						$text = $this->txtQuote1.$text;
+					}
+				}
+				
+				// only one txtQuote can exist...
+				if ($startZ > 1)
+				{
+					$start_firstPos = strpos($text, $this->txtQuote1);				
+					$text_s2 = str_replace($this->txtQuote1, "", substr($text, ($start_firstPos+strlen($this->txtQuote1))));
+					$text_s1 = substr($text, 0, ($start_firstPos+strlen($this->txtQuote1)));
+					$text = $text_s1.$text_s2;				
+				}
+				if ($endZ > 1)
+				{				
+					$end_firstPos = strrpos($text, $this->txtQuote2);				
+					$text_e1 = str_replace($this->txtQuote2, "", substr($text, 0, $end_firstPos));
+					$text_e2 = substr($text, $end_firstPos);
+					$text = $text_e1.$text_e2;					
+				}			
+				
+				if ($edit == 0)
+				{
+					$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
+					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
+				}
+			
+			}		
+		}
 		
 		
 		return $text;
