@@ -423,7 +423,16 @@ class ilObjCourse extends ilObject
 		}
 		
 		// put here course specific stuff
+
+		$this->__deleteSettings();
 		
+		$this->initCourseItemObject();
+		$this->items_obj->deleteAllEntries();
+
+		$this->initCourseMemberObject();
+		$this->members_obj->deleteAllEntries();
+		
+
 		return true;
 	}
 
@@ -724,6 +733,16 @@ class ilObjCourse extends ilObject
 
 		return $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 	}
+
+	function __deleteSettings()
+	{
+		$query = "DELETE FROM crs_settings ".
+			"WHERE obj_id = '".$this->getId()."'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}	
 
 	function getDefaultMemberRole()
 	{

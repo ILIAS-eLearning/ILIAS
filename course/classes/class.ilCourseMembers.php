@@ -204,6 +204,21 @@ class ilCourseMembers
 
 		return true;
 	}
+	function deleteAllEntries()
+	{
+		$query = "DELETE FROM crs_members ".
+			"WHERE obj_id = '".$this->course_obj->getId()."'";
+
+		$this->ilDB->query($query);
+
+		$query = "DELETE FROM crs_subscribers ".
+			"WHERE obj_id = '".$this->course_obj->getId()."'";
+
+		$this->ilDB->query($query);
+
+		return true;
+	}
+
 	function deleteMembers($a_usr_ids)
 	{
 		if(!is_array($a_usr_ids) or !count($a_usr_ids))
