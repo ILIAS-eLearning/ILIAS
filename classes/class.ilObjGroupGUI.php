@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.25 2003/08/04 13:00:03 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.26 2003/08/05 16:45:22 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -126,8 +126,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId(),$grp_tree);
+		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
