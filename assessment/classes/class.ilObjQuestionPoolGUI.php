@@ -188,7 +188,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			default:
 //				echo "setAdminTabs<br>";
-				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest")
+				if ($cmd != "createQuestion" && $cmd != "createQuestionForTest" && $cmd != "editQuestionForTest")
 				{
 					$this->setAdminTabs();
 				}
@@ -1129,7 +1129,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		if ($_GET["q_id"])
+		if (($_GET["q_id"]) && (strlen($_GET["calling_test"]) == 0))
 		{
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
@@ -1144,7 +1144,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"ilPageObjectGUI");
 		}
 
-		if ($classname)
+		if (($classname) && (strlen($_GET["calling_test"]) == 0))
 		{
 			if ($rbacsystem->checkAccess('write', $this->ref_id))
 			{
@@ -1154,9 +1154,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 
-		$tabs_gui->addTarget("back",
-			$this->ctrl->getLinkTarget($this, "questions"), "questions",
-			"ilObjQuestionPoolGUI");
+		if (strlen($_GET["calling_test"]) == 0)
+		{
+			$tabs_gui->addTarget("back",
+				$this->ctrl->getLinkTarget($this, "questions"), "questions",
+				"ilObjQuestionPoolGUI");
+		}
+		else
+		{
+			$tabs_gui->addTarget("backtocallingtest",
+				"test.php?cmd=questions&ref_id=".$_GET["calling_test"], "questions",
+				"ilObjQuestionPoolGUI");
+		}
 
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 //		echo "<br>end setQuestionTabs<br>";

@@ -202,6 +202,8 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable

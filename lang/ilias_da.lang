@@ -179,6 +179,8 @@ assessment#:#ects_range_error_d#:#Indtast venligst et tal mellem 0 og 100 for EC
 assessment#:#ects_range_error_e#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter E!
 assessment#:#ects_use_fx_grade#:#Brug 'FX' karakteren, hvis dumpet deltagere n&aring;r mindst
 assessment#:#ects_use_fx_grade_part2#:#procent af de totale point.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Afslut
 assessment#:#ending_time_reached#:#Du har n&aring;et slut tidspunktet
 assessment#:#error_image_upload_copy_file#:#Der opstod en fejl da du ville flytte den uploadede image fil til dens destinationsmappe!
@@ -2982,7 +2984,7 @@ forum#:#frm_default_view#:#Standard fremvisning
 forum#:#frm_title_required#:#Inds&aelig;t venligst en titel.
 forum#:#is_read#:#marker som l&aelig;st
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the ï¿½, ï¿½ buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first

@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Podaj wartość pomiędzy 0 i 100 dla oceny EC
 assessment#:#ects_range_error_e#:#Podaj wartość pomiędzy 0 i 100 dla oceny ECTS E!
 assessment#:#ects_use_fx_grade#:#Użyj oceny 'FX', przy braku zaliczenia
 assessment#:#ects_use_fx_grade_part2#:#procent ogólnej punktacji.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
 assessment#:#error_image_upload_copy_file#:#Błąd przy przesuwaniu załadowanego obrazka do jego folderu docelowego!

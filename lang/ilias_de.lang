@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
 assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
+assessment#:#edit_content#:#Inhalt bearbeiten
+assessment#:#edit_properties#:#Eigenschaften bearbeiten
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
@@ -257,6 +259,7 @@ assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
 assessment#:#log_question_added#:#Frage hinzugefügt an Position
 assessment#:#log_question_position_changed#:#Fragenposition geändert
 assessment#:#log_question_removed#:#Frage entfernt
+assessment#:#log_user_data_removed#:#Alle Nutzereingaben wurden entfernt
 assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
@@ -411,9 +414,9 @@ assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte we
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
-assessment#:#tst_no_questionpools_for_random_test#:#Sie haben keinen Fragenpool für diesen Zufallstest ausgewählt! Bitte wählen Sie mindestens einen Fragenpool aus.
+assessment#:#tst_no_questionpools_for_random_test#:#Sie haben noch keinen Fragenpool zu diesem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens einen Fragenpool aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
-assessment#:#tst_no_questions_for_random_test#:#Sie haben für diesen Zufallstest keine Fragen aus den Fragenpools ausgewählt! Bitte wählen Sie mindestens eine Frage aus.
+assessment#:#tst_no_questions_for_random_test#:#Sie haben noch keine Fragen zu Ihrem Zufallstest hinzugefügt. Bitte wählen Sie wenigstens eine Frage durch die Angabe einer Anzahl von Fragen zu einem ausgewählten Fragenpool aus! 
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
@@ -733,14 +736,16 @@ common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#articels_unread#:#Ungelesene Beiträge:
 common#:#as_of#:#Stand
-common#:#assessment_log#:#Test&Assessment-Protokoll für einen bestimmten Zeitraum anlegen
-common#:#assessment_log_datetime#:#Datum/Zeit
-common#:#assessment_log_for_test#:#Zum Testen
-common#:#assessment_log_no_log#:#Es ist kein Protokoll für den gewählten Test und Zeitraum vorhanden
-common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumswahl zu öffnen (erfordert JavaScript!)
+common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
+common#:#assessment_log_datetime#:#Datum/Uhrzeit
+common#:#assessment_log_for_test#:#Für den Test
+common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
+common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScipt!)
 common#:#assessment_log_question#:#Frage
 common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
-common#:#assessment_log_text#:#Protokoll-Nachricht
+common#:#assessment_log_text#:#Protokolleintrag
+common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
+common#:#assessment_log_user_answers#:#Aktionen der Nutzerinnen anzeigen
 common#:#assessment_settings#:#Test&Assessment Adminstration
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration
@@ -2380,10 +2385,10 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Klicken Sie in die bestehenden Checkboxen um bestimmte Einstellungen im Persönlichen Profil für alle Anwender zu aktivieren oder zu deaktivieren. Deaktivierte oder ausgeblendete Einstellungen können nur in der Systemadministration von ILIAS bearbeitet werden.
-common#:#usr_settings_header_profile#:#Einstellungen Benutzerprofil
-common#:#usr_settings_header_profile_profile#:#Einstellungen Persönliches Profil
-common#:#usr_settings_saved#:#Globale Benutzereinstellungen erfolgreich gespeichert
+common#:#usr_settings_explanation_profile#:#Klicken Sie in die angebotenen Kontrollkästchen, um die Einstellungen im persönlichen Profil aller Nutzerinnen zu aktivieren oder zu deaktiveren. Alle deaktivierten oder versteckten Einstellungen können nur noch über Administration/Benutzerkonten bearbeitet werden!
+common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
+common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
+common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten

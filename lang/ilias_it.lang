@@ -184,6 +184,8 @@ assessment#:#ects_range_error_d#:#Per favore inserisci un valore tra 0 e 100 per
 assessment#:#ects_range_error_e#:#Per favore inserisci un valore tra 0 e 100 per il voto E nella scala ECTS!
 assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che falliscono raggiungono almeno il 
 assessment#:#ects_use_fx_grade_part2#:#percento dei punti totali.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!

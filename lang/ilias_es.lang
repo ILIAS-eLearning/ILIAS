@@ -185,6 +185,8 @@ assessment#:#ects_range_error_d#:#¡Por favor introduzca un valor entre 0 y 100 
 assessment#:#ects_range_error_e#:#¡Por favor introduzca un valor entre 0 y 100 para la nota ECTS tipo 'E'!
 assessment#:#ects_use_fx_grade#:#Use la nota 'FX', si los participantes alcanzaron al menos
 assessment#:#ects_use_fx_grade_part2#:#por ciento de los puntos totales.
+assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
+assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
