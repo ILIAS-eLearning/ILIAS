@@ -70,9 +70,10 @@ if($_POST["cmd"])
 			{
 				sendInfo("Error reading file!");
 			}
-			header("Content-Type: application/octet-stream");
-			header("Content-Disposition: attachment; filename=\"".$_POST["filename"]."\"");
-			readfile($path);
+			else
+			{
+				ilUtil::deliverFile($path,$_POST["filename"]);
+			}
 		}
 	}
 }
