@@ -134,7 +134,7 @@ assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gew
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
-assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?###19 Nov 2004 content changed
+assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#counter#:#Zähler
@@ -3830,7 +3830,7 @@ survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage anfügen wollen?
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
-survey#:#before#:#before###19 Nov 2004 new variable
+survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrecht, um den Fragenpool zu exportieren!
 survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Umfrage zu exportieren!
