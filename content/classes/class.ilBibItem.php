@@ -148,84 +148,6 @@ class ilBibItem
 	}
 
 
-#	function read()
-#	{
-#		if(!$this->__initNestedSet())
-#		{
-#			return false;
-#		}
-#		return;
-		/*
-		$this->dom = domxml_open_mem($this->nested_obj->export($this->content_obj->getId(),"bib"));
-		
-		// PARSE BIBLIOGRAPHY TAG
-		$root = $this->dom->document_element();
-		
-		// Bibliography attributes
-		foreach($root->attributes() as $key => $value)
-		{
-			$tmp_arr[$value->name] = $value->value;
-		}
-		$this->setBibliographyAttributes($tmp_arr);
-		
-		// READ Abstracts
-		if($abstract = $this->dom->get_elements_by_tagname("Abstract"))
-		{
-			$this->setAbstract($abstract[0]->get_content());
-		}
-
-		// READ ALL BibItems
-		$bib_arr = $this->dom->get_elements_by_tagname("BibItem");
-		if(!is_array($bib_arr))
-		{
-			return false;
-		}
-		$counter = 0;
-		foreach($bib_arr as $bib_elem)
-		{
-			// READ BIB ITEM ATTRIBUTES
-			foreach($bib_elem->attributes() as $value)
-			{
-				$this->setBibItemData($value->name,$value->value,$counter);
-			}
-			
-			// GET ALL CHILD ELEMENTS
-			$bib_child = $bib_elem->first_child();
-			while($bib_child)
-			{
-				switch($bib_child->tagname)
-				{
-					case "Identifier":
-						unset($tmp_arr);
-						foreach($bib_child->attributes() as $value)
-						{
-							$tmp_arr[$value->name] = $value->value;
-						}
-						$this->setBibItemData("Identifier",$tmp_arr,$counter);
-						break;
-
-					case "Language":
-						foreach($bib_child->attributes() as $value)
-						{
-							$value = $value->value;
-						}
-						$this->appendBibItemData("Language",$value,$counter);
-						break;
-				}
-
-				$bib_child = $bib_child->next_sibling();
-				++$counter;
-			}
-		}
-		*/
-
-#		$res = $this->nested_obj->getFirstDomNode("//Bibliography/BibItem/Language");
-		#$this->title = $res[0]["value"];
-		#var_dump("<pre>",$res,"</pre");
-
-#	}
-	//fbo:
-	
 	/**
 	* set xml content of BibItem, start with <BibItem...>,
 	* end with </BibItemt>, comply with ILIAS DTD, use utf-8!
@@ -268,7 +190,7 @@ class ilBibItem
 		include_once("classes/class.ilNestedSetXML.php");
 
 		$this->nested_obj =& new ilNestedSetXML();
-		$this->nested_obj->init($this->getID(), $this->getType());
+		$this->nested_obj->init($this->getID(), "bib");
 
 		return $this->nested_obj->initDom();
 	}
@@ -399,52 +321,16 @@ class ilBibItem
 	{
 		if(!$this->__initNestedSet())
 		{
-			return false;
+			$bibData = $this->create();
+		}
+		else
+		{
+			$bibData["booktitle"] = $this->nested_obj->getFirstDomContent("//Bibliography/BibItem/Booktitle");
+			$bibData["edition"] = $this->nested_obj->getFirstDomContent("//Bibliography/BibItem/Edition");
+			$bibData["publisher"] = $this->nested_obj->getFirstDomContent("//Bibliography/BibItem/Publisher");
+			$bibData["year"] = $this->nested_obj->getFirstDomContent("//Bibliography/BibItem/Year");
 		}
 
-		/* Get bib data from nested set */
-		if ($this->getType() == "lm" ||
-			$this->getType() == "htlm" ||
-			$this->getType() == "dbk")
-		{
-			include_once("./classes/class.ilNestedSetXML.php");
-			$this->nested_obj = new ilNestedSetXML();
-#			echo "ID: " . $this->getID() . ", Type: " . $this->getType() . "<br>";
-			$this->nested_obj->init($this->id, $this->getType());
-			if ( !$this->nested_obj->initDom() )
-			{
-				/* No bib data found --> Create default bibliography dataset */
-				$xml = '
-					<Bibliography>
-						<BibItem Type="" Label="">
-							<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
-							<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
-							<Booktitle Language="' . $this->ilias->account->getLanguage() . '">NO TITLE</Booktitle>
-							<Edition>N/A</Edition>
-							<HowPublished Type=""></HowPublished>
-							<Publisher></Publisher>
-							<Year>N/A</Year>
-							<URL></URL>
-						</BibItem>
-					</Bibliography>
-				';
-				$this->nested->import($xml, $this->id, $this->getType());
-
-				$bibData["booktitle"] = "NO TITLE";
-				$bibData["edition"] = "";
-				$bibData["publisher"] = "";
-				$bibData["year"] = "";
-			}
-			else
-			{
-				$bibData["booktitle"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Booktitle");
-				$bibData["edition"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Edition");
-				$bibData["publisher"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Publisher");
-				$bibData["year"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Year");
-			}
-
-		} 
-		
 		$this->setBooktitle($bibData["booktitle"]);
 		$this->setEdition($bibData["edition"]);
 		$this->setPublisher($bibData["publisher"]);
@@ -452,10 +338,45 @@ class ilBibItem
 	}
 
 	/**
-	* delete meta data node
+	* create bib data object in db
+	*/
+	function create()
+	{
+		$this->__initNestedSet();
+
+		$bibData["booktitle"] = "NO TITLE";
+		$bibData["edition"] = "N/A";
+		$bibData["publisher"] = "";
+		$bibData["year"] = "N/A";
+
+		$xml = '
+			<Bibliography>
+				<BibItem Type="" Label="">
+					<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
+					<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
+					<Booktitle Language="' . $this->ilias->account->getLanguage() . '">'. $bibData["booktitle"] . '</Booktitle>
+					<Edition>'. $bibData["edition"] . '</Edition>
+					<HowPublished Type=""></HowPublished>
+					<Publisher>'. $bibData["publisher"] . '</Publisher>
+					<Year>'. $bibData["year"] . '</Year>
+					<URL></URL>
+				</BibItem>
+			</Bibliography>
+		';
+		$this->nested_obj->import($xml, $this->getID(), "bib");
+		return $bibData;
+	}
+
+	/**
+	* delete bibitem data node
 	*/
 	function delete($a_name, $a_path, $a_index)
 	{
+		if(!$this->__initNestedSet())
+		{
+			return false;
+		}
+
 		if ($a_name != "")
 		{
 			$p = "//Bibliography";
@@ -473,6 +394,11 @@ class ilBibItem
 	*/
 	function add($a_name, $a_path, $a_index = 0)
 	{
+		if(!$this->__initNestedSet())
+		{
+			return false;
+		}
+
 		$p = "//Bibliography";
 		if ($a_path != "")
 		{
@@ -531,70 +457,6 @@ class ilBibItem
 									break;
 		}
 		$this->nested_obj->updateFromDom();
-	}
-
-	/**
-	* create bib data object in db
-	*/
-	function create()
-	{
-//echo "<b>meta create()</b><br>";
-		include_once("./classes/class.ilNestedSetXML.php");
-		$this->nested = new ilNestedSetXML();
-		$this->nested->init($this->id, $this->getType());
-		if ( !$this->nested->initDom() )
-		{
-
-			if (is_object($this->obj))
-			{
-				$booktitle = $this->obj->getBooktitle();
-				$edition = $this->obj->getEdition();
-				$publisher = $this->obj->getPublisher();
-				$year = $this->obj->getYear();
-			}
-
-			$xml = '
-				<Bibliography>
-					<BibItem Type="" Label="">
-						<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
-						<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
-						<Booktitle Language="' . $this->ilias->account->getLanguage() . '">NO TITLE</Booktitle>
-						<Edition>' . $edition . '</Edition>
-						<HowPublished Type=""></HowPublished>
-						<Publisher>' . $publisher . '</Publisher>
-						<Year>' . $year . '</Year>
-						<URL></URL>
-					</BibItem>
-				</Bibliography>
-			';
-			$this->nested->import($xml, $this->getID(), $this->getType());
-		}
-	}
-
-	/**
-	* update everything
-	*/
-	function update()
-	{
-		$query = "REPLACE INTO bib_data ";
-		$query .= "(obj_id, obj_type, booktitle, edition, publisher, year, language) VALUES (";
-		$query .= "'" . $this->getId() . "', ";
-		$query .= "'" . $this->getType() . "', ";
-		$query .= "'" . ilUtil::prepareDBString($this->getBooktitle()) . "', ";
-		$query .= "'" . ilUtil::prepareDBString($this->getEdition()) . "', ";
-		$query .= "'" . ilUtil::prepareDBString($this->getPublisher()) . "', ";
-		$query .= "'" . ilUtil::prepareDBString($this->getYear()) . "', ";
-		$query .= "'" . $this->getLanguage() . "')";
-		$this->ilias->db->query($query);
-
-		if ($this->getType() == "lm" ||
-			$this->getType() == "htlm" ||
-			$this->getType() == "dbk")
-		{
-			$p = "//Bibliography";
-			$this->nested->updateDomNode($p, $this->meta);
-			$this->nested->updateFromDom();
-		}
 	}
 
 	function getCountries()
