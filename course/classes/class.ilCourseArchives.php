@@ -255,7 +255,6 @@ class ilCourseArchives
 				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['child'].'.zip';
 				$this->course_files_obj->copy($abs_file_name,$this->getName().'/objects/'.$new_name);
 			}
-
 			$this->__addZipFiles($item['child']);
 			unset($tmp_obj);
 		}

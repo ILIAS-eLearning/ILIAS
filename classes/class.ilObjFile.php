@@ -317,6 +317,18 @@ class ilObjFile extends ilObject
 
 		return $ret;
 	}
+	function getXMLZip()
+	{
+		global $ilias;
+
+		$zip = PATH_TO_ZIP;
+
+		exec($zip.' '.ilUtil::escapeShellArg($this->getFilePath().'/'.$this->getFileName())." ".
+			 ilUtil::escapeShellArg($this->getFilePath().'/'.'1.zip'));
+
+		return $this->getFilePath().'/1.zip';
+	}
+	
 
 } // END class.ilObjFile
 ?>

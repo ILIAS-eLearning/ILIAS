@@ -1394,7 +1394,7 @@ class ilObjectGUI
 		$return_location = $_GET["cmd_return_location"];
 				
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
-		//ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+		#ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 	}
 
 	/**

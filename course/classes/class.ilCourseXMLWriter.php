@@ -262,6 +262,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->xmlElement('Start',null,$item['activation_start']);
 			$this->xmlElement('End',null,$item['activation_end']);
 
+			if($item['type'] == 'file')
+			{
+				$this->xmlElement('FileType',null,$tmp_obj->getFileType());
+			}
+
 			$this->__buildObject($item['child']);
 			
 			$this->xmlEndTag('Object');
