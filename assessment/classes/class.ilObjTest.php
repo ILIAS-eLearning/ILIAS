@@ -1461,6 +1461,7 @@ class ilObjTest extends ilObject
 			);
 		} else {
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			unset($row["eval_settings_id"]);
 		}
 		return $row;		
 	}

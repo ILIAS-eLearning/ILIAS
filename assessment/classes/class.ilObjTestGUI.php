@@ -1145,7 +1145,45 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		if ($_POST["cmd"]["genXls"])
 		{
-			$this->genXls($stat_eval);
+			$stat_array = array();
+			$stat_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+			$title_row = array();
+			// setting title row for export
+			foreach ($stat_settings as $key => $value)
+			{
+				if ($value == 1) {
+					array_push($title_row, $this->lng->txt("tst_stat_result_$key"));
+				}
+			}
+			array_push($stat_array, $title_row);
+			
+			// setting statistical data for export
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/user_(\d+)/", $key))
+				{
+					$stat_eval =& $this->object->evalStatistical($value);
+					$stat_row = array();
+					foreach ($stat_settings as $eval_value => $show)
+					{
+						if ($show == 1)
+						{
+							array_push($stat_row, $stat_eval[$eval_value]);
+						}
+					}
+					$test_results = array();
+					foreach ($stat_eval as $index => $statval)
+					{
+						if (preg_match("/\d+/", $index))
+						{
+							array_push($test_results, $statval);
+						}
+					}
+					array_push($stat_array, array("stat" => $stat_row, "points" => $test_results));
+				}
+			}
+			//$this->genXls($stat_array);
+			//exit();
 		}
 		else
 		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"])
@@ -1468,32 +1506,43 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function genXls($xls_Data="")
+	function genXls($xls_Data = "")
 	{
-		$xls = new ilXlsGenerator(false);
-		$i=0;
-		$xls_Data = Array();
-		foreach ($xls_Data as $key2 => $value2) {
-			if (!empty($key2)) {
-				$xls->WriteLabel(0,$i,$key2);
-				if (!empty($value2)) {
-					$xls->WriteNumber(1,$i++,$vaue2);
+//		$t = print_r($xls_Data, true);
+//		$t = preg_replace("/\n/", "<br>", $t);
+//		$t = preg_replace("/ /", "&nbsp;", $t);
+//		print $t;
+//		return;
+		$xls = new ilXlsGenerator(true);
+		foreach ($xls_Data as $key => $value) {
+			if ($key == 0)
+			{
+				// title row
+				$counter = 0;
+				foreach ($value as $title)
+				{
+					$xls->WriteLabel($key, $counter, $title);
+					$counter++;
+				}
+			}
+				else
+			{
+				$counter = 0;
+				foreach ($value["stat"] as $index => $statval)
+				{
+					$xls->WriteNumber($key, $counter, $statval);
+					$counter++;
+				}
+				foreach ($value["points"] as $index => $statval)
+				{
+					$xls->WriteNumber($key, $counter, $statval["reached"]);
+					$xls->WriteLabel(0, $counter, $this->object->get_question_title($statval["nr"]));
+					$counter++;
 				}
 			}
 		}
-
-	/*	$xls = new ilXlsGenerator(false);
-		$line = 0;
-		while($line < 10)
-        {
-      		$line++;
-      		for ($i=0; $i<10; $i++) {
-         		$xls->WriteLabel($line,$i,$i." ".$line);
-         	}
-     	}
-			*/
-
-    	$xls->SendFile("moe.xls"); // close the stream
+		$xls->toFile("/opt/ilias/www/htdocs/ilias3/moe.xls");
+//   	$xls->SendFile("moe.xls"); // close the stream
 	}
 
 	function eval_aObject()
