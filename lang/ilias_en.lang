@@ -207,6 +207,7 @@ common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#help#:#Help
+common#:#hobby#:#Interests/Hobbies
 common#:#host#:#Host
 common#:#http_path#:#Http Path
 common#:#id#:#ID
@@ -268,7 +269,6 @@ common#:#launch#:#Launch
 common#:#ldap#:#LDAP
 common#:#level#:#Level
 common#:#link#:#Link
-common#:#hobby#:#Interests/Hobbies
 common#:#linked_pages#:#Linked Pages
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
@@ -570,8 +570,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
-content#:#cont_lm_properties#:#Learning Module Properties
-content#:#cont_def_layout#:#Default Layout
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline#:#Headline
@@ -582,10 +580,12 @@ content#:#cont_caption#:#Caption
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_content#:#Content
+content#:#cont_def_layout#:#Default Layout
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
+content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_pages#:#Pages
