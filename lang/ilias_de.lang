@@ -463,3 +463,16 @@ common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
 common#:#pathes#:#Pfade
 common#:#modules#:#Module
 common#:#input_error#:#Eingabefehler
+common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
+common#:#changed_to#:#gewechselt zu
+common#:#nothing_checked#:#Lustig! Keine Checkbox angekreuzt.
+common#:#user_language#:#Benutzersprache
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
+common#:#action_aborted#:#Aktion abgebrochen!
+common#:#is_already_your#:#ist bereits Ihre
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
+common#:#languages_already_uninstalled#:#Lustig! Angewählte Sprache(n) sind bereits deinstalliert.
+common#:#languages_already_installed#:#Lustig! Angewählte Sprache(n) sind bereits installiert.
+common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
+common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
+common#:#uninstalled#:#deinstalliert.
