@@ -270,13 +270,13 @@ class Format
 		{
 			$a_dateformat = "Y-m-d";
 		}
-
+		
 		// same for time format
 		if ($a_timeformat == "")
 		{
 			$a_timeformat = "H:i:s";
 		}
-			
+
 		//get values from given sql-date
 		$d = substr($a_str,8,2);
 		$m = substr($a_str,5,2);
@@ -284,7 +284,7 @@ class Format
 		$h = substr($a_str,11,2);
 		$i = substr($a_str,14,2);
 		$s = substr($a_str,17,4);
-		
+
 		if ($a_mode == "time")
 		{
 			return date($a_timeformat,mktime($h,$i,$s,1,1,1999));		
@@ -345,6 +345,12 @@ class Format
 	function formatDate($a_date,$a_mode = "datetime")
 	{
 		global $lng;
+		
+		// return when no datetime is given
+		if ($a_date == "0000-00-00 00:00:00")
+		{
+			return $lng->txt("no_date");
+		}
 
 		$dateformat = $lng->txt("lang_dateformat");
 		$timeformat = $lng->txt("lang_timeformat");
