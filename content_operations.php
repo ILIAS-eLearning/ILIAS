@@ -9,7 +9,7 @@ $tplContent = new Template("content_operations.html",true,true);
 $tplContent->setVariable($ilias->ini["layout"]);
 // Show path
 $tree = new Tree($_GET["obj_id"],1,1);
-$path = showPath($tree->getPathFull(),"content.php");
+$path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=$obj_id&parent=$parent");
