@@ -239,7 +239,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}*/
 
 		// check correct file type
-		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed")
+		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed"
+			&& $_FILES["xmldoc"]["type"] != "application/x-zip")
 		{
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}
