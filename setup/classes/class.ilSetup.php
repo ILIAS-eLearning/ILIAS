@@ -167,6 +167,38 @@ class ilSetup extends PEAR
 
 		return true;		
 	}
+	
+	/**
+	* update client.ini & move data dirs
+	* does not work correctly at this time - DISABLED
+	*
+	*/
+	function updateNewClient($a_old_client_id)
+	{
+		return true;
+		var_dump("<pre>",$this->client,"</pre>");exit;
+		if ($a_old_client_id != $this->client->getId())
+		{
+			// check for existing client dir
+			if (file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client->getId()))
+			{
+				$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+			}
+			
+			if (!$this->saveNewClient())
+			{
+				$this->raiseError($this->lng->txt("save_error"),$this->error_obj->MESSAGE);
+			}
+			
+			ilUtil::delDir(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$a_old_client_id);
+			ilUtil::delDir(ILIAS_DATA_DIR."/".$a_old_client_id);	
+		}
+		
+		//everything okay
+		$this->ini_client_exists = true;
+
+		return true;		
+	}
 
 	/**
 	* execute a query
