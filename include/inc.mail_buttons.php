@@ -18,12 +18,19 @@ else
 	$tpl->parseCurrentBlock();
 }
 $file_name = basename($_SERVER["SCRIPT_NAME"]);
-
+// COMPOSE
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&type=new");
 $tpl->setVariable("BTN_TXT", $lng->txt("compose"));
 $tpl->parseCurrentBlock();
 
+// ADDRESSBOOK
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("BTN_TXT", $lng->txt("mail_addressbook"));
+$tpl->parseCurrentBlock();
+
+// OPTIONS
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK", "mail_options.php?mobj_id=$_GET[mobj_id]");
 $tpl->setVariable("BTN_TXT", $lng->txt("options"));

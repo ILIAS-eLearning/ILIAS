@@ -23,7 +23,7 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 			$tpl->setCurrentBlock("locator_item");
 			$tpl->setVariable("ITEM", $row["title"]);
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$row["id"]);
+			$tpl->setVariable("LINK_ITEM", "mail.php?mobj_id=".$row["child"]);
 			$tpl->parseCurrentBlock();
 		}
 
