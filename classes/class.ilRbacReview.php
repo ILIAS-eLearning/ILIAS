@@ -83,7 +83,6 @@ class ilRbacReview
 
 		if ($r->numRows() == 1)
 		{
-			
 			return true;
 		}
 		else
@@ -147,7 +146,7 @@ class ilRbacReview
 
 	/**
 	* get an array of parent role ids of all parent roles, if last parameter is set true
-	*  you get also all parent templates
+	* you get also all parent templates
 	* @access	private
 	* @param	integer		ref_id of an object which is end node
 	* @param	boolean		true for role templates (default: false)
@@ -504,64 +503,6 @@ class ilRbacReview
 		return $ops_id ? $ops_id : array();
 	}
 
-
-	/**
-	* Fetch allowed subobjects to determine if a role folder can be created
-	* ###DEPRECATED###
-	* @access	public
-	* @param	string type of object
-	* @param    integer reference id of object
-	*/
-	/*function getModules ($a_type,$a_ref_id)
-	{
-		global $objDefinition;
-		
-		if (!isset($a_type) or !isset($a_ref_id))
-		{
-			$message = get_class($this)."::getModules(): Missing parameter!".
-					   "type: ".$a_type." ref_id: ".$a_ref_id;
-			$log->writeWarning($message);
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-
-		$arr = array();
-		
-		$type_list = $objDefinition->getSubObjectsAsString($a_type);
-		
-		if (empty($type_list))
-		{
-			$q = "SELECT * FROM object_data ".
-				 "WHERE type = 'typ' ORDER BY type";
-		}
-		else
-		{
-			$q = "SELECT * FROM object_data ".
-				 "WHERE title IN (".$type_list.") AND type='typ'";
-		}
-
-		$r = $this->ilias->db->query($q);
-		
-		$rolf_exist = false;
-		
-		if (count($this->getRoleFolderOfObject($a_ref_id)) > 0)
-		{
-			$rolf_exist = true;
-		}
-		
-		if ($r->numRows() > 0)
-		{
-			while ($data = $r->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				if (!$rolf_exist || ($data["title"] != "rolf"))
-				{
-					$arr[$data["title"]] = $data["description"];
-				}
-			}
-		}
-
-		return $arr;
-	}*/
-
 	/**
 	* get all objects in which the inheritance was stopped
 	* TODO: the function returns all objects containing a role folder. So the function name should be renamed.
@@ -617,7 +558,7 @@ class ilRbacReview
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-		
+
 		// rolefolder is deleted
 		if ($row->tree < 0)
 		{

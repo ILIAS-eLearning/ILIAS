@@ -217,6 +217,10 @@ class ilObjRole extends ilObject
 		global $rbacadmin, $rbacreview;
 		
 		// TODO: unassign users from deleted role
+		
+		// first get all rolefolders where role is assigned to (by linking operation)
+		// before the role is deleted. $role_folders is used later on
+		$role_folders = $rbacreview->getFoldersAssignedToRole($this->getId());
 
 		// check if role is a linked local role or not
 		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
@@ -263,47 +267,28 @@ class ilObjRole extends ilObject
 				// IT'S A BASE ROLE
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
-				// check if role is assigned to other rolefolders (by linking operation)
-				if (count($rbacreview->getFoldersAssignedToRole($this->getId())) == 0)
-				{
-					// delete object_data entry
-					parent::delete();
+				// delete object_data entry
+				parent::delete();
 					
-					// delete role_data entry
-					$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
-					$this->ilias->db->query($q);
-
-					return true;
-				}
-				
-				return true;
+				// delete role_data entry
+				$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
+				$this->ilias->db->query($q);
 			}
 		}
 		else
 		{
 			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-
-			// but first check if role is assigned to other rolefolders...
-			if (count($rbacreview->getFoldersAssignedToRole($this->getId())) == 1)
-			{
-				$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
-				
-				// ...if not delete object_data entry
-				parent::delete();
-				
-				// delete role_data entry
-				$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
-				$this->ilias->db->query($q);
-
-				return true;
-			}
-			else
-			{
-				// only delete the local role entry for the rolefolder
-				$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
-			}
+			$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
 		}
 
+		//  purge empty rolefolders
+		foreach ($role_folders as $rolf)
+		{
+			$rolfObj = $this->ilias->obj_factory->getInstanceByRefId($rolf);
+			$rolfObj->purge();
+			unset($roleObj);
+		}
+		
 		return true;
 	}
 } // END class.ilObjRole

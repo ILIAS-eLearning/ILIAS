@@ -116,7 +116,7 @@ class ilRbacAdmin
 		$this->ilias->db->query($q);
 		
 		//delete rbac_templates and rbac_fa
-		$this->deleteLocalRole($a_rol_id,$a_ref_id);
+		$this->deleteLocalRole($a_rol_id);
 		
 		return true;
 	}
@@ -150,15 +150,23 @@ class ilRbacAdmin
 	* Deletes a local role and entries in rbac_fa and rbac_templates
 	* @access	public
 	* @param	integer	object_id of role
-	* @param	integer	ref_id of role folder
+	* @param	integer	ref_id of role folder (optional)
 	* @return	boolean true on success
 	*/
-	function deleteLocalRole($a_rol_id,$a_ref_id)
+	function deleteLocalRole($a_rol_id,$a_ref_id = 0)
 	{
-		if (!isset($a_rol_id) or !isset($a_ref_id))
+		global $log;
+
+		if (!isset($a_rol_id))
 		{
-			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
+			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: '".$a_rol_id."'";
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		if ($a_ref_id != 0)
+		{
+			$clause = "AND parent = '".$a_ref_id."'";
 		}
 		
 		// exclude system role from rbac
@@ -169,12 +177,13 @@ class ilRbacAdmin
 
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_ref_id."'";
+			 $clause;
+
 		$this->ilias->db->query($q);
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_ref_id."'";
+			 $clause;
 		$this->ilias->db->query($q);
 
 		return true;

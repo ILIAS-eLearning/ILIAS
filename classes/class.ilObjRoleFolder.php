@@ -145,6 +145,57 @@ class ilObjRoleFolder extends ilObject
 		$rbacadmin->assignRoleToFolder($roleObj->getId(),$this->getRefId(),"y");
 
 		return $roleObj;
-	} 
+	}
+	
+	/**
+	* checks if rolefolder contains any roles. if not the rolefolder is deleted
+	* @access	public
+	* @return	boolean	true if rolefolder is deleted
+	*/
+	function purge()
+	{
+		global $rbacreview, $rbacadmin, $tree;
+
+		$local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
+			
+		if (count($local_roles) == 0)
+		{
+			$rbacadmin->revokePermission($this->getRefId());
+			
+			if ($tree_id = $this->isDeleted())
+			{
+				$deleted_tree = new ilTree ($tree_id,- (int) $tree_id);
+				$deleted_tree->deleteTree($deleted_tree->getNodeData($this->getRefId()));				
+			}
+			else
+			{
+				$tree->deleteTree($tree->getNodeData($this->getRefId()));
+			}
+
+			$this->delete();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* checks if role folder is in trash
+	* @access	private
+	* @return	integer	return negative tree if in trash, otherwise false
+	*/
+	function isDeleted()
+	{
+		$q = "SELECT tree FROM tree WHERE child='".$this->getRefId()."'";
+		$row = $this->ilias->db->getRow($q);
+		
+		if ($row->tree < 0)
+		{
+			return $row->tree;
+		}
+		
+		return false;
+	}
 } // END class.ilObjRoleFolder
 ?>
