@@ -90,6 +90,7 @@ class ilObjectGUI
 
 	var $tab_target_script;
 	var $actions;
+	var $sub_objects;
 
 	/**
 	* Constructor
@@ -112,6 +113,7 @@ class ilObjectGUI
 		$this->target_frame = array();
 		$this->tab_target_script = "adm_object.php";
 		$this->actions = "";
+		$this->sub_objects = "";
 
 		$this->data = $a_data;
 		$this->id = $a_id;
@@ -299,9 +301,46 @@ class ilObjectGUI
 		$this->tab_target_script = $a_script;
 	}
 
+	/**
+	* set possible actions for objects in list. if actions are set
+	* via this method, the values of objects.xml are ignored.
+	*
+	* @param	array		$a_actions		array with $command => $lang_var pairs
+	*/
 	function setActions($a_actions = "")
 	{
-		$this->actions = $a_actions;
+		if (is_array($a_actions))
+		{
+			foreach ($a_actions as $name => $lng)
+			{
+				$this->actions[$name] = array("name" => $name, "lng" => $lng);
+			}
+		}
+		else
+		{
+			$this->actions = "";
+		}
+	}
+
+	/**
+	* set possible subobjects for this object. if subobjects are set
+	* via this method, the values of objects.xml are ignored.
+	*
+	* @param	array		$a_actions		array with $command => $lang_var pairs
+	*/
+	function setSubObjects($a_sub_objects = "")
+	{
+		if (is_array($a_sub_objects))
+		{
+			foreach ($a_sub_objects as $name => $options)
+			{
+				$this->sub_objects[$name] = array("name" => $name, "max" => $options["max"]);
+			}
+		}
+		else
+		{
+			$this->sub_objects = "";
+		}
 	}
 
 	/**
@@ -2373,7 +2412,14 @@ class ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		$d = $this->objDefinition->getSubObjects($_GET["type"]);
+		if($this->sub_objects == "")
+		{
+			$d = $this->objDefinition->getSubObjects($_GET["type"]);
+		}
+		else
+		{
+			$d = $this->sub_objects;
+		}
 
 		$import = false;
 

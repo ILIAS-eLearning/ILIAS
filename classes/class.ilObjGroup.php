@@ -260,9 +260,9 @@ class ilObjGroup extends ilObject
 		foreach ($role_arr as $role_id)
 		{
 			$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			
-			$grp_Member ="grp_member_ref_id_".$grp_id;
-			$grp_Admin  ="grp_admin_ref_id_".$grp_id;
+
+			$grp_Member ="il_grp_member_".$grp_id;
+			$grp_Admin  ="il_grp_admin_".$grp_id;
 
 			if(strcmp($role_Obj->getTitle(), $grp_Member) == 0 )
 				$arr_grpDefaultRoles["grp_member_role"] = $role_Obj->getId();
@@ -283,7 +283,7 @@ class ilObjGroup extends ilObject
 	*/
 	function getGrpStatusClosedTemplateId()
 	{
-		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_closed'";
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["obj_id"];
@@ -296,7 +296,7 @@ class ilObjGroup extends ilObject
 	*/
 	function getGrpStatusOpenTemplateId()
 	{
-		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Status_open'";
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["obj_id"];
@@ -324,7 +324,7 @@ class ilObjGroup extends ilObject
 		
 	  	if ($a_grpStatus == 0 || $a_grpStatus == 1)
 		{
-			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
+			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
 
 			foreach ($arr_globalRoles as $globalRole)
@@ -357,7 +357,7 @@ class ilObjGroup extends ilObject
 
 	  	if($a_grpStatus == 2)
 		{
-			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
+			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
 			foreach ($arr_globalRoles as $globalRole)
 			{
@@ -459,7 +459,7 @@ class ilObjGroup extends ilObject
 		if (isset($rolfId))
 		{
 			//set permissions for MEMBER ROLE
-			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Member_rolt' AND description='Member role template of groups'";
+			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
 			$res = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
 
 			//TODO: errorhandling
@@ -467,7 +467,7 @@ class ilObjGroup extends ilObject
 			{
 				// create MEMBER role
 				$roleObj = new ilObjRole();
-				$roleObj->setTitle("grp_member_ref_id_".$this->getRefId());
+				$roleObj->setTitle("il_grp_member_".$this->getRefId());
 				$roleObj->setDescription("automatic generated Group-Memberrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
 
@@ -491,7 +491,7 @@ class ilObjGroup extends ilObject
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
 			//set permissions for ADMIN ROLE
-			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Admin_rolt' AND description='Administrator role template of groups'";
+			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
 			$res = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
 
 			//TODO: errorhandling, if query return more than 1 id matching this query
@@ -499,7 +499,7 @@ class ilObjGroup extends ilObject
 			{
 				// create ADMIN role
 				$roleObj = new ilObjRole();
-				$roleObj->setTitle("grp_admin_ref_id_".$this->getRefId());
+				$roleObj->setTitle("il_grp_admin_".$this->getRefId());
 				$roleObj->setDescription("automatic generated Group-Adminrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
 

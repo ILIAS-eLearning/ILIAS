@@ -38,6 +38,7 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#term#:#Term
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -674,6 +675,7 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_new_term#:#New Term
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
