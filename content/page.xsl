@@ -566,6 +566,23 @@
 			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
 		</a>
+		<!-- <xsl:value-of select="@HierId"/> -->
+		<xsl:if test="$mode = 'edit'">
+			<!-- checkbox -->
+			<br />
+			<select size="1" class="ilEditSelect">
+				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+				</xsl:attribute>
+				<option value="newItemAfterForm">new Item after</option>
+				<option value="newItemBeforeForm">new Item before</option>
+				<option value="deleteItem">delete Item</option>
+			</select>
+			<input class="ilEditSubmit" type="submit" value="Go">
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+			</input>
+			<br/>
+		</xsl:if>
+
 		</td>
 	</tr>
 </xsl:template>

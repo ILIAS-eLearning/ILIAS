@@ -219,7 +219,7 @@ class ilPageEditorGUI
 			// File List Item
 			case "flit":
 				require_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
-				$file_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
+				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
 				$file_item_gui->setTargetScript($this->getTargetScript());
 				$file_item_gui->setReturnLocation($this->getReturnLocation());
 				$file_item_gui->$cmd();
