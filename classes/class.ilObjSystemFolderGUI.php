@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.38 2004/09/15 23:52:30 bblackmoor Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.39 2004/09/21 11:14:07 wrandels Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -298,6 +298,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//init checking var
 			$form_valid = true;
 
+			if($_POST['https'])
+			{
+				include_once './classes/class.ilHTTPS.php';
+
+				if(!ilHTTPS::_check())
+				{
+					sendInfo($this->lng->txt('https_not_possible'));
+					$form_valid = false;
+				}
+			}
+
             // check required user information
 			if (empty($_POST["admin_firstname"]) or empty($_POST["admin_lastname"])
 				or empty($_POST["admin_street"]) or empty($_POST["admin_zipcode"])
@@ -348,6 +359,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
 				$settings["enable_registration"] = $_POST["enable_registration"];
+				$settings["https"] = $_POST["https"];
 
 				// contact
 				$settings["admin_firstname"] = $_POST["admin_firstname"];
@@ -398,6 +410,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
 				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
+				$this->ilias->setSetting('https',$_POST['https']);
 
 				// contact
 				$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -466,6 +479,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("db_version"));
 		$this->tpl->setVariable("TXT_CLIENT_ID", $this->lng->txt("client_id"));
 		$this->tpl->setVariable("TXT_INST_ID", $this->lng->txt("inst_id"));
+		$this->tpl->setVariable("TXT_ACTIVATE_HTTPS",$this->lng->txt('activate_https'));
 		$this->tpl->setVariable("TXT_HOSTNAME", $this->lng->txt("host"));
 		$this->tpl->setVariable("TXT_IP_ADDRESS", $this->lng->txt("ip_address"));
 		$this->tpl->setVariable("TXT_SERVER_DATA", $this->lng->txt("server_data"));
@@ -534,7 +548,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // required user information
         $this->tpl->setVariable("TXT_AUTO_REGISTRATION", $this->lng->txt("auto_registration"));
         $this->tpl->setVariable("TXT_APPROVE_RECIPIENT", $this->lng->txt("approve_recipient"));
-        $this->tpl->setVariable("TXT_REQUIRE_MANDATORY", "&nbsp;(<span class=\"warning\">" . $this->lng->txt("require_mandatory") . "</span>)");
+        $this->tpl->setVariable("TXT_REQUIRE_MANDATORY", "&nbsp;(<span class=\"warning\">" . 
+								$this->lng->txt("require_mandatory") . "</span>)");
         $this->tpl->setVariable("TXT_REQUIRE_LOGIN", $this->lng->txt("require_login"));
         $this->tpl->setVariable("TXT_REQUIRE_PASSWD", $this->lng->txt("require_passwd"));
         $this->tpl->setVariable("TXT_REQUIRE_PASSWD2", $this->lng->txt("require_passwd2"));
@@ -636,7 +651,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
 		}
-
+		if($settings['https'])
+		{
+			$this->tpl->setVariable("HTTPS","checked=\"checked\"");
+		}
 		if ($settings["enable_registration"])
 		{
 			$this->tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
