@@ -694,7 +694,7 @@ class ilSetup extends PEAR
 			or empty($settings["admin_street"]) or empty($settings["admin_zipcode"])
 			or empty($settings["admin_country"]) or empty($settings["admin_city"])
 			or empty($settings["admin_phone"]) or empty($settings["admin_email"])
-			or empty($client_name))
+			or empty($client_name) or empty($settings["inst_institution"])
 		{
 			$arr["status"] = false;
 			$arr["comment"] = "missing data";
