@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.22 2003/05/15 13:43:14 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.23 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -155,8 +155,8 @@ class ilObjRoleGUI extends ilObjectGUI
 					
 					$num++;
 				}
-
 				// END CHECK_PERM
+
 				// color changing
 				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["perm"]["$operation_name"]["color"] = $css_row;
@@ -196,6 +196,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			// ADOPT PERMISSIONS
 			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
+
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 
@@ -212,8 +213,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 
 			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
-
 			// END ADOPT_PERMISSIONS
+
 			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
 		}
@@ -261,6 +262,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				// END CHECK PERMISSION
+
 				$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
 				$this->tpl->setVariable("CSS_ROW",$operations["color"]);
 				$this->tpl->setVariable("PERMISSION",$name);
@@ -308,7 +310,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
-		$this->tpl->parseCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**

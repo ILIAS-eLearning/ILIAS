@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.3 2003/03/31 09:38:20 akill Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.4 2003/05/16 13:39:22 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -200,6 +200,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				}
 			}
 		}
+
+		sendInfo($this->lng->txt("saved_successfully"),true);
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		exit();
 	}
@@ -211,10 +213,14 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	function editObject()
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
-
-		// RBAC deactived for testing
-		//if ($rbacsystem->checkAccess('write',$_GET["parent"]))
-		//{
+//echo $_GET["ref_id"];exit;
+		// TODO: maybe we can skip this check
+		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to edit operations",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
 			//prepare objectlist
 			$this->data = array();
 			$this->data["data"] = array();
@@ -254,16 +260,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				}
 			}
 
-		//}
-		//else
-		//{
-		//	$this->ilias->raiseError("No permission to edit operations",$this->ilias->error_obj->WARNING);
-		//}
+		}
 
 		$this->getTemplateFile("edit");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=save.");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=save");
 
 		//table header
 		foreach ($this->data["cols"] as $key)
