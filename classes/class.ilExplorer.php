@@ -162,6 +162,13 @@ class ilExplorer
 	* @access private
 	*/
 	var $filter_mode;
+	
+	/**
+	* expand entire tree regardless of values in $expanded
+	* @var boolean
+	* @access private
+	*/
+	var $expand_all = false;
 
 	/**
 	* Constructor
@@ -457,14 +464,14 @@ class ilExplorer
 						// fix explorer (sometimes explorer disappears)
 						if ($parent_index == 0)
 						{
-							if (!in_array($object["parent"], $this->expanded))
+							if (!$this->expand_all and !in_array($object["parent"], $this->expanded))
 							{
 								$this->expanded[] = $object["parent"];
 							}
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
+						if ($object["child"] != $this->tree->getRootId() and ((!$this->expand_all and !in_array($object["parent"],$this->expanded))
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
@@ -475,7 +482,7 @@ class ilExplorer
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
-							if (in_array($object["parent"],$this->expanded))
+							if ($this->expand_all or in_array($object["parent"],$this->expanded))
 							{
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
 							}
@@ -488,7 +495,7 @@ class ilExplorer
 						++$counter;
 
 						// stop recursion if 2. level beyond expanded nodes is reached
-						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						if (($this->expand_all or in_array($object["parent"],$this->expanded)) or ($object["parent"] == 0))
 						{
 							// recursive
 							$this->setOutput($object["child"],$a_depth,$object['obj_id']);
@@ -529,6 +536,7 @@ class ilExplorer
 
 		foreach ($this->format_options as $key => $options)
 		{
+			//var_dump($options["visible"]);
 			if ($options["visible"] and $key != 0)
 			{
 				$this->formatObject($options["child"],$options,$options['obj_id']);
@@ -575,6 +583,10 @@ class ilExplorer
 
 		foreach ($a_option["tab"] as $picture)
 		{
+				//$tpl->touchBlock("checkbox");
+				//$tpl->parseCurrentBlock();
+
+
 			if ($picture == 'plus')
 			{
 				$target = $this->createTarget('+',$a_node_id);
@@ -892,6 +904,17 @@ class ilExplorer
 			unset($_SESSION[$this->expand_variable][$key[0]]);
 		}
 		$this->expanded = $_SESSION[$this->expand_variable];
+	}
+	
+	/**
+	* force expandAll. if true all nodes are expanded regardless of the values
+	* in $expanded (default: false)
+	* @access	public
+	* @param	boolean
+	*/
+	function forceExpandAll($a_mode)
+	{
+		$this->expand_all = (bool) $a_mode;
 	}
 
 	/**

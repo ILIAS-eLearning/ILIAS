@@ -5244,4 +5244,9 @@ CREATE TABLE `survey_anonymous` (
 PRIMARY KEY ( `anonymous_id` ) ,
 INDEX ( `survey_key` , `survey_fi` )
 );
+<#367>
+ALTER TABLE `content_object` ADD `public_access_mode` ENUM( 'complete', 'selected' ) DEFAULT 'complete' NOT NULL;
+ALTER TABLE `lm_data` ADD `public_access` ENUM( 'y', 'n' ) DEFAULT 'n' NOT NULL AFTER `import_id`;
+ALTER TABLE `lm_data` ADD INDEX (`lm_id`);
+ALTER TABLE `lm_data` ADD INDEX (`type`);
 

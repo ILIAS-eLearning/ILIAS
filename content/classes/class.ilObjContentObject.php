@@ -630,6 +630,14 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->toc_mode;
 	}
+	
+	/**
+	* get public access mode ("complete" | "selected")
+	*/
+	function getPublicAccessMode()
+	{
+		return $this->public_access_mode;
+	}
 
 	/**
 	* set toc mode
@@ -706,6 +714,11 @@ class ilObjContentObject extends ilObject
 		$this->user_comments = $a_comm;
 	}
 
+	function setPublicAccessMode($a_mode)
+	{
+		$this->public_access_mode = $a_mode;
+	}
+
 	function isActiveHistoryUserComments()
 	{
 		return $this->user_comments;
@@ -730,6 +743,7 @@ class ilObjContentObject extends ilObject
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
+		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 	}
 
 	/**
@@ -748,6 +762,7 @@ class ilObjContentObject extends ilObject
 			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
+			" public_access_mode = '".$this->getPublicAccessMode()."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
@@ -807,6 +822,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function _checkPreconditionsOfPage($cont_obj_id, $page_id)
 	{
+		global $ilias,$ilUser,$ilErr;
+
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
 		$lm_tree->setTreeTablePK("lm_id");

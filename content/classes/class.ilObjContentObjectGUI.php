@@ -2439,6 +2439,76 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// back to upper context
 		$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 	}
+	
+	function editPublicSection()
+	{
+		$this->setTabs();
+
+		switch ($this->object->getType())
+		{
+			case "lm":
+				$gui_class = "ilobjlearningmodulegui";
+				break;
+
+			case "dlb":
+				$gui_class = "ilobjdlbookgui";
+				break;
+		}
+
+		// get learning module object
+		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html");
+
+		require_once ("content/classes/class.ilPublicSectionSelector.php");
+		$exp = new ilPublicSectionSelector("lm_edit.php?cmd=view&ref_id=".$this->object->getRefId(),
+			$this->object, $gui_class);
+
+		$exp->setTargetGet("obj_id");
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+		
+		// get page ids
+		foreach ($exp->format_options as $node)
+		{
+			if (!$node["container"])
+			{
+				$pages[] = $node["child"];
+			}
+		}
+		
+		$js_pages = ilUtil::array_php2js($pages);
+
+		//$this->tpl->setCurrentBlock("content");
+		//var_dump($this->object->getPublicAccessMode());
+		// access mode selector
+		$this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
+		$this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
+		$modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
+		$select_public_mode = ilUtil::formSelect ($this->object->getPublicAccessMode(),"lm_public_mode",$modes, false, true);
+		$this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
+
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->tpl->setVariable("ONCLICK",$js_pages);
+		$this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+		$this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function savePublicSection()
+	{
+		//var_dump($_POST["lm_public_mode"]);exit;
+		$this->object->setPublicAccessMode($_POST["lm_public_mode"]);
+		$this->object->updateProperties();
+		ilLMObject::_writePublicAccessStatus($_POST["pages"],$this->object->getId());
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editPublicSection");
+	}
 
 	function linkChecker()
 	{

@@ -133,10 +133,10 @@ class ilTableOfContentsExplorer extends ilLMExplorer
                 }
 	}
 
-	function isClickable($a_type, $a_obj_id)
+	/*function isClickable($a_type, $a_obj_id)
 	{
 		return true;
-	}
+	}*/
 
 
 } // END class ilTableOfContentsExplorer

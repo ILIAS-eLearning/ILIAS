@@ -263,6 +263,80 @@ class ilLMObject
 		$this->updateMetaData();
 
 	}
+	
+	/**
+	* update public access flags in lm_data for all pages of a content object
+	* @static
+	* @access	public
+	* @param	array	page ids
+	* @param	integer	content object id
+	* @return	of the jedi
+	*/
+	function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
+	{
+		global $ilDB,$ilLog,$ilErr;
+		
+		if (!is_array($a_pages))
+		{$a_pages = array(0);
+			/*$message = sprintf('ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_pages must be an array');
+			$ilLog->write($message,$ilLog->WARNING);
+			$ilErr->raiseError($message,$ilErr->MESSAGE);
+			return false;*/
+		}
+		
+		if (empty($a_cont_obj_id))
+		{
+			$message = sprintf('ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_cont_obj_id is empty');
+			$ilLog->write($message,$ilLog->WARNING);
+			$ilErr->raiseError($message,$ilErr->MESSAGE);
+			return false;
+		}
+		
+		// update public access status of all pages of cont_obj
+		$q = "UPDATE lm_data SET " .
+			 "public_access = CASE " .
+			 "WHEN obj_id IN (".implode(',',$a_pages).") " .
+			 "THEN 'y' ".
+			 "ELSE 'n' ".
+			 "END " .
+			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id)." " .
+			 "AND type = 'pg'";
+		$ilDB->query($q);
+
+		return true;
+	}
+	
+	function _isPagePublic($a_node_id,$a_check_public_mode = false)
+	{
+		global $ilDB,$ilLog;
+
+		if (empty($a_node_id))
+		{
+			$message = sprintf('ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty');
+			$ilLog->write($message,$ilLog->WARNING);
+			return false;
+		}
+		
+		if ($a_check_public_mode === true)
+		{
+			$lm_id = ilLMObject::_lookupContObjId($a_node_id);
+
+			$q = "SELECT public_access_mode FROM content_object WHERE id=".$ilDB->quote($lm_id);
+			$r = $ilDB->query($q);
+			$row = $r->fetchRow();
+			
+			if ($row[0] == "complete")
+			{
+				return true;
+			}
+		}
+
+		$q = "SELECT public_access FROM lm_data WHERE obj_id=".$ilDB->quote($a_node_id);
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow();
+		
+		return ilUtil::yn2tf($row[0]);
+	}
 
 	/**
 	* delete lm object data

@@ -65,7 +65,6 @@ class ilLMExplorer extends ilExplorer
 		$this->textwidth = 200;
 	}
 
-
 	/**
 	* overwritten method from base class
 	* @access	public
@@ -91,5 +90,32 @@ class ilLMExplorer extends ilExplorer
 		$this->output[] = $tpl->get();
 	}
 
+	/**
+	* check if links for certain object type are activated
+	*
+	* @param	string		$a_type			object type
+	*
+	* @return	boolean		true if linking is activated
+	*/
+	function isClickable($a_type, $a_ref_id = 0)
+	{
+		global $ilUser;
+		// in this standard implementation
+		// only the type determines, wether an object should be clickable or not
+		// but this method can be overwritten and make use of the ref id
+		// (this happens e.g. in class ilRepositoryExplorerGUI)
+		if ($this->is_clickable[$a_type] == "n")
+		{
+			return false;
+		}
+
+		// check public access
+		if ($ilUser->getId() == ANONYMOUS_USER_ID and !ilLMObject::_isPagePublic($a_ref_id,true))
+		{
+			return false;
+		}
+	
+		return true;
+	}
 } // END class ilLMExplorer
 ?>
