@@ -261,6 +261,7 @@ common#:#list_of_pages#:#pages list
 common#:#list_of_questions#:#question list
 common#:#literature#:#literature
 common#:#literature_bookmarks#:#literature bookmarks
+common#:#lm#:#Learning Module###14 May 2003 new variable
 common#:#lng#:#idioma
 common#:#lngf#:#idiomaf
 common#:#lo#:#learning object
@@ -399,6 +400,7 @@ common#:#presentation_options#:#presentation options
 common#:#print#:#print
 common#:#profile_changed#:#Your profile has changed###25 Mar 2003 new variable
 common#:#pub_section#:#public section
+common#:#public_profile#:#Public Profile###14 May 2003 new variable
 common#:#publication#:#publication
 common#:#publication_date#:#publication date
 common#:#published#:#published
@@ -523,6 +525,7 @@ common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#your message
 common#:#zipcode#:#zip code
 content#:#cont_content#:#Content###12 May 2003 new variable
+content#:#cont_meta_data#:#Meta Data###14 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
 content#:#st#:#Chapter###12 May 2003 new variable
@@ -585,6 +588,7 @@ mail#:#mail_file_name#:#Filename###16 Apr 2003 new variable
 mail#:#mail_file_size#:#Filesize###16 Apr 2003 new variable
 mail#:#mail_files_deleted#:#The file(s) are deleted###16 Apr 2003 new variable
 mail#:#mail_folder_created#:#A new folder is created###16 Apr 2003 new variable
+mail#:#mail_folder_deleted#:#The folder has been deleted###14 May 2003 new variable
 mail#:#mail_folder_exists#:#A folder already exists with this name###16 Apr 2003 new variable
 mail#:#mail_folder_name#:#Folder name###16 Apr 2003 new variable
 mail#:#mail_folder_name_changed#:#The folder is renamed###16 Apr 2003 new variable
@@ -621,3 +625,245 @@ mail#:#mail_to_search#:#To search###16 Apr 2003 new variable
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###16 Apr 2003 new variable
 mail#:#search_bc_recipient#:#Search BC Recipient###16 Apr 2003 new variable
 mail#:#search_cc_recipient#:#Search CC Recipient###16 Apr 2003 new variable
+meta#:#meta_c_AD#:#Andorra###14 May 2003 new variable
+meta#:#meta_c_AE#:#United Arab Emirates###14 May 2003 new variable
+meta#:#meta_c_AF#:#Afghanistan###14 May 2003 new variable
+meta#:#meta_c_AG#:#Antigua And Barbuda###14 May 2003 new variable
+meta#:#meta_c_AI#:#Anguilla###14 May 2003 new variable
+meta#:#meta_c_AL#:#Albania###14 May 2003 new variable
+meta#:#meta_c_AM#:#Armenia###14 May 2003 new variable
+meta#:#meta_c_AN#:#Netherlands Antilles###14 May 2003 new variable
+meta#:#meta_c_AO#:#Angola###14 May 2003 new variable
+meta#:#meta_c_AQ#:#Antarctica###14 May 2003 new variable
+meta#:#meta_c_AR#:#Argentina###14 May 2003 new variable
+meta#:#meta_c_AS#:#American Samoa###14 May 2003 new variable
+meta#:#meta_c_AT#:#Austria###14 May 2003 new variable
+meta#:#meta_c_AU#:#Australia###14 May 2003 new variable
+meta#:#meta_c_AW#:#Aruba###14 May 2003 new variable
+meta#:#meta_c_AZ#:#Azerbaijan###14 May 2003 new variable
+meta#:#meta_c_BA#:#Bosnia And Herzegowina###14 May 2003 new variable
+meta#:#meta_c_BB#:#Barbados###14 May 2003 new variable
+meta#:#meta_c_BD#:#Bangladesh###14 May 2003 new variable
+meta#:#meta_c_BE#:#Belgium###14 May 2003 new variable
+meta#:#meta_c_BF#:#Burkina Faso###14 May 2003 new variable
+meta#:#meta_c_BG#:#Bulgaria###14 May 2003 new variable
+meta#:#meta_c_BH#:#Bahrain###14 May 2003 new variable
+meta#:#meta_c_BI#:#Burundi###14 May 2003 new variable
+meta#:#meta_c_BJ#:#Benin###14 May 2003 new variable
+meta#:#meta_c_BM#:#Bermuda###14 May 2003 new variable
+meta#:#meta_c_BN#:#Brunei Darussalam###14 May 2003 new variable
+meta#:#meta_c_BO#:#Bolivia###14 May 2003 new variable
+meta#:#meta_c_BR#:#Brazil###14 May 2003 new variable
+meta#:#meta_c_BS#:#Bahamas###14 May 2003 new variable
+meta#:#meta_c_BT#:#Bhutan###14 May 2003 new variable
+meta#:#meta_c_BV#:#Bouvet Island###14 May 2003 new variable
+meta#:#meta_c_BW#:#Botswana###14 May 2003 new variable
+meta#:#meta_c_BY#:#Belarus###14 May 2003 new variable
+meta#:#meta_c_BZ#:#Belize###14 May 2003 new variable
+meta#:#meta_c_CA#:#Canada###14 May 2003 new variable
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands###14 May 2003 new variable
+meta#:#meta_c_CF#:#Central African Republic###14 May 2003 new variable
+meta#:#meta_c_CG#:#Congo###14 May 2003 new variable
+meta#:#meta_c_CH#:#Switzerland###14 May 2003 new variable
+meta#:#meta_c_CI#:#Cote D' Ivoire###14 May 2003 new variable
+meta#:#meta_c_CK#:#Cook Islands###14 May 2003 new variable
+meta#:#meta_c_CL#:#Chile###14 May 2003 new variable
+meta#:#meta_c_CM#:#Cameroon###14 May 2003 new variable
+meta#:#meta_c_CN#:#China###14 May 2003 new variable
+meta#:#meta_c_CO#:#Colombia###14 May 2003 new variable
+meta#:#meta_c_CR#:#Costa Rica###14 May 2003 new variable
+meta#:#meta_c_CU#:#Cuba###14 May 2003 new variable
+meta#:#meta_c_CV#:#Cape Verde###14 May 2003 new variable
+meta#:#meta_c_CX#:#Christmas Island###14 May 2003 new variable
+meta#:#meta_c_CY#:#Cyprus###14 May 2003 new variable
+meta#:#meta_c_CZ#:#Czech Republic###14 May 2003 new variable
+meta#:#meta_c_DE#:#Germany###14 May 2003 new variable
+meta#:#meta_c_DJ#:#Djibouti###14 May 2003 new variable
+meta#:#meta_c_DK#:#Denmark###14 May 2003 new variable
+meta#:#meta_c_DM#:#Dominica###14 May 2003 new variable
+meta#:#meta_c_DO#:#Dominican Republic###14 May 2003 new variable
+meta#:#meta_c_DZ#:#Algeria###14 May 2003 new variable
+meta#:#meta_c_EC#:#Ecuador###14 May 2003 new variable
+meta#:#meta_c_EE#:#Estonia###14 May 2003 new variable
+meta#:#meta_c_EG#:#Egypt###14 May 2003 new variable
+meta#:#meta_c_EH#:#Western Sahara###14 May 2003 new variable
+meta#:#meta_c_ER#:#Eritrea###14 May 2003 new variable
+meta#:#meta_c_ES#:#Spain###14 May 2003 new variable
+meta#:#meta_c_ET#:#Ethiopia###14 May 2003 new variable
+meta#:#meta_c_FI#:#Finland###14 May 2003 new variable
+meta#:#meta_c_FJ#:#Fiji###14 May 2003 new variable
+meta#:#meta_c_FK#:#Falkland Islands###14 May 2003 new variable
+meta#:#meta_c_FM#:#Micronesia###14 May 2003 new variable
+meta#:#meta_c_FO#:#Faroe Islands###14 May 2003 new variable
+meta#:#meta_c_FR#:#France###14 May 2003 new variable
+meta#:#meta_c_FX#:#France, Metropolitan###14 May 2003 new variable
+meta#:#meta_c_GA#:#Gabon###14 May 2003 new variable
+meta#:#meta_c_GB#:#United Kingdom###14 May 2003 new variable
+meta#:#meta_c_GD#:#Grenada###14 May 2003 new variable
+meta#:#meta_c_GE#:#Giorgia###14 May 2003 new variable
+meta#:#meta_c_GF#:#French Guiana###14 May 2003 new variable
+meta#:#meta_c_GH#:#Ghana###14 May 2003 new variable
+meta#:#meta_c_GI#:#Gibraltar###14 May 2003 new variable
+meta#:#meta_c_GL#:#Greenland###14 May 2003 new variable
+meta#:#meta_c_GM#:#Gambia###14 May 2003 new variable
+meta#:#meta_c_GN#:#Guinea###14 May 2003 new variable
+meta#:#meta_c_GP#:#Guadeloupe###14 May 2003 new variable
+meta#:#meta_c_GQ#:#Equatorial Guinea###14 May 2003 new variable
+meta#:#meta_c_GR#:#Greece###14 May 2003 new variable
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###14 May 2003 new variable
+meta#:#meta_c_GT#:#Guatemala###14 May 2003 new variable
+meta#:#meta_c_GU#:#Guam###14 May 2003 new variable
+meta#:#meta_c_GW#:#Guinea-Bissau###14 May 2003 new variable
+meta#:#meta_c_GY#:#Guyana###14 May 2003 new variable
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands###14 May 2003 new variable
+meta#:#meta_c_HN#:#Honduras###14 May 2003 new variable
+meta#:#meta_c_HR#:#Croatia###14 May 2003 new variable
+meta#:#meta_c_HT#:#Haiti###14 May 2003 new variable
+meta#:#meta_c_HU#:#Hungary###14 May 2003 new variable
+meta#:#meta_c_ID#:#Indonesia###14 May 2003 new variable
+meta#:#meta_c_IE#:#Ireland###14 May 2003 new variable
+meta#:#meta_c_IL#:#Israel###14 May 2003 new variable
+meta#:#meta_c_IN#:#India###14 May 2003 new variable
+meta#:#meta_c_IO#:#British Indian Ocean Territory###14 May 2003 new variable
+meta#:#meta_c_IQ#:#Iraq###14 May 2003 new variable
+meta#:#meta_c_IR#:#Iran###14 May 2003 new variable
+meta#:#meta_c_IS#:#Iceland###14 May 2003 new variable
+meta#:#meta_c_IT#:#Italy###14 May 2003 new variable
+meta#:#meta_c_JM#:#Jamaica###14 May 2003 new variable
+meta#:#meta_c_JO#:#Jordan###14 May 2003 new variable
+meta#:#meta_c_JP#:#Japan###14 May 2003 new variable
+meta#:#meta_c_KE#:#Kenya###14 May 2003 new variable
+meta#:#meta_c_KG#:#Kyrgyzstan###14 May 2003 new variable
+meta#:#meta_c_KH#:#Cambodia###14 May 2003 new variable
+meta#:#meta_c_KI#:#Kiribati###14 May 2003 new variable
+meta#:#meta_c_KM#:#Comoros###14 May 2003 new variable
+meta#:#meta_c_KN#:#Saint Kitts And Nevis###14 May 2003 new variable
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)###14 May 2003 new variable
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)###14 May 2003 new variable
+meta#:#meta_c_KW#:#Kuwait###14 May 2003 new variable
+meta#:#meta_c_KY#:#Cayman Islands###14 May 2003 new variable
+meta#:#meta_c_KZ#:#Kazakhstan###14 May 2003 new variable
+meta#:#meta_c_LA#:#Lao People's Republic###14 May 2003 new variable
+meta#:#meta_c_LB#:#Lebanon###14 May 2003 new variable
+meta#:#meta_c_LC#:#Saint Lucia###14 May 2003 new variable
+meta#:#meta_c_LI#:#Liechtenstein###14 May 2003 new variable
+meta#:#meta_c_LK#:#Sri Lanka###14 May 2003 new variable
+meta#:#meta_c_LR#:#Liberia###14 May 2003 new variable
+meta#:#meta_c_LS#:#Lesotho###14 May 2003 new variable
+meta#:#meta_c_LT#:#Lithunia###14 May 2003 new variable
+meta#:#meta_c_LU#:#Luxembourg###14 May 2003 new variable
+meta#:#meta_c_LV#:#Latvia###14 May 2003 new variable
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###14 May 2003 new variable
+meta#:#meta_c_MA#:#Morocco###14 May 2003 new variable
+meta#:#meta_c_MC#:#Monaco###14 May 2003 new variable
+meta#:#meta_c_MD#:#Moldova###14 May 2003 new variable
+meta#:#meta_c_MG#:#Madagascar###14 May 2003 new variable
+meta#:#meta_c_MH#:#Marshall Islands###14 May 2003 new variable
+meta#:#meta_c_MK#:#Macedonia###14 May 2003 new variable
+meta#:#meta_c_ML#:#Mali###14 May 2003 new variable
+meta#:#meta_c_MM#:#Myanmar###14 May 2003 new variable
+meta#:#meta_c_MN#:#Mongolia###14 May 2003 new variable
+meta#:#meta_c_MO#:#Macau###14 May 2003 new variable
+meta#:#meta_c_MP#:#Northern Mariana Islands###14 May 2003 new variable
+meta#:#meta_c_MQ#:#Martinique###14 May 2003 new variable
+meta#:#meta_c_MR#:#Mauritania###14 May 2003 new variable
+meta#:#meta_c_MS#:#Montserrat###14 May 2003 new variable
+meta#:#meta_c_MT#:#Malta###14 May 2003 new variable
+meta#:#meta_c_MU#:#Mauritius###14 May 2003 new variable
+meta#:#meta_c_MV#:#Maldives###14 May 2003 new variable
+meta#:#meta_c_MW#:#Malawi###14 May 2003 new variable
+meta#:#meta_c_MX#:#Mexico###14 May 2003 new variable
+meta#:#meta_c_MY#:#Malaysia###14 May 2003 new variable
+meta#:#meta_c_MZ#:#Mozambique###14 May 2003 new variable
+meta#:#meta_c_NA#:#Namibia###14 May 2003 new variable
+meta#:#meta_c_NC#:#New Caledonia###14 May 2003 new variable
+meta#:#meta_c_NE#:#Niger###14 May 2003 new variable
+meta#:#meta_c_NF#:#Norfolk Island###14 May 2003 new variable
+meta#:#meta_c_NG#:#Nigeria###14 May 2003 new variable
+meta#:#meta_c_NI#:#Nicaragua###14 May 2003 new variable
+meta#:#meta_c_NL#:#Netherlands###14 May 2003 new variable
+meta#:#meta_c_NO#:#Norway###14 May 2003 new variable
+meta#:#meta_c_NP#:#Nepal###14 May 2003 new variable
+meta#:#meta_c_NR#:#Nauru###14 May 2003 new variable
+meta#:#meta_c_NU#:#Niue###14 May 2003 new variable
+meta#:#meta_c_NZ#:#New Zealand###14 May 2003 new variable
+meta#:#meta_c_OM#:#Oman###14 May 2003 new variable
+meta#:#meta_c_PA#:#Panama###14 May 2003 new variable
+meta#:#meta_c_PE#:#Peru###14 May 2003 new variable
+meta#:#meta_c_PF#:#French Polynesia###14 May 2003 new variable
+meta#:#meta_c_PG#:#Papua New Guinea###14 May 2003 new variable
+meta#:#meta_c_PH#:#Philippines###14 May 2003 new variable
+meta#:#meta_c_PK#:#Pakistan###14 May 2003 new variable
+meta#:#meta_c_PL#:#Poland###14 May 2003 new variable
+meta#:#meta_c_PM#:#St. Pierre And Miquelon###14 May 2003 new variable
+meta#:#meta_c_PN#:#Pitcairn###14 May 2003 new variable
+meta#:#meta_c_PR#:#Puerto Rico###14 May 2003 new variable
+meta#:#meta_c_PT#:#Portugal###14 May 2003 new variable
+meta#:#meta_c_PW#:#Palau###14 May 2003 new variable
+meta#:#meta_c_PY#:#Paraguay###14 May 2003 new variable
+meta#:#meta_c_QA#:#Qatar###14 May 2003 new variable
+meta#:#meta_c_RE#:#Reunion###14 May 2003 new variable
+meta#:#meta_c_RO#:#Romania###14 May 2003 new variable
+meta#:#meta_c_RU#:#Ran Federation###14 May 2003 new variable
+meta#:#meta_c_RW#:#Rwanda###14 May 2003 new variable
+meta#:#meta_c_SA#:#Saudi Arabia###14 May 2003 new variable
+meta#:#meta_c_SB#:#Solomon Islands###14 May 2003 new variable
+meta#:#meta_c_SC#:#Seychelles###14 May 2003 new variable
+meta#:#meta_c_SD#:#Sudan###14 May 2003 new variable
+meta#:#meta_c_SE#:#Sweden###14 May 2003 new variable
+meta#:#meta_c_SG#:#Singapore###14 May 2003 new variable
+meta#:#meta_c_SH#:#St. Helena###14 May 2003 new variable
+meta#:#meta_c_SI#:#Slovenia###14 May 2003 new variable
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands###14 May 2003 new variable
+meta#:#meta_c_SK#:#Slovakia###14 May 2003 new variable
+meta#:#meta_c_SL#:#Siearra Leone###14 May 2003 new variable
+meta#:#meta_c_SM#:#San Marino###14 May 2003 new variable
+meta#:#meta_c_SN#:#Senegal###14 May 2003 new variable
+meta#:#meta_c_SO#:#Somalia###14 May 2003 new variable
+meta#:#meta_c_SR#:#Suriname###14 May 2003 new variable
+meta#:#meta_c_ST#:#Sao Tome And Principe###14 May 2003 new variable
+meta#:#meta_c_SV#:#El Salvador###14 May 2003 new variable
+meta#:#meta_c_SY#:#Syrian Arab Republic###14 May 2003 new variable
+meta#:#meta_c_SZ#:#Swaziland###14 May 2003 new variable
+meta#:#meta_c_TC#:#Turks And Caicos Islands###14 May 2003 new variable
+meta#:#meta_c_TD#:#Chad###14 May 2003 new variable
+meta#:#meta_c_TF#:#French Southern Territories###14 May 2003 new variable
+meta#:#meta_c_TG#:#Togo###14 May 2003 new variable
+meta#:#meta_c_TH#:#Thailand###14 May 2003 new variable
+meta#:#meta_c_TJ#:#Tajikistan###14 May 2003 new variable
+meta#:#meta_c_TK#:#Tokelau###14 May 2003 new variable
+meta#:#meta_c_TM#:#Turkmenistan###14 May 2003 new variable
+meta#:#meta_c_TN#:#Tunisia###14 May 2003 new variable
+meta#:#meta_c_TO#:#Tonga###14 May 2003 new variable
+meta#:#meta_c_TP#:#East Timor###14 May 2003 new variable
+meta#:#meta_c_TR#:#Turkey###14 May 2003 new variable
+meta#:#meta_c_TT#:#Trinidad And Tobago###14 May 2003 new variable
+meta#:#meta_c_TV#:#Tuvalu###14 May 2003 new variable
+meta#:#meta_c_TW#:#Taiwan###14 May 2003 new variable
+meta#:#meta_c_TZ#:#Tanzania###14 May 2003 new variable
+meta#:#meta_c_UA#:#Ukraine###14 May 2003 new variable
+meta#:#meta_c_UG#:#Uganda###14 May 2003 new variable
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###14 May 2003 new variable
+meta#:#meta_c_US#:#U.S.A###14 May 2003 new variable
+meta#:#meta_c_UY#:#Uruguay###14 May 2003 new variable
+meta#:#meta_c_UZ#:#Uzbekistan###14 May 2003 new variable
+meta#:#meta_c_VA#:#Vatican City State###14 May 2003 new variable
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines###14 May 2003 new variable
+meta#:#meta_c_VE#:#Venezuela###14 May 2003 new variable
+meta#:#meta_c_VG#:#Virgin Islands (British)###14 May 2003 new variable
+meta#:#meta_c_VI#:#Virgin Islands (US)###14 May 2003 new variable
+meta#:#meta_c_VN#:#Viet Nam###14 May 2003 new variable
+meta#:#meta_c_VU#:#Vanuatu###14 May 2003 new variable
+meta#:#meta_c_WF#:#Wallis And Futuna Islands###14 May 2003 new variable
+meta#:#meta_c_WS#:#Samoa###14 May 2003 new variable
+meta#:#meta_c_YE#:#Yemen###14 May 2003 new variable
+meta#:#meta_c_YT#:#Mayotte###14 May 2003 new variable
+meta#:#meta_c_ZA#:#South Africa###14 May 2003 new variable
+meta#:#meta_c_ZM#:#Zambia###14 May 2003 new variable
+meta#:#meta_c_ZR#:#Zaire###14 May 2003 new variable
+meta#:#meta_c_ZW#:#Zimbabwe###14 May 2003 new variable
+meta#:#meta_c_ZZ#:#Other Country###14 May 2003 new variable
+meta#:#meta_general#:#General###14 May 2003 new variable
+meta#:#meta_identifier#:#Identifier###14 May 2003 new variable
+meta#:#meta_language#:#Language###14 May 2003 new variable
+meta#:#meta_title#:#Title###14 May 2003 new variable
