@@ -12,7 +12,6 @@
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
-	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -61,6 +60,7 @@
 	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -74,8 +74,6 @@
 	<property name="editBibItem">bib_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
-</object>
 <object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<subobj name="lm">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
@@ -102,6 +100,7 @@
 	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -131,6 +130,7 @@
 	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -140,11 +140,6 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<action name="cut">cut</action>
-	<action name="copy">copy</action>
-	<action name="delete">delete</action>
-	<action name="paste">paste</action>
-	<action name="clear">clear</action>
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1" translate="0" rbac="1">
 	<subobj name="frm" import="1">frm</subobj>
@@ -174,6 +169,7 @@
 	<action name="copy">copy</action>
 	<action name="link">link</action>
 	<action name="delete">delete</action>
+	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
@@ -186,7 +182,6 @@
 	<property name="pages" module="1">cont_all_pages</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
 </object>
 <object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
@@ -248,11 +243,6 @@
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
 	<property name="import">mail_import</property>
-	<property name="owner">show_owner</property>
-</object>
-<object name="ldap" class_name="Ldap" checkbox="0" inherit="0" translate="sys" rbac="1">
-	<property name="view">view_content</property>
-	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="objf" class_name="ObjectFolder" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
@@ -371,10 +361,6 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
-	<action name="cut">cut</action>
-	<action name="copy">copy</action>
-	<action name="delete">delete</action>
-	<action name="clear">clear</action>
 </object>
 <object name="qpl" class_name="QuestionPool" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1">
 	<property name="view" module="n">view</property>
@@ -420,7 +406,6 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
 </object>
 <object name="chac" class_name="ChatServer" module="chat" checkbox="0" inherit="0" translate="sys" rbac="1" >
 	<property name="edit">edit_properties</property>
@@ -463,13 +448,13 @@
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
-<object name="trac" class_name="SysUserTracking" checkbox="1" translate="sys" rbac="1">
+<object name="trac" class_name="SysUserTracking" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>
 	<property name="manageData">manage_tracking_data</property>
 	<property name="perm">perm_settings</property>
 </object>
-<object name="auth" class_name="AuthSettings" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0">
+<object name="auth" class_name="AuthSettings" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
