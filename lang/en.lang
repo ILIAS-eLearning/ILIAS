@@ -1,171 +1,90 @@
 english
-
 accept_usr_agreement#:#accept user agreement?
-
 administrate#:#administrate
-
 administration#:#administration
-
 administrator#:#administrator
-
 are_you_sure#:#Are you sure?
-
 available_languages#:#available languages
-
 basic_data#:#basic_data
-
 change#:#change
-
 chapter#:#chapter
-
 check#:#check
-
 chg_language#:#change language
-
 chg_password#:#change password
-
+choose_language_s#:#choose language(s)
 city#:#city
-
 country#:#country
-
 courses#:#courses
-
 create#:#create
-
 current_password#:#current password
-
 database#:#database
-
 date#:#date
-
 delete#:#delete
-
 description#:#description
-
 desired_password#:#desired password
-
 edit#:#edit
-
 email#:#email
-
 employee#:#employee
-
 files_location#:#files location
-
 forename#:#forename
-
 gender#:#gender
-
 guest#:#guest
-
 installed#:#installed
-
 institution#:#institution
-
 lang_english#:#english
-
 lang_german#:#german
-
 lang_norwegian#:#norwegian
-
 lang_polish#:#polish
-
 lang_swedish#:#swedish
-
 language#:#language
-
 language#:#language
-
 languages#:#languages
-
 last_change#:#last change
-
 last_visited_lessons#:#last visited lessons
-
 lastname#:#lastname
-
 lesson#:#lesson
-
 lessons#:#lessons
-
+login#:#login
+login_to_ilias#:#login to ILIAS
 mail#:#mail
-
 mail_s_unread#:#unread mail(s)
-
 mails#:#mails
-
 msg_changes_ok#:#the changes were ok
-
 nickname#:#nickname
-
 no#:#no
-
 not_installed#:#not installed
-
 page#:#page
-
+password#:#password
 personal_desktop#:#personal desktop
-
 personal_profile#:#personal profile
-
 phone#:#phone
-
 profile#:#profile
-
 quit#:#quit
-
 read#:#read
-
 refresh#:#refresh
-
 refresh_list#:#refresh list
-
 retype_password#:#retype password
-
 right#:#right
-
 rights#:#rights
-
 salutation#:#salutation
-
 salutation_f#:#Ms./Mrs.
-
 salutation_m#:#Mr.
-
 save#:#save
-
 sender#:#sender
-
 status#:#status
-
 street#:#street
-
 student#:#student
-
 subject#:#subject
-
 submit#:#submit
-
 system#:#system
-
 system_grp#:#system group
-
 time#:#time
-
 title#:#title
-
 user#:#user
-
 userdata#:#userdata
-
 username#:#username
-
 users#:#users
-
 usr_agreement#:#user agreement
-
 write#:#write
-
 yes#:#yes
-
 zip_code#:#zip code
