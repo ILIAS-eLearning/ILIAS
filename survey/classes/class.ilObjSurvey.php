@@ -2194,6 +2194,7 @@ class ilObjSurvey extends ilObject
 */
 	function &getSurveyQuestions()
 	{
+		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
@@ -2203,6 +2204,10 @@ class ilObjSurvey extends ilObject
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$all_questions[$row["question_id"]] = $row;
+			if (array_key_exists($row["question_id"], $obligatory_states))
+			{
+				$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
+			}
 		}
 		// get all questionblocks
 		$questionblocks = array();
@@ -2257,6 +2262,74 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
+
+/**
+* Sets the obligatory states for questions in a survey from the questions form
+* 
+* Sets the obligatory states for questions in a survey from the questions form
+*
+* @param array $obligatory_questions The questions which should be set obligatory from the questions form, the remaining questions should be setted not obligatory
+* @access public
+*/
+	function setObligatoryStates($obligatory_questions)
+	{
+		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if (!array_key_exists($row["question_fi"], $obligatory_questions))
+				{
+					$obligatory_questions[$row["question_fi"]] = 0;
+				}
+			}
+		}
+
+	  // set the obligatory states in the database
+		$query = sprintf("DELETE FROM survey_question_obligatory WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+
+	  // set the obligatory states in the database
+		foreach ($obligatory_questions as $question_fi => $obligatory)
+		{
+			$query = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId() . ""),
+				$this->ilias->db->quote($question_fi . ""),
+				$this->ilias->db->quote($obligatory . "")
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
+* Gets specific obligatory states of the survey
+* 
+* Gets specific obligatory states of the survey
+*
+* @return array An array containing the obligatory states for every question found in the database
+* @access public
+*/
+	function &getObligatoryStates()
+	{
+		$obligatory_states = array();
+		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$obligatory_states[$row["question_fi"]] = $row["obligatory"];
+			}
+		}
+		return $obligatory_states;
+	}
 	
 /**
 * Returns the survey pages in an array (a page contains one or more questions)
@@ -2267,6 +2340,7 @@ class ilObjSurvey extends ilObject
 */
 	function &getSurveyPages()
 	{
+		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
 		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
@@ -2289,6 +2363,10 @@ class ilObjSurvey extends ilObject
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$questionblocks[$row->question_fi] = $row;
+				if (array_key_exists($row->question_fi, $obligatory_states))
+				{
+					$questionblocks[$row->question_fi]->obligatory = $obligatory_states["$row->question_fi"];
+				}
 			}			
 		}
 		
