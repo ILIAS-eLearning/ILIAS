@@ -245,6 +245,7 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
+      $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
       $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_multiple_choice_sr");
       $this->tpl->parseCurrentBlock();
     } else {
@@ -299,6 +300,7 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
+      $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
       $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
       $this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_multiple_choice_mr");
       $this->tpl->parseCurrentBlock();
@@ -395,6 +397,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("APPLY","Apply");
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
     $this->tpl->setVariable("ACTION_CLOZE_TEST", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_cloze");
+    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     $this->tpl->parseCurrentBlock();
   }
 
@@ -458,6 +461,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("ACTION_ORDERING_QUESTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_ordering");
+    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     $this->tpl->parseCurrentBlock();
   }
 
@@ -522,6 +526,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     $this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_matching");
     $this->tpl->parseCurrentBlock();
   }
@@ -556,13 +561,17 @@ class ASS_QuestionGUI extends PEAR {
 * 
 * Sets the content of a muliple choice question from a posted create/edit form
 *
+* @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
   function set_question_data_from_multiple_choice_template() {
-    $this->question->set_title($_POST["title"]);
-    $this->question->set_author($_POST["author"]);
-    $this->question->set_comment($_POST["comment"]);
-    $this->question->set_question($_POST["question"]);
+    $result = 0;
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+      $result = 1;
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
@@ -577,7 +586,11 @@ class ASS_QuestionGUI extends PEAR {
           } else {
             $is_true = FALSE;
           }
-          $this->question->add_answer($_POST["$key"], $_POST["points_$matches[1]"], $is_true, $matches[1]);
+          $this->question->add_answer(
+            ilUtil::stripSlashes($_POST["$key"]), 
+            ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
+            ilUtil::stripSlashes($is_true), 
+            ilUtil::stripSlashes($matches[1]));
         }
       }
     } else {
@@ -589,7 +602,11 @@ class ASS_QuestionGUI extends PEAR {
           } else {
             $is_true = FALSE;
           }
-          $this->question->add_answer($_POST["$key"], $_POST["points_$matches[1]"], $is_true, $matches[1]);
+          $this->question->add_answer(
+            ilUtil::stripSlashes($_POST["$key"]), 
+            ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
+            ilUtil::stripSlashes($is_true), 
+            ilUtil::stripSlashes($matches[1]));
         }
       }
     }
@@ -605,6 +622,8 @@ class ASS_QuestionGUI extends PEAR {
     // Set the question id from a hidden form parameter
     if ($_POST["multiple_choice_id"] > 0)
       $this->question->set_id($_POST["multiple_choice_id"]);
+
+    return $result;
   }
 
 /**
@@ -612,17 +631,22 @@ class ASS_QuestionGUI extends PEAR {
 * 
 * Sets the content of a cloze question from a posted create/edit form
 *
+* @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
   function set_question_data_from_cloze_question_template() {
+    $result = 0;
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
     
-    $this->question->set_title($_POST["title"]);
-    $this->question->set_author($_POST["author"]);
-    $this->question->set_comment($_POST["comment"]);
-    $this->question->set_cloze_text($_POST["clozetext"]);
-    $this->question->set_cloze_type($_POST["clozetype"]);
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
+      $result = 1;
+      
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
+    $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     
     
     if (strlen($_POST["creategaps"]) == 0) {
@@ -636,7 +660,10 @@ class ASS_QuestionGUI extends PEAR {
             if (strlen($value) > 0) {
               // Only change gap values <> empty string
               if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-                $this->question->set_answertext($matches[1], $matches[2], $value);
+                $this->question->set_answertext(
+                  ilUtil::stripSlashes($matches[1]), 
+                  ilUtil::stripSlashes($matches[2]), 
+                  ilUtil::stripSlashes($value));
               }
             } else {
               // Display errormessage: You've tried to set an gap value to an empty string!
@@ -666,7 +693,10 @@ class ASS_QuestionGUI extends PEAR {
             if (strlen($value) > 0) {
               // Only change gap values <> empty string
               if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-                $this->question->set_answertext($matches[1], $matches[2], $value);
+                $this->question->set_answertext(
+                  ilUtil::stripSlashes($matches[1]), 
+                  ilUtil::stripSlashes($matches[2]), 
+                  ilUtil::stripSlashes($value));
               }
             } else {
               // Display errormessage: You've tried to set an gap value to an empty string!
@@ -705,6 +735,7 @@ class ASS_QuestionGUI extends PEAR {
         }
       }
     }
+    return $result;
   }
 
 /**
@@ -712,13 +743,19 @@ class ASS_QuestionGUI extends PEAR {
 * 
 * Sets the content of a matching question from a posted create/edit form
 *
+* @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
   function set_question_data_from_matching_question_template() {
-    $this->question->set_title($_POST["title"]);
-    $this->question->set_author($_POST["author"]);
-    $this->question->set_comment($_POST["comment"]);
-    $this->question->set_question($_POST["question"]);
+    $result = 0;
+    
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+      $result = 1;
+      
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_matchingpairs();
@@ -731,7 +768,12 @@ class ASS_QuestionGUI extends PEAR {
             $matchingtext_id = $matches2[1];
           }
         }
-        $this->question->add_matchingpair($_POST["$key"], $_POST["right_$matches[1]_$matchingtext_id"], $_POST["points_$matches[1]"], $matches[2], $matchingtext_id);
+        $this->question->add_matchingpair(
+          ilUtil::stripSlashes($_POST["$key"]), 
+          ilUtil::stripSlashes($_POST["right_$matches[1]_$matchingtext_id"]), 
+          ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
+          ilUtil::stripSlashes($matches[2]), 
+          ilUtil::stripSlashes($matchingtext_id));
       }
     }
 
@@ -741,6 +783,7 @@ class ASS_QuestionGUI extends PEAR {
         $this->question->delete_matchingpair($matches[1]);
       }
     }
+    return $result;
   }
 
 /**
@@ -748,20 +791,29 @@ class ASS_QuestionGUI extends PEAR {
 * 
 * Sets the content of a ordering question from a posted create/edit form
 *
+* @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
   function set_question_data_from_ordering_question_template() {
+    $result = 0;
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
 
-    $this->question->set_title($_POST["title"]);
-    $this->question->set_author($_POST["author"]);
-    $this->question->set_comment($_POST["comment"]);
-    $this->question->set_question($_POST["question"]);
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+      $result = 1;
+
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     // Add answers from the form
     foreach ($_POST as $key => $value) {
       if (preg_match("/answer_(\d+)/", $key, $matches)) {
-        $this->question->add_answer($_POST["$key"], $_POST["points_$matches[1]"], $matches[1], $_POST["order_$matches[1]"]);
+        $this->question->add_answer(
+          ilUtil::stripSlashes($_POST["$key"]), 
+          ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
+          ilUtil::stripSlashes($matches[1]), 
+          ilUtil::stripSlashes($_POST["order_$matches[1]"]));
       }
     }
 
@@ -771,6 +823,7 @@ class ASS_QuestionGUI extends PEAR {
         $this->question->delete_answer($matches[1]);
       }
     }
+    return $result;
   }
 
 /**
@@ -778,24 +831,28 @@ class ASS_QuestionGUI extends PEAR {
 * 
 * Sets the content of a question from a posted create/edit form
 *
+* @param string $question_type The question type string
+* @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
   function set_question_data_from_template($question_type) {
+    $result = 0;
     switch ($question_type) {
       case "qt_multiple_choice_sr":
       case "qt_multiple_choice_mr":
-        $this->set_question_data_from_multiple_choice_template();
+        $result = $this->set_question_data_from_multiple_choice_template();
         break;
       case "qt_cloze":
-        $this->set_question_data_from_cloze_question_template();
+        $result = $this->set_question_data_from_cloze_question_template();
         break;
       case "qt_matching":
-        $this->set_question_data_from_matching_question_template();
+        $result = $this->set_question_data_from_matching_question_template();
         break;
       case "qt_ordering":
-        $this->set_question_data_from_ordering_question_template();
+        $result = $this->set_question_data_from_ordering_question_template();
         break;
     }
+    return $result;
   }
 
 /**
@@ -807,6 +864,8 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function set_edit_template() {
+    $missing_required_fields = 0;
+    
     if (strlen($_POST["cmd"]["cancel"]) > 0) {
       // Cancel
       $this->cancel_action();
@@ -823,18 +882,25 @@ class ASS_QuestionGUI extends PEAR {
     }
   
     if (!$_GET["edit"]) {
-      $this->set_question_data_from_template($question_type);
+      $missing_required_fields = $this->set_question_data_from_template($question_type);
     }
-    
     if (strlen($_POST["cmd"]["save"]) > 0) {
       // Save and back to question pool
-      $this->question->save_to_db();
-      $this->cancel_action();
-      exit();
+      if (!$missing_required_fields) {
+        $this->question->save_to_db();
+        $this->cancel_action();
+        exit();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      }
     }
     if (strlen($_POST["cmd"]["apply"]) > 0) {
       // Save and continue editing
-      $this->question->save_to_db();
+      if (!$missing_required_fields) {
+        $this->question->save_to_db();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      }
     }
 
     $this->set_template_from_question_data($question_type);

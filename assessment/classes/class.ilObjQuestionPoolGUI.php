@@ -50,7 +50,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 	}
-	
+
 	/**
 	* save object
 	* @access	public
@@ -77,13 +77,48 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		exit();
 	}
 
+	/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject()
+	{
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+  	$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+
+		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
+		exit();
+	}
+  
   function propertiesObject()
   {
     $add_parameter = $this->get_add_parameter();
-		$data = array();
+    if ($_POST["cmd"]["save"]) {
+      $this->updateObject();
+      return;
+    }
+    if ($_POST["cmd"]["cancel"]) {
+      sendInfo($this->lng->txt("msg_cancel"),true);
+      header("location: ". $this->getReturnLocation("cancel","adm_object.php?ref_id=".$this->ref_id));
+      exit();
+    }
+    $data = array();
 		$data["fields"] = array();
-		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+    if ($_SESSION["error_post_vars"]) {
+      $data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+      $data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+    } else {
+      $data["fields"]["title"] = $this->object->getTitle();
+      $data["fields"]["desc"] = $this->object->getDescription();
+    }
 		$this->getTemplateFile("edit");
 
 		foreach ($data["fields"] as $key => $val)
@@ -98,8 +133,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("obj_qpl") . ": " . $this->object->getTitle());
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("DESC", $this->object->getDescription());
+		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
+		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
@@ -128,17 +163,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   function questionsObject()
   {
     global $rbacsystem;
-    $type = ($_POST["sel_question_types"]) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
+    $type = $_GET["sel_question_types"];
     if ($_GET["preview"]) {
       $this->out_preview_page($_GET["preview"]);
       return;
     }
-    if ($_GET["edit"]) {
+    if (($_GET["edit"]) or ($type)) {
       $this->set_question_form($type, $_GET["edit"]);
       return;
     }
-    if (($_POST["cmd"]["create"]) and ($type)) {
-      $this->set_question_form($type);
+    if ($_POST["cmd"]["create"]) {
+      $this->set_question_form($_POST["sel_question_types"]);
       return;
     }
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
