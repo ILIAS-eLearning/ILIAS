@@ -2016,6 +2016,47 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
+* Returns the database row for a given question block
+* 
+* Returns the database row for a given question block
+*
+* @param integer $questionblock_id The database id of the question block
+* @result array The database row of the question block
+* @access public
+*/
+	function _getQuestionblock($questionblock_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM survey_questionblock WHERE questionblock_id = %s",
+			$ilDB->quote($questionblock_id)
+		);
+		$result = $ilDB->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row;
+	}
+
+/**
+* Adds a questionblock to the database
+* 
+* Adds a questionblock to the database
+*
+* @param string $title The questionblock title
+* @param integer $owner The database id of the owner
+* @return integer The database id of the newly created questionblock
+* @access public
+*/
+	function _addQuestionblock($title = "", $owner = 0)
+	{
+		global $ilDB;
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+			$ilDB->quote($title . ""),
+			$ilDB->quote($owner . "")
+		);
+		$result = $ilDB->query($query);
+		return $ilDB->getLastInsertId();
+	}
+	
+/**
 * Creates a question block for the survey
 * 
 * Creates a question block for the survey
@@ -2455,6 +2496,29 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
+
+/**
+* Returns the constraints to a given question or questionblock
+* 
+* Returns the constraints to a given question or questionblock
+*
+* @access public
+*/
+	function _getConstraints($survey_id)
+ 	{
+		global $ilDB;
+		$result_array = array();
+		$query = sprintf("SELECT survey_question_constraint.question_fi as for_question, survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.survey_fi = %s",
+			$ilDB->quote($survey_id . "")
+		);
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			array_push($result_array, array("id" => $row->constraint_id, "for_question" => $row->for_question, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "relation_id" => $row->relation_id, "value" => $row->value));
+		}
+		return $result_array;
+	}
+
 
 /**
 * Returns all variables of a question
@@ -4031,6 +4095,292 @@ class ilObjSurvey extends ilObject
 			$this->setDescription($this->meta_data->getDescription());
 		}
 		parent::update();
+	}
+
+/**
+* Returns the available surveys for the active user
+* 
+* Returns the available surveys for the active user
+*
+* @return array The available surveys
+* @access public
+*/
+	function &_getAvailableSurveys($use_object_id = false)
+	{
+		global $rbacsystem;
+		global $ilDB;
+		
+		$result_array = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'svy' ORDER BY object_data.title";
+		$result = $ilDB->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && (ilObject::_hasUntrashedReference($row->obj_id)))
+			{
+				if ($use_object_id)
+				{
+					$result_array[$row->obj_id] = $row->title;
+				}
+				else
+				{
+					$result_array[$row->ref_id] = $row->title;
+				}
+			}
+		}
+		return $result_array;
+	}
+
+/**
+* Creates a 1:1 copy of the object and places the copy in a given repository
+* 
+* Creates a 1:1 copy of the object and places the copy in a given repository
+*
+* @access public
+*/
+	function _clone($obj_id)
+	{
+		global $ilDB;
+		
+		$original = new ilObjSurvey($obj_id, false);
+		$original->loadFromDb();
+		
+		$newObj = new ilObjSurvey();
+		$newObj->setType("svy");
+		$newObj->setTitle($original->getTitle());
+		$newObj->setDescription($original->getDescription());
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+//		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		
+		$newObj->$author = $original->getAuthor();
+		$newObj->introduction = $original->getIntroduction();
+		$newObj->status = $original->getStatus();
+		$newObj->evaluation_access = $original->getEvaluationAccess();
+		$newObj->start_date = $original->getStartDate();
+		$newObj->startdate_enabled = $original->getStartDateEnabled();
+		$newObj->end_date = $original->getEndDate();
+		$newObj->enddate_enabled = $original->getEndDateEnabled();
+		$newObj->invitation = $original->getInvitation();
+		$newObj->invitation_mode = $original->getInvitationMode();
+		$newObj->anonymize = $original->getAnonymize();
+
+		$question_pointer = array();
+		// clone the questions
+		foreach ($original->questions as $key => $question_id)
+		{
+			$question = ilObjSurvey::_instanciateQuestion($question_id);
+			$question->id = -1;
+			$original_id = SurveyQuestion::_getOriginalId($question_id);
+			$question->saveToDb($original_id);
+			$newObj->questions[$key] = $question->getId();
+			$question_pointer[$question_id] = $question->getId();
+		}
+
+		$newObj->saveToDb();		
+
+		// clone the questionblocks
+		$questionblocks = array();
+		$questionblock_questions = array();
+		$query = sprintf("SELECT * FROM survey_questionblock_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($original->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($questionblock_questions, $row);
+				$questionblocks[$row["questionblock_fi"]] = $row["questionblock_fi"];
+			}
+		}
+		// create new questionblocks
+		foreach ($questionblocks as $key => $value)
+		{
+			$questionblock = ilObjSurvey::_getQuestionblock($key);
+			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"]);
+			$questionblocks[$key] = $questionblock_id;
+		}
+		// create new questionblock questions
+		foreach ($questionblock_questions as $key => $value)
+		{
+			$clonequery = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
+				$ilDB->quote($newObj->getSurveyId() . ""),
+				$ilDB->quote($questionblocks[$value["questionblock_fi"]] . ""),
+				$ilDB->quote($question_pointer[$value["question_fi"]] . "")
+			);
+			$cloneresult = $this->ilias->db->query($clonequery);
+		}
+		
+		// clone the constraints
+		$constraints = ilObjSurvey::_getConstraints($original->getSurveyId());
+		foreach ($constraints as $key => $constraint)
+		{
+			$newObj->addConstraint($question_pointer[$constraint["for_question"]], $question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"]);
+		}
+		
+		// clone the obligatory states
+		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
+			$this->ilias->db->quote($original->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+					$this->ilias->db->quote($newObj->getSurveyId() . ""),
+					$this->ilias->db->quote($question_pointer[$row["question_fi"]] . ""),
+					$this->ilias->db->quote($row["obligatory"])
+				);
+				$cloneresult = $this->ilias->db->query($clonequery);
+			}
+		}
+
+		// clone meta data
+		$meta_data =& new ilMetaData($original->getType(), $original->getId());
+		include_once("./classes/class.ilNestedSetXML.php");
+		$nested = new ilNestedSetXML();
+		$nested->dom = domxml_open_mem($meta_data->nested_obj->dom->dump_mem(0));
+		$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+		if (is_array($nodes))
+		{
+			$nodes[0]["Entry"] = "il__" . $newObj->getType() . "_" . $newObj->getId();
+			$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+		}
+		$xml = $nested->dom->dump_mem(0);
+		$nested->import($xml, $newObj->getId(), $newObj->getType());
+	}
+	
+	/**
+	* creates data directory for export files
+	* (data_dir/svy_data/svy_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
+		ilUtil::makeDir($svy_data_dir);
+		if(!is_writable($svy_data_dir))
+		{
+			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$svy_dir = $svy_data_dir."/svy_".$this->getId();
+		ilUtil::makeDir($svy_dir);
+		if(!@is_dir($svy_dir))
+		{
+			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
+		$export_dir = $svy_dir."/export";
+		ilUtil::makeDir($export_dir);
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of survey
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = ilUtil::getDataDir()."/svy_data"."/svy_".$this->getId()."/export";
+
+		return $export_dir;
+	}
+	
+	/**
+	* get export files
+	*/
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".xml" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey_)*[0-9]+\.xml\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+	/**
+	* creates data directory for import files
+	* (data_dir/svy_data/svy_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createImportDirectory()
+	{
+		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
+		ilUtil::makeDir($svy_data_dir);
+		
+		if(!is_writable($svy_data_dir))
+		{
+			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create test directory (data_dir/svy_data/svy_<id>)
+		$svy_dir = $svy_data_dir."/svy_".$this->getId();
+		ilUtil::makeDir($svy_dir);
+		if(!@is_dir($svy_dir))
+		{
+			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create import subdirectory (data_dir/svy_data/svy_<id>/import)
+		$import_dir = $svy_dir."/import";
+		ilUtil::makeDir($import_dir);
+		if(!@is_dir($import_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get import directory of survey
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/svy_data".
+			"/svy_".$this->getId()."/import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
 	}
 } // END class.ilObjSurvey
 ?>

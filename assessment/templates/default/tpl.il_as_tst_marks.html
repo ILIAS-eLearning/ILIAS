@@ -4,7 +4,7 @@
 <!-- END mark_actions -->
 <table class="std">
 <tr class="tblheader">
-  <td class="std"></td>
+  <td class="std"><input type="checkbox" name="chb_check_all" value="1" onclick="setCheckboxes('frm_marks', 'cb_', document.frm_marks.chb_check_all.checked);" /></td>
   <td class="std">{HEADER_SHORT}</td>
   <td class="std">{HEADER_OFFICIAL}</td>
   <td class="std">{HEADER_PERCENTAGE}</td>
@@ -16,7 +16,7 @@
   <td class="{ROW_CLASS}"><input type="text" name="mark_short_{MARK_ID}" value="{MARK_SHORT}" size="10" /></td>
   <td class="{ROW_CLASS}"><input type="text" name="mark_official_{MARK_ID}" value="{MARK_OFFICIAL}" size="20" /></td>
   <td class="{ROW_CLASS}"><input type="text" name="mark_percentage_{MARK_ID}" value="{MARK_PERCENTAGE}" size="10" /></td>
-  <td class="{ROW_CLASS}"><input type="checkbox" name="cb_passed_{MARK_ID}" id="cb_passed_{MARK_ID}" value="1"{MARK_PASSED_CHECKED}/> <label for="cb_passed_{MARK_ID}">{MARK_PASSED}</label></td>
+  <td class="{ROW_CLASS}"><input type="checkbox" name="passed_{MARK_ID}" id="passed_{MARK_ID}" value="1"{MARK_PASSED_CHECKED}/> <label for="passed_{MARK_ID}">{MARK_PASSED}</label></td>
 </tr>
 <!-- END markrow -->
 <!-- BEGIN Emptyrow -->

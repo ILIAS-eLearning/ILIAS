@@ -282,20 +282,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$test_exp = new ilTestExport($this->object);
 			$test_exp->buildExportFile();
 			$this->exportObject();
-
-			//ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
-			
-			/*
-			$add_parameter = $this->getAddParameter();
-			if (!defined("ILIAS_MODULE"))
-			{
-				define("ILIAS_MODULE", "assessment");
-			}
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_export.html", true);
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORMACTION", $add_parameter);
-			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
-			$this->tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -315,7 +301,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if (count($_POST["file"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
 
@@ -1705,7 +1691,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->mark_schema->flush();
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
-					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["cb_passed_$matches[1]"]);
+					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
 				}
 			}
 			if ($_POST["cmd"]["new"]) {

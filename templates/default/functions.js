@@ -82,7 +82,7 @@ function setCheckboxes(the_form, checkbox_name, do_check)
 	for (var i=0;i<document.forms[the_form].elements.length;i++)
 	{
 		var e = document.forms[the_form].elements[i];
-		if (e.name.substring(checkbox_name, 0) > -1)
+		if (e.name.indexOf(checkbox_name) == 0)
 		{
 			e.checked = do_check;
 		}
