@@ -349,7 +349,7 @@ class ilObjectGUI
 	* @param	object	tree object
 	* @param	integer	reference id
 	* @access	public
- 	*/
+	*/
 	function setLocator($a_tree = "", $a_id = "")
 	{
 		if (!is_object($a_tree))
@@ -399,7 +399,7 @@ class ilObjectGUI
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
-			
+
 		}
 
 		if (isset($_GET["obj_id"]))

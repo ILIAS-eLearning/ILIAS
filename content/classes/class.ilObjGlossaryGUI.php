@@ -268,6 +268,99 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* set Locator
+	*
+	* @param	object	tree object
+	* @param	integer	reference id
+	* @access	public
+	*/
+	function setLocator($a_tree = "", $a_id = "")
+	{
+		if(!defined("ILIAS_MODULE"))
+		{
+			parent::setLocator($a_tree, $a_id);
+		}
+		else
+		{
+			if(is_object($this->object))
+			{
+
+		if (!($a_id))
+		{
+			$a_id = $_GET["ref_id"];
+		}
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $a_tree->getPathFull($a_id);
+
+        //check if object isn't in tree, this is the case if parent_parent is set
+		// TODO: parent_parent no longer exist. need another marker
+		if ($a_parent_parent)
+		{
+			//$subObj = getObject($a_ref_id);
+			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+
+			$path[] = array(
+				"id"	 => $a_ref_id,
+				"title"  => $this->lng->txt($subObj->getTitle())
+				);
+		}
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
+		}
+
+		foreach ($path as $key => $row)
+		{
+			if ($key < count($path)-$modifier)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $row["title"]);
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["child"]);
+			$this->tpl->parseCurrentBlock();
+
+		}
+
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("locator");
+
+		if (DEBUG)
+		{
+			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
+		}
+
+		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+		if ($_GET["cmd"] == "confirmDeleteAdm")
+		{
+			$prop_name = "delete_object";
+		}
+
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 	function editMeta()
 	{
 		include_once("classes/class.ilMetaDataGUI.php");
