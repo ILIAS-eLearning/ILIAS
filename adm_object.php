@@ -122,7 +122,7 @@ switch ($_GET["type"])
 		$data = $obj->$methode();
 		break;
 	
-	case "type":
+	case "typ":
 		require_once "classes/class.TypeDefinitionObject.php";
 		$obj = new TypeDefinitionObject();
 		$data = $obj->$methode();
