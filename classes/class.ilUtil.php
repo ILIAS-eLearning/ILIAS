@@ -1619,27 +1619,50 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-$a_allow = "<strong><em><code><cite><gap>";		
+$a_allow = "<strong><em><code><cite><gap>";
 		if ($a_strip_html)
 		{
 			$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
 		}
-		
-		return $a_str;
-	}
-	
-	
-	/**
-	* strip script tags (has to be improved)
-	*/
-	function stripScriptHTML($a_str, $a_allow = "")
-	{
-		$a_str = strip_tags($a_str, $a_allow);
-		
+
 		return $a_str;
 	}
 
-	
+
+	/**
+	* strip only html tags (4.0) from text
+	* $allowed contains tags to be allowed, in format <a><b>
+	* tags a and b are allowed
+	* todo: needs to be optimized-> not very efficient
+	*/
+	function stripScriptHTML($a_str, $a_allow = "")
+	{
+		//$a_str = strip_tags($a_str, $a_allow);
+
+		$negativestr = "a,abbr,acronym,address,applet,area,b,base,basefont,".
+			"bdo,big,blockquote,body,br,button,caption,center,cite,code,col,".
+			"colgroup,dd,del,dfn,dir,div,dl,dt,em,fieldset,font,form,frame,".
+			"frameset,h1,h2,h3,h4,h5,h6,head,hr,html,i,iframe,img,input,ins,isindex,kbd,".
+			"label,legend,li,link,map,menu,meta,noframes,noscript,object,ol,".
+			"optgroup,option,p,param,pre,q,s,samp,script,select,small,span,".
+			"strike,strong,style,sub,sup,table,tbody,td,textarea,tfoot,th,thead,".
+			"title,tr,tt,u,ul,var";
+		$a_allow = strtolower ($a_allow);
+		$negatives = split (",",$negativestr);
+		foreach ($negatives as $item)
+		{
+			$pos = strpos($a_allow, "<$item>");
+			if ($pos === false)
+			{
+				$a_str = preg_replace("/<\/?($item)\s*>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?($item)\s+([^>]*)>/i", "", $a_str);
+			}
+		}
+
+		return $a_str;
+	}
+
+
 	/**
 	* add slashes if magic qoutes is disabled
 	* don't use that for db inserts/updates! use prepareDBString
