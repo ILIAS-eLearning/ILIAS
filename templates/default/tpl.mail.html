@@ -70,13 +70,8 @@
 			<td class="std" >
 			  <select name="action">
 				<!-- BEGIN mailactions -->
-				<option value="{MAILACTION_NAME}" {MAILACTION_SELECTED}>{MAILACTION_VALUE}</option>
+				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>
 				<!-- END mailactions -->	  
-			  </select>
-			  <select name="move_to">
-				<!-- BEGIN mailmove -->
-				<option value="{MAILMOVE_VALUE}">{MAILMOVE_NAME}</option>
-				<!-- END mailmove -->	  
 			  </select>
 			  <input class="submit" type="submit" name="cmd[submit]" value="{TXT_SUBMIT}"/>
 			</td>
