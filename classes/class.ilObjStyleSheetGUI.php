@@ -291,6 +291,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				$fold->addStyle($newObj->getId());
 				$fold->update();
+				
+				// to do: introduce ilCtrl in administration properly
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 			}
 		}
 
@@ -322,6 +325,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		global $lng;
+		
+		// to do: introduce ilCtrl in administration properly
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "styf")
+			{				
+				ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+			}
+		}
+
 
 		sendInfo($lng->txt("msg_cancel"), true);
 		$this->ctrl->returnToParent($this);

@@ -662,6 +662,22 @@ class ilObject
 		return $obj_rec["title"];
 	}
 
+	/**
+	* lookup object description
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupDescription($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT description FROM object_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["description"];
+	}
+
 	function _lookupObjId($a_id)
 	{
 		global $ilDB;
