@@ -348,7 +348,8 @@ class ilObjStyleSheet extends ilObject
 	function getAvailableTags()
 	{
 		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
-			"a.ExtLink", "a.ExtLink:hover",
+ 			"a.IntLink:visited", "a.IntLink:active",
+			"a.ExtLink", "a.ExtLink:hover", "a.ExtLink:visited", "a.ExtLink:active",
 			"div.Footnote", "div.LMNavigation", "div.Page", "div.PageTitle", "span.Comment",
 			"span.Emph", "span.Quotation", "span.Strong",
 			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",
