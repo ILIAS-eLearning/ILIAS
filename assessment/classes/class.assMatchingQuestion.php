@@ -1237,14 +1237,17 @@ class ASS_MatchingQuestion extends ASS_Question
 			{
 				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-					$db->quote($ilUser->id),
-					$db->quote($test_id),
-					$db->quote($this->getId()),
-					$db->quote($value),
-					$db->quote($matches[1])
-					);
-					$result = $db->query($query);
+					if (!(preg_match("/initial_value_\d+/", $value)))
+					{
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+							$db->quote($ilUser->id),
+							$db->quote($test_id),
+							$db->quote($this->getId()),
+							$db->quote($value),
+							$db->quote($matches[1])
+						);
+						$result = $db->query($query);
+					}
 				}
 			}
 			$saveWorkingDataResult = true;

@@ -239,15 +239,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$answer = $this->object->get_answer($i);
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
-				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
-				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("radio_unset"));
-				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("radio_set"));
-				if ($answer->isStateChecked())
-				{
-					$this->tpl->setVariable("CHECKED_SELECTED", " selected=\"selected\"");
-				}
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 				$coords = "";
 				switch ($answer->get_area())
@@ -558,7 +551,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 							$this->object->add_answer(
 								ilUtil::stripSlashes($_POST["$key"]),
 								ilUtil::stripSlashes($points),
-								ilUtil::stripSlashes($_POST["status_$matches[1]"]),
+								1,
 								$matches[1],
 								ilUtil::stripSlashes($_POST["coords_$matches[1]"]),
 								ilUtil::stripSlashes($_POST["area_$matches[1]"])
