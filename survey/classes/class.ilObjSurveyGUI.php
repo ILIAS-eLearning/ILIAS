@@ -240,7 +240,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$direction = 0;
 		$page_error = 0;
 		$error_messages = array();
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"] or $_POST["cmd"]["skip_next"] or $_POST["cmd"]["skip_previous"])
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"])
 		{
 			if ($_POST["cmd"]["start"])
 			{
@@ -388,7 +388,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 
-			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["skip_previous"])
+			if ($_POST["cmd"]["previous"])
 			{
 				$activepage = $_GET["qid"];
 				if (!$page_error)
@@ -396,7 +396,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$direction = -1;
 				}
 			}
-			else if ($_POST["cmd"]["next"] or $_POST["cmd"]["skip_next"])
+			else if ($_POST["cmd"]["next"])
 			{
 				$activepage = $_GET["qid"];
 				if (!$page_error)
@@ -514,38 +514,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 		}
 		$this->tpl->parseCurrentBlock();
-		$obligatory = 0;
-		foreach ($page as $index => $question)
-		{
-			if ($question["obligatory"])
-			{
-				$obligatory = 1;
-			}
-		}
-		if ($obligatory == 0)
-		{
-			// The question is not obligatory. Display skip buttons
-			$this->tpl->setCurrentBlock($navigationblock . "_skipprev");
-			if ($prevpage === 0)
-			{
-				$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_start"));
-			}
-			else
-			{
-				$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_previous"));
-			}
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock($navigationblock . "_skipnext");
-			if ($nextpage === 1)
-			{
-				$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_finish"));
-			}
-			else
-			{
-				$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_next"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 
 /**

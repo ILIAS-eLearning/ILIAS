@@ -252,6 +252,10 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_obligatory"));
+		}
 		if ($question_title)
 		{
 			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());

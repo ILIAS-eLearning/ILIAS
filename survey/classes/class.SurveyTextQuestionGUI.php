@@ -156,6 +156,10 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI {
 	{
 		$this->tpl->setCurrentBlock("question_data_text");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_obligatory"));
+		}
 		if ($question_title)
 		{
 			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());

@@ -549,6 +549,12 @@ span.il_Helptext {
 	color:red;
 }
 
+.obligatory {
+	font-weight: normal;
+	color: #800000;
+	font-variant: normal;
+}
+
 .warning {
 	text-decoration:none;
 	font-weight:bold;
@@ -580,6 +586,10 @@ span.il_Helptext {
 	font-style:italic;
 	font-weight:normal;
 	font-size:11px;
+}
+
+.questiontext {
+	font-weight:bold;
 }
 
 .bold {
