@@ -4105,7 +4105,7 @@ survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Dodaj nagłówek!
 survey#:#error_importing_question#:#Wystąpił błąd podczas importu pytań z pliku przez ciebie wybranego!
 survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!
-survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
+survey#:#eval_legend_link#:#Aby poznać znaczenie symboli nagłówków kolumn, zajrzyj do legendy.
 survey#:#evaluation#:#Wyniki
 survey#:#evaluation_access#:#Ograniczenie dostępu
 survey#:#excel#:#Microsoft Excel
