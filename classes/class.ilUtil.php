@@ -1456,6 +1456,7 @@ class ilUtil
 	*/
 	function makeDirParents($a_dir)
 	{
+		$basedir = @ini_get('open_basedir');
 		$dirs = array($a_dir);
 		$a_dir = dirname($a_dir);
 		$last_dirname = '';
@@ -1469,23 +1470,27 @@ class ilUtil
 		umask(0000);
 		foreach ($dirs as $dir)
 		{
-			if (! file_exists($dir))
+			// only take the allowed part when open_basedir is activated
+			if (!((strlen($basedir) > 0) and (strpos($dir, $basedir) === false)))
 			{
-				if (! mkdir($dir, $umask))
+				if (! file_exists($dir))
 				{
-					error_log("Can't make directory: $dir");
+					if (! mkdir($dir, $umask))
+					{
+						error_log("Can't make directory: $dir");
+						return false;
+					}
+				}
+				elseif (! is_dir($dir))
+				{
+					error_log("$dir is not a directory");
 					return false;
 				}
-			}
-			elseif (! is_dir($dir))
-			{
-				error_log("$dir is not a directory");
-				return false;
-			}
-			else
-			{
-				// get umask of the last existing parent directory
-				$umask = fileperms($dir);
+				else
+				{
+					// get umask of the last existing parent directory
+					$umask = fileperms($dir);
+				}
 			}
 		}
 		return true;
