@@ -1278,10 +1278,12 @@ REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','usr','5
 REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('12','5');
 REPLACE INTO rbac_templates (rol_id , type, ops_id, parent) VALUES ('2','lo','5','8');
 REPLACE INTO rbac_ta (typ_id, ops_id) VALUES ('31','5');
-
 <#60>
 ALTER TABLE grp_tree ADD COLUMN ref_id int(11);
-
 <#61>
 ALTER TABLE learning_module ADD COLUMN page_header
 	ENUM ('st_title','pg_title','none') DEFAULT 'st_title';
+<#62>
+# remove obsolete columns in rbac tables
+ALTER TABLE rbac_fa DROP parent_obj;
+ALTER TABLE rbac_pa DROP set_id;

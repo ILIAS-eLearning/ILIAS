@@ -116,28 +116,11 @@ class ilObjForum extends ilObject
 		// get object instance of cloned forum
 		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
-		// create role folder and set up default local roles (like in saveObject)
-		include_once ("classes/class.ilObjRoleFolder.php");
-		$rfoldObj = new ilObjRoleFolder();
-		$rfoldObj->setTitle("Local roles");
-		$rfoldObj->setDescription("Role Folder of forum ref_no.".$forumObj->getRefId());
-		$rfoldObj->create();
-		$rfoldObj->createReference();
-		$rfoldObj->putInTree($forumObj->getRefId());
-		$rfoldObj->setPermissions($forumObj->getRefId());
+		// create a local role folder & default roles
+		$roles = $forumObj->initDefaultRoles();
 
-		// create moderator role...
-		include_once ("classes/class.ilObjRole.php");
-		$roleObj = new ilObjRole();
-		$roleObj->setTitle("moderator_".$forumObj->getRefId());
-		$roleObj->setDescription("moderator of forum ref_no.".$forumObj->getRefId());
-		$roleObj->create();
-			
-		// ...and put the role into local role folder...
-		$rbacadmin->assignRoleToFolder($roleObj->getId(),$rfoldObj->getRefId(),$forumObj->getRefId(),"y");
-		
 		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roleObj->getId(), $forumObj->getOwner(), "n");		
+		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");		
 
 		// get forum data
 		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
@@ -147,7 +130,7 @@ class ilObjForum extends ilObject
 		$q = "INSERT INTO frm_data ";
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id,visits,top_update,update_user) ";
 		$q .= "VALUES ";
-		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$topData["top_mods"]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
+		$q .= "('".$forumObj->getId()."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$roles[0]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
 		$this->ilias->db->query($q);
 		
 		// get last insert id and return it
@@ -196,8 +179,6 @@ class ilObjForum extends ilObject
 
 		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
 		unset($forumObj);
-		unset($rfoldObj);
-		unset($roleObj);
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
@@ -241,6 +222,31 @@ class ilObjForum extends ilObject
 		$this->ilias->db->query($query);
 		
 		return true;
+	}
+
+	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles()
+	{
+		global $rbacadmin;
+		
+		// create a local role folder
+		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+
+		// create moderator role and assign role to rolefolder...
+		$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
+		$roles[] = $roleObj->getId();
+
+		// ...finally assign moderator role to creator of forum object
+		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
+		
+		unset($rfoldObj);
+		unset($roleObj);
+
+		return $roles ? $roles : array();
 	}
 } // END class.ilObjForum
 ?>

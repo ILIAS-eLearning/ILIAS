@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.16 2003/07/14 07:50:36 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.17 2003/07/14 15:04:16 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -108,14 +108,18 @@ class ilObjGroupGUI extends ilObjectGUI
 	{
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacadmin,$ilias;
+		
+		// always call parent method first to create an object_data entry & a reference
+		$newObj = parent::saveObject();
 
-		$newObj = new ilObject();
-		$newObj->setType("grp");
-		$newObj->setTitle($_POST["Fobject"]["title"]);
-		$newObj->setDescription($_POST["Fobject"]["desc"]);
-		$newObj->create();
-		$newObj->createReference();
-	
+		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+		$roles = $newObj->initDefaultRoles();
+
+		// TODO: An die Leute, die an der Gruppenfunktionalität arbeiten:
+		// Bitte schiebt alle Dinge, die die lokalen Rollen und den Rollenordner betreffen in die Methode ilObjGroup::initDefaultRoles()
+		// Schaut euch hierzu bitte an, wie das in ilObjForum/GUI gemacht wurde.
+		// Bitte auch ilObjGroup::clone entsprechend anpassen (dort sollte nach dem parent-Aufruf nur noch initDefaultRoles aufgerufen. Ggf. spezielle Gruppendatgen noch mit kopiert werden.
+		
 		$refGrpId = $newObj->getRefId();
 		$GrpId = $newObj->getId();
 
@@ -155,12 +159,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
 		$newGrp->createNewGroupTree();
 
+		// always send a message
+		sendInfo($this->lng->txt("grp_added"),true);
 		
-		header("Location: adm_object.php?".$this->link_params);
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 
 	}
-	
+
 	/**
 	* list childs of current object
 	*
@@ -208,7 +214,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->maxcount = count($this->data["data"]);
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
@@ -228,8 +234,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->displayList();
 	}
-	
-	
+		
 	/**
 	* update GroupObject
 	* @access public
@@ -260,6 +265,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$data["fields"]["desc"] = "";
 
 		$this->getTemplateFile("new","group");
+
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -283,7 +289,6 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
 	}
-
 
 	/**
 	* leave Group
@@ -433,7 +438,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->render();
 
 	}
-
 
 	/**
 	* displays formular
@@ -613,7 +617,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 	}
 
-
+	
 	function editMemberObject()
 	{
 		global $rbacsystem, $ilias;
@@ -727,7 +731,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 	}
-
 
 	function showDetails()
 	{
@@ -880,7 +883,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock("locontent");
 		}	
 		
-		
+	
 		
 		//$this->tpl->parseCurrentBlock();
 
@@ -1017,7 +1020,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				}
 			}
 		} // END IF 'cut & paste'
-		
+	
 		// PASTE IF CMD WAS 'linkt' (TODO: Could be merged with 'cut' routine above)
 		if ($_SESSION["clipboard"]["cmd"] == "link")
 		{
@@ -1348,5 +1351,5 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-} // END class.GroupObjectOut
+} // END class.ilObjGroupGUI
 ?>

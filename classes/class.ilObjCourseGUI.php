@@ -26,7 +26,7 @@
 * Class ilObjCourseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjCourseGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjCourseGUI.php,v 1.4 2003/07/07 17:46:57 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -44,6 +44,29 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		$this->type = "crs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+	}
+
+	/**
+	* save object
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacadmin;
+
+		// always call parent method first to create an object_data entry & a reference
+		$newObj = parent::saveObject();
+
+		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+		//$roles = $newObj->initDefaultRoles();
+
+		// put here your object specific stuff	
+
+		// always send a message
+		sendInfo($this->lng->txt("crs_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		exit();
 	}
 } // END class.ilObjCourseGUI
 ?>

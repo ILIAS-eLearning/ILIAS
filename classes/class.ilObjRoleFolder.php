@@ -49,32 +49,6 @@ class ilObjRoleFolder extends ilObject
 	}
 
 	/**
-	* delete role folder
-	* 
-	* @access	public
-	* @return	boolean	true on success
-	*
-	function delete()
-	{
-		global $rbacadmin, $rbacreview;
-
-		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
-
-		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
-		foreach ($roles as $role)
-		{
-			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role);
-			$roleObj->delete();
-			unset($roleObj);
-		}
-
-		// DELETE ROLE FOLDER
-		parent::delete();
-
-		return true;
-	}*/
-
-	/**
 	* copy all properties and subobjects of an rolefolder.
 	* DISABLED
 	* @access	public
@@ -134,5 +108,29 @@ class ilObjRoleFolder extends ilObject
 	{
 		return false;
 	}
+
+	/**
+	* creates a local role in current rolefolder (this object)
+	* 
+	* @access	public
+	* @param	string	title
+	* @param	string	description
+	* @return	object	role object
+	*/
+	function createRole($a_title,$a_desc)
+	{
+		global $rbacadmin;
+
+		include_once ("classes/class.ilObjRole.php");
+		$roleObj = new ilObjRole();
+		$roleObj->setTitle($a_title);
+		$roleObj->setDescription($a_desc);
+		$roleObj->create();
+			
+		// ...and put the role into local role folder...
+		$rbacadmin->assignRoleToFolder($roleObj->getId(),$this->getRefId(),"y");
+
+		return $roleObj;
+	} 
 } // END class.ilObjRoleFolder
 ?>

@@ -291,5 +291,25 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	* save object
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacadmin;
+
+		// always call parent method first to create an object_data entry & a reference
+		$newObj = parent::saveObject();
+
+		// put here your object specific stuff	
+
+		// always send a message
+		sendInfo($this->lng->txt("rolf_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		exit();
+	}
 } // END class.ilObjRoleFolderGUI
 ?>

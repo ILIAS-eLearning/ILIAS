@@ -94,7 +94,7 @@ class ilRbacReview
 
 	/**
 	* Get parent roles in a path. If last parameter is set 'true'
-	*  it delivers also all templates in the path
+	* it delivers also all templates in the path
 	* @access	public
 	* @param	array	array with path_ids
 	* @param	boolean	true for role templates (default: false)
@@ -316,7 +316,7 @@ class ilRbacReview
 	* returns an array of role folder ids assigned to a role
 	* @access	public
 	* @param	integer		role id
-	* @return	array		object ids of role folders
+	* @return	array		reference IDs of role folders
 	*/
 	function getFoldersAssignedToRole($a_rol_id)
 	{
@@ -329,27 +329,27 @@ class ilRbacReview
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$q = "SELECT DISTINCT parent,parent_obj FROM rbac_fa ".
+		$q = "SELECT DISTINCT parent FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$folders[] = array(
-				"parent"     => $row->parent,
-				"parent_obj" => $row->parent_obj);
+			$folders[] = $row->parent;
 		}
 
 		return $folders ? $folders : array();
 	}
 
 	/**
-	* return an array with role ids
+	* get all roles of a role folder including linked local roles that are created due to stopped inheritance
+	* returns an array with role ids
 	* @access	public
-	* @param	integer		ref_id of object  
+	* @param	integer		ref_id of object
+	* @param	boolean		if false only get true local roles
 	* @return	array		Array with rol_ids
 	*/
-	function getRolesOfRoleFolder($a_ref_id)
+	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
 		global $log;
 
@@ -359,9 +359,15 @@ class ilRbacReview
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
+		
+		if ($a_nonassignable === false)
+		{
+			$and = " AND assign='y'";
+		}
 
 		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = '".$a_ref_id."'";
+			 "WHERE parent = '".$a_ref_id."'".
+			 $and;
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))

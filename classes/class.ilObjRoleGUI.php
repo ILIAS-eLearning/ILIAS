@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.29 2003/07/09 15:46:01 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.30 2003/07/09 18:36:58 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -76,8 +76,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
 			$roleObj->create();
-			$parent_id = $this->tree->getParentId($_GET["ref_id"]);
-			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],$parent_id,'y');
+			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
 		}
 		
 		sendInfo($this->lng->txt("role_added"),true);

@@ -133,6 +133,43 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		exit();
 	}
 
+	/**
+	* save new learning module to db
+	*/
+	function saveObject()
+	{
+		global $rbacadmin;
 
-}
+		// always call parent method first to create an object_data entry & a reference
+		// $newObj = parent::saveObject();
+		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call 
+
+		// create and insert object in objecttree
+		include_once("classes/class.ilObjSCORMLearningModule.php");
+		$newObj = new ilObjLearningModule();
+		$newObj->setType("lm");
+		$newObj->setTitle("dummy");			// set by meta_gui->save
+		$newObj->setDescription("dummy");	// set by meta_gui->save
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+
+		// save meta data
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($newObj);
+		$meta_gui->save();
+
+		// create learning module tree
+		$newObj->createLMTree();
+
+		unset($newObj);
+
+		// always send a message
+		sendInfo($this->lng->txt("slm_added"),true);
+		
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		exit();
+} // END class.ilObjSCORMLearningModule
 ?>

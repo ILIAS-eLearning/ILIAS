@@ -32,6 +32,12 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
+common#:#lm_added#:#LearningModule added
+common#:#cat_added#:#Category added
+common#:#slm_added#:#SCORM LearningModule added
+common#:#crs_added#:#Course added
+common#:#grp_added#:#Group added
+common#:#rolf_added#:#Role Folder added
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
