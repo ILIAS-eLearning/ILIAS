@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen
 assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen
 assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen
 assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Bijna overeenkomende vraag
 assessment#:#qt_imagemap#:#Figuren-kaart Vraag

@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu 
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qt_cloze#:#Lückentext
 assessment#:#qt_imagemap#:#ImageMap-Frage

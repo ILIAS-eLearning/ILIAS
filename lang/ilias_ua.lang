@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагув�
 assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
 assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одне питання для редагування
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Закрити питання
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable

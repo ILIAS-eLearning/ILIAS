@@ -217,6 +217,7 @@ assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa racco
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
+assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
 assessment#:#qpl_questions_deleted#:#Domande eliminate
 assessment#:#qt_cloze#:#con risposta da completare
 assessment#:#qt_imagemap#:#con immagine a mappa
