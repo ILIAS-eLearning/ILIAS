@@ -1085,7 +1085,7 @@ common#:#edit_roleassignment#:#Edit role assignment###16 Sep 2004 new variable
 common#:#edit_stylesheet#:#编辑风格
 common#:#edited_at#:#编辑于
 common#:#editor#:#编辑器
-common#:#email#:#电子邮件
+common#:#email#:#电子邮件###04 Mar 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#您输入的电子邮件地址无效！###14 Sep 2004 content changed
 common#:#enable#:#激活
@@ -1495,7 +1495,7 @@ common#:#ingmedia_level_zero#:#水平相同
 common#:#ingmedia_pers_dates#:#个人数据
 common#:#ingmedia_reg_fo#:#已注册的论坛
 common#:#ingmedia_reg_le#:#已注册的学习模块
-common#:#ingmedia_use_info1#:#您在这里可以更改个人数据。除了INGMEDIA用户名和口令，您不必填写其它的域。记住只能通过电子邮件返回忘记的口令（！）。
+common#:#ingmedia_use_info1#:#您在这里可以更改个人数据。除了INGMEDIA用户名和口令，您不必填写其它的域。记住只能通过电子邮件返回忘记的口令（！）。###04 Mar 2005 content changed
 common#:#ingmedia_use_info2#:#"在INGMEDIA用户名和口令中不允许使用特殊字符（如 , ; . = - * + """) 。使用INGMEDIA平台您必须接受用户协议。###14 Sep 2004 content changed
 common#:#ingmedia_use_info3#:#请从侧面的条中选择一个链接。
 common#:#ingmedia_use_title#:#更改用户数据

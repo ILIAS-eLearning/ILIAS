@@ -1068,7 +1068,7 @@ common#:#edit_roleassignment#:#Editar asignación de rol
 common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#editado en
 common#:#editor#:#editor
-common#:#email#:#email
+common#:#email#:#email###04 Mar 2005 content changed
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#La dirección de correo electrónico introducida no es válida!
 common#:#enable#:#habilitar
@@ -2905,8 +2905,8 @@ crs#:#crs_accept_subscriber#:#Suscripción de Curso
 crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso
 crs#:#crs_access_password#:#Contraseña
 crs#:#crs_activation#:#Activación
-crs#:#crs_add_archive_html#:#Añadir Archivo-HTML
-crs#:#crs_add_archive_xml#:#Añadir Archivo-XML
+crs#:#crs_add_archive_html#:#Añadir Archivo-HTML###04 Mar 2005 content changed
+crs#:#crs_add_archive_xml#:#Añadir Archivo-XML###04 Mar 2005 content changed
 crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
 crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
 crs#:#crs_add_html_archive#:#Añadir Archivo-HTML
@@ -3015,7 +3015,7 @@ crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_change_status#:#Modificar Estado
 crs#:#crs_mem_send_mail#:#Enviar mail
 crs#:#crs_member#:#Miembro
-crs#:#crs_member_blocked#:#Miembro (desbloqueado)
+crs#:#crs_member_blocked#:#Miembro (desbloqueado)###04 Mar 2005 content changed
 crs#:#crs_member_unblocked#:#Miembro (bloqueado)
 crs#:#crs_member_updated#:#El miembro ha sido actualizado
 crs#:#crs_members_deleted#:#Miembros eliminados
