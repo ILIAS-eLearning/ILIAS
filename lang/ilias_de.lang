@@ -83,7 +83,7 @@ administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten.
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
-administration#:#systemcheck#:#Systemcheck###14 Sep 2004 content changed
+administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis###14 Sep 2004 content changed
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
@@ -93,7 +93,7 @@ assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
-assessment#:#add_imagemap#:#Imagemap importieren###14 Sep 2004 content changed
+assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -113,7 +113,7 @@ assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
-assessment#:#cloze_text#:#Lückentext###14 Sep 2004 content changed
+assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
@@ -137,7 +137,7 @@ assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_data#:#Evaluationsdaten
-assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.###14 Sep 2004 content changed
+assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
@@ -155,7 +155,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle P
 assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen!
 assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!###14 Sep 2004 content changed
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Lücke
@@ -221,14 +221,14 @@ assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbe
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Test eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
-assessment#:#qt_cloze#:#Lückentext###14 Sep 2004 content changed
+assessment#:#qt_cloze#:#Lückentext-Frage
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
 assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.###14 Sep 2004 content changed
+assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
 assessment#:#radio_set#:#Ausgewählt
@@ -245,11 +245,11 @@ assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebn
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
-assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!###14 Sep 2004 content changed
+assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_finish#:#Speichern und Test fertigstellen
-assessment#:#save_introduction#:#Speichern und zur Einführung###14 Sep 2004 content changed
-assessment#:#save_next#:#Speichern und zur nächsten Frage###14 Sep 2004 content changed
-assessment#:#save_previous#:#Speichern und zur vorigen Frage###14 Sep 2004 content changed
+assessment#:#save_introduction#:#Speichern und zur Einführung
+assessment#:#save_next#:#Speichern und zur nächsten Frage
+assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#selected_image#:#Ausgewählte Grafik
@@ -271,7 +271,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_ending_time#:#Endzeit
-assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.###14 Sep 2004 content changed
+assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
@@ -291,10 +291,10 @@ assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
-assessment#:#tst_missing_author#:#Sie haben keine Autorin in den Test-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.###14 Sep 2004 content changed
-assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angegeben! Bitte fügen Sie wenigstens ein einfaches Notenschema hinzu.###14 Sep 2004 content changed
-assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.###14 Sep 2004 content changed
-assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.###14 Sep 2004 content changed
+assessment#:#tst_missing_author#:#Sie haben keine Autorin in den Test-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
+assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angegeben! Bitte fügen Sie wenigstens ein einfaches Notenschema hinzu.
+assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
+assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
@@ -336,9 +336,9 @@ assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle Nutzerinnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
 assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
 assessment#:#tst_stat_result_mark_median#:#Dem Median zugeordnete Note
@@ -365,14 +365,14 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
+assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (nur Anordnungsfragen)
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.###14 Sep 2004 content changed
+assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Nutzerinnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
@@ -2125,11 +2125,11 @@ content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_TableContent#:#Tabelleninhalt
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
+content#:#cont_act_number#:#Kapitelnummerierung
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
-content#:#cont_add_fullscreen#:#Vollansicht hinzufügen###14 Sep 2004 content changed
+content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
@@ -2138,16 +2138,16 @@ content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
-content#:#cont_assign_full#:#Als Vollansicht###14 Sep 2004 content changed
+content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_back#:#Zurück
-content#:#cont_booktitle#:#Buchtitel###14 Sep 2004 content changed
+content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
 content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
-content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.###14 Sep 2004 content changed
+content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
@@ -2160,7 +2160,7 @@ content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
 content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
-content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.###14 Sep 2004 content changed
+content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
@@ -2248,8 +2248,8 @@ content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Freie Seiten
-content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.###14 Sep 2004 content changed
-content#:#cont_fullscreen#:#Vollbild###14 Sep 2004 content changed
+content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
+content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen
 content#:#cont_get_orig_size#:#Originalgröße setzen
 content#:#cont_glo_properties#:#Glossar Eigenschaften
@@ -2302,7 +2302,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#passt zu
-content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
+content#:#cont_matching_question_javascript_hint#:#Hinweis: Ziehen Sie eine Definition/ein Bild auf der rechten Seite über den passenden Term auf der Linken Seite und legen Sie die Definition/das Bild dort ab.
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
@@ -2351,9 +2351,9 @@ content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
-content#:#cont_remove_fullscreen#:#Vollansicht entfernen###14 Sep 2004 content changed
-content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
-content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
+content#:#cont_remove_fullscreen#:#Vollansicht entfernen
+content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
+content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
@@ -2397,7 +2397,7 @@ content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
-content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
+content#:#cont_show_print_view#:#Druckansicht
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
@@ -2439,7 +2439,7 @@ content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
-content#:#cont_wysiwyg#:#Inhalt Wysiwyg###14 Sep 2004 content changed
+content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
 content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
@@ -3542,16 +3542,16 @@ survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt!
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
-survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage anfügen wollen?###14 Sep 2004 content changed
+survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage anfügen wollen?
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
-survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!###14 Sep 2004 content changed
-survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!###14 Sep 2004 content changed
-survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!###14 Sep 2004 content changed
+survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
+survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
+survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
-survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?###14 Sep 2004 content changed
+survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
 survey#:#concatenation#:#Verknüpfung
@@ -3560,7 +3560,7 @@ survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
-survey#:#create_questionpool_before_add_question#:#Sie müssen mindestens einen Fragenpool erzeugen, um Ihre Fragen ablegen zu können!###14 Sep 2004 content changed
+survey#:#create_questionpool_before_add_question#:#Sie müssen mindestens einen Fragenpool erzeugen, um Ihre Fragen ablegen zu können!
 survey#:#csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#dc_agree#:#einverstanden
 survey#:#dc_always#:#immer
@@ -3598,7 +3598,7 @@ survey#:#dc_varying#:#unterschiedlich
 survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Fragenblock definieren
-survey#:#disinvite#:#Ausladen###14 Sep 2004 content changed
+survey#:#disinvite#:#Ausladen
 survey#:#display_all_available#:#Anzeige aller verfübaren
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
@@ -3612,9 +3612,9 @@ survey#:#dp_standard_attitude_good_notacceptable#:#Standard-Haltung (gut-inakzep
 survey#:#dp_standard_attitude_must5#:#Standard-Haltung (muss-sollte-unentschlossen-sollte nicht-darf nicht)
 survey#:#dp_standard_attitude_shold_shouldnot#:#Standard-Haltung (sollte-sollte nicht)
 survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard-Haltung (sollte-unentschlossen-sollte nicht)
-survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-abolut unsicher)###14 Sep 2004 content changed
-survey#:#dp_standard_behaviour_yes_no#:#Standard-Verhaltensweise (ja-nein)###14 Sep 2004 content changed
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard-Verhaltensweise (ja-unentschlossen-nein)###14 Sep 2004 content changed
+survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-abolut unsicher)
+survey#:#dp_standard_behaviour_yes_no#:#Standard-Verhaltensweise (ja-nein)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard-Verhaltensweise (ja-unentschlossen-nein)
 survey#:#dp_standard_beliefs_always5#:#Standard-Vorstellungen (immer-häufig-unterschiedlich-selten-nie)
 survey#:#dp_standard_beliefs_always_never#:#Standard-Vorstellungen (immer-nie)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard-Vorstellungen (immer-manchmal-nie)
@@ -3624,7 +3624,7 @@ survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr
 survey#:#dp_standard_numbers#:#Standard-Zahlen
 survey#:#duplicate#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
-survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten###14 Sep 2004 content changed
+survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
@@ -3645,7 +3645,7 @@ survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage anfügen wollen!
-survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage anfügen wollen!###14 Sep 2004 content changed
+survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage anfügen wollen!
 survey#:#introduction#:#Einleitung
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#invitation#:#Einladung
@@ -3676,7 +3676,7 @@ survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kateg
 survey#:#no_constraints_checked#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, um die Beschränkungen zu bearbeiten!
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
-survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!###14 Sep 2004 content changed
+survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
@@ -3712,18 +3712,18 @@ survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
 survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
 survey#:#qpl_savephrase_exists#:#Der Titel der Phrase existiert bereits! Bitte geben Sie einen anderen Titel an.
-survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!###14 Sep 2004 content changed
+survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
 survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
 survey#:#question_has_constraints#:#Beschränkungen
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
-survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.###14 Sep 2004 content changed
+survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Beschränkungen
-survey#:#questionblocks#:#Fragenblöcke###14 Sep 2004 content changed
+survey#:#questionblocks#:#Fragenblöcke
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
@@ -3771,9 +3771,9 @@ survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
-survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.###14 Sep 2004 content changed
-survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.###14 Sep 2004 content changed
-survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.###14 Sep 2004 content changed
+survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
+survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
+survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
