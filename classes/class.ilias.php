@@ -111,7 +111,10 @@ class ILIAS extends PEAR
 		define("DEBUG",$this->ini->readVariable("system","DEBUG"));
 		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID')); 
 		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
-		
+
+		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));		
+		define ("MAXLENGTH_OBJ_DESC",$this->ini->readVariable('system','MAXLENGTH_OBJ_DESC'));
+
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
 					 "://".$this->ini->readVariable("db", "user").

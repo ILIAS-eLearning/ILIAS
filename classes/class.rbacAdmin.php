@@ -12,8 +12,8 @@ class RbacAdmin
 {
 	/**
 	* ilias object
-	* @var object ilias
-	* @access public
+	* @var		object	ilias
+	* @access	public
 	*/
 	var $ilias;
 
@@ -29,6 +29,7 @@ class RbacAdmin
 	}
 
 	/**
+	* TODO: move to class UserObject or class User
 	* Inserts userdata in usr_data table
 	* @access	public
 	* @param	array 
@@ -36,15 +37,6 @@ class RbacAdmin
 	*/
 	function addUser($a_data)
 	{
-
-		$passwd = md5($a_data["Passwd"]);
-		$query = "INSERT INTO usr_data ".
-			"(usr_id,login,passwd,firstname,surname,title,gender,email,last_login,last_update,create_date) ".
-			"VALUES('".$a_data["Id"]."','".$a_data["Login"]."','".$passwd."','".$a_data["FirstName"].
-			"','".$a_data["SurName"]."','".$a_data["Title"]."','".$a_data["Gender"]."','".$a_data["Email"].
-			"',0,now(),now())";
-
-		$res = $this->ilias->db->query($query);
 		return true;
 	}
 
@@ -56,42 +48,47 @@ class RbacAdmin
 	*/
 	function deleteUserData($a_usr_id)
 	{
-			// Einträge in object_data
-		$res = $this->ilias->db->query("DELETE FROM rbac_ua ".
-									   "WHERE usr_id='".$id."'");
-		$res = $this->ilias->db->query("DELETE FROM usr_data ".
-									   "WHERE usr_id='".$id."'");
+		// entries in object_data
+		$this->ilias->db->query("DELETE FROM rbac_ua ".
+								"WHERE usr_id='".$id."'");
+		$this->ilias->db->query("DELETE FROM usr_data ".
+								"WHERE usr_id='".$id."'");
 		return true;
 	}
 
 	/**
+	* DEPRECATED
+	* TODO: move to class UserObject or class User
 	* updates user data in table usr_data & object_data
 	* @access	public
-	* @param	array		with user data
+	* @param	array	with user data
 	* @return	boolean
 	*/
 	function updateUser($a_userdata)
 	{
-		$query = "UPDATE usr_data ".
-				 "SET ".
-				 "login = '".$a_userdata["Login"]."',".
-				 "firstname = '".$a_userdata["FirstName"]."',".
-				 "surname = '".$a_userdata["SurName"]."',".
-				 "title = '".$a_userdata["Title"]."',".
-				 "gender = '".$a_userdata["Gender"]."',".
-				 "email = '".$a_userdata["Email"]."'".
-				 " WHERE usr_id = '".$a_userdata["Id"]."'";
-		$res = $this->ilias->db->query($query);
+		/*
+		$q = "UPDATE usr_data ".
+			 "SET ".
+			 "login = '".$a_userdata["Login"]."',".
+			 "firstname = '".$a_userdata["FirstName"]."',".
+			 "surname = '".$a_userdata["SurName"]."',".
+			 "title = '".$a_userdata["Title"]."',".
+			 "gender = '".$a_userdata["Gender"]."',".
+			 "email = '".$a_userdata["Email"]."', ".
+			 "last_update = now() ".
+			 "WHERE usr_id = '".$a_userdata["Id"]."'";
+		$r = $this->ilias->db->query($q);
 
 		$fullname = User::buildFullName($a_userdata["Title"],$a_userdata["FirstName"],$a_userdata["SurName"]);
 
-		$query = "UPDATE object_data ".
-				 "SET ".
-				 "title = '".$fullname."', ".
-				 "description = '', ".
-				 "last_update = now() ".
-				 "WHERE obj_id = '".$a_userdata["Id"]."'";
-		$res = $this->ilias->db->query($query);
+		$q = "UPDATE object_data ".
+			 "SET ".
+			 "title = '".$fullname."', ".
+			 "description = '".$a_userdata["Email"]."', ".
+			 "last_update = now() ".
+			 "WHERE obj_id = '".$a_userdata["Id"]."'";
+		$this->ilias->db->query($q);
+		*/
 		
 		return true;
 	}
@@ -811,7 +808,8 @@ class RbacAdmin
 					"obj_id"		=> $a_row->obj_id,
 					"type"			=> $a_row->type,
 					"title"			=> $a_row->title,
-					"description"	=> $a_row->description,
+					"desc"			=> $a_row->description,
+					"description"	=> $a_row->description,	// deprecated; for compability
 					"owner"			=> $a_row->owner,
 					"create_date"	=> $a_row->create_date,
 					"last_update"	=> $a_row->last_update

@@ -190,7 +190,7 @@ class LearningModuleObject extends Object
 					$obj_data = $lo->getInfo();
 		
 					// get unique obj_id of LO
-					$lo_id = createNewObject("lo",$obj_data);
+					$lo_id = createNewObject("lo",$obj_data["title"],$obj_data["desc"]);
 					
 					// prepare LO for database insertion
 					$lotree = $lo->domxml->buildTree();
@@ -228,7 +228,7 @@ class LearningModuleObject extends Object
 		$lo = new LearningObjectObject();
 		$lo->setDocument($domxml->doc);
 		$obj_data = $lo->getInfo();
-		$lo_id = createNewObject("lo",$obj_data);
+		$lo_id = createNewObject("lo",$obj_data["title"],$obj_data["desc"]);
 		$lotree = $lo->domxml->buildTree();
 		$xml2sql = new xml2sql($lotree,$lo_id);
 		$xml2sql->insertDocument();

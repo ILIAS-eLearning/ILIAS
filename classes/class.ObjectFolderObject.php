@@ -32,7 +32,7 @@ class ObjectFolderObject extends Object
 		
 		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
 		{
-			if ($list = getTypeList($a_order, $a_direction))
+			if ($list = getObjectList("typ",$a_order,$a_direction))
 			{
 				foreach ($list as $key => $val)
 				{

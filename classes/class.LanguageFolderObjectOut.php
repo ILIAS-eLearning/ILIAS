@@ -2,11 +2,11 @@
 /**
 * Class LanguageFolderObjectOut
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.LanguageFolderObjectOut.php,v 1.3 2003/01/30 14:56:05 smeyer Exp $
+* @author	Stefan Meyer <smeyer@databay.de> 
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.4 2003/02/06 15:34:16 shofmann Exp $
 * 
-* @extends Object
-* @package ilias-core
+* @extends	Object
+* @package	ilias-core
 */
 
 class LanguageFolderObjectOut extends ObjectOut
@@ -70,15 +70,21 @@ class LanguageFolderObjectOut extends ObjectOut
 								$_GET["parent"]."&cmd=gateway");
 
 		//table header
+		$this->tpl->setCurrentBlock("table_header_cell");
+
 		foreach ($this->data["cols"] as $key)
 		{
-			$this->tpl->setCurrentBlock("table_header_cell");
 			if ($key != "")
+			{
 			    $out = $this->lng->txt($key);
+			}
 			else
+			{
 				$out = "&nbsp;";
-			$this->tpl->setVariable("TEXT", $out);
-			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			}
+
+			$this->tpl->setVariable("HEADER_TEXT", $out);
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
@@ -101,9 +107,8 @@ class LanguageFolderObjectOut extends ObjectOut
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
-
+				
 				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->setVariable("TEXT", "");
 				$this->tpl->parseCurrentBlock();
 			
 				//data

@@ -12,18 +12,30 @@
 class User
 {
 	/**
-	* user_id
-	* @var		integer
+	* all user related data in single vars
 	* @access	public
 	*/
-	var $Id;					
-
-	/**
-	* Contains fixed Userdata
-	* @var		array
-	* @access	public
-	*/
-	var $data;
+	// personal data
+	var $login;		// username in system
+	var $passwd;	// md5 hash of password
+	var $gender;	// 'm' or 'f'
+	var $title;
+	var $firstname;
+	var $lastname;
+	var $fullname;	// title + firstname + surname in one string
+ 	// address data
+	var $institution;
+	var $street;
+	var $city;
+	var $zipcode;
+	var $country;
+	var $phone;
+	var $email;
+	// system data
+	var $id;		// internal obj_id
+	var $last_login;
+	var $last_update;
+	var $create_date;
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
@@ -31,6 +43,13 @@ class User
 	* @access	public
 	*/
 	var $prefs;
+	
+	/**
+	* Contains template set
+	* @var		string
+	* @access	public
+	*/
+	var $skin;
 	
 	/**
 	* ilias object
@@ -47,15 +66,14 @@ class User
 	function User($a_user_id = 0)
 	{
 		global $ilias;
-
-		// Initiate variables
+		
+		// init variables
 		$this->ilias =& $ilias;
-		$this->data = array();
 
 		if (!empty($a_user_id))
 		{
-			$this->Id = $a_user_id;
-			$this->getUserdata();
+			$this->setId($a_user_id);
+			$this->getData();
 		}
 		else
 		{
@@ -85,30 +103,20 @@ class User
 	* loads a record "user" from database
 	* @access private
 	*/
-	function getUserdata ()
+	function getData ()
 	{
-		$query = "SELECT * FROM usr_data ".
-				 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
-				 "WHERE usr_data.usr_id='".$this->Id."'";	
-		$res = $this->ilias->db->query($query);
+		// TODO: fetching default role should be done in rbacadmin
+		$q = "SELECT * FROM usr_data ".
+			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
+			 "WHERE usr_data.usr_id='".$this->id."'";	
+		$r = $this->ilias->db->query($q);
 		
-		if ($res->numRows() > 0)
+		if ($r->numRows() > 0)
 		{
-			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-			$this->data = array(
-				"Id"		 => $this->Id,
-				"login"	  => $data["login"],
-				"passwd"	 => $data["passwd"],
-				"Gender"	 => $data["gender"],
-				"Title"	  => $data["title"],
-				"FirstName"  => $data["firstname"],
-				"SurName"	=> $data["surname"],
-				"Email"	  => $data["email"],
-				"Role"	   => $data["rol_id"],
-				"LastLogin"  => $data["last_login"],
-				"CreateDate"  => $data["create_date"]
-			);
+			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			
+			// fill member vars in one shot
+			$this->assignData($data);
 
 			//get userpreferences from usr_pref table
 			$this->readPrefs();
@@ -145,61 +153,71 @@ class User
 		}
 		else
 		{
-			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__, $this->ilias->FATAL);
+			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
 		}
 	}
 	
 	/**
-	* set user id
-	* @param integer
+	* set userdata
+	* @access	public
+	* @param	array		userdata
 	*/
-	function setId($id)
+	function setData ($a_data)
 	{
-		$this->Id = $id;
+		$this->assignData($a_data);
 	}
-	
+
 	/**
 	* loads a record "user" from array
 	* @access	private
 	* @param	array		userdata
 	*/
-	function setUserdata ($a_userdata)
+	function assignData($a_data)
 	{
-		$this->data = $a_userdata;
-	}
-	
-	/**
-	* returns a 2char-language-string
-	* @access	public
-	* @return	string	language
-	*/
-	function getLanguage ()
-	{
-		 return $this->data["language"];
+		// basic personal data
+		$this->setLogin($a_data["login"]);
+		$this->setPasswd($a_data["passwd"]);
+		$this->setGender($a_data["gender"]);
+		$this->setTitle($a_data["title"]);
+		$this->setFirstname($a_data["firstname"]);
+		$this->setLastname($a_data["lastname"]);
+		$this->setFullname();
+
+		// address data
+		$this->setInstitution($a_data["institution"]);
+		$this->setStreet($a_data["street"]);
+		$this->setCity($a_data["city"]);
+		$this->setZipcode($a_data["zipcode"]);
+		$this->setCountry($a_data["country"]);
+		$this->setPhone($a_data["phone"]);
+		$this->setEmail($a_data["email"]);
+		
+		// system data
+		$this->last_login	= $a_data["last_login"];
+		$this->last_update	= $a_data["last_update"];
+		$this->create_date	= $a_data["create_date"];
 	}
 
 	/**
+	* TODO: drop fields last_update & create_date. redundant data in object_data!
 	* saves a new record "user" to database
 	* @access	public
 	*/
 	function saveAsNew ()
 	{
-		// fill usr_data
-		$query = "INSERT INTO usr_data
-				 (usr_id,login,passwd,
-				 firstname,surname,
-				 title,gender,
-				 email,
-				 last_login,last_update,create_date)
-				 VALUES
-				 ('".$this->data["Id"]."','".$this->data["Login"]."','".md5($this->data["Passwd"])."',
-				  '".$this->data["FirstName"]."','".$this->data["SurName"]."',
-				  '".$this->data["Title"]."','".$this->data["Gender"]."',
-				  '".$this->data["Email"]."',
-				  0,now(),now())";
-		$res = $this->ilias->db->query($query);
+		$q = "INSERT INTO usr_data ".
+			 "(usr_id,login,passwd,firstname,lastname,title,gender,".
+			 "email,institution,street,city,zipcode,country,".
+			 "phone,last_login,last_update,create_date) ".
+			 "VALUES ".
+			 "('".$this->id."','".$this->login."','".$this->passwd."', ".
+			 "'".$this->firstname."','".$this->lastname."', ".
+			 "'".$this->title."','".$this->gender."', ".
+			 "'".$this->email."','".$this->institution."','".$this->street."', ".
+			 "'".$this->city."','".$this->zipcode."','".$this->country."', ".
+			 "'".$this->phone."', 0, now(), now())";
 
-		$this->Id = $this->data["Id"];
+		$this->ilias->db->query($q);
 	}
 
 	/**
@@ -208,37 +226,44 @@ class User
 	*/
 	function update ()
 	{
-		$this->Id = $this->data["Id"];
+		//$this->id = $this->data["Id"];
 
-		$query = "UPDATE usr_data SET
-				 gender='".$this->data["Gender"]."',
-				 title='".$this->data["Title"]."',
-				 firstname='".$this->data["FirstName"]."',
-				 surname='".$this->data["SurName"]."',
-				 email='".$this->data["Email"]."'
-				 WHERE usr_id='".$this->Id."'";
-		$this->ilias->db->query($query);
+		$q = "UPDATE usr_data SET ".
+			 "gender='".$this->gender."', ".
+			 "title='".$this->title."', ".
+			 "firstname='".$this->firstname."', ".
+			 "lastname='".$this->lastname."', ".
+			 "email='".$this->email."', ".
+			 "institution='".$this->institution."', ".
+			 "street='".$this->street."', ".
+			 "city='".$this->city."', ".
+			 "zipcode='".$this->zipcode."', ".
+			 "country='".$this->country."', ".
+			 "phone='".$this->phone."', ".
+			 "last_update=now() ".
+			 "WHERE usr_id='".$this->id."'";
+		$this->ilias->db->query($q);
 		
 		$this->writePrefs();
 		
-		$this->getUserData();
+		// TODO: get rid of this call
+		//$this->getUserData();
 
 		return true;
 	}
 	
-	
 	/**
 	* updates the login data of a "user"
+	* // TODO set date with now() should be enough
 	* @access	public
 	*/
 	function refreshLogin ()
 	{
-		$q = "UPDATE usr_data SET ";
-		$q .= "last_login = '".date("Y-m-d H:i:s")."' ";
-		$q .= "WHERE usr_id = '".$this->Id."'";
+		$q = "UPDATE usr_data SET ".
+			 "last_login = '".date("Y-m-d H:i:s")."' ".
+			 "WHERE usr_id = '".$this->id."'";
 	
 		$this->ilias->db->query($q);	
-		
 	}
 	
 	/**
@@ -250,30 +275,33 @@ class User
 	*/
 	function updatePassword($old, $pw1, $pw2)
 	{
-		if ($pw1 != $pw2) {
+		if ($pw1 != $pw2)
+		{
 			return false;
 		}
 		
-		if ($pw1 == "" || $old == "") {
+		if ($pw1 == "" || $old == "")
+		{
 			return false;
 		}
 		
 		//check old password
-		if (md5($old) != $this->data["passwd"]) {
+		if (md5($old) != $this->passwd)
+		{
 			return false;
 		}
 		
 		//update password
-		$this->data["passwd"] = md5($pw1);
-		$query = "UPDATE usr_data SET
-				 passwd='".$this->data["passwd"]."'
-				 WHERE usr_id='".$this->Id."'";
-		$this->ilias->db->query($query);
+		$this->passwd = md5($pw1);
+
+		$q = "UPDATE usr_data SET ".
+			 "passwd='".$this->passwd."' ".
+			 "WHERE usr_id='".$this->id."'";
+		$this->ilias->db->query($q);
+
 		return true;
 	}
 
-		
-	
 	/**
 	* write userpref to user table
 	* @access	private
@@ -283,19 +311,19 @@ class User
 	function writePref($a_keyword, $a_value)
 	{
 		//DELETE
-		$sql = "DELETE FROM usr_pref 
-				WHERE usr_id='".$this->Id."'
-				AND keyword='".$a_keyword."'";
-		$r = $this->ilias->db->query($sql);
+		$q = "DELETE FROM usr_pref ".
+			 "WHERE usr_id='".$this->id."' ".
+			 "AND keyword='".$a_keyword."'";
+		$this->ilias->db->query($q);
 
 		//INSERT
 		if ($a_value != "")
 		{
-			$sql = "INSERT INTO usr_pref 
-				(usr_id, keyword, value)
-				VALUES
-				('".$this->Id."', '".$a_keyword."', '".$a_value."')";
-			$r = $this->ilias->db->query($sql);
+			$q = "INSERT INTO usr_pref ".
+				 "(usr_id, keyword, value) ".
+				 "VALUES ".
+				 "('".$this->id."', '".$a_keyword."', '".$a_value."')";
+			$this->ilias->db->query($q);
 		}
 	}
 
@@ -306,18 +334,18 @@ class User
 	function writePrefs()
 	{
 		//DELETE
-		$sql = "DELETE FROM usr_pref 
-			WHERE usr_id='".$this->Id."'";
-		$r = $this->ilias->db->query($sql);
+		$q = "DELETE FROM usr_pref ".
+			 "WHERE usr_id='".$this->id."'";
+		$this->ilias->db->query($q);
 
 		foreach ($this->prefs as $keyword => $value)
 		{
 			//INSERT
-			$sql = "INSERT INTO usr_pref 
-				(usr_id, keyword, value)
-				VALUES
-				('".$this->Id."', '".$keyword."', '".$value."')";
-			$r = $this->ilias->db->query($sql);
+			$q = "INSERT INTO usr_pref ".
+				 "(usr_id, keyword, value) ".
+				 "VALUES ".
+				 "('".$this->id."', '".$keyword."', '".$value."')";
+			$this->ilias->db->query($q);
 		}
 	}
 
@@ -359,18 +387,19 @@ class User
 		
 		$this->prefs = array();
 		
-		$query = "SELECT * FROM usr_pref WHERE usr_id='".$this->Id."'";	
-		$res = $this->ilias->db->query($query);
+		$q = "SELECT * FROM usr_pref WHERE usr_id='".$this->id."'";	
+		$r = $this->ilias->db->query($q);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->prefs[$row["keyword"]] = $row["value"];
 		} // while	 
 
-		return $res->numRows();
+		return $r->numRows();
 	}
 	
 	/**
+	* TODO: method needs a revision! method call should be without any parameter OR with parameter, but not both!
 	* deletes a user
 	* @access	public
 	* @param	integer		user_id
@@ -379,7 +408,7 @@ class User
 	{
 		if (empty($a_user_id))
 		{
-			 $id = $this->Id;
+			 $id = $this->id;
 		}
 		else
 		{
@@ -397,53 +426,31 @@ class User
 	}
 	
 	/**
-	* builds a string with Title + Firstname + Surname
-	* 
+	* builds a string with title + firstname + surname
 	* @access	public
-	* @param	string	title
-	* @param	string	firstname
-	* @param	string	surname
-	* @return	string	fullname
 	*/
-	function buildFullName ($a_title = "",$a_firstname = "",$a_surname = "")
+	function setFullname ()
 	{
-		$num_args = func_num_args();
-		
-		switch ($num_args)
+		if ($this->title)
 		{
-			case 0:
-				if ($this->data["Title"])
-				{
-					$FullName = $this->data["Title"]." ";
-				}
-				if ($this->data["FirstName"])
-				{
-					$FullName .= $this->data["FirstName"]." ";
-				}
-				
-				$FullName .= $this->data["SurName"];				
-				break;
-				
-			case 3:
-				if ($a_title)
-				{
-					$FullName = $a_title." ";
-				}
-				
-				if ($a_firstname)
-				{
-					$FullName .= $a_firstname." ";
-				}
-				
-				$FullName .= $a_surname;			
-				break;
-				
-			default:
-				// Falsche Parameterzahl
-				break;		
+			$this->fullname = $this->title." ";
 		}
-		
-		return $FullName;
+				
+		if ($this->firstname)
+		{
+			$this->fullname .= $this->firstname." ";
+		}
+				
+		$this->fullname .= $this->lastname;			
+	}
+	
+	/**
+	* get fullname
+	* @access	public
+	*/	
+	function getFullname()
+	{
+		return $this->fullname;
 	}
 
 	/**
@@ -459,9 +466,9 @@ class User
 		//initialize array
 		$lessons = array();
 		//query
-		$sql = "SELECT * FROM lessons
-				WHERE user_fk='".$this->id."'
-				AND read=1";
+		$q = "SELECT * FROM lessons ".
+			 "WHERE user_fk='".$this->id."' ".
+			 "AND read='1'";
 				
 			$lessons[] = array(
 					"id" => 1,
@@ -594,77 +601,314 @@ class User
 	}
 
 	/**
-	* set first name
+	* set user id
+	* @param	integer
 	* @access	public
-	* @param	string	str
 	*/
-	function setFirstName($a_str)
+	function setId($a_id)
 	{
-		$this->data["FirstName"] = $a_str;
+		$this->id = $a_id;
 	}
 
 	/**
-	* set last name
+	* get user id
 	* @access	public
-	* @param	string	str
 	*/
-	function setLastName($a_str)
+	function getId()
 	{
-		$this->data["LastName"] = $a_str;
+		return $this->id;
+	}
+
+	/**
+	* set login / username
+	* @access	public
+	* @param	string	username
+	*/
+	function setLogin($a_str)
+	{
+		$this->login = $a_str;
+	}	
+	
+	/**
+	* get login / username
+	* @access	public
+	*/
+	function getLogin()
+	{
+		return $this->login;
+	}
+
+	/**
+	* set password md5 encrypted
+	* @access	public
+	* @param	string	passwd
+	*/
+	function setPasswd($a_str)
+	{
+		$this->passwd = md5($a_str);
+	}	
+	
+	/**
+	* get password (md5 hash)
+	* @access	public
+	*/
+	function getPasswd()
+	{
+		return $this->passwd;
 	}
 
 	/**
 	* set gender
 	* @access	public
-	* @param	string	str
+	* @param	string	gender
 	*/
 	function setGender($a_str)
 	{
-		$this->data["Gender"] = $a_str;
-	 }
+		$this->gender = substr($a_str,-1);
+	}
+	
+	/**
+	* get gender
+	* @access	public
+	*/
+	function getGender()
+	{
+		return $this->gender;
+	}
 
 	/**
 	* set title
 	* @access	public
-	* @param	string	str
+	* @param	string	title
 	*/
 	function setTitle($a_str)
 	{
-		$this->data["Title"] = $a_str;
+		$this->title = $a_str;
+	}
+
+	/**
+	* get title
+	* @access	public
+	*/
+	function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	* set firstname
+	* @access	public
+	* @param	string	firstname
+	*/
+	function setFirstname($a_str)
+	{
+		$this->firstname = $a_str;
+	}
+
+	/**
+	* get firstname
+	* @access	public
+	*/
+	function getFirstname()
+	{
+		return $this->firstname;
+	}
+
+	/**
+	* set lastame
+	* @access	public
+	* @param	string	lastname
+	*/
+	function setLastname($a_str)
+	{
+		$this->lastname = $a_str;
+	}
+	
+	/**
+	* get lastname
+	* @access	public
+	*/
+	function getLastname()
+	{
+		return $this->lastname;
+	}
+	
+	/**
+	* set institution
+	* @access	public
+	* @param	string	institution
+	*/
+	function setInstitution($a_str)
+	{
+		$this->institution = $a_str;
+	}
+
+	/**
+	* get institution
+	* @access	public
+	*/
+	function getInstitution()
+	{
+		return $this->institution;
+	}
+
+	/**
+	* set street
+	* @access	public
+	* @param	string	street
+	*/
+	function setStreet($a_str)
+	{
+		$this->street = $a_str;
+	}
+
+	/**
+	* get street
+	* @access	public
+	*/
+	function getStreet()
+	{
+		return $this->street;
+	}
+	
+	/**
+	* set city
+	* @access	public
+	* @param	string	city
+	*/
+	function setCity($a_str)
+	{
+		$this->city = $a_str;
+	}
+
+	/**
+	* get city
+	* @access	public
+	*/
+	function getCity()
+	{
+		return $this->city;
+	}
+
+	/**
+	* set zipcode
+	* @access	public
+	* @param	string	zipcode
+	*/
+	function setZipcode($a_str)
+	{
+		$this->zipcode = $a_str;
+	}
+
+	/**
+	* get zipcode
+	* @access	public
+	*/
+	function getZipcode()
+	{
+		return $this->zipcode;
+	}
+
+	/**
+	* set country
+	* @access	public
+	* @param	string	country
+	*/
+	function setCountry($a_str)
+	{
+		$this->country = $a_str;
+	}
+
+	/**
+	* get country
+	* @access	public
+	*/
+	function getCountry()
+	{
+		return $this->country;
+	}
+
+	/**
+	* set phone
+	* @access	public
+	* @param	string	phone
+	*/
+	function setPhone($a_str)
+	{
+		$this->phone = $a_str;
+	}
+
+	/**
+	* get phone
+	* @access	public
+	*/
+	function getPhone()
+	{
+		return $this->phone;
 	}
 
 	/**
 	* set email
 	* @access	public
-	* @param	string	str
+	* @param	string	email address
 	*/
 	function setEmail($a_str)
 	{
-		$this->data["Email"] = $a_str;
+		$this->email = $a_str;
 	}
 
 	/**
-	* set language
+	* get email address
 	* @access	public
-	* @param	string	str
+	*/
+	function getEmail()
+	{
+		return $this->email;
+	}
+
+	/**
+	* set user language
+	* @access	public
+	* @param	string	lang_key (i.e. de,en,fr,...)
 	*/
 	function setLanguage($a_str)
 	{
 		$this->prefs["language"] = $a_str;
 	}
 	
-	function setSkin($skin)
+	/**
+	* returns a 2char-language-string
+	* @access	public
+	* @return	string	language
+	*/
+	function getLanguage ()
 	{
-		$this->skin = $skin;
+		 return $this->data["language"];
 	}
 	
+	/**
+	* set user skin (template set)
+	* @access	public
+	* @param	string	directory name of template set
+	*/
+	function setSkin($a_str)
+	{	
+		// TODO: exception handling (dir exists)
+		$this->skin = $a_str;
+	}
+	
+	/*
+	* get user id by login name
+	* @param	integer	account id (should be username)
+	* @access	public
+	*/
 	function getUserId($AccountId)
 	{
-		$res = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
+		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
 		//query has got a result
-		if ($res->numRows() > 0)
+		if ($r->numRows() > 0)
 		{
-			$data = $res->fetchRow();
+			$data = $r->fetchRow();
 			$this->id = $data[0];
 			return $this->id;
 		}

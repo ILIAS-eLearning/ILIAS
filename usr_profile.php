@@ -119,12 +119,12 @@ $tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
 $tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
 $tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
 $tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
-$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("forename"));
+$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
-$tpl->setVariable("TXT_ZIP",$lng->txt("zip"));
+$tpl->setVariable("TXT_ZIP",$lng->txt("zipcode"));
 $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
 $tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
@@ -139,16 +139,24 @@ $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 $tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
 
 //values
-$tpl->setVariable("NICKNAME", $ilias->account->data["login"]);
-$tpl->setVariable("FIRSTNAME", $ilias->account->data["FirstName"]);
-$tpl->setVariable("LASTNAME", $ilias->account->data["SurName"]);
-$tpl->setVariable("EMAIL", $ilias->account->data["Email"]);
-$tpl->setVariable("SELECTED_".strtoupper($ilias->account->data["Gender"]), "selected");
-$tpl->setVariable("TITLE", $ilias->account->data["Title"]);
-$tpl->setVariable("INSTITUTION", $ilias->account->data["inst"]);
-$tpl->setVariable("CITY", $ilias->account->data["city"]);
-$tpl->setVariable("ZIP", $ilias->account->data["zip"]);
-$tpl->setVariable("PHONE", $ilias->account->data["phone"]);
+$tpl->setVariable("NICKNAME", $ilias->account->getLogin());
+$tpl->setVariable("SELECTED_".strtoupper($ilias->account->getGender()), "selected");
+$tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
+$tpl->setVariable("LASTNAME", $ilias->account->getLastname());
+$tpl->setVariable("TITLE", $ilias->account->getTitle());
+$tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
+$tpl->setVariable("STREET", $ilias->account->getStreet());
+$tpl->setVariable("ZIPCODE", $ilias->account->getZipCode());
+$tpl->setVariable("CITY", $ilias->account->getCity());
+$tpl->setVariable("COUNTRY", $ilias->account->getCountry());
+$tpl->setVariable("PHONE", $ilias->account->getPhone());
+$tpl->setVariable("EMAIL", $ilias->account->getEmail());
+
+
+
+
+
+
 $obj = getObject($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
 $tpl->setVariable("SYS_GRP",$obj["title"]);
 //button

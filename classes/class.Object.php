@@ -30,6 +30,12 @@ class Object
 	* @access	private
 	*/
 	var $id;
+	var $type;
+	var $title;
+	var $desc;
+	var $owner;
+	var $create_date;
+	var $last_update;
 	
 	/**
 	* object list
@@ -53,10 +59,9 @@ class Object
 		$this->parent = $_GET["parent"]; // possible deprecated
 		$this->parent_parent = $_GET["parent_parent"]; // // possible deprecated
 
-		$sql = "SELECT * FROM object_data
-				WHERE obj_id='".$this->id."'";
-		$res = $this->ilias->db->query($sql);
-		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		// get object data...
+		$data = getObject($this->id);
+		// ...and write data to class member variables 
 		$this->type = $data["type"];
 		$this->title = $data["title"];
 		$this->desc = $data["description"];
@@ -181,7 +186,7 @@ class Object
 		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_new_type))
 		{
 			// create and insert object in objecttree
-			$this->id = createNewObject($a_new_type, $a_data);
+			$this->id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
 			$tree->insertNode($this->id,$a_obj_id,$a_parent);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
@@ -280,7 +285,7 @@ class Object
 
 		if($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
-			updateObject($this->id, $this->type, $a_data);
+			updateObject($this->id,$a_data["title"],$a_data["desc"]);
 			$this->update = true;
 			return true;
 		}
@@ -458,9 +463,7 @@ class Object
 			// CHECK ACCESS 'create' rolefolder
 			if ($rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],'rolf'))
 			{
-				$role_obj["title"] = 'Role Folder';
-				$role_obj["desc"] = 'Automatisch generierter Role Folder';
-				$rolf_id = createNewObject("rolf",$role_obj);
+				$rolf_id = createNewObject("rolf","Role Folder","Automatisch generierter Role Folder");
 				$tree->insertNode($rolf_id,$_GET["obj_id"],$_GET["parent"]);
 				// Suche aller Parent Rollen im Baum
 				$parentRoles = $rbacadmin->getParentRoleIds();
@@ -481,9 +484,7 @@ class Object
 		// CHECK ACCESS 'write' of role folder
 		if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
 		{
-			$role_data["title"] = $_POST["Flocal_role"];
-			$role_data["desc"] = "";
-			$new_obj_id = createNewObject('role',$role_data);
+			$new_obj_id = createNewObject("role",$_POST["Flocal_role"],"No description");
 			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["obj_id"],'y');
 		}
 		else

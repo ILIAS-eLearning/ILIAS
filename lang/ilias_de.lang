@@ -329,7 +329,7 @@ common#:#payment_system#:#Bezahlungssystem
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
-common#:#personal_desktop#:#Personal Desktop
+common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_profile#:#persönliches Profil
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
@@ -448,4 +448,4 @@ common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
-common#:#zip#:#Postleitzahl
+common#:#zipcode#:#Postleitzahl

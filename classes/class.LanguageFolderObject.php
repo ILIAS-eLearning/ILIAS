@@ -4,11 +4,11 @@
 * contains all function to manage language support for ILIAS3
 * install, uninstall, checkfiles ....
 * 
-* @author Sascha Hofmann <shofmann@databay.de> 
-* @version $Id$
+* @author	Sascha Hofmann <shofmann@databay.de> 
+* @version	$Id$
 * 
-* @extends Object
-* @package ilias-core
+* @extends	Object
+* @package	ilias-core
 */
 class LanguageFolderObject extends Object
 {
@@ -58,6 +58,7 @@ class LanguageFolderObject extends Object
 	/**
 	* Constructor
 	* @access	public
+	* @param	integer	object id
 	*/
 	function LanguageFolderObject($a_id)
 	{
@@ -85,8 +86,6 @@ class LanguageFolderObject extends Object
 	* installed:	boolean		is the language installed (true) or not (false)?
 	* update:		int			contains the timestamp of last db-modification
 	* info:			string		optional information. valid is: 'notfound','new'
-	*
-	* @param	void
 	*
 	* @return	array	$languages	status information about available languages
 	*/
@@ -132,6 +131,11 @@ class LanguageFolderObject extends Object
 		parent::gatewayObject();
 	}
 
+	/*
+	* DESC MISSING
+	* 
+	* 
+	*/
 	function getLanguages ()
 	{
 		global $lng;
@@ -239,10 +243,7 @@ class LanguageFolderObject extends Object
 			{
 				if ($lang_data["info"] == "new_language")
 				{
-					$obj_data["title"] = $lang_key;
-					$obj_data["desc"] = "not_installed";
-					
-					$lng_id = createNewObject("lng", $obj_data);
+					$lng_id = createNewObject("lng", $lang_key, "not_installed");
 					
 					$a_languages[$lang_key] = getObject($lng_id);
 					$a_languages[$lang_key]["info"] = "new_language";
@@ -259,8 +260,8 @@ class LanguageFolderObject extends Object
 	* This function removes only the entry in db-table 'languages' and
 	* in the array $languages. Does not uninstall a language (see: function flushLanguage())
 	*
+	* @access	public
 	* @param	array	$languages
-	*
 	* @return	array	$languages	updated status information about available languages
 	*/
 	function removeLanguages($a_languages)
@@ -286,8 +287,9 @@ class LanguageFolderObject extends Object
 	/**
 	* output menu with list of available and installed languages
 	*
-	* @param	void
-	*
+	* @access	public
+	* @param	string	order column
+	* @param	string	order direction (possible values: ASC or DESC)
 	* @return	array	data to view passed to Out class
 	*/		
 	function viewObject($a_order, $a_direction)
@@ -347,22 +349,24 @@ class LanguageFolderObject extends Object
 		} //for
 		return $this->objectList;
 		
-	} //function
-	
+	}
 
+	/*
+	* DESC MISSING 
+	* 
+	* 
+	*/
 	function getSubObjects()	
 	{
 		return false;
-	} //function
+	}
 
 	/**
 	* install a language
 	*
 	* This function copy all language entries from a lang-file to database
 	*
-	* @param	void
-	*
-	* @return	void
+	* @return	string	system message
 	*/	
 	function installObject()
 	{
@@ -391,8 +395,7 @@ class LanguageFolderObject extends Object
 					$this->insertLanguage($lang_key);
 	
 					// update information in db-table about available/installed languages
-					$lang["desc"] = "installed";
-					updateObject($obj_id,"lng",$lang);
+					updateObject($obj_id,$lang_key,"installed");
 			
 					$this->optimizeLangdata();
 					
@@ -428,9 +431,7 @@ class LanguageFolderObject extends Object
 	* This function removes all language data from database and updates the language information
 	* in db-table 'languages'.
 	*
-	* @param	string	$lang_key	international language key (2 digits)
-	*
-	* @return	
+	* @return	string	system message
 	*/	
 	function uninstallObject()
 	{
@@ -451,9 +452,7 @@ class LanguageFolderObject extends Object
 			if (($lang_status == "installed") && ($lang_key != $this->lang_default) && ($lang_key != $this->lang_user))
 			{
 				$this->flushLanguage($lang_key);
-				
-				$lang["desc"] = "not_installed";
-				updateObject($obj_id,"lng",$lang);
+				updateObject($obj_id,$lang_key,"not_installed");
 
 				$this->resetUserLanguage($lang_key);
 				
@@ -507,12 +506,8 @@ class LanguageFolderObject extends Object
 	* refresh all installed languages
 	*
 	* This function flushes all installed languages and re-reads them from their lang-files
-	* 
-	* @param	void
-	*
-	* @return	string	$info_text	status message about final event within the function
+	* @return	string	system message
 	*/
-	// refreshes all installed languages
 	function refreshObject()
 	{
 		$languages = getObjectList("lng");
@@ -530,7 +525,9 @@ class LanguageFolderObject extends Object
 					$this->flushLanguage($lang_key);
 					$this->insertLanguage($lang_key);
 				
-					updateObject($obj_id,"lng",$lang);
+					// What is this update actually doing?? This makes only sense if
+					// table contains a timestamp column for auto update
+					updateObject($obj_id,$lang_key,$lang_status);
 
 					$this->optimizeLangdata();
 				}
@@ -543,9 +540,7 @@ class LanguageFolderObject extends Object
 	/**
 	* set default language (the system language)
 	*
-	* @param	string		lang_key
-	*
-	* @return	void
+	* @return	string	system message
 	*/
 	function setsyslangObject ()
 	{
@@ -592,7 +587,7 @@ class LanguageFolderObject extends Object
 	/**
 	* set the user language
 	* @access	public
-	* @param	string
+	* @return	string	system message
 	*/
 	function setuserlangObject ()
 	{
@@ -636,7 +631,6 @@ class LanguageFolderObject extends Object
 	/**
 	* set the user language
 	* @access	public
-	* @param	string
 	*/
 	function setUserLanguage($a_lang_key)
 	{
@@ -656,8 +650,7 @@ class LanguageFolderObject extends Object
 	* (module,identifier,value)
 	*
 	* @param	string		$lang_key	international language key (2 digits)
-	*
-	* @return	string		$info_text	message about results of check OR "1" if all checks successfully passed
+	* @return	string	system message
 	*/
 	function checkLanguage ($a_lang_key)
 	{
@@ -701,9 +694,7 @@ class LanguageFolderObject extends Object
 	* This function is similar to function checkLanguage() (see below) but checks for all
 	* lang-files and outputs more helpful information.
 	*
-	* @param	void
-	*
-	* @return	void
+	* @return	string	system message
 	*/
 	function checklangObject ()
 	{
@@ -798,8 +789,7 @@ class LanguageFolderObject extends Object
 	* This function seeks for a special keyword where the language information starts.
 	* if found it returns the plain language information, otherwise returns false
 	*
-	* @param	string	$content	expect an ILIAS lang-file
-	*
+	* @param	string	$content	expecting an ILIAS lang-file
 	* @return	string	$content	content without header info OR false if no valid header was found
 	*/
 	function cut_header ($content) {
@@ -819,8 +809,6 @@ class LanguageFolderObject extends Object
 	* if $lang_key ist not given all installed languages are removed from database
 	* 
 	* @param	string	$lang_key	international language key (2 digits)
-	*
-	* @return	void
 	*/
 	function flushLanguage ($a_lang_key)
 	{
@@ -833,8 +821,6 @@ class LanguageFolderObject extends Object
 	* insert language data form file in database
 	*
 	* @param	string	$lang_key	international language key (2 digits)
-	*
-	* @return	void
 	*/
 	function insertLanguage ($lang_key)
 	{
@@ -871,9 +857,7 @@ class LanguageFolderObject extends Object
 	/**
 	* optimizes the db-table langdata
 	*
-	* @param	void
-	*
-	* @return	void
+	* @return	boolean	true on success
 	*/
 	function optimizeLangdata () {
 
@@ -889,8 +873,6 @@ class LanguageFolderObject extends Object
 	* reset them to default language (english). A message is sent to all affected users
 	*
 	* @param	string		$lang_key	international language key (2 digits)
-	*
-	* @return	boolean					true: user(s) were affected
 	*/
 	function resetUserLanguage($lang_key)
 	{

@@ -14,6 +14,10 @@ require_once "./include/inc.header.php";
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
 
+$tpl->setCurrentBlock("subtitle");
+$tpl->setVariable("TXT_SUBTITLE",strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
+$tpl->parseCurrentBlock();
+
 //add template for buttons
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -212,7 +216,6 @@ if ($frmNum > 0)
 	
 }
 
-
+// output
 $tpl->show();
-
 ?>
