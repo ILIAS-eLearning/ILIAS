@@ -43,6 +43,7 @@ class ilTableGUI
 
 	var $header_names;			// titles of header columns
 	var $header_vars;			// var names of header columns (i.e. for database order column)
+	var $linkbar_vars;			// additional variables for linkbar
 
 	var $data;					// table content
 	
@@ -75,17 +76,24 @@ class ilTableGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilTableGUI($a_data = 0)
+	function ilTableGUI($a_data = 0,$a_global_tpl = true)
 	{
 		global $ilias, $tpl, $lng;
 		
 		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		if($a_global_tpl)
+		{
+			$this->tpl =& $tpl;
+		}
+		else
+		{
+			$this->tpl = new ilTemplate("tpl.table.html",true,true);
+		}
 		$this->lng =& $lng;
 		
 		$this->setData($a_data);
 	}
-	
+
 	/**
 	* set table data
 	* @access	public
@@ -331,7 +339,6 @@ class ilTableGUI
 			$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->icon_alt);
 			$this->tpl->parseCurrentBlock();
 		}
-		
 		// table title help
 		if ($this->enabled["help"] && $this->enabled["title"])
 		{
@@ -350,7 +357,6 @@ class ilTableGUI
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
 			$this->tpl->parseCurrentBlock();
 		}
-
 		// table header
 		foreach ($this->header_names as $key => $tbl_header_cell)
 		{
@@ -360,7 +366,7 @@ class ilTableGUI
 				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
 				$this->tpl->parseCurrentBlock();
 			}
-		
+			
 			$this->tpl->setCurrentBlock("tbl_header_cell");
 			$this->tpl->setVariable("TBL_HEADER_CELL",$tbl_header_cell);
 			
@@ -428,7 +434,6 @@ class ilTableGUI
 			$this->tpl->setVariable("NUMINFO", $numinfo);
 			$this->tpl->parseCurrentBlock();
 		}
-
 		// table footer linkbar
 		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0)
 		{
@@ -443,9 +448,8 @@ class ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-			
 			$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$this->max_count,$this->limit,$this->offset,$params,$layout);
-		
+
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 			$this->tpl->setVariable("LINKBAR", $linkbar);
 			$this->tpl->parseCurrentBlock();
@@ -460,6 +464,8 @@ class ilTableGUI
 		}
 
 		$this->tpl->touchBlock("tbl_form_footer");
+		
+		return $this->tpl->get();
 	}
 }
 ?>
