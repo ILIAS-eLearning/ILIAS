@@ -363,6 +363,7 @@ class ilPageObject extends ilLMObject
 	*/
 	function getMultimediaXML()
 	{
+//echo htmlentities($this->getXMLFromDom());
 		// determine all media aliases of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaObject/MediaAlias";

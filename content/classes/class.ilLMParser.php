@@ -502,7 +502,7 @@ class ilLMParser extends ilSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = false;
-
+//echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
 				// create media object on first occurence of an OriginId
 				if(empty($this->mob_mapping[$this->media_object->getImportId()]))
 				{
@@ -522,6 +522,9 @@ class ilLMParser extends ilSaxParser
 				}
 				else
 				{
+					// get the id from mapping
+					$this->media_object->setId($this->mob_mapping[$this->media_object->getImportId()]);
+
 					// update "real" (no alias) media object
 					// (note: we overwrite any data from the dummy mob
 					// created by an MediaAlias, only the data of the real
@@ -532,7 +535,6 @@ class ilLMParser extends ilSaxParser
 //echo "<b>REAL UPDATING STARTS HERE</b><br>";
 //echo "<b>>>".count($this->meta_data->technicals)."</b><br>";
 //echo "origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
-						$this->media_object->setId($this->mob_mapping[$this->media_object->getImportId()]);
 						$this->media_object->update();
 					}
 				}
@@ -541,6 +543,7 @@ class ilLMParser extends ilSaxParser
 				if ($this->in_page_object)
 				{
 					$this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
+//echo "Appending:".htmlentities($this->media_object->getXML(IL_MODE_ALIAS))."<br>";
 				}
 
 				break;
