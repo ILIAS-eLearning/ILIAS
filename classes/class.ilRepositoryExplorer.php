@@ -226,7 +226,7 @@ class ilRepositoryExplorer extends ilExplorer
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
 				$tmp_obj->initCourseMemberObject();
 
-				if(!$tmp_obj->isActivated())
+				if(!$tmp_obj->isActivated() and !$rbacsystem->checkAccess('write',$a_ref_id))
 				{
 					unset($tmp_obj);
 					return false;
