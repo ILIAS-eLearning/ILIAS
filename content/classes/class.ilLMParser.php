@@ -283,7 +283,7 @@ class ilLMParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-echo "BEGIN_TAG:".$a_name.":<br>";
+// echo "BEGIN_TAG:".$a_name.":<br>";
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -449,24 +449,8 @@ echo "BEGIN_TAG:".$a_name.":<br>";
 
 			case "Bibliography":
 				$this->in_bib_item = true;
-// echo "<br>---NEW METADATA---<br>";
+// echo "<br>---NEW BIBLIOGRAPHY---<br>";
 				$this->bib_item =& new ilBibItem();
-/*
-				if(!$this->in_media_object)
-				{
-					$this->current_object->assignMetaData($this->meta_data);
-					if(get_class($this->current_object) == "ilobjlearningmodule")
-					{
-//echo "starting new meta data for lm<br>";
-						$this->bib_item->setId($this->lm_object->getId());
-						$this->bib_item->setType("lm");
-					}
-				}
-				else
-				{
-					$this->media_object->assignMetaData($this->meta_data);
-				}
-*/
 				break;
                 
 		}
