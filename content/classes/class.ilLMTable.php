@@ -174,18 +174,14 @@ class ilLMTable extends ilPageContent
 		else		// content should be child of table
 		{
 			$tpos = $this->seq2TablePos($pos[0] - 1);
-echo "seq:".$pos[0]."<br>";
-echo "row:".$tpos["row"].":col:".$tpos["col"].":pos:".$tpos["pos"].":<br>";
 			for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
 			{
-echo "2";
-				if($i >= ($tpos["pos"] + 1))
+				if($i >= ($tpos["pos"] + 2))
 				{
-echo "3";
 					$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
 				}
 			}
-			$this->content[$tpos["pos"]] =& $a_cont_obj;
+			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + 1] =& $a_cont_obj;
 
 		}
 	}
