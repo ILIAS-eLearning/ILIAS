@@ -1445,10 +1445,7 @@ class ilPageObject
 
 			$plain_content = html_entity_decode($content);
 
-			if ($subchar != "")
-			{
-				$content = $this->highlightText($plain_content, $subchar);
-			}
+			$content = $this->highlightText($plain_content, $subchar);
 
 			$rows  	 = htmlentities ("<TR valign=\"top\">");
 			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
