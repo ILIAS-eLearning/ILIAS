@@ -60,10 +60,12 @@ class ilValidator extends PEAR
 	* @var	array
 	*/
 	var $mode = array(
-						"analyze"		=> true,
-						"clean" 		=> false,
-						"restore"		=> false,
-						"empty_trash"	=> false
+						"analyze"		=> true,		// gather information about corrupted entries
+						"clean" 		=> false,		// remove all unusable entries & renumber tree
+						"restore"		=> false,		// restore objects with invalid parent to RecoveryFolder
+						"purge"			=> false,		// delete all objects with invalid parent from system
+						"restore_trash"	=> false,		// restore all objects in trash to RecoveryFolder
+						"purge_trash"	=> false		// delete all objects in trash from system
 					);
 
 	/**
@@ -90,6 +92,17 @@ class ilValidator extends PEAR
 	*/
 	var $childs_with_invalid_parent = array();
 
+	/**
+	* objects in trash
+	* @var	array
+	*/
+	var $deleted_objects = array();
+
+	/**
+	* contains correct registrated objects but data are corrupted (experimental)
+	* @var	array
+	*/
+	var $invalid_objects = array();
 	/**
 	* Constructor
 	* 
@@ -137,6 +150,9 @@ class ilValidator extends PEAR
 			$this->mode[$a_mode] = $a_value;
 		}
 		
+		// consider mode dependencies
+		$this->setModeDependencies();
+
 		return true;
 	}
 	
@@ -157,6 +173,47 @@ class ilValidator extends PEAR
 		
 		return $this->mode[$a_mode];
 	}
+	
+	/**
+	* Sets modes by considering mode dependencies;
+	* some modes require other modes to be activated.
+	* This functions set all modes that are required according to the current setting.
+	* 
+	* @access	private
+	*/
+	function setModeDependencies()
+	{
+		// DO NOT change the order
+		
+		if ($this->mode["restore"] === true)
+		{
+			$this->mode["clean"] = true;
+			$this->mode["purge"] = false;
+		}
+
+		if ($this->mode["purge"] === true)
+		{
+			$this->mode["clean"] = true;
+			$this->mode["restore"] = false;
+		}
+
+		if ($this->mode["restore_trash"] === true)
+		{
+			$this->mode["clean"] = true;
+			$this->mode["purge_trash"] = false;
+		}
+
+		if ($this->mode["purge_trash"] === true)
+		{
+			$this->mode["clean"] = true;
+			$this->mode["restore_trash"] = false;
+		}
+
+		if ($this->mode["clean"] === true)
+		{
+			$this->mode["analyze"] = true;
+		}
+	}
 
 	/**
 	* Search database for all object entries with missing reference and/or tree entry
@@ -169,6 +226,9 @@ class ilValidator extends PEAR
 	*/
 	function findMissingObjects()
 	{
+		// init
+		$this->missing_objects = array();
+
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
@@ -224,6 +284,9 @@ class ilValidator extends PEAR
  	*/	
 	function findUnboundReferences()
 	{
+		// init
+		$this->unbound_references = array();
+
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
@@ -238,7 +301,7 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->unbound_references = array(
+			$this->unbound_references[] = array(
 											"ref_id"	=> $row->ref_id,
 											"obj_id"	=> $row->obj_id
 											);
@@ -271,6 +334,9 @@ class ilValidator extends PEAR
 	*/
 	function findUnboundChilds()
 	{
+		// init
+		$this->unbound_childs = array();
+
 		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
@@ -308,16 +374,21 @@ class ilValidator extends PEAR
 
 	/**
 	* Search database for all tree entries having no valid parent (=> no valid path to root node)
-	* and stores result in $this->childs-with_invalid_parent
+	* and stores result in $this->childs_with_invalid_parent
+	* Result also contains childs that are marked as deleted! Deleted childs has
+	* a negative number in ["deleted"] otherwise NULL.
 	*
 	* @access	public
 	* @return	boolean	false if analyze mode disabled or nothing found
 	* @see		this::getChildsWithInvalidParent()
 	* @see		this::restoreUnboundedChilds()
 	*/
-	function findChildsWithInvalidParent()
+	function findInvalidChilds()
 	{
+		// init
+		$this->childs_with_invalid_parent = array();
 		// check mode: analyze
+
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
@@ -330,16 +401,56 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->childs_with_invalid_parent = array(
-													"child"			=> $row->child,
-													"parent"		=> $row->parent,
-													"grandparent"	=> $row->grandparent,
-													"deleted"		=> $row->deleted
-													);
+			if ($row->deleted === NULL)
+			{
+				$this->childs_with_invalid_parent[] = array(
+															"child"			=> $row->child,
+															"parent"		=> $row->parent,
+															"tree"			=> 1
+															);
+			}
 		}
 
 		return (count($this->childs_with_invalid_parent) > 0) ? true : false;
 	}
+
+	/**
+	* Search database for all tree entries having no valid parent (=> no valid path to root node)
+	* and stores result in $this->childs_with_invalid_parent
+	* Result also contains childs that are marked as deleted! Deleted childs has
+	* a negative number in ["deleted"] otherwise NULL.
+	*
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getChildsWithInvalidParent()
+	* @see		this::restoreUnboundedChilds()
+	*/
+	function findDeletedObjects()
+	{
+		// init
+		$this->deleted_childs = array();
+		// check mode: analyze
+
+		if ($this->mode["analyze"] !== true)
+		{
+			return false;
+		}
+
+		$q = "SELECT tree,child,parent FROM tree WHERE tree !=1";
+		$r = $this->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->deleted_childs[] = array(
+											"child"		=> $row->child,
+											"parent"	=> $row->parent,
+											"tree"		=> $row->tree
+											);
+		}
+
+		return (count($this->deleted_childs) > 0) ? true : false;
+	}
+	
 
 	/**
 	* Gets all tree entries having no valid parent (=> no valid path to root node)
@@ -357,6 +468,11 @@ class ilValidator extends PEAR
 	function getChildsWithInvalidParent()
 	{
 		return $this->childs_with_invalid_parent;
+	}
+
+	function getDeletedObjects()
+	{
+		return $this->deleted_childs;
 	}
 
 	/**
@@ -465,7 +581,7 @@ remove starts here
 	* @see		this::getMissingObjects()
 	* @see		this::findMissingObjects()
 	*/
-	function restoreMissingObjects($a_rfolder_ref_id = NULL,$a_missing_objects = NULL)
+	function restoreMissingObjects($a_missing_objects = NULL,$a_rfolder_ref_id = NULL)
 	{
 		global $tree;
 
@@ -514,11 +630,11 @@ restore starts here
 		foreach ($a_missing_objects as $missing_obj)
 		{
 			// restore ref_id in case of missing
-			if ($missing_obj["ref_id"] == NULL)
+			if ($missing_obj["ref_id"] === NULL)
 			{
 				$missing_obj["ref_id"] = $this->restoreReference($missing_obj["obj_id"]);
 			}
-			
+
 			// put in tree under RecoveryFolder if not on exclude list
 			if (!in_array($missing_obj["type"],$this->object_types_exclude))
 			{
@@ -556,26 +672,96 @@ restore starts here
 	}
 
 	/**
-	* Restore objects (and their subobjects) that are valid but not linked correctly
-	* to the hierarchy because they point to an invalid parent_id
+	* Restore objects (and their subobjects) to RecoveryFolder that are valid but not linked correctly
+	* in the hierarchy because they point to an invalid parent_id
 	*
 	* @access	public
  	* @param	integer	ref_id of RecoveryFolder (optional)
 	* @param	array	list of childs with invalid parents (optional)
 	* @return	boolean false on error or restore mode disabled
-	* @see		this::getChildsWithInvalidParent()
-	* @see		this::findChildsWithInvalidParent()
+	* @see		this::getUnboundChilds()
+	* @see		this::restoreSubTrees()
 	*/
-	function restoreUnboundChilds($a_rfolder_ref_id = NULL,$a_childs_with_invalid_parent = NULL)
+	function restoreUnboundChilds($a_childs_with_invalid_parent = NULL,$a_rfolder_ref_id = NULL)
 	{
-		global $tree,$rbacadmin,$ilias;
-
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
 		{
 			return false;
 		}
 		
+		if ($a_childs_with_invalid_parent === NULL and isset($this->childs_with_invalid_parent))
+		{
+			$a_childs_with_invalid_parent = $this->childs_with_invalid_parent;
+		}
+
+		// handle wrong input
+		if (!is_array($a_childs_with_invalid_parent)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+		
+		// start restore process
+		return $this->restoreSubTrees($a_childs_with_invalid_parent,$a_rfolder_ref_id);
+	}
+	
+	/**
+	* Restore all objects in trash to RecoveryFolder
+	*
+	* @access	public
+ 	* @param	integer	ref_id of RecoveryFolder (optional)
+	* @param	array	list of deleted childs  (optional)
+	* @return	boolean false on error or restore mode disabled
+	* @see		this::findUnboundChilds()
+	* @see		this::restoreSubTrees()
+	*/
+	function restoreTrash($a_deleted_childs = NULL,$a_rfolder_ref_id = NULL)
+	{
+		// check mode: restore
+		if ($this->mode["restore_trash"] !== true)
+		{
+			return false;
+		}
+		
+		if ($a_deleted_childs === NULL and isset($this->deleted_childs))
+		{
+			$a_deleted_childs = $this->deleted_childs;
+		}
+
+		// handle wrong input
+		if (!is_array($a_deleted_childs)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+		
+		// start restore process
+		$restored = $this->restoreSubTrees($a_deleted_childs,$a_rfolder_ref_id);
+		
+		if ($restored)
+		{
+			$q = "DELETE FROM tree WHERE tree!=1";
+			$this->db->query($q);
+		}
+		
+		return $restored;
+	}
+
+	/**
+	* Restore objects (and their subobjects) to RecoveryFolder
+	*
+	* @access	private
+	* @param	array	list of nodes
+ 	* @param	integer	ref_id of RecoveryFolder (optional)
+* 	* @return	boolean false on error or restore mode disabled
+	* @see		this::restoreDeletedChilds()
+	* @see		this::restoreUnboundChildst()
+	*/
+	function restoreSubTrees ($a_nodes,$a_rfolder_ref_id = NULL)
+	{
+		global $tree,$rbacadmin,$ilias;
+
 		if ($a_rfolder_ref_id === NULL)
 		{
 			if ($this->rfolder_ref_id !== NULL)
@@ -588,20 +774,15 @@ restore starts here
 			}
 		}
 		
-		if ($a_childs_with_invalid_parent === NULL and isset($this->childs_with_invalid_parent))
-		{
-			$a_childs_with_invalid_parent = $this->childs_with_invalid_parent;
-		}
-
 		// handle wrong input
-		if (!is_integer($a_rfolder_ref_id) or !is_array($a_childs_with_invalid_parent)) 
+		if (!is_integer($a_rfolder_ref_id) or !is_array($a_nodes)) 
 		{
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
 		}
 
 		// no invalid parents found. do nothing
-		if (count($a_childs_with_invalid_parent) == 0)
+		if (count($a_nodes) == 0)
 		{
 			return false;
 		}
@@ -611,10 +792,10 @@ restore starts here
 ********************/
 		
 		// process move subtree
-		foreach ($a_childs_with_invalid_parent as $entry)
+		foreach ($a_nodes as $node)
 		{
 			// get node data
-			$top_node = $tree->getNodeData($entry["child"]);
+			$top_node = $tree->getNodeData($node["child"]);
 			
 			// don't save rolefolders, remove them
 			// TODO process ROLE_FOLDER_ID
@@ -628,7 +809,7 @@ restore starts here
 			}
 
 			// get subnodes of top nodes
-			$subnodes[$entry["child"]] = $tree->getSubtree($top_node);
+			$subnodes[$node["child"]] = $tree->getSubtree($top_node);
 		
 			// delete old tree entries
 			$tree->deleteTree($top_node);
@@ -641,8 +822,8 @@ restore starts here
 			// first paste top_node ...
 			$rbacadmin->revokePermission($key);
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
-			$obj_data->putInTree($a_objRecover->getRefId());
-			$obj_data->setPermissions($a_objRecover->getRefId());
+			$obj_data->putInTree($a_rfolder_ref_id);
+			$obj_data->setPermissions($a_rfolder_ref_id);
 
 			// ... remove top_node from list ...
 			array_shift($subnode);
@@ -659,7 +840,95 @@ restore starts here
 				}
 			}
 		}
+
+		$this->findUnboundChilds();
+		$this->removeUnboundChilds();
 		
+		return true;
+	}
+	
+	/**
+	* Removes all objects in trash from system
+	* 
+	* @access	public
+	* @param	array	list of nodes to delete
+	* @return	boolean	true on success
+	*/
+	function purgeTrash($a_nodes = NULL)
+	{
+		// check mode: purge_trash
+		if ($this->mode["purge_trash"] !== true)
+		{
+			return false;
+		}
+		
+		if ($a_nodes === NULL and isset($this->deleted_childs))
+		{
+			$a_nodes = $this->deleted_childs;
+		}
+
+		// start purge process
+		return $this->purgeObjects($a_nodes);
+	}
+	
+	/**
+	* Removes all invalid objects from system
+	* 
+	* @access	public
+	* @param	array	list of nodes to delete
+	* @return	boolean	true on success
+	*/
+	function purgeUnboundObjects($a_nodes = NULL)
+	{
+		// check mode: purge
+		if ($this->mode["purge"] !== true)
+		{
+			return false;
+		}
+		
+		if ($a_nodes === NULL and isset($this->childs_with_invalid_parent))
+		{
+			$a_nodes = $this->childs_with_invalid_parent;
+		}
+
+		// start purge process
+		return $this->purgeObjects($a_nodes);
+	}
+	
+	/**
+	* 
+	* @access	private
+	* 
+	*/
+	function purgeObjects($a_nodes)
+	{
+		global $ilias;
+
+		// handle wrong input
+		if (!is_array($a_nodes)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+		
+		// start delete process
+		foreach ($a_nodes as $node)
+		{
+			$node_obj =& $ilias->obj_factory->getInstanceByRefId($node["child"],false);
+			
+			if ($node_obj === false)
+			{
+				$this->invalid_objects[] = $node;
+				continue;
+			}
+
+			$node_obj->delete();
+			ilTree::_removeEntry($node["tree"],$node["child"]);
+		}
+		
+		$this->findUnboundChilds();
+		$this->removeUnboundChilds();
+
 		return true;
 	}
 
