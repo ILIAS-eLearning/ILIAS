@@ -43,6 +43,7 @@ common#:#administrate#:#amministrare
 common#:#administration#:#amministrazione
 common#:#administrator#:#amministratore
 common#:#adopt#:#adopt###28 Mar 2003 new variable
+common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###29 Mar 2003 new variable
 common#:#also_as_email#:#anche come email
 common#:#announce#:#annunciare
 common#:#announce_changes#:#annunciare cambio
@@ -50,6 +51,7 @@ common#:#answers#:#answers
 common#:#archive#:#archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#assign_lo_forum#:#assegnare LO forum
+common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachments###28 Mar 2003 new variable
 common#:#author#:#author
@@ -71,6 +73,7 @@ common#:#cat#:#cat
 common#:#categories#:#categorie
 common#:#cc#:#cc
 common#:#change#:#cambiare
+common#:#change_existing_objects#:#Change existing Objects###29 Mar 2003 new variable
 common#:#change_language#:#set user language
 common#:#change_lo_info#:#cambia LO Informazioni
 common#:#change_metadata#:#cambia metadati
@@ -296,15 +299,20 @@ common#:#los#:#lezioni
 common#:#los_last_visited#:#ultima lezione visitata
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Mailbox###25 Mar 2003 new variable
+common#:#mail_add_recipient#:#Please enter a recipient###29 Mar 2003 new variable
+common#:#mail_add_subject#:#Please enter a subject###29 Mar 2003 new variable
 common#:#mail_add_to_addressbook#:#Add to addressbook###28 Mar 2003 new variable
 common#:#mail_addr_entries#:#Entries###28 Mar 2003 new variable
 common#:#mail_addressbook#:#Addressbook###28 Mar 2003 new variable
 common#:#mail_allow_smtp#:#Allow SMTP###25 Mar 2003 new variable
 common#:#mail_attachments#:#Attachments###25 Mar 2003 new variable
 common#:#mail_b_inbox#:#Inbox###25 Mar 2003 new variable
+common#:#mail_bc_not_valid#:#The Bc recipient is not valid###29 Mar 2003 new variable
 common#:#mail_bc_search#:#BC search###25 Mar 2003 new variable
 common#:#mail_c_trash#:#Trash###25 Mar 2003 new variable
+common#:#mail_cc_not_valid#:#The Cc recipient is not valid###29 Mar 2003 new variable
 common#:#mail_cc_search#:#CC search###25 Mar 2003 new variable
+common#:#mail_check_your_email_addr#:#Your email address is not valid###29 Mar 2003 new variable
 common#:#mail_compose#:#Compose Message###28 Mar 2003 new variable
 common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
@@ -335,8 +343,10 @@ common#:#mail_move_error#:#Error moving mail(s)###25 Mar 2003 new variable
 common#:#mail_move_to#:#Move mails to###25 Mar 2003 new variable
 common#:#mail_moved#:#The mail(s) have been moved###25 Mar 2003 new variable
 common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###28 Mar 2003 new variable
+common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###29 Mar 2003 new variable
 common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
 common#:#mail_options_of#:#Options:###28 Mar 2003 new variable
+common#:#mail_recipient_not_valid#:#The recipient is not valid###29 Mar 2003 new variable
 common#:#mail_s#:#mail
 common#:#mail_s_unread#:#messaggi non letti
 common#:#mail_saved#:#The message is saved###25 Mar 2003 new variable
@@ -351,6 +361,7 @@ common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###28 Mar 2003 new variable
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###28 Mar 2003 new variable
 common#:#mail_to_search#:#To search###25 Mar 2003 new variable
+common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###29 Mar 2003 new variable
 common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
 common#:#mails#:#messaggi
 common#:#mark_all_read#:#contrassegna tutto come letto

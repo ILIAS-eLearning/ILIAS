@@ -43,6 +43,7 @@ common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
+common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#also_as_email#:#Auch als eMail
 common#:#announce#:#ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
@@ -50,6 +51,7 @@ common#:#answers#:#Antworten
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen
+common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachments###28 Mar 2003 new variable
 common#:#author#:#Autor
@@ -71,6 +73,7 @@ common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#change#:#ändern
+common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#change_language#:#Benutzersprache ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
@@ -296,15 +299,20 @@ common#:#los#:#Lerneinheiten
 common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
+common#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+common#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 common#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
 common#:#mail_addr_entries#:#Einträge
 common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_attachments#:#Attachments
 common#:#mail_b_inbox#:#Posteingang
+common#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
 common#:#mail_bc_search#:#BC Empfänger suchen
 common#:#mail_c_trash#:#Papierkorb
+common#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
 common#:#mail_cc_search#:#CC Empfänger suchen
+common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
 common#:#mail_compose#:#Nachricht erstellen
 common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
@@ -335,8 +343,10 @@ common#:#mail_move_error#:#Fehler beim Senden der Nachricht
 common#:#mail_move_to#:#Nachricht(en) verschieben
 common#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 common#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_options_of#:#Einstellungen:
+common#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 common#:#mail_s#:#Nachrichten
 common#:#mail_s_unread#:#Ungelesene Nachrichten
 common#:#mail_saved#:#Ihre Nachricht wurde gespeichert
@@ -351,6 +361,7 @@ common#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelö
 common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
 common#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
 common#:#mail_to_search#:#Empfänger suchen
+common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
@@ -565,14 +576,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
-common#:#change_existing_objects#:#Vorhandene Objekte ändern
-common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
-common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
-common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
-common#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-common#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
-common#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
-common#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
-common#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig

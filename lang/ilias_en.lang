@@ -43,6 +43,7 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
+common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#also_as_email#:#Also as Email
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
@@ -50,6 +51,7 @@ common#:#answers#:#Answers
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign_lo_forum#:#Assign LO Forum
+common#:#assign_user_to_role#:#Assign User to Role
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
@@ -71,6 +73,7 @@ common#:#cat#:#Category
 common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#change#:#Change
+common#:#change_existing_objects#:#Change existing Objects
 common#:#change_language#:#Set User Language
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -296,15 +299,20 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
+common#:#mail_add_recipient#:#Please enter a recipient
+common#:#mail_add_subject#:#Please enter a subject
 common#:#mail_add_to_addressbook#:#Add to addressbook
 common#:#mail_addr_entries#:#Entries
 common#:#mail_addressbook#:#Addressbook
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_attachments#:#Attachments
 common#:#mail_b_inbox#:#Inbox
+common#:#mail_bc_not_valid#:#The Bc recipient is not valid
 common#:#mail_bc_search#:#BC search
 common#:#mail_c_trash#:#Trash
+common#:#mail_cc_not_valid#:#The Cc recipient is not valid
 common#:#mail_cc_search#:#CC search
+common#:#mail_check_your_email_addr#:#Your email address is not valid
 common#:#mail_compose#:#Compose Message
 common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
@@ -335,8 +343,10 @@ common#:#mail_move_error#:#Error moving mail(s)
 common#:#mail_move_to#:#Move mails to
 common#:#mail_moved#:#The mail(s) have been moved
 common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
+common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_options_of#:#Options:
+common#:#mail_recipient_not_valid#:#The recipient is not valid
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
 common#:#mail_saved#:#The message is saved
@@ -351,6 +361,7 @@ common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 common#:#mail_to_search#:#To search
+common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
@@ -565,14 +576,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
-common#:#assign_user_to_role#:#Assign User to Role
-common#:#change_existing_objects#:#Change existing Objects
-common#:#mail_check_your_email_addr#:#Your email address is not valid
-common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
-common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
-common#:#mail_add_subject#:#Please enter a subject
-common#:#mail_add_recipient#:#Please enter a recipient
-common#:#mail_recipient_not_valid#:#The recipient is not valid
-common#:#mail_cc_not_valid#:#The Cc recipient is not valid
-common#:#mail_bc_not_valid#:#The Bc recipient is not valid
