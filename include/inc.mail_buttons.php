@@ -20,46 +20,59 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
-
 $lng->loadLanguageModule("mail");
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+
+$script_name = basename($_SERVER["SCRIPT_FILENAME"]);
 
 $file_name = basename($_SERVER["SCRIPT_NAME"]);
+
+// FOLDER
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail.php?mobj_id=$_GET[mobj_id]&type=new");
+$tpl->setVariable("TAB_TEXT", $lng->txt("folder"));
+$tpl->parseCurrentBlock();
+
+
 // COMPOSE
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&type=new");
-$tpl->setVariable("BTN_TXT", $lng->txt("compose"));
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_new.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&type=new");
+$tpl->setVariable("TAB_TEXT", $lng->txt("compose"));
 $tpl->parseCurrentBlock();
 
 // ADDRESSBOOK
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]");
-$tpl->setVariable("BTN_TXT", $lng->txt("mail_addressbook"));
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_addressbook.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("TAB_TEXT", $lng->txt("mail_addressbook"));
 $tpl->parseCurrentBlock();
 
 // OPTIONS
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK", "mail_options.php?mobj_id=$_GET[mobj_id]");
-$tpl->setVariable("BTN_TXT", $lng->txt("options"));
+$tpl->setCurrentBlock("tab");
+$tpl->setVAriable("TAB_TYPE",$script_name == "mail_options.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_LINK", "mail_options.php?mobj_id=$_GET[mobj_id]");
+$tpl->setVariable("TAB_TEXT", $lng->txt("options"));
 $tpl->parseCurrentBlock();
 
 // FLATVIEW <-> TREEVIEW
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","mail_frameset.php?viewmode=tree");
-	$tpl->setVariable("BTN_TXT", $lng->txt("treeview"));
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVAriable("TAB_TYPE","tabinactive");
+	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=tree");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("treeview"));
 	$tpl->parseCurrentBlock();
 }
 else
 {
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","mail_frameset.php?viewmode=flat");
-	$tpl->setVariable("BTN_TARGET","target=\"_parent\"");
-	$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVAriable("TAB_TYPE","tabinactive");
+	$tpl->setVariable("TAB_LINK","mail_frameset.php?viewmode=flat");
+	$tpl->setVariable("TAB_TARGET","bottom");
+	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
 	$tpl->parseCurrentBlock();
 }
-$tpl->touchBlock("btn_row");
 
 ?>
