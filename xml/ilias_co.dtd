@@ -296,7 +296,7 @@
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
 	Language (%langcode;) #REQUIRED
-	Characteristic (Headline1 | Headline2 | Headline3 | Example | Citation | Mnemonic | Additional | List | Remark | Code | ZeroBorder) #IMPLIED
+	Characteristic (Headline1 | Headline2 | Headline3 | Example | Citation | Mnemonic | Additional | List | Remark | Code | TableContent) #IMPLIED
 	SubCharacteristic CDATA #IMPLIED
 	ShowLineNumbers (y | n) #IMPLIED
 	DownloadTitle CDATA #IMPLIED
