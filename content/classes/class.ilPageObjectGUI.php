@@ -41,13 +41,17 @@ class ilPageObjectGUI extends ilLMObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObjectGUI(&$a_lm_object, &$a_pg_object = null)
+	function ilPageObjectGUI(&$a_lm_object)
 	{
 		global $ilias, $tpl, $lng;
 
 		parent::ilLMObjectGUI($a_lm_object);
-		$this->pg_obj =& $a_pg_object;
 
+	}
+
+	function setPageObject(&$a_pg_obj)
+	{
+		$this->pg_obj =& $a_pg_obj;
 	}
 
 	/*
