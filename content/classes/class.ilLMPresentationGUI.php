@@ -575,6 +575,7 @@ class ilLMPresentationGUI
 			$a_id = $_GET["obj_id"];
 		}
 
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		if($lm_tree->isInTree($a_id))

@@ -289,6 +289,7 @@ class ilLMEditorGUI
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->setVariable("HEADER", $a_header_title);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->displayLocator();
 		$this->setAdminTabs($a_type);
 	}

@@ -575,12 +575,12 @@ class ilMetaData
 	{
 		$query = "REPLACE INTO meta_data (obj_id, obj_type, title,".
 			"language, description) VALUES ".
-			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
-			"'".$this->getLanguage()."','".$this->getDescription."')";
+			"('".$this->getId()."','".$this->getType()."','".ilUtil::prepareDBString($this->getTitle())."',".
+			"'".$this->getLanguage()."','".ilUtil::prepareDBString($this->getDescription())."')";
 		$this->ilias->db->query($query);
 		$this->updateKeywords();
 		$this->updateTechnicalSections();
-		
+
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
 			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk")
 		{
@@ -608,7 +608,7 @@ class ilMetaData
 				{
 					$this->setTitle($this->meta["Title"]["Value"]);
 					$this->setDescription($this->meta["Description"][0]["Value"]);
-					$query = "UPDATE lm_data SET title = '".$this->meta["Title"]["Value"]."' WHERE ".
+					$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
 							 "obj_id = '" . $this->getID() . "'";
 					$this->ilias->db->query($query);
 				}
@@ -631,7 +631,7 @@ class ilMetaData
 		{
 			$query = "INSERT INTO meta_keyword (obj_id, obj_type, language, keyword) ".
 				"VALUES ('".$this->getId()."','".$this->getType().
-				"','".$keyword["language"]."','".$keyword["keyword"]."')";
+				"','".$keyword["language"]."','".ilUtil::prepareDBString($keyword["keyword"])."')";
 			$this->ilias->db->query($query);
 		}
 	}

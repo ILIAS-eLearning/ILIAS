@@ -165,7 +165,7 @@ class ilLMObject
 	{
 		// insert object data
 		$query = "INSERT INTO lm_data (title, type, lm_id, import_id) ".
-			"VALUES ('".$this->getTitle()."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId()."')";
+			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId()."')";
 		$this->ilias->db->query($query);
 		$this->setId(getLastInsertId());
 
