@@ -794,6 +794,18 @@ class ASS_QuestionGUI extends PEAR {
 			$_POST["cmd"]["add"] = "";
 		}
 
+		// Check the creation of new answer text fields
+		if ($_POST["cmd"]["add"]) {
+			foreach ($_POST as $key => $value) {
+	   		if (preg_match("/answer_(\d+)/", $key, $matches)) {
+					if (!$value) {
+						$_POST["cmd"]["add"] = "";
+						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+					}
+			 	}
+		  }
+		}
+
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -1010,6 +1022,18 @@ class ASS_QuestionGUI extends PEAR {
 			$_POST["cmd"]["add"] = "";
 		}
 
+		// Check the creation of new answer text fields
+		if ($_POST["cmd"]["add"]) {
+			foreach ($_POST as $key => $value) {
+	   		if ((preg_match("/left_(\d+)_(\d+)/", $key, $matches)) or (preg_match("/right_(\d+)_(\d+)/", $key, $matches))) {
+					if (!$value) {
+						$_POST["cmd"]["add"] = "";
+						sendInfo($this->lng->txt("fill_out_all_matching_pairs"));
+					}
+			 	}
+		  }
+		}
+
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -1091,6 +1115,18 @@ class ASS_QuestionGUI extends PEAR {
 			// You cannot add answers before you enter the required data
       sendInfo($this->lng->txt("fill_out_all_required_fields_add_answers"));
 			$_POST["cmd"]["add"] = "";
+		}
+
+		// Check the creation of new answer text fields
+		if ($_POST["cmd"]["add"]) {
+			foreach ($_POST as $key => $value) {
+	   		if (preg_match("/answer_(\d+)/", $key, $matches)) {
+					if (!$value) {
+						$_POST["cmd"]["add"] = "";
+						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+					}
+			 	}
+		  }
 		}
 
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
