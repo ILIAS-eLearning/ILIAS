@@ -279,6 +279,7 @@ assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz
 assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do susunięcia!
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
 assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Procent rozwiązanych
@@ -2019,6 +2020,7 @@ content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
 content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#Nazwa adaptera API
 content#:#cont_api_func_prefix#:#Prefiks funkcji API
 content#:#cont_areas_deleted#:#Obszar mapy usunięty.

@@ -292,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
@@ -2045,6 +2046,7 @@ content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
 content#:#cont_all_pages#:#Усі Сторінки
 content#:#cont_alphabetic#:#Алфавітн a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Карта областей видалена.

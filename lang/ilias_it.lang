@@ -292,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, 
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi crearne di nuove.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentuale risolta
@@ -2043,6 +2044,7 @@ content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
 content#:#cont_alphabetic#:#Alfabetico a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#Nome del modulo Adapter (API)
 content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
 content#:#cont_areas_deleted#:#Aree cancellate.
