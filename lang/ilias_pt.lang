@@ -509,6 +509,7 @@ common#:#grp_delete#:#Delete Group###01 Mar 2004 new variable
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###01 Mar 2004 new variable
 common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###01 Mar 2004 new variable
 common#:#grp_edit#:#Editar Grupo
+common#:#grp_edit_permission#:#Change permission settings###01 Mar 2004 new variable
 common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necessita de pelo menos um administrador de grupo
 common#:#grp_err_error#:#Ocorreu um erro
