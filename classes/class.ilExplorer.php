@@ -581,6 +581,7 @@ class ilExplorer
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
+				$picture = "blank";
 				$tpl->setCurrentBlock("lines");
 				$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();

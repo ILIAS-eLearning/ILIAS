@@ -1,6 +1,6 @@
 body {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#E5E5E5;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	font-size:13px;
 	margin:10px;
@@ -12,7 +12,6 @@ td {
 
 .btnbar {
 	background-color:#ffffff;
-	background-image: url(blueshadow/images/navbar/back.gif);
 	color:#ffffff;
 }
 
@@ -58,55 +57,49 @@ table.std {
 	color:#222222;
 	background-color:#bbbbbb;
 	border-spacing: 1px;
-	border-style: outset;
-	border-color: #bbbbbb;
-	border-width: 1px;
+	border-width: 0px;
 }
 
 table.fullwidth {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#bbbbbb;
 	width:100%;
 	border-spacing:1px;
-	border-style:outset;
-	border-color:#bbbbbb;
-	border-width:1px;
+	border-width:0px;
 }
 
 table.ilPDSelectedItemBlock {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#E5E5E5;
 	width:100%;
 	border-spacing:0px;
-	border-style:outset;
-	border-color:#bbbbbb;
+	border-style:solid;
+	border-color:#909090;
 	border-width:1px;
+	border-top: 0px;
 }
 
 table.fullwidth_nowrap {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#bbbbbb;
 	width:100%;
 	border-spacing:1px;
-	border-style:outset;
-	border-color:#bbbbbb;
-	border-width:1px;
 	white-space: nowrap;
 }
 
 table.fullwidth_invisible {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#E5E5E5;
 	width:100%;
 	border-spacing:0px;
 }
 
 td.std {
-	padding:4px;
+	padding:3px;
 }
 
 th.il_invisible, td.il_invisible {
-	background-color:#b9c0d5;
+	background-color:#E5E5E5;
 	background-image: none;
 }
 
@@ -217,8 +210,8 @@ table.ilc_RepHeader {
 td.il_RepHeader
 {
 	padding:0px;
-	border-style: outset;
-	border-color:#E0E0F0;
+	border-style: solid;
+	border-color:#909090;
 	border-width: 1px;
 	margin-bottom: 0px;
 }
@@ -226,9 +219,7 @@ td.il_RepHeader
 div.il_RepHeader
 {
 	color:#222222;
-	background-color: #DBE6F4;
-	background-image: url(blueshadow/images/cellpic5.gif);
-	background-repeat:repeat-x;
+	background-color: #CCCCCC;
 }
 
 
@@ -252,8 +243,8 @@ div.il_Locator {
 	text-align:left;
 	background-color: #E0E0E0;
 	border-width: 1px;
-	border-style: outset;
-	border-color: #E0E0E0;
+	border-style: solid;
+	border-color: #909090;
 }
 
 span.il_LocatorTitle
@@ -284,11 +275,11 @@ a.tabactive
 	padding-bottom:0px;
 	margin-top:2px;
 	margin-bottom:2px;
-	border-width: 2px;
-	border-style: inset;
-	border-color: #DDDDDD;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
 	color: black;
-	background-color: #CCCCCC;
+	background-color: #D9D9D9;
 }
 
 a.tabinactive
@@ -300,19 +291,20 @@ a.tabinactive
 	margin-top:2px;
 	margin-bottom:2px;
 	border-width: 1px;
-	border-style: outset;
+	border-style: solid;
 	border-color: #DDDDDD;
+	border-color: #909090;
+	background-color: #EBEBEB;
 }
 
 /* Explorer */
 
 div.il_Explorer
 {
-	margin-top: 3px;
-	margin-left: 4px;
-	margin-right: 3px;
-	margin-bottom: 3px;
-	padding-top: 21px;
+	background-color: #FBFBFB;
+	border-color: #a0a0a0;
+	border-width: 1px;
+	border-style: solid;
 }
 
 div.il_RepExplorer
@@ -337,14 +329,11 @@ div.il_ExplorerHeader
 	text-align:left;
 	background-color:#E0E0E0;
 	border-width: 1px;
-	border-style: outset;
-	border-color: #E0E0E0;
+	border-style: solid;
+	border-color: #a0a0a0;
 	margin:0px;
 	font-weight: bold;
-	top: 0px;
-	left: 0px;
-	position: fixed;
-	width: 100%;
+	border-bottom:0px;
 }
 
 /* Table Links */
@@ -375,13 +364,11 @@ div.il_Header
 	margin-top:2px;
 	margin-bottom:5px;
 	color:#222222;
-	background-color: #DBE6F4;
 	border-width:1px;
-	border-color:#E0E0F0;
-	border-style:outset;
+	border-color:#909090;
+	border-style:solid;
 	padding:7px;
-	background-image: url(blueshadow/images/cellpic5.gif);
-	background-repeat:repeat-x;
+	background-color: #CCCCCC;
 }
 
 table.ilHeader
@@ -396,6 +383,41 @@ table.ilHeader
 	padding:7px;
 	background-image: url(blueshadow/images/cellpic5.gif);
 	background-repeat:repeat-x;
+}
+
+div.ilMainHeader
+{
+	background-image: url(blueshadow/images/HeaderBackground.gif);
+	background-repeat: no-repeat;
+	background-color: #F0F0F0;
+}
+
+a.ilMainHeader
+{
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+}
+
+div.ilLogin
+{
+	padding-top:0px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:0px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
 }
 
 div.il_Footer
@@ -417,8 +439,8 @@ h2 {
 	color:#222222;
 	background-color: #CCCCCC;
 	border-width:1px;
-	border-color:#BBBBBB;
-	border-style:outset;
+	border-color:#909090;
+	border-style:solid;
 	padding:4px;
 	margin-top:25px;
 	margin-bottom:0px;
@@ -493,8 +515,8 @@ span.il_Helptext {
 /* ----------------- normal links ------------- */
 
 a:link, a:visited {
-	font-weight:bold;
 	text-decoration:none;
+	font-weight: bold;
 	color:#2255a0;
 }
 
