@@ -3099,3 +3099,10 @@ survey#:#uploaded_material#:#Uploaded Material
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
 survey#:#view_phrase#:#View phrase
+survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
+survey#:#values#:#Values
+survey#:#value_nr_entered#:#Number of users that entered that value
+survey#:#category_nr_selected#:#Number of users that selected this category
+survey#:#percentage_of_selections#:#Percentage of users that selected this category
+survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
+survey#:#given_answers#:#Given answers

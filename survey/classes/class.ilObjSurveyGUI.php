@@ -1636,7 +1636,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 		$this->setLocator();
-		$this->tpl->setVariable("HEADER", $title);
+		if ($_GET["details"])
+		{
+			$add_title = "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter\">" . $this->lng->txt("hide_details") . "</a>";
+		}
+		else
+		{
+			$add_title = "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&details=1\">" . $this->lng->txt("show_details") . "</a>";
+		}
+		$this->tpl->setVariable("HEADER", "$title [$add_title]");
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", true);
 		$counter = 0;
@@ -1659,7 +1667,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TEXT", $questiontext);
 			$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
 			$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $eval["QUESTION_TYPE"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
 			$this->tpl->setVariable("MODE", $eval["MODE"]);
 			$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
 			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
@@ -1668,6 +1676,97 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
+			if ($_GET["details"])
+			{
+				$this->tpl->setCurrentBlock("detail");
+				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+				$this->tpl->setVariable("TEXT_QUESTION_TEXT", $this->lng->txt("question"));
+				$this->tpl->setVariable("QUESTION_TEXT", $data["questiontext"]);
+				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("question_type"));
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($eval["QUESTION_TYPE"]));
+				$this->tpl->setVariable("TEXT_USERS_ANSWERED", $this->lng->txt("users_answered"));
+				$this->tpl->setVariable("USERS_ANSWERED", $eval["USERS_ANSWERED"]);
+				$this->tpl->setVariable("TEXT_USERS_SKIPPED", $this->lng->txt("users_skipped"));
+				$this->tpl->setVariable("USERS_SKIPPED", $eval["USERS_SKIPPED"]);
+				switch ($eval["QUESTION_TYPE"])
+				{
+					case "qt_ordinal":
+						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
+						$this->tpl->setVariable("MODE", $eval["MODE"]);
+						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
+						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
+						$this->tpl->setVariable("TEXT_MEDIAN", $this->lng->txt("median"));
+						$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
+						$this->tpl->setVariable("TEXT_CATEGORIES", $this->lng->txt("categories"));
+						$categories = "";
+						foreach ($eval["variables"] as $key => $value)
+						{
+							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
+								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+						}
+						$categories = "<ol>$categories</ol>";
+						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+						break;
+					case "qt_nominal":
+						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
+						$this->tpl->setVariable("MODE", $eval["MODE"]);
+						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
+						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
+						$this->tpl->setVariable("TEXT_CATEGORIES", $this->lng->txt("categories"));
+						$categories = "";
+						foreach ($eval["variables"] as $key => $value)
+						{
+							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
+								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+						}
+						$categories = "<ol>$categories</ol>";
+						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+						break;
+					case "qt_metric":
+						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
+						$this->tpl->setVariable("MODE", $eval["MODE"]);
+						$this->tpl->setVariable("TEXT_MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
+						$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $eval["MODE_NR_OF_SELECTIONS"]);
+						$this->tpl->setVariable("TEXT_MEDIAN", $this->lng->txt("median"));
+						$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
+						$this->tpl->setVariable("TEXT_ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
+						$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
+						if ($eval["GEOMETRIC_MEAN"])
+						{
+							$this->tpl->setVariable("TEXT_GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
+							$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
+						}
+						if ($eval["HARMONIC_MEAN"])
+						{
+							$this->tpl->setVariable("TEXT_HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
+							$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
+						}
+						$this->tpl->setVariable("TEXT_VALUES", $this->lng->txt("values"));
+						$values = "";
+						foreach ($eval["values"] as $key => $value)
+						{
+							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" . 
+								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+								$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+						}
+						$values = "<ol>$values</ol>";
+						$this->tpl->setVariable("VALUE_VALUES", $values);
+						break;
+					case "qt_text":
+						$this->tpl->setVariable("TEXT_TEXTVALUES", $this->lng->txt("given_answers"));
+						$textvalues = "";
+						foreach ($eval["textvalues"] as $textvalue)
+						{
+							$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
+						}
+						$textvalues = "<ul>$textvalues</ul>";
+						$this->tpl->setVariable("VALUE_TEXTVALUES", $textvalues);
+						break;
+				}
+				$this->tpl->parseCurrentBlock();
+			}
 			$counter++;
 		}
 		
@@ -1698,8 +1797,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilUser;
 		
 		$message = "";
-		$this->object->setInvitation($_POST["invitation"]);
-		$this->object->setInvitationMode($_POST["mode"]);
+		$this->object->setInvitationAndMode($_POST["invitation"], $_POST["mode"]);
 		if ($_POST["cmd"]["disinvite"])
 		{
 			// disinvite users
@@ -1876,13 +1974,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function inviteObject()
 	{
 		global $rbacsystem;
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
+
+		if ($this->object->getStatus() == STATUS_OFFLINE)
+		{
+			$this->tpl->setCurrentBlock("survey_offline");
+			$this->tpl->setVariable("SURVEY_OFFLINE_MESSAGE", $this->lng->txt("survey_offline_message"));
+			$this->tpl->parseCurrentBlock();
+			return;
+		}
 		if ($_POST["cmd"]["cancel"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
 		if (count($_POST))
 		{
 			$this->writeInviteFormData();

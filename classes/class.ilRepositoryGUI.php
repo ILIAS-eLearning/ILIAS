@@ -1910,6 +1910,7 @@ class ilRepositoryGUI
 					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 					$surveys[$key]["complete"] = $row->complete;
 					$surveys[$key]["evaluation_access"] = $row->evaluation_access;
+					$surveys[$key]["status"] = $row->status;
 				}
 			}
 			
@@ -1941,7 +1942,7 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
-				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]))
+				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]) and ($svy_data["status"] == 0))
 				{
 					$tpl->setCurrentBlock("svy_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$svy_data["ref_id"]);
@@ -1961,7 +1962,7 @@ class ilRepositoryGUI
 				}
 
 				// add evaluation tool link
-				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]) and ($svy_data["complete"]) and ($svy_data["evaluation_access"]))
+				if (($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]) and $svy_data["complete"]) or ($svy_data["evaluation_access"] and $svy_data["complete"]))
 				{
 					$tpl->setCurrentBlock("svy_evaluation");
 					$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$svy_data["ref_id"]);

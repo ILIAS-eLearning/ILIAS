@@ -223,6 +223,10 @@ div.il_Footer
 	color:red;
 }
 
+.bold {
+	font-weight:bold;
+}
+
 /* ----------------- normal links ------------- */
 a {
 	text-decoration:none;

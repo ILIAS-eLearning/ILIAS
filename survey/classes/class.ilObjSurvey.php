@@ -820,6 +820,63 @@ class ilObjSurvey extends ilObject
 */
   function setInvitation($invitation = 0) {
     $this->invitation = $invitation;
+		// remove the survey from the personal desktops
+		$query = sprintf("DELETE FROM desktop_item WHERE type = %s AND item_id = %s",
+			$this->ilias->db->quote("svy"),
+			$this->ilias->db->quote($this->getRefId())
+		);
+		$result = $this->ilias->db->query($query);
+		if ($invitation == INVITATION_OFF)
+		{
+			// already removed prior
+		}
+		else if ($invitation == INVITATION_ON)
+		{
+			if ($this->getInvitationMode() == MODE_UNLIMITED)
+			{
+				$query = "SELECT usr_id FROM usr_data";
+				$result = $this->ilias->db->query($query);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
+						$this->ilias->db->quote($row["usr_id"]),
+						$this->ilias->db->quote($this->getRefId()),
+						$this->ilias->db->quote("svy")
+					);
+					$insertresult = $this->ilias->db->query($query);
+				}
+			}
+			else
+			{
+				$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
+					$this->ilias->db->quote($this->getSurveyId())
+				);
+				$result = $this->ilias->db->query($query);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$query = sprintf("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, NULL)",
+						$this->ilias->db->quote($row["user_fi"]),
+						$this->ilias->db->quote($this->getRefId()),
+						$this->ilias->db->quote("svy")
+					);
+					$insertresult = $this->ilias->db->query($query);
+				}
+				$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
+					$this->ilias->db->quote($this->getSurveyId())
+				);
+				$result = $this->ilias->db->query($query);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$group = new ilObjGroup($row["group_fi"]);
+					$members = $group->getGroupMemberIds();
+					foreach ($members as $user_id)
+					{
+						$user = new ilObjUser($user_id);
+						$user->addDesktopItem($this->getRefId(), "svy");
+					}
+				}
+			}
+		}
   }
 
 /**
@@ -844,7 +901,37 @@ class ilObjSurvey extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
+		$this->setInvitation($this->getInvitation());
   }
+	
+/**
+* Sets the invitation status and mode (a more performant solution if you change both)
+*
+* Sets the invitation status and mode (a more performant solution if you change both)
+*
+* @param integer $invitation The invitation status
+* @param integer $invitation_mode The invitation mode
+* @access public
+* @see $invitation_mode
+*/
+	function setInvitationAndMode($invitation = 0, $invitation_mode = 0)
+	{
+    $this->invitation_mode = $invitation_mode;
+		if ($invitation_mode == MODE_UNLIMITED)
+		{
+			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
+			$result = $this->ilias->db->query($query);
+		}
+		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
+		$this->setInvitation($invitation);
+	}
 
 /**
 * Sets the introduction text
@@ -1704,6 +1791,11 @@ class ilObjSurvey extends ilObject
 			$this->ilias->db->quote($user_id)
 		);
 		$result = $this->ilias->db->query($query);
+		if ($this->getInvitation() == INVITATION_ON)
+		{
+			$userObj = new ilObjUser($user_id);
+			$userObj->dropDesktopItem($this->getRefId(), "svy");
+		}
 	}
 
 /**
@@ -1729,6 +1821,11 @@ class ilObjSurvey extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		if ($this->getInvitation() == INVITATION_ON)
+		{
+			$userObj = new ilObjUser($user_id);
+			$userObj->addDesktopItem($this->getRefId(), "svy");
+		}
 	}
 
 /**
@@ -1746,6 +1843,16 @@ class ilObjSurvey extends ilObject
 			$this->ilias->db->quote($group_id)
 		);
 		$result = $this->ilias->db->query($query);
+		if ($this->getInvitation() == INVITATION_ON)
+		{
+			$group = new ilObjGroup($group_id);
+			$members = $group->getGroupMemberIds();
+			foreach ($members as $user_id)
+			{
+				$userObj = new ilObjUser($user_id);
+				$userObj->dropDesktopItem($this->getRefId(), "svy");
+			}
+		}
 	}
 
 /**
@@ -1770,6 +1877,17 @@ class ilObjSurvey extends ilObject
 				$this->ilias->db->quote($group_id)
 			);
 			$result = $this->ilias->db->query($query);
+		}
+		
+		if ($this->getInvitation() == INVITATION_ON)
+		{
+			$group = new ilObjGroup($group_id);
+			$members = $group->getGroupMemberIds();
+			foreach ($members as $user_id)
+			{
+				$userObj = new ilObjUser($user_id);
+				$userObj->addDesktopItem($this->getRefId(), "svy");
+			}
 		}
 	}
 	
@@ -2091,9 +2209,11 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		$cumulated = array();
+		$textvalues = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$cumulated["$row->value"]++;
+			array_push($textvalues, $row->textanswer);
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -2109,11 +2229,19 @@ class ilObjSurvey extends ilObject
 				$result_array["HARMONIC_MEAN"] = "";
 				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
+				foreach ($variables as $key => $value)
+				{
+					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => (float)((int)$cumulated[$key]/$result->numRows()));
+				}
 				break;
 			case "qt_ordinal":
 				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
+				foreach ($variables as $key => $value)
+				{
+					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => (float)((int)$cumulated[$key]/$result->numRows()));
+				}
 				ksort($cumulated, SORT_NUMERIC);
 				$median = array();
 				$total = 0;
@@ -2137,12 +2265,17 @@ class ilObjSurvey extends ilObject
 				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["HARMONIC_MEAN"] = "";
 				$result_array["MEDIAN"] = $median_value;
-				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
 			case "qt_metric":
 				$result_array["MODE"] = key($cumulated);
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				ksort($cumulated, SORT_NUMERIC);
+				$counter = 0;
+				foreach ($cumulated as $value => $nr_of_users)
+				{
+					$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => (float)($nr_of_users/$result->numRows()));
+				}
 				$median = array();
 				$total = 0;
 				$x_i = 0;
@@ -2192,7 +2325,7 @@ class ilObjSurvey extends ilObject
 					$result_array["HARMONIC_MEAN"] = "";
 				}
 				$result_array["MEDIAN"] = $median_value;
-				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
 			case "qt_text":
 				$result_array["ARITHMETIC_MEAN"] = "";
@@ -2201,7 +2334,8 @@ class ilObjSurvey extends ilObject
 				$result_array["MEDIAN"] = "";
 				$result_array["MODE"] = "";
 				$result_array["MODE_NR_OF_SELECTIONS"] = "";
-				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
+				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
+				$result_array["textvalues"] = $textvalues;
 				break;
 		}
 		return $result_array;
