@@ -498,7 +498,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
 		$tab[0]["ftabtype"] = "tabactive";  					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] ='ressources';
+		$tab[0]["tab_text"] ='resources';
 
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
@@ -643,7 +643,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("ressources"),"icon_grp_b.gif", $this->lng->txt("ressources"));
+		$tbl->setTitle($this->lng->txt("resources"),"icon_grp_b.gif", $this->lng->txt("resources"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -949,7 +949,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'ressources';
+		$tab[0]["tab_text"] = 'resources';
 
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
