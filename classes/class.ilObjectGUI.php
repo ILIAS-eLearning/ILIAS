@@ -1251,7 +1251,7 @@ class ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$num = 0;
-
+		$color = 1;		// DigiLib-Template
 		foreach($data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
@@ -1262,17 +1262,20 @@ class ilObjectGUI
 			// BLOCK CHECK INHERIT
 			$this->tpl->setCurrentBLock("CHECK_INHERIT");
 			$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
+			$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 			$this->tpl->parseCurrentBlock();
 		}
 		$num = 0;
 
 		foreach($data["permission"] as $ar_perm)
 		{
+			$color = 1;		// DigiLib-Template
 			foreach ($ar_perm["values"] as $box)
 			{
 				// BEGIN TABLE CHECK PERM
 				$this->tpl->setCurrentBlock("CHECK_PERM");
 				$this->tpl->setVariable("CHECK_PERMISSION",$box);
+				$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 				$this->tpl->parseCurrentBlock();
 				// END CHECK PERM
 			}
