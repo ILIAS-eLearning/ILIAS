@@ -106,7 +106,7 @@ class User
 			if ($this->prefs["skin"] == "")
 			{
 				//TODO: read it from default system settings
-			 	$this->prefs["skin"] = "default";
+			 	$this->prefs["skin"] = $this->ilias->ini->readVariable("layout","defaultskin");
 			}
 		}
 		else
