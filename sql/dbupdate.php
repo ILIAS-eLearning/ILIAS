@@ -4966,4 +4966,5 @@ if ($res->numRows())
 ?>
 <#331>
 ALTER TABLE `survey_questionblock` DROP COLUMN `obligatory`;
-
+<#332>
+ALTER  TABLE  `usr_data`  ADD  `agree_date` DATETIME DEFAULT  '0000-00-00 00:00' NOT NULL;
