@@ -115,6 +115,18 @@ class ilFileDataCourse extends ilFileData
 		return false;
 	}
 
+	function copy($a_from,$a_to)
+	{
+		if(@file_exists($a_from))
+		{
+			@copy($a_from,$this->getCoursePath().'/'.$a_to);
+
+			return true;
+		}
+		return false;
+	}
+
+
 	function addDirectory($a_rel_name)
 	{
 		ilUtil::makeDir($this->getCoursePath().'/'.$a_rel_name);
