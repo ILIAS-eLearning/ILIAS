@@ -73,8 +73,7 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -106,8 +105,7 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
 		}
 
-		header("Location: content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -152,8 +150,7 @@ class RoleTemplateObject extends Object
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
 
-			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
-			exit;
+			return true;
 		}
 		else
 		{
@@ -272,9 +269,8 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
 
-		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
-			   "&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
-		exit;
+
+		return true;
 	}
 
 	/**
@@ -296,10 +292,7 @@ class RoleTemplateObject extends Object
 			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
-			   "&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
-
-		exit;
+		return true;
 	}
 } // END class.RoleTemplateObject
 ?>

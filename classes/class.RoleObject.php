@@ -471,9 +471,7 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-
-		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
-		exit;
+		return true;
 	}
 
 	/**
@@ -506,8 +504,7 @@ class RoleObject extends Object
 				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 			}
 
-			header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
-			exit;
+			return true;
 		}
 		else
 		{
