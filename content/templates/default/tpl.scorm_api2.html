@@ -17,24 +17,24 @@ function ILIASLaunchSCO(sco_id)
 
 function ILIASSetValue(lvalue, rvalue)
 {
- 	return APIAdapter.IliasSetValue(lvalue, rvalue);
+ 	return document.APIAdapter.IliasSetValue(lvalue, rvalue);
 }
 
 function LMSGetValue(dataModelElement)
 {
- 	return APIAdapter.LMSGetValue(dataModelElement);
+ 	return document.APIAdapter.LMSGetValue(dataModelElement);
 }
 
 function LMSSetValue(dataModelElement,elemValue)
 {
-	return APIAdapter.LMSSetValue(dataModelElement,elemValue);
+	return document.APIAdapter.LMSSetValue(dataModelElement,elemValue);
 }
 
 function LMSInitialize(inString)
 {
-	APIAdapter.SetParameter(user_id, item_id, session_id, code_base);
+	document.APIAdapter.SetParameter(user_id, item_id, session_id, code_base);
 
-	APIAdapter.LMSInitialize(inString);
+	document.APIAdapter.LMSInitialize(inString);
 
 	//parent.parent._api.document.getElementById("APIAdapter").SetParameter(user_id, item_id, session_id, code_base);
  	//return parent.parent._api.document.getElementById("APIAdapter").LMSInitialize(inString);
@@ -42,32 +42,32 @@ function LMSInitialize(inString)
 
 function LMSFinish(inString)
 {
-	return APIAdapter.LMSFinish(inString);
+	return document.APIAdapter.LMSFinish(inString);
 }
 
 function LMSCommit(inString)
 {
- return APIAdapter.LMSCommit(inString);
+ return document.APIAdapter.LMSCommit(inString);
 }
 
 function LMSGetLastError()
 {
- 	return APIAdapter.LMSGetLastError();
+ 	return document.APIAdapter.LMSGetLastError();
 }
 
 function LMSGetErrorString(errorNumber)
 {
- 	return APIAdapter.LMSGetErrorString(errorNumber);
+ 	return document.APIAdapter.LMSGetErrorString(errorNumber);
 }
 
 function LMSGetDiagnostics(inString)
 {
-	return LMSGetDiagnostics(inString);
+	return document.APIAdapter.LMSGetDiagnostics(inString);
 }
 
 function LMSTerminate(inString)
 {
- return APIAdapter.LMSFinish(inString);
+ return document.APIAdapter.LMSFinish(inString);
 }
 </script>
 
@@ -75,11 +75,14 @@ function LMSTerminate(inString)
 
 <body>
 
-<applet code="IliasAPIAdapterApplet" codebase="." archive="" ID="APIAdapter" NAME="APIAdapter" width="0" height="0">
+<applet code="IliasAPIAdapterApplet" codebase="./apiadapter"
+	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
+	ID="APIAdapter" NAME="APIAdapter" width="0" height="0">
 <param name = "code" value = "IliasAPIAdapterApplet" >
 <param name = "type" value="application/x-java-applet">
 <param name = "mayscript" value="true" >
 <param name = "scriptable" value="true" >
+<param name = "ref_id" value="{REF_ID}" >
 <param name = "cmi.core.student_id" value="{USER_ID}">
 <param name = "cmi.core.student_name" value="lastname, firstname">
 <param name = "session_id" value="{SESSION_ID}">
