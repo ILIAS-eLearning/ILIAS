@@ -87,6 +87,46 @@ class SurveyNominalQuestionGUI {
 	}
 
 /**
+* Creates an output for the confirmation to delete categories
+*
+* Creates an output for the confirmation to delete categories
+*
+* @access public
+*/
+  function showDeleteCategoryForm() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_confirm_remove_categories.html", true);
+		$rowclass = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
+				$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", $key);
+				$this->tpl->setVariable("HIDDEN_VALUE", $value);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+		}
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_nominal");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Creates an output of the edit form for the question
 *
 * Creates an output of the edit form for the question
@@ -96,11 +136,9 @@ class SurveyNominalQuestionGUI {
   function showEditForm() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
-
     // output of existing single response answers
 		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
-			$this->tpl->setCurrentBlock("deletebutton");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setCurrentBlock("cat_selector");
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("categories");
@@ -119,9 +157,36 @@ class SurveyNominalQuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if ($_POST["cmd"]["move"])
+		{
+			$checked_move = 0;
+			foreach ($_POST as $key => $value) 
+			{
+				if (preg_match("/chb_category_(\d+)/", $key, $matches))
+				{
+					$checked_move++;
+					$this->tpl->setCurrentBlock("move");
+					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
+					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			if ($checked_move)
+			{
+				$this->tpl->setCurrentBlock("move_buttons");
+				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+				$this->tpl->parseCurrentBlock();
+				sendInfo($this->lng->txt("select_target_position_for_move"));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_category_selected_for_move"));
+			}
+		}
+		
 		// call to other question data
 		$this->outOtherQuestionData();
-
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
@@ -129,8 +194,18 @@ class SurveyNominalQuestionGUI {
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->getQuestiontext());
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
+		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+		$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
 		$this->tpl->setVariable("TXT_SR", $this->lng->txt("multiple_choice_single_response"));
 		$this->tpl->setVariable("TXT_MR", $this->lng->txt("multiple_choice_multiple_response"));
+		if ($this->object->getSubtype() == SUBTYPE_MCSR)
+		{
+			$this->tpl->setVariable("SELECTED_SR", " selected=\"selected\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("SELECTED_MR", " selected=\"selected\"");
+		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
@@ -161,7 +236,7 @@ class SurveyNominalQuestionGUI {
 			}
 			$this->tpl->setCurrentBlock("materiallist_block");
 			$i = 1;
-			foreach ($this->question->materials as $key => $value) {
+			foreach ($this->object->materials as $key => $value) {
 				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
 				$this->tpl->setVariable("MATERIAL_VALUE", $key);
 				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
@@ -170,15 +245,72 @@ class SurveyNominalQuestionGUI {
 			}
 			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
 			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("COLSPAN_MATERIAL", "colspan=\"4\" ");
+			$this->tpl->setVariable("COLSPAN_MATERIAL", " colspan=\"3\"");
 			$this->tpl->parse("mainselect_block");
 		}
 		
 		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
 		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
 		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("COLSPAN_MATERIAL", "colspan=\"4\" ");
+		$this->tpl->setVariable("COLSPAN_MATERIAL", " colspan=\"3\"");
 		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Removes selected categories from the question
+*
+* Removes selected categories from the question
+*
+* @access public
+*/
+	function removeCategories() {
+		if ($_POST["cmd"]["confirm_delete"]) {
+			$delete_categories = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
+					array_push($delete_categories, $matches[1]);
+				}
+			}
+			if (count($delete_categories))
+			{
+				foreach ($delete_categories as $id)
+				{
+					$this->object->removeCategory($id);
+				}
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_category_selected_for_deleting"));
+			}
+		}
+	}
+
+/**
+* Checks if there are any categories selected for deleting
+*
+* Checks if there are any categories selected for deleting
+*
+* @result boolean TRUE, if there are categories checked for deleting, otherwise FALSE
+* @access public
+*/
+	function canRemoveCategories() {
+		if ($_POST["cmd"]["delete"]) {
+			$delete_categories = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
+					array_push($delete_categories, $matches[1]);
+				}
+			}
+			if (count($delete_categories))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		return FALSE;
 	}
 
 /**
@@ -193,6 +325,10 @@ class SurveyNominalQuestionGUI {
     $result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
+
+    // Set the question id from a hidden form parameter
+    if ($_POST["id"] > 0)
+      $this->object->setId($_POST["id"]);
 
 		if (($result) and ($_POST["cmd"]["add"])) {
 			// You cannot add answers before you enter the required data
@@ -216,31 +352,66 @@ class SurveyNominalQuestionGUI {
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
     $this->object->setQuestiontext(ilUtil::stripSlashes($_POST["question"]));
+		$this->object->setSubtype($_POST["type"]);
     // adding materials uris
     $saved = $this->writeOtherPostData();
 
     // Delete all existing categories and create new categories from the form data
     $this->object->flushCategories();
 
-    // Add all categories from the form into the object
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/category_(\d+)/", $key, $matches)) {
-				$this->object->addCategory($value);
+		$array1 = array();
+		$array2 = array();
+	
+		// Move selected categories
+		$move_categories = array();
+		$selected_category = -1;
+		if (($_POST["cmd"]["insert_before"]) or ($_POST["cmd"]["insert_after"]))
+		{
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/^move_(\d+)$/", $key, $matches))
+				{
+					array_push($move_categories, $value);
+					array_push($array2, $_POST["category_$value"]);
+				}
+				if (preg_match("/^chb_category_(\d+)/", $key, $matches))
+				{
+					if ($selected_category < 0)
+					{
+						// take onley the first checked category (if more categories are checked)
+						$selected_category = $matches[1];
+					}
+				}
 			}
 		}
-
-    // After adding all categories from the form we have to check if the learner pressed a delete button
-    foreach ($_POST as $key => $value) {
-      // was one of the answers deleted
-      if (preg_match("/delete_(\d+)/", $key, $matches)) {
-        $this->object->removeCategory($matches[1]);
-      }
-    }
-
-    // Set the question id from a hidden form parameter
-    if ($_POST["id"] > 0)
-      $this->object->setId($_POST["id"]);
-
+		
+    // Add all categories from the form into the object
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/^category_(\d+)/", $key, $matches)) {
+				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
+				{
+					array_push($array1, $value);
+				}
+			}
+		}
+		if ($selected_category >= 0)
+		{
+			$array_pos = array_search($_POST["category_$selected_category"], $array1);
+			if ($_POST["cmd"]["insert_before"])
+			{
+				$part1 = array_slice($array1, 0, $array_pos);
+				$part2 = array_slice($array1, $array_pos);
+			}
+			else if ($_POST["cmd"]["insert_after"])
+			{
+				$part1 = array_slice($array1, 0, $array_pos + 1);
+				$part2 = array_slice($array1, $array_pos + 1);
+			}
+			$array1 = array_merge($part1, $array2, $part2);
+		}
+		
+		$this->object->addCategoryArray($array1);
+		
 		if ($saved) {
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be

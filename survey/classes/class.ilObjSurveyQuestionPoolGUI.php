@@ -99,6 +99,59 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 	
 /**
+* Creates a confirmation form to delete questions from the question pool
+*
+* Creates a confirmation form to delete questions from the question pool
+*
+* @param array $checked_questions An array with the id's of the questions checked for deletion
+* @access public
+*/
+	function deleteQuestionsForm($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_questions.html", true);
+		$whereclause = join($checked_questions, " OR survey_question.question_id = ");
+		$whereclause = " AND (survey_question.question_id = " . $whereclause . ")";
+		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$whereclause ORDER BY survey_question.title";
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->description);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+	
+/**
 * Displays a form to edit/create a survey question
 *
 * Displays a form to edit/create a survey question
@@ -110,9 +163,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		// catch feedback message
-		sendInfo();
 
 		if (!$questiontype)
 		{
@@ -129,9 +179,27 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$question->object->loadFromDb($_GET["edit"]);
 		}
+		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"])
+		{ 
+			// reload the question after canceling the confirmation to delete categories
+			$question->object->loadFromDb($_POST["id"]);
+		}
+		
 		$question->object->setRefId($_GET["ref_id"]);
-		$this->setLocator("", "", "", $question->object->getTitle());
 
+		if ($_POST["cmd"]["delete"])
+		{
+			if ($question->canRemoveCategories())
+			{
+				sendInfo($this->lng->txt("category_delete_confirm"));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("category_delete_select_none"));
+				$_POST["cmd"]["delete"] = "";
+			}
+		}
+		
     if (strlen($_POST["cmd"]["cancel"]) > 0) {
       // Cancel
       $this->cancelAction();
@@ -139,9 +207,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 
     $question_type = $question->getQuestionType();
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"])) {
+    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"])) {
       $missing_required_fields = $question->writePostData();
     }
+
+		// catch feedback message
+		sendInfo();
+
+		$this->setLocator("", "", "", $question->object->getTitle());
+
+		if ($_POST["cmd"]["confirm_delete"]) {
+			$question->removeCategories();
+		}
+		
     if (strlen($_POST["cmd"]["save"]) > 0) {
       // Save and back to question pool
       if (!$missing_required_fields) {
@@ -160,6 +238,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
       }
     }
+		
     if ($question->object->getId() > 0) {
       $title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
     } else {
@@ -167,7 +246,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 		$this->tpl->setVariable("HEADER", $title);
 
-		$question->showEditForm();
+		if ($_POST["cmd"]["delete"])
+		{
+			$question->showDeleteCategoryForm();
+		}
+		else
+		{
+			$question->showEditForm();
+		}
 	}
 	
 	/**
@@ -204,14 +290,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 */    $add_parameter = $this->getAddParameter();
 
     // create an array of all checked checkboxes
-/*    $checked_questions = array();
+    $checked_questions = array();
     foreach ($_POST as $key => $value) {
       if (preg_match("/cb_(\d+)/", $key, $matches)) {
         array_push($checked_questions, $matches[1]);
       }
     }
     
-    if (strlen($_POST["cmd"]["edit"]) > 0) {
+/*    if (strlen($_POST["cmd"]["edit"]) > 0) {
       // edit button was pressed
       if (count($checked_questions) > 1) {
         sendInfo($this->lng->txt("qpl_edit_select_multiple"));
@@ -226,13 +312,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         }
       }
     }
-    
+*/    
     if (strlen($_POST["cmd"]["delete"]) > 0) {
       // delete button was pressed
       if (count($checked_questions) > 0) {
         if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
 					sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
-					$this->deleteQuestions($checked_questions);
+					$this->deleteQuestionsForm($checked_questions);
 					return;
 				} else {
           sendInfo($this->lng->txt("qpl_delete_rbac_error"));
@@ -253,11 +339,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 			}
       foreach ($checked_questions as $key => $value) {
-        $this->object->delete_question($value);
+        $this->object->removeQuestion($value);
       }
 		}
 
-    if (strlen($_POST["cmd"]["duplicate"]) > 0) {
+  /*  if (strlen($_POST["cmd"]["duplicate"]) > 0) {
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
         foreach ($checked_questions as $key => $value) {

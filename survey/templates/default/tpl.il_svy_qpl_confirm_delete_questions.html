@@ -1,0 +1,25 @@
+<form name="deleteQuestions" method="post" action="{FORM_ACTION}">
+<table class="fullwith">
+<tr class="tblheader">
+<td class="std">{TXT_TITLE}</td>
+<td class="std">{TXT_DESCRIPTION}</td>
+<td class="std">{TXT_TYPE}</td>
+</tr>
+<!-- BEGIN row -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}">{TXT_TITLE}</td>
+<td class="{COLOR_CLASS}">{TXT_DESCRIPTION}</td>
+<td class="{COLOR_CLASS}">{TXT_TYPE}</td>
+</tr>
+<!-- END row -->
+<tr class="std">
+<td class="std" colspan="3">
+<input type="submit" name="cmd[confirm_delete]" value="{BTN_CONFIRM}" />
+<input type="submit" name="cmd[cancel]" value="{BTN_CANCEL}" />
+</td>
+</tr>
+</table>
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+</form>
