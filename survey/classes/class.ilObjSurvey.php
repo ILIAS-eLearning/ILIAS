@@ -2107,11 +2107,13 @@ class ilObjSurvey extends ilObject
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["HARMONIC_MEAN"] = "";
-				$result_array["MODE"] = $variables[key($cumulated)]->title;
+				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
 				break;
 			case "qt_ordinal":
+				$result_array["MODE"] = (key($cumulated)+1) . " - " . $variables[key($cumulated)]->title;
+				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				ksort($cumulated, SORT_NUMERIC);
 				$median = array();
 				$total = 0;
@@ -2135,11 +2137,11 @@ class ilObjSurvey extends ilObject
 				$result_array["GEOMETRIC_MEAN"] = "";
 				$result_array["HARMONIC_MEAN"] = "";
 				$result_array["MEDIAN"] = $median_value;
-				$result_array["MODE"] = $variables[key($cumulated)]->title;
-				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
 				break;
 			case "qt_metric":
+				$result_array["MODE"] = key($cumulated);
+				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				ksort($cumulated, SORT_NUMERIC);
 				$median = array();
 				$total = 0;
@@ -2190,8 +2192,6 @@ class ilObjSurvey extends ilObject
 					$result_array["HARMONIC_MEAN"] = "";
 				}
 				$result_array["MEDIAN"] = $median_value;
-				$result_array["MODE"] = key($cumulated);
-				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				$result_array["QUESTION_TYPE"] = $this->lng->txt($questions[$question_id]["type_tag"]);
 				break;
 			case "qt_text":
