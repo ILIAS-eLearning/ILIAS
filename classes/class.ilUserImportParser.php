@@ -52,6 +52,7 @@ class ilUserImportParser extends ilSaxParser
 		global $lng, $tree;
 
 		$this->roles = array();
+		$this->mode = $a_mode;
 
 		parent::ilSaxParser($a_xml_file);
 	}
@@ -69,12 +70,23 @@ class ilUserImportParser extends ilSaxParser
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
 
+	/**
+	* start the parser
+	*/
 	function startParsing()
 	{
 		parent::startParsing();
 	}
 
-
+	/**
+	* set import to local role assignemt
+	*
+	* @param	array		role assignment (key: import id; value: local role id)
+	*/
+	function setRoleAssignment($a_assign)
+	{
+		$this->role_assign = $a_assign;
+	}
 
 	/**
 	* generate a tag with given name and attributes
@@ -109,11 +121,36 @@ class ilUserImportParser extends ilSaxParser
 	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
 	{
 
-		switch($a_name)
+		// extract roles mode
+		if ($this->mode == IL_EXTRACT_ROLES)
 		{
-			case "Role":
-				$this->current_role_id = $a_attribs["Id"];
-				break;
+			switch($a_name)
+			{
+				case "Role":
+					$this->current_role_id = $a_attribs["Id"];
+					break;
+			}
+		}
+
+		// extract roles mode
+		if ($this->mode == IL_USER_IMPORT)
+		{
+			switch($a_name)
+			{
+				case "Role":
+					$this->current_role_id = $a_attribs["Id"];
+					break;
+
+				case "User":
+					$this->userObj = new ilObjUser();
+					$this->userObj->setLanguage($a_attribs["Language"]);
+					$this->userObj->setImportId($a_attribs["Id"]);
+					break;
+
+				case "Password":
+					$this->currPasswordType = $a_attribs["Type"];
+					break;
+			}
 		}
 	}
 
@@ -123,13 +160,142 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser, $a_name)
 	{
+		global $ilias;
 
-		switch($a_name)
+		// extract roles mode
+		if ($this->mode == IL_EXTRACT_ROLES)
 		{
-			case "Role":
-				$this->roles[$this->current_role_id] = $this->cdata;
-				break;
+			switch($a_name)
+			{
+				case "Role":
+					$this->roles[$this->current_role_id] = $this->cdata;
+					break;
+			}
+		}
 
+		// user import mode
+		if ($this->mode == IL_USER_IMPORT)
+		{
+			switch($a_name)
+			{
+				case "Role":
+					$this->roles[$this->current_role_id] = $this->cdata;
+					break;
+
+				case "User":
+
+// for test purposes
+if ($this->userObj->getLogin() == "guest123")
+{
+					// checks passed. save user
+					$this->userObj->setTitle($this->userObj->getFullname());
+					$this->userObj->setDescription($this->userObj->getEmail());
+					$this->userObj->create();
+
+					//insert user data in table user_data
+					$this->userObj->saveAsNew();
+
+					// set user preferences
+					$this->userObj->setPref("skin",
+						$ilias->ini->readVariable("layout","skin"));
+					$this->userObj->setPref("style",
+						$ilias->ini->readVariable("layout","style"));
+					$this->userObj->writePrefs();
+
+					//set role entries
+					foreach($this->roles as $role_id => $role)
+					{
+						$rbacadmin->assignUser($this->role_assign[$role_id],
+							$this->userObj->getId(), true);
+					}
+
+					// init role array for next user
+					$this->roles[] = array();
+}
+					break;
+
+				case "Login":
+					$this->userObj->setLogin($this->cdata);
+					break;
+
+				case "Password":
+					switch ($this->currPasswordType)
+					{
+						case "ILIAS2":
+							$this->userObj->setIlias2EncPasswd($this-cdata);
+							break;
+
+						case "ILIAS3":
+							$this->userObj->setEncPasswd($this-cdata);
+							break;
+					}
+					break;
+
+				case "Firstname":
+					$this->userObj->setFirstname($this->cdata);
+					break;
+
+				case "Lastname":
+					$this->userObj->setLastname($this->cdata);
+					$this->userObj->setFullname();
+					break;
+
+				case "Title":
+					$this->userObj->setUTitle($this->cdata);
+					break;
+
+				case "Gender":
+					$this->userObj->setGender($this->cdata);
+					break;
+
+				case "Email":
+					$this->userObj->setEmail($this->cdata);
+					break;
+
+				case "Institution":
+					$this->userObj->setInstitution($this->cdata);
+					break;
+
+				case "Street":
+					$this->userObj->setStreet($this->cdata);
+					break;
+
+				case "City":
+					$this->userObj->setCity($this->cdata);
+					break;
+
+				case "PostalCode":
+					$this->userObj->setZipCode($this->cdata);
+					break;
+
+				case "Country":
+					$this->userObj->setCountry($this->cdata);
+					break;
+
+				case "PhoneOffice":
+					$this->userObj->setPhoneOffice($this->cdata);
+					break;
+
+				case "PhoneHome":
+					$this->userObj->setPhoneHome($this->cdata);
+					break;
+
+				case "PhoneMobile":
+					$this->userObj->setPhoneMobile($this->cdata);
+					break;
+
+				case "Fax":
+					$this->userObj->setFax($this->cdata);
+					break;
+
+				case "Hobby":
+					$this->userObj->setHobby($this->cdata);
+					break;
+
+				case "Department":
+					$this->userObj->setDepartment($this->cdata);
+					break;
+			}
 		}
 
 		$this->cdata = "";

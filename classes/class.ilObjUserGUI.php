@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.76 2004/02/05 10:24:16 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.77 2004/02/18 17:21:36 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -722,10 +722,10 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// setup user preferences
 		$userObj->setLanguage($_POST["Fobject"]["language"]);
-		
+
 		//set user skin and style
 		$sknst = explode(":", $_POST["Fobject"]["skin_style"]);
-			
+
 		if ($userObj->getPref("style") != $sknst[1] ||
 			$userObj->getPref("skin") != $sknst[0])
 		{
@@ -738,6 +738,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
+		/* moved the following to ObjUser->saveasNew
 		// CREATE ENTRIES FOR MAIL BOX
 		include_once ("classes/class.ilMailbox.php");
 		$mbox = new ilMailbox($userObj->getId());
@@ -750,7 +751,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// create personal bookmark folder tree
 		include_once "classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $userObj->getId());
-		$bmf->createNewBookmarkTree();
+		$bmf->createNewBookmarkTree();*/
 
 		sendInfo($this->lng->txt("user_added"),true);
 

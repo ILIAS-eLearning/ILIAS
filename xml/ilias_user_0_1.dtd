@@ -20,11 +20,15 @@
 <!ELEMENT Role (#PCDATA)>
 <!ATTLIST Role
 	Id CDATA #Required
+	Type (Global | Local) #REQUIRED
 >
 
 <!-- Other Elements -->
 <!ELEMENT Login (#PCDATA)>
 <!ELEMENT Password (#PCDATA)>
+<!ATTLIST Password
+	Type (ILIAS2 | ILIAS3) #REQUIRED
+>
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
 <!ELEMENT Title (#PCDATA)>
