@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.27 2003/02/26 13:44:10 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.28 2003/02/28 15:57:54 akill Exp $
 *
 * @package ilias-core
 */
@@ -23,7 +23,7 @@ class ObjectOut
 	* @access	private
 	*/
 	var $objDefinition;
-	
+
 	/**
 	* template object
 	* @var		object ilias
@@ -59,7 +59,7 @@ class ObjectOut
 	function ObjectOut($a_data)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
-		
+
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
@@ -124,7 +124,7 @@ class ObjectOut
 		{
 			$a_obj_id = $_GET["obj_id"]; 
 		}
-		
+
 		if (!($a_parent))
 		{
 			$a_parent = $_GET["parent"]; 
@@ -176,7 +176,7 @@ class ObjectOut
 		}
 
 		$this->tpl->setCurrentBlock("locator");
-		
+
 		if (DEBUG)
 		{
 			$debug = "DEBUG: <font color=\"red\">".$_GET["type"]."::".$a_obj_id."::".$_GET["cmd"]."</font><br>";
@@ -194,9 +194,83 @@ class ObjectOut
 	}
 
 	/**
+	* gateway for all button actions
+	* @access	public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		include_once ("classes/class.Admin.php");
+
+		$admin = new Admin();
+
+		switch(key($_POST["cmd"]))
+		{
+			case "cut":
+				$this->data = $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+
+			case "copy":
+				$this->data = $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+
+			case "link":
+				$this->data = $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
+				break;
+
+			case "paste":
+				$this->data = $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
+				break;
+
+			case "clear":
+				$this->data = $admin->clearObject();
+				break;
+
+			case "delete":
+				$this->confirmDeleteAdmObject();
+				break;
+
+			case "btn_undelete":
+				$this->data = $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]);
+				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				exit();
+				break;
+
+			case "btn_remove_system":
+				$this->data = $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]);
+				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				exit();
+				break;
+
+			case "cancel":
+				session_unregister("saved_post");
+				break;
+
+			case "confirm":
+				$this->data = $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
+				break;
+
+			default:
+				$this->data = false;
+		}
+
+		if (key($_POST["cmd"]) != "delete")
+		{
+			header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+			exit();
+		}
+	}
+
+
+	/**
 	* this methods handles all button actions
 	* @access	public
 	*/
+	/*
 	function gatewayObject()
 	{
 		global $lng;
@@ -222,7 +296,7 @@ class ObjectOut
 					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 				exit();
 		}
-	}
+	}*/
 
 	function createObject()
 	{
@@ -520,6 +594,30 @@ class ObjectOut
 	function confirmDeleteAdmObject()
 	{
 
+		global $lng;
+
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		unset($this->data);
+		$this->data["cols"] = array("type", "title", "description", "last_change");
+
+		foreach($_POST["id"] as $id)
+		{
+			$obj_data = getObject($id);
+			$this->data["data"]["$id"] = array(
+				"type"        => $obj_data["type"],
+				"title"       => $obj_data["title"],
+				"desc"        => $obj_data["desc"],
+				"last_update" => $obj_data["last_update"]);
+		}
+		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
+								  "confirm"  => $lng->txt("confirm"));
+
 		$this->getTemplateFile("confirm");
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
@@ -538,7 +636,7 @@ class ObjectOut
 		foreach($this->data["data"] as $key => $value)
 		{
 			// BEGIN TABLE CELL
-			
+
 			foreach($value as $key => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
@@ -570,6 +668,8 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+
 	function trashObject()
 	{
 		$this->getTemplateFile("confirm");

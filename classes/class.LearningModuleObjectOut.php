@@ -3,8 +3,8 @@
 * Class LearningModuleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.10 2003/02/26 15:29:02 shofmann Exp $
+* @author Sascha Hofmann <shofmann@databay.de>
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.11 2003/02/26 18:03:48 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -83,7 +83,7 @@ class LearningModuleObjectOut extends ObjectOut
 			case "import":
 				return $this->importObject();
 				break;
-				
+
 			case "export":
 				return;
 				break;
@@ -113,19 +113,46 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 
 	}
-	
+
+
+
 	/**
 	* display status information or report errors messages
 	* in case of error
-	* 
+	*
 	* @access	public
 	*/
 	function uploadObject()
 	{
+		global $HTTP_POST_FILES;
+
+		require_once "classes/class.LearningModuleObject.php";
+
+		// check if file was uploaded
+		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
+		if (($source == 'none') || (!$source))
+		{
+			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check correct file type
+		if ($HTTP_POST_FILES["xmldoc"]["type"] != "text/xml")
+		{
+			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		//
+		$lmObj = new LearningModuleObject($_GET["obj_id"]);
+		$this->data = $lmObj->upload(	$_POST["parse_mode"],
+										$HTTP_POST_FILES["xmldoc"]["tmp_name"],
+										$HTTP_POST_FILES["xmldoc"]["name"]);
+		unset($lmObj);
+
+
 		header("Location: adm_object.php?cmd=view&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
 			   "&message=".urlencode($this->data["msg"]));
 		exit();
-		
+
 		//nada para mirar ahora :-)
 	}
 } // END class.LeraningObject
