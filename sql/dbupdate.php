@@ -5722,3 +5722,38 @@ CREATE TABLE `settings_deactivated_styles` (
 $query = "INSERT INTO settings (keyword, value) VALUES ('default_repository_view','flat')";
 $this->db->query($query);
 ?>
+<#409>
+<?php
+// ADD new permission push desktop items
+$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'usrf'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$type_id = $row->obj_id;
+}
+
+// INSERT new operation push_sesktop_items
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'push_desktop_items', description = 'Allow pushing desktop items'";
+
+$this->db->query($query);
+// GET new ops_id
+$query = "SELECT LAST_INSERT_ID() as ops_id FROM rbac_operations ";
+$res = $this->db->getRow($query);
+$ops_id = $res->ops_id;
+
+// INSERT in rbac_ta
+$query = "INSERT INTO rbac_ta SET typ_id = '".$type_id."', ops_id = '".$ops_id."'";
+$this->db->query($query);
+?>
+<#410>
+<?php
+$query = "SELECT * FROM object_data ".
+	"WHERE type = 'typ' AND title = 'crsg'";
+
+$res = $this->db->getRow($query);
+$ops_id = $res->obj_id;
+
+$query = "DELETE FROM rbac_ta WHERE typ_id = '".$ops_id."'";
+$this->db->query($query);
+?>

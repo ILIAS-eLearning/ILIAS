@@ -4703,3 +4703,14 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+common#:#desktop_items#:#Ausgewählte Angebote
+common#:#role_desk_add#:#Angebot zuordnen
+common#:#role_assigned_desk_items#:#Zugeordnete Angebote
+common#:#role_select_one_item#:#Bitte wählen Sie mindestens ein Objekt aus.
+common#:#role_select_desktop_item#:#Bitte wählen Sie ein Objekt aus, das Benutzern die dieser Rolle zugeordnet werden automatisch auf den Persönlichen Schreibtisch gelegt wird.
+common#:#role_assigned_desktop_item#:#Ein neues Objekt wurde dieser Rolle zugeordnet.
+common#:#role_sure_delete_desk_items#:#Sind sie sicher, daß diese Zuordnung entfernt werden soll?
+common#:#role_deleted_desktop_items#:#Die Zuordnung wurde entfernt.
+common#:#role_desk_none_created#:#Dieser Rolle sind keine Angebote zugeordnet.
+common#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte auf den Persönlichen Schreibtisch zu legen.
+common#:#role_no_users_no_desk_items#:#Dieser Rolle können an dieser Stelle keine Benutzer zugeordnet werden, daher können hier auch keine Angebote verwaltet werden.

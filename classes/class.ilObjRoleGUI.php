@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.90 2005/02/14 12:32:59 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.91 2005/02/15 13:34:13 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -59,6 +59,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		define("USER_FOLDER_ID",7);
+
 		global $ilCtrl;
 
 		$this->type = "role";
@@ -89,6 +91,223 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		return true;
 	}
+
+	function listDesktopItemsObject()
+	{
+		global $rbacsystem,$rbacreview,$tree;
+
+		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		{
+			sendInfo($this->lng->txt('role_no_users_no_desk_items'));
+			return true;
+		}
+
+		include_once './classes/class.ilRoleDesktopItem.php';
+
+		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+
+		$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
+		if(!count($items = $role_desk_item_obj->getAll()))
+		{
+			sendInfo($this->lng->txt('role_desk_none_created'));
+
+			return true;
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html");
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+
+		$counter = 0;
+		foreach($items as $role_item_id => $item)
+		{
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_id']);
+			
+			if(strlen($desc = $tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_DESK",$desc);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("desk_row");
+			$this->tpl->setVariable("DESK_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("CHECK_DESK",ilUtil::formCheckBox(0,'del_desk_item[]',$role_item_id));
+			$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path').':');
+			$this->tpl->setVariable("PATH",$this->__formatPath($tree->getPathFull($item['item_id'])));
+			$this->tpl->parseCurrentBlock();
+		}
+			
+		return true;
+	}
+
+	function askDeleteDesktopItemObject()
+	{
+		global $rbacsystem;
+		
+		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_POST['del_desk_item']))
+		{
+			sendInfo($this->lng->txt('role_select_one_item'));
+
+			$this->listDesktopItemsObject();
+
+			return true;
+		}
+		sendInfo($this->lng->txt('role_sure_delete_desk_items'));
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html");
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role_b.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+
+		include_once './classes/class.ilRoleDesktopItem.php';
+
+		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+
+		$counter = 0;
+		foreach($_POST['del_desk_item'] as $role_item_id)
+		{
+			$item_data = $role_desk_item_obj->getItem($role_item_id);
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($item_data['item_id']);
+
+			if(strlen($desc = $tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_DESK",$desc);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("desk_row");
+			$this->tpl->setVariable("DESK_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->parseCurrentBlock();
+		}
+		$_SESSION['role_del_desk_items'] = $_POST['del_desk_item'];
+
+		return true;
+	}
+
+	function deleteDesktopItemsObject()
+	{
+		global $rbacsystem;
+		
+		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_SESSION['role_del_desk_items']))
+		{
+			sendInfo($this->lng->txt('role_select_one_item'));
+
+			$this->listDesktopItemsObject();
+
+			return true;
+		}
+
+		include_once './classes/class.ilRoleDesktopItem.php';
+
+		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+
+		foreach($_SESSION['role_del_desk_items'] as $role_item_id)
+		{
+			$role_desk_item_obj->delete($role_item_id);
+		}
+
+		sendInfo($this->lng->txt('role_deleted_desktop_items'));
+		$this->listDesktopItemsObject();
+
+		return true;
+	}
+
+
+	function selectDesktopItemObject()
+	{
+		global $rbacsystem,$tree;
+
+		include_once './classes/class.ilRoleDesktopItemSelector.php';
+		include_once './classes/class.ilRoleDesktopItem.php';
+		
+
+		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html");
+		$this->__showButton('listDesktopItems',$this->lng->txt('back'));
+
+
+		sendInfo($this->lng->txt("role_select_desktop_item"));
+		
+		$exp = new ilRoleDesktopItemSelector($this->ctrl->getLinkTarget($this,'selectDesktopItem'),
+											 new ilRoleDesktopItem($this->object->getId()));
+		$exp->setExpand($_GET["role_desk_item_link_expand"] ? $_GET["role_desk_item_link_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'selectDesktopItem'));
+		
+		$exp->setOutput(0);
+		
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+
+		return true;
+	}
+
+	function assignDesktopItemObject()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+	
+		if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!isset($_GET['item_id']))
+		{
+			sendInfo($this->lng->txt('role_no_item_selected'));
+			$this->selectDesktopItemObject();
+
+			return false;
+		}
+		include_once './classes/class.ilRoleDesktopItem.php';
+
+		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
+
+		sendInfo($this->lng->txt('role_assigned_desktop_item'));
+		$this->listDesktopItemsObject();
+
+		return true;
+	}
+
+		
+		
 
 	/**
 	* display role create form
@@ -1587,5 +1806,25 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		return true;
 	}
+
+
+	function __formatPath($a_path_arr)
+	{
+		$counter = 0;
+		foreach($a_path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " -> ";
+			}
+			$path .= $data['title'];
+		}
+		if(strlen($path) > 50)
+		{
+			return '...'.substr($path,-50);
+		}
+		return $path;
+	}
+
 } // END class.ilObjRoleGUI
 ?>
