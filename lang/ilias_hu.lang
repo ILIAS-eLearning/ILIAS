@@ -1,0 +1,3280 @@
+﻿/**
+* ILIAS language file
+*
+* @module		language file hungary
+* @modulegroup	language
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version		$Id: ilias_hu.lang,v 1.0 2004/09/28 00:00:00
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+administration#:#analyze_data#:#Vizsgálja meg az adatintegritást!
+administration#:#analyze_desc#:#A rendszer átvizsgálása sérült / érvénytelen / hiányzó / gazdátlan adatokért.
+administration#:#analyzing#:#Vizsgálat …
+administration#:#clean#:#Rendbetétel
+administration#:#clean_desc#:#Érvénytelen hivatkozások és keresőfa-bejegyzések eltávolítása. Zárja le az üres helyeket a keresőfa struktúrában!
+administration#:#cleaning#:#Tisztítás …
+administration#:#cleaning_final#:#Befejező tisztítás …
+administration#:#closing_gaps#:#Üres helyek lezárása a keresőfában ….
+administration#:#disabled#:#letiltva
+administration#:#done#:#Elvégezve
+administration#:#found#:#találat.
+administration#:#found_none#:#nincs találat.
+administration#:#log_scan#:#Eseménynapló eredmények
+administration#:#log_scan_desc#:#Keresési eredmények kliens adatkönyvtár 'scanlog.log'-jába írása.
+administration#:#nothing_to_purge#:#Semmi nem került eltávolításra ….
+administration#:#nothing_to_remove#:#Semmi nem került eltávolításra …
+administration#:#nothing_to_restore#:#Semmi nem került helyreállításra …
+administration#:#options#:#Beállítások
+administration#:#purge_missing#:#Hiányzó objektumok kiürítése
+administration#:#purge_missing_desc#:#Az összes megtalált hiányzó és gazdátlan objektum eltávolítása a rendszerből.
+administration#:#purge_trash#:#A törölt objektumok kiürítése
+administration#:#purge_trash_desc#:#Minden objektum lomtárba tétele a rendszerből.
+administration#:#purging#:#Ürítés …
+administration#:#purging_missing_objs#:#Hiányzó objektumok ürítése …
+administration#:#purging_trash#:#Lomtár ürítése …
+administration#:#purging_unbound_objs#:#Gazdátlan objektumok ürítése …
+administration#:#removing_invalid_childs#:#Érvénytelen keresőfa-bejegyzések eltávolítása ...
+administration#:#removing_invalid_refs#:#Érvénytelen hivatkozások eltávolítása
+administration#:#restore_missing#:#Hiányzó objektumok visszaállítása.
+administration#:#restore_missing_desc#:#Elveszett és gazdátlan objektumok visszatétele a helyreállító mappába.
+administration#:#restore_trash#:#Törölt objektumok helyreállítása.
+administration#:#restore_trash_desc#:#A lomtárban levő összes objektum visszatétele a helyreállító mappába.
+administration#:#restoring#:#Helyreállítás …
+administration#:#restoring_missing_objs#:#Hiányzó objektumok helyreállítása …
+administration#:#restoring_trash#:#Lomtár helyreállítása …
+administration#:#restoring_unbound_objs#:#Gazdátlan objektumok és alobjektumok helyreállítása …
+administration#:#scan_completed#:#Az átvizsgálás befejeződött
+administration#:#scan_details#:#Részletek keresése
+administration#:#scan_modes#:#Használt módok átvizsgálása
+administration#:#scan_only#:#Csak átvizsgálás
+administration#:#scanning_system#:#A rendszer átvizsgálása …
+administration#:#searching_deleted_objs#:#Törölt objektumok keresése …
+administration#:#searching_invalid_childs#:#Érvénytelen fabejegyzések keresése …
+administration#:#searching_invalid_refs#:#Érvénytelen hivatkozások keresése …
+administration#:#searching_missing_objs#:#Hiányzó objektumok keresése …
+administration#:#searching_unbound_objs#:#Gazdátlan objektumok keresése …
+administration#:#skipped#:#kihagyva
+administration#:#start_scan#:#Indulás!
+administration#:#stop_scan#:#Állj!
+administration#:#systemcheck#:#Rendszerellenőrzés
+administration#:#view_last_log#:#Átvizsgálás naplójának megtekintése
+administration#:#view_log#:#Részletek megtekintése
+assessment#:#0_unlimited#:#(0 = korlátlan)
+assessment#:#add_answer#:#Válasz hozzáadása
+assessment#:#add_answer_tf#:#Igaz/hamis válaszok hozzáadása
+assessment#:#add_answer_yn#:#Igen/nem válaszokat hozzáadása
+assessment#:#add_applet_parameter#:#Applet-paraméterek hozzáadása
+assessment#:#add_area#:#Terület hozzáadása
+assessment#:#add_gap#:#Kiegészítendő szöveg hozzáadása
+assessment#:#add_imagemap#:#Image Map hozzáadása
+assessment#:#add_matching_pair#:#Összeillő párok hozzáadása
+assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemény
+assessment#:#answer#:#Válasz
+assessment#:#answer_picture#:#Válaszkép
+assessment#:#answer_text#:#Válaszszöveg
+assessment#:#applet_attributes#:#Applet-attribútumok
+assessment#:#applet_new_parameter#:#Új paraméter
+assessment#:#applet_parameter#:#Paraméter
+assessment#:#applet_parameters#:#Applet-paraméterek
+assessment#:#apply#:#Alkalmaz
+assessment#:#ass_questions#:#Kérdések
+assessment#:#by#:#létrehozta
+assessment#:#circle#:#Kör
+assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjába!
+assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára!
+assessment#:#cloze_text#:#Zárt szöveg
+assessment#:#code#:#Kód
+assessment#:#coordinates#:#Koordináták
+assessment#:#create_date#:#Létrehozva
+assessment#:#create_gaps#:#Kitöltendő helyek létrehozása
+assessment#:#create_imagemap#:#Image Map létrehozása
+assessment#:#create_new#:#Új létrehozása
+assessment#:#delete_area#:#Terület törlése
+assessment#:#detail_ending_time_reached#:#Elérte a teszt befejezési idejét. A teszt nem elérhető % óta
+assessment#:#detail_max_processing_time_reached#:#Elérte a teszt kitöltésére engedélyezett maximálisan időt.
+assessment#:#detail_starting_time_not_reached#:#Nem érte el a teszt kitöltésének kezdőidejét. A teszt % lesz elérhető
+assessment#:#duplicate#:#Másodpéldány létrehozása
+assessment#:#end_tag#:#Zárócímke
+assessment#:#ending_time_reached#:#Elérte a befejezési időt
+assessment#:#error_open_image_file#:#Hiba történt egy képfájl megnyitásakor!
+assessment#:#eval_choice_result#:#A % értékeivel a választás %. Ön % pontot kapott.
+assessment#:#eval_cloze_result#:#% kitöltendő helyek száma a % értékekkel %. Ön % pontot kapott.
+assessment#:#eval_data#:#Kiértékelési adatok
+assessment#:#eval_imagemap_result#:#A képkiválasztás %. Ön % pontot kapott.
+assessment#:#eval_java_result#:#A válaszok a % értékre %. Ön % pontot kapott.
+assessment#:#eval_legend_link#:#Azonosítsa a magyarázatot az fejlécszimbólum oszlopának jelentése miatt!
+assessment#:#eval_matching_result#:#% illeszkedő párok - % %. Ön % pontot kapott.
+assessment#:#eval_order_result#:#% értékre rendezés %. Ön % pontot kapott.
+assessment#:#exp_eval_data#:#Kiértékelési adatok exportja
+assessment#:#exp_type_excel#:#  Excel
+assessment#:#exp_type_spss#:#  SPSS
+assessment#:#export#:#Export
+assessment#:#false#:#"Hamis"
+assessment#:#fill_out_all_answer_fields#:#Töltsön ki minden válaszszövegmezőt, mielőtt újat vesz fel!
+assessment#:#fill_out_all_matching_pairs#:#Töltsön ki minden illeszkedő párt, mielőtt újat vesz fel!
+assessment#:#fill_out_all_required_fields_add_answer#:#Töltsön ki minden megkívánt mezőt, mielőtt válaszokat vesz fel! 
+assessment#:#fill_out_all_required_fields_add_matching#:#Töltsön ki minden megkívánt mezőt, mielőtt összeillő párt vesz fel! 
+assessment#:#fill_out_all_required_fields_create_gaps#:#Töltsön ki minden megkívánt mezőt, mielőtt kitöltendő helyeket hoz létre! 
+assessment#:#fill_out_all_required_fields_upload_image#:#Töltsön ki  minden kötelező mezőt, mielőtt feltölti a képeket!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Töltsön ki  minden kötelező mezőt, mielőtt feltölti az Image Map-eket!
+assessment#:#fill_out_all_required_fields_upload_material#:#Töltsön ki  minden kötelező mezőt feltöltés előtt!
+assessment#:#filter#:#Szűrő
+assessment#:#gap#:#Kitöltendő hely
+assessment#:#gap_definition#:#Kitöltendő hely definíciója
+assessment#:#gap_selection#:#Kitöltendő hely kiválasztása
+assessment#:#height#:#Magasság
+assessment#:#imagemap#:#Image Map
+assessment#:#imagemap_source#:#Image Map forrása
+assessment#:#insert_after#:#Beszúrás utána
+assessment#:#insert_before#:#Beszúrás elé
+assessment#:#internal_links#:#Belső linkek
+assessment#:#internal_links_update#:#Frissítés
+assessment#:#javaapplet#:#Java Applet
+assessment#:#last_update#:#Utolsó frissítés
+assessment#:#legend#:#Jelmagyarázat
+assessment#:#locked#:#Zárolva
+assessment#:#maintenance#:#Karbantartás
+assessment#:#mark_schema#:#Séma megjelölése
+assessment#:#match_terms_and_definitions#:#Párosítsa össze a kifejezéseket és a definíciókat
+assessment#:#match_terms_and_pictures#:#Párosítsa össze a kifejezéseket és a képeket
+assessment#:#matches#:#összeillők
+assessment#:#matching_pair#:#Összeillő párok
+assessment#:#material#:#Anyag
+assessment#:#material_download#:#Letölthető anyag
+assessment#:#material_file#:#Fájl
+assessment#:#maximum_nr_of_tries_reached#:#Elfogyott az összes próbálkozási lehetősége ebben a tesztben. A teszt nem nyitható meg.
+assessment#:#meaning#:#Jelentés
+assessment#:#next_question_rows#:#Kérdések %d - %d a %nak(nek) >>
+assessment#:#no_question_selected_for_move#:#Ellenőrizzen legalább egy kérdést az áthelyezéshez!
+assessment#:#no_questions_available#:#Nincsenek elérhető kérdések!
+assessment#:#no_target_selected_for_move#:#Ki kell választania a célpozíciót!
+assessment#:#or#:#vagy
+assessment#:#order_pictures#:#Rendezze a képeket
+assessment#:#order_terms#:#Rendezze a kifejezéseket
+assessment#:#please_select#:#"--- válasszon ---"
+assessment#:#points#:#Pontok
+assessment#:#polygon#:#Sokszög
+assessment#:#polygon_click_next_or_save#:#Kattintson a sokszög következő pontjára vagy mentse a területet. (Nem szükséges ismét kattintani a sokszög kezdőpontján!)
+assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontjára.
+assessment#:#polygon_click_starting_point#:#Kattintson a sokszög kezdőpontjára.
+assessment#:#postpone#:#Későbbre halasztott kérdés
+assessment#:#postponed#:#Későbbre halasztott kérdés
+assessment#:#preview#:#Előnézet
+assessment#:#previous_question_rows#:#<< Kérdések %d - %d a %nak(nek)
+assessment#:#qpl_assessment_no_assessment_of_questions#:#Nincs a kiválasztott kérdéseknek elérhető értékelése. A kérdés nem volt még használva tesztben.
+assessment#:#qpl_assessment_of_questions#:#Kérdések kiértékelése
+assessment#:#qpl_assessment_total_of_answers#:#Válaszok összessége
+assessment#:#qpl_assessment_total_of_right_answers#:#Helyes válaszok össz. százaléka (maximum pontok százaléka)
+assessment#:#qpl_confirm_delete_questions#:#Biztosan törölni akarja a következő válasz(oka)t? Ha törli a zárolt kérdéseket, minden teszt, amely zárolt kérdést tartalmaz, törlésre kerül.
+assessment#:#qpl_delete_rbac_error#:#Nincs joga törölni ezt a kérdést!
+assessment#:#qpl_delete_select_none#:#Ellenőrizzen legalább egy kérdést a törléshez!
+assessment#:#qpl_display_fullsize_image#:#Kattintson ide az eredeti képek megjelenítéséhez!
+assessment#:#qpl_duplicate_select_none#:#Ellenőrizzen legalább egy kérdést a másodpéldány létrehozásához
+assessment#:#qpl_edit_rbac_error#:#Nincs joga szerkeszteni ezt a kérdést!
+assessment#:#qpl_edit_select_multiple#:#Csak egy kérdést ellenőrizzen a szerkesztéshez
+assessment#:#qpl_edit_select_none#:#Ellenőrizzen egy kérdést a szerkesztéshez
+assessment#:#qpl_export_select_none#:#Legalább egy kérdést ellenőrizzen az exportáláshoz
+assessment#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
+assessment#:#qt_cloze#:#Kérdés lezárása
+assessment#:#qt_imagemap#:#Image Map-es k kérdés
+assessment#:#qt_javaapplet#:#Java Applet kérdés
+assessment#:#qt_matching#:#Párosító kérdés
+assessment#:#qt_multiple_choice_mr#:#Többszörös választásos kérdés (többszörös válasz)
+assessment#:#qt_multiple_choice_sr#:#Többszörös választásos kérdés (egyszeres válasz)
+assessment#:#qt_ordering#:#Sorrendbe rakó kérdés
+assessment#:#question_saved_for_upload#:#A kérdés automatikusan mentésre került, hogy a lefoglalja a merevlemezhelyet a felöltött fájl számára. Ha most bezárja ezt az űrlapot, törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani!
+assessment#:#question_short#:#Q
+assessment#:#question_type#:#kérdéstípus
+assessment#:#random_selection#:#Véletlen kiválasztás
+assessment#:#rectangle#:#Téglalap
+assessment#:#rectangle_click_br_corner#:#Kattintson a kívánt terület jobb alsó sarkán.
+assessment#:#rectangle_click_tl_corner#:#Kattintson a kívánt terület bal felső sarkán.
+assessment#:#region#:#Régió
+assessment#:#remove_question#:#Eltávolítás
+assessment#:#report_date_not_reached#:#Ön nem érte el a jelentés dátumát. A teszteredményeket %n láthatja
+assessment#:#reset_filter#:#Szűrő visszaállítása
+assessment#:#result#:#Eredmény
+assessment#:#save_before_upload_imagemap#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Image Map-et!
+assessment#:#save_before_upload_javaapplet#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Java Applet-et!
+assessment#:#save_finish#:#Mentés és a teszt befejezése
+assessment#:#save_introduction#:#Mentés és bevezetésre ugrás
+assessment#:#save_next#:#Mentés és a következő kérdésre ugrás
+assessment#:#save_previous#:#Mentés és az előző kérdésre ugrás
+assessment#:#select_gap#:#Kitöltendő hely választása
+assessment#:#select_target_position_for_move_question#:#Válasszon ki célpozíciót a kérdés(ek) áthelyezéséhez, és nyomjon meg egy beszúrás gombot!
+assessment#:#set_filter#:#Szűrő beállítása
+assessment#:#shape#:#Alakzat
+assessment#:#shuffle_answers#:#Kevert válaszok
+assessment#:#solution_order#:#Megoldási sorrend
+assessment#:#start_tag#:#Kezdő címke
+assessment#:#starting_time_not_reached#:#Nem érte el a kezdőidőt
+assessment#:#symbol#:#Szimbólum
+assessment#:#text_gap#:#Szöveg helye
+assessment#:#time_format#:#ÓÓ PP MM
+assessment#:#too_many_empty_parameters#:#Töltse ki az üres applet-paramétereket mielőtt új paramétert ad hozzá!
+assessment#:#true#:#"Igaz"
+assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adata törlésre került!
+assessment#:#tst_already_taken#:#A tesztek már használatban vannak
+assessment#:#tst_anon_eval#:#Névtelen összesített eredménye
+assessment#:#tst_browse_for_questions#:#Böngészés válaszokért
+assessment#:#tst_delete_all_user_data#:#Minden felhasználói adat törlése
+assessment#:#tst_delete_missing_mark#:#Válasszon legalább egy jelöléslépést a törléshez
+assessment#:#tst_ending_time#:#Befejezési idő
+assessment#:#tst_eval_no_anonymous_aggregation#:#Még senki nem lépett be a tesztbe. Névtelen felhasználó összesített eredménye nem érhető el.
+assessment#:#tst_eval_total_finished#:#Összes befejezett teszt
+assessment#:#tst_eval_total_finished_average_time#:#Befejezett tesztek átlag kitöltési ideje
+assessment#:#tst_eval_total_passed#:#Összes sikeres teszt
+assessment#:#tst_eval_total_passed_average_points#:#Sikeres tesztek átlagpontszámai
+assessment#:#tst_eval_total_persons#:#A tesztbe belépett összes személy száma
+assessment#:#tst_general_properties#:#Általános jellemzők
+assessment#:#tst_generate_xls#:#Létrehozás Excel-ben
+assessment#:#tst_insert_missing_question#:#Válasszon legalább egy kérdést a tesztbe beillesztéshez!
+assessment#:#tst_insert_questions#:#Biztosan be akarja tenni az alábbi kérdés(eke)t a tesztbe?
+assessment#:#tst_insert_questions_and_results#:#Ezt a tesztet % felhasználó hajtotta végre. Ha további kérdéseket tesz be ebbe a tesztbe, ezen hallgatók minden teszteredménye eltávolításra kerül. Biztosan be akarja tenni az alábbi kérdéseket a tesztbe?
+assessment#:#tst_introduction#:#Bevezetés
+assessment#:#tst_mark#:#Jelölés
+assessment#:#tst_mark_create_new_mark_step#:#Új jelöléslépés létrehozása
+assessment#:#tst_mark_create_simple_mark_schema#:#Egyszerű jelölésséma létrehozása
+assessment#:#tst_mark_minimum_level#:#Minimumszint (%-ban)
+assessment#:#tst_mark_official_form#:#Irodai űrlap
+assessment#:#tst_mark_passed#:#Teljesített
+assessment#:#tst_mark_short_form#:#Rövid forma
+assessment#:#tst_maximum_points#:#Maximális pontszám
+assessment#:#tst_no_marks_defined#:#Nincs jelölés definiálva. Legalább egy egyszerű jelöléssémát hozzon létre!
+assessment#:#tst_no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést az eltávolításhoz!
+assessment#:#tst_no_questions_available#:#Nincs elérhető kérdés! Új kérdéseket kell létrehoznia vagy keresnie.
+assessment#:#tst_no_taken_tests#:#Nincsenek igénybevett tesztek.
+assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
+assessment#:#tst_percent_solved#:#Megoldottak százaléka
+assessment#:#tst_processing_time#:#Maximális kitöltési idő
+assessment#:#tst_question_no#:#Rendezés
+assessment#:#tst_question_offer#:#Elfogdja ezt a mintát vagy másikat akar?
+assessment#:#tst_question_title#:#Cím
+assessment#:#tst_question_type#:#Kérdéstípus
+assessment#:#tst_questions_inserted#:#A kérdés(ek) beszúrásra kerültek!
+assessment#:#tst_questions_removed#:#A kérdése(ek) eltávolítva!
+assessment#:#tst_random_nr_of_questions#:#Hány darab kérdés?
+assessment#:#tst_random_select_questionpool#:#Válassza ki a kérdéstípus-gyűjteményt, hogy kiválaszthassa a kérdések közül
+assessment#:#tst_reached_points#:#Elért pontszám
+assessment#:#tst_remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t a tesztből?
+assessment#:#tst_remove_questions_and_results#:#Ezt a tesztet % felhasználó hajtotta végre. Ha kérdéseket távolít el ebből a tesztből, ezen felhasználók minden teszteredménye eltávolításra kerül. Biztosan el akarja távolítani az alábbi kérdés(eke)t?
+assessment#:#tst_report_after_question#:#Jelentés a minden kérdés megválaszolása utáni ponteredményről
+assessment#:#tst_report_after_test#:#Jelentés a teljes teszt befejezése utáni ponteredményről
+assessment#:#tst_result_congratulations#:#Gratulálunk! Sikeresen teljesítette a tesztet.
+assessment#:#tst_result_sorry#:#Sajnáljuk, nem teljesítette a tesztet.
+assessment#:#tst_results#:#Teszteredmények
+assessment#:#tst_resume_test#:#A teszt folytatása
+assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről
+assessment#:#tst_score_reporting_date#:#Jelentés a ponteredmények dátumáról
+assessment#:#tst_score_type#:#Jelentés a ponteredmények típusáról
+assessment#:#tst_select_questionpool#:#Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés elmentéséhez
+assessment#:#tst_sequence#:#Sorrend
+assessment#:#tst_sequence_fixed#:#A kérdéssorrend rögzített.
+assessment#:#tst_sequence_postpone#:#A kitöltő valószínűleg elhalasztotta egy kérdés megválaszolását a teszt végére
+assessment#:#tst_sequence_properties#:#Sorrend tulajdonságai
+assessment#:#tst_session_settings#:#ILIAS-webkapcsolat beállításai
+assessment#:#tst_show_results#:#Teszteredmények megjelenítése
+assessment#:#tst_start_test#:#Teszt indítása
+assessment#:#tst_starting_time#:#Kezdőidő
+assessment#:#tst_stat_all_users#:#Minden felhasználó
+assessment#:#tst_stat_choose_users#:#(egy vagy több felhasználó kiválasztása a felhasználói listáról)
+assessment#:#tst_stat_result_atimeofwork#:#Munkaidő átlaga
+assessment#:#tst_stat_result_distancemean#:#Távolság a számtani jelentéstől
+assessment#:#tst_stat_result_distancequintile#:#Távolság a számtani kvantilistől
+assessment#:#tst_stat_result_firstvisit#:#Első látogatás
+assessment#:#tst_stat_result_lastvisit#:#Utolsó látogatás
+assessment#:#tst_stat_result_pworkedthrough#:#Az eddigi összes munkavégzés százaléka
+assessment#:#tst_stat_result_qworkedthrough#:#Kérdések, amelyeken már keresztülhaladt
+assessment#:#tst_stat_result_resultsmarks#:#Teszteredmények érdemjegyben kifejezve
+assessment#:#tst_stat_result_resultspoints#:#Teszteredmények pontban kifejezve
+assessment#:#tst_stat_result_specification#:#Kiértékelési adatok meghatározása
+assessment#:#tst_stat_result_timeofwork#:#Munkaidő
+assessment#:#tst_stat_selected_users#:#Kiválasztott felhasználók
+assessment#:#tst_stat_users_intro#:#Statisztikai kiértékelés megjelenítése
+assessment#:#tst_statistical_evaluation#:#Statisztikai kiértékelés eszköze
+assessment#:#tst_status_completed#:#befejezett
+assessment#:#tst_status_completed_more_tries_possible#:#Befejezett
+assessment#:#tst_status_not_entered#:#Nincs elkezdve
+assessment#:#tst_status_progress#:#Folyamatban
+assessment#:#tst_type#:#Teszttípus
+assessment#:#tst_types#:#Teszttípusok
+assessment#:#tst_your_mark_is#:#Az ön érdemjegye
+assessment#:#tt_assessment#:#Ellenőrző teszt
+assessment#:#tt_navigation_controlling#:#Hallgatók tesztnavigálásának felügyelete
+assessment#:#tt_self_assessment#:#Önértékelő teszt
+assessment#:#unlimited#:#korlátlan
+assessment#:#unlock#:#nem zárolt
+assessment#:#unlock_question#:#Ez a kérdés legalább egy tesztben használva van, ahol %  eredmény keletkezett. Ha a kérdés zárolásának feloldását választja, az érintett felhasználók befejezett teszteredményei törölve lesznek a kérdés elmentése után. Ha a kérdés egy megváltoztatott verzióját akarja használni, de nem akarja törölni a felhasználók teszteredméyneit, másodpéldányt hozhat létre belőle a kérdésgyűjteményben, és azt a verziót változtathatja.
+assessment#:#upload_imagemap#:#Image Map feltöltése
+assessment#:#uploaded_material#:#Feltöltött anyag
+assessment#:#width#:#Szélesség
+assessment#:#working_time#:#Munkával eltelt idő
+bibitem#:#bibitem_add#:#Hozzáadás
+bibitem#:#bibitem_author#:#Szerző
+bibitem#:#bibitem_av#:#Audiovizuális
+bibitem#:#bibitem_bibitem#:#Könyvtári információk
+bibitem#:#bibitem_book#:#Könyv
+bibitem#:#bibitem_booktitle#:#Könyvcím
+bibitem#:#bibitem_catalog#:#Katalógus
+bibitem#:#bibitem_choose_index#:#Válasszon ki egy könyvtári bejegyzést: 
+bibitem#:#bibitem_cross_reference#:#Keresztreferencia
+bibitem#:#bibitem_delete#:#Törlés
+bibitem#:#bibitem_dissertation#:#Értekezés
+bibitem#:#bibitem_edition#:#Kiadás
+bibitem#:#bibitem_editor#:#Szerkesztő
+bibitem#:#bibitem_entry#:#Bejegyzés
+bibitem#:#bibitem_first_name#:#Vezetéknév
+bibitem#:#bibitem_grey_literature#:#Grey literature
+bibitem#:#bibitem_how_published#:#Publikálás módja
+bibitem#:#bibitem_identifier#:#Azonosító
+bibitem#:#bibitem_inbook#:#Inbook
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_institution#:#Intézmény
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Folyóirat
+bibitem#:#bibitem_journal_article#:#Folyóiratcikk
+bibitem#:#bibitem_keyword#:#Kucsszó
+bibitem#:#bibitem_label#:#Címke
+bibitem#:#bibitem_language#:#Nyelv
+bibitem#:#bibitem_last_name#:#Utónév
+bibitem#:#bibitem_manual#:#Kézikönyv
+bibitem#:#bibitem_master_thesis#:#Mester diplomamunka
+bibitem#:#bibitem_middle_name#:#Középső név
+bibitem#:#bibitem_month#:#Hónap
+bibitem#:#bibitem_new_element#:#Új elem
+bibitem#:#bibitem_newspaper_article#:#Napilapcikk
+bibitem#:#bibitem_not_found#:#Nem érhetők el könyvtári információk.
+bibitem#:#bibitem_note#:#Megjegyzés
+bibitem#:#bibitem_number#:#Szám
+bibitem#:#bibitem_organization#:#Szervezet
+bibitem#:#bibitem_pages#:#Lapok
+bibitem#:#bibitem_phd_thesis#:#PhD-disszertáció
+bibitem#:#bibitem_please_select#:#Válasszon 
+bibitem#:#bibitem_print#:#Nyomtatás
+bibitem#:#bibitem_proceedings#:#Kiadvány
+bibitem#:#bibitem_publisher#:#Kiadó
+bibitem#:#bibitem_save#:#Mentés
+bibitem#:#bibitem_school#:#Iskola
+bibitem#:#bibitem_series#:#Sorozat
+bibitem#:#bibitem_series_editor#:#Szerkesztő
+bibitem#:#bibitem_series_title#:#Sorozatcím
+bibitem#:#bibitem_series_volume#:#Kötet
+bibitem#:#bibitem_technical_report#:#Technikai jelentés
+bibitem#:#bibitem_type#:#Típus
+bibitem#:#bibitem_unpublished#:#Nem publikált
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Publikálás helye
+bibitem#:#bibitem_year#:#Év
+chat#:#chat_active#:#Aktív
+chat#:#chat_active_users#:#Felhasználó (aktív)
+chat#:#chat_add_allowed_hosts#:#Adja meg a chatszerverként elérhető host címét.
+chat#:#chat_add_ip#:#Adja meg a szerver IP-jét.
+chat#:#chat_add_moderator_password#:#Adjon meg a moderátor jelszót.
+chat#:#chat_add_port#:#Adja meg a szerverportot.
+chat#:#chat_aqua#:#akva
+chat#:#chat_arial#:#Arial
+chat#:#chat_black#:#fekete
+chat#:#chat_blue#:#kék
+chat#:#chat_bold#:#Félkövér
+chat#:#chat_chatroom_body#:#Chatszoba:
+chat#:#chat_chatroom_rename#:#Chatszoba szerkesztése
+chat#:#chat_chatrooms#:#Chatszobák
+chat#:#chat_color#:#Betűszín
+chat#:#chat_delete_sure#:#Biztosan törölni akarja ezt a chatszobát?
+chat#:#chat_drop_user#:#Felhasználó kizárva
+chat#:#chat_edit#:#Chat szerkesztése
+chat#:#chat_face#:#Betűtípus
+chat#:#chat_fuchsia#:#fuchsia
+chat#:#chat_gray#:#szürke
+chat#:#chat_green#:#zöld
+chat#:#chat_hide_details#:#Részletek elrejtése
+chat#:#chat_html_export#:#HTML-export
+chat#:#chat_ilias#:#ILIAS chatmodul
+chat#:#chat_inactive#:#Inaktív
+chat#:#chat_input#:#Bevitel
+chat#:#chat_insert_message#:#Adjon meg egy üzenetet
+chat#:#chat_invitation_body#:#Meghívás a chatbe (honnan): 
+chat#:#chat_invitation_subject#:#Meghívás chatbe
+chat#:#chat_invite_user#:#Felhasználó meghívása
+chat#:#chat_italic#:#Dőlt
+chat#:#chat_level_all#:#Minden
+chat#:#chat_level_debug#:#Nyomkövetés
+chat#:#chat_level_error#:#Hiba
+chat#:#chat_level_fatal#:#Végzetes
+chat#:#chat_level_info#:#Információ
+chat#:#chat_lime#:#borostyánszín
+chat#:#chat_maroon#:#gesztenyebarna
+chat#:#chat_messages_deleted#:#Az üzenetek törlésre kerültek.
+chat#:#chat_moderator_password#:#Moderátor jelszava
+chat#:#chat_navy#:#matrózkék
+chat#:#chat_no_active_users#:#Jelenleg nincsenek felhasználók.
+chat#:#chat_no_connection#:#Nem lehet kapcsolatba lépni a chatszerverrel.
+chat#:#chat_no_delete_public#:#A nyilvános chatszoba nem törölhető
+chat#:#chat_no_refresh_public#:#a nyilvános chatszoba nem frissíthető.
+chat#:#chat_no_rename_public#:#A nyilvános chatszoba nem nevezhető át
+chat#:#chat_no_write_perm#:#Nincs írási engedély
+chat#:#chat_olive#:#olajbarna
+chat#:#chat_online_users#:#Felhasználó (on-line)
+chat#:#chat_private_message#:#Magánüzenet
+chat#:#chat_public_room#:#Nyilvános chatszoba
+chat#:#chat_purple#:#bíbor
+chat#:#chat_red#:#piros
+chat#:#chat_refresh#:#Frissítés
+chat#:#chat_room_added#:#Új chatszoba felvéve
+chat#:#chat_room_name#:#Chatszoba neve
+chat#:#chat_room_renamed#:#Chatszoba átnevezve
+chat#:#chat_room_select#:#Zártkörű chatszoba
+chat#:#chat_rooms#:#Chatszobák
+chat#:#chat_rooms_deleted#:#Chatszobá(k) törölve.
+chat#:#chat_select_one_room#:#Válasszon ki egy chatszobát
+chat#:#chat_server_allowed#:#Engedélyezett host-ok
+chat#:#chat_server_allowed_b#:#(például 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Szerver-IP
+chat#:#chat_server_logfile#:#Eseménynapló elérési útja
+chat#:#chat_server_loglevel#:#Naplózási szint
+chat#:#chat_server_not_active#:#A chatszerver nem aktív
+chat#:#chat_server_port#:#Szerverport
+chat#:#chat_server_settings#:#Chatszerver beállításai
+chat#:#chat_settings_saved#:#Beállítások mentve
+chat#:#chat_show_details#:#Részletek mutatása
+chat#:#chat_silver#:#ezüst
+chat#:#chat_status#:#Státusz
+chat#:#chat_status_saved#:#A státusz cserélve
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#teal
+chat#:#chat_times#:#Times
+chat#:#chat_title_missing#:#Adjon meg egy nevet.
+chat#:#chat_to_chat_body#:#A chatbe
+chat#:#chat_type#:#Betűtípus
+chat#:#chat_underlined#:#Aláhúzott
+chat#:#chat_user_dropped#:#Felhasználó kizárva
+chat#:#chat_user_invited#:#A chatbe meghívott felhasználó.
+chat#:#chat_yellow#:#sárga
+chat#:#chats#:#Chatek
+chat#:#my_chats#:#Chatjeim
+common#:#3rd_party_software#:#Harmadik fél szoftvere
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
+common#:#absolute_path#:#Abszolút elérési út
+common#:#accept_usr_agreement#:#Elfogadja a felhasználói megállapodást?
+common#:#access#:#Hozzáférés
+common#:#action_aborted#:#Tevékenység megszakítva
+common#:#actions#:#Tevékenységek
+common#:#activate_tracking#:#Nyomkövetés aktiválása
+common#:#activation#:#Aktiválás
+common#:#active_roles#:#Aktív szerepek
+common#:#add#:#Hozzáadás
+common#:#add_author#:#Szerző hozzáadása
+common#:#add_member#:#Tag hozzáadása
+common#:#add_members#:#Tagok hozzáadása
+common#:#add_translation#:#Fordítás hozzáadása
+common#:#adm_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#adm_read#:#Olvasási elérés az rendszerbeállításokhoz
+common#:#adm_visible#:#A rendszerbeállítások láthatóak
+common#:#adm_write#:#Alap rendszerbeállítások szerkesztése
+common#:#administrate#:#Adminisztrálás
+common#:#administration#:#Adminisztráció
+common#:#administrator#:#Adminisztrátor
+common#:#adopt#:#alkalmaz
+common#:#adopt_perm_from_template#:#Jogosultsági beállítások alkalmazása a szerepmintából.
+common#:#all_lms#:#Minden tananyag
+common#:#all_objects#:#Minden objektum
+common#:#all_tsts#:#Minden teszt
+common#:#allow_register#:#Elérhető a regisztrációs űrlapon az új felhasználók számára
+common#:#and#:#és
+common#:#announce#:#Hirdetmény
+common#:#announce_changes#:#Hirdetmény változásai
+common#:#answers#:#Válaszok
+common#:#any_language#:#Bármilyen nyelv
+common#:#application_completed#:#Az alkalmazás befejezve
+common#:#application_date#:#Alkalmazás dátuma
+common#:#appointment#:#Találkozó
+common#:#appointment_list#:#Találkozók listája
+common#:#archive#:#Archív
+common#:#are_you_sure#:#Biztos?
+common#:#assign#:#Hozzárendelés
+common#:#assign_global_role#:#Globális szerephez hozzárendelés
+common#:#assign_lo_forum#:#Tananyagobjektum hozzárendelése
+common#:#assign_local_role#:#Helyi szerephez hozzárendelés
+common#:#assign_user_to_role#:#Felhasználó szerephez hozzárendelése
+common#:#at_location#:#helyileg
+common#:#attachment#:#Csatolás
+common#:#attachments#:#Csatolások
+common#:#attend#:#Résztvevő
+common#:#author#:#Szerző
+common#:#authors#:#Szerzők
+common#:#available_languages#:#Alkalmazható nyelvek
+common#:#average_time#:#Átlagidő
+common#:#back#:#Vissza
+common#:#basedn#:#BaseDN
+common#:#basic_data#:#Alapadat
+common#:#benchmark#:#Benchmark
+common#:#benchmark_settings#:#Benchmark beállítások
+common#:#benchmarks#:#Benchmarkok
+common#:#bib_data#:#Bibliográfiai adatok
+common#:#bm#:#Webcím
+common#:#bmf#:#Webcímmappa
+common#:#bookmark_edit#:#Webcím szerkesztése
+common#:#bookmark_folder_edit#:#Webcímmappa szerkesztése
+common#:#bookmark_folder_new#:#Új webcímmappa
+common#:#bookmark_new#:#Új webcím
+common#:#bookmark_target#:#Cél
+common#:#bookmarks#:#Webcímek
+common#:#bookmarks_of#:#Webcímei:
+common#:#btn_remove_system#:#Eltávolítás a rendszerből
+common#:#btn_undelete#:#Törlés visszavonása
+common#:#by#:#Létrehozta
+common#:#calendar#:#Határidőnapló
+common#:#cancel#:#Mégsem
+common#:#cannot_find_xml#:#Nem található XML fájl.
+common#:#cannot_uninstall_language_in_use#:#Nem távolíthatja el a jelenleg használt nyelvet!
+common#:#cannot_uninstall_systemlanguage#:#Nem távolíthathatja el a rendszernyelvet!
+common#:#cannot_unzip_file#:#Nem lehet kicsomagolni a fájlt.
+common#:#cat#:#Kategória
+common#:#cat_a#:#egy kategória
+common#:#cat_add#:#Kategória hozzáadása
+common#:#cat_added#:#Kategória hozzáadva
+common#:#cat_create#:#Kategória létrehozása
+common#:#cat_create_cat#:#Kategória létrehozása
+common#:#cat_create_chat#:#Chat létrehozása
+common#:#cat_create_crs#:#Kurzus létrehozása
+common#:#cat_create_dbk#:#Elektronikus könyv létrehozása
+common#:#cat_create_exc#:#Gyakorlat létrehozása
+common#:#cat_create_frm#:#Fórum létrehozása
+common#:#cat_create_glo#:#Fogalomtár létrehozása
+common#:#cat_create_grp#:#Csoport létrehozása
+common#:#cat_create_htlm#:#HTML-tananyag létrehozása
+common#:#cat_create_lm#:#Tananyag létrehozása
+common#:#cat_create_mep#:#Médiagyűjtemény létrehozása
+common#:#cat_create_qpl#:#Kérdésgyűjtemény létrehozása (értékelés)
+common#:#cat_create_slm#:#SCORM tananyag létrehozása
+common#:#cat_create_spl#:#Kérdésgyűjtemény létrehozása (felmérés)
+common#:#cat_create_svy#:#Felmérés létrehozás
+common#:#cat_create_tst#:#Teszt létrehozása
+common#:#cat_delete#:#Kategória törlése
+common#:#cat_edit#:#Kategória szerkesztése
+common#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
+common#:#cat_new#:#Új kategória
+common#:#cat_read#:#Olvasási elérés kategóriához
+common#:#cat_visible#:#A kategória látható
+common#:#cat_write#:#Kategória szerkesztése
+common#:#categories#:#Kategóriák
+common#:#categories_imported#:#A kategória importja befejeződött.
+common#:#cc#:#CC
+common#:#cen#:#Centra esemény
+common#:#cen_add#:#Centra esemény hozzáadása
+common#:#cen_added#:#Centra esemény hozzáadva
+common#:#cen_delete#:#Centra esetmény törlése
+common#:#cen_edit#:#Centra esemény szerkesztése
+common#:#cen_new#:#Új Centra esemény
+common#:#cen_save#:#Centra esemény mentése
+common#:#censorship#:#Cenzúra
+common#:#centra_account#:#Centra admin felhasználói fiók
+common#:#centra_rooms#:#Centra szobák
+common#:#centra_server#:#Centra szerver
+common#:#chac_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#chac_read#:#Olvasási elérés a chatbeállításokhoz
+common#:#chac_visible#:#Chatbeállítások láthatóak
+common#:#chac_write#:#Chatbeállítások szerkesztése
+common#:#change#:#Változtatás
+common#:#change_active_assignment#:#Aktív feladat változtatása
+common#:#change_assignment#:#Feladat változtatása
+common#:#change_existing_objects#:#Jogok tovább másolása a fastruktúrában
+common#:#change_header_title#:#Feljéccím szerkesztése
+common#:#change_lo_info#:#Tananyagobjektum információjának változtatása
+common#:#change_metadata#:#Metaadat-változtatás
+common#:#change_sort_direction#:#Rendezési irány változtatása
+common#:#changed_to#:#amire változtat
+common#:#chapter#:#Fejezet
+common#:#chapter_number#:#Fejezetszám
+common#:#chapter_title#:#Fejezetcím
+common#:#chat#:#Chat
+common#:#chat_add#:#Chat hozzáadása
+common#:#chat_delete#:#Chat törlése
+common#:#chat_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#chat_new#:#Új chat
+common#:#chat_read#:#Olvasási/írási jog a chathez
+common#:#chat_visible#:#Chat látható
+common#:#chat_write#:#Chat szerkesztése
+common#:#check#:#Ellenőrzés
+common#:#check_langfile#:#Ellenőrizze a nyelvi fájlját
+common#:#check_languages#:#Nyelvek ellenőrzése
+common#:#check_max_allowed_packet_size#:#A lap szövegmérete túl nagy.
+common#:#checked_files#:#Importálható fájlok
+common#:#chg_language#:#Nyelv cseréje
+common#:#chg_password#:#Jelszócsere
+common#:#choose_language#:#Válassza ki a használni kívánt nyelvet!
+common#:#choose_location#:#Területválasztás
+common#:#choose_only_one_language#:#Csak egy nyelvet válasszon!
+common#:#city#:#Város
+common#:#clear#:#Törlés
+common#:#client ip#:#Kliens IP
+common#:#client_id#:#Kliensazonosító
+common#:#clipboard#:#Vágólap
+common#:#close#:#Bezárás
+common#:#comma_separated#:#Vesszővel elválasztva
+common#:#comment#:#megjegyzés
+common#:#compose#:#Levél írása
+common#:#confirm#:#Megerősítés
+common#:#cont_object#:#Objektum
+common#:#contact_data#:#Bejelentkező elérhetőségi adatai
+common#:#container#:#Konténer
+common#:#context#:#Tartalom
+common#:#continue_work#:#Folytatás
+common#:#copy#:#Másolás
+common#:#copyPage#:#Másolás
+common#:#copy_of#:#Másolandó: 
+common#:#count#:#Számlálás
+common#:#country#:#Ország
+common#:#course#:#Kurzus
+common#:#courses#:#Kurzusok
+common#:#create#:#Létrehozás
+common#:#create_in#:#Készítve: 
+common#:#create_stylesheet#:#Stílus létrehozása
+common#:#crs#:#Kurzus
+common#:#crs_a#:#egy kurzus
+common#:#crs_add#:#Kurzus hozzáadása
+common#:#crs_added#:#Hozzáadott kurzus
+common#:#crs_available#:#Elérhető kurzusok
+common#:#crs_create#:#Kurzus létrehozása
+common#:#crs_create_frm#:#Fórum létrehozása
+common#:#crs_create_glo#:#Fogalomtár létrehozása
+common#:#crs_create_lm#:#Tananyag létrehozása
+common#:#crs_create_slm#:#SCORM tananyag létrehozása
+common#:#crs_delete#:#Kurzus törlése
+common#:#crs_edit#:#Kurzus szerkesztése
+common#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
+common#:#crs_join#:#Kurzus felvétele
+common#:#crs_leave#:#Kurzus leadása
+common#:#crs_management_system#:#Kurzusmenedzsment-rendszer
+common#:#crs_new#:#Új kurzus
+common#:#crs_read#:#Olvasási elérés kurzushoz
+common#:#crs_visible#:#A kurzus látható
+common#:#crs_write#:#Kurzus szerkesztése
+common#:#cumulative_time#:#Növelt idő
+common#:#cur_number_rec#:#Rekordok jelenlegi száma
+common#:#current_password#:#Jelenlegi jelszó
+common#:#cut#:#Kivágás
+common#:#cutPage#:#Kivágás
+common#:#database#:#Adatbázis
+common#:#database_version#:#Aktuális adatbázis-verzió
+common#:#dataset#:#Tétel
+common#:#date#:#Dátum
+common#:#dateplaner#:#Határidőnapló
+common#:#day#:#Nap
+common#:#days#:#Napok
+common#:#days_of_period#:#Az időszak napjai
+common#:#db_host#:#Adatbázishost
+common#:#db_name#:#Adatbázisnév
+common#:#db_need_update#:#Az adatbázis frissítésre szorul!
+common#:#db_pass#:#Adatbázis-jelszó
+common#:#db_type#:#Adatbázis-típus
+common#:#db_user#:#Adatbázis-felhasználó
+common#:#db_version#:#Adatbázis-verzió
+common#:#dbk#:#Elektronikus könyv
+common#:#dbk_a#:#egy elektronikus könyv
+common#:#dbk_add#:#Elektronikus könyv hozzáadása
+common#:#dbk_added#:#Elektronikus könyv hozzáadva
+common#:#dbk_create#:#Elektronikus könyv létrehozása
+common#:#dbk_delete#:#Elektronikus könyv törlése
+common#:#dbk_edit_permission#:#Engedélyezett beállítások cseréje
+common#:#dbk_new#:#Új elektronikus könyv
+common#:#dbk_read#:#Olvasási elérés elektronikus könyvhöz
+common#:#dbk_visible#:#Az elektronikus könyv látható
+common#:#dbk_write#:#Elektronikus könyv szerkesztése
+common#:#default#:#Alapértelmezett
+common#:#default_language#:#Alapértelmezett nyelv
+common#:#default_perm_settings#:#Alapértelmezett engedélyek
+common#:#default_role#:#Alapértelmezett szerep
+common#:#default_roles#:#Alapértelmezett szerepek
+common#:#default_skin#:#Alapértelemezett képernyő
+common#:#default_skin_style#:#Alapértelmezett képernyő / stílus
+common#:#default_style#:#Alapértelmezett stílus
+common#:#delete#:#Törlés
+common#:#delete_all#:#Mindet töröl
+common#:#delete_all_rec#:#Minden rekord törlése
+common#:#delete_object#:#Objektum(ok) törlése
+common#:#delete_selected#:#Kijelöltek törlése
+common#:#delete_tr_data#:#Nyomkövetési adatok törlése
+common#:#deleted#:#Törölve
+common#:#department#:#Tagozat / Szak / Évfolyam
+common#:#desc#:#Leírás
+common#:#description#:#Leírás
+common#:#desired_password#:#Kívánt jelszó
+common#:#disabled#:#Tiltott
+common#:#domain#:#Domain
+common#:#down#:#Le
+common#:#download#:#Letöltés
+common#:#drafts#:#Vázlatok
+common#:#drop#:#Munkaasztalról levétel
+common#:#edit#:#Szerkesztés
+common#:#edit_data#:#adatok szerkesztése
+common#:#edit_operations#:#Műveletek szerkesztése
+common#:#edit_perm_ruleset#:#Engedélyezett hibaszabályok szerkesztése
+common#:#edit_properties#:#Jellemzők szerkesztése
+common#:#edit_stylesheet#:#Sílus szerkesztése
+common#:#edited_at#:#Szerkesztve
+common#:#editor#:#Szerkesztő
+common#:#email#:#E-mail
+common#:#email_not_valid#:#A megadott e-mail cím nem megfelelő!
+common#:#enable#:#Engedélyezés
+common#:#enable_registration#:#Új felhasználó regisztrációjának engedélyezése
+common#:#enabled#:#Engedélyezett
+common#:#enumerate#:#Felsorolás
+common#:#err_1_param#:#Csak 1 paramétert!
+common#:#err_2_param#:#Csak 2 paramétert!
+common#:#err_count_param#:#Ok: nem megfelelő paraméterszám
+common#:#err_in_line#:#Hiba van a sorban
+common#:#err_no_langfile_found#:#Nem található nyelvi fájl!
+common#:#err_no_param#:#Nincs paraméter!
+common#:#err_over_3_param#:#Több, mint 3 paraméter szükséges!
+common#:#err_role_not_assignable#:#A felhasználók nem rendelhetők hozzá ehhez a szerephez ezen a területen.
+common#:#err_session_expired#:#Kapcsolata az ILIAS-szal megszűnt!
+common#:#err_unknown_error#:#Ismeretlen hiba
+common#:#err_wrong_header#:#Ok: nem megfelelő fejléc.
+common#:#err_wrong_login#:#Hibás bejelentkezés
+common#:#err_wrong_password#:#Hibás jelszó
+common#:#error_parser#:#Hiba történt a szintaktikai elemző indulásakor.
+common#:#error_recipient#:#Hibás címzett
+common#:#exc#:#Gyakorlat
+common#:#exc_add#:#Gyakorlat hozzáadása
+common#:#exc_added#:#Gyakorlat hozzáadva
+common#:#exc_ask_delete#:#Törli a fájlt?
+common#:#exc_assign_usr#:#Felhasználó hozzárendelése
+common#:#exc_create#:#Gyakorlat létrehozása
+common#:#exc_date_not_valid#:#A dátum nem érvényes
+common#:#exc_deassign_members#:#Tag(ok) törlése
+common#:#exc_delete#:#Gyakorlat törlése
+common#:#exc_edit#:#Új gyakorlat létrehozva
+common#:#exc_edit_exercise#:#Gyakorlat szerkesztése
+common#:#exc_edit_permission#:#Engedélyezési beállítások cseréje
+common#:#exc_edit_until#:#Kidolgozási határidő
+common#:#exc_files#:#Fájlok
+common#:#exc_groups#:#Csoportok
+common#:#exc_header_members#:#Gyakorlat (tagok)
+common#:#exc_instruction#:#Feladatleírás
+common#:#exc_members_already_assigned#:#Ezek a felhasználók már hozzá vannak rendelve ehhez a gyakorlathoz
+common#:#exc_members_assigned#:#Tagok hozzárendelve
+common#:#exc_new#:#Új gyakorlat
+common#:#exc_no_members_assigned#:#Nincs tag hozzárendelve
+common#:#exc_notices#:#Megjegyzések
+common#:#exc_obj#:#Gyakorlat
+common#:#exc_read#:#Gyakorlat elérése
+common#:#exc_save_changes#:#Mentés
+common#:#exc_search_for#:#Keresendő
+common#:#exc_select_one_file#:#Pontosan egy fájlt válasszon!
+common#:#exc_send_exercise#:#Gyakorlat elküldése
+common#:#exc_sent#:#Ez a gyakorlat már elküldésre került a kiválasztott felhasználóknak
+common#:#exc_status_returned#:#Visszaküldve
+common#:#exc_status_saved#:#Gyakorlat frissítve
+common#:#exc_status_solved#:#Megoldva
+common#:#exc_upload_error#:#Fájlfeltöltési hiba
+common#:#exc_users#:#Felhasználók
+common#:#exc_visible#:#A gyakorlat látható
+common#:#exc_write#:#Gyakorlat szerkesztése
+common#:#excs#:#Gyakorlatok
+common#:#execute#:#Végrehajthatás
+common#:#export#:#Export
+common#:#export_html#:#exportálás html fájlként
+common#:#export_xml#:#exportálás xml fájlként
+common#:#faq_exercise#:#GYIK gyakorlat
+common#:#fax#:#Fax
+common#:#feedback#:#Üzenet a rendszergazdának
+common#:#feedback_recipient#:#Válasz címzettje
+common#:#file#:#Fájl
+common#:#file_a#:#egy fájl
+common#:#file_add#:#Fájlfeltöltés
+common#:#file_added#:#Fájl feltöltve
+common#:#file_delete#:#Fájl törlése
+common#:#file_edit#:#Fájl szerkesztése
+common#:#file_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#file_new#:#Új fájl
+common#:#file_not_found#:#A fájl nem található
+common#:#file_not_valid#:#A fájl nem érvényes!
+common#:#file_notice#:#Ügyeljen a fájlméret határára
+common#:#file_read#:#Fájl letöltve
+common#:#file_valid#:#A fájl érvényes!
+common#:#file_version#:#A verziót a fájl tartalmazza
+common#:#file_visible#:#A fájl látható
+common#:#file_write#:#Fájl szerkesztése
+common#:#files#:#Fájlok
+common#:#files_location#:#Fájlok helye
+common#:#fill_out_all_required_fields#:#Minden kötelező mezőt töltsön ki!
+common#:#firstname#:#Vezetéknév
+common#:#flatview#:#Teljes nézet
+common#:#fold#:#Mappa
+common#:#fold_a#:#egy mappa
+common#:#fold_add#:#Mappa hozzáadása
+common#:#fold_added#:#Mappa hozzáadva
+common#:#fold_create_chat#:#Chat létrehozása
+common#:#fold_create_file#:#Fájlfeltöltés
+common#:#fold_create_fold#:#Mappa létrehozása
+common#:#fold_create_frm#:#Fórum létrehozása
+common#:#fold_create_glo#:#Fogalomtár létrehozása
+common#:#fold_create_lm#:#Tananyag létrehozása
+common#:#fold_create_slm#:#SCORM tananyag létrehozása
+common#:#fold_delete#:#Mappa törlése
+common#:#fold_edit#:#Mappa szerkesztése
+common#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#fold_new#:#Új mappa
+common#:#fold_read#:#Olvasási elérés a mappához
+common#:#fold_visible#:#A mappa látható
+common#:#fold_write#:#Mappa szerkesztése
+common#:#folder#:#Mappa
+common#:#folders#:#Mappák
+common#:#force_accept_usr_agreement#:#El kell fogadnia a felhasználói megállapodást!
+common#:#forename#:#Előnév
+common#:#forgot_password#:#Elfelejtette jelszavát?
+common#:#form_empty_fields#:#Töltse ki ezeket a mezőket:
+common#:#forum#:#Fórum
+common#:#forum_import#:#Fórum importálása
+common#:#forum_import_file#:#Import fájl
+common#:#forum_notification#:#Értesítés
+common#:#forum_notify_me#:#Értesítést kérek, ha a válasz elküldésre került
+common#:#forum_post_replied#:#Fórum-hozzászólása megválaszolásra került
+common#:#forums#:#Fórumok
+common#:#forums_overview#:#Fórumok áttekintése
+common#:#frm#:#Fórum
+common#:#frm_a#:#egy fórum
+common#:#frm_add#:#Fórum hozzáadása
+common#:#frm_added#:#Fórum hozzáadva
+common#:#frm_create#:#Fórum létrehozása
+common#:#frm_delete#:#Fórum törlése
+common#:#frm_delete_post#:#Hozzászólás törlése, cenzúra
+common#:#frm_edit#:#Fórum szerkesztése
+common#:#frm_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#frm_edit_post#:#Hozzászólás szerkesztése
+common#:#frm_new#:#Új fórum
+common#:#frm_read#:#Olvasási elérés a fórumhoz
+common#:#frm_visible#:#A fórum látható
+common#:#frm_write#:#Fórum szerkesztése
+common#:#from#:#Írta
+common#:#fullname#:#Teljes név
+common#:#functions#:#Funkciók
+common#:#gdf_add#:#Definíció hozzáadása
+common#:#gdf_new#:#Új definíció
+common#:#gender#:#Nem
+common#:#gender_f#:#Nő
+common#:#gender_m#:#Férfi
+common#:#generate#:#Generálás
+common#:#glo#:#Fogalomtár
+common#:#glo_a#:#egy fogalomtár
+common#:#glo_add#:#Fogalomtár hozzáadása
+common#:#glo_added#:#Fogalomtár hozzáadva
+common#:#glo_create#:#Fogalomtár létrehozása
+common#:#glo_delete#:#Fogalomtár törlése
+common#:#glo_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#glo_join#:#Fogalomtár felvétele
+common#:#glo_leave#:#Fogalomtár leadása
+common#:#glo_new#:#Új fogalomtár
+common#:#glo_read#:#Olvasási elérés a fogalomtárhoz
+common#:#glo_upload_file#:#Fájl
+common#:#glo_visible#:#A fogalomtár látható
+common#:#glo_write#:#Fogalomtár szerkesztése
+common#:#glossaries#:#Fogalomtárak
+common#:#glossary#:#Fogalomtár
+common#:#glossary_added#:#Fogalomtár hozzáadva
+common#:#group_access_denied#:#Hozzáférés megtagadva
+common#:#group_any_objects#:#Alobjektumok nem elérhetők
+common#:#group_create_chat#:#Chat létrehozása
+common#:#group_desc#:#Csoportleírás
+common#:#group_details#:#Részletek a csoportról
+common#:#group_filesharing#:#Csoport-fájlmegosztás
+common#:#group_import#:#Csoportimport
+common#:#group_import_file#:#Import fájl
+common#:#group_members#:#Csoporttagok
+common#:#group_memstat#:#Tag státusza
+common#:#group_memstat_admin#:#Adminisztrátor
+common#:#group_memstat_member#:#Tag
+common#:#group_name#:#Csoportnév
+common#:#group_new_registrations#:#Új regisztrációk
+common#:#group_no_registration#:#regisztráció nem szükséges
+common#:#group_no_registration_msg#:#A továbbiakban nem tagja ennek a csoportnak. Az adminisztráció miatt szükséges, hogy csatlakozzon a kért csoporthoz. <br> Tagként az alábbi előnyökben lesz része: <br>- Hírekről, időpontokról kap információkat <br>- Elérheti a megfelelő objektumokat, mint pl. fórumok, tananyagok stb.<br><br>Tagságát bármikor visszavonhatja.
+common#:#group_not_available#:#Nincs elérhető csoport
+common#:#group_objects#:#Csoportobjektumok
+common#:#group_password_registration_expired_msg#:#Ennek a csoportnak a regisztrációs periódusa letelt, a hirdetmények nem érhetők el tovább. Vegye fel a kapcsolatot a megfelelő csoporttulajdonossal vagy adminisztrátorral.
+common#:#group_password_registration_msg#:#A csoporthoz csatlakozáshoz meg kell adnia ezen csoport adminisztrátortól kapott jelszót.<br> Ön automatikusan csatlakozni fog a csoporthoz, ha jelszava megfelelő.
+common#:#group_registration_expiration_date#:#Lejárati dátum
+common#:#group_registration_expiration_time#:#Lejárati idő
+common#:#group_registration_expired#:#A regisztrációs periódus lejárt
+common#:#group_registration_mode#:#Regisztrációs mód
+common#:#group_req_password#:#Regisztrációs jelszó szükséges
+common#:#group_req_registration#:#Regisztráció szükséges
+common#:#group_req_registration_msg#:#Ehhez a csoporthoz való csatlakozáshoz regisztráltatnia kell magát. A megfelelő csoportadminisztrátor fogja hozzárendelni a csoporthoz. Adjon meg okot a csoportba való felvételéhez.<BR>Üzenetben kap értesítést, ha felvételre került a csoportba.
+common#:#group_reset#:#Csoportjogok visszaállítása
+common#:#group_status#:#A csoportstátusz
+common#:#group_status_closed#:#Zárt
+common#:#group_status_desc#:#A csoport kezdeti státuszának meghatározásai az engedélyezési beállítások használatával az 'il_grp_statusz_closed' vagy 'il_grp_status_open' szerepsablonokból. <BR>Nyilvános: a csoport látható
+common#:#group_status_public#:#Nyilvános
+common#:#groups#:#Csoportok
+common#:#groups_overview#:#Csoportok áttekintése
+common#:#grp#:#Csoport
+common#:#grp_a#:#egy csoport
+common#:#grp_add#:#Csoport hozzáadása
+common#:#grp_added#:#Csoport hozzáadva
+common#:#grp_already_applied#:#Már felvételre került ehhez a csoporthoz! Várjon a visszaigazolásra
+common#:#grp_back#:#Vissza
+common#:#grp_create#:#Csoport létrehozása
+common#:#grp_create_chat#:#Chat létrehozása
+common#:#grp_create_dbk#:#Digitális könyv létrehozása
+common#:#grp_create_exc#:#Gyakorlat létrehozása
+common#:#grp_create_file#:#Fájl feltöltése
+common#:#grp_create_fold#:#Mappa létrehozása
+common#:#grp_create_frm#:#Fórum létrehozása
+common#:#grp_create_glo#:#Fogalomtár létrehozása
+common#:#grp_create_htlm#:#HTML-tananyag létrehozása
+common#:#grp_create_lm#:#Tananyag létrehozása
+common#:#grp_create_mep#:#Médiagyűjtmény létrehozása
+common#:#grp_create_slm#:#SCORM tananyag létrehozása
+common#:#grp_delete#:#Csoport törlése
+common#:#grp_dismiss_member#:#Biztosan meg akar válni a csoport alábbi tagjaitól:
+common#:#grp_dismiss_myself#:#Biztosan kilép a csoportból?
+common#:#grp_edit#:#Csoport szerkesztése
+common#:#grp_edit_permission#:#Engedélyezett beállítások cseréje
+common#:#grp_err_administrator_required#:#A tag nem távolítható el, mert legalább egy adminisztrátornak kell lennie csoportonként!
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Az egyes csoportoknak legalább egy adminisztrátora kell hogy legyen
+common#:#grp_err_error#:#Hiba lépett fel
+common#:#grp_err_last_member#:#Az utolsó tag nem távolítható el. Törölje inkább a csoprtot.
+common#:#grp_err_member_could_not_be_removed#:#A tag nem távolítható el. Erősítse meg ennek a felhasználónak a kapcsolatait.
+common#:#grp_err_no_permission#:#Nem rendelkezik jogosultságokkal erre a műveletre.
+common#:#grp_err_registration_data#:#Adjon meg egy jelszót, a lejárat dátumát és idejét az érvényes regisztrációs periódushoz!
+common#:#grp_join#:#A felhasználó csatlakozhat a csoporthoz
+common#:#grp_leave#:#A felhasználó távozhat a csoportból
+common#:#grp_mem_change_status#:#Tag státuszának cseréje
+common#:#grp_mem_leave#:#Csoportból kiutasított tag
+common#:#grp_mem_send_mail#:#Üzenet küldése tagnak
+common#:#grp_msg_applicants_assigned#:#A jelentkező(k) csoporttagokként bejegyzésre kerültek a csoporthoz
+common#:#grp_msg_applicants_removed#:#A jelentkező(k) eltávolításra kerültek a listáról.
+common#:#grp_msg_member_assigned#:#A felhasználó(k) csoporttagokként bejegyzésre kerültek a csoporthoz.
+common#:#grp_msg_membership_annulled#:#Tagság megszüntetve
+common#:#grp_name_exists#:#Már létezik ezen a néven csoport! Válasszon másik nevet.
+common#:#grp_new#:#Új csoport
+common#:#grp_read#:#Olvasási elérés csoporthoz
+common#:#grp_register#:#Regisztráció
+common#:#grp_registration_completed#:#A regisztráció befejeződött
+common#:#grp_visible#:#A csoport látható
+common#:#grp_write#:#Csoport szerkesztése
+common#:#guest#:#Vendég
+common#:#guests#:#vendég
+common#:#header_title#:#Fejléccím
+common#:#help#:#Segítség
+common#:#hide_details#:#részletek elrejtése
+common#:#hide_structure#:#Tiltott struktúranézet
+common#:#hobby#:#Érdeklődési területek / hobbik
+common#:#home#:#Kezdőlap
+common#:#host#:#Host
+common#:#hours_of_day#:#A nap órái
+common#:#htlm#:#HTML-tananyag
+common#:#htlm_add#:#HTML-tananyag hozzáadása
+common#:#htlm_delete#:#HTML-tananyag törlése
+common#:#htlm_edit#:#HTML-tananyag jellemzőinek szerkesztése
+common#:#htlm_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#htlm_new#:#Új HTML-tananyag
+common#:#htlm_read#:#HTML-tananyag olvasása
+common#:#htlm_visible#:#HTML-tananyag látható
+common#:#htlm_write#:#HTML-tananyag szerkesztése
+common#:#http_path#:#http-cím
+common#:#id#:#azonosító (ID)
+common#:#identifier#:#azonosító
+common#:#if_no_title_then_filename#:#Hagyja el a beviteli helyet, hogy megjelenjen a fájl neve
+common#:#ilias_version#:#ILIAS-verzió
+common#:#image#:#Kép
+common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.
+common#:#import#:#Import
+common#:#import_categories#:#Kategóriák importja
+common#:#import_file#:#Fájl importja
+common#:#import_file_not_valid#:#Az import fájl nem érvényes.
+common#:#import_finished#:#Importált üzenetek száma.
+common#:#import_forum_finished#:#A fórum importálásra került.
+common#:#import_glossary#:#Fogalomtár importálása
+common#:#import_grp_finished#:#Hiba nélkül importált csoport
+common#:#import_lm#:#Tananyag importja
+common#:#import_root_user#:#Root felhasználó importja
+common#:#import_slm#:#SCORM csomag importja
+common#:#import_users#:#Felhasználók importja
+common#:#imported#:#importálva
+common#:#in#:#miben
+common#:#in_use#:#Felhasználói nyelv
+common#:#inbox#:#Bejövő posta
+common#:#info_assign_sure#:#Biztosan hozzá akarja rendelni az alábbi felhasználó(ka)t?
+common#:#info_delete_sure#:#Biztosan törölni akarja az alábbi objektum(ok)at?
+common#:#info_deleted#:#Objektum(ok) törölve
+common#:#info_trash#:#Törölt objektumok
+common#:#inform_user_mail#:#E-mail küldése a felhasználónak a változásokról
+common#:#information_abbr#:#Információ
+common#:#ingmedia_all_offers#:#Minden tananyagegység
+common#:#ingmedia_back_to_le#:#Vissza a tananyagegységhez
+common#:#ingmedia_good_afternoon#:#Jó napot
+common#:#ingmedia_good_evening#:#Jó estét
+common#:#ingmedia_good_morning#:#Jó reggelt
+common#:#ingmedia_good_night#:#Jó éjszakát
+common#:#ingmedia_hello#:#Hello
+common#:#ingmedia_info_about_work1#:#On
+common#:#ingmedia_info_about_work2#:#, itt dolgozott legutóbb óta. Folytathatja ott, ide kattintva:
+common#:#ingmedia_level_zero#:#Egy szinttel feljebb
+common#:#ingmedia_pers_dates#:#Személyi adatok
+common#:#ingmedia_reg_fo#:#Regisztrált fórumok
+common#:#ingmedia_reg_le#:#Regisztrált tananyagelem
+common#:#ingmedia_use_info1#:#Itt megváltoztathatja személyes adatait. A felhasználói név és jelszó kivételével nem kell kitöltenie más mezőket. Az elfelejtett jelszavakat csak e-mailben kaphatja meg (!).
+common#:#ingmedia_use_info2#:#Nem használhatók speciális karakterek (mint pl. ,)
+common#:#ingmedia_use_info3#:#Az oldalon levő linkek közül válasszon ki egyet.
+common#:#ingmedia_use_title#:#Felhasználói adatok változtatása.
+common#:#ingmedia_user_agree#:#Megállapodás
+common#:#ingmedia_vis_le#:#Látogatott tananyagelem
+common#:#ingmedia_visited_le#:#Minden tananyagelem, amelyet eddig látogatott.
+common#:#ingmedia_welcome#:#, üdvözöljük munkaasztalánál!!
+common#:#inifile#:#ini fájl
+common#:#input_error#:#Beviteli hiba
+common#:#insert#:#Beszúrás
+common#:#inst_id#:#Telepítési azonosító (ID)
+common#:#inst_info#:#Telepítési információ
+common#:#inst_name#:#Telepítési név
+common#:#install#:#Telepítés
+common#:#installed#:#Telepítve
+common#:#institution#:#Intézmény
+common#:#internal_system#:#Belső rendszer
+common#:#ip_address#:#IP-cím
+common#:#is_already_your#:#már az Ön
+common#:#item#:#Tétel
+common#:#kb#:#kByte
+common#:#keywords#:#Kulcsszavak
+common#:#lang_cs#:#Cseh
+common#:#lang_da#:#Dán
+common#:#lang_dateformat#:#Y-m-d
+common#:#lang_de#:#Német
+common#:#lang_el#:#Görög
+common#:#lang_en#:#Angol
+common#:#lang_es#:#Spanyol
+common#:#lang_fi#:#Finn
+common#:#lang_fr#:#Francia
+common#:#lang_id#:#Indonéz
+common#:#lang_it#:#Olasz
+common#:#lang_ja#:#Japán
+common#:#lang_lt#:#Litván
+common#:#lang_nl#:#Holland
+common#:#lang_no#:#Norvég
+common#:#lang_path#:#Nyelv elérési útja
+common#:#lang_pl#:#Lengyel
+common#:#lang_pt#:#Portugál
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_sv#:#Svéd
+common#:#lang_timeformat#:#H:i:s
+common#:#lang_ua#:#Ukrán
+common#:#lang_version#:#1
+common#:#lang_vi#:#Vietnámi
+common#:#lang_xx#:#Szokásos
+common#:#lang_zh#:#Egyszerűsített kínai
+common#:#langfile_found#:#Fellelt nyelvi fájl
+common#:#language#:#Nyelv
+common#:#language_not_installed#:#nincs telepítve. Telepítse először azt a nyelvet
+common#:#languages#:#Nyelvek
+common#:#languages_already_installed#:#Válasszon nyelv(et) a már telepítettek közül
+common#:#languages_already_uninstalled#:#Válasszon nyelv(ek)et a már eltávolítottak közül
+common#:#languages_updated#:#Minden telepített nyelv frissítésre került
+common#:#last_change#:#Utolsó változtatás
+common#:#last_visit#:#Utolsó látogatás
+common#:#lastname#:#Utónév
+common#:#launch#:#Indítás
+common#:#ldap#:#LDAP
+common#:#ldap_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#ldap_read#:#Olvasási elérés az LDAP beállításokhoz
+common#:#ldap_visible#:#LDAP beállítások láthatók
+common#:#ldap_write#:#LDAP beállítások szerkesztése
+common#:#learning module#:#Tananyag
+common#:#learning_objects#:#Tananyagok
+common#:#learning_resources#:#Tananyagok
+common#:#level#:#Szint
+common#:#link#:#Csatolás
+common#:#linked_pages#:#Csatolt lapok
+common#:#list_of_pages#:#Lapok listája
+common#:#list_of_questions#:#Kérdések listája
+common#:#literature#:#Irodalom
+common#:#literature_bookmarks#:#Irodalom webcímei
+common#:#lm#:#Tananyag
+common#:#lm_a#:#egy tananyag
+common#:#lm_add#:#Tananyag hozzáadása
+common#:#lm_added#:#Tananyag hozzáadva
+common#:#lm_create#:#Tananyag létrehozása
+common#:#lm_delete#:#Tananyag törlése
+common#:#lm_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#lm_join#:#Tananyag felvétele
+common#:#lm_leave#:#Tananyag leadása
+common#:#lm_new#:#Új tananyag
+common#:#lm_read#:#Olvasási elérés a tananyaghoz
+common#:#lm_visible#:#A tananyag látható
+common#:#lm_write#:#Tananyag szerkesztése
+common#:#lng#:#Nyelv
+common#:#lngf#:#Nyelvek
+common#:#lngf_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#lngf_read#:#Olvasási jog a nyelvi beállításokhoz
+common#:#lngf_visible#:#A nyelvi beállítások láthatóak
+common#:#lo#:#Tananyagobjektum
+common#:#lo_available#:#Tananyagok és kurzusok áttekintése
+common#:#lo_categories#:#Tananyagobjektum kategóriák
+common#:#lo_edit#:#Tananyagobjektum szerkesztése
+common#:#lo_new#:#Új tananyagobjektum
+common#:#lo_no_content#:#Nincsenek elérhető tanulási források
+common#:#lo_other_langs#:#Tananyagobjektum más nyelveken
+common#:#lo_overview#:#Tananyagobjektum áttekintése
+common#:#locator#:#Hely:
+common#:#login#:#Bejelentkezés
+common#:#login_as#:#Bejelentkezett mint
+common#:#login_data#:#Bejelentkezési adatok
+common#:#login_exists#:#Már van ilyen bejelentkezési nevű felhasználó! Válasszon másik nevet.
+common#:#login_invalid#:#A választott bejelentkezés nem érvényes! Csak a következő karakterek használhatók (minimum 4 karakter): A-Z a-z 0-9 _.+*@!$%~
+common#:#login_time#:#On-line használat ideje
+common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
+common#:#logout#:#Kijelentkezés
+common#:#logout_text#:#Kijelentkezett az ILIAS-ból. Kapcsolódása megszűnt.
+common#:#los#:#Tananyagobjektumok
+common#:#los_last_visited#:#Utoljára látogatott tananyagobjektumok
+common#:#mail#:#E-mail
+common#:#mail_a_root#:#Postaláda
+common#:#mail_addressbook#:#Címlista
+common#:#mail_allow_smtp#:#SMTP számára elérhető
+common#:#mail_b_inbox#:#Bejövő posta
+common#:#mail_c_trash#:#Lomtár
+common#:#mail_d_drafts#:#Készülő levelek
+common#:#mail_delete_error#:#Törlés közben hiba lépett fel
+common#:#mail_delete_error_file#:#Hiba fájltörléskor
+common#:#mail_e_sent#:#Elküldött levelek
+common#:#mail_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#mail_folders#:#E-mail mappák
+common#:#mail_import#:#Importálás
+common#:#mail_import_file#:#Fájl exportálása
+common#:#mail_intern_enable#:#Engedélyezett
+common#:#mail_mail_visible#:#A felhasználó használhatja a levelezőrendszert
+common#:#mail_mails_of#:#E-mailek
+common#:#mail_maxsize_attach#:#Csatolás maximális mérete
+common#:#mail_maxsize_box#:#Levelesláda maximális mérete
+common#:#mail_maxsize_mail#:#E-mail maximális mérete
+common#:#mail_maxtime_attach#:#Csatolások megőrzésének maximuma napban
+common#:#mail_maxtime_mail#:#E-mailek megőrzésének maximuma napban
+common#:#mail_not_sent#:#Az e-mail  nem került elküldésre!
+common#:#mail_read#:#Olvasási jog az e-mail beállításaihoz
+common#:#mail_search_no#:#Bejegyzések nem találhatók
+common#:#mail_search_word#:#Szavak keresése
+common#:#mail_select_one#:#Ki kell választania egy e-mailt
+common#:#mail_send_error#:#Hiba lépett fel az e-mail elküldése közben
+common#:#mail_sent#:#E-mail elküldve!
+common#:#mail_smtp_mail#:#A felhasználó SMTP-n keresztül küldhet e-mailt
+common#:#mail_system#:#Rendszerüzenet
+common#:#mail_system_message#:#A felhasználó belső rendszerüzeneteket küldhet
+common#:#mail_visible#:#Az e-mail beállítások láthatók
+common#:#mail_write#:#E-mail beállítások szerkesztése
+common#:#mail_z_local#:#Felhasználói mappák
+common#:#mails#:#E-mailek
+common#:#manage_tracking_data#:#Nyomkövetési adatok menedzselése
+common#:#mark_all_read#:#Minden bejelölése olvasottnak
+common#:#mark_all_unread#:#Minden bejelölése olvasatlannak
+common#:#max_number_rec#:#Maximális rekordszám
+common#:#max_time#:#Maximális idő
+common#:#member#:#Tag
+common#:#members#:#Tagok
+common#:#membership_annulled#:#Tagságát felbontották
+common#:#mep#:#Médiagyűjtemény
+common#:#mep_add#:#Médiagyűjtemény hozzáadása
+common#:#mep_added#:#Hozzáadott médiagyűjtemény
+common#:#mep_delete#:#Médiagyűjtemény törlése
+common#:#mep_edit#:#Médiagyűjtemény jellemzőinek szerkesztése
+common#:#mep_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#mep_new#:#Új médiagyűjtemény
+common#:#mep_read#:#Médiagyűjtemény-tartalom olvasása
+common#:#mep_visible#:#A médiagyűjtemény látható
+common#:#mep_write#:#Médiagyűjtemény-tartalom szerkesztése
+common#:#message#:#Üzenet
+common#:#message_content#:#Üzenetszöveg
+common#:#message_to#:#Üzenet (kinek):
+common#:#meta_data#:#Metaadat
+common#:#migrate#:#Migráció
+common#:#min_time#:#Minimumidő
+common#:#mob#:#Médiaobjektum
+common#:#module#:#modul
+common#:#modules#:#Modulok
+common#:#month#:#Hónap
+common#:#month_01_long#:#Január
+common#:#month_01_short#:#Jan.
+common#:#month_02_long#:#Február
+common#:#month_02_short#:#Febr.
+common#:#month_03_long#:#Március
+common#:#month_03_short#:#Márc.
+common#:#month_04_long#:#Április
+common#:#month_04_short#:#Ápr.
+common#:#month_05_long#:#Május
+common#:#month_05_short#:#Máj.
+common#:#month_06_long#:#Június
+common#:#month_06_short#:#Jún.
+common#:#month_07_long#:#Július
+common#:#month_07_short#:#Júl.
+common#:#month_08_long#:#Augusztus
+common#:#month_08_short#:#Aug.
+common#:#month_09_long#:#Szeptember
+common#:#month_09_short#:#Szept.
+common#:#month_10_long#:#Október
+common#:#month_10_short#:#Okt.
+common#:#month_11_long#:#November
+common#:#month_11_short#:#Nov.
+common#:#month_12_long#:#December
+common#:#month_12_short#:#Dec.
+common#:#move#:#Áthelyez
+common#:#moveChapter#:#Áthelyez
+common#:#movePage#:#Áthelyez
+common#:#move_to#:#Áthelyez (hova)
+common#:#msg_cancel#:#Tevékenység megszakítva
+common#:#msg_changes_ok#:#A változtatások rendben voltak
+common#:#msg_clear_clipboard#:#Vágólap megtisztítva
+common#:#msg_cloned#:#Kiválasztott objektum(ok) lemásolva
+common#:#msg_copy_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: másolás)
+common#:#msg_cut_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: kivágás)
+common#:#msg_cut_copied#:#Kiválasztott objektum(ok) áthelyezve.
+common#:#msg_deleted_role#:#Szerep törölve
+common#:#msg_deleted_roles#:#Szerepek törölve
+common#:#msg_deleted_roles_rolts#:#Szerepek és szerepminták törölve
+common#:#msg_deleted_rolt#:#Szerepminta törölve
+common#:#msg_deleted_rolts#:#Szerepminta törölve
+common#:#msg_error_copy#:#Másolási hiba
+common#:#msg_failed#:#A tevékenység meghiúsult
+common#:#msg_is_last_role#:#Megszüntette az alábbi felhasználók hozzárendelését legutóbbi globális szerepükhöz.
+common#:#msg_link_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: link)
+common#:#msg_linked#:#Kiválasztott objektum(ok) belinkelve.
+common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a következő objektumtípusokat:
+common#:#msg_min_one_active_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen!
+common#:#msg_min_one_role#:#Minden felhasználónak legalább egy aktív globál szerepe kell legyen!
+common#:#msg_multi_language_selected#:#Ugyanazt a nyelvet választotta egy másik fordításhoz!
+common#:#msg_no_default_language#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen!
+common#:#msg_no_delete_yourself#:#Nem törölheti a saját felhasználói fiókját.
+common#:#msg_no_file#:#Nem választott fájlt
+common#:#msg_no_language_selected#:#Nincs fordítási nyelv meghatározva! Minden fordításhoz megkell adnia egy nyelvet.
+common#:#msg_no_perm_assign_role_to_user#:#Nincs jogosultsága a felhasználói szerepösszerendelés megváltoztatásához
+common#:#msg_no_perm_copy#:#Nem jogosult az alábbi objektum(ok) másolására:
+common#:#msg_no_perm_create#:#Nem jogosult az alábbi objektum(ok) létrehozására:
+common#:#msg_no_perm_create_object1#:#Nem jogosult létrehozni
+common#:#msg_no_perm_create_object2#:#ezen a helyen!
+common#:#msg_no_perm_create_role#:#Nincs jogosultsága szerepek felvételére
+common#:#msg_no_perm_create_rolf#:#Nincs jogosultsága szerepmappa létrehozására. Így nem állíthatja le a szerepek öröklődését, ill. nem vehet fel helyi szerepeket itt.
+common#:#msg_no_perm_create_rolt#:#Nincs jogosultsága szerepminták felvételére
+common#:#msg_no_perm_create_user#:#Nincs jogosultsága felhasználók felvételére
+common#:#msg_no_perm_cut#:#Nincs jogosultsága kivágni az alábbi objektumo(ka)t:
+common#:#msg_no_perm_delete#:#Nincs jogosultsága törölni az alábbi objektumo(ka)t:
+common#:#msg_no_perm_delete_track#:#Nincs jogosultsága a nyomkövetési adatok törléséhez.
+common#:#msg_no_perm_link#:#Nincs jogosultsága linket létrehozni az alábbi objektum(ok)ból:
+common#:#msg_no_perm_modify_role#:#Nincs jogosultsága szerepeket módosítani
+common#:#msg_no_perm_modify_rolt#:#Nincs jogosultsága a szerepminták módosításához
+common#:#msg_no_perm_modify_user#:#Nincs jogosultsága felhasználói adatokat módosítani
+common#:#msg_no_perm_paste#:#Nincs jogosultsága beilleszteni az alábbi objektumo(ka)t:
+common#:#msg_no_perm_perm#:#Nincs jogosultsága szerkeszteni a jogosultság-beállításokat
+common#:#msg_no_perm_read_lm#:#Nincs olvasási jogosultsága ehhez a tananyaghoz.
+common#:#msg_no_perm_read_track#:#Nincs jogosultsága a felhasználói nyomkövetéshez.
+common#:#msg_no_perm_undelete#:#Nincs jogosultsága visszavonni az alábbi objektum(ok) törlését:
+common#:#msg_no_perm_write#:#Nincs jogosultsága írni
+common#:#msg_no_rolf_allowed1#:#Az objektum
+common#:#msg_no_rolf_allowed2#:#nem tartalmazhat szerepmappát
+common#:#msg_no_scan_log#:#A scan-napló még nem implementált
+common#:#msg_no_search_result#:#Nem találhatók bejegyzések
+common#:#msg_no_search_string#:#Gépelje be kérdését
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Valószínűleg nem rendelhet felhasználókat a rendszeradminisztrátor szerephez, ha saját magát nem rendelte hozzá a szerephez
+common#:#msg_not_available_for_anon#:#A kiválasztott lap csak regisztrált felhasználók számára elérhető
+common#:#msg_not_in_itself#:#Nem lehet bemásolni az objektumot saját magába
+common#:#msg_nothing_found#:#Nem található üzenet
+common#:#msg_obj_created#:#Objektum létrehozva.
+common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
+common#:#msg_obj_modified#:#Módosítások elmentve.
+common#:#msg_obj_no_link#:#nem engedélyezett linkelése
+common#:#msg_perm_adopted_from1#:#A jogosultsági beállítások elődje
+common#:#msg_perm_adopted_from2#:#(Beállítások elmentve!)
+common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből / szerepmintából.
+common#:#msg_removed#:#Az objektum(ok) eltávolításra kerültek a rendszerből.
+common#:#msg_role_exists1#:#Szerep / szerepminta ezen a néven:
+common#:#msg_role_exists2#:#már létezik! Válasszon másik megnevezést
+common#:#msg_role_reserved_prefix#:#Az 'il_' prefix az automatikusan generált szerepeknek van fenntartva. Válasszon másik megnevezést
+common#:#msg_roleassignment_active_changed#:#Aktív szerep-összerendelés cserélve
+common#:#msg_roleassignment_active_changed_comment#:#Ez a beállítás nincs elmentve a felhasználói profilba! Ha a felhasználó újra bejelentkezik, az aktív szerep-összerendelések a mentett értékeket fogják ismét felvenni.
+common#:#msg_roleassignment_changed#:#Szerep-összerendelés megváltoztatva
+common#:#msg_sysrole_not_deletable#:#A rendszerszerepet nem lehet törölni
+common#:#msg_sysrole_not_editable#:#A rendszerszerep jogosultsági beállításai valószínűleg nem változtathatók. Ez a szerep korlátlan elérést biztosít minden hozzárendelt felhasználó számára az összes objektumhoz és funkcióhoz.
+common#:#msg_trash_empty#:#Nincs törölt objektum
+common#:#msg_undeleted#:#Objektum(ok) törlése visszavonva
+common#:#msg_user_last_role1#:#Ehhez a szerephez csak az alábbi felhasználók vannak hozzárendelve:
+common#:#msg_user_last_role2#:#Törölje a felhasználókat vagy rendelje őket másik szerephez, hogy törölhető legyen ez a szerep.
+common#:#msg_userassignment_changed#:#A felhasználó-hozzárendelés megváltoztatásra került
+common#:#multimedia#:#Multimédia
+common#:#my_bms#:#Webcímeim
+common#:#my_frms#:#Fórumaim
+common#:#my_grps#:#Csoportjaim
+common#:#my_los#:#Tananyagobjektumaim
+common#:#my_tsts#:#Tesztjeim
+common#:#name#:#Név
+common#:#new#:#Új
+common#:#new_appointment#:#Új időpont
+common#:#new_folder#:#Új mappa
+common#:#new_group#:#Új csoport
+common#:#new_language#:#Új nyelv
+common#:#new_mail#:#Új e-mail!
+common#:#news#:#Hírek
+common#:#next#:#következő
+common#:#nickname#:#Becenév
+common#:#no#:#No
+common#:#no_bm_in_personal_list#:#Nincs megadva webcím.
+common#:#no_chat_in_personal_list#:#Nincse chat a személyes listán
+common#:#no_checkbox#:#Nincs bejelölve jelölőnégyzet!
+common#:#no_date#:#Nincs dátum
+common#:#no_description#:#Nincs leírás
+common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
+common#:#no_grp_in_personal_list#:#Nincs csoport a személyes listában.
+common#:#no_import_available#:#Az import nem elérhető a típus számára
+common#:#no_limit#:#Nincs korlát
+common#:#no_lo_in_personal_list#:#Nincs tananyagobjektum a személyes listában.
+common#:#no_objects#:#Nincsenek objektumok
+common#:#no_permission_to_join#:#Nem engedélyezett, hogy csatlakozzon ehhez a csoporthoz!
+common#:#no_title#:#Nincs cím
+common#:#no_tst_in_personal_list#:#Nincsenek tesztek a személyi listán.
+common#:#none#:#Semmi
+common#:#normal#:#Normál
+common#:#not_implemented_yet#:#Még nem megvalósított
+common#:#not_installed#:#Nem telepített
+common#:#not_logged_in#:#Ön nem jelentkezett be
+common#:#number_of_accesses#:#Hozzáférési jogosultságok száma
+common#:#number_of_records#:#Rekordszám
+common#:#obj#:#Objektum
+common#:#obj_adm#:#Rendszerbeállítások
+common#:#obj_adm_desc#:#A fő rendszerbeállítások mappa minden panelt tartalmaz az ILIAS telepítésének adminisztrálásához.
+common#:#obj_cat#:#Kategória
+common#:#obj_cen#:#Centra esemény
+common#:#obj_chac#:#Chatbeállítások
+common#:#obj_chac_desc#:#Konfigurálja chat-szerverét itt. Chat-ek engedélyezése/tiltása.
+common#:#obj_chat#:#Chat
+common#:#obj_crs#:#Kurzus
+common#:#obj_dbk#:#Digitális könyvtári könyv
+common#:#obj_exc#:#Gyakorlat
+common#:#obj_file#:#Fájl
+common#:#obj_fold#:#Mappa
+common#:#obj_frm#:#Fórum
+common#:#obj_glo#:#Szótár
+common#:#obj_grp#:#Csoport
+common#:#obj_htlm#:#HTML-tananyag
+common#:#obj_ldap#:#LDAP beállítások
+common#:#obj_ldap_desc#:#Konfigurálja itt a globális LDAP beállításokat.
+common#:#obj_lm#:#Tananyag
+common#:#obj_lng#:#Nyelv
+common#:#obj_lngf#:#Nyelvek
+common#:#obj_lngf_desc#:#Menedzselje itt a rendszernyelveket.
+common#:#obj_lo#:#Tananyag
+common#:#obj_mail#:#Levelezési beállítások
+common#:#obj_mail_desc#:#Konfigurálja a globális e-mail beállításokat itt.
+common#:#obj_mep#:#Médiagyűjtemény
+common#:#obj_mob#:#Multimédia objektum
+common#:#obj_not_found#:#Nem található objektum
+common#:#obj_note#:#Megjegyzés
+common#:#obj_notf#:#Note Administration
+common#:#obj_objf#:#Objektumdefiníciók
+common#:#obj_objf_desc#:#Menedzselje az ILIAS objektumtípusokat és objektumjogokat. (Csak gyakorlottaknak!)
+common#:#obj_owner#:#Ennek az objektumnak a tulajdonosa
+common#:#obj_pg#:#Lap
+common#:#obj_qpl#:#Kérdésgyűjtemény (értékelés)
+common#:#obj_recf#:#Visszaállított objektumok
+common#:#obj_recf_desc#:#Visszaállított objektumokat tartalmaz a rendszerellenőrzésből.
+common#:#obj_role#:#Szerep
+common#:#obj_rolf#:#Szerepek
+common#:#obj_rolf_desc#:#Menedzselje szerepeit itt.
+common#:#obj_rolf_local#:#Helyi szerepek
+common#:#obj_rolf_local_desc#:#Az objektum helyi szerepeit tartalmazza.
+common#:#obj_rolt#:#Szerepminta
+common#:#obj_root#:#ILIAS gyökércsomópont
+common#:#obj_slm#:#SCORM tananyag
+common#:#obj_spl#:#Kérdésgyűjtemény (felmérés)
+common#:#obj_st#:#Fejezet
+common#:#obj_svy#:#Felmérés
+common#:#obj_tax#:#Osztályozás
+common#:#obj_taxf#:#Osztályozások
+common#:#obj_taxf_desc#:#Mappa az osztályozásoknak
+common#:#obj_trac#:#Felhasználói nyomkövetés
+common#:#obj_trac_desc#:#Felhasználó hozzáférés nyomkövetési adatai
+common#:#obj_tst#:#Teszt
+common#:#obj_typ#:#Objektumtípus definíció
+common#:#obj_type#:#Objektumtípus
+common#:#obj_uset#:#Felhasználói beállítások
+common#:#obj_usr#:#Felhasználó
+common#:#obj_usrf#:#Felhasználói fiókok
+common#:#obj_usrf_desc#:#Menedzselje itt a felhasználói fiókokat.
+common#:#object_added#:#Objektumok hozzáadva
+common#:#objects#:#Objektumok
+common#:#objf#:#Objektumdefiníciók
+common#:#objf_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#objf_read#:#Olvasási elérés objektumdefiníciókhoz
+common#:#objf_visible#:#Az objektumdefiníciók láthatók
+common#:#objf_write#:#Objektumdefiníciók szerkesztése
+common#:#objs_cat#:#Kategóriák
+common#:#objs_chat#:#Chatek
+common#:#objs_confirm#:#Tevékenység megerősítése
+common#:#objs_crs#:#Kurzusok
+common#:#objs_dbk#:#Digitális könyvek
+common#:#objs_delete#:#Objektumok törlése
+common#:#objs_exc#:#Gyakorlatok
+common#:#objs_file#:#Fájlok
+common#:#objs_fold#:#Mappák
+common#:#objs_frm#:#Fórumok
+common#:#objs_glo#:#Fogalomtárak
+common#:#objs_grp#:#Csoportok
+common#:#objs_htlm#:#HTML-tananyagok
+common#:#objs_lm#:#Tananyagok
+common#:#objs_lng#:#Nyelvek
+common#:#objs_lo#:#Tananyagobjektumok
+common#:#objs_mep#:#Médiagyűjtemény
+common#:#objs_mob#:#Médiaobjektumok
+common#:#objs_note#:#Feljegyzések
+common#:#objs_pg#:#Lapok
+common#:#objs_qpl#:#Kérdésgyűjtemény (kiértékelés)
+common#:#objs_role#:#Szerepek
+common#:#objs_rolt#:#Sablonszerepek
+common#:#objs_slm#:#SCORM-tananyagok
+common#:#objs_spl#:#Kérdésgyűjtemény (felmérések)
+common#:#objs_st#:#Fejezetek
+common#:#objs_svy#:#Felmérések
+common#:#objs_tst#:#Tesztek
+common#:#objs_type#:#Objektumtípusok
+common#:#objs_usr#:#Felhasználók
+common#:#of#:#Of
+common#:#offline_version#:#Off-line változat
+common#:#ok#:#Rendben
+common#:#old#:#Régi
+common#:#online_chapter#:#On-line fejezet
+common#:#online_version#:#On-line változat
+common#:#operation#:#Művelet
+common#:#optimize#:#Optimalizálás
+common#:#options#:#Beállítások
+common#:#order_by#:#Sorrendbe
+common#:#other#:#Másik
+common#:#overview#:#Áttekintés
+common#:#owner#:#Tulajdonos
+common#:#page#:#Lap
+common#:#page_edit#:#Lap szerkesztése
+common#:#pages#:#Lapok
+common#:#parameter#:#Paraméter
+common#:#parse#:#Szövegszerkezet elemzés
+common#:#passwd#:#Jelszó
+common#:#passwd_invalid#:#Az új jelszó nem megfelelő! Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_not_match#:#A begépelt nem illeszkedik az új jelszóra. Adja meg ismét az új jelszót.
+common#:#passwd_wrong#:#A megadott jelszó hibás!
+common#:#password#:#Jelszó
+common#:#paste#:#Beillesztés
+common#:#pasteChapter#:#Beillesztés
+common#:#pastePage#:#Beillesztés
+common#:#path#:#Elérési útvonal
+common#:#path_not_set#:#Az útvonal nincs beállítva
+common#:#path_to_babylon#:#Útvonal Babylon-hoz
+common#:#path_to_convert#:#Útvonal konvertáláshoz
+common#:#path_to_htmldoc#:#Útvonal HTML dokumentumhoz
+common#:#path_to_java#:#Útvonal Java-hoz
+common#:#path_to_unzip#:#Útvonal Unzip-hez
+common#:#path_to_zip#:#Útvonal zip-hez
+common#:#pathes#:#Útvonalak
+common#:#payment_system#:#Fizetési rendszer
+common#:#perm_settings#:#Jogosultságok
+common#:#permission#:#Jogosultság
+common#:#permission_denied#:#Jogosultság elutasítva
+common#:#permission_settings#:#Jogosultsági beállítások
+common#:#person_title#:#Titulus
+common#:#personal_data#:#Személyi adatok
+common#:#personal_desktop#:#Munkaasztal
+common#:#personal_picture#:#Fénykép
+common#:#personal_profile#:#Felhasználói adatok
+common#:#persons#:#Személyek
+common#:#pg_a#:#egy lap
+common#:#pg_add#:#Lap hozzáadása
+common#:#pg_added#:#Lap hozzáadva
+common#:#pg_edit#:#Lap szerkesztése
+common#:#pg_new#:#Új lap
+common#:#phone#:#Telefon
+common#:#phone_home#:#Telefon - otthon
+common#:#phone_mobile#:#Telefon - mobil
+common#:#phone_office#:#Telefon - munkahelyi
+common#:#phrase#:#Mondat
+common#:#please_enter_target#:#Adjon meg célt
+common#:#please_enter_title#:#Adjon meg címet
+common#:#port#:#Port
+common#:#position#:#Pozíció
+common#:#presentation_options#:#Prezentációs opciók
+common#:#previous#:#előző
+common#:#print#:#Nyomtatás
+common#:#profile_changed#:#Adatai változtatásra kerültek
+common#:#profile_of#:#Adatai:
+common#:#properties#:#Jellemzők
+common#:#pub_section#:#Nyilvános rész
+common#:#public_profile#:#Nyilvános adat
+common#:#publication#:#Publikáció
+common#:#publication_date#:#Publikáció dátuma
+common#:#published#:#Publikálva
+common#:#publishing_organisation#:#Publikáló szervezet
+common#:#qpl#:#Kérdésgyűjtemény (kiértékelés)
+common#:#qpl_add#:#Kérdésgyűjtemény hozzáadása
+common#:#qpl_delete#:#Kérdésgyűjtemény törlése
+common#:#qpl_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#qpl_new#:#Új kérdésgyűjtemény
+common#:#qpl_read#:#Olvasási elérés a kérdésgyűjteményhez
+common#:#qpl_visible#:#A kérdésgyűjtemény látható
+common#:#qpl_write#:#Kérdésgyűjtemény szerkesztése
+common#:#query_data#:#Kért adatok
+common#:#question#:#Kérdés
+common#:#question_pools#:#Kérdésgyűjtemény
+common#:#quit#:#Kilépés
+common#:#quote#:#Idézet
+common#:#read#:#Olvasott
+common#:#recf_edit#:#Visszaállított mappa szerkesztése
+common#:#recipient#:#Címzett
+common#:#refresh#:#Frissítés
+common#:#refresh_languages#:#Nyelvek frissítése
+common#:#refresh_list#:#Lista frissítése
+common#:#refuse#:#Visszautasítás
+common#:#register#:#Regisztráció
+common#:#register_info#:#Töltse ki a nyomtatványt a regisztrációhoz (a csillaggal jelölt mezők kötelezően megadandók).
+common#:#registered_since#:#Regisztráció kezdete
+common#:#registered_user#:#regisztrált felhasználó
+common#:#registered_users#:#regisztrált felhasználó
+common#:#registration#:#Új felhasználó regisztrációja
+common#:#registration_expired#:#A regisztrációs periódus lejárt…
+common#:#remove#:#Eltávolítás
+common#:#remove_personal_picture#:#Eltávolítás
+common#:#remove_translation#:#Fordítás eltávolítása
+common#:#rename#:#Átnevezés
+common#:#rename_file#:#Fájl átnevezése
+common#:#reply#:#Válasz
+common#:#repository#:#Taneszköz tároló
+common#:#required_field#:#Kötelező mezők
+common#:#reset#:#Alaphelyzetbe állítás (reset)
+common#:#resources#:#Források
+common#:#retype_password#:#Jelszó újragépelése
+common#:#right#:#Jog
+common#:#rights#:#Jogok
+common#:#role#:#Szerep
+common#:#role_a#:#egy szerep
+common#:#role_add#:#Szerep hozzáadása
+common#:#role_add_local#:#Helyi szerep hozzáadása
+common#:#role_added#:#Szerep hozzáadva
+common#:#role_assignment#:#Szerepösszerendelés
+common#:#role_deleted#:#Szerep törölve
+common#:#role_edit#:#Szerep szerkesztése
+common#:#role_new#:#Új szerep
+common#:#roles#:#Szerepek
+common#:#roles_of_import_global#:#Import fájl globális szerepei
+common#:#roles_of_import#:#Import fájl szerepei
+common#:#rolf#:#Szerepek
+common#:#rolf_added#:#Szerepmappa hozzáadva
+common#:#rolf_create_role#:#Új szerepdefiníció létrehozása
+common#:#rolf_create_rolt#:#Új szerepdefiníció sablon létrehozása
+common#:#rolf_delete#:#Szerepek / szerepminták törlése
+common#:#rolf_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#rolf_edit_userassignment#:#Szerep és felhasználó összerendelésének változtatása
+common#:#rolf_read#:#Olvasási elérés szerepekhez / szerepmintákhoz
+common#:#rolf_visible#:#Szerepek / szerepminták láthatók
+common#:#rolf_write#:#Szerepek / szerepminták alap jogosultság beállításainak szerkesztése szerkesztése
+common#:#rolt#:#Szerepminta
+common#:#rolt_a#:#egy szerepminta
+common#:#rolt_add#:#Szerepminta hozzáadása
+common#:#rolt_added#:#Szerepminta hozzáadva
+common#:#rolt_edit#:#Szerepminta szerkesztése
+common#:#rolt_new#:#Új szerepminta
+common#:#root_create_cat#:#A felhasználó kategóriákat hozhat létre
+common#:#root_edit#:#Rendszer root node szerkesztése
+common#:#root_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#root_read#:#Olvasási elérés az ILIAS rendszerhez
+common#:#root_visible#:#Az ILIAS rendszer látható
+common#:#root_write#:#ILIAS gyökércsomópont metaadatainak szerkesztése
+common#:#salutation#:#Megszólítás
+common#:#salutation_f#:#Kisasszony / Asszony
+common#:#salutation_m#:#Úr
+common#:#save#:#Mentés
+common#:#save_and_back#:#Mentés és vissza
+common#:#save_message#:#Üzenet mentése
+common#:#save_refresh#:#Mentés és frissítés
+common#:#save_return#:#Mentés és visszatérés
+common#:#save_settings#:#Beállítások mentése
+common#:#save_user_related_data#:#Felhasználó hozzáféréssel kapcsolatos adatainak mentése
+common#:#saved#:#Mentve
+common#:#saved_successfully#:#Sikeresen mentve
+common#:#search#:#Keresés
+common#:#search_for#:#Keresendő
+common#:#search_in#:#Keresés helye
+common#:#search_new#:#Új keresés
+common#:#search_recipient#:#Címzett keresése
+common#:#search_result#:#Keresési eredmény
+common#:#search_user#:#Felhasználó keresése
+common#:#sections#:#Szekciók
+common#:#select#:#Kijelölés
+common#:#select_all#:#Mindent kijelöl
+common#:#select_file#:#Fájl kijelölése
+common#:#select_mode#:#Kijelölésmód
+common#:#selected#:#Kijelölve
+common#:#selected_items#:#Kiválasztott taneszközök
+common#:#send#:#Küldés
+common#:#sender#:#Feladó
+common#:#sent#:#Elküldve
+common#:#sequence#:#Sorrend
+common#:#sequences#:#Sorrendek
+common#:#server#:#Szerver
+common#:#server_data#:#Szerveradatok
+common#:#server_software#:#Szerverszoftver
+common#:#set#:#Beállítás
+common#:#setSystemLanguage#:#Rendszernyelv beállítása
+common#:#setUserLanguage#:#Felhasználói nyelv beállítása
+common#:#set_offline#:#Off-line-re állítás
+common#:#set_online#:#On-line-ra állítás
+common#:#settings#:#Beállítások
+common#:#show#:#Mutat
+common#:#show_details#:#részletek mutatása
+common#:#show_list#:#Lista mutatása
+common#:#show_members#:#Tagok megjelenítése
+common#:#show_owner#:#Tulajdonos mutatása
+common#:#show_structure#:#Strukturált nézet engedélyezése
+common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
+common#:#signature#:#Aláírás
+common#:#slm#:#SCORM tananyag
+common#:#slm_added#:#SCORM tananyag hozzáadva
+common#:#slm_create#:#SCORM tananyag létrehozva
+common#:#slm_delete#:#SCORM tananyag törölve
+common#:#slm_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#slm_join#:#SCORM tananyag felvétele
+common#:#slm_leave#:#SCORM tananyag leadása
+common#:#slm_read#:#Olvasási elérés SCORM tananyagokhoz
+common#:#slm_visible#:#SCORM tananyag látható
+common#:#slm_write#:#SCORM tananyag szerkesztése
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Rendezés erre az oszlopra
+common#:#spl#:#Kérdésgyűjtemény (felmérés)
+common#:#spl_add#:#Kérdésgyűjtemény hozzáadása
+common#:#spl_delete#:#Kérdésgyűjtemény törlése
+common#:#spl_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#spl_new#:#Új kérdésgyűjtemény
+common#:#spl_read#:#Olvasási elérés a kérdésgyűjteményhez
+common#:#spl_visible#:#A kérdésgyűjtemény látható
+common#:#spl_write#:#Kérdésgyűjtemény szerkesztése
+common#:#st_a#:#egy fejezet
+common#:#st_add#:#Fejezet hozzáadása
+common#:#st_added#:#Fejezet hozzáadva
+common#:#st_edit#:#Fejezet szerkesztése
+common#:#st_new#:#Új fejezet
+common#:#startpage#:#Kezdőlap
+common#:#statistic#:#Statisztika
+common#:#status#:#Állapot
+common#:#step#:#Lépés
+common#:#stop_inheritance#:#Öröklődés megállítása
+common#:#street#:#Lakcím (utca, házszám)
+common#:#structure#:#Struktúra
+common#:#subcat_name#:#Alkategória-név
+common#:#subchapter_new#:#Új alfejezet
+common#:#subject#:#Tárgy
+common#:#subject_module#:#Tárgymodul
+common#:#submit#:#Elküldés
+common#:#subobjects#:#Alobjektum
+common#:#subscription#:#Felvétel
+common#:#summary#:#Összefoglalás
+common#:#svy#:#Felmérés
+common#:#svy_add#:#Felmérés hozzáadása
+common#:#svy_delete#:#Felmérés törlése
+common#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#svy_invite#:#Felhasználók meghívása felmérés készítésére
+common#:#svy_new#:#Új felmérés
+common#:#svy_participate#:#Részvétel felmérésben
+common#:#svy_read#:#Olvasási elérés felméréshez
+common#:#svy_visible#:#A felmérés látható
+common#:#svy_write#:#Felmérés szerkesztése
+common#:#system#:#Rendszer
+common#:#system_check#:#Rendszerellenőrzés
+common#:#system_choose_language#:#Választott rendszernyelv
+common#:#system_groups#:#Rendszercsoportok
+common#:#system_grp#:#Rendszercsoport
+common#:#system_language#:#Rendszernyelv
+common#:#system_message#:#Rendszerüzenet
+common#:#table_mail_import#:#Levél importálása
+common#:#tax_delete#:#Osztályozások törlése
+common#:#tax_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#tax_read#:#Olvasási elérés az osztályozásokhoz
+common#:#tax_visible#:#Az osztályozás látható
+common#:#tax_write#:#Írási engedély az osztályozásokhoz
+common#:#taxf_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#taxf_read#:#Olvasási elérés az osztályozó mappához
+common#:#taxf_visible#:#Az osztályozó mappa látható
+common#:#taxf_write#:#Írási engedély az osztályozó mappához
+common#:#term#:#Fogalom
+common#:#test#:#Teszt
+common#:#test_intern#:#Belső teszt
+common#:#test_module#:#Tesztmodul
+common#:#tests#:#Tesztek
+common#:#time#:#Idő
+common#:#time_d#:#Nap
+common#:#time_h#:#Óra
+common#:#time_segment#:#Időszak
+common#:#title#:#Cím
+common#:#to#:#Címzett
+common#:#to_client_list#:#Kliens szekcióba
+common#:#to_desktop#:#Munkaasztalra
+common#:#today#:#Ma
+common#:#total#:#Összesen
+common#:#tpl_path#:#Ideiglenes elérési út
+common#:#trac_delete#:#Nyomkövetési adatok törlése
+common#:#trac_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#trac_read#:#Nyomkövetési adatok olvasása
+common#:#trac_visible#:#Felhasználói nyomkövetés látható
+common#:#tracked_objects#:#Nyomon követett objektumok
+common#:#tracking_data#:#Nyomkövetési adatok
+common#:#tracking_data_del_confirm#:#Biztosan törölni akarja a meghatározott és az előtte levő hónap minden nyomkövetési adatát?
+common#:#tracking_data_deleted#:#Nyomkövetési adatok törölve
+common#:#tracking_settings#:#Nyomkövetési beállítások
+common#:#translation#:#Fordítás
+common#:#trash#:#Lomtár
+common#:#treeview#:#Mappa nézet
+common#:#tst#:#Teszt
+common#:#tst_add#:#Teszt hozzáadása
+common#:#tst_delete#:#Teszt törlése
+common#:#tst_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#tst_new#:#Új teszt
+common#:#tst_read#:#Olvasási elérés teszthez
+common#:#tst_visible#:#A teszt látható
+common#:#tst_write#:#Teszt szerkesztése
+common#:#txt_add_object_instruction1#:#Válassza ki, hová akarja hozzáadni
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#Sikeresen regisztrálta magát az ILIAS-ba. Kattintson a lenti gombra, hogy felhasználóként bejelentkezhessen.
+common#:#typ#:#Objektumtípus definíció
+common#:#type#:#Típus
+common#:#type_your_message_here#:#Ide gépelje be üzenetét
+common#:#uid#:#Felhasználói azonosító (UID)
+common#:#uninstall#:#Eltávolítás
+common#:#uninstalled#:#eltávolítva.
+common#:#unknown#:#ISMERETLEN
+common#:#unread#:#Olvasatlan
+common#:#unsubscribe#:#leadás
+common#:#unzip#:#Unzip
+common#:#up#:#Fel
+common#:#update_applied#:#Frissítés alkalmazva
+common#:#update_language#:#Nyelv frissítése
+common#:#upload#:#Feltöltés
+common#:#uploaded_and_checked#:#A fájl feltöltésre és ellenőrzésre került, elkezdheti importálását.
+common#:#url#:#URL
+common#:#url_description#:#URL-leírás
+common#:#user#:#Felhasználó
+common#:#user_access#:#Hozzáférés felhasználónként
+common#:#user_added#:#Felhasználó hozzáadva
+common#:#user_assignment#:#Felhasználó-hozzárendelés
+common#:#user_deleted#:#Felhasználó törölve
+common#:#user_imported#:#A felhasználói importálás befejeződött.
+common#:#user_language#:#Felhasználói nyelv
+common#:#user_not_chosen#:#Nem választott csoporttagot!
+common#:#userdata#:#Felhasználói adatok
+common#:#username#:#Felhasználói név
+common#:#users#:#Felhasználók
+common#:#users_not_imported#:#Az alábbi felhasználók nem léteznek, üzeneteik nem importálhatók
+common#:#users_online#:#Bejelentkezett felhasználók
+common#:#usertracking#:#Felhasználói nyomkövetés
+common#:#usr#:#Felhasználó
+common#:#usr_a#:#egy felhasználó
+common#:#usr_add#:#Felhasználó hozzáadása
+common#:#usr_added#:#Felhasználó hozzáadva
+common#:#usr_agreement#:#Felhasználói megállapodás
+common#:#usr_agreement_empty#:#A megállapodás nem tartalmaz szöveget
+common#:#usr_edit#:#Felhasználó szerkesztése
+common#:#usr_hits_per_page#:#Látogatottság/lap a táblázatokban
+common#:#usr_new#:#Új felhasználó
+common#:#usr_skin_style#:#Képernyő / stílus
+common#:#usr_style#:#Felhasználói stílus
+common#:#usrf#:#Felhasználói fiókok
+common#:#usrf_create_user#:#Új felhasználói fiók létrehozása
+common#:#usrf_delete#:#Felhasználói fiókok törlése
+common#:#usrf_edit_permission#:#Felhasználói fiókokhoz való hozzáférés változtatása
+common#:#usrf_edit_roleassignment#:#Felhasználói fiókokhoz való szerephozzáférés változtatása
+common#:#usrf_read#:#Olvasási elérés a felhasználói fiókokhoz
+common#:#usrf_visible#:#A felhasználói fiókok láthatók
+common#:#usrf_write#:#Felhasználói fiókok szerkesztése
+common#:#validate#:#Érvényesítés
+common#:#value#:#Érték
+common#:#version#:#Változat
+common#:#view#:#Nézet
+common#:#view_content#:#Tartalom nézet
+common#:#visible_layers#:#Látható rétegek
+common#:#visits#:#Látogatók
+common#:#week#:#Hét
+common#:#welcome#:#Üdvözöljük 
+common#:#who_is_online#:#Ki van on-line?
+common#:#with#:#Mivel
+common#:#write#:#Ír
+common#:#yes#:#Igen
+common#:#you_may_add_local_roles#:#Helyi szerepeket vehet fel
+common#:#your_message#:#Az Ön üzenete
+common#:#zip#:#Irányítószám
+common#:#zipcode#:#Irányítószám
+content#:#HTML export#:#HTML-export
+content#:#PDF export#:#PDF-export
+content#:#Pages#:#Lapok
+content#:#all#:#Mind
+content#:#cont_Additional#:#További
+content#:#cont_Alphabetic#:#Ábécérend A, B, …
+content#:#cont_Circle#:#Kör
+content#:#cont_Citation#:#Idézet
+content#:#cont_Code#:#Kód
+content#:#cont_Example#:#Példa
+content#:#cont_Headline1#:#Címsor 1
+content#:#cont_Headline2#:#Címsor 2
+content#:#cont_Headline3#:#Címsor 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Helyi fájl
+content#:#cont_Mnemonic#:#Emlékeztető
+content#:#cont_Number#:#Szám
+content#:#cont_Poly#:#Sokszög
+content#:#cont_Rect#:#Téglalap
+content#:#cont_Reference#:#Referencia
+content#:#cont_Remark#:#Megjegyzés
+content#:#cont_Roman#:#Római I, II, ...
+content#:#cont_TableContent#:#Tartalomtáblázat
+content#:#cont_Unordered#:#Nem sorrendben
+content#:#cont_active#:#Menü engedélyezése
+content#:#cont_add_area#:#Terület hozzáadása
+content#:#cont_add_definition#:#Definíció hozzáadása
+content#:#cont_add_fullscreen#:#Teljesképernyő hozzáadása
+content#:#cont_added_term#:#Fogalom hozzáadva
+content#:#cont_all_definitions#:#Minden definíció
+content#:#cont_all_pages#:#Minden lap
+content#:#cont_alphabetic#:#Ábécérend a, b, …
+content#:#cont_api_adapter#:#API csatoló neve
+content#:#cont_api_func_prefix#:#API funkciók prefixe
+content#:#cont_areas_deleted#:#Map területek törölve.
+content#:#cont_assign_full#:#Teljesképernyő
+content#:#cont_assign_std#:#Szabvány hozzárendelése
+content#:#cont_assign_translation#:#Fordítás hozzárendelése
+content#:#cont_assignments_deleted#:#Hozzárendelések törölve
+content#:#cont_autoindent#:#Auto Indent
+content#:#cont_back#:#Vissza
+content#:#cont_booktitle#:#Könyvcím
+content#:#cont_bottom#:#Aljára
+content#:#cont_cant_copy_folders#:#A mappák nem másolhatók a vágólapra.
+content#:#cont_cant_del_full#:#A teljes képernyős fájl nem törölhető.
+content#:#cont_cant_del_std#:#A szabvány nézetű fájl nem törölhető.
+content#:#cont_caption#:#Fejezet
+content#:#cont_change_type#:#Típus cseréje
+content#:#cont_chap_and_pages#:#Fejezetek és lapok
+content#:#cont_chap_select_target_now#:#A fejezet áthelyezésre bejelölt. Jelölje ki a célutat most.
+content#:#cont_chapters#:#Fejezetek
+content#:#cont_chapters_and_pages#:#Fejezetek és lapok
+content#:#cont_chapters_only#:#Csak fejezetek
+content#:#cont_characteristic#:#Jellemző
+content#:#cont_choose_cont_obj#:#Tartalom-objektum választása
+content#:#cont_choose_glossary#:#Szótár választása
+content#:#cont_choose_media_source#:#Médiaforrás választása
+content#:#cont_citation_err_one#:#Pontosan egy kiadót kell kijelölnie
+content#:#cont_citation_selection_not_valid#:#A választása nem érvényes
+content#:#cont_citations#:#Idézetek
+content#:#cont_clean_frames#:#Az összes keret frissítése lapozáskor
+content#:#cont_click_br_corner#:#Kattintson a kívánt terület jobb alsó sarkára.
+content#:#cont_click_center#:#Kattintson a kívánt terület középppontjára.
+content#:#cont_click_circle#:#Kattintson a kívánt területet határoló körvonal egy pontjára.
+content#:#cont_click_next_or_save#:#Kattintson a sokszög következő pontjára, vagy mentse a területet. (Nem szükséges újra a sokszög kezdőpontjára kattintani!)
+content#:#cont_click_next_point#:#Kattintson a sokszög következő pontjára.
+content#:#cont_click_starting_point#:#Kattintson a sokszög kezdőpontjára.
+content#:#cont_click_tl_corner#:#Kattintson a kívánt terület bal felső sarkába.
+content#:#cont_content#:#Tartalom
+content#:#cont_content_obj#:#Tartalom-objektum
+content#:#cont_contents#:#Tartalomjegyzék
+content#:#cont_coords#:#Koordináták
+content#:#cont_copy_to_clipboard#:#Vágólapra  másolás
+content#:#cont_create_dir#:#Könyvtár létrehozása
+content#:#cont_create_export_file#:#Export fájl létrehozása
+content#:#cont_create_folder#:#Mappa létrehozása
+content#:#cont_create_mob#:#Médiaobjektum létrehozása
+content#:#cont_credit_mode#:#Kreditmód (a 'normál' leckemódhoz)
+content#:#cont_credit_off#:#Nincs kredit
+content#:#cont_credit_on#:#Kredit
+content#:#cont_credits#:#Kreditek
+content#:#cont_cross_reference#:#Keresztreferencia
+content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_def_layout#:#Alapértelmezett megjelenés
+content#:#cont_def_lesson_mode#:#Alapértelmezett leckemód
+content#:#cont_def_organization#:#alapértelmezett
+content#:#cont_definition#:#Definíció
+content#:#cont_definitions#:#Definíciók
+content#:#cont_del_assignment#:#Kiértékelés törlése
+content#:#cont_dependencies#:#Függőségek
+content#:#cont_derive_from_obj#:#Objektumból származtatás
+content#:#cont_details#:#Részletek
+content#:#cont_dir_file#:#Könyvtár / fájl
+content#:#cont_disable_media#:#Letiltott média
+content#:#cont_download_title#:#Cím letöltése
+content#:#cont_edit_area#:#Terület szerkesztése
+content#:#cont_edit_file_list_properties#:#Fájllista-jellemzők szerkesztése
+content#:#cont_edit_mob#:#Médiaobjektum szerkesztése
+content#:#cont_edit_mob_alias_prop#:#Médiaobjektum-példány jellemzőinek szerkesztése
+content#:#cont_edit_mob_files#:#Objektumfájlok
+content#:#cont_edit_mob_properties#:#Médiaobjektum-jellemzők szerkesztése
+content#:#cont_edit_par#:#Bekezdés szerkesztése
+content#:#cont_edit_src#:#Forráskód szerkesztése
+content#:#cont_edit_tab_properties#:#Táblázat-jellemzők
+content#:#cont_edit_term#:#Fogalom szerkesztése
+content#:#cont_edition#:#Szerkesztés
+content#:#cont_enable_media#:#Média engedélyezése
+content#:#cont_export_files#:#Fájlok exportálása
+content#:#cont_external#:#külső
+content#:#cont_file#:#Fájl
+content#:#cont_files#:#Fájlok
+content#:#cont_format#:#Formázás
+content#:#cont_free_pages#:#Szabad lapok
+content#:#cont_full_is_in_dir#:#A törlés nem lehetséges. Teljesképernyős fájl van a könyvtárban.
+content#:#cont_fullscreen#:#Teljesképernyő
+content#:#cont_get_link#:#link lekérdezése
+content#:#cont_get_orig_size#:#Eredeti méret beállítása
+content#:#cont_glo_properties#:#Fogalomtár jellemzői
+content#:#cont_height#:#Magasság
+content#:#cont_how_published#:#Hogy van publikálva
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_imagemap#:#Image Map
+content#:#cont_import_id#:#azonosító
+content#:#cont_insert_file_item#:#Fájltétel beszúrása
+content#:#cont_insert_file_list#:#Fájllista beszúrása
+content#:#cont_insert_list#:#Lista beszúrása
+content#:#cont_insert_mob#:#Médiaobjektum beszúrása
+content#:#cont_insert_par#:#Bekezdés beszúrása
+content#:#cont_insert_search#:#Szúrjon be egy keresési kifejezést
+content#:#cont_insert_src#:#Forráskód beszúrása
+content#:#cont_insert_table#:#Táblázat beszúrása
+content#:#cont_internal#:#belső
+content#:#cont_internal_link#:#belső link
+content#:#cont_is_visible#:#látható
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
+content#:#cont_item#:#Tétel
+content#:#cont_journal#:#Újság
+content#:#cont_keyword#:#Kulcsszó
+content#:#cont_link#:#Link
+content#:#cont_link_area#:#Linkterület
+content#:#cont_link_ext#:#Link (külső)
+content#:#cont_link_int#:#Link (belső)
+content#:#cont_link_select#:#belső link
+content#:#cont_link_type#:#Linktípus
+content#:#cont_list_files#:#Fájlok listázása
+content#:#cont_list_properties#:#Jellemzők listázása
+content#:#cont_lk_chapter#:#Fejezet
+content#:#cont_lk_chapter_new#:#Fejezet (új keret)
+content#:#cont_lk_media_faq#:#Média (GYIK keret)
+content#:#cont_lk_media_inline#:#Média (inline)
+content#:#cont_lk_media_media#:#Média (média-keret)
+content#:#cont_lk_media_new#:#Média (új keret)
+content#:#cont_lk_page#:#Lap
+content#:#cont_lk_page_faq#:#Lap (GYIK-keret)
+content#:#cont_lk_page_new#:#Lap (új keret)
+content#:#cont_lk_survey#:#Felmérés
+content#:#cont_lk_term#:#Fogalomtár fogalma
+content#:#cont_lk_term_new#:#Fogalomtár fogalma (új keret)
+content#:#cont_lm_menu#:#Menü
+content#:#cont_lm_properties#:#Tananyag-jellemzők
+content#:#cont_lvalue#:#Adatelem
+content#:#cont_manifest#:#Manifest
+content#:#cont_map_areas#:#Linkterületek
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_media_source#:#Médiaforrás
+content#:#cont_mep_structure#:#Médiagyűjtemény-struktúra
+content#:#cont_mob_files#:#Objektumfájlok
+content#:#cont_mob_inst_prop#:#Példányjellemzők
+content#:#cont_mob_prop#:#Objektumjellemzők
+content#:#cont_mob_usages#:#Használat
+content#:#cont_month#:#Hónap
+content#:#cont_msg_multiple_editions#:#Nem lehet megmutatni a többszörös szerkesztés részleteit
+content#:#cont_name#:#Név
+content#:#cont_new_area#:#Új linkterület
+content#:#cont_new_assignment#:#Új feladat
+content#:#cont_new_dir#:#Új könyvtár
+content#:#cont_new_file#:#Új fájl
+content#:#cont_new_media_obj#:#Új médiaobjektum
+content#:#cont_new_term#:#Új fogalom
+content#:#cont_no_assign_itself#:#Az objektum nem rendelhető sajátmagához
+content#:#cont_no_manifest#:#Nem található umsmanifest.xml fájl a főkönyvtárban.
+content#:#cont_no_object_found#:#Ezen a címen nem található objektum
+content#:#cont_no_page#:#A lap nem létezik.
+content#:#cont_none#:#Semmi
+content#:#cont_nr_cols#:#Oszlopok száma
+content#:#cont_nr_items#:#Tételek száma
+content#:#cont_nr_rows#:#Sorok száma
+content#:#cont_obj_removed#:#Az objektum eltávolítva.
+content#:#cont_offline#:#Off-line verziók
+content#:#cont_online#:#On-line
+content#:#cont_order#:#Rendezési típus
+content#:#cont_organization#:#Szervezet
+content#:#cont_organizations#:#Szervezetek
+content#:#cont_orig_size#:#Eredeti méret
+content#:#cont_page_header#:#Lap fejléce
+content#:#cont_page_select_target_now#:#A lap áthelyezésre kijelölt. Válasszon célútvonalat most.
+content#:#cont_pages#:#Lapok
+content#:#cont_parameter#:#Paraméter
+content#:#cont_parameters#:#paraméterek
+content#:#cont_personal_clipboard#:#Személyes vágólap
+content#:#cont_pg_content#:#Laptartalom
+content#:#cont_pg_title#:#Lapcím
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_preview#:#Előnézet
+content#:#cont_publisher#:#Kiadó
+content#:#cont_purpose#:#Cél
+content#:#cont_ref_helptext#:#(például http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Referencia
+content#:#cont_remove_fullscreen#:#Teljesképernyő eltávolítva
+content#:#cont_resource#:#Forrás
+content#:#cont_resource_type#:#Típus
+content#:#cont_resources#:#Források
+content#:#cont_roman#:#Római i, ii, …
+content#:#cont_rvalue#:#Érték
+content#:#cont_saved_map_area#:#Map terület elmentve
+content#:#cont_saved_map_data#:#Map adatok elmentve
+content#:#cont_sc_auto_review#:#Leckemód 'ismétlés'-re állítása, ha a hallgató befejezte az SCO-t (Shareable Content Object)
+content#:#cont_sc_less_mode_browse#:#Böngészés
+content#:#cont_sc_less_mode_normal#:#Normál
+content#:#cont_sc_stat_browsed#:#Kikeresett
+content#:#cont_sc_stat_completed#:#Befejezve
+content#:#cont_sc_stat_failed#:#Sikertelen
+content#:#cont_sc_stat_incomplete#:#Befejezetlen
+content#:#cont_sc_stat_not_attempted#:#Nem próbált
+content#:#cont_sc_stat_passed#:#Teljesítve
+content#:#cont_sc_stat_running#:#Futtatás
+content#:#cont_sc_title#:#cím
+content#:#cont_school#:#Iskola
+content#:#cont_score#:#Eredmény
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_item#:#Legálább egy tétel kiválasztása.
+content#:#cont_select_max_one_item#:#Csak egy tételt válasszon
+content#:#cont_select_max_one_term#:#Csak egy fogalmat válasszon
+content#:#cont_select_one_edition#:#Legalább egy kiadást válasszon.
+content#:#cont_select_one_translation#:#Válasszon egy fordítást
+content#:#cont_select_one_translation_warning#:#Nem lehet egynél több fordítást mutatni.
+content#:#cont_select_term#:#Egy fogalom kiválasztása
+content#:#cont_select_translation#:#Válassza ki az összerendelést a fenti listából
+content#:#cont_series#:#Sorozat
+content#:#cont_series_editor#:#Sorozatszerkesztő
+content#:#cont_series_title#:#Sorozatcím
+content#:#cont_series_volume#:#Sorozatkötet
+content#:#cont_set_class#:#Osztály beállítása
+content#:#cont_set_edit_mode#:#Szerkesztési mód beállítása
+content#:#cont_set_link#:#Link szerkesztése
+content#:#cont_set_shape#:#Alakzat szerkesztése
+content#:#cont_set_start_file#:#Indítófájl beállítása
+content#:#cont_set_width#:#Szélesség beállítása
+content#:#cont_shape#:#Alakzat
+content#:#cont_show#:#Megjelenítés
+content#:#cont_show_citation#:#Idézettel megjelenítés
+content#:#cont_show_line_numbers#:#Sorok számának mutatása
+content#:#cont_size#:#Méret (Byte)
+content#:#cont_source#:#Forrás
+content#:#cont_src#:#Forráskód
+content#:#cont_src_other#:#másik
+content#:#cont_st_title#:#Fejezetcím
+content#:#cont_startfile#:#Indítófájl
+content#:#cont_status#:#Státusz
+content#:#cont_std_is_in_dir#:#A törlés nem lehetséges. Szabvány nézetű fájl van a könyvtárban.
+content#:#cont_std_view#:#Szabvány nézet
+content#:#cont_structure#:#struktúra
+content#:#cont_subchapters#:#Alfejezet
+content#:#cont_table#:#Táblázat
+content#:#cont_table_border#:#Táblázatszegély
+content#:#cont_table_cellpadding#:#Táblázatcellák margója
+content#:#cont_table_cellspacing#:#Táblázatcellák cellaköze
+content#:#cont_table_width#:#Táblázatszélesség
+content#:#cont_target_within_source#:#A célútvonal nem lehet a forrásobjektumon belül.
+content#:#cont_term#:#Fogalom
+content#:#cont_terms#:#Fogalmak
+content#:#cont_time#:#Idő
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Tartalomjegyzék
+content#:#cont_toc_mode#:#Tartalomjegyzék mód
+content#:#cont_top#:#Tetejére
+content#:#cont_total_time#:#Teljes idő
+content#:#cont_tracking_data#:#Nyomkövetési adatok
+content#:#cont_tracking_items#:#Nyomkövetési tételek
+content#:#cont_translations#:#Fordítás(ok)
+content#:#cont_translations_assigned#:#Fordítás(ok) hozzárendelve
+content#:#cont_update#:#Frissítve
+content#:#cont_update_names#:#Frissítési  nevek
+content#:#cont_upload_file#:#Fájl frissítése
+content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#Ez a médiaobjektum a vágólapján van: 
+content#:#cont_users_have_mob_in_clip2#:#felhasználó(k).
+content#:#cont_validate_file#:#Érvényes fájl
+content#:#cont_version#:#változat
+content#:#cont_view_last_export_log#:#Legutolsó export napló
+content#:#cont_where_published#:#Hol publikálták
+content#:#cont_width#:#Szélesség
+content#:#cont_wysiwyg#:#Tartalom előnézete
+content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Év
+content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
+content#:#pages from#:#Első
+content#:#par#:#Bekezdés
+content#:#pg#:#Lap
+content#:#read offline#:#Off-line olvasás
+content#:#select_a_file#:#Válasszon ki egy fájlt.
+content#:#st#:#Fejezet
+dateplaner#:#start export#:#Exportálás megkezdése
+dateplaner#:#DateText#:#Üzenet
+dateplaner#:#Day_long#:#Napi nézet
+dateplaner#:#ERROR_DATE_EXISTS#:#Ez a dátum már létezik.
+dateplaner#:#ERROR_DB#:#Adatbázis-írási hiba!
+dateplaner#:#ERROR_DB_CONNECT#:#A kapcsolat az adatbázissal megszűnt.
+dateplaner#:#ERROR_DEL_MSG#:#Ez egy körbeforduló dátum. Törölne egyet vagy többet a dátumok közül?
+dateplaner#:#ERROR_ENDDATE#:#Hibás a végdátum megadása. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Hibás végdáum. Formátum: hh:mm
+dateplaner#:#ERROR_END_START#:#Hibás a végdáum megadása. A végdátum a kezdődátum előtti.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Érvényes vesszővel szeparált értékű fájlt adjon meg.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>az Ön böngészője nem fogadja a JavaScript-et.<BR>A manuális bevitel után zárja be ezt az ablakot.<BR></CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Hibás körbeforduló dátum megadásra került sor. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Hibás a végdáum megadása. A végdátum a kezdődátum előtti.
+dateplaner#:#ERROR_SHORTTEXT#:#Hibás a rövid szöveg megadása. Rövid szöveg megadása szükséges.
+dateplaner#:#ERROR_STARTDATE#:#Hibás a keződátum megadása. Formátum: dd/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Hibás kezdődátum. Formátum: hh:mm
+dateplaner#:#ERROR_TS#:#Nem megfelelő dátumformátum
+dateplaner#:#Fr_long#:#Péntek
+dateplaner#:#Fr_short#:#P.
+dateplaner#:#Language_file#:#angol
+dateplaner#:#Listbox_long#:#Dátumlista
+dateplaner#:#Mo_long#:#Hétfő
+dateplaner#:#Mo_short#:#H.
+dateplaner#:#Month_long#:#Havi nézet
+dateplaner#:#Sa_long#:#Szombat
+dateplaner#:#Sa_short#:#Szo.
+dateplaner#:#Su_long#:#Vasárnap
+dateplaner#:#Su_short#:#V.
+dateplaner#:#Text#:#Szöveg
+dateplaner#:#Th_long#:#Csütörtök
+dateplaner#:#Th_short#:#Cs.
+dateplaner#:#Tu_long#:#Kedd
+dateplaner#:#Tu_short#:#K.
+dateplaner#:#View#:#Nézet:
+dateplaner#:#We_long#:#Szerda
+dateplaner#:#We_short#:#Sze.
+dateplaner#:#Week_long#:#Heti nézet
+dateplaner#:#add_data#:#További adatok
+dateplaner#:#app_#:#Beérkezett csoportdátumok
+dateplaner#:#app_date#:#dátumbevitel
+dateplaner#:#app_day#:#napi nézet
+dateplaner#:#app_freetime#:#más csoporttagok szabadideje (chatidő)
+dateplaner#:#app_inbox#:#Beérkezett csoportdátumok
+dateplaner#:#app_list#:#dátumlista
+dateplaner#:#app_month#:#havi nézet
+dateplaner#:#app_properties#:#jellemzők
+dateplaner#:#app_week#:#heti nézet
+dateplaner#:#application#:#Határidőnapló
+dateplaner#:#apply#:#alkalmaz
+dateplaner#:#back#:#vissza
+dateplaner#:#begin_date#:#Dátum kezdete
+dateplaner#:#busytime#:#szorgalmi időszak a csoportban
+dateplaner#:#c_date#:#Dátum létrehozása
+dateplaner#:#changeTo#:#Mire változik:
+dateplaner#:#changedDates#:#Megváltozott dátumok
+dateplaner#:#checkforfreetime#:#Szabadidő ellenőrzése
+dateplaner#:#created#:#Létrehozva
+dateplaner#:#date#:#Dátum
+dateplaner#:#date_format#:#hh:mm
+dateplaner#:#date_format_middle#:#m/d/y
+dateplaner#:#del_all#:#az összes dátum törlése
+dateplaner#:#del_one#:#egy dátum törlése
+dateplaner#:#delete#:#törlés
+dateplaner#:#deletedDates#:#Törölt dátumok
+dateplaner#:#discard#:#elvetés
+dateplaner#:#dv_Grouptime#:#szabadidő
+dateplaner#:#dv_button_cancel#:#Mégsem
+dateplaner#:#dv_button_delete#:#Törlés
+dateplaner#:#dv_button_insert#:#Beszúrás
+dateplaner#:#dv_button_update#:#Frissítés
+dateplaner#:#dv_date_begin#:#Dátum kezdete:
+dateplaner#:#dv_date_end#:#:
+dateplaner#:#dv_date_hm#:#Óra:perc
+dateplaner#:#dv_enddate#:#Végdátum:
+dateplaner#:#dv_groupselect#:#Csoportkiválasztás:
+dateplaner#:#dv_groupview#:#Csoportdátum:
+dateplaner#:#dv_groupview_text#:#Csoport:<BR>
+dateplaner#:#dv_keywords#:#Kulcsszavak:
+dateplaner#:#dv_keywordselect#:#Kulcsszókiválasztás:
+dateplaner#:#dv_message#:#Üzenet:
+dateplaner#:#dv_noGroup#:#nincs csoport
+dateplaner#:#dv_noKey#:#nincs kulcsszó
+dateplaner#:#dv_preview#:#      <B>! Előnézet !</B>
+dateplaner#:#dv_rotation#:#Körben forgás:
+dateplaner#:#dv_rotation_date#:#Körben forgó dátum:
+dateplaner#:#dv_rotation_end#:#Körben forgás vége:
+dateplaner#:#dv_shorttext#:#Rövid szöveg:
+dateplaner#:#dv_startdate#:#Kezdődátum:
+dateplaner#:#dv_text#:#Szöveg:
+dateplaner#:#dv_whole_day#:#Teljses nap:
+dateplaner#:#dv_whole_rotation#:#Törölni szeretné az egész körben forgó dátumot? (kattintson a jelölőnégyzetre)
+dateplaner#:#end_date#:#Dátum vége
+dateplaner#:#endtime_for_view#:#Végdátum a nézethez:
+dateplaner#:#error_minical_img#:#Nem hozható létre 'GD-picture-stream'
+dateplaner#:#execute#:#kiválasztás végrehajtása
+dateplaner#:#extra_dates#:#Egy napos dátumok
+dateplaner#:#free#:#szabad
+dateplaner#:#freetime#:#szabadidő a csoportban
+dateplaner#:#group#:#csoport
+dateplaner#:#help_day#:#Határidőnapló napi nézete
+dateplaner#:#help_day_l#:#A napi nézetben a kiválasztott nap minden dátuma megjelent.
+dateplaner#:#help_enddate#:#Végdátum - szintaxis [nn/hh/éééé]
+dateplaner#:#help_enddate_l#:#A találkozó végét tartalmazza.<BR> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztására.
+dateplaner#:#help_endrotation#:#Végdátum szintaxisa [nn/hh/éééé]
+dateplaner#:#help_endrotation_l#:#Ezen a napon lesz vége az ismétlésnek.<BR> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztására.
+dateplaner#:#help_endtime#:#Végdátum - szintaxis [óó/pp] 24 órás formátum
+dateplaner#:#help_endtime_l#:#A találkozó végét tartalmazza, 24 órás formátumot használva.
+dateplaner#:#help_fullday#:#Egész nap - szintaxis [ki/be]
+dateplaner#:#help_fullday_l#:#Ha a dátum egész napra terjed, válassza ezt a beállítást.<BR> Ezáltal a kezdőidő, befejezőidő és a végdátum rejtve van.
+dateplaner#:#help_further#:#<BR><B>további információért kattintson ide.</B>
+dateplaner#:#help_group#:#Csoportdáumok kiválasztása
+dateplaner#:#help_group_l#:#Azon csoportokat tartalmazza, amelyekért a bejelentkezett felhasználónak adminisztrátori jogai vannak,  és amelyeknek dátum hozható létre.<BR> Miután ezt kiválasztotta, látható a csoport be nem táblázott ideje.
+dateplaner#:#help_inbox#:#Határidőnapló bejövő levelek
+dateplaner#:#help_inbox_l#:#Itt minden új, megváltozott és törölt csoportdátum megtekinthető.
+dateplaner#:#help_keyword#:#Kulcsszó kiválasztása
+dateplaner#:#help_keywordUse#:#Kulcsszó kiválasztása
+dateplaner#:#help_keywordUse_l#:#Válasszon egy vagy több kulcsszót a párbeszéddobozból.<BR>TIPP: használja a CTRL billentyűt több bejegyzés kiválasztásához.
+dateplaner#:#help_keyword_l#:#Azon kulcsszavakat tartalmazza, amelyeket a felhasználó dátumokhoz asszociálhat.
+dateplaner#:#help_list#:#Határidőnapló dátumlistája
+dateplaner#:#help_list_l#:#A dátumlistában egy adott időperiódus minden dátuma megjelenítésre kerül.
+dateplaner#:#help_month#:#Határidőnapló havi nézete
+dateplaner#:#help_month_l#:#A havi nézetben egy adott hónap minden dátuma megjelenítésre kerül.
+dateplaner#:#help_properties_alt#:#Kulcsszóváltozások
+dateplaner#:#help_properties_alt_l#:#Válasszon egy kulcsszót a párbeszéddobozból.<BR> Változtassa meg a kulcsszót a szövegmezőben. Fontos: maximum 20 karakter legyen.
+dateplaner#:#help_properties_del#:#Kulcsszavak törlése
+dateplaner#:#help_properties_del_l#:#Válasszon ki egy kulcsszót a párbeszéddobozból. Kattintson a gombra a kulcsszó törléséhez.
+dateplaner#:#help_properties_import#:#Outlook-fáj importja - vesszővel szeparált értékűek -
+dateplaner#:#help_properties_import_l#:#Itt CSC-fájl választható ki, amely Outlook dátumokat tartalmaz. Ezek a dátumok kerülnek importálásra a határidőnaplóba.
+dateplaner#:#help_properties_new#:#Kulcsszó hozzáadása - maximum 20 karakteres
+dateplaner#:#help_properties_new_l#:#Új kulcsszó hozzáadása az \"új\" mezőhöz. Fontos: maximum 20 karakter legyen.
+dateplaner#:#help_properties_time#:#Időmegjelenítés napi nézethez / heti nézethez
+dateplaner#:#help_properties_time_l#:#A szabványos napi és heti nézet megjelenítési idő változtatható. Ha a dátumok kívül vannak megjelenítési időn egy adott napon vagy héten, a megjelenítési idő arra az időtartamra fog megváltozni . A szabvány 8 - 18 óra.
+dateplaner#:#help_rotation#:#Körben forgás
+dateplaner#:#help_rotation_l#:#A körben forgás típusát tartalmazza / ismétlődés.
+dateplaner#:#help_shorttext#:#Maximum 50 karakternyi rövid szöveg
+dateplaner#:#help_shorttext_l#:#Itt vihető be a rövid szöveg egy adott dátumhoz.
+dateplaner#:#help_startdate#:#Kezdődátum - szintaxis [nn/hh/éééé]
+dateplaner#:#help_startdate_l#:#A találkozó kezdőidőpontját tartalmazza.<BR> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztásához.
+dateplaner#:#help_starttime#:#Kezdőidő - sintaxis [óó/pp] 24 órás formátum
+dateplaner#:#help_starttime_l#:#A találkozó kezdőidőpontját tartalmazza 24 órás formátumot használva.
+dateplaner#:#help_text#:#Szöveg
+dateplaner#:#help_text_l#:#Itt vihető be a szöveg egy adott dátumhoz.
+dateplaner#:#help_week#:#Határidőnapló heti nézet
+dateplaner#:#help_week_l#:#A heti nézetben egy adott hét minden dátuma megjelenítésre kerül.
+dateplaner#:#hour#:#óra
+dateplaner#:#importDates#:#Outlook dátumok importálása
+dateplaner#:#inbox#:#Bejövő dátumok
+dateplaner#:#insertImportDates#:#Ezek a dátumok sikeresen regisztrálásra kerültek:
+dateplaner#:#k_alldates#:#minden dátum
+dateplaner#:#keep#:#megtartás
+dateplaner#:#keyword#:#Kulcsszó
+dateplaner#:#keywords#:#Kulcsszavak
+dateplaner#:#last_change#:#Legutoljára változott
+dateplaner#:#long_01#:#Január
+dateplaner#:#long_02#:#Február
+dateplaner#:#long_03#:#Március
+dateplaner#:#long_04#:#Április
+dateplaner#:#long_05#:#Május
+dateplaner#:#long_06#:#Június
+dateplaner#:#long_07#:#Július
+dateplaner#:#long_08#:#Augusztus
+dateplaner#:#long_09#:#Szeptember
+dateplaner#:#long_10#:#Október
+dateplaner#:#long_11#:#November
+dateplaner#:#long_12#:#December
+dateplaner#:#main_dates#:#Fő dátumok
+dateplaner#:#menue#:#Menü
+dateplaner#:#mmonth#:#legutosó hánap
+dateplaner#:#month#:#hónap
+dateplaner#:#more#:#további
+dateplaner#:#mweek#:#legutolsó hét
+dateplaner#:#myeahr#:#legutolsó év
+dateplaner#:#newDates#:#Új dátumok
+dateplaner#:#newKeyword#:#Új:
+dateplaner#:#new_doc#:#új dátum létrehozása
+dateplaner#:#no_entry#:#nincs elérhető dátum
+dateplaner#:#o_day_date#:#24 órás dátum
+dateplaner#:#of#:#Mettől
+dateplaner#:#open_day#:#napi nézet
+dateplaner#:#pmonth#:#következő hónap
+dateplaner#:#printlist#:#nyomtatás
+dateplaner#:#properties#:#Jellemzők
+dateplaner#:#pweek#:#következő hét
+dateplaner#:#pyear#:#következő év
+dateplaner#:#r_14#:#minden 14 nap
+dateplaner#:#r_4_weeks#:#minden 14 hét
+dateplaner#:#r_day#:#minden nap
+dateplaner#:#r_halfyear#:#minden félév
+dateplaner#:#r_month#:#minden hónap
+dateplaner#:#r_nonrecurring#:#Egyszer
+dateplaner#:#r_week#:#minden hét
+dateplaner#:#r_year#:#minden év
+dateplaner#:#readimportfile#:#beszúrás
+dateplaner#:#rotation#:#Körben forgás
+dateplaner#:#rotation_dates#:#Körgen forgó dátumok
+dateplaner#:#semester_name#:#Szemeszter megnevezése
+dateplaner#:#short_01#:#Jan.
+dateplaner#:#short_02#:#Febr.
+dateplaner#:#short_03#:#Márc.
+dateplaner#:#short_04#:#Ápr.
+dateplaner#:#short_05#:#Máj.
+dateplaner#:#short_06#:#Jún.
+dateplaner#:#short_07#:#Júl.
+dateplaner#:#short_08#:#Aug.
+dateplaner#:#short_09#:#Szept.
+dateplaner#:#short_10#:#Okt.
+dateplaner#:#short_11#:#Nov.
+dateplaner#:#short_12#:#Dec.
+dateplaner#:#shorttext#:#Rövid szöveg
+dateplaner#:#singleDate#:#egyszeri dátum
+dateplaner#:#starttime_for_view#:#Kezdőidő a nézethez:
+dateplaner#:#timedate#:#Idő / dátum
+dateplaner#:#timeslice#:#Idő:
+dateplaner#:#title#:#ILIAS határidőnapló
+dateplaner#:#to#:#Meddig
+dateplaner#:#today#:#ma
+dateplaner#:#viewlist#:#nézet
+dateplaner#:#week#:#hét
+forum#:#year#:#év
+forum#:#forums#:#Fórumok
+forum#:#forums_articles#:#Hozzászólások
+forum#:#forums_attachments#:#Csatolások
+forum#:#forums_attachments_add#:#Csatolás hozzáadása
+forum#:#forums_attachments_edit#:#Csatolás szerkesztése
+forum#:#forums_available#:#Elérhető fórumok
+forum#:#forums_censor_comment#:#A cenzor megjegyzése
+forum#:#forums_count#:#Fórumok száma
+forum#:#forums_count_art#:#Hozzászólások száma
+forum#:#forums_count_thr#:#Témák száma
+forum#:#forums_delete_file#:#Csatolás törlése
+forum#:#forums_download_attachment#:#Fájl letöltése
+forum#:#forums_edit_post#:#Hozzászólás szerkesztése
+forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
+forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
+forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?
+forum#:#forums_last_post#:#Utolsó hozzászólás
+forum#:#forums_moderators#:#Moderátorok
+forum#:#forums_new_entries#:#Új fórumbejegyzések
+forum#:#forums_new_thread#:#Új téma
+forum#:#forums_not_available#:#A fórumok nem érhetők el
+forum#:#forums_overview#:#Fórumok áttekintése
+forum#:#forums_post_deleted#:#A hozzászólás törlésre került
+forum#:#forums_post_modified#:#A hozzászólás módosításra került
+forum#:#forums_post_new_entry#:#Új hozzászólás került beírásra
+forum#:#forums_posts#:#Minden hozzászólás
+forum#:#forums_posts_not_available#:#A hozzászólások nem elérhetőek
+forum#:#forums_print_thread#:#Téma nyomtatása
+forum#:#forums_quote#:#Közlemény
+forum#:#forums_respond#:#Válasz küldése
+forum#:#forums_subject#:#Tárgy
+forum#:#forums_the_post#:#Hozzászólás
+forum#:#forums_thread#:#Téma
+forum#:#forums_thread_articles#:#Hozzászólások a témában
+forum#:#forums_thread_create_date#:#Készült
+forum#:#forums_thread_create_from#:#Létrehozta
+forum#:#forums_thread_new_entry#:#Új téma került beírásra
+forum#:#forums_threads#:#Témák
+forum#:#forums_threads_not_available#:#A témák nem elérhetők
+forum#:#forums_topics_overview#:#Témák áttekintése
+mail#:#forums_your_reply#:#Az Ön válasza
+mail#:#also_as_email#:#Szintén e-mailként
+mail#:#bc#:#BC
+mail#:#forward#:#Továbbküld
+mail#:#linebreak#:#Sortörés
+mail#:#mail_add_recipient#:#Írjon be egy címzettet
+mail#:#mail_add_subfolder#:#Alkönyvtár hozzáadása
+mail#:#mail_add_subject#:#Adjon meg egy témát
+mail#:#mail_add_to_addressbook#:#Címlistához hozzáadás
+mail#:#mail_add_type#:#Adja meg az elküldendő levél típusát
+mail#:#mail_addr_entries#:#Bejegyzések
+mail#:#mail_attachments#:#Csatolások
+mail#:#mail_bc_not_valid#:#A Bc címzett nem megfelelő
+mail#:#mail_bc_search#:#BC keresése
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#A Cc címzett nem megfelelő
+mail#:#mail_cc_search#:#CC keresése
+mail#:#mail_change_to_folder#:#Mappaváltás:
+mail#:#mail_check_your_email_addr#:#Az Ön e-mail címe nem megfelelő
+mail#:#mail_compose#:#Üzenet összeállítása
+mail#:#mail_deleted#:#A level(ek) törölve vannak
+mail#:#mail_deleted_entry#:#A bejegyzések törlésre kerültek
+mail#:#mail_email_forbidden#:#Nem tudja elküldeni az e-mailt
+mail#:#mail_entry_added#:#Új bejegyzés hozzáadva
+mail#:#mail_entry_changed#:#A bejegyzés változott
+mail#:#mail_file_name#:#Fájlnév
+mail#:#mail_file_size#:#Fájlméret
+mail#:#mail_files_deleted#:#A fájl(ok) törölve vannak
+mail#:#mail_folder_created#:#Új mappa került létrehozásra
+mail#:#mail_folder_deleted#:#A mappa törlésre került
+mail#:#mail_folder_exists#:#Létezik már mappa ezzel a névvel
+mail#:#mail_folder_name#:#Mappanév
+mail#:#mail_folder_name_changed#:#A mappa átnevezésre került
+mail#:#mail_folder_options#:#Mappabeállítások
+mail#:#mail_following_rcp_not_valid#:#Az alábbi címzettek nem megfelelők:
+mail#:#mail_global_options#:#Általános beállítások
+mail#:#mail_incoming#:#Bejövő levelek
+mail#:#mail_incoming_both#:#helyi és továbbküldendő
+mail#:#mail_incoming_local#:#csak helyi
+mail#:#mail_incoming_smtp#:#továbbküldendő az e-mail címre
+mail#:#mail_insert_folder_name#:#Adjon meg mappanevet
+mail#:#mail_insert_query#:#Írja be a keresendő szöveget
+mail#:#mail_intern#:#Belső
+mail#:#mail_mark_read#:#E-mailek olvasottként bejelölése
+mail#:#mail_mark_unread#:#E-mailek olvasatlanként bejelölése
+mail#:#mail_maxsize_attachment_error#:#A feltöltési határ:
+mail#:#mail_message_send#:#Üzenet elküldve
+mail#:#mail_move_error#:#Hiba az áthelyezett e-mailekkel
+mail#:#mail_move_to#:#Áthelyezés mappába:
+mail#:#mail_moved#:#Az level(ek) áthelyezésre került(ek)
+mail#:#mail_moved_to_trash#:#Az e-mail(ek) áthelyezésre kerültek a lomtárba
+mail#:#mail_new_file#:#Új fájl hozzáadása
+mail#:#mail_no_attach_allowed#:#A rendszerüzenet nem tartalmazhat csatolásokat
+mail#:#mail_no_attachments_found#:#Csatolás nem található
+mail#:#mail_no_permissions_write_smtp#:#Nincs jogosultsága a külső levelek írásához
+mail#:#mail_options_of#:#Beállítások
+mail#:#mail_options_saved#:#Beállítások mentve
+mail#:#mail_recipient_not_valid#:#A címzett nem megfelelő
+mail#:#mail_s#:#E-mail
+mail#:#mail_s_unread#:#Olvasatlan e-mailek
+mail#:#mail_saved#:#Az üzenet elmentésre került
+mail#:#mail_search_addressbook#:#keresés a címjegyzékben
+mail#:#mail_search_system#:#keresés a rendszerben
+mail#:#mail_select_one_entry#:#Ki kell választania egy bejegyzést
+mail#:#mail_select_one_file#:#Ki kell választania egy fájlt
+mail#:#mail_sure_delete#:#Biztosan törölni akarja a megjelölt e-mail(eke)t
+mail#:#mail_sure_delete_entry#:#Biztosan törölni akarja az alábbi bejegyzéseket
+mail#:#mail_sure_delete_file#:#A fájl véglegesen el lesz távolítva
+mail#:#mail_sure_delete_folder#:#A mappa és tartalma véglegesen el lesz távolítva
+mail#:#mail_to_search#:#Keresés
+mail#:#mail_user_addr_n_valid#:#Az alábbi felhasználóknak nem megfelelő az e-mail címük
+mail#:#search_bc_recipient#:#BC címzett keresése
+meta#:#search_cc_recipient#:#CC címzett keresése
+meta#:#meta_accessibility_restrictions#:#Hozzáférési korlátozások
+meta#:#meta_active#:#aktív
+meta#:#meta_add#:#Hozzáadás
+meta#:#meta_annotation#:#Kommentár
+meta#:#meta_atomic#:#Atomi
+meta#:#meta_author#:#Szerző
+meta#:#meta_browser#:#Böngésző
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#Egyesült Arab Emirátusok
+meta#:#meta_c_AF#:#Afganisztán
+meta#:#meta_c_AG#:#Antigua és Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albánia
+meta#:#meta_c_AM#:#Örményország
+meta#:#meta_c_AN#:#Holland Antillák
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarktisz
+meta#:#meta_c_AR#:#Argentína
+meta#:#meta_c_AS#:#Amerikai Szamoa
+meta#:#meta_c_AT#:#Ausztria
+meta#:#meta_c_AU#:#Ausztrália
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbajdzsán
+meta#:#meta_c_BA#:#Bosznia-Hercegovina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Banglades
+meta#:#meta_c_BE#:#Belgium
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgária
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Szultánság
+meta#:#meta_c_BO#:#Bolívia
+meta#:#meta_c_BR#:#Brazília
+meta#:#meta_c_BS#:#Bahamák
+meta#:#meta_c_BT#:#Bhután
+meta#:#meta_c_BV#:#Bouvet-szigetek
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Belorusszia
+meta#:#meta_c_BZ#:#Belliz
+meta#:#meta_c_CA#:#Kanada
+meta#:#meta_c_CC#:#Kókusz-szigetek
+meta#:#meta_c_CF#:#Közép-Afrikai Köztársaság
+meta#:#meta_c_CG#:#Kongó
+meta#:#meta_c_CH#:#Svájc
+meta#:#meta_c_CI#:#Elefántcsontpart
+meta#:#meta_c_CK#:#Cook-szigetek
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Kamerun
+meta#:#meta_c_CN#:#Kína
+meta#:#meta_c_CO#:#Kolumbia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Kuba
+meta#:#meta_c_CV#:#Zöldfoki-szigetek
+meta#:#meta_c_CX#:#Karácsony-szigetek
+meta#:#meta_c_CY#:#Ciprus
+meta#:#meta_c_CZ#:#Cseh Köztársaság
+meta#:#meta_c_DE#:#Németország
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Dánia
+meta#:#meta_c_DM#:#Dominika
+meta#:#meta_c_DO#:#Dominikai Köztársaság
+meta#:#meta_c_DZ#:#Algéria
+meta#:#meta_c_EC#:#Ecuador
+meta#:#meta_c_EE#:#Észtország
+meta#:#meta_c_EG#:#Egyiptom
+meta#:#meta_c_EH#:#Nyugat-Szahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Spanyolország
+meta#:#meta_c_ET#:#Etiópia
+meta#:#meta_c_FI#:#Finnország
+meta#:#meta_c_FJ#:#Fuji-szigetek
+meta#:#meta_c_FK#:#Falkland-szigetek
+meta#:#meta_c_FM#:#Mikronézia
+meta#:#meta_c_FO#:#Faröer-szigetek
+meta#:#meta_c_FR#:#Franciaország
+meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#Egyesült Királyság
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Grúzia
+meta#:#meta_c_GF#:#Francia Guyana
+meta#:#meta_c_GH#:#Ghána
+meta#:#meta_c_GI#:#Gibrarltar
+meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Egyenlítői Guinea
+meta#:#meta_c_GR#:#Görögország
+meta#:#meta_c_GS#:#Dél-Georgia és a Dél-Szendvics Szigetek
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Bissau-Guinea
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Donald-szigetek
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Horvátország
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Magyarország
+meta#:#meta_c_ID#:#Indonézia
+meta#:#meta_c_IE#:#Írország
+meta#:#meta_c_IL#:#Izrael
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_IO#:#Brit-Indiai Óceáni Terület
+meta#:#meta_c_IQ#:#Irak
+meta#:#meta_c_IR#:#Irán
+meta#:#meta_c_IS#:#Izland
+meta#:#meta_c_IT#:#Olaszország
+meta#:#meta_c_JM#:#Jamaika
+meta#:#meta_c_JO#:#Jordánia
+meta#:#meta_c_JP#:#Japán
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KG#:#Kirgizisztán
+meta#:#meta_c_KH#:#Kambodzsa
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Szent Kitts és Nevis Szigetek
+meta#:#meta_c_KP#:#Észak-Korea (Koreai Népköztársaság)
+meta#:#meta_c_KR#:#Dél-Korea (Koreai Köztársaság)
+meta#:#meta_c_KW#:#Kuvait
+meta#:#meta_c_KY#:#Kajmán-szigetek
+meta#:#meta_c_KZ#:#Kazahsztán
+meta#:#meta_c_LA#:#Laoi Népköztársaság
+meta#:#meta_c_LB#:#Libanon
+meta#:#meta_c_LC#:#Szent Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Libéria
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Litvánia
+meta#:#meta_c_LU#:#Luxemburg
+meta#:#meta_c_LV#:#Lettország
+meta#:#meta_c_LY#:#Líbia
+meta#:#meta_c_MA#:#Marokkó
+meta#:#meta_c_MC#:#Monakó
+meta#:#meta_c_MD#:#Moldávia
+meta#:#meta_c_MG#:#Madagaszkár
+meta#:#meta_c_MH#:#Marshall-szigetek
+meta#:#meta_c_MK#:#Makedónia
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongólia
+meta#:#meta_c_MO#:#Makaó
+meta#:#meta_c_MP#:#Északi Marianna-szigetek
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritánia
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Málta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Maldív-szigetek
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexikó
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MZ#:#Mozambik
+meta#:#meta_c_NA#:#Namíbia
+meta#:#meta_c_NC#:#Új-Kaledónia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Norfolk-szigetek
+meta#:#meta_c_NG#:#Nigéria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Hollandia
+meta#:#meta_c_NO#:#Norvégia
+meta#:#meta_c_NP#:#Nepál
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#Újzéland
+meta#:#meta_c_OM#:#Omán
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#Francia Polinézia
+meta#:#meta_c_PG#:#Pápua-Újguinea
+meta#:#meta_c_PH#:#Fülöp-szigetek
+meta#:#meta_c_PK#:#Pakisztán
+meta#:#meta_c_PL#:#Lengyelország
+meta#:#meta_c_PM#:#Szt. Pierre és Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugália
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Quatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Románia
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Ruanda
+meta#:#meta_c_SA#:#Szaúd-Arábia
+meta#:#meta_c_SB#:#Salamon-szigetek
+meta#:#meta_c_SC#:#Seychelles-szigetek
+meta#:#meta_c_SD#:#Szudán
+meta#:#meta_c_SE#:#Svédország
+meta#:#meta_c_SG#:#Szingapúr
+meta#:#meta_c_SH#:#Szt. Helén
+meta#:#meta_c_SI#:#Szlovénia
+meta#:#meta_c_SJ#:#Svalbard és Jan Mayen-szigetek
+meta#:#meta_c_SK#:#Szlovákia
+meta#:#meta_c_SL#:#Sierra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Szenegál
+meta#:#meta_c_SO#:#Szomália
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_ST#:#Sao Toma és Principe
+meta#:#meta_c_SV#:#Salvador
+meta#:#meta_c_SY#:#Szíriai Arab Köztársaság
+meta#:#meta_c_SZ#:#Sváziföld
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TD#:#Csád
+meta#:#meta_c_TF#:#Francia Déli Területek
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thaiföld
+meta#:#meta_c_TJ#:#Tádzsikisztán
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Türkmenisztán
+meta#:#meta_c_TN#:#Tunézia
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#Kelet-Timor
+meta#:#meta_c_TR#:#Törökország
+meta#:#meta_c_TT#:#Trinidad és Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tanzánia
+meta#:#meta_c_UA#:#Ukrajna
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#U.S.A.
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Üzbegisztán
+meta#:#meta_c_VA#:#Vatikán Városállam
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin-szigetek (Anglia)
+meta#:#meta_c_VI#:#Virgin-szigetek (US)
+meta#:#meta_c_VN#:#Vietnám
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis és Futuna-szigetek
+meta#:#meta_c_WS#:#Szamoa
+meta#:#meta_c_YE#:#Jemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#Dél-Afrikai Köztársaság
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Egyéb ország
+meta#:#meta_catalog#:#Katalógus
+meta#:#meta_choose_element#:#Válasszon egy elemet, amit hozzá akar adni!
+meta#:#meta_choose_language#:#Válasszon egy nyelvet
+meta#:#meta_choose_section#:#Válasszon egy szekciót
+meta#:#meta_classification#:#Osztályozás
+meta#:#meta_collection#:#Gyűjtemény
+meta#:#meta_competency#:#Kompetencia
+meta#:#meta_context#:#Tartalom
+meta#:#meta_contribute#:#Közreműködő
+meta#:#meta_copyright_and_other_restrictions#:#Szerzői jog és más megszorítások
+meta#:#meta_cost#:#Ár
+meta#:#meta_coverage#:#Terjedelem
+meta#:#meta_date#:#Dátum
+meta#:#meta_delete#:#Törlés
+meta#:#meta_description#:#Leírás
+meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_difficulty#:#Nehézség
+meta#:#meta_dificult#:#Nehéz
+meta#:#meta_draft#:#Tervezet
+meta#:#meta_duration#:#Tartósság
+meta#:#meta_easy#:#Könnyű
+meta#:#meta_education#:#Képzés
+meta#:#meta_educational_level#:#Képzési szint
+meta#:#meta_educational_objective#:#Képzési cél
+meta#:#meta_entity#:#Entitás
+meta#:#meta_entry#:#Bejegyzés
+meta#:#meta_exam#:#Vizsga
+meta#:#meta_exercise#:#Gyakorlat
+meta#:#meta_experiment#:#Kísérlet
+meta#:#meta_expositive#:#Expositive
+meta#:#meta_figure#:#Ábra
+meta#:#meta_final#:#Publikált
+meta#:#meta_format#:#Formátum
+meta#:#meta_general#:#Általános
+meta#:#meta_graph#:#Gráf
+meta#:#meta_has_format#:#Has Format
+meta#:#meta_has_part#:#Has Part
+meta#:#meta_has_version#:#Has Version
+meta#:#meta_hierarchical#:#Hierarchikus
+meta#:#meta_high#:#Magas
+meta#:#meta_higher_education#:#Felsőfokú képzés
+meta#:#meta_id#:#Azonosító
+meta#:#meta_idea#:#Ötlet
+meta#:#meta_identifier#:#Azonosító
+meta#:#meta_index#:#Index
+meta#:#meta_installation_remarks#:#Telepítéshez megjegyzések
+meta#:#meta_intended_end_user_role#:#Megcélzott végfelhasználói szerep
+meta#:#meta_interactivity_level#:#Interaktivitás szintje
+meta#:#meta_interactivity_type#:#Interaktivitás típusa
+meta#:#meta_is_based_on#:#Is Based On
+meta#:#meta_is_basis_for#:#Is Basis For
+meta#:#meta_is_format_of#:#Is Format Of
+meta#:#meta_is_part_of#:#Is Part Of
+meta#:#meta_is_referenced_by#:#Is Referenced By
+meta#:#meta_is_required_by#:#Is Required By
+meta#:#meta_is_version_of#:#Is Version Of
+meta#:#meta_keyword#:#Kulcsszó
+meta#:#meta_kind#:#Fajta
+meta#:#meta_l_aa#:#afar
+meta#:#meta_l_ab#:#abkhazian
+meta#:#meta_l_af#:#afrikai
+meta#:#meta_l_am#:#amharic
+meta#:#meta_l_ar#:#arab
+meta#:#meta_l_as#:#assamese
+meta#:#meta_l_ay#:#aymara
+meta#:#meta_l_az#:#azerbajdzsán
+meta#:#meta_l_ba#:#baskír
+meta#:#meta_l_be#:#belorusz
+meta#:#meta_l_bg#:#bolgár
+meta#:#meta_l_bh#:#bihari
+meta#:#meta_l_bi#:#bislama
+meta#:#meta_l_bn#:#bengáli
+meta#:#meta_l_bo#:#tibeti
+meta#:#meta_l_br#:#breton
+meta#:#meta_l_ca#:#katalán
+meta#:#meta_l_co#:#korzikai
+meta#:#meta_l_cs#:#cseh
+meta#:#meta_l_cy#:#welszi
+meta#:#meta_l_da#:#dán
+meta#:#meta_l_de#:#német
+meta#:#meta_l_dz#:#butáni
+meta#:#meta_l_el#:#görög
+meta#:#meta_l_en#:#angol
+meta#:#meta_l_eo#:#eszperantó
+meta#:#meta_l_es#:#spanyol
+meta#:#meta_l_et#:#észt
+meta#:#meta_l_eu#:#baskír
+meta#:#meta_l_fa#:#perzsa
+meta#:#meta_l_fi#:#finn
+meta#:#meta_l_fj#:#fuji
+meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fr#:#francia
+meta#:#meta_l_fy#:#fríz
+meta#:#meta_l_ga#:#ír
+meta#:#meta_l_gd#:#skót gall
+meta#:#meta_l_gl#:#galíciai
+meta#:#meta_l_gn#:#guarani
+meta#:#meta_l_gu#:#gujarati
+meta#:#meta_l_ha#:#hausa
+meta#:#meta_l_he#:#hebrew
+meta#:#meta_l_hi#:#hindu
+meta#:#meta_l_hr#:#horvát
+meta#:#meta_l_hu#:#magyar
+meta#:#meta_l_hy#:#örmény
+meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonéz
+meta#:#meta_l_ie#:#interlingue
+meta#:#meta_l_ik#:#inupiak
+meta#:#meta_l_is#:#izlandi
+meta#:#meta_l_it#:#olasz
+meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_ja#:#japán
+meta#:#meta_l_jv#:#jávai
+meta#:#meta_l_ka#:#örmény
+meta#:#meta_l_kk#:#kazah
+meta#:#meta_l_kl#:#grönlandi
+meta#:#meta_l_km#:#kambodzsai
+meta#:#meta_l_kn#:#kanadai
+meta#:#meta_l_ko#:#koreai
+meta#:#meta_l_ks#:#kashmir
+meta#:#meta_l_ku#:#kurd
+meta#:#meta_l_ky#:#kirgiz
+meta#:#meta_l_la#:#latin
+meta#:#meta_l_ln#:#lingala
+meta#:#meta_l_lo#:#laoszi
+meta#:#meta_l_lt#:#litván
+meta#:#meta_l_lv#:#lett
+meta#:#meta_l_mg#:#malagaszi
+meta#:#meta_l_mi#:#maori
+meta#:#meta_l_mk#:#makedón
+meta#:#meta_l_ml#:#maláj
+meta#:#meta_l_mn#:#mongol
+meta#:#meta_l_mo#:#moldáv
+meta#:#meta_l_mr#:#marathi
+meta#:#meta_l_ms#:#maláj
+meta#:#meta_l_mt#:#máltai
+meta#:#meta_l_my#:#burmai
+meta#:#meta_l_na#:#nauru
+meta#:#meta_l_ne#:#nepáli
+meta#:#meta_l_nl#:#holland
+meta#:#meta_l_no#:#norvég
+meta#:#meta_l_oc#:#occitan
+meta#:#meta_l_om#:#afan (oromo)
+meta#:#meta_l_or#:#oriya
+meta#:#meta_l_pa#:#pandzsáb
+meta#:#meta_l_pl#:#lengyel
+meta#:#meta_l_ps#:#pashto
+meta#:#meta_l_pt#:#portugál
+meta#:#meta_l_qu#:#quechua
+meta#:#meta_l_rm#:#rhaeto-romance
+meta#:#meta_l_rn#:#kurzundi
+meta#:#meta_l_ro#:#román
+meta#:#meta_l_ru#:#orosz
+meta#:#meta_l_rw#:#kinyarwanda
+meta#:#meta_l_sa#:#szanszkrit
+meta#:#meta_l_sd#:#sindhi
+meta#:#meta_l_sg#:#sangho
+meta#:#meta_l_sh#:#serbo-croatian
+meta#:#meta_l_si#:#szingaléz
+meta#:#meta_l_sk#:#szlovák
+meta#:#meta_l_sl#:#szlovén
+meta#:#meta_l_sm#:#samoan
+meta#:#meta_l_sn#:#shona
+meta#:#meta_l_so#:#szomál
+meta#:#meta_l_sq#:#albán
+meta#:#meta_l_sr#:#szerb
+meta#:#meta_l_ss#:#siswati
+meta#:#meta_l_st#:#sesotho
+meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_sv#:#svéd
+meta#:#meta_l_sw#:#swahili
+meta#:#meta_l_ta#:#tamil
+meta#:#meta_l_te#:#telugu
+meta#:#meta_l_tg#:#tajik
+meta#:#meta_l_th#:#thaj
+meta#:#meta_l_ti#:#tigrinya
+meta#:#meta_l_tk#:#türkmén
+meta#:#meta_l_tl#:#tagalog
+meta#:#meta_l_tn#:#setswana
+meta#:#meta_l_to#:#tonga
+meta#:#meta_l_tr#:#török
+meta#:#meta_l_ts#:#tsonga
+meta#:#meta_l_tt#:#tatár
+meta#:#meta_l_tw#:#twi
+meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_uk#:#ukrán
+meta#:#meta_l_ur#:#urdu
+meta#:#meta_l_uz#:#üzbég
+meta#:#meta_l_vi#:#vietnámi
+meta#:#meta_l_vo#:#volapük
+meta#:#meta_l_wo#:#wolof
+meta#:#meta_l_xh#:#xhosa
+meta#:#meta_l_yi#:#zsidó
+meta#:#meta_l_yo#:#yoruba
+meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_zh#:#kínai
+meta#:#meta_l_zu#:#zulu
+meta#:#meta_language#:#Nyelv
+meta#:#meta_learner#:#Tanuló
+meta#:#meta_learning_resource_type#:#Taneszköztípus
+meta#:#meta_lecture#:#Előadás
+meta#:#meta_lifecycle#:#Életciklus
+meta#:#meta_linear#:#Lineáris
+meta#:#meta_local_file#:#Helyi fájl
+meta#:#meta_location#:#Hely
+meta#:#meta_low#:#Alacsony
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Menedzser
+meta#:#meta_maximum_version#:#Maximális verzió
+meta#:#meta_medium#:#Közepes
+meta#:#meta_meta_metadata#:#Meta-metaadat
+meta#:#meta_metadatascheme#:#Metaadat-séma
+meta#:#meta_minimum_version#:#Minimális verzió
+meta#:#meta_mixed#:#Kevert
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Név
+meta#:#meta_narrative_text#:#Elbeszélés
+meta#:#meta_networked#:#Hálózatos
+meta#:#meta_new_element#:#Új elem
+meta#:#meta_no#:#Nem
+meta#:#meta_no_annotation#:#Nem érhető el adat a kommentár részben.
+meta#:#meta_no_classification#:#Nem érhető el adat az osztályozó részben.
+meta#:#meta_no_educational#:#Nem érhető el adat az képzési részben.
+meta#:#meta_no_lifecycle#:#Nem érhető el adat az életciklus részben.
+meta#:#meta_no_meta_metadata#:#Nem érhető el adat a meta-metaadat részben.
+meta#:#meta_no_relation#:#Nem érhető el adat a kapcsolat részben.
+meta#:#meta_no_rights#:#Nem érhető el adat a jogok részben.
+meta#:#meta_no_technical#:#Nem érhető el adat a technikai részben.
+meta#:#meta_none#:#Semmi
+meta#:#meta_operating_system#:#Operációs rendszer
+meta#:#meta_or_composite#:#Vagy összetett
+meta#:#meta_other#:#Egyéb
+meta#:#meta_other_plattform_requirements#:#Más platformkövetelmények
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_please_select#:#Válasszon
+meta#:#meta_prerequisite#:#Előfeltétel
+meta#:#meta_problem_statement#:#Problémaállapot
+meta#:#meta_publisher#:#Kiadó
+meta#:#meta_purpose#:#Cél
+meta#:#meta_questionnaire#:#Kérdőív
+meta#:#meta_reference#:#Ajánlás
+meta#:#meta_references#:#Ajánlások
+meta#:#meta_relation#:#Kapcsolat
+meta#:#meta_requirement#:#Követelmény
+meta#:#meta_requires#:#Igények
+meta#:#meta_resource#:#Forrás
+meta#:#meta_revised#:#Javított
+meta#:#meta_rights#:#Jogok
+meta#:#meta_role#:#Szerep
+meta#:#meta_school#:#Iskola
+meta#:#meta_security_level#:#Biztonsági szint
+meta#:#meta_self_assessment#:#Önértékelés
+meta#:#meta_semantic_density#:#Tartalmi mélység
+meta#:#meta_simulation#:#Szimuláció
+meta#:#meta_size#:#Méret
+meta#:#meta_skill_level#:#Készségszint
+meta#:#meta_slide#:#Dia
+meta#:#meta_source#:#Forrás
+meta#:#meta_status#:#Állapot
+meta#:#meta_structure#:#Struktúra
+meta#:#meta_table#:#Táblázat
+meta#:#meta_taxon#:#Rendszertan
+meta#:#meta_taxon_path#:#Rendszertani ágazat
+meta#:#meta_teacher#:#Tanár
+meta#:#meta_technical#:#Technikai
+meta#:#meta_title#:#Cím
+meta#:#meta_training#:#Tréning
+meta#:#meta_type#:#Típus
+meta#:#meta_typical_age_range#:#Jellemző  életkor
+meta#:#meta_typical_learning_time#:#Jellemző tanulási idő
+meta#:#meta_unavailable#:#Elérhetetlen
+meta#:#meta_unix#:#Unix
+meta#:#meta_value#:#Érték
+meta#:#meta_version#:#Verzió
+meta#:#meta_very_difficult#:#Nagyon nehéz
+meta#:#meta_very_easy#:#Nagyon könnyű
+meta#:#meta_very_high#:#Nagyon magas
+meta#:#meta_very_low#:#Nagyon alacsony
+search#:#meta_yes#:#Igen
+search#:#search_all_results#:#Minden eredmény
+search#:#search_concatenation#:#Logikai kapcsolat
+search#:#search_content#:#Laptartalom
+search#:#search_dbk_content#:#Digitális könyvtár (kontextus)
+search#:#search_dbk_meta#:#Digitális könyvtár (metaadat)
+search#:#search_delete_sure#:#Az objektum és kontextusa véglegesen törölésre került
+search#:#search_group#:#Csoportok
+search#:#search_in_result#:#Keresés az eredmények között
+search#:#search_lm_content#:#Tananyagok (tartalom)
+search#:#search_lm_meta#:#Tananyagok (metaadat)
+search#:#search_meta#:#Metaadat
+search#:#search_minimum_three#:#A keresésnek legalább három karakter hosszúnak kell lennie
+search#:#search_move_folder_not_allowed#:#A mappa nem helyezhető át.
+search#:#search_move_to#:#Áthelyezés:
+search#:#search_my_search_results#:#Keresési eredményeim
+search#:#search_new_folder#:#Új mappa
+search#:#search_no_category#:#Nem választott keresési kategóriát
+search#:#search_no_match#:#Keresésére nem illik egyetlen eredmény sem
+search#:#search_no_results_saved#:#Nincsenek mentett eredmények.
+search#:#search_no_search_term#:#Nem választott keresési kifejezést
+search#:#search_no_selection#:#Nem választott.
+search#:#search_object_renamed#:#Objektum átnevezve.
+search#:#search_objects_deleted#:#Az objektum(ok) töröltek.
+search#:#search_objects_moved#:#Objektumok áthelyezve.
+search#:#search_one_action#:#Válasszon tevékenységet.
+search#:#search_rename_title#:#Cím átnevezése
+search#:#search_results_saved#:#Keresési eredmények mentve
+search#:#search_save_as_select#:#Mentve, mint:
+search#:#search_search_for#:#Keresendő
+search#:#search_search_no_results_saved#:#Nincs elmentett kereséséi eredmény
+search#:#search_search_results#:#Keresési eredmények
+search#:#search_search_term#:#Keresett kifejezés
+search#:#search_select_exactly_one_object#:#Pontosan egy objektumot kell kiválasztania.
+search#:#search_select_one#:#Egy mappa kiválasztása
+search#:#search_select_one_action#:#--Egy tevékenység kiválasztása--'
+search#:#search_select_one_folder_select#:#--Egy mappa kiválasztása--'
+search#:#search_select_one_result#:#Legalább egy keresési eredmény kiválasztása
+search#:#search_select_one_select#:#--Egy mappa kiválasztása--'
+search#:#search_show_result#:#Megjelenítés
+survey#:#search_user#:#Felhasználók
+survey#:#add_category#:#Kategória felvétele
+survey#:#add_limits_for_standard_numbers#:#Adjon meg egy alacsonyabb és magasabb korlátot, hogy hány kategóriát akar felvenni.
+survey#:#add_phrase#:#Mondat hozzáadása
+survey#:#add_phrase_introduction#:#Válasszon egy mondatot: 
+survey#:#already_completed_survey#:#Befejezte a felmérést! Nem tud újra belépni a felmérésbe.
+survey#:#answer#:#Válasz
+survey#:#apply#:#Alkalmaz
+survey#:#arithmetic_mean#:#Számtani értelmezés
+survey#:#ask_insert_questionblocks#:#Biztosan be akarja szúrni az alábbi kérdésblokko(ka)t a felmérésbe?
+survey#:#ask_insert_questions#:#Biztosan be akarja szúrni az alábbi kérdés(eke)t a felmérésbe?
+survey#:#back#:#<< Vissza
+survey#:#browse_for_questions#:#Kérdések keresése
+survey#:#cannot_maintain_survey#:#Nincs írási jogosultsága a felmérés karbantartásához!
+survey#:#cannot_manage_phrases#:#Nincs írási jogosultsága a mondatok menedzseléséhez!
+survey#:#cannot_participate_survey#:#Nincs joga résztvenni a felmérésben!
+survey#:#category#:#Kategória
+survey#:#category_delete_confirm#:#Biztosan törölni akarja az alábbi kategóriá(ka)t?
+survey#:#category_delete_select_none#:#Legalább egy kategóriát ellenőrizzen a törléshez!
+survey#:#category_nr_selected#:#Azon felhasználók száma, akik kiválasztották ezt a kategóriát
+survey#:#concatenation#:#Összefűzés
+survey#:#constraints#:#Megszorítások
+survey#:#contains#:#Tartalmazottak
+survey#:#continue#:#Folytatás >>
+survey#:#create_date#:#Létrehozva
+survey#:#create_new#:#Új létrehozása
+survey#:#csv#:#Vesszővel elválasztott érték
+survey#:#dc_agree#:#egyetértek
+survey#:#dc_always#:#mindig
+survey#:#dc_definitelyfalse#:#definíció szerűen hamis
+survey#:#dc_definitelytrue#:#definíció szerűen igaz
+survey#:#dc_desired#:#kívánatos
+survey#:#dc_disagree#:#nem értek egyet
+survey#:#dc_fair#:#korrekt
+survey#:#dc_false#:#"hamis"
+survey#:#dc_good#:#jó
+survey#:#dc_manytimes#:#többször
+survey#:#dc_morenegative#:#negatívabb
+survey#:#dc_morepositive#:#pozitívabb
+survey#:#dc_mostcertainly#:#inkább
+survey#:#dc_mostcertainlynot#:#inkább nem
+survey#:#dc_must#:#kell
+survey#:#dc_mustnot#:#nem kell
+survey#:#dc_neutral#:#semleges
+survey#:#dc_never#:#soha
+survey#:#dc_no#:#nem
+survey#:#dc_notacceptable#:#nem elfogadható
+survey#:#dc_poor#:#szegényes
+survey#:#dc_rarely#:#ritkán
+survey#:#dc_should#:#kellene
+survey#:#dc_shouldnot#:#nem kellene
+survey#:#dc_sometimes#:#néha
+survey#:#dc_stronglyagree#:#nagyon egyetértek
+survey#:#dc_stronglydesired#:#nagyon megkívánt
+survey#:#dc_stronglydisagree#:#nagyon nem értek egyet
+survey#:#dc_stronglyundesired#:#nagyon kerülendő
+survey#:#dc_true#:#helyes
+survey#:#dc_undecided#:#nem eldöntött
+survey#:#dc_undesired#:#kerülendő
+survey#:#dc_varying#:#változó
+survey#:#dc_verygood#:#nagyon jó
+survey#:#dc_yes#:#igen
+survey#:#define_questionblock#:#Kérdésblokk definiálása
+survey#:#disinvite#:#Kizár
+survey#:#display_all_available#:#Minden elérhető megjelenítése
+survey#:#dp_standard_attitude_agree5#:#Jellemző állásfoglalás (nagyon egyetértek-egyetértek-nem eldöntött-nem értek egyet- nagyon nem értek egyet)
+survey#:#dp_standard_attitude_agree_disagree#:#Jellemző állásfoglalás (egyetértek-nem értek egyet)
+survey#:#dp_standard_attitude_agree_undecided_disagree#:#Jellemző hozzáállás (egyetértek-nem eldöntött-nem értek egyet)
+survey#:#dp_standard_attitude_desired5#:#Jellemző állásfoglalás (nagyon megkívánt-megkívánt-semleges-kerülendő-nagyon kerülendő)
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Jellemző állásfoglalás (megkívánt-semleges-kerülendő)
+survey#:#dp_standard_attitude_desired_undesired#:#Jellemző állásfoglalás (megkívánt-kerülendő)
+survey#:#dp_standard_attitude_good5#:#Jellemző hozzáállás (nagyon jó-jó-korrekt-szegényes-nem elfogadható)
+survey#:#dp_standard_attitude_good_fair_notacceptable#:#Jellemző állásfoglalás (jó-korrekt-nem elfogadható)
+survey#:#dp_standard_attitude_good_notacceptable#:#Jellemző állásfoglalás (jó-nem elfogadható)
+survey#:#dp_standard_attitude_must5#:#Jellemző állásfoglalás (kell-kellene-nem eldöntött-nem kellene-nem kell)
+survey#:#dp_standard_attitude_shold_shouldnot#:#Jellemző állásfoglalás (kellene-nem kellene)
+survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Jellemző állásfoglalás (kellene-nem döntött-nem kellene)
+survey#:#dp_standard_behaviour_certainly5#:#Jellemző viselkedés (biztosan-pozitívabb-nem eldöntött-negatívabb-bitzosan nem)
+survey#:#dp_standard_behaviour_yes_no#:#Jellemző viselkedés (igen-nem)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Jellemző viselkedés (igen-nem döntött-nem)
+survey#:#dp_standard_beliefs_always5#:#Jellemző hit (mindig-néhányszor-változóan-ritkán-soha)
+survey#:#dp_standard_beliefs_always_never#:#Jellemző hit (mindig-soha)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Jellemző hit (mindig-néha-soha)
+survey#:#dp_standard_beliefs_true5#:#Jellemző hit (definíció szerint igaz-igaz-nem döntött-hamis-definíció szerint hamis)
+survey#:#dp_standard_beliefs_true_false#:#Jellemző hit (igaz-hamis)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Jellemző hit (igaz-nem döntött-hamis)
+survey#:#dp_standard_numbers#:#Jellemző számok
+survey#:#duplicate#:#Másodpéldány létrehozása
+survey#:#edit_ask_continue#:#Akarja folytatni és szerkeszteni ezt a kérdést?
+survey#:#edit_constraints_introduction#:#Kiválasztotta az alábbi kérdés(ek)et/kérdésblokk(ok)at a korlátozások szerkesztéséhez
+survey#:#end_date#:#Végdátum
+survey#:#enter_phrase_title#:#Adjon meg egy mondatcímet
+survey#:#enter_value#:#Érték megadása
+survey#:#evaluation#:#Kiértékelés
+survey#:#evaluation_access#:#Kiértékelési elérés
+survey#:#excel#:#Microsoft Excel
+survey#:#exit#:#Kijárat
+survey#:#export_data_as#:#Adatok exportálása, mint
+survey#:#fill_out_all_category_fields#:#Töltsön ki minden kategóriamezőt, mielőtt újat vesz fel!
+survey#:#fill_out_all_required_fields_add_category#:#Töltsön ki minden kötelező mezőt, mielőtt új kategóriát vesz fel!
+survey#:#filter#:#Szűrő
+survey#:#finished#:#befejezve
+survey#:#found_questions#:#Talált kérdések
+survey#:#geometric_mean#:#Geometriai jelentés
+survey#:#given_answers#:#Adott válaszok
+survey#:#harmonic_mean#:#Harmonic mean
+survey#:#insert_after#:#Beszúrás utána
+survey#:#insert_before#:#Beszúrás előtte
+survey#:#insert_missing_question#:#Legalább egy kérdést válasszon ki a felmérésbe való beszúráshoz!
+survey#:#insert_missing_questionblock#:#Legalább egy kérdésblokkot válasszon a felmérésbe való beszúráshoz!
+survey#:#introduction#:#Bevezetés
+survey#:#introduction_manage_phrases#:#Menedzselje saját mondatait, amelyek minden sorszámozott kérdés számára elérhetők, amelyet szerkeszt/létrehoz.
+survey#:#invitation#:#Meghívás
+survey#:#invitation_mode#:#Meghívási mód
+survey#:#invite_participants#:#Résztvevők meghívása
+survey#:#invited_groups#:#Meghívott csoportok
+survey#:#invited_users#:#Meghívott felhasználók
+survey#:#last_update#:#Legutolsó frissítés
+survey#:#lower_limit#:#Alsó határ
+survey#:#maintenance#:#Karbantartás
+survey#:#manage_phrases#:#Mondatok menedzselése
+survey#:#material_file#:#Fájl
+survey#:#maximum#:#Maximális érték
+survey#:#median#:#Közpéső érték
+survey#:#metric_question_out_of_bounds#:#A bevitt érték nincs a minimum és maximum érték között!
+survey#:#minimum#:#Minimális érték
+survey#:#missing_upper_or_lower_limit#:#Adjon meg egy alsó és egy felső határt!
+survey#:#mode#:#A legtöbbször kiválasztottott érték
+survey#:#mode_nr_of_selections#:#Kiválasztások száma
+survey#:#mode_text#:#A legtöbbször kiválasztottott érték (szöveg)
+survey#:#multiple_choice_multiple_response#:#Többszörös választás (többszörös válasz)
+survey#:#multiple_choice_single_response#:#Többszörös választás (egyszeres válasz)
+survey#:#next_question_rows#:#Kérdések %d - %d a %nak(nek) >>
+survey#:#no_available_constraints#:#Nincsenek megszorítások definiálva!
+survey#:#no_category_selected_for_deleting#:#Legalább egy kategóriát válasszon, ha törölni akarja a kategóriákat!
+survey#:#no_category_selected_for_move#:#Legalább egy kategóriát ellenőrizzen az áthelyezéshez!
+survey#:#no_constraints_checked#:#Legalább egy kérdést vagy kérdésblokkot válasszon a megszorítások szerkesztéséhez!
+survey#:#no_question_selected_for_move#:#Legalább egy kérdést ellenőrizzen az áthelyezéshez!
+survey#:#no_question_selected_for_removal#:#Ellenőrizzen legalább egy kérdést vagy kérdésblokkot az eltávolításhoz!
+survey#:#no_questionblocks_available#:#Nincs elérhető kérdésblokk
+survey#:#no_questions_available#:#Nincsenek elérhető kérdések
+survey#:#no_search_results#:#Nincs keresési eredmény!
+survey#:#no_target_selected_for_move#:#Ki kell választania egy célpozíciót!
+survey#:#no_user_or_group_selected#:#Ellenőrizzen egy beállítást, amelyet keres (felhasználók és/vagy csoportok)!
+survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.
+survey#:#nominal_question_not_checked#:#Ellenőrizzen egyet a felajánlott válaszok közül
+survey#:#non_ratio#:#Intervallum-skála
+survey#:#not_finished#:#nem fejeződött be
+survey#:#not_started#:#nem indult el
+survey#:#obligatory#:#kötelező
+survey#:#off#:#kikapcsolás
+survey#:#offline#:#off-line
+survey#:#on#:#bekapcsolás
+survey#:#online#:#on-line
+survey#:#or#:#vagy
+survey#:#ordinal_question_not_checked#:#Ellenőrizzen egy felajánlott választ!
+survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.
+survey#:#percentage_of_selections#:#Felhasználók azon százaléka, akik kiválasztották ezt a kategóriát.
+survey#:#predefined_users#:#Előredefiniált felhasználói beállítás
+survey#:#preview#:#Előnézet
+survey#:#previous_question_rows#:#<< Kérdések %d - %d a %nak(nek)
+survey#:#qpl_confirm_delete_phrases#:#Biztosan törölni akarja az alábbi mondato(ka)t?
+survey#:#qpl_confirm_delete_questions#:#Bitzosan törölni akarja az alábbi kérdés(eke)t?
+survey#:#qpl_copy_select_none#:#Ellenőrizzen legalább egy kérdést a másoláshoz!
+survey#:#qpl_define_questionblock_select_missing#:#Válasszon ki legalább két kérdést, ha kérdésblokkot akar definiálni!
+survey#:#qpl_delete_phrase_select_none#:#Legalább egy mondatot ellenőrizzen a törléshez
+survey#:#qpl_delete_rbac_error#:#Nincs joga a kérdés(ek) törléséhez!
+survey#:#qpl_delete_select_none#:#Ellenőrizzen legalább egy kérdést a törléshez!
+survey#:#qpl_duplicate_select_none#:#Ellenőrizzen legalább egy kérdést a másodpéldány létrehozásához!
+survey#:#qpl_past_questions_confirmation#:#Biztosan be akarja szúrni az alábbi kérdés(eke)t a kérdésgyűjteménybe?
+survey#:#qpl_phrases_deleted#:#Mondat(ok) törölve.
+survey#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
+survey#:#qpl_questions_pasted#:#Kérdés(ek) bemásolva.
+survey#:#qpl_savephrase_empty#:#Adjon meg mondatcímet!
+survey#:#qpl_savephrase_exists#:#A mondatcím már létezik! Adjon másik címet.
+survey#:#qpl_unfold_select_none#:#Válasszon ki legalább egy kérdésblokkot, ha szét akarja bontani a kérdésblokkokat!
+survey#:#qt_metric#:#Metrikus kérdés
+survey#:#qt_nominal#:#Névleges kérdés
+survey#:#qt_ordinal#:#Sorrendi kérdés
+survey#:#qt_text#:#Szöveges kérdés
+survey#:#question_has_constraints#:#Megszorítások
+survey#:#question_obligatory#:#A kérdés kötelező!
+survey#:#question_saved_for_upload#:#A kérdés automatikusan elmentésre került, hogy lefoglalja a merevlemezen a feltöltött fájl számára szükséges helyet. Ha most kikapcsolja ezt az űrlapot, készüljön fel, hogy törölnie kell a kérdést a kérdésgyűjteményből,  ha nem akarja megtartani!
+survey#:#question_type#:#Kérdéstípus
+survey#:#questionblock#:#Kérdésblokk
+survey#:#questionblock_has_constraints#:#Megszorítások
+survey#:#questionblocks#:#Kérdésblokkkok
+survey#:#questions#:#Kérdések
+survey#:#questions_inserted#:#Kérdés(ek) beszúrva!
+survey#:#questions_removed#:#Kérdés(ek) és/vagy kérdésblokk(ok) eltávolítva!
+survey#:#questiontype#:#Kérdéstípus
+survey#:#ratio_absolute#:#Abszolút skála
+survey#:#ratio_non_absolute#:#Arányskála
+survey#:#remove_question#:#Eltávolítás
+survey#:#remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t és/vagy kérdésblokk(ok)at a tesztből?
+survey#:#reset_filter#:#Szűrő alapállapotba állítása
+survey#:#resume_survey#:#Felmérés folytatása
+survey#:#save_phrase#:#Mentés mondatként
+survey#:#save_phrase_categories_not_checked#:#Legalább két kategóriát ellenőrizzen a kategóriák új mondatban való elmentéséhez!
+survey#:#save_phrase_introduction#:#Ha el akarja menteni az alábbi kategóriákat alapértelmezett mondatokként, adjon meg mondatcímet. Alapértelmezett mondatot bárhol elérhet, ahol mondatot akar hozzáadni egy sorozathoz.
+survey#:#search_field_all#:#Keresés minden mezőben
+survey#:#search_for#:#Keresendő
+survey#:#search_groups#:#Csoportok
+survey#:#search_invitation#:#Felhasználók vagy csoportok keresése meghíváshoz
+survey#:#search_questions#:#Kérdések keresése
+survey#:#search_term#:#Fogalom keresése
+survey#:#search_type_all#:#Keresés minden kérdéstípusban
+survey#:#search_users#:#Felhasználók
+survey#:#select_prior_question#:#Előzetes kérdés kiválasztása
+survey#:#select_questionpool#:#Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés elmentéséhez
+survey#:#select_relation#:#Válasszon ki egy összefüggést
+survey#:#select_target_position_for_move#:#Válasszon ki egy célpozíciót a kategóriák áthelyezéséhez és nyomja meg az egyik beszúrás gombot!
+survey#:#select_target_position_for_move_question#:#Válasszon ki gy célpozíciót a kérdés(ek) áthelyezéséhez és nyomjonja meg egyik beszúrás gombot!
+survey#:#select_value#:#Érték kiválasztása
+survey#:#set_filter#:#Szűrő beállítása
+survey#:#start_date#:#Kezdődátum
+survey#:#start_survey#:#Felmérés kezdete
+survey#:#subtype#:#Altípus
+survey#:#survey_finish#:#felmérés mentése és befejezése
+survey#:#survey_finished#:#Befejezte a felmérést! Köszönjük részvételét!
+survey#:#survey_next#:#mentés >>>
+survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók. A felmérés off-line!
+survey#:#survey_online_warning#:#A felmérés on-lin. Nem szerkesztheti a felmérés kérdéseit!
+survey#:#survey_previous#:#<<< mentés
+survey#:#survey_questions#:#Kérdések
+survey#:#survey_skip_finish#:#ugrás és a felmérés befejezése
+survey#:#survey_skip_next#:#következő >>>
+survey#:#survey_skip_previous#:#<<< előző
+survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
+survey#:#survey_start#:#mentés és vissza a kezdőlapra
+survey#:#svy_all_user_data_deleted#:#Ennek a felmérésnek minden felhasználói adata törlésre került!
+survey#:#svy_delete_all_user_data#:#Minden felhasználói adat törlése
+survey#:#text_question_not_filled_out#:#Töltse ki a válaszmezőt!
+survey#:#unfold#:#Szétbontás
+survey#:#unlimited_users#:#Nem korlátozott
+survey#:#uploaded_material#:#Feltöltött anyag
+survey#:#upper_limit#:#Felső határ
+survey#:#upper_limit_must_be_greater#:#A felső határnak magasabbnak kell lennie az alsó határnál!
+survey#:#users_answered#:#A felhasználók válaszoltak
+survey#:#users_skipped#:#A felhasználók kihagyták
+survey#:#value_nr_entered#:#Azon felhasználók száma, akik azt az értéket adták meg
+survey#:#values#:#Értékek
+survey#:#view_phrase#:#Mondat nézete
+survey#:#warning_question_in_use#:#Figyelmeztetés! A kérdést, amit szerkeszteni akar, használják az alább listázott felmérések. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, a felmérés minden alább listázott válasza törlődik. Ha meg akarja változtatni a kérdést és másik felmérésben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, hogy a kérdés új példányát létrehozza.
+common#:#header_lang_hu#:#Magyar
