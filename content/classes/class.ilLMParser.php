@@ -173,9 +173,14 @@ class ilLMParser extends ilSaxParser
 		$imp_dir = $this->lm_object->getImportDirectory();
 		foreach ($this->mob_mapping as $origin_id => $mob_id)
 		{
+			if(empty($origin_id))
+			{
+				continue;
+			}
 			$obj_dir = str_replace("_", "", $origin_id);
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$mob_id;
+//echo "copy from $source_dir to $target_dir <br>";
 			if (@is_dir($source_dir))
 			{
 				// make target directory
@@ -528,7 +533,7 @@ class ilLMParser extends ilSaxParser
 				// append media alias to page, if we are in a page
 				if ($this->in_page_object)
 				{
-					$this->page_object->appendXMLContent($this->media_object->getXML(true));
+					$this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
 				}
 
 				break;
@@ -641,7 +646,8 @@ class ilLMParser extends ilSaxParser
 				// TECHNICAL: Location
 				case "Location":
 //echo "Adding a location:".$a_data.":<br>";
-					$this->meta_technical->addLocation($a_data);
+					// TODO: adapt for files in "real" subdirectories
+					$this->meta_technical->addLocation(basename($a_data));
 					break;
 
 				// TECHNICAL: InstallationRemarks

@@ -73,7 +73,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 		$builded = $this->obj->buildDom();
 		$this->obj->addHierIDs();
-		$content = $this->obj->getXMLFromDom();
+		$content = $this->obj->getXMLFromDom(false, true);
 
 		// convert bb code to xml
 		/*

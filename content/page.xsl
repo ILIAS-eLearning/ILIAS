@@ -13,6 +13,14 @@
 <!-- dump MetaData -->
 <xsl:template match="MetaData"/>
 
+<!-- dummy node for output (this is necessary because all media
+	objects follow in sequence to the page object, the page contains
+	media aliases only (and their own layout information). the dummy
+	node wraps the pageobject and the mediaobject tags. -->
+<xsl:template match="dummy">
+	<xsl:apply-templates/>
+</xsl:template>
+
 <!-- PageObject -->
 <xsl:param name="mode"/>
 <xsl:param name="pg_title"/>

@@ -314,8 +314,15 @@ class ilPageObject extends ilLMObject
 		}
 		else
 		{
-			$mobs =& $this->getMultimediaXML();
-			return $this->dom->dump_node($this->node);
+			if ($a_append_mobs)
+			{
+				$mobs =& $this->getMultimediaXML();
+				return "<dummy>".$this->dom->dump_node($this->node).$mobs."</dummy>";
+			}
+			else
+			{
+				return $this->dom->dump_node($this->node);
+			}
 		}
 	}
 
@@ -363,7 +370,7 @@ class ilPageObject extends ilLMObject
 		foreach($mob_ids as $mob_id => $dummy)
 		{
 			$mob_obj =& new ilMediaObject($mob_id);
-			$mobs_xml .= $mob_obj->getXML();
+			$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
 		}
 		return $mobs_xml;
 	}
