@@ -137,3 +137,13 @@ textarea {
 .tabinactive {
 	background-color:#cccccc;
 }
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+	margin:0px;
+}
+
+/* --- to prevent images from spacing when using DOCTYPE xhtml --- */
+img {
+	display: block;
+}

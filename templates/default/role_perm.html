@@ -1,10 +1,8 @@
-<!-- @version $Id$ -->
 <style>
 body { margin:0px; }
 </style>
+
 {TABS}
-
-
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
   <tr class="locator">
@@ -15,13 +13,13 @@ body { margin:0px; }
     </td>
   </tr>
 </table>
-<br>
+<br />
 <span style="color: #000000;">
   <strong>
 	{MESSAGE_TOP}
   </strong>
 </span>
-<br><br>
+<br /><br />
 	<form action="object.php?obj_id={OBJ_ID}&parent_parent={PAR}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
 	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="tblheader">
@@ -48,7 +46,7 @@ body { margin:0px; }
 			<!-- END OBJECT_TYPES -->
 		  </tr>
 		  <!-- BEGIN TABLE_DATA_OUTER -->
-		  <tr class={CSS_ROW}>
+		  <tr class="{CSS_ROW}">
 			<td width="20%" align="left">
 			  {PERMISSION}
 			</td>
@@ -64,18 +62,18 @@ body { margin:0px; }
 			<td>
 			  {CHECK_BOTTOM}
 			</td>
-			<td colspan={COL_ANZ}>
-			  <input type="SUBMIT" value="submit">
+			<td colspan="{COL_ANZ}">
+			  <input type="submit" value="submit" />
 			</td>
 		  </tr>
 	  </table>
 	</form>
-<br><br>
+<br /><br />
 <span style="color: #000000;">
   <strong>
 	{MESSAGE_MIDDLE}
   </strong>
-<br><br>
+<br /><br />
 </span>
 	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd=adoptPermSave" name="objectItems" method="post">
 	  <table width="50%" cellspacing="0" cellpadding="2" border="0">
@@ -106,21 +104,21 @@ body { margin:0px; }
 			<!-- END ADOPT_PERMISSIONS -->
 			<tr class="tblheader">
 			  <td>
-				<img src="images/arrow_downright.gif">
+				<img src="images/arrow_downright.gif" />
 			  </td>
-			  <td colspan=3>
-				<input type="SUBMIT" value="adopt">
+			  <td colspan="3">
+				<input type="submit" value="adopt">
 			  </td>
 			</tr>
 	  </table>
 	  </form>
-<br><br>
+<br /><br />
 <!-- BEGIN ASSIGN -->
 <span style="color: #000000;">
   <strong>
 	{MESSAGE_BOTTOM}
   </strong>
-<br><br>
+<br /><br />
 	<form action="object.php?obj_id={ASSIGN_OBJ_ID}&parent={ASSIGN_TPOS}&parent_parent={ASSIGN_PAR}&cmd=assignSave" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="tblheader">
@@ -133,7 +131,7 @@ body { margin:0px; }
 			</td>
 		  </tr>
 			<!-- BEGIN TABLE_USER -->
-			<tr class={CSS_ROW_USER}>
+			<tr class="{CSS_ROW_USER}">
 			  <td>
 				{CHECK_USER}
 			  </td>
@@ -144,10 +142,10 @@ body { margin:0px; }
 			<!-- END TABLE_USER -->
 			<tr class="tblrow2">
 			  <td>
-				<img src="images/pfeil_rechts.gif">
+				<img src="images/pfeil_rechts.gif" />
 			  </td>
 			  <td>
-				<input type="SUBMIT" value="assign">
+				<input type="submit" value="assign" />
 			  </td>
 			</tr>
 	  </table>
