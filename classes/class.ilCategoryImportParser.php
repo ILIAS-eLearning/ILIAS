@@ -1,0 +1,196 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+require_once("classes/class.ilSaxParser.php");
+
+/**
+* Category Import Parser
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*
+* @extends ilSaxParser
+* @package core
+*/
+class ilCategoryImportParser extends ilSaxParser
+{
+	var $parent;		// current parent ref id
+
+
+	/**
+	* Constructor
+	*
+	* @param	string		$a_xml_file		xml file
+	*
+	* @access	public
+	*/
+	function ilCategoryImportParser($a_xml_file, $a_parent)
+	{
+		$this->parent[] = $a_parent;
+
+		parent::ilSaxParser($a_xml_file);
+	}
+
+
+	/**
+	* set event handler
+	* should be overwritten by inherited class
+	* @access	private
+	*/
+	function setHandlers($a_xml_parser)
+	{
+		xml_set_object($a_xml_parser,$this);
+		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
+		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+	}
+
+	/**
+	* start the parser
+	*/
+	function startParsing()
+	{
+		parent::startParsing();
+	}
+
+	/**
+	* generate a tag with given name and attributes
+	*
+	* @param	string		"start" | "end" for starting or ending tag
+	* @param	string		element/tag name
+	* @param	array		array of attributes
+	*/
+	function buildTag ($type, $name, $attr="")
+	{
+		$tag = "<";
+
+		if ($type == "end")
+			$tag.= "/";
+
+		$tag.= $name;
+
+		if (is_array($attr))
+		{
+			while (list($k,$v) = each($attr))
+				$tag.= " ".$k."=\"$v\"";
+		}
+
+		$tag.= ">";
+
+		return $tag;
+	}
+
+	/**
+	* handler for begin of element
+	*/
+	function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+	{
+
+		$cur_parent = $this->parent[count($this->parent) - 1];
+
+		switch($a_name)
+		{
+			case "Category":
+				$this->category = new ilObjCategory;
+				$this->category->setImportId($a_attribs["Id"]);
+				$this->default_language = $a_attribs["DefaultLanguage"];
+				$this->category->setTitle($a_attribs["Id"]);
+				$this->category->create();
+				$this->category->createReference();
+				$this->category->putInTree($cur_parent);
+				$this->parent[] = $this->category->getRefId();
+				break;
+
+			case "CategorySpec":
+				$this->cur_spec_lang = $a_attribs["Language"];
+				break;
+
+		}
+
+	}
+
+
+	/**
+	* handler for end of element
+	*/
+	function handlerEndTag($a_xml_parser, $a_name)
+	{
+		global $ilias, $rbacadmin;
+
+		switch($a_name)
+		{
+			case "Category":
+				unset($this->category);
+				unset($this->parent[count($this->parent) - 1]);
+				break;
+
+			case "CategorySpec":
+				$is_def = 0;
+				if ($this->cur_spec_lang == $this->default_language)
+				{
+					$this->category->setTitle($this->cur_title);
+					$this->category->setDescription($this->cur_description);
+					$this->category->update();
+					$is_def = 1;
+				}
+//echo "addingTranslation:".$this->cur_title.":".$this->cur_description.":<br>";
+				$this->category->addTranslation($this->cur_title,
+					$this->cur_description, $this->cur_spec_lang, $is_def);
+				break;
+
+			case "Title":
+				$this->cur_title = $this->cdata;
+//echo "Title:end: ".$this->cdata."<br>";
+				break;
+
+			case "Description":
+				$this->cur_description = $this->cdata;
+//echo "Description:end: ".$this->cdata."<br>";
+				break;
+		}
+
+		$this->cdata = "";
+	}
+
+	/**
+	* handler for character data
+	*/
+	function handlerCharacterData($a_xml_parser, $a_data)
+	{
+		// i don't know why this is necessary, but
+		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
+		// in character data, but we don't want that, because it's the
+		// way we mask user html in our content, so we convert back...
+		$a_data = str_replace("<","&lt;",$a_data);
+		$a_data = str_replace(">","&gt;",$a_data);
+
+		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
+		$a_data = preg_replace("/\n/","",$a_data);
+		$a_data = preg_replace("/\t+/","",$a_data);
+		if(!empty($a_data))
+		{
+			$this->cdata .= $a_data;
+		}
+	}
+
+}
+?>

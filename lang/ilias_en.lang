@@ -643,6 +643,7 @@ common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
 common#:#import_users#:#Import Users
+common#:#import_categories#:#Import Categories
 common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
