@@ -82,9 +82,9 @@ if(count($smails))
 	foreach ($smails as $mail)
 	{
 		// GET INBOX FOLDER FOR LINK_READ
-		require_once "classes/class.Mailbox.php";
+		require_once "classes/class.ilMailbox.php";
 		
-		$mbox = new Mailbox($_SESSION["AccountId"]);
+		$mbox = new ilMailbox($_SESSION["AccountId"]);
 		$inbox = $mbox->getInboxFolder();
 
 	    $tpl->setCurrentBlock("tbl_mail_row");
