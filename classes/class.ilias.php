@@ -75,6 +75,7 @@ class ILIAS extends PEAR
 	* @access private
 	*/	
 	var $typedefinition = array(
+
 								"grp"  => "'frm','le','crs','file','rolf'",
 								"cat"  => "'cat','frm','le','grp','crs','file','rolf'",
 								"frm"  => "'rolf'",
@@ -146,8 +147,53 @@ class ILIAS extends PEAR
 		// Error Handling
 		$this->error_obj = new ErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
+		
+		//********XML***********************************************
+		//objects-typedefinition in XML
+		$data = file("objects.xml");
+		$data = implode($data,"");
+		$this->objDef = databay_XML2OBJ($data);
+		unset($data);
+		//debug for xml-objectdefinitions
+		//echo $this->objDef->ChildNodes[0]->countElements("object");
+		//echo nl2br(htmlspecialchars(databay_OBJ2XML($this->objDef)));		
+	
 	}
 
+	function getObjDefinition($a_objname)
+	{
+		for ($i=0; $i<count($this->objDef->ChildNodes[0]->ChildNodes); $i++)
+		{
+			$obj = $this->objDef->ChildNodes[0]->ChildNodes[$i];
+			if ($obj->getAttr("NAME") == $a_objname) {
+				break;
+			}
+		}
+		$data["name"] = $obj->getAttr("NAME");
+		$data["subobjects"] = array();
+		$data["properties"] = array();
+		$data["actions"] = array();
+		foreach ($obj->ChildNodes as $row)
+		{
+			if ($row->Name == "SUBOBJ")
+			{
+			    $data["subobjects"][] = $row->Data;
+			}
+			if ($row->Name == "PROPERTY")
+			{
+			    $data["properties"][] = array( 
+						"attrs" => $row->getAttrs(),
+						"name" => $row->Data
+				);
+			}
+			if ($row->Name == "ACTION")
+			{
+			    $data["actions"][] = $row->Data;
+			}
+		}
+		return $data;
+	}
+	
 	/**
 	* Destructor
 	* @access	private

@@ -12,7 +12,9 @@ require_once "./include/ilias_header.inc";
 require_once "./classes/class.DBUpdate.php";
 
 $myDB = new DBUpdate();
-$tpl = new Template("tpl.adm_database.html", true, true);
+
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_database.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 if ($_GET["cmd"]=="migrate")
 {
@@ -73,6 +75,6 @@ $myDB->getTableStatus("rbac_fa");
 
 $tpl->setVariable("TXT_OPTIMIZE", $lng->txt("optimize"));
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

@@ -25,11 +25,11 @@ $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
 //if data are posted
-if ($_POST["u_id"]!="")
+if ($_GET["cmd"] == "save")
 {
 	$ilias->account->setFirstName($_POST["usr_fname"]);
 	$ilias->account->setLastName($_POST["usr_lname"]);
@@ -37,14 +37,14 @@ if ($_POST["u_id"]!="")
 	$ilias->account->setTitle($_POST["usr_title"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
 	$ilias->account->setLanguage($_POST["usr_language"]);
-
 	//set user skin
 	if ($_POST["usr_skin"] != "")
 	{
 		$ilias->account->setPref("skin", $_POST["usr_skin"]);
 
 		//set user style
-		if ($_POST["usr_style"] != "") {
+		if ($_POST["usr_style"] != "")
+		{
 			$ilias->account->setPref("style_".$_POST["usr_skin"], $_POST["usr_style"]);
 		}
 	}
@@ -110,6 +110,8 @@ foreach ($ilias->styles as $row)
 }
 
 $tpl->setCurrentBlock("content");
+$tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
+
 $tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("profile"));
 
 $tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
