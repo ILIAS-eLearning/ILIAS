@@ -182,6 +182,7 @@ assessment#:#tst_eval_total_passed#:#Test totali passati
 assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test passati
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno inserito il test
 assessment#:#tst_general_properties#:#Propriet&#224; generali
+assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro che vuoi inserire la(e) seguente(i) domanda(e) nel test?
 assessment#:#tst_insert_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da  %s utente(i). Inserire domande nel test causer&#224 la cancellazione di tutti i risultati per questo utente. Sei sicuro che vuoi inserire le seguenti domande nel test?
@@ -1572,6 +1573,7 @@ content#:#cont_coords#:#Coordinate
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
+content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito

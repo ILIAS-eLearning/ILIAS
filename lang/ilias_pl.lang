@@ -182,6 +182,7 @@ assessment#:#tst_eval_total_passed#:#Ogółem zaliczonych testów
 assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych testów
 assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
 assessment#:#tst_general_properties#:#Cechy ogólne
+assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
 assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
@@ -1572,6 +1573,7 @@ content#:#cont_coords#:#Koordynaty
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
+content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
 content#:#cont_def_layout#:#Domyślny wygląd
