@@ -145,9 +145,9 @@ class ilEditClipboardGUI
 
 		$tbl->setHeaderNames(array("", $this->lng->txt("cont_object")));
 
-		$cols = array("", "object");
+		$cols = array("", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "clipboard");
+			"cmd" => "view", "cmdClass" => get_class($this));
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%","99%"));
 
