@@ -2295,6 +2295,14 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("svy_visible");
 					$tpl->setVariable("V_TITLE", $svy_data["title"]);
 					$tpl->parseCurrentBlock();
+					if (!$svy_data["complete"])
+					{
+						$tpl->setCurrentBlock("svy_warning");
+						$tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+						$tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_survey_not_complete"));
+						$tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_survey_not_complete"));
+						$tpl->parseCurrentBlock();
+					}
 				}
 
 				if ($this->rbacsystem->checkAccess('write',$svy_data["ref_id"]))

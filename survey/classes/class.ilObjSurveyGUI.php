@@ -534,17 +534,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $rbacsystem;
 
     $add_parameter = $this->getAddParameter();
-		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
+		if ($_POST["cmd"]["save"])
 		{
 			$this->writePropertiesFormData();
 		}
     if ($_POST["cmd"]["save"]) {
-			$this->updateObject();
-			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-    }
-    if ($_POST["cmd"]["apply"]) {
 			$this->updateObject();
     }
     if ($_POST["cmd"]["cancel"]) {
@@ -603,7 +597,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
     if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
@@ -2777,16 +2770,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->writeInviteFormData();
 		}
-		if ($_POST["cmd"]["apply"])
-		{
-			$this->object->saveToDb();
-		}
 		if ($_POST["cmd"]["save"])
 		{
 			$this->object->saveToDb();
-			$path = $this->tree->getPathFull($this->object->getRefID());
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
 		}
 		if (($this->object->getInvitationMode() == MODE_PREDEFINED_USERS) and ($this->object->getInvitation() == INVITATION_ON))
 		{
@@ -2869,7 +2855,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
 		}
     if ($rbacsystem->checkAccess('write', $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
-			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
