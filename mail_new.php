@@ -20,7 +20,8 @@ $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
 
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
-$allow_smtp = $ilias->getSetting("mail_allow_smtp");
+// NOW HANDLED WITH CHECK ACCESS
+#$allow_smtp = $ilias->getSetting("mail_allow_smtp");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
@@ -193,8 +194,8 @@ $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
 $tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
 $tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
 
-// ONLY IF SMTP MAIL ARE ALLOWED
-if($allow_smtp == 'y')
+// ONLY IF SMTP MAILS ARE ALLOWED
+if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("allow_smtp");
 	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));

@@ -147,7 +147,7 @@
 	<action name="setuserlang">setUserLanguage</action>
 	<action name="checklang">checkLanguage</action>
 </object>
-<object name="mail" class_name="" checkbox="0">
+<object name="mail" class_name="Mail" checkbox="0">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
