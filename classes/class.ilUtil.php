@@ -1507,19 +1507,36 @@ class ilUtil
 
 	/**
 	* strip slashes if magic qoutes is enabled
+	*
+	* @param	boolean		strip also html tags
 	*/
-	function stripSlashes($a_str)
+	function stripSlashes($a_str, $a_strip_html = true)
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{
-			return stripslashes($a_str);
+			$a_str = stripslashes($a_str);
 		}
-		else
+		
+		if ($a_strip_html)
 		{
-			return $a_str;
+			$a_str = ilUtil::stripScriptHTML($a_str);
 		}
+		
+		return $a_str;
+	}
+	
+	
+	/**
+	* strip script tags (has to be improved)
+	*/
+	function stripScriptHTML($a_str)
+	{
+		$a_str = strip_tags($a_str);
+		
+		return $a_str;
 	}
 
+	
 	/**
 	* add slashes if magic qoutes is disabled
 	* don't use that for db inserts/updates! use prepareDBString
