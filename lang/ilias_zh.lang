@@ -759,7 +759,6 @@ common#:#msg_no_search_string#:#请输入您的问题
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管理员角色，您不可以指定其他用户为系统管理员角色
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
-common#:#msg_not_possible_link#:#不可以创建对象联接类型
 common#:#msg_nothing_found#:#无任何发现
 common#:#msg_obj_created#:#已创建对象。
 common#:#msg_obj_exists#:#此对象已存在于文件夹中
