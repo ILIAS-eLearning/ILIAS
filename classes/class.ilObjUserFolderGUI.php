@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.10 2003/06/11 08:41:44 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.11 2003/07/03 15:23:52 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -85,7 +85,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
@@ -108,7 +108,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	/**
 	* confirmObject
 	* 
-	* 
+	* @access	public
 	*/
 	function confirmedDeleteObject()
 	{
@@ -132,7 +132,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 			
 			// Feedback
-			sendInfo($this->lng->txt("info_deleted"),true);	
+			sendInfo($this->lng->txt("user_deleted"),true);	
+
+			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+			exit();			
 		}
 	}
 
@@ -168,7 +171,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->getTemplateFile("confirm");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
+
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -216,5 +221,5 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-} // END class.UserFolderObjectOut
+} // END class.ilObjUserFolderGUI
 ?>

@@ -54,5 +54,5 @@ class ilObjObjectFolder extends ilObject
 		return false;
 	} //function
 
-} // END class.ObjectFolderObject
+} // END class.ilObjObjectFolder
 ?>

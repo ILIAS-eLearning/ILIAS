@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.15 2003/07/07 17:46:57 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.16 2003/07/08 12:00:45 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -348,5 +348,5 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-} // END class.ilObjRoleTemplate
+} // END class.ilObjRoleTemplateGUI
 ?>

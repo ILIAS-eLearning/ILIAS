@@ -38,7 +38,11 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-	* @access public
+	*
+	* @param	array	basic object data
+	* @param	integer	ref_id or obj_id (depends on referenced-flag)
+	* @param	boolean	true: treat id as ref_id; false: treat id as obj_id
+	* @access	public
 	*/
 	function ilObjObjectFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{

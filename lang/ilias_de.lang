@@ -330,12 +330,27 @@ common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Roll
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
-common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
+common#:#msg_copy_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
+common#:#msg_cut_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben).
+common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
+common#:#msg_link_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verkn&uuml;pfen).
+common#:#msg_cloned#:#Objekt(e) kopiert.
+common#:#msg_linked#:#Objekt(e) verkn&uuml;pft.
+common#:#msg_cut_copied#:#Objekt(e) verschoben.
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
+common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
+common#:#msg_removed#:#Objekt(e) aus dem System entfernt
+common#:#msg_cancel_delete#:#Aktion abgebrochen.
+common#:#msg_obj_created#:#Objekt angelegt.
+common#:#msg_obj_modified#:#&Auml;nderungen gespeichert.
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
+common#:#msg_no_rolf_allowed1#:#Das Objekt
+common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:###04 Jul 2003 content changed
+common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb k&ouml;nnen Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
 common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen
 common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen###08 Jul 2003 content changed
@@ -345,10 +360,8 @@ common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Ve
 common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu &auml;ndern
 common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu &auml;ndern
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu &auml;ndern
-common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu &auml;ndern
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen
-common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
@@ -382,7 +395,6 @@ common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
-common#:#nothing_checked#:#Lustig! Keine Checkbox angekreuzt.
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Systemverwaltung
 common#:#obj_cat#:#Kategorie
@@ -485,6 +497,7 @@ common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
 common#:#role_added#:#Rolle angelegt
+common#:#role_deleted#:#Rolle gel&ouml;scht
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
 common#:#rolt#:#Rollenvorlage
@@ -568,6 +581,7 @@ common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
+common#:#user_deleted#:#Benutzer gel&ouml;scht
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername

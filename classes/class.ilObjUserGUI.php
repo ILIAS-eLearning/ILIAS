@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.31 2003/07/09 09:50:02 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.32 2003/07/09 15:36:53 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -51,7 +51,6 @@ class ilObjUserGUI extends ilObjectGUI
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usr";
-
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
 		// for gender selection. don't change this
@@ -68,35 +67,33 @@ class ilObjUserGUI extends ilObjectGUI
 	* @param	string	$a_template_var			template variable where profile
 	*											should be inserted
 	* @param	string	$a_template_block_name	name of profile template block
+	* @access	public
 	*/
 	function insertPublicProfile($a_template_var, $a_template_block_name)
 	{
-		global $tpl;
-
-		$tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
-		$tpl->setCurrentBlock($a_template_block_name);
+		$this->tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
+		$this->tpl->setCurrentBlock($a_template_block_name);
 
 		// Get name of picture of user
-		include_once "classes/class.ilObjUser.php";
 		$userObj = new ilObjUser($_GET["user"]);
 
-		$tpl->setVariable("ROWCOL1", "tblrow1");
-		$tpl->setVariable("ROWCOL2", "tblrow2");
+		$this->tpl->setVariable("ROWCOL1", "tblrow1");
+		$this->tpl->setVariable("ROWCOL2", "tblrow2");
 
 		//if (usr_id == $_GET["user"])
 		// Check from Database if value
 		// of public_profile = "y" show user infomation
 		if ($userObj->getPref("public_profile")=="y")
 		{
-			$tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
-			$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
-			$tpl->setVariable("LASTNAME",$userObj->getLastName());
+			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
+			$this->tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
+			$this->tpl->setVariable("LASTNAME",$userObj->getLastName());
 		}
 		else
 		{
-			$tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
-			$tpl->setVariable("FIRSTNAME","N /");
-			$tpl->setVariable("LASTNAME","A");
+			$this->tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
+			$this->tpl->setVariable("FIRSTNAME","N /");
+			$this->tpl->setVariable("LASTNAME","A");
 		}
 
 		if ($userObj->getPref("public_upload")=="y")
@@ -106,118 +103,118 @@ class ilObjUserGUI extends ilObjectGUI
 			$mySetup = new ilSetup();
 			$mySetup->readIniFile();
 			$webspace_dir = $mySetup->getWebspacePath();
-			$tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
-			$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
+			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
+			$this->tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 		}
 		else
 		{
-			$tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
+			$this->tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
 			// Todo: point to anonymous picture
 		}
 
 		// Check from Database if value
 		// "y" show institute information
-		$tpl->setVariable("TXT_INSTITUTE",$this->lng->txt("institution"));
+		$this->tpl->setVariable("TXT_INSTITUTE",$this->lng->txt("institution"));
 
 		if ($userObj->getPref(public_institution)=="y")
 		{
-			$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
+			$this->tpl->setVariable("INSTITUTE",$userObj->getInstitution());
 		}
 		else
 		{
-			$tpl->setVariable("INSTITUTE","N / A");
+			$this->tpl->setVariable("INSTITUTE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show institute information
-		$tpl->setVariable("TXT_STREET",$this->lng->txt("street"));
+		$this->tpl->setVariable("TXT_STREET",$this->lng->txt("street"));
 
 		if ($userObj->getPref(public_street)=="y")
 		{
-			$tpl->setVariable("STREET",$userObj->getStreet());
+			$this->tpl->setVariable("STREET",$userObj->getStreet());
 		}
 		else
 		{
-			$tpl->setVariable("STREET","N / A");
+			$this->tpl->setVariable("STREET","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show zip code information
-		$tpl->setVariable("TXT_ZIPCODE",$this->lng->txt("zipcode"));
+		$this->tpl->setVariable("TXT_ZIPCODE",$this->lng->txt("zipcode"));
 
 		if ($userObj->getPref(public_zip)=="y")
 		{
-			$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
+			$this->tpl->setVariable("ZIPCODE",$userObj->getZipcode());
 		}
 		else
 		{
-			$tpl->setVariable("ZIPCODE","N / A");
+			$this->tpl->setVariable("ZIPCODE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show city information
-		$tpl->setVariable("TXT_CITY",$this->lng->txt("city"));
+		$this->tpl->setVariable("TXT_CITY",$this->lng->txt("city"));
 
 		if ($userObj->getPref(public_city)=="y")
 		{
-			$tpl->setVariable("CITY",$userObj->getCity());
+			$this->tpl->setVariable("CITY",$userObj->getCity());
 		}
 		else
 		{
-			$tpl->setVariable("CITY","N / A");
+			$this->tpl->setVariable("CITY","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show country information
-		$tpl->setVariable("TXT_COUNTRY",$this->lng->txt("country"));
+		$this->tpl->setVariable("TXT_COUNTRY",$this->lng->txt("country"));
 
 		if ($userObj->getPref(public_country)=="y")
 		{
-			$tpl->setVariable("COUNTRY",$userObj->getCountry());
+			$this->tpl->setVariable("COUNTRY",$userObj->getCountry());
 		}
 		else
 		{
-			$tpl->setVariable("COUNTRY","N / A");
+			$this->tpl->setVariable("COUNTRY","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show phone information
-		$tpl->setVariable("TXT_PHONE",$this->lng->txt("phone"));
+		$this->tpl->setVariable("TXT_PHONE",$this->lng->txt("phone"));
 
 		if ($userObj->getPref(public_phone)=="y")
 		{
-			$tpl->setVariable("PHONE",$userObj->getPhone());
+			$this->tpl->setVariable("PHONE",$userObj->getPhone());
 		}
 		else
 		{
-			$tpl->setVariable("PHONE","N / A");
+			$this->tpl->setVariable("PHONE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show email information
-		$tpl->setVariable("TXT_EMAIL",$this->lng->txt("email"));
+		$this->tpl->setVariable("TXT_EMAIL",$this->lng->txt("email"));
 
 		if ($userObj->getPref(public_email)=="y")
 		{
-			$tpl->setVariable("EMAIL",$userObj->getEmail());
+			$this->tpl->setVariable("EMAIL",$userObj->getEmail());
 		}
 		else
 		{
-			$tpl->setVariable("EMAIL","N / A");
+			$this->tpl->setVariable("EMAIL","N / A");
 		}
 
-		$tpl->setVariable("TXT_HOBBY",$this->lng->txt("hobby"));
+		$this->tpl->setVariable("TXT_HOBBY",$this->lng->txt("hobby"));
 
 		if ($userObj->getPref(public_hobby)=="y")
 		{
-			$tpl->setVariable("HOBBY",$userObj->getHobby());
+			$this->tpl->setVariable("HOBBY",$userObj->getHobby());
 		}
 		else
 		{
-			$tpl->setVariable("HOBBY","N / A");
+			$this->tpl->setVariable("HOBBY","N / A");
 		}
 
-		$tpl->parseCurrentBlock($a_template_block_name);
+		$this->tpl->parseCurrentBlock($a_template_block_name);
 	}
 
 
@@ -226,7 +223,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $tree,$tpl,$rbacsystem;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $_POST["new_type"]))
 		{
@@ -300,20 +297,20 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
 
-			// EMPTY SAVED VALUES
-			unset($_SESSION["error_post_vars"]);
+			// EMPTY SAVED VALUES not needed; done by system
+			//unset($_SESSION["error_post_vars"]);
 		}
-
-
 	}
 
 
 	/**
 	* display user edit form
+	* 
+	* @access	public
 	*/
 	function editObject()
 	{
-		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
+		global $rbacsystem, $rbacreview, $rbacadmin;
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
@@ -364,7 +361,7 @@ class ilObjUserGUI extends ilObjectGUI
 			foreach ($assigned_roles as $key => $role)
 			{
 				// BEGIN TABLE_ROLES
-				require_once "classes/class.ilObjRole.php";
+				include_once "classes/class.ilObjRole.php";
 				$roleObj = new ilObjRole($role);
 
 				if ($this->object->getId() == $_SESSION["AccountId"])
@@ -407,7 +404,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if (true)
 		{
-			$tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+			$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
 		}
 
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
@@ -421,7 +418,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$counter = 0;
 
-		foreach($data["active_role"] as $role_id => $role)
+		foreach ($data["active_role"] as $role_id => $role)
 		{
 		   ++$counter;
 		   $this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
@@ -447,7 +444,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacadmin,$tree;
+		global $rbacsystem,$rbacadmin;
 
 		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
@@ -489,7 +486,6 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
-		require_once("classes/class.ilObjUser.php");
 		$userObj = new ilObjUser();
 		$userObj->assignData($_POST["Fobject"]);
 		$userObj->setTitle($userObj->getFullname());
@@ -516,7 +512,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//create usertree from class.user.php
 		// tree_id is the obj_id of user not ref_id!
 		// this could become a problem with same ids
-		//$tree->addTree($user->getId(), $settingObj->getRefId());
+		//$this->tree->addTree($user->getId(), $settingObj->getRefId());
 
 		//add notefolder to user tree
 		//$userTree = new ilTree(0,0,$user->getId());
@@ -532,21 +528,22 @@ class ilObjUserGUI extends ilObjectGUI
 		* */
 
 		// CREATE ENTRIES FOR MAIL BOX
-		require_once ("classes/class.ilMailbox.php");
+		include_once ("classes/class.ilMailbox.php");
 		$mbox = new ilMailbox($userObj->getId());
 		$mbox->createDefaultFolder();
 
-		require_once "classes/class.ilFormatMail.php";
+		include_once "classes/class.ilFormatMail.php";
 		$fmail = new ilFormatMail($userObj->getId());
 		$fmail->createMailOptionsEntry();
 
 		// create personal bookmark folder tree
-		require_once "classes/class.ilBookmarkFolder.php";
+		include_once "classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $userObj->getId());
 		$bmf->createNewBookmarkTree();
 
 
 		sendInfo($this->lng->txt("user_added"),true);
+
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
@@ -601,6 +598,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// checks passed. save user
 		$this->object->assignData($_POST["Fobject"]);
+
 		if ($_POST["Fobject"]["passwd"] != "********")
 		{
 			$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
@@ -614,7 +612,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// sent email
 		if ($_POST["send_mail"] == "y")
 		{
-			require_once "classes/class.ilFormatMail.php";
+			include_once "classes/class.ilFormatMail.php";
 
 			$umail = new ilFormatMail($_SESSION["AccountId"]);
 
@@ -676,5 +674,5 @@ class ilObjUserGUI extends ilObjectGUI
 		exit;
 	}
 
-} // END class.UserObjectOut
+} // END class.ilObjUserGUI
 ?>
