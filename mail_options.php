@@ -58,7 +58,9 @@ $tpl->setVariable("TXT_DELETE_SELECTED", $lng->txt("delete_selected"));
 $tpl->setVariable("TXT_DELETE_ALL", $lng->txt("delete_all"));
 $tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
 
-$mails = $ilias->account->getUnreadMail();
+//get the user mails
+$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$mails = $myMails->getMail();
 
 foreach ($mails as $row)
 {

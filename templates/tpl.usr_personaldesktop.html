@@ -5,18 +5,16 @@
 <h2>{MAIL_COUNT} {TXT_MAIL_S}</h2>
     <table width="100%" cellpadding=0 cellspacing=0 border=0>
     <tr class="tblheader">
-      <td><b>{TXT_SENDER}</b><!--</a>--></td>
-      <td><b>{TXT_SUBJECT}</b><!--</a>--></td>
-      <td><b>{TXT_DATETIME}</b>&nbsp;<img border=0 src="images/a_up.gif" WIDTH=12 HEIGHT=6 ALT="Date up" TITLE="Date up" ></a></td>
-      <td>&nbsp;</td>
+      <td>&nbsp;<b>{TXT_SENDER}</b><!--</a>--></td>
+      <td>&nbsp;<b>{TXT_SUBJECT}</b><!--</a>--></td>
+      <td>&nbsp;<b>{TXT_DATETIME}</b>&nbsp;<img border=0 src="images/a_up.gif" WIDTH=12 HEIGHT=6 ALT="Date up" TITLE="Date up" ></a></td>
     </tr>
 <!-- BEGIN tbl_mail_row -->
-    <tr class="{ROWCOL}">
-      <td valign="middle">{MAIL_SND_FNAME} {MAIL_SND_LNAME} [{MAIL_SND_NICK}]</TD>
-      <td valign="middle"><a href="{MAIL_LINK_READ}" target="_top"><b>{MAIL_SUBJ}</b></a></td>
-      <td valign="middle">{MAIL_DATE}</td>
-      <td valign="bottom"><a href="{MAIL_LINK_DEL}" onClick="return confirm('{TXT_ARE_YOU_SURE}');"><img border=0 src="images/delete.gif" alt="{TXT_DELETE}"></a></td>
-    </tr>
+<tr class="{ROWCOL}">
+  <td valign="middle">&nbsp;{MAIL_FROM}</TD>
+  <td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}" target="_top">{MAIL_SUBJ}</a></td>
+  <td valign="middle">&nbsp;{MAIL_DATE}</td>
+</tr>
 <!-- END tbl_mail_row -->
     </table>
 <!-- END tbl_mail -->
@@ -25,15 +23,15 @@
 <h2>{TXT_LO_HEADER}</h2>
     <table width="100%" cellpadding=0 cellspacing=0 border=0>
     <tr class="tblheader">
-      <td><b>{TXT_LO_TIME}</b></td>
-      <td><b>{TXT_LO_TITLE}</b></td>
-      <td><b>{TXT_LO_PAGE}</b></td>
+      <td>&nbsp;<b>{TXT_LO_TIME}</b></td>
+      <td>&nbsp;<b>{TXT_LO_TITLE}</b></td>
+      <td>&nbsp;<b>{TXT_LO_PAGE}</b></td>
     </tr>
 <!-- BEGIN tbl_lo_row -->
     <tr class="{ROWCOL}">
-      <td>{LO_TIME}</td>
-      <td><a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
-      <td><a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
+      <td>&nbsp;{LO_TIME}</td>
+      <td>&nbsp;<a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
+      <td>&nbsp;<a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
     </tr>
 <!-- END tbl_lo_row -->
     </table>
@@ -43,15 +41,15 @@
 <h2>{TXT_COURSES}</h2>
     <table width="100%" cellpadding=0 cellspacing=0 border=0>
     <tr class="tblheader">
-      <td><b>{TXT_TITLE}</b></td>
-      <td><b>{TXT_DESC}</b></td>
+      <td>&nbsp;<b>{TXT_TITLE}</b></td>
+      <td>&nbsp;<b>{TXT_DESC}</b></td>
       <td>&nbsp;</td>
     </tr>
 <!-- BEGIN tbl_crs_row -->
     <TR class="{ROWCOL}">
-      <TD><a href="{CRS_LINK}">{CRS_TITLE}</a></TD>
-      <TD>{CRS_DESC}</TD>
-      <TD><a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></TD>
+      <TD>&nbsp;<a href="{CRS_LINK}">{CRS_TITLE}</a></TD>
+      <TD>&nbsp;{CRS_DESC}</TD>
+      <TD>&nbsp;<a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></TD>
     </TR>
 <!-- END tbl_crs_row -->
     </TABLE>

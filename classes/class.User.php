@@ -251,33 +251,6 @@ class User extends PEAR
 		 
 		 return $FullName;
 	 }
-	 
-	 /**
-	  * get unread mail
-	  *
-	  * @return array mails
-	  * @access public
-	  */
-	 function getUnreadMail()
-	 {
-		 global $lng;
-
-		 //initialize array
-		 $mails = array();
-		 //query
-		 $sql = "SELECT * FROM mails 
-                 WHERE user_fk='".$this->id."'
-                 AND read=0";
-		 $mails[] = array(
-			 "id" => 1,
-			 "from" => "Hermann Mustermann",
-			 "email" => "herm@nn.de",
-			 "subject" => "Hello",
-			 "body" => "This is a test mail",
-			 "datetime" => $lng->fmtDate(date("Y-m-d"))
-			 );
-		 return $mails;
-	 }
 	  
 	 /**
 	  * get last read lessons

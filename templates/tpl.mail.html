@@ -1,31 +1,81 @@
+<script language="JavaScript">
+<!--
+function CheckAll(){
+	if(document.formmsg.all)
+	{
+		var c = document.formmsg.all.checked;
+	}
+	for (var i=0;i<document.formmsg.elements.length;i++)
+	{
+		var e = document.formmsg.elements[i];
+ 	  	if(e.name != 'all') e.checked = c;
+   	}
+}
+//-->
+</script>
+
 <h1>{TXT_PAGEHEADLINE}</h1>
+
 {BUTTONS}
 
-    <table CELLPADDING=4 CELLSPACING=0 BORDER=0>
-    <form method="post">
-    <input type="hidden" name="act" value="proc_del_menu">
-    <input type="hidden" name="list_mod" value="list_unread">
-    <input type="hidden" name="direc" value="ctime DESC">
-    <tr class="tblrow2">
-      <td><select name="what_do"><option value="0">{TXT_DELETE_SELECTED}<option value="1">{TXT_DELETE_ALL}<option value="2">{TXT_MARK_SELECTED}<option value="3">{TXT_MARK_ALL}</select></font></td>
-      <td><input type=submit value="{TXT_EXECUTE}"></td>
-    </tr>
-    </table>
+<form method="post" name="formmsg" action="{FORMACTION}">
+<input type="hidden" name="func" value="">
+<h2>{FOLDERNAME}</h2>
 
-<h2>{MAIL_COUNT}&nbsp;{TXT_MAIL_S}</h2>
-    <table WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <tr class="tblheader">
-      <td COLSPAN=2><a HREF="" TARGET="_top">&nbsp;{TXT_SENDER}&nbsp;</a></td>
-      <td><a HREF="" TARGET="_top">&nbsp;{TXT_SUBJECT}&nbsp;</a></td>
-      <td COLSPAN=2><a HREF="" TARGET="_top">&nbsp;{TXT_DATE}&nbsp;<img VSPACE=0 BORDER=0 SRC="images/message/desc.gif" WIDTH=12 HEIGHT=6 ALT="{TXT_ASC}" TITLE="{TXT_ASC}"></a></td>
-    </tr>
+<p>{MAIL_COUNT}&nbsp;{TXT_MAIL} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
+
+<table cellpadding=4 cellspacing=0 border=0>
+<tr class="tblrow2">
+  <td><img src="./images/arrow_upright.gif" border=0 alt="{TXT_ARROW_UPRIGHT}"></td>
+  <td><input type="submit" name="read" onClick="document.formmsg.func.value='read';" value="{TXT_READ}"></td>
+  <td><input type="submit" name="delete" onClick="document.formmsg.func.value='del';" value="{TXT_DELETE}"></td>
+  <td>
+	<select name="action" onChange="document.formmsg.func.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
+	   <option selected>{TXT_ACTIONS}</option>
+<!-- BEGIN mailactions -->
+	   <option value="{MAILACTION_VALUE}">{MAILACTION_OPTION}</option>
+<!-- END mailactions -->	  
+	</select></font>
+  </td>
+  <td>
+	<select name="move_to" onChange="submit()">
+	   <option selected>{TXT_MOVE_TO}</option>
+<!-- BEGIN mailmoveto -->
+	   <option value="{MAILMOVE_VALUE}">{MAILMOVE_OPTION}</option>
+<!-- END mailmoveto -->	  
+	</select></font>
+  </td>
+<!--  <td><input type=submit value="{TXT_EXECUTE}"></td> -->
+</tr>
+</table>
+
+<table>
+<tr>
+	<td><img src="./images/spacer.gif" width=1 height=1></td>
+</tr>
+</table>
+
+<table width="100%" cellpadding=0 cellspacing=0 border=0>
+<tr class="tblheader">
+  <td>&nbsp;</td>
+  <td>{TXT_SENDER}</td>
+  <td>{TXT_SUBJECT}</td>
+  <td>{TXT_DATE}<img VSPACE=0 BORDER=0 SRC="images/message/arrow_{DIRECTION}.gif" WIDTH=12 HEIGHT=6 ALT="{TXT_DIRECTION}"></a></td>
+</tr>
 <!-- BEGIN row -->
-    <tr class="{ROWCOL}">
-      <td valign="middle">{MAIL_SND_FNAME} {MAIL_SND_LNAME} [{MAIL_SND_NICK}]</TD>
-      <td valign="middle"><a href="{MAIL_LINK_READ}" target="_top"><b>{MAIL_SUBJ}</b></a></td>
-      <td valign="middle">{MAIL_DATE}</td>
-      <td valign="bottom"><a href="{MAIL_LINK_DEL}" onClick="return confirm('{TXT_ARE_YOU_SURE}');"><img border=0 src="images/delete.gif" alt="{TXT_DELETE}"></a></td>
-    </tr>
+<tr class="{ROWCOL}">
+  <td>&nbsp;<input type="checkbox" name="marker[]" value="{MAIL_ID}"></td>
+  <td valign="middle">&nbsp;{MAIL_FROM}</TD>
+  <td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}" target="_top">{MAIL_SUBJ}</a></td>
+  <td valign="middle">&nbsp;{MAIL_DATE}</td>
+</tr>
 <!-- END row -->
-    </form>
-    </table>
+<tr>
+	<td><img src="./images/spacer.gif" width=1 height=3></td>
+</tr>
+<tr class="tblrow2">
+  <td colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;<strong>{TXT_SELECT_ALL}</strong></td>
+</tr>
+</table>
+
+</form>	
