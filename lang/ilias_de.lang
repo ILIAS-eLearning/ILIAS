@@ -2767,3 +2767,5 @@ search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
 forum#:#forums_subject#:#Titel
+common#:#group_import#:#Gruppenimport
+common#:#group_import_file#:#Importdatei
