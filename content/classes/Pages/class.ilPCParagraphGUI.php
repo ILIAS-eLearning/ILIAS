@@ -119,7 +119,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"List" => $this->lng->txt("cont_List"),
 			"Remark" => $this->lng->txt("cont_Remark"),
 			"Code" => $this->lng->txt("cont_Code"),
-			"ZeroBorder" => $this->lng->txt("cont_ZeroBorder")
+			"TableContent" => $this->lng->txt("cont_TableContent")
 			);
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
