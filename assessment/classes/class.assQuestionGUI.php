@@ -77,7 +77,6 @@ class ASS_QuestionGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
-
 		switch($next_class)
 		{
 			default:
