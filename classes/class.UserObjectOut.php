@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id$
+* $Id$Id: class.UserObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -19,12 +19,7 @@ class UserObjectOut extends ObjectOut
 	{
 		$this->ObjectOut($a_data);
 	}
-	function updateObject()
-	{
-		header("Location: adm_object.php?obj_id=".$_GET["parent"]."&parent=".
-			   $_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
+	
 	function createObject()
 	{
 		$this->getTemplateFile("edit","usr");
