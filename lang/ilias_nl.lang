@@ -292,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#Er zijn geen markeringen gedefiniëerd, Cre�
 assessment#:#tst_no_question_selected_for_removal#:#Markeer tenminste één vraag om te verwijderen!
 assessment#:#tst_no_questions_available#:#Er zijn geen vragen beschikbaar! U moet nieuwe vragen  creëren of bladeren voor vragen.
 assessment#:#tst_no_taken_tests#:#Er zijn geen testen gedaan!
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. aantal keer geprobeerd
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentage opgelost
@@ -2045,6 +2046,7 @@ content#:#cont_added_term#:#Begrip toegevoegd
 content#:#cont_all_definitions#:#Alle definities
 content#:#cont_all_pages#:#Alle paginas
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Kaart-gebieden verwijderd.

@@ -104,7 +104,6 @@ assessment#:#answer_text#:#Answer text
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#New parameter
 assessment#:#applet_parameter#:#Parameter
-assessment#:#tst_no_tries#:#none
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
@@ -293,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!
+assessment#:#tst_no_tries#:#none
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed
 assessment#:#tst_percent_solved#:#Percent solved
@@ -2033,7 +2033,6 @@ content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
-content#:#cont_annex#:#Annex
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
@@ -2047,6 +2046,7 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_annex#:#Annex
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.

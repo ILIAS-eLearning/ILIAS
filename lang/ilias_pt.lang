@@ -292,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#Não existem nenhumas notas definidas, por f
 assessment#:#tst_no_question_selected_for_removal#:#Por favor seleccione pelo menos uma questão para a remover!
 assessment#:#tst_no_questions_available#:#Não existem questões disponíveis! Você precisa de criar novas questões ou procurar por questões.
 assessment#:#tst_no_taken_tests#:#Não existem teste tomados!
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. número de tentativas
 assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentagem resolvido
@@ -2045,6 +2046,7 @@ content#:#cont_added_term#:#Termo adicionado
 content#:#cont_all_definitions#:#Todas as Definições
 content#:#cont_all_pages#:#Todas as Páginas
 content#:#cont_alphabetic#:#Alfabético a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
 content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
 content#:#cont_areas_deleted#:#Áreas apagadas do Mapa.

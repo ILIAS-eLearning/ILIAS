@@ -292,6 +292,7 @@ assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeuge
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
+assessment#:#tst_no_tries#:#none###06 Sep 2004 new variable
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Versuche
 assessment#:#tst_percent_solved#:#Prozent gelöst
@@ -2039,6 +2040,7 @@ content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_annex#:#Annex###06 Sep 2004 new variable
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
