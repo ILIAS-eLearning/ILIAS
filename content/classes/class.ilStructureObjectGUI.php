@@ -321,6 +321,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+		}
+
 		// SAVE POST VALUES
 		ilEditClipboard::storeContentObject("pg",$_POST["id"][0]);
 

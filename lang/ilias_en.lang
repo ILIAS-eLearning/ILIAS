@@ -1222,6 +1222,7 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
+content#:#cont_select_item#:#Select at least one item.
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle

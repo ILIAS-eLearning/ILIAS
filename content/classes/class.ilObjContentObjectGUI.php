@@ -766,6 +766,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+		}
+
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
 
@@ -790,20 +796,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($_POST["id"] as $id)
 		{
-			$obj =& new ilLMObject($this->object, $id);
-			switch($obj->getType())		// ok that's not so nice, could be done better
+			if ($id != IL_FIRST_NODE)
 			{
-				case "pg":
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
-					break;
-				case "st":
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
-					break;
+				$obj =& new ilLMObject($this->object, $id);
+				switch($obj->getType())		// ok that's not so nice, could be done better
+				{
+					case "pg":
+						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
+						break;
+					case "st":
+						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
+						break;
+				}
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
-			$this->tpl->parseCurrentBlock();
 		}
 
 		// cancel/confirm button
@@ -849,13 +858,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// delete all selected objects
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$obj =& ilLMObjectFactory::getInstance($this->object, $id);
-			$obj->setLMId($this->object->getId());
-			$node_data = $tree->getNodeData($id);
-			$obj->delete();
-			if($tree->isInTree($id))
+			if ($id != IL_FIRST_NODE)
 			{
-				$tree->deleteTree($node_data);
+				$obj =& ilLMObjectFactory::getInstance($this->object, $id);
+				$obj->setLMId($this->object->getId());
+				$node_data = $tree->getNodeData($id);
+				$obj->delete();
+				if($tree->isInTree($id))
+				{
+					$tree->deleteTree($node_data);
+				}
 			}
 		}
 
@@ -1027,6 +1039,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if(count($_POST["id"]) > 1)
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
 		}
 
 		// SAVE POST VALUES
