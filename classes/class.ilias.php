@@ -194,6 +194,7 @@ class ILIAS extends PEAR
 
 		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".$this->client_id);
 		define ("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client_id);
+		define ("CLIENT_ID",$this->client_id);
 
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
