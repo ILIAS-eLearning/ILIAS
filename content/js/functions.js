@@ -27,7 +27,7 @@ function doMouseOut(id) {
 /**
 *   on Click show context-menu at mouse-position
 */
-function doMouseClick(e,id) {
+function doMouseClick(e,id,ctype) {
     if (!e) var e = window.event;
     
     clickcmdid = id.substr(7);
