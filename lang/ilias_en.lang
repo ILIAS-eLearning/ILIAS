@@ -1764,10 +1764,8 @@ common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templat
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user data
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
-common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_read#:#You have no permission to access this item.
-common#:#no_access_item#:#You have no permission to access this item.
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.
+common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
@@ -1822,6 +1820,8 @@ common#:#news#:#News
 common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
+common#:#no_access_item#:#You have no permission to access this item.
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.
 common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
@@ -2975,8 +2975,10 @@ crs#:#crs_export#:#Course export
 crs#:#crs_file_name#:#File name
 crs#:#crs_from#:#From:
 crs#:#crs_grouping#:#Course grouping
+crs#:#crs_grouping_assign#:#Change assignment
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
 crs#:#crs_grouping_deleted#:#Deleted course grouping.
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_groupings_ask_delete#:#Delete course grouping
@@ -3104,6 +3106,7 @@ crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course.
 crs#:#crs_objectives_reseted#:#Reseted results.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
+crs#:#crs_other_groupings#:#Groupings of other courses
 crs#:#crs_other_resources#:#Other resources
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
@@ -4719,6 +4722,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-crs#:#crs_other_groupings#:#Groupings of other courses
-crs#:#crs_grouping_assign#:#Change assignment
-crs#:#crs_grouping_modified_assignment#:#Changed assignment.

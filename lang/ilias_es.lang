@@ -1765,6 +1765,7 @@ common#:#msg_no_perm_modify_rolt#:#No tiene permiso para modificar plantillas de
 common#:#msg_no_perm_modify_user#:#No tiene permiso para modificar datos de usuario
 common#:#msg_no_perm_paste#:#No tiene permiso para pegar el siguiente objeto(s):
 common#:#msg_no_perm_perm#:#No tiene permiso para editar la configuración de permisos
+common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
 common#:#msg_no_perm_read_lm#:#No tiene permisos para leer este módulo de aprendizaje
 common#:#msg_no_perm_read_track#:#No tiene permisos para acceder a los datos de seguimiento.
 common#:#msg_no_perm_undelete#:#No tiene permiso para restaurar el siguiente objeto(s):
@@ -1820,6 +1821,8 @@ common#:#news#:#noticias
 common#:#next#:#siguiente
 common#:#nickname#:#apodo
 common#:#no#:#no
+common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
 common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay marcadores definidos.
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
@@ -2971,8 +2974,10 @@ crs#:#crs_export#:#Exportar Curso
 crs#:#crs_file_name#:#Nombre de Fichero
 crs#:#crs_from#:#Desde:
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
 crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -3100,6 +3105,7 @@ crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course.
 crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opciones
+crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
 crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
 crs#:#crs_passed#:#Superado
 crs#:#crs_password_not_valid#:#Su contraseña no es válida
