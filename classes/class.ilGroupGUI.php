@@ -1991,6 +1991,8 @@ class ilGroupGUI extends ilObjGroupGUI
 	{
 		$notoperations = array();
 		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
+		
+		/* DOESN'T WORK AT ALL --> DISABLED (shofmann, 18.2.2004)
 		if (empty($_SESSION["clipboard"]))
 		{
 			$notoperations[] = "paste";
@@ -2036,7 +2038,7 @@ class ilGroupGUI extends ilObjGroupGUI
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();
 			}
-		}
+		}*/
 
 		if ($with_subobjects == true)
 		{
@@ -2224,7 +2226,9 @@ class ilGroupGUI extends ilObjGroupGUI
 					$obj_link = $this->getURLbyType($cont_data);
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-					$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckbox(0, "id[]", $cont_data["ref_id"]));
+					// DISABLED BECAUSE NOTHING WORKS !!! (shofmann, 18.2.2004)
+					//$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckbox(0, "id[]", $cont_data["ref_id"]));
+					$this->tpl->setVariable("CHECKBOX","&nbsp;");
 					$this->tpl->setVariable("TITLE", $cont_data["title"]);
 					$this->tpl->setVariable("LINK", $obj_link);
 					$this->tpl->setVariable("LINK_TARGET", $link_target);
