@@ -248,6 +248,11 @@ class ilRbacAdmin
 									 $this->ilErr->WARNING);
 		}
 		
+		if (count($a_ops) == 0)
+		{
+			return false;
+		}
+		
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
