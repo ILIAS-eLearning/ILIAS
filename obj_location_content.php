@@ -151,7 +151,7 @@ if (isset($_GET["ref_id"]) && ($_GET["ref_id"] != 1))
 				break;
 	
 			case "grp":
-				$obj->setReturnLocation("save","group.php");
+				$obj->setReturnLocation("save","grp_list.php?&ref_id=".$_GET["ref_id"]);
 				$obj->setReturnLocation("cancel","group.php");
 				break;
 		

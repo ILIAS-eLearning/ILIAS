@@ -54,7 +54,9 @@ class ilGroupListGUI
 		$this->objDefinition =& $objDefinition;
 		$this->tree =& $tree;
 		$this->rbacsystem = $rbacsystem;
-
+		
+		
+		
 		$cmd = $_GET["cmd"];
 
 		if ($cmd == "")
@@ -89,8 +91,10 @@ class ilGroupListGUI
 		// tree frame
 		if ($_SESSION["viewmode"] == "tree")
 		{
-			$tpl = new ilTemplate("tpl.grp_list.html", false, false);
-			$tpl->show();
+			$this->tpl = new ilTemplate("tpl.grp_list.html", false, false);
+			$this->tpl->setVariable ("EXP", "grp_list.php?cmd=explorer&expand=1");
+			$this->tpl->setVariable ("SOURCE", "grp_list.php?cmd=displayList&ref_id=".$_GET["ref_id"]);
+			$this->tpl->show();
 		}
 		else	// list
 		{
@@ -195,6 +199,7 @@ class ilGroupListGUI
 			//show "new group" button only if category or dlib objects were chosen(current object)
 			//if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
 			//{
+				//var_dump($_GET); echo "----";var_dump($_POST);
 				$this->tpl->setCurrentBlock("btn_cell");
 				//right solution
 				$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=grp_list.php");
@@ -226,7 +231,7 @@ class ilGroupListGUI
 			case "tree":
 				//go through valid objects and filter out the groups only
 				$cont_arr = array();
-
+				
 				$objects = $tree->getChilds($_GET["ref_id"],"title");
 				
 				if (count($objects) > 0)
