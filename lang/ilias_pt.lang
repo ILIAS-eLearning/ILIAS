@@ -733,6 +733,14 @@ common#:#archive#:#Arquivo
 common#:#are_you_sure#:#Tem a certeza?
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
@@ -1026,6 +1034,7 @@ common#:#department#:#Departamento
 common#:#desc#:#Descrição
 common#:#description#:#Descrição
 common#:#desired_password#:#Palavra-passe desejada
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Desligado
 common#:#domain#:#Domínio
 common#:#down#:#Baixo
@@ -1232,6 +1241,7 @@ common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#O Glossário é visível
 common#:#glo_write#:#Editar Glossário
 common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Glossários
 common#:#glossary#:#Glossário
@@ -1338,6 +1348,7 @@ common#:#guest#:#Convidado
 common#:#guests#:#Convidados
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Ajuda
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#esconder detalhes
 common#:#hide_structure#:#Desligar Vista-Estruturada
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
@@ -2191,6 +2202,7 @@ common#:#show_structure#:#Ligar Vista-Estruturada
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Assinatura
 common#:#size#:#Size###29 Nov 2004 new variable
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#Ordenar por esta coluna
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -2366,6 +2378,10 @@ common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
 common#:#usr_edit#:#Editar Utilizador
 common#:#usr_hits_per_page#:#Visitas/página em tabelas
 common#:#usr_new#:#Novo Utilizador
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#Pele / Estilo
 common#:#usr_style#:#Estilo do Utilizador
 common#:#usrf#:#Contas de utilizadores

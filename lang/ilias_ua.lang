@@ -733,6 +733,14 @@ common#:#archive#:#Архів
 common#:#are_you_sure#:#Ви впевнені?
 common#:#articels_unread#:#Непрочитані статті:
 common#:#as_of#:#як в
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання
 common#:#assf_edit_permission#:#Змінити настройки прав
 common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням
@@ -1026,6 +1034,7 @@ common#:#department#:#Відділ
 common#:#desc#:#Опис
 common#:#description#:#Опис
 common#:#desired_password#:#Потрібний Пароль
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Відключений
 common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Вниз
@@ -1232,6 +1241,7 @@ common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Глосарій є видимим
 common#:#glo_write#:#Редагувати Глосарій
 common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Глосарії
 common#:#glossary#:#Глосарій
@@ -1338,6 +1348,7 @@ common#:#guest#:#Гість
 common#:#guests#:#Гості
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Допомога
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#сховати деталі
 common#:#hide_structure#:#Заборонити Структурований-Огляд
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
@@ -2191,6 +2202,7 @@ common#:#show_structure#:#Дозволити Структурований Огл
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Сігнатура
 common#:#size#:#Size###29 Nov 2004 new variable
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -2366,6 +2378,10 @@ common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
 common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Новий Користувач
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#Скін / Стиль
 common#:#usr_style#:#Стиль Користувача
 common#:#usrf#:#Аккаунти Користувача

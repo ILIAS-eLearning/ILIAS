@@ -751,6 +751,14 @@ common#:#archive#:#存档
 common#:#are_you_sure#:#您肯定吗？
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
+common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
+common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
+common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
+common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
+common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
+common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
+common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
 common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
 common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
 common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
@@ -1044,6 +1052,7 @@ common#:#department#:#系
 common#:#desc#:#描述
 common#:#description#:#描述
 common#:#desired_password#:#期望的口令
+common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#禁止
 common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#向下
@@ -1250,6 +1259,7 @@ common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#术语表可视
 common#:#glo_write#:#编辑术语表
 common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_settings#:#Global settings###26 Jan 2005 new variable
 common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#术语表
 common#:#glossary#:#词汇表
@@ -1356,6 +1366,7 @@ common#:#guest#:#客人
 common#:#guests#:#客人
 common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助
+common#:#hide#:#hide###26 Jan 2005 new variable
 common#:#hide_details#:#隐藏详情
 common#:#hide_structure#:#禁止结构化视图
 common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
@@ -2209,6 +2220,7 @@ common#:#show_structure#:#激活结构化视图
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#签名
 common#:#size#:#Size###29 Nov 2004 new variable
+common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#根据此列分类
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -2384,6 +2396,10 @@ common#:#usr_agreement_empty#:#协议无文本
 common#:#usr_edit#:#编辑用户
 common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#新用户
+common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
+common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
+common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
 common#:#usr_skin_style#:#外壳/风格
 common#:#usr_style#:#用户风格
 common#:#usrf#:#用户文件夹
