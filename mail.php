@@ -8,152 +8,226 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
+require_once "./include/inc.mail.php";
+require_once "classes/class.User.php";
+require_once "classes/class.Mailbox.php";
+require_once "classes/class.Mail.php";
 
-$folder = $_POST["folder"];
-if ($folder == "")
-	$folder = $_GET["folder"];
-if ($folder == "")
-	$folder = "inbox";
+
+$umail = new Mail($_SESSION["AccountId"]);
+$mbox = new MailBox($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
 
-$ilias->error_obj->sendInfo("Mailing functions doesn't work properly in this release.",$ilias->error_obj->MESSAGE);
-
-//get mails from user
-$myMails = new UserMail($ilias->account->Id);
-
-$mails = $myMails->getMail($folder);
-
-//mailactions
-//possible actions are:
-//read
-//del
-//mark_unread
-//mark_read
-//move_to_folder
-if ($_POST["func"] != "")
+// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+if(!$_GET["mobj_id"])
 {
-	switch ($_POST["func"])
+	$mbox = new Mailbox($_SESSION["AccountId"]);
+	$_GET["mobj_id"] = $mbox->getInboxFolder();
+}
+// IF REQUESTED FROM mail_read.php
+if(isset($_GET["mail_id"]))
+{
+	$_POST["cmd"] = 'delete';
+	$_POST["mail_id"] = array($_GET["mail_id"]);
+}	
+
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+
+if ($_POST["cmd"] != "")
+{
+	switch ($_POST["cmd"])
 	{
-	
-		case "read":
-			//check if a mail is selected
-			if ($marker[0]!="")
+		case 'mark_read':
+			if(is_array($_POST["mail_id"]))
 			{
-				header("location: mail_read.php?id=".$marker[0]);
+				$umail->markRead($_POST["mail_id"]);
+			}
+			else
+			{
+				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
 			}
 			break;
-			
-		case "del":
-			for ($i=0; $i<count($marker); $i++)
+		case 'mark_unread':
+			if(is_array($_POST["mail_id"]))
 			{
-				if ($folder=="trash")
+				$umail->markUnread($_POST["mail_id"]);
+			}
+			else
+			{
+				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+			}
+			break;
+
+		case 'delete':
+			if(isset($_POST["confirm"]))
+			{
+				if(!is_array($_POST["mail_id"]))
 				{
-					$myMails->setStatus($marker[$i], "rcp", "deleted");
+					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+				}
+				else if($umail->deleteMails($_POST["mail_id"]))
+				{
+					$ilias->error_obj->sendInfo("Die Mail(s) wurde(n) gelöscht.");
 				}
 				else
-					$myMails->rcpDelete($marker[$i]);
+				{
+					$ilias->error_obj->sendInfo("Fehler beim Löschen der Mail(s).");
+				}
+				break;
 			}
-			header("location: mail.php?folder=".$folder);
-			break;
-			
-		case "mark_read":
-			for ($i=0; $i<count($marker); $i++)
+			else if(!isset($_POST["cancel"]))
+			{ 
+				if(!is_array($_POST["mail_id"]))
+				{
+					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
+					$error_delete = true;
+				}
+				else
+				{
+					$ilias->error_obj->sendInfo("Sollen die markierten Mails wirklich gelöscht werden?");
+				}
+			}
+			else if(isset($_POST["cancel"]))
 			{
-				$myMails->setStatus($marker[$i], "rcp", "read");
+				header("location: mail.php?mobj_id=$_GET[mobj_id]");
+				exit;
 			}
-			header("location: mail.php?folder=".$folder);
 			break;
-			
-		case "mark_unread":
-			for ($i=0; $i<count($marker); $i++)
+		case 'move':
+			if(!is_array($_POST["mail_id"]))
 			{
-				$myMails->setStatus($marker[$i], "rcp", "unread");
+				$ilias->error_obj->sendInfo("Sie müssen mindestens eine Mail auswählen.");
 			}
-			header("location: mail.php?folder=".$folder);
+			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["move_to"]))
+			{
+				$ilias->error_obj->sendInfo("Die Mail(s) wurde(n) verschoben.");
+			}
+			else
+			{
+				$ilias->error_obj->sendInfo("Fehler beim Verschieben der Mail(s).");
+			}
+
 			break;
 	}
 }
 
 include("./include/inc.mail_buttons.php");
 
-$tpl->setVariable("ACTION", "mail.php?folder=".$folder);
+$tpl->setVariable("ACTION", "mail.php?mobj_id=$_GET[mobj_id]");
 
-//set actionsselectbox
-$tpl->setVariable("TXT_ACTIONS", $lng->txt("actions"));
-$tpl->setCurrentBlock("mailactions");
-$tpl->setVariable("MAILACTION_VALUE", "del");
-$tpl->setVariable("MAILACTION_OPTION", $lng->txt("delete_selected"));
-$tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("mailactions");
-$tpl->setVariable("MAILACTION_VALUE", "mark_read");
-$tpl->setVariable("MAILACTION_OPTION", $lng->txt("mark_all_read"));
-$tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("mailactions");
-$tpl->setVariable("MAILACTION_VALUE", "mark_unread");
-$tpl->setVariable("MAILACTION_OPTION", $lng->txt("mark_all_unread"));
-$tpl->parseCurrentBlock();
+// BEGIN CONFIRM_DELETE
+if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]))
+{
+	$tpl->setCurrentBlock("CONFIRM_DELETE");
+	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
+	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+	$tpl->parseCurrentBlock();
+}
 
-//set movetoselectbox
-$tpl->setVariable("TXT_MOVE_TO", $lng->txt("move_to"));
+// BEGIN MAIL ACTIONS
+$actions = $umail->getActions();
+
+$tpl->setCurrentBlock("mailactions");
+foreach($actions as $key => $action)
+{
+	$tpl->setVariable("MAILACTION_NAME", $key);
+	$tpl->setVariable("MAILACTION_VALUE", $action);
+	$tpl->setVariable("MAILACTION_SELECTED",$_POST["cmd"] == 'delete' ? 'selected' : '');
+	$tpl->parseCurrentBlock();
+}
+// END MAIL ACTIONS
+
+// BEGIN MAILMOVE
+
+$folders = $mbox->getSubFolders();
 $tpl->setCurrentBlock("mailmove");
-$tpl->setVariable("MAILMOVETO_VALUE", "inbox");
-$tpl->setVariable("MAILMOVETO_OPTION", $lng->txt("inbox"));
-$tpl->parseCurrentBlock();
-
-//set folderselectbox
-$tpl->setVariable("TXT_FOLDERS", $lng->txt("folders"));
-$folders = $myMails->getMailFolders();
-
-foreach ($folders as $row)
+foreach($folders as $folder)
 {
-	$tpl->setCurrentBlock("folder");
-	$tpl->setVariable("FOLDER_VALUE", $row["name"]);
-	if ($folder == $row["name"])
-		$tpl->setVariable("FOLDER_SELECTED", " selected");
-		
-	$tpl->setVariable("FOLDER_OPTION", $lng->txt($row["name"]));
+	if($folder["obj_id"] == $_GET["mobj_id"])
+	{
+		continue;
+	}
+	$tpl->setVariable("MAILMOVE_VALUE", $folder["obj_id"]);
+	$tpl->setVariable("MAILMOVE_NAME", $folder["title"]);
 	$tpl->parseCurrentBlock();
 }
-// output mails
-foreach ($mails["msg"] as $row)
-{
-	$i++;
-	$tpl->setCurrentBlock("row");
-	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 
-	//new mail or read mail?
-	if ($row["new"] == true)
-		$mailclass = "mailunread";
+// END MAILMOVE
+
+// SHOW_FOLDER ONLY IF viewmode is flatview
+if(!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == 'flat')
+{
+	$tpl->setCurrentBlock("show_folder");
+	$tpl->setCurrentBLock("flat_select");
+   
+	foreach($folders as $folder)
+	{
+		if($folder["obj_id"] == $_GET["mobj_id"])
+		{
+			$tpl->setVariable("FLAT_SELECTED","selected");
+		}
+		$tpl->setVariable("FLAT_VALUE",$folder["obj_id"]);
+		$tpl->setVariable("FLAT_NAME",$folder["title"]);
+		$tpl->parseCurrentBlock();
+	}
+	$tpl->setVariable("TXT_FOLDERS", $lng->txt("folders"));
+	$tpl->parseCurrentBlock();
+}
+// END SHOW_FOLDER
+
+// BEGIN MAILS
+$mail_data = $umail->getMailsOfFolder($_GET["mobj_id"]);
+$counter = 0;
+foreach ($mail_data as $mail)
+{
+	++$counter;
+	$tpl->setCurrentBlock("mails");
+	$tpl->setVariable("ROWCOL","tblrow".(($counter % 2)+1));
+	$tpl->setVariable("MAIL_ID", $mail["mail_id"]);
+
+	if(is_array($_POST["mail_id"]))
+	{
+		$tpl->setVariable("CHECKBOX_CHECKED",in_array($mail["mail_id"],$_POST["mail_id"]) ? 'checked' : "");
+	}
+
+	// GET FULLNAME OF SENDER
+	$tmp_user = new User($mail["sender_id"]); 
+	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
+
+	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
+	// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
+	if($_GET["mobj_id"] == $mbox->getDraftsFolder())
+	{
+		$tpl->setVariable("MAIL_LINK_READ", "mail_new.php?mail_id=".
+						  $mail["mail_id"]."&mobj_id=$_GET[mobj_id]&type=draft");
+	}
 	else
-		$mailclass = "mailread";
-		
-	$tpl->setVariable("MAILCLASS", $mailclass);
-	$tpl->setVariable("MAIL_ID", $row["id"]);
-	$tpl->setVariable("MAIL_FROM", $row["from"]);
-	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-	$tpl->setVariable("MAIL_DATE", Format::formatDate($row["datetime"]));
-	$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?id=".$row["id"]);
-	$tpl->setVariable("MAIL_LINK_DEL", "");
-	$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+	{
+		$tpl->setVariable("MAIL_LINK_READ", "mail_read.php?mail_id=".
+						  $mail["mail_id"]."&mobj_id=$_GET[mobj_id]");
+	}
+	$tpl->setVariable("MAIL_SUBJECT", $mail["m_subject"]);
+	$tpl->setVariable("MAIL_DATE", Format::formatDate($mail["send_time"]));
 	$tpl->parseCurrentBlock();
 }
+// END MAILS
 
 //headline
-//get parameter
-$tpl->setVariable("FOLDERNAME", $lng->txt($folder));
 $tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 $tpl->setVariable("TXT_MAIL_S", $lng->txt("mail_s"));
 $tpl->setVariable("TXT_UNREAD", $lng->txt("unread"));
-$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
-$tpl->setVariable("TXT_READ", $lng->txt("read"));
+$tpl->setVariable("TXT_SUBMIT",$lng->txt("submit"));
 $tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
+$tpl->setVariable("IMGPATH",$tpl->tplPath);
 
-$tpl->setVariable("MAIL_COUNT", $mails["count"]);
-$tpl->setVariable("MAIL_COUNT_UNREAD", $mails["unread"]);
+// MAIL SUMMARY
+$mail_counter = $umail->getMailCounterData();
+$tpl->setVariable("MAIL_COUNT", $mail_counter["total"]);
+$tpl->setVariable("MAIL_COUNT_UNREAD", $mail_counter["unread"]);
 $tpl->setVariable("TXT_UNREAD_MAIL_S",$lng->txt("mail_s_unread"));
 $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s"));
+
 //columns headlines
 $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
