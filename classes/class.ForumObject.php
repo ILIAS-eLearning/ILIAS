@@ -45,7 +45,7 @@ class ForumObject extends Object
 		$top_data = array(
             "top_frm_fk"   		=> $newFrm_ID,
 			"top_name"   		=> $frm_data["title"],
-            "top_description" 	=> $frm_data["description"],
+            "top_description" 	=> $frm_data["desc"],
             "top_num_posts"     => 0,
             "top_num_threads"   => 0,
             "top_last_post"     => "",
@@ -59,7 +59,7 @@ class ForumObject extends Object
 		$q .= "VALUES ";
 		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_last_modified"]."')";
 		$result = $this->ilias->db->query($q);
-		
+				
 		/*	
 	 	// get last insert id and return it
 		$query = "SELECT LAST_INSERT_ID()";
