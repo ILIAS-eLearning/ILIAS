@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Modifica stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
 common#:#email#:#Email
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
 common#:#enable#:#Abilita
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#nuovo elemento prima
 content#:#cont_ed_new_row_after#:#nuova riga dopo
 content#:#cont_ed_new_row_before#:#nuova riga prima
 content#:#cont_ed_paste_clip#:#incolla dagli appunti
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Larghezza
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.

@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
 common#:#editor#:#Редактор
 common#:#email#:#E-mail###05 Nov 2004 new variable
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Введена вами email адресa не є коректною!###14 Sep 2004 content changed
 common#:#enable#:#Дозволити
 common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів

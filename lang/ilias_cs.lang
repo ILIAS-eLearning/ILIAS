@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Upravit styl
 common#:#edited_at#:#Upraven
 common#:#editor#:#Editor### identical translation
 common#:#email#:#E-mail### identical translation
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Zadaná e-mailová adresa je neplatné!###14 Sep 2004 content changed
 common#:#enable#:#Povolit
 common#:#enable_registration#:#Povolit registraci nového uživatele
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###16 Mar 2004 new variable
 content#:#cont_edit_file_list_properties#:#Upravit vlastnosti seznamu souborů

@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Edytuj styl
 common#:#edited_at#:#Edytowany
 common#:#editor#:#Edytor
 common#:#email#:#Poczta elektroniczna
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Wprowadzony adres email jest nieprawidłowy!
 common#:#enable#:#Wybierz
 common#:#enable_registration#:#Wybierz rejestrację nowego użytkownika
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#nowa pozycja przed
 content#:#cont_ed_new_row_after#:#nowy wiersz po
 content#:#cont_ed_new_row_before#:#nowy wiersz przed
 content#:#cont_ed_paste_clip#:#wklej ze schowka
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Szerokość
 content#:#cont_edit_area#:#Edytuj obszar
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku

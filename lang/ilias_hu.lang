@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Sílus szerkesztése
 common#:#edited_at#:#Szerkesztve
 common#:#editor#:#Szerkesztő
 common#:#email#:#E-mail###05 Nov 2004 new variable
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#A megadott e-mail cím nem megfelelő!
 common#:#enable#:#Engedélyezés
 common#:#enable_registration#:#Új felhasználó regisztrációjának engedélyezése
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#new item before###05 Nov 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###05 Nov 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###05 Nov 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###05 Nov 2004 new variable
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###05 Nov 2004 new variable
 content#:#cont_edit_area#:#Terület szerkesztése
 content#:#cont_edit_file_list_properties#:#Fájllista-jellemzők szerkesztése
