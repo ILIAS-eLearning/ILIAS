@@ -205,7 +205,7 @@ class ilObject
 	/**
 	* get object id
 	* @access	public
-	* @return	int		object id
+	* @return	integer	object id
 	*/
 	function getId()
 	{
@@ -216,7 +216,7 @@ class ilObject
 	/**
 	* set object id
 	* @access	public
-	* @param	int		$a_id		object id
+	* @param	integer	$a_id		object id
 	*/
 	function setId($a_id)
 	{
@@ -227,7 +227,7 @@ class ilObject
 	/**
 	* set reference id
 	* @access	public
-	* @param	int		$a_id		reference id
+	* @param	integer	$a_id		reference id
 	*/
 	function setRefId($a_id)
 	{
@@ -239,7 +239,7 @@ class ilObject
 	/**
 	* get reference id
 	* @access	public
-	* @return	int		reference id
+	* @return	integer	reference id
 	*/
 	function getRefId()
 	{
@@ -261,7 +261,7 @@ class ilObject
 	/**
 	* set object type
 	* @access	public
-	* @param	int		$a_type		object type
+	* @param	integer	$a_type		object type
 	*/
 	function setType($a_type)
 	{
@@ -282,6 +282,7 @@ class ilObject
 
 	/**
 	* set object title
+	*
 	* @access	public
 	* @param	string		$a_title		object title
 	*/
@@ -293,6 +294,7 @@ class ilObject
 
 	/**
 	* get object description
+	*
 	* @access	public
 	* @return	string		object description
 	*/
@@ -304,6 +306,7 @@ class ilObject
 
 	/**
 	* set object description
+	*
 	* @access	public
 	* @param	string		$a_desc		object description
 	*/
@@ -314,8 +317,9 @@ class ilObject
 
 	/**
 	* get object owner
+	*
 	* @access	public
-	* @return	int			owner id
+	* @return	integer	owner id
 	*/
 	function getOwner()
 	{
@@ -326,7 +330,8 @@ class ilObject
 	/*
 	* get full name of object owner
 	*
-	* @return	string		owner name or unknown
+	* @access	public
+	* @return	string	owner name or unknown
 	*/
 	function getOwnerName()
 	{
@@ -352,8 +357,9 @@ class ilObject
 
 	/**
 	* set object owner
+	*
 	* @access	public
-	* @param	int		$a_owner		owner id
+	* @param	integer	$a_owner	owner id
 	*/
 	function setOwner($a_owner)
 	{
@@ -364,7 +370,7 @@ class ilObject
 	/**
 	* get create date
 	* @access	public
-	* @return	string			creation date
+	* @return	string		creation date
 	*/
 	function getCreateDate()
 	{
@@ -375,7 +381,7 @@ class ilObject
 	/**
 	* get last update date
 	* @access	public
-	* @return	string			date of last update
+	* @return	string		date of last update
 	*/
 	function getLastUpdateDate()
 	{
@@ -389,7 +395,7 @@ class ilObject
 	*
 	* @param	array	$a_record	assoc. array from table object_data
 	* @access	public
-	* @return	int		object id
+	* @return	integer	object id
 	*/
 	function setObjDataRecord($a_record)
 	{
@@ -402,7 +408,8 @@ class ilObject
 	*
 	* note: title, description and type should be set when this function is called
 	*
-	* @return	int		object id
+	* @access	public
+	* @return	integer		object id
 	*/
 	function create()
 	{
@@ -438,8 +445,11 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 		return $this->id;
 	}
 
-	/*
+	/**
 	* update object in db
+	*
+	* @access	public
+	* @return	boolean	true on success
 	*/
 	function update()
 	{
@@ -461,6 +471,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 	/**
 	* maybe this method should be in tree object!?
+	*
 	* @todo	role/rbac stuff
 	*/
 	function putInTree($a_parent)
@@ -472,12 +483,14 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 	/**
 	* set permissions of object
-	* @param integer id of parent object
+	*
+	* @param	integer	reference_id of parent object
+	* @access	public
 	*/
 	function setPermissions($a_parent)
 	{
 		global $rbacadmin,$rbacreview;
-
+		
 		$parentRoles = $rbacadmin->getParentRoleIds($a_parent);
 
 		foreach ($parentRoles as $parRol)
@@ -490,6 +503,9 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 	/**
 	* creates reference for object
+	*
+	* @access	public
+	* @return	integer	reference_id of object
 	*/
 	function createReference()
 	{
@@ -512,7 +528,8 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	/**
 	* count references of object
 	*
-	* @return	int		number of references of object
+	* @access	public
+	* @return	integer		number of references for this object
 	*/
 	function countReferences()
 	{
@@ -535,8 +552,9 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 
 	/**
 	* clone object into tree
+	* 
 	* @access	public
-	* @param	int		$a_parent_ref		parent ref id
+	* @param	integer		$a_parent_ref		parent ref id
 	* @return	new object id
 	*/
 	function clone($a_parent_ref)
@@ -570,8 +588,10 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	* delete object or referenced object
 	* (in the case of a referenced object, object data is only deleted
 	* if last reference is deleted)
-	* @access public
-	**/
+	*
+ 	* @access	public
+	* @return	boolean	true when successfully deleted
+	*/
 	function delete()
 	{
 		global $rbacadmin, $tree;
@@ -588,7 +608,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 		}
 		
 		// delete object_reference entry
-		if($this->referenced)
+		if ($this->referenced)
 		{
 			// delete entry in object_reference
 			$q = "DELETE FROM object_reference ".
@@ -606,25 +626,10 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	}
 
 	/**
-	* returns the parent object id of $_GET["parent"]
-	* @access	private
-	* @param	integer		node_id where to start
-	* @return	integer
+	* DESC MISSING
+	* @access	public
+	* @return	array
 	*/
-	/*            deprecated!?
-	function getParentObjectId($a_start = 0)
-	{
-		global $tree;
-
-		$a_start = $a_start ? $a_start : $_GET["parent"];
-
-		$path_ids = $tree->getPathId($a_start,ROOT_FOLDER_ID);
-		array_pop($path_ids);
-
-		return array_pop($path_ids);
-	} //function*/
-
-
 	function getSubObjects()
 	{
 		global $rbacsystem,$rbacadmin;
@@ -641,6 +646,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 				$data[$key] = $object;
 			} //if
 		} //foreach
+
 		return $data;
 	}
 } // class
