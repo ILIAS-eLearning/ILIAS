@@ -683,6 +683,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+
 		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
@@ -866,7 +867,8 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["create_question_execute"])
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+//			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=post&cmdClass=ilobjquestionpoolgui&cmdNode=1&new_type=" . $_POST["sel_question_types"]);
 			exit();
 		}
 
@@ -1440,6 +1442,27 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_COMPLETED", $this->lng->txt("completed") . ": ");
 				$this->tpl->parseCurrentBlock();
 
+				if ($this->object->getEnableProcessingTime())
+				{
+					$this->tpl->setCurrentBlock("enableprocessingtime");
+					$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
+					$processing_time = $this->object->getProcessingTimeInSeconds();
+					$time_seconds = $working_time;
+					$time_hours    = floor($time_seconds/3600);
+					$time_seconds -= $time_hours   * 3600;
+					$time_minutes  = floor($time_seconds/60);
+					$time_seconds -= $time_minutes * 60;
+					$this->tpl->setVariable("USER_WORKING_TIME", $this->lng->txt("tst_time_already_spent") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+					$time_seconds = $processing_time;
+					$time_hours    = floor($time_seconds/3600);
+					$time_seconds -= $time_hours   * 3600;
+					$time_minutes  = floor($time_seconds/60);
+					$time_seconds -= $time_minutes * 60;
+					$this->tpl->setVariable("MAXIMUM_PROCESSING_TIME", $this->lng->txt("tst_processing_time") . ": " . sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+					$this->tpl->parseCurrentBlock();
+				}
+
+
 				$this->outWorkingForm($this->sequence, $finish, $this->object->getTestId(), $active, $postpone, $user_question_order);
 
 			}
@@ -1462,6 +1485,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function outIntroductionPage($maxprocessingtimereached = 0)
 	{
+		global $ilUser;
+		
 		$add_parameter = $this->getAddParameter();
 		$active = $this->object->getActiveTestUser();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
@@ -1498,6 +1523,37 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
 		$this->tpl->parseCurrentBlock();
+		if ($num_of != 1)
+		{
+			// display number of tries of the user
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries_of_user") . ":");
+			$this->tpl->setVariable("TEXT_INFO_COL2", $active->tries);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($this->object->getEnableProcessingTime())
+		{
+	 		$working_time = $this->object->getCompleteWorkingTime($ilUser->id);
+			$processing_time = $this->object->getProcessingTimeInSeconds();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_processing_time") . ":");
+			$time_seconds = $processing_time;
+			$time_hours    = floor($time_seconds/3600);
+			$time_seconds -= $time_hours   * 3600;
+			$time_minutes  = floor($time_seconds/60);
+			$time_seconds -= $time_minutes * 60;
+			$this->tpl->setVariable("TEXT_INFO_COL2", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_time_already_spent") . ":");
+			$time_seconds = $working_time;
+			$time_hours    = floor($time_seconds/3600);
+			$time_seconds -= $time_hours   * 3600;
+			$time_minutes  = floor($time_seconds/60);
+			$time_seconds -= $time_minutes * 60;
+			$this->tpl->setVariable("TEXT_INFO_COL2", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
 		$this->tpl->setCurrentBlock("info");
 		$this->tpl->parseCurrentBlock();
 		$seq = 1;

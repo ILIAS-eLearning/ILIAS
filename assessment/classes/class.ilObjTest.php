@@ -2173,7 +2173,7 @@ class ilObjTest extends ilObject
 		{		
 			if ($rbacsystem->checkAccess('read', $row->ref_id))
 			{
-				$result_array[$row->obj_id] = $row->title;
+				$result_array[$row->ref_id] = $row->title;
 			}
 		}
 		return $result_array;
