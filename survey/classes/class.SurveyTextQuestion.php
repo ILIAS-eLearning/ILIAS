@@ -287,6 +287,29 @@ class SurveyTextQuestion extends SurveyQuestion {
 							elseif (strcmp($flownode->node_name(), "response_str") == 0)
 							{
 								$ident = $flownode->get_attribute("ident");
+								$response_lid_nodes = $flownode->child_nodes();
+								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
+								{
+									switch ($resp_lid_node->node_name())
+									{
+										case "material":
+											$matlabel = $resp_lid_node->get_attribute("label");
+											$mattype = $resp_lid_node->first_child();
+											if (strcmp($mattype->node_name(), "mattext") == 0)
+											{
+												$material = $mattype->get_content();
+												if ($material)
+												{
+													if ($this->getId() < 1)
+													{
+														$this->saveToDb();
+													}
+													$this->setMaterial($material, true, $matlabel);
+												}
+											}
+											break;
+									}
+								}
 							}
 						}
 						break;
@@ -388,6 +411,26 @@ class SurveyTextQuestion extends SurveyQuestion {
 		$qtiResponseStr = $this->domxml->create_element("response_str");
 		$qtiResponseStr->set_attribute("ident", "TEXT");
 		$qtiResponseStr->set_attribute("rcardinality", "Single");
+
+		if (count($this->material))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", $this->material["title"]);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $this->material["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseStr->append_child($qtiMaterial);
+			}
+		}
+
 		$qtiFlow->append_child($qtiResponseStr);
 		$qtiPresentation->append_child($qtiFlow);
 		$qtiIdent->append_child($qtiPresentation);

@@ -827,7 +827,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	function &getQuestions()
 	{
 		$questions = array();
-		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s",
+		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s AND ISNULL(original_id)",
 			$this->ilias->db->quote($this->getId() . "")
 		);
 		$result = $this->ilias->db->query($query);
