@@ -2059,61 +2059,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this), $meta_section);
 	}
 
-	/**
-	*
-	*/
-	/*
-	function copyToClipboard()
-	{
-		$this->ilias->account->addObjectToClipboard($this->object->getId(), $this->object->getType()
-			, $this->object->getTitle());
-		sendInfo($this->lng->txt("copied_to_clipboard"), true);
-		ilUtil::redirect($this->getReturnLocation());
-	}*/
-
-	/**
-	*
-	*/
-	/*
-	function centerAlign()
-	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_alias_item->setHorizontalAlign("Center");
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
-	}
-
-	function leftAlign()
-	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_alias_item->setHorizontalAlign("Left");
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
-	}
-
-	function rightAlign()
-	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_alias_item->setHorizontalAlign("Right");
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
-	}
-
-	function leftFloatAlign()
-	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_alias_item->setHorizontalAlign("LeftFloat");
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
-	}
-
-	function rightFloatAlign()
-	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$std_alias_item->setHorizontalAlign("RightFloat");
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
-	}*/
 
 	/**
 	* set admin tabs

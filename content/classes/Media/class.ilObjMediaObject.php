@@ -62,7 +62,7 @@ class ilObjMediaObject extends ilObject
 		$this->media_items = array();
 		$this->contains_int_link = false;
 		$this->type = "mob";
-
+//echo "<br>ilObjMediaObject:Constructor:$a_id:";
 		parent::ilObject($a_id, false);
 
 		/*
@@ -104,6 +104,27 @@ class ilObjMediaObject extends ilObject
 		if (is_object($this->meta_data))
 		{
 			return $this->meta_data->getTitle();
+		}
+	}
+
+
+	/**
+	* delete media object
+	*/
+	function delete()
+	{
+		$usages = $this->getUsages();
+
+		if (count($usages) == 0)
+		{
+			// remove directory
+			ilUtil::delDir(ilObjMediaObject::_getDirectory($this->getId()));
+
+			// delete media items
+			ilMediaItem::deleteAllItemsOfMob($this->getId());
+
+			// delete object
+			parent::delete();
 		}
 	}
 
@@ -222,6 +243,7 @@ class ilObjMediaObject extends ilObject
 	*/
 	function read()
 	{
+//echo "<br>ilObjMediaObject:read";
 		parent::read();
 
 		// get media items

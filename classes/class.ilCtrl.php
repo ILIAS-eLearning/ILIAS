@@ -123,6 +123,8 @@ class ilCtrl
 				}
 			}
 		}
+
+		$this->root_class = $a_class;
 	}
 
 	/**
@@ -506,6 +508,18 @@ class ilCtrl
 
 	function searchReturnClass($a_class)
 	{
+		$path = array();
+		$this->getPath(&$path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
+		for($i = count($path)-2; $i>=0; $i--)
+		{
+			if ($this->return[$path[$i]] != "")
+			{
+				return $path[$i];
+			}
+		}
+
+		return false;
+
 		// append parameters of parent classes
 		if (is_array($this->parent[$a_class]))
 		{

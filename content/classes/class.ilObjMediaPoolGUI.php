@@ -38,6 +38,7 @@ require_once("content/classes/class.ilObjMediaPool.php");
 require_once("classes/class.ilTableGUI.php");
 require_once("classes/class.ilObjFolderGUI.php");
 require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+require_once ("content/classes/class.ilEditClipboardGUI.php");
 
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
@@ -54,15 +55,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 
-		//$this->ctrl->forwards($this, "ilObjMediaObjectGUI");
-		//$this->ctrl->forwards($this, "ilObjFolderGUI");
 		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
 
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-		//$this->actions = $this->objDefinition->getActions("mep");
 		$this->output_prepared = $a_prepare_output;
 
 		if (defined("ILIAS_MODULE"))
@@ -73,9 +71,124 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 	function _forwards()
 	{
-		return array("ilObjMediaObjectGUI", "ilObjFolderGUI");
+		return array("ilObjMediaObjectGUI", "ilObjFolderGUI", "ilEditClipboardGUI");
 	}
 
+	/**
+	* execute command
+	*/
+	function executeCommand()
+	{
+		$tree =& $this->object->getTree();
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case "ilobjmediaobjectgui":
+
+				//$cmd.="Object";
+				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
+				if ($cmd == "create")
+				{
+					$ret_obj = $_GET["obj_id"];
+				}
+				else
+				{
+					$ret_obj = $tree->getParentId($_GET["obj_id"]);
+				}
+				if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
+				{
+					$this->ctrl->setReturn($this, "explorer");
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "obj_id", $ret_obj);
+					$this->ctrl->setReturn($this, "listMedia");
+					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+				}
+				$this->getTemplate();
+				$ilObjMediaObjectGUI->setAdminTabs();
+				$this->setLocator();
+
+//echo ":".$tree->getParentId($_GET["obj_id"]).":";
+				$ret =& $ilObjMediaObjectGUI->executeCommand();
+//echo "<br>ilObjMediaPoolGUI:afterexecute:<br>"; exit;
+				switch($cmd)
+				{
+					case "save":
+						$parent = ($_GET["obj_id"] == "")
+							? $tree->getRootId()
+							: $_GET["obj_id"];
+						$tree->insertNode($ret->getId(), $parent);
+						ilUtil::redirect("mep_edit.php?cmd=listMedia&ref_id=".
+							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+						break;
+
+					default:
+						$this->tpl->show();
+						break;
+				}
+				break;
+
+			case "ilobjfoldergui":
+				$folder_gui = new ilObjFolderGUI("", 0, false, false);
+				$cmd.="Object";
+				switch($cmd)
+				{
+					case "createObject":
+						$this->prepareOutput();
+						$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+						$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
+							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+						$folder_gui->createObject();
+						break;
+
+					case "saveObject":
+						$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
+						$parent = ($_GET["obj_id"] == "")
+							? $tree->getRootId()
+							: $_GET["obj_id"];
+						$folder_gui->setFolderTree($tree);
+						$folder_gui->saveObject($parent);
+						break;
+
+					case "editObject":
+						$this->prepareOutput();
+						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
+						$folder_gui->setFormAction("update", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
+							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+						$folder_gui->editObject();
+						$this->tpl->show();
+						break;
+
+					case "updateObject":
+						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
+						$folder_gui->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
+						$folder_gui->updateObject();
+						break;
+
+					case "cancelObject":
+						sendInfo($this->lng->txt("action_aborted"), true);
+						$this->ctrl->redirect($this, "listMedia");
+						break;
+				}
+				break;
+
+			case "ileditclipboardgui":
+				$this->prepareOutput();
+				$this->ctrl->setReturn($this, "listMedia");
+				$clip_gui = new ilEditClipboardGUI();
+				$ret =& $clip_gui->executeCommand();
+				$this->tpl->show();
+				break;
+
+			default:
+				$cmd = $this->ctrl->getCmd("frameset");
+				$this->$cmd();
+				break;
+		}
+	}
 
 	/**
 	* save object
@@ -276,8 +389,14 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		// remove button
 		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_NAME", "confirmRemove");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
+		$this->tpl->parseCurrentBlock();
+
+		// copy to clipboard
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "copyToClipboard");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_copy_to_clipboard"));
 		$this->tpl->parseCurrentBlock();
 
 		// footer
@@ -345,115 +464,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
-
-	/**
-	* execute command
-	*/
-	function executeCommand()
-	{
-		$tree =& $this->object->getTree();
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-
-		switch($next_class)
-		{
-			case "ilobjmediaobjectgui":
-
-				//$cmd.="Object";
-				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
-				if ($cmd == "create")
-				{
-					$ret_obj = $_GET["obj_id"];
-				}
-				else
-				{
-					$ret_obj = $tree->getParentId($_GET["obj_id"]);
-				}
-				if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
-				{
-					$this->ctrl->setReturn($this, "explorer");
-				}
-				else
-				{
-					$this->ctrl->setParameter($this, "obj_id", $ret_obj);
-					$this->ctrl->setReturn($this, "listMedia");
-					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				}
-				$this->getTemplate();
-				$ilObjMediaObjectGUI->setAdminTabs();
-				$this->setLocator();
-
-//echo ":".$tree->getParentId($_GET["obj_id"]).":";
-				$ret =& $ilObjMediaObjectGUI->executeCommand();
-//echo "<br>ilObjMediaPoolGUI:afterexecute:<br>"; exit;
-				switch($cmd)
-				{
-					case "save":
-						$parent = ($_GET["obj_id"] == "")
-							? $tree->getRootId()
-							: $_GET["obj_id"];
-						$tree->insertNode($ret->getId(), $parent);
-						ilUtil::redirect("mep_edit.php?cmd=listMedia&ref_id=".
-							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-						break;
-
-					default:
-						$this->tpl->show();
-						break;
-				}
-				break;
-
-			case "ilobjfoldergui":
-				$folder_gui = new ilObjFolderGUI("", 0, false, false);
-				$cmd.="Object";
-				switch($cmd)
-				{
-					case "createObject":
-						$this->prepareOutput();
-						$folder_gui =& new ilObjFolderGUI("", 0, false, false);
-						$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
-							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-						$folder_gui->createObject();
-						break;
-
-					case "saveObject":
-						$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
-						$parent = ($_GET["obj_id"] == "")
-							? $tree->getRootId()
-							: $_GET["obj_id"];
-						$folder_gui->setFolderTree($tree);
-						$folder_gui->saveObject($parent);
-						break;
-
-					case "editObject":
-						$this->prepareOutput();
-						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
-						$folder_gui->setFormAction("update", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
-							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-						$folder_gui->editObject();
-						$this->tpl->show();
-						break;
-
-					case "updateObject":
-						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
-						$folder_gui->setReturnLocation("update", $this->ctrl->getLinkTarget($this, "listMedia"));
-						$folder_gui->updateObject();
-						break;
-
-					case "cancelObject":
-						sendInfo($this->lng->txt("action_aborted"), true);
-						$this->ctrl->redirect($this, "listMedia");
-						break;
-				}
-				break;
-
-			default:
-				$cmd = $this->ctrl->getCmd("frameset");
-				$this->$cmd();
-				break;
-		}
-	}
-
 	function getTemplate()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -473,7 +483,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* output explorer tree with bookmark folders
+	* output explorer tree
 	*/
 	function explorer()
 	{
@@ -519,6 +529,114 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 	}
 
+
+	/**
+	* confirm remove of mobs
+	*/
+	function confirmRemove()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->prepareOutput();
+
+		// SAVE POST VALUES
+		$_SESSION["ilMepRemove"] = $_POST["id"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["id"] as $obj_id)
+		{
+			$type = ilObject::_lookupType($obj_id);
+			$title = ilObject::_lookupTitle($obj_id);
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("TEXT_CONTENT", $title);
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$type.".gif"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelRemove"  => $this->lng->txt("cancel"),
+			"remove"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->show();
+	}
+
+	/**
+	* cancel deletion of media objects/folders
+	*/
+	function cancelRemove()
+	{
+		session_unregister("ilMepRemove");
+		$this->ctrl->redirect($this, "listMedia");
+	}
+
+	/**
+	* confirm deletion of
+	*/
+	function remove()
+	{
+		foreach($_SESSION["ilMepRemove"] as $obj_id)
+		{
+			$this->object->deleteChild($obj_id);
+		}
+
+		sendInfo($this->lng->txt("cont_obj_removed"),true);
+		session_unregister("ilMepRemove");
+		$this->ctrl->redirect($this, "listMedia");
+	}
+
+
+	/**
+	* copy media objects to clipboard
+	*/
+	function copyToClipboard()
+	{
+		global $ilUser;
+
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		foreach ($_POST["id"] as $obj_id)
+		{
+			$type = ilObject::_lookupType($obj_id);
+			if ($type == "fold")
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_cant_copy_folders"), $this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		foreach ($_POST["id"] as $obj_id)
+		{
+			$ilUser->addObjectToClipboard($obj_id, "mob", "");
+		}
+
+		sendInfo($this->lng->txt("copied_to_clipboard"),true);
+		$this->ctrl->redirect($this, "listMedia");
+	}
 
 	/**
 	* set locator
@@ -643,6 +761,66 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$folder_gui->createObject();
 		//$this->tpl->show();
 	}
+
+	/**
+	* prepare output
+	*/
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		$this->setTabs();
+		$this->setLocator();
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
+			get_class($this), "listMedia");
+
+		$tabs_gui->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
+			get_class($this), "edit");
+
+		$tabs_gui->addTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm"),
+			get_class($this), "perm");
+
+		$tabs_gui->addTarget("show_owner", $this->ctrl->getLinkTarget($this, "owner"),
+			get_class($this), "owner");
+
+		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view"),
+			"ileditclipboardgui", "view");
+
+	}
+
 
 
 }

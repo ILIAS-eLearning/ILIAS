@@ -923,7 +923,7 @@ class ilTree
 	function fetchNodeData($a_row)
 	{
 		global $objDefinition, $lng;
-		
+
 		$data = $a_row;
 		$data["desc"] = $a_row["description"];  // for compability
 
