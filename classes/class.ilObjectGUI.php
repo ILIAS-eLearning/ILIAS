@@ -1078,7 +1078,6 @@ class ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("no_perm_delete"),$this->ilias->error_obj->MESSAGE);
 			}
 		}
-		
 		else
 		{
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
@@ -1094,10 +1093,15 @@ class ilObjectGUI
 				
 				$this->tree->saveSubTree($id);
 				$this->tree->deleteTree($this->tree->getNodeData($id));
+				
+				// remove item from all user desktops
+				$affected_users = ilUtil::removeItemFromDesktops($id);
+				
+				// TODO: inform users by mail that object $id was deleted
+				//$mail->sendMail($id,$msg,$affected_users);
 			}
 			// inform other objects in hierarchy about paste operation
 			$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
-		
 		}
 		
 		// Feedback
