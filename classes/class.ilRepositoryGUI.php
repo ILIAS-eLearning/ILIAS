@@ -2185,10 +2185,20 @@ class ilRepositoryGUI
 					$surveys[$key]["complete"] = $row->complete;
 					$surveys[$key]["evaluation_access"] = $row->evaluation_access;
 					$surveys[$key]["status"] = $row->status;
-					$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
-						$ilDB->quote($row->survey_id),
-						$ilDB->quote($ilUser->id)
-					);
+					if ($row->anonymize == 1)
+					{
+						$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+							$ilDB->quote($row->survey_id),
+							$ilDB->quote(md5($ilUser->id . $row->survey_id) . "")
+						);
+					}
+					else
+					{
+						$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+							$ilDB->quote($row->survey_id),
+							$ilDB->quote($ilUser->id)
+						);
+					}
 					$result = $ilDB->query($q);
 					if ($result->numRows() == 1) {
 						$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
