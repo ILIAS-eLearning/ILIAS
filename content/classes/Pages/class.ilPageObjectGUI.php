@@ -597,5 +597,117 @@ class ilPageObjectGUI
 		exit;
 	}
 
+	/*
+	* display clipboard content
+	*/
+	function clipboard()
+	{
+		global $tree;
+
+		// workaround
+		if($_GET["limit"] == 0 )
+		{
+			$_GET["limit"] = 10;
+		}
+
+		include_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.clipboard_tbl_row.html", true);
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=post");
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("clipboard"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("cont_object")));
+
+		$cols = array("", "object");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "clipboard");
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%","99%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 2);
+
+		// delete button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "clipboardDeletion");
+		$this->tpl->setVariable("BTN_VALUE", "delete");
+		$this->tpl->parseCurrentBlock();
+
+		// add list
+		/*
+		$opts = ilUtil::formSelect("","new_type",array("media_object" => array()));
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("BTN_NAME", "create");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->parseCurrentBlock();*/
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		//require_once("./content/classes/class.ilObjMediaObject.php");
+		//$cont_obj =& new ilObjContentObject($content_obj, true);
+
+		$objs = $this->ilias->account->getClipboardObjects("mob");
+		$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
+		$tbl->setMaxCount(count($objs));
+
+		$tbl->render();
+		if(count($objs) > 0)
+		{
+			$i=0;
+			foreach($objs as $obj)
+			{
+				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("TEXT_OBJECT", $obj["title"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
+
+	}
+
+	function clipboardDeletion()
+	{
+		foreach($_POST["id"] AS $obj_id)
+		{
+			$this->ilias->account->removeObjectFromClipboard($obj_id, "mob");
+		}
+		$this->clipboard();
+	}
+
 }
 ?>
