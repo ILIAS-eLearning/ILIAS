@@ -81,12 +81,17 @@ class ilObjLearningModule extends ilObject
 	}
 
 
-	function update()
+	function updateMetaData()
 	{
 		$this->setTitle($this->meta_data->getTitle());
 		$this->setDescription($this->meta_data->getDescription());
 		$this->meta_data->update();
 		parent::update();
+	}
+
+	function update()
+	{
+		$this->updateMetaData();
 	}
 
 
