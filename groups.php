@@ -9,7 +9,6 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-
 $grp_sys[] = array("name" => "Administrator",
 				"desc" => "System Administrators",
 				"owner" => "System Administrator [root]"
@@ -17,7 +16,7 @@ $grp_sys[] = array("name" => "Administrator",
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
+$tplbtn->setVariable("BTN_LINK","group_new.php");
 $tplbtn->setVariable("BTN_TXT","new group");
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
@@ -26,7 +25,7 @@ $tplbtn->parseCurrentBlock();
 $tpl = new Template("tpl.groups.html", false, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$tpl->setVariable("TXT_PAGEHEADLINE","Groups");
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("groups"));
 
 
 $i=0;
@@ -42,10 +41,10 @@ foreach ($grp_sys as $row)
 }
 
 $tpl->setCurrentBlock("group");
-$tpl->setVariable("TXT_GRP_TITLE","_System Groups");
-$tpl->setVariable("TXT_NAME","_name");
-$tpl->setVariable("TXT_DESC","_desc");
-$tpl->setVariable("TXT_OWNER","_owner");
+$tpl->setVariable("TXT_GRP_TITLE", $lng->txt("system_groups"));
+$tpl->setVariable("TXT_NAME", $lng->txt("name"));
+$tpl->setVariable("TXT_DESC", $lng->txt("description"));
+$tpl->setVariable("TXT_OWNER", $lng->txt("owner"));
 
 $tpl->parseCurrentBlock("group");
 

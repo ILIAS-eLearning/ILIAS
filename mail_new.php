@@ -9,7 +9,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tpl = new Template("tpl.mail.html", true, true);
+$tpl = new Template("tpl.mail_new.html", false, false);
 
 $lng = new Language($ilias->account->data["language"]);
 
@@ -25,7 +25,7 @@ $tplbtn->setVariable("BTN_LINK", "mail_new.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("compose"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_options.php");
+$tplbtn->setVariable("BTN_LINK","");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("options"));
 $tplbtn->parseCurrentBlock();
 
