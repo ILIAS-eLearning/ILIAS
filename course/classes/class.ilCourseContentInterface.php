@@ -113,6 +113,16 @@ class ilCourseContentInterface
 					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				if($rbacsystem->checkAccess('write',$cont_data['ref_id']))
+				{
+					if($obj_link = ilRepositoryExplorer::buildEditLinkTarget($cont_data["child"],$cont_data["type"]))
+					{
+						$tpl->setCurrentBlock("crs_edit");
+						$tpl->setVariable("EDIT_LINK", $obj_link);
+						$tpl->setVariable("TXT_EDIT",$this->lng->txt('edit'));
+						$tpl->parseCurrentBlock();
+					}
+				}
 
 				// OPTIONS
 				if($write_perm)

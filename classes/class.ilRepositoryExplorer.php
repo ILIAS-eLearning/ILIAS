@@ -133,6 +133,54 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}
 
+	function buildEditLinkTarget($a_node_id, $a_type)
+	{
+		global $ilCtrl;
+
+		switch($a_type)
+		{
+			case "cat":
+				return "repository.php?cmd=edit&ref_id=".$a_node_id."&set_mode=flat";
+
+			case "lm":
+			case "dbk":
+				return "content/lm_edit.php?ref_id=".$a_node_id;
+
+			case "htlm":
+				return "content/fblm_edit.php?ref_id=".$a_node_id;
+
+			case "slm":
+				return "content/sahs_edit.php?ref_id=".$a_node_id;
+
+			case "mep":
+				return "content/mep_edit.php?ref_id=".$a_node_id;
+
+			case "grp":
+				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
+
+			case "crs":
+				$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
+				$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
+				return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
+				
+			case "frm":
+				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
+
+			case "glo":
+				return "content/glossary_edit.php?cmd=listTerms&ref_id=".$a_node_id;
+
+			case "exc":
+				return "exercise.php?cmd=view&ref_id=".$a_node_id;
+
+			case "chat":
+				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
+
+			case "fold":
+			case "file":
+				return false;
+		}
+	}		
+
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
 		switch($a_type)
