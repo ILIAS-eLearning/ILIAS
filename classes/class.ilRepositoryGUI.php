@@ -48,7 +48,7 @@ include_once("./ilinc/classes/class.ilObjiLincClassroomGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjUserGUI, ilObjRoleGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjCourseGroupingGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI
 *
 * @package core
 */
@@ -246,20 +246,6 @@ class ilRepositoryGUI
 
 				break;
 
-			case "ilobjcoursegroupinggui":
-				include_once("./course/classes/class.ilObjCourseGroupingGUI.php");
-				include_once("./course/classes/class.ilObjCourseGUI.php");
-
-				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
-				
-				$crs_obj =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
-				$grouping_obj =& new ilObjCourseGroupingGUI($crs_obj,(int) $_GET['obj_id']);
-
-				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($grouping_obj);
-
-				$this->tpl->show();
-				break;
 
 			case "ilobjfilegui":
 				include_once("./classes/class.ilObjFileGUI.php");

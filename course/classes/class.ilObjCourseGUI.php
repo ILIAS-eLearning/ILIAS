@@ -29,7 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseGroupingGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -2295,16 +2295,16 @@ class ilObjCourseGUI extends ilObjectGUI
 		
 		// display button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','create'));
+		$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','ref_id',$this->object->getRefId());
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','create'));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_grouping'));
 		$this->tpl->parseCurrentBlock();
 
 		if(ilObjCourseGrouping::_getAllGroupings($this->object->getRefId(),false))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','otherSelectAssign'));
+			$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','ref_id',$this->object->getRefId());
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','otherSelectAssign'));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_other_groupings'));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -3304,11 +3304,11 @@ class ilObjCourseGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
-			case 'ilcoursegroupinggui':
+			case 'ilobjcoursegroupinggui':
 				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
 
 				$this->ctrl->setReturn($this,'listGroupings');
-				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object);
+				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				break;
