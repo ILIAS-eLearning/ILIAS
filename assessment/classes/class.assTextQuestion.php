@@ -53,7 +53,7 @@ class ASS_TextQuestion extends ASS_Question
 	*
 	* @var integer
 	*/
-	var $maxNrOfChars;
+	var $maxNumOfChars;
 
 	/**
 	* The available points for the correct answer
@@ -87,7 +87,7 @@ class ASS_TextQuestion extends ASS_Question
 	{
 		$this->ASS_Question($title, $comment, $author, $owner);
 		$this->question = $question;
-		$this->maxNrOfChars = "";
+		$this->maxNumOfChars = 0;
 		$this->points = 0;
 	}
 
@@ -535,7 +535,7 @@ class ASS_TextQuestion extends ASS_Question
 		{
 			$original_id = "NULL";
 		}
-		if (strcmp($this->maxNumOfChars, "") == 0)
+		if ((strcmp($this->maxNumOfChars, "") == 0) or (strcmp($this->maxNumOfChars, "0") == 0)) 
 		{
 			$maxNumOfChars = "NULL";
 		}
@@ -714,6 +714,34 @@ class ASS_TextQuestion extends ASS_Question
 	function set_question($question = "")
 	{
 		$this->question = $question;
+	}
+
+	/**
+	* Gets the maximum number of characters for the text solution
+	*
+	* Gets the maximum number of characters for the text solution
+	*
+	* @return integer The maximum number of characters for the text solution
+	* @access public
+	* @see $maxNumOfChars
+	*/
+	function getMaxNumOfChars()
+	{
+		return $this->maxNumOfChars;
+	}
+
+	/**
+	* Sets the maximum number of characters for the text solution
+	*
+	* Sets the maximum number of characters for the text solution
+	*
+	* @param integer $maxchars The maximum number of characters for the text solution
+	* @access public
+	* @see $maxNumOfChars
+	*/
+	function setMaxNumOfChars($maxchars = 0)
+	{
+		$this->maxNumOfChars = $maxchars;
 	}
 
 	/**

@@ -172,45 +172,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 			case "ass_multiplechoicegui":
-				$this->setQuestionTabs();
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
 			case "ass_clozetestgui":
-				$this->setQuestionTabs();
-				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
 			case "ass_orderingquestiongui":
-				$this->setQuestionTabs();
-				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
 			case "ass_matchingquestiongui":
-				$this->setQuestionTabs();
-				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
 			case "ass_imagemapquestiongui":
-				$this->setQuestionTabs();
-				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-				$q_gui->object->setObjId($this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($q_gui);
-				break;
-
 			case "ass_javaappletgui":
+			case "ass_textquestiongui":
 				$this->setQuestionTabs();
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
@@ -1156,6 +1123,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$classname = "ASS_JavaAppletGUI";
 				$this->ctrl->setParameterByClass("ass_javaappletgui", "sel_question_types", $q_type);
 				$this->ctrl->setParameterByClass("ass_javaappletgui", "q_id", $_GET["q_id"]);
+				break;
+
+			case "qt_text":
+				$classname = "ASS_TextQuestionGUI";
+				$this->ctrl->setParameterByClass("ass_textquestiongui", "sel_question_types", $q_type);
+				$this->ctrl->setParameterByClass("ass_textquestiongui", "q_id", $_GET["q_id"]);
 				break;
 		}
 

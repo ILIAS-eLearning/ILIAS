@@ -5360,4 +5360,6 @@ ALTER TABLE `tst_solutions` CHANGE `value1` `value1` TEXT DEFAULT NULL ;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#381>
+ALTER TABLE `qpl_questions` CHANGE `maxNrOfChars` `maxNumOfChars` INT( 11 ) DEFAULT '0' NOT NULL;
 
