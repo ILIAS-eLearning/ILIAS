@@ -228,6 +228,7 @@ common#:#id#:#ID
 common#:#identifier#:#identifier###26 Mar 2003 new variable
 common#:#ilias_version#:#versione ILIAS
 common#:#import#:#import
+common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
 common#:#in_use#:#user language
 common#:#inbox#:#posta in arrivo
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
@@ -465,6 +466,8 @@ common#:#personal_profile#:#profilo personale
 common#:#persons#:#Personen###28 Mar 2003 new variable
 common#:#phone#:#telefono
 common#:#phrase#:#frase
+common#:#please_enter_target#:#Please enter a target.###12 Apr 2003 new variable
+common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
 common#:#port#:##port
 common#:#position#:#posizione
 common#:#presentation_options#:#opzioni di presentazione
