@@ -121,57 +121,6 @@ function initEditor(TextAreaName) {
 
 	var fussnoten = new Array();
 	var fnCount = 0;
-    function doInit() {
-    
-        obj = document.getElementById("{PAR_TA_NAME}");
-        T = obj.value;
-        T = replaceAll(T, "[str]","<span class=\"iliasstrong\">");
-        T = replaceAll(T, "[/str]","</span>");
-        
-        T = replaceAll(T, "[emp]","<span class=\"iliasemp\">");
-        T = replaceAll(T, "[/emp]","</span>");
-
-        T = replaceAll(T, "[com]","<span class=\"iliascom\">");
-        T = replaceAll(T, "[/com]","</span>");
-        
-        T = replaceAll(T, "[quot]","<span class=\"iliasquot\">");
-        T = replaceAll(T, "[/quot]","</span>");
-
-        T = replaceAll(T, "[code]","<code>");
-        T = replaceAll(T, "[/code]","</code>");
-
-		
-		/**
-		*	find all footnotes and copy to array
-		*/
-		T2 = T;
-		while (T2.indexOf("[fn]")!=-1) 
-		{
-			Ta = T2.substr(0, T2.indexOf("[fn]") );
-			Tb = T2.substring(T2.indexOf("[fn]")+4, T2.indexOf("[/fn]") )
-			Tc = T2.substring(T2.indexOf("[/fn]")+5,T2.length);
-			
-			T2 = Tc;
-			addFussnote(Tb);
-			
-			T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+Tb+"\">["+fnCount+"]</span>");
-		}
-		
-		
-        while (T.indexOf("\n")>-1) 
-		{ 
-            T = T.replace("\n","<br />");
-        }
-        
-        
-        obj.value = T;
-    
-        initEditor("{PAR_TA_NAME}");
-        obj = document.getElementById("usedwsiwygeditor");
-        obj.value = "1";
-        obj = document.getElementById("bbcodebuttons");
-        obj.style.visibility = "hidden";
-	}
 	
 	function addFussnote(Tb)
 	{
