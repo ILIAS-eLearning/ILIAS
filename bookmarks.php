@@ -17,6 +17,7 @@ if ($_GET["func"] != "")
 	switch ($_GET["func"])
 	{
 		case "del":
+			$myBm->delete($id);
 			break;
 		case "edit":
 			break;
@@ -53,12 +54,12 @@ foreach ($bm as $row)
 	$tpl->setCurrentBlock("bookmarkrow");
 	$tpl->setVariable("ROWCOL","tblrow".(($i%2)+1));
 	$tpl->setVariable("URL", $row["url"]);
-	$tpl->setVariable("DESC", $row["desc"]);
+	$tpl->setVariable("DESC", $row["name"]);
 	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 	$tpl->setVariable("TXT_DEL", $lng->txt("delete"));
 	$tpl->setVariable("LINK_DEL", "bookmarks.php?func=del&amp;id=".$row["id"]);
 	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
-	$tpl->setVariable("LINK_EDIT", "bookmarks.php?func=edit&amp;id=".$row["id"]);
+	$tpl->setVariable("LINK_EDIT", "bookmark_new.php?func=edit&amp;id=".$row["id"]);
 	$tpl->parseCurrentBlock();
 }
 

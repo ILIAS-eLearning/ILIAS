@@ -53,41 +53,28 @@ class Bookmarks extends PEAR
      */
      function getBookmark ()
 	 {
-		 $query = "SELECT * FROM bookmarks
-			LEFT JOIN rbac_ua
-			ON user_data.usr_id=rbac_ua.usr_id
-			WHERE user_data.usr_id='".$this->Id."'";	
-		
-		$res = $this->db->query($query);
-		
-		if (DB::isError($res)) {
-			$this->raiseError($res->getMessage()."FILE, Line: ".__FILE__.",".__LINE__, $this->FATAL);
-		 }
-		 
-		 if ($res->numRows() > 0)
-		 {
-			 $data = $res->FetchRow(DB_FETCHMODE_ASSOC);
+		 //query
+		 if ($folder!="")
+		 	$w = "folder='".$folder."' AND ";
+			
+		 $sql = "SELECT * FROM bookmarks 
+		 		WHERE ".$w." usr_fk='".$this->userId."'
+				ORDER BY folder, pos";
 
-			 $this->data = array(
-				 "Id"		 => $this->Id,
-				 "login"      => $data["login"],
-				 "passwd"     => $data["passwd"],
-				 "Gender"	 => $data["gender"],
-				 "Title"      => $data["title"],
-				 "FirstName"  => $data["firstname"],
-				 "SurName"    => $data["surname"],
-				 "Email"      => $data["email"],
-				 "Role"       => $data["rol_id"],
-				 "LastLogin"  => $data["last_login"],
-				 "language" => $data["language"]
-				 );
-			 if ($this->data["language"] == "")
-				 $this->data["language"] = "en";
-		 }
-		 else
+		 $r = $this->db->query($sql);
+	 	 if ($r->numRows()>0)
 		 {
-			 die("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__);
+		 	 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			 $bookmark = array(
+				 "id" => $row["id"],
+				 "url" => "http://".$row["url"],
+				 "name" => $row["name"],
+				 "folder" => $row["folder"],
+				 "pos" => $row["pos"]
+			 );
+			 return $bookmark;
 		 }
+		 return false;
 	 }
 
 	 /**
@@ -102,9 +89,7 @@ class Bookmarks extends PEAR
 		 $query = "INSERT INTO bookmark
                  (usr_fk, pos, url, name)
                   VALUES
-                  ('".$this->data["Id"]."','".$this->data["Login"]."','".md5($this->data["Passwd"])."',
-				   '".$this->data["FirstName"]."','".$this->data["SurName"]."',
-			   '".$this->data["language"]."',0,now(),now())";
+                  ('".$this->userId."','0','".$this->url."','".$this->name."')";
 
 		$res = $this->db->query($query);
 
@@ -112,7 +97,6 @@ class Bookmarks extends PEAR
 		{
 			$this->raiseError($res->getMessage(), $this->FATAL);
 		}
-		$this->Id = $this->data["Id"];
 	 }
 
 	 /**
@@ -123,19 +107,16 @@ class Bookmarks extends PEAR
 	  */
 	function update ()
 	{
-		$this->Id = $this->data["Id"];
-		// TODO: move into db-wrapper-class
+		if ($this->id == "")
+			return false;
+
 		 $query = "UPDATE bookmarks SET
-                  gender='".$this->data[Gender]."',
-                  title='".$this->data[Title]."',
-                  firstname='".$this->data[FirstName]."',
-                  surname='".$this->data[SurName]."',
-                  email='".$this->data[Email]."',
-                  language='".$this->data[language]."'
-                  WHERE usr_id='".$this->Id."'";
+                  name='".$this->name."',
+                  url='".$this->url."'
+                  WHERE usr_fk='".$this->userId."'
+				  AND id='".$this->id."'";
 		 $this->db->query($query);
 		 
-		 $this->getUserData();
 		 return true;
 	 }
 
@@ -155,20 +136,29 @@ class Bookmarks extends PEAR
 	* @return array bookmarks
 	* @access public
 	*/
-	function getBookmarkList()
+	function getBookmarkList($folder="")
 	{
 		 //initialize array
 		 $bookmarks = array();
 		 //query
-		 $sql = "SELECT * FROM bookmarks";
+		 if ($folder!="")
+		 	$w = "folder='".$folder."' AND ";
+			
+		 $sql = "SELECT * FROM bookmarks 
+		 		WHERE ".$w." usr_fk='".$this->userId."'
+				ORDER BY folder, pos";
 
 		 $r = $this->db->query($sql);
-	 
-		 $bookmarks[] = array(
-			 "id" => 1,
-			 "url" => "http://www.gutenberg.de",
-			 "desc" => "project gutenberg",
+	 	 while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		 {
+			 $bookmarks[] = array(
+				 "id" => $row["id"],
+				 "url" => "http://".$row["url"],
+				 "name" => $row["name"],
+				 "folder" => $row["folder"],
+				 "pos" => $row["pos"]
 			 );
+		 }
 		 return $bookmarks;
 	 }
 
@@ -181,16 +171,60 @@ class Bookmarks extends PEAR
 	function getFolders()
 	{
 		//initialize array
-		$bookmarks = array();
+		$folders = array();
 		//query
-		$sql = "SELECT * FROM bookmarks";
+		$sql = "SELECT folder FROM bookmarks 
+				WHERE usr_fk='".$this->userId."'
+				GROUP BY folder";
 
-		$bookmarks[] = array(
-			 "id" => 1,
-			 "name" => "sonstiges",
-			 );
-		return $bookmarks;
+		$r = $this->db->query($sql);
+		
+		while ($row = $r->fetchRow())
+		{
+			if ($row[0] != "top")
+			{
+				$folders[] = array(
+					 "name" => $row[0]
+				 );
+			}
+		}
+
+		return $folders;
 	}
+
+	/**
+	* set id
+	* @param int
+	* @access public
+	*/
+	function setId($id)
+	{
+		$this->id = $id;
+		return true;
+	}
+
+	/**
+	* set description
+	* @param int
+	* @access public
+	*/
+	function setName($str)
+	{
+		$this->name = $str;
+		return true;
+	}
+
+		/**
+	* set id
+	* @param string
+	* @access public
+	*/
+	function setURL($str)
+	{
+		$this->url = $str;
+		return true;
+	}
+
 
 } // END class user
 ?>

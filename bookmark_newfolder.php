@@ -8,6 +8,9 @@
  */
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
+include("./classes/class.Bookmarks.php");
+
+$myBm = new Bookmarks($ilias->db, $ilias->account->Id);
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
@@ -29,7 +32,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 
-$bmf = $ilias->account->getBookmarkFolder();
+$bmf = $myBm->getFolders();
 
 foreach ($bmf as $row)
 {
@@ -41,9 +44,9 @@ foreach ($bmf as $row)
 }
 $tpl->setVariable("TXT_TOP", $lng->txt("top"));
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("TXT_CREATE_IN_FOLDER", $lng->txt("create_in_folder"));
+$tpl->setVariable("TXT_CREATE_IN_FOLDER", $lng->txt("create_in"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
-$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
+$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("new_folder"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
