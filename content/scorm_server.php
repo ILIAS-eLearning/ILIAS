@@ -24,28 +24,30 @@
 /**
 * scorm learning module presentation script
 *
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+* @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
+* @version $Id: scorm_server.php,v 1.0 2003/08/12 
 *
 * @package content
 */
-
-define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
+require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+$scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
 
 
-// learning module presentation class does the rest
-require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
-$scorm_presentation = new ilSCORMPresentationGUI();
-
-  //eval("$temp");
-
-
-
-
-
-//$tpl->show();
+if (isset($_GET["value"])) //setValue Call
+{
+  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
+   $retval=eval("$temp");
+   return $retval;
+   
+}
+else
+{
+	
+  $temp='$scorm_communication->'.$_GET["function"].'('.$_GET["var"].');';
+  $retval=eval("$temp");
+  return $retval;
+}
 
 ?>
