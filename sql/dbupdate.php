@@ -424,3 +424,6 @@ $query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
 $this->db->query($query);
 ?>
+
+<#47>
+INSERT INTO settings (keyword, value) VALUES ('anonymous_role_id','14');

@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.50 2003/10/17 13:55:19 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.51 2003/10/20 13:30:15 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,7 +65,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$rbacreview;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		
@@ -79,11 +79,15 @@ class ilObjUserGUI extends ilObjectGUI
 			$gender = ilUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
 
 			// role selection
-			$obj_list = getObjectList("role");
+//			$obj_list = getObjectList("role");
+			$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
 
 			foreach ($obj_list as $obj_data)
 			{
-				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+				if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
+				{
+					$rol[$obj_data["obj_id"]] = $obj_data["title"];
+				}
 			}
 
 			$role = ilUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
