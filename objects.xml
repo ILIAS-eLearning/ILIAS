@@ -29,6 +29,7 @@
 </object>
 <object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db">
 	<subobj name="cat">cat</subobj>
+	<subobj name="chat">chat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
@@ -109,6 +110,7 @@
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1" translate="0">
 	<subobj name="frm">frm</subobj>
+	<subobj name="chat">chat</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
@@ -310,6 +312,13 @@
   <property name="properties" module="1">properties</property>
   <property name="questions" module="1">ass_questions</property>
   <property name="editMeta">meta_data</property>
+  <property name="perm">perm_settings</property>
+  <property name="owner">show_owner</property>
+  <action name="delete">delete</action>
+</object>
+<object name="chat" class_name="Chat" module="chat" checkbox="1" inherit="1" translate="0">
+  <property name="view" module="n">view</property>
+  <property name="properties" module="1">properties</property>
   <property name="perm">perm_settings</property>
   <property name="owner">show_owner</property>
   <action name="delete">delete</action>
