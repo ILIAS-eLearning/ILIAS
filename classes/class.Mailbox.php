@@ -118,6 +118,20 @@ class Mailbox
 		return $row->obj_id;
 	}
 
+
+	/**
+	* get Id of the trash folder of an user
+	* @access	public
+	*/
+	function getTrashFolder()
+	{
+		$query = "SELECT * FROM $this->table_mail_obj_data ".
+			"WHERE user_id = '".$this->user_id."' ".
+			"AND type = 'trash'";
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		return $row->obj_id;
+	}
+
 	/**
 	* get Id of the sent folder of an user
 	* @access	public

@@ -60,38 +60,58 @@ if ($_POST["cmd"] != "")
 			break;
 
 		case 'delete':
-			if(isset($_POST["confirm"]))
+			// IF MAILBOX IS TRASH ASK TO CONFIRM
+			if($mbox->getTrashFolder() == $_GET["mobj_id"])
 			{
+				if(isset($_POST["confirm"]))
+				{
+					if(!is_array($_POST["mail_id"]))
+					{
+						$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+					}
+					else if($umail->deleteMails($_POST["mail_id"]))
+					{
+						$ilias->error_obj->sendInfo($lng->txt("mail_deleted"));
+					}
+					else
+					{
+						$ilias->error_obj->sendInfo($lng->txt("mail_delete_error"));
+					}
+					break;
+				}
+				else if(!isset($_POST["cancel"]))
+				{ 
+					if(!is_array($_POST["mail_id"]))
+					{
+						$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+						$error_delete = true;
+					}
+					else
+					{
+						$ilias->error_obj->sendInfo($lng->txt("mail_sure_delete"));
+					}
+				}
+				else if(isset($_POST["cancel"]))
+				{
+					header("location: mail.php?mobj_id=$_GET[mobj_id]");
+					exit;
+				}
+			} // END IF MAILBOX IS TRASH FOLDER
+			else
+			{
+				// MOVE MAILS TO TRASH
 				if(!is_array($_POST["mail_id"]))
 				{
 					$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
 				}
-				else if($umail->deleteMails($_POST["mail_id"]))
+				else if($umail->moveMailsToFolder($_POST["mail_id"],$mbox->getTrashFolder()))
 				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_deleted"));
+					$ilias->error_obj->sendInfo($lng->txt("mail_moved_to_trash"));
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_delete_error"));
+					$ilias->error_obj->sendInfo($lng->txt("mail_move_error"));
 				}
-				break;
-			}
-			else if(!isset($_POST["cancel"]))
-			{ 
-				if(!is_array($_POST["mail_id"]))
-				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
-					$error_delete = true;
-				}
-				else
-				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_sure_delete"));
-				}
-			}
-			else if(isset($_POST["cancel"]))
-			{
-				header("location: mail.php?mobj_id=$_GET[mobj_id]");
-				exit;
 			}
 			break;
 		case 'move':
@@ -117,7 +137,7 @@ include("./include/inc.mail_buttons.php");
 $tpl->setVariable("ACTION", "mail.php?mobj_id=$_GET[mobj_id]");
 
 // BEGIN CONFIRM_DELETE
-if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]))
+if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]) and $mbox->getTrashFolder() == $_GET["mobj_id"])
 {
 	$tpl->setCurrentBlock("CONFIRM_DELETE");
 	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
