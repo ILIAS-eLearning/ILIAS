@@ -243,49 +243,74 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	function marksObject() {
-	  if ($this->test->get_id() < 1) {
-      sendInfo("You need to save your test, before you can add a mark schema to it!");
-    } else {
-      $this->tpl->addBlockFile("MARKS", "marks", "tpl.il_as_tc_marks.html");
-      $marks = $this->test->mark_schema->mark_steps;
-      $rows = array("tblrow1", "tblrow2");
-      $counter = 0;
-      foreach ($marks as $key => $value) {
-        $this->tpl->setCurrentBlock("markrow");
-        $this->tpl->setVariable("MARK_SHORT", $value->get_short_name());
-        $this->tpl->setVariable("MARK_OFFICIAL", $value->get_official_name());
-        $this->tpl->setVariable("MARK_PERCENTAGE", sprintf("%.2f", $value->get_minimum_level()));
-        $this->tpl->setVariable("MARK_ID", "$key");
-        $this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-        $this->tpl->parseCurrentBlock();
-        $counter++;
-      }
-      if (count($marks) == 0) {
-        $this->tpl->setCurrentBlock("Emptyrow");
-        $this->tpl->setVariable("EMPTY_ROW", "There are no marks defined, please create at least a simple mark schema!");
-        $this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-        $this->tpl->parseCurrentBlock();
-      } else {
-        $this->tpl->setCurrentBlock("Footer");
-        $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-        $this->tpl->setVariable("BUTTON_EDIT", "Edit");
-        $this->tpl->setVariable("BUTTON_DELETE", "Delete");
-        $this->tpl->parseCurrentBlock();
-      }
-      $this->tpl->setCurrentBlock("marks");
-      $this->tpl->setVariable("ACTION_MARKS", $_SERVER["PHP_SELF"] . "?tab=marks&sel_test_types=$type");
-      $this->tpl->setVariable("ID", $this->test->get_id());
-      $this->tpl->setVariable("HEADER_SHORT", "Short form");
-      $this->tpl->setVariable("HEADER_OFFICIAL", "Official form");
-      $this->tpl->setVariable("HEADER_PERCENTAGE", "Minimum level (in %)");
-      $this->tpl->setVariable("BUTTON_NEW", "Create new mark step");
-      $this->tpl->setVariable("BUTTON_NEW_SIMPLE", "Create simple mark schema");
-      $this->tpl->setVariable("SEND_FORM", "marks");
-      $this->tpl->setVariable("SAVE", "Save");
-      $this->tpl->setVariable("APPLY", "Apply");
-      $this->tpl->setVariable("CANCEL", "Cancel");
-      $this->tpl->parseCurrentBlock();
-    }
+    $add_parameter = $this->get_add_parameter();
+
+		if ($_POST["cmd"]["new_simple"]) {
+			$this->object->mark_schema->create_simple_schema("failed", "failed", 0, "passed", "passed", 50);
+		} else {
+			$this->object->mark_schema->flush();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
+					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"]);
+				}
+			}
+			if ($_POST["cmd"]["new"]) {
+				$this->object->mark_schema->add_mark_step();
+			} elseif ($_POST["cmd"]["delete"]) {
+				$delete_mark_steps = array();
+				foreach ($_POST as $key => $value) {
+					if (preg_match("/cb_(\d+)/", $key, $matches)) {
+						array_push($delete_mark_steps, $matches[1]);
+					}
+				}
+				if (count($delete_mark_steps)) {
+					$this->object->mark_schema->delete_mark_steps($delete_mark_steps);
+				} else {
+					sendInfo($this->lng->txt("tst_delete_missing_mark"));
+				}
+			}
+			$this->object->mark_schema->sort();
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", true);
+		$marks = $this->object->mark_schema->mark_steps;
+		$rows = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($marks as $key => $value) {
+			$this->tpl->setCurrentBlock("markrow");
+			$this->tpl->setVariable("MARK_SHORT", $value->get_short_name());
+			$this->tpl->setVariable("MARK_OFFICIAL", $value->get_official_name());
+			$this->tpl->setVariable("MARK_PERCENTAGE", sprintf("%.2f", $value->get_minimum_level()));
+			$this->tpl->setVariable("MARK_PASSED", strtolower($this->lng->txt("tst_mark_passed")));
+			$this->tpl->setVariable("MARK_ID", "$key");
+			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		if (count($marks) == 0) {
+			$this->tpl->setCurrentBlock("Emptyrow");
+			$this->tpl->setVariable("EMPTY_ROW", $this->lng->txt("tst_no_marks_defined"));
+			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+		} else {
+			$this->tpl->setCurrentBlock("Footer");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
+			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ACTION_MARKS", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("HEADER_SHORT", $this->lng->txt("tst_mark_short_form"));
+		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
+		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
+		$this->tpl->setVariable("HEADER_PASSED", $this->lng->txt("tst_mark_passed"));
+		$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
+		$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
 }
 	
 	/**

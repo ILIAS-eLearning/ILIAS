@@ -1751,4 +1751,5 @@ CREATE TABLE `tst_tests` (
   UNIQUE KEY `test_id` (`test_id`),
   KEY `test_id_2` (`test_id`)
 ) TYPE=MyISAM COMMENT='Tests in ILIAS Assessment';
-
+<#110>
+ALTER  TABLE  `tst_mark`  ADD  `passed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `minimum_level` ;
