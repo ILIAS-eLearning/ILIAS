@@ -11,46 +11,45 @@ $tplContent->setVariable("TPOS",$parent);
 
 // display path
 $tree = new Tree($obj_id,1,1);
-$tree->getPath();
-$path = showPath($tree->Path,"content.php");
+$path = showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a user to edit that user</h5>");
 $tplContent->setVariable("TYPE","user");
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
-// Wegen short circuit evaluation muss die Rechte Abfrage zuerst erfolgen
-if($user_data = getUserList() )
+if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	foreach($user_data as $key => $val)
+	if($user_data = getUserList() )
 	{
-		// color changing
-		if ($key % 2)
+		foreach($user_data as $key => $val)
 		{
-			$css_row = "row_high";	
-		}
-		else
-		{
-			$css_row = "row_low";
-		}
+			// color changing
+			if ($key % 2)
+			{
+				$css_row = "row_high";	
+			}
+			else
+			{
+				$css_row = "row_low";
+			}
 
-		$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
-		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=edit");
-		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
-		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-		$tplContent->setVariable("IMG_TYPE","autor.gif");
-		$tplContent->setVariable("ALT_IMG_TYPE","Category");
-		$tplContent->setVariable("CSS_ROW",$css_row);
-		$tplContent->setVariable("OBJ",$val["obj_id"]);
-		$tplContent->parseCurrentBlock("row");
+			$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=edit");
+			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
+			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
+			$tplContent->setVariable("IMG_TYPE","autor.gif");
+			$tplContent->setVariable("ALT_IMG_TYPE","Category");
+			$tplContent->setVariable("CSS_ROW",$css_row);
+			$tplContent->setVariable("OBJ",$val["obj_id"]);
+			$tplContent->parseCurrentBlock("row");
+		}
+		$tplContent->touchBlock("options");
 	}
-	$tplContent->touchBlock("options");
 }
 else
 {
-	$tplContent->setCurrentBlock("notfound");
-	$tplContent->setVariable("MESSAGE","No Permission to read");
-	$tplContent->parseCurrentBlock();
+	$ilias->raiseError("No permission to read user folder",$ilias->error_class->WARNING);
 }
 if($_SESSION["Error_Message"])
 {

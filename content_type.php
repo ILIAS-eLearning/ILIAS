@@ -11,47 +11,46 @@ $tplContent->setVariable("TPOS",$parent);
 
 // display path
 $tree = new Tree($obj_id,1,1);
-$tree->getPath();
-$path = showPath($tree->Path,"content.php");
+$path = showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a object type to edit that object type</h5>");
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 
-// Wegen short circuit evaluation muss die Rechte Abfrage zuerst erfolgen
-if ($type_data = getTypeList())
+if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	foreach($type_data as $key => $val)
+	if ($type_data = getTypeList())
 	{
-		// color changing
-		if ($key % 2)
+		foreach($type_data as $key => $val)
 		{
-			$css_row = "row_high";	
-		}
-		else
-		{
-			$css_row = "row_low";
-		}
+			// color changing
+			if ($key % 2)
+			{
+				$css_row = "row_high";	
+			}
+			else
+			{
+				$css_row = "row_low";
+			}
 
-		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
-		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["obj_id"]."&parent=$obj_id");
-		$tplContent->setVariable("OBJ_TITLE",$val["title"]);
-		$tplContent->setVariable("OBJ_DESC",$val["desc"]);
-		$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-		$tplContent->setVariable("IMG_TYPE","icon_type.gif");
-		$tplContent->setVariable("ALT_IMG_TYPE","Object type");
-		$tplContent->setVariable("CSS_ROW",$css_row);
-		$tplContent->setVariable("OBJ",$val["obj_id"]);
-		$tplContent->parseCurrentBlock("row");
+			$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["obj_id"]."&parent=$obj_id");
+			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
+			$tplContent->setVariable("OBJ_DESC",$val["desc"]);
+			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
+			$tplContent->setVariable("IMG_TYPE","icon_type.gif");
+			$tplContent->setVariable("ALT_IMG_TYPE","Object type");
+			$tplContent->setVariable("CSS_ROW",$css_row);
+			$tplContent->setVariable("OBJ",$val["obj_id"]);
+			$tplContent->parseCurrentBlock("row");
+		}
+		$tplContent->touchBlock("options");
 	}
-	$tplContent->touchBlock("options");
 }
 else
 {
-	$tplContent->setCurrentBlock("notfound");
-	$tplContent->setVariable("MESSAGE","No Permission to read");
-	$tplContent->parseCurrentBlock();
+	$ilias->raiseError("No permission to read object folder",$ilias->error_class->WARNING);
 }
 include_once "include/ilias_footer.inc";
 ?>

@@ -60,8 +60,7 @@ if (!empty($clipboard))
 }
 
 // display path
-$tree->getPath();
-$path = showPath($tree->Path,"content.php");
+$path = showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
 $tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
@@ -76,10 +75,10 @@ if ($tree->getChilds())
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?
-//		if(!$rbacsystem->checkAccess("visible"))
-//		{
-//			continue;
-//		}
+		if(!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+		{
+			continue;
+		}
 		
 		$zaehler++;
 		

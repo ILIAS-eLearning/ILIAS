@@ -939,10 +939,10 @@ class Tree extends PEAR
 		$this->Childs = array();
 		
 		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-				 "WHERE depth = '".$a_depth."' ".
-				 "AND parent = '".$a_parent."' ".
-				 "AND tree = '".$this->tree_id."'";
+			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+			"WHERE depth = '".$a_depth."' ".
+			"AND parent = '".$a_parent."' ".
+			"AND tree = '".$this->tree_id."'";
 
 		$res = $this->db->query($query);
 
@@ -950,7 +950,7 @@ class Tree extends PEAR
 		
 		if ($res->numRows() > 0)
 		{
-			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->Childs[] = array(
 										"tree"			=> $row->tree,
