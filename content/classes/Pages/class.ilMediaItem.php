@@ -353,6 +353,14 @@ class ilMediaItem
 	}
 
 	/**
+	* get map area
+	*/
+	function &getMapArea($nr)
+	{
+		return $this->mapareas[$nr-1];
+	}
+
+	/**
 	* get width
 	*/
 	function getWidth()
@@ -547,8 +555,10 @@ class ilMediaItem
 
 	/**
 	* make map work directory
+	*
+	* @param	int		$a_area_nr		only
 	*/
-	function makeMapWorkCopy()
+	function makeMapWorkCopy($a_area_nr = 0)
 	{
 		$this->createWorkDirectory();
 		ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
@@ -560,8 +570,11 @@ class ilMediaItem
 		// draw map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
 		{
-			$area =& $this->mapareas[$i];
-			$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+			if ((($i+1) == $a_area_nr) || ($a_area_nr == 0))
+			{
+				$area =& $this->mapareas[$i];
+				$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+			}
 		}
 
 		$this->saveMapWorkImage();

@@ -157,6 +157,7 @@ class ilMapArea
 			" WHERE item_id = '".$this->getItemId()."' AND nr = ".
 				"'".$this->getNr()."'";
 		$this->ilias->db->query($q);
+//echo "<br>$q<br>";
 	}
 
 	/**
