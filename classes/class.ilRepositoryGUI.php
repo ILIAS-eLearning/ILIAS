@@ -2917,6 +2917,19 @@ class ilRepositoryGUI
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
+
+				if($tmp_course->isActivated())
+				{
+					$tpl->setVariable("CRS_IMG",ilUtil::getImagePath('icon_crs.gif'));
+					$tpl->setVariable("ALT_IMG",$this->lng->txt('course'));
+				}
+				else
+				{
+					$this->lng->loadLanguageModule('crs');
+
+					$tpl->setVariable("CRS_IMG",ilUtil::getImagePath('icon_crs_offline.gif'));
+					$tpl->setVariable("ALT_IMG",$this->lng->txt('crs_offline'));
+				}					
 				
 				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id']))
 				{
@@ -2926,6 +2939,11 @@ class ilRepositoryGUI
 					#$obj_link = "repository.php?ref_id=".$cont_data["ref_id"];
 					$tpl->setCurrentBlock("crs_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
+
+					if(!$tmp_course->isActivated())
+					{
+						$tpl->setVariable("R_CLASS",'class="offline"');
+					}
 					$tpl->setVariable("READ_LINK", $obj_link);
 					$tpl->setVariable("READ_TARGET", "bottom");
 					$tpl->parseCurrentBlock();
@@ -3046,9 +3064,9 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("courses"),"icon_crs_b.gif",$this->lng->txt("courses"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
+		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("85%","15%"));
+		$tbl->setColumnWidth(array("1%","99%"));
 
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
