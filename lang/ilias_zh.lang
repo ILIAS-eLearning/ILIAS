@@ -2928,18 +2928,80 @@ search#:#search_select_one_select#:#--选择一个文件夹--
 search#:#search_show_result#:#显示
 search#:#search_user#:#用户
 survey#:#add_category#:#Add category###21 May 2004 new variable
+survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
+survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
+survey#:#dc_agree#:#agree###23 May 2004 new variable
+survey#:#dc_always#:#always###23 May 2004 new variable
+survey#:#dc_definitelyfalse#:#definitely false###23 May 2004 new variable
+survey#:#dc_definitelytrue#:#definitely true###23 May 2004 new variable
+survey#:#dc_desired#:#desired###23 May 2004 new variable
+survey#:#dc_disagree#:#disagree###23 May 2004 new variable
+survey#:#dc_fair#:#fair###23 May 2004 new variable
+survey#:#dc_false#:#false###23 May 2004 new variable
+survey#:#dc_good#:#good###23 May 2004 new variable
+survey#:#dc_manytimes#:#many times###23 May 2004 new variable
+survey#:#dc_morenegative#:#more negative###23 May 2004 new variable
+survey#:#dc_morepositive#:#more positive###23 May 2004 new variable
+survey#:#dc_mostcertainly#:#most certainly###23 May 2004 new variable
+survey#:#dc_mostcertainlynot#:#most certainly not###23 May 2004 new variable
+survey#:#dc_must#:#must###23 May 2004 new variable
+survey#:#dc_mustnot#:#must not###23 May 2004 new variable
+survey#:#dc_neutral#:#neutral###23 May 2004 new variable
+survey#:#dc_never#:#never###23 May 2004 new variable
+survey#:#dc_no#:#no###23 May 2004 new variable
+survey#:#dc_notacceptable#:#not acceptable###23 May 2004 new variable
+survey#:#dc_poor#:#poor###23 May 2004 new variable
+survey#:#dc_rarely#:#rarely###23 May 2004 new variable
+survey#:#dc_should#:#should###23 May 2004 new variable
+survey#:#dc_shouldnot#:#should not###23 May 2004 new variable
+survey#:#dc_sometimes#:#sometimes###23 May 2004 new variable
+survey#:#dc_stronglyagree#:#strongly agree###23 May 2004 new variable
+survey#:#dc_stronglydesired#:#strongly desired###23 May 2004 new variable
+survey#:#dc_stronglydisagree#:#strongly disagree###23 May 2004 new variable
+survey#:#dc_stronglyundesired#:#strongly undesired###23 May 2004 new variable
+survey#:#dc_true#:#true###23 May 2004 new variable
+survey#:#dc_undecided#:#undecided###23 May 2004 new variable
+survey#:#dc_undesired#:#undesired###23 May 2004 new variable
+survey#:#dc_varying#:#varying###23 May 2004 new variable
+survey#:#dc_verygood#:#very good###23 May 2004 new variable
+survey#:#dc_yes#:#yes###23 May 2004 new variable
+survey#:#define_questionblock#:#Define question block###23 May 2004 new variable
+survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
+survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
+survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
+survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)###23 May 2004 new variable
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)###23 May 2004 new variable
+survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)###23 May 2004 new variable
+survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)###23 May 2004 new variable
+survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)###23 May 2004 new variable
+survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)###23 May 2004 new variable
+survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)###23 May 2004 new variable
+survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)###23 May 2004 new variable
+survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)###23 May 2004 new variable
+survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)###23 May 2004 new variable
+survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)###23 May 2004 new variable
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
+survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
+survey#:#end_date#:#End date###23 May 2004 new variable
+survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
 survey#:#filter#:#Filter###21 May 2004 new variable
 survey#:#insert_after#:#Insert after###22 May 2004 new variable
 survey#:#insert_before#:#Insert before###22 May 2004 new variable
+survey#:#introduction#:#Introduction###23 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
@@ -2950,11 +3012,17 @@ survey#:#no_category_selected_for_deleting#:#Please select a least one category 
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
 survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
+survey#:#off#:#off###23 May 2004 new variable
+survey#:#offline#:#offline###23 May 2004 new variable
+survey#:#on#:#on###23 May 2004 new variable
+survey#:#online#:#online###23 May 2004 new variable
 survey#:#preview#:#Preview###21 May 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?###22 May 2004 new variable
+survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!###23 May 2004 new variable
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!###22 May 2004 new variable
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!###22 May 2004 new variable
 survey#:#qpl_questions_deleted#:#Question(s) deleted.###22 May 2004 new variable
+survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!###23 May 2004 new variable
 survey#:#qt_metric#:#Metric question###21 May 2004 new variable
 survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
 survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
@@ -2967,5 +3035,8 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
+survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
+survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
+survey#:#view_phrase#:#View phrase###23 May 2004 new variable
