@@ -1,0 +1,45 @@
+<h1>{TXT_PAGEHEADLINE}</h1>
+
+{BUTTONS}
+
+<h2>{TXT_AVAILLANG}</h2>
+
+<!-- BEGIN message -->
+<p>{MSG}</p>
+<!-- END message -->
+
+<form name="formmsg" action="{FORMACTION}" method="post">
+<input type="hidden" name="cmd">
+<table cellpadding="2" cellspacing="0" border="0">
+<tr  class="tblheader" >
+  <td>&nbsp;</td>
+  <td><b>&nbsp;{TXT_LANG}&nbsp;</b></td>
+  <td><b>&nbsp;{TXT_STATUS}&nbsp;</b></td>
+  <td><b>&nbsp;{TXT_LASTCHANGE}&nbsp;</b></td>
+</tr>
+
+<!-- BEGIN language_row -->
+<tr class="{ROWCOL}">
+  <td><input type="checkbox" name="marker[]" value="{ID}"></td>
+  <td>&nbsp;{TITLE}&nbsp;</td>
+  <td><a href="{LINK}">&nbsp;{STATUS}&nbsp;</a></td>
+  <td><font size=-1>&nbsp;{LASTCHANGE}</font></td>
+</tr>
+<!-- END language_row -->
+<tr>
+  <td><img src="./images/arrow_downright.gif" border=0></td>
+  <td colspan=3>{TXT_SELECTED}&nbsp;<select name="action" onChange="document.formmsg.cmd.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
+  <option>-----------</option>
+<!-- BEGIN selaction -->
+	<option value="{VALUE}">{OPTION}</option>
+<!-- END selaction -->  
+  </select>
+  </td>
+</tr>
+</table>
+<br>
+{BUTTONS2}
+
+<p>{TXT_GENERATE} <input type="text" name="langfile" value="{LANGMASTERFILE}">
+<input type="submit" name="butSubmit" value="{TXT_SUBMIT}" onClick="document.formmsg.cmd.value='generateall';"></p>
+</form>
