@@ -47,6 +47,18 @@ a.inlist
   color: #0000FF;
 }
 
+a.mailread
+{
+	font-weight: normal;
+	color: white;
+}
+
+a.mailunread
+{
+    text-decoration: underline;
+	font-weight: bold;
+}
+
 a
 {
   text-decoration: none;

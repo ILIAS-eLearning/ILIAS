@@ -44,6 +44,7 @@ h2 {
 }
 
 
+
 /* ----------------- normal links ------------- */
 a {
         font-weight:bold;
@@ -57,6 +58,19 @@ a:hover {
 
 a:visited {
         color:#ff6600;
+}
+
+/* ------------------- mail links ----------- */
+a.mailread
+{
+	font-weight: normal;
+	color: blue;
+}
+
+a.mailunread
+{
+	color: blue;
+	font-weight: bold;
 }
 
 /* ------------------ buttons -------------- */
@@ -75,3 +89,4 @@ a.btn {
 a.btn:hover {
         color:#66ccff;
 }
+

@@ -32,6 +32,7 @@ include_once "classes/class.perm.php";
 include_once "classes/class.tree.php";
 include_once "classes/class.Language.php";
 include_once("./classes/class.Log.php");
+include("./classes/class.UserMail.php");
 
 //include role based access
 include_once "classes/class.rbacAdmin.php";

@@ -36,9 +36,12 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 //mails
-$mails = $ilias->account->getUnreadMail();
+$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$mails = $myMails->getMail();
+
 //last visited lessons
 $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
+
 //courses
 $courses = $ilias->account->getCourses();
 
@@ -47,26 +50,34 @@ $courses = $ilias->account->getCourses();
 //********************************************
 
 //begin mailblock if there are new mails
-if (count($mails)>0)
+if ($mails["unread"]>0)
 {
+// output mails
         unset($i);
-        foreach ($mails as $row)
-        {
-                $i++;
+foreach ($mails["msg"] as $row)
+{
+	$i++;
                 $tpl->setCurrentBlock("tbl_mail_row");
-                $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-                $tpl->setVariable("MAIL_SND_LNAME", $row["from"]);
-                $tpl->setVariable("MAIL_SND_FNAME", "");
-                $tpl->setVariable("MAIL_SND_NICK", "");
-                $tpl->setVariable("MAIL_SND", "");
-                $tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-                $tpl->setVariable("MAIL_DATE", $row["datetime"]);
-                $tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
-                $tpl->setVariable("MAIL_LINK_DEL","");
-                $tpl->setVariable("TXT_DELETE",$lng->txt("delete"));
-                $tpl->setVariable("TXT_ARE_YOU_SURE",$lng->txt("are_you_sure"));
-                $tpl->parseCurrentBlock();
-        }
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+
+	//new mail or read mail?
+	if ($row["new"] == true)
+		$mailclass = "mailunread";
+	else
+		$mailclass = "mailread";
+		
+	$tpl->setVariable("MAILCLASS", $mailclass);
+	$tpl->setVariable("MAIL_ID", $row["id"]);
+	$tpl->setVariable("MAIL_FROM", $row["from"]);
+	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
+	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
+	$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
+	$tpl->setVariable("MAIL_LINK_DEL", "");
+	$tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
+	$tpl->setVariable("TXT_ARE_YOU_SURE", $lng->txt("are_you_sure"));
+	$tpl->parseCurrentBlock();
+}
+
         $tpl->setCurrentBlock("tbl_mail");
         //headline
         $tpl->setVariable("MAIL_COUNT",count($mails));
