@@ -3,11 +3,7 @@ body { margin:0px; }
 </style>
 {LOCATOR}
 <div class="invisible_border">
-<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
-<!-- BEGIN subtitle -->
-{TXT_SUBTITLE_not_needed_anymore}
-<!-- END subtitle -->
-</div>
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
 {INFOPANEL}
 {BUTTONS}
 {MESSAGE}
@@ -88,8 +84,8 @@ body { margin:0px; }
       <td class="std" valign="top">{USR_FULLNAME}</td>
       <td class="std" valign="top">{USR_LOGIN_TIME}</td>
       <td class="std" valign="top">
-	    <a href="profile.php?user_id={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
-		<a href="mail_new.php?type=new&&mail_data[rcp_to]={USR_LOGIN}"><img src="{IMG_MAIL}" alt="{ALT_TXT_MAIL}" title="{ALT_TXT_MAIL}" border="0"/></a>
+	    <a href="profile.php?user={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
+		<a href="mail_new.php?type=new&mail_data[rcp_to]={USR_LOGIN}"><img src="{IMG_MAIL}" alt="{ALT_TXT_MAIL}" title="{ALT_TXT_MAIL}" border="0"/></a>
 	  </td>
     </tr>
 <!-- END tbl_users_row -->
