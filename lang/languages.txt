@@ -253,3 +253,4 @@ new	new	neu	nuovo	new
 no_objects	no objects	keine Objekte	no oggetti	no objects
 selected	selected	ausgewählte	selected	selected
 install	install	installieren	install	install
+unknown	UNKNOWN	UNBEKANNT	UNKNOWN	UNKNOWN
