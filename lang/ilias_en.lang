@@ -322,7 +322,6 @@ assessment#:#tst_stat_result_rank_median#:#Rank of median
 assessment#:#tst_stat_result_total_participants#:#Total number of participants
 assessment#:#tst_stat_result_median#:#Median of test result in points
 assessment#:#tst_stat_result_distancemedian#:#Distance to median
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#First visit
 assessment#:#tst_stat_result_lastvisit#:#Last visit
 assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through

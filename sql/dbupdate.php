@@ -4391,3 +4391,5 @@ $this->db->query($query);
 ?>
 <#264>
 ALTER  TABLE `tst_eval_settings`   CHANGE `distancemean`  `distancemedian`  ENUM( '0' , '1'   ) DEFAULT '1'  NOT  NULL;
+<#265>
+ALTER TABLE `tst_eval_settings` DROP `distancequintile`;
