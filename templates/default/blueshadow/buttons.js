@@ -1,6 +1,6 @@
 if (document.images)
 {
-	var path = "./templates/test/images/navbar/";
+	var path = "./templates/default/blueshadow/images/navbar/";
 	
 	imag = new Array();
 	imag[0]  = path + "desk.gif";
