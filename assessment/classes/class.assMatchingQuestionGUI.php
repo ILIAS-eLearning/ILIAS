@@ -417,9 +417,12 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
 		$output = preg_replace("/&#123;/", "{", $output);
 		$output = preg_replace("/&#125;/", "}", $output);
-		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
-		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
-		$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
+		if ($this->object->getOutputType() == OUTPUT_HTML)
+		{
+			$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+			$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
+			$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
+		}
 
 		// set solutions
 		$solution_script = "";
@@ -448,14 +451,16 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$output = str_replace("// solution_script", $solution_script, $output);
 		}
 		
-		foreach ($this->object->matchingpairs as $idx => $answer)
+		if ($this->object->getOutputType() == OUTPUT_HTML)
 		{
-			$id = $answer->getDefinitionId()."_".$answer->getTermId();
-			$repl_str = "dummy=\"solution_match".$id."\"";
-			$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			foreach ($this->object->matchingpairs as $idx => $answer)
+			{
+				$id = $answer->getDefinitionId()."_".$answer->getTermId();
+				$repl_str = "dummy=\"solution_match".$id."\"";
+				$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			}
 		}
-
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 		if ($test_id) 
 		{

@@ -1336,6 +1336,16 @@ class ilObjTestGUI extends ilObjectGUI
 			// create new time dataset and set start time
 			$active_time_id = $this->object->startWorkingTime($ilUser->id);
 			$_SESSION["active_time_id"] = $active_time_id;
+			if ($_POST["chb_javascript"])
+			{
+				$ilUser->setPref("tst_javascript", 1);
+				$ilUser->writePref("tst_javascript", 1);
+			}
+			else
+			{
+				$ilUser->setPref("tst_javascript", 0);
+				$ilUser->writePref("tst_javascript", 0);
+			}
 		}
 
 		$this->sequence = $_GET["sequence"];
@@ -1565,6 +1575,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 
 		$this->tpl->setCurrentBlock("info");
+		$this->tpl->setVariable("TEXT_USE_JAVASCRIPT", $this->lng->txt("tst_use_javascript"));
+		if ($ilUser->prefs["tst_javascript"])
+		{
+			$this->tpl->setVariable("CHECKED_JAVASCRIPT", "checked=\"checked\" ");
+		}
 		$this->tpl->parseCurrentBlock();
 		$seq = 1;
 		if ($active) {
@@ -1664,7 +1679,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
-		$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+		if ($ilUser->prefs["tst_javascript"])
+		{
+			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
