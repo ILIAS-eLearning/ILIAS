@@ -377,7 +377,7 @@ class ilTableGUI
 
 			$this->tpl->setVariable("TBL_ORDER_ALT",$this->lng->txt("sort_by_this_column"));
 		
-			$order_dir = "ASC";
+			$order_dir = "asc";
 		
 			if ($key == $this->order_column)
 			{ 
@@ -434,7 +434,7 @@ class ilTableGUI
 				$end = $this->max_count;
 			}
 			
-			$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".$this->lng->txt("of")." ".$this->max_count.")";
+			$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
 	
 			$this->tpl->setCurrentBlock("tbl_footer_numinfo");
 			$this->tpl->setVariable("NUMINFO", $numinfo);
