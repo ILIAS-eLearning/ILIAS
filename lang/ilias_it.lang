@@ -185,7 +185,7 @@ common#:#edit_properties#:#Modifica propriet&agrave;
 common#:#edit_stylesheet#:#Modifica stile###10 Jul 2003 new variable
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
-common#:#email#:#Email
+common#:#email#:#Email###29 Oct 2003 content changed
 common#:#email_not_valid#:#L&acute;indirizzo email non &egrave; valido!###20 Mar 2003 new variable
 common#:#enable#:#Abilita
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.###20 Aug 2003 new variable
@@ -220,7 +220,7 @@ common#:#file_valid#:#File valido!###26 Mar 2003 new variable
 common#:#file_version#:#Versione file
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
-common#:#firstname#:#Nome
+common#:#firstname#:#Nome###29 Oct 2003 content changed
 common#:#flatview#:#Indirizzo###07 Feb 2003 new variable
 common#:#fold#:#Chiudi###23 Jun 2003 new variable
 common#:#fold_a#:#a Folder###01 Oct 2003 new variable
@@ -228,6 +228,7 @@ common#:#fold_add#:#Add Folder###01 Oct 2003 new variable
 common#:#fold_added#:#Folder added###01 Oct 2003 new variable
 common#:#fold_new#:#New Folder###01 Oct 2003 new variable
 common#:#folders#:#Cartelle
+common#:#force_accept_usr_agreement#:#You have to accept user agreement!###29 Oct 2003 new variable
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
@@ -256,6 +257,7 @@ common#:#glo_new#:#Nuovo glossario###22 Sep 2003 new variable
 common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario###15 Aug 2003 new variable
 common#:#group_any_objects#:#Nessun oggetto nel gruppo###12 Jun 2003 new variable
+common#:#group_desc#:#Group Description###29 Oct 2003 new variable
 common#:#group_details#:#Dettagli gruppo###12 Jun 2003 new variable
 common#:#group_filesharing#:#Condivisione file al gruppo
 common#:#group_members#:#Membri del gruppo###12 Jun 2003 new variable
@@ -284,6 +286,7 @@ common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
 common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli###20 Aug 2003 new variable
+common#:#hide_structure#:#disable structuredview###29 Oct 2003 new variable
 common#:#hobby#:#Interessi/Passatempi###01 Jul 2003 new variable
 common#:#home#:#Home###01 Sep 2003 new variable
 common#:#host#:#Macchina
@@ -363,10 +366,11 @@ common#:#languages_already_uninstalled#:#Attenzione. La lingua scelta &egrave; g
 common#:#languages_updated#:#Tutte le lingue installate sono state aggiornate.###20 Mar 2003 new variable
 common#:#last_change#:#Ultimo aggiornamento
 common#:#last_visit#:#Ultima visita###07 Feb 2003 new variable
-common#:#lastname#:#Cognome
+common#:#lastname#:#Cognome###29 Oct 2003 content changed
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
 common#:#learning_objects#:#Lezioni###04 Aug 2003 new variable
+common#:#learning_resources#:#Learning Resources###29 Oct 2003 new variable
 common#:#level#:#Livello
 common#:#link#:#Collega
 common#:#linked_pages#:#Pagine collegate
@@ -391,6 +395,7 @@ common#:#lo_other_langs#:#Lezioni in altre lingue
 common#:#lo_overview#:#Descrizione lezione
 common#:#locator#:#Adesso sei in:###04 Aug 2003 new variable
 common#:#login#:#Login
+common#:#login_as#:#Logged in as###29 Oct 2003 new variable
 common#:#login_data#:#Dati per l&acute;accesso###25 Mar 2003 new variable
 common#:#login_exists#:#Esiste gi&agrave; un utente con questo nome! Per favore, scegline un altro.###25 Mar 2003 new variable
 common#:#login_time#:#Tempo di accesso###04 Aug 2003 new variable
@@ -506,7 +511,9 @@ common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a ques
 common#:#msg_user_last_role2#:#Per favore, cancella gli utenti o assegna loro un altro ruolo se vuoi cancellare questo ruolo.###04 Jul 2003 new variable
 common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.###08 Jul 2003 new variable
 common#:#multimedia#:#Multimedia
+common#:#my_bms#:#My Bookmarks###29 Oct 2003 new variable
 common#:#my_frms#:#I miei forum###19 Aug 2003 new variable
+common#:#my_grps#:#My Groups###29 Oct 2003 new variable
 common#:#my_los#:#Le mie lezioni###19 Aug 2003 new variable
 common#:#name#:#Nome
 common#:#new#:#Nuovo
@@ -519,9 +526,11 @@ common#:#news#:#Novit&agrave;
 common#:#next#:#Successivo###30 May 2003 new variable
 common#:#nickname#:#Soprannome
 common#:#no#:#No
+common#:#no_bm_in_personal_list#:#No bookmarks defined.###29 Oct 2003 new variable
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data###25 Mar 2003 new variable
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.###19 Aug 2003 new variable
+common#:#no_grp_in_personal_list#:#No groups in personal list.###29 Oct 2003 new variable
 common#:#no_import_available#:#Importazione non disponibile per il tipo###18 Jun 2003 new variable
 common#:#no_lo_in_personal_list#:#Nessuna lezione nella lista personale.###19 Aug 2003 new variable
 common#:#no_objects#:#Nessun oggetto
@@ -654,11 +663,14 @@ common#:#refresh_list#:#Aggiorna la lista
 common#:#register#:#Registra###12 Aug 2003 new variable
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&acute;asterisco sono obbligatori).###19 Aug 2003 new variable
 common#:#registered_since#:#Registrato dal###25 Mar 2003 content changed
+common#:#registered_user#:#registered User###29 Oct 2003 new variable
+common#:#registered_users#:#registered Users###29 Oct 2003 new variable
 common#:#registration#:#Nuova registrazione###19 Aug 2003 new variable
 common#:#remove#:#Dismiss###02 Oct 2003 new variable
 common#:#remove_translation#:#Elimina la traduzione###01 Sep 2003 new variable
 common#:#rename#:#Renomina###28 Mar 2003 new variable
 common#:#reply#:#Rispondi
+common#:#repository#:#Repository###29 Oct 2003 new variable
 common#:#required_field#:#Obbligatorio
 common#:#reset#:#Reset
 common#:#resources#:#Resources###25 Oct 2003 new variable
@@ -714,6 +726,7 @@ common#:#show_details#:#Mostra dettagli###20 Aug 2003 new variable
 common#:#show_list#:#Mostra lista###17 Jan 2003 new variable
 common#:#show_members#:#Mostra membri###07 Feb 2003 new variable
 common#:#show_owner#:#Mostra proprietario
+common#:#show_structure#:#enable structuredview###29 Oct 2003 new variable
 common#:#signature#:#Firma
 common#:#slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#slm_added#:#Aggiunto LearningModule SCORM###16 Jul 2003 new variable
@@ -766,6 +779,7 @@ common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.###20 Mar 2003 new variable
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#Non letto
+common#:#unsubscribe#:#unsubscribe###29 Oct 2003 new variable
 common#:#up#:#Su###02 Sep 2003 new variable
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
@@ -777,8 +791,8 @@ common#:#user_added#:#Utente aggiunto###02 Apr 2003 new variable
 common#:#user_assignment#:#Utente assegnato###04 Aug 2003 new variable
 common#:#user_deleted#:#Utente cancellato###10 Jul 2003 new variable
 common#:#user_language#:#Lingua utente###20 Mar 2003 new variable
-common#:#userdata#:#Dati utente
-common#:#username#:#Nome utente
+common#:#userdata#:#Dati utente###29 Oct 2003 content changed
+common#:#username#:#Nome utente###29 Oct 2003 content changed
 common#:#users#:#Utenti
 common#:#users_online#:#Utenti online###04 Aug 2003 new variable
 common#:#usr#:#Utente
@@ -795,14 +809,13 @@ common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
 common#:#week#:#Settimana###01 Sep 2003 new variable
-common#:#welcome#:#Benvenuto###12 Aug 2003 new variable
 common#:#who_is_online#:#Chi &egrave; connesso?###04 Aug 2003 new variable
 common#:#with#:#con###04 Aug 2003 new variable
 common#:#write#:#Scrivi
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
 common#:#your_message#:#Il tuo messaggio
-common#:#zipcode#:#Codice postale
+common#:#zipcode#:#Codice postale###29 Oct 2003 content changed
 content#:#HTML export#:#Esporta HTML###22 Sep 2003 new variable
 content#:#PDF export#:#Esporta PDF###22 Sep 2003 new variable
 content#:#Pages#:#Pagine###22 Sep 2003 new variable
