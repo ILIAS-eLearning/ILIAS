@@ -72,7 +72,7 @@ class AdmTabs
 	*/
 	function getOutput()
 	{
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.adm_tabs.html");
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
 		$i = 0;
 

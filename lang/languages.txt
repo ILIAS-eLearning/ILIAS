@@ -331,6 +331,7 @@ rolt	role template	Rollenvorlage	rolt	rolt
 lngf	language folder	Sprachordner	lngf	idiomaf
 lng	language	Sprache 	lingua	idioma
 usr	user	Benutzer	utente	user
+user	user	Benutzer	utente	user
 usrf	user folder	Benutzerordner	usrf	usrf
 objf	object folder	Objektordner	objf	objf
 role	role	Rolle	role	role

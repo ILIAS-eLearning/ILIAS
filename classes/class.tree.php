@@ -513,7 +513,6 @@ class Tree
 							   "parent"	=> $data["parent"]
 							   );
 		}
-
 		return $this->Path;
 	}	
 

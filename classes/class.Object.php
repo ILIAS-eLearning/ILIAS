@@ -105,7 +105,6 @@ class Object
 
 		if ($rbacsystem->checkAccess("write", $this->id, $this->parent))
 		{
-
 			$obj = getObject($this->id);
 			
 			$data = array();

@@ -52,9 +52,11 @@ if ($_POST["cmd"] != "")
 	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 }
 
-//if no cmd is given default to view
+$objData = $ilias->getObjDefinition($_GET["type"]);
+
+//if no cmd is given default to first property
 if ($_GET["cmd"] == "")
-	$_GET["cmd"] = "view";
+	$_GET["cmd"] = $objData["properties"][0]["attrs"]["CMD"];
 
 $methode = $_GET["cmd"]."Object";
 
@@ -108,7 +110,7 @@ switch ($_GET["type"])
 		$data = $obj->$methode();
 		break;
 
-    case "user":
+    case "usr":
 		require_once "classes/class.UserObject.php";
 		$obj = new UserObject();
 		$data = $obj->$methode();
@@ -155,8 +157,6 @@ switch ($_GET["type"])
 		break;
 }
 
-$objData = $ilias->getObjDefinition($_GET["type"]);
-
 //*************************admin tabs***********************+
 $tabs = array();
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
@@ -187,14 +187,17 @@ foreach ($tabs as $row)
 
 //****************** locator ********************
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-$path = $tree->getPathFull($obj->id,$obj->parent);
+if ($obj->parent_parent != "")
+	$path = $tree->getPathFull($obj->parent, $obj->parent_parent);
+else
+	$path = $tree->getPathFull($obj->id, $obj->parent);
 
 //check if object isn't in tree, this is the case if parent_parent is set
 if ($obj->parent_parent != "")
 {
 	$path[] = array(
 		"id"	 => $_GET["obj_id"],
-		"title"  => "Titel",
+		"title"  => $obj->title,
 		"parent" => $_GET["parent"],
 		"parent_parent" => $_GET["parent_parent"]
 	);
@@ -253,11 +256,11 @@ switch($_GET["cmd"])
 		foreach ($data["fields"] as $key => $val)
 		{
 			$tpl->setCurrentBlock("valueblock");
-			$tpl->setVariable("TITLE", $key);
-			$tpl->setVariable("VALUE", $val);
+			$tpl->setVariable("TITLE", $lng->txt($key));
+			$tpl->setVariable("VALUE", "<input type=\"text\" name=\"$key\" value=\"$val\">");
 			$tpl->parseCurrentBlock();
 		}
-
+		$tpl->setVariable("FORMACTION", "adm_objects.php?type=".$obj->type."&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
