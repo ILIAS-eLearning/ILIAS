@@ -1721,3 +1721,7 @@ common#:#exc_users#:#Benutzern
 common#:#exc_groups#:#Gruppen
 common#:#exc_search_for#:#Suchen nach
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
+common#:#exc#:#Übung
+common#:#exc_new#:#Neue Übung
+common#:#exc_add#:#Übung anlegen
+common#:#exc_added#:#Eine neue Übung wurde angelegt
