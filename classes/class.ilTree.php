@@ -1296,7 +1296,6 @@ class ilTree
 				$this->buildJoin().
 				"WHERE ".$this->table_tree.".".$this->tree_pk." < 0 ".
 				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
-
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))

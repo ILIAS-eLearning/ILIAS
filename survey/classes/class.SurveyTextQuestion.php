@@ -89,6 +89,26 @@ class SurveyTextQuestion extends SurveyQuestion {
   }
 
 /**
+* Returns true if the question is complete for use
+*
+* Returns true if the question is complete for use
+*
+* @result boolean True if the question is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if ($this->title and $this->author and $this->questiontext)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+/**
 * Saves a SurveyTextQuestion object to a database
 *
 * Saves a SurveyTextQuestion object to a database

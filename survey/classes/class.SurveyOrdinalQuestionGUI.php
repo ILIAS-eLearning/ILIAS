@@ -412,7 +412,7 @@ class SurveyOrdinalQuestionGUI {
 				if (preg_match("/^move_(\d+)$/", $key, $matches))
 				{
 					array_push($move_categories, $value);
-					array_push($array2, $_POST["category_$value"]);
+					array_push($array2, ilUtil::stripSlashes($_POST["category_$value"]));
 				}
 				if (preg_match("/^chb_category_(\d+)/", $key, $matches))
 				{
@@ -430,7 +430,7 @@ class SurveyOrdinalQuestionGUI {
 			if (preg_match("/^category_(\d+)/", $key, $matches)) {
 				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
 				{
-					array_push($array1, $value);
+					array_push($array1, ilUtil::stripSlashes($value));
 				}
 			}
 		}

@@ -330,6 +330,26 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
   }
 
 /**
+* Returns true if the question is complete for use
+*
+* Returns true if the question is complete for use
+*
+* @result boolean True if the question is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if ($this->title and $this->author and $this->questiontext and count($this->categories))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+/**
 * Saves a SurveyOrdinalQuestion object to a database
 *
 * Saves a SurveyOrdinalQuestion object to a database

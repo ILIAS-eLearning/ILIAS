@@ -126,6 +126,15 @@ class ilObjSurvey extends ilObject
 */
 	var $enddate_enabled;
 
+/**
+* The questions containd in this survey
+*
+* The questions containd in this survey
+*
+* @var array
+*/
+	var $questions;
+
 	/**
 	* Constructor
 	* @access	public
@@ -149,6 +158,7 @@ class ilObjSurvey extends ilObject
 		$this->evaluation_access = EVALUATION_ACCESS_OFF;
 		$this->startdate_enabled = 0;
 		$this->enddate_enabled = 0;
+		$this->questions = array();
 	}
 
 	/**
@@ -360,6 +370,57 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
+* Saves the completion status of the survey
+*
+* Saves the completion status of the survey
+*
+* @access public
+*/
+	function saveCompletionStatus() {
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
+    if ($this->survey_id > 0) {
+      $query = sprintf("UPDATE survey_survey SET complete = %s WHERE survey_id = %s",
+				$this->ilias->db->quote("$complete"),
+        $this->ilias->db->quote($this->survey_id) 
+      );
+      $result = $this->ilias->db->query($query);
+		}
+	}
+
+/**
+* Inserts a question in the survey and saves the relation to the database
+*
+* Inserts a question in the survey and saves the relation to the database
+*
+* @access public
+*/
+	function insertQuestion($question_id) {
+    // get maximum sequence index in test
+    $query = sprintf("SELECT MAX(sequence) AS seq FROM survey_survey_question WHERE survey_fi = %s",
+      $this->ilias->db->quote($this->getSurveyId())
+    );
+    $result = $this->ilias->db->query($query);
+    $sequence = 1;
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $sequence = $data->seq + 1;
+    }
+    $query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+      $this->ilias->db->quote($this->getSurveyId()),
+      $this->ilias->db->quote($question_id),
+      $this->ilias->db->quote($sequence)
+    );
+    $result = $this->ilias->db->query($query);
+    if ($result != DB_OK) {
+      // Error
+    }
+		$this->loadQuestionsFromDb();
+	}
+	
+/**
 * Saves a survey object to a database
 *
 * Saves a survey object to a database
@@ -444,7 +505,19 @@ class ilObjSurvey extends ilObject
     }
   }
 
-
+/**
+* Returns the survey database id
+* 
+* Returns the survey database id
+*
+* @result integer survey database id
+* @access public
+*/
+	function getSurveyId()
+	{
+		return $this->survey_id;
+	}
+	
 	/**
 	* get description of content object
 	*
@@ -535,9 +608,28 @@ class ilObjSurvey extends ilObject
 					$this->enddate_enabled = 1;
 				}
         $this->evaluation_access = $data->evaluation_access;
-//				$this->load_questions();
+				$this->loadQuestionsFromDb();
       }
     }
+	}
+
+/**
+* Loads the survey questions from the database
+*
+* Loads the survey questions from the database
+*
+* @access public
+* @see $questions
+*/
+	function loadQuestionsFromDb() {
+		$this->questions = array();
+		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
+			$this->ilias->db->quote($this->survey_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$this->questions[$data->sequence] = $data->question_fi;
+		}
 	}
 
 /**
@@ -909,6 +1001,46 @@ class ilObjSurvey extends ilObject
     return $this->introduction;
   }
 
+/**
+* Gets the question id's of the questions which are already in the survey
+*
+* Gets the question id's of the questions which are already in the survey
+*
+* @return array The questions of the survey
+* @access public
+*/
+	function &getExistingQuestions() {
+		$existing_questions = array();
+		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			array_push($existing_questions, $data->question_fi);
+		}
+		return $existing_questions;
+	}
 
+/**
+* Get the titles of all available survey question pools
+*
+* Get the titles of all available survey question pools
+*
+* @return array An array of survey question pool titles
+* @access public
+*/
+	function &getQuestionpoolTitles() {
+		global $tree;
+		$qpl_titles = array();
+		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
+			$this->ilias->db->quote("spl")
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$qpl_titles["$data->ref_id"] = $data->title;
+		}
+		return $qpl_titles;
+	}
+	
 } // END class.ilObjSurvey
 ?>
