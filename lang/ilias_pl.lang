@@ -269,6 +269,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pyt
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
 assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Procent rozwiązanych
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_question_no#:#Porządek
@@ -324,6 +325,7 @@ assessment#:#tst_status_completed#:#ukończony
 assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
 assessment#:#tst_status_not_entered#:#nie wprowadzony
 assessment#:#tst_status_progress#:#wykonywany
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Twój wybór to
@@ -1224,6 +1226,7 @@ common#:#lm_join#:#Subskrybuj Moduł Nauczania
 common#:#lm_leave#:#Rezygnuję z subskrybcji Modułu Nauczania
 common#:#lm_new#:#Nowy moduł nauczania
 common#:#lm_read#:#Prawo czytania Modułu Nauczania
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Moduł Nauczania jest widoczny
 common#:#lm_write#:#Edycja Modułu Nauczania
 common#:#lng#:#Język

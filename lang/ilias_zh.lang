@@ -299,6 +299,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
 assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
 assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
@@ -354,6 +355,7 @@ assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
 assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
 assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
 assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
@@ -1257,6 +1259,7 @@ common#:#lm_join#:#注册到学习模块
 common#:#lm_leave#:#从学习模块中注销
 common#:#lm_new#:#新学习模块
 common#:#lm_read#:#学习模块设为读访问
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#学习模块可视
 common#:#lm_write#:#编辑学习模块
 common#:#lng#:#语言

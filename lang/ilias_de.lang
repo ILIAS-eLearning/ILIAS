@@ -280,6 +280,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
 assessment#:#tst_question_no#:#Reihenfolge
@@ -335,6 +336,7 @@ assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_not_entered#:#unbearbeitet
 assessment#:#tst_status_progress#:#in Bearbeitung
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
@@ -1234,6 +1236,7 @@ common#:#lm_join#:#Lernmodul abonnieren
 common#:#lm_leave#:#Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues Lernmodul
 common#:#lm_read#:#Lernmodul lesen
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
 common#:#lng#:#Sprache

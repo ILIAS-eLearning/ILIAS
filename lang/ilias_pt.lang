@@ -282,6 +282,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Por favor seleccione pelo me
 assessment#:#tst_no_questions_available#:#Não existem questões disponíveis! Você precisa de criar novas questões ou procurar por questões.
 assessment#:#tst_no_taken_tests#:#Não existem teste tomados!
 assessment#:#tst_nr_of_tries#:#Max. número de tentativas
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentagem resolvido
 assessment#:#tst_processing_time#:#Max. tempo de processamento
 assessment#:#tst_question_no#:#Ordem
@@ -337,6 +338,7 @@ assessment#:#tst_status_completed#:#completo
 assessment#:#tst_status_completed_more_tries_possible#:#(completo)###30 Apr 2004 content changed
 assessment#:#tst_status_not_entered#:#não inserido###30 Apr 2004 content changed
 assessment#:#tst_status_progress#:#em progresso###30 Apr 2004 content changed
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Tipo de teste
 assessment#:#tst_types#:#Tipos de teste
 assessment#:#tst_your_mark_is#:#A sua nota é
@@ -1241,6 +1243,7 @@ common#:#lm_join#:#Subscrever Módulo de Aprendizagem
 common#:#lm_leave#:#Desistir do Módulo de Aprendizagem
 common#:#lm_new#:#Novo Módulo de Aprendizagem
 common#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#O Módulo de Aprendizagem é visível
 common#:#lm_write#:#Editar Módulo de Aprendizagem
 common#:#lng#:#Linguagem
