@@ -50,6 +50,8 @@ class ilCourseContentInterface
 
 		$this->cci_course_obj =& ilObjectFactory::getInstanceByRefId($this->cci_course_id);
 		$this->cci_course_obj->initCourseItemObject($this->cci_ref_id);
+
+		$this->lng->loadLanguageModule('crs');
 		
 		return true;
 	}
@@ -208,11 +210,11 @@ class ilCourseContentInterface
 				// ACTIVATION
 				if($cont_data["activation_unlimited"])
 				{
-					$txt = $this->lng->txt("unlimited");
+					$txt = $this->lng->txt("crs_unlimited");
 				}
 				else
 				{
-					$txt = $this->lng->txt("until").": ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
+					$txt = $this->lng->txt("crs_to").": ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
 				}
 				$tpl->setVariable("ACTIVATION_END",$txt);
 
@@ -225,7 +227,7 @@ class ilCourseContentInterface
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("course_content"),"icon_crs_b.gif",$this->lng->txt("courses"));
+		$tbl->setTitle($this->lng->txt("crs_content"),"icon_crs_b.gif",$this->lng->txt("courses"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		if($write_perm)
@@ -304,9 +306,9 @@ class ilCourseContentInterface
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_".$tmp_obj->getType().".gif"));
 		$this->tpl->setVariable("TITLE",$title);
 		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
-		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("activation_unlimited"));
-		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("activation_start"));
-		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("activation_end"));
+		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("crs_unlimited"));
+		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("crs_start"));
+		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("crs_end"));
 		$this->tpl->setVariable("CMD_SUBMIT","cciUpdate");
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("submit"));

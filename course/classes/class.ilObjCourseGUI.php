@@ -54,6 +54,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->type = "crs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
+		$this->lng->loadLanguageModule('crs');
+
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
 		$this->SEARCH_COURSE = 3;
@@ -137,35 +139,35 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("crs_details"));
 		
 		// SET TXT VARIABLES
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("syllabus"));
-		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("contact"));
-		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("contact_name"));
-		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("contact_responsibility"));
-		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("contact_email"));
-		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("contact_phone"));
-		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("contact_consultation"));
-		$this->tpl->setVariable("TXT_DATES",$this->lng->txt("dates"));
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("subscription"));
-		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("archive"));
+		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
+		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("crs_contact"));
+		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
+		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
+		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
+		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
+		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
+		$this->tpl->setVariable("TXT_DATES",$this->lng->txt("crs_dates"));
+		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("crs_activation"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
+		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
 
 		// FILL 
 		$this->tpl->setVariable("SYLLABUS",nl2br($this->object->getSyllabus() ? 
 												 $this->object->getSyllabus() : 
-												 $this->lng->txt("not_available")));
+												 $this->lng->txt("crs_not_available")));
 
 		$this->tpl->setVariable("CONTACT_NAME",$this->object->getContactName() ? 
 								$this->object->getContactName() : 
-								$this->lng->txt("not_available"));
+								$this->lng->txt("crs_not_available"));
 		$this->tpl->setVariable("CONTACT_RESPONSIBILITY",$this->object->getContactResponsibility() ? 
 								$this->object->getContactResponsibility() : 
-								$this->lng->txt("not_available"));
+								$this->lng->txt("crs_not_available"));
 		$this->tpl->setVariable("CONTACT_PHONE",$this->object->getContactPhone() ? 
 								$this->object->getContactPhone() : 
-								$this->lng->txt("not_available"));
+								$this->lng->txt("crs_not_available"));
 		$this->tpl->setVariable("CONTACT_CONSULTATION",nl2br($this->object->getContactConsultation() ? 
 								$this->object->getContactConsultation() : 
-								$this->lng->txt("not_available")));
+								$this->lng->txt("crs_not_available")));
 		if($this->object->getContactEmail())
 		{
 			$this->tpl->setCurrentBlock("email_link");
@@ -181,7 +183,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if($this->object->getActivationUnlimitedStatus())
 		{
-			$this->tpl->setVariable("ACTIVATION",$this->lng->txt('unlimited'));
+			$this->tpl->setVariable("ACTIVATION",$this->lng->txt('crs_unlimited'));
 		}
 		else
 		{
@@ -191,7 +193,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if($this->object->getSubscriptionUnlimitedStatus())
 		{
-			$this->tpl->setVariable("SUBSCRIPTION",$this->lng->txt('unlimited'));
+			$this->tpl->setVariable("SUBSCRIPTION",$this->lng->txt('crs_unlimited'));
 		}
 		else
 		{
@@ -201,7 +203,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if($this->object->getArchiveType() == $this->object->ARCHIVE_DISABLED)
 		{
-			$this->tpl->setVariable("ARCHIVE",$this->lng->txt('archive_disabled'));
+			$this->tpl->setVariable("ARCHIVE",$this->lng->txt('crs_archive_disabled'));
 		}
 		else
 		{
@@ -332,45 +334,45 @@ class ilObjCourseGUI extends ilObjectGUI
 		
 		// SET TXT VARIABLES
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("crs_settings"));
-		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("syllabus"));
-		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("contact"));
-		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("contact_name"));
-		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("contact_responsibility"));
-		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("contact_email"));
-		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("contact_phone"));
-		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("contact_consultation"));
+		$this->tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("crs_syllabus"));
+		$this->tpl->setVariable("TXT_CONTACT",$this->lng->txt("crs_contact"));
+		$this->tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("crs_contact_name"));
+		$this->tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("crs_contact_responsibility"));
+		$this->tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("crs_contact_email"));
+		$this->tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("crs_contact_phone"));
+		$this->tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("crs_contact_consultation"));
 
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
-		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("activation_unlimited"));
-		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("activation_start"));
-		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("activation_end"));
-		$this->tpl->setVariable("TXT_ACTIVATION_OFFLINE",$this->lng->txt("offline"));
+		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("crs_activation"));
+		$this->tpl->setVariable("TXT_ACTIVATION_UNLIMITED",$this->lng->txt("crs_unlimited"));
+		$this->tpl->setVariable("TXT_ACTIVATION_START",$this->lng->txt("crs_start"));
+		$this->tpl->setVariable("TXT_ACTIVATION_END",$this->lng->txt("crs_end"));
+		$this->tpl->setVariable("TXT_ACTIVATION_OFFLINE",$this->lng->txt("crs_offline"));
 
-		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("subscription"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("subscription_unlimited"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_START",$this->lng->txt("subscription_start"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_END",$this->lng->txt("subscription_end"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_subscription"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("crs_unlimited"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_START",$this->lng->txt("crs_start"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_END",$this->lng->txt("crs_end"));
 
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_OPTIONS",$this->lng->txt("subscription_type"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_MAX_MEMBERS",$this->lng->txt("subscription_max_members"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_NOTIFY",$this->lng->txt("subscription_notify"));
-		$this->tpl->setVariable("TXT_DEACTIVATED",$this->lng->txt("subscription_options_deactivated"));
-		$this->tpl->setVariable("TXT_CONFIRMATION",$this->lng->txt("subscription_options_confirmation"));
-		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt("subscription_options_direct"));
-		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt("subscription_options_password"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_OPTIONS",$this->lng->txt("crs_subscription_type"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_MAX_MEMBERS",$this->lng->txt("crs_subscription_max_members"));
+		$this->tpl->setVariable("TXT_SUBSCRIPTION_NOTIFY",$this->lng->txt("crs_subscription_notify"));
+		$this->tpl->setVariable("TXT_DEACTIVATED",$this->lng->txt("crs_subscription_options_deactivated"));
+		$this->tpl->setVariable("TXT_CONFIRMATION",$this->lng->txt("crs_subscription_options_confirmation"));
+		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt("crs_subscription_options_direct"));
+		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt("crs_subscription_options_password"));
 
-		$this->tpl->setVariable("TXT_SORTORDER",$this->lng->txt("sortorder"));
-		$this->tpl->setVariable("TXT_MANUAL",$this->lng->txt("manual"));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
+		$this->tpl->setVariable("TXT_SORTORDER",$this->lng->txt("crs_sortorder"));
+		$this->tpl->setVariable("TXT_MANUAL",$this->lng->txt("crs_sort_manual"));
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("crs_sort_title"));
+		$this->tpl->setVariable("TXT_SORT_ACTIVATION",$this->lng->txt("crs_sort_activation"));
 
-		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("archive"));
-		$this->tpl->setVariable("TXT_ARCHIVE_START",$this->lng->txt("archive_start"));
-		$this->tpl->setVariable("TXT_ARCHIVE_TYPE",$this->lng->txt("archive_type"));
-		$this->tpl->setVariable("TXT_ARCHIVE_END",$this->lng->txt("archive_end"));
-		$this->tpl->setVariable("TXT_DISABLED",$this->lng->txt("archive_disabled"));
-		$this->tpl->setVariable("TXT_READ",$this->lng->txt("archive_read"));
-		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("archive_download"));
+		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
+		$this->tpl->setVariable("TXT_ARCHIVE_START",$this->lng->txt("crs_start"));
+		$this->tpl->setVariable("TXT_ARCHIVE_TYPE",$this->lng->txt("crs_archive_select_type"));
+		$this->tpl->setVariable("TXT_ARCHIVE_END",$this->lng->txt("crs_end"));
+		$this->tpl->setVariable("TXT_DISABLED",$this->lng->txt("crs_archive_type_disabled"));
+		$this->tpl->setVariable("TXT_READ",$this->lng->txt("crs_archive_read"));
+		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt("crs_archive_download"));
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
@@ -520,7 +522,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($this->object->validate())
 		{
 			$this->object->update();
-			sendInfo($this->lng->txt("settings_saved"));
+			sendInfo($this->lng->txt("crs_settings_saved"));
 		}
 		else
 		{
@@ -579,7 +581,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		if(!count($archives = $this->object->archives_obj->getPublicArchives()))
 		{
-			sendInfo("crs_no_archives_available");
+			sendInfo($this->lng->txt("crs_no_archives_available"));
 			return true;
 		}
 		
@@ -600,7 +602,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			}
 			else
 			{
-				$f_result[$counter][]	= $this->lng->txt('crs_no_value');
+				$f_result[$counter][]	= $this->lng->txt('crs_not_available');
 			}
 				
 			switch($archive_data["archive_type"])
@@ -682,7 +684,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			}
 			else
 			{
-				$f_result[$counter][]	= $this->lng->txt('crs_no_value');
+				$f_result[$counter][]	= $this->lng->txt('crs_no_language');
 			}
 
 			switch($archive_data["archive_type"])
@@ -863,7 +865,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html",true);
-		$this->__showButton("printMembers",$this->lng->txt("print_list"),"target=\"_blank\"");
+		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		// INFO NO MEMBERS
 		$this->object->initCourseMemberObject();
@@ -912,7 +914,7 @@ class ilObjCourseGUI extends ilObjectGUI
 				"\" title=\"".$this->lng->txt("crs_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 
 			$img_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".
-				$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("crs_mem_change_status").
+				$this->lng->txt("crs_mem_change_status")."\" title=\"".$this->lng->txt("crs_mem_change_status").
 				"\" border=\"0\" vspace=\"0\"/>";
 
 			foreach($this->object->members_obj->getAssignedUsers() as $member_id)
@@ -946,19 +948,19 @@ class ilObjCourseGUI extends ilObjectGUI
 					switch($member_data["status"])
 					{
 						case $this->object->members_obj->STATUS_NOTIFY:
-							$f_result[$counter][] = $this->lng->txt("notify");
+							$f_result[$counter][] = $this->lng->txt("crs_notify");
 							break;
 
 						case $this->object->members_obj->STATUS_NO_NOTIFY:
-							$f_result[$counter][] = $this->lng->txt("no_notify");
+							$f_result[$counter][] = $this->lng->txt("crs_no_notify");
 							break;
 
 						case $this->object->members_obj->STATUS_BLOCKED:
-							$f_result[$counter][] = $this->lng->txt("blocked");
+							$f_result[$counter][] = $this->lng->txt("crs_blocked");
 							break;
 
 						case $this->object->members_obj->STATUS_UNBLOCKED:
-							$f_result[$counter][] = $this->lng->txt("unblocked");
+							$f_result[$counter][] = $this->lng->txt("crs_unblocked");
 							break;
 					}
 					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&mail_data[rcp_to]=".
@@ -992,7 +994,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		// CHECK MEMBER_ID
 		if(!isset($_GET["member_id"]) or !$this->object->members_obj->isAssigned((int) $_GET["member_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("crs_no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		$member_data = $this->object->members_obj->getUserData((int) $_GET["member_id"]);
@@ -1078,7 +1080,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		// CHECK MEMBER_ID
 		if(!isset($_GET["member_id"]) or !$this->object->members_obj->isAssigned((int) $_GET["member_id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("crs_no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		// UPDATE MEMBER
@@ -1125,7 +1127,7 @@ class ilObjCourseGUI extends ilObjectGUI
 				break;
 
 			default:
-				$this->ilias->raiseError($this->lng->txt("no_valid_status_given"),$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError("No valid status given",$this->ilias->error_obj->MESSAGE);
 		}
 		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status);
 
@@ -1136,7 +1138,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		
 
-		sendInfo($this->lng->txt("member_updated"));
+		sendInfo($this->lng->txt("crs_member_updated"));
 		$this->membersObject();
 	}
 	function addUserObject()
@@ -1182,7 +1184,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if($limit_reached)
 		{
-			sendInfo($this->lng->txt("crs_members_limit_reached"));
+			sendInfo($this->lng->txt("crs_max_members_reached"));
 			$this->membersObject();
 
 			return false;
@@ -1347,7 +1349,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",true);
-		sendInfo($this->lng->txt('crs_unsubescribe_sure'));
+		sendInfo($this->lng->txt('crs_unsubscribe_sure'));
 		
 		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
@@ -1369,7 +1371,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->initCourseMemberObject();
 		$this->object->members_obj->delete($this->ilias->account->getId());
 		
-		sendInfo($this->lng->txt('crs_unsubescribed_from_crs'),true);
+		sendInfo($this->lng->txt('crs_unsubscribed_from_crs'),true);
 		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->ref_id));
 		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 	}
@@ -1385,7 +1387,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if(!is_array($_POST["member"]) or !count($_POST["member"]))
 		{
-			sendInfo($this->lng->txt("no_member_selected"));
+			sendInfo($this->lng->txt("crs_no_member_selected"));
 			$this->membersObject();
 
 			return false;
@@ -1412,9 +1414,19 @@ class ilObjCourseGUI extends ilObjectGUI
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
-				$f_result[$counter][]   = $member_data["role"] == $this->object->members_obj->ROLE_ADMIN 
-					? $this->lng->txt("admin") 
-					: $this->lng->txt("member");
+
+				switch($member_data['role'])
+				{
+					case $this->object->members_obj->ROLE_ADMIN:
+						$f_result[$counter][] = $this->lng->txt("crs_admin"); 
+						break;
+					case $this->object->members_obj->ROLE_TUTOR:
+						$f_result[$counter][] = $this->lng->txt("crs_tutor");
+						break;
+					case $this->object->members_obj->ROLE_MEMBER:
+						$f_result[$counter][] = $this->lng->txt("crs_member"); 
+						break;
+				}
 
 				unset($tmp_obj);
 				++$counter;
@@ -1436,7 +1448,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if(!is_array($_SESSION["crs_delete_member_ids"]) or !count($_SESSION["crs_delete_member_ids"]))
 		{
-			sendInfo($this->lng->txt("no_member_selected"));
+			sendInfo($this->lng->txt("crs_no_member_selected"));
 			$this->membersObject();
 
 			return false;
@@ -1460,7 +1472,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			}
 		}
 		unset($_SESSION["crs_delete_member_ids"]);
-		sendInfo($this->lng->txt("members_deleted"));
+		sendInfo($this->lng->txt("crs_members_deleted"));
 		$this->membersObject();
 
 		return true;
@@ -1477,7 +1489,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if(!is_array($_SESSION["crs_delete_subscriber_ids"]) or !count($_SESSION["crs_delete_subscriber_ids"]))
 		{
-			sendInfo($this->lng->txt("no_subscribers_selected"));
+			sendInfo($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
 
 			return false;
@@ -1502,7 +1514,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		unset($_SESSION["crs_delete_subscriber_ids"]);
-		sendInfo($this->lng->txt("subscribers_deleted"));
+		sendInfo($this->lng->txt("crs_subscribers_deleted"));
 		$this->membersObject();
 
 		return true;
@@ -1522,7 +1534,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($this->object->getSubscriptionMaxMembers() and 
 		   $this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
 		{
-			sendInfo($this->lng->txt("max_members_reached"));
+			sendInfo($this->lng->txt("crs_max_members_reached"));
 			$this->membersObject();
 
 			return false;
@@ -1530,7 +1542,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members_search.html",true);
 		
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("search_members"));
+		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
 		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
 		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["crs_search_str"] ? $_SESSION["crs_search_str"] : "");
 		$this->tpl->setVariable("SEARCH_FOR",$this->lng->txt("exc_search_for"));
@@ -1551,6 +1563,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$tree;
 
+
 		$_SESSION["crs_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["crs_search_str"];
 		$_SESSION["crs_search_for"] = $_POST["search_for"] = $_POST["search_for"] ? $_POST["search_for"] : $_SESSION["crs_search_for"];
 		
@@ -1563,14 +1576,14 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		if(!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
 		{
-			sendInfo($this->lng->txt("search_enter_search_string"));
+			sendInfo($this->lng->txt("crs_search_enter_search_string"));
 			$this->searchUserObject();
 			
 			return false;
 		}
 		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
 		{
-			sendInfo($this->lng->txt("no_results_found"));
+			sendInfo($this->lng->txt("crs_no_results_found"));
 			$this->searchUserObject();
 
 			return false;
@@ -1729,7 +1742,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write',$this->ref_id) or 
 			$this->object->isArchived())
 		{
-			$tabs_gui->addTarget("archives",
+			$tabs_gui->addTarget("crs_archives",
 								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
@@ -1799,19 +1812,19 @@ class ilObjCourseGUI extends ilObjectGUI
 					switch($member_data["status"])
 					{
 						case $this->object->members_obj->STATUS_NOTIFY:
-							$status = $this->lng->txt("notify");
+							$status = $this->lng->txt("crs_notify");
 							break;
 
 						case $this->object->members_obj->STATUS_NO_NOTIFY:
-							$status = $this->lng->txt("no_notify");
+							$status = $this->lng->txt("crs_no_notify");
 							break;
 
 						case $this->object->members_obj->STATUS_BLOCKED:
-							$status = $this->lng->txt("blocked");
+							$status = $this->lng->txt("crs_blocked");
 							break;
 
 						case $this->object->members_obj->STATUS_UNBLOCKED:
-							$status = $this->lng->txt("unblocked");
+							$status = $this->lng->txt("crs_unblocked");
 							break;
 					}
 					$tpl->setVariable("STATUS",$status);
@@ -1821,7 +1834,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tpl->setCurrentBlock("members");
 
 			$tpl->setVariable("MEMBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
-			$tpl->setVariable("MEMBERS_IMG_ALT",$this->lng->txt('crs_members'));
+			$tpl->setVariable("MEMBERS_IMG_ALT",$this->lng->txt('crs_header_members'));
 			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
 			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
 			$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
@@ -1854,7 +1867,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			$tpl->setVariable("SUBSCRIBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
 			$tpl->setVariable("SUBSCRIBERS_IMG_ALT",$this->lng->txt('crs_subscribers'));
-			$tpl->setVariable("SUBSCRIBERS_TABLE_HEADER",$this->lng->txt('crs_subscribers_title'));
+			$tpl->setVariable("SUBSCRIBERS_TABLE_HEADER",$this->lng->txt('crs_subscribers'));
 			$tpl->setVariable("TXT_SLOGIN",$this->lng->txt('login'));
 			$tpl->setVariable("TXT_SFIRSTNAME",$this->lng->txt('firstname'));
 			$tpl->setVariable("TXT_SLASTNAME",$this->lng->txt('lastname'));
@@ -1868,7 +1881,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("CSS_PATH",$this->tpl->tplPath);
 		
 		$headline = $this->lng->txt('obj_crs').': '.$this->object->getTitle().
-			' -> '.$this->lng->txt('crs_members').' ('.strftime("%Y-%m-%d %R",time()).')';
+			' -> '.$this->lng->txt('crs_header_members').' ('.strftime("%Y-%m-%d %R",time()).')';
 
 		$tpl->setVariable("HEADLINE",$headline);
 
@@ -2036,7 +2049,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array($this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
-								   $this->lng->txt("role/status")));
+								   $this->lng->txt("crs_role_status")));
 		$tbl->setHeaderVars(array("login",
 								  "firstname",
 								  "lastname",
@@ -2082,7 +2095,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
@@ -2122,7 +2135,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","listUsers");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("listUsers"));
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -2130,11 +2143,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("title"),
 								   $this->lng->txt("description"),
-								   $this->lng->txt("count_members")));
+								   $this->lng->txt("crs_count_members")));
 		$tbl->setHeaderVars(array("",
 								  "title",
 								  "description",
@@ -2180,7 +2193,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_delete_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_header_delete_members"),"icon_usr_b.gif",$this->lng->txt("crs_header_delete_members"));
 		$tbl->setHeaderNames(array($this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
@@ -2226,11 +2239,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_delete_subscribers"),"icon_usr_b.gif",$this->lng->txt("crs_header_members"));
+		$tbl->setTitle($this->lng->txt("crs_header_delete_subscribers"),"icon_usr_b.gif",$this->lng->txt("crs_header_delete_members"));
 		$tbl->setHeaderNames(array($this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
-								   $this->lng->txt("sub_time")));
+								   $this->lng->txt("crs_time")));
 		$tbl->setHeaderVars(array("login",
 								  "firstname",
 								  "lastname",
@@ -2286,11 +2299,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($a_download_perm)
 		{
 			$header_names = array('',
-								  $this->lng->txt("file_name"),
-								  $this->lng->txt("create_date"),
-								  $this->lng->txt("size"),
-								  $this->lng->txt("archive_lang"),
-								  $this->lng->txt("archive_type"));
+								  $this->lng->txt("crs_file_name"),
+								  $this->lng->txt("crs_create_date"),
+								  $this->lng->txt("crs_size"),
+								  $this->lng->txt("crs_archive_lang"),
+								  $this->lng->txt("crs_archive_type"));
 
 			$header_vars = array("",
 								 "name",
@@ -2302,11 +2315,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		else
 		{
-			$header_names = array($this->lng->txt("file_name"),
-								  $this->lng->txt("create_date"),
-								  $this->lng->txt("size"),
-								  $this->lng->txt("archive_lang"),
-								  $this->lng->txt("archive_type"));
+			$header_names = array($this->lng->txt("crs_file_name"),
+								  $this->lng->txt("crs_create_date"),
+								  $this->lng->txt("crs_size"),
+								  $this->lng->txt("crs_archive_lang"),
+								  $this->lng->txt("crs_archive_type"));
 
 			$header_vars = array("name",
 								 "type",
@@ -2367,11 +2380,11 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs_b.gif",$this->lng->txt("crs_header_archives"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("file_name"),
-								   $this->lng->txt("create_date"),
-								   $this->lng->txt("size"),
-								   $this->lng->txt("language"),
-								   $this->lng->txt("archive_type")));
+								   $this->lng->txt("crs_file_name"),
+								   $this->lng->txt("crs_create_date"),
+								   $this->lng->txt("crs_size"),
+								   $this->lng->txt("crs_archive_lang"),
+								   $this->lng->txt("crs_archive_type")));
 		$tbl->setHeaderVars(array("",
 								  "name",
 								  "type",
@@ -2410,7 +2423,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("plain_button");
 		$tpl->setVariable("PBTN_NAME","searchUser");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("add_member"));
+		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_add_member"));
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->parseCurrentBlock();
@@ -2433,9 +2446,9 @@ class ilObjCourseGUI extends ilObjectGUI
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
-								   $this->lng->txt("role"),
-								   $this->lng->txt("status"),
-								   $this->lng->txt("options")));
+								   $this->lng->txt("crs_role"),
+								   $this->lng->txt("crs_status"),
+								   $this->lng->txt("crs_options")));
 		$tbl->setHeaderVars(array("",
 								  "login",
 								  "firstname",
@@ -2504,7 +2517,7 @@ class ilObjCourseGUI extends ilObjectGUI
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
-								   $this->lng->txt("sub_time")));
+								   $this->lng->txt("crs_time")));
 		$tbl->setHeaderVars(array("",
 								  "login",
 								  "firstname",

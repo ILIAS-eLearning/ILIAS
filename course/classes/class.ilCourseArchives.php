@@ -341,7 +341,7 @@ class ilCourseArchives
 
 		$this->course_files_obj->copy($tpl->tplPath.'/default.css',$this->getName().'/default.css');
 
-		$tmp_tpl->setVariable('TITLE','Course export');
+		$tmp_tpl->setVariable('TITLE',$lng->txt('crs_export'));
 		$tmp_tpl->setVariable("CRS_STRUCTURE",$lng->txt('crs_structure'));
 
 
@@ -350,35 +350,35 @@ class ilCourseArchives
 		#$tmp_tpl->setVariable("ALT_IMG",$lng->txt("crs_details"));
 		
 		// SET TXT VARIABLES
-		$tmp_tpl->setVariable("TXT_SYLLABUS",$lng->txt("syllabus"));
-		$tmp_tpl->setVariable("TXT_CONTACT",$lng->txt("contact"));
-		$tmp_tpl->setVariable("TXT_CONTACT_NAME",$lng->txt("contact_name"));
-		$tmp_tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$lng->txt("contact_responsibility"));
-		$tmp_tpl->setVariable("TXT_CONTACT_EMAIL",$lng->txt("contact_email"));
-		$tmp_tpl->setVariable("TXT_CONTACT_PHONE",$lng->txt("contact_phone"));
-		$tmp_tpl->setVariable("TXT_CONTACT_CONSULTATION",$lng->txt("contact_consultation"));
-		$tmp_tpl->setVariable("TXT_DATES",$lng->txt("dates"));
-		$tmp_tpl->setVariable("TXT_ACTIVATION",$lng->txt("activation"));
-		$tmp_tpl->setVariable("TXT_SUBSCRIPTION",$lng->txt("subscription"));
-		$tmp_tpl->setVariable("TXT_ARCHIVE",$lng->txt("archive"));
+		$tmp_tpl->setVariable("TXT_SYLLABUS",$lng->txt("crs_syllabus"));
+		$tmp_tpl->setVariable("TXT_CONTACT",$lng->txt("crs_contact"));
+		$tmp_tpl->setVariable("TXT_CONTACT_NAME",$lng->txt("crs_contact_name"));
+		$tmp_tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$lng->txt("crs_contact_responsibility"));
+		$tmp_tpl->setVariable("TXT_CONTACT_EMAIL",$lng->txt("crs_contact_email"));
+		$tmp_tpl->setVariable("TXT_CONTACT_PHONE",$lng->txt("crs_contact_phone"));
+		$tmp_tpl->setVariable("TXT_CONTACT_CONSULTATION",$lng->txt("crs_contact_consultation"));
+		$tmp_tpl->setVariable("TXT_DATES",$lng->txt("crs_dates"));
+		$tmp_tpl->setVariable("TXT_ACTIVATION",$lng->txt("crs_activation"));
+		$tmp_tpl->setVariable("TXT_SUBSCRIPTION",$lng->txt("crs_subscription"));
+		$tmp_tpl->setVariable("TXT_ARCHIVE",$lng->txt("crs_archive"));
 
 		// FILL 
 		$tmp_tpl->setVariable("SYLLABUS",nl2br($this->course_obj->getSyllabus() ? 
 												 $this->course_obj->getSyllabus() : 
-												 $lng->txt("not_available")));
+												 $lng->txt("crs_not_available")));
 
 		$tmp_tpl->setVariable("CONTACT_NAME",$this->course_obj->getContactName() ? 
 								$this->course_obj->getContactName() : 
-								$lng->txt("not_available"));
+								$lng->txt("crs_not_available"));
 		$tmp_tpl->setVariable("CONTACT_RESPONSIBILITY",$this->course_obj->getContactResponsibility() ? 
 								$this->course_obj->getContactResponsibility() : 
-								$lng->txt("not_available"));
+								$lng->txt("crs_not_available"));
 		$tmp_tpl->setVariable("CONTACT_PHONE",$this->course_obj->getContactPhone() ? 
 								$this->course_obj->getContactPhone() : 
-								$lng->txt("not_available"));
+								$lng->txt("crs_not_available"));
 		$tmp_tpl->setVariable("CONTACT_CONSULTATION",nl2br($this->course_obj->getContactConsultation() ? 
 								$this->course_obj->getContactConsultation() : 
-								$lng->txt("not_available")));
+								$lng->txt("crs_not_available")));
 		if($this->course_obj->getContactEmail())
 		{
 			$tmp_tpl->setCurrentBlock("email_link");
@@ -394,7 +394,7 @@ class ilCourseArchives
 		}
 		if($this->course_obj->getActivationUnlimitedStatus())
 		{
-			$tmp_tpl->setVariable("ACTIVATION",$lng->txt('unlimited'));
+			$tmp_tpl->setVariable("ACTIVATION",$lng->txt('crs_unlimited'));
 		}
 		else
 		{
@@ -404,7 +404,7 @@ class ilCourseArchives
 		}
 		if($this->course_obj->getSubscriptionUnlimitedStatus())
 		{
-			$tmp_tpl->setVariable("SUBSCRIPTION",$lng->txt('unlimited'));
+			$tmp_tpl->setVariable("SUBSCRIPTION",$lng->txt('crs_unlimited'));
 		}
 		else
 		{
@@ -414,7 +414,7 @@ class ilCourseArchives
 		}
 		if($this->course_obj->getArchiveType() == $this->course_obj->ARCHIVE_DISABLED)
 		{
-			$tmp_tpl->setVariable("ARCHIVE",$lng->txt('archive_disabled'));
+			$tmp_tpl->setVariable("ARCHIVE",$lng->txt('crs_archive_disabled'));
 		}
 		else
 		{
