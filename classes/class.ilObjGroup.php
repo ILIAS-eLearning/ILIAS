@@ -35,6 +35,7 @@
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
 require_once "class.ilObject.php";
+require_once "class.ilGroupTree.php";
 
 class ilObjGroup extends ilObject
 {
@@ -648,9 +649,9 @@ class ilObjGroup extends ilObject
 		//todo berprfen ob eintrag schon existiert
 		
 		$grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
-			
+		
 		if(isset($new_node_ref_id) && $new_node_ref_id>0)
-		{
+		{echo "ref_da";
 			$q1 = "UPDATE grp_tree SET ref_id=".$new_node_ref_id." WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
 			$this->ilias->db->query($q1);
 			
@@ -780,6 +781,53 @@ class ilObjGroup extends ilObject
 			return true;
 		}else{
 			return false;
+		}
+	}
+	
+	function removeDeletedNodesInGrpTree($a_node_id,$a_checked)
+	{
+		$grp_tree = new ilGroupTree($this->getId());
+		
+		$q = "SELECT tree FROM grp_tree WHERE parent='".$a_node_id."' AND tree < 0";
+		$r = $this->ilias->db->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{	
+			// only continue recursion if fetched node wasn't touched already!
+			if (!in_array($row->tree,$a_checked))
+			{
+				$deleted_tree = new ilGroupTree($row->tree);
+				$a_checked[] = $row->tree;
+			
+				$row->tree = $row->tree * (-1);
+				$del_node_data = $deleted_tree->getNodeData($row->tree);
+				//$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
+
+				$this->removeDeletedNodesInGrpTree($row->tree,$a_checked);
+			
+				/*foreach ($del_subtree_nodes as $node)
+				{
+					$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+					$node_obj->delete();
+				}*/
+			$grp_tree->deleteTree($del_node_data);
+			}
+		}
+		
+		return true;
+	}
+	
+	function insertSavedNodesInGrpTree($a_source_id,$a_dest_id,$a_tree_id,$a_ref_id)
+	{
+		$grp_tree = new ilGroupTree($this->getId());
+		$this->insertGroupNode($a_source_id,$a_dest_id,$this->getId(),(int)$a_ref_id);
+		
+		$saved_tree = new ilGroupTree($a_tree_id);
+		$childs = $saved_tree->getChilds($a_source_id);
+
+		foreach ($childs as $child)
+		{
+			$this->insertSavedNodesInGrpTree($child["child"],$a_source_id,$a_tree_id,$a_ref_id);
 		}
 	}
 	
@@ -1011,6 +1059,75 @@ class ilObjGroup extends ilObject
 			}*/
 		}
 	}
+	
+	function confirmedDeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
+	{
+		$grp_tree = new ilGroupTree($this->getId());
+		//$grp_tree->setTableNames("grp_tree","object_data");
+		
+		
+		// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
+			foreach ($a_params as $id)
+			{	
+				
+				$tmp_obj=& $this->ilias->obj_factory->getInstanceByRefId($id);
+				$grp_tree->saveSubTree($tmp_obj->getId());
+				$grp_tree->deleteTree($grp_tree->getNodeData($tmp_obj->getId()));
+			}
+	}
+	
+	function removeFromSystemGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
+	{
+		$grp_tree = new ilGroupTree($this->getId());
+		
+		// DELETE THEM
+		foreach ($_POST["trash_id"] as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			
+			$tmp_obj=& $this->ilias->obj_factory->getInstanceByRefId($id);
+			$saved_tree = new ilGroupTree(-(int)$tmp_obj->getId());
+			$node_data = $saved_tree->getNodeData($tmp_obj->getId());
+			$subtree_nodes = $saved_tree->getSubTree($node_data);
+
+			// remember already checked deleted node_ids
+			$checked[] = -(int) $tmp_obj->getId();
+
+			// dive in recursive manner in each already deleted subtrees and remove these objects too
+			$this->removeDeletedNodesInGrpTree($tmp_obj->getId(),$checked);
+			
+			/*foreach ($subtree_nodes as $node)
+			{
+				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				$node_obj->delete();
+			}*/
+
+			// FIRST DELETE ALL ENTRIES IN GROUP TREE
+			$grp_tree->deleteTree($node_data);
+		}
+		
+	}
+	
+	function undeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
+	{
+	
+		foreach ($_POST["trash_id"] as $id)
+		{
+			$tmp_obj=& $this->ilias->obj_factory->getInstanceByRefId($id);
+			$dest_obj=& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+			
+			// INSERT 
+			$this->insertSavedNodesInGrpTree($tmp_obj->getId(),$dest_obj->getId(),-(int) $tmp_obj->getId(),$id);
+			
+			// DELETE SAVED TREE
+			$saved_tree = new ilGroupTree(-(int)$tmp_obj->getId());
+			$saved_tree->deleteTree($saved_tree->getNodeData($tmp_obj->getId()));
+		}
+		
+		
+	
+	}
+	
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
@@ -1028,6 +1145,30 @@ class ilObjGroup extends ilObject
 		
 		switch ($a_event)
 		{
+			case "undelete":
+				$this->undeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
+			
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Group ".$this->getRefId()." triggered by undelete event. Objects are gotten back from trash at target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "removeFromSystem":
+				$this->removeFromSystemGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
+			
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Group ".$this->getRefId()." triggered by removeFromSystem event. Objects are removed from System at target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
+			case "confirmedDelete":
+				$this->confirmedDeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
+			
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Group ".$this->getRefId()." triggered by confirmedDelete event. Objects put in trash at target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+			
 			case "link":
 				$this->linkGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
 			
