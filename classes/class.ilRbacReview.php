@@ -477,7 +477,8 @@ class ilRbacReview
 	* TODO: using var $a_obj_id which is not known in function
 	* Fetch loaded modules or possible modules in context
 	* @access	public
-	* @param	string
+	* @param	string type of object
+	* @param    integer reference id of object
 	*/
 	function getModules ($a_type,$a_ref_id)
 	{

@@ -178,22 +178,20 @@ class ilRbacSystem
     }
 	
 	/**
-	* DESCRIPTION MISSING
-	* TODO: This method is only used in Object::permObject
+	* check if a specific has the permission '$a_operation' of an object
 	* @access	public
-	* @param	integer		ObjectId,
-	* @param	integer		RoleIds, 
-	* @param	integer		das abzufragende Recht
-	* @param	string
+	* @param	integer		reference id of object
+	* @param	integer		role id 
+	* @param	string		the permission to check
 	* @return	boolean
 	*/
-	function checkPermission($Aobj_id,$Arol_id,$Aoperation)
+	function checkPermission($a_ref_id,$a_rol_id,$a_operation)
 	{
 		$ops = array();
 
 		// Abfrage der ops_id der gewünschten Operation
 		$q = "SELECT ops_id FROM rbac_operations ".
-				 "WHERE operation ='".$Aoperation."'";
+				 "WHERE operation ='".$a_operation."'";
 		
 		$r = $this->ilias->db->query($q);
 
@@ -203,8 +201,8 @@ class ilRbacSystem
 		}
 	
 		$q = "SELECT * FROM rbac_pa ".
-			 "WHERE rol_id = '".$Arol_id."' ".
-			 "AND obj_id = '".$Aobj_id."' ";
+			 "WHERE rol_id = '".$a_rol_id."' ".
+			 "AND obj_id = '".$a_ref_id."' ";
 		
 		$r = $this->ilias->db->query($q);
 
@@ -214,35 +212,6 @@ class ilRbacSystem
 		}
 		
 		return in_array($ops_id,$ops);
-	}
-
-	function getErrorMessage()
-	{
-
-	}
-	
-	function createSession()
-	{
-
-	}
-
-	function deleteSession()
-	{
-
-	}
-	
-	/**
-	* adds an active role in $_SESSION["RoleId"]
-	* @access	public
-	*/
-	function addActiveRole()
-	{
-		
-	}
-
-	function dropActiveRole()
-	{
-
 	}
 } // END class.RbacSystem
 ?>
