@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.9 2003/05/04 18:50:22 akill Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.10 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -90,7 +90,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
+		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng, $objDefinition;
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
@@ -98,6 +98,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 		else
 		{
+			// get all object type definitions
 			$obj_data = getObjectList("typ","title","ASC");
 
 			// BEGIN OBJECT_TYPES
@@ -113,8 +114,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			foreach ($all_ops as $key => $operations)
 			{
 				$operation_name = $operations["operation"];
-				// BEGIN CHECK_PERM
 
+				$num = 0;
+
+				// BEGIN CHECK_PERM
 				foreach ($obj_data as $data)
 				{
 					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
@@ -128,11 +131,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 					}
 					else
 					{
-						$output["perm"]["$operation_name"][] = "";
+						$output["perm"]["$operation_name"][$num] = "";
 					}
 				}
-
 				// END CHECK_PERM
+
 				// color changing
 				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["perm"]["$operation_name"]["color"] = $css_row;
@@ -140,9 +143,13 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 			// END TABLE DATA OUTER
 			$output["col_anz"] = count($obj_data);
+			$output["txt_save"] = $lng->txt("save");
+			$output["txt_permission"] = $lng->txt("permission");
+			$output["txt_obj_type"] = $lng->txt("obj_type");
 
 			// ADOPT PERMISSIONS
-			$output["message_middle"] = "Adopt Permissions from Role Template";
+			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
+
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 
@@ -159,8 +166,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id="
 				.$this->object->getId()."&ref_id=".$_GET["ref_id"];
-
 			// END ADOPT_PERMISSIONS
+
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->object->getId()."&ref_id=".$_GET["ref_id"];
 			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
@@ -168,11 +175,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		$this->data = $output;
 
-
+		// generate output
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
-
 
 		// BEGIN BLOCK OBJECT TYPES
 		$this->tpl->setCurrentBlock("OBJECT_TYPES");
@@ -189,12 +195,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			// BEGIN CHECK PERMISSION
 			$this->tpl->setCurrentBlock("CHECK_PERM");
-			for($i = 0;$i < count($operations)-1;++$i)
+
+			for ($i = 0;$i < count($operations)-1;++$i)
 			{
 				$this->tpl->setVariable("CHECK_PERMISSION",$operations[$i]);
 				$this->tpl->parseCurrentBlock();
 			}
 			// END CHECK PERMISSION
+
 			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
 			$this->tpl->setVariable("CSS_ROW",$operations["color"]);
 			$this->tpl->setVariable("PERMISSION",$name);
@@ -203,7 +211,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// END TABLE DATA OUTER
 
 		// BEGIN ADOPT PERMISSIONS
-
 		foreach($this->data["adopt"] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock("ADOPT_PERMISSIONS");
@@ -217,14 +224,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
+		$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
+		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
+		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
+		$this->tpl->setVariable("TXT_OBJ_TYPE",$this->data["txt_obj_type"]);
+		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
-
-
-		$this->tpl->parseCurrentBlock("adm_content");
+		$this->tpl->parseCurrentBlock();
 	}
 
 
