@@ -80,7 +80,8 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function getDataDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+									//changed from web_dir into data_dir
+		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
 
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
 		if(@is_dir($lm_dir))
