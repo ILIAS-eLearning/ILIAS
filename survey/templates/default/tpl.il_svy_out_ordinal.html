@@ -2,6 +2,7 @@
 <div class="questionTitle">{QUESTION_TITLE}</div>
 {ERROR_MESSAGE}
 <p class="questiontext">{QUESTIONTEXT}<br /><span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<!-- BEGIN tableoutput -->
 <table class="nobackground">
 <!-- BEGIN ordinal_row -->
 <tr>
@@ -24,4 +25,13 @@
 </tr>
 <!-- END ordinal_col -->
 </table>
+<!-- END tableoutput -->
+<!-- BEGIN combooutput -->
+{TEXT_SELECTION}: <select name="{QUESTION_ID}_value">
+	<option value="">{SELECT_OPTION}</option>
+<!-- BEGIN comborow -->
+	<option value="{VALUE_ORDINAL}"{SELECTED_ORDINAL}>{TEXT_ORDINAL}</option>
+<!-- END comborow -->
+</select>
+<!-- END combooutput -->
 <!-- END question_data_ordinal -->

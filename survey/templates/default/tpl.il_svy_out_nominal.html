@@ -2,6 +2,7 @@
 <div class="questionTitle">{QUESTION_TITLE}</div>
 {ERROR_MESSAGE}
 <p class="questiontext">{QUESTIONTEXT}<br /><span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<!-- BEGIN tableoutput_nominal -->
 <table class="nobackground">
 <!-- BEGIN nominal_row_sr -->
 <tr>
@@ -44,4 +45,13 @@
 </tr>
 <!-- END nominal_col_mr -->
 </table>
+<!-- END tableoutput_nominal -->
+<!-- BEGIN combooutput_nominal -->
+{TEXT_SELECTION}: <select name="{QUESTION_ID}_value">
+	<option value="">{SELECT_OPTION}</option>
+<!-- BEGIN comborow_nominal -->
+	<option value="{VALUE_NOMINAL}"{SELECTED_NOMINAL}>{TEXT_NOMINAL}</option>
+<!-- END comborow_nominal -->
+</select>
+<!-- END combooutput_nominal -->
 <!-- END question_data_nominal -->

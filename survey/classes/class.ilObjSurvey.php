@@ -1700,6 +1700,17 @@ class ilObjSurvey extends ilObject
 		{
 			$this->moveQuestions($move_questions, $pages[$pageindex-1][0]["question_id"], 0);
 		}
+		else
+		{
+			// move up a question in a questionblock
+			$questions = $this->getSurveyQuestions();
+			$questions = array_keys($questions);
+			$index = array_search($question_id, $questions);
+			if (($index !== FALSE) && ($index > 0))
+			{
+				$this->moveQuestions($move_questions, $questions[$index-1], 0);
+			}
+		}
 	}
 	
 /**
@@ -1717,14 +1728,25 @@ class ilObjSurvey extends ilObject
 		$pageindex = -1;
 		foreach ($pages as $idx => $page)
 		{
-			if ($page[0]["question_id"] == $question_id)
+			if (($page[0]["question_id"] == $question_id) && (strcmp($page[0]["questionblock_id"], "") == 0))
 			{
 				$pageindex = $idx;
 			}
 		}
-		if ($pageindex < count($pages)-1)
+		if (($pageindex < count($pages)-1) && ($pageindex >= 0))
 		{
 			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
+		}
+		else
+		{
+			// move down a question in a questionblock
+			$questions = $this->getSurveyQuestions();
+			$questions = array_keys($questions);
+			$index = array_search($question_id, $questions);
+			if (($index !== FALSE) && ($index < count($questions)-1))
+			{
+				$this->moveQuestions($move_questions, $questions[$index+1], 1);
+			}
 		}
 	}
 	

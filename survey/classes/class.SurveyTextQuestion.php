@@ -37,6 +37,7 @@ define("TEXT_QUESTION_IDENTIFIER", "Text Question");
 * @modulegroup   Survey
 */
 class SurveyTextQuestion extends SurveyQuestion {
+	var $maxchars;
 /**
 * SurveyTextQuestion constructor
 *
@@ -58,6 +59,7 @@ class SurveyTextQuestion extends SurveyQuestion {
 
   {
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		$this->maxchars = 0;
 	}
 	
 /**
@@ -84,6 +86,7 @@ class SurveyTextQuestion extends SurveyQuestion {
 				$this->obligatory = $data->obligatory;
         $this->owner = $data->owner_fi;
 				$this->original_id = $data->original_id;
+				$this->maxchars = $data->maxchars;
         $this->questiontext = $data->questiontext;
         $this->complete = $data->complete;
       }
@@ -113,6 +116,30 @@ class SurveyTextQuestion extends SurveyQuestion {
 	}
 	
 /**
+* Sets the maximum number of allowed characters for the text answer
+*
+* Sets the maximum number of allowed characters for the text answer
+*
+* @access public
+*/
+	function setMaxChars($maxchars = 0)
+	{
+		$this->maxchars = $maxchars;
+	}
+	
+/**
+* Returns the maximum number of allowed characters for the text answer
+*
+* Returns the maximum number of allowed characters for the text answer
+*
+* @access public
+*/
+	function getMaxChars()
+	{
+		return $this->maxchars;
+	}
+	
+/**
 * Saves a SurveyTextQuestion object to a database
 *
 * Saves a SurveyTextQuestion object to a database
@@ -121,6 +148,11 @@ class SurveyTextQuestion extends SurveyQuestion {
 */
   function saveToDb($original_id = "")
   {
+		$maxchars = "NULL";
+		if ($this->maxchars)
+		{
+			$maxchars = $this->ilias->db->quote($this->maxchars . "");
+		}
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
@@ -137,7 +169,7 @@ class SurveyTextQuestion extends SurveyQuestion {
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, maxchars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $this->ilias->db->quote("4"),
         $this->ilias->db->quote($this->obj_id),
         $this->ilias->db->quote($this->owner),
@@ -146,6 +178,7 @@ class SurveyTextQuestion extends SurveyQuestion {
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
+				$maxchars,
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($created),
 				$original_id
@@ -156,12 +189,13 @@ class SurveyTextQuestion extends SurveyQuestion {
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, maxchars = %s, complete = %s WHERE question_id = %s",
         $this->ilias->db->quote($this->title),
         $this->ilias->db->quote($this->description),
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
+				$maxchars,
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($this->id)
       );
@@ -231,6 +265,9 @@ class SurveyTextQuestion extends SurveyQuestion {
 							{
 								case "obligatory":
 									$this->setObligatory($fieldentry->get_content());
+									break;
+								case "maxchars":
+									$this->setMaxChars($fieldentry->get_content());
 									break;
 							}
 						}
@@ -317,6 +354,19 @@ class SurveyTextQuestion extends SurveyQuestion {
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
 		$qtiMetadata->append_child($qtiMetadatafield);
+
+		// maxchars
+		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $this->domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $this->domxml->create_text_node("maxchars");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $this->domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $this->domxml->create_text_node(sprintf("%d", $this->getMaxChars()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+
 		$qtiItemMetadata->append_child($qtiMetadata);
 		$qtiIdent->append_child($qtiItemMetadata);
 
@@ -370,5 +420,27 @@ class SurveyTextQuestion extends SurveyQuestion {
 		}
 	}
 	
+	/**
+	* Returns the maxium number of allowed characters for the text answer
+	*
+	* Returns the maxium number of allowed characters for the text answer
+	*
+	* @return integer The maximum number of characters
+	* @access public
+	*/
+	function _getMaxChars($question_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT maxchars FROM survey_question WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["maxchars"];
+		}
+		return 0;
+	}
 }
 ?>

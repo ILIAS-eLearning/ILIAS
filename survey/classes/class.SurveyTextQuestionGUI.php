@@ -89,12 +89,18 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI {
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
+		if ($this->object->getMaxChars() > 0)
+		{
+			$this->tpl->setVariable("VALUE_MAXCHARS", $this->object->getMaxChars());
+		}
 		$questiontext = $this->object->getQuestiontext();
 		$questiontext = str_replace("<br />", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
+		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
 		if ($this->object->getObligatory())
@@ -174,6 +180,10 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI {
 		{
 			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
 		}
+		if ($this->object->getMaxChars())
+		{
+			$this->tpl->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -212,6 +222,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+		$this->object->setMaxChars(ilUtil::stripSlashes($_POST["maxchars"]));
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);
 		$questiontext = str_replace("\n", "<br />", $questiontext);
     $this->object->setQuestiontext($questiontext);

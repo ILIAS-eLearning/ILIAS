@@ -5249,4 +5249,8 @@ ALTER TABLE `content_object` ADD `public_access_mode` ENUM( 'complete', 'selecte
 ALTER TABLE `lm_data` ADD `public_access` ENUM( 'y', 'n' ) DEFAULT 'n' NOT NULL AFTER `import_id`;
 ALTER TABLE `lm_data` ADD INDEX (`lm_id`);
 ALTER TABLE `lm_data` ADD INDEX (`type`);
+<#368>
+ALTER TABLE `survey_question` CHANGE `orientation` `orientation` ENUM( '0', '1', '2' ) DEFAULT '0';
+<#369>
+ALTER TABLE `survey_question` ADD `maxchars` INT DEFAULT '0' NOT NULL AFTER `orientation` ;
 

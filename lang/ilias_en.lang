@@ -4374,3 +4374,9 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+survey#:#combobox#:#Combobox
+survey#:#select_option#:#--- Please select an option ---
+survey#:#selection#:#Selection
+survey#:#maxchars#:#Maximum number of characters
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
