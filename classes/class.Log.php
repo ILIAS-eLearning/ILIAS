@@ -13,7 +13,7 @@
 * @version $Id$
 * @package application
 */
-class Log
+class Log extends PEAR
 {
 
 	/**
@@ -22,7 +22,11 @@ class Log
 	 * @access private
 	 */
 	var $LOGFILE = "application.log";
-	
+
+	/**
+	* error handling
+	*/
+	var $error_class;	
 	/**
 	 * constructor
 	 * 
@@ -40,6 +44,10 @@ class Log
 			$this->filename = $this->LOGFILE;
 		else
 			$this->filename = $logfile;
+
+		$this->PEAR();
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
 	
 		//TODO: check logfile accessable, creatable, writable and so on
 		return true;
@@ -73,8 +81,15 @@ class Log
 	*/
 	function write($msg)
 	{
-		$fp = fopen ($this->filename, "a");
-		fwrite($fp,date("[y-m-d H:i] ").$msg."\n");
+		$fp = @fopen ($this->filename, "a");
+		if ($fp == false)
+		{
+			$this->raiseError("Logfile: cannot open file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
+		}
+		if (fwrite($fp,date("[y-m-d H:i] ").$msg."\n") == -1)
+		{
+			$this->raiseError("Logfile: cannot write to file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
+		}
 		fclose($fp);
 	}
 
