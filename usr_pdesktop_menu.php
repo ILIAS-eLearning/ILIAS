@@ -295,7 +295,7 @@ if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or
 	
 	if ($_GET["cmd"] == "groups" )
 	{
-	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Schreibtisch.gif");
+	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/gruppen.gif");
 	}
 	
 	if ($_GET["cmd"] == "forum" )
