@@ -278,7 +278,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			// make links in post usable 
 			$node["message"] = TUtil::makeClickable($node["message"]);
 			
-			$tpl->setVariable("POST",$node["message"]);	
+			$tpl->setVariable("POST",nl2br($node["message"]));	
 			
 			$tpl->parseCurrentBlock("posts_row");		
 		

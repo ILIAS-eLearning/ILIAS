@@ -78,8 +78,8 @@ class ForumObject extends Object
 		
 		$top_data = array(
             "top_frm_fk"   		=> $newFrm_ID,
-			"top_name"   		=> $frm_data["title"],
-            "top_description" 	=> $frm_data["desc"],
+			"top_name"   		=> addslashes($frm_data["title"]),
+            "top_description" 	=> addslashes($frm_data["desc"]),
             "top_num_posts"     => 0,
             "top_num_threads"   => 0,
             "top_last_post"     => "",
@@ -116,8 +116,8 @@ class ForumObject extends Object
 			
 			$query = "UPDATE frm_data ".
 					 "SET ".
-					 "top_name = '".$a_obj_data["title"]."',".
-					 "top_description = '".$a_obj_data["desc"]."',".
+					 "top_name = '".addslashes($a_obj_data["title"])."',".
+					 "top_description = '".addslashes($a_obj_data["desc"])."',".
 					 "top_update = '".date("Y-m-d H:i:s")."',".
 					 "update_user = '".$_SESSION["AccountId"]."' ".
 					 "WHERE top_frm_fk = '".$this->id."'";
@@ -204,7 +204,7 @@ class ForumObject extends Object
 		$q = "INSERT INTO frm_data ";
 		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id,visits,top_update,update_user) ";
 		$q .= "VALUES ";
-		$q .= "('".$new_obj_id."','".$topData["top_name"]."','".$topData["top_description"]."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$topData["top_mods"]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
+		$q .= "('".$new_obj_id."','".addslashes($topData["top_name"])."','".addslashes($topData["top_description"])."','".$topData["top_num_posts"]."','".$topData["top_num_threads"]."','".$topData["top_last_post"]."','".$topData["top_mods"]."','".$topData["top_date"]."','".$topData["top_usr_id"]."','".$topData["visits"]."','".$topData["top_update"]."','".$topData["update_user"]."')";
 		$this->ilias->db->query($q);
 		
 		// get last insert id and return it
@@ -221,7 +221,7 @@ class ForumObject extends Object
 			$q = "INSERT INTO frm_threads ";
 			$q .= "(thr_top_fk,thr_usr_id,thr_subject,thr_date,thr_update,thr_num_posts,thr_last_post,visits) ";
 			$q .= "VALUES ";
-			$q .= "('".$new_top_pk."','".$thrData["thr_usr_id"]."','".$thrData["thr_subject"]."','".$thrData["thr_date"]."','".$thrData["thr_update"]."','".$thrData["thr_num_posts"]."','".$thrData["thr_last_post"]."','".$thrData["visits"]."')";
+			$q .= "('".$new_top_pk."','".$thrData["thr_usr_id"]."','".addslashes($thrData["thr_subject"])."','".$thrData["thr_date"]."','".$thrData["thr_update"]."','".$thrData["thr_num_posts"]."','".$thrData["thr_last_post"]."','".$thrData["visits"]."')";
 			$this->ilias->db->query($q);
 			
 			// get last insert id and return it
@@ -238,7 +238,7 @@ class ForumObject extends Object
 				$q2 = "INSERT INTO frm_posts ";
 				$q2 .= "(pos_top_fk,pos_thr_fk,pos_usr_id,pos_message,pos_date,pos_update) ";
 				$q2 .= "VALUES ";
-				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".$posData["pos_message"]."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
+				$q2 .= "('".$new_top_pk."','".$new_thr_pk."','".$posData["pos_usr_id"]."','".addslashes($posData["pos_message"])."','".$posData["pos_date"]."','".$posData["pos_update"]."')";
 				$this->ilias->db->query($q2);
 				
 				// get last insert id and return it
