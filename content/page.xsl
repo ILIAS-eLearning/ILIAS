@@ -62,8 +62,39 @@
 			</div>
 		</xsl:for-each>
 	</xsl:if>
+    
+	<!-- Pageturn List -->
+	<xsl:if test="count(//PageTurn) > 0">
+		<hr />
+		<xsl:for-each select="//PageTurn">
+			<div class="ilc_PageTurn">
+			<a>
+			<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>
+			<span class="ilc_Strong">[<xsl:number count="PageTurn" level="any"/>.pageturn] </span>
+			</a>
+            <xsl:call-template name="searchEdition">
+                <xsl:with-param name="Entry">
+                    <xsl:value-of select="./BibItemIdentifier/@Entry"/>
+                </xsl:with-param>
+            </xsl:call-template>
+			</div>
+		</xsl:for-each>
+	</xsl:if>
+    
 </xsl:template>
 
+<!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
+<xsl:template name="searchEdition">
+    <xsl:param name="Entry"/>
+    <xsl:for-each select="//Bibliography/BibItem">
+        <xsl:if test="./Identifier/@Entry=$Entry">
+            <xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
+        </xsl:if>
+    </xsl:for-each>
+</xsl:template>
+
+<!-- Bibliography-Tag nie ausgeben -->
+<xsl:template match="Bibliography"/>
 
 <!-- PageContent -->
 <xsl:template match="PageContent">
@@ -138,6 +169,11 @@
 
 <!-- Footnote (Links) -->
 <xsl:template match="Footnote"><a class="ilc_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
+	</a>
+</xsl:template>
+
+<!-- PageTurn (Links) -->
+<xsl:template match="PageTurn"><a class="ilc_PageTurnLink"><xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:number count="PageTurn" level="any"/>.pageturn]
 	</a>
 </xsl:template>
 
