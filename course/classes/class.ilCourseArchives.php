@@ -115,6 +115,14 @@ class ilCourseArchives
 		return $this->archive_name;
 	}
 
+	function getArchiveFile($a_id)
+	{
+		$archive = $this->getArchive($a_id);
+		$this->initCourseFilesObject();
+
+		return $this->course_files_obj->getArchiveFile($archive['archive_name']);
+	}
+
 	function addXML()
 	{
 		$this->setType($this->ARCHIVE_XML);

@@ -609,6 +609,40 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	function downloadArchivesObject()
+	{
+		global $rbacsystem;
+
+		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
+
+		// MINIMUM ACCESS LEVEL = 'write'
+		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_POST['archives']))
+		{
+			sendInfo($this->lng->txt('crs_no_archive_selected'));
+			$this->archiveObject();
+
+			return false;
+		}
+		if(count($_POST['archives']) > 1)
+		{
+			sendInfo($this->lng->txt('crs_select_one_archive'));
+			$this->archiveObject();
+
+			return false;
+		}
+
+		$this->object->initCourseArchiveObject();
+		
+		$abs_path = $this->object->archives_obj->getArchiveFile((int) $_POST['archives'][0]);
+		$basename = basename($abs_path);
+
+		ilUtil::deliverFile($abs_path,$basename);
+	}
 
 	function deleteArchivesObject()
 	{
@@ -1973,6 +2007,12 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("BTN_NAME","deleteArchives");
 		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
 		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","downloadArchives");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("download"));
+		$tpl->parseCurrentBlock();
+
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
