@@ -92,6 +92,27 @@ class ilObjMediaObject extends ilObject
 		return $this->meta_data;
 	}
 
+	function create()
+	{
+		parent::create();
+
+		// create meta data
+//echo "<b>CREATING OBJMEDIA</b>:".$this->getId().":<br>";
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->create();
+	}
+
+	function update()
+	{
+		parent::update();
+
+		// create meta data
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->update();
+	}
+
 
 } // END class.ilObjMediaObject
 ?>

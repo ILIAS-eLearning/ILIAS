@@ -253,7 +253,7 @@ class ilLMParser extends ilSaxParser
 
 			case "MediaAlias":
 				$this->media_object->setAlias(true);
-				$this->page_object->setOriginID($a_attribs["OriginId"]);
+				$this->media_object->setOriginID($a_attribs["OriginId"]);
 				break;
 
 			case "Layout":
@@ -289,6 +289,7 @@ class ilLMParser extends ilSaxParser
 				}
 				else
 				{
+//echo "assigning meta data to media object";
 					$this->media_object->assignMetaData($this->meta_data);
 				}
 				break;
@@ -309,8 +310,8 @@ class ilLMParser extends ilSaxParser
 
 			// TECHNICAL
 			case "Technical":
-				$this->meta_technical =& new ilMetaTechnical();
-				$this->meta_data->addTechnicalSection();
+				$this->meta_technical =& new ilMetaTechnical($this->meta_data);
+				$this->meta_data->addTechnicalSection($this->meta_technical);
 				$this->meta_technical->setFormat($a_attribs["Format"]);
 				break;
 
@@ -426,18 +427,35 @@ class ilLMParser extends ilSaxParser
 			case "MediaObject":
 				$this->in_media_object = false;
 
-				// create media object on first time
+				// create media object on first occurence of an OriginId
 				if(empty($this->mob_mapping[$this->media_object->getOriginId()]))
 				{
+					if ($this->media_object->isAlias())
+					{
+						// this data will be overwritten by the "real" mob
+						// see else section below
+						$dummy_meta =& new ilMetaData();
+						$this->media_object->assignMetaData($dummy_meta);
+						$this->media_object->setTitle("dummy");
+						$this->media_object->setDescription("dummy");
+					}
 					$this->media_object->create();
 					$this->mob_mapping[$this->media_object->getOriginId()]
 							= $this->media_object->getId();
 				}
-
-				// update "real" (no alias) media object
-				if (!$this->media_object->isAlias())
+				else
 				{
-					$this->media_object->update();
+					// update "real" (no alias) media object
+					// (note: we overwrite any data from the dummy mob
+					// created by an MediaAlias, only the data of the real
+					// object is stored in db separately; data of the
+					// MediaAliases are within the page XML
+					if (!$this->media_object->isAlias())
+					{
+//echo "<b>REAL UPDATING STARTS HERE</b><br>";
+						$this->media_object->setId($this->mob_mapping[$this->media_object->getOriginId()]);
+						$this->media_object->update();
+					}
 				}
 
 				// append media alias to page, if we are in a page

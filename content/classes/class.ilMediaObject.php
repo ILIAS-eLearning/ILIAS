@@ -45,9 +45,11 @@ class ilMediaObject extends ilObjMediaObject
 	var $width;
 	var $height;
 	var $parameters;
+	/*
 	var $mime;
 	var $file;
-	var $caption;
+	var $caption;*/
+	var $halign;
 
 	/**
 	* Constructor
@@ -151,6 +153,7 @@ class ilMediaObject extends ilObjMediaObject
 		$this->height = $a_height;
 	}
 
+	/*
 	function setMime($a_mime)
 	{
 		$this->mime = $a_mime;
@@ -179,6 +182,16 @@ class ilMediaObject extends ilObjMediaObject
 	function getCaption()
 	{
 		return $this->caption;
+	}*/
+
+	function setHAlign($a_halign)
+	{
+		$this->halign = $a_halign;
+	}
+
+	function getHAlign()
+	{
+		return $this->halign;
 	}
 
 
@@ -207,20 +220,47 @@ class ilMediaObject extends ilObjMediaObject
 	}
 
 	/**
-	* create
+	* create media object in db
 	*/
 	function create()
 	{
-		$this->setTitle("dummy");
-		$this->setDescription("dummy");
+		// create mob
 		parent::create();
-		$query = "INSERT INTO media_object (id, width, height, mime, file, caption) VALUES ".
+		$query = "INSERT INTO media_object (id, width, height, halign) VALUES ".
 			"('".$this->getId()."','".$this->getWidth()."','".$this->getHeight().
-			"','".$this->getMIME()."','".$this->getFile()."','".$this->getCaption()."')";
+			"','".$this->getHAlign()."')";
+		$this->ilias->db->query($query);
+
+		// create mob parameters
+		foreach($this->parameters as $name => $value)
+		{
+			$query = "INSERT INTO mob_parameter(mob_id, name, value) VALUES ".
+				"('".$this->getId()."', '$name','$value')";
+			$this->ilias->db->query($query);
+		}
+	}
+
+	/**
+	* update media object in db
+	*/
+	function update()
+	{
+		// update mob
+		parent::update();
+		$query = "UPDATE media_object SET ".
+			" width = '".$this->getWidth."',".
+			" height = '".$this->getHeight."',".
+			" halign = '".$this->getHAlign."' ".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+//echo "<b>".$query."</b>";
+
+		// update mob parameters
+		$query = "DELETE FROM mob_parameter WHERE mob_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 		foreach($this->parameters as $name => $value)
 		{
-			$query = "REPLACE INTO mob_parameter(mob_id, name, value) VALUES ".
+			$query = "INSERT INTO mob_parameter(mob_id, name, value) VALUES ".
 				"('".$this->getId()."', '$name','$value')";
 			$this->ilias->db->query($query);
 		}
