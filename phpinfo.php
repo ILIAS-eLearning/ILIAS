@@ -32,7 +32,7 @@
 
 require_once "./include/inc.header.php";
 
-if ($_SESSION["AccountId"] == SYSTEM_ROLE_ID)
+if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 {
 	phpinfo();
 }
