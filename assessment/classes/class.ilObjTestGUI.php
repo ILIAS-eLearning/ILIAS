@@ -142,7 +142,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$returnlocation = "adm_object.php";
 		}
-		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 
@@ -682,7 +682,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -1516,7 +1516,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_GET["eqid"] and $_GET["eqpl"])
 		{
-			header("Location:questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+			ilUtil::redirect("questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForTest&calling_test=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
 		
 		if ($_GET["up"] > 0)
@@ -1625,8 +1625,7 @@ class ilObjTestGUI extends ilObjectGUI
 					// create a new question pool and return the reference id
 					$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
 				}
-	//			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
-				header("Location:questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
+				ilUtil::redirect("questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
 				exit();
 			}
 		}
@@ -1955,7 +1954,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["cancel"]) {
 			sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -2047,7 +2046,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("test_cancelled"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		
