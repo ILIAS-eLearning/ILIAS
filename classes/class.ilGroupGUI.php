@@ -2002,7 +2002,7 @@ class ilGroupGUI extends ilObjectGUI
 //		$this->prepareOutput(false, $tab);
 		$this->prepareOutput(false, 0);
 
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
