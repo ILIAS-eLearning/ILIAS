@@ -144,9 +144,6 @@ class ilGroupListGUI
 
 		global  $tree, $rbacsystem;
 		
-		echo"SESSION:";print_r($_SESSION);echo"<br>";
-		echo"GET:";print_r($_GET);echo"<br>";
-
 		require_once "./include/inc.header.php";
 		require_once "./classes/class.ilExplorer.php";
 		require_once "./classes/class.ilTableGUI.php";
