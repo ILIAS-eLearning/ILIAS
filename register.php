@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -32,6 +32,7 @@
 */
 
 require_once "include/inc.header.php";
+require_once "classes/class.ilUserAgreement.php";
 
 // catch hack attempts
 if (!$ilias->getSetting("enable_registration") or AUTH_CURRENT != AUTH_LOCAL)
@@ -508,7 +509,7 @@ function displayForm()
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
-	$tpl->setVariable("AGREEMENT", getUserAgreement());
+	$tpl->setVariable("AGREEMENT", ilUserAgreement::_getText());
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
     $tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement") . '<span class="asterisk">*</span>');
 
@@ -516,56 +517,5 @@ function displayForm()
 
 }
 
-function getUserAgreement()
-{
-	global $lng, $ilias, $ilLog;
-
-	$tmpPath = getcwd();
-	$tmpsave = getcwd();
-	$agrPath = $tmpPath."/agreement";
-	chdir($agrPath);
-
-	$agreement = "agreement_".$lng->lang_key.".html";
-
-	// fallback to default language if selected translated user agreement of selected language was not found
-	if (!file_exists($agreement))
-	{
-		$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (user language).");
-		$agreement = "agreement_".$lng->lang_default.".html";
-	}
-	
-	// fall back to english if user agreement of selected language and
-	// user agreement of system language were not found
-	if (!file_exists($agreement))
-	{
-		$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (system language).");
-		$agreement = "agreement_en.html";
-	}
-
-	
-	if (file_exists($agreement))
-	{
-		if ($content = file($agreement))
-		{
-			foreach ($content as $key => $val)
-			{
-				$text .= trim(nl2br($val));
-			}
-			chdir($tmpsave);
-			return $text;
-		}
-		else
-		{
-			$ilias->raiseError($lng->txt("usr_agreement_empty"),$ilias->error_obj->MESSAGE);
-		}
-	}
-	else
-	{
-		$ilias->raiseError($lng->txt("file_not_found").": ".$agreement,
-			$ilias->error_obj->MESSAGE);
-	}
-	
-	chdir($tmpsave);
-}
 ?>
 

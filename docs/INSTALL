@@ -1000,8 +1000,13 @@ must be specified in the ILIAS 3 system settings.
     Every ILIAS user that registers to the system must confirm a user
     agreement. You should set up your own agreement text by editing the files
     that are provided in the agreement/ directory of ILIAS. You can add
-	additional language versions by creating files following the format
-	agreement_<langcode>.html.
+    additional language versions by creating files following the format
+    agreement_<langcode>.html. If you want to provide independent agreement
+    texts for certain clients, you can do this by creating a directory
+    agreement in your client data directory
+    '<ILIAS_ROOT_DIR>/data/<CLIENT_ID>/agreement' and to provide agreement
+    files within this directory, following the naming convention above, i.e.
+    '<ILIAS_ROOT_DIR>/data/<CLIENT_ID>/agreement/agreement_<langcode>.html'.
 
 (e) Settting up the chat server
 

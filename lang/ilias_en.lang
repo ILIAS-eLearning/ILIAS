@@ -2354,6 +2354,7 @@ common#:#time_limits#:#Access
 common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
+common#:#client#:#Client
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
