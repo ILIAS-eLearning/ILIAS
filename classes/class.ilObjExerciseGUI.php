@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.3 2003/12/16 15:53:43 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.4 2003/12/18 14:24:30 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -304,6 +304,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 	}
 	function updateMembersObject()
 	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		switch($_POST["action"])
 		{
 			case "save_status":
@@ -331,6 +338,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 	function membersObject()
 	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->getTemplateFile("members","exc");
 
 		if(!count($this->object->members_obj->getMembers()))
@@ -367,6 +381,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 	}
 	function newMembersObject()
 	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// SEARCH CANCELED
 		if(isset($_POST["cancel"]))
 		{
