@@ -165,6 +165,7 @@ assessment#:#ects_use_fx_grade#:#Use la nota 'FX', if failed participants reache
 assessment#:#ects_use_fx_grade_part2#:#porcentaje de los puntos totales.
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
 assessment#:#error_image_upload_wrong_format#:#Por favor cargue un fichero de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
 assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta(s) desde el fichero seleccionado!
@@ -633,6 +634,7 @@ common#:#alm_leave#:#Darse de baja del Módulo de aprendizaje AICC
 common#:#alm_read#:#Acceso de lectura al Módulo de aprendizaje AICC
 common#:#alm_visible#:#Módulo de aprendizaje AICC visible
 common#:#alm_write#:#Editar Módulo de aprendizaje AICC
+common#:#already_delivered_files#:#Already delivered files###19 Oct 2004 new variable
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios

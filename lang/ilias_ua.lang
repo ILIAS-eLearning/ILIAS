@@ -111,8 +111,8 @@ assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new varia
 assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
 assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Питання
-assessment#:#available_points#:#Доступні пункти
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
+assessment#:#available_points#:#Доступні пункти
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
 assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
@@ -168,6 +168,7 @@ assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень,
 assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
 assessment#:#end_tag#:#Кігцевий тег
 assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!
 assessment#:#error_image_upload_wrong_format#:#Будь ласка завантажте дійсний файл с зображенням! Графічні формати що підтримуються є gif, jpeg and png.
 assessment#:#error_importing_question#:#Відбулась помилка при імпорті питань з вибраного вами файлу!

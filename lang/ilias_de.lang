@@ -168,6 +168,7 @@ assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgef
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
 assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
@@ -1279,8 +1280,8 @@ common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
-common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
+common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
 common#:#in#:#in

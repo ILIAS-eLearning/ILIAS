@@ -168,6 +168,7 @@ assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che fallisc
 assessment#:#ects_use_fx_grade_part2#:#percentuale dei punti totali.
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
 assessment#:#error_image_upload_wrong_format#:#Per favore indica un formato di immagine valida! I formati consentiti sono gif, jpeg e png.
 assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!

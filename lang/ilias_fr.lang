@@ -34,7 +34,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analyser l'intégrité des données
 administration#:#analyze_desc#:#Recherche des objets  corrompus/invalides/absents/orphelins dans le système
 administration#:#analyzing#:#Analyse en cours...
 administration#:#clean#:#Nettoyage
@@ -86,7 +85,6 @@ administration#:#stop_scan#:#Arrêter
 administration#:#systemcheck#:#Vérification du système
 administration#:#view_last_log#:#Voir la dernière analyse du journal
 administration#:#view_log#:#Voir
-détails
 assessment#:#0_unlimited#:#(0 = illimité)
 assessment#:#add_answer#:#Ajouter réponse
 assessment#:#add_answer_tf#:#Ajouter réponses vrai/faux
@@ -161,6 +159,7 @@ assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants on
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
@@ -187,7 +186,6 @@ assessment#:#fill_out_all_matching_pairs#:#Veuillez renseigner tous les appariem
 assessment#:#fill_out_all_required_fields_add_answer#:#Veuillez remplir tous les champs obligatoires avant d'ajouter des réponses !
 assessment#:#fill_out_all_required_fields_add_matching#:#Veuillez remplir tous les champs obligatoires avant d'ajouter un appariement
 assessment#:#fill_out_all_required_fields_create_gaps#:#Veuillez
- remplir tous les champs obligatoires avant d'ajouter une lacune
 assessment#:#fill_out_all_required_fields_upload_image#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images.
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images réactives.
 assessment#:#fill_out_all_required_fields_upload_material#:#Veuillez remplir tous les champs obligatoires avant de télécharger des matériaux
@@ -264,7 +262,6 @@ assessment#:#qt_javaapplet#:#Question d'applet Java
 assessment#:#qt_matching#:#Question d'appariement
 assessment#:#qt_multiple_choice_mr#:#Question à choix multiple (réponse multiple)
 assessment#:#qt_multiple_choice_sr#:#Question
- à choix multiple (réponse unique)
 assessment#:#qt_ordering#:#Question de remise en ordre
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_short#:#Q
@@ -2944,6 +2941,7 @@ dateplaner#:#today#:#aujourd'hui
 dateplaner#:#viewlist#:#Voir
 dateplaner#:#week#:#semaine
 dateplaner#:#year#:#année 
+détails
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_attachments#:#Attachements

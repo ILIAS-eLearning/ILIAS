@@ -110,8 +110,8 @@ assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new varia
 assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
 assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Pytania
-assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
+assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj test
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień dla eksportu testu!
@@ -165,6 +165,7 @@ assessment#:#ects_use_fx_grade#:#Użyj oceny 'FX', przy braku zaliczenia
 assessment#:#ects_use_fx_grade_part2#:#procent ogólnej punktacji.
 assessment#:#end_tag#:#Znacznik Końca
 assessment#:#ending_time_reached#:#Przekroczyłeś czas wykonania
+assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Błąd przy przesuwaniu załadowanego obrazka do jego folderu docelowego!
 assessment#:#error_image_upload_wrong_format#:#Załaduj plik obrazka! Obsługiwane formaty to gif, jpeg i png.
 assessment#:#error_importing_question#:#Przy imporcie pytań z wybranego pliku powstał błąd!
