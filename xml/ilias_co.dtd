@@ -447,7 +447,7 @@
 <!ATTLIST Booktitle
 	Language (%langcode;) #REQUIRED
 >
-<!ELEMENT CrossRef (#PCDATA | IntLink)>
+<!ELEMENT CrossRef (#PCDATA)>
 <!ELEMENT Edition (#PCDATA)>
 <!ELEMENT Editor (#PCDATA)>
 <!ELEMENT HowPublished EMPTY>
