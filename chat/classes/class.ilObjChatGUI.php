@@ -526,7 +526,6 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		$tmp_tpl->setVariable("CHAT_DATE",strftime("%c",time()));
 		$tmp_tpl->setVariable("CONTENT",$this->object->chat_room->getAllMessages());
-		
 		ilUtil::deliverData($tmp_tpl->get(),"1.html");
 		exit;
 	}
