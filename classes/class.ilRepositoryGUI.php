@@ -1417,7 +1417,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			$num = 0;
 			global $ilDB;
 			foreach ($tests as $key => $tst_data) {
-				$q = sprintf("SELECT complete FROM tst_tests WHERE ref_fi=%s",
+				$q = sprintf("SELECT * FROM tst_tests WHERE ref_fi=%s",
 					$ilDB->quote($tst_data["ref_id"])
 				);
 				$result = $ilDB->query($q);
@@ -1425,13 +1425,24 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 					$tests[$key]["complete"] = $row->complete;
 				}
+				if ($row->test_type_fi == 1) {
+					// assessment test. check starting time
+					if ($row->starting_time) {
+						preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $row->starting_time, $matches);
+						$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+						$now = mktime();
+						if ($now < $epoch_time) {
+							$tests[$key]["starting_time_not_reached"] = 1;
+						}
+					}
+				}
 			}
 			
 			foreach ($tests as $tst_data)
 			{
           $obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
 
-				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]) and ($tst_data["complete"]))
+				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]) and ($tst_data["complete"]) and ($tst_data["starting_time_not_reached"] != 1))
 				{
 					$tpl->setCurrentBlock("tst_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
