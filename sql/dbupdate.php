@@ -495,3 +495,53 @@ $this->db->query($query);
 
 <#51>
 ALTER TABLE rbac_ua DROP COLUMN default_role;
+
+<#52>
+<?php
+// change author role to template
+// first move all assigned users from author to guest role
+$query = "SELECT usr_id FROM rbac_ua WHERE rol_id='3'";
+$res = $this->db->query($query);
+
+$users = array();
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$users[] = $row->usr_id;
+}
+
+foreach ($users as $key => $id)
+{
+	$query = "SELECT * FROM rbac_ua WHERE usr_id='".$id."' AND rol_id='5'";
+	$res = $this->db->query($query);
+
+	if (!$res->numRows())
+	{
+		$query = "INSERT INTO rbac_ua (usr_id,rol_id) ".
+    			 "VALUES ".
+				 "('".$id."','5')";
+		$this->db->query($query);
+	}
+}
+
+// change object type of author from role to rolt
+$query = "UPDATE object_data SET type='rolt', description='Role template for authors with write & create permissions.' WHERE obj_id='3'";
+$this->db->query($query);
+
+// change assign status
+$query = "UPDATE rbac_fa SET assign='n' WHERE rol_id='3' AND parent='8'";
+$this->db->query($query);
+
+// remove invalid datas
+$query = "DELETE FROM rbac_fa WHERE rol_id='3' AND parent!='8'";
+$this->db->query($query);
+
+$query = "DELETE FROM rbac_templates WHERE rol_id='3' AND parent!='8'";
+$this->db->query($query);
+
+$query = "DELETE FROM rbac_ua WHERE rol_id='3'";
+$this->db->query($query);
+?>
+
+<#53>
+UPDATE object_data SET title='User', description='Standard role for registered users. Grants read access to most objects.' WHERE obj_id='4';
