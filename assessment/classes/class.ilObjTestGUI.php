@@ -143,18 +143,23 @@ class ilObjTestGUI extends ilObjectGUI
 					0
 				);
 			}
-			if (!$_POST["chb_processing_time"]) {
+			if ($_POST["chb_processing_time"]) {
+				$data["enable_processing_time"] = "1";
+			} else {
+				$data["enable_processing_time"] = "0";
+			}
+			if ($_POST["processing_time"]["s"]) {
+				$data["processing_time"] = sprintf("%02d:%02d:%02d",
+					$_POST["processing_time"]["h"],
+					$_POST["processing_time"]["m"],
+					$_POST["processing_time"]["s"]
+				);
+			} else {
 				$proc_time = $this->object->get_estimated_working_time();
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$proc_time["h"],
 					$proc_time["m"],
 					$proc_time["s"]
-				);
-			} else {
-				$data["processing_time"] = sprintf("%02d:%02d:%02d",
-					$_POST["processing_time"]["h"],
-					$_POST["processing_time"]["m"],
-					$_POST["processing_time"]["s"]
 				);
 			}
 			if (!$_POST["chb_reporting_date"]) {
@@ -177,12 +182,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["score_reporting"] = $this->object->get_score_reporting();
 			$data["reporting_date"] = $this->object->get_reporting_date();
 			$data["nr_of_tries"] = $this->object->get_nr_of_tries();
-			$proc_time = $this->object->get_estimated_working_time();
-			$data["processing_time"] = sprintf("%02d:%02d:%02d",
-				$proc_time["h"],
-				$proc_time["m"],
-				$proc_time["s"]
-			);
+			$data["enable_processing_time"] = $this->object->get_enable_processing_time();
+			$data["processing_time"] = $this->object->get_processing_time();
+			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0) {
+				$proc_time = $this->object->get_estimated_working_time();
+				$data["processing_time"] = sprintf("%02d:%02d:%02d",
+					$proc_time["h"],
+					$proc_time["m"],
+					$proc_time["s"]
+				);
+			}
 			$data["starting_time"] = $this->object->get_starting_time();
 		}
 		$data["title"] = $this->object->getTitle();
@@ -196,9 +205,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->set_score_reporting($data["score_reporting"]);
 		$this->object->set_reporting_date($data["reporting_date"]);
 		$this->object->set_nr_of_tries($data["nr_of_tries"]);
-		$this->object->set_processing_time($data["processing_time"]);
 		$this->object->set_starting_time($data["starting_time"]);
-//		$this->object->set_processing_time($data["processing_time"]);
+		$this->object->set_processing_time($data["processing_time"]);
+		$this->object->set_enable_processing_time($data["enable_processing_time"]);
     $add_parameter = $this->get_add_parameter();
     if ($_POST["cmd"]["save"]) {
 			$this->updateObject();
@@ -312,8 +321,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
 		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
-		$time_input = ilUtil::makeTimeSelect("max_processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
+		$time_input = ilUtil::makeTimeSelect("processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
 		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
+		if ($data["enable_processing_time"]) {
+			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
+		}
 		
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));

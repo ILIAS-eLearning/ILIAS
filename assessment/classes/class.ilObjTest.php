@@ -191,14 +191,22 @@ class ilObjTest extends ilObject
   var $nr_of_tries;
 
 /**
-* The maximum processing time in seconds
+* The maximum processing time as hh:mm:ss string
 * 
-* The maximum processing time in seconds the user is allowed to do. If set to 0, the user has
-* no time limitations.
+* The maximum processing time as hh:mm:ss string the user is allowed to do.
 *
 * @var integer
 */
   var $processing_time;
+	
+/**
+* The state of the processing time
+* 
+* Contains 0 if the processing time is disabled, 1 if the processing time is enabled
+*
+* @var integer
+*/
+	var $enable_processing_time;
 
 /**
 * The starting time of the test
@@ -241,7 +249,8 @@ class ilObjTest extends ilObject
     $this->reporting_date = "";
     $this->nr_of_tries = 0;
     $this->starting_time = "";
-    $this->processing_time = 0;
+    $this->processing_time = "00:00:00";
+		$this->enable_processing_time = "0";
     $this->test_type = TYPE_ASSESSMENT;
     $this->test_formats = 7;
     $this->mark_schema = new ASS_MarkSchema();
@@ -577,7 +586,7 @@ class ilObjTest extends ilObject
       $id = $db->nextId('tst_tests');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
 				$db->quote($this->getRefId()),
         $db->quote($this->author), 
@@ -586,7 +595,8 @@ class ilObjTest extends ilObject
         $db->quote($this->sequence_settings),
         $db->quote($this->score_reporting),
         $db->quote(sprintf("%d", $this->nr_of_tries)),
-        $db->quote(sprintf("%d", $this->processing_time)),
+        $db->quote($this->processing_time),
+				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
 				$db->quote("$complete"),
@@ -598,14 +608,15 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, reporting_date = %s, starting_time = %s, complete = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
         $db->quote($this->sequence_settings), 
         $db->quote($this->score_reporting), 
         $db->quote(sprintf("%d", $this->nr_of_tries)), 
-        $db->quote(sprintf("%d", $this->processing_time)), 
+        $db->quote($this->processing_time),
+				$db->quote("$this->enable_processing_time"),
         $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
 				$db->quote("$complete"),
@@ -646,6 +657,7 @@ class ilObjTest extends ilObject
         $this->score_reporting = $data->score_reporting;
         $this->nr_of_tries = $data->nr_of_tries;
         $this->processing_time = $data->processing_time;
+				$this->enable_processing_time = $data->enable_processing_time;
 				$this->reporting_date = $data->reporting_date;
         $this->starting_time = $data->starting_time;
 
@@ -922,6 +934,19 @@ class ilObjTest extends ilObject
   }
 
 /**
+* Returns the state of the processing time (enabled/disabled)
+* 
+* Returns the state of the processing time (enabled/disabled)
+*
+* @return integer The processing time state (0 for disabled, 1 for enabled)
+* @access public
+* @see $processing_time
+*/
+  function get_enable_processing_time() {
+    return $this->enable_processing_time;
+  }
+
+/**
 * Returns the starting time of the test
 * 
 * Returns the starting time of the test
@@ -950,15 +975,32 @@ class ilObjTest extends ilObject
 /**
 * Sets the processing time for the test
 * 
-* Sets the processing time in seconds for the test
+* Sets the processing time for the test
 *
-* @param integer $processing_time The maximum processing time for the test. 0 for no time limitation.
+* @param string $processing_time The maximum processing time for the test given in hh:mm:ss
 * @access public
 * @see $processing_time
 */
-  function set_processing_time($processing_time = 0) {
+  function set_processing_time($processing_time = "00:00:00") {
     $this->processing_time = $processing_time;
   }
+	
+/**
+* Sets the processing time enabled or disabled
+* 
+* Sets the processing time enabled or disabled
+*
+* @param integer $enable 0 to disable the processing time, 1 to enable the processing time
+* @access public
+* @see $processing_time
+*/
+	function set_enable_processing_time($enable = 0) {
+		if ($enable) {
+			$this->enable_processing_time = "1";
+		} else {
+			$this->enable_processing_time = "0";
+		}
+	}
 
 /**
 * Sets the starting time for the test
