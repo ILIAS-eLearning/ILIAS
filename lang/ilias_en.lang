@@ -89,6 +89,7 @@ assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
+assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_question_title#:#Title
