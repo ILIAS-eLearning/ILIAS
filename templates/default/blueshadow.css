@@ -277,6 +277,29 @@ input.submit {
 	cursor:pointer;
 }
 
+input.ilEditSubmit {
+	background-color:#ffffff;
+	color:#2255a0;
+	border-width:1px;
+	border-color:#bbbbbb;
+	border-style:outset;
+	padding:1px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+input.ilEditHelpline {
+	background-color:#dddddd;;
+	border-style:none;
+	padding:4px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+}
+
 input.tblrow1, input.tblrow2
 {
 	background-color:#ffffff;
@@ -296,7 +319,7 @@ textarea {
 	font-size:13px;
 }
 
-input.submit:hover {
+input.submit:hover, input.ilEditSubmit:hover {
 	color:#000000;
 }
 
@@ -306,6 +329,17 @@ input.submit:hover {
 	font-weight:bold;
 	text-align:center;
 }
+
+select.ilEditSelect {
+	background-color:#ffffff;
+	border-width:1px;
+	border-color:#bbbbbb;
+	padding:1px;
+	background-image: none;
+	text-decoration:none;
+	font-size:10px;
+}
+
 
 /* ------------------ tabs -------------- */
 .tab {

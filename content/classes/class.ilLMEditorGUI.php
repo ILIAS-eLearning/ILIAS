@@ -72,6 +72,10 @@ class ilLMEditorGUI
 		$this->obj_id = $_GET["obj_id"];
 
 		$cont_cnt = $_GET["cont_cnt"];		// Position of content object (starting with 1)
+		if(isset($_POST["new_cont_cnt"]))
+		{
+			$cont_cnt = $_POST["new_cont_cnt"];
+		}
 		$cmd = (empty($_GET["cmd"])) ? "frameset" : $_GET["cmd"];
 		if ($cmd == "post")
 		{
