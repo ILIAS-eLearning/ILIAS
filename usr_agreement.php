@@ -31,7 +31,7 @@ $tpl->parseCurrentBlock();
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_AGREEMENT", $lng->txt("usr_agreement"));
-$tpl->setVariable("TXT_USR_AGREEMENT", $lng->getUserAgreement()); 
+$tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement()); 
 $tpl->setVariable("TXT_ACCEPT", $lng->txt("accept_usr_agreement"));
 $tpl->setVariable("TXT_YES", $lng->txt("yes"));
 $tpl->setVariable("TXT_NO", $lng->txt("no"));
@@ -39,4 +39,33 @@ $tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
 
 $tpl->show();
 
+function getUserAgreement()
+{
+	global $lng, $ilias;
+	
+	$tmpPath = getcwd();
+	chdir($tmpPath."/agreement");
+
+	$agreement = "agreement_".$lng->lang_user.".html";
+	
+	if ($agreement)
+	{
+		if (file($agreement))
+		{
+			foreach ($agreement as $key => $val)
+			{
+				$text .= trim($val);
+			}
+			return $text;
+		}
+		else
+		{
+			$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
+		}
+	}
+	else
+	{
+		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
+	}	
+}
 ?>

@@ -12,7 +12,7 @@ require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
 // destroy possible setup session
-session_destroy();
+//session_destroy();
 
 //check for auth
 if ($ilias->auth->getAuth())
@@ -27,16 +27,11 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
 //language handling
 if ($_GET["lang"] == "")
 {
-	$lang = $ilias->ini->readVariable("language","default");
-}
-
-if ($lang == "")
-{
-	$lang = $ilias->ini->readVariable("language","default");
+	$_GET["lang"] = $ilias->ini->readVariable("language","default");
 }
 
 //instantiate language
-$lng = new Language($lang);
+$lng = new Language($_GET["lang"]);
 
 $languages = $lng->getInstalledLanguages();
 

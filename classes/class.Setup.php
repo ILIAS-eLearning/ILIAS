@@ -558,33 +558,16 @@ class Setup
 			$_POST["id"] = array();
 		}
 		
-		// remove previous checked (->installed) languages
-		$installed_langs = $this->getInstalledLanguages();
-		
-		if (count($installed_langs > 0))
-		{
-			foreach ($installed_langs as $lang_key)
-			{
-				if (!in_array($lang_key,$_POST["id"]))
-				{
-					$this->flushLanguage($lang_key);
-					$query = "DELETE FROM object_data ".
-							 "WHERE type = 'lng' ".
-							 "AND title = '".$lang_key."'";
-					$this->db->query($query);
-					
-					$action = true;
-				}
-			}
-		}
-
+		$this->flushLanguages();
+		$query = "DELETE FROM object_data ".
+				 "WHERE type = 'lng' ".
+				 "AND title != 'en'";
+		$this->db->query($query);
+			
 		foreach ($_POST["id"] as $lang_key => $lang_data)
 		{
 			if ($this->checkLanguage($lang_key))
 			{
-				// lang-file is ok. Flush data in db and...
-				$this->flushLanguage($lang_key);
-		
 				// ...re-insert data from lang-file
 				$this->insertLanguage($lang_key);
 	
@@ -699,9 +682,9 @@ class Setup
 	*
 	* @return	void
 	*/
-	function flushLanguage ($a_lang_key)
+	function flushLanguages ()
 	{
-		$query = "DELETE FROM lng_data WHERE lang_key='".$a_lang_key."'";
+		$query = "DELETE FROM lng_data WHERE lang_key !='en'";
 		$this->db->query($query);
 	}
 

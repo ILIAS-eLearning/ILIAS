@@ -65,15 +65,16 @@
 
 
 <!-- BEGIN begininstallation -->
-<h3>Setup Mainmenu</h3>
-<p>This is the main page of ILIAS3 setup. From here you can step through the installation.</p>
+<h3>{TXT_TITLE}</h3>
+<p>{TXT_SETUP_INTRO_INSTALL}</p>
 <table>
 
 <!-- BEGIN link -->
 <tr>
   <td>&nbsp;&nbsp;&nbsp;&nbsp;{NR}. </td>
-  <td><a href="{LINK}">[ {TXT_LINK} ]</a></td>
-  <td>{STATUS}</td>
+  <td><a href="{LINK}">&nbsp;[ {TXT_LINK} ]&nbsp;</a></td>
+  <td>&nbsp;{STATUS}&nbsp;</td>
+  <td>&nbsp;{TXT_REMARK}&nbsp;</td>
 </tr>
 <!-- END link -->
 
@@ -81,7 +82,7 @@
 
 <!-- BEGIN ready -->
 <div align="center">
-<p>Setup is ready. you may now proceed with the login and check further system settings.</p>
+<p>{TXT_SETUP_READY}</p>
 <p><a href="{LINK_LOGIN}">[ {TXT_LOGIN} ]</a></p>
 </div>
 <!-- END ready -->
@@ -168,7 +169,7 @@
 </tr>
 <!-- END language_row -->
 <tr>
-<td colspan="4"><input type="submit" name="submit" value="submit" /></td>
+<td colspan="4"><input type="submit" name="submit" value="{TXT_SUBMIT}" /></td>
 </tr>
 </table>
 </form>
@@ -186,7 +187,7 @@
 <h1>{TXT_PASSWORD6}</h1>
 <p>To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.</p>
 <form action="setup.php?step=7&amp;lang={LANG}" method="post">
-<p>Please choose a password: 
+<p>{TXT_CHOOSE_PASSWD}: 
 <input type="password" name="passwd" size="20"/>
 <input type="submit" name="ok" value="ok" />
 </p>
