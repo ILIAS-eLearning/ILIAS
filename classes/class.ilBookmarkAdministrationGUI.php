@@ -127,6 +127,7 @@ class ilBookmarkAdministrationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "usr_bookmarks.php?cmd=explorer&mexpand=".$_GET["mexpand"]);
 		$this->tpl->parseCurrentBlock();
@@ -194,6 +195,7 @@ class ilBookmarkAdministrationGUI
 
 		$objects = array();
 		$bookmarks = array();
+
 		foreach ($childs as $key => $child)
 		{
 			switch ($child["type"])
@@ -213,6 +215,7 @@ class ilBookmarkAdministrationGUI
 		}
 
 		$cnt = 0;
+
 		foreach ($objects as $key => $object)
 		{
 			// color changing
@@ -282,7 +285,8 @@ class ilBookmarkAdministrationGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		}
-		if(count($objects) == 0)
+
+		if (count($objects) == 0)
 		{
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("NUM_COLS", $num);
@@ -307,7 +311,7 @@ class ilBookmarkAdministrationGUI
 	*/
 	function add_cell($val, $link = "")
 	{
-		if(!empty($link))
+		if (!empty($link))
 		{
 			$this->tpl->setCurrentBlock("begin_link");
 			$this->tpl->setVariable("LINK_TARGET", $link);
@@ -329,7 +333,7 @@ class ilBookmarkAdministrationGUI
 	{
 		global $lng;
 
-		if(empty($this->id))
+		if (empty($this->id))
 		{
 			return;
 		}
@@ -347,6 +351,14 @@ class ilBookmarkAdministrationGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 
+			$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+			$this->tpl->touchBlock("locator_separator");
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
+			$this->tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+			$this->tpl->setVariable("LINK_TARGET","target=\"bottom\"");
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock("locator_item");
 			$title = ($row["child"] == 1) ?
 				$lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname() :
@@ -355,7 +367,6 @@ class ilBookmarkAdministrationGUI
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 			$this->tpl->setVariable("LINK_ITEM", "usr_bookmarks.php?bmf_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
-
 		}
 
 		/*

@@ -93,6 +93,21 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 // display infopanel if something happened
 infoPanel();
 
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->touchBlock("locator_separator");
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_profile"));
+$tpl->setVariable("LINK_ITEM", "usr_profile.php");
+$tpl->parseCurrentBlock();
+
 //add template for buttons
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 

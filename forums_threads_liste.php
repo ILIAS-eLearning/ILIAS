@@ -70,6 +70,7 @@ if (isset($_POST["cmd"]["submit"]))
 
 // ********************************************************************************
 // build location-links
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));

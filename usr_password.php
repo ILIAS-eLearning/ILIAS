@@ -33,6 +33,21 @@ require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
 
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->touchBlock("locator_separator");
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("chg_password"));
+$tpl->setVariable("LINK_ITEM", "usr_password.php");
+$tpl->parseCurrentBlock();
+
 // display infopanel if something happened
 infoPanel();
 

@@ -56,6 +56,13 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 				$tpl->setVariable("LINK_ITEM", "mail_new.php?mobj_id=$a_obj_id");
 				$tpl->parseCurrentBlock();
 				return true;
+				
+			case "mail_options.php":
+				$tpl->setCurrentBlock("locator_item");
+				$tpl->setVariable("ITEM", $lng->txt("mail_options_of"));
+				$tpl->setVariable("LINK_ITEM", "mail_options.php?mobj_id=$a_obj_id");
+				$tpl->parseCurrentBlock();
+				return true;
 		}
 		unset($path_full[0]);
 		foreach ($path_full as $key => $row)

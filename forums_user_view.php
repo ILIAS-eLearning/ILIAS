@@ -33,15 +33,27 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilForum.php";
 
-
-
 $lng->loadLanguageModule("forum");
 
 $frm = new ilForum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->touchBlock("locator_separator");
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
+$tpl->setVariable("LINK_ITEM", "forums.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("userdata"));
+$tpl->setVariable("LINK_ITEM", "");
+$tpl->setVariable("LINK_TARGET","target=\"bottom\"");
+$tpl->parseCurrentBlock();
 
 require_once ("classes/class.ilObjUserGUI.php");
 
