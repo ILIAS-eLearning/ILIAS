@@ -141,9 +141,7 @@ if ($script != "login.php" && $script != "index.php")
 		include("include/inc.mainmenu.php");
 	}
 }
-
 $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
 if ($mail_id = hasNewMail())
 {
 	$folder_id = getMailFolderId($mail_id);
