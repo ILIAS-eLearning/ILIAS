@@ -1623,12 +1623,6 @@ class ilSetupGUI extends ilSetup
 
 		$this->checkDisplayMode("setup_database");
 
-		include_once "../classes/class.ilDBUpdate.php";
-		include_once "../classes/class.ilRbacAdmin.php";
-		include_once "../classes/class.ilRbacReview.php";
-		include_once "../classes/class.ilRbacSystem.php";
-		include_once "../classes/class.ilTree.php";
-
 		// checkings
 		if ($_POST["form"]["db_flag"] == 1)
 		{
@@ -1666,6 +1660,14 @@ class ilSetupGUI extends ilSetup
 			}
 			else
 			{
+				include_once "../classes/class.ilDBUpdate.php";
+				include_once "../classes/class.ilRbacAdmin.php";
+				include_once "../classes/class.ilRbacReview.php";
+				include_once "../classes/class.ilRbacSystem.php";
+				include_once "../classes/class.ilTree.php";
+				include_once "../classes/class.ilSaxParser.php";
+				include_once "../classes/class.ilObjectDefinition.php";
+
 				// referencing db handler in language class
 				$this->lng->setDbHandler($this->client->db);
 

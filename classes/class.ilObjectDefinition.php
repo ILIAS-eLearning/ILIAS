@@ -32,8 +32,6 @@
 * @extends PEAR
 * @package ilias-core
 */
-require_once("classes/class.ilSaxParser.php");
-
 class ilObjectDefinition extends ilSaxParser
 {
 	/**
@@ -66,7 +64,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function ilObjectDefinition()
 	{
-		parent::ilSaxParser("./objects.xml");
+		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
 	}
 
 // PUBLIC METHODS
