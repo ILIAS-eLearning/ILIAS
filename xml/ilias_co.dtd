@@ -71,7 +71,7 @@
 <!-- MediaObject is not an alias -->
 <!-- Every MediaItem belongs to a corresponding format/location pair in the technical
 	 Section of Meta Data -->
-<!ELEMENT MediaItem (Layout?, Parameter*, MapArea*)>
+<!ELEMENT MediaItem (Layout?, Caption?, Parameter*, MapArea*)>
 <!ATTLIST MediaItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
@@ -402,7 +402,6 @@
 	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
 	Width CDATA #IMPLIED
 	Height CDATA #IMPLIED
-	Caption CDATA #IMPLIED
 >
 <!-- Parameter -->
 <!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
