@@ -976,6 +976,9 @@ class ilLMPresentationGUI
 		return $targets;
 	}
 
+	/**
+	* process <ilPage> content tag
+	*/
 	function ilPage(&$a_page_node)
 	{
 		global $ilBench;
@@ -1249,8 +1252,11 @@ class ilLMPresentationGUI
 			? "fullscreen"
 			: "media";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$fullscreen_link = "lm_presentation.php?cmd=fullscreen".
+			"&ref_id=".$this->lm->getRefId();
+
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
-			'link_params' => "ref_id=".$this->lm->getRefId(),
+			'link_params' => "ref_id=".$this->lm->getRefId(),'fullscreen_link' => $fullscreen_link,
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
