@@ -597,6 +597,8 @@ mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_saved#:#The message is saved
+mail#:#mail_search_addressbook#:#search in addressbook
+mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You have to select one entry
 mail#:#mail_select_one_file#:#You have to select one file
 mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
@@ -605,7 +607,5 @@ mail#:#mail_sure_delete_file#:#The file will be removed permanently
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
-mail#:#mail_search_addressbook#:#search in addressbook
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
-mail#:#mail_search_system#:#search in system

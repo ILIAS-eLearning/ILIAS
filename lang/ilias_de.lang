@@ -597,6 +597,8 @@ mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
+mail#:#mail_search_addressbook#:#im Addressbuch suchen
+mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
@@ -605,7 +607,5 @@ mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelös
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
 mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
-mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
-mail#:#mail_search_system#:#im System suchen
