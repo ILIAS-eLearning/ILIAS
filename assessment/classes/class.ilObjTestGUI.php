@@ -687,6 +687,7 @@ class ilObjTestGUI extends ilObjectGUI
 				// finish test
 				$this->object->set_active_test_user(1, "", true);
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
+				$this->out_test_results();
 				$this->tpl->setCurrentBlock("adm_content");
 				$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
 				$this->tpl->parseCurrentBlock();
@@ -694,6 +695,69 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
     
+/**
+* Output of the learners view of an existing test
+*
+* Output of the learners view of an existing test
+*
+* @access public
+*/
+  function out_test_results() {
+		global $ilUser;
+		$user_id = $ilUser->id;
+    $color_class = array("tblrow1", "tblrow2");
+    $counter = 0;
+    $total_max_points = 0;
+    $total_reached_points = 0;
+    $this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
+		$active = $this->object->get_active_test_user();
+		$sequence_array = split(",", $active->sequence);
+		$key = 1;
+    foreach ($sequence_array as $idx => $seq) {
+			$value = $this->object->questions[$seq];
+      $question_type = $this->object->get_question_type($value);
+      switch ($question_type) {
+        case "qt_cloze":
+          $question = new ASS_ClozeTest();
+          break;
+        case "qt_matching":
+          $question = new ASS_MatchingQuestion();
+          break;
+        case "qt_ordering":
+          $question = new ASS_OrderingQuestion();
+          break;
+        case "qt_multiple_choice_sr":
+        case "qt_multiple_choice_mr":
+          $question = new ASS_MultipleChoice();
+          break;
+      }
+      $question->load_from_db($value);
+      $this->tpl->setCurrentBlock("question");
+      $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+      $this->tpl->setVariable("VALUE_QUESTION_COUNTER", $key);
+      $this->tpl->setVariable("VALUE_QUESTION_TITLE", $question->get_title());
+      $max_points = $question->get_maximum_points();
+      $total_max_points += $max_points;
+      $this->tpl->setVariable("VALUE_MAX_POINTS", sprintf("%d", $max_points));
+      $reached_points = $question->get_reached_points($user_id, $this->object->get_test_id());
+      $total_reached_points += $reached_points;
+      $this->tpl->setVariable("VALUE_REACHED_POINTS", sprintf("%d", $reached_points));
+      $this->tpl->parseCurrentBlock();
+      $counter++;
+			$key++;
+    }
+    $this->tpl->setCurrentBlock("results");
+    $this->tpl->setVariable("QUESTION_COUNTER", "Question no.");
+    $this->tpl->setVariable("QUESTION_TITLE", "Question title");
+    $this->tpl->setVariable("MAX_POINTS", "Maximum points");
+    $this->tpl->setVariable("REACHED_POINTS", "Reached points");
+    $percentage = ($total_reached_points/$total_max_points)*100;
+    $mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
+    $mark = "<br>Your mark is: &quot;" . $mark_obj->get_official_name() . "&quot;";
+    $this->tpl->setVariable("USER_FEEDBACK", sprintf("You have reached $total_reached_points out of $total_max_points points, this is %2.2f percent of the test.$mark", $percentage));
+    $this->tpl->parseCurrentBlock();
+  }
+		
 	/**
 	* set Locator
 	*

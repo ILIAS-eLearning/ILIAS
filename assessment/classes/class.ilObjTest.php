@@ -1063,7 +1063,7 @@ class ilObjTest extends ilObject
   function get_question_type($question_id) {
     if ($question_id < 1)
       return -1;
-    $query = sprintf("SELECT type_tag FROM dum_assessment_questions, dum_question_type WHERE dum_assessment_questions.question_id = %s AND dum_assessment_questions.question_type_id = dum_question_type.question_type_id",
+    $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
       $this->ilias->db->db->quote($question_id)
     );
     $result = $this->ilias->db->db->query($query);
@@ -1075,72 +1075,6 @@ class ilObjTest extends ilObject
     }
   }
   
-  function get_resume_index() {
-    if ($this->test_type == TYPE_SELF_ASSESSMENT) {
-      $query = sprintf("SELECT * FROM dum_assessment_solutions WHERE user_fi = %s AND test_fi = %s",
-        $this->ilias->db->db->quote($this->ilias->account->id),
-        $this->ilias->db->db->quote($this->get_id())
-      );
-      $result = $this->ilias->db->query($query);
-      $index = -1;
-      while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        $found = array_search($data->question_fi, $this->questions);
-        if ($found > $index) $index = $found;
-      }
-      if (($index > 0) and ($index < count($this->questions))) {
-        $index++;
-      }
-      return $index;
-    } else {
-      return -1;
-    }
-  }
-
-  function check_tries($question_id) {
-    if ($this->get_nr_of_tries() == 0) return TRUE;
-    $query = sprintf("SELECT * FROM dum_assessment_solution_order WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->db->quote($this->ilias->account->id),
-      $this->ilias->db->db->quote($_GET["test"]),
-      $this->ilias->db->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-    if ($data->tries < $this->get_nr_of_tries()) {
-      return TRUE;
-    } else {
-      return FALSE;
-    }
-  }
-  
-  function get_first_question_id() {
-    foreach ($this->questions as $key => $value) {
-      if ($this->check_tries($value)) {
-        return $value;
-      }
-    }
-    return 0;
-  }
-  
-  function get_next_question_id($question_id) {
-    $start_key = array_search($question_id, $this->questions);
-    for ($i = $start_key + 1; $i < count($this->questions) + 1; $i++) {
-      if ($this->check_tries($this->questions[$i])) {
-        return $this->questions[$i];
-      }
-    }
-    return 0;
-  }
-
-  function get_previous_question_id($question_id) {
-    $start_key = array_search($question_id, $this->questions);
-    for ($i = $start_key - 1; $i > 0; $i--) {
-      if ($this->check_tries($this->questions[$i])) {
-        return $this->questions[$i];
-      }
-    }
-    return 0;
-  }
-	
 	function get_question_count ()
 	{
 		return count($this->questions);
