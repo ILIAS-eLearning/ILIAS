@@ -8,7 +8,7 @@
 * 
 * @package application
 */
-class Bookmarks
+class ilBookmark
 {
 	/**
 	* User Id
@@ -29,7 +29,7 @@ class Bookmarks
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function Bookmarks($a_user_id = 0)
+	function ilBookmark($a_user_id = 0)
 	{
 		global $ilias;
 		
