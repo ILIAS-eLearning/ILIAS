@@ -714,16 +714,17 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		switch($this->object->leaveGroup())
 		{
-			case 0: sendInfo($this->lng->txt("membership_annulled"),true);
+			case 0: sendInfo($this->lng->txt("grp_msg_membership_annulled"),true);
 				header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 				break;
-			case 1: sendInfo($this->lng->txt("at_least_one_groupadministrator_is_needed"),true);
+			case 1: sendInfo($this->lng->txt("grp_err_at_least_one_groupadministrator_is_needed"),true);
 				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 				break;
-			case 2: sendInfo($this->lng->txt("group_needs_to_be_deleted"),true);
+//			case 2: sendInfo($this->lng->txt("grp_errgroup_needs_to_be_deleted"),true);
+			case 2: sendInfo($this->lng->txt("grp_err_last_member"),true);
 				header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 				break;
-			default:sendInfo($this->lng->txt("an_error_occured"),true);
+			default:sendInfo($this->lng->txt("grp_err_error"),true);
 				header("Location: group.php?cmd=view&ref_id=".$this->ref_id);
 
 		}
