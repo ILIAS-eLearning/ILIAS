@@ -67,6 +67,7 @@ assessment#:#qpl_edit_select_multiple#:#Please check only one question for editi
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qt_cloze#:#Cloze Question
+assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)

@@ -1755,3 +1755,9 @@ CREATE TABLE `tst_tests` (
 ALTER  TABLE  `tst_mark`  ADD  `passed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `minimum_level` ;
 <#111>
 ALTER  TABLE  `qpl_questions`  ADD  `matching_type` ENUM(  '0',  '1'  )  AFTER  `end_tag` ;
+<#112>
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("6", "qt_imagemap");
+<#113>
+ALTER  TABLE  `qpl_questions`  ADD  `imagemap_file` VARCHAR( 100  )  AFTER  `materials` , ADD  `image_file` VARCHAR( 100  )  AFTER  `imagemap_file` ;
+<#114>
+ALTER  TABLE  `qpl_answers`  ADD  `coords` TEXT AFTER  `gap_id` , ADD  `area` VARCHAR( 20  )  AFTER  `coords` ;
