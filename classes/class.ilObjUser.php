@@ -1459,6 +1459,27 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* STATIC METHOD
+	* get all user logins
+	* @param	ilias object
+	* @static
+	* @return	array of logins
+	* @access	public
+	*/
+	function _getAllUserLogins(&$ilias)
+	{
+		$query = "SELECT login FROM usr_data ";
+
+		$res = $ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$logins[] = $row->login;
+		}
+		return $logins ? $logins : array();
+	}
+	
+
+	/**
 	* add an item to user's personal desktop
 	*
 	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
