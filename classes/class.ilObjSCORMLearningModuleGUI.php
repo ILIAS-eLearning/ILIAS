@@ -143,7 +143,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		chdir($cdir);
 
 		//validate the XML-Files in the SCORM-Package
-		$newObj->validate();
+		$newObj->validate($newObj->getDataDirectory());
 
 		// start SCORM package parser
 		include_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
