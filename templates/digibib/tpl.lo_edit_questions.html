@@ -8,24 +8,24 @@
     <br><form action="{FORMACTION}" method="post">
 
     <table cellpadding=2 cellspacing=0 border=0>
-    <tr>
-      <td class="tblheader" COLSPAN=2 align="center">{TXT_ID}</td>
-      <td class="tblheader" align="center">{TXT_TITLE}</td>
-      <td class="tblheader" align="center">{TXT_QUESTION}</td>
-      <td class="tblheader" align="center">#{TXT_TOTAL}</td>
-      <td class="tblheader" align="center">#</td>
-      <td class="tblheader" align="center">%</td>
-      <td class="tblheader" align="center">{TXT_LINKED_PAGES}</td>
+    <tr class="tblheader">
+      <td COLSPAN=2 align="center">{TXT_ID}</td>
+      <td align="center">{TXT_TITLE}</td>
+      <td align="center">{TXT_QUESTION}</td>
+      <td align="center">#{TXT_TOTAL}</td>
+      <td align="center">#</td>
+      <td align="center">%</td>
+      <td align="center">{TXT_LINKED_PAGES}</td>
     </tr>
     <!-- BEGIN row -->
-    <tr>
-      <td class="tblrow1" colspan=2 align="center">{ID}</td>
-      <td class="tblrow2" align="center">{TITLE}</td>
-      <td class="tblrow1" align="center">{QUESTION}</td>
-      <td class="tblrow2" align="center">#{TOTAL}</td>
-      <td class="tblrow1" align="center">#</td>
-      <td class="tblrow2" align="center">%</td>
-      <td class="tblrow1" align="center">{LINKED_PAGES}</td>
+    <tr class="{ROWCOL}">
+      <td colspan=2 align="center">{ID}</td>
+      <td align="center">{TITLE}</td>
+      <td align="center">{QUESTION}</td>
+      <td align="center">#{TOTAL}</td>
+      <td align="center">#</td>
+      <td align="center">%</td>
+      <td align="center">{LINKED_PAGES}</td>
     </tr>
     <!-- END row -->
     </table>

@@ -1258,7 +1258,6 @@ class ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$num = 0;
-		$color = 1;		// DigiLib-Template
 		foreach($data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
@@ -1269,20 +1268,17 @@ class ilObjectGUI
 			// BLOCK CHECK INHERIT
 			$this->tpl->setCurrentBLock("CHECK_INHERIT");
 			$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
-			$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 			$this->tpl->parseCurrentBlock();
 		}
 		$num = 0;
 
 		foreach($data["permission"] as $ar_perm)
 		{
-			$color = 1;		// DigiLib-Template
 			foreach ($ar_perm["values"] as $box)
 			{
 				// BEGIN TABLE CHECK PERM
 				$this->tpl->setCurrentBlock("CHECK_PERM");
 				$this->tpl->setVariable("CHECK_PERMISSION",$box);
-				$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 				$this->tpl->parseCurrentBlock();
 				// END CHECK PERM
 			}
@@ -1549,8 +1545,6 @@ class ilObjectGUI
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
 				$this->tpl->parseCurrentBlock();
 				
-				$color = 1;		// DigiLib-Template
-				
 				foreach ($data as $key => $val)
 				{
 					//build link
@@ -1620,9 +1614,7 @@ class ilObjectGUI
 					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
 
-					$css_cell = ilUtil::switchColor($color++,"tblrow1","tblrow2");	// DigiLib-Template
 					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->setVariable("CELLSTYLE", $css_cell);	// DigiLib-Template
 					$this->tpl->parseCurrentBlock();
 
 				} //foreach
@@ -1835,7 +1827,6 @@ class ilObjectGUI
 		foreach($this->data["data"] as $key1 => $value)
 		{
 			// BEGIN TABLE CELL
-			$color = 0;		// DigiLib-Template
 			foreach($value as $key2 => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
@@ -1854,7 +1845,6 @@ class ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
-				$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 				$this->tpl->parseCurrentBlock();
 			}
 
