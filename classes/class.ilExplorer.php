@@ -634,9 +634,7 @@ class ilExplorer
 			$tpl->setCurrentBlock("icon");
 			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".gif"));
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
-			
 			$this->iconList[] = "iconid_".$a_node_id;
-			
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 			$tpl->parseCurrentBlock();
 		}
@@ -648,10 +646,16 @@ class ilExplorer
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
+			{
+				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
+			}
 			$tpl->setVariable("LINK_NAME", $a_node_id);
 			$tpl->setVariable("TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
 				$this->textwidth, true));
+			$tpl->setVariable("DESC", ilUtil::shortenText(
+				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
@@ -662,7 +666,10 @@ class ilExplorer
 		else			// output text only
 		{
 			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true));
+			$tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
+				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]), $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -690,6 +697,14 @@ class ilExplorer
 			: $this->target."&";
 		return $target.$this->target_get."=".$a_node_id.$this->params_get;
 	}
+	
+	/**
+	* get onclick event handling (may be overwritten by derived classes)
+	*/
+	function buildOnClick($a_node_id, $a_type, $a_title)
+	{
+		return "";
+	}
 
 	/**
 	* standard implementation for title, may be overwritten by derived classes
@@ -697,6 +712,14 @@ class ilExplorer
 	function buildTitle($a_title, $a_id, $a_type)
 	{
 		return $a_title;
+	}
+
+	/**
+	* standard implementation for description, may be overwritten by derived classes
+	*/
+	function buildDescription($a_desc, $a_id, $a_type)
+	{
+		return "";
 	}
 
 	/**
