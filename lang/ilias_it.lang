@@ -365,6 +365,7 @@ assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_types#:#Tipo di test
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
@@ -2303,6 +2304,7 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_matches#:#corrispondenze
+content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
@@ -2352,6 +2354,8 @@ content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Riferimento
 content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo###14 Sep 2004 content changed
+content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
+content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
 content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse

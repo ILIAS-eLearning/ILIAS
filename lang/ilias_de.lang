@@ -365,6 +365,7 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
@@ -2301,6 +2302,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#passt zu
+content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
@@ -2350,6 +2352,8 @@ content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen###14 Sep 2004 content changed
+content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
+content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen

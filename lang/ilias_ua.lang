@@ -365,6 +365,7 @@ assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
 assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
@@ -2305,6 +2306,7 @@ content#:#cont_manifest#:#Маніфест
 content#:#cont_map_areas#:#Області Посилання
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#matches###16 Aug 2004 new variable
+content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
@@ -2354,6 +2356,8 @@ content#:#cont_purpose#:#Призначення
 content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Посилання
 content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
+content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
+content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
 content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
