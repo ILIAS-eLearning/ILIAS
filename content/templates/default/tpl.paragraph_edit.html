@@ -495,12 +495,12 @@ function initEditor(TextAreaName)
 		  
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
-		  "copy", "cut", "paste",
+		  "copy", "cut", "paste"
 		  
           ],
 
 	];
-	// "ilias-fn",	"ilias-x", "separator",
+	// "ilias-fn",	"ilias-x", "separator", "separator","htmlmode"
 //"ilias-fn",,"htmlmode" "separator","htmlmode"
     
 /*
@@ -616,7 +616,6 @@ function buttonX()
 					for(i=0;i<100;i++) {
 						S = S.replace("*?*", "<br />");
 					}
-
 					
 					editor.setHTML(S);
 					editor.focusEditor();
@@ -803,16 +802,16 @@ function addInternalLink(Link,title)
 	//Link = Link.replace("&quot;","\"",Link);
 	//Link = Link.replace("&quot;","\"",Link);
 	
-	Link = Link.replace("[iln ","<span class=\"iliasiln\" ");
+	Link = Link.replace("[iln ","<a class=\"iliasiln\" ");
 	Link = Link.replace("\"]","\">");
 	Link = Link.replace(" [/iln]","");
 	if(editor.hasSelectedText()) 
 	{
-		editor.surroundHTML(Link,"</span>");
+		editor.surroundHTML(Link,"</a>");
 	} 
 	else 
 	{
-		editor.insertHTML(Link+title+"</span>");
+		editor.insertHTML(Link+title+"</a>");
 	}
 }
 
