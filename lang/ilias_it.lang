@@ -932,7 +932,7 @@ common#:#htlm_write#:#MOdificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
-common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
+common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file###14 May 2004 content changed
 common#:#ilias_version#:#Versione ILIAS3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -1418,6 +1418,7 @@ common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
 common#:#permission_settings#:#Impostazione dei permessi
+common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Informazioni Personali
 common#:#personal_desktop#:#Desktop personale
 common#:#personal_picture#:#Immagine Personale

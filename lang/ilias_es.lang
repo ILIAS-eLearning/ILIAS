@@ -1329,6 +1329,7 @@ common#:#perm_settings#:#permisos
 common#:#permission#:#permiso
 common#:#permission_denied#:#permiso denegado
 common#:#permission_settings#:#configuración de Permisos
+common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Información personal
 common#:#personal_desktop#:#escritorio personal
 common#:#personal_picture#:#foto personal

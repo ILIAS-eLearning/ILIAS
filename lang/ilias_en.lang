@@ -1418,6 +1418,7 @@ common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
 common#:#permission_settings#:#Permission settings
+common#:#person_title#:#Title
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
@@ -1623,7 +1624,6 @@ common#:#test_intern#:#Test Intern
 common#:#tests#:#Tests
 common#:#time#:#Time
 common#:#title#:#Title
-common#:#person_title#:#Title
 common#:#to#:#To
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe

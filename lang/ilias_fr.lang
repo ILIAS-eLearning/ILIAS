@@ -1418,6 +1418,7 @@ common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission refusée
 common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#person_title#:#Title###14 May 2004 new variable
 common#:#personal_data#:#Informations personnelles
 common#:#personal_desktop#:#Bureau personnel
 common#:#personal_picture#:#Image personnelle
