@@ -62,6 +62,8 @@ class ilPersonalDesktopGUI
 			"types" => "mep"),
 			array("title" => $this->lng->txt("objs_grp"),
 			"types" => "grp"),
+			array("title" => $this->lng->txt("objs_svy"),
+			"types" => "svy"),
 			);
 		$html = "";
 		foreach($types as $type)
@@ -85,7 +87,6 @@ class ilPersonalDesktopGUI
 		global $rbacsystem;
 
 		$items = $this->ilias->account->getDesktopItems($a_type);
-
 		if (count($items) > 0)
 		{
 			$tstCount = 0;
