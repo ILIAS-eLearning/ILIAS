@@ -38,12 +38,16 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
 }
 
-if (isset($_POST))
+$strip = false;
+
+if (!empty($_POST))
 {
-	foreach ($_POST as $key => $val)
-	{
-		$POST[$key] = ilUtil::prepareFormOutput($val);
-	}
+	$strip = true;
+}
+
+foreach ($_POST as $key => $val)
+{
+	$_POST[$key] = ilUtil::prepareFormOutput($val,$strip);
 }
 
 $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
@@ -266,14 +270,14 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setInstitution(ilUtil::stripSlashes($_POST["usr_institution"]));
 	$ilias->account->setDepartment(ilUtil::stripSlashes($_POST["usr_department"]));
 	$ilias->account->setStreet(ilUtil::stripSlashes($_POST["usr_street"]));
-	$ilias->account->setZipcode($_POST["usr_zipcode"]);
+	$ilias->account->setZipcode(ilUtil::stripSlashes($_POST["usr_zipcode"]));
 	$ilias->account->setCity(ilUtil::stripSlashes($_POST["usr_city"]));
 	$ilias->account->setCountry(ilUtil::stripSlashes($_POST["usr_country"]));
-	$ilias->account->setPhoneOffice($_POST["usr_phone_office"]);
-	$ilias->account->setPhoneHome($_POST["usr_phone_home"]);
-	$ilias->account->setPhoneMobile($_POST["usr_phone_mobile"]);
-	$ilias->account->setFax($_POST["usr_fax"]);
-	$ilias->account->setEmail($_POST["usr_email"]);
+	$ilias->account->setPhoneOffice(ilUtil::stripSlashes($_POST["usr_phone_office"]));
+	$ilias->account->setPhoneHome(ilUtil::stripSlashes($_POST["usr_phone_home"]));
+	$ilias->account->setPhoneMobile(ilUtil::stripSlashes($_POST["usr_phone_mobile"]));
+	$ilias->account->setFax(ilUtil::stripSlashes($_POST["usr_fax"]));
+	$ilias->account->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
 	$ilias->account->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
 
 	// everthing's ok. save form data
