@@ -122,7 +122,7 @@ common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
-common#:#cont_object#:#Object###15 Sep 2003 new variable
+common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
@@ -143,7 +143,7 @@ common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_new#:#Neuer Kurs
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
-common#:#cutPage#:#Cut###19 Sep 2003 new variable
+common#:#cutPage#:#Ausschneiden
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Datensatz
@@ -187,7 +187,7 @@ common#:#edit_properties#:#Eigenschaften
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#E-Mail###29 Oct 2003 content changed
+common#:#email#:#E-Mail
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
@@ -222,7 +222,7 @@ common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
-common#:#firstname#:#Vorname###29 Oct 2003 content changed
+common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
@@ -230,7 +230,7 @@ common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
 common#:#folders#:#Ordner
-common#:#force_accept_usr_agreement#:#You have to accept user agreement!###29 Oct 2003 new variable
+common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
@@ -243,10 +243,10 @@ common#:#frm_added#:#Forum angelegt
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
-common#:#fullname#:#Voller Name###29 Oct 2003 content changed
+common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
-common#:#gdf_add#:#Add Definition###22 Sep 2003 new variable
-common#:#gdf_new#:#New Definition###22 Sep 2003 new variable
+common#:#gdf_add#:#Definition hinzufügen
+common#:#gdf_new#:#Neue Definition
 common#:#gender#:#Geschlecht
 common#:#gender_f#:#Weiblich
 common#:#gender_m#:#Männlich
@@ -368,11 +368,11 @@ common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits 
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
-common#:#lastname#:#Nachname###29 Oct 2003 content changed
+common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
 common#:#learning_objects#:#Lernobjekte
-common#:#learning_resources#:#Learning Resources###29 Oct 2003 new variable
+common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#verknüpfen
 common#:#linked_pages#:#Verknüpft mit den Seiten
@@ -400,7 +400,7 @@ common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
-common#:#login_time#:#Onlinezeit###29 Oct 2003 content changed
+common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
@@ -675,7 +675,7 @@ common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
-common#:#repository#:#Repository###29 Oct 2003 new variable
+common#:#repository#:#Magazin
 common#:#required_field#:#Erforderliche Angabe
 common#:#reset#:#Zurücksetzen
 common#:#resources#:#Ressourcen
@@ -796,8 +796,8 @@ common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_language#:#Benutzersprache
-common#:#userdata#:#Benutzerdaten###29 Oct 2003 content changed
-common#:#username#:#Benutzername###29 Oct 2003 content changed
+common#:#userdata#:#Benutzerdaten
+common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
@@ -820,7 +820,7 @@ common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
-common#:#zipcode#:#Postleitzahl###29 Oct 2003 content changed
+common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
@@ -1430,14 +1430,14 @@ meta#:#meta_l_ab#:#Abchasisch
 meta#:#meta_l_af#:#Afrikaans
 meta#:#meta_l_am#:#Amharic
 meta#:#meta_l_ar#:#Arabisch
-meta#:#meta_l_as#:#assamese###28 May 2003 new variable
-meta#:#meta_l_ay#:#aymara###28 May 2003 new variable
+meta#:#meta_l_as#:#Assamesisch
+meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Aserbaidschanisch
-meta#:#meta_l_ba#:#bashkir###28 May 2003 new variable
+meta#:#meta_l_ba#:#Bashkir
 meta#:#meta_l_be#:#Weißrussisch
 meta#:#meta_l_bg#:#Bulgarisch
-meta#:#meta_l_bh#:#bihari###28 May 2003 new variable
-meta#:#meta_l_bi#:#bislama###28 May 2003 new variable
+meta#:#meta_l_bh#:#bbhari
+meta#:#meta_l_bi#:#Bislama
 meta#:#meta_l_bn#:#Bengalisch
 meta#:#meta_l_bo#:#Tibetanisch
 meta#:#meta_l_br#:#Bretonisch
@@ -1447,7 +1447,7 @@ meta#:#meta_l_cs#:#Tschechisch
 meta#:#meta_l_cy#:#Walisisch
 meta#:#meta_l_da#:#Dänisch
 meta#:#meta_l_de#:#Deutsch
-meta#:#meta_l_dz#:#bhutani###28 May 2003 new variable
+meta#:#meta_l_dz#:#Bhutani
 meta#:#meta_l_el#:#Griechisch
 meta#:#meta_l_en#:#Englisch
 meta#:#meta_l_eo#:#Esperanto
@@ -1456,112 +1456,112 @@ meta#:#meta_l_et#:#Estisch
 meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
-meta#:#meta_l_fj#:#fiji###28 May 2003 new variable
-meta#:#meta_l_fo#:#faroese###28 May 2003 new variable
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faroerisch
 meta#:#meta_l_fr#:#Französisch
 meta#:#meta_l_fy#:#Friesisch
 meta#:#meta_l_ga#:#Irisch
 meta#:#meta_l_gd#:#Gälisch
 meta#:#meta_l_gl#:#Galizisch
-meta#:#meta_l_gn#:#guarani###28 May 2003 new variable
-meta#:#meta_l_gu#:#gujarati###28 May 2003 new variable
+meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gu#:#Gujarati
 meta#:#meta_l_ha#:#Hausa
 meta#:#meta_l_he#:#Israelisch
 meta#:#meta_l_hi#:#Hindi
 meta#:#meta_l_hr#:#Kroatisch
 meta#:#meta_l_hu#:#Ungarisch
 meta#:#meta_l_hy#:#Armenisch
-meta#:#meta_l_ia#:#interlingua###28 May 2003 new variable
+meta#:#meta_l_ia#:#Interlingua
 meta#:#meta_l_id#:#Indonesisch
-meta#:#meta_l_ie#:#interlingue###28 May 2003 new variable
-meta#:#meta_l_ik#:#inupiak###28 May 2003 new variable
-meta#:#meta_l_is#:#icelandic###28 May 2003 new variable
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Isländisch
 meta#:#meta_l_it#:#Italienisch
-meta#:#meta_l_iu#:#inuktitut###28 May 2003 new variable
+meta#:#meta_l_iu#:#Inuktitut
 meta#:#meta_l_ja#:#Japanisch
 meta#:#meta_l_jv#:#Javanesisch
 meta#:#meta_l_ka#:#Georgisch
-meta#:#meta_l_kk#:#kazakh###28 May 2003 new variable
-meta#:#meta_l_kl#:#greenlandic###28 May 2003 new variable
-meta#:#meta_l_km#:#cambodian###28 May 2003 new variable
-meta#:#meta_l_kn#:#kannada###28 May 2003 new variable
+meta#:#meta_l_kk#:#Kasachisch
+meta#:#meta_l_kl#:#Grönländisch
+meta#:#meta_l_km#:#Kambodschanisch
+meta#:#meta_l_kn#:#Kannada
 meta#:#meta_l_ko#:#Koreanisch
-meta#:#meta_l_ks#:#kashmiri###28 May 2003 new variable
+meta#:#meta_l_ks#:#Kashmiri
 meta#:#meta_l_ku#:#Kurdisch
 meta#:#meta_l_ky#:#Kirgisisch
 meta#:#meta_l_la#:#Lateinisch
-meta#:#meta_l_ln#:#lingala###28 May 2003 new variable
-meta#:#meta_l_lo#:#laothian###28 May 2003 new variable
+meta#:#meta_l_ln#:#Lingala
+meta#:#meta_l_lo#:#Laotisch
 meta#:#meta_l_lt#:#Litauisch
 meta#:#meta_l_lv#:#Lettisch
-meta#:#meta_l_mg#:#malagasy###28 May 2003 new variable
-meta#:#meta_l_mi#:#maori###28 May 2003 new variable
+meta#:#meta_l_mg#:#Malagasy
+meta#:#meta_l_mi#:#Maori
 meta#:#meta_l_mk#:#Mazedonisch
 meta#:#meta_l_ml#:#Malayisch
 meta#:#meta_l_mn#:#Mongolisch
 meta#:#meta_l_mo#:#Moldavisch
-meta#:#meta_l_mr#:#marathi###28 May 2003 new variable
+meta#:#meta_l_mr#:#Marathi
 meta#:#meta_l_ms#:#Malayisch
-meta#:#meta_l_mt#:#maltese###28 May 2003 new variable
+meta#:#meta_l_mt#:#Maltesisch
 meta#:#meta_l_my#:#Burmesisch
-meta#:#meta_l_na#:#nauru###28 May 2003 new variable
-meta#:#meta_l_ne#:#nepali###28 May 2003 new variable
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepalesisch
 meta#:#meta_l_nl#:#Niederländisch
 meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#Occitanisch
-meta#:#meta_l_om#:#afan (oromo)###28 May 2003 new variable
-meta#:#meta_l_or#:#oriya###28 May 2003 new variable
-meta#:#meta_l_pa#:#punjabi###28 May 2003 new variable
+meta#:#meta_l_om#:#Afan (Oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
 meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#Paschtu
 meta#:#meta_l_pt#:#Portugisisch
-meta#:#meta_l_qu#:#quechua###28 May 2003 new variable
+meta#:#meta_l_qu#:#Quechua
 meta#:#meta_l_rm#:#Rätoromanisch
-meta#:#meta_l_rn#:#kurundi###28 May 2003 new variable
+meta#:#meta_l_rn#:#Kurundi
 meta#:#meta_l_ro#:#Rumänisch
 meta#:#meta_l_ru#:#Russisch
-meta#:#meta_l_rw#:#kinyarwanda###28 May 2003 new variable
+meta#:#meta_l_rw#:#Kinyarwanda
 meta#:#meta_l_sa#:#Sanskrit
-meta#:#meta_l_sd#:#sindhi###28 May 2003 new variable
-meta#:#meta_l_sg#:#sangho###28 May 2003 new variable
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
 meta#:#meta_l_sh#:#Serbo-Kroatisch
-meta#:#meta_l_si#:#singhalese###28 May 2003 new variable
+meta#:#meta_l_si#:#Singhalese
 meta#:#meta_l_sk#:#Slowakisch
 meta#:#meta_l_sl#:#Slowenisch
-meta#:#meta_l_sm#:#samoan###28 May 2003 new variable
-meta#:#meta_l_sn#:#shona###28 May 2003 new variable
-meta#:#meta_l_so#:#somali###28 May 2003 new variable
+meta#:#meta_l_sm#:#Samoaisch
+meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_so#:#Somalisch
 meta#:#meta_l_sq#:#Albanisch
 meta#:#meta_l_sr#:#Serbisch
-meta#:#meta_l_ss#:#siswati###28 May 2003 new variable
-meta#:#meta_l_st#:#sesotho###28 May 2003 new variable
-meta#:#meta_l_su#:#sundanese###28 May 2003 new variable
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sundanesisch
 meta#:#meta_l_sv#:#Schwedisch
 meta#:#meta_l_sw#:#Swahili
 meta#:#meta_l_ta#:#Tamil
-meta#:#meta_l_te#:#telugu###28 May 2003 new variable
-meta#:#meta_l_tg#:#tajik###28 May 2003 new variable
-meta#:#meta_l_th#:#Thai###28 May 2003 new variable
-meta#:#meta_l_ti#:#tigrinya###28 May 2003 new variable
-meta#:#meta_l_tk#:#Turkmenisch###28 May 2003 new variable
-meta#:#meta_l_tl#:#tagalog###28 May 2003 new variable
-meta#:#meta_l_tn#:#setswana###28 May 2003 new variable
-meta#:#meta_l_to#:#tonga###28 May 2003 new variable
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmenisch
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
+meta#:#meta_l_to#:#Tonga
 meta#:#meta_l_tr#:#Türkisch
-meta#:#meta_l_ts#:#tsonga###28 May 2003 new variable
-meta#:#meta_l_tt#:#tatar###28 May 2003 new variable
-meta#:#meta_l_tw#:#twi###28 May 2003 new variable
-meta#:#meta_l_ug#:#uigur###28 May 2003 new variable
+meta#:#meta_l_ts#:#Tsonga
+meta#:#meta_l_tt#:#Tatarisch
+meta#:#meta_l_tw#:#Twi
+meta#:#meta_l_ug#:#Uigur
 meta#:#meta_l_uk#:#Ukrainisch
-meta#:#meta_l_ur#:#urdu###28 May 2003 new variable
+meta#:#meta_l_ur#:#Urdu
 meta#:#meta_l_uz#:#Usbekisch
 meta#:#meta_l_vi#:#Vietnamesisch
-meta#:#meta_l_vo#:#volapuk###28 May 2003 new variable
-meta#:#meta_l_wo#:#wolof###28 May 2003 new variable
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
 meta#:#meta_l_yi#:#Jiddish
-meta#:#meta_l_yo#:#yoruba###28 May 2003 new variable
-meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
+meta#:#meta_l_yo#:#Yoruba
+meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
