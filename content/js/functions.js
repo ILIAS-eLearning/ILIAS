@@ -73,6 +73,17 @@ function beginDrag()
 	moveDragDropSymbol();
 }
 
+var cmd1 = "";
+var cmd2 = "";
+var cmd3 = "";
+var cmd4 = "";
+
+function callBeforeAfterAction(setCmd3) 
+{
+	cmd3 = setCmd3;
+	doActionForm(cmd1, cmd2, cmd3, cmd4);
+}
+
 function doMouseUp(id) 
 {
 	if (dragDropShow) 
@@ -83,7 +94,15 @@ function doMouseUp(id)
 		OID = dragId.substr(7);
 		if (DID != OID) 
 		{ 
-			doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
+			doCloseContextMenuCounter = 20;
+			openedMenu = "movebeforeaftermenu";
+			dd.elements.movebeforeaftermenu.moveTo(Mposx,Mposy);
+			dd.elements.movebeforeaftermenu.show();
+			cmd1 = 'cmd[exec_'+OID+']';
+			cmd2 = 'command'+OID;
+			cmd3 = 'moveAfter';
+			cmd4 = DID;
+			//doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
 		}
 	}
 	dragId = "";

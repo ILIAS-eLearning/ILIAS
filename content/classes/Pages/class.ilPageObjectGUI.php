@@ -339,6 +339,11 @@ class ilPageObjectGUI
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
                 
+				
+				$this->tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
+				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
+				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
+				
                 
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
                 
