@@ -646,6 +646,16 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#chat#:#Chat
+common#:#ldap_configure#:#LDAP Authentifizierung konfigurieren
+common#:#auth_mode#:#Authentifizierungsmodus
+common#:#auth_mode_not_changed#:#(Keine änderung)
+common#:#ldap_tls#:#Benutze LDAP TLS
+common#:#ldap_server#:#LDAP Server URL
+common#:#ldap_basedn#:#LDAP BaseDN
+common#:#err_invalid_port#:#Ungültige Portnummer
+common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
+common#:#ldap_search_base#:#LDAP Search base
+common#:#ldap_port#:#LDAP Port
 common#:#chat_add#:#Chat hinzufügen
 common#:#chat_delete#:#Chat löschen
 common#:#chat_edit_permission#:#Rechteeinstellungen ändern
