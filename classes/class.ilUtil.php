@@ -2053,10 +2053,18 @@ class ilUtil
 		return ($days + 25569 + ($difference / 86400));
 	}
 
+	/**
+	* rename uploaded executables for security reasons
+	*/
 	function renameExecutables($a_dir)
 	{
-		ilUtil::rRenameSuffix($a_dir, "php", "sph");
-		ilUtil::rRenameSuffix($a_dir, "php3", "sph");
+		ilUtil::rRenameSuffix($a_dir, "php", "sec");
+		ilUtil::rRenameSuffix($a_dir, "php3", "sec");
+		ilUtil::rRenameSuffix($a_dir, "php4", "sec");
+		ilUtil::rRenameSuffix($a_dir, "inc", "sec");
+		ilUtil::rRenameSuffix($a_dir, "lang", "sec");
+		ilUtil::rRenameSuffix($a_dir, "phtml", "sec");
+		ilUtil::rRenameSuffix($a_dir, "htaccess", "sec");
 	}
 
 	/**

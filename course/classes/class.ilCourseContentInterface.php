@@ -295,7 +295,8 @@ class ilCourseContentInterface
 				}
 				else
 				{
-					$txt = $this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
+					$txt = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$cont_data["activation_start"]).
+						"<br>".$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
 				}
 				$tpl->setVariable("ACTIVATION_END",$txt);
 
@@ -353,7 +354,7 @@ class ilCourseContentInterface
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		if(!$rbacsystem->checkAccess("write", $this->cci_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}

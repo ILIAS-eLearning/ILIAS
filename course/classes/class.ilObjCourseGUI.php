@@ -25,7 +25,7 @@
 /**
 * Class ilObjCourseGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI
@@ -2925,6 +2925,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_edit();
+
 		return true;;
 	}
 
