@@ -5167,6 +5167,8 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
+		$this->questions = array();
+		$this->saveCompleteStatus();
 	}
 	
 /**
@@ -5184,6 +5186,8 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
+		$this->questions = array();
+		$this->saveCompleteStatus();
 	}
 	
 /**
