@@ -46,6 +46,7 @@ class ilObjRole extends ilObject
 	var $parent;
 	
 	var $allow_register;
+	var $assign_users;
 
 	/**
 	* Constructor
@@ -57,6 +58,29 @@ class ilObjRole extends ilObject
 	{
 		$this->type = "role";
 		$this->ilObject($a_id,$a_call_by_reference);
+	}
+
+	function toggleAssignUsersStatus($a_assign_users)
+	{
+		$this->assign_users = (int) $a_assign_users;
+	}
+	function getAssignUsersStatus()
+	{
+		return $this->assign_users;
+	}
+	// Same method (static)
+	function _getAssignUsersStatus($a_role_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT assign_users FROM role_data WHERE role_id = '".$a_role_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->assign_users ? true : false;
+		}
+		return false;
 	}
 
 	/**
@@ -93,6 +117,7 @@ class ilObjRole extends ilObject
 		$this->setTitle(ilUtil::stripSlashes($a_data["title"]));
 		$this->setDescription(ilUtil::stripslashes($a_data["desc"]));
 		$this->setAllowRegister($a_data["allow_register"]);
+		$this->toggleAssignUsersStatus($a_data['assign_users']);
 	}
 
 	/**
@@ -102,8 +127,9 @@ class ilObjRole extends ilObject
 	function update ()
 	{
 		$q = "UPDATE role_data SET ".
-			 "allow_register='".$this->allow_register."' ".
-			 "WHERE role_id='".$this->id."'";
+			"allow_register='".$this->allow_register."', ".
+			"assign_users = '".$this->getAssignUsersStatus()."' ".
+			"WHERE role_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
 
@@ -126,9 +152,9 @@ class ilObjRole extends ilObject
 		$this->id = parent::create();
 
 		$q = "INSERT INTO role_data ".
-			 "(role_id,allow_register) ".
-			 "VALUES ".
-			 "('".$this->id."','".$this->getAllowRegister()."')";
+			"(role_id,allow_register,assign_users) ".
+			"VALUES ".
+			"('".$this->id."','".$this->getAllowRegister()."','".$this->getAssignUsersStatus()."')";
 		$this->ilias->db->query($q);
 
 		return $this->id;

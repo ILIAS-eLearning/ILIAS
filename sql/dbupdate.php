@@ -1,4 +1,4 @@
-<#1>
+ <#1>
 CREATE TABLE glossary_term
 (
 	id			INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -4503,3 +4503,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#279>
+ALTER TABLE `role_data` ADD `assign_users` VARCHAR( 2 ) DEFAULT '0';

@@ -67,6 +67,8 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 
+		define('USER_FOLDER_ID',7);
+
 		$this->type = "usr";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 		$this->usrf_ref_id =& $this->ref_id;
@@ -134,8 +136,19 @@ class ilObjUserGUI extends ilObjectGUI
 		// role selection
 		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
 
+		$rol = array();
 		foreach ($obj_list as $obj_data)
 		{
+			// allow only 'assign_users' marked roles if called from category
+			if($this->object->getRefId() != USER_FOLDER_ID)
+			{
+				include_once './classes/class.ilObjRole.php';
+
+				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				{
+					continue;
+				}
+			}
 			// exclude anonymous role from list
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
@@ -145,6 +158,12 @@ class ilObjUserGUI extends ilObjectGUI
 					$rol[$obj_data["obj_id"]] = $obj_data["title"];
 				}
 			}
+		}
+
+		// raise error if there is no global role user can be assigned to
+		if(!count($rol))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$keys = array_keys($rol);

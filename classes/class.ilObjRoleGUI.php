@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.83 2004/06/24 13:57:50 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.84 2004/08/25 10:38:12 wrandels Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,6 +81,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
 			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("assign_users");
+			$assign_users = $_SESSION["error_post_vars"]["Fobject"]["assign_users"] ? "checked=\"checked\"" : "";
+			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt("assign_users"));
+			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -140,6 +146,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roleObj->setAllowRegister($_POST["Fobject"]["allow_register"]);
+		$roleObj->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
 		$roleObj->create();
 		$rbacadmin->assignRoleToFolder($roleObj->getId(), $this->rolf_ref_id,'y');
 		
@@ -822,6 +829,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
+		$this->object->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
 		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
@@ -855,6 +863,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+			$assign_users = ($_SESSION["error_post_vars"]["Fobject"]["assign_users"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
@@ -865,6 +874,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
+			$assign_users = $this->object->getAssignUsersStatus() ? "checked=\"checked\"" : "";
+
 		}
 
 		$obj_str = "&obj_id=".$this->obj_id;
@@ -888,11 +899,18 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("SHOW_TITLE",$this->object->getTitle());
 		}
 
-		if ($this->object->getId() != ANONYMOUS_ROLE_ID and $this->object->getId() != SYSTEM_ROLE_ID and in_array($this->object->getId(),$global_roles))
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID and 
+			$this->object->getId() != SYSTEM_ROLE_ID and 
+			in_array($this->object->getId(),$global_roles))
 		{
 			$this->tpl->setCurrentBlock("allow_register");
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
 			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("assign_users");
+			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt('allow_assign_users'));
+			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
 			$this->tpl->parseCurrentBlock();
 		}
 	}
