@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.84 2004/08/02 08:42:52 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.85 2004/08/09 18:22:33 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -276,6 +276,58 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection
+
+
+		// time limit
+		if (is_array($_SESSION["error_post_vars"]))
+        {
+            $time_limit_unlimited = $_SESSION["error_post_vars"]["time_limit"]["unlimited"];
+        }
+        else
+        {
+            $time_limit_unlimited = 1;
+        }
+
+        $time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
+            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
+            time();
+
+        $time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
+            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
+            time();
+
+		$this->lng->loadLanguageModule('crs');
+
+		$this->tpl->setCurrentBlock("time_limit");
+        $this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_FROM", $this->lng->txt("crs_from"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_UNTIL", $this->lng->txt("crs_to"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_CLOCK", $this->lng->txt("clock"));
+        $this->tpl->setVariable("TIME_LIMIT_UNLIMITED",ilUtil::formCheckbox($time_limit_unlimited,"time_limit[unlimited]",1));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MINUTE",$this->__getDateSelect("minute","time_limit[from][minute]",
+																					   date("i",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_HOUR",$this->__getDateSelect("hour","time_limit[from][hour]",
+                                                                                     date("G",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_DAY",$this->__getDateSelect("day","time_limit[from][day]",
+																					date("d",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MONTH",$this->__getDateSelect("month","time_limit[from][month]",
+																					  date("m",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_YEAR",$this->__getDateSelect("year","time_limit[from][year]",
+																					 date("Y",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MINUTE",$this->__getDateSelect("minute","time_limit[until][minute]",
+																						date("i",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_HOUR",$this->__getDateSelect("hour","time_limit[until][hour]",
+																					  date("G",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_DAY",$this->__getDateSelect("day","time_limit[until][day]",
+																					 date("d",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MONTH",$this->__getDateSelect("month","time_limit[until][month]",
+																					   date("m",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
+																					  date("Y",$time_limit_until)));
+		$this->tpl->parseCurrentBlock();
+
+
 	}
 	
 	/**
@@ -646,6 +698,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
 
+
 		if (true)
 		{
 			$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
@@ -653,6 +706,49 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
 		$this->tpl->parseCurrentBlock();
+
+		$this->lng->loadLanguageModule('crs');
+
+		$time_limit_unlimited = $_SESSION["error_post_vars"]["time_limit"]["unlimited"] ?
+            $_SESSION["error_post_vars"]["time_limit"]["unlimited"] :
+            $this->object->getTimeLimitUnlimited();
+        $time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
+            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
+            $this->object->getTimeLimitFrom();
+
+        $time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
+            $this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
+            $this->object->getTimeLimitUntil();
+
+		$this->tpl->setCurrentBlock("time_limit");
+        $this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_FROM", $this->lng->txt("crs_from"));
+        $this->tpl->setVariable("TXT_TIME_LIMIT_UNTIL", $this->lng->txt("crs_to"));
+
+        $this->tpl->setVariable("TIME_LIMIT_UNLIMITED",ilUtil::formCheckbox($time_limit_unlimited,"time_limit[unlimited]",1));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MINUTE",$this->__getDateSelect("minute","time_limit[from][minute]",
+                                                                                     date("i",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_HOUR",$this->__getDateSelect("hour","time_limit[from][hour]",
+                                                                                     date("G",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_DAY",$this->__getDateSelect("day","time_limit[from][day]",
+                                                                                     date("d",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_MONTH",$this->__getDateSelect("month","time_limit[from][month]",
+                                                                                       date("m",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_FROM_YEAR",$this->__getDateSelect("year","time_limit[from][year]",
+                                                                                      date("Y",$time_limit_from)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MINUTE",$this->__getDateSelect("minute","time_limit[until][minute]",
+                                                                                     date("i",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_HOUR",$this->__getDateSelect("hour","time_limit[until][hour]",
+                                                                                     date("G",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_DAY",$this->__getDateSelect("day","time_limit[until][day]",
+                                                                                   date("d",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_MONTH",$this->__getDateSelect("month","time_limit[until][month]",
+                                                                                     date("m",$time_limit_until)));
+        $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
+                                                                                    date("Y",$time_limit_until)));
+		$this->tpl->parseCurrentBlock();
+
 
 		if ($user_is_online)
 		{
@@ -739,6 +835,14 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// validate time limit
+        if ($_POST["time_limit"]["unlimited"] != 1 and
+            ($this->__toUnix($_POST["time_limit"]["until"]) < $this->__toUnix($_POST["time_limit"]["from"])))
+        {
+            $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
+        }
+
+
 		// TODO: check if login or passwd already exists
 		// TODO: check length of login and passwd
 
@@ -747,6 +851,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$userObj->assignData($_POST["Fobject"]);
 		$userObj->setTitle($userObj->getFullname());
 		$userObj->setDescription($userObj->getEmail());
+
+		$userObj->setTimeLimitOwner($this->ilias->account->getId());
+        $userObj->setTimeLimitUnlimited($_POST["time_limit"]["unlimited"]);
+        $userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
+        $userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
+		
 		$userObj->create();
 
 		//$user->setId($userObj->getId());
@@ -868,10 +978,39 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$start = $this->__toUnix($_POST["time_limit"]["from"]);
+		$end = $this->__toUnix($_POST["time_limit"]["until"]);
+		
+		// validate time limit
+        if (!$_POST["time_limit"]["unlimited"]  and 
+			( $start > $end))
+        {
+            $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
+        }
+
+		// time_limit modifications are only allowed for the childs of a user
+		#if($start != $this->object->getTimeLimitFrom() or
+		#   $end	  != $this->object->getTimeLimitUntil() or
+		#   $_POST['time_limit']['unlimited'] != $this->object->getTimeLimitUnlimited())
+		#{
+		#	if(!$this->ilias->account->isChild($this->object->getId()))
+		#	{
+		#		$this->ilias->raiseError($this->lng->txt("time_limit_modification_not_allowed"),$this->ilias->error_obj->MESSAGE);
+		#	}
+		#}
+				
+
 
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
+		$_POST['Fobject']['time_limit_owner'] = $this->object->getTimeLimitOwner();
+
+		$_POST['Fobject']['time_limit_unlimited'] = (int) $_POST['time_limit']['unlimited'];
+		$_POST['Fobject']['time_limit_from'] = $this->__toUnix($_POST['time_limit']['from']);
+		$_POST['Fobject']['time_limit_until'] = $this->__toUnix($_POST['time_limit']['until']);
+
 		$this->object->assignData($_POST["Fobject"]);
 
 		if (AUTH_CURRENT == AUTH_LOCAL)
@@ -1403,5 +1542,57 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock($a_template_block_name);
 		$this->tpl->parseCurrentBlock();
 	}
+
+
+	function __getDateSelect($a_type,$a_varname,$a_selected)
+    {
+        switch($a_type)
+        {
+            case "minute":
+                for($i=0;$i<=60;$i++)
+                {
+                    $days[$i] = $i < 10 ? "0".$i : $i;
+                }
+                return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+
+            case "hour":
+                for($i=0;$i<24;$i++)
+                {
+                    $days[$i] = $i < 10 ? "0".$i : $i;
+                }
+                return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+
+            case "day":
+                for($i=1;$i<32;$i++)
+                {
+                    $days[$i] = $i < 10 ? "0".$i : $i;
+                }
+                return ilUtil::formSelect($a_selected,$a_varname,$days,false,true);
+
+            case "month":
+                for($i=1;$i<13;$i++)
+                {
+                    $month[$i] = $i < 10 ? "0".$i : $i;
+                }
+                return ilUtil::formSelect($a_selected,$a_varname,$month,false,true);
+
+            case "year":
+                for($i = date("Y",time());$i < date("Y",time()) + 3;++$i)
+                {
+                    $year[$i] = $i;
+                }
+                return ilUtil::formSelect($a_selected,$a_varname,$year,false,true);
+        }
+    }
+	function __toUnix($a_time_arr)
+    {
+        return mktime($a_time_arr["hour"],
+                      $a_time_arr["minute"],
+                      $a_time_arr["second"],
+                      $a_time_arr["month"],
+                      $a_time_arr["day"],
+                      $a_time_arr["year"]);
+    }
+
 } // END class.ilObjUserGUI
 ?>

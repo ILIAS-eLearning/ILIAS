@@ -53,6 +53,13 @@ if (!$ilias->getSetting("setup_ok"))
 // check for auth
 if ($ilias->auth->getAuth())
 {
+	if(!$ilias->account->checkTimeLimit())
+	{
+		$ilias->auth->logout();
+		session_destroy();
+		ilUtil::redirect('login.php?time_limit=true');
+	}
+
 	if ($ilias->getSetting("chat_active"))
 	{
 		include_once "./chat/classes/class.ilChatServerCommunicator.php";
@@ -141,6 +148,10 @@ if (!empty($status))
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login"));
 			break;
 	}
+}
+if($_GET['time_limit'])
+{
+	$tpl->setVariable("TXT_MSG_LOGIN_FAILED",$lng->txt('time_limit_reached'));
 }
 
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);

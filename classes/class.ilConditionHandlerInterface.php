@@ -130,7 +130,7 @@ class ilConditionHandlerInterface
 		$tbl =& new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->target_obj->getTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->target_obj->getType()."_b.gif",
+		$tbl->setTitle($this->target_obj->getTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->target_obj->getType().".gif",
 					   $this->lng->txt("preconditions"));
 
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("condition"),

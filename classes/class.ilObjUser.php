@@ -250,6 +250,14 @@ class ilObjUser extends ilObject
 		$this->setLastLogin($a_data["last_login"]);
 		$this->setLastUpdate($a_data["last_update"]);
 		$this->create_date	= $a_data["create_date"];
+
+       // time limitation
+        $this->setTimeLimitOwner($a_data["time_limit_owner"]);
+        $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
+        $this->setTimeLimitFrom($a_data["time_limit_from"]);
+        $this->setTimeLimitUntil($a_data["time_limit_until"]);
+
+
 	}
 
 	/**
@@ -280,35 +288,42 @@ class ilObjUser extends ilObject
 
 		if ($a_from_formular)
 		{
-			$q = "INSERT INTO usr_data ".
-				 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
-				 "email,hobby,institution,department,street,city,zipcode,country,".
-				 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
-				 "VALUES ".
-				 "('".$this->id."','".$this->login."','".$pw_value."', ".
-				 "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
-				 "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
-				 "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
-				 "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".ilUtil::addSlashes($this->street)."', ".
-				 "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
-				 "'".$this->phone_office."','".$this->phone_home."',".
-				 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
+           $q = "INSERT INTO usr_data ".
+			   "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
+			   "email,hobby,institution,department,street,city,zipcode,country,".
+			   "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,".
+			   "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) ".
+			   "VALUES ".
+			   "('".$this->id."','".$this->login."','".$pw_value."', ".
+			   "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
+			   "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
+			   "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
+			   "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".
+			   ilUtil::addSlashes($this->street)."', ".
+			   "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
+			   "'".$this->phone_office."','".$this->phone_home."',".
+			   "'".$this->phone_mobile."','".$this->fax."', 0, now(), now(),'".$this->getTimeLimitUnlimited()."','".
+			   $this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."')";
+
 		}
 		else
 		{
-			$q = "INSERT INTO usr_data ".
-				 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
-				 "email,hobby,institution,department,street,city,zipcode,country,".
-				 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
-				 "VALUES ".
-				 "('".$this->id."','".$this->login."','".$pw_value."', ".
-				 "'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', ".
-				 "'".ilUtil::prepareDBString($this->utitle)."','".$this->gender."', ".
-				 "'".$this->email."','".ilUtil::prepareDBString($this->hobby)."', ".
-				 "'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."','".ilUtil::prepareDBString($this->street)."', ".
-				 "'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', ".
-				 "'".$this->phone_office."','".$this->phone_home."',".
-				 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
+            $q = "INSERT INTO usr_data ".
+				"(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
+				"email,hobby,institution,department,street,city,zipcode,country,".
+				"phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,".
+				"time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner) ".
+				"VALUES ".
+				"('".$this->id."','".$this->login."','".$pw_value."', ".
+				"'".ilUtil::prepareDBString($this->firstname)."','".ilUtil::prepareDBString($this->lastname)."', ".
+				"'".ilUtil::prepareDBString($this->utitle)."','".$this->gender."', ".
+				"'".$this->email."','".ilUtil::prepareDBString($this->hobby)."', ".
+				"'".ilUtil::prepareDBString($this->institution)."','".ilUtil::prepareDBString($this->department)."','".
+				ilUtil::prepareDBString($this->street)."', ".
+				"'".ilUtil::prepareDBString($this->city)."','".$this->zipcode."','".ilUtil::prepareDBString($this->country)."', ".
+				"'".$this->phone_office."','".$this->phone_home."',".
+				"'".$this->phone_mobile."','".$this->fax."', 0, now(), now(),'".$this->getTimeLimitUnlimited()."','".
+				$this->getTimeLimitUntil()."','".$this->getTimeLimitFrom()."','".$this->getTimeLimitOwner()."')";
 		}
 
 		$this->ilias->db->query($q);
@@ -338,24 +353,28 @@ class ilObjUser extends ilObject
 		//$this->id = $this->data["Id"];
 
 		$q = "UPDATE usr_data SET ".
-			 "gender='".$this->gender."', ".
-			 "title='".ilUtil::prepareDBString($this->utitle)."', ".
-			 "firstname='".ilUtil::prepareDBString($this->firstname)."', ".
-			 "lastname='".ilUtil::prepareDBString($this->lastname)."', ".
-			 "email='".ilUtil::prepareDBString($this->email)."', ".
-			 "hobby='".ilUtil::prepareDBString($this->hobby)."', ".
-			 "institution='".ilUtil::prepareDBString($this->institution)."', ".
-			 "department='".ilUtil::prepareDBString($this->department)."', ".
-			 "street='".ilUtil::prepareDBString($this->street)."', ".
-			 "city='".ilUtil::prepareDBString($this->city)."', ".
-			 "zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
-			 "country='".ilUtil::prepareDBString($this->country)."', ".
-			 "phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
-			 "phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
-			 "phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
-			 "fax='".ilUtil::prepareDBString($this->fax)."', ".
-			 "last_update=now() ".
-			 "WHERE usr_id='".$this->id."'";
+			"gender='".$this->gender."', ".
+			"title='".ilUtil::prepareDBString($this->utitle)."', ".
+			"firstname='".ilUtil::prepareDBString($this->firstname)."', ".
+			"lastname='".ilUtil::prepareDBString($this->lastname)."', ".
+			"email='".ilUtil::prepareDBString($this->email)."', ".
+			"hobby='".ilUtil::prepareDBString($this->hobby)."', ".
+			"institution='".ilUtil::prepareDBString($this->institution)."', ".
+			"department='".ilUtil::prepareDBString($this->department)."', ".
+			"street='".ilUtil::prepareDBString($this->street)."', ".
+			"city='".ilUtil::prepareDBString($this->city)."', ".
+			"zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
+			"country='".ilUtil::prepareDBString($this->country)."', ".
+			"phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
+			"phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
+			"phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
+			"fax='".ilUtil::prepareDBString($this->fax)."', ".
+			"last_update=now(), ".
+            "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
+			"time_limit_unlimited='".ilUtil::prepareDBString($this->getTimeLimitUnlimited())."', ".
+			"time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
+			"time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."' ".
+			"WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
 
@@ -1275,6 +1294,90 @@ class ilObjUser extends ilObject
 	{
 		// TODO: exception handling (dir exists)
 		$this->skin = $a_str;
+	}
+
+
+   function setTimeLimitOwner($a_owner)
+    {
+        $this->time_limit_owner = $a_owner;
+    }
+    function getTimeLimitOwner()
+    {
+        return $this->time_limit_owner;
+    }
+    function setTimeLimitFrom($a_from)
+    {
+        $this->time_limit_from = $a_from;
+    }
+    function getTimeLimitFrom()
+    {
+        return $this->time_limit_from ? $this->time_limit_from : time();
+    }
+    function setTimeLimitUntil($a_until)
+    {
+        $this->time_limit_until = $a_until;
+    }
+    function getTimeLimitUntil()
+    {
+        return $this->time_limit_until ? $this->time_limit_until : time();
+    }
+    function setTimeLimitUnlimited($a_unlimited)
+    {
+        $this->time_limit_unlimited = $a_unlimited;
+    }
+    function getTimeLimitUnlimited()
+    {
+        return $this->time_limit_unlimited;
+    }
+
+	function checkTimeLimit()
+	{
+		if($this->getTimeLimitUnlimited())
+		{
+			return true;
+		}
+		if($this->getTimeLimitFrom() < time() and $this->getTimeLimitUntil() > time())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	function &getAppliedUsers()
+	{
+		$this->applied_users = array();
+		$this->__readAppliedUsers($this->getId());
+
+		return $this->applied_users ? $this->applied_users : array();
+	}
+
+	function isChild($a_usr_id)
+	{
+		if($a_usr_id == $this->getId())
+		{
+			return true;
+		}
+
+		$this->applied_users = array();
+		$this->__readAppliedUsers($this->getId());
+		
+		return in_array($a_usr_id,$this->applied_users);
+	}
+
+	function __readAppliedUsers($a_parent_id)
+	{
+		$query = "SELECT usr_id FROM usr_data ".
+			"WHERE time_limit_owner = '".$a_parent_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->applied_users[] = $row->usr_id;
+			
+			// recursion
+			$this->__readAppliedUsers($row->usr_id);
+		}
+		return true;
 	}
 
 	/*

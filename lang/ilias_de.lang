@@ -3546,3 +3546,14 @@ common#:#crs_member_passed#:#Bestanden
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
 crs#:#crs_passed#:#Bestanden
+common#:#time_limit_not_within_owners#:#Ihr Zugang ist zeitlich begrenzt, die von Ihnen eingebenen Zeiten überschreiten diesen Zeitraum.
+common#:#time_limits#:#Zugang
+common#:#time_limit#:#Zugang
+common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.
+common#:#time_limit_reached#:#Ihr Zugang ist abgelaufen.
+common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
+common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
+common#:#time_limit_applied_users#:#Angelegte Benutzer
+common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
+common#:#applied_users#:#Angelegte Benutzer
+common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert

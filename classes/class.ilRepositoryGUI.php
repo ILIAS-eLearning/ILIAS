@@ -2886,7 +2886,7 @@ class ilRepositoryGUI
 
 		if (is_array($subobj))
 		{
-			if($this->tree->checkForParentType($this->cur_ref_id,'crs') or 1)
+			if($this->tree->checkForParentType($this->cur_ref_id,'crs') or DEVMODE)
 			{
 				$this->tpl->setCurrentBlock("get_from_repos");
 				$this->tpl->setVariable("GET_REPOS_CMD",'copySelector');
