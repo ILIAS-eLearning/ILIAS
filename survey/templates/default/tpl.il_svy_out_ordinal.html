@@ -9,5 +9,19 @@
 <td class="nobackground"><label for="{QUESTION_ID}_{VALUE_ORDINAL}">{TEXT_ORDINAL}</label></td>
 </tr>
 <!-- END ordinal_row -->
+<!-- BEGIN ordinal_col -->
+<tr>
+<!-- BEGIN radio_col -->
+<td class="nobackground" align="center"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_ORDINAL}" id="{QUESTION_ID}_{VALUE_ORDINAL}"{CHECKED_ORDINAL} /></td>
+<td width="20">&nbsp;</td>
+<!-- END radio_col -->
+</tr>
+<tr>
+<!-- BEGIN text_col -->
+<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_ORDINAL}">{TEXT_ORDINAL}</label></td>
+<td width="20">&nbsp;</td>
+<!-- END text_col -->
+</tr>
+<!-- END ordinal_col -->
 </table>
 <!-- END question_data_ordinal -->

@@ -139,7 +139,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
-assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
+assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#counter#:#Counter
