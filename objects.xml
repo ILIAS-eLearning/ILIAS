@@ -306,7 +306,6 @@
 	<property name="newmembers">add_member</property>
 	<property name="perm">perm_settings</property>
 	<property name="trash">trash</property>
-	<subobj name="rolf" max="1">rolf</subobj>
 	<action name="delete">delete</action>
 </object>
 <object name="file" class_name="File" checkbox="1" inherit="0" translate="0">

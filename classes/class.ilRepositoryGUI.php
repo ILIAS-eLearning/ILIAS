@@ -1108,7 +1108,7 @@ class ilRepositoryGUI
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$obj_link = "exercise.php?cmd=edit&ref_id=".$cont_data["ref_id"];
+				$obj_link = "exercise.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
@@ -1306,7 +1306,7 @@ class ilRepositoryGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo")))
+					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
