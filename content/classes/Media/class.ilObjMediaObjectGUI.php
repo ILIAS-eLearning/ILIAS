@@ -134,6 +134,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
+		$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
+		$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -187,14 +189,26 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
 				$_FILES['standard_file']['name'], $file);
 
-			// set real meta and object data
+			// get mime type
 			$format = ilObjMediaObject::getMimeType($file);
+			$location = $_FILES['standard_file']['name'];
+
+			// resize standard images
+			if ($_POST["standard_size"] != "original" &&
+				$_POST["standard_resize"] == "y" &&
+				is_int(strpos($format, "image")))
+			{
+				$location = ilObjMediaObject::_resizeImage($file, $_POST["standard_width"],
+					$_POST["standard_height"]);
+			}
+
+			// set real meta and object data
 			$media_item->setFormat($format);
-			$media_item->setLocation($_FILES['standard_file']['name']);
+			$media_item->setLocation($location);
 			$media_item->setLocationType("LocalFile");
 			$meta_technical->addFormat($format);
 			$meta_technical->setSize($_FILES['standard_file']['size']);
-			$meta_technical->addLocation("LocalFile", $_FILES['standard_file']['name']);
+			$meta_technical->addLocation("LocalFile", $location);
 			$this->object->setTitle($_FILES['standard_file']['name']);
 		}
 		else	// standard type: reference
@@ -255,16 +269,34 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					//move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
 					ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
 						$_FILES['full_file']['name'], $file);
+				}
 
+				if ($_FILES['full_file']['name'] != "" ||
+						($_POST["full_size"] != "original" &&
+						$_POST["full_resize"] == "y" &&
+						is_int(strpos($format, "image")))
+					)
+				{
 					// set real meta and object data
 					$format = ilObjMediaObject::getMimeType($file);
+					$location = $_FILES['full_file']['name'];
+
+					// resize fullscreen images
+					if ($_POST["full_size"] != "original" &&
+						$_POST["full_resize"] == "y" &&
+						is_int(strpos($format, "image")))
+					{
+						$location = ilObjMediaObject::_resizeImage($file, $_POST["full_width"],
+							$_POST["full_height"]);
+					}
+
 					$media_item->setFormat($format);
-					$media_item->setLocation($_FILES['full_file']['name']);
+					$media_item->setLocation($location);
 					$media_item->setLocationType("LocalFile");
 					$meta_technical->addFormat($format);
 					$meta_technical->setSize($meta_technical->getSize()
 					 + $_FILES['full_file']['size']);
-					$meta_technical->addLocation("LocalFile", $_FILES['full_file']['name']);
+					$meta_technical->addLocation("LocalFile", $location);
 				}
 			}
 			else	// reference

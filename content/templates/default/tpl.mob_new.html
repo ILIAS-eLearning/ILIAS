@@ -36,7 +36,9 @@
 	<input type="text" name="standard_width" size="7" maxlength="20"> /
 	<input type="text" name="standard_height" size="7" maxlength="20">&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="standard_size" value="original" checked="1" />&nbsp;
-	{TXT_ORIGINAL_SIZE}
+	{TXT_ORIGINAL_SIZE}<br />
+	<input type="checkbox" name="standard_resize" value="y" checked="1"/>
+	{TXT_RESIZE} [*]
 	</td>
 </tr>
 <tr class="std">
@@ -85,6 +87,8 @@
 	<input type="text" name="full_height" size="7" maxlength="20">&nbsp;&nbsp;&nbsp;
 	<input type="radio" name="full_size" value="original" checked="1" />&nbsp;
 	{TXT_ORIGINAL_SIZE}
+	<br /><input type="checkbox" name="full_resize" value="y" checked="1"/>
+	{TXT_RESIZE} [*]
 	</td>
 </tr>
 <tr class="std">
@@ -110,3 +114,4 @@
 <!-- END commands -->
 </table>
 </form>
+[*] {TXT_RESIZE_EXPLANATION}
