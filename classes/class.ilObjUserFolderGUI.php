@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.25 2004/04/26 20:38:13 akill Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.26 2004/05/14 19:13:11 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -794,8 +794,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
-		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import"));
-		$this->tpl->setVariable("TXT_ROLES_GLOBAL", $this->lng->txt("assign_global_role"));
+		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
+		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_global_role"));
 		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
 		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
@@ -843,10 +843,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 		}
 
-		foreach($roles as $role_id => $role_name)
+		// global roles
+		foreach($roles as $role_id => $role)
 		{
+			if ($role["type"] == "Local")
+			{
+				continue;
+			}
+
 			// pre selection for "known" roles
-			switch($role_name)
+			switch($role["name"])
 			{
 				case "Administrator":	// ILIAS 2/3 Administrator
 					$pre_select = array_search("Administrator", $gl_roles);
@@ -870,8 +876,83 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 			$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
 			$this->tpl->setCurrentBlock("role");
-			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role_name." [".$role_id."]");
+			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
 			$this->tpl->setVariable("SELECT_ROLE", $role_select);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("role_section");
+		$this->tpl->parseCurrentBlock();
+
+
+		// get local roles
+		$loc_roles = $rbacreview->getAssignableRoles();
+		$l_roles = array();
+		foreach ($loc_roles as $key => $loc_role)
+		{
+			if (substr($loc_role["title"],0,3) != "il_")
+			{
+				// fetch context path of role
+				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+
+				// only list roles that are not set to status "deleted"
+				if (!$rbacreview->isDeleted($rolf[0]))
+				{
+					$path = "";
+					if ($this->tree->isInTree($rolf[0]))
+					{
+						$tmpPath = $this->tree->getPathFull($rolf[0]);
+						// count -1, to exclude the role folder itself
+						for ($i = 1; $i < (count($tmpPath)-1); $i++)
+						{
+							if ($path != "")
+							{
+								$path .= " > ";
+							}
+
+							$path .= $tmpPath[$i]["title"];
+						}
+					}
+					else
+					{
+						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
+					}
+					/*
+					$l_roles[] = array(
+								"type"			=> $loc_role["type"],
+								"role"			=> $loc_role["title"]."#separator#".$loc_role["desc"],
+								"role_type"		=> $loc_role["role_type"],
+								"context"		=> $path,
+								"obj_id"		=> $loc_role["obj_id"]
+							);*/
+					if ($loc_role["role_type"] != "global")
+					{
+						$l_roles[$loc_role["obj_id"]] = $loc_role["title"];
+					}
+				}
+			} // if substr
+		} //foreach role
+
+		// local roles
+		$got_locals = false;
+		foreach($roles as $role_id => $role)
+		{
+			if ($role["type"] == "Global")
+			{
+				continue;
+			}
+			$got_locals = true;
+
+			$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
+			$this->tpl->setCurrentBlock("role");
+			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
+			$this->tpl->setVariable("SELECT_ROLE", $role_select);
+			$this->tpl->parseCurrentBlock();
+		}
+		if ($got_locals)
+		{
+			$this->tpl->setCurrentBlock("role_section");
+			$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_local"));
+			$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_local_role"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}

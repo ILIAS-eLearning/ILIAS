@@ -1385,7 +1385,7 @@ foreach ($arr_roles as $role)
 					$arr_selected[] = "23";
 					$arr_selected[] = "24";
 					break;
-					
+
 				case "crs":
 					$arr_selected[] = "18";
 					$arr_selected[] = "20";
@@ -3039,3 +3039,8 @@ CREATE TABLE aicc_lm (
 ) TYPE=MyISAM;
 
 ?>
+
+<#194>
+ALTER TABLE scorm_tracking2 DROP PRIMARY KEY;
+ALTER TABLE scorm_tracking2 MODIFY lvalue VARCHAR(64) NOT NULL;
+ALTER TABLE scorm_tracking2 ADD PRIMARY KEY (user_id, sco_id, lvalue);
