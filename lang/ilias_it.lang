@@ -321,6 +321,8 @@ common#:#mail_deleted_entry#:#The entries are deleted###28 Mar 2003 new variable
 common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
 common#:#mail_entry_added#:#Added new Entry###28 Mar 2003 new variable
 common#:#mail_entry_changed#:#The entry is changed###28 Mar 2003 new variable
+common#:#mail_file_name#:#Filename###03 Apr 2003 new variable
+common#:#mail_file_size#:#Filesize###03 Apr 2003 new variable
 common#:#mail_folder_created#:#A new folder is created###28 Mar 2003 new variable
 common#:#mail_folder_exists#:#A folder already exists with this name###28 Mar 2003 new variable
 common#:#mail_folder_name#:#Folder name###28 Mar 2003 new variable
@@ -360,6 +362,7 @@ common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
 common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 2003 new variable
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###28 Mar 2003 new variable
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###28 Mar 2003 new variable
+common#:#mail_system#:#System Message###03 Apr 2003 new variable
 common#:#mail_to_search#:#To search###25 Mar 2003 new variable
 common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###29 Mar 2003 new variable
 common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
