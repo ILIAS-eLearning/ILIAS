@@ -26,23 +26,12 @@
 *
 * @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
+
 *
 * @package	ilias-tools
 */
 class ilValidator extends PEAR
 {
-	/**
-	* name of RecoveryFolder
-	* @var	string
-	*/
-	var $rfolder_name = "__Restored Objects";
-
-	/**
-	* ref_id of RecoveryFolder
-	* @var	integer
-	*/
-	var $rfolder_ref_id = NULL;
-
 	/**
 	* all valid rbac object types
 	* @var	string
@@ -584,16 +573,15 @@ remove starts here
 
 	/**
 	* Restores missing reference and/or tree entry for all objects found by this::getMissingObjects()
-	* Restored object are placed in RecoveryFolder defined in this::rfolder_name
+	* Restored object are placed in RecoveryFolder
 	* 
 	* @access	public
-	* @param	integer	ref_id of RecoveryFolder (optional)
 	* @param	array	obj_ids of missing objects (optional)
 	* @return	boolean	true if any object were restored / false on error or restore mode disabled
 	* @see		this::getMissingObjects()
 	* @see		this::findMissingObjects()
 	*/
-	function restoreMissingObjects($a_missing_objects = NULL,$a_rfolder_ref_id = NULL)
+	function restoreMissingObjects($a_missing_objects = NULL)
 	{
 		global $tree;
 
@@ -603,25 +591,13 @@ remove starts here
 			return false;
 		}
 
-		if ($a_rfolder_ref_id === NULL)
-		{
-			if ($this->rfolder_ref_id !== NULL)
-			{
-				$a_rfolder_ref_id = $this->rfolder_ref_id;
-			}
-			else
-			{
-				$a_rfolder_ref_id = $this->getRecoveryFolderId();
-			}
-		}
-
 		if ($a_missing_objects === NULL and isset($this->missing_objects))
 		{
 			$a_missing_objects = $this->missing_objects;
 		}
 
 		// handle wrong input
-		if (!is_integer($a_rfolder_ref_id) or !is_array($a_missing_objects)) 
+		if (!is_array($a_missing_objects)) 
 		{
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
@@ -688,13 +664,12 @@ restore starts here
 	* in the hierarchy because they point to an invalid parent_id
 	*
 	* @access	public
- 	* @param	integer	ref_id of RecoveryFolder (optional)
 	* @param	array	list of childs with invalid parents (optional)
 	* @return	boolean false on error or restore mode disabled
 	* @see		this::findUnboundObjects()
 	* @see		this::restoreSubTrees()
 	*/
-	function restoreUnboundObjects($a_unbound_objects = NULL,$a_rfolder_ref_id = NULL)
+	function restoreUnboundObjects($a_unbound_objects = NULL)
 	{
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -715,20 +690,19 @@ restore starts here
 		}
 		
 		// start restore process
-		return $this->restoreSubTrees($a_unbound_objects,$a_rfolder_ref_id);
+		return $this->restoreSubTrees($a_unbound_objects);
 	}
 	
 	/**
 	* Restore all objects in trash to RecoveryFolder
 	*
 	* @access	public
- 	* @param	integer	ref_id of RecoveryFolder (optional)
 	* @param	array	list of deleted childs  (optional)
 	* @return	boolean false on error or restore mode disabled
 	* @see		this::findDeletedObjects()
 	* @see		this::restoreSubTrees()
 	*/
-	function restoreTrash($a_deleted_objects = NULL,$a_rfolder_ref_id = NULL)
+	function restoreTrash($a_deleted_objects = NULL)
 	{
 		// check mode: restore
 		if ($this->mode["restore_trash"] !== true)
@@ -749,7 +723,7 @@ restore starts here
 		}
 		
 		// start restore process
-		$restored = $this->restoreSubTrees($a_deleted_objects,$a_rfolder_ref_id);
+		$restored = $this->restoreSubTrees($a_deleted_objects);
 		
 		if ($restored)
 		{
@@ -765,29 +739,16 @@ restore starts here
 	*
 	* @access	private
 	* @param	array	list of nodes
- 	* @param	integer	ref_id of RecoveryFolder (optional)
 * 	* @return	boolean false on error or restore mode disabled
 	* @see		this::restoreDeletedObjects()
 	* @see		this::restoreUnboundObjects()
 	*/
-	function restoreSubTrees ($a_nodes,$a_rfolder_ref_id = NULL)
+	function restoreSubTrees ($a_nodes)
 	{
 		global $tree,$rbacadmin,$ilias;
 
-		if ($a_rfolder_ref_id === NULL)
-		{
-			if ($this->rfolder_ref_id !== NULL)
-			{
-				$a_rfolder_ref_id = $this->rfolder_ref_id;
-			}
-			else
-			{
-				$a_rfolder_ref_id = $this->getRecoveryFolderId();
-			}
-		}
-		
 		// handle wrong input
-		if (!is_integer($a_rfolder_ref_id) or !is_array($a_nodes)) 
+		if (!is_array($a_nodes)) 
 		{
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
@@ -834,8 +795,8 @@ restore starts here
 			// first paste top_node ...
 			$rbacadmin->revokePermission($key);
 			$obj_data =& $ilias->obj_factory->getInstanceByRefId($key);
-			$obj_data->putInTree($a_rfolder_ref_id);
-			$obj_data->setPermissions($a_rfolder_ref_id);
+			$obj_data->putInTree(RECOVERY_FOLDER_ID);
+			$obj_data->setPermissions(RECOVERY_FOLDER_ID);
 
 			// ... remove top_node from list ...
 			array_shift($subnode);
@@ -867,7 +828,7 @@ restore starts here
 	* @param	array	list of nodes to delete
 	* @return	boolean	true on success
 	* @see		this::purgeObjects()
-	* @see		this->findDeletedObjects()
+	* @see		this::findDeletedObjects()
 	*/
 	function purgeTrash($a_nodes = NULL)
 	{
@@ -893,7 +854,7 @@ restore starts here
 	* @param	array	list of nodes to delete
 	* @return	boolean	true on success
 	* @see		this::purgeObjects()
-	* @see		this->findUnboundObjects()
+	* @see		this::findUnboundObjects()
 	*/
 	function purgeUnboundObjects($a_nodes = NULL)
 	{
@@ -949,70 +910,6 @@ restore starts here
 		$this->removeInvalidChilds();
 
 		return true;
-	}
-
-	/**
-	* Gets reference id of RecoveryFolder. Looks for an object named this::rfolder_name
-	* and returns its ref_id. If RecoveryFolder is not found it will be created by calling private method this::creatRecoveryFolder().
-	* 
-	* @access	public
-	* @return	integer	ref_id of RecoveryFolder
-	* @see		this::restoreMissingObjects()
-	* @see		this::restoreSubTrees()
-	*/
-	function getRecoveryFolderId()
-	{
-		global $ilias;
-		
-		if (is_integer($this->rfolder_ref_id))
-		{
-			return $this->rfolder_ref_id;
-		}
-		
-		// RecoveryFolder not set. Fetch from database
-		$q = "SELECT ref_id FROM object_reference ".
-			 "LEFT JOIN object_data ON object_data.obj_id=object_reference.obj_id ".
-			 "WHERE object_data.title = '".$this->rfolder_name."'";
-		$r = $this->db->getRow($q);
-
-		// RecoveryFolder does not exists. Create one
-		if (!$r->ref_id)
-		{
-			return $this->createRecoveryFolder();
-		}
-		else
-		{
-			$this->rfolder_ref_id = (int) $r->ref_id;
-
-			return $this->rfolder_ref_id;
-		}
-	}
-
-	/**
-	* create the RecoveryFolder. RecoveryFolder is a category object and 
-	* will be created under ILIAS root node by default.
-	*
-	* @access	private
-	* @param	integer	ref_id of parent object where RecoveryFolder should be created (optional)
-	* @return	integer	ref_id of RecoveryFolder
-	* @see		this::getRecoveryFolderId()
- 	*/
-	function createRecoveryFolder($a_parent_id = ROOT_FOLDER_ID)
-	{
-		include_once "classes/class.ilObjCategory.php";
-		$objRecover = new ilObjCategory();
-		$objRecover->setTitle(ilUtil::stripSlashes($this->rfolder_name));
-		$objRecover->setDescription(ilUtil::stripSlashes("Contains objects restored by recovery tool"));
-		$objRecover->create();
-		$objRecover->createReference();
-		$objRecover->putInTree($a_parent_id);
-		$objRecover->addTranslation($objRecover->getTitle(),$objRecover->getDescription(),"en",1);
-		// don't set any permissions -> RecoveryFolder is only accessible by admins
-
-		$this->rfolder_ref_id = (int) $objRecover->getRefId();
-		unset($objRecover);
-
-		return $this->rfolder_ref_id;
 	}
 
 	/**
