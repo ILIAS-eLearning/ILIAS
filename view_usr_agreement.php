@@ -58,7 +58,7 @@ infoPanel();
 			*/
 
 			$tpl->setCurrentBlock("languages");
-			$tpl->setVariable("LINK_LANG", "./view_usr_agreement.php?lang=".$lang_key);
+			$tpl->setVariable("LINK_LANG", "./view_usr_agreement.php?lang=".$lang_key."&cmd=".$_GET["cmd"]);
 			$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
 			$tpl->setVariable("LANG_ICON", $lang_key);
 			$tpl->setVariable("BORDER", 0);
@@ -81,8 +81,28 @@ infoPanel();
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement());
-$tpl->setVariable("BACK", $lng->txt("back"));
-$tpl->setVariable("LANG_KEY", $lng->lang_key);
+
+if ($cmd == "getAcceptance")
+{
+	if ($_POST["status"]=="accepted")
+	{
+		$ilias->account->writeAccepted();
+		ilUtil::redirect("start.php");
+	}
+	$tpl->setVariable("FORM_ACTION", "view_usr_agreement.php?cmd=getAcceptance&lang=".$_GET["lang"]);
+	$tpl->setCurrentBlock("get_acceptance");
+	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
+	$tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement"));
+	$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+	$tpl->parseCurrentBlock();
+}
+else
+{
+	$tpl->setCurrentBlock("back");
+	$tpl->setVariable("BACK", $lng->txt("back"));
+	$tpl->setVariable("LANG_KEY", $lng->lang_key);
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->show();
 

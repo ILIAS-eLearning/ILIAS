@@ -2,6 +2,7 @@
 body { margin:0px; }
 </style>
 {STATUSLINE}
+<form action="{FORM_ACTION}" method="post">
 <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
 <!--<div class="invisible_border">-->
 <div class="il_Header">
@@ -39,15 +40,24 @@ body { margin:0px; }
 </tr>
 <tr>
 <td class="std">
-
  </td>
 </tr>
+<!-- BEGIN get_acceptance -->
+<tr class="std">
+    <td class="std"><b><label for="status">{ACCEPT_AGREEMENT}</label></b>&nbsp;
+    {ACCEPT_CHECKBOX}&nbsp;
+	<input type="submit" class="submit" value="{TXT_SUBMIT}">
+    </td>
+</tr>
+<!-- END get_acceptance -->
 </table>
-
+</form>
 </div>
 <br/>
 <br/>
 <div style="text-align:center;">
+<!-- BEGIN back -->
 [<a href="login.php?lang={LANG_KEY}">{BACK}</a>]
+<!-- END back -->
 <!--</div>-->
 </td></tr></table>

@@ -200,6 +200,17 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 
 	// load account data of current user
 	$ilias->account->read();
+	
+	// check wether user has accepted the user agreement
+//echo "-".$script;
+	if (!$ilias->account->hasAcceptedUserAgreement() &&
+		$script != "view_usr_agreement.php" &&
+		$script != "login.php" &&
+		$ilias->account->getId() != ANONYMOUS_USER_ID)
+	{
+//echo "redirect from $script for ".$ilias->account->getFirstName();
+		ilUtil::redirect("view_usr_agreement.php?cmd=getAcceptance");
+	}
 
 	// update last_login date once the user logged in
 	if ($script == "login.php")
@@ -278,6 +289,7 @@ $tree = new ilTree(ROOT_FOLDER_ID);
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
+
 
 // ### AA 03.10.29 added new LocatorGUI class ###
 // when locator data array does not exist, initialise
