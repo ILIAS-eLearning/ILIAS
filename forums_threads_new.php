@@ -119,7 +119,8 @@ if ($_GET["cmd"] == "newthread")
 	else
 	{		
 		// build new thread
-		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], $formData["subject"], $formData["message"]);
+		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
+										$formData["subject"], $formData["message"],$formData["notify"]);
 		
 		// Visit-Counter
 		$frm->setDbTable("frm_data");
@@ -141,6 +142,8 @@ $tpl->setCurrentBlock("new_thread");
 $tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
+$tpl->setVariable("TXT_NOTIFY",$lng->txt("forum_notification"));
+$tpl->setVariable("NOTIFY",$lng->txt("forum_notify_me"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);

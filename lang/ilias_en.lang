@@ -2013,3 +2013,6 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#forum_post_replied#:#Your forum entry has been replied.
+common#:#forum_notify_me#:#Notify me when a reply is posted
+common#:#forum_notification#:#Notification
