@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.76 2004/02/18 17:30:18 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.77 2004/04/16 03:35:35 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -156,7 +156,10 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem;
+		global $rbacadmin, $rbacreview, $rbacsystem,$objDefinition;
+
+
+		$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
 		{
@@ -172,6 +175,11 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// FILTER SUBOJECTS OF adm OBJECT
+			if(in_array($row->title,$to_filter))
+			{
+				continue;
+			}
 			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 											    "type"		=> $row->title
 												);
@@ -417,13 +425,15 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview,$objDefinition;
 
 		// SET TEMPLATE PERMISSIONS
 		if (!$rbacsystem->checkAccess('write', $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$to_filter = $objDefinition->getSubobjectsToFilter();
 
 		// first safe permissions that were disabled in HTML form due to missing lack of permissions of user who changed it
 		// TODO: move this following if-code into an extra function. this part is also used in $this->permObject !!
@@ -437,6 +447,12 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				// FILTER SUBOJECTS OF adm OBJECT
+				if(in_array($row->title,$to_filter))
+				{
+					continue;
+				}
+
 				$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
 												    "type"		=> $row->title
 													);
