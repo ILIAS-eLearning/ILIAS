@@ -1423,7 +1423,7 @@ class ilObjectGUI
 			: $module."/";
 
 			// create and insert object in objecttree
-		$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
+		$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
 		include_once($module_dir."classes/class.".$class_name.".php");
 		$newObj = new $class_name();
 		$newObj->setType($_GET["new_type"]);
@@ -1646,16 +1646,17 @@ class ilObjectGUI
 
 		foreach ($data["roles"] as $role)
 		{
-			// BLOCK ROLENAMES
-			/*if ($role["link"])
+			if(0 and $role['role_type'] != 'global' and is_object($this->ctrl))
 			{
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-				$this->tpl->setVariable("LINK_ROLE_RULESET","adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
+				$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
+				$this->tpl->setVariable("LINK_ROLE_RULESET",
+										$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->touchBlock("ROLELINK_CLOSE");
-			}*/
+			}
 
 			$this->tpl->setCurrentBlock("ROLENAMES");
 			$this->tpl->setVariable("ROLE_NAME",$role["title"]);

@@ -4548,3 +4548,61 @@ UPDATE rbac_operations SET operation='create_sahs', description='create new SCOR
 
 <#284>
 UPDATE rbac_templates SET type='sahs' WHERE type='slm';
+
+<#285>
+<?php
+$query = "INSERT INTO rbac_operations ".
+	"VALUES('','cat_administrate_users','Administrate local user')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() AS ops_id";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$admin_ops = $row->ops_id;
+}
+
+$query = "INSERT INTO rbac_operations ".
+	"VALUES('','read_users','read local users')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() AS ops_id";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$read_ops = $row->ops_id;
+}
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$cat_id = $row->obj_id;
+}
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'usrf'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$usrf_id = $row->obj_id;
+}
+
+$query = "INSERT INTO rbac_ta VALUES('".$cat_id."','".$read_ops."')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta VALUES('".$cat_id."','".$admin_ops."')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta VALUES('".$usrf_id."','".$read_ops."')";
+$this->db->query($query);
+?>
+
+<#286>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#287>
+<?php
+$query = "UPDATE usr_data SET time_limit_owner = '7'";
+$this->db->query($query);
+?>

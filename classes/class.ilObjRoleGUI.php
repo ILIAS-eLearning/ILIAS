@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.84 2004/08/25 10:38:12 wrandels Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.85 2004/09/09 13:11:41 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -49,6 +49,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	* @access	public
 	*/
 	var $rolf_ref_id;
+
+
+	var $ctrl;
  
 	/**
 	* Constructor
@@ -56,9 +59,35 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $ilCtrl;
+
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 		$this->rolf_ref_id =& $this->ref_id;
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this,'obj_id');
+	}
+
+	function &executeCommand()
+	{
+		global $rbacsystem;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
+		{
+			default:
+				if(!$cmd)
+				{
+					$cmd = "view";
+				}
+				$cmd .= "Object";
+				$this->$cmd();
+					
+				break;
+		}
+		return true;
 	}
 
 	/**
@@ -274,7 +303,8 @@ class ilObjRoleGUI extends ilObjectGUI
 					$checked = in_array($operation["ops_id"],$arr_checked);
 
 					// for global roles only allow to set those permission the current user is granted himself except SYSTEM_ROLE_ID !!
-					if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $global_role == true and !in_array($operation["ops_id"],$allowed_ops_on_type))
+					if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $global_role == true and 
+						!in_array($operation["ops_id"],$allowed_ops_on_type))
 					{
 						$disabled = true;
 					}

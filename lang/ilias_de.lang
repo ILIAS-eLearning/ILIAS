@@ -3665,7 +3665,7 @@ survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Speichern und zur Startseite
+survey#:#survey_start#:#<<< Speichern und zur Startseitess
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
@@ -3681,3 +3681,19 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+common#:#administrate_users#:#Lokale Benutzerverwaltung
+common#:#add_user#:#Lokalen Benutzer hinzufügen
+common#:#all_users#:#Alle Benutzer
+common#:#global_user#:#Globale Benutzer
+common#:#filter#:#Filter:
+common#:#apply_filter#:#Filter anwenden
+common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
+common#:#local#:#Lokal
+common#:#global#:#Global
+common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
+common#:#role_assignment_updated#:#Die Rollenzuweisung wurde geändert.
+common#:#sure_delete_selected_users#:#Sind sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
+common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
+common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
+common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
+common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren

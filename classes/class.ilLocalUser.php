@@ -70,7 +70,7 @@ class ilLocalUser
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if($rbacsystem->checkAccess('read_user',$row->time_limit_owner))
+			if($rbacsystem->checkAccess('read_users',$row->parent_id))
 			{
 				$parent[] = $row->parent_id;
 			}
@@ -81,10 +81,6 @@ class ilLocalUser
 	{
 		global $ilDB;
 
-		if($a_filter and !in_array($a_filter,ilLocalUser::_getFolderIds()))
-		{
-			die('ilObjLocalUser::_getAllUserIds(): Not possible');
-		}
 		switch($a_filter)
 		{
 			case 0:
