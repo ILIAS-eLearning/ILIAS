@@ -439,7 +439,7 @@
 
 <xsl:template match="Content">
 	<div class="lo" id="lo_view">
-		<span class="Headline" id="lo_view">
+		<span class="Title" id="lo_view">
 			<xsl:value-of select="../MetaData/General/Title"/>
 		</span>
 		<xsl:apply-templates/>
