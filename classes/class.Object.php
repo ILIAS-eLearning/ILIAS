@@ -404,8 +404,7 @@ class Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("location:object.php?cmd=perm&obj_id=".$new_obj_id."&parent=".$rolf_id);
-		exit;
+		return true;
 	}
 	
 	/**
