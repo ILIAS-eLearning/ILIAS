@@ -55,6 +55,7 @@ common#:#and#:#et
 common#:#announce#:#Annonce
 common#:#announce_changes#:#Annoncer les changements
 common#:#answers#:#Réponses
+common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
 common#:#application_date#:#Date d'inscription
 common#:#appointment#:#Rendez-vous
 common#:#appointment_list#:#Liste de rendez-vous
@@ -151,6 +152,7 @@ common#:#database#:#Base de données
 common#:#database_version#:#Version courante de la base de données
 common#:#dataset#:#Item
 common#:#date#:#Date
+common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
 common#:#day#:#Jour
 common#:#days#:#Jours
 common#:#db_host#:#Hôte de base de données
@@ -239,6 +241,7 @@ common#:#exc_status_saved#:#Exercice mis à jour
 common#:#exc_status_solved#:#Résolu
 common#:#exc_upload_error#:#Erreur lors du téléversement du fichier
 common#:#exc_users#:#Utilisateurs
+common#:#excs#:#Exercises###17 Dec 2003 new variable
 common#:#execute#:#Exécuter
 common#:#export_html#:#exporter sous la forme d'un fichier html
 common#:#export_xml#:#exporter sous la forme d'un fichier xml
@@ -264,6 +267,7 @@ common#:#fold_a#:#un répertoire
 common#:#fold_add#:#Ajouter répertoire
 common#:#fold_added#:#Répertoire ajouté
 common#:#fold_new#:#Nouveau répertoire
+common#:#folder#:#folder###11 Dec 2003 new variable
 common#:#folders#:#Répertoires
 common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !
 common#:#forename#:#Prénom
@@ -330,6 +334,8 @@ common#:#grp_add#:#Ajouter groupe
 common#:#grp_added#:#Groupe ajouté
 common#:#grp_edit#:#Modifier groupe
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
+common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
 common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###26 Nov 2003 new variable
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
@@ -337,6 +343,7 @@ common#:#grp_err_registration_data#:#Please enter a password, the expiration dat
 common#:#grp_mem_change_status#:#Changer le statut de membre
 common#:#grp_mem_leave#:#Enlever le membre du groupe
 common#:#grp_mem_send_mail#:#Envoyer un message au membre
+common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#Un groupe portant ce nom existe déjà ! Veuillez choisir un autre nom.
 common#:#grp_new#:#Nouveau groupe
 common#:#grp_register#:#Registere###26 Nov 2003 new variable
@@ -403,23 +410,32 @@ common#:#is_already_your#:#est déjà votre
 common#:#item#:#Objet
 common#:#kb#:#Ko
 common#:#keywords#:#Mots-clés
+common#:#lang_cz#:#Czech###11 Dec 2003 new variable
 common#:#lang_dateformat#:#d-m-Y
 common#:#lang_de#:#Allemand
 common#:#lang_dk#:#Danois
 common#:#lang_en#:#Anglais
 common#:#lang_es#:#Espagnol
+common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
 common#:#lang_fr#:#Français
+common#:#lang_gr#:#Greek###11 Dec 2003 new variable
 common#:#lang_id#:#Indonésien
 common#:#lang_it#:#Italien
-common#:#lang_no#:#Norvégien
+common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
+common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
+common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
+common#:#lang_no#:#Norvégien###11 Dec 2003 content changed
 common#:#lang_path#:#Chemin des langues
 common#:#lang_pl#:#Polonais
+common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
 common#:#lang_se#:#Suédois
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
+common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
 common#:#lang_version#:#1 XXX
 common#:#lang_xx#:#Personnalisé
+common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
 common#:#langfile_found#:#Fichier de langue trouvé
 common#:#language#:#Langue
 common#:#language_not_installed#:#n'est pas installé.  Veuillez d'abord installer cette langue.
@@ -605,6 +621,7 @@ common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
 common#:#no_objects#:#Pas d'objet
+common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
 common#:#no_title#:#Pas de titre
 common#:#none#:#Aucun
 common#:#normal#:#Normal
@@ -741,6 +758,7 @@ common#:#registered_since#:#Abonné depuis
 common#:#registered_user#:#Utilisateur abonné
 common#:#registered_users#:#Utilisateurs abonnés
 common#:#registration#:#Nouvel enregistrement de compte
+common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
 common#:#remove#:#Annuler
 common#:#remove_translation#:#Supprimer la traduction
 common#:#rename#:#Renommer
@@ -845,6 +863,7 @@ common#:#test_intern#:#Test Interne
 common#:#time#:#Heure
 common#:#title#:#Titre
 common#:#to#:#à
+common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
 common#:#to_desktop#:#S'abonner
 common#:#today#:#Aujourd'hui
 common#:#total#:#Total
@@ -875,6 +894,7 @@ common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
 common#:#user_deleted#:#Utilisateur détruit
 common#:#user_language#:#Langue utilisateur
+common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
 common#:#userdata#:#Données utilisateur
 common#:#username#:#Nom d'utilisateur
 common#:#users#:#Utilisateurs
@@ -1059,7 +1079,9 @@ content#:#cont_school#:#Ecole
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Veuillez ne sélectionner qu'un seul objet
 content#:#cont_select_max_one_term#:#Sélectionner un seul objet
+content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
 content#:#cont_select_one_translation#:#Veuillez saisir une traduction
+content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
 content#:#cont_select_term#:#Selectionner terme
 content#:#cont_select_translation#:#Veuillez saisir l'assignation dans la liste ci-dessus
 content#:#cont_series#:#Collection
@@ -1741,15 +1763,38 @@ search#:#search_concatenation#:#Concaténation
 search#:#search_content#:#Contenu de page
 search#:#search_dbk_content#:#Bibliothèque digitale (contenu)
 search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
+search#:#search_group#:#Groups###11 Dec 2003 new variable
 search#:#search_in_result#:#Chercher dans les résultats
 search#:#search_lm_content#:#Matériaux d'apprentissage (contenu)
 search#:#search_lm_meta#:#Matériaux d'apprentissage (méta-données)
 search#:#search_meta#:#Méta-données
 search#:#search_minimum_three#:#Votre recherche doit comporter au moins trois caractères
+search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
+search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
+search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
+search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
 search#:#search_no_category#:#Vous n'avez choisi aucune catégorie de recherche
 search#:#search_no_match#:#Votre recherche ne correspond à aucun résultat
+search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
 search#:#search_no_search_term#:#Vous n'avez choisi aucun terme de recherche
+search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
+search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
+search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
+search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
+search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
+search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
+search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
+search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
 search#:#search_search_for#:#Rechercher
+search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
+search#:#search_search_results#:#Search results###11 Dec 2003 new variable
 search#:#search_search_term#:#Terme de recherche
+search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
+search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
+search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
+search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
+search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
+search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
 search#:#search_show_result#:#Afficher
 search#:#search_user#:#Utilisateurs

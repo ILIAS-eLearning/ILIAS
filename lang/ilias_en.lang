@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#3rd party software
+common#:#3rd_party_software#:#3rd party software 
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -152,6 +152,7 @@ common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
 common#:#date#:#Date
+common#:#dateplaner#:#Dateplaner
 common#:#day#:#Day
 common#:#days#:#Days
 common#:#db_host#:#Database Host
@@ -240,6 +241,7 @@ common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_solved#:#Solved
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
+common#:#excs#:#Exercises
 common#:#execute#:#Execute
 common#:#export_html#:#export as html file
 common#:#export_xml#:#export as xml file
@@ -265,6 +267,7 @@ common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
+common#:#folder#:#folder
 common#:#folders#:#Folders
 common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
@@ -407,8 +410,8 @@ common#:#is_already_your#:#is already your
 common#:#item#:#Item
 common#:#kb#:#KByte
 common#:#keywords#:#Keywords
-common#:#lang_dateformat#:#Y-m-d
 common#:#lang_cz#:#Czech
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#German
 common#:#lang_dk#:#Danish
 common#:#lang_en#:#English
@@ -761,7 +764,6 @@ common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#reply#:#Reply
 common#:#repository#:#Repository
-common#:#dateplaner#:#Dateplaner
 common#:#required_field#:#Required Field
 common#:#reset#:#Reset
 common#:#resources#:#Resources
@@ -861,6 +863,7 @@ common#:#test_intern#:#Test Intern
 common#:#time#:#Time
 common#:#title#:#Title
 common#:#to#:#To
+common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
 common#:#total#:#Total
@@ -1076,7 +1079,9 @@ content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_one_edition#:#Please select at least one edition.
 content#:#cont_select_one_translation#:#Please select one translation
+content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.
 content#:#cont_select_term#:#Select a term
 content#:#cont_select_translation#:#Please select the assignment from the list above
 content#:#cont_series#:#Series
@@ -1758,43 +1763,38 @@ search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
 search#:#search_dbk_content#:#Digital Library (content)
 search#:#search_dbk_meta#:#Digital Library (meta data)
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly
+search#:#search_group#:#Groups
 search#:#search_in_result#:#Search within results
 search#:#search_lm_content#:#Learning materials (content)
 search#:#search_lm_meta#:#Learning materials (meta data)
 search#:#search_meta#:#Meta data
 search#:#search_minimum_three#:#Your search has to be at least three characters long
+search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
+search#:#search_move_to#:#Move to:
+search#:#search_my_search_results#:#My search results
+search#:#search_new_folder#:#New folder
 search#:#search_no_category#:#You haven't selected any search category
 search#:#search_no_match#:#Your search didn't match any results
+search#:#search_no_results_saved#:#No results saved.
 search#:#search_no_search_term#:#You haven't selected any search term
+search#:#search_no_selection#:#You did no selection.
+search#:#search_object_renamed#:#Object renamed.
+search#:#search_objects_deleted#:#Object(s) deleted.
+search#:#search_objects_moved#:#Objects moved.
+search#:#search_one_action#:#Select one action.
+search#:#search_rename_title#:#Rename title
+search#:#search_results_saved#:#Search results saved
+search#:#search_save_as_select#:#Save as:
 search#:#search_search_for#:#Search for
+search#:#search_search_no_results_saved#:#There are no search results saved
+search#:#search_search_results#:#Search results
 search#:#search_search_term#:#Search term
+search#:#search_select_exactly_one_object#:#You have to select exactly one object.
+search#:#search_select_one#:#Select one folder
+search#:#search_select_one_action#:#--Select one action--
+search#:#search_select_one_folder_select#:#--Select one folder--
+search#:#search_select_one_result#:#Select at least one search result
+search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-search#:#search_select_one#:#Select one folder
-search#:#search_my_search_results#:#My search results
-search#:#search_search_results#:#Search results
-search#:#search_select_one_result#:#Select at least one search result
-search#:#search_results_saved#:#Search results saved
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly
-search#:#search_new_folder#:#New folder
-search#:#search_search_no_results_saved#:#There are no search results saved
-search#:#search_group#:#Groups
-common#:#folder#:#folder
-search#:#search_select_one_folder_select#:#--Select one folder--
-search#:#search_save_as_select#:#Save as:
-search#:#search_select_one_action#:#--Select one action--
-search#:#search_objects_deleted#:#Object(s) deleted.
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.
-search#:#search_object_renamed#:#Object renamed.
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
-search#:#search_objects_moved#:#Objects moved.
-search#:#search_no_selection#:#You did no selection.
-search#:#search_rename_title#:#Rename title
-search#:#search_one_action#:#Select one action.
-search#:#search_move_to#:#Move to:
-search#:#search_select_one_select#:#--Select one folder--
-common#:#to_client_list#:#To Client selection
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.
-content#:#cont_select_one_edition#:#Please select at least one edition.
-search#:#search_no_results_saved#:#No results saved.
-common#:#excs#:#Exercises
