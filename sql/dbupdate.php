@@ -1353,7 +1353,7 @@ if ($res->numRows())
 {
 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	$encrypted_passwd = md5($row->value);
-	
+
 	$query = "DELETE FROM settings WHERE keyword='setup_passwd'";
 	$this->db->query($query);
 
@@ -1406,4 +1406,101 @@ $this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','4') ");
 $this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','5') ");
 $this->db->query("INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('$id','6') ");
 ?>
- 
+
+<#75>
+DROP TABLE IF EXISTS scorm_tree;
+CREATE TABLE scorm_tree (
+  slm_id int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned default NULL,
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  KEY child (child),
+  KEY parent (parent)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS scorm_object;
+CREATE TABLE scorm_object (
+	obj_id int(11) NOT NULL auto_increment,
+	title VARCHAR(200),
+	type CHAR(3),
+	slm_id INT NOT NULL,
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#76>
+CREATE TABLE sc_manifest (
+	obj_id int(11) NOT NULL,
+	import_id VARCHAR(200),
+	version VARCHAR(200),
+	xml_base VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#77>
+CREATE TABLE sc_organizations (
+	obj_id int(11) NOT NULL,
+	default_organization VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#78>
+CREATE TABLE sc_organization (
+	obj_id int(11) NOT NULL,
+	import_id VARCHAR(200),
+	structure VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+
+<#79>
+CREATE TABLE sc_item (
+	obj_id int(11) NOT NULL,
+	import_id VARCHAR(200),
+	identifierref VARCHAR(200),
+	isvisible ENUM('', 'true', 'false') DEFAULT '',
+	parameters TEXT,
+	prereq_type VARCHAR(200),
+	prerequisites TEXT,
+	maxtimeallowed VARCHAR(30),
+	timelimitaction VARCHAR(30),
+	datafromlms TEXT,
+	masteryscore VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#80>
+CREATE TABLE sc_resources (
+	obj_id int(11) NOT NULL,
+	xml_base VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#81>
+CREATE TABLE sc_resource (
+	obj_id int(11) NOT NULL,
+	import_id VARCHAR(200),
+	type VARCHAR(30),
+	scormtype ENUM('sco', 'asset'),
+	href VARCHAR(250),
+	xml_base VARCHAR(200),
+	PRIMARY KEY  (obj_id)
+) TYPE=MyISAM;
+
+<#82>
+CREATE TABLE sc_resource_file (
+	id INT NOT NULL AUTO_INCREMENT,
+	res_id int(11),
+	href TEXT,
+	PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+<#83>
+CREATE TABLE sc_resource_dependency (
+	id INT NOT NULL AUTO_INCREMENT,
+	res_id int(11),
+	identifierref VARCHAR(200),
+	PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
