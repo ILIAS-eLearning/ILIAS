@@ -172,6 +172,8 @@ class ilMainMenuGUI
 							"IMG_FEEDB_O" => "navbar/feedb_o.gif",
 							"IMG_ADMIN" => "navbar/admin.gif",
 							"IMG_ADMIN_O" => "navbar/admin_o.gif",
+							"IMG_DP" => "navbar/termin.gif",
+							"IMG_DP_O" => "navbar/termin_o.gif",
 							"IMG_LOGOUT" => "navbar/logout.gif",
 							"IMG_LOGOUT_O" => "navbar/logout_o.gif",
 							"IMG_ILIAS" => "navbar/ilias.gif");
@@ -210,6 +212,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 		$this->tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
 		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+		$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
 
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);

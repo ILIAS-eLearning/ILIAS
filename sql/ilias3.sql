@@ -1296,6 +1296,7 @@ INSERT INTO `lng_data` VALUES ('common', 'remove_translation', 'en', 'Remove tra
 INSERT INTO `lng_data` VALUES ('common', 'rename', 'en', 'Rename');
 INSERT INTO `lng_data` VALUES ('common', 'reply', 'en', 'Reply');
 INSERT INTO `lng_data` VALUES ('common', 'repository', 'en', 'Repository');
+INSERT INTO `lng_data` VALUES ('common', 'dateplaner', 'en', 'Dateplaner');
 INSERT INTO `lng_data` VALUES ('common', 'required_field', 'en', 'Required Field');
 INSERT INTO `lng_data` VALUES ('common', 'reset', 'en', 'Reset');
 INSERT INTO `lng_data` VALUES ('common', 'resources', 'en', 'Resources');

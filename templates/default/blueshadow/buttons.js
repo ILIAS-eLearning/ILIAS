@@ -31,6 +31,8 @@ if (document.images)
 	imag[25] = path + "editor_o.gif";
 	imag[26] = path + "admin.gif";
 	imag[27] = path + "admin_o.gif";
+	imag[28] = path + "termin.gif";
+	imag[29] = path + "termin_o.gif";
 
 	im = new Array();
 	

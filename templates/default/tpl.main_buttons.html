@@ -37,6 +37,8 @@ if (document.images)
 	imag[25] = "{IMG_EDITOR_O}";
 	imag[26] = "{IMG_ADMIN}";
 	imag[27] = "{IMG_ADMIN_O}";
+	imag[28] = "{IMG_DP}";
+	imag[29] = "{IMG_DP_O}";
 
 	im = new Array();
 
@@ -110,6 +112,10 @@ if (document.images)
       <td><img class="spacer" border="0" src="{IMG_SPACE_MAIL}" width="5" /></td>
 <!-- END mailbutton -->
 
+      <td><a href="modules/dateplaner/inbox.php" target="{TARGET}" onmouseover="swtchon(29,termin,'{TXT_DP}');return true;" onmouseout="swtch(28,termin)">
+    	<img border="0" src="{IMG_DP}" width="32" height="32" alt="{TXT_DP}" title="{TXT_DP}" name="termin" /></a></td>
+	  <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
+
 <!--
       <td><a href="{SCRIPT_FORUMS}" target="{TARGET}" onmouseover="swtchon(17,newsgr,'{TXT_FORUMS}');return true;" onmouseout="swtch(6,newsgr)">
 	    <img border="0" src="{IMG_FORUMS}" width="32" height="32" alt="{TXT_FORUMS}" title="{TXT_FORUMS}" name="newsgr" /></a></td>
@@ -118,6 +124,9 @@ if (document.images)
       <td><a href="{SCRIPT_GROUPS}" target="{TARGET}" onmouseover="swtchon(18,groups,'{TXT_GROUPS}');return true;" onmouseout="swtch(7,groups)">
 	    <img border="0" src="{IMG_GROUPS}" width="32" height="32" alt="{TXT_GROUPS}" title="{TXT_GROUPS}" name="groups" /></a></td>
 -->
+
+
+
 
 <!-- BEGIN userisadmin -->
       <!--<td><img class="spacer" border="0" src="{IMG_SPACE_ADMIN}" width="5" /></td>-->

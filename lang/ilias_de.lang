@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -332,7 +332,7 @@ common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe übearbeiten
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
-common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef�hrt
+common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef?hrt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
@@ -761,6 +761,7 @@ common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
+common#:#dateplaner#:#Terminplaner
 common#:#required_field#:#Erforderliche Angabe
 common#:#reset#:#Zurücksetzen
 common#:#resources#:#Ressourcen
