@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#cloze_text#:#Cloze text
 assessment#:#code#:#Code
+assessment#:#coordinates#:#Coordinates
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
+assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
+assessment#:#delete_area#:#Delete area
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
@@ -141,8 +144,8 @@ assessment#:#gap_selection#:#Gap selection
 assessment#:#height#:#Height
 assessment#:#imagemap#:#Image map
 assessment#:#imagemap_source#:#Image map source
-assessment#:#upload_imagemap#:#Upload an Image map
-assessment#:#create_imagemap#:#Create an Image map
+assessment#:#internal_links#:#Internal Links
+assessment#:#internal_links_update#:#Update
 assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
@@ -208,6 +211,7 @@ assessment#:#save_next#:#Save and goto next question
 assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
+assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
@@ -305,11 +309,10 @@ assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.
+assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#width#:#Width
 assessment#:#working_time#:#Working Time
-assessment#:#internal_links#:#Internal Links
-assessment#:#internal_links_update#:#Update
 bibitem#:#bibitem_add#:#Add
 bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
@@ -1372,6 +1375,9 @@ common#:#obj_slm#:#SCORM Learning Module
 common#:#obj_spl#:#Question Pool (Survey)
 common#:#obj_st#:#Chapter
 common#:#obj_svy#:#Survey
+common#:#obj_tax#:#Taxonomy
+common#:#obj_taxf#:#Taxonomies
+common#:#obj_taxf_desc#:#Folder for taxonomies
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
@@ -1662,6 +1668,15 @@ common#:#system_grp#:#System Group
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#table_mail_import#:#Mail import
+common#:#tax_delete#:#Delete taxonomies
+common#:#tax_edit_permission#:#Change permission settings
+common#:#tax_read#:#Read access to taxonomies
+common#:#tax_visible#:#Taxonomy is visible
+common#:#tax_write#:#Write access to taxonomies
+common#:#taxf_edit_permission#:#Change permission settings
+common#:#taxf_read#:#Read access to taxonomy folder
+common#:#taxf_visible#:#Taxonomy folder is visible
+common#:#taxf_write#:#Write access to taxonomy folder
 common#:#term#:#Term
 common#:#test_intern#:#Test Intern
 common#:#tests#:#Tests
@@ -3182,18 +3197,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-assessment#:#shape#:#Shape
-assessment#:#coordinates#:#Coordinates
-assessment#:#delete_area#:#Delete area
-common#:#obj_taxf#:#Taxonomies
-common#:#obj_taxf_desc#:#Folder for taxonomies
-common#:#taxf_edit_permission#:#Change permission settings
-common#:#taxf_visible#:#Taxonomy folder is visible
-common#:#taxf_read#:#Read access to taxonomy folder
-common#:#taxf_write#:#Write access to taxonomy folder
-common#:#tax_edit_permission#:#Change permission settings
-common#:#tax_visible#:#Taxonomy is visible
-common#:#tax_read#:#Read access to taxonomies
-common#:#tax_write#:#Write access to taxonomies
-common#:#tax_delete#:#Delete taxonomies
-common#:#obj_tax#:#Taxonomy

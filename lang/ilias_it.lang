@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Creata
 assessment#:#create_gaps#:#Crea un vuoto
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Crea nuovo
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplica
 assessment#:#end_tag#:#Fine tag
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
@@ -140,6 +143,9 @@ assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Applet Java
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
@@ -205,6 +211,7 @@ assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#set_filter#:#Imposta filtro
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Trascina le risposte
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
@@ -302,6 +309,7 @@ assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#width#:#Larghezza
 assessment#:#working_time#:#Tempo di esecuzione
@@ -917,7 +925,7 @@ common#:#grp_create_mep#:#Create raccolte multimediali
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#eliminare il gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
-common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione dal gruppo?
+common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione dal gruppo?###19 Jun 2004 content changed
 common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
@@ -1367,6 +1375,9 @@ common#:#obj_slm#:#Modulo SCORM
 common#:#obj_spl#:#Raccolta di domande (verifica)
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Verifica
+common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
+common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
+common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1657,6 +1668,15 @@ common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
+common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
+common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
+common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
+common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
+common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
+common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Termine
 common#:#test_intern#:#Test interno
 common#:#tests#:#Test

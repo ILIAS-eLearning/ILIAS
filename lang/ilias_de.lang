@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Lückentext
 assessment#:#code#:#Code
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Erzeuge neue(n)
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -140,6 +143,9 @@ assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
@@ -205,6 +211,7 @@ assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#set_filter#:#Filter setzen
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
@@ -302,6 +309,7 @@ assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
@@ -917,7 +925,7 @@ common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
-common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.
+common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.###19 Jun 2004 content changed
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
@@ -1367,6 +1375,9 @@ common#:#obj_slm#:#SCORM Lernmodul
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
+common#:#obj_tax#:#Taxonomie
+common#:#obj_taxf#:#Taxonomienordner
+common#:#obj_taxf_desc#:#Ordner für Taxonomien
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -1657,6 +1668,15 @@ common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
 common#:#table_mail_import#:#Import von Nachrichten
+common#:#tax_delete#:#Löschen von Taxonomien
+common#:#tax_edit_permission#:#Rechteeinstellungen ändern
+common#:#tax_read#:#Lesezugriff auf Taxonomien
+common#:#tax_visible#:#Toxonomien sind sichtbar
+common#:#tax_write#:#schreibzugriff auf Taxonomien
+common#:#taxf_edit_permission#:#Rechteeinstellungen ändern
+common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
+common#:#taxf_visible#:#Taxonomienordner ist sichtbar
+common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
 common#:#test_intern#:#Interner Test
 common#:#tests#:#Tests
@@ -3177,15 +3197,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 200
 survey#:#values#:#Values###04 Jun 2004 new variable
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
-common#:#obj_taxf#:#Taxonomienordner
-common#:#obj_taxf_desc#:#Ordner für Taxonomien
-common#:#taxf_edit_permission#:#Rechteeinstellungen ändern
-common#:#taxf_visible#:#Taxonomienordner ist sichtbar
-common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
-common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
-common#:#tax_edit_permission#:#Rechteeinstellungen ändern
-common#:#tax_visible#:#Toxonomien sind sichtbar
-common#:#tax_read#:#Lesezugriff auf Taxonomien
-common#:#tax_write#:#schreibzugriff auf Taxonomien
-common#:#tax_delete#:#Löschen von Taxonomien
-common#:#obj_tax#:#Taxonomie

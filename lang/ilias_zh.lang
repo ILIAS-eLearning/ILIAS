@@ -126,9 +126,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#填充测验文本
 assessment#:#code#:#Code###19 May 2004 new variable
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#已创建
 assessment#:#create_gaps#:#创建间隔
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#创建新的
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#复制
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
@@ -157,6 +160,9 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#间隔选择
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#上次更新
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
@@ -222,6 +228,7 @@ assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#选择间隔
 assessment#:#set_filter#:#设置过滤程序
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#解答次序
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
@@ -319,6 +326,7 @@ assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variabl
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
 assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
@@ -934,7 +942,7 @@ common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#创建SCORM学习模块
 common#:#grp_delete#:#删除组
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？
-common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？
+common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？###19 Jun 2004 content changed
 common#:#grp_edit#:#编辑组
 common#:#grp_edit_permission#:#更改许可设置e
 common#:#grp_err_administrator_required#:#不能删除成员，每个组至少要求一个管理员！
@@ -1384,6 +1392,9 @@ common#:#obj_slm#:#SCORM学习模块
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#章
 common#:#obj_svy#:#Survey###07 May 2004 new variable
+common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
+common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
+common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_tst#:#测试
 common#:#obj_typ#:#对象类型定义
 common#:#obj_type#:#对象类型定义
@@ -1674,6 +1685,15 @@ common#:#system_grp#:#系统组
 common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
+common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
+common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
+common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
+common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
+common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#术语
 common#:#test_intern#:#内部测试
 common#:#tests#:#测试

@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Maak tekst af
 assessment#:#code#:#Code###19 May 2004 new variable
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Gecreëerd
 assessment#:#create_gaps#:#Creëer gaten
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Creëer een nieuwe
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplikaat
 assessment#:#end_tag#:#Eind tag
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
@@ -140,6 +143,9 @@ assessment#:#gap_definition#:#Definitie opening
 assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image Map
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Laatst bijgewerkt
 assessment#:#legend#:#Legende
@@ -205,6 +211,7 @@ assessment#:#save_next#:#Opslaan en ga naar volgende vraag
 assessment#:#save_previous#:#Opslaan en ga naar vorige vraag
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#set_filter#:#Instellen filter
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Schud de antwoorden
 assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#start_tag#:#Start tag
@@ -302,6 +309,7 @@ assessment#:#tt_self_assessment#:#Zelftest assessment
 assessment#:#unlimited#:#ongelimiteerd
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Geuploaded Materiaal
 assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Werktijd
@@ -917,7 +925,7 @@ common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Creëer SCORM lesmodule
 common#:#grp_delete#:#Verwijder groep
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen.
-common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wil verwijderen.
+common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wil verwijderen.###19 Jun 2004 content changed
 common#:#grp_edit#:#Groep wijzigen
 common#:#grp_edit_permission#:#Wijzig rechten-instellingen
 common#:#grp_err_administrator_required#:#Lid kan niet verwijderd worden, tenminste één administrateur per groep is verplicht !
@@ -1367,6 +1375,9 @@ common#:#obj_slm#:#SCORM lesmodule
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Hoofdstuk
 common#:#obj_svy#:#Survey###07 May 2004 new variable
+common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
+common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
+common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object-type definitie
 common#:#obj_type#:#Object-type
@@ -1657,6 +1668,15 @@ common#:#system_grp#:#Systeem-groep
 common#:#system_language#:#Systeem-taal
 common#:#system_message#:#Systeem-bericht
 common#:#table_mail_import#:#Importeren van ILIAS 2 Mails###30 Apr 2004 content changed
+common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
+common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
+common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
+common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
+common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
+common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Begrip
 common#:#test_intern#:#Interne test
 common#:#tests#:#Testen
