@@ -3,10 +3,10 @@
 include_once "include/ilias_header.inc";
 include_once "classes/class.Explorer.php";
 
-$expanded = explode('|',$_GET["expand"]);
-
 $tplContent = new Template("explorer.html",true,true);
-$explorer = new Explorer();
+$explorer = new Explorer("content.php");
+$explorer->setExpand($_GET["expand"]);
+
 $explorer->setOutput(0);
 $output = $explorer->getOutput();
 $tplContent->setVariable("EXPLORER",$output);
