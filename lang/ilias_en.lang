@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
+assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#imagemap#:#Image map
@@ -139,7 +140,6 @@ assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#points#:#Points
-assessment#:#possible_gap_text#:#Possible gap text
 assessment#:#postpone#:#Postpone question
 assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview

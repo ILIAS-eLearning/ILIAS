@@ -49,16 +49,6 @@ class ASS_ClozeTest extends ASS_Question {
   var $cloze_text;
 
 /**
-* The cloze question type
-*
-* The cloze question type (text gap or select gap). Use the predefined constants CLOZE_TEXT and CLOZE_SELECT.
-* The default value is CLOZE_TEXT.
-*
-* @var integer
-*/
-  var $cloze_type;
-
-/**
 * The gaps of the cloze question
 *
 * $gaps is an array of the predefined gaps of the cloze question
@@ -93,7 +83,6 @@ class ASS_ClozeTest extends ASS_Question {
 * @param string $author A string containing the name of the questions author
 * @param integer $owner A numerical ID to identify the owner/creator
 * @param string $cloze_text The question string of the cloze test
-* @param integer $cloze_type The cloze question type
 * @param string $start_tag The start tag for a cloze gap
 * @param string $end_tag The end tag for a cloze gap
 * @param string $materials An uri to additional materials
@@ -104,17 +93,13 @@ class ASS_ClozeTest extends ASS_Question {
     $comment = "",
     $author = "",
     $owner = -1,
-    $cloze_text = "",
-    $cloze_type = CLOZE_TEXT,
-    $start_tag = "<gap>",
-    $end_tag = "</gap>"
+    $cloze_text = ""
   )
   {
-    $this->start_tag = $start_tag;
-    $this->end_tag = $end_tag;
+    $this->start_tag = "<gap>";
+    $this->end_tag = "</gap>";
     $this->ASS_Question($title, $comment, $author, $owner);
     $this->gaps = array();
-    $this->cloze_type = $cloze_type;
     $this->set_cloze_text($cloze_text);
   }
 
@@ -165,7 +150,7 @@ class ASS_ClozeTest extends ASS_Question {
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -176,7 +161,6 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->cloze_text),
         $db->quote($estw_time),
         $db->quote("$this->shuffle"),
-        $db->quote($this->cloze_type),
 				$db->quote("$complete"),
         $db->quote($created)
       );
@@ -190,14 +174,13 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, cloze_type = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, shuffle = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($estw_time),
 				$db->quote("$this->shuffle"),
-        $db->quote($this->cloze_type),
 				$db->quote("$complete"),
         $db->quote($this->id)
       );
@@ -218,12 +201,15 @@ class ASS_ClozeTest extends ASS_Question {
       // Anworten wegschreiben
       foreach ($this->gaps as $key => $value) {
         foreach ($value as $answer_id => $answer_obj) {
-          $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+          $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, name, shuffle, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
             $db->quote($this->id),
             $db->quote($key),
             $db->quote($answer_obj->get_answertext()),
             $db->quote($answer_obj->get_points()),
             $db->quote($answer_obj->get_order()),
+						$db->quote($answer_obj->get_cloze_type()),
+						$db->quote($answer_obj->get_name()),
+						$db->quote($answer_obj->get_shuffle()),
             $db->quote($answer_obj->get_correctness())
           );
           $answer_result = $db->query($query);
@@ -261,7 +247,6 @@ class ASS_ClozeTest extends ASS_Question {
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
 				$this->shuffle = $data->shuffle;
-        $this->cloze_type = $data->cloze_type;
         $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
@@ -279,7 +264,7 @@ class ASS_ClozeTest extends ASS_Question {
             array_push($this->gaps, $answer_array);
             $counter = $data->gap_id;
           }
-          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name));
+          array_push($this->gaps[$counter], new ASS_AnswerCloze($data->answertext, $data->points, $data->aorder, $data->correctness, $data->cloze_type, $data->name, $data->shuffle));
         }
       }
     }
@@ -298,29 +283,24 @@ class ASS_ClozeTest extends ASS_Question {
 */
   function set_cloze_text($cloze_text = "") {
     $this->cloze_text = $cloze_text;
-    if ($this->cloze_type == CLOZE_TEXT) {
-      $default_correctness = TRUE;
-    } else {
-      $default_correctness = FALSE;
-    }
     preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[2] as $key => $value) {
       $cloze_words = split(",", $value);
       $answer_array = array();
 			$name = "";
-			if (preg_match("/name\=\"(.*)\"/", $matches[1][$key], $param))
+			if (preg_match("/name\=\"(.*?)\"/", $matches[1][$key], $param))
 			{
 				// name param
 				$name = $param[1];
 			}
 			$type = "text";
-			if (preg_match("/type\=\"(.*)\"/", $matches[1][$key], $param))
+			if (preg_match("/type\=\"(.*?)\"/", $matches[1][$key], $param))
 			{
 				// name param
 				$type = $param[1];
 			}
 			$shuffle = "yes";
-			if (preg_match("/shuffle\=\"(.*)\"/", $matches[1][$key], $param))
+			if (preg_match("/shuffle\=\"(.*?)\"/", $matches[1][$key], $param))
 			{
 				// name param
 				$shuffle = $param[1];
@@ -333,8 +313,21 @@ class ASS_ClozeTest extends ASS_Question {
 			{ 
 				$type = CLOZE_TEXT;
 			}
+			if (strcmp(strtolower($shuffle), "no") == 0) 
+			{
+				$shuffle = 0;
+			}
+				else
+			{ 
+				$shuffle = 1;
+			}
+			if ($type == CLOZE_TEXT) {
+				$default_correctness = TRUE;
+			} else {
+				$default_correctness = FALSE;
+			}
       foreach ($cloze_words as $index => $text) {
-        array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, CLOZE_TEXT, ""));
+        array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, $type, $name, $shuffle));
       }
       array_push($this->gaps, $answer_array);
     }
@@ -388,9 +381,10 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $start_tag
 */
-  function set_start_tag($start_tag = "*[") {
+  function set_start_tag($start_tag = "<gap>") {
     $this->start_tag = $start_tag;
   }
+	
 
 /**
 * Sets the end tag of a cloze gap
@@ -401,7 +395,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $end_tag
 */
-  function set_end_tag($end_tag = "*[") {
+  function set_end_tag($end_tag = "</gap>") {
     $this->end_tag = $end_tag;
   }
 
@@ -414,36 +408,10 @@ class ASS_ClozeTest extends ASS_Question {
 * @see $cloze_text
 */
   function rebuild_cloze_text() {
-    preg_match_all("/" . preg_quote($this->start_tag, "/") . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
+    preg_match_all("/" . "<gap.*?>(.*?)" . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches, PREG_PATTERN_ORDER);
     foreach ($matches[1] as $key => $value) {
       $this->cloze_text = preg_replace("/$value/", $this->get_gap_text_list($key), $this->cloze_text);
     }
-  }
-
-/**
-* Sets the cloze question type
-*
-* Sets the cloze question type (CLOZE_TEXT or CLOZE_SELECT)
-*
-* @param integer $cloze_type The cloze question type
-* @access public
-* @see $cloze_type
-*/
-  function set_cloze_type($cloze_type = CLOZE_TEXT) {
-    $this->cloze_type = $cloze_type;
-  }
-
-/**
-* Returns the cloze question type
-*
-* Returns the cloze question type (CLOZE_TEXT or CLOZE_SELECT)
-*
-* @return integer The cloze question type
-* @access public
-* @see $cloze_type
-*/
-  function get_cloze_type() {
-    return $this->cloze_type;
   }
 
 /**
@@ -518,7 +486,7 @@ class ASS_ClozeTest extends ASS_Question {
     unset($this->gaps[$index]);
     $this->gaps = array_values($this->gaps);
 
-    $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag, "/") . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
+    $this->cloze_text = preg_replace("/" . "<gap.*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "", $this->cloze_text);
   }
 
 /**
@@ -544,26 +512,23 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $gaps
 */
-  function delete_answertext($index = 0, $answertext = "") {
-    if ($index < 0) return;
+  function delete_answertext_by_index($gap_index = 0, $answertext_index = 0) {
+    if ($gap_index < 0) return;
     if (count($this->gaps) < 1) return;
-    if ($index >= count($this->gaps)) return;
-    $old_text = $this->get_gap_text_list($index);
-    $deleted = FALSE;
-    foreach ($this->gaps[$index] as $key => $value) {
-      if (strcmp($value->get_answertext(), $answertext) == 0) {
-        if (count($this->gaps[$index]) == 1) {
-          $this->delete_gap($index);
-          $deleted = TRUE;
-        } else {
-          unset($this->gaps[$index][$key]);
-        }
-      }
-    }
-    if (!$deleted) {
-      $this->gaps[$index] = array_values($this->gaps[$index]);
-      $this->cloze_text = preg_replace("/" . preg_quote($this->start_tag, "/") . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "$this->start_tag" . $this->get_gap_text_list($index) . "$this->end_tag", $this->cloze_text);
-    }
+    if ($gap_index >= count($this->gaps)) return;
+    $old_text = $this->get_gap_text_list($gap_index);
+		if (count($this->gaps[$gap_index]) == 1) {
+			$this->delete_gap($gap_index);
+		} else {
+			unset($this->gaps[$gap_index][$answertext_index]);
+      $this->gaps[$gap_index] = array_values($this->gaps[$gap_index]);
+			$gap_params = "";
+			if (preg_match("/" . "<gap(.*?)>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text, $matches)) 
+			{
+				$gap_params = $matches[1];
+			}
+      $this->cloze_text = preg_replace("/" . "<gap.*?>" . preg_quote($old_text, "/") . preg_quote($this->end_tag, "/") . "/", "<gap" . $gap_params . ">" . $this->get_gap_text_list($gap_index) . "$this->end_tag", $this->cloze_text);
+		}
   }
 
 /**
@@ -594,6 +559,53 @@ class ASS_ClozeTest extends ASS_Question {
     }
   }
 
+/**
+* Sets the cloze type of the gap
+*
+* Sets the cloze type of the gap
+*
+* @param integer $index The index of the chosen gap
+* @param integer $cloze_type The cloze type of the gap
+* @access public
+* @see $gaps
+*/
+	function set_cloze_type($index, $cloze_type = CLOZE_TEXT) {
+    if ($index < 0) return;
+    if (count($this->gaps) < 1) return;
+    if ($index >= count($this->gaps)) return;
+		if ($this->gaps[$index][0]->get_cloze_type() != $cloze_type) {
+			// change all answer objects
+			foreach ($this->gaps[$index] as $key => $value) {
+				$this->gaps[$index][$key]->set_cloze_type($cloze_type);
+				$this->gaps[$index][$key]->set_points(0);
+				if ($cloze_type == CLOZE_TEXT) {
+					$this->gaps[$index][$key]->set_correctness(TRUE);
+				} else {
+					$this->gaps[$index][$key]->set_correctness(FALSE);
+				}
+			}
+			// change/add the <gap> attribute
+	    $gaptext = $this->get_gap_text_list($index);
+			if ($cloze_type == CLOZE_TEXT) 
+			{
+				$strType = "text";
+				$strOldType = "select";
+			}
+				else
+			{
+				$strType = "select";
+				$strOldType = "text";
+			}
+			if (preg_match("/" . "<gap[^<]*?" . preg_quote("type=\"$strOldType\"") . ".*?>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", $this->cloze_text)) {
+				// change the type attribute
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)" . preg_quote("type=\"$strOldType\"") . "([^<]*?)>" . preg_quote($gaptext, "/") . preg_quote($this->end_tag, "/") . "/", "<gap\$1type=\"$strType\"\$2>$gaptext</gap>", $this->cloze_text);
+			} else {
+				// create a type attribute
+				$this->cloze_text = preg_replace("/" . "<gap([^<]*?)>" . preg_quote($gaptext, "/") . "/", "<gap type=\"$strType\"\$1>$gaptext", $this->cloze_text);
+			}
+		}
+	}
+	
 /**
 * Sets the points of a gap
 *
@@ -659,64 +671,6 @@ class ASS_ClozeTest extends ASS_Question {
   }
 
 /**
-* Moves the order of an answer object up one position
-*
-* Moves the order of an answer object up one position
-*
-* @param object $answer_object The instance of the object that should be moved up
-* @access public
-* @see $gaps
-*/
-  function answer_move_up ($answer_object) {
-    // Alle Lücken untersuchen
-    foreach ($this->gaps as $key => $value) {
-      foreach ($this->gaps[$key] as $index => $object) {
-        if ($object == $answer_object) {
-          $position = $index;
-          // Das Objekt wurde gefunden
-          if ($position > 0) {
-            $change_position_with = $this->gaps[$key][$position - 1];
-            $change_position_with->set_order($change_position_with->get_order() + 1);
-            $this->gaps[$key][$position - 1] = $this->gaps[$key][$position];
-            $this->gaps[$key][$position - 1]->set_order($this->gaps[$key][$position - 1]->get_order() - 1);
-            $this->gaps[$key][$position] = $change_position_with;
-            $this->rebuild_cloze_text();
-          }
-        }
-      }
-    }
-  }
-
-/**
-* Moves the order of an answer object down one position
-*
-* Moves the order of an answer object down one position
-*
-* @param object $answer_object The instance of the object that should be moved down
-* @access public
-* @see $gaps
-*/
-  function answer_move_down ($answer_object) {
-    // Alle Lücken untersuchen
-    foreach ($this->gaps as $key => $value) {
-      foreach ($this->gaps[$key] as $index => $object) {
-        if ($object == $answer_object) {
-          $position = $index;
-          // Das Objekt wurde gefunden
-          if ($position < count($this->gaps[$key]) - 1) {
-            $change_position_with = $this->gaps[$key][$position + 1];
-            $change_position_with->set_order($change_position_with->get_order() - 1);
-            $this->gaps[$key][$position + 1] = $this->gaps[$key][$position];
-            $this->gaps[$key][$position + 1]->set_order($this->gaps[$key][$position + 1]->get_order() + 1);
-            $this->gaps[$key][$position] = $change_position_with;
-            $this->rebuild_cloze_text();
-          }
-        }
-      }
-    }
-  }
-
-/**
 * Returns the points, a learner has reached answering the question
 *
 * Returns the points, a learner has reached answering the question
@@ -741,7 +695,7 @@ class ASS_ClozeTest extends ASS_Question {
     $points = 0;
     $counter = 0;
     foreach ($found_value1 as $key => $value) {
-      if ($this->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$value]->get_cloze_type() == CLOZE_TEXT) {
         foreach ($this->gaps[$value] as $k => $v) {
           if (strcmp($v->get_answertext(), $found_value2[$key]) == 0) {
             $points += $v->get_points();
@@ -781,7 +735,7 @@ class ASS_ClozeTest extends ASS_Question {
     $counter = 1;
 		$user_result = array();
     foreach ($found_value1 as $key => $value) {
-      if ($this->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$value]->get_cloze_type() == CLOZE_TEXT) {
         foreach ($this->gaps[$value] as $k => $v) {
 					$solution = array(
 						"gap" => "$counter",
@@ -823,7 +777,7 @@ class ASS_ClozeTest extends ASS_Question {
   function get_maximum_points() {
     $points = 0;
     foreach ($this->gaps as $key => $value) {
-      if ($this->get_cloze_type() == CLOZE_TEXT) {
+      if ($value[0]->get_cloze_type() == CLOZE_TEXT) {
         $points += $value[0]->get_points();
       } else {
         foreach ($value as $key2 => $value2) {

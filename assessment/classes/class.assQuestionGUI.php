@@ -201,11 +201,7 @@ class ASS_QuestionGUI extends PEAR {
 				$colspan = " colspan=\"4\"";
 				break;
 			case "qt_cloze":
-				if ($this->question->get_cloze_type() == CLOZE_TEXT) {
-				$colspan = " colspan=\"3\"";
-				} else {
 				$colspan = " colspan=\"4\"";
-				}
 				break;
 		}
     if (!empty($this->question->materials)) {
@@ -406,84 +402,48 @@ class ASS_QuestionGUI extends PEAR {
   function out_cloze_question_data() {
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
     $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-
-    if ($this->question->get_cloze_type() == CLOZE_TEXT)
-    {
-      for ($i = 0; $i < $this->question->get_gap_count(); $i++)
-      {
-        $this->tpl->setCurrentBlock("textgap_value");
-        $gap_text = $this->question->get_gap($i);
-        foreach ($gap_text as $key => $value) {
-          $this->tpl->setVariable("VALUE_TEXT_GAP", $value->get_answertext());
-          $this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-          $this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
-          $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-          $this->tpl->parseCurrentBlock();
-        }
-        $this->tpl->setCurrentBlock("textgap");
-				$name = $value->get_name();
-				if (!$name)
-				{
-					$name = $this->lng->txt("gap") . " " . ($i+1);
+		for ($i = 0; $i < $this->question->get_gap_count(); $i++)
+		{
+			$gap = $this->question->get_gap($i);
+			if ($gap[0]->get_cloze_type() == CLOZE_TEXT)
+			{
+				$this->tpl->setCurrentBlock("textgap_value");
+				foreach ($gap	 as $key => $value) {
+					$this->tpl->setVariable("VALUE_TEXT_GAP", $value->get_answertext());
+					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
 				}
-        $this->tpl->setVariable("TEXT_GAP_NAME", $name);
-        $answer_array = $this->question->get_gap($i);
-        $answer_points = $answer_array[0]->get_points();
-        $this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
-        $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-        $this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
-				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-				if ($this->question->get_cloze_type() == CLOZE_SELECT)
-				{
-					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
-				} else
-				{
-					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+				$this->tpl->setCurrentBlock("textgap");
+				$answer_array = $this->question->get_gap($i);
+				$answer_points = $answer_array[0]->get_points();
+				$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
+				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
+				$this->tpl->parseCurrentBlock();
+			} 
+				elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT) 
+			{
+				$this->tpl->setCurrentBlock("selectgap_value");
+				foreach ($gap as $key => $value) {
+					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("VALUE_SELECT_GAP", $value->get_answertext());
+					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
+					$this->tpl->setVariable("VALUE_GAP", $i);
+					$this->tpl->setVariable("VALUE_INDEX", $key);
+					$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
+					if ($value->is_true()) {
+						$this->tpl->setVariable("SELECTED_CORRECTNESS_TRUE", " checked=\"checked\"");
+					}
+					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
+					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
-				$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
-        $this->tpl->parseCurrentBlock();
-      }
-    } elseif ($this->question->get_cloze_type() == CLOZE_SELECT) {
-      for ($i = 0; $i < $this->question->get_gap_count(); $i++)
-      {
-        $this->tpl->setCurrentBlock("selectgap_value");
-        $gap_text = $this->question->get_gap($i);
-        foreach ($gap_text as $key => $value) {
-          $this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-          $this->tpl->setVariable("VALUE_SELECT_GAP", $value->get_answertext());
-          $this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . "$key");
-          $this->tpl->setVariable("VALUE_GAP", $i);
-          $this->tpl->setVariable("VALUE_INDEX", $key);
-          $this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
-          if ($value->is_true()) {
-            $this->tpl->setVariable("SELECTED_CORRECTNESS_TRUE", " checked=\"checked\"");
-          }
-          $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-          $this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
-          $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-          $this->tpl->parseCurrentBlock();
-        }
-        $this->tpl->setCurrentBlock("selectgap");
-				$name = $value->get_name();
-				if (!$name)
-				{
-					$name = $this->lng->txt("gap") . " " . ($i+1);
-				}
-        $this->tpl->setVariable("TEXT_GAP_NAME", $name);
-        $this->tpl->setVariable("VALUE_GAP_COUNTER", $i+1);
-				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-				if ($this->question->get_cloze_type() == CLOZE_SELECT)
-				{
-					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
-				} else
-				{
-					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
-				$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+				$this->tpl->setCurrentBlock("selectgap");
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-				if ($this->question->get_shuffle())
+				if ($gap[0]->get_shuffle())
 				{
 					$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
 				}
@@ -493,9 +453,28 @@ class ASS_QuestionGUI extends PEAR {
 				}
 				$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 				$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-        $this->tpl->parseCurrentBlock();
-      }
-    }
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("answer_row");
+			$name = $gap[0]->get_name();
+			if (!$name)
+			{
+				$name = $this->lng->txt("gap") . " " . ($i+1);
+			}
+			$this->tpl->setVariable("TEXT_GAP_NAME", $name);
+			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			{
+				$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
+			} else
+			{
+				$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
+			}
+			$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
+			$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
+			$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
+			$this->tpl->parseCurrentBlock();
+		}
 		
     // call to other question data i.e. material, estimated working time block
 		$this->out_other_question_data();
@@ -513,10 +492,6 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
-		$this->tpl->setVariable("TEXT_START_TAG", $this->lng->txt("start_tag"));
-		$this->tpl->setVariable("TEXT_END_TAG", $this->lng->txt("end_tag"));
-		$this->tpl->setVariable("VALUE_START_TAG", $this->question->get_start_tag());
-		$this->tpl->setVariable("VALUE_END_TAG", $this->question->get_end_tag());
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY","Apply");
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -1039,12 +1014,10 @@ class ASS_QuestionGUI extends PEAR {
   function set_question_data_from_cloze_question_template() {
 		$saved = false;
     $result = 0;
-//		$start_tag = ilUtil::stripSlashes($_POST["start_tag"]);
-//		$end_tag = ilUtil::stripSlashes($_POST["end_tag"]);
+		
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 
-//    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]) or (!$start_tag) or (!$end_tag))
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
 		{
       $result = 1;
@@ -1056,110 +1029,82 @@ class ASS_QuestionGUI extends PEAR {
 			$_POST["cmd"]["add"] = "";
 		}
 
-		$this->question->set_shuffle($_POST["shuffle"]);
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
-    $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding estimated working time and materials uris
-    $saved = $saved | $this->set_question_data_from_other_template();
-//		$this->question->set_start_tag($start_tag);
-//		$this->question->set_end_tag($end_tag);
-    // adding materials uris
     $saved = $saved | $this->set_question_data_from_other_template();
 
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
-      if ($this->question->get_cloze_type() == CLOZE_TEXT) {  // check text gaps
-        // Check for changed values
-        foreach ($_POST as $key => $value) {
-          // Set gap values
-          if (preg_match("/textgap_(\d+)_(\d+)/", $key, $matches)) {
-            $answer_array = $this->question->get_gap($matches[1]);
-            if (strlen($value) > 0) {
-              // Only change gap values <> empty string
-							if (array_key_exists($matches[2], $answer_array))
-							{
-								if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-									$this->question->set_answertext(
-										ilUtil::stripSlashes($matches[1]),
-										ilUtil::stripSlashes($matches[2]),
-										ilUtil::stripSlashes($value));
-								}
+			foreach ($_POST as $key => $value) {
+				// Set gap values
+				if (preg_match("/textgap_(\d+)_(\d+)/", $key, $matches)) {
+					$answer_array = $this->question->get_gap($matches[1]);
+					if (strlen($value) > 0) {
+						// Only change gap values <> empty string
+						if (array_key_exists($matches[2], $answer_array))
+						{
+							if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
+								$this->question->set_answertext(
+									ilUtil::stripSlashes($matches[1]),
+									ilUtil::stripSlashes($matches[2]),
+									ilUtil::stripSlashes($value));
 							}
-            } else {
-              // Display errormessage: You've tried to set an gap value to an empty string!
-            }
-          }
-          // Set gap points
-          if (preg_match("/points_(\d+)/", $key, $matches)) {
-            $points = $value or 0.0;
-            $this->question->set_gap_points($matches[1]-1, $value);
-          }
-        }
-
-        foreach ($_POST as $key => $value) {
-          // Check, if one of the gap values was deleted
-          if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches)) {
-            $textgap = "textgap_" . $matches[1] . "_" . $matches[2];
-            $this->question->delete_answertext($matches[1], $_POST["$textgap"]);
-            $skip_check_changes = TRUE;
-          }
-        }
-      } elseif ($this->question->get_cloze_type() == CLOZE_SELECT) { // check select gaps
-        // Check for changed values
-        foreach ($_POST as $key => $value) {
-          // Set gap values
-          if (preg_match("/selectgap_(\d+)_(\d+)/", $key, $matches)) {
-            $answer_array = $this->question->get_gap($matches[1]);
-            if (strlen($value) > 0) {
-              // Only change gap values <> empty string
-							if (array_key_exists($matches[2], $answer_array))
-							{
-								if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
-									$this->question->set_answertext(
-										ilUtil::stripSlashes($matches[1]),
-										ilUtil::stripSlashes($matches[2]),
-										ilUtil::stripSlashes($value));
-								}
+						}
+					} else {
+						// Display errormessage: You've tried to set an gap value to an empty string!
+					}
+				} else if (preg_match("/selectgap_(\d+)_(\d+)/", $key, $matches)) {
+					$answer_array = $this->question->get_gap($matches[1]);
+					if (strlen($value) > 0) {
+						// Only change gap values <> empty string
+						if (array_key_exists($matches[2], $answer_array))
+						{
+							if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
+								$this->question->set_answertext(
+									ilUtil::stripSlashes($matches[1]),
+									ilUtil::stripSlashes($matches[2]),
+									ilUtil::stripSlashes($value));
 							}
-            } else {
-              // Display errormessage: You've tried to set an gap value to an empty string!
-            }
-          }
-          // Set gap points
-          if (preg_match("/points_(\d+)_(\d+)/", $key, $matches)) {
-            $points = $value or 0.0;
-            $this->question->set_single_answer_points($matches[1], $matches[2], $value);
-          }
-          // Set correctness values
-          if (preg_match("/correctness_(\d+)/", $key, $matches)) {
-            $this->question->set_single_answer_correctness($matches[1], $value, TRUE);
-          }
-        }
-        foreach ($_POST as $key => $value) {
-          // check for order up pressed
-          if (preg_match("/order_up_(\d+)_(\d+)_x/", $key, $matches)) {
-            $answer_array = $this->question->get_gap($matches[1]);
-            $this->question->answer_move_up($answer_array[$matches[2]]);
-          }
-          // check for order down pressed
-          if (preg_match("/order_down_(\d+)_(\d+)_x/", $key, $matches)) {
-            $answer_array = $this->question->get_gap($matches[1]);
-            $this->question->answer_move_down($answer_array[$matches[2]]);
-          }
-        }
+							$points = $_POST["points_$matches[1]_$matches[2]"] or 0.0;
+							$this->question->set_single_answer_points($matches[1], $matches[2], $points);
+							if ($_POST["correctness_$matches[1]"] == $matches[2])
+							{
+								$this->question->set_single_answer_correctness($matches[1], $matches[2], TRUE);
+							}
+								else
+							{
+								$this->question->set_single_answer_correctness($matches[1], $matches[2], FALSE);
+							}
+						}
+					} else {
+						// Display errormessage: You've tried to set an gap value to an empty string!
+					}
+				}
+				
+				// Set text gap points
+				if (preg_match("/points_(\d+)/", $key, $matches)) {
+					$points = $value or 0.0;
+					$this->question->set_gap_points($matches[1]-1, $value);
+				}
+			}
+			
+			foreach ($_POST as $key => $value) {
+				// Set the cloze type of the gap
+				if (preg_match("/clozetype_(\d+)/", $key, $matches)) {
+					$this->question->set_cloze_type($matches[1], $value);
+				}
+			}
 
-        foreach ($_POST as $key => $value) {
-          // Check, if one of the gap values was deleted
-          if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches)) {
-            $selectgap = "selectgap_" . $matches[1] . "_" . $matches[2];
-            $this->question->delete_answertext($matches[1], $_POST["$selectgap"]);
-            $skip_check_changes = TRUE;
-          }
-        }
-      }
+			foreach ($_POST as $key => $value) {
+				// Check, if one of the gap values was deleted
+				if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches)) {
+					$selectgap = "selectgap_" . $matches[1] . "_" . $matches[2];
+					$this->question->delete_answertext_by_index($matches[1], $matches[2]);
+				}
+			}
     }
 		if ($saved) {
 			// If the question was saved automatically before an upload, we have to make
@@ -1588,7 +1533,7 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
-        $output = preg_replace("/" . preg_quote($this->question->get_start_tag(), "/") . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
+        $output = preg_replace("/" . "<gap.*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
@@ -1613,7 +1558,7 @@ class ASS_QuestionGUI extends PEAR {
           $select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
         }
         $select .= "</select>";
-        $output = preg_replace("/" . preg_quote($this->question->get_start_tag(), "/") . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
+        $output = preg_replace("/" . "<gap.*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
