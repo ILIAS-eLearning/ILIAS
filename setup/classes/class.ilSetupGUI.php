@@ -317,6 +317,18 @@ class ilSetupGUI extends ilSetup
 				exit();
 				break;
 
+			case "login_new":
+				if ($this->client->ini->readVariable("client","access") != "1")
+				{
+					$this->client->ini->setVariable("client","access","1");
+					$this->client->ini->write();
+				}
+
+				session_destroy();
+				header("Location: ".ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
+				exit();
+				break;
+
 			default:
 				$this->displayError($this->lng->txt("unknown_command"));
 				break;
@@ -2117,7 +2129,7 @@ class ilSetupGUI extends ilSetup
 		if ($this->validateSetup())
 		{
 			$txt_info = $this->lng->txt("info_text_finish1");
-			$this->setButtonNext("login","login");
+			$this->setButtonNext("login_new","login");
 			$this->client->setSetting("setup_ok",1);
 			$this->client->status["finish"]["status"] = true;
 		}
