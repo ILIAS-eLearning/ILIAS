@@ -2813,6 +2813,7 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisations
 content#:#cont_orig_size#:#Taille originale
 content#:#cont_page_header#:#Entête de page
+content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
 content#:#cont_page_select_target_now#:#Page marquée pour déplacement. Sélectionnez une cible maintenant
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Paramètre

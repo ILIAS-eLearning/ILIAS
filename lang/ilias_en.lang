@@ -2591,7 +2591,6 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_page_link#:#Page Link
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
@@ -2840,6 +2839,7 @@ content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Original Size
 content#:#cont_page_header#:#Page Header
+content#:#cont_page_link#:#Page Link
 content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Parameter

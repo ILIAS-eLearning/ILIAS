@@ -2839,6 +2839,7 @@ content#:#cont_organization#:#Szervezet
 content#:#cont_organizations#:#Szervezetek
 content#:#cont_orig_size#:#Eredeti méret
 content#:#cont_page_header#:#Lap fejléce
+content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
 content#:#cont_page_select_target_now#:#A lap áthelyezésre kijelölt. Válasszon célútvonalat most.
 content#:#cont_pages#:#Lapok
 content#:#cont_parameter#:#Paraméter
