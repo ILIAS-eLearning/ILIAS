@@ -313,13 +313,18 @@ class ilPageObject extends ilLMObject
 	*/
 	function getXMLContent($a_incl_head = false)
 	{
+		// build full http path for XML DOCTYPE header.
+		// Under windows a relative path doesn't work :-(
+		$split = preg_split("/\/content\//",$_SERVER["PHP_SELF"]);
+		$http_path = "http://".$_SERVER["HTTP_HOST"].$split[0]."/xml/";
+
 		if($a_incl_head)
 		{
 			$enc_str = (!empty($this->encoding))
 				? "encoding=\"".$this->encoding."\""
 				: "";
 			return "<?xml version=\"1.0\" $ecn_str ?>".
-				"<!DOCTYPE PageObject SYSTEM \"xml/".$this->cur_dtd."\">".
+				"<!DOCTYPE PageObject SYSTEM \"".$http_path.$this->cur_dtd."\">".
 				$this->xml;
 		}
 		else
