@@ -93,6 +93,7 @@ assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###7 June 2004 new variable
+assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Answer###05 Feb 2004 new variable
@@ -107,6 +108,7 @@ assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
 assessment#:#by#:#by###05 Feb 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
+assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
 assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
 assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
@@ -167,6 +169,8 @@ assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
+assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
+assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
 assessment#:#postponed#:#postponed###07 Mar 2004 new variable
@@ -197,6 +201,7 @@ assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
+assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable

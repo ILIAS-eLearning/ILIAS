@@ -93,6 +93,7 @@ assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#add_area#:#Add area
 assessment#:#add_gap#:#Add Gap Text
+assessment#:#add_imagemap#:#Add imagemap
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
@@ -106,6 +107,8 @@ assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#by#:#by
 assessment#:#circle#:#Circle
+assessment#:#circle_click_center#:#Please click on center of the desired area.
+assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#cloze_text#:#Cloze text
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordinates
@@ -166,9 +169,9 @@ assessment#:#order_terms#:#Order terms
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
 assessment#:#polygon#:#Polygon
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.
+assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#postpone#:#Postpone question
 assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
@@ -198,10 +201,8 @@ assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
 assessment#:#random_selection#:#Random selection
 assessment#:#rectangle#:#Rectangle
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.
-assessment#:#circle_click_center#:#Please click on center of the desired area.
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
+assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
@@ -3201,4 +3202,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-assessment#:#add_imagemap#:#Add imagemap
