@@ -40,7 +40,7 @@ require_once "./classes/class.ilSetup.php";
 require_once "classes/class.ilSetup.php";
 $mySetup = new ilSetup();
 $mySetup->readIniFile();
-$webspace_dir = $mySetup->image_path;
+$webspace_dir = $mySetup->getWebspacePath();
 
 
 //$image_dir = $webspace_dir."/usr_images";
@@ -57,7 +57,7 @@ function upload_file()
 	global $target_file, $return_path;
 
 	$image_dir = $webspace_dir."/usr_images";
-	if(!@is_dir($image_dir))
+	if(!@is_dir($image_dir))		// this is done in setup.php, line 518
 	{
 		mkdir($image_dir);
 		chmod($image_dir, 0770);
@@ -269,7 +269,7 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setCountry($_POST["usr_country"]);
 	$ilias->account->setPhone($_POST["usr_phone"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
-	$ilias->account->setHobbie($_POST["usr_hobbie"]);
+//	$ilias->account->setHobbie($_POST["usr_hobbie"]);
 
 	$ilias->account->setLanguage($_POST["usr_language"]);
 
@@ -431,7 +431,7 @@ $tpl->setVariable("CITY", $ilias->account->getCity());
 $tpl->setVariable("COUNTRY", $ilias->account->getCountry());
 $tpl->setVariable("PHONE", $ilias->account->getPhone());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
-$tpl->setVariable("HOBBIE", $ilias->account->getHobbie());
+//$tpl->setVariable("HOBBIE", $ilias->account->getHobbie());
 
 require_once "./classes/class.ilObjRole.php";
 $roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));

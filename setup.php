@@ -380,7 +380,7 @@ switch ($_GET["step"])
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dpath  = $_POST["dpath"]  ? $_POST["dpath"]  : $mySetup->data_path;
-		$ipath  = $_POST["ipath"]  ? $_POST["ipath"]  : $mySetup->image_path;
+		$ipath  = $_POST["ipath"]  ? $_POST["ipath"]  : $mySetup->webspace_path;
 
 
 
@@ -404,7 +404,7 @@ switch ($_GET["step"])
 		{
 		    $msg = $lng->txt("inifile_exists");
 		}
-		
+
 		//check if ini-file is writable and build msg
 		if (!$mySetup->checkWritable())
 		{
@@ -414,14 +414,14 @@ switch ($_GET["step"])
 		{
 		    $msg = "<br/>".$lng->txt("inifile_can_write");
 		}
-		
+
 		//output message
 		showMessage($msg,$lng->txt("setup_inifile"));
-		
+
 		//get the defaults from setup class
 		$mySetup->getDefaults();
 		reset ($mySetup->dbTypes);
-		
+
 		//go through database-types and output them
 		while (list($k,$v) = each($mySetup->dbTypes))
 		{
@@ -436,8 +436,8 @@ switch ($_GET["step"])
 
 			$tpl->setVariable("DBTYPE", $v);
 			$tpl->parseCurrentBlock();
-		} 
-	
+		}
+
 		//text output
 		$tpl->setCurrentBlock("step1");
 		$tpl->setVariable("TXT_DB_HOST", $lng->txt("db_host"));
@@ -448,7 +448,7 @@ switch ($_GET["step"])
 		$tpl->setVariable("TXT_DATA_PATH", $lng->txt("data_path")."<br>".$lng->txt("out_of_webspace"));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
-		$tpl->setVariable("TXT_IMAGE_PATH", $lng->txt("web space dir"));
+		$tpl->setVariable("TXT_IMAGE_PATH", $lng->txt("webspace_dir"));
 		//variable content output
 		$tpl->setVariable("LANG", $_GET["lang"]);
 		$tpl->setVariable("DB_HOST", $dbhost);
@@ -478,9 +478,9 @@ switch ($_GET["step"])
 		$mySetup->setDbUser($_POST["dbuser"]);
 		$mySetup->setDbPass($_POST["dbpass"]);
 		$mySetup->setDataPath($_POST["dpath"]);
-		$mySetup->setImagePath($_POST["ipath"]);
+		$mySetup->setWebspacePath($_POST["ipath"]);
 
-		
+
 		//write the inifile if all things are okay
 		if (!$mySetup->writeIniFile())
 		{
@@ -489,14 +489,40 @@ switch ($_GET["step"])
 		}
 		else
 		{
-			// PREPARE MAIL DIRECTORY
+			// PREPARE DATA DIRECTORIES (OUTSIDE OF WEBSPACE)
 			if(file_exists($mySetup->getDataPath()))
 			{
 				if(is_writeable($mySetup->getDataPath()))
 				{
-					mkdir($mySetup->getDataPath().'/mail');
+					// PREPARE MAIL DIRECTORY
+					if(!@is_dir($mySetup->getDataPath().'/mail'))
+					{
+						mkdir($mySetup->getDataPath().'/mail');
+					}
 				}
 				chmod($mySetup->getDataPath().'/mail',0755);
+			}
+
+			// PREPARE WEBSPACE DIRECTORIES
+			if(file_exists($mySetup->getWebspacePath()))
+			{
+				if(is_writeable($mySetup->getWebspacePath()))
+				{
+					// PREPARE LEARNING MODULE DATA DIRECTORY
+					if(!@is_dir($mySetup->getWebspacePath().'/lm_data'))
+					{
+						mkdir($mySetup->getWebspacePath().'/lm_data');
+					}
+
+					// PREPARE DIRECTORY FOR USER IMAGES (PERSONAL PROFILE)
+					if(!@is_dir($mySetup->getWebspacePath().'/usr_images'))
+					{
+						mkdir($mySetup->getWebspacePath().'/usr_images');
+					}
+
+				}
+				chmod($mySetup->getWebspacePath().'/lm_data',0755);
+				chmod($mySetup->getWebspacePath().'/usr_images',0755);
 			}
 
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");

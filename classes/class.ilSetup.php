@@ -93,7 +93,7 @@ class ilSetup
 	*  @var		string
 	*  @access	private added by ratana ty
 	*/
-	var $image_path;
+	var $webspace_path;
 
 	/**
 	* default array for ini-file
@@ -159,8 +159,8 @@ class ilSetup
 		$this->setDbPass($this->ini->readVariable("db","pass"));
 		$this->setDataPath($this->ini->readVariable("server","data_dir"));
 		// added by ratana ty
-	$this->setImagePath($this->ini->readVariable("server","webspace_dir"));
-	
+		$this->setWebspacePath($this->ini->readVariable("server","webspace_dir"));
+
 		$this->setDSN();
 
 		// set tplPath
@@ -186,7 +186,7 @@ class ilSetup
 		$this->ini->setVariable("db", "pass", $this->dbPass);
 		$this->ini->setVariable("server", "data_dir", $this->data_path);
 		//added by ratana ty
-		$this->ini->setVariable("server", "webspace_dir", $this->image_path);
+		$this->ini->setVariable("server", "webspace_dir", $this->webspace_path);
 		//try to write the file
 		if ($this->ini->write()==false)
 		{
@@ -297,13 +297,13 @@ class ilSetup
 	}
 
 	// function added by ratana ty
-	function setImagePath($a_ipath)
+	function setWebspacePath($a_ipath)
 	{
 		if(substr($a_ipath,-1) == '/')
 		{
 			$a_ipath = substr($a_ipath,-1);
 		}
-		$this->image_path = $a_ipath;
+		$this->webspace_path = $a_ipath;
 	}
 	/**
 	* get the path to data directory
@@ -315,9 +315,9 @@ class ilSetup
 	}
 
 	// function added by ratana ty
-	function getImagePath()
+	function getWebspacePath()
 	{
-		return $this->image_path;
+		return $this->webspace_path;
 	}
 
 	/**
