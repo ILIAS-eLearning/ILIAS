@@ -36,10 +36,10 @@ require_once "classes/class.ilLog.php";
 
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
-require_once "classes/class.rbacSystem.php";
+require_once "classes/class.ilRbacSystem.php";
 require_once "classes/class.ilRbacReview.php";
 require_once "classes/class.ilRbacAdminH.php";
-require_once "classes/class.rbacSystemH.php";
+require_once "classes/class.ilRbacSystemH.php";
 require_once "classes/class.ilRbacReviewH.php";
 
 // include error_handling
@@ -111,7 +111,7 @@ if ($script != "login.php" && $script != "index.php")
 	$lng = new ilLanguage($ilias->account->prefs["language"]);
 
 	// init rbac
-	$rbacsystem = new RbacSystemH();
+	$rbacsystem = new ilRbacSystemH();
 	$rbacadmin = new ilRbacAdminH();
 	$rbacreview = new ilRbacReviewH();
 
