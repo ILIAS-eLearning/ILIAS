@@ -14,31 +14,31 @@ Table of Contents
 2. First time installation
 
    2.1 Where to install ILIAS
-	
+
    2.2 First steps
 
    2.3 Installing required third-party software
 
-       2.3.1 Libraries & utilities 
+       2.3.1 Libraries & utilities
 
        2.3.2 MySQL / PHP4 / Apache
 
    2.4 Installing ILIAS
 
        2.4.1 Installing ILIAS 2
-       
+
        2.4.2 Installing ILIAS 3
 
    2.5 Installing optional third-party software
-	
+
 3. Software updates
 
    3.1 Updating ILIAS 2
-   
-   3.2 Updating ILIAS 3 
+
+   3.2 Updating ILIAS 3
 
    3.3 Updating third-party software
- 
+
 Appendix A: Note on using Apache 2
 
 Appendix B: MySQL and Apache init scripts for RedHat
@@ -50,25 +50,25 @@ Appendix B: MySQL and Apache init scripts for RedHat
 
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
-under the GNU General Public License (GPL). It uses the MySQL database and the 
+under the GNU General Public License (GPL). It uses the MySQL database and the
 Apache web server. The main target operating system is Linux, but ILIAS may also
 be run on other Unix systems and even Windows.
 
 This document describes the installation of ILIAS 2 and ILIAS 3 with the all
-software required for running an ILIAS system. The procedure has been tested 
-under RedHat Linux 7.x/8.0. With minor modifications it should also apply to 
+software required for running an ILIAS system. The procedure has been tested
+under RedHat Linux 7.x/8.0. With minor modifications it should also apply to
 other Linux distributions, Solaris and other Unix systems.
 
 IMPORTANT NOTE ON ILIAS 3: As opposed to ILIAS 2, which is a mature software
 product, ILIAS 3 is still under development (alpha version). Its releases are
 for test purposes only and should not be used in a production environment. We do
 not assure that any data that is generated with this release will be usable or
-migrated to future releases of ILIAS 3. All data may be lost with the next 
+migrated to future releases of ILIAS 3. All data may be lost with the next
 release.
 
-The following third-party software is necessary for running ILIAS. Release 
-numbers refer to the version tested and recommended for use with ILIAS. Like 
-ILIAS itself, all these programs are available as Open Source software. 
+The following third-party software is necessary for running ILIAS. Release
+numbers refer to the version tested and recommended for use with ILIAS. Like
+ILIAS itself, all these programs are available as Open Source software.
 
     - Apache 1.3.28            http://www.apache.org
     - MySQL 4.0.14             http://www.mysql.com
@@ -94,9 +94,9 @@ Please see chapter 2.5 for information about optional software.
 
 In this guide it is assumed that none of the programs above are installed on
 your system. However, many Linux distributions install libraries and programs
-such as libz, libgd, libjpeg, libgd, ImageMagick and Zip/Unzip by default. If 
+such as libz, libgd, libjpeg, libgd, ImageMagick and Zip/Unzip by default. If
 installed properly it might not be necessary to install these packages along
-with ILIAS again. 
+with ILIAS again.
 
 If your installation of PHP, Apache or MySQL must meet additional requirements
 or if you prefer different versions of these components, you may of course
@@ -109,24 +109,24 @@ perl(>=5.0), gdbm, bison,(>=1.25), flex, GNU tar, libncurses.
 
 Some functions in ILIAS require outgoing Internet mail. Therefore a sendmail
 daemon should run on your system and outgoing connections should be allowed
-on port 25. 
+on port 25.
 
 General advices on compiling the software packages:
 
-    - For better readability, long command lines are broken down to multiple 
+    - For better readability, long command lines are broken down to multiple
       lines. In this case, a backslash at the end of a line indicates that the
       next line is to be considered a continuation.
     - Please follow the installation steps in the given order. Some steps rely
-      on previously issued commands. 
+      on previously issued commands.
     - If the configure/make process fails or gets interrupted, it is a good idea
-      to remove the complete source directory of the program to be built and 
+      to remove the complete source directory of the program to be built and
       start a new attempt with a source directory freshly extracted from the
       corresponding tarball. In any case you should at least delete the file
       'config.cache' if it exists.
     - To facilitate installation you may use the Cut & Paste functions of your
       system to enter the commands in this document into your console. If you
       load this document into an editor capable of selecting colums such as
-      'nedit' this may even work for entire command sequences with multiple 
+      'nedit' this may even work for entire command sequences with multiple
       lines separated by a backslash.
 
 
@@ -137,25 +137,25 @@ General advices on compiling the software packages:
 2.1 Where to install ILIAS
 
 ILIAS will often be installed within an existing server environment. In this
-case the administrator of such a system will have to make sure, that the web 
+case the administrator of such a system will have to make sure, that the web
 server supports the PHP scripting language with all libraries required and that
-it can interact with a MySQL database server. 
+it can interact with a MySQL database server.
 
-The instructions herein assume that you do not have any of the software 
-packages required for running ILIAS installed on your server. Following them 
+The instructions herein assume that you do not have any of the software
+packages required for running ILIAS installed on your server. Following them
 all these programs will be built from their source code and then be installed
 under /opt/ilias/. This way the programs will normally not interfere with
 packages already installed on your system and can easily be removed.
 
-Beside the third-party software also ILIAS itself and all data directories 
+Beside the third-party software also ILIAS itself and all data directories
 (including the ILIAS web space, the MySQL databases, places for file uploads,
-logfiles etc.) will be located under /opt/ilias/. For just trying out ILIAS 
+logfiles etc.) will be located under /opt/ilias/. For just trying out ILIAS
 this solution is fine but if you intend to use ILIAS in a production environment
 we recommend to seperate the program binaries from the user data, e.g. to
-facilitate backup and administration tasks. 
+facilitate backup and administration tasks.
 
 You could for instance install all third-party software under /opt/ilias/ and
-create a directory /srv/ilias/ for the ILIAS web space and all other ILIAS 
+create a directory /srv/ilias/ for the ILIAS web space and all other ILIAS
 related data (except for logfiles which should ideally go to /var/log/ilias/).
 The subdirectories under /srv/ilias/ could be the same as the ones which are
 created under /opt/ilias/ during the installation process described in this
@@ -165,12 +165,12 @@ root partition) is not yet part of the Filesystem Hierarchy Standard (FHS) in
 its current version 2.2. But there have been proposals to add it to the FHS and
 some Linux distributions already use /srv/www as the default location for their
 web space. Since standardization efforts are still going on, our recommendation
-might be a temporary one. 
+might be a temporary one.
 
-When compiling the components necessary to run ILIAS from source you may easily 
+When compiling the components necessary to run ILIAS from source you may easily
 specify their installation location using an appropriate '--prefix' directive.
 Library locations that you specify must also reflect your system environment. It
-would be fine (and also in compliance with the FHS) to install everything 
+would be fine (and also in compliance with the FHS) to install everything
 including the data directories under /usr/local. That is also the default
 location where most source distributions will install themself in the build
 process. Of course you may also use symbolic links to change the location of
@@ -178,10 +178,10 @@ the directories involved.
 
 In many cases you may want to use binary packages like RPMs instead of compiling
 the software yourself.  If these packages meet the requirements resulting from
-the configure options in this document, this should normally work fine. You 
+the configure options in this document, this should normally work fine. You
 would just have to put the ILIAS scripts into your web space and do some
 adjustments to the Apache, PHP and MySQL configuration files as well as some of
-the pathes in the ILIAS system settings. 
+the pathes in the ILIAS system settings.
 
 
 
@@ -202,7 +202,7 @@ Directories where third-party components will be located:
     mkdir /opt/ilias/man/man1
     mkdir /opt/ilias/man/man5
     mkdir /opt/ilias/src
-    mkdir /opt/ilias/src/tarballs	
+    mkdir /opt/ilias/src/tarballs
 
 Directories for the ILIAS web space and all ILIAS related data:
 
@@ -219,17 +219,17 @@ Directories for the ILIAS web space and all ILIAS related data:
 Copy all source tar files to /opt/ilias/src/tarballs. GNU-Tar will extract the
 source files into separate directories in /opt/ilias/src:
 
-    cd /opt/ilias/src 
+    cd /opt/ilias/src
     tar -xzf tarballs/zlib-1.1.4.tar.gz
     tar -xzf tarballs/jpegsrc.v6b.tar.gz
     tar -xzf tarballs/libpng-1.2.5.tar.gz
     tar -xzf tarballs/gd-1.8.4.tar.gz
     tar -xzf tarballs/ImageMagick-4.2.9.tar.gz
-    tar -xzf tarballs/zip23.tar.gz  
+    tar -xzf tarballs/zip23.tar.gz
     tar -xzf tarballs/unzip550.tar.gz
-    tar -xzf tarballs/mysql-4.0.14.tar.gz 
+    tar -xzf tarballs/mysql-4.0.14.tar.gz
     tar -xzf tarballs/apache_1.3.28.tar.gz
-    tar -xzf tarballs/php-4.3.2.tar.gz         
+    tar -xzf tarballs/php-4.3.2.tar.gz
 
 For running ILIAS 3 please also unpack the following files:
 
@@ -275,7 +275,7 @@ For ILIAS 3 these additional packages are required:
     - libxslt (GNOME XSLT library, required by PHP for using DOM XSLT features)
     - Expat (XML parser used by the Sablotron XSLT processor)
     - Sablotron (XSLT processor)
-	
+
 The programs can be compiled and installed using the command sequences shown
 below. However, you may decide to install them in different locations such
 as /usr/lib or /usr/local/lib for the libaries by changing the configure option
@@ -306,55 +306,55 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
     libpng does not come with a configure script. You have to pick a Makefile
     suitable for your system in the ./scripts subdirectory. In the following it
-    is assumed that the target system is Linux. 
-    
+    is assumed that the target system is Linux.
+
     To install libpng under /opt/ilias the 'prefix' (default: /usr/local) in the
     Makefile must be changed. In addition the location of libz should be properly
-    specified: 'ZLIBLIB=/opt/ilias/lib' and 'ZLIBINC=/opt/ilias/include'. Both 
+    specified: 'ZLIBLIB=/opt/ilias/lib' and 'ZLIBINC=/opt/ilias/include'. Both
     settings can be changed manually with a text editor such as 'vi' or by using
     the 'sed' commands shown below.
 
         cd /opt/ilias/src/libpng-1.2.5
-        
+
     Now you can either edit Makefile to adjust the prefix:
-        
+
         cp scripts/makefile.linux Makefile
         vi Makefile
-        
+
     or you can use 'sed' to directly create a modified Makefile:
-       
+
         sed \
         -e 's/\/usr\/local/\/opt\/ilias/g' \
         -e 's/ZLIBLIB=..\/zlib/ZLIBLIB=\/opt\/ilias\/lib/g' \
         -e 's/ZLIBINC=..\/zlib/ZLIBINC=\/opt\/ilias\/include/g' \
         scripts/makefile.linux > Makefile
-        
+
         make
         make install
-        
+
 
 (d) GD-Library
 
     From release 4.3.0 PHP comes with a bundled libgd. Like all standard libgd
-    versions >= 1.6.x the bundled version does not allow the creation and 
+    versions >= 1.6.x the bundled version does not allow the creation and
     manipulation of GIF images due to the patent problem concerning the use of
-    the LZW algorithm. 
-    
+    the LZW algorithm.
+
     For most purposes the bundled libgd is sufficient since ILIAS does rely on
     GIF support by libgd anymore. A libgd supporting the GIF format would only
     be necessary if you intend to create clickable maps based on GIF files with
     the Imagemap editor being part of the ILIAS authoring tool.
-    
+
     The patent on the LZW algorithm held by Unisys Corporation has already
-    expired in the United States. In some other countries the patent expires 
+    expired in the United States. In some other countries the patent expires
     June/July 2004 (see http://www.unisys.com/about__unisys/lzw/ for details).
     So depending on where you live you may legally use a patched libgd with GIF
     support. Patched libgd versions may be obtained from an Australian website:
     http://www.rime.com.au/gd/
-    
+
     In case you want to build and use an external libgd please follow the steps
     below which also apply to patched versions:
-    
+
         cd /opt/ilias/src/gd-2.0.15
         ./configure \
         --prefix=/opt/ilias \
@@ -362,13 +362,13 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         --with-png=/opt/ilias
         make
         make install
-        
+
     Please note that opposed to current PHP versions some older PHP 4 releases
     cannot properly be compiled with newer libgd. A patch that solves the problem
     is available for PHP 4.2.3 and libgd >= 2.0.8 is available here:
     http://www.boutell.com/gd/phppatch.html
 
-    You may also use an older libgd, for example version 1.8.4. The latter does 
+    You may also use an older libgd, for example version 1.8.4. The latter does
     not come with a configure script. To adapt it to your system you would have
     to modify its Makefile manually. In particular the INSTALL_ pathes may have
     to be adjusted.  Since libgd requires libz, libpng and libjpeg you may also
@@ -383,14 +383,14 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         --prefix=/opt/ilias \
         --without-perl \
         --enable-lzw \
-        --enable-shared 
+        --enable-shared
         make
         make install
 
     At the end of the configure process a configuration summary is displayed.
     Please check if 'yes' is shown as the configured value for JPEG and PNG. If
     not, ImageMagick could probably not find the previously installed libjpeg
-    and libpng and you may experience problems when doing image manipulations 
+    and libpng and you may experience problems when doing image manipulations
     in ILIAS such as editing a clickable imagemap or when thumbnail pictures
     are being created.
 
@@ -506,7 +506,7 @@ components:
     File ownership for /opt/ilias/mysqldata needs to be set accordingly:
     
         chown -R mysql /opt/ilias/mysqldata
-        chgrp -R mysql /opt/ilias/mysqldata 
+        chgrp -R mysql /opt/ilias/mysqldata
 	
     Create a MySQL configuration file and link to it:
 
@@ -600,7 +600,7 @@ components:
 
     The default PHP configuration file must be copied to /opt/ilias/config:
 
-        cp php.ini-dist /opt/ilias/config/php.ini 
+        cp php.ini-dist /opt/ilias/config/php.ini
 		
     IMPORTANT: In PHP versions later than 4.1 the default value for the php.ini
     parameter 'register_globals' is set to 'off'. At the time being, ILIAS 2 will
@@ -608,7 +608,7 @@ components:
     /opt/ilias/config/php.ini if you are using ILIAS 2:
     
         vi /opt/ilias/config/php.ini
-        
+
     ILIAS 3 will also work with register_globals=Off.
 
     There are a few more settings in php.ini that might require modification:
@@ -666,7 +666,7 @@ components:
     Please check the default runlevel for your system in /etc/inittab. On 
     Solaris systems the init scripts can usually be found in /etc/init.d, the
     links in the runlevel specific directories like /etc/rc3.d.
-	
+
     If you are using RedHat Linux, the standard Apache start/stop script may not
     work properly. Please see APPENDIX A for a modified version using RedHat
     specific init functions. Use chkconfig --add to create runlevel specific 
@@ -688,7 +688,7 @@ components:
 
     IMPORTANT: All directories in your webspace ought to be secured properly, e.g.
     using .htaccess files. It is recommended to at least disable the directory
-    option 'Indexes' in /opt/ilias/config/httpd.conf, so that someone accessing 
+    option 'Indexes' in /opt/ilias/config/httpd.conf, so that someone accessing
     your web server cannot obtain listings of the files inside your web space
     directories. 
 
@@ -700,7 +700,7 @@ components:
 
 
 (a) Installing the ILIAS 2 program files
- 
+
     First of all extract the content of the ILIAS tarball into
 
         cd /opt/ilias/www/htdocs/
@@ -708,7 +708,7 @@ components:
 
     IMPORTANT: Please make sure your webserver has write permission for at least
     the following subdirectories located in /opt/ilias/www/htdocs/ilias/:
-        
+
         bilder/
         coursefiles/
         imagemaps/
@@ -718,11 +718,11 @@ components:
         plugins/
         sonderzeichen/
         tmp/
-    
+
     Write access by the web server is also required for the directories under
     /opt/ilias/data/ (used for storing various data that shall not appear in
     the web space) and for /opt/ilias/log/ilias (used for saving ILIAS specific
-    logfiles). Please set directory ownership and permissions accordingly. 
+    logfiles). Please set directory ownership and permissions accordingly.
 
     In most cases it will be sufficient to make the web server daemon user the
     owner of the entire ILIAS directory, its subdirectories and all other
@@ -842,7 +842,7 @@ components:
     name, installation info, HTTP path and contact information. In return your
     system receives a unique installation ID, which will allow data exchange
     between different ILIAS hosts as soon as this feature is implemented.
-	
+
     All information provided will be treated confidentially and will not be
     disclosed to third parties. If for any reasons you dislike the idea of
     having this information transmitted to the ILIAS-NIC you can disable this
@@ -881,7 +881,7 @@ components:
           frame views.
 
     You may use the 'System / System Check' function in the ILIAS administration
-    to check if your ILIAS system has been set up properly. 
+    to check if your ILIAS system has been set up properly.
 
     Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
 
@@ -910,11 +910,16 @@ information will be provided with upcoming ILIAS 3 beta releases.
         cd /opt/ilias/www/htdocs/
         tar -xzf /opt/ilias/src/tarballs/ilias-3.0.0_alpha3.tar.gz
 
+    Create a data directory within the webserver's webspace for ILIAS3.
+
+        mkdir /opt/ilias/www/htdocs/ilias3data
+
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
     user is 'wwwrun' you can use these commands:
-    
+
         chown -R wwwrun /opt/ilias/www/htdocs/ilias3
+        chown -R wwwrun /opt/ilias/www/htdocs/ilias3data
         chown -R wwwrun /opt/ilias/data
 
 
@@ -923,33 +928,40 @@ information will be provided with upcoming ILIAS 3 beta releases.
     Open the ILIAS 3 setup script in your web browser:
 
         http://www.yourserver.com/ilias3/setup.php
-        
+
     If all 'preliminaries' are fulfilled you may click on the [Installation]
-    link at the end of the page. You 
-    
+    link at the end of the page. You
+
     Now click on all setup menu entries:
-    
+
     1. Create the ini-file containing the following information:
-    
+
         - database access information
-        - path to ILIAS data directory
-        - path to ILIAS webspace directory
-    
-    2. Setup the database. Please note that unlike with ILIAS 2 the database 
+        - path to ILIAS data directory:
+          This path must be an absolut path i.e. it should start with "/",
+          e.g. "/opt/ilias/data". The directory is used for data that doesn't
+          need to be stored within the webspace.
+        - path to ILIAS webspace data directory:
+          This path must be specified as a relative path from the main ILIAS3
+          directory to the ILIAS3 webspace data directory, i.e. it must NOT start
+          with "/". Enter "../ilias3data" if your directories are located
+          as recommended above.
+
+    2. Setup the database. Please note that unlike with ILIAS 2 the database
        must not be created manually. After the database has been generated an
-       update of the database structure might be required. 
-    
+       update of the database structure might be required.
+
     3. Install additional languages (if required).
-    
+
     4. IMPORTANT: set a password to protect the setup script.
-    
+
 
 (c) Initial login
 
 
     After all menu items display [OK] you may proceed to the ILIAS 3 login,
-    either using the [login] link or by accessing 
-        
+    either using the [login] link or by accessing
+
         http://www.yourserver.com/ilias3/index.php
 
     Please use the ILIAS superuser account for your first login:
@@ -958,7 +970,7 @@ information will be provided with upcoming ILIAS 3 beta releases.
         Password: homer
 
     In the Administration -> System Settings you may continue with the further
-    configuration of your ILIAS system.  
+    configuration of your ILIAS system.
 
     Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
 
@@ -1002,7 +1014,7 @@ information will be provided with upcoming ILIAS 3 beta releases.
     achieved by using it are rather limited. You may try it out though, since
     it usually does not have any negative effects either. 
     
-    Zend Optimizer is offered by Zend Technologies Ltd. free of charge, but it 
+    Zend Optimizer is offered by Zend Technologies Ltd. free of charge, but it
     is not Open Source software. Different versions are available for Linux, 
     Solaris and FreeBSD from:
     
@@ -1048,7 +1060,7 @@ information will be provided with upcoming ILIAS 3 beta releases.
     it does not run stable on every kind of server and usually requires some
     experimenting. We are still testing the PHP Accelerator and recommend it 
     only to experienced users which monitor their servers closely. 
-    
+
     Please note that PHP Accelerator and Zend Optimizer cannot be used in
     combination!
     
@@ -1114,7 +1126,7 @@ information will be provided with upcoming ILIAS 3 beta releases.
          --with-pam_auth
 
     Create the file /etc/pam.d/php containing this line:
-	
+
          auth     required     /lib/security/pam_radius_auth.so
 	
     If desired 'debug' may be added to the end of the line. Debug messages from
@@ -1168,19 +1180,19 @@ changed:
     - /opt/ilias/data/ was formerly /opt/ilias/iliasdata/
     - /opt/ilias/log/ was formerly /opt/ilias/logfiles/
     - the third-party software packages Apache, MySQL, PHP and ImageMagick now
-      have the same base directory /opt/ilias/ instead of being installed in 
+      have the same base directory /opt/ilias/ instead of being installed in
       separate base directories under /opt/ilias/. 
     - /opt/ilias/log/ilias/ has been introduced as directory for ILIAS logfiles.
       Write access must be granted to the web server daemon user. 
 
 Please take this into consideration when upgrading from an old installation and
-adapt the path names if necessary. If you decide to rename your existing 
+adapt the path names if necessary. If you decide to rename your existing
 directories make sure that the ILIAS system settings and all configuration files
-reflect the changes. 
+reflect the changes.
 
 At the time being no installation script is available for updating ILIAS. For
 this reason the ILIAS script files must be updated manually. In the following
-steps it it assumed that your existing ILIAS installation is located in 
+steps it it assumed that your existing ILIAS installation is located in
 /opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
 file lies in /tmp/. If the locations differ on your system you may need to adapt
 the commands used in the following.
@@ -1188,31 +1200,31 @@ the commands used in the following.
 Some files and directories will be replaced in the update process. They must be
 removed from your ILIAS web directory. If you keep any additional files or data
 that is worth to be saved in one of these directories please take all necessary
-precautions. This is especially important if you have modified parts of the 
-ILIAS source code, the language files in ./lang/ or the course templates in 
+precautions. This is especially important if you have modified parts of the
+ILIAS source code, the language files in ./lang/ or the course templates in
 ./templates/. It is also recommended to save the file ilias_db.inc located in
-the  directory ./include/ which contains settings sepcific to your MySQL 
+the  directory ./include/ which contains settings sepcific to your MySQL
 database. After installing the new ILIAS release you may easily restore the it.
 
     cd /opt/ilias/www/htdocs/ilias
     rm *
-    rm -r convert docs help ilias_hilfe images include lang modules sql 
-    rm -r syntax_highlight 
+    rm -r convert docs help ilias_hilfe images include lang modules sql
+    rm -r syntax_highlight
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
-your system. 
-	
+your system.
+
 Then extract the ILIAS distribution tar file to /tmp/ (or any other directory of
 your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
     tar -xzf /opt/ilias/src/tarballs/ilias-2.3.8.tar.gz
-	
+
 After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
-copy various files and directories to your ILIAS web directory: 
+copy various files and directories to your ILIAS web directory:
 
 Migrating from version 2.x.x:
 
@@ -1249,21 +1261,21 @@ Migrating from version 1.9.x / 1.8.x /  1.7.x:
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
 
-The directories under /opt/ilias/data/ are used for storing various kinds of 
+The directories under /opt/ilias/data/ are used for storing various kinds of
 data, e.g. files in group folders. It is located outside the web space but the
 web server daemon user must have read/write access to it. Please set file
 ownership and permissions accordingly. Please also register the directories in
-the ILIAS administration (-> 'System / Directories'). 
+the ILIAS administration (-> 'System / Directories').
 
 /opt/ilias/data/offline/ may be used to store offline courses available for
 download. They were formerly saved in /opt/ilias/www/htdocs/ilias/offline/ and
-should be moved to the new location. The original directory may be removed 
-afterwards. Please set file ownership and permissions so that the web server 
-daemon can still access the files. 
+should be moved to the new location. The original directory may be removed
+afterwards. Please set file ownership and permissions so that the web server
+daemon can still access the files.
 
 After installing a new ILIAS release you must run the database migration script,
 so that all changes in the database structure are also applied to your database.
-To do so, access the file 
+To do so, access the file
 
     'http://www.yourserver.com/ilias/sql/migration/db_migration.php'
 
@@ -1279,16 +1291,16 @@ options in the ILIAS system settings.
 
 At the time being ILIAS 3 is only available as an alpha version for test
 purposes. Update and migration information will be available as soon as a beta
-release becomes available. 
+release becomes available.
 
-				
+
 3.3  Updating third-party software
 
-Because the main third-party software components interact in different ways, 
+Because the main third-party software components interact in different ways,
 updating one of these components usually requires a complete re-installation
-as described in 'First Time Installation'. 
+as described in 'First Time Installation'.
 
-MySQL, PHP and the Apache Webserver can normally be re-installed at any time 
+MySQL, PHP and the Apache Webserver can normally be re-installed at any time
 while retaining the original system configuration (configuration files will
 not be modified). Before doing so make sure you have backed up your system.
 Then clean up your /opt/ilias/src/ directory and extract the new source files
@@ -1303,7 +1315,7 @@ A P P E N D I X  A: Note on using Apache 2
 At the time being Apache 2 is not yet recommended for production use with PHP.
 However, we are already testing ILIAS with Apache 2. If you like to try out
 Apache 2 for your ILIAS system, please proceed as follows:
-	
+
     - Omit the preparatory step and directly compile and install Apache 2 as
       described in section '2.3.2 - (d) Apache'" but replace the configure
       directive '--activate-module=src/modules/php4/libphp4.a' by '--enable-so'.
