@@ -545,7 +545,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
-		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		//sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/**
@@ -2401,6 +2401,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 		//TODO: link back
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
