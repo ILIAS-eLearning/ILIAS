@@ -97,7 +97,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-		if (($this->ctrl->getCmd() == "addArea" or $_GET["editmap"]) and (!$_POST["cmd"]["back"]) and ($this->ctrl->getCmd() != "saveShape"))
+		if (($this->ctrl->getCmd() == "addArea" or $this->ctrl->getCmd() == "getCoords") and (!$_POST["cmd"]["back"]) and ($this->ctrl->getCmd() != "saveShape"))
 		{
 			foreach ($this->object->coords as $key => $value)
 			{
@@ -110,7 +110,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("HIDDEN_NAME", "newarea");
 			$this->tpl->setVariable("HIDDEN_VALUE", $_POST["newarea"]);
 			$this->tpl->parseCurrentBlock();
-			$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
+
+			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($this->object->answers as $index => $answer)
 			{
 				$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
@@ -177,6 +178,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$preview->addArea($_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
 			}
 			$preview->createPreview();
+
 			if (count($preview->areas))
 			{
 				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
