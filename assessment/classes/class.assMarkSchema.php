@@ -65,9 +65,11 @@ class ASS_MarkSchema extends PEAR {
 * @param string $txt_failed_short The short text of the failed mark
 * @param string $txt_failed_official The official text of the failed mark
 * @param double $percentage_failed The minimum percentage level reaching the failed mark
+* @param integer $failed_passed Indicates the passed status of the failed mark (0 = failed, 1 = passed)
 * @param string $txt_passed_short The short text of the passed mark
 * @param string $txt_passed_official The official text of the passed mark
 * @param double $percentage_passed The minimum percentage level reaching the passed mark
+* @param integer $passed_passed Indicates the passed status of the passed mark (0 = failed, 1 = passed)
 * @access public
 * @see $mark_steps
 */
@@ -75,14 +77,16 @@ class ASS_MarkSchema extends PEAR {
     $txt_failed_short = "failed", 
     $txt_failed_official = "failed", 
     $percentage_failed = 0,
+		$failed_passed = 0,
     $txt_passed_short = "passed",
     $txt_passed_official = "passed",
-    $percentage_passed = 50
+    $percentage_passed = 50,
+		$passed_passed = 1
   )
   {
     $this->flush();
-    $this->add_mark_step($txt_failed_short, $txt_failed_official, $percentage_failed);
-    $this->add_mark_step($txt_passed_short, $txt_passed_official, $percentage_passed);
+    $this->add_mark_step($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
+    $this->add_mark_step($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed);
   }
 
 /**
@@ -94,16 +98,18 @@ class ASS_MarkSchema extends PEAR {
 * @param string $txt_short The short text of the mark
 * @param string $txt_official The official text of the mark
 * @param double $percentage The minimum percentage level reaching the mark
+* @param integer $passed The passed status of the mark (0 = failed, 1 = passed)
 * @access public
 * @see $mark_steps
 */
   function add_mark_step(
     $txt_short = "", 
     $txt_official = "", 
-    $percentage = 0
+    $percentage = 0,
+		$passed = 0
   )
   {
-    $mark = new ASS_Mark($txt_short, $txt_official, $percentage);
+    $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
     array_push($this->mark_steps, $mark);
   }
 
@@ -112,26 +118,30 @@ class ASS_MarkSchema extends PEAR {
 * 
 * Saves a ASS_MarkSchema object to a database (experimental)
 *
-* @param object $db A pear DB object
+* @param integer $test_id The database id of the related test
 * @access public
 */
-  function save_to_db($db, $test_id)
+  function save_to_db($test_id)
   {
+		global $ilias;
+		$db =& $ilias->db->db;
+		
     if (!$test_id) return;
     if (count($this->mark_steps) == 0) return;
     // Alte Einträge löschen
-    $query = sprintf("DELETE FROM dum_mark WHERE test_fi = %s",
+    $query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
       $db->quote($test_id)
     );
     $result = $db->query($query);
     
     // Neue Datensätze schreiben
     foreach ($this->mark_steps as $key => $value) {
-      $query = sprintf("INSERT INTO dum_mark (mark_id, test_fi, short_name, official_name, minimum_level, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
         $db->quote($test_id),
         $db->quote($value->get_short_name()), 
         $db->quote($value->get_official_name()), 
-        $db->quote($value->get_minimum_level())
+        $db->quote($value->get_minimum_level()),
+        $db->quote(sprintf("%d", $value->get_passed()))
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
@@ -144,20 +154,23 @@ class ASS_MarkSchema extends PEAR {
 * 
 * Loads a ASS_MarkSchema object from a database (experimental)
 *
-* @param object $db A pear DB object
 * @param integer $test_id A unique key which defines the test in the database
 * @access public
 */
-  function load_from_db($db, $test_id)
+  function load_from_db($test_id)
   {
+		global $ilias;
+		$db =& $ilias->db->db;
+		
     if (!$test_id) return;
-    $query = sprintf("SELECT * FROM dum_mark WHERE test_fi = %s ORDER BY minimum_level",
+    $query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
       $db->quote($test_id)
     );
+
     $result = $db->query($query);
     if (strcmp(get_class($result), db_result) == 0) {
       while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        $this->add_mark_step($data->short_name, $data->official_name, $data->minimum_level);
+        $this->add_mark_step($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
       }
     }
   }
