@@ -3,9 +3,10 @@
 	<style 	name = "Blue Shadow"
 			id = "blueshadow"
 			image_directory = "blueshadow" />
+	<!--
 	<style 	name = "ShangHai Summer"
 			id = "ibb"
-			image_directory = "ibb"/>
+			image_directory = "ibb"/>-->
 	<!--
 	<style	name = "Blue Shadow (IE)"
 			id = "blueshadow_ie"
