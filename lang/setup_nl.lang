@@ -33,15 +33,15 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#software van derden###15 Jan 2004 content changed
+3rd_party_software#:#software van derden
 absolute_path#:#Absolute pad
-access#:#Toegang###15 Jan 2004 content changed
+access#:#Toegang
 access_status#:#Toegangs-status
 admin_login#:#Inloggen als administrateur
 available_clients#:#Beschikbare cliënten
 available_languages#:#Beschikbare talen
 back#:#terug
-cannot_create_datadir_no_write_access#:#Geen schrijven-rechten. Kan geen gegevens-map creëren.
+cannot_create_datadir_no_write_access#:#Geen schrijven-rechten. Kan geen gegevens-map creëren
 change#:#wijzigen
 change_basic_settings#:#Wijzig basis-instellingen
 change_password#:#Wijzig uw wachtwoord
@@ -49,7 +49,7 @@ change_sort_direction#:#Sorteervolgorde wijzigen
 check_failed_convert#:#Testen van conversie mislukt
 check_failed_htmldoc#:#Tesetn van HTMLdoc mislukt
 check_failed_java#:#Testen van java mislukt
-check_failed_unzip#:#Tesetn van unzippen mislukt
+check_failed_unzip#:#Testen unzip mislukt
 check_failed_zip#:#Testen van zippen mislukt
 choose_language#:#A.u.b. kies uw taal
 choose_languages#:#A.u.b. kies extra talen en/of verwijder gekozen talen.
@@ -57,7 +57,7 @@ choose_password#:#A.u.b. uw wachtwoord invullen
 city#:#Stad
 client#:#Cliënt
 client_access_mode_changed#:#Cliënt-toegangs-modus is gewijzigd
-client_data#:#Cliënt
+client_data#:#Cliënt-informatie
 client_id#:#Cliënt-ID
 client_info#:#Beschrijving
 client_institution#:#Instituut
@@ -76,7 +76,7 @@ create_new_client#:#Creëer een nieuwe cliëent
 create_webdir_failed#:#Creëren van een web-map is mislukt
 data_path#:#datapad
 database#:#databank
-database_create#:#Creëeer databank
+database_create#:#Creëer databank
 database_exists#:#databank bestaat al
 database_install#:#Installeren databank
 database_installed#:#Databank geïnstalleerd
@@ -85,11 +85,11 @@ database_needs_update#:#Uw databank heeft een update nodig
 database_not_exists_create_first#:#Databank bestaat niet. Creëer eerste een  databank.
 database_ready#:#de databank is klaar.
 database_update#:#databank bijwerken
-database_version#:#Huidige databank-versie
+database_version#:#huidige databank-versie
 datadir_path#:#Pad naar de Data-directory
 datadir_path_comment1#:#Verplicht
 datadir_path_comment2#:#Kan niet wijzigen in deze opzet-versie
-datadir_webspacedir_match#:#The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.###20 Dec 2003 new variable
+datadir_webspacedir_match#:#Het pad naar uw gegevens-map wijst naar dezelfde map als van uw web site. Kies a.u.b. een andere map.
 date#:#datum
 db_conn#:#Databank-verbinding
 db_host#:#Databank-host
@@ -98,15 +98,15 @@ db_needs_update#:#Databank moet worden bijgewerkt
 db_pass#:#databank-wachtwoord
 db_type#:#databank-type
 db_user#:#databank gebruiker
-db_version#:#Databank-versie
-default#:#default
-default_client_changed#:#Wijzig de default cliënt
-default_language#:#Standaard taal
+db_version#:#databank-versie
+default#:#standaard
+default_client_changed#:#Standaard cliënt gewijzigd
+default_language#:#Default taal
 delete#:#verwijderen
 delete_confirm#:#Bevestigen verwijdering cliënt
 delete_info#:#Weet u het zeker?
 details#:#Details
-dir_exists_create#:#Map bestaat al. Deselecteer 'create' om deze map als uw eigen map te selecteren.
+dir_exists_create#:#Map bestaat al. Deselecteer 'create' om deze map als uw eigen map te selecteren
 disable#:#Onmogelukt maken
 disable_check#:#Zet controleren uit
 disable_logging#:#Zet logging uit
@@ -114,7 +114,7 @@ disabled#:#uitgeschakeld
 display_clientlist#:#Laat cliënt-selectie zien
 email#:#Email
 email_not_valid#:#Foutief email-adres
-en_by_default#:#(Engels is default geïnstalleerd en kan niet verwijderd worden).
+en_by_default#:#(Engels is standaard geïnstalleerd en kan niet worden gewist).
 enable#:#inschakelen
 enabled#:#ingeschakeld
 enter_password#:#A.u.b. voer een wachtwoord in
@@ -126,10 +126,10 @@ err_create_database_failed#:#De creatie van uw databank is mislukt
 err_wrong_login#:#Foutief ingelogd
 error_recipient#:#Ontvanger van foutmeldingen
 feedback_recipient#:#Feedback ontvanger
-file_does_not_exist#:#Bestand bestaat niet.
+file_does_not_exist#:#Bestand bestaat niet
 file_version#:#Bestands-versie
 fill_both_fields#:#A.u.b. beide velden invullen!
-fill_out_required_fields#:#Vul alle als vereist gemarkeerde velden in a.u.b.
+fill_out_required_fields#:#A.u.b. alle benodigde velden invullen.
 filled_out#:#Correct ingevuld
 finish#:#Beëindig setup
 finish_initial_setup_first#:#Beëindig initiële opzet eerst
@@ -151,7 +151,7 @@ info_text_db#:#De databank bestaat niet of is leeg. Klik op de knop hieronder om
 info_text_delete#:#U kunt deze cliënt verwijderen door op de onderstaande verwijder-knop te klikken. Echter alleen het bestand cliënt.ini wordt verwijderd, alle bestanden opgeslagen in mappen en de databank van de cliënt blijven bestaan. De bestanden en de databank moeten met de hand door de systeem-administrateur worden verwijderd.
 info_text_finish1#:#Gefeliciteerd! Het opzetten van uw cliënt is gelukt. Klik op 'Login" om uw ILIAS-installatie te gaan gebruiken.
 info_text_finish2#:#Enige instellingen zijn er niet of zijn incorrect. Bestudeer de proces-diagram wat er moet gebeuren!
-info_text_first_client#:#Uw basis-instellingen zijn opgeslagen. Nu gaan we uw eerste cliënt creëren. Opzet zal u door het installatie-proces begeleiden. Op het rechter paneel kunt u steeds de huidige status van het installatie-proces zien
+info_text_first_client#:#Uw basis-instellingen zijn opgeslagen. Nu gaan we uw eerste cliënt creëren. Opzet zal u door het installatie-proces begeleiden. Op het rechter paneel kunt u steeds de huidige status van het installatie-proces zien.
 info_text_first_install#:#Het lijkt erop dat u ILIAS3 voor de eerste keer installeerd omdat er geen ilias.ini is gevonden. In ilias.ini wordt het hoofd-wachtwoord opgeslagen om ILIAS-opzet te beschermen tegen ongeautoriseerde toegang.
 info_text_ini#:#Kies een Cliënt-ID.Toegestaan zijn alle letters (m.u.v. umlaut) en nummers. Het Cliënt-ID moet één woord zijn.<br/>Voer vervolgens de verbindings-gegevens van de databank in. Opzet voert een verbindings-test uit om de instellingen en het bestaan van de databank te controleren. Indien deze niet bestaat kunt u in de volgende installatie-stap van Opzet vragen een databank te creëren.
 info_text_lang#:#Kies additionele talen en/of verwijder geselecteerde talen. De default taal specificeert de taal voor nieuwe gebruiker-accounts welke nog geen geprefereerde taal gekozen hebben.
@@ -162,17 +162,17 @@ info_text_nic2#:#met uw installatie-informatie aan ilias-info@uni-koeln.de. Vul 
 info_text_nic3#:#U registreerde uw installatie. Uw nic-id is
 info_text_password#:#Hier kunt u uw hoofd-wachtwoord voor het Opzet-prrogramma wijzigen.
 info_text_pathes#:#ILIAS3 ondersteunt meerdere cliënten met verschillende databanken. Hier onder geeft u de databank-map, logbestand-locatie en de paden naar de programma's van geleverd door derden op. Deze instellingen zijn geldig voor alle cliënten  die u later creëerd.
-ini_client_id_exists#:#Een cliënt met dit ID bestaat al. Kies a.u.b. een ander Cliënt-ID.
+ini_client_id_exists#:#Een cliënt met die ID bestaat al! S.v.p. kies een ander cliënt-ID.
 ini_client_id_invalid#:#Het Cliënt-ID dat uw invulde bevat niet toegestane karakters
 ini_client_id_no_change#:#Het Cliënt-ID kan in deze versie niet gewijzigd worden nadat de cliënt-mappen gecreëerd zijn.
 ini_client_id_too_long#:#Cliënt-ID is te lang
 ini_client_id_too_short#:#Cliënt-ID is tekort
-ini_db_name_exists#:# bestaat al! Kies een andere databank-naam
+ini_db_name_exists#:#bestaat al! Kies een andere databank-naam
 ini_no_client_id#:#Geen Cliënt-ID opgegeven.
 ini_no_db_host#:#Geen hostnaam
 ini_no_db_name#:#Geen databank-naam
 ini_no_db_user#:#Nee databank
-inifile#:#ini-bestand
+inifile#:#Ini-bestand
 inifile_can_write#:#Setup van ILIAS 3 kan uw ini-bestand schrijven.
 inifile_cannot_write#:#Setup van ILIAS 3 kan uw ini-bestand niet schrijven. Controleer eerst uw schrijfrechten.
 inifile_content#:#Uw ini-bestand heeft als inhoud:
@@ -194,26 +194,26 @@ java_path_comment#:#vereist voor SCORM les-modules
 lang_de#:#Duits
 lang_dk#:#Deens
 lang_en#:#Engels
-lang_error_occurred#:#Er is een fout opgetreden. Activiteit wordt gestopt.
+lang_error_occurred#:#Fout opgetreden. Activiteit afgebroken.
 lang_es#:#Spaans
 lang_fr#:#Frans
 lang_id#:#Indonesisch
 lang_it#:#Italiaans
 lang_lt#:#Litausch
 lang_min_one_language#:#U moet op zijn minst één taal installeren!
-lang_nl#:#Dutch###20 Dec 2003 new variable
+lang_nl#:#Nederlands
 lang_no#:#Noors
 lang_none_installed#:#Geen taal geïnstalleerd
 lang_not_installed_default#:#De taal die u geselecteerd heeft als default is niet  geïnstalleerd!
 lang_pl#:#Pools
 lang_se#:#Zweeds
-lang_ua#:#Ukrainian###15 Jan 2004 new variable
+lang_ua#:#Oekrainsch
 lang_xx#:#Door gebruiker gedefinieerd
 lang_zh#:#Chinees
 langs_not_valid_not_installed#:#De volgende talen zijn niet geïnstalleerd omdat de taal-bestanden fout waren
 language#:#taal
 languages#:#talen
-languages_installed#:#Taal/talen geïnstalleerd
+languages_installed#:#Taal(talen) geïnstalleerd
 lastname#:#Familie-naam
 list#:#lijst
 list_disabled#:#Cliënt-selectie uitgeschakeld
@@ -232,21 +232,20 @@ name#:#Naam
 new#:#nieuw
 next#:#Volgende
 nic_not_disabled#:#Geen NIC-ID & niet uitgeschakeld
-nic_reg_disable#:# sla NIC-registratie over
+nic_reg_disable#:#Sla NIC-registratie over
 nic_reg_disable_comment#:#(registreer later)
 nic_reg_disabled#:#NIC-registratie uitgeschakeld
 nic_reg_email#:#registreer Email
 nic_reg_enabled#:#NIC-registratie ingeschakeld!
 nic_reg_enter_checksum#:#gezonden
-nic_reg_enter_correct_id#:#Vul een correct nic-id in
+nic_reg_enter_correct_id#:#Voer een correcte NIC_id in
 nic_reg_enter_id#:#Vul gezonden NIC-ID
 nic_reg_failed#:#NIC-registratie mislukt
 nic_reg_online#:#registreer online
 nic_registration#:#NIC-registratie
-no_changes#:#Geen veranderingen
 no_changes#:#Geen wijzigingen.
 no_client_id#:#Geen Cliënt-ID opgegeven
-no_client_name#:#GEEN CLIENT-NAAM
+no_client_name#:#Geen CLIËNT NAAM
 no_clients_available#:#Geen cliënten beschikbaar
 no_database#:#Geen databank
 no_db_connect_consult_admin#:#Kan niet met een databank verbinden. Neem contact op met de systeem-administrateur
@@ -262,7 +261,7 @@ no_path_unzip#:#Geen unzip-pad opgegeven
 no_path_zip#:#Geen zip-pad opgegevens
 no_setup_pass_given#:#Geen Opzet-wachtwoord gegeven
 no_username#:#Geen gebruikers-naam opgegeven
-no_valid_client_id#:#Geen correct Cliënt-ID
+no_valid_client_id#:#Geen correct cliënt-id
 not_connected_to_db#:#U bent niet met een databank verbonden
 online#:#online
 or#:#of
@@ -271,15 +270,15 @@ overall_status#:#Status totaal
 overview#:#Overzicht
 pass_does_not_match#:#Het ingevoerde wachtwoord komt niet overeen
 password#:#wachtwoord
-password_changed#:#Wachtwoord gewijzigd.
+password_changed#:#Wachtwoord gewijzigd
 password_empty#:#Er is geen wachtwoord gegeven!
-password_enter_old#:#U moet eerst uw oude wachtwoord invoeren
+password_enter_old#:#U moet eerst uw oude wachtwoord invoeren!
 password_info#:#Om uw configuratie-gegevens te beschermen tegen ongeautoriseerde toegang geef a.u.b. een wachtwoord om deze instellingen later te kunnen wijzigen.
 password_new_master#:#Geef een nieuw hoofd-wachtwoord op
-password_not_match#:#Het nieuw opgegeven wachtwoord komt niet overeen
-password_old_wrong#:#Het oude wachtwoord is verkeerd!
-password_retype#:#Voer het nieuwe wachtwoord opnieuw in
-password_same#:#Het oude en nieuwe wachtwoordzijn gelijk!
+password_not_match#:#Het nieuw opgegeven wachtwoord komt niet overeen!
+password_old_wrong#:#Oude ingevoerde wachtwoord is fout!
+password_retype#:#Voer nieuwe wachtwoord opnieuw in
+password_same#:#Het oude en nieuwe wachtwoord zijn gelijk!
 password_set#:#Wachtwoord opgeslagen
 path_not_set#:#Pad niet ingesteld
 path_to_convert#:#Pad naar Converteer
@@ -291,17 +290,18 @@ pathes#:#Paden
 phone#:#Telefoon
 port#:#poort
 position#:#Positie
-pre_cookies_disabled#:#Cookies zijn uitgeschakeld. Cookies zijn verplicht voor gebruik van ILIAS 3.
+pre_cookies_disabled#:#Cookies zijn uitgeschakeld. Cookies zijn nodig voor gebruik van ILIAS 3.
 pre_cookies_enabled#:#Cookies ingeschakeld
 pre_error#:#Eén of twee dingen gingen fout. Herstel eerst de problemen anders kunt u ILIAS 3 niet installeren 3.
 pre_folder_create#:#Nieuwe mappen aanleggen in de Ilias 3 map
 pre_folder_create_error#:#Kan geen sub-mappen creëren. Controleer de  instellingen van uw rechten m.b.t. uw bestands-systeem!
 pre_folder_write#:#Schrijfbare ILIAS 3 map
-pre_folder_write_error#:#Kan niet schrijven in ILIAS 3 map! Controleer de  instellingen van uw rechten m.b.t. uw bestands-systeem!
+pre_folder_write_error#:#Kan niet in ILIAS 3 folder schrijven! Controleer uw  rechten-instellingen in uw bestands-systeem!
 pre_intro#:#De setup-routine gaat na of uw omgeving aan de vereisten voor installatie en werken voldoet.
+pre_javascript_comment#:#U kunt ILIAS zonder Javascript runnen, maar u mist enige interface mogelijkheden.
 pre_javascript_enabled#:#Javascript ingeschakeld
 pre_php_version#:#PHP-versie
-pre_php_version_3#:#Uw PHP-versie is veel te oud voor gebruik van ILIAS 3!. Waardeer PHP op .a.u.b. 
+pre_php_version_3#:#Uw PHP-versie is veel te oud voor gebruik van ILIAS 3!. Waardeer PHP op .a.u.b.
 pre_php_version_4.1#:#PEAR-classes werken niet correct met deze versie!. Waardeer PHP op .a.u.b.
 pre_php_version_4.2#:#DOMXML en XSLT werken niet correct met deze versie!
 pre_php_version_5#:#ILIAS 3 is nog niet getest met PHP 5. Gebruik is voor eigen risico.
@@ -330,11 +330,11 @@ setup_database#:#setup van de databank
 setup_database_desc#:#Setup van de databank
 setup_db_first#:#A.u.b.eerst uw databank opzetten!
 setup_finished#:#Opzet beëindigd
-setup_first_client#:#Zet uw eerste  cliënt op
+setup_first_client#:#Setup uw eerste cliënt
 setup_ini_first#:#A.u.b. leg eerst uw ini-bestand aan!
 setup_inifile#:#Creëer een ini-bestand
 setup_inifile_desc#:#Creëer een ini-bestand voor uw installatie
-setup_languages#:#Installeer talen###21 Jan 2004 content changed
+setup_languages#:#Installeer talen
 setup_languages_desc#:#Installeer meer talen
 setup_login#:#Inloggen aan Opzet
 setup_mainmenu#:#Hoofdmenu setup
@@ -357,7 +357,7 @@ setup_ready#:#Setup is klaar. U kunt doorgaan met inloggen en verder controles v
 setup_welcome#:#Welkom bij de setup van ILIAS 3. De setup-routine helpt u met
 sort_by_this_column#:#Sorteer op deze kolom
 status#:#Status
-step#:#Stap
+step#:#Het ILIAS-systeem is zichtbaar
 street#:#Straat
 submit#:#Verzend
 title#:#Titel
@@ -373,7 +373,7 @@ username#:#Gebruikersnaam
 version#:#Versie
 webspace_dir#:#data path webspace
 with#:#met
-wrong_password#:#Fout wachtwoord!###15 Jan 2004 content changed
+wrong_password#:#Fout wachtwoord!
 zip_path#:#Pad naar Zip
 zip_path_comment#:#verplicht voor het exporteren van les-modules
 zipcode#:#Postkode
