@@ -88,7 +88,7 @@ class User
 								);
 
 			//get userpreferences from user_pref table
-			$this->getPrefs();
+			$this->readPrefs();
 			//set language to default if not set
 			if ($this->prefs["language"] == "")
 			{
@@ -96,10 +96,11 @@ class User
 			}
 			
 			//set template to default if not set
-//			if ($this->prefs["skin"] == "")
-//			{
-//			 	$this->prefs["skin"] = $this->ilias->ini->readVariable("")
-//			}
+			if ($this->prefs["skin"] == "")
+			{
+				//TODO: read it from default system settings
+			 	$this->prefs["skin"] = "default";
+			}
 		}
 		else
 		{
@@ -177,7 +178,7 @@ class User
 
 	/**
 	* write userpref to user table
-	* @access	public
+	* @access	private
 	* @param	string	keyword
 	* @param	string		value
 	*/
@@ -187,18 +188,21 @@ class User
 		$sql = "DELETE FROM user_pref 
 				WHERE usr_id='".$this->Id."'
 				AND keyword='".$a_keyword."'";
+//				echo $sql;
 		$r = $this->ilias->db->query($sql);
+//		return true;
 		//INSERT
 		$sql = "INSERT INTO user_pref 
-				(usr_id, keyword, value_str)
+				(usr_id, keyword, value)
 				VALUES
 				('".$this->Id."', '".$a_keyword."', '".$a_value."')";
+				echo $sql;
 		$r = $this->ilias->db->query($sql);
 	}
 
 	/**
 	* write all userprefs
-	* @access	public
+	* @access	private
 	*/
 	function writePrefs()
 	{
@@ -211,7 +215,7 @@ class User
 		{
 			//INSERT
 			$sql = "INSERT INTO user_pref 
-				(usr_id, keyword, value_str)
+				(usr_id, keyword, value)
 				VALUES
 				('".$this->Id."', '".$keyword."', '".$value."')";
 			$r = $this->ilias->db->query($sql);
@@ -219,11 +223,36 @@ class User
 	}
 
 	/**
-	* get all user preferences
+	* set a user preference
+	* @param	string	name of parameter
+	* @param	string	value
 	* @access	public
+	*/
+	function setPref($a_keyword, $a_value)
+	{
+		if ($a_keyword != "")
+		{
+			$this->prefs[$a_keyword] = $a_value;
+		}
+	}
+	
+	/**
+	* get a user preference
+	* @param	string	name of parameter
+	* @param	string	value
+	* @access	public
+	*/
+	function getPref($a_keyword)
+	{
+		return $this->prefs[$a_keyword];
+	}	
+	
+	/**
+	* get all user preferences
+	* @access	private
 	* @return	integer		number of preferences
 	*/
-	function getPrefs()
+	function readPrefs()
 	{
 		$this->prefs = array();
 		
@@ -232,7 +261,7 @@ class User
 
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$this->prefs[$row["keyword"]] = $row["value_str"];
+			$this->prefs[$row["keyword"]] = $row["value"];
 		} // while	 
 
 		return $res->numRows();

@@ -22,3 +22,7 @@ foreach($parent as $par)
 		"WHERE parent = '".$par."'");
 }
 ?>
+<#3>
+#changing of user preferences handling: only strings
+ALTER TABLE user_pref DROP value_int
+ALTER TABLE user_pref CHANGE value_str value CHAR(40) DEFAULT NULL

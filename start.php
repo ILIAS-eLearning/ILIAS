@@ -1,26 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<!--
+<?php
 /**
- * frameset for ilias
- * this file is the basic frameset for ilias
- * topframe with buttons
- * bottomframe with content
+ * startpage for ilias
+ * this file decides if a frameset is used or not
  * 
  * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias-layout
+ * @package ilias-core
  * @version $Id$
- */
-//-->
-<html>
-<head>
-<title>ILIAS 3</title>
-</head>
+*/
+require_once "./include/ilias_header.inc";
 
-<frameset rows="43,*" frameborder=0 framespacing=0 border=0>
-<frame src="buttons.php" name="top" marginheight="0" scrolling="no"/>
-<frame src="usr_personaldesktop.php" name="bottom" marginwidth="0" marginheight="0" scrolling="auto"/>
-<noframes>
-ILIAS requires the use of a <b>frames-capable</b> web browser.
-</noframes>
-</frameset>
-</html>
+//look if there is a file tpl.start.html
+$startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.start.html"; 
+
+if (file_exists($startfilename))
+{
+	$tpl = new Template("tpl.start.html", false, false);
+	$tpl->show();
+}
+else
+{
+	header("location: usr_personaldesktop.php");
+}
+
+?>

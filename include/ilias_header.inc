@@ -112,7 +112,8 @@ if ($script != "login.php" && $script != "index.php")
 	// init tree
 	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
 	
-	// template for debugging output
+	// instantiate main template
 	$tplmain = new Template("tpl.main.html", false, false);
+	$tplmain->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/style.css");
 }
 ?>

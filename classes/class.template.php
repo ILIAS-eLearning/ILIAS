@@ -44,15 +44,34 @@ class Template extends IntegratedTemplateExtension {
         }
         $this->vars = $vars;
 
-        if (strpos($file,"/")===false) {
-            $fname = $ilias->tplPath.basename($file);
-        } else {
+        if (strpos($file,"/")===false)
+		{
+            $fname = $ilias->tplPath;
+			
+			if (is_object($ilias->account) && $ilias->account->getPref("skin") != "")
+			{
+			    $fname .= $ilias->account->getPref("skin")."/";
+			}
+			else
+			{
+				//choose default skin
+			    $fname .= "default/";
+				
+			}
+			$fname .= basename($file);
+        }
+		else
+		{
             $fname = $file;
         }
+		$this->tplName = basename($fname);
+		$this->tplPath = dirname($fname);
+		
         if (!file_exists($fname)) {
-            echo "template ".$fname." was not found.";
+            $ilias->raiseError("template ".$fname." was not found.", $ilias->error_obj->FATAL);
             return false;
         }
+
         $this->IntegratedTemplateExtension(dirname($fname));
         $this->LoadTemplatefile(basename($fname), $flag1, $flag2);
 
