@@ -455,7 +455,7 @@ assessment#:#tst_stat_result_timeofwork#:#Time of work
 assessment#:#tst_stat_result_total_participants#:#Total number of participants
 assessment#:#tst_stat_selected_users#:#Selected participants
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
-assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool
+assessment#:#tst_statistical_evaluation#:#Statistical evaluation
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
 assessment#:#tst_status_missing#:#There are required elements missing in this test!

@@ -1,7 +1,10 @@
 <!-- BEGIN legendlink -->
 <p class="small"><a href="#legend">{TXT_LEGEND_LINK}</a></p>
 <!-- END legendlink -->
-<form name="form_output_eval" method="post" action="{FORM_ACTION}">
+<!-- BEGIN export_btn -->
+<table><tr><td><form name="form_output_eval" method="post" action="{FORM_ACTION}">{EXPORT_DATA} <select name="export_type" size="1"><option value="excel">{TEXT_EXCEL}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_EXPORT}" /></form></td><td>
+ <form name="form_print_eval" method="post" action="{FORM_ACTION}" target="_blank"><input type="submit" class="submit" name="cmd[{BTN_COMMAND}]" value="{BTN_PRINT}" /></form></td></tr></table>
+<!-- END export_btn -->
 <h3>{TXT_STATISTICAL_DATA}</h3>
 <table class="fullwidth_nowrap">
 <tr class="tblheader">
@@ -39,11 +42,6 @@
 <!-- END questions_emptyrow -->
 </table>
 <!-- END questions_output -->
-</br>
-<!-- BEGIN export_btn -->
-<p>{EXPORT_DATA} <select name="export_type" size="1"><option value="excel">{TEXT_EXCEL}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[expEvalData]" value="{BTN_EXPORT}" /></p>
-<!-- END export_btn -->
-</form>
 <!-- BEGIN legend -->
 <h2><a name="legend"></a>{TXT_LEGEND}</h2>
 <br />
