@@ -81,7 +81,7 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	// user bookmarks
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE",$script_name == "usr_bookmarks.php" ? "tabactive" : "tabinactive");
-	$tpl->setVariable("TAB_LINK","usr_bookmarks.php?cmd=frameset");
+	$tpl->setVariable("TAB_LINK","usr_bookmarks.php");
 	$tpl->setVariable("TAB_TEXT",$lng->txt("bookmarks"));
 	$tpl->setVariable("TAB_TARGET","bottom");
 	$tpl->parseCurrentBlock();

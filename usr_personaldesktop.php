@@ -363,8 +363,25 @@ $tpl->parseCurrentBlock();
 
 //********************************************
 // bookmarks
-$bm_items = $ilias->account->getDesktopItems("bm");
+include_once("classes/class.ilBookmarkFolder.php");
+if (!empty($_GET["curBMFolder"]))
+{
+	$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
+}
+$bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
 $i = 0;
+
+if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"]))
+{
+	$i++;
+	$tpl->setCurrentBlock("tbl_bm_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
+		ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;"."..");
+	$tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".
+		ilBookmarkFolder::getRootFolder());
+	$tpl->parseCurrentBlock();
+}
 
 foreach ($bm_items as $bm_item)
 {
@@ -372,9 +389,21 @@ foreach ($bm_items as $bm_item)
 	$tpl->setCurrentBlock("tbl_bm_row");
 	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 	$tpl->setVariable("BM_LINK", "target URL");
-	$tpl->setVariable("BM_TITLE", $bm_item["title"]);
-	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=bm&id=".$bm_item["id"]);
-	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+
+	switch ($bm_item["type"])
+	{
+		case "bmf":
+			$tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
+				ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;".$bm_item["title"]);
+			$tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".$bm_item["obj_id"]);
+			break;
+
+		case "bm":
+			$tpl->setVariable("BM_TITLE", $bm_item["title"]);
+			$tpl->setVariable("BM_LINK", $bm_item["target"]);
+			break;
+	}
+
 	$tpl->parseCurrentBlock();
 }
 
