@@ -433,6 +433,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".ilc_Strong {font-weight: bold;} ";
 	cfg.pageStyle += ".ilc_Emph {font-style: italic;} ";
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
+	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	
 	//cfg.statusBar = false;
 	
@@ -497,6 +498,14 @@ function addFussnote(Tb)
 	fussnoten[fnCount] = Tb;
 	fnCount++;
 }
+
+function addInternalLink(Link) {
+	//Link = Link.replace("&quot;","\"",Link);
+	//Link = Link.replace("&quot;","\"",Link);
+	Link = Link.replace(" [/iln]","");
+	editor.surroundHTML(Link,"[/iln]");
+}
+
 
 function buttonFootnote() 
 {
@@ -578,8 +587,28 @@ function buttonInternalLink()
 			T = T.replace("[xln url=\""+Tb+"\"]","<span class=\"iliasxln\" url=\""+Tb+"\">");
 		}
 		
+		/**
+		*	find all internal links
+		*/
+		T2 = T;
+		if (T2.indexOf("[iln ")!=-1) 
+		{
+			T2 = T2.substring(T2.indexOf("[iln ")+5,T2.length );
+			
+			Tb = T2.substr(0,T2.indexOf("]") );
+			
+			Td = "[iln "+Tb+"]"; 
+			
+			T2 = T2.substring(T2.indexOf("]")+1,T2.length );
+			Te = T2.substr(0,T2.indexOf("[/iln]") );
+			
+			Tc = Td+ Te+"[/iln]";
+			//alert(">"+Tb+"<");
+			T = T.replace(Td,"<span class=\"iliasiln\" "+Tb+">");
+			
+		}
+		T = replaceAll(T,"[/iln]","</span>");
 
-		
         while (T.indexOf("\n")>-1) 
 		{ 
             T = T.replace("\n","<br />");
