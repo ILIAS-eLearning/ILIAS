@@ -563,7 +563,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			$bib_item =& new ilBibItem();
 			$bib_item->setId($this->object->getId());
 			$bib_item->setType($this->object->getType());
-			$bib_item->create();
+			$bib_item->read();
 		}
 
 		include_once "content/classes/class.ilBibItemGUI.php";
