@@ -83,8 +83,27 @@ class ilPersonalDesktopGUI
 	function getSelectedItemBlockHTML($a_title, $a_type)
 	{
 		$items = $this->ilias->account->getDesktopItems($a_type);
+
 		if (count($items) > 0)
 		{
+			$tstCount = 0;
+			$unsetCount = 0;
+			$progressCount = 0;
+			$unsetFlag = 0;
+			$progressFlag = 0;
+			$completedFlag = 0;
+			if (strcmp($a_type, "tst") == 0) {
+				$items = $this->multiarray_sort($items, "used_tries; title");
+				foreach ($items as $tst_item) {
+					if (!isset($tst_item["used_tries"])) {
+						$unsetCount++;
+					}
+					elseif ($tst_item["used_tries"] == 0) {
+						$progressCount++;
+					}
+				}
+			}
+
 			$tpl = new ilTemplate("tpl.usr_pd_selected_item_block.html", true, true);
 			$tpl->setVariable("TXT_BLOCK_HEADER", $a_title);
 			$img_type  = (is_array($a_type))
@@ -94,6 +113,26 @@ class ilPersonalDesktopGUI
 			$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
 			foreach($items as $item)
 			{
+				if (strcmp($a_type, "tst")==0) {
+					$this->lng->loadLanguageModule("assessment");
+					$tpl->setCurrentBlock("tbl_tstheader");
+					if (($tstCount < $unsetCount)&&($unsetFlag==0)) {
+						$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_not_entered"));
+						$unsetFlag++;
+					}
+					elseif (($tstCount < ($unsetCount+$progressCount))&&($progressFlag==0)) {
+						$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_progress"));
+						$progressFlag++;
+					}
+					elseif (($tstCount >= ($unsetCount+$progressCount))&&($completedFlag==0)) {
+						$tpl->setVariable("TXT_TST_TITLE", $this->lng->txt("tst_status_completed_more_tries_possible"));
+						$completedFlag++;
+					}
+					$tstCount++;
+					$tpl->parseCurrentBlock();
+				}
+
+
 				// edit link
 				if ($item["edit_link"] != "")
 				{
@@ -390,101 +429,22 @@ class ilPersonalDesktopGUI
 	}
 
 /**
-* Display subscribed tests
-*
-* Display subscribed tests
-*
-* @author		Helmut Schottmüller <hschottm@tzi.de>
-* @access public
-*/
-	function displayTests()
-	{
-		$tst_items = $this->ilias->account->getDesktopItems("tst");;
-		$this->lng->loadLanguageModule("assessment");
-
-		if (!$tst_items || (count($tst_items) == 0))	{
-			$this->tpl->setCurrentBlock("tbl_no_tst");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_TST", $this->lng->txt("no_tst_in_personal_list"));
-			$this->tpl->parseCurrentBlock();
-		} else {
-
-			$tst_items = $this->multiarray_sort($tst_items, "used_tries; title");
-			$unsetCount = 0;
-			$progressCount = 0;
-			foreach ($tst_items as $tst_item) {
-				if (!isset($tst_item["used_tries"])) {
-					$unsetCount++;
-				}
-				if ($tst_item["used_tries"] == 0) {
-					$progressCount++;
-				}
-			}
-
-			$this->displayTest(array_slice($tst_items, 0, $unsetCount), $this->lng->txt("tst_status_not_entered"));
-			$this->displayTest(array_slice($tst_items, $unsetCount, $progressCount-1), $this->lng->txt("tst_status_progress"));
-			$this->displayTest($this->multiarray_sort(array_slice($tst_items, $unsetCount+$progressCount-1), "title"), $this->lng->txt("tst_status_completed_more_tries_possible"));
-
-			$this->tpl->setCurrentBlock("tbl_no_tst");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_TST", "<br /><a href=\"assessment/tests_taken.php\" class=\"submit\">" . $this->lng->txt("tst_already_taken") . "</a><br />&nbsp;");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_tst");
-		$this->tpl->setVariable("TXT_TST_HEADER",$this->lng->txt("my_tsts"));
-		$this->tpl->parseCurrentBlock();
-
-	}
-/**
-* Displays tests of the given status
-*
-* Displays tests of the given status
-*
-* @author		Muzaffar Altaf <maltaf@tzi.de>
-* @param array $array The array of tests
-* @param string $status Test status: in progress, not started, completed etc
-* @access public
-*/
-	function displayTest ($array, $status)
-	{
-		$i = 0;
-		foreach ($array as $tst_item) {
-			$i++;
-			$this->tpl->setCurrentBlock("tbl_tst_row");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			if ($tst_item["starting_time_not_reached"] == 1) {
-				$this->tpl->setVariable("TST_TITLE_UNLINKED", $tst_item["title"]);
-			} else {
-				$this->tpl->setVariable("TST_LINK", $tst_item["link"]);
-				$this->tpl->setVariable("TST_TITLE", $tst_item["title"]);
-			}
-			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=tst&id=".$tst_item["id"]);
-			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_tstheaders");
-		$this->tpl->setVariable("TXT_TST_TITLE", $status);
-		$this->tpl->parseCurrentBlock();
-
-	}
-
-/**
 * Returns the multidimenstional sorted array
 *
 * Returns the multidimenstional sorted array
 *
 * @author		Muzaffar Altaf <maltaf@tzi.de>
-* @param array $array The array to be sorted
+* @param array $arrays The array to be sorted
 * @param string $key_sort The keys on which array must be sorted
 * @access public
 */
 	function multiarray_sort ($array, $key_sort)
 	{
 		if ($array) {
-			$key_sorta = explode(",", $key_sort);
-			$keys = array_keys($array[0]);
+			$key_sorta = explode(";", $key_sort);
+
+			$multikeys = array_keys($array);
+			$keys = array_keys($array[$multikeys[0]]);
 
 			for($m=0; $m < count($key_sorta); $m++) {
 				$nkeys[$m] = trim($key_sorta[$m]);
@@ -499,13 +459,12 @@ class ilPersonalDesktopGUI
 			}
 
 			for($u=0;$u<count($array); $u++) {
-				$arr = $array[$u];
+				$arr = $array[$multikeys[$u]];
 				for($s=0; $s<count($nkeys); $s++) {
 					$k = $nkeys[$s];
-					$output[$u][$k] = $array[$u][$k];
+					$output[$multikeys[$u]][$k] = $array[$multikeys[$u]][$k];
 				}
 			}
-
 			sort($output);
 			return $output;
 		}
