@@ -261,5 +261,7 @@ $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
 $tpl->parseCurrentBlock("forum");
 
+$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
+
 $tpl->show();
 ?>

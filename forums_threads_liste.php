@@ -211,5 +211,7 @@ if ($_GET["message"])
 	$tpl->parseCurrentBlock();
 }
 
+$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
+
 $tpl->show();
 ?>

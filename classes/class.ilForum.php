@@ -395,6 +395,29 @@ class ilForum
 		return true;		
 	}
 	
+	
+	/**
+	* update dataset in frm_posts with censorship info
+	* @param	string	message	
+	* @param	integer	pos_pk	
+	* @return	boolean
+	* @access	public
+	*/
+	function postCensorship($message, $pos_pk, $cens = 0)
+	{		
+		$q = "UPDATE frm_posts ".
+				 "SET ".
+				 "pos_cens_com = '".addslashes($message)."',".
+				 "pos_update = '".date("Y-m-d H:i:s")."',".
+				 "pos_cens = '".$cens."',".
+				 "update_user = '".$_SESSION["AccountId"]."' ".				 
+				 "WHERE pos_pk = '".$pos_pk."'";
+		$this->ilias->db->query($q);
+	
+		return true;		
+	}
+	
+	
 	/**
 	* delete post and sub-posts
 	* @param	integer	$post: ID	
@@ -938,6 +961,8 @@ class ilForum
 					"title"         => $fullname,
 					"type"          => "post",
 					"message"		=> $a_row->pos_message,
+					"pos_cens_com"	=> $a_row->pos_cens_com,
+					"pos_cens"		=> $a_row->pos_cens,
 					"date"			=> $a_row->date,
 					"create_date"	=> $a_row->pos_date,
 					"update"		=> $a_row->pos_update,					
@@ -1118,7 +1143,7 @@ class ilForum
 				
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, "<blockquote><span><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);		
+					$text = str_replace($this->txtQuote1, "<blockquote><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);		
 					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
 				}
 			}		
@@ -1126,4 +1151,24 @@ class ilForum
 		$text = stripslashes($text);
 		return $text;
 	}
+	
+	
+	/**
+	* get one post-dataset 
+	* @param    integer post id 
+	* @return	array result dataset of the post
+	* @access	public
+	*/
+	function getModeratorFromPost($pos_pk) {
+		
+		$q = "SELECT frm_data.* FROM frm_data, frm_posts WHERE ";		
+		$q .= "pos_pk = '".$pos_pk."' AND ";
+		$q .= "pos_top_fk = top_pk";				
+
+		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
+		
+		return $result;
+	}
+	
+	
 } // END class.Forum

@@ -73,5 +73,7 @@ $tpl->setVariable("NUM_POSTS",$numPosts);
 
 $tpl->parseCurrentBlock("usertable");
 
+$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
+
 $tpl->show();
 ?>

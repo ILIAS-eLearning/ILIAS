@@ -110,5 +110,7 @@ $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
 $tpl->parseCurrentBlock("new_thread");
 
+$tpl->setVariable("TPLPATH", $tpl->vars["TPLPATH"]);
+
 $tpl->show();
 ?>
