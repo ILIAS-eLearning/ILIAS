@@ -537,7 +537,7 @@ class ilObjTest extends ilObject
       $id = $db->nextId('tst_tests');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, starting_time, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, reporting_date, starting_time, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
 				$db->quote($this->getRefId()),
         $db->quote($this->author), 
@@ -547,6 +547,7 @@ class ilObjTest extends ilObject
         $db->quote($this->score_reporting),
         $db->quote(sprintf("%d", $this->nr_of_tries)),
         $db->quote(sprintf("%d", $this->processing_time)),
+        $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
         $db->quote($created)
       );
@@ -556,7 +557,7 @@ class ilObjTest extends ilObject
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, starting_time = %s WHERE test_id = %s",
+      $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, reporting_date = %s, starting_time = %s WHERE test_id = %s",
         $db->quote($this->author), 
         $db->quote($this->test_type), 
         $db->quote($this->introduction), 
@@ -564,6 +565,7 @@ class ilObjTest extends ilObject
         $db->quote($this->score_reporting), 
         $db->quote(sprintf("%d", $this->nr_of_tries)), 
         $db->quote(sprintf("%d", $this->processing_time)), 
+        $db->quote($this->reporting_date), 
         $db->quote($this->starting_time), 
         $db->quote($this->test_id) 
       );
@@ -602,6 +604,7 @@ class ilObjTest extends ilObject
         $this->score_reporting = $data->score_reporting;
         $this->nr_of_tries = $data->nr_of_tries;
         $this->processing_time = $data->processing_time;
+				$this->reporting_date = $data->reporting_date;
         $this->starting_time = $data->starting_time;
 
 				$this->mark_schema->load_from_db($this->test_id);

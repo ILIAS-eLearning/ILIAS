@@ -126,7 +126,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 			$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
 			$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
-			$data["reporting_date"] = ilUtil::stripSlashes($_POST["reporting_date"]);
 			$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
 			$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
 			if (!$_POST["chb_starting_time"]) {
@@ -138,6 +137,18 @@ class ilObjTestGUI extends ilObjectGUI
 					$_POST["starting_date"]["d"],
 					$_POST["starting_time"]["h"],
 					$_POST["starting_time"]["m"],
+					0
+				);
+			}
+			if (!$_POST["chb_reporting_date"]) {
+				$data["reporting_date"] = "";
+			} else {
+				$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d", 
+					$_POST["reporting_date"]["y"],
+					$_POST["reporting_date"]["m"],
+					$_POST["reporting_date"]["d"],
+					$_POST["reporting_time"]["h"],
+					$_POST["reporting_time"]["m"],
 					0
 				);
 			}
@@ -181,7 +192,7 @@ class ilObjTestGUI extends ilObjectGUI
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
     }
-		
+
 		if ($data["sel_test_types"] == TYPE_ASSESSMENT) {
 			$this->tpl->setCurrentBlock("starting_time");
 			$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
@@ -198,6 +209,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("reporting_date");
+			$this->tpl->setVariable("TEXT_SCORE_DATE", $this->lng->txt("tst_score_reporting_date"));
+			if (!$data["reporting_date"]) {
+				$date_input = ilUtil::makeDateSelect("reporting_date");
+				$time_input = ilUtil::makeTimeSelect("reporting_time");
+			} else {
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["reporting_date"], $matches);
+				$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
+				$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+			}
+			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+			if ($data["reporting_date"]) {
+				$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -241,15 +269,18 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("HEADING_SCORE", $this->lng->txt("tst_score_reporting"));
 		$this->tpl->setVariable("TEXT_SCORE_TYPE", $this->lng->txt("tst_score_type"));
-		$this->tpl->setVariable("VALUE_SCORE_DATE", $data["reporting_date"]);
 		$this->tpl->setVariable("REPORT_AFTER_QUESTION", $this->lng->txt("tst_report_after_question"));
 		$this->tpl->setVariable("REPORT_AFTER_TEST", $this->lng->txt("tst_report_after_test"));
-		if ($data["score_reporting"] == 0) {
-			$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
-		} elseif ($data["score_reporting"] == 1) {
+		if ($data["sel_test_types"] == TYPE_ASSESSMENT) {
 			$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
+			$this->tpl->setVariable("DISABLE_SCORE_REPORTING", " disabled=\"disabled\"");
+		} else {
+			if ($data["score_reporting"] == 0) {
+				$this->tpl->setVariable("SELECTED_QUESTION", " selected=\"selected\"");
+			} elseif ($data["score_reporting"] == 1) {
+				$this->tpl->setVariable("SELECTED_TEST", " selected=\"selected\"");
+			}
 		}
-		$this->tpl->setVariable("TEXT_SCORE_DATE", $this->lng->txt("tst_score_reporting_date"));
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);

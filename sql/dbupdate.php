@@ -2077,3 +2077,5 @@ CREATE TABLE benchmark
 <#132>
 REPLACE INTO settings (keyword, value) VALUES ('bench_max_records', 10000);
 REPLACE INTO settings (keyword, value) VALUES ('enable_bench', 0);
+<#133>
+ALTER  TABLE  `tst_tests`  ADD  `reporting_date` VARCHAR( 14  )  AFTER  `processing_time` ;
