@@ -303,11 +303,14 @@ switch($_GET["cmd"])
 			$tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$i]);
 			$tpl->parseCurrentBlock();
 			
-			foreach ($data["permission"][$i]["values"] as $row)
+			if (is_array($data["permission"][$i]["values"]))
 			{
-				$tpl->setCurrentBlock("CHECK_PERM");
-				$tpl->setVariable("CHECK_PERMISSION",$row);
-				$tpl->parseCurrentBlock();			
+				foreach ($data["permission"][$i]["values"] as $row)
+				{
+					$tpl->setCurrentBlock("CHECK_PERM");
+					$tpl->setVariable("CHECK_PERMISSION",$row);
+					$tpl->parseCurrentBlock();			
+				}
 			}
 
 			$tpl->setCurrentBlock("TABLE_DATA_OUTER");

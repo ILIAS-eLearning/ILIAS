@@ -138,7 +138,6 @@ class UserObject extends Object
 			$role = TUtil::formSelectWoTranslation($Fuserdata["Role"],"Fuserdata[Role]",$rol);
 
 			$data = array();
-
 			$data["fields"] = array();
 			$data["fields"]["login"] = $user->data["login"];
 			$data["fields"]["passwd"] = "********";
@@ -150,7 +149,7 @@ class UserObject extends Object
 			$data["fields"]["default_role"] = $role;
 			$data["title"] = $user->data["Title"];
 			
-
+/*
 			if ($_GET["obj_id"] == $_SESSION["AccountId"])
 			{
 				// BEGIN ACTIVE ROLE
@@ -174,6 +173,7 @@ class UserObject extends Object
 				$tpl->setVariable("ACTIVE_ROLE_PAR",$_GET["parent_parent"]);
 				$tpl->parseCurrentBlock();
 			}
+*/
 			return $data;
 		}
 		else
