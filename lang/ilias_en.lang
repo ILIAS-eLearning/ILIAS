@@ -3704,6 +3704,9 @@ survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#save and go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_delete_all_user_data#:#Delete all user data
+survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.
+survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.
+survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
@@ -3719,3 +3722,6 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
+survey#:#svy_status_missing#:#There are required elements missing in this survey!
+survey#:#svy_status_missing_elements#:#The following elements are missing:
