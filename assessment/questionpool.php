@@ -33,6 +33,7 @@
 define("ILIAS_MODULE", "assessment");
 chdir("..");
 require_once "./include/inc.header.php";
+require_once "./assessment/classes/class.ilObjQuestionPoolGUI.php";
 
 // for security
 unset($id);
@@ -55,7 +56,7 @@ if (!isset($_GET["ref_id"]))
 {
 	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
 }
-
+/*
 if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)
@@ -68,9 +69,10 @@ if (!isset($_GET["type"]))
 	}
 
 	$_GET["type"] = $obj->getType();
-}
+}*/
 
 // determine command
+/*
 if (($cmd = $_GET["cmd"]) == "gateway")
 {
 	// surpress warning if POST is not set
@@ -89,9 +91,10 @@ if ($_GET["cmd"] == "post")
 	{
 		$cmd = key($_POST["cmd"]);
 	}
-}
+}*/
 
 // determine object type
+/*
 if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
 {
 	$obj_type = $_POST["new_type"];
@@ -103,9 +106,10 @@ elseif ($_GET["new_type"])
 else
 {
 	$obj_type = $_GET["type"];
-}
+}*/
 
 // call gui object method
+/*
 $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
 $module = $objDefinition->getModule($obj_type);
@@ -115,9 +119,8 @@ $module_dir = ($module == "")
 
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-
+*/
 //echo $class_constr.":".$method;
-
 if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_GET["create"])) {
 	$prepare_output = false;
 } else {
@@ -125,6 +128,7 @@ if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_G
 }
 //$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
 
+//echo "ref_id:".$_GET["ref_id"].":";
 
 $ilCtrl->setTargetScript("questionpool.php");
 $ilCtrl->getCallStructure("ilobjquestionpoolgui");

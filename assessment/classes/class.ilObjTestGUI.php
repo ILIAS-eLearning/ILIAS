@@ -868,7 +868,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
 //			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=post&cmdClass=ilobjquestionpoolgui&cmdNode=1&new_type=" . $_POST["sel_question_types"]);
+			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
 			exit();
 		}
 
