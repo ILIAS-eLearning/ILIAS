@@ -82,7 +82,7 @@ if(isset($_POST["attachment"]["delete"]))
 // UPLOAD FILE
 if(isset($_POST["cmd"]["upload"]))
 {
-	if($mfile->storeUploadedFile($HTTP_POST_FILES['userfile']) == 1)
+	if($mfile->storeUploadedFile($_FILES['userfile']) == 1)
 	{
 		sendInfo($lng->txt("mail_maxsize_attachment_error")." ".$mfile->getUploadLimit()." K".$lng->txt("mail_byte"));
 	}

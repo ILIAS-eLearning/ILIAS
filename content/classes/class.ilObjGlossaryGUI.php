@@ -223,10 +223,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		global $HTTP_POST_FILES, $rbacsystem;
+		global $_FILES, $rbacsystem;
 
 		// check if file was uploaded
-		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
+		$source = $_FILES["xmldoc"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
@@ -239,7 +239,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}*/
 
 		// check correct file type
-		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip" && $HTTP_POST_FILES["xmldoc"]["type"] != "application/x-zip-compressed")
+		if ($_FILES["xmldoc"]["type"] != "application/zip" && $_FILES["xmldoc"]["type"] != "application/x-zip-compressed")
 		{
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}

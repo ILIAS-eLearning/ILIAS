@@ -171,10 +171,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		global $HTTP_POST_FILES, $rbacsystem;
+		global $_FILES, $rbacsystem;
 
 		// check if file was uploaded
-		$source = $HTTP_POST_FILES["scormfile"]["tmp_name"];
+		$source = $_FILES["scormfile"]["tmp_name"];
 		if (($source == 'none') || (!$source))
 		{
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
@@ -185,7 +185,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
 		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
-		switch ($_HTTP_POST_FILES["scormfile"]["error"])
+		switch ($__FILES["scormfile"]["error"])
 		{
 			case UPLOAD_ERR_INI_SIZE:
 				$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
