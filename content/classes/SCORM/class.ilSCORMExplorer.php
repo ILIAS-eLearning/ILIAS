@@ -420,7 +420,7 @@ class ilSCORMExplorer extends ilExplorer
 		$this->output[] = $tpl->get();
 	}
 	
-	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype) {
+	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco") {
 		global $lng;
 
 			$tpl->setCurrentBlock("icon");
