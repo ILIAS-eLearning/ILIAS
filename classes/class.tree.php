@@ -94,22 +94,34 @@ class Tree
 	}
 
 	/**
-	* get leaf-nodes of tree
+	* get leaf-nodes of given tree
+	* if no tree_id was given, uses default tree in $this->tree_id
+	* 
+	* @param	integer	tree_id
 	* @access	public
 	*/
-	function getLeafs()
+	function getLeafs($a_tree_id = 0)
 	{
+		if (!$a_tree_id)
+		{
+			$a_tree_id = $this->tree->id;
+		}
+		
 		$query = "SELECT * FROM tree ".
 				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
 				 "WHERE lft = (rgt -1) ".
-				 "AND tree = '".$this->tree_id."'";
+				 "AND tree = '".$a_tree_id."'";
 		
 		$res = $this->ilias->db->query($query);
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->Leafs[] = $this->fetchNodeData($row);
+			$leafs[] = $this->fetchNodeData($row);
 		}
+		
+		$this->Leafs = $leafs;
+		
+		return $leafs;
 	}
 	
 	/**
@@ -215,27 +227,28 @@ class Tree
 	* @param	integer		node_id
 	* @param	integer		parent_id (optional)
 	*/
-	function insertNode($a_node_id,$a_parent_id = 0)
+	function insertNode($a_node_id,$a_parent_id,$a_parent_parent_id)
 	{
-		$left = "";			// first tree_left
-		$lft = "";			// second tree_left
-		$rgt = "";			// second tree_right
-	
-		if (empty($a_parent_id))
+		// get left value
+		if ($a_parent_parent_id)
 		{
-			$a_parent_id = $this->parent_id;
+			$query = "SELECT * FROM tree ".
+					 "WHERE child = '".$a_parent_id."' ".
+					 "AND parent = '".$a_parent_parent_id."' ".
+					 "AND tree = '".$this->tree_id."'";
+		}
+		else
+		{
+			$query = "SELECT * FROM tree ".
+					 "WHERE child = '".$a_parent_id."' ".
+					 "AND parent = '".$a_parent_parent_id."' ".
+					 "AND tree = '".$this->tree_id."'";
 		}
 
-		// get left value
-		$query = "SELECT * FROM tree ".
-				 "WHERE child = '".$a_parent_id."' ".
-				 "AND tree = '".$this->tree_id."'";
+		$res = $this->ilias->db->getRow($query);
+		
+		$left = $res->lft;
 
-		$res = $this->ilias->db->query($query);
-
-		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-		$left = $data["lft"];
 		$lft = $left + 1;
 		$rgt = $left + 2;
 
@@ -253,98 +266,15 @@ class Tree
 				 "END ".
 				 "WHERE tree = '".$this->tree_id."'";
 
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
+		
+		$depth = $this->getDepth($a_parent_id, $a_parent_parent_id) + 1;
 	
 		// insert node
 		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 				 "VALUES ".
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 		$res = $this->ilias->db->query($query);
-	
-		$this->updateDepth($a_node_id, $a_parent_id);
-	}
-
-	/**
-	* delete node under parent node
-	* @access	public 
-	* @param	integer		node_id
-	* @param	integer		parent_id (optional)
-	*/
-	function deleteNode($a_node_id = 0,$a_parent_id = 0)
-	{
-		$left = "";				// tree_left
-		$right = "";			// tree_right
-		$new_parent = "";		// new parent_id
-
-		if (empty($a_node_id))
-		{
-			$a_node_id = $this->node_id;
-		}
-		
-		if (empty($a_parent_id))
-		{
-			$a_parent_id = $this->parent_id;
-		}
-
-		// get left & right value of the node to be deleted
-		$query = "SELECT * FROM tree ".
-				 "WHERE child = '".$a_node_id."' ".
-				 "AND tree = '".$this->tree_id."'";
-				 
-		$res = $this->ilias->db->query($query);
-	
-		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($data["parent"] == $a_parent_id)
-			{
-				$left = $data["lft"];
-				$right = $data["rgt"];
-				$new_parent = $data["parent"];
-				break;
-			}
-		}
-		// delete node
-		$query = "DELETE FROM tree ".
-				 "WHERE child = '".$a_node_id."' ".
-				 "AND parent = '".$a_parent_id."' ".
-				 "AND tree = '".$this->tree_id."'";
-
-		$res = $this->ilias->db->query($query);
-
-		// close up the gap
-		$query = "UPDATE tree SET ".
-				 "lft = CASE ".
-				 "WHEN lft BETWEEN '".$left."' AND '".$right."' THEN lft - 1 ".
-				 "WHEN lft > '".$right."' THEN lft - 2 ".
-				 "ELSE lft ".
-				 "END, ".
-				 "rgt = CASE ".
-				 "WHEN rgt BETWEEN '".$left."' AND '".$right."' THEN rgt - 1 ".
-				 "WHEN rgt > '".$right."' THEN rgt -2 ".
-				 "ELSE rgt ".
-				 "END, ".
-				 "parent = CASE ".
-				 "WHEN parent = '".$a_node_id."' THEN '".$new_parent."' ".
-				 "ELSE parent ".
-				 "END ".
-				 "WHERE tree = '".$this->tree_id."'";
-
-		$res = $this->ilias->db->query($query);
-		
-		$this->node_id = $new_parent;
-	}
-
-	/**
-	* move a node into another position within the tree 
-	* @access	public
-	* @param	integer		node_id
-	* @param	integer		parent_id
-	* @param	integer		node_id of parent node where the node is moved to
-	*/
-	function moveNode ($a_node_id,$a_parent_id,$a_target_id)
-	{
-		$this->insertNode($a_node_id,$a_target_id);
-		$this->deleteNode($a_node_id,$a_parent_id);
 	}
 
 	/**
@@ -643,23 +573,28 @@ class Tree
 	
 	/**
 	* Return depth of an object
-	* @access	public
-	* @param	integer		node_id of node in question
-	* @param	integer		node_id of parent node
+	* @access	private
+	* @param	integer		node_id of parent's node_id
+	* @param	integer		node_id of parent's node parent_id
 	* @return	integer		depth of node
 	*/
 	function getDepth($a_node_id, $a_parent_id)
 	{
-		$query = "SELECT depth FROM tree ".
-				 "WHERE child = '".$a_node_id."' ".
-				 "AND parent = '".$a_parent_id."' ".
-				 "AND tree = '".$this->tree_id."'";
-
-		$res = $this->ilias->db->query($query);
-		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-
-		return $row->depth;
+		if ($a_parent_id)
+		{
+			$query = "SELECT depth FROM tree ".
+					 "WHERE child = '".$a_node_id."' ".
+					 "AND parent = '".$a_parent_id."' ".
+					 "AND tree = '".$this->tree_id."'";
+	
+			$res = $this->ilias->db->getRow($query);
+	
+			return $res->depth;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**
@@ -712,20 +647,13 @@ class Tree
 	/**
 	* get all information of a node.
 	* get data of a specific node from tree and object_data
-	* When no node_id was given the method returns data of current node
 	* @access	public
 	* @param	integer		object id
 	* @param	integer		parent id 
-	* @return	object	db	db result object
+	* @return	object		db result object
 	*/
-	function getNodeData($a_obj_id,$a_parent_id = 0)
+	function getNodeData($a_obj_id,$a_parent_id)
 	{
-
-		if (empty($a_parent_id))
-		{
-			$a_parent_id = $this->parent_id;
-		}
-
 		$query = "SELECT * FROM object_data,tree ".
 				 "WHERE object_data.obj_id = tree.child ".
 				 "AND tree.child = '".$a_obj_id."' ".
@@ -734,6 +662,7 @@ class Tree
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
 		return $this->fetchNodeData($row);
 	}
 
@@ -801,13 +730,13 @@ class Tree
 	function isGrandChild($a_start_node,$a_start_parent,$a_query_node,$a_query_parent)
 	{
 		$query = "SELECT * FROM tree s,tree v ".
-			"WHERE s.child = '".$a_start_node."' ".
-			"AND s.parent = '".$a_start_parent."' ".
-			"AND v.child = '".$a_query_node."' ".
-			"AND v.parent = '".$a_query_parent."' ".
-			"AND s.tree = '".$this->tree_id."' ".
-			"AND v.lft BETWEEN s.lft AND s.rgt ".
-			"AND v.rgt BETWEEN s.lft AND s.rgt";
+				"WHERE s.child = '".$a_start_node."' ".
+				"AND s.parent = '".$a_start_parent."' ".
+				"AND v.child = '".$a_query_node."' ".
+				"AND v.parent = '".$a_query_parent."' ".
+				"AND s.tree = '".$this->tree_id."' ".
+				"AND v.lft BETWEEN s.lft AND s.rgt ".
+				"AND v.rgt BETWEEN s.lft AND s.rgt";
  
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
@@ -871,31 +800,6 @@ class Tree
 
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
-	}
-	
-	/**
-	* set parent id
- 	* @param	integer	parent id
-	* @access	public
-	*/
-	function setParentId($a_parent_id)
-	{
-		$this->parent_id = $a_parent_id;
-	}
-	
-	// Nonsense. Will update node_depth always to 2
-	function updateDepth($a_node_id,$a_parent_id)
-	{
-		$depth = (integer) $this->getDepth($a_node_id, $a_parent_id);
-
-		$depth = $depth + 1;
-		
-		$query = $query = "UPDATE tree SET ".
-						  "depth = '".$depth."' ".
-						  "WHERE tree = '".$this->tree_id."' ".
-						  "AND child = '".$a_node_id."' ".
-						  "AND parent = '".$a_parent_id."'";
-		$res = $this->ilias->db->query($query);
 	}
 } // END class.tree
 ?>
