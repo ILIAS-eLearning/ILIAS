@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMObjectGUI.php");
+require_once("./content/classes/class.ilPageObject.php");
 
 /**
 * Class ilPageObjectGUI
@@ -33,28 +33,97 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 *
 * @package content
 */
-class ilPageObjectGUI extends ilLMObjectGUI
+class ilPageObjectGUI
 {
+	var $ilias;
+	var $tpl;
+	var $lng;
 	var $obj;
-	var $lm_obj;
+	var $output_mode;
+	var $presentation_title;
+	var $target_script;
+	var $return_location;
+	var $target_var;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObjectGUI(&$a_lm_object)
+	function ilPageObjectGUI(&$a_page_object)
 	{
 		global $ilias, $tpl, $lng;
 
-		parent::ilLMObjectGUI();
-		$this->lm_obj =& $a_lm_object;
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->obj =& $a_page_object;
+		$this->output_mode = "presentation";
+		$this->setPageObject($a_page_object);
 
 	}
 
 	function setPageObject(&$a_pg_obj)
 	{
 		$this->obj =& $a_pg_obj;
-		$this->obj->setLMId($this->lm_obj->getId());
+	}
+
+	function getPageObject()
+	{
+		return $this->obj;
+	}
+
+	function setTargetScript($a_script)
+	{
+		$this->target_script = $a_script;
+	}
+
+	function getTargetScript()
+	{
+		return $this->target_script;
+	}
+
+	function setReturnLocation($a_location)
+	{
+		$this->return_location = $a_location;
+	}
+
+	function getReturnLocation()
+	{
+		return $this->return_location;
+	}
+
+
+	/**
+	* mode: "presentation" | "edit" | "preview"
+	*/
+	function setOutputMode($a_mode = "presentation")
+	{
+		$this->output_mode = $a_mode;
+	}
+
+	function getOutputMode()
+	{
+		return $this->output_mode;
+	}
+
+	function setPresentationTitle($a_title = "")
+	{
+		$this->presentation_title = $a_title;
+	}
+
+	function getPresentationTitle()
+	{
+		return $this->presentation_title;
+	}
+
+	function setTemplateTargetVar($a_variable)
+	{
+		$this->target_var = $a_variable;
+	}
+
+	function getTemplateTargetVar()
+	{
+		return $this->target_var;
 	}
 
 	/*
@@ -64,26 +133,17 @@ class ilPageObjectGUI extends ilLMObjectGUI
 	{
 		global $tree;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
+		$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
 		$num = 0;
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
 
 
 		$builded = $this->obj->buildDom();
 		$this->obj->addHierIDs();
 		$content = $this->obj->getXMLFromDom(false, true, true);
 
-		// convert bb code to xml
-		/*
-		$content = eregi_replace("\[com\]","<Comment>",$content);
-		$content = eregi_replace("\[\/com\]","</Comment>",$content);
-		$content = eregi_replace("\[emp]","<Emph>",$content);
-		$content = eregi_replace("\[\/emp\]","</Emph>",$content);
-		$content = eregi_replace("\[str]","<Strong>",$content);
-		$content = eregi_replace("\[\/str\]","</Strong>",$content);*/
 
 		if($builded !== true)
 		{
@@ -95,9 +155,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		}
 		unset($_SESSION["il_pg_error"]);
 
-		header('Content-type: text/html; charset=UTF-8');
-
-		$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
+		$pg_title = $this->getPresentationTitle();
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
@@ -106,9 +164,8 @@ class ilPageObjectGUI extends ilLMObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'edit', 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
-			'enlarge_path' => $enlarge_path);
+		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
+			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -240,5 +297,15 @@ class ilPageObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("MESSAGE", $error_str);
 		}
 	}
+
+	function showPageEditor()
+	{
+		require_once ("content/classes/class.ilPageEditorGUI.php");
+		$page_editor =& new ilPageEditorGUI($this->getPageObject());
+		$page_editor->setTargetScript($this->getTargetScript());
+		$page_editor->setReturnLocation($this->getReturnLocation());
+		$page_editor->executeCommand();
+	}
+
 }
 ?>

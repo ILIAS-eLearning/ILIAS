@@ -41,9 +41,9 @@ class ilLMListGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMListGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilLMListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 
@@ -55,14 +55,14 @@ class ilLMListGUI extends ilPageContentGUI
 		// new list form (list item number)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.list_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_list"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
 		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 		for($i=1; $i<=10; $i++)
 		{
@@ -106,8 +106,7 @@ class ilLMListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else
@@ -124,14 +123,14 @@ class ilLMListGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.list_properties.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_list_properties"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
 		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 		// list
 		$this->tpl->setVariable("TXT_LIST", $this->lng->txt("cont_list_properties"));
@@ -164,8 +163,7 @@ class ilLMListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else

@@ -948,5 +948,20 @@ class ilUtil
 
 		return $ilias->getSetting("java_path");
 	}
+
+
+	/**
+	* append URL parameter string ("par1=value1&par2=value2...")
+	* to given URL string
+	*/
+	function appendUrlParameterString($a_url, $a_par)
+	{
+		$url = (is_int(strpos($a_url, "?")))
+			? $a_url."&".$a_par
+			: $a_url."?".$a_par;
+
+		return $url;
+	}
+
 } // END class.ilUtil
 ?>

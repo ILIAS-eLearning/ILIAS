@@ -44,3 +44,9 @@ REPLACE INTO settings (keyword, value) VALUES ('system_role_id', '2');
 DELETE FROM rbac_pa WHERE rol_id = 2;
 DELETE FROM rbac_templates WHERE rol_id = 2;
 DELETE FROM rbac_fa WHERE rol_id = 2 AND parent != 8;
+
+<#10>
+RENAME TABLE lm_page_object TO page_object;
+ALTER TABLE page_object DROP PRIMARY KEY;
+ALTER TABLE page_object MODIFY parent_type VARCHAR(4) NOT NULL DEFAULT 'lm';
+ALTER TABLE page_object ADD PRIMARY KEY (page_id, parent_type);

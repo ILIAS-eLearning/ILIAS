@@ -39,9 +39,9 @@ require_once ("content/classes/class.ilMediaAliasItem.php");
 class ilMediaObjectGUI extends ilPageContentGUI
 {
 
-	function ilMediaObjectGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 
@@ -57,9 +57,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -239,8 +239,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else
@@ -286,9 +285,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -373,8 +372,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else
@@ -397,9 +395,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -467,8 +465,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function leftAlign()
@@ -476,8 +473,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function rightAlign()
@@ -485,8 +481,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function leftFloatAlign()
@@ -494,8 +489,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function rightFloatAlign()
@@ -503,8 +497,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 }

@@ -21,93 +21,114 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMTableData.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
 
 /**
-* Class ilLMTableDataGUI
-*
-* Handles user commands on table data elements (table cells)
+* Class ilGlossaryDefinition
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilLMTableDataGUI extends ilPageContentGUI
+class ilGlossaryDefinition
 {
+	var $ilias;
+	var $lng;
+	var $tpl;
+
+	var $id;
+	var $term_id;
+	var $glo_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTableDataGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilGlossaryDefinition($a_id = 0)
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
-	}
+		global $lng, $ilias, $tpl;
 
+		$this->lng =& $lng;
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
 
-	/**
-	* insert new row after cell
-	*/
-	function newRowAfter()
-	{
-		$this->content_obj->newRowAfter();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
-
-	/**
-	* insert new row before cell
-	*/
-	function newRowBefore()
-	{
-		$this->content_obj->newRowBefore();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$this->id = $a_id;
+		$this->type = "gdef";
+		if ($a_id != 0)
+		{
+			$this->read();
+		}
 	}
 
 	/**
-	* delete a row
+	* read data of content object
 	*/
-	function deleteRow()
+	function read()
 	{
-		$this->content_obj->deleteRow();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$q = "SELECT * FROM glossary_definition WHERE id = '".$this->id."'";
+		$def_set = $this->ilias->db->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setTermId($def_rec["term_id"]);
+		$this->setPageId($def_rec["language"]);
 	}
 
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	function getId()
+	{
+		return $this->id;
+	}
+
+
+	function setTermId($a_term_id)
+	{
+		$this->term_id = $a_term_id;
+	}
+
+	function getTermId()
+	{
+		return $this->term_id;
+	}
+
+
+	function create()
+	{
+		$q = "INSERT INTO glossary_definition (term_id, page_id)".
+			" VALUES ('".$this->getTermId()."', '".$this->getPageId()."')";
+
+		$this->ilias->db->query($q);
+		$this->setId($this->ilias->db->getLastInsertId());
+	}
+
+	function update()
+	{
+		$q = "UPDATE glossary_definition SET ".
+			" term_id = '".$this->getTermId()."', ".
+			" page_id = '".$this->getPageId()."' ".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
 
 	/**
-	* insert new col after cell
+	* static
 	*/
-	function newColAfter()
+	function getDefinitionList($a_term_id)
 	{
-		$this->content_obj->newColAfter();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$defs = array();
+		$q = "SELECT * FROM glossary_definition WHERE term_id ='".$a_term_id."'";
+		$def_set = $this->ilias->db->query($q);
+		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$defs[] = array("term_id" => $term_rec["term_id"],
+				"page_id" => $term_rec["page_id"], "id" => $term_rec["id"]);
+		}
+		return $defs;
 	}
 
-	/**
-	* insert new col before cell
-	*/
-	function newColBefore()
-	{
-		$this->content_obj->newColBefore();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
+} // END class ilGlossaryDefinition
 
-	/**
-	* delete column
-	*/
-	function deleteCol()
-	{
-		$this->content_obj->deleteCol();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
-
-
-}
 ?>

@@ -30,6 +30,7 @@
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
 <xsl:template match="PageObject">
+	<!--<xsl:value-of select="@HierId"/>-->
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
 		<xsl:value-of select="$pg_title"/>
@@ -81,7 +82,7 @@
 			</div>
 		</xsl:for-each>
 	</xsl:if>
-    
+
 </xsl:template>
 
 <!-- Sucht zu den Pageturns die Edition und das Jahr raus -->

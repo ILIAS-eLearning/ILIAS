@@ -25,8 +25,9 @@ require_once ("content/classes/class.ilLMObjectFactory.php");
 require_once ("classes/class.ilDOMUtil.php");
 require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilObjLearningModuleGUI.php");
-require_once ("content/classes/class.ilPageObjectGUI.php");
+require_once ("content/classes/class.ilLMPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
+require_once ("content/classes/class.ilPageEditorGUI.php");
 require_once ("classes/class.ilObjStyleSheet.php");
 
 
@@ -76,7 +77,7 @@ class ilLMEditorGUI
 		{
 			$hier_id = $_POST["new_hier_id"];
 		}
-
+//echo ":hier_id_a:$hier_id:";
 		$cmd = (empty($_GET["cmd"]))
 			? "frameset"
 			: $_GET["cmd"];
@@ -109,7 +110,7 @@ class ilLMEditorGUI
 				$cmd = $_POST["command".$hier_id];
 			}
 		}
-
+//echo ":hier_id_c:$hier_id:";
 		switch($cmd)
 		{
 			case "explorer":
@@ -146,6 +147,7 @@ class ilLMEditorGUI
 					}
 					else
 					{
+						/*
 						$obj->buildDom();
 						$obj->addHierIDs();
 //echo "hier_id:$hier_id:";
@@ -162,7 +164,7 @@ class ilLMEditorGUI
 						else
 						{
 							$ctype = $cont_obj->getType();
-						}
+						}*/
 					}
 				}
 				else		// command belongs to learning module
@@ -177,6 +179,17 @@ class ilLMEditorGUI
 //echo "type:$type:cmd:$cmd:ctype:$ctype:";
 				if($type == "content")
 				{
+					$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
+					$pg_gui->setLMPageObject($obj);
+					$pg_gui->showPageEditor();
+
+					/*
+					require_once ("content/classes/class.ilPageEditorGUI.php");
+					$page_editor =& new ilPageEditorGUI($obj->getPageObject());
+					$page_editor->executeCommand();
+					break;*/
+
+				/*
 					switch($ctype)
 					{
 						// Paragraph
@@ -222,14 +235,15 @@ class ilLMEditorGUI
 							break;
 
 					}
+					*/
 				}
 				else
 				{
 					switch ($type)
 					{
 						case "pg":
-							$pg_gui =& new ilPageObjectGUI($this->lm_obj);
-							$pg_gui->setPageObject($obj);
+							$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
+							$pg_gui->setLMPageObject($obj);
 							$pg_gui->$cmd();
 							break;
 

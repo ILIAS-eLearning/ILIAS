@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/class.ilPageObject.php");
+require_once ("content/classes/class.ilLMPageObject.php");
 require_once ("content/classes/class.ilStructureObject.php");
 
 /**
@@ -54,7 +54,7 @@ class ilLMObjectFactory
 				break;
 
 			case "pg":
-				$obj =& new ilPageObject();
+				$obj =& new ilLMPageObject();
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();
