@@ -143,9 +143,13 @@ DROP TABLE IF EXISTS note_data;
 CREATE TABLE note_data (
   note_id int(11) NOT NULL default '0',
   lo_id int(11) NOT NULL default '0',
-  lo_title varchar(255) default '',
   text text,
   create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  last_update datetime NOT NULL default '0000-00-00 00:00:00',
+  important enum('y','n') NOT NULL default 'n',
+  good enum('y','n') NOT NULL default 'n',
+  question enum('y','n') NOT NULL default 'n',
+  bad enum('y','n') NOT NULL default 'n',
   PRIMARY KEY  (note_id)
 ) TYPE=MyISAM;
 
