@@ -121,7 +121,8 @@ class ilForumLocatorGUI
 			else if (($this->ref_id == $row["child"]) && (is_object($this->frm)))
 			{
 				$title = $row["title"];
-				$link = "forums_threads_liste.php?ref_id=".$row["child"];
+				#$link = "forums_threads_liste.php?ref_id=".$row["child"];
+				$link = "repository.php?ref_id=".$row["child"];
 			}
 			else
 			{

@@ -57,7 +57,7 @@ class ilObjForum extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 		
 		// TODO: needs to rewrite scripts that are using Forum outside this class
-		$this->Forum = new ilForum();
+		$this->Forum =& new ilForum();
 	}
 
 	/**
