@@ -154,4 +154,10 @@
 	<action cmd="paste">paste</action>
 	<action cmd="clear">clear</action>
 </object>
+<object name="typ">
+	<property cmd="view">view_content</property>
+	<property cmd="edit">edit_properties</property>
+	<property cmd="perm">perm_settings</property>
+	<property cmd="owner">show_owner</property>
+</object>
 </objects>
