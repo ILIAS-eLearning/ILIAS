@@ -442,7 +442,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->ctrl->setParameterByClass("ilobjmediaobjectgui", "obj_id", $obj["obj_id"]);
 						$this->tpl->setVariable("LINK_VIEW",
 							$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "edit"));
-                        $this->tpl->setVariable("OBJ_URL", ilUtil::getHtmlPath(ilObjMediaObject::_getDirectory($obj["obj_id"]) . '/'. $obj["title"]));
+						$this->tpl->setCurrentBlock("show");
+						$this->tpl->setVariable("TXT_SHOW", $this->lng->txt("view"));
+						$this->ctrl->setParameter($this, "mob_id", $obj["obj_id"]);
+						$this->tpl->setVariable("SHOW_LINK", $this->ctrl->getLinktarget($this, "showMedia"));
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("link");
+                        //$this->tpl->setVariable("OBJ_URL", ilUtil::getHtmlPath(ilObjMediaObject::_getDirectory($obj["obj_id"]) . '/'. $obj["title"]));
 						break;
 				}
 				$this->tpl->parseCurrentBlock();
@@ -546,8 +552,66 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->show(false);
 
 	}
+	
+	/**
+	* show media object
+	*/
+	function showMedia()
+	{
+		//$int_links = $page_object->getInternalLinks();
+		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
+		
+		// later
+		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+		
+		$link_xlm = "";
 
+		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		
+		$xml = "<dummy>";
+		// todo: we get always the first alias now (problem if mob is used multiple
+		// times in page)
+		$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+		$xml.= $link_xml;
+		$xml.="</dummy>";
 
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		$wb_path = ilUtil::getWebspaceDir("output");
+
+		$mode = ($_GET["cmd"] != "showMedia")
+			? "fullscreen"
+			: "media";
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
+		$fullscreen_link =
+			$this->ctrl->getLinkTarget($this, "showFullscreen");
+		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
+			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => $fullscreen_link,
+			'ref_id' => $_GET["ref_id"], 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$this->tpl->setVariable("CONTENT", $output);
+
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+
+	}
+
+	/**
+	* show fullscreen 
+	*/
+	function showFullscreen()
+	{
+		$this->showMedia();
+	}
+	
 	/**
 	* confirm remove of mobs
 	*/
