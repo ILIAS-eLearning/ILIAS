@@ -218,9 +218,9 @@ class ilSCORMPresentationGUI
 
 	function launchSco()
 	{
-		$sco_id = ($_GET["scoid"] == "")
-			? $_POST["scoid"]
-			: $_GET["scoid"];
+		$sco_id = ($_GET["sco_id"] == "")
+			? $_POST["sco_id"]
+			: $_GET["sco_id"];
 		$ref_id = ($_GET["ref_id"] == "")
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
