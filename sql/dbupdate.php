@@ -275,3 +275,13 @@ CREATE TABLE file_data
 	file_type CHAR(64) NOT NULL,
 	PRIMARY KEY (file_id)
 );
+
+<#34>
+CREATE TABLE lo_access
+(
+	timestamp DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL ,
+	usr_id INT( 11 ) DEFAULT '0' NOT NULL ,
+	lm_id  INT( 11 ) DEFAULT '0' NOT NULL ,
+	obj_id INT( 11 ) DEFAULT '0' NOT NULL ,
+	lm_title  TEXT DEFAULT '0' NOT NULL
+);
