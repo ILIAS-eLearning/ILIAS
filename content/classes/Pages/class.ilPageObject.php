@@ -23,6 +23,7 @@
 
 //require_once("content/classes/class.ilLMObject.php");
 require_once("content/classes/Pages/class.ilPageContent.php");
+require_once("content/classes/Pages/class.ilPCParagraph.php");
 
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);

@@ -185,52 +185,9 @@ class ilPageObjectGUI
 	function preview()
 	{
 		global $tree;
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
-		$num = 0;
-
-		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-		//	$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
-
-		// output
-		$builded = $this->obj->buildDom();
-		//$this->obj->addHierIDs();
-		$content = $this->obj->getXMLFromDom(false, true, true);
-
-		//$content = $this->obj->getXMLContent();
-
-		// convert bb code to xml
-		//$this->obj->bbCode2XML($content);
-
-		// todo: utf-header should be set globally
-		//header('Content-type: text/html; charset=UTF-8');
-
-		$pg_title = $this->getPresentationTitle();
-		//$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
-
-		$xsl = file_get_contents("./content/page.xsl");
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
-//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$params = array ('mode' => 'preview', 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-			'webspace_path' => $wb_path,
-			'enlarge_path' => $enlarge_path);
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		echo xslt_error($xh);
-		xslt_free($xh);
-
-		// unmask user html
-		$output = str_replace("&lt;","<",$output);
-		$output = str_replace("&gt;",">",$output);
-		$output = str_replace("&amp;", "&", $output);
-//echo "<b>HTML</b>".htmlentities($output);
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		$this->setOutputMode("preview");
+		$this->view();
 	}
-
 
 	function edit()
 	{
