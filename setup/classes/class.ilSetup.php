@@ -1007,7 +1007,7 @@ class ilSetup extends PEAR
 				return false;
 			}
 
-			if (!touch($log_path))
+			if (!@touch($log_path))
 			{
 				$this->error = "could_not create_logfile";
 				return false;
