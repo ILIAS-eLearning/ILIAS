@@ -245,6 +245,12 @@ assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the quest
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
+assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
+assessment#:#log_modified_test#:#The test was modified
+assessment#:#log_create_new_test#:#Created new test
+assessment#:#log_question_removed#:#Question removed
+assessment#:#log_question_position_changed#:#Question position changed
+assessment#:#log_question_added#:#Question added at position
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
