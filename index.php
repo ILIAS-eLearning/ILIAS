@@ -98,12 +98,15 @@ if ($ilias->getSetting("pub_section"))
 	$start = "nologin.php";
 }
 
+$connector = "?";
+
 // catch reload
 if ($_GET["reload"])
 {
 	$start .= "?reload=true";
+	$connector = "&";
 }
 
-header("location: ".$start);
+header("location: ".$start.$connector."return_to=".$_GET["return_to"]);
 exit();
 ?>

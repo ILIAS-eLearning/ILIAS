@@ -204,6 +204,9 @@ if ($ilias->auth->getAuth())
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
+	//phpinfo();exit;
+	$return_to = urlencode($_SERVER["REQUEST_URI"]);
+
 	$dirname = dirname($_SERVER["PHP_SELF"]);
 	$ilurl = parse_url(ILIAS_HTTP_PATH);
 	$subdir = substr(strstr($dirname,$ilurl["path"]),strlen($ilurl["path"]));
@@ -220,7 +223,7 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 	}
 	session_unset();
 	session_destroy();
-	ilUtil::redirect($updir."index.php?reload=true");
+	ilUtil::redirect($updir."index.php?reload=true&return_to=".$return_to);
 }
 
 //init language
