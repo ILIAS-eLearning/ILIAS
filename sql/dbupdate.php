@@ -4481,3 +4481,5 @@ CREATE TABLE `payment_trustees` (
 `perm_obj` INT( 1 ) NOT NULL ,
 PRIMARY KEY ( `vendor_id` , `trustee_id` )
 );
+<#275>
+ALTER TABLE content_object ADD COLUMN numbering ENUM('y','n') DEFAULT 'n';

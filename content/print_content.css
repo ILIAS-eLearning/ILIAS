@@ -24,6 +24,25 @@ table.ilc_Page {
 	width:100%;
 }
 
+div.ilc_PrintChapterTitle
+{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size: 18px;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-color: #000000;
+}
+
+div.ilc_PrintPageTitle
+{
+	margin-top: 3px;
+	margin-bottom: 15px;
+	font-size: 18px;
+	padding-bottom: 3px;
+}
+
 td.ilc_Page
 {
 	padding:20px;

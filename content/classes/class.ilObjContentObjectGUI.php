@@ -252,6 +252,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$pg_header, false, true);
 		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
 
+		// chapter numbers
+		$this->tpl->setVariable("TXT_NUMBER", $this->lng->txt("cont_act_number"));
+		$this->tpl->setVariable("CBOX_NUMBER", "cobj_act_number");
+		$this->tpl->setVariable("VAL_NUMBER", "y");
+		if ($this->object->isActiveNumbering())
+		{
+			$this->tpl->setVariable("CHK_NUMBER", "checked");
+		}
+
 		// toc mode
 		$this->tpl->setVariable("TXT_TOC_MODE", $this->lng->txt("cont_toc_mode"));
 		$arr_toc_mode = array ("chapters" => $this->lng->txt("cont_chapters_only"),
@@ -376,6 +385,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setTOCMode($_POST["toc_mode"]);
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
+		$this->object->setActiveNumbering(ilUtil::yn2tf($_POST["cobj_act_number"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));

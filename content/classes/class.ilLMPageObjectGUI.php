@@ -107,7 +107,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					"&amp;ref_id=".$this->content_object->getRefId());
 				$page_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
 				$page_gui->setSourcecodeDownloadScript("lm_presentation.php?ref_id=".$this->content_object->getRefId());
-				$page_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
+				$page_gui->setPresentationTitle(
+					ilLMPageObject::_getPresentationTitle($this->obj->getId(),
+					$this->content_object->getPageHeader(), $this->content_object->isActiveNumbering()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 				$ret =& $this->ctrl->forwardCommand($page_gui);

@@ -180,6 +180,54 @@ class ilStructureObject extends ilLMObject
 		return $a_value;
 	}
 
+	/**
+	* get presentation title
+	*
+	*/
+	function _getPresentationTitle($a_st_id, $a_include_numbers = false)
+	{
+		global $ilDB;
+
+		// get chapter data
+		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_st_id."'";
+		$st_set = $ilDB->query($query);
+		$st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$tree = new ilTree($st_rec["lm_id"]);
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		if ($a_include_numbers)
+		{
+			if ($tree->isInTree($st_rec["obj_id"]))
+			{
+				// get chapter tree node
+				$query = "SELECT * FROM lm_tree WHERE child = ".
+					$ilDB->quote($a_st_id)." AND lm_id = ".
+					$ilDB->quote($st_rec["lm_id"]);
+				$tree_set = $ilDB->query($query);
+				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+				$depth = $tree_node["depth"];
+
+				$nr = $tree->getChildSequenceNumber($tree_node, "st")." ";
+				for ($i = $depth - 1; $i > 1; $i --)
+				{
+					// get next parent tree node
+					$query = "SELECT * FROM lm_tree WHERE child = ".
+					$ilDB->quote($tree_node["parent"])." AND lm_id = ".
+					$ilDB->quote($st_rec["lm_id"]);
+					$tree_set = $ilDB->query($query);
+					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+					$seq = $tree->getChildSequenceNumber($tree_node, "st");
+
+					$nr = $seq.".".$nr;
+				}
+			}
+		}
+
+		return $nr.$st_rec["title"];
+	}
+
 
 
 	/**

@@ -1379,6 +1379,36 @@ class ilTree
 	}
 
 	/**
+	* get sequence number of node in sibling sequence
+	* @access	public
+	* @param	array		node
+	* @return	integer		sequence number
+	*/
+	function getChildSequenceNumber($a_node, $type = "")
+	{
+		if (!isset($a_node))
+		{
+			$this->ilErr->raiseError(get_class($this)."::getChildSequenceNumber(): No node_id given! ",$this->ilErr->WARNING);
+		}
+
+		$type_str = ($type != "")
+			? "AND type='$type'"
+			: "";
+
+		$q = "SELECT count(*) AS cnt FROM ".$this->table_tree." ".
+			$this->buildJoin().
+			"WHERE lft <=".$this->ilDB->quote($a_node["lft"])." ".
+			$type_str.
+			"AND parent=".$this->ilDB->quote($a_node["parent"])." ".
+			"AND ".$this->table_tree.".".$this->tree_pk."=".$this->ilDB->quote($this->tree_id);
+		$r = $this->ilDB->query($q);
+
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $row["cnt"];
+	}
+
+	/**
 	* read root id from database
 	* @param root_id
 	* @access public

@@ -1,6 +1,34 @@
+<!-- BEGIN print_block -->
+<!-- BEGIN print_header -->
+<div class="ilc_PrintChapterTitle">{LM_TITLE}</div>
+<p class="ilc_Standard">{LM_DESCRIPTION}</p>
+<br />
+<!-- END print_header -->
+<!-- BEGIN toc -->
+<div class="ilc_PrintPageTitle">{TXT_TOC}</div>
+<!-- BEGIN toc_entry -->
+<table cellpadding="1" cellspacing="0" border="0">
+<tr>
+<!-- BEGIN indent -->
+<td nowrap="1" valign="top" align="left"><img class="spacer" src="{IMG_BLANK}" border="0" /></td>
+<!-- END indent -->
+<td align="left" nowrap="1">
+{TXT_TOC_TITLE}
+</td>
+</tr>
+</table>
+<!-- END toc_entry -->
+<br />
+<!-- END toc -->
+<!-- BEGIN print_chapter -->
+<br />
+<div class="ilc_PrintChapterTitle">{CHAP_TITLE}</div>
+<p class="ilc_Standard">{CHAP_DESCRIPTION}</p>
+<!-- END print_chapter -->
 <!-- BEGIN print_item -->
-{CONTENT}<br /><br />
+{CONTENT}
 <!-- END print_item -->
+<!-- END print_block -->
 <script type="text/javascript" language="javascript1.2">
 <!--
 	// Do print the page

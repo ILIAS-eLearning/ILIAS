@@ -694,6 +694,8 @@ class ilLMPresentationGUI
 
 	function ilLocator()
 	{
+		require_once("content/classes/class.ilStructureObject.php");
+
 		$this->tpl->setCurrentBlock("ilLocator");
 
 		$lm_tree = new ilTree($this->lm->getId());
@@ -736,7 +738,9 @@ class ilLMPresentationGUI
 
 					if($row["child"] != $lm_tree->getRootId())
 					{
-						$this->tpl->setVariable("ITEM", ilUtil::shortenText($row["title"],50,true));
+						$this->tpl->setVariable("ITEM", ilUtil::shortenText(
+							ilStructureObject::_getPresentationTitle($row["child"],
+							$this->lm->isActiveNumbering()),50,true));
 						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 						$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
 							$_GET["ref_id"]."&obj_id=".$row["child"]);
@@ -903,9 +907,9 @@ class ilLMPresentationGUI
 		$page_object_gui->setOutputMode("presentation");
 		$page_object_gui->setOutputSubmode("translation");
 
-		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
-		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
-		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
+		$page_object_gui->setPresentationTitle(
+			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
+			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
 #		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
@@ -987,9 +991,9 @@ class ilLMPresentationGUI
 		$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
 			"&amp;ref_id=".$this->lm->getRefId());
 
-		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
-		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
-		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
+		$page_object_gui->setPresentationTitle(
+			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
+			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
 
 		// ADDED FOR CITATION
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
@@ -1269,8 +1273,8 @@ class ilLMPresentationGUI
 
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
-			//$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
-			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"], $this->lm->getPageHeader());
+			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
 			$prev_img = "<img src=\"".ilUtil::getImagePath("nav_arr_L.gif")."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
@@ -1306,8 +1310,8 @@ class ilLMPresentationGUI
 
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
-			//$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
-			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"], $this->lm->getPageHeader());
+			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
+			$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
 			$succ_img = "<img src=\"".ilUtil::getImagePath("nav_arr_R.gif")."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
@@ -1465,6 +1469,8 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
+		require_once("content/classes/class.ilStructureObject.php");
+
 		$ilBench->start("ContentPresentation", "PrintViewSelection");
 
 		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
@@ -1511,18 +1517,26 @@ class ilLMPresentationGUI
 
 			switch ($node["type"])
 			{
+				// page
 				case "pg":
-					$this->tpl->setVariable("TXT_TITLE", $node["title"]);
+					$this->tpl->setVariable("TXT_TITLE",
+						ilLMPageObject::_getPresentationTitle($node["obj_id"],
+						$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg.gif"));
 					break;
 
+				// learning module
 				case "du";
 					$this->tpl->setVariable("TXT_TITLE", "<b>".$this->lm->getTitle()."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_lm.gif"));
 					break;
 
+				// chapter
 				default:
-					$this->tpl->setVariable("TXT_TITLE", "<b>".$node["title"]."</b>");
+					$this->tpl->setVariable("TXT_TITLE", "<b>".
+						ilStructureObject::_getPresentationTitle($node["obj_id"],
+						$this->lm->getPageHeader(), $this->lm->isActiveNumbering())
+						."</b>");
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
 					break;
 			}
@@ -1576,6 +1590,7 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
+		require_once("content/classes/class.ilStructureObject.php");
 
 		$act_level = 99999;
 		$activated = false;
@@ -1601,65 +1616,109 @@ class ilLMPresentationGUI
 
 			if ($activated)
 			{
-				$this->tpl->setCurrentBlock("print_item");
+				// output learning module header
+				if ($node["type"] == "du")
+				{
+					$this->tpl->setCurrentBlock("print_header");
+					$this->tpl->setVariable("LM_TITLE", $this->lm->getTitle());
+					if ($this->lm->getDescription() != "none")
+					{
+						$this->lm->initMeta();
+						$meta =& $this->lm->getMetaData();
+						$this->tpl->setVariable("LM_DESCRIPTION", $meta->getDescription());
+					}
+					$this->tpl->parseCurrentBlock();
 
+					// output toc
+					$nodes2 = $nodes;
+					foreach ($nodes2 as $node2)
+					{
+						if ($node2["type"] == "st")
+						{
+							for ($j=1; $j < $node2["depth"]; $j++)
+							{
+								$this->tpl->setCurrentBlock("indent");
+								$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+								$this->tpl->parseCurrentBlock();
+							}
+							$this->tpl->setCurrentBlock("toc_entry");
+							$this->tpl->setVariable("TXT_TOC_TITLE",
+								ilStructureObject::_getPresentationTitle($node2["obj_id"],
+								$this->lm->isActiveNumbering()));
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					$this->tpl->setCurrentBlock("toc");
+					$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("print_block");
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// output chapter title
+				if ($node["type"] == "st")
+				{
+					$chap =& new ilStructureObject($this->lm, $node["obj_id"]);
+					$this->tpl->setCurrentBlock("print_chapter");
+					$this->tpl->setVariable("CHAP_TITLE",
+						$chap->_getPresentationTitle($node["obj_id"],
+						$this->lm->isActiveNumbering()));
+
+					/*
+					if ($chap->getDescription() != "none" &&
+						$chap->getDescription() != "")
+					{
+						$chap->initMeta();
+						$meta =& $chap->getMetaData();
+						$this->tpl->setVariable("CHAP_DESCRIPTION", $meta->getDescription());
+					}*/
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("print_block");
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// output page
 				if ($node["type"] == "pg")
 				{
+					$this->tpl->setCurrentBlock("print_item");
 					$page_id = $node["obj_id"];
 
 					$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 					$page_object->buildDom();
-					//$int_links = $page_object->getInternalLinks();
 					$page_object_gui =& new ilPageObjectGUI($page_object);
-
-					// read link targets
-					//$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 
 					$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 					$lm_pg_obj->setLMId($this->lm->getId());
-					//$page_object_gui->setLinkXML($link_xml);
-
-					// USED FOR DBK PAGE TURNS
-					//$page_object_gui->setBibId($_SESSION["bib_id"]);
-					//$page_object_gui->enableCitation((bool) $_SESSION["citation"]);
 
 					// determine target frames for internal links
 					$page_object_gui->setLinkFrame($_GET["frame"]);
 					$page_object_gui->setOutputMode("print");
-					//$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
-					//	"&amp;ref_id=".$this->lm->getRefId());
 
-					$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
+					if ($this->lm->getPageHeader() == IL_PAGE_TITLE)
+					{
+						$page_object_gui->setPresentationTitle(
+							ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
+							$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+					}
+					else
+					{
+						$page_object_gui->setPresentationTitle("");
+					}
 
-					// ADDED FOR CITATION
-					//$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
-					//$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
-					//$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId());
-
-					//if($_SESSION["tr_id"])
-					//{
-					//	$page_object_gui->setOutputSubmode("translation");
-					//}
-
-					// content style
-					/*
-					$this->tpl->setCurrentBlock("ContentStyle");
-					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-						ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-					$this->tpl->parseCurrentBlock();
-
-					// syntax style
-					$this->tpl->setCurrentBlock("SyntaxStyle");
-					$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-						ilObjStyleSheet::getSyntaxStylePath());
-					$this->tpl->parseCurrentBlock();*/
 					$page_content = $page_object_gui->showPage();
-					//$page_content = str_replace("class", "papp", $page_content);
-					//$page_content = str_replace("ilc_PageTitle", "", $page_content);
-					$this->tpl->setVariable("CONTENT", $page_content);
+					if ($this->lm->getPageHeader() != IL_PAGE_TITLE)
+					{
+						$this->tpl->setVariable("CONTENT", $page_content);
+					}
+					else
+					{
+						$this->tpl->setVariable("CONTENT", $page_content."<br />");
+					}
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("print_block");
+					$this->tpl->parseCurrentBlock();
 				}
-
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 

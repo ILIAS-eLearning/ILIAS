@@ -401,9 +401,13 @@ class ilPageObjectGUI
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
 		$wb_path = ilUtil::getWebspaceDir("output");
+		$pg_title_class = ($this->getOutputMode() == "print")
+			? "ilc_PrintPageTitle"
+			: "";
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 //echo "-".$this->sourcecode_download_script.":";
-		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
+		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
+						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'med_disabled_path' => $med_disabled_path,

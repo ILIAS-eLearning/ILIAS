@@ -31,6 +31,7 @@
 */
 
 require_once("content/classes/class.ilLMExplorer.php");
+require_once("content/classes/class.ilStructureObject.php");
 
 class ilTableOfContentsExplorer extends ilLMExplorer
 {
@@ -74,6 +75,12 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	*/
 	function buildTitle($a_title, $a_id, $a_type)
 	{
+			if ($a_type == "st")
+		{
+			return ilStructureObject::_getPresentationTitle($a_id,
+				$this->lm_obj->isActiveNumbering());
+		}
+
 		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
 		{
 			return $a_title;
@@ -82,7 +89,8 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		{
 			if ($a_type == "pg")
 			{
-				return ilLMPageObject::_getPresentationTitle($a_id, $this->lm_obj->getPageHeader());
+				return ilLMPageObject::_getPresentationTitle($a_id,
+					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering());
 			}
 		}
 	}
