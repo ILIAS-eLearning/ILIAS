@@ -571,7 +571,8 @@ class ilGroupGUI extends ilObjectGUI
 		if($_SESSION["saved_post"])
 		{
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-			$mail  = new ilMail($this->ilias->account->getId());
+//			$mail  = new ilMail($this->ilias->account->getId());
+			$mail  = new ilMail($_SESSION["AccountId"]);
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				$user =& $this->ilias->obj_factory->getInstanceByObjId($new_member);
@@ -582,6 +583,11 @@ class ilGroupGUI extends ilObjectGUI
 				else
 				{
 					$this->object->deleteApplicationListEntry($new_member);
+//					$k = array('normal');
+					//$k[0] = "normal";
+//					$mail = new Mail($_SESSION["AccountId"]);
+//					function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
+//					print_r($mail->sendMail($user->getLogin(),"","","you have been assigned to...","dirnne","",$k));
 //					$mail->sendMail($user->getLogin(),"","","you have been assigned to ...","sind drinne","","");
 //					$mail->sendInternalMail(207,6,$user->getLogin(),"","","","system",0,"you have been assigned to ...","sind drinne",6);
 					ilObjUser::updateActiveRoles($new_member);		
@@ -1735,7 +1741,13 @@ class ilGroupGUI extends ilObjectGUI
 	function show_content()
 	{
 		global $rbacsystem;
-
+/*
+		//$k[0] = "normal";
+		$k[0] = array('normal');
+		var_dump($k);
+		$mail = new ilMail($_SESSION["AccountId"]);
+		print_r($mail->sendMail("root","","","you have been assigned to...","dirnne","",$k));
+*/
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
