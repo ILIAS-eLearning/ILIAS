@@ -1677,6 +1677,36 @@ class ilObjTest extends ilObject
 		$this->removeAllTestEditings($question_id);
 		$this->loadQuestions();
 	}
+	
+/**
+* Removes all selected users for the test evaluation
+* 
+* Removes all selected users for the test evaluation
+*
+* @access public
+*/
+	function clearEvalSelectedUsers()
+	{
+		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Removes all selected groups for the test evaluation
+* 
+* Removes all selected groups for the test evaluation
+*
+* @access public
+*/
+	function clearEvalSelectedGroups()
+	{
+		$query = sprintf("DELETE FROM tst_eval_groups WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+	}
 
 /**
 * Removes all references to the question in executed tests in case the question has been changed
@@ -1692,6 +1722,10 @@ class ilObjTest extends ilObject
 	function removeAllTestEditings($question_id = "") {
 		// remove test_active entries, because test has changed
 		$this->deleteActiveTests();
+		// remove selected users/groups
+		$this->clearEvalSelectedUsers();
+		$this->clearEvalSelectedGroups();
+		
 		// remove the question from tst_solutions
 		if ($question_id) {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
@@ -4396,6 +4430,147 @@ class ilObjTest extends ilObject
 				$question->createRandomSolution($this->getTestId(), $login["usr_id"]);
 			}
 		}
-	}	
+	}
+
+/**
+* Returns an array of users who are selected for a test evaluation of a given user
+* 
+* Returns an array of users who are selected for a test evaluation of a given user
+*
+* @access public
+*/
+	function &getEvaluationUsers($user_id)
+	{
+		$users = array();
+		$query = sprintf("SELECT tst_eval_users.user_fi, usr_data.firstname, usr_data.lastname FROM tst_eval_users, usr_data WHERE tst_eval_users.test_fi = %s AND tst_eval_users.evaluator_fi = %s AND tst_eval_users.user_fi = usr_data.usr_id",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($user_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$users[$row["user_fi"]] = trim($row["firstname"] ." " . $row["lastname"]);
+			}
+		}
+		return $users;
+	}
+
+/**
+* Returns an array of groups who are selected for a test evaluation of a given user
+* 
+* Returns an array of groups who are selected for a test evaluation of a given user
+*
+* @access public
+*/
+	function &getEvaluationGroups($user_id)
+	{
+		$groups = array();
+		$query = sprintf("SELECT group_fi FROM tst_eval_groups WHERE test_fi = %s AND evaluator_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($user_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$groups[$row["group_fi"]] = $row["group_fi"];
+			}
+		}
+		return $groups;
+	}
+	
+/**
+* Disinvites a user from a survey
+* 
+* Disinvites a user from a survey
+*
+* @param integer $user_id The database id of the disinvited user
+* @access public
+*/
+	function removeSelectedUser($user_id, $evaluator_id)
+	{
+		$query = sprintf("DELETE FROM tst_eval_users WHERE test_fi = %s AND user_fi = %s AND evaluator_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($user_id . ""),
+			$this->ilias->db->quote($evaluator_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+	}
+
+/**
+* Invites a user to a survey
+* 
+* Invites a user to a survey
+*
+* @param integer $user_id The database id of the invited user
+* @access public
+*/
+	function addSelectedUser($user_id, $evaluator_id)
+	{
+		$query = sprintf("SELECT user_fi FROM tst_eval_users WHERE test_fi = %s AND evaluator_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($evaluator_id . ""),
+			$this->ilias->db->quote($user_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() < 1)
+		{
+			$query = sprintf("INSERT INTO tst_eval_users (eval_users_id, test_fi, evaluator_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($evaluator_id . ""),
+				$this->ilias->db->quote($user_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+
+/**
+* Disinvites a group from a survey
+* 
+* Disinvites a group from a survey
+*
+* @param integer $group_id The database id of the disinvited group
+* @access public
+*/
+	function removeSelectedGroup($group_id, $evaluator_id)
+	{
+		$query = sprintf("DELETE FROM tst_eval_groups WHERE test_fi = %s AND group_fi = %s AND evaluator_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($group_id . ""),
+			$this->ilias->db->quote($evaluator_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+	}
+
+/**
+* Invites a group to a survey
+* 
+* Invites a group to a survey
+*
+* @param integer $group_id The database id of the invited group
+* @access public
+*/
+	function addSelectedGroup($group_id, $evaluator_id)
+	{
+		$query = sprintf("SELECT group_fi FROM tst_eval_groups WHERE test_fi = %s AND evaluator_fi = %s AND group_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($evaluator_id . ""),
+			$this->ilias->db->quote($group_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() < 1)
+		{
+			$query = sprintf("INSERT INTO tst_eval_groups (eval_groups_id, test_fi, evaluator_fi, group_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($evaluator_id . ""),
+				$this->ilias->db->quote($group_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
 } // END class.ilObjTest
 ?>
