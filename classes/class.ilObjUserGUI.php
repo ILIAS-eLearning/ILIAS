@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.37 2003/08/06 15:47:11 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.38 2003/08/06 16:26:56 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -74,6 +74,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock($a_template_block_name);
 
 		// Get name of picture of user
+		// TODO: the user is already the current user object !!
 		$userObj = new ilObjUser($_GET["user"]);
 
 		$this->tpl->setVariable("ROWCOL1", "tblrow1");
@@ -98,6 +99,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($userObj->getPref("public_upload")=="y")
 		{
 			//Getting the flexible path of image form ini file
+			// TODO: ini vars are located in $ilias object!!
 			include_once "classes/class.ilSetup.php";
 			$mySetup = new ilSetup();
 			$mySetup->readIniFile();
@@ -760,7 +762,10 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
+		// update object data entry (to update last modification date)
+		$this->object->update();		
+
 		sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
 		
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=roleassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);

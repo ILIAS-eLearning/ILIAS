@@ -1614,6 +1614,9 @@ class ilObjectGUI
 			// $key enthaelt die aktuelle Role_Id
 			$rbacadmin->grantPermission($key,$new_role_perms,$_GET["ref_id"]);
 		}
+		
+		// update object data entry (to update last modification date)
+		$this->object->update();
 
 		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
 		// muss folgendes geschehen:
