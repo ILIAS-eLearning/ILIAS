@@ -126,6 +126,10 @@ assessment#:#possible_gap_text#:#Texto possível do espaço
 assessment#:#postpone#:#Postpone question###08 Mar 2004 new variable
 assessment#:#postponed#:#postponed###08 Mar 2004 new variable
 assessment#:#preview#:#Previsão
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
+assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
+assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
+assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#Você não tem permissão para apagar esta questão!
 assessment#:#qpl_delete_select_none#:#Por favor seleccione pelo menos uma questão para apagar
 assessment#:#qpl_duplicate_select_none#:#Por favor seleccione pelo menos uma questão para duplicar

@@ -126,6 +126,10 @@ assessment#:#possible_gap_text#:#Możliwy tekst odstępu
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
+assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
+assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
+assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
+assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
 assessment#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania
