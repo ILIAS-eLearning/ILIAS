@@ -44,6 +44,23 @@ h2 {
    color:#222222;
 }
 
+/* ----------------- alternative text styles ------------- */
+.small {
+        text-decoration:none;
+        font-size:x-small;
+}
+
+.smallgreen {
+        text-decoration:none;
+        font-size:x-small;
+	color:green;
+}
+
+.smallred {
+        text-decoration:none;
+        font-size:x-small;
+	color:red;
+}
 
 
 /* ----------------- normal links ------------- */

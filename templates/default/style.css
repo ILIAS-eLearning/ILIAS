@@ -2,11 +2,11 @@ body {
         color:#222222;
         background-color:#dddddd;
         font-family:Verdana,Arial,Helvetica,sans-serif;
-        font-size:x-small;
+        font-size:small;
                 margin:10px;
 }
 td {
-        font-size:x-small;
+        font-size:small;
 }
 
 .btnbar {
@@ -47,7 +47,23 @@ h2 {
    color:#222222;
 }
 
+/* ----------------- alternative text styles ------------- */
+.small {
+        text-decoration:none;
+        font-size:x-small;
+}
 
+.smallgreen {
+        text-decoration:none;
+        font-size:x-small;
+	color:green;
+}
+
+.smallred {
+        text-decoration:none;
+        font-size:x-small;
+	color:red;
+}
 
 /* ----------------- normal links ------------- */
 a {
@@ -87,7 +103,7 @@ a.mailunread
 a.btn {
         color:#ffffff;
         text-decoration:none;
-        font-size:x-small;
+        font-size:small;
 }
 
 a.tblheader:visited, a.tblheader:hover {
@@ -97,7 +113,7 @@ a.tblheader:visited, a.tblheader:hover {
 a.btn:visited {
         color:#ffffff;
         text-decoration:none;
-        font-size:x-small;
+        font-size:small;
 }
 
 a.btn:hover {
