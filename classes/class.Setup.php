@@ -1,8 +1,8 @@
 <?php
 
-include_once("./classes/class.IniFile.php");
-include_once("./classes/class.util.php");
-include_once("DB.php");
+require_once("./classes/class.IniFile.php");
+require_once("./classes/class.util.php");
+require_once("DB.php");
 
 /**
 * Setup class
@@ -129,6 +129,34 @@ class Setup
     }
 
 	/**
+	* write the ini file
+	*/
+    function writeIniFile()
+    {		
+		//write inifile
+		//overwrite with defaults
+		$this->getDefaults();
+		$this->ini->GROUPS = $this->default;
+		
+		//no overwrite the defaults with submitted values
+		$this->ini->setVariable("db", "host", $this->dbHost);
+		$this->ini->setVariable("db", "name", $this->dbName);
+		$this->ini->setVariable("db", "user", $this->dbUser);
+		$this->ini->setVariable("db", "pass", $this->dbPass);
+		
+		//try to write the file
+		if ($this->ini->write()==false)
+		{
+			$this->error_msg = "cannot_write";
+			return false;
+		}
+		
+		//everything went okay
+		return true;
+		
+	} //function
+	
+	/**
 	* set the dsns
 	*/
 	function setDSN()
@@ -158,20 +186,6 @@ class Setup
 
 		 return true;
 	 }
-
-    /**
-    * destructor
-	* 
-    * @return boolean
-    */
-    function _Setup()
-	{
-		if ($this->readVariable("db","type") != "")
-		{
-			$this->db->disconnect();
-        }
-		return true;
-    }
 
 	/**
 	 * set the databasetype
@@ -256,40 +270,6 @@ class Setup
 		return true;
 	}
 
-
-	/**
-	* check database connection
-	*/
-	function checkDatabaseHost()
-	{
-        //connect to databasehost
-		$db = DB::connect($this->dsn_host);
-
-		if (DB::isError($db))
-		{
-			$this->error_msg = $db->getMessage();
-			$this->error = "data_invalid";
-			return false;
-		}
-		
-		return true;
-	}
-	
-	/**
-	* check database connection
-	*/
-	function checkDatabaseExists()
-	{
-		//try to connect to database
-		$db = DB::connect($this->dsn);
-		if (DB::isError($db))
-		{
-			return false;
-		}
-		else
-			return true;
-	}
-	
 	/**
 	 * set the database data
 	*/
@@ -308,7 +288,8 @@ class Setup
 			return false;		
 		}
 
-		if ($this->checkDatabaseExists() == true)
+		$db_status = $this->checkDatabaseExists();
+		if ($db_status["status"] == true)		
 		{
 			$this->error = "database_exists";
 			return false;
@@ -355,7 +336,49 @@ class Setup
     }
 
 	/**
+	* check database connection
+	* @return	boolean
+	*/
+	function checkDatabaseHost()
+	{
+        //connect to databasehost
+		$db = DB::connect($this->dsn_host);
+
+		if (DB::isError($db))
+		{
+			$this->error_msg = $db->getMessage();
+			$this->error = "data_invalid";
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	* check database connection
+	* @return	array
+	*/
+	function checkDatabaseExists()
+	{
+		//try to connect to database
+		$db = DB::connect($this->dsn);
+		if (DB::isError($db))
+		{
+			$arr["status"] = false;
+			$arr["comment"] = "Please check your database connection!";
+		}
+		else
+		{
+			$arr["status"] = true;
+			$arr["comment"] = "";
+		}
+
+		return $arr;
+	}
+	
+	/**
 	* check if inifile exists
+	* @return	boolean
 	*/
     function checkIniFileExists()
     {
@@ -364,52 +387,100 @@ class Setup
     }
     
 	/**
-	* check for writable rootdirectory
-	* @return boolean
+	* check for writable directory
+	* @param	string	directory
+	* @return	array
 	*/
-    function checkRootWritable()
+    function checkWritable($a_dir = ".")
     {
 		clearstatcache();
-		return is_writable(".");
-    }	
-	
-	/**
-	* write the ini file
-	*/
-    function writeIniFile()
-    {		
-		//write inifile
-		//overwrite with defaults
-		$this->getDefaults();
-		$this->ini->GROUPS = $this->default;
-		
-		//no overwrite the defaults with submitted values
-		$this->ini->setVariable("db", "host", $this->dbHost);
-		$this->ini->setVariable("db", "name", $this->dbName);
-		$this->ini->setVariable("db", "user", $this->dbUser);
-		$this->ini->setVariable("db", "pass", $this->dbPass);
-		
-		//try to write the file
-		if ($this->ini->write()==false)
+		if (is_writable($a_dir))
 		{
-			$this->error_msg = "cannot_write";
-			return false;
+			$arr["status"] = true;
+			$arr["comment"] = "";
 		}
-		
-		//everything went okay
-		return true;
-		
-	} //function
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = "Cannot write in folder! Please check your permission settings in your filesystem!";
+		}
 
+		return $arr;
+	}
 
 	/**
-	* check for writable langdirectory
-	* @return boolean
+	* check for permission to create new folders in specified directory
+	* @param	string	directory
+	* @return	array
 	*/
-	function checkLangWritable()
-	{
+    function checkCreatable($a_dir = ".")
+    {
 		clearstatcache();
-		return is_writable("./lang");
+		if (mkdir($a_dir."/crtst", 0774))
+		{
+			$arr["status"] = true;
+			$arr["comment"] = "";
+			
+			rmdir($a_dir."/crtst");
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = "Cannot create subfolders! Please check your permission settings in your filesystem!";
+		}
+
+		return $arr;
+	}
+
+	/**
+	* check for PHP version
+	* @return	array
+	*/
+	function checkPHPVersion()
+	{
+		$version =  phpversion();
+		$arr["version"] = $version;
+		$first = (integer) substr($version,0,1);
+		
+		switch ($first)
+		{
+			case 2:
+			case 3:
+				$arr["status"] = false;
+				$arr["comment"] = "Your PHP version is much too old for using ILIAS 3! Please upgrade your PHP.";
+				break;
+			
+			case 4:
+				$second = (integer) substr($version,2,1);
+				if ($second >= 3)
+				{
+					$arr["status"] = true;
+					$arr["comment"] = "";	
+				}
+				elseif ($second == 2)
+				{
+					$arr["status"] = false;
+					$arr["comment"] = "DOMXML and XSLT support won't work properly with this version!";	
+				}
+				else
+				{
+					$arr["status"] = false;
+					$arr["comment"] = "PEAR classes won't work properly with this version! Please upgrade your PHP.";		
+				}
+				break;
+				
+			case 5:
+				$arr["status"] = true;
+				$arr["comment"] = "";	
+				break;
+				
+			default:
+				$arr["status"] = true;
+				$arr["comment"] = "ILIAS setup don't know this version. Use with own risk!";
+				break;
+		}
+
+		return $arr;
 	}
 	
 	/**
@@ -421,8 +492,9 @@ class Setup
 	function preliminaries()
 	{
 		$a = array();
-		$a["root"] = $this->checkRootWritable();
-		$a["lang"] = $this->checkLangWritable();
+		$a["php"] = $this->checkPHPVersion();
+		$a["root"] = $this->checkWritable();
+		$a["create"] = $this->checkCreatable();
 		$a["db"] = $this->checkDatabaseExists();
 		
 		//return value
@@ -455,6 +527,19 @@ class Setup
 		chdir($tmpPath);
 		return $languages;
 	}
-	
-} //class Setup
+
+    /**
+    * destructor
+	* 
+    * @return boolean
+    */
+    function _Setup()
+	{
+		if ($this->readVariable("db","type") != "")
+		{
+			$this->db->disconnect();
+        }
+		return true;
+    }
+} // END class.Setup
 ?>
