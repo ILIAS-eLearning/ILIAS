@@ -44,7 +44,6 @@ $method = $_GET["cmd"]."Object";
 // build object instance
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
-//echo "type:".$_GET["type"].":getcmd:".$_GET["cmd"].":postcmd:".key($_POST["cmd"]).":<br>";
 $class_name = $objDefinition->getClassName($type);
 $class_constr = $class_name."Object";
 require_once("./classes/class.".$class_name."Object.php");
@@ -100,7 +99,6 @@ switch ($_GET["cmd"])
 
 
 	default:
-//echo "default:$class_name-$method<br>";
 		$data = $obj->$method();
 		break;
 }
@@ -112,7 +110,7 @@ $class_constr = $class_name."ObjectOut";
 require_once("./classes/class.".$class_name."ObjectOut.php");
 $obj = new $class_constr($data);
 $obj->$method();
-echo "$class_constr().$method<br>";
+//echo "$class_constr().$method<br>";
 
 
 // display basicdata formular
