@@ -209,6 +209,17 @@ class ilWysiwygUtil
         $new["convert2"] = "</".$name.">";
         
 		
+		if ($attrs["style"] == "font-style: italic;" || $name == "em") 
+		{
+            $new["convert"] = "[emp]";
+            $new["convert2"] = "[/emp]";
+		}
+		if ($attrs["style"] == "font-weight: bold;" || $name == "strong") 
+		{
+            $new["convert"] = "[str]";
+            $new["convert2"] = "[/str]";
+		}
+		
 		// alex changed
 		if ($attrs["class"] == "ilc_ExtLink") 
 		{

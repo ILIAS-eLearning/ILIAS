@@ -351,10 +351,13 @@ function initEditor(TextAreaName)
 	  context   : "",
       action    : function(editor, id) 
 	  			  {
-				  	if (checkAllowTagInside("str"))
+				  	editor.execCommand("bold");
+				  	/*
+					if (checkAllowTagInside("str"))
 					{
                     	editor.surroundHTML('<span class="ilc_Strong">', '</span>');
-					} 
+					}
+					*/
                   }
     });
 
@@ -466,10 +469,10 @@ function initEditor(TextAreaName)
 	cfg.toolbar = [
 		[ 
           
-		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
+		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
 		  "ilias-fn", "ilias-xtl", "ilias-itl",
 		  "separator",
-		  "copy", "cut", "paste"
+		  "copy", "cut", "paste", "htmlmode"
 		  
           ],
 
@@ -477,6 +480,7 @@ function initEditor(TextAreaName)
 
     
 /*
+"ilias-str", "ilias-emp",
 , "space", "undo", "redo", "htmlmode"
 "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
 	cfg.toolbar = [
@@ -658,13 +662,20 @@ function buttonInternalLink()
         T = obj.value;
 		
 		T = replaceAll(T,"<", "&lt;");
-		
+/*		
         T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
         T = replaceAll(T, "[/str]","</span>");
         
         T = replaceAll(T, "[emp]","<span class=\"ilc_Emph\">");
         T = replaceAll(T, "[/emp]","</span>");
-
+*/
+        T = replaceAll(T, "[str]","<strong>");
+        T = replaceAll(T, "[/str]","</strong>");
+        
+        T = replaceAll(T, "[emp]","<em>");
+        T = replaceAll(T, "[/emp]","</em>");
+		
+		
         T = replaceAll(T, "[com]","<span class=\"ilc_Comment\">");
         T = replaceAll(T, "[/com]","</span>");
         
