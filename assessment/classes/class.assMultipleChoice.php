@@ -347,7 +347,7 @@ class ASS_MultipleChoice extends ASS_Question
 			$qtiResponseLid->set_attribute("ident", "MCMR");
 			$qtiResponseLid->set_attribute("rcardinality", "Multiple");
 		}
-		$solution = $this->object->getSuggestedSolution(0);
+		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))

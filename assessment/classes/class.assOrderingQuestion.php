@@ -335,7 +335,7 @@ class ASS_OrderingQuestion extends ASS_Question
 			$qtiResponseLid->set_attribute("ident", "OQT");
 			$qtiResponseLid->set_attribute("rcardinality", "Ordered");
 		}
-		$solution = $this->object->getSuggestedSolution(0);
+		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
 		{
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
