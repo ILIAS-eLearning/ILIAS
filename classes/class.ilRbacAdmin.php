@@ -394,13 +394,16 @@ class ilRbacAdmin
 	}
 	
 	/**
-	* Deletes a template. Update of table rbac_templates.
+	* Deletes all entries of a template. If an object type is given for third parameter only
+	* the entries for that object type are deleted
+	* Update of table rbac_templates.
 	* @access	public
 	* @param	integer		object id of role
 	* @param	integer		ref_id of role folder
+	* @param	string		object type (optional)
 	* @return	boolean
 	*/
-	function deleteRolePermission($a_rol_id,$a_ref_id)
+	function deleteRolePermission($a_rol_id,$a_ref_id,$a_type = false)
 	{
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
@@ -413,17 +416,23 @@ class ilRbacAdmin
 		{
 			return true;
 		}
+		
+		if ($a_type !== false)
+		{
+			$and_type = " AND type='".$a_type."'";
+		}
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_ref_id."'";
+			 "AND parent = '".$a_ref_id."'".
+			 $and_type;
 		$this->ilDB->query($q);
 
 		return true;
 	}
 	
 	/**
-	* Inserts template permissions in rbac_templates. 
+	* Inserts template permissions in rbac_templates for an specific object type. 
 	*  Update of table rbac_templates
 	* @access	public
 	* @param	integer		role_id
