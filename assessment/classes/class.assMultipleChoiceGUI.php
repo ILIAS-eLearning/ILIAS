@@ -699,22 +699,58 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$repl_str = "dummy=\"solution_mc$idx\"";
 					$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 				}
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
-			}
-			else
-			{
-				if ($idx == $maxindex)
+				$sol = '(<em>';
+				$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" checked="checked" /> = ';
+				if ($answer->isStateChecked())
 				{
-					$solpoints = $answer->get_points();
+					$sol .= $answer->get_points();
 				}
 				else
 				{
-					$solpoints = 0;
+					$sol .= "0";
 				}
-				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $solpoints . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+				$sol .= ' ' . $this->lng->txt("points") . ', ';
+				$sol .= '<input name="checkbox' . time() . $idx . '" type="checkbox" readonly="readonly" /> = ';
+				if (!$answer->isStateChecked())
+				{
+					$sol .= $answer->get_points();
+				}
+				else
+				{
+					$sol .= "0";
+				}
+				$sol .= ' ' . $this->lng->txt("points");
+				$sol .= '</em>)';
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
+			}
+			else
+			{
+				$sol = '(<em>';
+				$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" checked="checked" /> = ';
+				if ($answer->isStateChecked())
+				{
+					$sol .= $answer->get_points();
+				}
+				else
+				{
+					$sol .= "0";
+				}
+				$sol .= ' ' . $this->lng->txt("points") . ', ';
+				$sol .= '<input name="radio' . time() . $idx . '" type="radio" readonly="readonly" /> = ';
+				if (!$answer->isStateChecked())
+				{
+					$sol .= $answer->get_points();
+				}
+				else
+				{
+					$sol .= "0";
+				}
+				$sol .= ' ' . $this->lng->txt("points");
+				$sol .= '</em>)';
+				$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . $sol . "</td></tr>", $solutionoutput);
 			}
 		}
-		if ($maxindex > -1)
+		if (($maxindex > -1) && ($this->object->get_response() == RESPONSE_SINGLE))
 		{
 			$repl_str = "dummy=\"solution_mc$maxindex\"";
 			$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
