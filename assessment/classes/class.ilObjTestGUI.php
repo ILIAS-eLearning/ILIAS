@@ -157,7 +157,8 @@ class ilObjTestGUI extends ilObjectGUI
     $add_parameter = $this->get_add_parameter();
     if ($_POST["cmd"]["save"]) {
 			$this->updateObject();
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=15"));
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
     }
     if ($_POST["cmd"]["apply"]) {
@@ -165,7 +166,8 @@ class ilObjTestGUI extends ilObjectGUI
     }
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"),true);
-      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=15"));
+			$path = $this->tree->getPathFull($this->object->getRefID());
+      header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
     }
 		
