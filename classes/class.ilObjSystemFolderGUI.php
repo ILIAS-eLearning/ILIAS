@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.32 2004/04/16 16:26:17 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.33 2004/05/02 19:20:06 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -438,7 +438,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
 		$this->tpl->setVariable("TXT_HEADER_TITLE", $this->lng->txt("header_title"));
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-		$this->tpl->setVariable("LINK_HEADER_TITLE", "adm_object?ref_id=".
+		$this->tpl->setVariable("LINK_HEADER_TITLE", "adm_object.php?ref_id=".
 			$_GET["ref_id"]."&cmd=changeHeaderTitle");
 		$this->tpl->setVariable("VAL_HEADER_TITLE",
 			ilObjSystemFolder::_getHeaderTitle());
