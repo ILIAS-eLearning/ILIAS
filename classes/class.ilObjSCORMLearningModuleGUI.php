@@ -234,7 +234,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// create and insert object in objecttree
 		include_once("classes/class.ilObjSCORMLearningModule.php");
 		$newObj = new ilObjSCORMLearningModule();
-		$newObj->setType("slm");
+		//$newObj->setType("slm");
+		//$dummy_meta =& new ilMetaData();
+		//$dummy_meta->setObject($newObj);
+		//$newObj->assignMetaData($dummy_meta);
 		$newObj->setTitle($name);
 		$newObj->setDescription("");
 		$newObj->create();
@@ -289,9 +292,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		// always call parent method first to create an object_data entry & a reference
 		// $newObj = parent::saveObject();
-		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call 
+		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call
 
 		// create and insert object in objecttree
+		/*
 		include_once("classes/class.ilObjSCORMLearningModule.php");
 		$newObj = new ilObjLearningModule();
 		$newObj->setType("lm");
@@ -302,7 +306,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-		
+
 		// save meta data
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
@@ -316,10 +320,201 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("slm_added"),true);
-		
+
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		exit();*/
 	}
+
+	/**
+	* permission form
+	*/
+	function perm()
+	{
+		$this->setFormAction("permSave", "scorm_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]);
+		$this->setFormAction("addRole", "scorm_edit.php?ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
+		$this->permObject();
+	}
+
+	/**
+	* save permissions
+	*/
+	function permSave()
+	{
+		$this->setReturnLocation("permSave",
+			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		$this->permSaveObject();
+	}
+
+	/**
+	* add role
+	*/
+	function addRole()
+	{
+		$this->setReturnLocation("addRole",
+			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		$this->addRoleObject();
+	}
+
+	/**
+	* show owner of learning module
+	*/
+	function owner()
+	{
+		$this->ownerObject();
+	}
+
+	/**
+	* choose meta data section
+	* (called by administration)
+	*/
+	function chooseMetaSectionObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$a_target, $_REQUEST["meta_section"]);
+	}
+
+	/**
+	* choose meta data section
+	* (called by module)
+	*/
+	function chooseMetaSection()
+	{
+		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* add meta data object
+	* (called by administration)
+	*/
+	function addMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
+	}
+
+	/**
+	* add meta data object
+	* (called by module)
+	*/
+	function addMeta()
+	{
+		$this->addMetaObject($this->ctrl->getLinkTarget($this));
+	}
+
+
+	/**
+	* delete meta data object
+	* (called by administration)
+	*/
+	function deleteMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
+	}
+
+	/**
+	* delete meta data object
+	* (called by module)
+	*/
+	function deleteMeta()
+	{
+		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* edit meta data
+	* (called by administration)
+	*/
+	function editMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
+	}
+
+	/**
+	* edit meta data
+	* (called by module)
+	*/
+	function editMeta()
+	{
+		$this->editMetaObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* save meta data
+	* (called by administration)
+	*/
+	function saveMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?cmd=editMeta&ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
+			"meta_section=" . $_POST["meta_section"]));
+	}
+
+	/**
+	* save meta data
+	* (called by module)
+	*/
+	function saveMeta()
+	{
+		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
+	}
+
 
 	/**
 	* output main header (title and locator)
@@ -470,10 +665,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->fs_gui->getTabs($tabs_gui);
 
 		// edit meta
-		/*
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));*/
+			get_class($this));
 
 		// perm
 		$tabs_gui->addTarget("perm_settings",

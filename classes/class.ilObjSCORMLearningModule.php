@@ -24,7 +24,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilObjSCORMValidator.php";
-//require_once "classes/class.ilMetaData.php";  //we need that later
+require_once "classes/class.ilMetaData.php";
 
 /**
 * Class ilObjSCORMLearningModule
@@ -38,6 +38,7 @@ require_once "classes/class.ilObjSCORMValidator.php";
 class ilObjSCORMLearningModule extends ilObject
 {
 	var $validator;
+	var $meta_data;
 
 	/**
 	* Constructor
@@ -48,8 +49,13 @@ class ilObjSCORMLearningModule extends ilObject
 	function ilObjSCORMLearningModule($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "slm";
-
 		parent::ilObject($a_id,$a_call_by_reference);
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
+
 	}
 
 	/**
@@ -61,13 +67,15 @@ class ilObjSCORMLearningModule extends ilObject
 
 		parent::create();
 		$this->createDataDirectory();
-		/*
 		$this->meta_data->setId($this->getId());
+//echo "<br>title:".$this->getId();
 		$this->meta_data->setType($this->getType());
+//echo "<br>title:".$this->getType();
 		$this->meta_data->setTitle($this->getTitle());
+//echo "<br>title:".$this->getTitle();
 		$this->meta_data->setDescription($this->getDescription());
 		$this->meta_data->setObject($this);
-		$this->meta_data->create();*/
+		$this->meta_data->create();
 
 		$q = "INSERT INTO scorm_lm (id, online, api_adapter) VALUES ".
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
@@ -81,7 +89,7 @@ class ilObjSCORMLearningModule extends ilObject
 	function read()
 	{
 		parent::read();
-		//$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 
 		$q = "SELECT * FROM scorm_lm WHERE id = '".$this->getId()."'";
 		$lm_set = $this->ilias->db->query($q);
@@ -90,6 +98,66 @@ class ilObjSCORMLearningModule extends ilObject
 		$this->setAPIAdapterName($lm_rec["api_adapter"]);
 		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
 
+	}
+
+	/**
+	* get title of content object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of content object
+	*
+	* @param	string	$a_title		title
+	*/
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*
+	* @param	string	$a_description		description
+	*/
+	function setDescription($a_description)
+	{
+		$this->meta_data->setDescription($a_description);
+	}
+
+	/**
+	* assign a meta data object to content object
+	*
+	* @param	object		$a_meta_data	meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	/**
+	* get meta data object of content object
+	*
+	* @return	object		meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
 	}
 
 
@@ -116,6 +184,29 @@ class ilObjSCORMLearningModule extends ilObject
 	}
 
 	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
+		parent::update();
+
+	}
+
+
+	/**
 	* update object data
 	*
 	* @access	public
@@ -123,7 +214,7 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function update()
 	{
-		//$this->updateMetaData();
+		$this->updateMetaData();
 
 		$q = "UPDATE scorm_lm SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
