@@ -575,6 +575,7 @@ class ilRepositoryGUI
 
 		} // foreach($frm_obj as $data)
 
+		/*
 		$tpl->setCurrentBlock("forum_options");
 		$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 		$tpl->setVariable("IMGPATH", $tpl->tplPath);
@@ -583,7 +584,7 @@ class ilRepositoryGUI
 		//$tpl->setVariable("TXT_PRINT", $lng->txt("print"));
 		$tpl->setVariable("TXT_EXPORT_HTML", $lng->txt("export_html"));
 		$tpl->setVariable("TXT_EXPORT_XML", $lng->txt("export_xml"));
-		$tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();*/
 
 		$tpl->setCurrentBlock("forums");
 		$tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
