@@ -10,6 +10,7 @@ class Object
 	function Object(&$a_ilias)
 	{
 		$this->ilias = $a_ilias;
+		$this->SYSTEM_FOLDER_ID = "9";
 	}
 	function ownerObject()
 	{
@@ -79,125 +80,86 @@ class Object
 	}
 	function permObject()
 	{
-		global $ilias;
 		global $tree;
 		global $tplContent;
 
-
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$rbacreview = new RbacReviewH($ilias->db);
-		$tplContent = new Template("object_permissions.html",true,true);
-		
 		$obj = getObject($_GET["obj_id"]);
 
-		// Liefert alle möglichen Operationen eines Objekttyps
-		$ope_list = getOperationList($obj["type"]);
-		// Es werden nur noch die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige
-		// nicht mehr
-		$pathIds  = $tree->showPathId($_GET["obj_id"],1);
-		$roles = $rbacadmin->getParentRoles($pathIds);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacreview = new RbacReviewH($this->ilias->db);
+		$rbacsystem = new RbacSystemH($this->ilias->db);
+		$tplContent = new Template("object_permission.html",true,true);
+		$tplContent->setVariable($this->ilias->ini["layout"]);
 
-		// BEGIN TABLE_HEADER
-		// Anzeige der Operationen
-		$tplContent->setCurrentBlock("TABLE_HEADER");
-
-		$tplContent->setVariable("HEADER","");
-		$tplContent->parseCurrentBlock();
-		foreach($ope_list as $o)
-		{
-			$tplContent->setVariable("HEADER",$o["operation"]);
-			$tplContent->parseCurrentBlock();
-		}
-		// END TABLE_HEADER
-		// BEGIN TABLE_OUTER
-		foreach($roles as $r)
-		{
-			// BEGIN TABLE_DATA
-			$tplContent->setCurrentBlock("TABLE_DATA");
-			foreach($ope_list as $o)
-			{
-				// Prüft, ob Checkbox gesetzt
-				$ops_id = $rbacreview->roleOperationsOnObject($r["obj_id"],$_GET["obj_id"]);
-				$checked = 0;
-				foreach($ops_id as $ops)
-				{
-					if($ops == $o["ops_id"])
-						$checked = 1;
-				}
-				if($_GET["show"] == $r["obj_id"])
-				{
-					$box = TUtil::formCheckBox($checked,$o["operation"],1);
-					$tplContent->setVariable("CHECKBOX",$box);
-				}
-				else
-				{
-					$tplContent->setVariable("CHECKBOX","");
-				}
-				$tplContent->parseCurrentBlock();
-			} // END TABLE_DATA
-			// BEGIN TABLE_INNER
-			$tplContent->setCurrentBlock("TABLE_INNER");
-			$box = TUtil::formCheckBox(0,"stop_vererbung[]",$r["obj_id"]);
-			$tplContent->setVariable("ERBT",$box);
-			$tplContent->setVariable("OBJECT",$_GET["obj_id"]);
-			$tplContent->setVariable("SHOW",$r["obj_id"]);
-			$tplContent->setVariable("ROLE",$r["title"]);
-			$tplContent->setVariable("PARENT",$_GET["parent"]);
-			$tplContent->parseCurrentBlock();
-
-
-			// END TABLE_INNER
-			$tplContent->setCurrentBlock("TABLE_OUTER");
-			$tplContent->parseCurrentBlock();
-		}
-		// END TABLE_OUTER
-
-		// Show path
-		$tree = new Tree($_GET["obj_id"],1,1);
-		$tree->getPath();
-		$path = showPath($tree->Path,"content.php");
-		$tplContent->setVariable("TREEPATH",$path);
-		$tplContent->setVariable($ilias->ini["layout"]);
-		$tplContent->setVariable("TPOS",$_GET["parent"]);	
-		$tplContent->setVariable("ROL_ID",$_GET["show"]);
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-		$tplContent->setVariable("COL_ANZ",2*count($roles));
+		$tplContent->setVariable("TPOS",$_GET["parent"]);
+		$tplContent->setVariable("TREEPATH",$this->getPath());
 
-		$tplContent->setCurrentBlock("LOCAL_ROLE");
-		$tplContent->setVariable("OBJECT_ID",$_GET["obj_id"]);
-		$tplContent->setVariable("PARENT_ID",$_GET["parent"]);
-
-		$tplContent->parseCurrentBlock();
-	}
-	function perms_saveObject()
-	{
-		global $ilias;
-		global $tree;
-		global $tplContent; 
-
-		$obj = getObject($_GET["obj_id"]);
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$rbacreview = new RbacReviewH($ilias->db);
-		$rbacadmin->revokePermission($_GET["obj_id"],$_GET["show"],$_GET["parent"]);
-		$ope_list = getOperationList($obj["type"]);
-		foreach($ope_list as $o)
+		// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
+		$parentRoles = $this->getParentRoleIds();
+		
+		// BEGIN ROLENAMES
+		$tplContent->setCurrentBlock("ROLENAMES");
+		foreach($parentRoles as $r)
 		{
-			if($_POST[$o["operation"]] == 1)
-			{
-				$new_ops[] = $o["ops_id"];
-			}
+			$tplContent->setVariable("ROLE_NAME",$r["title"]);
+			$tplContent->parseCurrentBlock();
 		}
-		$rbacadmin->grantPermission($_GET["show"],$new_ops,$_GET["obj_id"],$_GET["parent"]);
+		// BEGIN CHECK_INHERIT
+		$tplContent->setCurrentBLock("CHECK_INHERIT");
+		foreach($parentRoles as $r)
+		{
+			$box = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+			$tplContent->setVariable("CHECK_INHERITANCE",$box);
+			$tplContent->parseCurrentBlock();
+		}
+		$ope_list = getOperationList($obj["type"]);
+
+		// BEGIN TABLE_DATA_OUTER
+		foreach($ope_list as $key => $operation)
+		{
+			// BEGIN CHECK_PERM
+			$tplContent->setCurrentBlock("CHECK_PERM");
+			foreach($parentRoles as $role)
+			{
+				$checked = $rbacsystem->checkPermission($_GET["obj_id"],$role["obj_id"],$operation["operation"]);
+				// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+				$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
+				$tplContent->setVariable("CHECK_PERMISSION",$box);
+				$tplContent->parseCurrentBlock();
+			}
+			// END CHECK_PERM
+			$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
+			$css_row = $key % 2 ? "row_low" : "row_high";
+			$tplContent->setVariable("CSS_ROW",$css_row);
+			$tplContent->setVariable("PERMISSION",$operation["operation"]);
+			$tplContent->parseCurrentBlock();
+		}
+		// END TABLE_DATA_OUTER
+	}
+	function permSaveObject()
+	{
+		global $tree;
+		global $tplContent;
+
+		$rbacreview = new RbacReviewH($this->ilias->db);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+
+		$rbacadmin->revokePermission($_GET["obj_id"]);
+		foreach($_POST["perm"] as $key => $new_role_perms)
+		{
+			// $key enthaelt die aktuelle Role_Id
+			$rbacadmin->grantPermission($key,$new_role_perms,$_GET["obj_id"],$_GET["parent"]);
+		}
 		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
 		// muss folgendes geschehen:
 		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
 		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
 		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
 		//   und das Permission Template an den Wert des nächst höher gelegenen Permission Templates angepasst
-		//   
-		if($_POST["stop_vererbung"])
+		if($_POST["stop_inherit"])
 		{
-			foreach($_POST["stop_vererbung"] as $stop)
+			foreach($_POST["stop_inherit"] as $stop_inherit)
 			{
 				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
 				if(!($rolf_id = $rolf_data["child"]))
@@ -206,41 +168,36 @@ class Object
 					$role_obj["desc"] = 'Automatisch genierter Role Folder';
 					$rolf_id = createNewObject("rolf",$role_obj);
 					$tree->insertNode($rolf_id,$_GET["obj_id"]);
-
-					// Suche aller Parent Rollen im Baum
-					$pathIds  = $tree->showPathId($_GET["obj_id"],1);
-					$parentRoles = $rbacadmin->getParentRoles($pathIds);
-					foreach($parentRoles as $parRol)
-					{
-						// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+				}
+				// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
+				// und Eintragen der Rechte am RoleFolder
+				$parentRoles = $this->getParentRoleIds();
+				foreach($parentRoles as $parRol)
+				{
 						$ops = $rbacreview->getOperations($parRol["obj_id"],'rolf',$parRol["parent"]);
 						$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id,$_GET["obj_id"]);
-					}
 				}
-				// FINDE DAS IM BAUM NÄCHSTE TEMPLATE DER AKTUELLEN ROLLE
-				// Anzeigen des Path
-				$path = array_reverse($tree->showPathId($_GET["parent"],1));
-				// Alle RoleFolder der aktuellen RoleId
-				$folders = $rbacadmin->getFoldersAssignedToRole($stop);
-				foreach($path as $p)
+				// Suche die im Baum nächsten Templates der aktuellen Rolle
+				$path = $tree->showPathId($_GET["parent"],1);
+				$path[0] = $this->SYSTEM_FOLDER_ID;
+				// Es muss unten im Baum gestartet werden
+				array_reverse($path);
+				$folders = $rbacadmin->getFoldersAssignedToRole($stop_inherit);
+				foreach($path as $obj_id)
 				{
 					// IDs der zugehörigen RoleFolder
-					$rolf_data = $rbacadmin->getRoleFolderOfObject($p);
+					$rolf_data = $rbacadmin->getRoleFolderOfObject($obj_id);
 					if(in_array($rolf_data["child"],$folders))
 					{
 						// FOUND
-						$rbacadmin->copyRolePermission($stop,$rolf_data["child"],$rolf_id);
+						$rbacadmin->copyRolePermission($stop_inherit,$rolf_data["child"],$rolf_id);
 						break;
 					}
 				}
-				$rbacadmin->assignRoleToFolder($stop,$rolf_id);
+				$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id);
 			}
-			header("location:object.php?cmd=perm&obj_id=$stop&parent=$rolf_id");
 		}
-		else
-		{
-			header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&show=$_GET[show]&parent=$_GET[parent]");
-		}
+		header ("location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 	}
 	function add_roleObject()
 	{
@@ -321,6 +278,7 @@ class Object
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 
 		$pathIds  = $tree->showPathId($_GET["obj_id"],1);
+		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
 		return $rbacadmin->getParentRoles($pathIds);
 	}
 }
