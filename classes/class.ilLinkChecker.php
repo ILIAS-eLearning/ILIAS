@@ -377,7 +377,7 @@ class ilLinkChecker
 
 		foreach($a_links as $link)
 		{
-			if($link['scheme'] !== 'http')
+			if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
 			{
 				continue;
 			}
@@ -391,6 +391,7 @@ class ilLinkChecker
 				case '200':
 					// In the moment 301 will be handled as ok
 				case '301':
+				case '302':
 					break;
 
 				default:
