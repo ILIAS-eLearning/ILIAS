@@ -75,23 +75,43 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
 	$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$_GET["ref_id"]);
+	$tpl->setVariable("LINK_TARGET","target=\"bottom\"");
 	$tpl->parseCurrentBlock();
 
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
+	$tpl->setVariable("LINK_TARGET","target=\"bottom\"");
 	$tpl->parseCurrentBlock();
 		
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_thread_articles").": ".$threadData["thr_subject"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
-		
+	
+	// TREEVIEW <-> FLATVIEW
+	if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
+	{
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK","forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("BTN_TXT", $lng->txt("treeview"));
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK","forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
+		$tpl->setVariable("BTN_TARGET","target=\"_parent\"");
+		$tpl->setVariable("BTN_TXT", $lng->txt("flatview"));
+		$tpl->parseCurrentBlock();
+	}
+	
 	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
 		$tpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);
+		$tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 		$tpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$tpl->parseCurrentBlock();
 	}
@@ -263,7 +283,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setVariable("KILL_ANKER", $_GET["pos_pk"]);
 							$tpl->setVariable("KILL_SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 							$tpl->setVariable("TXT_KILL", $lng->txt("forums_info_delete_post"));								
-							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
+//							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
+							$tpl->setVariable("DEL_FORMACTION", "forums_frameset.php?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel")); 
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm")); 
 							$tpl->parseCurrentBlock("kill_cell");

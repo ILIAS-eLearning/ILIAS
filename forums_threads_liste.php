@@ -135,7 +135,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				
 				$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
 				$tpl->setVariable("DATE",$thrData["thr_date"]);
-				$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$thrData["thr_subject"]."</a>");
+				$tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$thrData["thr_subject"]."</a>");
 				
 				$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
 				
@@ -157,7 +157,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
 					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";			
-					$lpCont .= "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["login"]."</a>";
+					$lpCont .= "<a href=\"forums_frameset.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["login"]."</a>";
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);	

@@ -841,6 +841,49 @@ class ilForum
 	}
 
 	/**
+	* get child nodes of given node
+	* @access	public
+	* @param	integer		node_id
+	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
+	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
+	* @return	array		with node data of all childs or empty array
+	*/
+	function getPostChilds($a_node_id, $a_thr_id)
+	{
+		global $log;
+
+		// init childs
+		$childs = array();
+
+		// number of childs
+		$count = 0;
+
+		$q = "SELECT * FROM frm_posts_tree,frm_posts ".
+			"WHERE frm_posts.pos_pk = frm_posts_tree.pos_fk ".
+			"AND frm_posts_tree.parent_pos = '".$a_node_id."' ".
+			"AND frm_posts_tree.thr_fk = '".$a_thr_id."' ".
+			"ORDER BY frm_posts_tree.lft DESC";
+		$r = $this->ilias->db->query($q);
+
+		$count = $r->numRows();
+		if ($count > 0)
+		{
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$childs[] = $this->fetchPostNodeData($row);
+			}
+
+			// mark the last child node (important for display)
+			$childs[$count - 1]["last"] = true;
+
+			return $childs;
+		}
+		else
+		{
+			return $childs;
+		}
+	}
+	/**
 	* get data of the first node from frm_posts_tree and frm_posts
 	* @access	public
 	* @param	integer		tree id	
@@ -885,9 +928,16 @@ class ilForum
 	*/
 	function fetchPostNodeData($a_row)
 	{
+		require_once("./classes/class.ilObjUser.php");
+		$tmp_user = new ilObjUser($a_row->pos_usr_id);
+		$fullname = $tmp_user->getLogin();
+
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
+					"child"         => $a_row->pos_pk,
 					"author"		=> $a_row->pos_usr_id,
+					"title"         => $fullname,
+					"type"          => "post",
 					"message"		=> $a_row->pos_message,
 					"date"			=> $a_row->date,
 					"create_date"	=> $a_row->pos_date,
@@ -905,6 +955,23 @@ class ilForum
 		
 		return $data ? $data : array();
 	}
+
+	/**
+	* Return the maximum depth in tree
+	* @access	public
+	* @return	integer	max depth level of tree
+	*/
+	function getPostMaximumDepth($a_thr_id)
+	{
+		$q = "SELECT MAX(depth) FROM frm_posts_tree ".
+			"WHERE thr_fk = '".$a_thr_id."'";
+		$r = $this->ilias->db->query($q);
+		
+		$row = $r->fetchRow();
+		
+		return $row[0];
+	}
+
 
 	/**
 	* delete node and the whole subtree under this node
