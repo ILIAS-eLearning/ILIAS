@@ -68,12 +68,28 @@ class Tree
 	var $Leafs;
 
 	/**
+	* table name of tree table
+	* @var string
+	* @access public
+	*/
+	var $table_tree;
+
+	/**
+	* table name of object_data
+	* @var string
+	* @access public
+	*/
+	var $table_obj_data;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	$a_node_id		node_id
 	* @param	integer	$a_parent_id	parent_id
 	* @param	integer	$a_root_id		root_id (optional)
 	* @param	integer	$a_tree_id		tree_id (optional)
+	* @param    string  $a_table_tree   table name of tree table(optional)
+	* @param    string  $a_table_obj_data   table name of obj_data table(optional)
 	*/
 	function Tree($a_node_id, $a_parent_id, $a_root_id = 0, $a_tree_id = 1)
 	{
@@ -87,10 +103,27 @@ class Tree
 		{
 			$a_root_id = ROOT_FOLDER_ID;
 		}
-		$this->node_id		= $a_node_id;
-		$this->parent_id	= $a_parent_id;
-		$this->root_id		= $a_root_id;		
-		$this->tree_id		= $a_tree_id;
+		$this->node_id		  = $a_node_id;
+		$this->parent_id	  = $a_parent_id;
+		$this->root_id		  = $a_root_id;		
+		$this->tree_id		  = $a_tree_id;
+		$this->table_tree     = 'tree';
+		$this->table_obj_data = 'object_data'; 
+	}
+
+	/**
+	* set table names
+	* 
+	* @param	string	table name of tree table
+	* @param	string	table name of object_data table
+	* @access	public
+	*/
+	function setTableNames($a_table_tree,$a_table_obj_data)
+	{
+		$this->table_tree = $a_table_tree;
+		$this->table_obj_data = $a_table_obj_data;
+
+		return true;
 	}
 
 	/**
@@ -107,8 +140,8 @@ class Tree
 			$a_tree_id = $this->tree->id;
 		}
 		
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+		$query = "SELECT * FROM $this->table_tree ".
+				 "LEFT JOIN $this->table_obj_data ON $this->table_tree.child=$this->table_obj_data.obj_id ".
 				 "WHERE lft = (rgt -1) ".
 				 "AND tree = '".$a_tree_id."'";
 		
@@ -149,8 +182,8 @@ class Tree
 			$order_clause = "ORDER BY '".$a_order."'".$a_direction;
 		}
 		
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+		$query = "SELECT * FROM $this->table_tree ".
+				 "LEFT JOIN $this->table_obj_data ON $this->table_tree.child=$this->table_obj_data.obj_id ".
 				 "WHERE parent = '".$a_node_id."' ".
 				 "AND tree = '".$this->tree_id."' ".
 				 $order_clause;
@@ -192,7 +225,7 @@ class Tree
 		$left = "";			// tree_left
 		$right = "";		// tree_right
 
-		$query = "SELECT * FROM tree ".
+		$query = "SELECT * FROM $this->table_tree ".
 				 "WHERE child = '".$a_node_id."' ".
 				 "AND parent = '".$a_parent_id."' ".
 				 "AND tree = '".$this->tree_id."'";
@@ -205,19 +238,20 @@ class Tree
 			$right = $row->rgt;
 		}
 
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child = object_data.obj_id ".
-				 "WHERE object_data.type = '".$a_type."' ".
-				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
-				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."' ".
-				 "AND tree.tree = '".$this->tree_id."'";
+		$query = "SELECT * FROM $this->table_tree ".
+				 "LEFT JOIN $this->table_obj_data ON $this->table_tree.child = $this->table_obj_data.obj_id ".
+				 "WHERE $this->table_obj_data.type = '".$a_type."' ".
+				 "AND $this->table_tree.lft BETWEEN '".$left."' AND '".$right."' ".
+				 "AND $this->table_tree.rgt BETWEEN '".$left."' AND '".$right."' ".
+				 "AND $this->table_tree.tree = '".$this->tree_id."'";
+
 		$res = $this->ilias->db->query($query);
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = $this->fetchNodeData($row);
 		}
-		
+
 		return $data;
 	}
 	/**
@@ -229,21 +263,20 @@ class Tree
 	function insertNode($a_node_id,$a_parent_id,$a_parent_parent_id)
 	{
 		// get left value
-	    $query = "SELECT * FROM tree ".
+	    $query = "SELECT * FROM $this->table_tree ".
 		   "WHERE child = '".$a_parent_id."' ".
 		   "AND parent = '".$a_parent_parent_id."' ".
 		   "AND tree = '".$this->tree_id."'";
 
 	    $res = $this->ilias->db->getRow($query);
-		
 		$left = $res->lft;
 
 		$lft = $left + 1;
 		$rgt = $left + 2;
 //		var_dump("<pre>","child = ".$a_parent_id,"parent = ".$a_parent_parent_id,"left = ".$left,"lft = ".$lft,"rgt = ".$rgt,"</pre");
-
 		// spread tree
-		$query = "UPDATE tree SET ".
+
+		$query = "UPDATE $this->table_tree SET ".
 				 "lft = CASE ".
 				 "WHEN lft > ".$left." ".
 				 "THEN lft + 2 ".
@@ -259,9 +292,8 @@ class Tree
 		$this->ilias->db->query($query);
 		
 		$depth = $this->getDepth($a_parent_id, $a_parent_parent_id) + 1;
-	
 		// insert node
-		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
+		$query = "INSERT INTO $this->table_tree (tree,child,parent,lft,rgt,depth) ".
 				 "VALUES ".
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 		$this->ilias->db->query($query);
@@ -279,11 +311,11 @@ class Tree
 	{
 	    $subtree = array();
 	
-		$query = "SELECT * FROM tree, object_data ".
-			"WHERE object_data.obj_id = tree.child ".
-			"AND tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-			"AND tree.tree = '".$this->tree_id."' ".
-			"ORDER BY tree.lft";
+		$query = "SELECT * FROM $this->table_tree, $this->table_obj_data ".
+			"WHERE $this->table_obj_data.obj_id = $this->table_tree.child ".
+			"AND $this->table_tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+			"AND $this->table_tree.tree = '".$this->tree_id."' ".
+			"ORDER BY $this->table_tree.lft";
 
 		$res = $this->ilias->db->query($query);
 		
@@ -303,7 +335,7 @@ class Tree
 	function deleteTree($a_node)
 	{
 		// GET LEFT AND RIGHT VALUES
-		$query = "SELECT * FROM tree ".
+		$query = "SELECT * FROM $this->table_tree ".
 			"WHERE tree = '".$a_node["tree"]."' ".
 			"AND child = '".$a_node["obj_id"]."' ".
 			"AND parent = '".$a_node["parent"]."'";
@@ -317,13 +349,13 @@ class Tree
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
 		// delete subtree
-		$query = "DELETE FROM tree ".
+		$query = "DELETE FROM $this->table_tree ".
 				 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
 				 "AND tree = '".$a_node["tree"]."'";
 		$this->ilias->db->query($query);
 
 		// close gaps
-		$query = "UPDATE tree SET ".
+		$query = "UPDATE $this->table_tree SET ".
 				 "lft = CASE ".
 				 "WHEN lft > '".$a_node["lft"]." '".
 				 "THEN lft - '".$diff." '".
@@ -352,20 +384,21 @@ class Tree
 	*/
 	function fetchPath ($a_endnode, $a_endparent, $a_startnode = 0, $a_startparent = 0)
 	{
-		if (!empty($a_startnode) && empty($a_startparent))
+/*
+		if (!empty($a_startnode) && isset($a_startparent))
 		{
 			$this->ilias->raiseError("function fetchPath(start,startparent,end,endparent) needs one more Argument",
 									 $this->ilias->error_obj->FATAL);
 		}
-
+*/
 		if (empty($a_startnode))
 		{
 			$a_startnode = $this->root_id;
 			$a_startparent = '0';
 		}
-		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
-				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
-				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
+		$query = "SELECT T2.parent,$this->table_obj_data.title,$this->table_obj_data.type,T2.child,(T2.rgt - T2.lft) AS sort_col ".
+				 "FROM $this->table_tree AS T1, $this->table_tree AS T2, $this->table_tree AS T3 ".
+				 "LEFT JOIN $this->table_obj_data ON T2.child=$this->table_obj_data.obj_id ".
 				 "WHERE T1.child = '".$a_startnode."' ".
 				 "AND T1.parent = '".$a_startparent."' ".
 				 "AND T3.child = '".$a_endnode."' ".
@@ -405,7 +438,6 @@ class Tree
 	function getPathFull ($a_endnode, $a_endparent, $a_startnode = 0 , $a_startparent = 0)
 	{
 		$this->Path = "";
-	
 		$res = $this->fetchPath($a_endnode ,$a_endparent, $a_startnode, $a_startparent);
 				
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -413,6 +445,7 @@ class Tree
 			$this->Path[] = array(
 							   "id"		=> $data["child"],
 							   "title"	=> $data["title"],
+							   "type"   => $data["type"],
 							   "parent"	=> $data["parent"]
 							   );
 		}
@@ -454,7 +487,7 @@ class Tree
 	*/
 	function checkTree()
 	{
-		$query = "SELECT lft,rgt FROM tree ".
+		$query = "SELECT lft,rgt FROM $this->table_tree ".
 				 "WHERE tree = '".$this->tree_id."'";
 				 
 		$res = $this->ilias->db->query($query);
@@ -504,8 +537,8 @@ class Tree
 		// to reset the content
 		$this->Childs = array();
 		
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+		$query = "SELECT * FROM $this->table_tree ".
+				 "LEFT JOIN $this->table_obj_data ON $this->table_tree.child=$this->table_obj_data.obj_id ".
 				 "WHERE depth = '".$a_depth."' ".
 				 "AND parent = '".$a_parent."' ".
 				 "AND tree = '".$this->tree_id."'";
@@ -536,7 +569,7 @@ class Tree
 	*/
 	function getMaximumDepth()
 	{
-		$query = "SELECT MAX(depth) FROM tree";
+		$query = "SELECT MAX(depth) FROM $this->table_tree";
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow();
@@ -554,7 +587,7 @@ class Tree
 	{
 		if ($a_parent_id)
 		{
-			$query = "SELECT depth FROM tree ".
+			$query = "SELECT depth FROM $this->table_tree ".
 					 "WHERE child = '".$a_node_id."' ".
 					 "AND parent = '".$a_parent_id."' ".
 					 "AND tree = '".$this->tree_id."'";
@@ -565,7 +598,7 @@ class Tree
 		}
 		else
 		{
-			return 0;
+			return 1;
 		}
 	}
 
@@ -590,8 +623,8 @@ class Tree
 		$query = "SELECT s.child,s.lft,s.rgt,title,s.depth,".
 				 "(s.rgt-s.lft-1)/2 AS successor,".
 				 "((min(v.rgt)-s.rgt-(s.lft>1))/2) > 0 AS brother ".
-				 "FROM tree v, tree s ".
-				 "LEFT JOIN object_data ON s.child=object_data.obj_id ".
+				 "FROM $this->table_tree v, $this->table_tree s ".
+				 "LEFT JOIN $this->table_obj_data ON s.child=$this->table_obj_data.obj_id ".
 				 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
 				 "AND (v.child != s.child OR s.lft = '1') ".
 				 "AND s.tree = '".$a_tree_id."' ".
@@ -627,11 +660,11 @@ class Tree
 	*/
 	function getNodeData($a_obj_id,$a_parent_id)
 	{
-		$query = "SELECT * FROM object_data,tree ".
-				 "WHERE object_data.obj_id = tree.child ".
-				 "AND tree.child = '".$a_obj_id."' ".
-				 "AND tree.parent = '".$a_parent_id."' ".
-				 "AND tree.tree = '".$this->tree_id."'";
+		$query = "SELECT * FROM $this->table_obj_data,$this->table_tree ".
+				 "WHERE $this->table_obj_data.obj_id = $this->table_tree.child ".
+				 "AND $this->table_tree.child = '".$a_obj_id."' ".
+				 "AND $this->table_tree.parent = '".$a_parent_id."' ".
+				 "AND $this->table_tree.tree = '".$this->tree_id."'";
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -676,8 +709,8 @@ class Tree
 	*/
 	function getParentNodeData($a_node_id,$a_parent_id)
 	{
-	   $query = "SELECT * FROM tree s,tree v, object_data ".
-		   "WHERE object_data.obj_id = v.child ".
+	   $query = "SELECT * FROM $this->table_tree s,$this->table_tree v, $this->table_obj_data ".
+		   "WHERE $this->table_obj_data.obj_id = v.child ".
 		   "AND s.child = '".$a_node_id."' ".
 		   "AND s.parent = '".$a_parent_id."' ".
 		   "AND s.parent = v.child ".
@@ -704,7 +737,7 @@ class Tree
 	*/
 	function isGrandChild($a_start_node,$a_start_parent,$a_query_node,$a_query_parent)
 	{
-		$query = "SELECT * FROM tree s,tree v ".
+		$query = "SELECT * FROM $this->table_tree s,$this->table_tree v ".
 		   "WHERE s.child = '".$a_start_node."' ".
 		   "AND s.parent = '".$a_start_parent."' ".
 		   "AND v.child = '".$a_query_node."' ".
@@ -732,7 +765,7 @@ class Tree
 			$a_node_id = $a_tree_id;
 		}
 		
-		$query = "INSERT INTO tree (tree, child, parent, lft, rgt, depth) ".
+		$query = "INSERT INTO $this->table_tree (tree, child, parent, lft, rgt, depth) ".
 				 "VALUES ".
 				 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
 		$this->ilias->db->query($query);
@@ -748,7 +781,7 @@ class Tree
 	*/
 	function getRootID($tree_id)
 	{
-		$query = "SELECT * FROM tree WHERE tree='".$tree_id."' AND parent='0'";
+		$query = "SELECT * FROM $this->table_tree WHERE tree='".$tree_id."' AND parent='0'";
 		$res = $this->ilias->db->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return $this->fetchNodeData($row);			
@@ -769,7 +802,7 @@ class Tree
 		$left = "";			// tree_left
 		$right = "";		// tree_right
 
-		$query = "SELECT * FROM tree ".
+		$query = "SELECT * FROM $this->table_tree ".
 				 "WHERE tree = '".$this->tree_id."'".
 				 "AND parent = '0'";
 
@@ -781,12 +814,12 @@ class Tree
 			$right = $row->rgt;
 		}
 
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON tree.child = object_data.obj_id ".
-				 "WHERE object_data.type = '".$a_type."' ".
-				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
-				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."' ".
-				 "AND tree.tree = '".$this->tree_id."'";
+		$query = "SELECT * FROM $this->table_tree ".
+				 "LEFT JOIN $this->table_obj_data ON $this->table_tree.child = $this->table_obj_data.obj_id ".
+				 "WHERE $this->table_obj_data.type = '".$a_type."' ".
+				 "AND $this->table_tree.lft BETWEEN '".$left."' AND '".$right."' ".
+				 "AND $this->table_tree.rgt BETWEEN '".$left."' AND '".$right."' ".
+				 "AND $this->table_tree.tree = '".$this->tree_id."'";
 
 		$res = $this->ilias->db->query($query);
 		
@@ -814,7 +847,7 @@ class Tree
 			$this->ilias->raiseError("No tree_id given! Action aborted",$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$query = "DELETE FROM tree WHERE tree = '".$a_tree_id."'";
+		$query = "DELETE FROM $this->table_tree WHERE tree = '".$a_tree_id."'";
 		$this->ilias->db->query($query);
 		
 		return true;
@@ -829,7 +862,7 @@ class Tree
 	*/
 	function countTreeEntriesOfObject($a_tree_id,$a_obj_id)
 	{
-		$query = "SELECT * FROM tree ".
+		$query = "SELECT * FROM $this->table_tree ".
 			"WHERE tree = '".$a_tree_id."' ".
 			"AND child = '".$a_obj_id."'";
 
@@ -848,7 +881,7 @@ class Tree
 	function saveSubtree($a_obj_id,$a_parent,$a_tree)
 	{
 	   // GET LEFT AND RIGHT VALUE
-	   $query = "SELECT * FROM tree ".
+	   $query = "SELECT * FROM $this->table_tree ".
 		  "WHERE tree = '".$a_tree."' ".
 		  "AND child = '".$a_obj_id."' ".
 		  "AND parent = '".$a_parent."'";
@@ -859,7 +892,7 @@ class Tree
 		  $rgt = $row->rgt;
 	   }
 	   // GET ALL SUBNODES
-	   $query = "SELECT * FROM tree ".
+	   $query = "SELECT * FROM $this->table_tree ".
 		  "WHERE tree = '".$a_tree."' ".
 		  "AND lft >= '".$lft."' ".
 		  "AND rgt <= '".$rgt."'";
@@ -876,7 +909,7 @@ class Tree
 	   // SAVE SUBTREE
 	   foreach($subnodes as $node)
 	   {
-		  $query = "INSERT INTO tree ".
+		  $query = "INSERT INTO $this->table_tree ".
 			 "VALUES ('".-$a_obj_id."','".$node["child"]."','".$node["parent"]."','".
 			 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
 		  $res = $this->ilias->db->query($query);
@@ -895,7 +928,7 @@ class Tree
 	function saveNode($a_obj_id,$a_parent,$a_tree)
 	{
 	   // SAVE NODE
-		$query = "INSERT INTO tree ".
+		$query = "INSERT INTO $this->table_tree ".
 			"VALUES ('".-$a_obj_id."','".$a_obj_id."','".$a_parent."','1','2','1')";
 		$res = $this->ilias->db->query($query);
 		return true;
@@ -909,10 +942,10 @@ class Tree
 	*/
 	function getSavedNodeData($a_parent)
 	{
-		$query = "SELECT * FROM tree,object_data ".
-			"WHERE tree.tree < 0 ".
-			"AND tree.parent = '".$a_parent."' ".
-			"AND tree.child = object_data.obj_id";
+		$query = "SELECT * FROM $this->table_tree,$this->table_obj_data ".
+			"WHERE $this->table_tree.tree < 0 ".
+			"AND $this->table_tree.parent = '".$a_parent."' ".
+			"AND $this->table_tree.child = $this->table_obj_data.obj_id";
 		
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -930,7 +963,7 @@ class Tree
 	*/
 	function getParent($a_node_id)
 	{
-		$q = "SELECT parent FROM tree ".
+		$q = "SELECT parent FROM $this->table_tree ".
 			 "WHERE child='".$a_node_id."' ".
 			 "AND tree='".$this->tree_id."'";
 		$r = $this->ilias->db->query($q);
