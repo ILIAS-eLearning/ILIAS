@@ -349,10 +349,14 @@ info_text_db#:#The database doesn't exists or is empty. Click the button below t
 info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!
 info_text_login#:#Please enter the Client ID of your Installation and your account data. Your account has to be assigned to the 'administrator'-role.
-info_text_list#:#In this overview you see all available clients and there setup and access status.
+info_text_list#:#In this overview you see all available clients and there setup and access status. On the top right you may toggle the client selection screen on/off. If client selection is on, all available clients that are online will be displayed in a list on the start page of ILIAS. If client selection is turned off and a user hit the startpage, always the login screen of the <i>default</i> client is displayed. You may determine the default client with the button below.
 root_access#:#root access
 finish_initial_setup_first#:#Please finish intial setup first
 no_setup_pass_given#:#No setup password given
 pass_does_not_match#:#Entered passwords does not match
 database_installed#:#Database installed
 no_changes#:#Keine Änderungen
+list_disabled#:#Client selection disabled
+list_enabled#:#Client selection enabled
+display_clientlist#:#Display client selection
+hide_clientlist#:#Hide client selection

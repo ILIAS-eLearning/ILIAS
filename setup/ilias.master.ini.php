@@ -9,6 +9,7 @@ path = data
 inifile = client.ini.php
 datadir = 
 default = 
+list = 0
 
 [setup]
 pass =

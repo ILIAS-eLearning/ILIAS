@@ -346,7 +346,7 @@ info_text_db#:#Dei Datenbank ist leer oder nicht vorhanden. Klicken Sie unten au
 info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus.
+info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Nutton unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 root_access#:#Administrator-Zugang
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
@@ -354,3 +354,7 @@ no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff 
 pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
 database_installed#:#Datenbank installiert
 no_changes#:#No changes
+list_disabled#:#Mandantenauswahl deaktiviert
+list_enabled#:#Mandantenauswahl aktiviert
+display_clientlist#:#Freie Mandantenauswahl
+hide_clientlist#:#keine Mandantenauswahl

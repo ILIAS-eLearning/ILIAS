@@ -38,16 +38,6 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
 	exit();
 }
 
-/****************************************************/
-// THIS CLIENT LIST IS ONLY FOR TESTING PURPOSES
-if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]))
-{	
-	include_once "./include/inc.client_list.php";
-	exit();
-}
-// THIS CLIENT LIST IS ONLY FOR TESTING PURPOSES
-/****************************************************/
-
 // start correct client
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
@@ -58,6 +48,13 @@ if (isset($_GET["client_id"]))
 
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
+
+// display client selection list if enabled
+if (!isset($_GET["client_id"]) and !isset($_GET["cmd"]) and $ilias->ini_ilias->readVariable("clients","list"))
+{	
+	include_once "./include/inc.client_list.php";
+	exit();
+}
 
 if ($_GET["cmd"] == "login")
 {
