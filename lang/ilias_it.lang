@@ -630,6 +630,7 @@ common#:#alm_leave#:#Annullare iscrizione ad un modulo AICC
 common#:#alm_read#:#Accedere in lettura ad un modulo AICC
 common#:#alm_visible#:#Vedere un modulo AICC
 common#:#alm_write#:#Modificare un modulo AICC
+common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
 common#:#and#:#e
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
@@ -902,6 +903,7 @@ common#:#delete_selected#:#Elimina selezionato
 common#:#delete_tr_data#:#Elimina i dati del tracciamento
 common#:#deleted#:#Eliminato
 common#:#deleted_user#:#L'utente &#232; stato eliminato
+common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
@@ -926,6 +928,7 @@ common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
 common#:#enable#:#Abilita
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
 common#:#enabled#:#Abilitata
+common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
 common#:#enumerate#:#Elenca
 common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
@@ -963,6 +966,7 @@ common#:#exc_edit_exercise#:#Modifica l&#039;esercizio
 common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#exc_edit_until#:#Data scadenza 
 common#:#exc_files#:#File
+common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
 common#:#exc_groups#:#Gruppi
 common#:#exc_header_members#:#Esercizio(membri)
 common#:#exc_instruction#:#Istruzioni per l'esecuzione
@@ -988,6 +992,7 @@ common#:#exc_visible#:#Vedere un esercizio
 common#:#exc_write#:#Modificare un esercizio
 common#:#excs#:#Esercizi
 common#:#execute#:#Esegui
+common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
 common#:#export#:#Esporta
 common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
 common#:#export_html#:#Esporta come file html
@@ -1012,6 +1017,7 @@ common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
 common#:#file_visible#:#Vedere un file
 common#:#file_write#:#Creare un file
+common#:#filename#:#Filename###06 Oct 2004 new variable
 common#:#files#:#File
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
@@ -1454,6 +1460,7 @@ common#:#mep_visible#:#Vedere una libreria multimediale
 common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
+common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
 common#:#message_to#:#Messaggio a:
 common#:#meta_data#:#Meta Dati
 common#:#migrate#:#migrare
@@ -1786,6 +1793,8 @@ common#:#phone_office#:#Telefono ufficio
 common#:#phrase#:#Frase
 common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
+common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
 common#:#port#:#Porta
 common#:#position#:#Posizione
 common#:#preconditions#:#Condizioni preliminari
