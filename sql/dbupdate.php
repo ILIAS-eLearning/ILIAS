@@ -354,4 +354,4 @@ ALTER TABLE `tree` CHANGE `tree` `tree` INT(10) DEFAULT '0' NOT NULL;
 
 <#15>
 #drop unnecessary col
-ALTER TABLE 'note_data' DROP last_update;
+ALTER TABLE `note_data` DROP COLUMN last_update;
