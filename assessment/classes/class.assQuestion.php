@@ -1444,6 +1444,39 @@ class ASS_Question
 	function createRandomSolution($test_id, $user_id)
 	{
 	}
+
+/**
+* Returns true if the question already exists in the database
+*
+* Returns true if the question already exists in the database
+*
+* @param integer $question_id The database id of the question
+* @result boolean True, if the question exists, otherwise False
+* @access public
+*/
+	function _questionExists($question_id)
+	{
+		global $ilDB;
+
+		if ($question_id < 1)
+		{
+			return false;
+		}
+		
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE question_id = %s",
+			$ilDB->quote($question_id)
+		);
+    $result = $ilDB->query($query);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }
 
 ?>

@@ -201,10 +201,17 @@ class SurveyQuestionGUI {
 		if ($result == 0)
 		{
 			$this->object->saveToDb();
+			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$_GET["q_id"] = $this->object->getId();
-			if ($_GET["calling_survey"])
+			if ($_GET["calling_survey"] && $originalexists)
 			{
 				$this->originalSyncForm();
+				return;
+			}
+			elseif ($_GET["calling_survey"] && !$originalexists)
+			{
+				$_GET["ref_id"] = $_GET["calling_survey"];
+				ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
 				return;
 			}
 			else
