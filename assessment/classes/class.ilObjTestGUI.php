@@ -1754,6 +1754,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$test_id = $this->object->getTestId();
 		$question_gui = $this->object->createQuestionGUI("", $_GET["evaluation"]);
+		$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
 		switch ($question_gui->getQuestionType())
@@ -1764,53 +1765,9 @@ class ilObjTestGUI extends ilObjectGUI
 			default:
 				$question_gui->outWorkingForm($test_id, "");
 		}
+		$this->tpl->setCurrentBlock("result_description");
+		$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
 		$this->tpl->setCurrentBlock("adm_content");
-/*		$eval_result = $question_gui->object->getReachedInformation($ilUser->id, $test_id);
-		$bool = array("false", "true");
-		switch($question_gui->getQuestionType())
-		{
-			case "qt_cloze":
-				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "<li>";
-					$out_eval_results .= sprintf($this->lng->txt("eval_cloze_result"), $value["gap"], $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
-					$out_eval_results .= "</li>";
-				}
-				break;
-			case "qt_multiple_choice_sr":
-			case "qt_multiple_choice_mr":
-				foreach ($eval_result as $key => $value) {
-					$class = "";
-					if (!$value["true"]) {
-						$class = " class=\"warning\"";
-					}
-					$out_eval_results .= "<li$class>";
-					$out_eval_results .= sprintf($this->lng->txt("eval_choice_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
-					$out_eval_results .= "</li>";
-				}
-				break;
-			case "qt_ordering":
-				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "<li>";
-					$out_eval_results .= sprintf($this->lng->txt("eval_order_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
-					$out_eval_results .= "</li>";
-				}
-				break;
-			case "qt_matching":
-				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "<li>";
-					$out_eval_results .= sprintf($this->lng->txt("eval_matching_result"), $value["value1"], $value["value2"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
-					$out_eval_results .= "</li>";
-				}
-				break;
-			case "qt_imagemap":
-				foreach ($eval_result as $key => $value) {
-					$out_eval_results .= "<li>";
-					$out_eval_results .= sprintf($this->lng->txt("eval_imagemap_result"), $this->lng->txt($bool[$value["true"]]), $value["points"]);
-					$out_eval_results .= "</li>";
-				}
-				break;
-		}
-		$this->tpl->setVariable("EVALUATION_RESULTS", "<ul>\n$out_eval_results\n</ul>");*/
 		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
