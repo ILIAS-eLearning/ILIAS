@@ -94,6 +94,15 @@ class ilSCORMOrganizations extends ilSCORMObject
 		$this->ilias->db->query($q);
 	}
 
+	function delete()
+	{
+		global $ilDB;
+
+		parent::delete();
+
+		$q = "DELETE FROM sc_organizations WHERE obj_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+	}
 
 }
 ?>

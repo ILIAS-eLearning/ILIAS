@@ -277,5 +277,21 @@ class ilSCORMItem extends ilSCORMObject
 			"sc_item_id = '".$this->getId()."' AND ".
 			"usr_id = '".$a_user_id."'";
 	}
+
+	function delete()
+	{
+		global $ilDB;
+
+		parent::delete();
+
+		$q = "DELETE FROM sc_item WHERE obj_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
+		$q = "DELETE FROM scorm_tracking WHERE ".
+			"sc_item_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
+	}
+
 }
 ?>
