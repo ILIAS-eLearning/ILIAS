@@ -63,7 +63,7 @@ class ilObjectGUI
 
 	/**
 	* language object
-	* @var		object ilias
+	* @var		object language (of ilObject)
 	* @access	private
 	*/
 	var $lng;
@@ -96,12 +96,12 @@ class ilObjectGUI
 	*/
 	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilias, $objDefinition, $tpl, $tree, $lng;
+		global $ilias, $objDefinition, $tpl, $tree;
 
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		//$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();
@@ -128,6 +128,8 @@ class ilObjectGUI
 				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($a_id);
 			}
 		}
+		
+		$this->lng =& $this->object->lng;
 
 		//prepare output
 		if ($a_prepare_output)

@@ -605,8 +605,6 @@ class ilObject
 	*/
 	function clone($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview;
-
 		$new_obj = new ilObject();
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setType($this->getType());
@@ -673,7 +671,7 @@ class ilObject
 	*/
 	function getSubObjects()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacreview;
 
 		$data = array();
 
