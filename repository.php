@@ -32,7 +32,7 @@
 */
 
 require_once "include/inc.header.php";
-require_once "classes/class.ilRepositoryGUI.php";
+include_once "classes/class.ilRepositoryGUI.php";
 
 $ilCtrl->setTargetScript("repository.php");
 $ilCtrl->getCallStructure("ilRepositoryGUI");
