@@ -4371,3 +4371,4 @@ survey#:#warning_question_in_use#:#Warning! The question you want to edit is in 
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!

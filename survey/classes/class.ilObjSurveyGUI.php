@@ -2271,6 +2271,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $questionblock);
 				}
 			}
+			else
+			{
+				sendInfo($this->lng->txt("enter_questionblock_title"));
+				$this->defineQuestionblock();
+				return;
+			}
 		}
 
 		$add_constraint = 0;
