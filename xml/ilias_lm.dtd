@@ -335,7 +335,8 @@
 <!-- Test -->
 <!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
 <!ELEMENT Test (MetaData, TestItem+)>
-<!ELEMENT TestItem (MetaData, Question, Answer+, Hint*)>
+<!ELEMENT TestItem (MetaData, Introduction*, Question, Answer+, Hint*)>
+<!ELEMENT Introduction (Paragraph | MediaObject)+>
 <!ELEMENT Question (Paragraph | MediaObject)+>
 <!ELEMENT Answer (Paragraph | MediaObject)+>
 <!ATTLIST Answer
