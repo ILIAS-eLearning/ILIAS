@@ -4934,4 +4934,6 @@ ALTER TABLE `qpl_questions` DROP `solution_hint`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#328>
+ALTER  TABLE  `survey_survey`  ADD  `show_question_titles` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `anonymize` ;
 

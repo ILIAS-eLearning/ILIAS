@@ -230,7 +230,7 @@ class SurveyNominalQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm($working_data = "")
+	function outWorkingForm($working_data = "", $question_title = 1)
 	{
 		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
 			$category = $this->object->getCategory($i);
@@ -277,7 +277,10 @@ class SurveyNominalQuestionGUI {
 		
 		$this->tpl->setCurrentBlock("question_data_nominal");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
-		$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		if ($question_title)
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 	
