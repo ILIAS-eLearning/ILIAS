@@ -46,7 +46,7 @@ cannot_create_datadir_no_write_access#:#Kein Schreibzugriff. Datenverzeichnis ka
 change#:#ändern
 change_basic_settings#:#Grundeinstellungen ändern
 change_password#:#Passwort ändern
-change_sort_direction#:#Sortierrichtung ndern
+change_sort_direction#:#Sortierrichtung ändern
 check_failed_convert#:#Convert-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen###26 May 2004 content changed
 check_failed_java#:#Java-Test fehlgeschlagen###14 Sep 2004 content changed
@@ -127,7 +127,7 @@ environment#:#Softwareumgebung
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
 error_recipient#:#Empfnger von Fehlermeldungen
-feedback_recipient#:#Empfnger von Feedbacknachrichten
+feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
 file_version#:#file version
 fill_both_fields#:#Bitte beide Felder ausfüllen!
@@ -151,14 +151,14 @@ ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup###14 Sep 2004 content changed
 ilias_version#:#ILIAS Version
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.###14 Sep 2004 content changed
-info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn dann nicht klappt (z.B aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.###14 Sep 2004 content changed
+info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.###14 Sep 2004 content changed
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
-info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
+info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.###14 Sep 2004 content changed
 info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.###14 Sep 2004 content changed
-info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldet Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.###14 Sep 2004 content changed
+info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.###14 Sep 2004 content changed
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.###14 Sep 2004 content changed
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese###14 Sep 2004 content changed
@@ -280,7 +280,7 @@ pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
 password#:#Passwort
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
-password_enter_old#:#You must enter your old password first!###05 Jan 2004 new variable
+password_enter_old#:#Bitte geben Sie zuerst Ihr altes Passwort ein!###05 Jan 2004 new variable
 password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um später diese Einstellungen zu ändern oder neue Mandanten anzulegen.
 password_new_master#:#Administrator-Passwort ändern
 password_not_match#:#Passworteingaben stimmen nicht überein
