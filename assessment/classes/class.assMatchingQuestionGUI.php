@@ -151,7 +151,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				if (!$value)
 				{
 					$allow_add_pair = 0;
-					sendInfo($this->lng->txt("fill_out_all_matching_pairs"));
 				}
 			}
 		}
@@ -183,6 +182,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
+		}
+		else if ($this->ctrl->getCmd() == "addPair")
+		{
+			$this->error .= $this->lng->txt("fill_out_all_matching_pairs") . "<br />";
 		}
 
 		$this->tpl->setCurrentBlock("question_data");
@@ -225,7 +228,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this) . "#bottom");
 
 		$this->tpl->parseCurrentBlock();
-
+		if ($this->error)
+		{
+			sendInfo($this->error);
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->parseCurrentBlock();
 	}
@@ -306,7 +312,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		if (($result) and ($_POST["cmd"]["addPair"]))
 		{
 			// You cannot add matching pairs before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_matching"));
+			$this->error .= $this->lng->txt("fill_out_all_required_fields_add_matching") . "<br />";
 		}
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -359,11 +365,22 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 								{
 									$this->object->saveToDb();
 									$saved = true;
-									sendInfo($this->lng->txt("question_saved_for_upload"));
+									$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 								}
-								$this->object->set_image_file($value2['name'], $value2['tmp_name']);
-								$_POST["picture_$matches[1]_".$matches2[1]] = $value2['name'];
-								$matching_text = $value2['name'];
+								$upload_result = $this->object->set_image_file($value2['name'], $value2['tmp_name']);
+								switch ($upload_result)
+								{
+									case 0:
+										$_POST["picture_$matches[1]_".$matches2[1]] = $value2['name'];
+										$matching_text = $value2['name'];
+										break;
+									case 1:
+										$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+										break;
+									case 2:
+										$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+										break;
+								}
 							}
 						}
 					}
@@ -374,7 +391,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					if ($points < 0)
 					{
 						$points = 0.0;
-						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+						$this->error .= $this->lng->txt("negative_points_not_allowed") . "<br />";
 					}
 				}
 				else

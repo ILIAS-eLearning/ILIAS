@@ -1081,28 +1081,40 @@ class ASS_MatchingQuestion extends ASS_Question
 	*
 	* @param string $image_filename Name of the original image file
 	* @param string $image_tempfilename Name of the temporary uploaded image file
+	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
 	function set_image_file($image_filename, $image_tempfilename = "")
 	{
+		$result = 0;
 		if (!empty($image_tempfilename))
 		{
-			$imagepath = $this->getImagePath();
-			if (!file_exists($imagepath))
+			require_once "./content/classes/Media/class.ilObjMediaObject.php";
+			$mimetype = ilObjMediaObject::getMimeType($image_tempfilename);
+			if (!preg_match("/^image/", $mimetype))
 			{
-				ilUtil::makeDirParents($imagepath);
-			}
-			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
-			{
-				print "image not uploaded!!!! ";
+				$result = 1;
 			}
 			else
 			{
-				// create thumbnail file
-				$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
+				$imagepath = $this->getImagePath();
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
+				if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
+				{
+					$result = 2;
+				}
+				else
+				{
+					// create thumbnail file
+					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
+					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
+				}
 			}
 		}
+		return $result;
 	}
 
 	/**
