@@ -2099,7 +2099,7 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* Exports Structure 2 to ILIAS 3 StructureObject
+	* Exports ILIAS 2 Structure to ILIAS 3 StructureObject
 	* @param	integer	structure (gliederung) id
 	* @access	private
 	*/
@@ -2177,7 +2177,7 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* Exports Learning Unit 2 to ILIAS 3 Learning Module
+	* Exports ILIAS 2 Learning Unit to ILIAS 3 Learning Module
 	* @param	integer	Learning Unit id
 	* @param	integer	Learning Unit installation id
 	* @access	private
@@ -2198,6 +2198,9 @@ class ILIAS2To3Converter
 		// check row number
 		if ($result->numRows() == 0)
 		{
+			// remove created dir
+			rmdir($this->dir);
+			
 			die ("ERROR: No Learning Unit with the id = ".$id." and inst = ".$inst." available.");
 		}
 		$result->free();
@@ -2448,13 +2451,13 @@ class ILIAS2To3Converter
 	* @param	boolean	indent text (TRUE) or not (FALSE)
 	* @access	public
 	*/
-	function dumpLearningModuleFile ($luId, $luInst, $format = TRUE)
+	function dumpLearningModuleFile ($luId, $luInst, $format = FALSE)
 	{
 		// set member vars for Learning Unit
 		$this->luId = $luId;
 		$this->luInst = $luInst;
 		
-		// get timestamp for names
+		// get timestamp for dir and file names
 		$date = time();
 		
 		// set dir and file names (format: <timestamp>__<inst>__le_<id>__lm/)
@@ -2474,7 +2477,7 @@ class ILIAS2To3Converter
 		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_lm.dtd\">");
 		
 		// set generated comment
-		$this->xml->xmlSetGenCmt("Export of ILIAS 2 Learning Unit nr ".$this->luId." from installation ".$this->luInst." into an ILIAS 3 Learning Module");
+		$this->xml->xmlSetGenCmt("Export of ILIAS 2 Learning Unit nr. ".$this->luId." from installation ".$this->luInst." to an ILIAS 3 Learning Module");
 		
 		// set xml header
 		$this->xml->xmlHeader();
