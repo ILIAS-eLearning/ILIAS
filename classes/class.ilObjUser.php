@@ -568,20 +568,38 @@ class ilObjUser extends ilObject
 
 	/**
 	* builds a string with title + firstname + lastname
-	* @access	public
+	* method is used to build fullname in member variable $this->fullname. But you
+	* may use the function in static manner.
+	* @access	static
+	* @param	string	title (opt.)
+	* @param	string	firstname (opt.)
+	* @param	string	lastname (opt.)
 	*/
-	function setFullname ()
+	function setFullname ($a_title = "",$a_firstname = "",$a_lastname = "")
 	{
 		$this->fullname = "";
-
-		if ($this->utitle)
+		
+		if ($a_title)
+		{
+			$fullname = $a_title." ";
+		}
+		elseif ($this->utitle)
 		{
 			$this->fullname = $this->utitle." ";
 		}
 
-		if ($this->firstname)
+		if ($a_firstname)
+		{
+			$fullname .= $a_firstname." ";
+		}
+		elseif ($this->firstname)
 		{
 			$this->fullname .= $this->firstname." ";
+		}
+		
+		if ($a_lastname)
+		{
+			return $fullname.$a_lastname;
 		}
 
 		$this->fullname .= $this->lastname;
