@@ -1,0 +1,77 @@
+body {
+        color:#222222;
+        background-color:#dddddd;
+        font-family:Verdana,Arial,Helvetica,sans-serif;
+        font-size:medium;
+}
+td {
+        font-size:small;
+}
+
+.btnbar {
+        background-color:#006699;
+}
+
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblrow2 {
+        color:#222222;
+        background-color:#eeeeee;
+}
+
+.tblrow1 {
+        color:#222222;
+        background-color:#bbbbbb;
+}
+
+/* -------------------- table formatting ------------------ */
+
+.tblheader {
+     color:#ffffff;
+     background-color:#003366;
+}
+
+/* ---------------- headlines ------------------ */
+
+h1 {
+   font-size:large;
+   color:#222222;
+}
+
+h2 {
+   font-size:medium;
+   color:#222222;
+}
+
+
+/* ----------------- normal links ------------- */
+a {
+        font-weight:bold;
+        text-decoration:none;
+        color:#ff6600;
+}
+
+a:hover {
+        color:#ff6600;
+}
+
+a:visited {
+        color:#ff6600;
+}
+
+/* ------------------ buttons -------------- */
+
+.btn {
+        background-color:#006699;
+        color:#ffffff;
+}
+
+a.btn {
+        color:#ffffff;
+        text-decoration:none;
+        font-size:11pt;
+}
+
+a.btn:hover {
+        color:#66ccff;
+}

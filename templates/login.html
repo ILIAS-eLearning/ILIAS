@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title>ILIAS Login Screen</title>
+</head>
+<body>
+
+<center>
+<br>
+<img src="./images/ilias_logo_big.jpg" border="0">
+<br><br>
+
+<form method="post" action="{PHP_SELF}">
+<table border="0" cellpadding="2" cellspacing="0">
+	<tr>
+	<td colspan="2" bgcolor="#eeeeee" align="center"><b>Login to ILIAS</b></td>
+	</tr>
+	<tr>
+	<td>Username:</td>
+	<td><input type="text" name="username" value="{USERNAME}"></td>
+	</tr>
+	<tr>
+	<td>Password:</td>
+	<td><input type="password" name="password"></td>
+	</tr>
+	<tr>
+	<td colspan="2" bgcolor="#eeeeee"><input type="submit"></td>
+	</tr>
+</table>
+<br>
+<font color="red"><i>{LOGIN_FAILED_MSG}</i></font>
+</center>
+</body>
+</html>
