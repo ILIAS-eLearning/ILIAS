@@ -253,6 +253,7 @@ class ilObjectGUI
 		foreach ($_POST["id"] as $ref_id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+
 			$node_data = $tree->getNodeData($ref_id);
 			$subtree_nodes = $tree->getSubTree($node_data);
 
@@ -281,78 +282,83 @@ class ilObjectGUI
 		// COPY THEM
 		// SAVE SUBTREE
 		// TODO: clipboard is enough
-		foreach ($_POST["id"] as $ref_id)
+		$clipboard["parent"] = $_GET["ref_id"];
+		$clipboard["cmd"] = key($_POST["cmd"]);
+		
+		foreach($_POST["id"] as $ref_id)
 		{
-			//$tree->saveSubTree($ref_id);
-			$clipboard[$ref_id]["parent"] = $_GET["ref_id"];
-			$clipboard[$ref_id]["cmd"] = $_POST["cmd"];
+			$clipboard["ref_ids"][] = $ref_id;
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
 		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-
 	}
-
 
 	/**
 	* paste object from clipboard to current place
 	*/
 	function pasteObject()
 	{
-		global $rbacsystem,$tree,$objDefinition,$lng;
+		global $rbacsystem,$rbacadmin,$tree,$objDefinition;
 
 		// CHECK SOME THINGS
-		// TODO: clipboard array contains command multiple times. But there is only one command per clipboard action!!
-		foreach($_SESSION["clipboard"] as $id => $object)
+		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
-
 			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
-			if ($object["cmd"] == $lng->txt('copy'))
-			{
-				$this->cloneObject($_GET["ref_id"]);
-				return true;
-			}
+			$this->cloneObject($_GET["ref_id"]);
+			return true;
+			exit; // und wech...
+		}
 
-			// TODO: both function below fetch almost the same data!!!
-			//$obj_data = getObjectByReference($id);
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			$data = $tree->getNodeData($id);
-
-			// CHECK ACCESS
-			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
-			{
-				$no_paste[] = $id;
-			}
-
-			// CHECK IF REFERENCE ALREADY EXISTS
-			if ($data["ref_id"])
-			{
-				$exists[] = $id;
-			}
-
-			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			// TODO: FUNCTION IST NOT LONGER NEEDED IN THIS WAY. WE ONLY NEED TO CHECK IF
-			// THE COMBINATION child/parent ALREADY EXISTS
-
-			//if ($tree->isGrandChild(1,0))
-			if ($tree->isGrandChild($id, $_GET["ref_id"]))
-			{
-				$is_child[] = $id;
-			}
-
-			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
-			//$object = getObjectByReference($_GET["ref_id"]);
+		// ONLY PASTE IF CMD WAS 'cut'
+		if ($_SESSION["clipboard"]["cmd"] == "cut")
+		{
+			// TODO:i think this can be substituted by $this->object ????
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
-			$obj_type = $obj_data->getType();
-			if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
+	
+			// this loop does all checks
+			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-				$not_allowed_subobject[] = $obj_data->getType();
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+
+				// CHECK ACCESS
+				if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
+				{
+					$no_paste[] = $ref_id;
+				}
+
+				// CHECK IF REFERENCE ALREADY EXISTS
+				if ($_GET["ref_id"] == $obj_data->getRefId())
+				{
+					$exists[] = $ref_id;
+					break;
+				}
+
+				// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+				// TODO: FUNCTION IST NOT LONGER NEEDED IN THIS WAY. WE ONLY NEED TO CHECK IF
+				// THE COMBINATION child/parent ALREADY EXISTS
+
+				//if ($tree->isGrandChild(1,0))
+				//if ($tree->isGrandChild($id, $_GET["ref_id"]))
+				//{
+			//		$is_child[] = $ref_id;
+				//}
+
+				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+				$obj_type = $obj_data->getType();
+			
+				if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
+				{
+					$not_allowed_subobject[] = $obj_data->getType();
+				}
 			}
 		}
 
+//////////////////////////
+// process checking results
+		
 		if (count($exists))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
@@ -376,17 +382,54 @@ class ilObjectGUI
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// TODO: WE DONT NEED THIS
-//		foreach ($_SESSION["clipboard"] as $id => $object)
-//		{
-//			$this->insertSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
-//		}
+/////////////////////////////////////////
+// everything ok: now paste the objects to new location
 
+		foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+		{
+
+			// get node data
+			$top_node = $tree->getNodeData($ref_id);
+			
+			// get subnodes of top nodes
+			$subnodes[$ref_id] = $tree->getSubtree($top_node);
+			
+			// delete old tree entries
+			$tree->deleteTree($top_node);
+		}
+
+		// now move all subtrees to new location
+		foreach($subnodes as $key => $subnode)
+		{
+			//first paste top_node....
+			$rbacadmin->revokePermission($key);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+			$obj_data->putInTree($_GET["ref_id"]);
+			$obj_data->setPermissions($_GET["ref_id"]);
+			
+			// ... remove top_node from list....
+			array_shift($subnode);
+				
+			// ... insert subtree of top_node if any subnodes exist
+			if (count($subnode) > 0)
+			{
+				foreach ($subnode as $node)
+				{
+					$rbacadmin->revokePermission($node["child"]);
+					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+					$obj_data->putInTree($node["parent"]);
+					$obj_data->setPermissions($node["parent"]);
+				}
+			}
+		}
+		
+		// clear clipboard
 		$this->clearObject();
 		
+		// TODO: sendInfo does not work in this place :-(
+		sendInfo($this->lng->txt("msg_changes_ok"),true);
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-
 	}
 
 	/**
@@ -394,12 +437,6 @@ class ilObjectGUI
 	*/
 	function clearObject()
 	{
-//		foreach($_SESSION["clipboard"] as $id => $object)
-//		{
-//			$saved_tree = new ilTree($id,0,-(int)$id);
-//			$saved_tree->deleteTree($saved_tree->getNodeData($id,$object["parent"]));
-//		}
-
 		session_unregister("clipboard");
 		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
@@ -408,14 +445,14 @@ class ilObjectGUI
 	}
 
 	/**
-	* cut an object out from tree an copy information to clipboard
+	* cut object(s) out from a container and write the information to clipboard
 	* @access	public
-	* // TODO: a_obj_id is saved in $clipboard. We don't need the parent. We may get it by tree->getParent
 	*/
 	function cutObject()
 	{
 		global $clipboard,$tree,$rbacsystem,$rbacadmin;
 
+		// CHECK NOTHING CHECKED
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -429,30 +466,21 @@ class ilObjectGUI
 				$no_cut[] = $ref_id;
 			}
 		}
-		// NO ACCESS
+
+		// NO ACCESS IF ONE OBJECT COULD NOT BE DELETED
 		if (count($no_cut))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".
 									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
+		// WRITE TO CLIPBOARD
+		$clipboard["parent"] = $_GET["ref_id"];
+		$clipboard["cmd"] = key($_POST["cmd"]);
+		
 		foreach($_POST["id"] as $ref_id)
 		{
-			// DELETE OLD PERMISSION ENTRIES
-/*			$subnodes = $tree->getSubtree($tree->getNodeData($ref_id));
-
-			foreach($subnodes as $subnode)
-			{
-				$rbacadmin->revokePermission($subnode["ref_id"]);
-			}
-
-			// TODO: is clipboard not enough???
-			$tree->saveSubTree($ref_id);
-			$tree->deleteTree($tree->getNodeData($ref_id));
-*/
-			$clipboard[$ref_id]["parent"] = $_GET["ref_id"];
-			$clipboard[$ref_id]["cmd"] = $_POST["cmd"];
+			$clipboard["ref_ids"][] = $ref_id;
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
@@ -522,7 +550,6 @@ class ilObjectGUI
 
 	} // END COPY
 
-
 	/**
 	* clone Object subtree
 	* @access	private
@@ -531,24 +558,22 @@ class ilObjectGUI
 	{
 		global $objDefinition,$tree,$rbacsystem;
 
-		foreach ($_SESSION["clipboard"] as $id => $object)
+		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
-			// CHECK SOME THNGS
-			
-			//$obj_data = getObjectByReference($id);
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			$data = $tree->getNodeData($id);
+			// CHECK SOME THINGS
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+			$data = $tree->getNodeData($ref_id);
 
 			// CHECK ACCESS
 			if (!$rbacsystem->checkAccess('create',$a_ref_id,$obj_data->getType()))
 			{
-				$no_paste[] = $id;
+				$no_paste[] = $ref_id;
 			}
 
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if ($tree->isGrandChild($id,$a_ref_id))
+			if ($tree->isGrandChild($ref_id,$a_ref_id))
 			{
-				$is_child[] = $id;
+				$is_child[] = $ref_id;
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
@@ -578,6 +603,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
 									 $this->ilias->error_obj->MESSAGE);
 		}
+
 		// NOW CLONE ALL OBJECTS
 		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
 //		foreach ($_SESSION["clipboard"] as $id => $object)
@@ -957,7 +983,6 @@ class ilObjectGUI
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
 
 			unset($newObj);
 		}
@@ -1220,7 +1245,6 @@ class ilObjectGUI
 						$rolfObj->create();
 						$rolfObj->createReference();
 						$rolfObj->putInTree($_GET["ref_id"]);
-						$rolfObj->setPermissions($_GET["ref_id"]);
 						unset($rolfObj);
 						
 						$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
@@ -1445,20 +1469,22 @@ class ilObjectGUI
 						$this->tpl->touchBlock("end_link");
 					}
 
-			// TODO: this loop is for marking objects 'cut' or 'copied'.
-			// the array structure if clipboard must be change!!!
+					// process clipboard information
 					if (isset($_SESSION["clipboard"]))
 					{
-						foreach ($_SESSION["clipboard"] as $clip_id => $clip)
+						$cmd = $_SESSION["clipboard"]["cmd"];
+						$parent = $_SESSION["clipboard"]["parent"];
+
+						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
 						{
 							if ($ctrl["ref_id"] == $clip_id)
 							{
-								if ($clip["cmd"]["cut"] and $key == "title")
+								if ($cmd == "cut" and $key == "title")
 								{
 									$val = "<del>".$val."</del>";
 								}
 								
-								if ($clip["cmd"]["copy"] and $key == "title")
+								if ($cmd == "copy" and $key == "title")
 								{
 									$val = "<font color=\"green\">+</font>  ".$val;
 								}
@@ -1494,7 +1520,7 @@ class ilObjectGUI
 	}
 
 	/**
-	* list childs of current object"
+	* list childs of current object
 	*/
 	function viewObject()
 	{
