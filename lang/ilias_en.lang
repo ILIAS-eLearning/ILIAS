@@ -839,6 +839,7 @@ common#:#glo_visible#:#Glossary is visible
 common#:#glo_write#:#Edit Glossary
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
+common#:#not_implemented_yet#:#Not implemented yet
 common#:#glossary_added#:#Glossary added
 common#:#group_access_denied#:#Access Denied
 common#:#group_any_objects#:#No Subobjects available

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.78 2004/05/13 14:59:27 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.79 2004/05/14 15:33:48 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -197,7 +197,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 
-		// for local roles display only the permissions settings for allowed subobjects 
+		// for local roles display only the permissions settings for allowed subobjects
 		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
 			// first get object in question (parent of role folder object)
@@ -321,7 +321,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$output["adopt"][$key]["role_name"] = $par["title"];
 				}
 			}
-	
+
 			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 			// END ADOPT_PERMISSIONS
 		}
@@ -343,19 +343,30 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			// BEGIN object_operations
 			$this->tpl->setCurrentBlock("object_operations");
-	
+
 			foreach ($obj_data["ops"] as $operation)
 			{
 				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW",$css_row);
 				$this->tpl->setVariable("PERMISSION",$operation["name"]);
+				if (substr($operation["title"], 0, 7) == "create_")
+				{
+					if ($this->objDefinition->getDevMode(substr($operation["title"], 7, strlen($operation["title"]) -7)))
+					{
+						$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+					}
+				}
 				$this->tpl->setVariable("CHECK_PERMISSION",$this->data["perm"][$obj_data["obj_id"]][$operation["ops_id"]]);
 				$this->tpl->parseCurrentBlock();
 			} // END object_operations
-			
+
 			// BEGIN object_type
 			$this->tpl->setCurrentBlock("object_type");
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+			if ($this->objDefinition->getDevMode($obj_data["type"]))
+			{
+				$this->tpl->setVariable("TXT_NOT_IMPL", "(".$this->lng->txt("not_implemented_yet").")");
+			}
 			$this->tpl->parseCurrentBlock();
 			// END object_type
 		}
