@@ -135,6 +135,7 @@ class ilContObjParser extends ilSaxParser
 		$this->storeTree();
 		$this->processIntLinks();
 		$this->copyMobFiles();
+		$this->copyFileItems();
 	}
 
 	/**
@@ -249,7 +250,8 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function copyFileItems()
 	{
-		foreach ($this->file_item_mapping as $origin_id => $file_item_id)
+		$imp_dir = $this->content_object->getImportDirectory();
+		foreach ($this->file_item_mapping as $origin_id => $file_id)
 		{
 			if(empty($origin_id))
 			{
@@ -257,9 +259,9 @@ class ilContObjParser extends ilSaxParser
 			}
 			$obj_dir = $origin_id;
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
-			$target_dir = ilUtil::getDataDir()."/files/file_".$file_item_id;
+			$target_dir = ilUtil::getDataDir()."/files/file_".$file_id;
 
-			//echo "copy from $source_dir to $target_dir <br>";
+//echo "copy from $source_dir to $target_dir <br>";
 			if (@is_dir($source_dir))
 			{
 				// make target directory
@@ -489,7 +491,8 @@ class ilContObjParser extends ilSaxParser
 				if ($this->in_file_item)
 				{
 					$this->file_item->setImportId($a_attribs["Entry"]);
-					$this->file_item_mapping[$this->file_item->getId()] = $a_attribs["Entry"];
+					//$this->file_item_mapping[$this->file_item->getId()] = $a_attribs["Entry"];
+					$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
 				}
 				break;
 
@@ -587,6 +590,13 @@ class ilContObjParser extends ilSaxParser
 				$app_name = $a_name;
 				$app_attribs = $a_attribs;
 			}
+
+			// change identifier entry of file items to new local file id
+			if ($this->in_file_item && $app_name == "Identifier")
+			{
+				$app_attribs["Entry"] = "il__file_".$this->file_item->getId();
+			}
+
 			$this->page_object->appendXMLContent($this->buildTag("start", $app_name, $app_attribs));
 //echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
 		}
