@@ -611,7 +611,15 @@ class ilObjContentObject extends ilObject
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("like",array("xv.tag_value"));
 
-
+				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
+					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
+					$where.
+					$in.
+					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) OR ".
+					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
+					"AND xm.ns_tag_fk=xv.tag_fk ".
+					"AND o.type= 'lm'";
+/*
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
 					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
 					"INNER JOIN lm_data AS l ON l.lm_id = o.obj_id ".
@@ -620,6 +628,7 @@ class ilObjContentObject extends ilObject
 					$where.
 					$in.
 					"AND o.type = 'lm'";
+*/
 				$res = $search_obj->ilias->db->query($query);
 				$counter = 0;
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
