@@ -402,6 +402,7 @@ common#:#submit#:#submit
 common#:#subscription#:#subscription
 common#:#summary#:#summary
 common#:#system#:#system
+common#:#system_choose_language#:#system choose language###22 Jan 2003 new variable
 common#:#system_groups#:#system groups
 common#:#system_grp#:#system group
 common#:#system_language#:#system language
@@ -420,6 +421,7 @@ common#:#uid#:#uid
 common#:#uninstall#:#uninstall
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#unread
+common#:#update_applied#:#update applied###22 Jan 2003 new variable
 common#:#update_language#:#update language
 common#:#url#:#url
 common#:#url_description#:#url description

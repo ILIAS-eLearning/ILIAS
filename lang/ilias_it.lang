@@ -402,6 +402,7 @@ common#:#submit#:#invia
 common#:#subscription#:#abonnamento
 common#:#summary#:#riassunto
 common#:#system#:#sistema
+common#:#system_choose_language#:#system choose language###22 Jan 2003 new variable
 common#:#system_groups#:#gruppi del sistema
 common#:#system_grp#:#gruppo sistema
 common#:#system_language#:#system language
