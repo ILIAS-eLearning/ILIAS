@@ -778,6 +778,13 @@ class ilObjContentObject extends ilObject
 					$in.
 					" AND pg.parent_type = 'lm' ";
 
+				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
+					" JOIN object_data AS o ON o.obj_id = pg.parent_id ".
+					" JOIN object_reference AS r ON o.obj_id = r.obj_id ".
+					$where.
+					$in.
+					" AND pg.parent_type = 'lm'";
+
 				$ilBench->start("Search", "ilObjContentObject_search_content");
 				$res = $search_obj->ilias->db->query($query);
 				$ilBench->stop("Search", "ilObjContentObject_search_content");
