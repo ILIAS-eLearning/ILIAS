@@ -34,6 +34,7 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
+require_once "class.assQuestionGUI.php";
 
 class ilObjTestGUI extends ilObjectGUI
 {
@@ -578,8 +579,78 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	function runObject() {
+    $add_parameter = $this->get_add_parameter();
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		if ($_GET["tab"] == 1) {
+			$sequence = $_GET["sequence"];
+			if (!$sequence) {
+				$sequence = 1;
+			} else {
+				if (($_POST["cmd"]["next"]) and ($sequence != count($this->object->questions))) {
+					$sequence++;
+				} elseif (($_POST["cmd"]["previous"]) and ($sequence != 1)) {
+					$sequence--;
+				}
+			}
+		}
+
+		$this->setRunningTabs($sequence);
+		$this->setLocator();
+		if ($_GET["tab"] == 0) {
+			// show introduction page
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
+			$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+			$this->tpl->setCurrentBlock("adm_content");
+			$introduction = $this->object->get_introduction();
+			$introduction = preg_replace("/\n/i", "<br />", $introduction);
+			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&tab=1");
+			$additional = "<p>Here you will see additional information for the test, like date, test type, max. points etc.</p>";
+			$this->tpl->setVariable("ADDITIONAL_INFO", "$additional");
+			$this->tpl->parseCurrentBlock();
+		} elseif ($_GET["tab"] == 1) {
+			// show questions
+			$question_gui = new ASS_QuestionGui();
+			$question_gui->create_question("", $this->object->questions[$sequence]);
+			$question_gui->out_working_question($sequence);
+		}
 	}
-	
+
+	function setRunningTabs($sequence) {
+    $add_parameter = $this->get_add_parameter();
+		if ((!$_GET["sequence"]) and ($_GET["tab"] == 0)) {
+			$tab1 = $this->lng->txt("tst_start_test");
+		} else {
+			$tab1 = $this->lng->txt("question") . " $sequence";
+		}
+		$tabs = array($this->lng->txt("tst_introduction"), $tab1);
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		foreach ($tabs as $key => $value) {
+			$this->tpl->setCurrentBlock("tab");
+			if ($_GET["tab"] == $key) {
+				$tabtype = "tabactive";
+			} else {
+				$tabtype = "tabinactive";
+			}
+			$this->tpl->setVariable("TAB_TYPE", "$tabtype");
+			$this->tpl->setVariable("TAB_LINK", $_SERVER['PHP_SELF'] . "$add_parameter&tab=$key");
+			$this->tpl->setVariable("TAB_TARGET", "bottom");
+			$this->tpl->setVariable("TAB_TEXT", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+		
 	/**
 	* set Locator
 	*

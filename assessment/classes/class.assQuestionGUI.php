@@ -1275,37 +1275,6 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->parseCurrentBlock();
   }
-
-/**
-* Creates the learners output of a question
-*
-* Creates the learners output of a question
-*
-* @access public
-*/
-  function out_working_question() {
-    $question_type = $this->get_question_type($this->question);
-    
-    switch($question_type)
-    {
-      case "qt_cloze":
-        $this->out_working_cloze_question();
-        break;
-      case "qt_multiple_choice_sr":
-      case "qt_multiple_choice_mr":
-        $this->out_working_multiple_choice_question();
-        break;
-      case "qt_ordering":
-        $this->out_working_ordering_question();
-        break;
-      case "qt_matching":
-        $this->out_working_matching_question();
-        break;
-      case "qt_imagemap":
-        $this->out_working_imagemap_question();
-        break;
-    }
-  }
   
 /**
 * Creates a preview of a question using the preview template
@@ -1340,6 +1309,43 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setCurrentBlock("adm_content");
     $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
     $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+    $this->tpl->parseCurrentBlock();
+  }
+
+/**
+* Creates the learners output of a question
+*
+* Creates the learners output of a question
+*
+* @access public
+*/
+  function out_working_question($sequence = 1) {
+    $question_type = $this->get_question_type($this->question);
+    
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
+    switch($question_type)
+    {
+      case "qt_cloze":
+        $this->out_working_cloze_question();
+        break;
+      case "qt_multiple_choice_sr":
+      case "qt_multiple_choice_mr":
+        $this->out_working_multiple_choice_question();
+        break;
+      case "qt_ordering":
+        $this->out_working_ordering_question();
+        break;
+      case "qt_matching":
+        $this->out_working_matching_question();
+        break;
+      case "qt_imagemap":
+        $this->out_working_imagemap_question();
+        break;
+    }
+    $this->tpl->setCurrentBlock("adm_content");
+    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence&tab=1");
+    $this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("previous"));
+    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("next") . " &gt;&gt;");
     $this->tpl->parseCurrentBlock();
   }
 }
