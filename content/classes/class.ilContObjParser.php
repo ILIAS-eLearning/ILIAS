@@ -162,6 +162,8 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function storeTree()
 	{
+		global $ilLog;
+
 //echo "<b>Storing the tree</b><br>";
 		foreach($this->st_into_tree as $st)
 		{
@@ -177,8 +179,8 @@ class ilContObjParser extends ilSaxParser
 						case "pg_alias":
 							if ($this->pg_mapping[$pg["id"]] == "")
 							{
-//								echo "No PageObject for PageAlias ".$pg["id"]." found! Aborting.";
-								exit;
+								$ilLog->write("LM Import: No PageObject for PageAlias ".$pg["id"]." found! (Please update export installation to ILIAS 3.3.0)");
+								continue;
 							}
 							$pg_id = $this->pg_mapping[$pg["id"]];
 							break;
