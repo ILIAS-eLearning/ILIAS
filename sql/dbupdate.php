@@ -1237,7 +1237,7 @@ foreach ($arr_pa_entries as $key => $pa_entry)
 				$pa_entry["operations"][] = "13";
 			}
 			break;
-			
+
 		case "grp":
 			if ($pa_entry["create"] !== false)
 			{
@@ -1267,7 +1267,7 @@ foreach ($arr_pa_entries as $key => $pa_entry)
 				$pa_entry["operations"][] = "24";
 			}
 			break;
-			
+
 		case "crs":
 			if ($pa_entry["create"] !== false)
 			{
@@ -1281,7 +1281,7 @@ foreach ($arr_pa_entries as $key => $pa_entry)
 
 	// remove multiple values
 	$pa_entry["operations"] = array_unique($pa_entry["operations"]);
-	
+
 	$rbacadmin->revokePermission($pa_entry["ref_id"],$pa_entry["rol_id"]);
 	$rbacadmin->grantPermission($pa_entry["rol_id"],$pa_entry["operations"],$pa_entry["ref_id"]);
 }
@@ -1326,7 +1326,7 @@ foreach ($arr_roles as $role)
 	// work on a copy of rbac_objects
 	$rbac_objects_temp = $rbac_objects;
 
-	// for local roles display only the permissions settings for allowed subobjects 
+	// for local roles display only the permissions settings for allowed subobjects
 	if ($role["rolf_id"] != ROLE_FOLDER_ID)
 	{
 		// first get object in question (parent of role folder object)
@@ -2146,3 +2146,47 @@ CREATE TABLE `tst_eval_settings` (
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`eval_settings_id`)
 ) TYPE=MyISAM COMMENT='User settings for statistical evaluation tool';
+
+<#139>
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('31', 'create_mep', 'create new media pool');
+
+<#140>
+<?php
+
+// insert media pool definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'mep', 'Media pool object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operations to media pool
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#141>
+<?php
+
+// add create media pool operation to categories
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row["obj_id"];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
+$this->db->query($query);
+?>

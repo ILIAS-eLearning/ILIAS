@@ -216,7 +216,7 @@ class ilObjectGUI
 
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		
+
 		// for new objects display properties of parent object
 		if ($a_new_type)
 		{

@@ -148,11 +148,14 @@ class ilObjectDefinition extends ilSaxParser
 		if (defined("ILIAS_MODULE"))
 		{
 			$props = array();
-			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			if (is_array($this->obj_data[$a_obj_name]["properties"]))
 			{
-				if ($prop["module"] != "n")
+				foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 				{
-					$props[$data] = $prop;
+					if ($prop["module"] != "n")
+					{
+						$props[$data] = $prop;
+					}
 				}
 			}
 			return $props;
@@ -160,17 +163,20 @@ class ilObjectDefinition extends ilSaxParser
 		else
 		{
 			$props = array();
-			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			if (is_array($this->obj_data[$a_obj_name]["properties"]))
 			{
-				if ($prop["module"] != 1)
+				foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 				{
-					$props[$data] = $prop;
+					if ($prop["module"] != 1)
+					{
+						$props[$data] = $prop;
+					}
 				}
 			}
 			return $props;
 		}
 	}
-	
+
 	/**
 	* get devmode status by type
 	*

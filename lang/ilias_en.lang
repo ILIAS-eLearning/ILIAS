@@ -404,6 +404,7 @@ common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
 common#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
+common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
@@ -421,6 +422,12 @@ common#:#cat_new#:#New Category
 common#:#cat_read#:#Read access to Category
 common#:#cat_visible#:#Category is visible
 common#:#cat_write#:#Edit Category
+common#:#mep_delete#:#Delete Media Pool
+common#:#mep_edit#:#Edit Media Pool Properties
+common#:#mep_edit_permission#:#Change permission settings
+common#:#mep_read#:#Read Media Pool Content
+common#:#mep_write#:#Edit Media Pool Content
+common#:#mep_visible#:#Media Pool is visible
 common#:#categories#:#Categories
 common#:#categories_imported#:#Category import complete.
 common#:#cc#:#CC
@@ -876,12 +883,16 @@ common#:#lm#:#Learning Module
 common#:#lm_a#:#a Learning Module
 common#:#lm_add#:#Add Learning Module
 common#:#lm_added#:#Learning Module added
+common#:#mep_add#:#Add Media Pool
+common#:#mep_added#:#Added Media Pool
 common#:#lm_create#:#Create Learning Module
 common#:#lm_delete#:#Delete Learning Module
 common#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to Learning Module
 common#:#lm_leave#:#Unsubscribe from Learning Module
 common#:#lm_new#:#New Learning Module
+common#:#mep_new#:#New Media Pool
+common#:#obj_mep#:#Media Pool
 common#:#lm_read#:#Read access to Learning Module
 common#:#lm_visible#:#Learning Module is visible
 common#:#lm_write#:#Edit Learning Module
@@ -955,6 +966,7 @@ common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
 common#:#mob#:#Media Object
+common#:#mep#:#Media Pool
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Month
