@@ -189,21 +189,29 @@ class ilCourseRegisterGUI
 				$this->tpl->setVariable("INFO_REG",$this->lng->txt("crs_info_reg_password"));
 				break;
 		}
-		$this->tpl->setVariable("TXT_REG_UNTIL",$this->lng->txt("crs_reg_until"));
-		if($this->course_obj->getSubscriptionUnlimitedStatus())
+
+		if($this->course_obj->getSubscriptionType() != $this->course_obj->SUBSCRIPTION_DEACTIVATED)
 		{
-			$this->tpl->setVariable("REG_UNTIL",$this->lng->txt("crs_unlimited"));
+			$this->tpl->setCurrentBlock("reg_until");
+			$this->tpl->setVariable("TXT_REG_UNTIL",$this->lng->txt("crs_reg_until"));
+
+			if($this->course_obj->getSubscriptionUnlimitedStatus())
+			{
+				$this->tpl->setVariable("REG_UNTIL",$this->lng->txt("crs_unlimited"));
+			}
+			else if($this->course_obj->getSubscriptionStart() < time())
+			{
+				$this->tpl->setVariable("FROM",$this->lng->txt("crs_to"));
+				$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionEnd()));
+			}
+			else if($this->course_obj->getSubscriptionStart() > time())
+			{
+				$this->tpl->setVariable("FROM",$this->lng->txt("crs_from"));
+				$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionStart()));
+			}
+			$this->tpl->parseCurrentBlock();
 		}
-		else if($this->course_obj->getSubscriptionStart() < time())
-		{
-			$this->tpl->setVariable("FROM",$this->lng->txt("crs_to"));
-			$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionEnd()));
-		}
-		else if($this->course_obj->getSubscriptionStart() > time())
-		{
-			$this->tpl->setVariable("FROM",$this->lng->txt("crs_from"));
-			$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionStart()));
-		}
+
 		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_PASSWORD and
 		   $this->course_obj->inSubscriptionTime())
 		{
