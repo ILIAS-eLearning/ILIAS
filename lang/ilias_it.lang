@@ -53,6 +53,7 @@ common#:#archive#:#archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#assign_lo_forum#:#assegnare LO forum
 common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
+common#:#at_location#:#at location###06 Aug 2003 new variable
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachments###28 Mar 2003 new variable
 common#:#author#:#author
@@ -77,7 +78,10 @@ common#:#cancel#:#cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
 common#:#cat#:#cat
+common#:#cat_a#:#a category###06 Aug 2003 new variable
+common#:#cat_add#:#Add Category###06 Aug 2003 new variable
 common#:#cat_added#:#Category added###16 Jul 2003 new variable
+common#:#cat_new#:#New Category###06 Aug 2003 new variable
 common#:#categories#:#categorie
 common#:#cc#:#cc
 common#:#censorship#:#censorship###13 May 2003 new variable
@@ -97,6 +101,7 @@ common#:#check_languages#:#Check Languages###12 Jun 2003 new variable
 common#:#chg_language#:#cambia lingua
 common#:#chg_password#:#cambia password
 common#:#choose_language#:#scegli la Tua lingua
+common#:#choose_location#:#Choose Location###06 Aug 2003 new variable
 common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 2003 new variable
 common#:#city#:#città
 common#:#clear#:#clear
@@ -114,9 +119,12 @@ common#:#create#:#creare
 common#:#create_in#:#creare in
 common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
 common#:#crs#:#crs
+common#:#crs_a#:#a Course###06 Aug 2003 new variable
+common#:#crs_add#:#Add Course###06 Aug 2003 new variable
 common#:#crs_added#:#Course added###16 Jul 2003 new variable
 common#:#crs_available#:#corsi disponibili
 common#:#crs_management_system#:#sistema management courses
+common#:#crs_new#:#New Course###06 Aug 2003 new variable
 common#:#current_password#:#password attuale
 common#:#cut#:#cut
 common#:#database#:#banca-dati
@@ -191,10 +199,12 @@ common#:#folders#:#cartelle
 common#:#forename#:#nome
 common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#forum
-common#:#forum_added#:#Forum added###15 May 2003 new variable
-common#:#forum_new#:#nuovo forum
 common#:#forums#:#Forums###15 May 2003 new variable
 common#:#frm#:#forum
+common#:#frm_a#:#a Forum###06 Aug 2003 new variable
+common#:#frm_add#:#Add Forum###06 Aug 2003 new variable
+common#:#frm_added#:#Forum added###06 Aug 2003 new variable
+common#:#frm_new#:#New Forum###06 Aug 2003 new variable
 common#:#from#:#di:###25 Mar 2003 content changed
 common#:#functions#:#funzioni
 common#:#gender#:#sesso
@@ -205,7 +215,6 @@ common#:#group_details#:#Group Details###12 Jun 2003 new variable
 common#:#group_filesharing#:##group sharing
 common#:#group_members#:#Group Members###12 Jun 2003 new variable
 common#:#group_name#:#Groupname###29 Apr 2003 new variable
-common#:#group_new#:#New Group###29 Apr 2003 new variable
 common#:#group_not_available#:#any group available###12 Jun 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
@@ -214,7 +223,10 @@ common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#gruppi
 common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
 common#:#grp#:#grp
+common#:#grp_a#:#a Group###06 Aug 2003 new variable
+common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
+common#:#grp_new#:#New Group###06 Aug 2003 new variable
 common#:#help#:#aiuto
 common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
 common#:#host#:##host
@@ -285,7 +297,10 @@ common#:#list_of_questions#:#lista di domande
 common#:#literature#:#letteratura
 common#:#literature_bookmarks#:#favoriti letteratura
 common#:#lm#:#Learning Module###14 May 2003 new variable
+common#:#lm_a#:#a Learning module###06 Aug 2003 new variable
+common#:#lm_add#:#Add Learning Module###06 Aug 2003 new variable
 common#:#lm_added#:#LearningModule added###16 Jul 2003 new variable
+common#:#lm_new#:#New Learning Module###06 Aug 2003 new variable
 common#:#lng#:#lingua
 common#:#lngf#:#lngf
 common#:#lo#:#lezione
@@ -363,6 +378,8 @@ common#:#msg_linked#:#Selected object(s) linked.###10 Jul 2003 new variable
 common#:#msg_may_not_contain#:#This object may not contain objects of type: ###16 Jul 2003 content changed
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_create_object1#:#You have no permission to create###06 Aug 2003 new variable
+common#:#msg_no_perm_create_object2#:#at this location!###06 Aug 2003 new variable
 common#:#msg_no_perm_create_role#:#You have no permission to add roles###08 Jul 2003 new variable
 common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.###10 Jul 2003 new variable
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates###08 Jul 2003 new variable
@@ -599,6 +616,8 @@ common#:#total#:#totale
 common#:#tpl_path#:#percorso template
 common#:#trash#:#cestino
 common#:#treeview#:#Tree view###07 Feb 2003 new variable
+common#:#txt_add_object_instruction1#:#Browse to the location where you want to add###06 Aug 2003 new variable
+common#:#txt_add_object_instruction2#:#.###06 Aug 2003 new variable
 common#:#typ#:#Object Type Definition###20 Mar 2003 new variable
 common#:#type#:#tipo
 common#:#type_your_message_here#:#scrivi il Tuo messaggio qua
@@ -647,8 +666,10 @@ content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
 content#:#cont_Example#:#Example###23 Jun 2003 new variable
 content#:#cont_Headline#:#Headline###23 Jun 2003 new variable
 content#:#cont_List#:#List###12 Jul 2003 new variable
+content#:#cont_LocalFile#:#Local File###06 Aug 2003 new variable
 content#:#cont_Mnemonic#:#Mnemonic###23 Jun 2003 new variable
 content#:#cont_Number#:#Number###12 Jul 2003 new variable
+content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable

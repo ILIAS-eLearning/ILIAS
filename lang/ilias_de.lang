@@ -33,9 +33,6 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
-common#:#lm_new#:#Neues Lernmodul
-common#:#at_location#:#an Position
-common#:#crs_new#:#Neuer Kurs
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
@@ -56,6 +53,7 @@ common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
+common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Autor
@@ -80,7 +78,10 @@ common#:#cancel#:#Abbrechen
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cat#:#Kategorie
+common#:#cat_a#:#eine Kategorie
+common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
+common#:#cat_new#:#Neue Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
@@ -100,6 +101,7 @@ common#:#check_languages#:#Sprachen checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
+common#:#choose_location#:#Position w&auml;hlen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
@@ -117,9 +119,12 @@ common#:#create#:#Erstellen
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#crs#:#Kurs
+common#:#crs_a#:#einen Kurs
+common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
+common#:#crs_new#:#Neuer Kurs
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#database#:#Datenbank
@@ -194,16 +199,12 @@ common#:#folders#:#Ordner
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
-common#:#frm_added#:#Forum angelegt
-common#:#frm_add#:#Forum anlegen
-common#:#grp_add#:#Gruppe anlegen
-common#:#lm_add#:#Lernmodul anlegen
-common#:#crs_add#:#Kurs anlegen
-common#:#cat_add#:#Kategorie anlegen
-common#:#cat_new#:#Neue Kategorie
-common#:#frm_new#:#Neues Forum
 common#:#forums#:#Foren
 common#:#frm#:#Forum
+common#:#frm_a#:#ein Forum
+common#:#frm_add#:#Forum anlegen
+common#:#frm_added#:#Forum angelegt
+common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
@@ -214,7 +215,6 @@ common#:#group_details#:#Gruppen-Details
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppen-Mitglieder
 common#:#group_name#:#Gruppenname
-common#:#grp_new#:#Neue Gruppe
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
@@ -223,7 +223,10 @@ common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppen übersicht
 common#:#grp#:#Gruppe
+common#:#grp_a#:#eine Gruppe
+common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
+common#:#grp_new#:#Neue Gruppe
 common#:#help#:#Hilfe
 common#:#hobby#:#Interessen/Hobbies
 common#:#host#:#Host
@@ -294,7 +297,10 @@ common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul
+common#:#lm_a#:#ein Lernmodul
+common#:#lm_add#:#Lernmodul anlegen
 common#:#lm_added#:#Lernmodul angelegt
+common#:#lm_new#:#Neues Lernmodul
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
@@ -306,7 +312,6 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
-common#:#choose_location#:#Position w&auml;hlen
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
@@ -372,9 +377,9 @@ common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage ve
 common#:#msg_linked#:#Objekt(e) verknüpft.
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
 common#:#msg_no_perm_create_object2#:#an dieser Position anzulegen!
-common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen!
 common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen!
@@ -413,13 +418,6 @@ common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
-common#:#grp_a#:#eine Gruppe
-common#:#frm_a#:#ein Forum
-common#:#crs_a#:#einen Kurs
-common#:#lm_a#:#ein Lernmodul
-common#:#cat_a#:#eine Kategorie
-common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
-common#:#txt_add_object_instruction2#:#einf&uuml;gen m&ouml;chten.
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
@@ -618,6 +616,8 @@ common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
+common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
+common#:#txt_add_object_instruction2#:#einf&uuml;gen m&ouml;chten.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
@@ -666,8 +666,10 @@ content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline#:#Überschrift
 content#:#cont_List#:#ListListe
+content#:#cont_LocalFile#:#Local File###06 Aug 2003 new variable
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
+content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_all_pages#:#Alle Seiten
