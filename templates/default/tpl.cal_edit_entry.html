@@ -1,7 +1,11 @@
-<h2>{TXT_PAGEHEADLINE}</h2>
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
+<div class="il_Tab">
+{TABS}
+</div>
+</div>
 {BUTTONS}
 <b><font color="red">{TXT_Error}</font></b>
-<form action="edit_entry.php" method="post" name="editentryform">
+<form action="cal_edit_entry.php" method="post" name="editentryform">
 <input type="hidden" name="aid" value="{VAL_aid}">
 <table border="0">
 	<tr>
@@ -100,7 +104,7 @@
 											}
 										}
 									
-										var linkParam = 'showUsersAppointments.php?date=' + dayObj.options[dayObj.selectedIndex].value + 
+										var linkParam = 'cal_show_User_appointments.php?date=' + dayObj.options[dayObj.selectedIndex].value +
 																 '&month=' + monthObj.options[monthObj.selectedIndex].value + 
 																 '&year=' + yearObj.options[yearObj.selectedIndex].text + 
 																 '&hour=' + hourObj.value + 

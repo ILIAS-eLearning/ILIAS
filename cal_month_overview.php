@@ -9,11 +9,11 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.CalendarTools.php";
-require_once "./classes/class.AppointmentHandler.php";
-require_once "./classes/class.Appointment.php";
-			
-$cal = New CalendarTools();
+require_once "./classes/Calendar/class.ilCalendarTools.php";
+require_once "./classes/Calendar/class.ilAppointmentHandler.php";
+require_once "./classes/Calendar/class.ilAppointment.php";
+
+$cal = new ilCalendarTools();
 if ($_GET["ts"] != "") {
 	$chosents = $_GET["ts"];
 	$chosen = getdate($chosents);
@@ -35,37 +35,16 @@ $todayts = mktime(0,0,0,$today["mon"],$today["mday"],$today["year"]);
 $weekdayFirstDay = $cal->getFirstWeekday($chosen["mon"], $chosen["year"] );
 $weekdayFirstDay2 = $cal->getFirstWeekday($chosen2["mon"], $chosen2["year"] );
 
-$ah = new AppointmentHandler();
-$appointments = $ah->getAppointmentArrayList($ilias->account->Id, 
-  															mktime(0,0,0,$chosen["mon"],1,$chosen["year"]), 
+$ah = new ilAppointmentHandler();
+$appointments = $ah->getAppointmentArrayList($ilias->account->getId(),
+  															mktime(0,0,0,$chosen["mon"],1,$chosen["year"]),
   															mktime(23,59,59,$chosen["mon"],$cal->getNumOfDays($chosen["mon"], $chosen["year"]),$chosen["year"]));
+
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.cal_month_overview.html");
 
-//add template for buttons
-$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","neuer Termin");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_date.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Tagesübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_week_overview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Wochenübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_appointment_list.php?ts=".$todayts);
-$tpl->setVariable("BTN_TXT","Halbjahresübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
+// display tabs
+include "./include/inc.calendar_tabs.php";
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $cal->getMappedWeekday($chosen["wday"]).", ".

@@ -14,7 +14,7 @@ require_once "./classes/Calendar/class.ilAppointment.php";
 require_once "./classes/Calendar/class.ilCalDBHandler.php";
 require_once "./classes/class.ilObjUser.php";
 	
-class AppointmentHandler
+class ilAppointmentHandler
 {	
 	
 	var $appointmentArrayList;

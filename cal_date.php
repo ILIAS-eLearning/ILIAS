@@ -25,8 +25,8 @@ $todayts = mktime(0,0,0,$today["mon"],$today["mday"],$today["year"]);
  */
 /*
 if ($_GET["fillDB"] == "true") {
-	$userArr = array(0 => $ilias->account->Id);
-	//echo "UserId: ".$ilias->account->Id;
+	$userArr = array(0 => $ilias->account->getId());
+	//echo "UserId: ".$ilias->account->getId();
 
 	for ($i=0; $i<=10; $i++) {
 		$appointment = new ilAppointment();
@@ -39,7 +39,7 @@ if ($_GET["fillDB"] == "true") {
 		$appointment->setStartTimestamp($ats);
 		//$appointment->setStartTimestamp(mktime(mt_rand(6, 20), mt_rand(0, 59), 0, 5, mt_rand(1, 31), 2003));
 		$appointment->setTerm("(".$cal->addLeadingZero($i).") Dies ist ein langer Termin (".date("d.m.", $ats).")");
-		$appointment->setOwnerId($ilias->account->Id);
+		$appointment->setOwnerId($ilias->account->getId());
 		$appointment->setLocation("");
 		$appointment->setSerial(0);
 
@@ -54,7 +54,7 @@ if ($_GET["fillDB"] == "true") {
 	$appointment->setPriorityId(1);
 	$appointment->setStartTimestamp(mktime(12, 0, 0, $today["mon"], 15, 2003));
 	$appointment->setTerm("Dies ist ein Termin mit 48 stündiger Laufzeit");
-	$appointment->setOwnerId($ilias->account->Id);
+	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setLocation("");
 	$appointment->setSerial(0);
 	$ah->insertAppointment($userArr, $appointment);
@@ -68,7 +68,7 @@ if ($_GET["fillDB"] == "true") {
 	$appointment->setPriorityId(1);
 	$appointment->setStartTimestamp(mktime(mt_rand(6, 20), mt_rand(0, 59), 0, $today["mon"], 15, 2003));
 	$appointment->setTerm("Dies ist ein MONATLICHER Wiederholungstermin ");
-	$appointment->setOwnerId($ilias->account->Id);
+	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setLocation("");
 	$appointment->setSerial(1);
 	$appointment->setSer_type("ser_month");
@@ -84,7 +84,7 @@ if ($_GET["fillDB"] == "true") {
 	$appointment->setPriorityId(1);
 	$appointment->setStartTimestamp(mktime(mt_rand(6, 20), mt_rand(0, 59), 0, $today["mon"], 15, 2003));
 	$appointment->setTerm("Dies ist ein HALBJÄHRLICHER Wiederholungstermin ");
-	$appointment->setOwnerId($ilias->account->Id);
+	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setLocation("");
 	$appointment->setSerial(1);
 	$appointment->setSer_type("ser_halfayear");
@@ -100,7 +100,7 @@ if ($_GET["fillDB"] == "true") {
 	$appointment->setPriorityId(1);
 	$appointment->setStartTimestamp(mktime(mt_rand(6, 20), mt_rand(0, 59), 0, $today["mon"], 15, 2003));
 	$appointment->setTerm("Dies ist ein JÄHRLICHER Wiederholungstermin ");
-	$appointment->setOwnerId($ilias->account->Id);
+	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setLocation("");
 	$appointment->setSerial(1);
 	$appointment->setSer_type("ser_year");
@@ -149,7 +149,7 @@ $chosen2 = getdate($chosents2);
 $weekdayFirstDay = $cal->getFirstWeekday($chosen["mon"], $chosen["year"] );
 $weekdayFirstDay2 = $cal->getFirstWeekday($chosen2["mon"], $chosen2["year"] );
 
-$appointments = $ah->getAppointmentArrayList($ilias->account->Id, mktime(0,0,0,$chosen["mon"],$chosen["mday"],$chosen["year"]), mktime(23,59,59,$chosen["mon"],$chosen["mday"],$chosen["year"]));
+$appointments = $ah->getAppointmentArrayList($ilias->account->getId(), mktime(0,0,0,$chosen["mon"],$chosen["mday"],$chosen["year"]), mktime(23,59,59,$chosen["mon"],$chosen["mday"],$chosen["year"]));
 //echo "count(appointments): ".count($appointments)."<br>";
 
 //add template for content
@@ -158,25 +158,8 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.cal_date.html");
 //add template for buttons
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","neuer Termin");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","weekOverview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Wochenübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","monthOverview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Monatsübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","appointmentList.php?ts=".$todayts);
-$tpl->setVariable("BTN_TXT","Halbjahresübersicht");
-$tpl->parseCurrentBlock();
+// display tabs
+include "./include/inc.calendar_tabs.php";
 
 /*
  * Buttons for filling and emptying the database for testing purposes
@@ -191,13 +174,16 @@ $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","cal_date.php?deleteDB=true");
 $tpl->setVariable("BTN_TXT","leere Datenbank");
 $tpl->parseCurrentBlock();
-*/
 $tpl->touchBlock("btn_row");
+*/
+
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $cal->getMappedWeekday($chosen["wday"]).", ".
 				 $chosen["mday"].".".$cal->getMonth($chosen["mon"])." ".$chosen["year"]);
 
+$tpl->setVariable("TXT_TIME", $lng->txt("time"));
+$tpl->setVariable("TXT_APPOINTMENT", $lng->txt("appointment"));
 $tpl->setVariable("MINUS_YEAR", strtotime("-1 year", $chosents));
 $tpl->setVariable("CHOSEN_YEAR", $chosen["year"]);
 $tpl->setVariable("PLUS_YEAR", strtotime("+1 year", $chosents));

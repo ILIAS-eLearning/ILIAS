@@ -33,6 +33,13 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
 common#:#home#:#Home
+common#:#appointment#:#Appointment
+common#:#new_appointment#:#New Appointment
+common#:#calendar#:#Calendar
+common#:#day#:#Day
+common#:#week#:#Week
+common#:#month#:#Month
+common#:#appointment_list#:#Appointment List
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted

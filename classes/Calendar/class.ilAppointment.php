@@ -10,7 +10,7 @@
 * @author Mark Ulbrich <Mark_Ulbrich@web.de>
 **/
 
-class Appointment
+class ilAppointment
 {
 	var $access;
 	var $appointmentId;
@@ -68,7 +68,7 @@ class Appointment
 	}
 	
 	function getStartTimestamp() {
-		return $this->startTimestamp;	
+		return $this->startTimestamp;
 	}
 	
 	function getTerm() {
@@ -90,7 +90,7 @@ class Appointment
 	function getSer_days() {
 		return $this->ser_days;	
 	}
-	
+
 	function getSer_stop() {
 		return $this->ser_stop;	
 	}
@@ -126,7 +126,7 @@ class Appointment
 	function setDescription($thisDescription) {
 		$this->description = $thisDescription;		
 	}
-	
+
 	function setDuration($thisDuration) {
 		$this->duration = $thisDuration;	
 	}
@@ -148,7 +148,7 @@ class Appointment
 	}
 	
 	function setLocation($thisLocation) {
-		$this->location = $thisLocation;	
+		$this->location = $thisLocation;
 	}
 	
 	function setSerial($thisSerial) {

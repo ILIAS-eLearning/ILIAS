@@ -60,6 +60,14 @@ $tpl->parseCurrentBlock();
 
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
+	// user calendar
+	$tpl->setCurrentBlock("tab");
+	$tpl->setVariable("TAB_TYPE", "tabinactive");
+	$tpl->setVariable("TAB_LINK","cal_month_overview.php");
+	$tpl->setVariable("TAB_TEXT",$lng->txt("calendar"));
+	$tpl->setVariable("TAB_TARGET","bottom");
+	$tpl->parseCurrentBlock();
+
 	// user password
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE",$script_name == "usr_password.php" ? "tabactive" : "tabinactive");

@@ -131,3 +131,13 @@ CREATE TABLE cal_user_group (
   description text,
   PRIMARY KEY  (groupId,userId)
 ) TYPE=MyISAM;
+
+<#20>
+CREATE TABLE dummy_groups (
+  groupId int(11) NOT NULL auto_increment,
+  description text,
+  owner varchar(20) NOT NULL default '',
+  term varchar(20) NOT NULL default '',
+  PRIMARY KEY  (groupId)
+) TYPE=MyISAM;
+

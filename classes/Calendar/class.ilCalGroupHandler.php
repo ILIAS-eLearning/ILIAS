@@ -10,7 +10,7 @@
  **/
 require_once "./classes/class.ilObjUser.php";
 
-class GroupHandler
+class ilCalGroupHandler
 {
 	function getGroups($userId) {
 		$actUser = new ilObjUser($userId);
