@@ -63,5 +63,5 @@ class ilObjCategory extends ilObject
 		
 		// put here cat specific stuff
 	}
-} // END class.CategoryObject
+} // END class.ilObjCategory
 ?>
