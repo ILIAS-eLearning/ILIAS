@@ -57,13 +57,6 @@ $tpl->setVariable("LTAB_LN_REF","usr_profile.php");
 $tpl->setVariable("LTAB_LN_FRAME","bottom");
 $tpl->parseCurrentBlock();
 
-//change password
-$tpl->setCurrentBlock("ltab_cell_one_frame");
-$tpl->setVariable("LTAB_LN_TXT",$lng->txt("chg_password"));
-$tpl->setVariable("LTAB_LN_REF","usr_password.php");
-$tpl->setVariable("LTAB_LN_FRAME","bottom");
-$tpl->parseCurrentBlock();
-
 // user calendar
 $tpl->setCurrentBlock("ltab_cell_one_frame");
 $tpl->setVariable("LTAB_LN_TXT",$lng->txt("calendar"));

@@ -33,6 +33,7 @@
 
 require_once "./include/inc.header.php";
 
+
 $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
 
 //$image_dir = $webspace_dir."/usr_images";
@@ -80,6 +81,63 @@ function upload_file()
 }
 // End of function upload file
 
+// change user password
+function change_password()
+{	
+	
+	global $ilias, $lng, $tpl, $password_error;
+	require_once "./classes/class.perm.php";
+	require_once "./classes/class.ilUtil.php";
+	
+	// catch hack attempts
+	if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+	{
+		
+		$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+		
+	}
+	
+	// check old password
+	if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
+	{ 
+		$password_error=$lng->txt("passwd_wrong");
+		//$ilias->raiseError($lng->txt("passwd_wrong"),$ilias->error_obj->MESSAGE);
+		
+	}
+	
+	// check new password
+	if ($_POST["desired_password"] != $_POST["retype_password"])
+	{	
+		$password_error=$lng->txt("passwd_not_match");
+		//$ilias->raiseError($lng->txt("passwd_not_match"),$ilias->error_obj->MESSAGE);
+	}
+			
+	// validate password
+	if (!ilUtil::is_password($_POST["desired_password"]))
+	{ 
+		$password_error=$lng->txt("passwd_invalid");
+		//$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
+	}
+	
+	if ($_POST["current_password"] != "")
+	{	
+		$ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
+		
+		/*if ($ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]))
+		{
+			sendInfo($lng->txt("msg_changes_ok"));
+			
+		}
+		else
+		{
+			sendInfo($lng->txt("msg_failed"));
+			
+		}*/
+	}
+
+}
+// End of function chnage_password
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -105,6 +163,7 @@ infoPanel();
 // display tabs
 include "./include/inc.personaldesktop_buttons.php";
 
+
 // To display picture after Uploaded
 //$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
 
@@ -124,6 +183,15 @@ if ($_GET["cmd"] == "save")
 	//3header ("Location: usr_profile.php");
 	//4exit;
 	}
+	
+	// error content
+	$password_error;
+	//change password
+	if(!empty($_POST["usr_change_password"]))
+	{
+		change_password();
+	}
+	
 	//init checking var
 	$form_valid = true;
 
@@ -287,7 +355,8 @@ if ($_GET["cmd"] == "save")
 				$ilias->account->setLanguage($_POST["usr_language"]);
 				$reload = true;
 		}
-
+		
+		
 		// save user data & object_data
 		$ilias->account->setTitle($ilias->account->getFullname());
 		$ilias->account->setDescription($ilias->account->getEmail());
@@ -305,7 +374,10 @@ if ($_GET["cmd"] == "save")
 		//$userObj->setTitle($ilias->account->getFullname());
 		//$userObj->setDescription($ilias->account->getEmail());
 		//$userObj->update();
-
+		
+		
+		
+		
 		// reload page only if skin or style were changed
 		if ($reload)
 		{
@@ -316,9 +388,15 @@ if ($_GET["cmd"] == "save")
 		else
 		{
 			// feedback
-			sendInfo($lng->txt("saved_successfully"),true);
-
-			header ("Location: usr_personaldesktop.php");
+			if(!empty($password_error))
+			{
+				sendInfo($password_error,true);
+			}
+			else
+			{
+				sendInfo($lng->txt("saved_successfully"),true);
+			}
+			header ("Location: usr_profile.php");
 			exit();
 		}
 
@@ -404,6 +482,13 @@ $tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
 $tpl->setVariable("UPLOAD",$lng->txt("upload"));
 $tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 $tpl->setVariable("USER_FILE", $lng->txt("user_file"));
+
+
+$tpl->setVariable("TXT_CHANGE_PASSWORD", $lng->txt("chg_password"));
+$tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
+$tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
+$tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));
+$tpl->setVariable("CHANGE_PASSWORD",$lng->txt("chg_password"));
 
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
