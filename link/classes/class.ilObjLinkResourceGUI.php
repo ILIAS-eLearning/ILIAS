@@ -141,7 +141,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr_b.gif",$this->lng->txt("web_resources"));
-		$tbl->setHeaderNames(array($this->lng->txt("description")));
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"),array("ref_id" => $this->object->getRefId(),
 													   "cmd" => 'listItems'));
 		$tbl->setColumnWidth(array("100%"));
@@ -254,7 +254,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("web_resources"),"icon_webr_b.gif",$this->lng->txt("web_resources"));
 		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("description"),
+								   $this->lng->txt("title"),
 								   $this->lng->txt("target"),
 								   $this->lng->txt('valid'),
 								   $this->lng->txt('active'),
@@ -318,7 +318,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_webr.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_webr'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('webr_delete_items'));
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('title'));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
 
@@ -431,13 +431,13 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TARGET",ilUtil::prepareFormOutput($item['target']));
 		$this->tpl->setVariable("TXT_ACTIVE",$this->lng->txt('webr_active'));
 		$this->tpl->setVariable("ACTIVE_CHECK",ilUtil::formCheckbox($item['active'] ? 1 : 0,'active',1));
-		$this->tpl->setVariable("TXT_VALID",$this->lng->txt('webr_valid'));
+		$this->tpl->setVariable("TXT_VALID",$this->lng->txt('valid'));
 		$this->tpl->setVariable("VALID_CHECK",ilUtil::formCheckbox($item['valid'] ? 1 : 0,'valid',1));
-		$this->tpl->setVariable("TXT_DISABLE",$this->lng->txt('webr_disable'));
+		$this->tpl->setVariable("TXT_DISABLE",$this->lng->txt('disable_check'));
 		$this->tpl->setVariable("DISABLE_CHECK",ilUtil::formCheckbox($item['disable_check'] ? 1 : 0,'disable',1));
 		$this->tpl->setVariable("TXT_CREATED",$this->lng->txt('created'));
 		$this->tpl->setVariable("CREATED",date('Y-m-d H:i:s',$item['create_date']));
-		$this->tpl->setVariable("TXT_MODIFIED",$this->lng->txt('last_modified'));
+		$this->tpl->setVariable("TXT_MODIFIED",$this->lng->txt('last_change'));
 		$this->tpl->setVariable("MODIFIED",date('Y-m-d H:i:s',$item['last_update']));
 		$this->tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check'));
 
@@ -477,6 +477,8 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		}
 		
 		$this->object->initLinkResourceItemsObject();
+
+		$this->object->items_obj->readItem($_SESSION['webr_item_id']);
 		$this->object->items_obj->setLinkId($_SESSION['webr_item_id']);
 		$this->object->items_obj->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->items_obj->setTarget(ilUtil::stripSlashes($_POST['target']));
@@ -658,7 +660,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		if((bool) $ilias->getSetting('cron_link_check'))
+		if((bool) $ilias->getSetting('cron_web_resource_check'))
 		{
 			include_once './classes/class.ilLinkCheckNotify.php';
 
@@ -722,7 +724,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 			return false;
 		}
 
+
 		$this->object->initLinkResourceItemsObject();
+
+		// Set all link to valid. After check invalid links will be set to invalid
+		$this->object->items_obj->updateValidByCheck();
+ 		
 		foreach($this->link_checker_obj->checkWebResourceLinks() as $invalid)
 		{
 			$this->object->items_obj->readItem($invalid['page_id']);

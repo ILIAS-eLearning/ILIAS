@@ -126,11 +126,11 @@ class ilLinkResourceItems
 	}
 	function setLastCheckDate($a_date)
 	{
-		$this->check_date = $a_date;
+		$this->last_check = $a_date;
 	}
 	function getLastCheckDate()
 	{
-		return $this->check_date;
+		return $this->last_check;
 	}
 	function setValidStatus($a_status)
 	{
@@ -173,7 +173,8 @@ class ilLinkResourceItems
 			"active = '".$this->getActiveStatus()."', ".
 			"valid = '".$this->getValidStatus()."', ".
 			"disable_check = '".$this->getDisableCheckStatus()."', ".
-			"last_update = '".$this->getLastUpdateDate()."' ".
+			"last_update = '".$this->getLastUpdateDate()."', ".
+			"last_check = '".$this->getLastCheckDate()."' ".
 			"WHERE link_id = '".$this->getLinkId()."' ".
 			"AND webr_id = '".$this->getLinkResourceId()."'";
 
@@ -221,17 +222,62 @@ class ilLinkResourceItems
 		return true;
 	}
 
-	function updateLastCheck()
+	function updateLastCheck($a_offset = 0)
 	{
-		$query = "UPDATE webr_items ".
-			"SET last_check = '".time()."' ".
-			"WHERE webr_id = '".$this->getLinkResourceId()."' ".
-			"AND disable_check = '0'";
-
-		$this->db->query($query);
-
+		if($a_offset)
+		{
+			$period = $a_offset ? $a_offset : 0;
+			$time = time() - $period;
+			
+			
+			$query = "UPDATE webr_items ".
+				"SET last_check = '".time()."' ".
+				"WHERE webr_id = '".$this->getLinkResourceId()."' ".
+				"AND disable_check = '0' ".
+				"AND last_check < '".$time."'";
+			
+			$this->db->query($query);
+		}
+		else
+		{
+			$query = "UPDATE webr_items ".
+				"SET last_check = '".time()."' ".
+				"WHERE webr_id = '".$this->getLinkResourceId()."' ".
+				"AND disable_check = '0' ";
+			
+			$this->db->query($query);
+		}
 		return true;
 	}
+
+	function updateValidByCheck($a_offset = 0)
+	{
+		if($a_offset)
+		{
+			$period = $a_offset ? $a_offset : 0;
+			$time = time() - $period;
+			
+			
+			$query = "UPDATE webr_items ".
+				"SET valid = '1' ".
+				"WHERE disable_check = '0' ".
+				"AND webr_id = '".$this->getLinkResourceId()."' ".
+				"AND last_check < '".$time."'";
+			
+			$this->db->query($query);
+		}
+		else
+		{
+			$query = "UPDATE webr_items ".
+				"SET valid = '1' ".
+				"WHERE disable_check = '0' ".
+				"AND webr_id = '".$this->getLinkResourceId()."'";
+
+			$this->db->query($query);
+		}
+		return true;
+	}
+
 
 	function add($a_update_history = true)
 	{
@@ -272,6 +318,7 @@ class ilLinkResourceItems
 			$this->setDisableCheckStatus($row->disable_check);
 			$this->__setCreateDate($row->create_date);
 			$this->__setLastUpdateDate($row->last_update);
+			$this->setLastCheckDate($row->last_check);
 			$this->setValidStatus($row->valid);
 			$this->setLinkId($row->link_id);
 		}
@@ -335,13 +382,19 @@ class ilLinkResourceItems
 		return $active_items ? $active_items : array();
 	}
 
-	function getCheckItems()
+	function getCheckItems($a_offset = 0)
 	{
+		$period = $a_offset ? $a_offset : 0;
+		$time = time() - $period;
+
 		foreach($this->getAllItems() as $id => $item_data)
 		{
 			if(!$item_data['disable_check'])
 			{
-				$check_items[$id] = $item_data;
+				if(!$item_data['last_check'] or $item_data['last_check'] < $time)
+				{
+					$check_items[$id] = $item_data;
+				}
 			}
 		}
 		return $check_items ? $check_items : array();

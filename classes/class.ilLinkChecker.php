@@ -56,6 +56,15 @@ class ilLinkChecker
 		$this->validate_all = $a_validate_all;
 	}
 
+	function setCheckPeriod($a_period)
+	{
+		$this->period = $a_period;
+	}
+	function getCheckPeriod()
+	{
+		return $this->period;
+	}
+
 	function setMailStatus($a_status)
 	{
 		$this->mail_status = (bool) $a_status;
@@ -65,6 +74,14 @@ class ilLinkChecker
 		return (bool) $this->mail_status;
 	}
 
+	function __setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+	function __getType()
+	{
+		return $this->type;
+	}
 
 	function setObjId($a_page_id)
 	{
@@ -125,6 +142,7 @@ class ilLinkChecker
 	{
 		$pages = array();
 
+		$this->__setType('webr');
 		$this->__clearLogMessages();
 		$this->__clearInvalidLinks();
 		$this->__appendLogMessage('LinkChecker: Start checkLinks()');
@@ -150,6 +168,7 @@ class ilLinkChecker
 	{
 		$pages = array();
 
+		$this->__setType('lm');
 		$this->__clearLogMessages();
 		$this->__clearInvalidLinks();
 		$this->__appendLogMessage('LinkChecker: Start checkLinks()');
@@ -279,60 +298,73 @@ class ilLinkChecker
 
 	function __sendMail()
 	{
+		global $ilUser;
+
+
 		if(!count($notify = $this->__getNotifyLinks()))
 		{
 			// Nothing to do
 			return true;
 		}
-		if($this->getMailStatus())
+		if(!$this->getMailStatus())
 		{
-			// get all users who want to be notified
-			include_once '../classes/class.ilLinkCheckNotify.php';
-			
-			foreach(ilLinkCheckNotify::_getAllNotifiers($this->db) as $usr_id => $obj_ids)
-			{
-				// Get usr_data (default language, email)
-				$usr_data = $this->__fetchUserData($usr_id);
-
-				include_once '../classes/class.ilMimeMail.php';
-				
-				$mail =& new ilMimeMail();
-				
-				$mail->From('noreply');
-				$mail->To($usr_data['email']);
-				$mail->Subject($this->__txt($usr_data['lang'],'link_check_subject'));
-
-				$body = $this->__txt($usr_data['lang'],'link_check_body_top')."\r\n";
-
-				$counter = 0;
-				foreach($obj_ids as $obj_id)
-				{
-					if(!isset($notify[$obj_id]))
-					{
-						continue;
-					}
-					++$counter;
-
-					$body .= $this->__txt($usr_data['lang'],'lo');
-					$body .= ': ';
-					$body .= $this->__getTitle($obj_id)."\r\n";
-
-					// Print all invalid
-					foreach($notify[$obj_id] as $data)
-					{
-						$body .= $data['url']."\r\n";
-					}
-					$body .= "\r\n";
-				}
-				if($counter)
-				{
-					$mail->Body($body);
-					$mail->Send();
-					$this->__appendLogMessage('LinkChecker: Sent mail to '.$usr_data['email']);
-
-				}
-			}
+			return true;
 		}
+
+		include_once './classes/class.ilLinkCheckNotify.php';
+		
+		foreach(ilLinkCheckNotify::_getAllNotifiers($this->db) as $usr_id => $obj_ids)
+		{
+			if(!is_object($tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false)))
+			{
+				$this->__appendLogMessage('LinkChecker: Cannot find user with id: '.$usr_id);
+				continue;
+			}
+
+			$counter = 0;
+			foreach($obj_ids as $obj_id)
+			{
+				if(!isset($notify[$obj_id]))
+				{
+					continue;
+				}
+				++$counter;
+
+				switch($this->__getType())
+				{
+					case 'webr':
+						$body .= $this->__txt($tmp_user->getLanguage(),'obj_webr');
+						break;
+
+					case 'lm':
+					default:
+						$body .= $this->__txt($tmp_user->getLanguage(),'lo');
+						break;
+				}
+						
+				$body .= ': ';
+				$body .= $this->__getTitle($obj_id)."\r\n";
+
+				// Print all invalid
+				foreach($notify[$obj_id] as $data)
+				{
+					$body .= $data['url']."\r\n";
+				}
+				$body .= "\r\n";
+			}
+			if($counter)
+			{
+				include_once "classes/class.ilFormatMail.php";
+				
+				$umail = new ilFormatMail($tmp_user->getId());
+				$subject = $this->__txt($tmp_user->getLanguage(),'link_check_subject');
+			}
+
+			$umail->sendMail($tmp_user->getLogin(),"","",$subject,$body,array(),array("normal"));
+			$this->__appendLogMessage('LinkChecker: Sent mail to '.$tmp_user->getEmail());
+		}
+				
+
 	}
 
 	function __getNotifyLinks()
@@ -396,7 +428,7 @@ class ilLinkChecker
 
 		$link_res_obj = new ilLinkResourceItems($this->getObjId());
 
-		foreach($check_links = $link_res_obj->getCheckItems() as $item_data)
+		foreach($check_links = $link_res_obj->getCheckItems($this->getCheckPeriod()) as $item_data)
 		{
 				$url_data = parse_url($item_data['target']);
 				
