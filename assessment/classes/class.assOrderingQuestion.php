@@ -419,14 +419,10 @@ class ASS_OrderingQuestion extends ASS_Question {
       array_push($found_value2, $data->value2);
     }
     $points = 0;
-    $counter = 0;
     foreach ($found_value1 as $key => $value) {
       if ($this->answers[$value]->get_solution_order() == $found_value2[$key]) {
-        $counter++;
+        $points += $this->answers[$value]->get_points();
       }
-    }
-    if (count($this->answers) == $counter) {
-      $points = $this->points;
     }
     return $points;
   }

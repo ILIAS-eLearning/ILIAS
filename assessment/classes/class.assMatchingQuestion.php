@@ -461,16 +461,12 @@ class ASS_MatchingQuestion extends ASS_Question {
       array_push($found_value2, $data->value2);
     }
     $points = 0;
-    $counter = 0;
     foreach ($found_value1 as $key => $value) {
       foreach ($this->matchingpairs as $answer_key => $answer_value) {
         if (($answer_value->get_order() == $value) and ($answer_value->get_matchingtext_order() == $found_value2[$key])) {
-          $counter++;
+					$points += $answer_value->get_points();
         }
       }
-    }
-    if (count($this->matchingpairs) ==  $counter) {
-      $points = $this->points;
     }
     return $points;
   }

@@ -726,6 +726,9 @@ class ilObjTestGUI extends ilObjectGUI
         case "qt_ordering":
           $question = new ASS_OrderingQuestion();
           break;
+				case "qt_imagemap":
+					$question = new ASS_ImagemapQuestion();
+					break;
         case "qt_multiple_choice_sr":
         case "qt_multiple_choice_mr":
           $question = new ASS_MultipleChoice();
@@ -818,7 +821,10 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
 				if ($this->sequence) {
-					$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+					if ($this->sequence <= $this->object->get_question_count()) {
+						$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+					} else {		
+					}
 				}
 			} else {
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
