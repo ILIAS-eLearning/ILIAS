@@ -46,7 +46,7 @@
 <!-- BEGIN reporting_date -->
 <tr>
   <td class="option">{TEXT_SCORE_DATE}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_reporting_date" id="chb_reporting_date" value="1"{CHECKED_REPORTING_DATE} /> <label for="chb_reporting_date">{TXT_ENABLED}</label><br>{INPUT_REPORTING_DATE}</td>
+  <td class="option_value"><input type="checkbox" name="chb_reporting_date" id="chb_reporting_date" value="1"{CHECKED_REPORTING_DATE} /> <label for="chb_reporting_date">{TXT_ENABLED}</label><br>{INPUT_REPORTING_DATE} <input type="image" alt="{TXT_REPORTING_DATE_CALENDAR}" title="{TXT_REPORTING_DATE_CALENDAR}" src="{IMG_REPORTING_DATE_CALENDAR}" id="btn_cal_reporting_date" /></td>
 </tr>
 <!-- END reporting_date -->
 <tr class="tblheader">
@@ -64,13 +64,13 @@
 <!-- BEGIN starting_time -->
 <tr>
   <td class="option">{TEXT_STARTING_TIME}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_starting_time" id="chb_starting_time" value="1"{CHECKED_STARTING_TIME} /> <label for="chb_starting_time">{TXT_ENABLED}</label><br>{INPUT_STARTING_TIME}</td>
+  <td class="option_value"><input type="checkbox" name="chb_starting_time" id="chb_starting_time" value="1"{CHECKED_STARTING_TIME} /> <label for="chb_starting_time">{TXT_ENABLED}</label><br>{INPUT_STARTING_TIME} <input type="image" alt="{TXT_STARTING_TIME_CALENDAR}" title="{TXT_STARTING_TIME_CALENDAR}" src="{IMG_STARTING_TIME_CALENDAR}" id="btn_cal_starting_time" /></td>
 </tr>
 <!-- END starting_time -->
 <!-- BEGIN ending_time -->
 <tr>
   <td class="option">{TEXT_ENDING_TIME}:</td>
-  <td class="option_value"><input type="checkbox" name="chb_ending_time" id="chb_ending_time" value="1"{CHECKED_ENDING_TIME} /> <label for="chb_ending_time">{TXT_ENABLED}</label><br>{INPUT_ENDING_TIME}</td>
+  <td class="option_value"><input type="checkbox" name="chb_ending_time" id="chb_ending_time" value="1"{CHECKED_ENDING_TIME} /> <label for="chb_ending_time">{TXT_ENABLED}</label><br>{INPUT_ENDING_TIME} <input type="image" alt="{TXT_ENDING_TIME_CALENDAR}" title="{TXT_ENDING_TIME_CALENDAR}" src="{IMG_ENDING_TIME_CALENDAR}" id="btn_cal_ending_time" /></td>
 </tr>
 <!-- END ending_time -->
 <tr>
@@ -87,3 +87,23 @@
 </td></tr>
 </table>
 </form>
+<script type="text/javascript">
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_starting_time",
+			inputFieldsDate : "starting_date"
+		} 
+	); 
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_ending_time",
+			inputFieldsDate : "ending_date"
+		} 
+	);
+	Calendar.setup( 
+		{ 
+			button : "btn_cal_reporting_date",
+			inputFieldsDate : "reporting_date"
+		} 
+	); 
+</script> 

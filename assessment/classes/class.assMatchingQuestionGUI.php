@@ -154,6 +154,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 			}
 		}
+		$add_random_id = "";
 		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
 		{
 			// Template für neue Antwort erzeugen
@@ -178,7 +179,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-			$this->tpl->setVariable("TERM_ID", $this->object->get_random_id());
+			$add_random_id = $this->object->get_random_id();
+			$this->tpl->setVariable("TERM_ID", $add_random_id);
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
@@ -203,6 +205,31 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("question_data");
+		$javascript = "<script type=\"text/javascript\">%s</script>";
+		if (preg_match("/delete_(\d+)/", $this->ctrl->getCmd()))
+		{
+			if ($this->object->get_matchingpair_count() > 0)
+			{
+				$thispair = $this->object->get_matchingpair($this->object->get_matchingpair_count()-1);
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTermId().".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTermId().".scrollIntoView(\"true\");"));
+			}
+			else
+			{
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_matching.title.focus();"));
+			}
+		}
+		else
+		{
+			switch ($this->ctrl->getCmd())
+			{
+				case "addPair":
+					$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count())."_" . $add_random_id.".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count())."_" . $add_random_id.".scrollIntoView(\"true\");"));
+					break;
+				default:
+					$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_matching.title.focus();"));
+					break;
+			}
+		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -256,7 +283,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_matching");
-		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this) . "#bottom");
+		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
 		if ($this->error)

@@ -204,6 +204,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setCurrentBlock("question_data");
+		$javascript = "<script type=\"text/javascript\">%s</script>";
+		$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_javaapplet.title.focus();"));
 		$this->tpl->setVariable("JAVAAPPLET_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", htmlspecialchars($this->object->getComment()));

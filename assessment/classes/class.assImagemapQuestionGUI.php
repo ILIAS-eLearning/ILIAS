@@ -212,7 +212,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
 			$this->ctrl->setParameter($this, "editmap", "1");
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this) . "#bottom");
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -293,6 +293,31 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("question_data");
+			$javascript = "<script type=\"text/javascript\">%s</script>";
+			if (strcmp($_GET["markarea"], "") != 0)
+			{
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.answer_".$_GET["markarea"].".focus(); document.frm_imagemap.answer_".$_GET["markarea"].".scrollIntoView(\"true\");"));
+			}
+			else
+			{
+				switch ($this->ctrl->getCmd())
+				{
+					case "saveShape":
+					case "deletearea":
+						if ($this->object->get_answer_count() > 0)
+						{
+							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						}
+						else
+						{
+							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.title.focus();"));
+						}
+						break;
+					default:
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.title.focus();"));
+						break;
+				}
+			}
 			$img = $this->object->get_image_filename();
 			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
 			if (!empty($img))
@@ -308,7 +333,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 					foreach ($this->object->answers as $index => $answer)
 					{
-						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index#bottom", "", true);
+						$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
 					}
 					$preview->createPreview();
 					$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
@@ -371,7 +396,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this) . "#bottom");
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this));
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
 		}

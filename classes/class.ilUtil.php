@@ -704,7 +704,7 @@ class ilUtil
 		}
 
 		// build day select
-		$sel_day .= "<select name=\"".$prefix."[d]\">\n";
+		$sel_day .= "<select name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
 
 		for ($i = 1; $i <= 31; $i++)
 		{
@@ -714,7 +714,7 @@ class ilUtil
 		$sel_day = preg_replace("/(value\=\"$day\")/", "$1 selected=\"selected\"", $sel_day);
 
 		// build month select
-		$sel_month .= "<select name=\"".$prefix."[m]\">\n";
+		$sel_month .= "<select name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
 		for ($i = 1; $i <= 12; $i++)
 		{
@@ -724,7 +724,7 @@ class ilUtil
 		$sel_month = preg_replace("/(value\=\"$month\")/", "$1 selected=\"selected\"", $sel_month);
 
 		// build year select
-		$sel_year .= "<select name=\"".$prefix."[y]\">\n";
+		$sel_year .= "<select name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
 
 		for ($i = $year; $i <= $year + 3; $i++)
 		{
@@ -773,7 +773,7 @@ class ilUtil
 			$second = (int)$second;
 		}
 		// build hour select
-		$sel_hour .= "<select name=\"".$prefix."[h]\">\n";
+		$sel_hour .= "<select name=\"".$prefix."[h]\" id=\"".$prefix."_h\">\n";
 
 		for ($i = 0; $i <= 23; $i++)
 		{
@@ -783,7 +783,7 @@ class ilUtil
 		$sel_hour = preg_replace("/(value\=\"$hour\")/", "$1 selected=\"selected\"", $sel_hour);
 
 		// build minutes select
-		$sel_minute .= "<select name=\"".$prefix."[m]\">\n";
+		$sel_minute .= "<select name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
 		for ($i = 0; $i <= 59; $i++)
 		{
@@ -794,7 +794,7 @@ class ilUtil
 
 		if (!$short) {
 			// build seconds select
-			$sel_second .= "<select name=\"".$prefix."[s]\">\n";
+			$sel_second .= "<select name=\"".$prefix."[s]\" id=\"".$prefix."_s\">\n";
 
 			for ($i = 0; $i <= 59; $i++)
 			{

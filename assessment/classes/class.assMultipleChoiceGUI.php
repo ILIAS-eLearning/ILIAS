@@ -98,6 +98,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function editQuestion()
 	{
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		$javascript = "<script type=\"text/javascript\">%s</script>";
 		// single response
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{
@@ -139,6 +140,34 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 			
 			$this->tpl->setCurrentBlock("question_data");
+			if ($this->object->get_answer_count() == 0)
+			{
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+			}
+			else
+			{
+				switch ($this->ctrl->getCmd())
+				{
+					case "add":
+					case "addTrueFalse":
+					case "addYesNo":
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						break;
+					case "":
+						if ($this->object->get_answer_count() == 0)
+						{
+							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+						}
+						else
+						{
+							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						}
+						break;
+					default:
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+						break;
+				}
+			}
 			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", htmlspecialchars($this->object->getTitle()));
 			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", htmlspecialchars($this->object->getComment()));
@@ -183,7 +212,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_sr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this) . "#bottom");
+			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -237,6 +266,27 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			
 			$this->tpl->setCurrentBlock("question_data");
 
+			if ($this->object->get_answer_count() == 0)
+			{
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+			}
+			else
+			{
+				switch ($this->ctrl->getCmd())
+				{
+					case "add":
+					case "addTrueFalse":
+					case "addYesNo":
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_multiple_choice.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+						break;
+					case "":
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.answer_0.focus(); document.frm_multiple_choice.answer_0.scrollIntoView(\"true\");"));
+						break;
+					default:
+						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
+						break;
+				}
+			}
 			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -279,7 +329,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this) . "#bottom");
+			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 
