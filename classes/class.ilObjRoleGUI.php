@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.15 2003/05/13 11:12:15 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.16 2003/05/13 12:19:07 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -255,6 +255,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
+		$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
 		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
 		$this->tpl->setVariable("TXT_OBJ_TYPE",$this->data["txt_obj_type"]);
