@@ -929,6 +929,8 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
 		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
+		$this->ini->setVariable("tools", "vscantype", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"])));
+		$this->ini->setVariable("tools", "scancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"])));
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
@@ -960,6 +962,8 @@ class ilSetup extends PEAR
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		$fop_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["fop_path"]));
+		$scan_type = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"]));
+		$scan_command = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"]));
 
 		$this->ini->setVariable("tools", "convert", $convert_path);
 		$this->ini->setVariable("tools", "zip", $zip_path);
@@ -967,6 +971,8 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "java", $java_path);
 		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
 		$this->ini->setVariable("tools", "fop", $fop_path);
+		$this->ini->setVariable("tools", "vscantype", $scan_type);
+		$this->ini->setVariable("tools", "scancommand", $scan_command);
 
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));

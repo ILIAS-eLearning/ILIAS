@@ -70,6 +70,24 @@
       <td class="option_value" nowrap="nowrap"><input type="checkbox"  name="form[chk_htmldoc_path]" value="1" id="chk_htmldoc_path" {CHK_HTMLDOC_PATH}/><label for="chk_htmldoc_path">{TXT_DISABLE_CHECK}</label></td>
       <td class="option_desc">{TXT_HTMLDOC_COMMENT}</td>
     </tr>
+    <tr>
+      <td class="option">{TXT_VIRUS_SCANNER}</td>
+      <td class="option_value">
+	  	<select name="form[vscanner_type]">
+		  <option value="none" {STYPE_NONE}>{TXT_NONE}</option>
+		  <option value="sophos" {STYPE_SOPHOS}>{TXT_SOPHOS}</option>
+		  <option value="antivir" {STYPE_ANTIVIR}>{TXT_ANTIVIR}</option>
+		</select>
+      </td>
+      <td class="option_value" nowrap="nowrap">&nbsp;</td>
+      <td class="option_desc">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_SCAN_COMMAND}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="250" name="form[scan_command]" value="{SCAN_COMMAND}" /></td>
+      <td class="option_value" nowrap="nowrap">&nbsp;</td>
+      <td class="option_desc">&nbsp;</td>
+    </tr>
 	<!--
     <tr>
       <td class="option">{TXT_FOP_PATH}</td>
