@@ -323,7 +323,7 @@
 		<xsl:when test="@Characteristic = 'Code'">
 			<xsl:call-template name='Sourcecode'>
 				<xsl:with-param name="p_id" select="$p_id" />
-			</xsl:call-template>			
+			</xsl:call-template>
 		</xsl:when>
 		<xsl:otherwise>
 		<xsl:apply-templates/>

@@ -1382,22 +1382,22 @@ class ilPageObject
 	{
 		
 		if (!$this->hasHighlighter($proglang)) {
-			$proglang="plain";			
+			$proglang="plain";
 		}
-			
+
 			require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
 			$classname =  "HFile_$proglang";
 			$highlighter = new Core(new $classname(), new Output_css());
-		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));			
-		
+		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));
+
 			$a_text = str_replace("&","&amp;",$a_text);
 		$a_text = str_replace("<","&lt;", $a_text);
 		$a_text = str_replace(">","&gt;", $a_text);
 		return $a_text;
 	}
-	
+
 	function hasHighlighter ($hfile_ext) {
-		return file_exists ("syntax_highlight/php/HFile/HFile_$hfile_ext.php");		
+		return file_exists ("syntax_highlight/php/HFile/HFile_$hfile_ext.php");
 	}
 
 	/**
@@ -1405,15 +1405,15 @@ class ilPageObject
 	* attribute the line numbers and html tags for the syntax
 	* highlighting will be inserted using the dom xml functions
 	*/
-	
+
 	function addSourceCodeHighlighting()
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Paragraph[@Characteristic = 'Code']";
 
 		$res = & xpath_eval($xpc, $path);
-				
-		
+
+
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$context_node = $res->nodeset[$i];
@@ -1422,7 +1422,7 @@ class ilPageObject
 			$subchar = $context_node->get_attribute('SubCharacteristic');
 			$showlinenumbers = $context_node->get_attribute('ShowLineNumbers');
 			$downloadtitle = $context_node->get_attribute('DownloadTitle');
-			
+
 			$content = "";
 
 
@@ -1430,48 +1430,55 @@ class ilPageObject
 			$childs = $context_node->child_nodes();
 
 			for($j=0; $j<count($childs); $j++)
-			{								
-				$content .= $this->dom->dump_node($childs[$j]);							
+			{
+				$content .= $this->dom->dump_node($childs[$j]);
 			}
-	
+
 			while ($context_node->has_child_nodes ()) {
 				$node_del = $context_node->first_child ();
 				$context_node->remove_child ($node_del);
 			}
-					
+
 			$content = str_replace("<br />", "<br/>", $content );
-			$content = str_replace("<br/>", "\n", $content);			
+			$content = str_replace("<br/>", "\n", $content);
 			$rownums = count(split ("\n",$content));
-									
+
 			$plain_content = html_entity_decode($content);
 
-			$content = $this->highlightText($plain_content, $subchar);
+			if ($subchar != "")
+			{
+				$content = $this->highlightText($plain_content, $subchar);
+			}
 
 			$rows  	 = htmlentities ("<TR valign=\"top\">");
 			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
-	
-			if (strcmp($showlinenumbers,"y")==0) {
-			for ($j=0; $j < $rownums; $j++)  
-			{	$indentno      = strlen($rownums) - strlen($j+1) + 2;
-					$rownumeration = ($j+1); 
+
+			if (strcmp($showlinenumbers,"y")==0)
+			{
+				for ($j=0; $j < $rownums; $j++)
+				{
+					$indentno      = strlen($rownums) - strlen($j+1) + 2;
+					$rownumeration = ($j+1);
 					$rownumbers   .= $rownumeration;
 					if ($j < $rownums-1)
+					{
 						$rownumbers .= "<br />";
-			}
+					}
+				}
 				$rows .= $rownumbers.htmlentities ("</PRE></TD>");
 			}
-			$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");			
-			
-			$newcontent = str_replace("\n", "<br />", $rows);			
-	
-			$context_node->set_content($newcontent);							
+			$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");
+
+			$newcontent = str_replace("\n", "<br />", $rows);
+
+			$context_node->set_content($newcontent);
 		}
-				
+
 	}
-	
-	function send_paragraph ($par_id, $filename) {		
+
+	function send_paragraph ($par_id, $filename) {
 		$this->builddom();
-		
+
 		$mydom = $this->dom;
 			
 		$xpc = xpath_new_context($mydom);
