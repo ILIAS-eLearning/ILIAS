@@ -4816,3 +4816,28 @@ INDEX ( `user_id` )
 ALTER TABLE `object_reference` ADD INDEX ( `obj_id` );
 ALTER TABLE `xmlnestedset` DROP INDEX `ns_l`;
 ALTER TABLE `xmlnestedset` DROP INDEX `ns_r`;
+<#318>
+CREATE TABLE `qpl_answer_enhanced` (
+`answer_enhanced_id` INT NOT NULL AUTO_INCREMENT ,
+`answerblock_fi` INT NOT NULL ,
+`answer_fi` INT NOT NULL ,
+`answer_boolean_prefix` ENUM( '0', '1' ) DEFAULT '0' NOT NULL ,
+`answer_boolean_connection` ENUM( '0', '1' ) DEFAULT '1' NOT NULL ,
+`enhanced_order` TINYINT DEFAULT '0' NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `answer_enhanced_id` ) ,
+INDEX ( `answerblock_fi` , `answer_fi` )
+) COMMENT = 'saves combinations of test question answers which are combined in an answer block';
+
+CREATE TABLE `qpl_answerblock` (
+`answerblock_id` INT NOT NULL AUTO_INCREMENT ,
+`answerblock_index` TINYINT DEFAULT '0' NOT NULL ,
+`question_fi` INT NOT NULL ,
+`subquestion_index` TINYINT DEFAULT '0' NOT NULL ,
+`points` DOUBLE DEFAULT '0' NOT NULL ,
+`feedback` VARCHAR( 30 ) ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `answerblock_id` ) ,
+INDEX ( `question_fi` )
+) COMMENT = 'defines an answerblock, a combination of given answers of a test question';
+
