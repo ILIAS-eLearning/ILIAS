@@ -27,6 +27,12 @@ if($_GET["direction"] == 'DESC')
 	$tplContent->setVariable("DIR",'ASC');
 }
 
+// set sort column
+if (empty($_GET["order"]))
+{
+	$_GET["order"] = "title";
+}
+
 $rbacsystem = new RbacSystemH($ilias->db);
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {

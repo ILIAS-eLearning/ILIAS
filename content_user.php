@@ -26,6 +26,11 @@ if($_GET["direction"] == 'DESC')
 	$tplContent->setVariable("DIR",'ASC');
 }
 
+// set sort column
+if (empty($_GET["order"]))
+{
+	$_GET["order"] = "title";
+}
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);

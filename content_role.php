@@ -30,6 +30,12 @@ if($_GET["direction"] == 'DESC')
 	$tplContent->setVariable("DIR",'ASC');
 }
 
+// set sort column
+if (empty($_GET["order"]))
+{
+	$_GET["order"] = "title";
+}
+
 if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
 	if($role_list = $rbacadmin->getRoleAndTemplateListByObject($obj_id,$_GET["order"],$_GET["direction"]))
@@ -51,7 +57,7 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
 
-			// determine image (role folder or role template?)
+			// determine image (role object or role template?)
 			$image = $val["type"] == 'rolt' ? 'autor.gif' : 'admin.gif';
 
 			$tplContent->setVariable("IMG_TYPE",$image);

@@ -59,7 +59,7 @@ if($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$obj_id."&parent=".$parent."&cmd=edit");	
 		$tplContent->setVariable("OPS_TITLE",$ops["operation"]);
 		$tplContent->setVariable("OPS_DESC",$ops["desc"]);
-		$tplContent->setVariable("IMG_TYPE","icon_type_b.gif");
+		$tplContent->setVariable("IMG_TYPE","icon_perm_b.gif");
 		$tplContent->setVariable("ALT_IMG_TYPE","ops");
 		$tplContent->setVariable("CSS_ROW",$css_row);
 		$tplContent->setVariable("OPS_ID",$ops["ops_id"]);
