@@ -46,6 +46,7 @@ class UserObject extends Object
 		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$tplContent = new Template("user_form.html",true,true);
+
 			$tplContent->setVariable($this->ilias->ini["layout"]); 
 
 			$tplContent->setVariable("STATUS","Add User");
@@ -54,6 +55,14 @@ class UserObject extends Object
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 
+			//show tabs
+			$o = array();
+			$o["LINK1"] = "object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
+			$tplContent->setVariable("TABS", TUtil::showTabs(2, $o));
+			
 			// set Path
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 
@@ -148,12 +157,21 @@ class UserObject extends Object
 		{
 			// Userobjekt erzeugen
 			$user = new User($_GET["obj_id"]);
-			
+
 			$tplContent = new Template("user_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
+			
+			//show tabs
+			$o = array();
+			$o["LINK1"] = "object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit";
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
+			$tplContent->setVariable("TABS", TUtil::showTabs(2, $o));
+
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TYPE","user");
 

@@ -41,13 +41,21 @@ class Object
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-
+		
 			// Zur Ausgabe des 'Path' wird die Private-Methode createPath() aufgerufen 
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 			$tplContent->setVariable("CMD","save");
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("TYPE",$_POST["type"]);
+			
+			//show tabs
+			$o = array();
+			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+			$tplContent->setVariable("TABS", TUtil::showTabs(2,$o));			
 		}
 		else
 		{
@@ -106,6 +114,14 @@ class Object
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 
+			//show tabs
+			$o = array();
+			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+			$tplContent->setVariable("TABS", TUtil::showTabs(2,$o));			
+
 			$obj = getObject($_GET["obj_id"]);
 
 			$tplContent->setVariable("TYPE",$obj["type"]);
@@ -162,6 +178,14 @@ class Object
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 			$tplContent->setVariable("MESSAGE_TOP","Permissions of: ".$obj["title"]);
 
+			//show tabs
+			$o = array();
+			$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+			$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+			$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+			$tplContent->setVariable("TABS", TUtil::showTabs(3,$o));	
+						
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 			$parentRoles = $rbacadmin->getParentRoleIds();
 		
@@ -411,6 +435,14 @@ class Object
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 		$tplContent->setVariable("TPOS",$_GET["parent"]);
 
+		//show tabs
+		$o = array();
+		$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+		$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+		$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+		$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+		$tplContent->setVariable("TABS", TUtil::showTabs(4,$o));
+					
 		$owner = TUtil::getOwner($_GET["obj_id"]);
 		
 		if (is_object($owner))

@@ -4,9 +4,19 @@ require_once "include/ilias_header.inc";
 // Template generieren
 $tplContent = new Template("content_user.html",true,true);
 
+//deprecated???
 $tplContent->setVariable("OBJ_SELF","content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);
+
+//show tabs
+$o = array();
+$o["LINK1"] = "content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+$tplContent->setVariable("TABS", TUtil::showTabs(1,$o));
+
 
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");

@@ -39,11 +39,13 @@ class Template extends IntegratedTemplateExtension {
 
         global $ilias;
 
-        if ($vars == "DEFAULT" ) {
+/*        if ($vars == "DEFAULT" ) {
             $vars = $template_vars;
         }
         $this->vars = $vars;
-
+*/
+		$this->vars = array();
+		
         if (strpos($file,"/")===false)
 		{
             $fname = $ilias->tplPath;
@@ -83,7 +85,8 @@ class Template extends IntegratedTemplateExtension {
         $this->IntegratedTemplateExtension(dirname($fname));
         $this->loadTemplatefile(basename($fname), $flag1, $flag2);
 
-//         $this->replace($this->vars);
+		//add tplPath to replacevars
+		$this->vars["TPLPATH"] = $this->tplPath;
 
         return true;
     }
@@ -108,7 +111,7 @@ class Template extends IntegratedTemplateExtension {
     function show($part = "DEFAULT") {
 
         $this->replace($this->vars);
-
+		
         if ($part == "DEFAULT") {
             parent::show();
         } else {
@@ -133,6 +136,8 @@ class Template extends IntegratedTemplateExtension {
         } else {
             return parent::setCurrentBlock($part);
         }
+		
+		$this->replace($this->vars);
     }
 
     /**
@@ -228,20 +233,12 @@ class Template extends IntegratedTemplateExtension {
     * @param string
     * @param string
     */
-    function replace($vars,$Prefix = "DEFAULT") {
-        if (!is_array($vars))  return;
-
-        $vars = array_merge($vars,$this->vars);
-
-        if ($Prefix == "DEFAULT") {
-			$Prefix = $this->activeBlock;
-			if ( $Prefix != "" ) $Prefix .= "_";
-        }
-
-        reset($vars);
-        while(list($i) = each($vars)) {
-            $this->setVariable($Prefix.$i,stripslashes($vars[$i]));
-            $this->setVariable(strtoupper($Prefix.$i),stripslashes($vars[$i]));
+    function replace()
+	{
+        reset($this->vars);
+        while(list($key, $val) = each($this->vars))
+		{
+            $this->setVariable($key, $val);
         }
     }
 
