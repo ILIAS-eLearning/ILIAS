@@ -981,6 +981,7 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
@@ -1272,8 +1273,17 @@ common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
+common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
 common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
+common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
@@ -1312,6 +1322,7 @@ common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontak
 common#:#import#:#importieren
 common#:#import_alm#:#Import AICC Modul
 common#:#import_categories#:#Kategorien importieren
+common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
@@ -2246,6 +2257,7 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
+common#:#user_comment#:#User comment###03 Dec 2004 new variable
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
@@ -2326,8 +2338,10 @@ content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_act_number#:#Kapitelnummerierung
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
+content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
+content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
@@ -2645,7 +2659,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction###05 Nov 2004 new varia
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
+content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:###03 Dec 2004 content changed
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_data#:#Protokolldaten
@@ -3079,6 +3093,7 @@ forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_moderators#:#Moderatoren
+forum#:#forums_new_articles#:#Neue Beiträge
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
 forum#:#forums_not_available#:#Keine Foren verfügbar
@@ -4274,4 +4289,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-forum#:#forums_new_articles#:#Neue Beiträge

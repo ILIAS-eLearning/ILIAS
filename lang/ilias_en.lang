@@ -981,6 +981,7 @@ common#:#email#:#E-mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
+common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
 common#:#enable_password_assistance#:#Enable password assistance
@@ -1271,19 +1272,18 @@ common#:#guests#:#Guests
 common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide_details#:#hide details
-common#:#user_comment#:#User comment
 common#:#hide_structure#:#Disable Structured-View
-common#:#hist_no_entries#:#No entries in history.
-common#:#hist_file_create#:#File created, file name is "%1".
-common#:#hist_lm:pg_create#:#Page created
 common#:#hist_dbk:pg_create#:#Page created
-common#:#hist_lm:pg_update#:#Page changed
-common#:#hist_dbk:pg_update#:#Page changed
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]
 common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]
 common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_dbk:pg_update#:#Page changed
+common#:#hist_file_create#:#File created, file name is "%1".
 common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
+common#:#hist_lm:pg_create#:#Page created
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_lm:pg_update#:#Page changed
+common#:#hist_no_entries#:#No entries in history.
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -1322,6 +1322,7 @@ common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system a
 common#:#import#:#Import
 common#:#import_alm#:#Import AICC Package
 common#:#import_categories#:#Import Categories
+common#:#import_dbk#:#Import Digilib Book
 common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
@@ -1330,7 +1331,6 @@ common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
-common#:#import_dbk#:#Import Digilib Book
 common#:#import_qpl#:#Import Questionpool Test
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
@@ -1410,7 +1410,6 @@ common#:#lang_pt#:#Portuguese
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Swedish
-common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian
 common#:#lang_version#:#1
@@ -2258,6 +2257,7 @@ common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
+common#:#user_comment#:#User comment
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_imported#:#User import complete.
@@ -2337,16 +2337,16 @@ content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
-content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_add_area#:#Add Area
+content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Full Screen
+content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
-content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -3093,6 +3093,7 @@ forum#:#forums_info_delete_post#:#Are you sure you want to delete this article i
 forum#:#forums_last_post#:#Last Article
 forum#:#forums_mark_read#:#Mark all read
 forum#:#forums_moderators#:#Moderators
+forum#:#forums_new_articles#:#New articles
 forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
 forum#:#forums_not_available#:#Forums Not Available
@@ -4288,4 +4289,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-forum#:#forums_new_articles#:#New articles
