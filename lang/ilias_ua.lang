@@ -33,6 +33,40 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
+assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
+assessment#:#answer#:#Answer###05 Feb 2004 new variable
+assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
+assessment#:#apply#:#Apply###05 Feb 2004 new variable
+assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
+assessment#:#by#:#by###05 Feb 2004 new variable
+assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
+assessment#:#create_date#:#Created###05 Feb 2004 new variable
+assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
+assessment#:#create_new#:#Create new###05 Feb 2004 new variable
+assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
+assessment#:#export#:#Export###05 Feb 2004 new variable
+assessment#:#false#:#False###05 Feb 2004 new variable
+assessment#:#filter#:#Filter###05 Feb 2004 new variable
+assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
+assessment#:#last_update#:#Last update###05 Feb 2004 new variable
+assessment#:#matches#:#matches###05 Feb 2004 new variable
+assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
+assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
+assessment#:#points#:#Points###05 Feb 2004 new variable
+assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
+assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
+assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
+assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
+assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
+assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
+assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
+assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
+assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
+assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
+assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
+assessment#:#true#:#True###05 Feb 2004 new variable
 common#:#3rd_party_software#:#програмне забезпечення третіх виробників
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -108,7 +142,9 @@ common#:#cat_create_frm#:#Створити Форум
 common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_lm#:#Створити Учбовий Модуль
+common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
 common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
