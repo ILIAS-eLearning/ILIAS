@@ -94,7 +94,7 @@ class ilObjChatGUI extends ilObjectGUI
 		// CHAT SERVER NOT ACTIVE
 		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
 		{
-			sendInfo("chat_server_not_active");
+			sendInfo($this->lng->txt("chat_server_not_active"));
 		}
 
 		// DELETE ROOMS CONFIRM
@@ -117,6 +117,19 @@ class ilObjChatGUI extends ilObjectGUI
 		$rooms = $this->object->chat_room->getRoomsOfObject();
 
 		// ADD PUBLIC ROOM
+		// CHAT SERVER  ACTIVE
+		if($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
+		{
+			$this->tpl->setCurrentBlock("active");
+			$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=0");
+			$this->tpl->setVariable("ROOM_TARGET","_blank");
+			$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->touchBlock("not_active");
+		}
 		$this->tpl->setCurrentBlock("tbl_rooms_row");
 		$this->tpl->setVariable("ROWCOL",++$counter % 2 ? "tblrow1" : "tblrow2");
 		$this->tpl->setVariable("ROOM_CHECK",
@@ -124,26 +137,35 @@ class ilObjChatGUI extends ilObjectGUI
 													 "del_id[]",
 													 0));
 		$this->tpl->setVariable("ROOM_NAME",$this->object->getTitle()." ".$this->lng->txt("chat_public_room"));
+		$this->tpl->parseCurrentBlock();
 
 		$script = $this->inModule() ? "./chat.php" : "./chat/chat.php";
-		$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=0");
-		$this->tpl->setVariable("ROOM_TARGET","_blank");
-		$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
-		$this->tpl->parseCurrentBlock();
+
 
 
 		foreach($rooms as $room)
 		{
+			// CHAT SERVER  ACTIVE
+			if($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
+			{
+				$this->tpl->setCurrentBlock("active");
+				$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=".$room["room_id"]);
+				$this->tpl->setVariable("ROOM_TARGET","_blank");
+				$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->touchBlock("not_active");
+			}
 			$this->tpl->setCurrentBlock("tbl_rooms_row");
 			$this->tpl->setVariable("ROWCOL",++$counter % 2 ? "tblrow1" : "tblrow2");
 			$this->tpl->setVariable("ROOM_CHECK",
 									ilUtil::formCheckbox(in_array($room["room_id"],$checked) ? 1 : 0,
 									"del_id[]",
 									$room["room_id"]));
+
 			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
-			$this->tpl->setVariable("ROOM_LINK",$script."?ref_id=".$this->ref_id."&room_id=".$room["room_id"]);
-			$this->tpl->setVariable("ROOM_TARGET","_blank");
-			$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("has_rooms");
@@ -652,7 +674,10 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$opt = array("exportRoom" => $this->lng->txt("html_export"));
 		}
-			
+		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
+		{
+			unset($opt["refreshRoom"]);
+		}
 		return ilUtil::formSelect(isset($_SESSION["room_id_delete"]) ? "deleteRoom" : "",
 								  "action",
 								  $opt,
