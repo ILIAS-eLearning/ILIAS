@@ -1424,13 +1424,13 @@ class ilObjectGUI
 			{
 				$data["rolenames"][] = $r["title"];
 
-				if (!in_array($r["obj_id"],$local_roles))
+				if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
 				{
 					$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 				}
 				else
 				{
-					// don't display a checkbox for local roles
+					// don't display a checkbox for local roles AND system role
 					if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
 					{
 						$data["check_inherit"][] = "&nbsp;";
@@ -1457,9 +1457,19 @@ class ilObjectGUI
 
 					foreach ($parentRoles as $role)
 					{
-						$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+						if ($role["obj_id"] == SYSTEM_ROLE_ID)
+						{
+							$checked = true;
+							$disabled = true;
+						}
+						else
+						{
+							$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+							$disabled = false;
+						}
+
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
+						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
 						$opdata["values"][] = $box;
 					}
 
@@ -1862,14 +1872,14 @@ class ilObjectGUI
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
-				// surpress checkbox for particular object types
-				if (!$this->objDefinition->hasCheckbox($ctrl["type"]))
+				// surpress checkbox for particular object types AND the system role
+				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID)
 				{
 					$this->tpl->touchBlock("empty_cell");
 				}
 				else
 				{
-					// TODO: this type depending 'if' could become really a problem!!
+					// TODO: this object type depending 'if' could become really a problem!!
 					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role" or $ctrl["type"] == "rolt")
 					{
 						$link_id = $ctrl["obj_id"];
@@ -1878,7 +1888,7 @@ class ilObjectGUI
 					{
 						$link_id = $ctrl["ref_id"];
 					}
-
+	
 					$this->tpl->setCurrentBlock("checkbox");
 					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
 					$this->tpl->setVariable("CSS_ROW", $css_row);

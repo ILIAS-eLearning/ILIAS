@@ -76,7 +76,11 @@ class ilRbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 
-		//return true;
+		// exclude system role from rbac
+		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			return true;		
+		}
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{

@@ -296,6 +296,12 @@ class ilRbacReview
 	{
 		global $log;
 		
+		// exclude system role from rbac
+		if ($a_rol_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
+
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::isAssignable(): Missing parameter!".
@@ -303,7 +309,7 @@ class ilRbacReview
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
+		
 		$q = "SELECT * FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
