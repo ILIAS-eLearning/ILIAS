@@ -1662,6 +1662,7 @@ common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
+common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Manca la data
 common#:#no_description#:#Nessuna descrizione
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
@@ -4094,6 +4095,7 @@ survey#:#users_answered#:#Utenti che hanno risposto
 survey#:#users_skipped#:#Utenti che hanno saltato
 survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
 survey#:#values#:#Valori
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Vedi frase
 survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai sondaggi indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei sondaggi elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro sondaggio, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
 survey#:#warning_question_not_complete#:#La domanda non &#232; stata completata!

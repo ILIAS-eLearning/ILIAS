@@ -1662,6 +1662,7 @@ common#:#no_access_link_object#:#You are not allowed to link this object###07 Au
 common#:#no_bm_in_personal_list#:#Nenhuns marcadores definidos.
 common#:#no_chat_in_personal_list#:#Nenhuns chats na lista pessoal
 common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
+common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Nenhuma data
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
@@ -4095,6 +4096,7 @@ survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
 survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
 survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
 survey#:#values#:#Values###04 Jun 2004 new variable
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
 survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable

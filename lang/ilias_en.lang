@@ -906,7 +906,6 @@ common#:#cutPage#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
-common#:#no_datasets#:#The table is empty
 common#:#date#:#Date
 common#:#dateplaner#:#Calendar
 common#:#day#:#Day
@@ -1663,6 +1662,7 @@ common#:#no_access_link_object#:#You are not allowed to link this object
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
+common#:#no_datasets#:#The table is empty
 common#:#no_date#:#No date
 common#:#no_description#:#No description
 common#:#no_frm_in_personal_list#:#No forums in personal list.
@@ -3902,7 +3902,6 @@ survey#:#duplicate_svy#:#Duplicate survey
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the constraints
 survey#:#edit_heading#:#Edit heading
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
 survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_phrase_title#:#Please enter a phrase title
@@ -4097,6 +4096,7 @@ survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!

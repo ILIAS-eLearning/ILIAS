@@ -1661,6 +1661,7 @@ common#:#no_access_link_object#:#Vous n'êtes pas autorisé à lier cet objet.
 common#:#no_bm_in_personal_list#:#Pas de signets définis
 common#:#no_chat_in_personal_list#:#Pas de chat dans la liste personnelle
 common#:#no_checkbox#:#Aucune case cochée
+common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Pas de date
 common#:#no_description#:#Pas de description
 common#:#no_frm_in_personal_list#:#Pas de forums dans la liste personnelle
@@ -4094,6 +4095,7 @@ survey#:#users_answered#:#Les utilisateurs ont répondu
 survey#:#users_skipped#:#Les utilisateurs ont passé
 survey#:#value_nr_entered#:#Nombre d'utilisateurs qui ont saisi cette valeur
 survey#:#values#:#Valeurs
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Voir expression
 survey#:#warning_question_in_use#:#Attention ! La question que vous voulez modifier est utilisée dans les sondages listés ci-dessous. Si vous décidez de continuer et d'enregistrer/appliquer la question, toutes les réponses aux sondages listés ci-dessous seront détruites. Si vous voulez changer la question et l'utiliser dans un autre sondage, veuillez choisir 'dupliquer' dans l'explorateur de questions pour créer une nouvelle instance de la question.
 survey#:#warning_question_not_complete#:#La question n'est pas complète.

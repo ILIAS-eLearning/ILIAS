@@ -1662,6 +1662,7 @@ common#:#no_access_link_object#:#Sie haben keine Berechtigung das Objekt zu verk
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
+common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
 common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
@@ -4095,6 +4096,7 @@ survey#:#users_answered#:#Beantwortet
 survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
+survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:###13 Nov 2004 new variable
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
