@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.82 2004/06/03 08:05:18 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.83 2004/06/24 13:57:50 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -277,7 +277,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 
-				// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+				// Es wird eine 2-dim Post Variable ï¿½bergeben: perm[rol_id][ops_id]
 				$box = ilUtil::formCheckBox($checked,"template_perm[".$obj_data["type"]."][]",$operation["ops_id"],$disabled);
 				$output["perm"][$obj_data["obj_id"]][$operation["ops_id"]] = $box;
 			}
@@ -694,6 +694,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$assigned_users = array_intersect($assigned_users_all,$_SESSION["user_list"]);
 				$online_users_keys = array_intersect(array_keys($online_users_all),$_SESSION["user_list"]);
 				$affected_users = array();
+				$online_users = array();
 				
 				// check for each user if the current role is his last global role before deassigning him
 				$last_role = array();
