@@ -82,9 +82,15 @@ class ilRbacSystem
 	*/
 	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
-		global $ilUser;
+		global $ilUser,$ilBench;
 		
-		return $this->checkAccessOfUser($ilUser->getId(), $a_operations, $a_ref_id, $a_type);
+		$ilBench->start("RBAC", "system_checkAccess");
+
+		$result = $this->checkAccessOfUser($ilUser->getId(), $a_operations, $a_ref_id, $a_type);
+
+		$ilBench->stop("RBAC", "system_checkAccess");
+		
+		return $result;
 	}
 	
 	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")

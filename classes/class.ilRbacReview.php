@@ -333,6 +333,10 @@ class ilRbacReview
 	*/
 	function assignedUsers($a_rol_id, $a_fields = NULL)
 	{
+		global $ilBench;
+		
+		$ilBench->start("RBAC", "review_assignedUsers");
+		
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
@@ -376,6 +380,8 @@ class ilRbacReview
             }
         }
 		
+		$ilBench->stop("RBAC", "review_assignedUsers");
+
 		return $result_arr;
 	}
 
@@ -433,9 +439,15 @@ class ilRbacReview
 	*/
 	function isAssignable($a_rol_id, $a_ref_id)
 	{
+		global $ilBench;
+
+		$ilBench->start("RBAC", "review_isAssignable");
+
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
+			$ilBench->stop("RBAC", "review_isAssignable");
+
 			return true;
 		}
 
@@ -450,6 +462,8 @@ class ilRbacReview
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
 		$row = $this->ilDB->getRow($q);
+
+		$ilBench->stop("RBAC", "review_isAssignable");
 
 		return $row->assign == 'y' ? true : false;
 	}
@@ -499,6 +513,10 @@ class ilRbacReview
 	*/
 	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
+		global $ilBench;
+		
+		$ilBench->start("RBAC", "review_getRolesOfRoleFolder");
+
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
@@ -519,6 +537,8 @@ class ilRbacReview
 		{
 			$rol_id[] = $row->rol_id;
 		}
+
+		$ilBench->stop("RBAC", "review_getRolesOfRoleFolder");
 
 		return $rol_id ? $rol_id : array();
 	}
@@ -596,7 +616,9 @@ class ilRbacReview
 	*/
 	function getRoleFolderOfObject($a_ref_id)
 	{
-		global $tree;
+		global $tree,$ilBench;
+		
+		$ilBench->start("RBAC", "review_getRoleFolderOfObject");
 		
 		if (!isset($a_ref_id))
 		{
@@ -605,6 +627,8 @@ class ilRbacReview
 		}
 
 		$childs = $tree->getChildsByType($a_ref_id,"rolf");
+
+		$ilBench->stop("RBAC", "review_getRoleFolderOfObject");
 
 		return $childs[0] ? $childs[0] : array();
 	}
