@@ -433,7 +433,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 		$cnt = 0;
-		$pages = ilPageObject::getPageList($this->object->getId());
+		$pages = ilLMPageObject::getPageList($this->object->getId());
 		foreach ($pages as $page)
 		{
 			$this->tpl->setCurrentBlock("table_row");
