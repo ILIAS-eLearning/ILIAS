@@ -135,14 +135,17 @@ class ilGroupImportParser extends ilSaxParser
 			case "member":
 				$this->group_data["member"][] = $a_attribs["id"];
 				
-				// NOW SAVE THE NEW OBJECT
-				$this->__save();
 				break;
 
 			case "folder":
+				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
+				$this->__save();
 				break;
 
 			case "file":
+				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
+				$this->__save();
+
 				$this->file["fileName"] = $a_attribs["fileName"];
 				$this->file["id"] = $a_attribs["id"];
 
