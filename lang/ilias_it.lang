@@ -840,6 +840,7 @@ content#:#cont_definitions#:#Definizioni###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Assegnamento cancellato###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dipendenze###04 Aug 2003 new variable
 content#:#cont_details#:#Dettagli###19 Sep 2003 new variable
+content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Modifica oggetto multimediale###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Modifica propriet&agrave; dell&acute;istanza dell&acute;oggetto multimediale###04 Aug 2003 new variable
 content#:#cont_edit_mob_properties#:#Modifica propriet&agrave; dell&acute;oggetto multimediale###08 Jul 2003 new variable
@@ -855,6 +856,8 @@ content#:#cont_how_published#:#Come pubblicato###19 Sep 2003 new variable
 content#:#cont_href#:#href###04 Aug 2003 new variable
 content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
 content#:#cont_import_id#:#Identificatore###04 Aug 2003 new variable
+content#:#cont_insert_file_item#:#Insert File Item###14 Oct 2003 new variable
+content#:#cont_insert_file_list#:#Insert File List###14 Oct 2003 new variable
 content#:#cont_insert_list#:#Inserisci lista###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Inserisci oggetto multimediale###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Inserisci paragrafo###24 May 2003 new variable

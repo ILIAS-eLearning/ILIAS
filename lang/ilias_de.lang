@@ -843,6 +843,7 @@ content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details###19 Sep 2003 new variable
+content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
@@ -858,6 +859,8 @@ content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
+content#:#cont_insert_file_item#:#Insert File Item###14 Oct 2003 new variable
+content#:#cont_insert_file_list#:#Insert File List###14 Oct 2003 new variable
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
