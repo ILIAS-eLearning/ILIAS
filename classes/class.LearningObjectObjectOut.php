@@ -9,7 +9,7 @@
 * @extends ObjectOut
 * @package ilias-core
 */
-class LearningObjectOut extends Object
+class LearningObjectOut extends ObjectOut
 {
 	/**
 	* Constructor
