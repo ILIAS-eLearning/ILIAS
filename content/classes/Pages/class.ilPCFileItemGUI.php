@@ -91,8 +91,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
-		//$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		//header("Location: ".$this->getReturnLocation());
 	}
 
 	function newItemAfter()
@@ -103,8 +101,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -137,8 +134,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
-		//$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		//header("Location: ".$this->getReturnLocation());
 	}
 
 	/**
@@ -152,8 +147,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -168,7 +162,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 }

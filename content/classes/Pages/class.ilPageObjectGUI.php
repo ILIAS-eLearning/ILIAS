@@ -408,12 +408,12 @@ class ilPageObjectGUI
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
 		}
 		else
 		{
 			$this->putInTree();
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}

@@ -188,8 +188,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -268,8 +267,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -288,7 +286,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);*/
 
-		//header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		//ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 		//	$this->pg_obj->getId());
 	//}
 

@@ -52,6 +52,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
+		global $ilUser;
+
 		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
@@ -61,6 +63,16 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 		$this->displayValidationError();
 
+		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+		{
+			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+		}
+		else
+		{
+			$s_lang = $ilUser->getLanguage();
+		}
+
+
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("INPUT_TITLE", "flst_title");
@@ -69,7 +81,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMetaData::getLanguages();
-		$select_lang = ilUtil::formSelect ("","flst_language",$lang,false,true);
+		$select_lang = ilUtil::formSelect ($s_lang, "flst_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 
 
@@ -102,6 +114,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
 			$_FILES["Fobject"]["name"]["file"]);
 
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["flst_language"];
+
 //echo "::".is_object($this->dom).":";
 		$this->content_obj = new ilPCFileList($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
@@ -111,8 +125,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -170,8 +183,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
