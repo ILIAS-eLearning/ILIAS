@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.19 2003/07/01 15:11:38 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.20 2003/07/02 13:59:01 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -264,8 +264,8 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		require_once("classes/class.ilObjLearningModule.php");
 		$newObj = new ilObjLearningModule();
 		$newObj->setType("lm");
-		$newObj->setTitle("");			// set by meta_gui->save
-		$newObj->setDescription("");	// set by meta_gui->save
+		$newObj->setTitle("dummy");			// set by meta_gui->save
+		$newObj->setDescription("dummy");	// set by meta_gui->save
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
