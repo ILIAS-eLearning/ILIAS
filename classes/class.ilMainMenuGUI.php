@@ -186,7 +186,7 @@ class ilMainMenuGUI
 
 		// set target scripts
 		$scripts = array (	"SCRIPT_COURSE"	=> "lo_list.php",
-							"SCRIPT_CATALOG" => "repository.php",
+							"SCRIPT_CATALOG" => "repository.php?getlast=true",
 							"SCRIPT_SEARCH"	=> "search.php",
 							//"SCRIPT_LITERAT"=> "literature.php",
 							"SCRIPT_FORUMS"	=> "forums.php",

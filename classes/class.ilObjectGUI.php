@@ -465,7 +465,7 @@ class ilObjectGUI
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($ref_id);
 			$subtree_nodes = $this->tree->getSubTree($node_data);
-			
+
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
 
@@ -489,9 +489,9 @@ class ilObjectGUI
 		$_SESSION["clipboard"]["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-		
+
 		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
-		
+
 		header("location:".$this->getReturnLocation("copy","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
@@ -2141,7 +2141,9 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway"));
+
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
