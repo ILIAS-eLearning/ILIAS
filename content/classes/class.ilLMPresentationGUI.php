@@ -455,7 +455,7 @@ class ilLMPresentationGUI
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		$pg_obj =& new ilPageObject("lm", $page_id);
-		$lm_pg_obj =& new ilLMPageObject($page_id);
+		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		$pg_obj->setParentId($this->lm->getId());
 		$builded = $pg_obj->buildDom();
@@ -580,7 +580,7 @@ class ilLMPresentationGUI
 		if($pre_node != "")
 		{
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
-			$pre_page =& new ilLMPageObject($pre_node["obj_id"]);
+			$pre_page =& new ilLMPageObject($this->lm, $pre_node["obj_id"]);
 			$pre_page->setLMId($this->lm->getId());
 			$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
@@ -592,7 +592,7 @@ class ilLMPresentationGUI
 		if($succ_node != "")
 		{
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
-			$succ_page =& new ilLMPageObject($succ_node["obj_id"]);
+			$succ_page =& new ilLMPageObject($this->lm, $succ_node["obj_id"]);
 			$succ_page->setLMId($this->lm->getId());
 			$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".

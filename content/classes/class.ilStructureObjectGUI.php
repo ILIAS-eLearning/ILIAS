@@ -37,18 +37,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 {
 	var $obj;	// structure object
 	var $tree;
-	var $lm_object;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObjectGUI(&$a_lm_object, &$a_tree)
+	function ilStructureObjectGUI(&$a_content_obj, &$a_tree)
 	{
 		global $ilias, $tpl, $lng;
 
-		parent::ilLMObjectGUI();
-		$this->lm_obj =& $a_lm_object;
+		parent::ilLMObjectGUI($a_content_obj);
 		$this->tree =& $a_tree;
 	}
 
@@ -69,7 +67,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -91,7 +89,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -146,7 +144,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -168,7 +166,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -237,22 +235,22 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// create new object
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_data =& $meta_gui->create();
-		$this->obj =& new ilStructureObject();
+		$this->obj =& new ilStructureObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType($_GET["new_type"]);
-		$this->obj->setLMId($this->lm_obj->getId());
+		$this->obj->setLMId($this->content_object->getId());
 		$this->obj->create();
 
 		$this->putInTree();
 
 		if (!empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=subchap&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+			header("location: lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 		else
 		{
-			header("location: lm_edit.php?cmd=chapters&ref_id=".$this->lm_obj->getRefId());
+			header("location: lm_edit.php?cmd=chapters&ref_id=".$this->content_object->getRefId());
 		}
 
 	}
@@ -264,7 +262,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// the last child of type pg
 		if ($_GET["target"] == IL_FIRST_NODE)
 		{
-			$tree = new ilTree($this->lm_obj->getId());
+			$tree = new ilTree($this->content_object->getId());
 			$tree->setTableNames('lm_tree','lm_data');
 			$tree->setTreeTablePK("lm_id");
 

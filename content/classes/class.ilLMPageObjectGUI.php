@@ -39,25 +39,23 @@ require_once("./content/classes/Pages/class.ilPageEditorGUI.php");
 class ilLMPageObjectGUI extends ilLMObjectGUI
 {
 	var $obj;
-	var $lm_obj;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMPageObjectGUI(&$a_lm_object)
+	function ilLMPageObjectGUI(&$a_content_obj)
 	{
 		global $ilias, $tpl, $lng;
 
-		parent::ilLMObjectGUI();
-		$this->lm_obj =& $a_lm_object;
+		parent::ilLMObjectGUI($a_content_obj);
 
 	}
 
 	function setLMPageObject(&$a_pg_obj)
 	{
 		$this->obj =& $a_pg_obj;
-		$this->obj->setLMId($this->lm_obj->getId());
+		$this->obj->setLMId($this->content_object->getId());
 	}
 
 	/*
@@ -67,9 +65,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 
-		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->lm_obj->getPageHeader()));
+		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->content_object->getPageHeader()));
 		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_object_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_object_gui->view();
 
@@ -80,9 +78,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 		$page_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
 		$page_gui->showPageEditor();
 	}
 
@@ -93,9 +91,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 
-		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->lm_obj->getPageHeader()));
+		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->content_object->getPageHeader()));
 		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_object_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_object_gui->preview();
 	}
@@ -126,22 +124,22 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		// create new object
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_data =& $meta_gui->create();
-		$this->obj =& new ilLMPageObject();
+		$this->obj =& new ilLMPageObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType($_GET["new_type"]);
-		$this->obj->setLMId($this->lm_obj->getId());
+		$this->obj->setLMId($this->content_object->getId());
 		$this->obj->create();
 
 		// obj_id is empty, if page is created from "all pages" screen
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
+			header("location: lm_edit.php?cmd=pages&ref_id=".$this->content_object->getRefId());
 		}
 		else
 		{
 			$this->putInTree();
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}
