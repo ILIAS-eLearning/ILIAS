@@ -42,6 +42,8 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
+	var $conditions;
+
 	function ilObjSysUserTrackingGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		global $rbacsystem;
@@ -254,9 +256,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 
 		//$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$usertracking = new ilUserTracking();
-		//$usertracking->_locator();
-		//$usertracking->_tables();
 		$tpl->setVariable("SEARCH_ACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
 			"&cmd=gateway");
 		$tpl->setVariable("TXT_TRACKING_DATA", $lng->txt("tracking_data"));
@@ -270,12 +269,47 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_TRACKED_OBJECTS",$lng->txt("tracked_objects"));
 
 		$languages = $lng->getInstalledLanguages();
-		include_once "./tracking/classes/class.ilUserTracking.php";
-		$tracking = new ilUserTracking();
 
 		// get all learning modules
-		$lms = ilObject::_getObjectsDataForType("lm", true);
-
+		// $lms = ilObject::_getObjectsDataForType("lm", true);
+		$authors = ilObjSysUserTracking::allAuthor("usr","lm");
+		if(count($authors)>0)
+		{
+			$tpl->setCurrentBlock("javascript");
+			$tpl->setVariable("ALL_LMS", $this->lng->txt("all_lms"));
+			foreach ($authors as $author)
+			{
+				$lms = ilObjSysUserTracking::authorLms($author["obj_id"],"lm");
+				//echo count($lms);
+				foreach ($lms as $lm)
+				{
+					$tpl->setCurrentBlock("select_value");
+					$tpl->setVariable("VALUE", $author["title"]);
+					$tpl->setVariable("LMVALUE", $lm["title"]);
+					$tpl->parseCurrentBlock();
+				}
+			
+			}
+			$tpl->parseCurrentBlock();
+		}
+		$authors1 = ilObjSysUserTracking::allAuthor("usr","tst");
+		if(count($authors1)>0)
+		{
+			$tpl->setCurrentBlock("javascript1");
+			$tpl->setVariable("ALL_TSTS", $this->lng->txt("all_tsts"));
+			foreach ($authors1 as $author1)
+			{
+				$tsts = ilObjSysUserTracking::authorLms($author1["obj_id"],"tst");
+				foreach ($tsts as $tst)
+				{
+					$tpl->setCurrentBlock("select_value1");
+					$tpl->setVariable("VALUE1", $author1["title"]);
+					$tpl->setVariable("TSTVALUE", $tst["title"]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+			$tpl->parseCurrentBlock();
+		}
 		foreach($year as $key)
 		{
 			$tpl->setCurrentBlock("fromyear_selection");
@@ -342,7 +376,6 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			}
 			$tpl->parseCurrentBlock();
 		}
-
 		// language selection
 		$tpl->setCurrentBlock("language_selection");
 		$tpl->setVariable("LANG", $lng->txt("any_language"));
@@ -380,24 +413,37 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			$tpl->setVariable("LM_CHK", " checked=\"1\" ");
 		}
 
-		// learning module selection
-		$tpl->setCurrentBlock("lm_selection");
-		$tpl->setVariable("LM", 0);
-		$tpl->setVariable("LM_SELECT", $this->lng->txt("all_lms"));
+		// author selection
+		$tpl->setCurrentBlock("author_selection");
+		$tpl->setVariable("AUTHOR", 0);
+		$tpl->setVariable("AUTHOR_SELECT", $this->lng->txt("all_authors"));
 		$tpl->parseCurrentBlock();
-		foreach ($lms as $lm)
+		foreach ($authors as $author)
 		{
-			$tpl->setCurrentBlock("lm_selection");
-			$tpl->setVariable("LM", $lm["id"]);
-			$tpl->setVariable("LM_SELECT", $lm["title"]." [".$lm["id"]."]");
-			if ($_SESSION["il_track_lm"] == $lm["id"])
+			$tpl->setCurrentBlock("author_selection");
+			$tpl->setVariable("AUTHOR", $author["title"]);
+			$tpl->setVariable("AUTHOR_SELECT", $author["title"]);
+			if ($_SESSION["il_track_author"] == $author["title"])
 			{
-				$tpl->setVariable("LM_SEL", " selected=\"1\" ");
+				$tpl->setVariable("AUTHOR_SEL", " selected=\"1\" ");
 			}
 			$tpl->parseCurrentBlock();
 		}
-
-
+		$tpl->setCurrentBlock("author_selection_tst");
+		$tpl->setVariable("AUTHOR1", 0);
+		$tpl->setVariable("AUTHOR1_SELECT", $this->lng->txt("all_authors"));
+		$tpl->parseCurrentBlock();
+		foreach ($authors1 as $author1)
+		{
+			$tpl->setCurrentBlock("author_selection_tst");
+			$tpl->setVariable("AUTHOR1", $author1["title"]);
+			$tpl->setVariable("AUTHOR1_SELECT", $author1["title"]);
+			if ($_SESSION["il_track_author1"] == $author1["title"])
+			{
+				$tpl->setVariable("AUTHOR1_SEL", " selected=\"1\" ");
+			}
+			$tpl->parseCurrentBlock();
+		}
 		//test module
 		//arlon modified,if there isn't test of the login,the test tracking module will not display!
 		$usertracking = new ilUserTracking();
@@ -439,6 +485,8 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$_SESSION["il_track_dayt"] = $_POST["dayt"];
 		$_SESSION["il_track_stat"] = $_POST["stat"];
 		$_SESSION["il_track_language"] = $_POST["language"];
+		$_SESSION["il_track_author"] = $_POST["author"];
+		$_SESSION["il_track_author1"] = $_POST["author1"];
 		$_SESSION["il_track_lm"] = $_POST["lm"];
 		$_SESSION["il_track_tst"] = $_POST["tst"];
 		$_SESSION["il_object_type"] = $_POST["object_type"];
@@ -451,13 +499,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$dayt = $_POST["dayt"];
 		$from = $yearf."-".$monthf."-".$dayf;
 		$to = $yeart."-".$montht."-".$dayt;
-		//$from = mktime($monthf,$dayf,$yearf);
-		//$to = mktime($montht,$dayt,$yeart);
-		//$from = strtotime($from);
-		//$to = strtotime($to);
-		//echo $from;
-		//echo "<br>";
-		//echo $to;
+
 		if(($yearf > $yeart)or($yearf==$yeart and $monthf>$montht)or($yearf==$yeart and $monthf==$montht and $dayf>$dayt))
 		{
 			$this->ilias->raiseError($lng->txt("msg_err_search_time"),
@@ -486,73 +528,182 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.tracking_result.html");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$tpl->addBlockfile("TRACK_TABLE", "track_table", "tpl.table.html");
-
-		//$usertracking->_locator();
-		//$usertracking->_tables();
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
 		// user access statistic
 		if($_POST["stat"] == "u")	// user access
 		{
-			$title_new = array("user", "count", "");
-
-			// condition
-			$condition = $this->getCondition()." and acc_time>='".$from."' and acc_time<'".$to."'";
-
-			$user_acc = $this->object->getAccessTotalPerUser($condition);
-
-			$this->maxcount = count($user_acc);
-
-			// check if result is given
-			if (count($user_acc) < 1)
+			
+			if($_POST["mode"] == "user")
 			{
-				$this->ilias->raiseError($lng->txt("msg_no_search_result"),
-					$this->ilias->error_obj->MESSAGE);
-			}
-
-			$tbl->setTitle($lng->txt("search_result"),0,0);
-			foreach ($title_new as $val)
-			{
-				$header_names[] = $lng->txt($val);
-			}
-			$tbl->setHeaderNames($header_names);
-			//$tbl->setColumnWidth(array("15","75%","25%"));
-			$tbl->setMaxCount($this->maxcount);
-			$tbl->setStyle("table", "std");
-			$tbl->render();
-			$max = 0;
-			foreach ($user_acc as $user)
-			{
-				$max = ($max > $user["cnt"]) ? $max : $user["cnt"];
-			}
-
-			foreach ($user_acc as $user)
-			{
-				$data[0] = $user["name"];
-				$data[1] = $user["cnt"];
-				$width = ($max > 0)
-					? round($data[1] / $max * 100)
-					: 0;
-				$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
-					"width=\"".$width."\" height=\"10\"/>";
-
-				$css_row = $i%2==0?"tblrow1":"tblrow2";
-				foreach ($data as $key => $val)
+				$tpl->setCurrentBlock("user_mode");
+				$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+				"&cmd=gateway");
+				if($_POST["object_type"]=="lm")
 				{
-					if($val=="")
-					{
-						$val=0;
-					}
-					$tpl->setCurrentBlock("text");
-					$tpl->setVariable("TEXT_CONTENT", $val);
-					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("table_cell");
-					$tpl->parseCurrentBlock();
-				} //foreach
-				$tpl->setCurrentBlock("tbl_content");
-				$tpl->setVariable("CSS_ROW", $css_row);
+					$tpl->setVariable("AUTHOR", "author");
+					$tpl->setVariable("AUTHORS", $_POST["author"]);
+					$tpl->setVariable("OBJECT", "lm");
+					$tpl->setVariable("OBJECTS", $_POST["lm"]);
+				}
+				else
+				{
+					$tpl->setVariable("AUTHOR", "author1");
+					$tpl->setVariable("AUTHORS", $_POST["author1"]);
+					$tpl->setVariable("OBJECT", "tst");
+					$tpl->setVariable("OBJECTS", $_POST["tst"]);
+				}
+				$tpl->setVariable("YEARF",$_POST["yearf"]);
+				$tpl->setVariable("MONTHF",$_POST["monthf"]);
+				$tpl->setVariable("DAYF",$_POST["dayf"]);
+				$tpl->setVariable("YEART",$_POST["yeart"]);
+				$tpl->setVariable("MONTHT",$_POST["montht"]);
+				$tpl->setVariable("DAYT",$_POST["dayt"]);
+				$tpl->setVariable("LAN", $_POST["language"]);
+				$tpl->setVariable("TYPE", $_POST["object_type"]);
+				$tpl->setVariable("FROM", $from);
+				$tpl->setVariable("TO", $to);
+				$tpl->setVariable("TXT_SHOW_USER_DATA", $lng->txt("user_statistics"));
 				$tpl->parseCurrentBlock();
-			} //for
+				$title_new = array("user","client_ip","language","object","time");
+				$condition = $this->getConditions()." and acc_time>='".$from."' and acc_time<'".$to."'";
+				$user_acc = $this->object->getAccessPerUserDetail($condition);
+				$this->maxcount = count($user_acc);
+				if (count($user_acc) < 1)
+				{
+					$this->ilias->raiseError($lng->txt("msg_no_search_result"),
+						$this->ilias->error_obj->MESSAGE);
+				}
+
+				$tbl->setTitle($lng->txt("search_result"),0,0);
+				foreach ($title_new as $val)
+				{
+					$header_names[] = $lng->txt($val);
+				}
+				$tbl->setHeaderNames($header_names);
+				//$tbl->setColumnWidth(array("15","75%","25%"));
+				$tbl->setMaxCount($this->maxcount);
+				$tbl->setStyle("table", "std");
+				$tbl->render();
+				$max = 0;
+
+				foreach ($user_acc as $user)
+				{
+					$data[0] = $user["name"];
+					$data[1] = $user["client_ip"];
+					$data[2] = $user["language"];
+					$data[3] = $user["acc_obj_id"];
+					$data[4] = $user["acc_time"];
+					$css_row = $i%2==0?"tblrow1":"tblrow2";
+					foreach ($data as $key => $val)
+					{
+						if($val=="")
+						{
+							$val=0;
+						}
+						$tpl->setCurrentBlock("text");
+						$tpl->setVariable("TEXT_CONTENT", $val);
+						$tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("table_cell");
+						$tpl->parseCurrentBlock();
+					} //foreach
+					$tpl->setCurrentBlock("tbl_content");
+					$tpl->setVariable("CSS_ROW", $css_row);
+					$tpl->parseCurrentBlock();
+				} //for
+			}
+			else
+			{
+				$tpl->setCurrentBlock("user_mode");
+				$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
+				"&cmd=gateway");
+				if($_POST["object_type"]=="lm")
+				{
+					$tpl->setVariable("AUTHOR", "author");
+					$tpl->setVariable("AUTHORS", $_POST["author"]);
+					$tpl->setVariable("OBJECT", "lm");
+					$tpl->setVariable("OBJECTS", $_POST["lm"]);
+				}
+				else
+				{
+					$tpl->setVariable("AUTHOR", "author1");
+					$tpl->setVariable("AUTHORS", $_POST["author1"]);
+					$tpl->setVariable("OBJECT", "tst");
+					$tpl->setVariable("OBJECTS", $_POST["tst"]);
+				}
+				$tpl->setVariable("YEARF",$_POST["yearf"]);
+				$tpl->setVariable("MONTHF",$_POST["monthf"]);
+				$tpl->setVariable("DAYF",$_POST["dayf"]);
+				$tpl->setVariable("YEART",$_POST["yeart"]);
+				$tpl->setVariable("MONTHT",$_POST["montht"]);
+				$tpl->setVariable("DAYT",$_POST["dayt"]);
+				$tpl->setVariable("USER", "user");
+				$tpl->setVariable("LAN", $_POST["language"]);
+				$tpl->setVariable("TYPE", $_POST["object_type"]);
+				$tpl->setVariable("FROM", $from);
+				$tpl->setVariable("TO", $to);
+				$tpl->setVariable("TXT_SHOW_USER_DATA", $lng->txt("user_detail"));
+				$tpl->parseCurrentBlock();
+				$title_new = array("user", "count", "");
+
+				// condition
+				$condition = $this->getCondition()." and acc_time>='".$from."' and acc_time<'".$to."'";
+
+				$user_acc = $this->object->getAccessTotalPerUser($condition);
+
+				$this->maxcount = count($user_acc);
+
+				// check if result is given
+				if (count($user_acc) < 1)
+				{
+					$this->ilias->raiseError($lng->txt("msg_no_search_result"),
+						$this->ilias->error_obj->MESSAGE);
+				}
+
+				$tbl->setTitle($lng->txt("search_result"),0,0);
+				foreach ($title_new as $val)
+				{
+					$header_names[] = $lng->txt($val);
+				}
+				$tbl->setHeaderNames($header_names);
+				//$tbl->setColumnWidth(array("15","75%","25%"));
+				$tbl->setMaxCount($this->maxcount);
+				$tbl->setStyle("table", "std");
+				$tbl->render();
+				$max = 0;
+				foreach ($user_acc as $user)
+				{
+					$max = ($max > $user["cnt"]) ? $max : $user["cnt"];
+				}
+
+				foreach ($user_acc as $user)
+				{
+					$data[0] = $user["name"];
+					$data[1] = $user["cnt"];
+					$width = ($max > 0)
+						? round($data[1] / $max * 100)
+						: 0;
+					$data[2] = "<img src=\"".ilUtil::getImagePath("ray.gif")."\" border=\"0\" ".
+						"width=\"".$width."\" height=\"10\"/>";
+
+					$css_row = $i%2==0?"tblrow1":"tblrow2";
+					foreach ($data as $key => $val)
+					{
+						if($val=="")
+						{
+							$val=0;
+						}
+						$tpl->setCurrentBlock("text");
+						$tpl->setVariable("TEXT_CONTENT", $val);
+						$tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("table_cell");
+						$tpl->parseCurrentBlock();
+					} //foreach
+					$tpl->setCurrentBlock("tbl_content");
+					$tpl->setVariable("CSS_ROW", $css_row);
+					$tpl->parseCurrentBlock();
+				} //for
+			}
 
 		}
 		else //user not selected
@@ -577,14 +728,7 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 			{
 				$num = $usertracking->numDay($from,$to);
 				$from1 = $usertracking->addDay($from);
-				if ($_POST["lm"] == 0)
-				{
-					$tbl->setMaxCount($num * count($lms));
-				}
-				else
-				{
-					$tbl->setMaxCount($num);
-				}
+				$tbl->setMaxCount($num);
 			}
 			$tbl->setStyle("table", "std");
 			$tbl->render();
@@ -735,13 +879,15 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 	function getCondition()
 	{
 		$lang_cond = $this->getLanguageCondition();
-//echo ":$lang_cond:";
+		//echo ":$lang_cond:";
 		if ($lang_cond == "")
 		{
+			$this->setConditions($this->getObjectCondition());
 			return $this->getObjectCondition();
 		}
 		else
 		{
+			$this->setConditions($lang_cond." AND ".$this->getObjectCondition());
 			return $lang_cond." AND ".$this->getObjectCondition();
 		}
 	}
@@ -755,33 +901,60 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		global $ilDB;
 
 		$type = $_POST["object_type"];
-
-		$condition = "acc_obj_type = ".$ilDB->quote($type);
-
-		if($_POST[$type] != 0)
+		$condition = "";
+		if($_POST["object_type"]=="lm")
 		{
-			$condition.= " and acc_obj_id = ".
-				$ilDB->quote($_POST[$type]);
+			if($_POST["author"]=="0")
+			{
+				return " acc_obj_type = 'lm'";
+			}
+			elseif($_POST["lm"]=="0" or $_POST["lm"]=="")
+			{
+				$authors = ilObjSysUserTracking::allAuthor("usr","lm");
+				foreach ($authors as $author)
+				{
+					if($author["title"]==$_POST["author"])
+					$lms = ilObjSysUserTracking::authorLms($author["obj_id"],"lm");
+					foreach ($lms as $lm)
+					{
+						$condition = $condition." or acc_obj_id = ".$lm["obj_id"];
+					}
+				}
+				return " ( 0 ".$condition." ) ";
+			}
+			else
+			{
+				$condition.= " acc_obj_id = ".ilObjSysUserTracking::getObjId($_POST["lm"],$type);
+				return $condition;
+			}
+
 		}
 		else
 		{
-			$objs = ilObject::_getObjectsDataForType($type, true);
-//echo count($objs).":";
-			if (count($objs) > 0)
+			if($_POST["author1"]=="0")
 			{
-				$condition.= " and (";
-				$or = "";
-				foreach($objs as $obj)
+				return " acc_obj_type = 'tst'";
+			}
+			elseif($_POST["tst"]=="0" or $_POST["tst"]=="")
+			{
+				$authors = ilObjSysUserTracking::allAuthor("usr","tst");
+				foreach ($authors as $author)
 				{
-					$condition = $condition." $or acc_obj_id=".
-						$obj["id"];
-					$or = " or ";
+					if($author["title"]==$_POST["author1"])
+					$lms = ilObjSysUserTracking::authorLms($author["obj_id"],"tst");
+					foreach ($lms as $lm)
+					{
+						$condition = $condition." or acc_obj_id = ".$lm["obj_id"];
+					}
 				}
-				$condition.= ")";
+				return " ( 0 ".$condition." ) ";
+			}
+			else
+			{
+				$condition.= " acc_obj_id = ".ilObjSysUserTracking::getObjId($_POST["tst"],$type);
+				return $condition;
 			}
 		}
-
-		return $condition;
 	}
 
 	/**
@@ -797,9 +970,15 @@ class ilObjSysUserTrackingGUI extends ilObjectGUI
 		}
 
 		return "";
+	}	
+	function setConditions($con)
+	{
+		$this->conditions = $con;
 	}
-
-
+	function getConditions()
+	{
+		return $this->conditions;
+	}
 
 } // END class.ilObj<module_name>
 ?>
