@@ -603,6 +603,7 @@ class ilExplorer
 			{
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
@@ -612,6 +613,7 @@ class ilExplorer
 			{
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
@@ -646,6 +648,7 @@ class ilExplorer
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+			$tpl->setVariable("LINK_NAME", $a_node_id);
 			$tpl->setVariable("TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
 				$this->textwidth, true));
@@ -728,7 +731,7 @@ class ilExplorer
 		$sep = (is_int(strpos($this->expand_target, "?")))
 			? "&"
 			: "?";
-		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get;
+		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get."#".abs($a_node_id);
 	}
 
 	/**
