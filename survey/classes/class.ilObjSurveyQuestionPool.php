@@ -142,15 +142,44 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function delete()
 	{		
+		$remove = parent::delete();
 		// always call parent delete function first!!
-		if (!parent::delete())
+		if (!$remove)
 		{
 			return false;
 		}
 		
-		//put here your module specific stuff
+		// delete all related questions
+		$this->deleteAllData();
 		
 		return true;
+	}
+
+	function deleteAllData()
+	{
+		$query = sprintf("SELECT question_id FROM survey_question WHERE ref_fi = %s",
+			$this->ilias->db->quote($this->getRefId())
+		);
+		$result = $this->ilias->db->query($query);
+		$found_questions = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($found_questions, $row["question_id"]);
+		}
+		
+		$query = sprintf("DELETE FROM survey_question WHERE ref_fi = %s",
+			$this->ilias->db->quote($this->getRefId())
+		);
+		$result = $this->ilias->db->query($query);
+
+		if (count($found_questions))
+		{		
+			$query = "DELETE FROM survey_question_material WHERE question_fi IN (" . join($found_questions, ",") . ")";
+			$result = $this->ilias->db->query($query);
+
+			$query = "DELETE FROM survey_variable WHERE question_fi IN (" . join($found_questions, ",") . ")";
+			$result = $this->ilias->db->query($query);
+		}
 	}
 
 	/**
