@@ -57,6 +57,7 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#overeenkomsten
 assessment#:#matching_pair#:#Overeenkomend paar
+assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
 assessment#:#points#:#Punten
 assessment#:#possible_gap_text#:#Mogelijke gat-tekst
@@ -109,6 +110,7 @@ assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Rapporteer de score nadat elke vraag beantwoord is
 assessment#:#tst_report_after_test#:#Rapporteer de score nadat de gehele test klaar is
+assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
 assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Rapportage score
 assessment#:#tst_score_reporting_date#:#Rapportage-datum score
@@ -118,6 +120,7 @@ assessment#:#tst_sequence_fixed#:#De volgorde van de vragen is vast
 assessment#:#tst_sequence_postpone#:#De leerling mag een vraag tot het einde van de test uitstellen
 assessment#:#tst_sequence_properties#:#Volgorde eigenschappen
 assessment#:#tst_session_settings#:#Instellingen sessies
+assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
@@ -914,6 +917,7 @@ common#:#my_bms#:#Mijn bookmarken
 common#:#my_frms#:#Mijn forums
 common#:#my_grps#:#Mijn groepen
 common#:#my_los#:#Mijn lesobjecten
+common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
 common#:#name#:#Naam
 common#:#new#:#Nieuw
 common#:#new_appointment#:#Nieuwe afspraak
@@ -935,6 +939,7 @@ common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
 common#:#no_objects#:#Geen objecten
 common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!
 common#:#no_title#:#Geen titel
+common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#none#:#Geen enkele
 common#:#normal#:#Normaal
 common#:#not_installed#:#Niet geïnstalleerd

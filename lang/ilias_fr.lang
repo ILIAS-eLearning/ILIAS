@@ -57,6 +57,7 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
 assessment#:#matches#:#matches###05 Feb 2004 new variable
 assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
+assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
@@ -109,6 +110,7 @@ assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
+assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
 assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
 assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
@@ -118,6 +120,7 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 20
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
 assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
@@ -914,6 +917,7 @@ common#:#my_bms#:#Mes signets
 common#:#my_frms#:#Mes forums
 common#:#my_grps#:#Mes groupes
 common#:#my_los#:#Mes cours
+common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
 common#:#name#:#Nom
 common#:#new#:#Nouveau
 common#:#new_appointment#:#Nouveau rendez-vous
@@ -935,6 +939,7 @@ common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
 common#:#no_objects#:#Pas d'objet
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
 common#:#no_title#:#Pas de titre
+common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#none#:#Aucun
 common#:#normal#:#Normal
 common#:#not_installed#:#Non installé
