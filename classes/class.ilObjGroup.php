@@ -287,7 +287,7 @@ class ilObjGroup extends ilObject
 	  	if ($a_grpStatus == 0 )//|| $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
-			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', ROLE_FOLDER_ID);
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
@@ -298,11 +298,11 @@ class ilObjGroup extends ilObject
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
-				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
+				//$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
 				//$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
 				//the assignment stops the inheritation
-				if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
-						$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
+				//if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
+				//		$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
 			}//END foreach
 		}
 
@@ -310,7 +310,7 @@ class ilObjGroup extends ilObject
 	  	if($a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
-			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
+			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', ROLE_FOLDER_ID);
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
@@ -322,7 +322,7 @@ class ilObjGroup extends ilObject
 				//set permissions of global role (admin,author,guest,learner) for group object
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
+				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				//the assignment stops the inheritation
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
