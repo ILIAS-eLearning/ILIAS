@@ -28,7 +28,6 @@
 * @version $Id$
 *
 * @package ilias-core
-* bla
 */
 
 echo "<h2>help page</h2>";
