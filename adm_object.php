@@ -25,7 +25,7 @@
 /**
 * adm_object
 * main script for administration console
-*
+* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
