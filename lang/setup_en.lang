@@ -31,21 +31,38 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+3rd_party_software#:#3rd party software
+absolute_path#:#Absolute path
+access#:#Access
+access_status#:#Access status
 available_languages#:#available languages
 back#:#back
 change#:#change
+change_basic_settings#:#Change basic settings
 change_password#:#Change password
 choose_language#:#choose your language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password
+city#:#City
+client_data#:#Client Information
+client_id#:#Client ID
+client_info#:#Description
+client_institution#:#Institution
+client_name#:#Name
+contact_data#:#Contact Information
+convert_path#:#Path to Convert
+country#:#Country
+create_new_client#:#Create new client
 data_path#:#data path
 database#:#database
+database_create#:#Create database
 database_exists#:#database exists
 database_is_uptodate#:#Your database is up-to-date
 database_needs_update#:#Your database needs an update
 database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
+datadir_path#:#Path to Data Directory
 date#:#date
 db_host#:#database host
 db_name#:#database name
@@ -55,6 +72,9 @@ db_user#:#database user
 db_version#:#database version
 default#:#default
 delete#:#delete
+details#:#Details
+email#:#Email
+email_not_valid#:#Email is not valid
 en_by_default#:#(English is installed by default and cannot be deleted).
 enter_password#:#Please enter password
 env_ok#:#Ok. Sounds good.
@@ -66,6 +86,16 @@ err_wrong_login#:#Wrong login
 file_does_not_exist#:#File does not exist.
 file_version#:#file version
 fill_both_fields#:#Please fill out both fields!
+finish#:#Finish setup
+finish_setup#:#Finishing setup
+firstname#:#Firstname
+host#:#Host
+htmldoc_path#:#Path to HTMLdoc
+http_path#:#HTTP path
+id#:#ID
+ilias_nic#:#NIC Registration
+ilias_nic_id#:#NIC ID
+ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS version
 inifile#:#ini-file
 inifile_can_write#:#ILIAS 3 setup can write your ini-file.
@@ -75,11 +105,15 @@ inifile_exists#:#An ini-file exists. Note that this Installation process deletes
 inifile_fill_all#:#Please fill out all fields.
 inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
 inifile_written#:#The ini-file has been successfully saved on your host.
+input_error#:#Input error
 inst_name#:#installation name
 install#:#install
 installation#:#Installation
 installed#:#installed
+institution#:#Institution
 intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
+ip_address#:#IP address
+java_path#:#Path to Java
 lang_de#:#German
 lang_dk#:#Danish
 lang_en#:#English
@@ -96,29 +130,55 @@ lang_xx#:#Custom
 language#:#language
 languages#:#languages
 languages_installed#:#Languages installed.
+lastname#:#Lastname
+log_path#:#Path to Logfile
 logged_out#:#You logged out.
+logging#:#Logging
 login#:#login
 login_to_ilias#:#login to ILIAS
 logout#:#logout
+name#:#Name
+next#:#Next
+nic_registration#:#NIC Registration
 no_changes#:#No changes.
 no_db_update_file#:#dbupdate.php not found!
 not_connected_to_db#:#You are not connected to database.
 out_of_webspace#:#(out of webspace)
+overview#:#Overview
 password#:#password
 password_changed#:#Password changed.
 password_empty#:#No password given!
 password_info#:#To protect your configuration data against other users you will need a password to access ILIAS 3 setup later again.
 password_set#:#Password saved.
+path_to_convert#:#Path to Convert
+path_to_htmldoc#:#Path to HTMLdoc
+path_to_java#:#Path to Java
+path_to_unzip#:#Path to Unzip
+path_to_zip#:#Path to Zip
+phone#:#Phone
+port#:#port
+position#:#Position
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
 pre_folder_write#:#Writable ILIAS 3 folder
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
 pre_php_version#:#PHP version
 preliminaries#:#Preliminaries
+prev#:#Previous
+required_field#:#required fields
 reset#:#Reset
+save#:#Save
+saved_successfully#:#Saved successfully
+server_info#:#Server Information
+server_software#:#Server software
+set_default_client#:#Set Default Client
 set_newpasswd#:#Please enter new password
 set_oldpasswd#:#Please enter old password
+settings_changed#:#Settings changed
+settings_saved#:#Settings saved
 setup#:#setup
+setup_basic_settings#:#Setup basic settings
+setup_contact_data#:#Setup Contact Information
 setup_database#:#setup database
 setup_database_desc#:#setup the database
 setup_db_first#:#Please setup your database first!
@@ -129,11 +189,18 @@ setup_languages#:#install languages
 setup_languages_desc#:#install additional languages
 setup_mainmenu#:#Setup mainmenu
 setup_menu#:#setup menu
+setup_pass#:#Setup password
+setup_pass2#:#Retype setup Password
 setup_password#:#create password
 setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
 setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
+status#:#Status
+step#:#Step
+street#:#Street
 submit#:#Submit
+title#:#Title
+unzip_path#:#Path to Unzip
 update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
@@ -141,72 +208,5 @@ version#:#Version
 webspace_dir#:#webspace data path
 with#:#with
 wrong_password#:#Wrong password!
-path_to_convert#:#Path to Convert
-path_to_zip#:#Path to Zip
-path_to_unzip#:#Path to Unzip
-path_to_java#:#Path to Java
-path_to_htmldoc#:#Path to HTMLdoc
-convert_path#:#Path to Convert
 zip_path#:#Path to Zip
-unzip_path#:#Path to Unzip
-java_path#:#Path to Java
-htmldoc_path#:#Path to HTMLdoc
-log_path#:#Path to Logfile
-datadir_path#:#Path to Data Directory
-change_basic_settings#:#Change basic settings
-logging#:#Logging
-details#:#Details
-status#:#Status
-access#:#Access
-set_default_client#:#Set Default Client
-step#:#Step
-create_new_client#:#Create new client
-save#:#Save
-settings_saved#:#Settings saved
-settings_changed#:#Settings changed
-next#:#Next
-prev#:#Previous
-database_create#:#Create database
-setup_contact_data#:#Setup Contact Information
-client_data#:#Client Information
-client_name#:#Name
-client_info#:#Description
-client_institution#:#Institution
-contact_data#:#Contact Information
-firstname#:#Firstname
-lastname#:#Lastname
-title#:#Title
-position#:#Position
-institution#:#Institution
-street#:#Street
 zipcode#:#Zipcode
-city#:#City
-country#:#Country
-phone#:#Phone
-email#:#Email
-saved_successfully#:#Saved successfully
-input_error#:#Input error
-email_not_valid#:#Email is not valid
-nic_registration#:#NIC Registration
-finish#:#Finish setup
-finish_setup#:#Finishing setup
-id#:#ID
-name#:#Name
-ilias_nic#:#NIC Registration
-overview#:#Overview
-client_id#:#Client ID
-ilias_nic_id#:#NIC ID
-access_status#:#Access status
-server_info#:#Server Information
-host#:#Host
-ip_address#:#IP address
-port#:#port
-server_software#:#Server software
-http_path#:#HTTP path
-absolute_path#:#Absolute path
-3rd_party_software#:#3rd party software
-required_field#:#required fields
-ilias_setup#:#ILIAS3 setup
-setup_basic_settings#:#Setup basic settings
-setup_pass#:#Setup password
-setup_pass2#:#Retype setup Password

@@ -31,21 +31,38 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+3rd_party_software#:#3rd party software###21 Nov 2003 new variable
+absolute_path#:#Absolute path###21 Nov 2003 new variable
+access#:#Access###21 Nov 2003 new variable
+access_status#:#Access status###21 Nov 2003 new variable
 available_languages#:#verfügbare Sprachen
 back#:#zurück
 change#:#ändern
+change_basic_settings#:#Change basic settings###21 Nov 2003 new variable
 change_password#:#Passwort ändern
 choose_language#:#Bitte wählen Sie Ihre Sprache
 choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
 choose_password#:#Bitte geben Sie das gewünschte Passwort ein
+city#:#City###21 Nov 2003 new variable
+client_data#:#Client Information###21 Nov 2003 new variable
+client_id#:#Client ID###21 Nov 2003 new variable
+client_info#:#Description###21 Nov 2003 new variable
+client_institution#:#Institution###21 Nov 2003 new variable
+client_name#:#Name###21 Nov 2003 new variable
+contact_data#:#Contact Information###21 Nov 2003 new variable
+convert_path#:#Path to Convert###21 Nov 2003 new variable
+country#:#Country###21 Nov 2003 new variable
+create_new_client#:#Create new client###21 Nov 2003 new variable
 data_path#:#data path###24 Jun 2003 new variable
 database#:#Datenbank
+database_create#:#Create database###21 Nov 2003 new variable
 database_exists#:#Datenbank existiert bereits
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
 database_needs_update#:#Datenbank benötigt ein Update
 database_ready#:#Datenbank ist eingerichtet.
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion
+datadir_path#:#Path to Data Directory###21 Nov 2003 new variable
 date#:#Datum
 db_host#:#Datenbank Host
 db_name#:#Datenbankname
@@ -55,6 +72,9 @@ db_user#:#Datenbankbenutzer
 db_version#:#Datenbankversion
 default#:#default
 delete#:#löschen
+details#:#Details###21 Nov 2003 new variable
+email#:#Email###21 Nov 2003 new variable
+email_not_valid#:#Email is not valid###21 Nov 2003 new variable
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
 enter_password#:#Bitte geben Sie das Passwort ein
 env_ok#:#Ok. Hört sich gut an.
@@ -66,6 +86,16 @@ err_wrong_login#:#Login ungültig
 file_does_not_exist#:#Datei existiert nicht.
 file_version#:#file version
 fill_both_fields#:#Bitte beide Felder ausfüllen!
+finish#:#Finish setup###21 Nov 2003 new variable
+finish_setup#:#Finishing setup###21 Nov 2003 new variable
+firstname#:#Firstname###21 Nov 2003 new variable
+host#:#Host###21 Nov 2003 new variable
+htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
+http_path#:#HTTP path###21 Nov 2003 new variable
+id#:#ID###21 Nov 2003 new variable
+ilias_nic#:#NIC Registration###21 Nov 2003 new variable
+ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
+ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
 ilias_version#:#ILIAS Version
 inifile#:#ini-Datei
 inifile_can_write#:#ILIAS 3 setup kann eine neue ini-Datei erzeugen.
@@ -75,11 +105,15 @@ inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird
 inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
 inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 3.
 inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
+input_error#:#Input error###21 Nov 2003 new variable
 inst_name#:#Installationsname
 install#:#installieren
 installation#:#Installation
 installed#:#installiert
+institution#:#Institution###21 Nov 2003 new variable
 intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS 3 durchführen.
+ip_address#:#IP address###21 Nov 2003 new variable
+java_path#:#Path to Java###21 Nov 2003 new variable
 lang_de#:#Deutsch
 lang_dk#:#D&auml;nisch
 lang_en#:#Englisch
@@ -96,29 +130,55 @@ lang_xx#:#benutzerdefiniert
 language#:#Sprache
 languages#:#Sprachen
 languages_installed#:#Sprachen installiert.
+lastname#:#Lastname###21 Nov 2003 new variable
+log_path#:#Path to Logfile###21 Nov 2003 new variable
 logged_out#:#Sie sind nun ausgeloggt.
+logging#:#Logging###21 Nov 2003 new variable
 login#:#einloggen
 login_to_ilias#:#bei ILIAS anmelden
 logout#:#ausloggen
+name#:#Name###21 Nov 2003 new variable
+next#:#Next###21 Nov 2003 new variable
+nic_registration#:#NIC Registration###21 Nov 2003 new variable
 no_changes#:#No changes.
 no_db_update_file#:#dbupdate.php nicht gefunden!
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 out_of_webspace#:#(out of webspace)###24 Jun 2003 new variable
+overview#:#Overview###21 Nov 2003 new variable
 password#:#Passwort
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
 password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um evtl. später Ihre Konfiguration zu ändern oder die Datenbank zu aktualisieren.
 password_set#:#Das Passwort wurde gespeichert.
+path_to_convert#:#Path to Convert###21 Nov 2003 new variable
+path_to_htmldoc#:#Path to HTMLdoc###21 Nov 2003 new variable
+path_to_java#:#Path to Java###21 Nov 2003 new variable
+path_to_unzip#:#Path to Unzip###21 Nov 2003 new variable
+path_to_zip#:#Path to Zip###21 Nov 2003 new variable
+phone#:#Phone###21 Nov 2003 new variable
+port#:#port###21 Nov 2003 new variable
+position#:#Position###21 Nov 2003 new variable
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
 pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
 pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
 pre_php_version#:#PHP-Version
 preliminaries#:#Vorbereitende Massnahmen
+prev#:#Previous###21 Nov 2003 new variable
+required_field#:#required fields###21 Nov 2003 new variable
 reset#:#Zurücksetzen
+save#:#Save###21 Nov 2003 new variable
+saved_successfully#:#Saved successfully###21 Nov 2003 new variable
+server_info#:#Server Information###21 Nov 2003 new variable
+server_software#:#Server software###21 Nov 2003 new variable
+set_default_client#:#Set Default Client###21 Nov 2003 new variable
 set_newpasswd#:#Bitte neues Passwort eingeben
 set_oldpasswd#:#Bitte altes Passwort eingeben
+settings_changed#:#Settings changed###21 Nov 2003 new variable
+settings_saved#:#Settings saved###21 Nov 2003 new variable
 setup#:#setup
+setup_basic_settings#:#Setup basic settings###21 Nov 2003 new variable
+setup_contact_data#:#Setup Contact Information###21 Nov 2003 new variable
 setup_database#:#Datenbank anlegen
 setup_database_desc#:#Erstellung der Datenbank
 setup_db_first#:#Please legen Sie zuerst die Datenbank an!
@@ -129,11 +189,18 @@ setup_languages#:#Sprachen installieren
 setup_languages_desc#:#Installation zusätzlicher Sprachen
 setup_mainmenu#:#Setup Hauptmenü
 setup_menu#:#setup menü
+setup_pass#:#Setup password###21 Nov 2003 new variable
+setup_pass2#:#Retype setup Password###21 Nov 2003 new variable
 setup_password#:#Passwort erstellen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
+status#:#Status###21 Nov 2003 new variable
+step#:#Step###21 Nov 2003 new variable
+street#:#Street###21 Nov 2003 new variable
 submit#:#Abschicken
+title#:#Title###21 Nov 2003 new variable
+unzip_path#:#Path to Unzip###21 Nov 2003 new variable
 update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
@@ -141,3 +208,5 @@ version#:#Version
 webspace_dir#:#webspace data path###24 Jun 2003 new variable
 with#:#mit
 wrong_password#:#Falsches Passwort!
+zip_path#:#Path to Zip###21 Nov 2003 new variable
+zipcode#:#Zipcode###21 Nov 2003 new variable

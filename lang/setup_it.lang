@@ -31,21 +31,38 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+3rd_party_software#:#3rd party software###21 Nov 2003 new variable
+absolute_path#:#Absolute path###21 Nov 2003 new variable
+access#:#Access###21 Nov 2003 new variable
+access_status#:#Access status###21 Nov 2003 new variable
 available_languages#:#Lingue disponibili
 back#:#Indietro
 change#:#Cambia
+change_basic_settings#:#Change basic settings###21 Nov 2003 new variable
 change_password#:#Cambia password
 choose_language#:#Scegli la Tua lingua
 choose_languages#:#Per favore, scegli alcune lingue ulteriori e/o remuovi le lingue selezionate.
 choose_password#:#Per favore, scegli una password
+city#:#City###21 Nov 2003 new variable
+client_data#:#Client Information###21 Nov 2003 new variable
+client_id#:#Client ID###21 Nov 2003 new variable
+client_info#:#Description###21 Nov 2003 new variable
+client_institution#:#Institution###21 Nov 2003 new variable
+client_name#:#Name###21 Nov 2003 new variable
+contact_data#:#Contact Information###21 Nov 2003 new variable
+convert_path#:#Path to Convert###21 Nov 2003 new variable
+country#:#Country###21 Nov 2003 new variable
+create_new_client#:#Create new client###21 Nov 2003 new variable
 data_path#:#Percorso della cartella data
 database#:#Database
+database_create#:#Create database###21 Nov 2003 new variable
 database_exists#:#Database gi&#224; esistente
 database_is_uptodate#:#Database aggiornato
 database_needs_update#:#Il database deve essere aggiornato
 database_ready#:#Database pronto.
 database_update#:#Aggiorna il database
 database_version#:#Versione attuale del database
+datadir_path#:#Path to Data Directory###21 Nov 2003 new variable
 date#:#Data
 db_host#:#Macchina con il database
 db_name#:#Nome database
@@ -55,6 +72,9 @@ db_user#:#Utente database
 db_version#:#Versione database
 default#:#Predefinito
 delete#:#Elimina
+details#:#Details###21 Nov 2003 new variable
+email#:#Email###21 Nov 2003 new variable
+email_not_valid#:#Email is not valid###21 Nov 2003 new variable
 en_by_default#:#(la lingua inglese &#232; installata come predefinita e non pu&ograve; essere cancellata).
 enter_password#:#Per favore, inserisci la password
 env_ok#:#Ok. Sembra corretto.
@@ -66,6 +86,16 @@ err_wrong_login#:#Login errata
 file_does_not_exist#:#Il file non esiste.
 file_version#:#Versione del file
 fill_both_fields#:#Per favore, riempi entambi i campi!
+finish#:#Finish setup###21 Nov 2003 new variable
+finish_setup#:#Finishing setup###21 Nov 2003 new variable
+firstname#:#Firstname###21 Nov 2003 new variable
+host#:#Host###21 Nov 2003 new variable
+htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
+http_path#:#HTTP path###21 Nov 2003 new variable
+id#:#ID###21 Nov 2003 new variable
+ilias_nic#:#NIC Registration###21 Nov 2003 new variable
+ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
+ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
 ilias_version#:#Versione di ILIAS
 inifile#:#File .ini
 inifile_can_write#:#Il processo di installazione di ILIAS 3 pu&ograve; scrivere il tuo file .ini.
@@ -75,11 +105,15 @@ inifile_exists#:#Il file .ini esiste. Attenzione: il processo di installazione c
 inifile_fill_all#:#Per favore, riempi tutti i campi.
 inifile_firsttime#:#Non &#232; prefente il file .ini! Potrebbe essere la prima esecuzione di ILIAS 3.
 inifile_written#:#Il file .ini &egrave, stato salvato con successo sulla macchina.
+input_error#:#Input error###21 Nov 2003 new variable
 inst_name#:#Nome dell&#039;installazione
 install#:#Installa
 installation#:#Installazione
 installed#:#installato
+institution#:#Institution###21 Nov 2003 new variable
 intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS 3. Da qui puoi procedere con l&#039;installazione.
+ip_address#:#IP address###21 Nov 2003 new variable
+java_path#:#Path to Java###21 Nov 2003 new variable
 lang_de#:#Tedesco
 lang_dk#:#Danese
 lang_en#:#Inglese
@@ -96,29 +130,55 @@ lang_xx#:#Custom
 language#:#Lingua
 languages#:#Lingue
 languages_installed#:#Lingue installate.
+lastname#:#Lastname###21 Nov 2003 new variable
+log_path#:#Path to Logfile###21 Nov 2003 new variable
 logged_out#:#Sei uscito dal sistema.
+logging#:#Logging###21 Nov 2003 new variable
 login#:#Login
 login_to_ilias#:#Entra in ILIAS
 logout#:#Esci
+name#:#Name###21 Nov 2003 new variable
+next#:#Next###21 Nov 2003 new variable
+nic_registration#:#NIC Registration###21 Nov 2003 new variable
 no_changes#:#Nessun cambiamento.
 no_db_update_file#:#Non trovato il file dbupdate.php!
 not_connected_to_db#:#Non sei connesso al Database.
 out_of_webspace#:#(esaurito lo spazio nella cartella webdata)
+overview#:#Overview###21 Nov 2003 new variable
 password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
 password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&#249; tardi una password di accesso all'installazione di ILIAS 3.
 password_set#:#Password salvata.
+path_to_convert#:#Path to Convert###21 Nov 2003 new variable
+path_to_htmldoc#:#Path to HTMLdoc###21 Nov 2003 new variable
+path_to_java#:#Path to Java###21 Nov 2003 new variable
+path_to_unzip#:#Path to Unzip###21 Nov 2003 new variable
+path_to_zip#:#Path to Zip###21 Nov 2003 new variable
+phone#:#Phone###21 Nov 2003 new variable
+port#:#port###21 Nov 2003 new variable
+position#:#Position###21 Nov 2003 new variable
 pre_error#:#SI sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&#039;installazione di ILIAS 3.
 pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS 3
 pre_folder_write#:#Cartella di ILIAS 3 scrivibile
 pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.
 pre_php_version#:#Versione PHP
 preliminaries#:#Preliminari
+prev#:#Previous###21 Nov 2003 new variable
+required_field#:#required fields###21 Nov 2003 new variable
 reset#:#Reset
+save#:#Save###21 Nov 2003 new variable
+saved_successfully#:#Saved successfully###21 Nov 2003 new variable
+server_info#:#Server Information###21 Nov 2003 new variable
+server_software#:#Server software###21 Nov 2003 new variable
+set_default_client#:#Set Default Client###21 Nov 2003 new variable
 set_newpasswd#:#Per favore, scrivi la nuova password
 set_oldpasswd#:#Per favore, scrivi la vecchia password
+settings_changed#:#Settings changed###21 Nov 2003 new variable
+settings_saved#:#Settings saved###21 Nov 2003 new variable
 setup#:#Installazione
+setup_basic_settings#:#Setup basic settings###21 Nov 2003 new variable
+setup_contact_data#:#Setup Contact Information###21 Nov 2003 new variable
 setup_database#:#Installazione del database
 setup_database_desc#:#installare il database
 setup_db_first#:#Per favore, crea prima il database!
@@ -129,11 +189,18 @@ setup_languages#:#Installa le lingue
 setup_languages_desc#:#installare le lingue aggiuntive
 setup_mainmenu#:#Menu principale dell&#039;installazione
 setup_menu#:#Menu dell&#039;installazione
+setup_pass#:#Setup password###21 Nov 2003 new variable
+setup_pass2#:#Retype setup Password###21 Nov 2003 new variable
 setup_password#:#Creazione password
 setup_password_desc#:#creare una password per accedere alla successiva procedura di installazione (per l&#039;aggiornamento del database)
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nell&#039;installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
+status#:#Status###21 Nov 2003 new variable
+step#:#Step###21 Nov 2003 new variable
+street#:#Street###21 Nov 2003 new variable
 submit#:#Accetta
+title#:#Title###21 Nov 2003 new variable
+unzip_path#:#Path to Unzip###21 Nov 2003 new variable
 update_applied#:#Modifiche effettuate
 update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
@@ -141,3 +208,5 @@ version#:#Versione
 webspace_dir#:#Percorso della cartella webdata###24 Jun 2003 new variable
 with#:#con
 wrong_password#:#Password errata!
+zip_path#:#Path to Zip###21 Nov 2003 new variable
+zipcode#:#Zipcode###21 Nov 2003 new variable
