@@ -119,6 +119,26 @@ class ASS_ClozeTest extends ASS_Question {
   }
 
 /**
+* Returns true, if a cloze test is complete for use
+*
+* Returns true, if a cloze test is complete for use
+*
+* @return boolean True, if the cloze test is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
 * Saves a ASS_ClozeTest object to a database
 *
 * Saves a ASS_ClozeTest object to a database (experimental)
@@ -130,13 +150,17 @@ class ASS_ClozeTest extends ASS_Question {
   {
     global $ilias;
     $db =& $ilias->db->db;
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
 
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, start_tag, end_tag, cloze_type, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -148,6 +172,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->start_tag),
         $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
+				$db->quote($complete),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -160,12 +185,13 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($this->cloze_type),
+				$db->quote($complete),
         $db->quote($this->id)
       );
       $result = $db->query($query);

@@ -109,6 +109,26 @@ class ASS_MultipleChoice extends ASS_Question {
   }
 
 /**
+* Returns true, if a multiple choice question is complete for use
+*
+* Returns true, if a multiple choice question is complete for use
+*
+* @return boolean True, if the multiple choice question is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
 * Saves a ASS_MultipleChoice object to a database
 *
 * Saves a ASS_MultipleChoice object to a database (experimental)
@@ -120,6 +140,10 @@ class ASS_MultipleChoice extends ASS_Question {
   {
     global $ilias;
 
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
     $db = & $ilias->db->db;
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
@@ -131,7 +155,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $question_type = 2;
       }
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, choice_response, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, choice_response, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -141,6 +165,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $db->quote($this->owner),
         $db->quote($this->question),
         $db->quote($this->response),
+				$db->quote($complete),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -153,12 +178,13 @@ class ASS_MultipleChoice extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, choice_response = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, choice_response = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
         $db->quote($this->response),
+				$db->quote($complete),
         $db->quote($this->id)
       );
       $result = $db->query($query);

@@ -178,6 +178,19 @@ class ASS_Question extends PEAR {
   }
 
 /**
+* Returns true, if a question is complete for use
+*
+* Returns true, if a question is complete for use
+*
+* @return boolean True, if the question is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		return false;
+	}
+
+/**
 * Returns TRUE if the question title exists in the database
 *
 * Returns TRUE if the question title exists in the database
