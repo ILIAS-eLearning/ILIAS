@@ -124,6 +124,10 @@ function saveForm()
 	//insert user data in table user_data
 	$userObj->saveAsNew();
 
+	// setup user preferences
+	$userObj->setLanguage($_POST["usr_language"]);
+	$userObj->writePrefs();
+
 	//set role entries
 	$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
@@ -151,7 +155,7 @@ function displayForm ()
 	global $tpl,$ilias,$lng;
 
 	//instantiate login template
-	$tpl->addBlockFile("CONTENT", "content", "tpl.registration_form.html");
+	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
 
 	// for gender selection. don't change this
 	$gender_arr = array('m' => "salutation_m",'f'=> "salutation_f");
@@ -213,6 +217,24 @@ function displayForm ()
 	$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 	$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 	$tpl->setVariable("TXT_PASSWD2", $lng->txt("retype_password"));
+	$tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
+
+	// language selection
+	$languages = $lng->getInstalledLanguages();
+	
+	foreach ($languages as $lang_key)
+	{
+		$tpl->setCurrentBlock("language_selection");
+		$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+		$tpl->setVariable("LANGSHORT", $lang_key);
+	
+		if ($ilias->getSetting("language") == $lang_key)
+		{
+			$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
+		}
+	
+		$tpl->parseCurrentBlock();
+	} // END language selection
 	
 	// FILL SAVED VALUES IN CASE OF ERROR
 	$tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
