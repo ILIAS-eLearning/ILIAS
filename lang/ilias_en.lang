@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Undelete
 common#:#by#:#By
 common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
+common#:#cannot_find_xml#:#Cannot find any XML-file.
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
+common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
@@ -467,6 +469,7 @@ common#:#check#:#Check
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
+common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
+common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
 common#:#exc#:#Exercise
 common#:#exc_add#:#Add Exercise
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system 
 common#:#import#:#Import
 common#:#import_categories#:#Import Categories
 common#:#import_file#:#Import File
+common#:#import_file_not_valid#:#The import file is not valid.
+common#:#import_finished#:#Number of imported messages.
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change permission settings
 common#:#mail_folders#:#Mail Folders
+common#:#mail_import#:#Import
+common#:#mail_import_file#:#ILIAS 2 export file
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mail_visible#:#User may use mail system
 common#:#mail_mails_of#:#Mails
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
+common#:#table_mail_import#:#Import from ILIAS 2 Mails
 common#:#term#:#Term
 common#:#test_intern#:#Test Intern
 common#:#tests#:#Tests
@@ -1461,6 +1470,7 @@ common#:#up#:#Up
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
 common#:#upload#:#Upload
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#userdata#:#User data
 common#:#username#:#User name
 common#:#users#:#Users
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Users online
 common#:#usr#:#User
 common#:#usr_a#:#a User
@@ -2648,14 +2659,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#mail_import#:#Import
-common#:#table_mail_import#:#Import from ILIAS 2 Mails
-common#:#import_file_not_valid#:#The import file is not valid.
-common#:#cannot_unzip_file#:#Cannot unpack file.
-common#:#cannot_find_xml#:#Cannot find any XML-file.
-common#:#error_parser#:#Error starting the parser.
-common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
-common#:#checked_files#:#Importable files
-common#:#mail_import_file#:#ILIAS 2 export file
-common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
-common#:#import_finished#:#Number of imported messages.

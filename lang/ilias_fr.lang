@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Restaurer
 common#:#by#:#par
 common#:#calendar#:#Calendrier
 common#:#cancel#:#Annuler
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Vous ne pouvez pas désinstaller le langage courant !
 common#:#cannot_uninstall_systemlanguage#:#Vous ne pouvez pas désinstaller le langage système !
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#Catégorie
 common#:#cat_a#:#une catégorie###13 Jan 2004 content changed
 common#:#cat_add#:#Ajouter catégorie
@@ -467,6 +469,7 @@ common#:#check#:#Vérifier
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier les langues
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Votre session a expiré
 common#:#err_wrong_header#:#Raison : entête invalide
 common#:#err_wrong_login#:#Login erronné
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Erreur de destinataire
 common#:#exc#:#Exercice
 common#:#exc_add#:#Ajouter exercice
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system 
 common#:#import#:#Importation
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Importation de cours
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Importation de paquet SCORM
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Erreur pendant la suppression du fichier
 common#:#mail_e_sent#:#Envoyé
 common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#mail_folders#:#Dossiers de messagerie
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Activer
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Messages
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Groupes système
 common#:#system_grp#:#Groupe système
 common#:#system_language#:#Langue système
 common#:#system_message#:#Message système
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Terme
 common#:#test_intern#:#Test Interne
 common#:#tests#:#Tests###04 Feb 2004 new variable
@@ -1461,6 +1470,7 @@ common#:#up#:#En haut
 common#:#update_applied#:#Mise à jour appliquée
 common#:#update_language#:#Mettre à jour langues
 common#:#upload#:#Téléverser
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
 common#:#url_description#:#Description de l'URL
 common#:#user#:#Utilisateur
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new 
 common#:#userdata#:#Données utilisateur
 common#:#username#:#Nom d'utilisateur
 common#:#users#:#Utilisateurs
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Utilisateurs en ligne
 common#:#usr#:#Utilisateur
 common#:#usr_a#:#un utilisateur

@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Repor
 common#:#by#:#Por
 common#:#calendar#:#Calendário
 common#:#cancel#:#Cancelar
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Não pode desinstalar a linguagem actualmente em utilizacão!
 common#:#cannot_uninstall_systemlanguage#:#Não pode desinstalar a linguagem de sistema!
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#Categoria
 common#:#cat_a#:#uma Categoria
 common#:#cat_add#:#Adicionar Categoria
@@ -467,6 +469,7 @@ common#:#check#:#Verificar
 common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
 common#:#check_languages#:#Verificar Linguagens
 common#:#check_max_allowed_packet_size#:#O tamanho do conteúdo da página é grande demais.
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Mudar linguagem
 common#:#chg_password#:#Mudar Palavra-passe
 common#:#choose_language#:#Escolha a sua linguagem
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#Você não pode atribuir utilizadores a este 
 common#:#err_session_expired#:#A sua sessão expirou!
 common#:#err_wrong_header#:#Razão: Cabeçalho errado.
 common#:#err_wrong_login#:#Entrada Errada
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Recipiente Errado
 common#:#exc#:#Exercício
 common#:#exc_add#:#Adicionar Exercício
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a adminis
 common#:#import#:#Importar
 common#:#import_categories#:#Import Categories###08 Mar 2004 new variable
 common#:#import_file#:#Import File###08 Mar 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem
 common#:#import_root_user#:#Import Root User###08 Mar 2004 new variable
 common#:#import_slm#:#Importar Pacote SCORM
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Erro a apagar ficheiro
 common#:#mail_e_sent#:#Enviado
 common#:#mail_edit_permission#:#Mudar definições de permissões
 common#:#mail_folders#:#Pastas de Correio
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Ligar
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Mensagens
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Grupos do Sistema
 common#:#system_grp#:#Grupo do Sistema
 common#:#system_language#:#Linguagem de Sistema
 common#:#system_message#:#Mensagem de Sistema
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Termo
 common#:#test_intern#:#Teste Interno
 common#:#tests#:#Testes
@@ -1461,6 +1470,7 @@ common#:#up#:#Cima
 common#:#update_applied#:#Actualização Aplicada
 common#:#update_language#:#Actualizar Linguagem
 common#:#upload#:#Mandar
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
 common#:#url_description#:#Descrição do URL
 common#:#user#:#Utilizador
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
 common#:#userdata#:#Dados do utilizador
 common#:#username#:#Nome do utilizador
 common#:#users#:#Utilizadores
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Utilizadores ligados
 common#:#usr#:#Utilizador
 common#:#usr_a#:#um Utilizador

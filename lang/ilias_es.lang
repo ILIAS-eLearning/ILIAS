@@ -409,8 +409,10 @@ common#:#btn_undelete#:#undelete
 common#:#by#:#by
 common#:#calendar#:#Calendar###01 Sep 2003 new variable
 common#:#cancel#:#cancel
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#cat
 common#:#cat_a#:#a category###06 Aug 2003 new variable
 common#:#cat_add#:#Add Category###06 Aug 2003 new variable
@@ -467,6 +469,7 @@ common#:#check#:#check
 common#:#check_langfile#:#Please check your language file.###26 Mar 2003 new variable
 common#:#check_languages#:#Check Languages###12 Jun 2003 new variable
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#change language
 common#:#chg_password#:#change password
 common#:#choose_language#:#choose your language
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!###04 Aug 2003 new variable
 common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#error recipient
 common#:#exc#:#Exercise###07 Nov 2003 new variable
 common#:#exc_add#:#Add Exercise###07 Nov 2003 new variable
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system 
 common#:#import#:#import
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Error deleting file###04 Apr 2003 new variable
 common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
 common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#mail_folders#:#Mail Folders###04 Aug 2003 new variable
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Enable###25 Mar 2003 new variable
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Mails of###25 Mar 2003 new variable
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#system groups
 common#:#system_grp#:#system group
 common#:#system_language#:#system language
 common#:#system_message#:#system message
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Term###16 Aug 2003 new variable
 common#:#test_intern#:#test intern
 common#:#tests#:#Tests###04 Feb 2004 new variable
@@ -1461,6 +1470,7 @@ common#:#up#:#Up###02 Sep 2003 new variable
 common#:#update_applied#:#update applied###22 Jan 2003 new variable
 common#:#update_language#:#update language
 common#:#upload#:#Upload###04 Mar 2003 new variable
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#url
 common#:#url_description#:#url description
 common#:#user#:#user
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new 
 common#:#userdata#:#userdata###29 Oct 2003 content changed
 common#:#username#:#username###29 Oct 2003 content changed
 common#:#users#:#users
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Users online###04 Aug 2003 new variable
 common#:#usr#:#user
 common#:#usr_a#:#a User###30 Oct 2003 new variable

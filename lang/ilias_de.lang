@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
 common#:#calendar#:#Kalender
 common#:#cancel#:#Abbrechen
+common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
+common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
 common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie###13 Jan 2004 content changed
 common#:#cat_add#:#Kategorie anlegen
@@ -467,6 +469,7 @@ common#:#check#:#Prüfen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
+common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
+common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#exc#:#Übung
 common#:#exc_add#:#Übung anlegen
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontak
 common#:#import#:#importieren
 common#:#import_categories#:#Kategorien importieren
 common#:#import_file#:#Importdatei
+common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
+common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM-Datei
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen ändern
 common#:#mail_folders#:#Mail-Ordner
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Nachrichten
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
+common#:#table_mail_import#:#Import von ILIAS 2 Mails 
 common#:#term#:#Begriff
 common#:#test_intern#:#Interner Test
 common#:#tests#:#Tests
@@ -1461,6 +1470,7 @@ common#:#up#:#Hoch
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
+common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
+common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
@@ -2648,14 +2659,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#mail_import#:#Import
-common#:#table_mail_import#:#Import von ILIAS 2 Mails 
-common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
-common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
-common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
-common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
-common#:#checked_files#:#Importierbare Dateien
-common#:#mail_import_file#:#ILIAS 2 Exportdatei
-common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
-common#:#import_finished#:#Anzahl der importierten Nachrichten:

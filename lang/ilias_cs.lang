@@ -409,8 +409,10 @@ common#:#btn_undelete#:#Obnovit odstraněné
 common#:#by#:#-###untranslatable in this context!
 common#:#calendar#:#Kalendář
 common#:#cancel#:#Storno
+common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
 common#:#cannot_uninstall_language_in_use#:#Není možné odinstalovat aktuálně používaný jazyk!
 common#:#cannot_uninstall_systemlanguage#:#Není možné odinstalovat systémový jazyk!
+common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
 common#:#cat#:#Kategorie
 common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
@@ -467,6 +469,7 @@ common#:#check#:#Zkontrolovat
 common#:#check_langfile#:#Prosím zkontrolujte jazykový soubor
 common#:#check_languages#:#Zkontrolovat jazyky
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###16 Mar 2004 new variable
+common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Změnit jazyk
 common#:#chg_password#:#Změnit heslo
 common#:#choose_language#:#Vyberte si jazyk
@@ -589,6 +592,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Vaše sezení vypršelo!
 common#:#err_wrong_header#:#Důvod: Chybná hlavička.
 common#:#err_wrong_login#:#Chybné přihlášení
+common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Příjemce chybových hlášení
 common#:#exc#:#Cvičení
 common#:#exc_add#:#Přidat cvičení
@@ -787,6 +791,8 @@ common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. konta
 common#:#import#:#Importovat
 common#:#import_categories#:#Import Categories###16 Mar 2004 new variable
 common#:#import_file#:#Import File###16 Mar 2004 new variable
+common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
+common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_slm#:#Importovat balík SCORM
@@ -936,6 +942,8 @@ common#:#mail_delete_error_file#:#Chyba při mazání souboru
 common#:#mail_e_sent#:#Odeslaná pošta
 common#:#mail_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#mail_folders#:#Poštovní složky
+common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
 common#:#mail_intern_enable#:#Povolit
 common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Pošta
@@ -1423,6 +1431,7 @@ common#:#system_groups#:#Systémové skupiny
 common#:#system_grp#:#Systémová skupina
 common#:#system_language#:#Systémový jazyk
 common#:#system_message#:#Systémová zpráva
+common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
 common#:#term#:#Pojem
 common#:#test_intern#:#Test Intern### translation not available
 common#:#tests#:#Tests###16 Mar 2004 new variable
@@ -1461,6 +1470,7 @@ common#:#up#:#Nahoru
 common#:#update_applied#:#Aktualizace provedena
 common#:#update_language#:#Aktualizovat jazyk
 common#:#upload#:#Poslat
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL### identical translation
 common#:#url_description#:#Popis URL
 common#:#user#:#Uživatel
@@ -1473,6 +1483,7 @@ common#:#user_not_chosen#:#Nevybral(a) jste člena skupiny!
 common#:#userdata#:#Údaje o uživateli
 common#:#username#:#Uživatelské jméno
 common#:#users#:#Uživatelé
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
 common#:#users_online#:#Přihlášení uživatelé
 common#:#usr#:#Uživatel
 common#:#usr_a#:#uživatel
