@@ -117,7 +117,7 @@
 	<property cmd="owner">show_owner</property>
 </object>
 <object name="usrf">
-	<subobj>user</subobj>
+	<subobj>usr</subobj>
 	<property cmd="view">view_content</property>
 	<property cmd="edit">edit_properties</property>
 	<property cmd="perm">perm_settings</property>
