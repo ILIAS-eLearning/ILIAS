@@ -217,11 +217,11 @@ class ilGroupGUI extends ilObjGroupGUI
 			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 			$num++;
 
-			$obj_link = "group.php?ref_id=".$cont_data["ref_id"];
+			$obj_link = "group.php?cmd=show_content&grp_id=".$cont_data["ref_id"];
 			$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 			$this->tpl->setVariable("TITLE", $cont_data["title"]);
 			$this->tpl->setVariable("LINK", $obj_link);
-			$this->tpl->setVariable("LINK_TARGET", "_parent");
+			//$this->tpl->setVariable("LINK_TARGET", "_parent");
 			$this->tpl->setVariable("IMG", $obj_icon);
 			$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 			$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
