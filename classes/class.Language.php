@@ -200,8 +200,8 @@ class Language
 					$fp = fopen ($this->LANGUAGESDIR."/".$file, "r");
 					$name = fgets($fp,1000);
 					fclose($fp);
-					$langs[] = array( "id" => $id,
-									  "name" => $name,
+					$langs[] = array( "id" => trim($id),
+									  "name" => trim($name),
 									  "status" => "installed",
 									  "lastchange" => date("Y-m-d H:i:s",filectime($this->LANGUAGESDIR."/".$file))
 						);
