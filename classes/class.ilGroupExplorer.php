@@ -25,7 +25,7 @@ require_once("classes/class.ilObjectFactory.php");
 
 class ilGroupExplorer extends ilExplorer
 {
-	var $grp_tree;
+	
 	
 	/**
 	* Constructor
@@ -37,11 +37,11 @@ class ilGroupExplorer extends ilExplorer
 	{
 		parent::ilExplorer($a_target);
 		
-		//TODO: solange die Tabelle grp_tree mit obj_id's arbeitet muß: ref_id->obj_id
-		$obj_data = & $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-		$this->grp_tree = new ilTree($obj_data->getId());
-		$this->grp_tree->setTableNames("grp_tree","object_data");
-		$this->tree = $this->grp_tree;
+		
+		$this->tree = new ilTree($a_ref_id,$a_ref_id);
+		$this->tree->setTableNames("grp_tree","object_data","object_reference");
+		
+		
 		
 		/*echo "-".$this->tree->readRootId();
 		echo "-".$this->tree->getRootId();
@@ -58,7 +58,7 @@ class ilGroupExplorer extends ilExplorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-	/*function setOutput($a_parent_id, $a_depth = 1)
+	function setOutput($a_parent_id, $a_depth = 1)
 	{
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
@@ -67,8 +67,8 @@ class ilGroupExplorer extends ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
-		$objects = $this->grp_tree->getChilds($a_parent_id, $this->order_column);
-		
+		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		//echo $a_parent_id;var_dump($objects);
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
@@ -79,8 +79,8 @@ class ilGroupExplorer extends ilExplorer
 				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
 					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
-					{
-						if ($object["child"] != $this->grp_tree->getRootId())
+					{//echo "child".$object["child"]."--root".$this->tree->getRootId();
+						if ($object["child"] != $this->tree->getRootId())
 						{
 							$parent_index = $this->getIndex($object);
 						}
@@ -100,14 +100,14 @@ class ilGroupExplorer extends ilExplorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["child"] != $this->grp_tree->getRootId() and (!in_array($object["parent"],$this->expanded)
+						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
 
 						// if object exists parent is container
-						if ($object["child"] != $this->grp_tree->getRootId())
+						if ($object["child"] != $this->tree->getRootId())
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
@@ -130,7 +130,7 @@ class ilGroupExplorer extends ilExplorer
 			} //foreach
 		} //if
 	} //function
-	*/
+	
 	
 }
 
