@@ -74,6 +74,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
+		global $ilUser;
+		
 		// set tabs
 		$this->setTabs();
 
@@ -137,6 +139,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
+		
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		{
+			$this->tpl->touchBlock("initwysiwygeditor");
+		}
+		
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -144,6 +152,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_NAME", "update");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
+
 
 	}
 
