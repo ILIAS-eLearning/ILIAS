@@ -819,6 +819,8 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_assign_full#:#Assign Fullscreen
+content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
 content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_booktitle#:#Booktitle
@@ -899,12 +901,10 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_new_assignment#:#New assignment
-content#:#cont_new_media_obj#:#New Media Object
-content#:#cont_new_term#:#New Term
 content#:#cont_new_dir#:#New Directory
 content#:#cont_new_file#:#New File
-content#:#cont_assign_std#:#Assign Standard
-content#:#cont_assign_full#:#Assign Fullscreen
+content#:#cont_new_media_obj#:#New Media Object
+content#:#cont_new_term#:#New Term
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.

@@ -816,6 +816,8 @@ content#:#cont_added_term#:#Aggiunto termine###16 Aug 2003 new variable
 content#:#cont_all_definitions#:#Tutte le definizioni###02 Sep 2003 new variable
 content#:#cont_all_pages#:#Tutte le pagine###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alfabetico a, b, ...###12 Jul 2003 new variable
+content#:#cont_assign_full#:#Assign Fullscreen###23 Oct 2003 new variable
+content#:#cont_assign_std#:#Assign Standard###23 Oct 2003 new variable
 content#:#cont_assign_translation#:#Assegna traduzione###26 Sep 2003 new variable
 content#:#cont_assignments_deleted#:#Le assegnazioni sono state cancellate###26 Sep 2003 new variable
 content#:#cont_booktitle#:#Titolo del libro###19 Sep 2003 new variable
@@ -896,6 +898,8 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variabl
 content#:#cont_month#:#Month###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione###26 Sep 2003 new variable
+content#:#cont_new_dir#:#New Directory###23 Oct 2003 new variable
+content#:#cont_new_file#:#New File###23 Oct 2003 new variable
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale###13 Sep 2003 new variable
 content#:#cont_new_term#:#Nuovo termine###16 Aug 2003 new variable
 content#:#cont_no_assign_itself#:#L&acute;oggetto non pu&ograve; essere assegnato a s&eacute; stesso###26 Sep 2003 new variable
