@@ -858,5 +858,16 @@ class ilUtil
 		
 		return $users ? $users : array();
 	}
+
+
+	/**
+	* create directory
+	*/
+	function createDirectory($a_dir, $a_mod = 0755)
+	{
+		@mkdir($a_dir);
+		@chmod($a_dir, $a_mod);
+	}
+
 } // END class.ilUtil
 ?>

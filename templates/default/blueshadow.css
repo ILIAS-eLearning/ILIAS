@@ -495,3 +495,15 @@ div.il_editarea
 img.spacer {
 	display:block;
 }
+
+/* --- content styles (will move to content.css) --- */
+div.ilc_Fullscreen
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+}
+

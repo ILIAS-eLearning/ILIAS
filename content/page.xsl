@@ -27,6 +27,7 @@
 <xsl:param name="ref_id"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
+<xsl:param name="enlarge_path"/>
 <xsl:template match="PageObject">
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
@@ -440,14 +441,29 @@
 		<xsl:choose>			<!-- derive -->
 			<xsl:when test="count(../MediaItem[@Purpose='Standard']/Caption[1]) != 0">
 				<tr><td class="ilc_MobCaption">
+				<xsl:call-template name="FullscreenLink">
+					<xsl:with-param name="cmobid" select="$cmobid"/>
+				</xsl:call-template>
 				<xsl:value-of select="../MediaItem[@Purpose='Standard']/Caption[1]"/>
 				</td></tr>
 			</xsl:when>
 			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]) != 0">
 				<tr><td class="ilc_MobCaption">
+				<xsl:call-template name="FullscreenLink">
+					<xsl:with-param name="cmobid" select="$cmobid"/>
+				</xsl:call-template>
 				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]"/>
 				</td></tr>
 			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="count(../MediaItem[@Purpose='Fullscreen']) = 1">
+					<tr><td class="ilc_MobCaption">
+					<xsl:call-template name="FullscreenLink">
+						<xsl:with-param name="cmobid" select="$cmobid"/>
+					</xsl:call-template>
+					</td></tr>
+				</xsl:if>
+			</xsl:otherwise>
 		</xsl:choose>
 
 		<tr><td>
@@ -482,6 +498,20 @@
 		</td></tr>
 	</table>
 </xsl:template>
+
+<!-- Fullscreen Link -->
+<xsl:template name="FullscreenLink">
+	<xsl:param name="cmobid"/>
+	<xsl:if test="count(../MediaItem[@Purpose='Fullscreen']) = 1">
+		<a target="_new">
+		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;ref_id=<xsl:value-of select="$ref_id"/></xsl:attribute>
+		<img border="0" align="right">
+		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
+		</img>
+		</a>
+	</xsl:if>
+</xsl:template>
+
 
 <!-- MediaObject -->
 <xsl:template match="MediaObject">
