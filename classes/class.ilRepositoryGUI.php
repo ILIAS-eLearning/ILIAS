@@ -2229,13 +2229,13 @@ class ilRepositoryGUI
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
 		$test_num = count($tests);
-		// render table content data
 		if ($test_num > 0)
 		{
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_tst_row.html");
 			// counter for rowcolor change
 			$num = 0;
 			global $ilDB;
+			$delete_keys = array();
 			foreach ($tests as $key => $tst_data) {
 				$q = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",
 					$ilDB->quote($tst_data["obj_id"])
@@ -2245,8 +2245,22 @@ class ilRepositoryGUI
 					$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 					$tests[$key]["complete"] = $row->complete;
 				}
+				if ((!$tests[$key]["complete"]) && (!$this->rbacsystem->checkAccess('write', $tst_data["ref_id"])))
+				{
+					array_push($delete_keys, $key);
+				}
 			}
+			foreach ($delete_keys as $key)
+			{
+				unset($tests[$key]);
+			}
+		}
+		
 			
+		$test_num = count($tests);
+		// render table content data
+		if ($test_num > 0)
+		{
 			foreach ($tests as $tst_data)
 			{
 				$obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
@@ -2300,14 +2314,6 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_LINK","assessment/test.php?ref_id=".$tst_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-					$tpl->parseCurrentBlock();
-				}
-				else if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]))
-				{
-					$tpl->setCurrentBlock("tst_edit");
-					$tpl->setVariable("EDIT_LINK","assessment/test.php?ref_id=".$tst_data["ref_id"]);
-					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
 					$tpl->parseCurrentBlock();
 				}
 
@@ -2376,7 +2382,7 @@ class ilRepositoryGUI
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
 			$tpl->setVariable("COLSPAN", "3");
-			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("tst_no_content"));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -2434,11 +2440,11 @@ class ilRepositoryGUI
 		// render table content data
 		if ($test_num > 0)
 		{
-			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_svy_row.html");
 			// counter for rowcolor change
 			$num = 0;
 			global $ilDB;
 			global $ilUser;
+			$remove_keys = array();
 			foreach ($surveys as $key => $svy_data) {
 				$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
 					$ilDB->quote($svy_data["obj_id"])
@@ -2473,8 +2479,20 @@ class ilRepositoryGUI
 						$surveys[$key]["finished"] = "";
 					}
 				}
+				if ((!$surveys[$key]["complete"]) && (!$this->rbacsystem->checkAccess('write', $svy_data["ref_id"])))
+				{
+					array_push($remove_keys, $key);
+				}
 			}
-			
+			foreach ($remove_keys as $key)
+			{
+				unset($surveys[$key]);
+			}
+		}
+		$test_num = count($surveys);
+		if ($test_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_svy_row.html");
 			foreach ($surveys as $svy_data)
 			{
 				$obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
@@ -2502,7 +2520,7 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("svy_visible");
 					$tpl->setVariable("V_TITLE", $svy_data["title"]);
 					$tpl->parseCurrentBlock();
-					if ((!$svy_data["complete"]) && (($this->rbacsystem->checkAccess('write', $svy_data["ref_id"])) || ($this->rbacsystem->checkAccess('read', $svy_data["ref_id"]))))
+					if ((!$svy_data["complete"]) && (($this->rbacsystem->checkAccess('write', $svy_data["ref_id"]))))
 					{
 						$tpl->setCurrentBlock("svy_warning");
 						$tpl->setVariable("HREF_WARNING", $obj_link . "&cmd=status");
@@ -2521,15 +2539,6 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				} 
-				else if ($this->rbacsystem->checkAccess('read', $svy_data["ref_id"]))
-				{
-					$tpl->setCurrentBlock("svy_edit");
-					$tpl->setVariable("EDIT_LINK","survey/survey.php?ref_id=".$svy_data["ref_id"]);
-					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
-					$tpl->parseCurrentBlock();
-				}
-
 
 				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]) and ($svy_data["status"] == 0))
 				{
@@ -2605,7 +2614,7 @@ class ilRepositoryGUI
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
 			$tpl->setVariable("COLSPAN", "3");
-			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("svy_no_content"));
 			$tpl->parseCurrentBlock();
 		}
 
