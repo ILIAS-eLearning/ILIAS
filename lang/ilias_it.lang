@@ -66,7 +66,6 @@ common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
 common#:#back#:#Indietro
-common#:#in#:#in
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dati di base
 common#:#bm#:#Preferiti###09 Apr 2003 new variable
@@ -162,7 +161,7 @@ common#:#dbk_added#:#Libro digitale aggiunto###02 Oct 2003 new variable
 common#:#dbk_new#:#Nuovo libro digitale###02 Oct 2003 new variable
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita###20 Mar 2003 new variable
-common#:#default_role#:#Ruolo predefinito
+common#:#default_roles#:#Default Roles###01 Nov 2003 new variable
 common#:#default_skin#:#Tema predefinito###20 Mar 2003 new variable
 common#:#default_style#:#Stile predefinito###20 Mar 2003 new variable
 common#:#delete#:#Elimina
@@ -257,6 +256,7 @@ common#:#glo_added#:#Glossario aggiunto###15 Aug 2003 new variable
 common#:#glo_new#:#Nuovo glossario###22 Sep 2003 new variable
 common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario###15 Aug 2003 new variable
+common#:#group_access_denied#:#Access Denied###01 Nov 2003 new variable
 common#:#group_any_objects#:#Nessun oggetto nel gruppo###12 Jun 2003 new variable
 common#:#group_desc#:#Descrizione del gruppo###29 Oct 2003 new variable
 common#:#group_details#:#Dettagli gruppo###12 Jun 2003 new variable
@@ -266,8 +266,17 @@ common#:#group_memstat#:#Stato del membro###01 Oct 2003 new variable
 common#:#group_memstat_admin#:#Amministratore###01 Oct 2003 new variable
 common#:#group_memstat_member#:#Membro###01 Oct 2003 new variable
 common#:#group_name#:#Nome del gruppo###29 Apr 2003 new variable
+common#:#group_new_registrations#:#New Registrations###01 Nov 2003 new variable
+common#:#group_no_registration#:#no registration required###01 Nov 2003 new variable
+common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.###01 Nov 2003 new variable
 common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new variable
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
+common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###01 Nov 2003 new variable
+common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###01 Nov 2003 new variable
+common#:#group_registration_expired#:#Period of registraton expired###01 Nov 2003 new variable
+common#:#group_req_password#:#Registration password required###01 Nov 2003 new variable
+common#:#group_req_registration#:#Registration required###01 Nov 2003 new variable
+common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###01 Nov 2003 new variable
 common#:#group_status#:#Stato del gruppo###29 Apr 2003 new variable
 common#:#group_status_closed#:#Chiuso###29 Apr 2003 new variable
 common#:#group_status_public#:#Pubblico###29 Apr 2003 new variable
@@ -298,6 +307,7 @@ common#:#ilias_version#:#Versione ILIAS
 common#:#import#:#Importa
 common#:#import_lm#:#Importa Learningmodule###12 Apr 2003 new variable
 common#:#import_slm#:#Importa SCORM Package###23 Jun 2003 new variable
+common#:#in#:#in###01 Nov 2003 new variable
 common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
 common#:#info_delete_sure#:#Sei sicuro di voler cancellare i seguenti oggetti

@@ -269,14 +269,14 @@ common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Neuanmeldungen
-common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_no_registration#:#keine Registrierung erforderlich
 common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br>Als Gruppenmitglied haben Sie folgende Vorteile:<br>- Sie werden über Aktualisierungen informiert<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br><br>Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
+common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
 common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
-common#:#group_req_password#:#Registrierungspasswort erforderlich
+common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
+common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_status#:#Gruppenstatus
@@ -298,7 +298,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
-common#:#hide_structure#:#Strukturansicht ausblenden
+common#:#hide_structure#:#Strukturansicht ausblenden###01 Nov 2003 content changed
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
@@ -309,6 +309,7 @@ common#:#ilias_version#:#ILIAS Version
 common#:#import#:#Import
 common#:#import_lm#:#Import Lernmodul
 common#:#import_slm#:#Import SCORM-Datei
+common#:#in#:#in###01 Nov 2003 new variable
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
 common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
@@ -405,7 +406,7 @@ common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
-common#:#locator#:#Locator:
+common#:#locator#:#Locator:###01 Nov 2003 content changed
 common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
@@ -472,12 +473,12 @@ common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
+common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen###01 Nov 2003 content changed
 common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
-common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!
+common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!###01 Nov 2003 content changed
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
@@ -749,7 +750,7 @@ common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_structure#:#Strukturansicht einblenden
+common#:#show_structure#:#Strukturansicht einblenden###01 Nov 2003 content changed
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
