@@ -1799,3 +1799,4 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.

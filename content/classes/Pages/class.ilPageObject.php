@@ -689,6 +689,8 @@ class ilPageObject
 	*/
 	function createFromXML()
 	{
+		global $lng;
+
 		if($this->getXMLContent() == "")
 		{
 			$this->setXMLContent("<PageObject></PageObject>");
@@ -697,6 +699,12 @@ class ilPageObject
 		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
 			"('".$this->getId()."', '".$this->getParentId()."','".ilUtil::prepareDBString($this->getXMLContent()).
 			"', '".$this->getParentType()."')";
+		if(!$this->ilias->db->checkQuerySize($query))
+		{
+			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
+			return false;
+		}
+
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
@@ -706,10 +714,20 @@ class ilPageObject
 	*/
 	function updateFromXML()
 	{
+		global $lng;
+
 		$query = "UPDATE page_object ".
 			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
+
+		if(!$this->ilias->db->checkQuerySize($query))
+		{
+			$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
+			return false;
+		}
 		$this->ilias->db->query($query);
+
+		return true;
 	}
 
 	/**
@@ -717,6 +735,9 @@ class ilPageObject
 	*/
 	function update($a_validate = true)
 	{
+		global $lng;
+
+
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		// test validating
 		if($a_validate)
@@ -729,6 +750,12 @@ class ilPageObject
 				"SET content = '".ilUtil::prepareDBString(($this->getXMLFromDom()))."' ".
 				"WHERE page_id = '".$this->getId().
 				"' AND parent_type='".$this->getParentType()."'";
+			if(!$this->ilias->db->checkQuerySize($query))
+			{
+				$this->ilias->raiseError($lng->txt("check_max_allowed_packet_size"),$this->ilias->error_obj->MESSAGE);
+				return false;
+			}
+
 			$this->ilias->db->query($query);
 			$this->saveMobUsage($this->getXMLFromDom());
 			$this->saveInternalLinks($this->getXMLFromDom());

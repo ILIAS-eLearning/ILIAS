@@ -60,6 +60,13 @@ class ilDBx extends PEAR
 	var $result;
 
 	/**
+	* myqsl max_allowed_packet size
+	* @var int
+	*/
+	var $max_allowed_packet_size;
+
+
+	/**
 	* constructor
 	* 
 	* set up database conncetion and the errorhandling
@@ -90,7 +97,10 @@ class ilDBx extends PEAR
 		if (DB::isError($this->db)) {
 			$this->raiseError($this->db->getMessage(), $this->error_class->FATAL);
 		}
-		
+
+		// SET 'max_allowed_packet' (only possible for mysql version 4)
+		$this->setMaxAllowedPacket();
+
 		return true;
 	} //end constructor
 
@@ -165,6 +175,63 @@ class ilDBx extends PEAR
 		$row = $r->fetchRow();
 
 		return $row[0];
+	}
+
+
+	function checkQuerySize($a_query)
+	{
+		global $lang;
+
+		if(strlen($a_query) >= $this->max_allowed_packet_size)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	// PRIVATE
+	function setMaxAllowedPacket()
+	{
+
+		// GET MYSQL VERSION
+		$query = "SHOW VARIABLES LIKE 'version'";
+		$res = $this->db->query($query);
+		if(DB::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+		}
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$version = $row->Value;
+		}
+
+		// CHANG VALUE IF MYSQL VERSION > 4.0
+		if(substr($version,0,1) == "4")
+		{
+			ini_get("post_max_size");
+			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
+			$this->db->query($query);
+			if(DB::isError($res))
+			{
+				$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+			}
+		}
+		// STORE NEW max_size in member variable
+		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
+		if(DB::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+		}
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->max_allowed_packet_size = $row->Value;
+		}
+		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
+		return true;
 	}
 
 } //end Class
