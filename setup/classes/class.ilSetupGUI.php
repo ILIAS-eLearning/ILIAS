@@ -57,11 +57,10 @@ class ilSetupGUI extends ilSetup
 	// Construcotr
 	function ilSetupGUI()
 	{
-		global $tpl, $lng, $log;
+		global $tpl, $lng;
 
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		$this->log =& $log;
 		
 		//CVS - REVISION - DO NOT MODIFY
 		$this->revision = "$Revision$";
@@ -1228,14 +1227,14 @@ class ilSetupGUI extends ilSetup
 			}
 			
 			// check if db exists
-			$db_exists = $this->client->checkDatabaseExists();
+			/*$db_exists = $this->client->checkDatabaseExists();
 
 			if ($db_exists and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
 			{
 				$_POST["form"]["db_name"] = $old_db_name;
 				$message = "Database \"".$this->client->getDbName()."\" already exists! Please choose another db name.";
 				$this->raiseError($message,$this->error_obj->MESSAGE);
-			}
+			}*/
 
 			// all ok. create client.ini and save posted data
 			if (!$this->ini_client_exists)
@@ -1475,9 +1474,14 @@ class ilSetupGUI extends ilSetup
 			
 			//echo "hier";exit;
 
-			if (!$this->client->db_exists)
+			if (!$this->client->db_installed)
 			{
-				if (!$this->InstallDatabase())
+				if (!$this->client->db_exists)
+				{
+					$this->createDatabase();
+				}
+				
+				if (!$this->installDatabase())
 				{
 					$message = $this->error;
 					$this->client->status["db"]["status"] = false;
@@ -1521,7 +1525,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("DB_USER", $this->client->getDbUser());		
 		$this->tpl->setVariable("DB_PASS", $this->client->getDbPass());
 
-		if ($this->client->db_exists)
+		if ($this->client->db_installed)
 		{
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
@@ -1558,7 +1562,7 @@ class ilSetupGUI extends ilSetup
 			$this->setButtonPrev("ini");
 		}
 		
-		if ($this->client->db_exists and $db_status)
+		if ($this->client->db_installed and $db_status)
 		{
 			$this->setButtonNext("lang");
 		}
