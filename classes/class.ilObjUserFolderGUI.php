@@ -510,6 +510,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("USERNAME_CHECKED", " checked=\"checked\"");
+		$this->tpl->setVariable("FIRSTNAME_CHECKED", " checked=\"checked\"");
+		$this->tpl->setVariable("LASTNAME_CHECKED", " checked=\"checked\"");
+		$this->tpl->setVariable("EMAIL_CHECKED", " checked=\"checked\"");
+		$this->tpl->setVariable("ACTIVE_CHECKED", " checked=\"checked\"");
+		$this->tpl->setVariable("INACTIVE_CHECKED", " checked=\"checked\"");
 		$this->tpl->setVariable("TXT_SEARCH_USER",$this->lng->txt("search_user"));
 		$this->tpl->setVariable("TXT_SEARCH_IN",$this->lng->txt("search_in"));
 		$this->tpl->setVariable("TXT_SEARCH_USERNAME",$this->lng->txt("username"));
@@ -552,7 +558,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
 			exit();		
 		}
-		
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
@@ -581,21 +586,46 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $val["active_text"] = $this->lng->txt("active");
             }
 
-            if (($val["active"] == 1) && ($searchActive == true) ||
+						// check if the fields are set
+						$searchStringToLower = strtolower($_POST["search_string"]);
+						$displaySearchResult = false;
+						if (in_array("username", $_POST["search_fields"]))
+							if (strpos(strtolower($val["login"]), strtolower($_POST["search_string"])) !== false)
+								$displaySearchResult = true;
+						if (in_array("firstname", $_POST["search_fields"]))
+							if (strpos(strtolower($val["firstname"]), strtolower($_POST["search_string"])) !== false)
+								$displaySearchResult = true;
+						if (in_array("lastname", $_POST["search_fields"]))
+							if (strpos(strtolower($val["lastname"]), strtolower($_POST["search_string"])) !== false)
+								$displaySearchResult = true;
+						if (in_array("email", $_POST["search_fields"]))
+							if (strpos(strtolower($val["email"]), strtolower($_POST["search_string"])) !== false)
+								$displaySearchResult = true;
+						if (($val["active"] == 1) && ($searchActive == true) ||
                     ($val["active"] == 0) && ($searchInactive == true))
             {
-                //visible data part
-                $this->data["data"][] = array(
-                        "login"         => $val["login"],
-                        "firstname"     => $val["firstname"],
-                        "lastname"      => $val["lastname"],
-                        "email"         => $val["email"],
-                        "active"        => $val["active_text"],
-                        "obj_id"        => $val["usr_id"]
-                        );
+								if ((strcmp($_POST["search_string"], "%") == 0) || $displaySearchResult)
+								{
+									//visible data part
+									$this->data["data"][] = array(
+													"login"         => $val["login"],
+													"firstname"     => $val["firstname"],
+													"lastname"      => $val["lastname"],
+													"email"         => $val["email"],
+													"active"        => $val["active_text"],
+													"obj_id"        => $val["usr_id"]
+													);
+								}
             }
 		}
+		if (count($this->data["data"]) == 0)
+		{
+			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
 
+			header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=searchUserForm");
+			exit();		
+		}
+		
 		$this->maxcount = count($this->data["data"]);
 
 		// TODO: correct this in objectGUI
@@ -720,7 +750,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			} //for
 		}
 	}
-
 
 	/**
 	* display form for user import
