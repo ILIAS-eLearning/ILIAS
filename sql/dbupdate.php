@@ -2018,3 +2018,16 @@ CREATE TABLE `tst_solutions` (
 ) TYPE=MyISAM COMMENT='Test and Assessment solutions';
 <#124>
 ALTER  TABLE  `tst_solutions`  ADD  `postponed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `value2` ;
+<#125>
+CREATE TABLE `tst_active` (
+  `active_id` int(10) unsigned NOT NULL auto_increment,
+  `user_fi` int(10) unsigned NOT NULL default '0',
+  `test_fi` int(10) unsigned NOT NULL default '0',
+  `sequence` text NOT NULL,
+  `lastindex` tinyint(4) NOT NULL default '1',
+  `tries` int(11) NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`active_id`),
+  UNIQUE KEY `active_id` (`active_id`),
+  KEY `active_id_2` (`active_id`)
+) TYPE=MyISAM ;

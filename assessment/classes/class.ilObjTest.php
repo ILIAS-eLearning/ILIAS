@@ -1145,5 +1145,63 @@ class ilObjTest extends ilObject
 	{
 		return count($this->questions);
 	}
+	
+	function get_active_test_user() {
+		global $ilDB;
+		global $ilUser;
+		
+		$db =& $ilDB->db;
+		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			$db->quote($ilUser->id),
+			$db->quote($this->test_id)
+		);
+		
+		$result = $db->query($query);
+		if ($result->numRows()) {
+			return $result->fetchRow(DB_FETCHMODE_OBJECT);
+		} else {
+			return "";
+		}
+	}
+	
+	function set_active_test_user($lastindex = 1, $postpone = "", $addTries = false) {
+		global $ilDB;
+		global $ilUser;
+		
+		$db =& $ilDB->db;
+		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			$db->quote($ilUser->id),
+			$db->quote($this->test_id)
+		);
+		
+		$result = $db->query($query);
+		if ($result->numRows()) {
+			$old_active = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$sequence = $old_active->sequence;
+			if ($postpone) {
+				$sequence = preg_replace("/\D*$postpone/", "", $sequence) . ",$postpone";
+			}
+			$tries = $old_active->tries;
+			if ($addTries) {
+				$tries++;
+			}
+			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, tries = %s",
+				$db->quote($lastindex),
+				$db->quote($sequence),
+				$db->quote($tries)
+			);
+		} else {
+			$sequence_arr = array_flip($this->questions);
+			$sequence = join($sequence_arr, ",");
+			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($ilUser->id),
+				$db->quote($this->test_id),
+				$db->quote($sequence),
+				$db->quote($lastindex),
+				$db->quote(0)
+			);
+		}
+		$db->query($query);
+	}
 } // END class.ilObjTest
 ?>
