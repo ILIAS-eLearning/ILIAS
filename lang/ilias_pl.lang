@@ -728,6 +728,7 @@ common#:#crs_add#:#Dodaj kurs
 common#:#crs_added#:#Kurs został dodany
 common#:#crs_archives#:#Archives###07 Aug 2004 new variable
 common#:#crs_available#:#Dostępne kursy
+common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Twórz Kurs
 common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Twórz Forum
@@ -1220,6 +1221,7 @@ common#:#learning_objects#:#Przedmioty Nauczania (PN)
 common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
 common#:#link#:#Łącznik
+common#:#linked_object#:#The object has been linked###01 Sep 2004 new variable
 common#:#linked_pages#:#Strony połączone
 common#:#list_of_pages#:#Lista stron
 common#:#list_of_questions#:#Lista pytań
@@ -1760,6 +1762,7 @@ common#:#select_all#:#Wybierz wszystkie
 common#:#select_file#:#Wybierz plik
 common#:#select_mode#:#Wybierz tryb
 common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
+common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
 common#:#selected#:#Wybrany
 common#:#selected_items#:#Pozycje osobowe
 common#:#send#:#Wyślij
@@ -3479,6 +3482,7 @@ survey#:#duplicate#:#Powiel
 survey#:#edit_ask_continue#:#Chcesz kontynuować edycję pytania?
 survey#:#edit_constraints_introduction#:#Wybrałeś następujące pytania/bloki pytań do edycji ograniczeń
 survey#:#end_date#:#Data końca
+survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
 survey#:#enter_value#:#Podaj wartość
 survey#:#evaluation#:#Dostępność
@@ -3512,6 +3516,7 @@ survey#:#manage_phrases#:#Zarządzaj frazami
 survey#:#material_file#:#Plik z materiałami
 survey#:#maximum#:#Maksymalna wartość
 survey#:#median#:#Środkowa
+survey#:#median_between#:#between###01 Sep 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Wprowadzona wartość nie jest pomiędzy minimalną a maksymalną wartością!
 survey#:#minimum#:#Minimalna wartość
 survey#:#missing_upper_or_lower_limit#:#Podaj dolny i górny limit!
@@ -3604,6 +3609,7 @@ survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową d
 survey#:#select_value#:#wybierz wartość
 survey#:#set_filter#:#Ustaw filtr
 survey#:#start_date#:#Data startowa
+survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Rozpocznij ankietę
 survey#:#subtype#:#Podtyp
 survey#:#survey_finish#:#zapisz i zakończ ankietę >>>

@@ -742,6 +742,7 @@ common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_archives#:#Archive
 common#:#crs_available#:#Verfügbare Kurse
+common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
@@ -1232,6 +1233,7 @@ common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
 common#:#link#:#verknüpfen
+common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
@@ -1774,6 +1776,7 @@ common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
+common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
@@ -3499,6 +3502,7 @@ survey#:#duplicate#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten
 survey#:#end_date#:#Enddatum
+survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#evaluation#:#Evaluation
@@ -3532,6 +3536,7 @@ survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
+survey#:#median_between#:#between###01 Sep 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -3624,6 +3629,7 @@ survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielp
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
+survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subtype#:#Untertyp
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
@@ -3653,6 +3659,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
-common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
-common#:#linked_object#:#Das Objekt wurde verknüpft.

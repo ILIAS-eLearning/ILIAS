@@ -741,6 +741,7 @@ common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
 common#:#crs_archives#:#Archivi di corsi
 common#:#crs_available#:#Corsi disponibili
+common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
 common#:#crs_create_frm#:#Creare un forum
@@ -1235,6 +1236,7 @@ common#:#learning_objects#:#Unit&#224; didattiche
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
 common#:#link#:#Collega
+common#:#linked_object#:#The object has been linked###01 Sep 2004 new variable
 common#:#linked_pages#:#Pagine collegate
 common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
@@ -1777,6 +1779,7 @@ common#:#select_all#:#Seleziona tutto
 common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
 common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
+common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
 common#:#selected#:#Selezionati
 common#:#selected_items#:#Elementi selezionati
 common#:#send#:#Invia
@@ -3502,6 +3505,7 @@ survey#:#duplicate#:#Duplica
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
 survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
 survey#:#end_date#:#Termine ultimo
+survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del questionario
 survey#:#enter_value#:#Inserisci un valore
 survey#:#evaluation#:#Di prova
@@ -3535,6 +3539,7 @@ survey#:#manage_phrases#:#Gestione frasi
 survey#:#material_file#:#File materiale
 survey#:#maximum#:#Valore massimo
 survey#:#median#:#Medio
+survey#:#median_between#:#between###01 Sep 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Il valore che hai inserito non &#232; compreso tra i valori minimo e massimo!
 survey#:#minimum#:#Valore minimo
 survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore e superiore!
@@ -3627,6 +3632,7 @@ survey#:#select_target_position_for_move_question#:#Per favore, seleziona la pos
 survey#:#select_value#:#Seleziona un valore
 survey#:#set_filter#:#Imposta filtro
 survey#:#start_date#:#Giorno di esecuzione
+survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Inizia il questionario
 survey#:#subtype#:#Sottotipo
 survey#:#survey_finish#:#Salva e finisci il questionario >>>

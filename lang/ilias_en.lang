@@ -743,6 +743,7 @@ common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 common#:#crs_available#:#Available Courses
+common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 common#:#crs_create#:#Create Course
 common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_frm#:#Create Forum
@@ -1237,6 +1238,7 @@ common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
+common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
@@ -1779,6 +1781,7 @@ common#:#select_all#:#Select All
 common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
+common#:#select_object_to_link#:#Please select the object which you want to link
 common#:#selected#:#Selected
 common#:#selected_items#:#Personal Items
 common#:#send#:#Send
@@ -3505,6 +3508,7 @@ survey#:#duplicate#:#Duplicate
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#end_date#:#End date
+survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_phrase_title#:#Please enter a phrase title
 survey#:#enter_value#:#Enter a value
 survey#:#evaluation#:#Evaluation
@@ -3538,6 +3542,7 @@ survey#:#manage_phrases#:#Manage phrases
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
+survey#:#median_between#:#between
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
@@ -3630,6 +3635,7 @@ survey#:#select_target_position_for_move_question#:#Please select a target posit
 survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
+survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
 survey#:#subtype#:#Subtype
 survey#:#survey_finish#:#save and finish survey
@@ -3659,9 +3665,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
-survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
-survey#:#median_between#:#between
-common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
-common#:#select_object_to_link#:#Please select the object which you want to link
-common#:#linked_object#:#The object has been linked
