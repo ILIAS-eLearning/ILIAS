@@ -2270,30 +2270,39 @@
 <!-- t&a: response_str -->
 <xsl:template match="response_str">
 	<xsl:choose>
-
-		<!-- text gap -->
-		<xsl:when test = "./render_fib">
-			<input type="text" size="20">
+		<xsl:when test = "@ident='TEXT'">
+			<br />
+			<textarea class="fullwidth" cols="40" rows="10">
 				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
-				<xsl:attribute name="dummy">t<xsl:value-of select="@ident"/></xsl:attribute>
-			</input>
+			</textarea>
 		</xsl:when>
-
-		<!-- select gap ? -->
 		<xsl:otherwise>
-			<select>
-				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
-				<xsl:variable name="crespstr"><xsl:value-of select="@ident"/></xsl:variable>
-
-				<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
-				<xsl:for-each select="render_choice/response_label">
-					<option>
-					<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
-					<xsl:attribute name="dummy">s<xsl:value-of select="$crespstr"/>_<xsl:value-of select="@ident"/></xsl:attribute>
-					<xsl:apply-templates/>
-					</option>
-				</xsl:for-each>
-			</select>
+			<xsl:choose>
+				<!-- text gap -->
+				<xsl:when test = "./render_fib">
+					<input type="text" size="20">
+						<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+						<xsl:attribute name="dummy">t<xsl:value-of select="@ident"/></xsl:attribute>
+					</input>
+				</xsl:when>
+		
+				<!-- select gap ? -->
+				<xsl:otherwise>
+					<select>
+						<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
+						<xsl:variable name="crespstr"><xsl:value-of select="@ident"/></xsl:variable>
+		
+						<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
+						<xsl:for-each select="render_choice/response_label">
+							<option>
+							<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="dummy">s<xsl:value-of select="$crespstr"/>_<xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:apply-templates/>
+							</option>
+						</xsl:for-each>
+					</select>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>

@@ -230,8 +230,22 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("TEXT_QUESTION", $is_postponed);
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output);
+		$output = $this->outQuestionPage("", $is_postponed);
+		// set solutions
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$repl_str = $solution_value->value1."</textarea>";
+				$output = str_replace("</textarea>", $repl_str, $output);
+			}
+		}
+		if ($this->object->getMaxNumOfChars())
+		{
+			$output = str_replace("</textarea>", "</textarea><p>" . sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()) . "</p>", $output);
+		}
+		$this->tpl->setVariable("TEXT_QUESTION", $output);
 	}
 
 	/**

@@ -175,42 +175,20 @@ class ASS_TextQuestion extends ASS_Question
 								$mattext = $flownode->first_child();
 								$this->set_question($mattext->get_content());
 							}
-							elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+							elseif (strcmp($flownode->node_name(), "response_str") == 0)
 							{
-								$ident = $flownode->get_attribute("ident");
-								if (strcmp($ident, "MCSR") == 0)
-								{
-									$this->set_response(RESPONSE_SINGLE);
-								}
-								else
-								{
-									$this->set_response(RESPONSE_MULTIPLE);
-								}
-								$shuffle = "";
-								
 								$subnodes = $flownode->child_nodes();
 								foreach ($subnodes as $node_type)
 								{
 									switch ($node_type->node_name())
 									{
-										case "render_choice":
+										case "render_fib":
 											$render_choice = $node_type;
-											if (strcmp($render_choice->node_name(), "render_choice") == 0)
+											if (strcmp($render_choice->node_name(), "render_fib") == 0)
 											{
 												// select gap
-												$shuffle = $render_choice->get_attribute("shuffle");
-												$labels = $render_choice->child_nodes();
-												foreach ($labels as $lidx => $response_label)
-												{
-													$material = $response_label->first_child();
-													$mattext = $material->first_child();
-													$shuf = 0;
-													if (strcmp(strtolower($shuffle), "yes") == 0)
-													{
-														$shuf = 1;
-													}
-													$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
-												}
+												$maxchars = $render_choice->get_attribute("maxchars");
+												$this->setMaxNumOfChars($maxchars);
 											}
 											break;
 										case "material":
@@ -241,22 +219,17 @@ class ASS_TextQuestion extends ASS_Question
 						$resproc_nodes = $node->child_nodes();
 						foreach ($resproc_nodes as $index => $respcondition)
 						{
-							if (strcmp($respcondition->node_name(), "respcondition") == 0)
+							if (strcmp($respcondition->node_name(), "outcomes") == 0)
 							{
-								$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
-								$found_answer = 0;
-								$this->answers[$respcondition_array["conditionvar"]["value"]]->set_points($respcondition_array["setvar"]["points"]);
-								if ($respcondition_array["conditionvar"]["selected"])
+								$outcomes_nodes = $respcondition->child_nodes();
+								foreach ($outcomes_nodes as $oidx => $decvar)
 								{
-									$this->answers[$respcondition_array["conditionvar"]["value"]]->setChecked();
+									if (strcmp($decvar->node_name(), "decvar") == 0)
+									{
+										$maxpoints = $decvar->get_attribute("maxvalue");
+										$this->setPoints($maxpoints);
+									}
 								}
-								$feedbacks[$respcondition_array["displayfeedback"]["linkrefid"]] = array(
-									"type" => $respcondition_array["conditionvar"]["respident"],
-									"value" => $respcondition_array["conditionvar"]["value"],
-									"not" => $respcondition_array["conditionvar"]["not"],
-									"points" => $respcondition_array["setvar"]["points"],
-									"feedback" => ""
-								);
 							}
 						}
 						break;
@@ -301,7 +274,7 @@ class ASS_TextQuestion extends ASS_Question
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".MULTIPLE_CHOICE_QUESTION_IDENTIFIER);
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".TEXT_QUESTION_IDENTIFIER);
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		$qtiComment = $this->domxml->create_element("qticomment");
@@ -756,11 +729,16 @@ class ASS_TextQuestion extends ASS_Question
 		);
 		$result = $db->query($query);
 
+		$text = $_POST["TEXT"];
+		if ($this->getMaxNumOfChars())
+		{
+			$text = substr($text, 0, $this->getMaxNumOfChars()); 
+		}
 		$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
 			$db->quote($this->getId()),
-			$db->quote($_POST["text_result"])
+			$db->quote($text)
 		);
 		$result = $db->query($query);
 		return true;
