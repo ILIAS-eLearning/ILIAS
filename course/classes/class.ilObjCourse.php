@@ -65,29 +65,49 @@ class ilObjCourse extends ilObject
 		$this->type = "crs";
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		if($a_id != 0)
+		if($a_id)
 		{
 			$this->__initMetaObject();
 			$this->initCourseMemberObject();
 		}
+		else
+		{
+			
+		}
+			
 	}
 	
 	// SET/GET
+	function setId($a_id)
+	{
+		parent::setId($a_id);
+		
+		unset($this->meta_data);
+		$this->__initMetaObject();
+	}
+
+
 	function getDescription()
 	{
-		return $this->meta_data->getDescription();
+		return parent::getDescription();
 	}
 	function setDescription($a_description)
 	{
+		parent::setDescription($a_description);
+		
+		$this->__initMetaObject();
 		$this->meta_data->setDescription($a_description);
+
+		return true;
 	}
 	function getTitle()
 	{
-		//return $this->title;
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
 	}
 	function setTitle($a_title)
 	{
+		parent::setTitle($a_title);
+		$this->__initMetaObject();
 		$this->meta_data->setTitle($a_title);
 	}
 	function getSyllabus()
@@ -339,7 +359,7 @@ class ilObjCourse extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-		$this->__initMetaObject();
+
 		$this->__readSettings();
 	}
 	function create($a_upload = false)
@@ -347,6 +367,7 @@ class ilObjCourse extends ilObject
 		parent::create($a_upload);
 		if (!$a_upload)
 		{
+			$this->__initMetaObject();
 			$this->meta_data->setId($this->getId());
 			$this->meta_data->setType($this->getType());
 			$this->meta_data->setTitle($this->getTitle());
@@ -513,6 +534,8 @@ class ilObjCourse extends ilObject
 	{
 		// CALLED BY META DATA GUI
 
+		$this->__initMetaObject();
+
 		return $this->meta_data;
 	}
 
@@ -548,7 +571,7 @@ class ilObjCourse extends ilObject
 		$this->__updateSettings();
 	}
 
-	function __initMetaObject($a_with_id = true)
+	function __initMetaObject()
 	{
 		include_once "./classes/class.ilMetaData.php";
 
@@ -557,16 +580,15 @@ class ilObjCourse extends ilObject
 			return true;
 		}
 
-		switch($a_with_id)
+		if($this->getId())
 		{
-			case true:
-				$this->meta_data =& new ilMetaData($this->getType(),$this->getId());
-				break;
-
-			case false:
-				$this->meta_data =& new ilMetaData();
-				break;
+			$this->meta_data =& new ilMetaData($this->getType(),$this->getId());
 		}
+		else
+		{
+			$this->meta_data =& new ilMetaData();
+		}
+
 		return true;
 	}
 

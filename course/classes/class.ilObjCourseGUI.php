@@ -1882,7 +1882,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	function editMetaObject()
 	{
 		$this->__initMetaDataGUI();
-		
+
 		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
 
 		return true;
@@ -1925,6 +1925,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$_REQUEST["meta_index"] = $_REQUEST["meta_index"] ? $_REQUEST["meta_index"] : 0;
 			
 			$this->meta_gui->meta_obj->add($_REQUEST["meta_name"],$_REQUEST["meta_path"], $_REQUEST["meta_index"]);
+
 			sendInfo($this->lng->txt("added_item"));
 
 		}
@@ -1932,8 +1933,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
-		$this->editMetaObject();
-		
+		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST['meta_section']);
+
 		return true;
 	}
 	function addMeta()
@@ -1945,8 +1946,9 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->__initMetaDataGUI();
 		$this->meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_REQUEST["meta_index"]);
 
+		$this->editMetaObject("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
+
 		sendInfo($this->lng->txt("deleted_item"));
-		$this->editMetaObject();
 
 		return true;
 	}
@@ -2552,8 +2554,11 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		include_once "./classes/class.ilMetaDataGUI.php";
 
-		$this->meta_gui =& new ilMetaDataGUI();
-		$this->meta_gui->setObject($this->object);
+		if(!is_object($this->meta_gui))
+		{
+			$this->meta_gui =& new ilMetaDataGUI();
+			$this->meta_gui->setObject($this->object);
+		}
 	}
 
 	
