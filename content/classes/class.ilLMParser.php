@@ -284,8 +284,11 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "Identifier":
-				$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
-				$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
+				if ($this->in_meta_data)
+				{
+					$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
+					$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
+				}
 				break;
 
 			case "Keyword":
@@ -327,7 +330,7 @@ class ilLMParser extends ilSaxParser
 				$this->in_page_object = false;
 				if (!$this->page_object->isAlias())
 				{
-//echo "PageObject ".$this->page_object->getImportId().":<br>";
+//echo "ENDPageObject ".$this->page_object->getImportId().":<br>";
 					$this->page_object->createFromXML();
 					$this->pg_mapping[$this->page_object->getImportId()]
 						= $this->page_object->getId();

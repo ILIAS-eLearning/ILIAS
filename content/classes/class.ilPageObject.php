@@ -428,7 +428,7 @@ class ilPageObject extends ilLMObject
 		// create object
 		parent::create();
 		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
-			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
+			"('".$this->getId()."', '".$this->getLMId()."','".addslashes($this->getXMLContent())."')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
