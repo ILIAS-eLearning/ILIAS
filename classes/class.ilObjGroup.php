@@ -688,15 +688,15 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilias;
 
-		if(strlen($a_userId=="") > 0)
-		{
-			$user_id = $a_userId;
-		}
-		else
+		if (strlen($a_userId) == 0)
 		{
 			$user_id = $this->ilias->account->getId();
 		}
-
+		else 
+		{
+			$user_id = $a_userId;
+		}
+		
 		if($this->getType() == "grp")
 		{
 
