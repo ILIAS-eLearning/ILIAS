@@ -348,3 +348,4 @@ info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ih
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus.
 root_access#:#Administrator-Zugang
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
+info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
