@@ -293,8 +293,8 @@ common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
 common#:#languages#:#Languages
-common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed
-common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled
+common#:#languages_already_installed#:#Chosen language(s) are already installed
+common#:#languages_already_uninstalled#:#Chosen language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_change#:#Last Change
 common#:#last_visit#:#Last Visit
@@ -392,7 +392,7 @@ common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active role!
 common#:#msg_min_one_role#:#Each user must have at least one role!
-common#:#msg_no_delete_yourself#:#Do you feel depressed? weary of life? You cannot delete your own user account.
+common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -642,7 +642,7 @@ common#:#test_intern#:#Test Intern
 common#:#time#:#Time
 common#:#title#:#Title
 common#:#to#:#To
-common#:#to_desktop#:#To Desktop
+common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
