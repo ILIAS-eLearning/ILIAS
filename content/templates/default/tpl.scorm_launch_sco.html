@@ -5,7 +5,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
 
-//parent.APIAdapter.IliasLaunchSco(sco_id);
+parent.APIAdapter.IliasSetValue('cmi.launch_data','{LAUNCH_DATA}');
+parent.APIAdapter.IliasSetValue('cmi.student_data.mastery_score','{MAST_SCORE}');
+parent.APIAdapter.IliasSetValue('cmi.student_data.max_time_allowed','{MAX_TIME}');
+parent.APIAdapter.IliasSetValue('cmi.student_data.time_limit_action','{LIMIT_ACT}');
 
 document.location.href = "{HREF}";
 
