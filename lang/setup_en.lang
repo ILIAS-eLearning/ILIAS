@@ -349,3 +349,4 @@ info_text_finish1#:#Congratulations! Your client setup were successful. Click on
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!
 info_text_login#:#Please enter the Client ID of your Installation and your account data. Your account has to be assigned to the 'administrator'-role.
 info_text_list#:#In this overview you see all available clients and there setup and access status.
+root_access#:#root access

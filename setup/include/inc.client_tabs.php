@@ -32,7 +32,7 @@
 
 $this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-$tab = $this->cmd ? $this->cmd : "";
+$tab = $this->cmd ? $this->cmd : "view";
 
 //if (!isset($_SESSION["ClientId"]))
 //{
