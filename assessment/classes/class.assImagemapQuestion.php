@@ -316,7 +316,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 	function duplicateImage($question_id)
 	{
 		$imagepath = $this->getImagePath();
-		$imagepath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $imagepath);
+		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		if (!file_exists($imagepath)) {
 			ilUtil::makeDirParents($imagepath);
 		}
