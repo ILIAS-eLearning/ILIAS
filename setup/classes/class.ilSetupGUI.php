@@ -1203,13 +1203,9 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt("no_db_user_given"),$this->error_obj->MESSAGE);
 			}
 
-			
 			// create new client object if not exists !!
 			if (!$this->ini_client_exists)
 			{
-				// create random hash for client directory
-				//mt_srand ((double)microtime()*1000000);
-				//$client_id = md5(uniqid(mt_rand()));
 				$client_id = $_POST["form"]["client_id"];
 				
 				// check for existing client dir (only for newly created clients not renaming)
@@ -1223,7 +1219,7 @@ class ilSetupGUI extends ilSetup
 
 			// save some old values
 			$old_db_name = $this->client->getDbName();
-			
+			$old_client_id = $this->client->getId();			
 			// set client data 
 			//$this->client->setName($_POST["form"]["client_name"]);
 			$this->client->setId($_POST["form"]["client_id"]);
@@ -1259,15 +1255,26 @@ class ilSetupGUI extends ilSetup
 				}
 				else
 				{
-					sendInfo($this->lng->txt("save_error: ".$this->getError()));
+					$err = $this->getError();
+					sendInfo($this->lng->txt("save_error").": ".$err);
 					$this->client->status["ini"]["status"] = false;
-					$this->client->status["ini"]["comment"] = $this->getError();
+					$this->client->status["ini"]["comment"] = $err;
 				}
 			}
 			else
 			{
-				sendInfo($this->lng->txt("settings_changed"));
-				$this->client->status["ini"]["status"] = true;
+				if ($this->updateNewClient($old_client_id))
+				{
+					sendInfo($this->lng->txt("settings_changed"));
+					$this->client->status["ini"]["status"] = true;
+				}
+				else
+				{
+					$err = $this->getError();
+					sendInfo($this->lng->txt("save_error").": ".$err);
+					$this->client->status["ini"]["status"] = false;
+					$this->client->status["ini"]["comment"] = $err;
+				}
 			}
 		}
 
