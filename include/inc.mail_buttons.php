@@ -21,6 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/**
+* buttons for mail module
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+
 $lng->loadLanguageModule("mail");
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
