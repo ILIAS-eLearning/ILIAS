@@ -10,13 +10,13 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
-require_once "classes/class.FormatMail.php";
-require_once "classes/class.Mailbox.php";
+require_once "classes/class.ilFormatMail.php";
+require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilFileDataMail.php";
 
 $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
 
-$umail = new FormatMail($_SESSION["AccountId"]);
+$umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
@@ -43,7 +43,7 @@ if(isset($_POST["cmd"]))
 			break;
 
 		case $lng->txt("save_message"):
-			$mbox = new Mailbox($_SESSION["AccountId"]);
+			$mbox = new ilMailbox($_SESSION["AccountId"]);
 			$drafts_id = $mbox->getDraftsFolder();
 			
 			if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],

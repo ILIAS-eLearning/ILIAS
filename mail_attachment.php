@@ -9,13 +9,13 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.FormatMail.php";
+require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
 
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
 // GET SAVED DATA
-$umail = new FormatMail($_SESSION["AccountId"]);
+$umail = new ilFormatMail($_SESSION["AccountId"]);
 $mail_data = $umail->getSavedData();
 
 $_POST["filename"] = $_POST["filename"] ? $_POST["filename"] : array();

@@ -10,14 +10,14 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
-require_once "classes/class.Mail.php";
+require_once "classes/class.ilMail.php";
 
 $tplprint = new ilTemplate("tpl.mail_print.html",true,true);
 $tplprint->setVariable("MESSAGE","hallo");
 
 
 //get the mail from user
-$umail = new Mail($_SESSION["AccountId"]);
+$umail = new ilMail($_SESSION["AccountId"]);
 $mail_data = $umail->getMail($_GET["mail_id"]);
 
 // SET MAIL DATA

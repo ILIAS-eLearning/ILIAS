@@ -10,12 +10,12 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
-require_once "classes/class.Mailbox.php";
-require_once "classes/class.Mail.php";
+require_once "classes/class.ilMailbox.php";
+require_once "classes/class.ilMail.php";
 
 
-$umail = new Mail($_SESSION["AccountId"]);
-$mbox = new MailBox($_SESSION["AccountId"]);
+$umail = new ilMail($_SESSION["AccountId"]);
+$mbox = new ilMailBox($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
 // display infopanel if something happened
@@ -25,7 +25,6 @@ infoPanel();
 // IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
 if(!$_GET["mobj_id"])
 {
-	$mbox = new Mailbox($_SESSION["AccountId"]);
 	$_GET["mobj_id"] = $mbox->getInboxFolder();
 }
 // IF REQUESTED FROM mail_read.php

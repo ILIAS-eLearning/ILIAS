@@ -11,7 +11,7 @@ require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
 require_once "classes/class.Group.php";
-require_once "classes/class.Addressbook.php";
+require_once "classes/class.ilAddressbook.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_search.html");
 $tpl->setVariable("TXT_SEARCH",$lng->txt("search"));
@@ -30,7 +30,7 @@ $tpl->setVariable("ACTION","mail_new.php?mobj_id=$_GET[mobj_id]&type=search_res"
 if($_GET["type"] == 'addr')
 {
 	$tpl->setCurrentBlock("addr");
-	$abook = new Addressbook($_SESSION["AccountId"]);
+	$abook = new ilAddressbook($_SESSION["AccountId"]);
 	$entries = $abook->searchUsers(addslashes(urldecode($_GET["search"])));
 	if($entries)
 	{
