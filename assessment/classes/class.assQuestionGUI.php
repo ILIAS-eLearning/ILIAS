@@ -401,6 +401,38 @@ class ASS_QuestionGUI
 	/**
 	* save question
 	*/
+	function saveEdit()
+	{
+		$this->writePostData();
+		$this->object->saveToDb();
+		if ($_GET["test_ref_id"] == "")
+		{
+			$_GET["q_id"] = $this->object->getId();
+			$this->editQuestion();
+			if (strcmp($_SESSION["info"], "") != 0)
+			{
+				sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("msg_obj_modified"), false);
+			}
+			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
+			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		}
+		else
+		{
+			require_once ("assessment/classes/class.ilObjTest.php");
+			$_GET["ref_id"] = $_GET["test_ref_id"];
+			$test =& new ilObjTest($_GET["test_ref_id"], true);
+			$test->insertQuestion($this->object->getId());
+			ilUtil::redirect("test.php?cmd=questions&ref_id=".$_GET["test_ref_id"]);
+		}
+	}
+
+	/**
+	* save question
+	*/
 	function save()
 	{
 		$this->writePostData();

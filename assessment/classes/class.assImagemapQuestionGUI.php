@@ -330,6 +330,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
 			$this->tpl->setVariable("TEXT_POLY", $this->lng->txt("polygon"));
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
+			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
