@@ -111,7 +111,7 @@ class ilFileDataExercise extends ilFileData
 		return $files;
 	}
 
-	function clone($a_new_obj_id)
+	function ilClone($a_new_obj_id)
 	{
 		foreach($this->getFiles() as $file)
 		{

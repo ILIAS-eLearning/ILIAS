@@ -136,6 +136,12 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'tst':
 				return "assessment/test.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
+
+			case 'spl':
+				return 'survey/questionpool.php?ref_id='.$a_node_id.'&cmd=questions';
+
+			case 'qpl':
+				return 'assessment/questionpool.php?ref_id='.$a_node_id.'&cmd=questions';
 		}
 	}
 
