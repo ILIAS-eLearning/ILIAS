@@ -239,14 +239,15 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
 				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
-				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
-				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-				if ($answer->isStateSet())
+				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("radio_unset"));
+				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("radio_set"));
+				if ($answer->isStateChecked())
 				{
-					$this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_SELECTED", " selected=\"selected\"");
 				}
+				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 				$coords = "";
 				switch ($answer->get_area())
 				{
@@ -305,7 +306,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $img;
 				}
-				$size = GetImageSize ($this->object->getImagePath() . $this->object->get_image_filename(), &$info);
+				$size = GetImageSize ($this->object->getImagePath() . $this->object->get_image_filename());
 				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"0\" " . $size[3] . " />");
 			}
 			else
@@ -533,14 +534,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					{
 						if (preg_match("/answer_(\d+)/", $key, $matches))
 						{
-							if ($_POST["status"] == $matches[1])
-							{
-								$isSet = 1;
-							}
-							else
-							{
-								$isSet = 0;
-							}
 							$points = $_POST["points_$matches[1]"];
 							if (preg_match("/\d+/", $points))
 							{
@@ -559,7 +552,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 							$this->object->add_answer(
 								ilUtil::stripSlashes($_POST["$key"]),
 								ilUtil::stripSlashes($points),
-								ilUtil::stripSlashes($isSet),
+								ilUtil::stripSlashes($_POST["status_$matches[1]"]),
 								$matches[1],
 								ilUtil::stripSlashes($_POST["coords_$matches[1]"]),
 								ilUtil::stripSlashes($_POST["area_$matches[1]"])

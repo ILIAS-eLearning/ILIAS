@@ -1065,6 +1065,22 @@ class ilUtil
 		return $users ? $users : array();
 	}
 
+	/**
+	* Create a temporary file in an ILIAS writable directory
+	*
+	* @return	string File name of the temporary file
+	*/
+	function ilTempnam()
+	{
+		$temp_path = ilUtil::getDataDir() . "/temp";
+		if (!is_dir($temp_path))
+		{
+			ilUtil::createDirectory($temp_path);
+		}
+		$temp_name = tempnam($temp_path, "tmp");
+		unlink($temp_name);
+		return $temp_name;
+	}
 
 	/**
 	* create directory

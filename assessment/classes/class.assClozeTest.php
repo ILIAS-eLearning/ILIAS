@@ -1409,27 +1409,33 @@ class ASS_ClozeTest extends ASS_Question
     $points = 0;
     $counter = 0;
 		foreach ($user_result as $gap_id => $value) {
-      if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) 
+			{
         foreach ($this->gaps[$gap_id] as $k => $v) {
           if (strcmp(strtolower($v->get_answertext()), strtolower($value["value"])) == 0) {
             $points += $v->get_points();
           }
         }
-      } else {
-				foreach ($this->gaps[$gap_id] as $answerkey => $answer)
+      } 
+			else 
+			{
+				if ($value["value"] >= 0)
 				{
-					if ($answer->isStateChecked())
+					foreach ($this->gaps[$gap_id] as $answerkey => $answer)
 					{
-						if ($value["value"] == $answerkey)
+						if ($answer->isStateChecked())
 						{
-							$points += $answer->get_points();
+							if ($value["value"] == $answerkey)
+							{
+								$points += $answer->get_points();
+							}
 						}
-					}
-					else
-					{
-						if ($value["value"] != $answerkey)
+						else
 						{
-							$points += $answer->get_points();
+							if ($value["value"] != $answerkey)
+							{
+								$points += $answer->get_points();
+							}
 						}
 					}
 				}
@@ -1463,7 +1469,8 @@ class ASS_ClozeTest extends ASS_Question
     $counter = 1;
 		$user_result = array();
     foreach ($found_value1 as $key => $value) {
-      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) {
+      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) 
+			{
 				$solution = array(
 					"gap" => "$counter",
 					"points" => 0,
@@ -1480,7 +1487,9 @@ class ASS_ClozeTest extends ASS_Question
 						);
           }
         }
-      } else {
+      } 
+			else 
+			{
 				$solution = array(
 					"gap" => "$counter",
 					"points" => 0,
@@ -1512,9 +1521,21 @@ class ASS_ClozeTest extends ASS_Question
       if ($value[0]->get_cloze_type() == CLOZE_TEXT) {
         $points += $value[0]->get_points();
       } else {
+				$points_arr = array("set" => 0, "unset" => 0);
         foreach ($value as $key2 => $value2) {
-					$points += $value2->get_points();
-        }
+					if ($value2->isStateChecked())
+					{
+						if ($value2->get_points() > $points_arr["set"])
+						{
+							$points_arr["set"] = $value2->get_points();
+						}
+					}
+					else
+					{
+						$points_arr["unset"] += $value2->get_points();
+					}
+				}
+				$points += $points_arr["set"] + $points_arr["unset"];
       }
     }
     return $points;
