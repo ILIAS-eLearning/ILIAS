@@ -634,8 +634,19 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
+                // Determine whether the view of a learning resource should
+                // be shown in the frameset of ilias, or in a separate window.
+                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+
 		$ilBench->start("ContentPresentation", "ilMainMenu");
-		$menu = new ilMainMenuGUI("_top", true);
+                if ($showViewInFrameset) {
+                    $menu = new ilMainMenuGUI("bottom", true);
+                }
+                else
+                {
+                    $menu = new ilMainMenuGUI("_top", true);
+                }
 		$menu->setTemplate($this->tpl);
 		$menu->addMenuBlock("CONTENT", "navigation");
 		$menu->setTemplateVars();
@@ -1260,6 +1271,11 @@ class ilLMPresentationGUI
 			? "frame=".$_GET["frame"]."&"
 			: "";
 
+
+                // Determine whether the view of a learning resource should
+                // be shown in the frameset of ilias, or in a separate window.
+                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 		if($pre_node != "")
 		{
 			$ilBench->start("ContentPresentation", "ilLMNavigation_outputPredecessor");
@@ -1281,6 +1297,12 @@ class ilLMPresentationGUI
 				$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 					"\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+			}
+			else if ($showViewInFrameset)
+			{
+				$output = "<a href=\"lm_presentation.php?cmd=layout&obj_id=".
+					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\" target=\"bottom\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			else
 			{
@@ -1318,6 +1340,12 @@ class ilLMPresentationGUI
 				$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 					"\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
+			}
+			else if ($showViewInFrameset)
+			{
+				$output = " <a href=\"lm_presentation.php?cmd=layout&obj_id=".
+					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+					"\" target=\"bottom\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			else
 			{

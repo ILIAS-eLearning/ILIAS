@@ -203,7 +203,18 @@ class ilRepositoryExplorer extends ilExplorer
 			case "dbk":
 			case "htlm":
 			case "sahs":
-				return "ilContObj".$a_obj_id;
+				// Determine whether the view of a learning resource should
+				// be shown in the frameset of ilias, or in a separate window.
+				$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+				if ($showViewInFrameset) 
+				{
+	  				return "bottom";
+				}
+				else
+				{
+					return "ilContObj".$a_obj_id;
+				}
 
 			case "grp":
 				return "";

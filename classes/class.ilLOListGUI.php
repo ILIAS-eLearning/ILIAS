@@ -287,13 +287,24 @@ class ilLOListGUI
 
 				$this->tpl->setVariable("TITLE", $lr_data["title"]);
 
+                                // Determine whether the view of a learning resource should
+                                // be shown in the frameset of ilias, or in a separate window.
+                                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
 				{
 					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
-					$this->tpl->setVariable("VIEW_TARGET", "_top");
+                                        if ($showViewInFrameset) 
+                                        {
+        					$this->tpl->setVariable("VIEW_TARGET", "bottom");
+                                        }
+                                        else
+                                        {
+        					$this->tpl->setVariable("VIEW_TARGET", "_top");
+                                        }
 					if($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
 						$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);

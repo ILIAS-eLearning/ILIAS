@@ -1079,6 +1079,10 @@ class ilRepositoryGUI
 
 		$lr_num = count($lrs);
 
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 		// render table content data
 		if ($lr_num > 0)
 		{
@@ -1133,8 +1137,15 @@ class ilRepositoryGUI
 					{
 						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $read_link);
-						$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
-						//$tpl->setVariable("VIEW_TARGET", "bottom");
+
+						if ($showViewInFrameset) 
+						{
+						    $tpl->setVariable("VIEW_TARGET", "bottom");
+						} 
+						else 
+						{
+						    $tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
+						}
 						
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
