@@ -5018,4 +5018,21 @@ CREATE TABLE `payment_settings` (
   `pdf_path` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`settings_id`)
 ) TYPE=MyISAM;
-
+<#344>
+DROP TABLE IF EXISTS `payment_statistic`;
+CREATE TABLE `payment_statistic` (
+  `booking_id` int(11) NOT NULL auto_increment,
+  `transaction` char(64) default NULL,
+  `pobject_id` int(11) NOT NULL default '0',
+  `customer_id` int(11) NOT NULL default '0',
+  `b_vendor_id` int(11) default NULL,
+  `b_pay_method` int(2) default NULL,
+  `order_date` int(9) default NULL,
+  `duration` char(16) default NULL,
+  `price` char(16) NOT NULL default '',
+  `payed` int(2) NOT NULL default '0',
+  `access` int(2) NOT NULL default '0',
+  `voucher` char(64) default NULL,
+  `transaction_extern` char(64) default NULL,
+  PRIMARY KEY  (`booking_id`)
+) TYPE=MyISAM;
