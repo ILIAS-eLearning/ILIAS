@@ -127,5 +127,13 @@ class ilSCORMObject
 		$this->ilias->db->query($q);
 	}
 
+	function delete()
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM scorm_object WHERE obj_id =".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+	}
+
 }
 ?>

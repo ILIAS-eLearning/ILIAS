@@ -620,6 +620,7 @@ common#:#cur_number_rec#:#Current number of records
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
+common#:#copyPage#:#Copy
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item

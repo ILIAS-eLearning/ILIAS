@@ -205,6 +205,7 @@ class ilLMObject
 		}
 	}
 
+
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
