@@ -116,10 +116,17 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "div", "class" => "Footnote", "parameter" => "margin-top" ,"value" => "5px"),
 			array("tag" => "div", "class" => "Footnote", "parameter" => "margin-bottom" ,"value" => "5px"),
 			array("tag" => "div", "class" => "Footnote", "parameter" => "font-style" ,"value" => "italic"),
+
 			array("tag" => "a", "class" => "IntLink", "parameter" => "color" ,"value" => "blue"),
 			array("tag" => "a", "class" => "IntLink", "parameter" => "font-weight" ,"value" => "normal"),
 			array("tag" => "a", "class" => "IntLink", "parameter" => "text-decoration" ,"value" => "underline"),
 			array("tag" => "a", "class" => "IntLink:hover", "parameter" => "color" ,"value" => "#000000"),
+
+			array("tag" => "a", "class" => "ExtLink", "parameter" => "color" ,"value" => "blue"),
+			array("tag" => "a", "class" => "ExtLink", "parameter" => "font-weight" ,"value" => "normal"),
+			array("tag" => "a", "class" => "ExtLink", "parameter" => "text-decoration" ,"value" => "underline"),
+			array("tag" => "a", "class" => "ExtLink:hover", "parameter" => "color" ,"value" => "#000000"),
+
 			array("tag" => "div", "class" => "LMNavigation", "parameter" => "background-color" ,"value" => "#EEEEEE"),
 			array("tag" => "div", "class" => "LMNavigation", "parameter" => "padding" ,"value" => "5px"),
 			array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-spacing" ,"value" => "1px"),
@@ -304,6 +311,7 @@ class ilObjStyleSheet extends ilObject
 	function getAvailableTags()
 	{
 		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
+		 	"a.ExtLink", "a.ExtLink:hover",
 			"div.Footnote", "div.LMNavigation", "div.Page", "div.PageTitle", "span.Comment",
 			"span.Emph", "span.Quotation", "span.Strong",
 			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",

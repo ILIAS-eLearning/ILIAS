@@ -397,6 +397,7 @@ class ilPageObject extends ilLMObject
 
 	function validateDom()
 	{
+//echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
 		$this->stripHierIDs();
 		@$this->dom->validate($error);
 		return $error;
@@ -543,6 +544,7 @@ class ilPageObject extends ilLMObject
 	*/
 	function update($a_validate = true)
 	{
+//echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
 		// test validating
 		if($a_validate)
 		{

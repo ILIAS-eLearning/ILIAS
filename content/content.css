@@ -64,6 +64,17 @@ a.ilc_IntLink:hover
 	color:#000000;
 }
 
+a.ilc_ExtLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.ilc_ExtLink:hover
+{
+	color:#000000;
+}
 
 div.ilc_LMNavigation
 {
