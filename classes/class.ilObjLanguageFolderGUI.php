@@ -37,8 +37,6 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
-	//var $LangFolderObject;
-
 	/**
 	* Constructor
 	* @access public
@@ -83,12 +81,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->data["cols"] = array("","type","language","status","last_change");
 
 		$languages = $this->object->getLanguages();
-	
+		
 		foreach ($languages as $lang_key => $lang_data)
 		{
 			$status = "";
 	
-			// set status info (in use oder systemlanguage)
+			// set status info (in use or systemlanguage)
 			if ($lang_data["status"])
 			{
 				$status = "<span class=\"small\"> (".$this->lng->txt($lang_data["status"]).")</span>";
@@ -108,11 +106,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					break;
 			}	
 
-			//visible data part
+			// visible data part
 			$this->data["data"][] = array(
 									"type" 			=> "lng",
 									"language"		=> $lang_data["name"].$status,
-									"status"		=> $this->lng->txt($lang_data["desc"]).$remark,
+									"status"		=> $this->lng->txt($lang_data["desc"])."<br/>".$remark,
 									"last_change"	=> $lang_data["last_update"],
 									"obj_id"		=> $lang_data["obj_id"]
 										);
@@ -157,7 +155,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 		$num = 0;
 
-		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
 		// create table

@@ -99,8 +99,6 @@ class ilObjLanguageFolder extends ilObject
 		$this->lang_default = $lng->lang_default;
 		$this->lang_user = $lng->lang_user;
 		$this->separator = $lng->separator;
-
-		$this->getLanguages();
 	}
 
 	/**
@@ -116,13 +114,6 @@ class ilObjLanguageFolder extends ilObject
 	* info:			string		optional information. valid is: 'notfound','new'
 	*
 	* @return	array	$languages	status information about available languages
-	*/
-
-
-	/*
-	* DESC MISSING
-	*
-	*
 	*/
 	function getLanguages ()
 	{
@@ -151,7 +142,7 @@ class ilObjLanguageFolder extends ilObject
 		}
 
 		$tmp_array = array_keys($languages);
-		$lang_keys[] = array();
+		$lang_keys = array();
 
 		// now get languages from database
 		if ($lang_db = getObjectList("lng"))
@@ -182,12 +173,13 @@ class ilObjLanguageFolder extends ilObject
 			}
 		}
 
-		//compute new languages
+		// compute new languages
 		foreach ($languages as $lang_key => $lang_data)
 		{
 			if (!in_array($lang_key,$lang_keys))
 			{
 				$languages[$lang_key]["info"] = "new_language";
+				//$languages[$lang_key]["desc"] = "not_installed";
 			}
 		}
 
@@ -205,6 +197,7 @@ class ilObjLanguageFolder extends ilObject
 		}
 
 		$this->languages = $languages;
+
 		return $this->languages;
 	}
 
@@ -237,6 +230,7 @@ class ilObjLanguageFolder extends ilObject
 					$a_languages[$lang_key] = array("obj_id" => $lngObj->getId(),
 													"type" => $lngObj->getType(),
 													"description" => $lngObj->getDescription(),
+													"desc" => $lngObj->getDescription(),
 													"owner" => $lngObj->getOwner(),
 													"create_date" => $lngObj->getCreateDate(),
 													"last_update" => $lngObj->getLastUpdateDate());

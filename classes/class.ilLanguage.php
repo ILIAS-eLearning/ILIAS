@@ -143,6 +143,7 @@ class ilLanguage
 		$this->loaded_modules = array();
 
 		// if no ilias.ini.php was found set default values (->for setup-routine)
+		// DEPRECATED
 		if (basename($_SERVER["PHP_SELF"]) == "setup.php")
 		{
 			$this->lang_path = getcwd()."/lang";
