@@ -1,0 +1,25 @@
+<form name="form_codes" method="POST" action="{FORM_ACTION}">
+<p>
+<input type="submit" class="submit" name="cmd[createSurveyCodes]" value="{TEXT_CREATE}" /> <input type="text" name="nrOfCodes" size="3" value="1" /> {TEXT_SURVEY_CODES}
+</p>
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std">{SURVEY_CODE}</td>
+	<td class="std">{CODE_CREATED}</td>
+	<td class="std">{CODE_USED}</td>
+</tr>
+<!-- BEGIN coderow --> 
+<tr>
+	<td class="{COLOR_CLASS}">{SURVEY_CODE}</td>
+	<td class="{COLOR_CLASS}">{CODE_CREATED}</td>
+	<td class="{COLOR_CLASS}">{CODE_USED}</td>
+</tr>
+<!-- END coderow --> 
+<!-- BEGIN emptyrow --> 
+<tr>
+	<td class="{COLOR_CLASS}" colspan="3">{NO_CODES}</td>
+</tr>
+<!-- END emptyrow --> 
+</table>
+</td>
+</form>

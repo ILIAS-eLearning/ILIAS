@@ -232,9 +232,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if ($this->object->getAnonymize())
 				{
-					// check for the correct survey code
-					$anonymize_key = md5($ilUser->id . $this->object->getSurveyId());
-					if (strcmp($anonymize_key, $_POST["anonymous_id"]) == 0)
+					if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
 					{
 						$_SESSION["anonymous_id"] = $_POST["anonymous_id"];
 					}
@@ -540,15 +538,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		global $rbacsystem;
-		
-		$survey_started = $this->object->isSurveyStarted($ilUser->id, $_SESSION["anonymous_id"]);
+		if (($this->object->getAnonymize()) && (strcmp($ilUser->login, "anonymous") == 0))
+		{
+			$survey_started = false;
+		}
+		else
+		{
+			$survey_started = $this->object->isSurveyStarted($ilUser->id, $this->object->getUserSurveyCode());
+		}
 		// show introduction page
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_introduction.html", true);
 		if ($this->object->getAnonymize())
 		{
 			$this->tpl->setCurrentBlock("start");
-			$anonymize_key = md5($ilUser->id . $this->object->getSurveyId());
+			$anonymize_key = $this->object->getUserSurveyCode();
 			if (strcmp($ilUser->login, "anonymous") == 0)
 			{
 				$this->tpl->setVariable("TEXT_ANONYMIZE", $this->lng->txt("anonymize_anonymous_introduction"));
@@ -641,6 +645,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function runShowFinishedPage()
 	{
 		// show introduction page
+		unset($_SESSION["anonymous_id"]);
     $add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", true);
 		$this->tpl->setVariable("TEXT_FINISHED", $this->lng->txt("survey_finished"));
@@ -4841,6 +4846,70 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
+	function codesObject()
+	{
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$color_class = array("tblrow1", "tblrow2");
+			$survey_codes =& $this->object->getSurveyCodes();
+			if (count($survey_codes) == 0)
+			{
+				$this->tpl->setCurrentBlock("emptyrow");
+				$this->tpl->setVariable("COLOR_CLASS", "tblrow1");
+				$this->tpl->setVariable("NO_CODES", $this->lng->txt("survey_code_no_codes"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				foreach ($survey_codes as $key => $row)
+				{
+					$this->tpl->setCurrentBlock("coderow");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$key % 2]);
+					$this->tpl->setVariable("SURVEY_CODE", $row["survey_key"]);
+					$this->tpl->setVariable("CODE_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP"]), "date"));
+					$this->tpl->setVariable("CODE_USED", $row["state"]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("SURVEY_CODE", $this->lng->txt("survey_code"));
+			$this->tpl->setVariable("CODE_CREATED", $this->lng->txt("create_date"));
+			$this->tpl->setVariable("CODE_USED", $this->lng->txt("survey_code_used"));
+			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
+			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("cannot_create_survey_codes"));
+		}
+	}
 	
+	function createSurveyCodesObject()
+	{
+		if (preg_match("/\d+/", $_POST["nrOfCodes"]))
+		{
+			$this->object->createSurveyCodes($_POST["nrOfCodes"]);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("enter_valid_number_of_codes"), true);
+		}
+		$this->ctrl->redirect($this, "codes");
+	}
+
 } // END class.ilObjSurveyGUI
 ?>

@@ -382,6 +382,7 @@
 	<property name="export" module="1">export</property>
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
+	<property name="codes" module="1">codes</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

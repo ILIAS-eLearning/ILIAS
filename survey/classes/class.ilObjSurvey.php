@@ -410,6 +410,11 @@ class ilObjSurvey extends ilObject
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
 	}
 
 	/**
@@ -2945,19 +2950,22 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		if ($this->getAnonymize())
 		{
-			require_once "./include/inc.mail.php";
-			require_once "./classes/class.ilFormatMail.php";
-			require_once "./classes/class.ilMailbox.php";
-			$subject = sprintf($this->lng->txt("subject_mail_survey_id"), $this->getTitle());
-			$message = sprintf($this->lng->txt("message_mail_survey_id"), $this->getTitle(), $_SESSION["anonymous_id"]);
-			$umail = new ilFormatMail($ilUser->id);
-			$f_message = $umail->formatLinebreakMessage($message);
-			$umail->setSaveInSentbox(true);
-			if($error_message = $umail->sendMail($ilUser->getLogin(),"",
-												 "",$subject,$f_message,
-												 "",array("normal")))
+			if (strcmp($ilUser->login, "anonymous") != 0)
 			{
-				sendInfo($error_message);
+				require_once "./include/inc.mail.php";
+				require_once "./classes/class.ilFormatMail.php";
+				require_once "./classes/class.ilMailbox.php";
+				$subject = sprintf($this->lng->txt("subject_mail_survey_id"), $this->getTitle());
+				$message = sprintf($this->lng->txt("message_mail_survey_id"), $this->getTitle(), $_SESSION["anonymous_id"]);
+				$umail = new ilFormatMail($ilUser->id);
+				$f_message = $umail->formatLinebreakMessage($message);
+				$umail->setSaveInSentbox(true);
+				if($error_message = $umail->sendMail($ilUser->getLogin(),"",
+													 "",$subject,$f_message,
+													 "",array("normal")))
+				{
+					sendInfo($error_message);
+				}
 			}
 		}
 	}
@@ -4649,5 +4657,97 @@ class ilObjSurvey extends ilObject
 		}
 		return 0;
 	}
+	
+	function isAnonymousKey($key)
+	{
+		$query = sprintf("SELECT anonymous_id FROM survey_anonymous WHERE survey_key = %s AND survey_fi = %s",
+			$this->ilias->db->quote($key . ""),
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function getUserSurveyCode()
+	{
+		global $ilUser;
+		return md5($ilUser->id . $this->getSurveyId());
+	}
+	
+	function checkSurveyCode($code)
+	{
+		global $ilUser;
+		// check for the correct survey code
+		if (strcmp($ilUser->login, "anonymous") != 0)
+		{
+			$anonymize_key = $this->getUserSurveyCode();
+			if (strcmp(strtolower($anonymize_key), strtolower($code)) == 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if ($this->isAnonymousKey($code))
+			{
+				if ($this->isSurveyStarted("", $code) == 1)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+
+	function &getSurveyCodes()
+	{
+		$codes = array();
+		$query = sprintf("SELECT survey_anonymous.*, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s ORDER BY survey_anonymous.TIMESTAMP",
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		
+		if ($result->numRows() > 0)
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($codes, $row);
+			}
+		}
+		return $codes;
+	}
+	
+	function createSurveyCodes($nrOfCodes)
+	{
+		for ($i = 0; $i < $nrOfCodes; $i++)
+		{
+			$anonymize_key = md5((time() + ($i*$nrOfCodes)) . $this->getSurveyId());
+			$query = sprintf("INSERT INTO survey_anonymous (anonymous_id, survey_key, survey_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+				$this->ilias->db->quote($anonymize_key . ""),
+				$this->ilias->db->quote($this->getSurveyId() . "")
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
 } // END class.ilObjSurvey
 ?>

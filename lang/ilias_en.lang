@@ -4038,7 +4038,7 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
@@ -4358,3 +4358,10 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+survey#:#codes#:#Access codes
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
+survey#:#survey_code#:#Survey access code
+survey#:#survey_code_used#:#Code was used
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.
+survey#:#new_survey_codes#:#new survey access code(s)
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!  
