@@ -1079,9 +1079,16 @@ class ilLMPresentationGUI
 						if ($lm_id == $this->lm->getId() || $targetframe != "None")
 						{
 							$ltarget = $a_layoutframes[$targetframe]["Frame"];
+							//$nframe = ($ltarget == "")
+							//	? $_GET["frame"]
+							//	: $ltarget;
 							$nframe = ($ltarget == "")
-								? $_GET["frame"]
+								? ""
 								: $ltarget;
+							if ($ltarget == "")
+							{
+								$ltarget="_top";
+							}
 							$href = "lm_presentation.php?obj_type=$type&amp;cmd=layout&amp;ref_id=".$_GET["ref_id"].
 								"&amp;obj_id=".$target_id."&amp;frame=$nframe";
 						}
@@ -1100,6 +1107,10 @@ class ilLMPresentationGUI
 						break;
 
 					case "GlossaryItem":
+						if ($targetframe == "None")
+						{
+							$targetframe = "Glossary";
+						}
 						$ltarget = $a_layoutframes[$targetframe]["Frame"];
 						$nframe = ($ltarget == "")
 							? $_GET["frame"]
@@ -1119,6 +1130,14 @@ class ilLMPresentationGUI
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
 					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+					
+				// set equal link info for glossary links of target "None" and "Glossary"
+				/*
+				if ($targetframe=="None" && $type=="GlossaryItem")
+				{
+					$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+						"TargetFrame=\"Glossary\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+				}*/
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
@@ -1181,6 +1200,10 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilMedia");
 
+		//$int_links = $page_object->getInternalLinks();
+		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
+		$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+//echo "<br><br>".htmlentities($link_xml);
 		require_once("content/classes/Media/class.ilObjMediaObject.php");
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
@@ -1194,6 +1217,7 @@ class ilLMPresentationGUI
 			// times in page)
 			$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
 			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.= $link_xml;
 			$xml.="</dummy>";
 		}
 		else
@@ -1203,6 +1227,7 @@ class ilLMPresentationGUI
 			// times in page)
 			$xml.= $media_obj->getXML(IL_MODE_ALIAS);
 			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+			$xml.= $link_xml;
 			$xml.="</dummy>";
 		}
 
