@@ -39,7 +39,7 @@ require_once("classes/class.ilObjGroup.php");
 * @package	ilias-core
 */
 
-class ilGroupGUI extends ilObjectGUI
+class ilGroupGUI extends ilObjGroupGUI
 {
 	var $tpl;
 	var $lng;
@@ -129,9 +129,9 @@ class ilGroupGUI extends ilObjectGUI
 		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("permSave","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("addrole","group.php?cmd=permObject&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("newmembers","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("permSave","group.php?cmd=perm&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("addrole","group.php?cmd=perm&ref_id=".$_GET["ref_id"]);
+		$this->setReturnLocation("newmembers","group.php?cmd=newmembers&ref_id=".$_GET["ref_id"]);
 
 
 		$cmd = $_GET["cmd"];
@@ -140,11 +140,13 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$cmd = "view";
 		}
-		if (isset($_POST["cmd"]))
+		
+		if (isset($_POST["cmd"]) )
 		{
 			$cmd = key($_POST["cmd"]);
-			$fullcmd = $cmd."Object";
-
+			$fullcmd = $cmd;//."Object";
+			//echo $fullcmd;
+			//var_dump ($_POST);
 			// only createObject!!
 			$this->$fullcmd();
 			exit();
@@ -313,11 +315,11 @@ class ilGroupGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("role_added"),true);
 
-		header("Location: ".$this->getReturnLocation("addRole","group.php?ref_id=".$_GET["ref_id"]."&cmd=permObject"));
+		header("Location: ".$this->getReturnLocation("addRole","group.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
 
-	function applyForMembershipObject()
+	function applyForMembership()
 	{
 		global $ilias;
 
@@ -356,7 +358,7 @@ class ilGroupGUI extends ilObjectGUI
 		header("location: repository.php");
 	}
 	
-	function assignApplicantsObject()
+	function assignApplicants()
 	{
 		global $ilias;
 
@@ -382,7 +384,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function canceldeleteObject()
+	function canceldelete()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
@@ -393,7 +395,7 @@ class ilGroupGUI extends ilObjectGUI
 	/**
 	* create new group object form
 	*/
-	function create()
+	function create_new()
 	{
 		global $rbacsystem;
 		
@@ -449,7 +451,7 @@ class ilGroupGUI extends ilObjectGUI
 	* displays form in which the member-status can be changed
 	* @access public
 	*/
-	function changeMemberObject()
+	function changeMember()
 	{
 		include_once "./classes/class.ilTableGUI.php";
 
@@ -502,7 +504,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->tpl->setVariable("ACTIONTARGET", "bottom");
-		$this->data["buttons"] = array( "canceldelete"  => $this->lng->txt("cancel"),
+		$this->data["buttons"] = array( "showgroupmembers"  => $this->lng->txt("cancel"),
 						"updateMemberStatus"  => $this->lng->txt("confirm"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
@@ -539,6 +541,9 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHeaderVars(array("firstname","lastname","role","status"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
 
 		$tbl->setColumnWidth(array("25%","25%","25%","25%"));
+
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->parseCurrentBlock();
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -661,6 +666,9 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("confirm"));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->parseCurrentBlock();
+
 		$tbl = new ilTableGUI();
 		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
 		$tbl->setHeaderVars(array("type","title","description","last_change"));
@@ -679,7 +687,7 @@ class ilGroupGUI extends ilObjectGUI
 	* assign applicants object calls the confirmation method with correct parameter
 	* @access	public
 	*/
-	function confirmedAssignApplicantsObject()
+	function confirmedAssignApplicants()
 	{
 
 		if($_SESSION["saved_post"])
@@ -708,7 +716,7 @@ class ilGroupGUI extends ilObjectGUI
 	* adds member to group as member	
 	* @access	public
 	*/
-	function confirmedAssignMemberObject($a_userIds="")
+	function confirmedAssignMember($a_userIds="")
 	{
 
 		if (isset($_SESSION["saved_post"]) && isset($_SESSION["status"]))
@@ -730,7 +738,7 @@ class ilGroupGUI extends ilObjectGUI
 	/**
 	* @access	public
 	*/
-	function confirmedLeaveGroupObject()
+	function confirmedLeaveGroup()
 	{
 		switch($this->object->leaveGroup())
 		{
@@ -758,11 +766,11 @@ class ilGroupGUI extends ilObjectGUI
 	* remove members from group
 	* @access public
 	*/
-	function confirmedRemoveMemberObject()
+	function confirmedRemoveMember()
 	{
 		global $rbacsystem;
 
-		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') )
+		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') || $_SESSION["saved_post"]["user_id"])
 		{
 			//User needs to have administrative rights to remove members...
 
@@ -777,7 +785,12 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("grp_err_no_permission"),true);
 		}
-
+		
+		if ($_SESSION["saved_post"]["user_id"][0] == $this->ilias->account->getId())
+		{
+			header("Location: repository.php?getlast=true");
+			exit();
+		}
 		unset($_SESSION["saved_post"]);
 		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
@@ -875,7 +888,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function createObject()
+	function create()
 	{
 		//TODO: check the
 		// creates a child object
@@ -988,7 +1001,7 @@ class ilGroupGUI extends ilObjectGUI
 	* delete Object
 	* @access public
 	*/
-	function deleteObject()
+	function delete()
 	{
 		if (!isset($_POST["id"]))
 		{
@@ -1270,7 +1283,7 @@ class ilGroupGUI extends ilObjectGUI
 	/**
 	* @access	public
 	*/
-	function groupListObject()
+	function groupList()
 	{
 		header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 	}
@@ -1278,8 +1291,9 @@ class ilGroupGUI extends ilObjectGUI
 	/**
 	* @access	public
 	*/
-	function joinGroupObject()
+	function joinGroup()
 	{
+		
 		if ($this->object->addMember($this->ilias->account->getId(), $this->grp_object->getDefaultMemberRole()))
 		{
 			sendInfo($this->lng->txt("grp_registration_completed"),true);
@@ -1290,7 +1304,7 @@ class ilGroupGUI extends ilObjectGUI
 	* displays search form for new users
 	* @access public
 	*/
-	function newMembersObject()
+	function newMembers()
 	{
 		//create additional tabs for tab-bar
 		
@@ -1329,7 +1343,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
 		}
 
-		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "group.php?type=grp&cmd=newMembersObject&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
+		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "group.php?type=grp&cmd=newMembers&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
 
 		//$this->tpl->parseCurrentBlock();
 
@@ -1349,7 +1363,7 @@ class ilGroupGUI extends ilObjectGUI
 			if(count($member_ids) == 0)
 			{
 				sendInfo($this->lng->txt("search_no_match"),true);
-				header ("Location: group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
+				header ("Location: group.php?cmd=newmembers&ref_id=".$_GET["ref_id"]);
 				exit();
 			}
 			else
@@ -1443,7 +1457,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function permObject()
+	function perm()
 	{
 		global $rbacsystem, $rbacreview;
 
@@ -1520,7 +1534,7 @@ class ilGroupGUI extends ilObjectGUI
 						$disabled = false;
 					}
 
-					// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
+					// Es wird eine 2-dim Post Variable uebergeben: perm[rol_id][ops_id]
 					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
 					$opdata["values"][] = $box;
 				}
@@ -1713,7 +1727,7 @@ class ilGroupGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission', ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[6] = array ();
-			$tab[6]["tab_cmd"]  = 'cmd=permobject&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[6]["tab_cmd"]  = 'cmd=perm&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[6]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[6]["target"]   = "_self";						//target-frame of tab_cmd
 			$tab[6]["tab_text"] = "perm_settings";				//tab -text
@@ -1737,7 +1751,7 @@ class ilGroupGUI extends ilObjectGUI
 	* remove member object from group preparation(messages,link)
 	* @access	public
 	*/
-	function leaveGroupObject()
+	function leaveGroup()
 	{
 		$user_ids = array();
 		$user_ids = $_GET["mem_id"];
@@ -1761,7 +1775,7 @@ class ilGroupGUI extends ilObjectGUI
 	* remove member object from group preparation(messages,link)
 	* @access	public
 	*/
-	function removeMemberObject()
+	function removeMember()
 	{
 		$user_ids = array();
 
@@ -1778,14 +1792,14 @@ class ilGroupGUI extends ilObjectGUI
 			else
 			{
 				sendInfo($this->lng->txt("user_not_chosen"),true);
-				header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+				header("location: group.php?cmd=showgroupmembers&ref_id=".$_GET["ref_id"]);
 				exit;
 			}
 		}
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
-			$cancel  = "canceldelete";
+			$cancel  = "showgroupmembers";
 			$info	 = "info_delete_sure";
 			$status  = "";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
@@ -1852,7 +1866,7 @@ class ilGroupGUI extends ilObjectGUI
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
 
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$user->getLogin();
-			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$user->getId();
+			$link_change = "group.php?cmd=changeMember&ref_id=".$this->ref_id."&mem_id=".$user->getId();
 			$member_functions = "<a href=\"$link_change\">$val_change</a>";
 
 			$this->data["data"][$user->getId()]= array(
@@ -1945,9 +1959,10 @@ class ilGroupGUI extends ilObjectGUI
 			$notoperations[] = "clear";
 
 			// temp. disabled
-			$notoperations[] = "cut";
-			$notoperations[] = "copy";
+			//$notoperations[] = "cut";
+			//$notoperations[] = "copy";
 			$notoperations[] = "link";
+			$notoperations[] = "move";
 		}
 		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
 		if ($_SESSION["clipboard"])
@@ -1955,11 +1970,11 @@ class ilGroupGUI extends ilObjectGUI
 			$notoperations[] = "cut";
 			$notoperations[] = "copy";
 			$notoperations[] = "link";
-			$notoperations[] = "move";
+			//$notoperations[] = "move";
 
 			//temp. disabled
 			$notoperations[] = "paste";
-			$notoperations[] = "clear";
+			//$notoperations[] = "clear";
 		}
 		
 		$operations = array();
@@ -2459,7 +2474,7 @@ class ilGroupGUI extends ilObjectGUI
 	/**
 	* @access	public
 	*/
-	function updateMemberStatusObject()
+	function updateMemberStatus()
 	{
 		global $rbacsystem;
 
@@ -2480,7 +2495,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		//TODO: link back
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+		header("location: group.php?cmd=showgroupmembers&ref_id=".$_GET["ref_id"]);
 	}
 
 
@@ -2488,7 +2503,7 @@ class ilGroupGUI extends ilObjectGUI
 	* method checks fields filled correctly and calls core methods
 	* @access	public
 	*/
-	function updateGroupStatusObject()
+	function updateGroupStatus()
 	{
 		global $rbacsystem;
 		// check required fields
@@ -2538,6 +2553,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->view();
 	}
 
+
 	/**
 	* displays form with all members of group
 	* @access public
@@ -2546,185 +2562,8 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		//check Access
-		/*
-  		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
-		}*/
 		$this->prepareOutput(false, 2);
-
-		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-
-		$admin_ids = $newGrp->getGroupAdminIds();
-
-		//if current user is admin he is able to add new members to group
-
-		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
-		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
-
-		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
-		$account_id = $this->ilias->account->getId();
-
-		foreach($member_ids as $member_id)
-		{
-			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
-
-			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$member->getLogin();
-			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
-
-			if($member_id == $account_id)
-			{
-				$link_leave = "group.php?type=grp&cmd=leaveGroupObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
-			}
-			else
-			{
-				$link_leave = "group.php?type=grp&cmd=removeMemberObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
-			}
-
-			//build function
-			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ) )
-			{
-				$member_functions = "<a href=\"$link_change\">$val_change</a>";
-			}
-
-			if ($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
-			{
-				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
-			}
-
-//!!!			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
-//			$grp_role_id = $newGrp->getMemberStatus($member->getId());
-			$grp_role_id = $newGrp->getMemberRoles($member->getId());
-			$str_member_roles ="";
-			if(is_array($grp_role_id))
-			{
-				$count = count($grp_role_id);
-				foreach($grp_role_id as $role_id)
-				{
-					$count--;
-					$newObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-					$str_member_roles .= $newObj->getTitle();
-					if($count > 0)
-						$str_member_roles .= ",";
-				}
-			}
-			else
-			{
-				$newObj =& $this->ilias->obj_factory->getInstanceByObjId($grp_role_id);
-				$str_member_roles = $newObj->getTitle();
-			}
-
-			if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId()))
-			{
-				$this->data["data"][$member->getId()]= array(
-					"check"		=> ilUtil::formCheckBox(0,"user_id[]",$member->getId()),
-					"login"        => $member->getLogin(),
-					"firstname"       => $member->getFirstname(),
-					"lastname"        => $member->getLastname(),
-					"grp_role" => $str_member_roles,
-					"functions" => "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions
-					);
-
-				unset($member_functions);
-				unset($member);
-				unset($newObj);
-			}
-			else
-			{
-				//discarding the checkboxes
-				$this->data["data"][$member->getId()]= array(
-					"login"        => $member->getLogin(),
-					"firstname"       => $member->getFirstname(),
-					"lastname"        => $member->getLastname(),
-					"grp_role" => $newObj->getTitle(),
-					"functions" => "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions
-					);
-
-				unset($member_functions);
-				unset($member);
-				unset($newObj);
-			}
-		}
-
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."  \"".$this->object->getTitle()."\"");
-		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-
-		$this->data["buttons"] = array( "RemoveMember"  => $this->lng->txt("remove"),
-						"changeMember"  => $this->lng->txt("change"));
-
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("TPLPATH",$this->tplPath);
-
-		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("write,delete",$this->object->getRefId() ))
-		{
-			//user is administrator
-			$this->tpl->setVariable("COLUMN_COUNTS",6);
-
-			foreach ($this->data["buttons"] as $name => $value)
-			{
-				$this->tpl->setCurrentBlock("tbl_action_btn");
-				$this->tpl->setVariable("BTN_NAME",$name);
-				$this->tpl->setVariable("BTN_VALUE",$value);
-				$this->tpl->parseCurrentBlock();
-			}
-			$subobj[0] = $this->lng->txt("member");
-			$opts = ilUtil::formSelect(12,"new_type", $subobj, false, true);
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("BTN_NAME", "newmembers");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			//user is member
-			$this->tpl->setVariable("COLUMN_COUNTS",5);//user must be member
-		}
-
-		//sort data array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
-		// create table
-		include_once "./classes/class.ilTableGUI.php";
-		$tbl = new ilTableGUI($output);
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
-		if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId() ))
-		{
-			//user must be administrator
-			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
-			$tbl->setHeaderVars(array("check","login","firstname","lastname","role","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
-			$tbl->setColumnWidth(array("5%","15%","30%","30%","10%","10%"));
-		}
-		else
-		{
-			//user must be member
-			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
-			$tbl->setHeaderVars(array("login","firstname","lastname","role","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
-			$tbl->setColumnWidth(array("20%","30%","30%","10%","10%"));
-		}
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->parseCurrentBlock();
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($this->data["data"]));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->render();
+		$this->membersobject("group.php?", "CONTENT", "&gateway=true");
 		$this->tpl->show();
 	}
 
@@ -2732,7 +2571,7 @@ class ilGroupGUI extends ilObjectGUI
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
 	*/
-	function assignMemberObject()
+	function assignMember()
 	{
 
 		$user_ids = $_POST["user_id"];
@@ -2916,7 +2755,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function confirmedDeleteObject()
+	function confirmedDelete()
 	{
 		global $rbacsystem, $rbacadmin;
 
@@ -3123,7 +2962,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function removeFromSystemObject()
+	function removeFromSystem()
 	{
 		global $rbacsystem;
 
@@ -3283,7 +3122,7 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function undeleteObject()
+	function undelete()
 	{
 		global $rbacsystem;
 
