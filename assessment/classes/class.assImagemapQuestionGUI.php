@@ -423,15 +423,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
-	/**
-	* save question to db and return to question pool
-	*/
-	function save()
-	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$this->ctrl->returnToParent($this);
-	}
 
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object

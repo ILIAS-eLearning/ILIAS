@@ -169,11 +169,6 @@ class ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function cancel()
-	{
-		$this->ctrl->returnToParent($this);
-	}
-
 	/**
 	* output assessment
 	*/
@@ -440,6 +435,27 @@ class ASS_QuestionGUI
 		//$page_gui->setHeader($this->object->getTitle());
 		$page_gui->setPresentationTitle($this->object->getTitle().$postponed);
 		return $page_gui->presentation();
+	}
+
+	/**
+	* cancel action
+	*/
+	function cancel()
+	{
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+	}
+
+	/**
+	* save question and return to page editor
+	*/
+	function save()
+	{
+		$this->writePostData();
+		$this->object->saveToDb();
+		$this->object->removeAllQuestionReferences();
+		$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $_GET["q_id"]);
+		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 	}
 }
 ?>
