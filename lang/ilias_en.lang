@@ -2923,6 +2923,7 @@ survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
+survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
@@ -2996,11 +2997,14 @@ survey#:#duplicate#:#Duplicate
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#end_date#:#End date
 survey#:#enter_value#:#Enter a value
+survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
 survey#:#exit#:#Exit
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
+survey#:#geometric_mean#:#Geometric mean
+survey#:#harmonic_mean#:#Harmonic mean
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
 survey#:#introduction#:#Introduction
@@ -3012,8 +3016,11 @@ survey#:#invited_users#:#Invited users
 survey#:#last_update#:#Last update
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
+survey#:#median#:#Median
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
+survey#:#mode#:#Most selected value
+survey#:#mode_nr_of_selections#:#Nr of selections
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#no_available_constraints#:#There are no constraints defined!
@@ -3046,9 +3053,12 @@ survey#:#qt_metric#:#Metric question
 survey#:#qt_nominal#:#Nominal question
 survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Text question
+survey#:#question_has_constraints#:#Constraints
+survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
+survey#:#questionblock_has_constraints#:#Constraints
 survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#questions_removed#:#Question(s) and/or question block(s) removed!
 survey#:#questiontype#:#Question type
@@ -3086,16 +3096,6 @@ survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
-survey#:#view_phrase#:#View phrase
-survey#:#question_obligatory#:#The question is obligatory!
-survey#:#question_has_constraints#:#Constraints
-survey#:#questionblock_has_constraints#:#Constraints
-survey#:#evaluation#:#Evaluation
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
-survey#:#mode#:#Most selected value
-survey#:#mode_nr_of_selections#:#Nr of selections
-survey#:#median#:#Median
-survey#:#arithmetic_mean#:#Arithmetic mean
-survey#:#geometric_mean#:#Geometric mean
-survey#:#harmonic_mean#:#Harmonic mean
+survey#:#view_phrase#:#View phrase
