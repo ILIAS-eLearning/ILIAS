@@ -602,7 +602,9 @@ class ilExplorer
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+			$tpl->setVariable("TITLE", ilUtil::shortenText(
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
+				$this->textwidth, true));
 
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
@@ -630,6 +632,14 @@ class ilExplorer
 			? $this->target."?"
 			: $this->target."&";
 		return $target.$this->target_get."=".$a_node_id.$this->params_get;
+	}
+
+	/**
+	* standard implementation for title, maybe overwritten by derived classes
+	*/
+	function buildTitle($a_title, $a_id, $a_type)
+	{
+		return $a_title;
 	}
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)

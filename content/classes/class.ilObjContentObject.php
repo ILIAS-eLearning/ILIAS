@@ -507,6 +507,24 @@ class ilObjContentObject extends ilObject
 		$this->pg_header = $a_pg_header;
 	}
 
+	/**
+	* get toc mode ("chapters" | "pages")
+	*/
+	function getTOCMode()
+	{
+		return $this->toc_mode;
+	}
+
+	/**
+	* set toc mode
+	*
+	* @param string $a_toc_mode		"chapters" | "pages"
+	*/
+	function setTOCMode($a_toc_mode = "chapters")
+	{
+		$this->toc_mode = $a_toc_mode;
+	}
+
 	function setOnline($a_online)
 	{
 		$this->online = $a_online;
@@ -548,6 +566,7 @@ class ilObjContentObject extends ilObject
 		$this->setLayout($lm_rec["default_layout"]);
 		$this->setStyleSheetId($lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
+		$this->setTOCMode($lm_rec["toc_mode"]);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
@@ -562,6 +581,7 @@ class ilObjContentObject extends ilObject
 			" default_layout = '".$this->getLayout()."', ".
 			" stylesheet = '".$this->getStyleSheetId()."',".
 			" page_header = '".$this->getPageHeader()."',".
+			" toc_mode = '".$this->getTOCMode()."',".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".

@@ -214,11 +214,26 @@ class ilLMPageObject extends ilLMObject
 		if ($tree->isInTree($pg_rec["obj_id"]))
 		{
 			$pred_node = $tree->fetchPredecessorNode($pg_rec["obj_id"], "st");
+			$childs = $tree->getChildsByType($pred_node["obj_id"], "pg");
+			$cnt_str = "";
+			if(count($childs) > 1)
+			{
+				$cur_cnt = 0;
+				foreach($childs as $child)
+				{
+					$cur_cnt++;
+					if($child["obj_id"] == $pg_rec["obj_id"])
+					{
+						break;
+					}
+				}
+				$cnt_str = " (".$cur_cnt."/".count($childs).")";
+			}
 			/*
 			require_once("content/classes/class.ilStructureObject.php");
 			$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
 			return $struct_obj->getTitle();*/
-			return $pred_node["title"];
+			return $pred_node["title"].$cnt_str;
 		}
 		else
 		{

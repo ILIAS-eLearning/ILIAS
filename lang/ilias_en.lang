@@ -1630,6 +1630,9 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_toc_mode#:#TOC Mode
+content#:#cont_chapters_only#:#Chapters only
+content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
