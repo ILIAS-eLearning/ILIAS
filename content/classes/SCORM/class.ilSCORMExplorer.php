@@ -57,7 +57,7 @@ class ilSCORMExplorer extends ilExplorer
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
 		$this->checkPermissions(false);
-		$this->outputIcons(false);
+		$this->outputIcons(true);
 		$this->setOrderColumn("");
 		$this->api = 1;
 	}
@@ -226,9 +226,9 @@ class ilSCORMExplorer extends ilExplorer
 		foreach ($this->format_options as $key => $options)
 		{
 			if ($options["visible"] and $key != 0)
-			{				
+			{
 				$this->formatObject($options["child"],$options);
-			}		
+			}
 		}
 
 		return implode('',$this->output);
@@ -255,6 +255,7 @@ class ilSCORMExplorer extends ilExplorer
 	{
 		global $lng;
 
+		/*
 		if ($a_type != "sit")
 		{
 			return;
@@ -265,16 +266,6 @@ class ilSCORMExplorer extends ilExplorer
 			if ($sc_object->getIdentifierRef() != "")
 			{
 				$trdata = $sc_object->getTrackingDataOfUser();
-
-				// status
-				$status = ($trdata["lesson_status"] == "")
-					? "not attempted"
-					: $trdata["lesson_status"];
-				$tpl->setCurrentBlock("item_row");
-				$tpl->setVariable("TXT_KEY", $lng->txt("cont_status"));
-				$tpl->setVariable("TXT_VALUE",
-					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status)));
-				$tpl->parseCurrentBlock();
 
 				// credits
 				if ($trdata["mastery_score"] != "")
@@ -297,7 +288,7 @@ class ilSCORMExplorer extends ilExplorer
 				$tpl->setCurrentBlock("item_table");
 				$tpl->parseCurrentBlock();
 			}
-		}
+		}*/
 	}
 
 
@@ -360,10 +351,39 @@ class ilSCORMExplorer extends ilExplorer
 
 		if ($this->output_icons)
 		{
-			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-			$tpl->parseCurrentBlock();
+			if ($this->isClickable($a_option["type"], $a_node_id))
+			{
+				$sc_object =& new ilSCORMItem($a_node_id);
+
+				$trdata = $sc_object->getTrackingDataOfUser();
+				$tpl->setCurrentBlock("icon");
+				// status
+				$status = ($trdata["cmi.core.lesson_status"] == "")
+					? "not attempted"
+					: $trdata["cmi.core.lesson_status"];
+				$alt = $lng->txt("cont_status").": ".
+					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
+
+				// score
+				if ($trdata["cmi.core.score.raw"] != "")
+				{
+					$alt.= ", ".$lng->txt("cont_credits").
+					": ".$trdata["cmi.core.score.raw"];
+				}
+
+				// total time
+				if ($trdata["cmi.core.total_time"] != "" &&
+					$trdata["cmi.core.total_time"] != "0000:00:00.00")
+				{
+					$alt.= ", ".$lng->txt("cont_total_time").
+					": ".$trdata["cmi.core.total_time"];
+				}
+
+				$tpl->setVariable("ICON_IMAGE",
+					ilUtil::getImagePath("scorm/".str_replace(" ", "_", $status).".gif"));
+				$tpl->setVariable("TXT_ALT_IMG", $alt);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
@@ -376,20 +396,9 @@ class ilSCORMExplorer extends ilExplorer
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
-				if ($this->api == 1)
-				{
-					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-				}
-				else
-				{
-					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-					$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSco('".$a_node_id."');return false;\"");
-				}
-
+				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
+				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSco('".$a_node_id."');return false;\"");
 			}
 			$tpl->parseCurrentBlock();
 		}
