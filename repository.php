@@ -37,4 +37,6 @@ require_once "classes/class.ilRepositoryGUI.php";
 $repository_gui =& new ilRepositoryGUI();
 $repository_gui->executeCommand();
 
+$ilBench->save();
+
 ?>

@@ -104,10 +104,11 @@ class ilRepositoryGUI
 		$this->groups = array();
 		$this->glossaries = array();
 		$this->exercises = array();
-    $this->questionpools = array();
-    $this->tests = array();
+		$this->questionpools = array();
+		$this->tests = array();
 
 	}
+
 
 	function executeCommand()
 	{
@@ -205,11 +206,16 @@ class ilRepositoryGUI
 	*/
 	function showFlatList()
 	{
-		global $objDefinition;
+		global $objDefinition, $ilBench;
+
+		$ilBench->start("Repository", "FlatList");
 
 		// get all objects of current node
+		$ilBench->start("Repository", "FlatList_01getChilds");
 		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
+		$ilBench->stop("Repository", "FlatList_01getChilds");
 
+		$ilBench->start("Repository", "FlatList_02collectChilds");
 		foreach($objects as $key => $object)
 		{
 			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
@@ -222,7 +228,7 @@ class ilRepositoryGUI
 			{
 				continue;
 			}
-			
+
 			switch ($object["type"])
 			{
 				// categories
@@ -282,6 +288,7 @@ class ilRepositoryGUI
 					break;
 			}
 		}
+		$ilBench->stop("Repository", "FlatList_02collectChilds");
 
 		// output objects
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
@@ -308,23 +315,26 @@ class ilRepositoryGUI
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.repository_lists.html");
 
+		$ilBench->start("Repository", "FlatList_03showObjects");
 
 		// (sub)categories
+		$ilBench->start("Repository", "FlatList_04showCategories");
 		if (count($this->categories))
 		{
 			$this->showCategories();
 		}
+		$ilBench->stop("Repository", "FlatList_04showCategories");
 
-    // test&assessment
-    if (count($this->questionpools))
-    {
-      $this->showQuestionPools();
-    }
-    
-    if (count($this->tests))
-    {
-      $this->showTests();
-    }
+		// test&assessment
+		if (count($this->questionpools))
+		{
+			$this->showQuestionPools();
+		}
+
+		if (count($this->tests))
+		{
+			$this->showTests();
+		}
 
 		// learning resources
 		if (count($this->learning_resources))
@@ -349,7 +359,7 @@ class ilRepositoryGUI
 		{
 			$this->showGroups();
 		}
-		
+
 		// exercises
 		if(count($this->exercises))
 		{
@@ -360,8 +370,12 @@ class ilRepositoryGUI
 		if(count($this->chats))
 		{
 			$this->showChats();
-		}		
+		}
 		$this->tpl->show();
+
+		$ilBench->stop("Repository", "FlatList_03showObjects");
+
+		$ilBench->stop("Repository", "FlatList");
 	}
 
 
@@ -415,6 +429,8 @@ class ilRepositoryGUI
 	*/
 	function showCategories()
 	{
+		global $ilBench;
+
 		$tpl =& new ilTemplate ("tpl.table.html", true, true);
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
@@ -427,20 +443,29 @@ class ilRepositoryGUI
 		$cats = array_slice($this->categories, $offset, $limit);
 
 		// render table content data
+$ilBench->start("Repository", "showCategories_01Rows");
 		if (count($cats) > 0)
 		{
+$ilBench->start("Repository", "showCategories_01Rows_AddBlockFile");
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
+$ilBench->stop("Repository", "showCategories_01Rows_AddBlockFile");
 
 			// counter for rowcolor change
 			$num = 0;
 
 			foreach ($cats as $cat)
 			{
+				// get category object
+$ilBench->start("Repository", "showCategories_00Rows_getCategoryObject");
 				include_once("classes/class.ilObjCategory.php");
 				$cat_obj =& new ilObjCategory($cat["ref_id"], true);
-
 				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
+$ilBench->stop("Repository", "showCategories_00Rows_getCategoryObject");
+
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
+
+				// read
+$ilBench->start("Repository", "showCategories_01Rows_ReadLink");
 				if ($this->rbacsystem->checkAccess('read',$cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_link");
@@ -454,8 +479,10 @@ class ilRepositoryGUI
 					$tpl->setVariable("STITLE", $cat["title"]);
 					$tpl->parseCurrentBlock();
 				}
+$ilBench->stop("Repository", "showCategories_01Rows_ReadLink");
 
 				// edit
+$ilBench->start("Repository", "showCategories_01Rows_EditLink");
 				if ($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_edit");
@@ -463,8 +490,10 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
+$ilBench->stop("Repository", "showCategories_01Rows_EditLink");
 
 				// delete
+$ilBench->start("Repository", "showCategories_01Rows_DeleteLink");
 				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_delete");
@@ -472,9 +501,10 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
+$ilBench->stop("Repository", "showCategories_01Rows_DeleteLink");
 
+$ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
 				$tpl->setCurrentBlock("tbl_content");
-
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -484,7 +514,12 @@ class ilRepositoryGUI
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
 				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cat["last_update"]));
+$ilBench->stop("Repository", "showCategories_01Rows_setTemplateVars");
+
+				// parse block
+$ilBench->start("Repository", "showCategories_01Rows_parseBlock");
 				$tpl->parseCurrentBlock();
+$ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			}
 		}
 		else
@@ -496,7 +531,7 @@ class ilRepositoryGUI
 			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
 			$tpl->parseCurrentBlock();
 		}
-
+		$ilBench->stop("Repository", "showCategories_01Rows");
 
 		// create table
 		$tbl = new ilTableGUI();

@@ -108,7 +108,9 @@ class ilObject
 	*/
 	function ilObject($a_id = 0, $a_reference = true)
 	{
-		global $ilias, $lng;
+		global $ilias, $lng, $ilBench;
+
+		$ilBench->start("Core", "ilObject_Constructor");
 
 		if (DEBUG)
 		{
@@ -142,6 +144,8 @@ class ilObject
 		{
 			$this->read();
 		}
+
+		$ilBench->stop("Core", "ilObject_Constructor");
 	}
 
 	/**
@@ -151,8 +155,10 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $objDefinition;
-		
+		global $objDefinition, $ilBench;
+
+		$ilBench->start("Core", "ilObject_read");
+
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
 			$obj = $this->obj_data_record;
@@ -167,10 +173,15 @@ class ilObject
 			}
 
 			// read object data
+			$ilBench->start("Core", "ilObject_read_readData");
+			/* old query (very slow)
 			$q = "SELECT * FROM object_data ".
 				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-				 "WHERE object_reference.ref_id='".$this->ref_id."'";
+				 "WHERE object_reference.ref_id='".$this->ref_id."'"; */
+			$q = "SELECT * FROM object_data, object_reference WHERE object_data.obj_id=object_reference.obj_id ".
+				 "AND object_reference.ref_id='".$this->ref_id."'";
 			$object_set = $this->ilias->db->query($q);
+			$ilBench->stop("Core", "ilObject_read_readData");
 
 			// check number of records
 			if ($object_set->numRows() == 0)
@@ -215,6 +226,7 @@ class ilObject
 		$this->import_id = $obj["import_id"];
 
 		// multilingual support systemobjects (sys) & categories (db)
+		$ilBench->start("Core", "ilObject_Constructor_getTranslation");
 		$translation_type = $objDefinition->getTranslationType($this->type);
 
 		if ($translation_type == "sys")
@@ -237,6 +249,9 @@ class ilObject
 				$this->desc = $row->description;
 			}
 		}
+		$ilBench->stop("Core", "ilObject_Constructor_getTranslation");
+
+		$ilBench->stop("Core", "ilObject_read");
 	}
 
 	/**
