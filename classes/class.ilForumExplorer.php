@@ -105,10 +105,11 @@ class ilForumExplorer extends ilExplorer
 				{
 					$parent_index = $this->getIndex($object);
 				}
-
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
-				$this->format_options["$counter"]["title"] = $object["subject"] ? $object["subject"] : $this->thread_subject;
+				#$this->format_options["$counter"]["title"] = $object["subject"] ? $object["subject"] : $this->thread_subject;
+				$this->format_options["$counter"]["title"] = $object["title"]." <small class=\"small\">".$object["date"]."</small>".
+					"<small><br />".$object["subject"]."</small>";
 				$this->format_options["$counter"]["type"] = $object["type"];
 				$this->format_options["$counter"]["desc"] = "forums_the_".$object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
@@ -218,7 +219,7 @@ class ilForumExplorer extends ilExplorer
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 			}
-
+			
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
@@ -227,6 +228,7 @@ class ilForumExplorer extends ilExplorer
 				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 				$tpl->parseCurrentBlock();
 			}
+			
 		}
 
 		$tpl->setCurrentBlock("icon");
@@ -239,9 +241,9 @@ class ilForumExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
-		$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH
-			? $a_option["title"]
-			: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
+		#$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH
+		#	? $a_option["title"]
+		#	: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frame_target != "")
