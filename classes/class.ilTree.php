@@ -334,7 +334,6 @@ class ilTree
 
 			// mark the last child node (important for display)
 			$childs[$count - 1]["last"] = true;
-
 			return $childs;
 		}
 		else

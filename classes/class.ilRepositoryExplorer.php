@@ -137,11 +137,14 @@ class ilRepositoryExplorer extends ilExplorer
 			case 'tst':
 				return "assessment/test.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
 
+			case 'svy':
+				return "survey/survey.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
+
 			case 'spl':
-				return '';
+				return "survey/questionpool.php?cmd=questions&ref_id=".$a_node_id."&set_mode=flat";
 
 			case 'qpl':
-				return '';
+				return "assessment/questionpool.php?cmd=questions&ref_id=".$a_node_id."&set_mode=flat";
 		}
 	}
 
@@ -209,6 +212,8 @@ class ilRepositoryExplorer extends ilExplorer
 				return "survey/questionpool.php?ref_id=".$a_node_id
 					."&cmd=questions";
 
+			case 'svy':
+				return "survey/survey.php?ref_id=".$a_node_id."&set_mode=flat";
 		}
 	}		
 
@@ -301,6 +306,20 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 
 				$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",$a_obj_id);
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return (bool) $row->complete;
+				}
+				return false;
+
+			case 'svy':
+				if(!$rbacsystem->checkAccess("read", $a_ref_id))
+				{
+					return false;
+				}
+
+				$query = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",$a_obj_id);
 				$res = $ilDB->query($query);
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{

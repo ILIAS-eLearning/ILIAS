@@ -504,6 +504,53 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
+* Returns true, if a survey is complete for use
+*
+* Returns true, if a survey is complete for use
+*
+* @return boolean True, if the survey is complete for use, otherwise false
+* @access public
+*/
+	function _isComplete($obj_id)
+	{
+		$survey = new ilObjSurvey($obj_id, false);
+		$survey->loadFromDb();
+		if (($survey->getTitle()) and ($survey->author) and (count($survey->questions)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
+* Returns an array with data needed in the repository, personal desktop or courses
+*
+* Returns an array with data needed in the repository, personal desktop or courses
+*
+* @return array resulting array
+* @access public
+*/
+	function &_getGlobalSurveyData($obj_id)
+	{
+		$survey = new ilObjSurvey($obj_id, false);
+		$survey->loadFromDb();
+		$result = array();
+		if (($survey->getTitle()) and ($survey->author) and (count($survey->questions)))
+		{
+			$result["complete"] = true;
+		} 
+			else 
+		{
+			$result["complete"] = false;
+		}
+		$result["evaluation_access"] = $survey->getEvaluationAccess();
+		return $result;
+	}
+
+/**
 * Saves the completion status of the survey
 *
 * Saves the completion status of the survey

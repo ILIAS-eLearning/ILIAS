@@ -207,6 +207,46 @@ class ilCourseContentInterface
 					}
 				}
 
+				// add evaluation tool link
+				if (strcmp($cont_data["type"], "svy") == 0)
+				{
+					require_once("./survey/classes/class.ilObjSurvey.php");
+					$this->lng->loadLanguageModule("survey");
+					$svy_data =& ilObjSurvey::_getGlobalSurveyData($cont_data["obj_id"]);
+					if (($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and $svy_data["complete"]) or ($svy_data["evaluation_access"] and $svy_data["complete"]))
+					{
+						$tpl->setCurrentBlock("svy_evaluation");
+						$tpl->setVariable("EVALUATION_LINK", "survey/survey.php?cmd=evaluation&ref_id=".$cont_data["ref_id"]);
+						$tpl->setVariable("TXT_EVALUATION", $this->lng->txt("evaluation"));
+						$tpl->parseCurrentBlock();
+					}
+				}
+
+				// add test evaluation links
+				if (strcmp($cont_data["type"], "tst") == 0)
+				{
+					require_once("./assessment/classes/class.ilObjTest.php");
+					$this->lng->loadLanguageModule("assessment");
+					$complete = ilObjTest::_isComplete($cont_data["obj_id"]);
+					// add anonymous aggregated test results link
+					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and ($complete))
+					{
+						$tpl->setCurrentBlock("tst_anon_eval");
+						$tpl->setVariable("ANON_EVAL_LINK", "assessment/test.php?cmd=eval_a&ref_id=".$cont_data["ref_id"]);
+						$tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
+						$tpl->parseCurrentBlock();
+					}
+	
+					// add statistical evaluation tool
+					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) and ($complete))
+					{
+						$tpl->setCurrentBlock("tst_statistical_evaluation");
+						$tpl->setVariable("STATISTICAL_EVALUATION_LINK", "assessment/test.php?cmd=eval_stat&ref_id=".$cont_data["ref_id"]);
+						$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+						$tpl->parseCurrentBlock();
+					}
+				}
+
 				// add to desktop link
 				if ($ilias->account->getId() != ANONYMOUS_USER_ID 
 				and !$ilias->account->isDesktopItem($cont_data['ref_id'], $cont_data["type"]))
