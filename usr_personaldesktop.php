@@ -43,8 +43,10 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 //$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
 //mails
-$myMails = new UserMail($ilias->account->getId());
-$mails = $myMails->getMail();
+//$myMails = new UserMail($ilias->account->Id);
+//$mails = $myMails->getMail();
+//$myMails = new UserMail($ilias->account->getId());
+//$mails = $myMails->getMail();
 
 //last visited lessons
 $lessonsLastVisited = $ilias->account->getLastVisitedLessons();
