@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.17 2003/01/08 15:15:32 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.18 2003/01/10 15:06:24 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -482,8 +482,82 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	function trashObject()
+	{
+		$this->getTemplateFile("confirm");
+
+		if($this->data["empty"] == true)
+		{
+			return;
+		}
+
+		$this->ilias->error_obj->sendInfo($this->lng->txt("info_trash"));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+								$_GET["parent"]);
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($this->data["data"] as $key1 => $value)
+		{
+			// BEGIN TABLE CELL
+			
+			foreach($value as $key2 => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+				// CREATE CHECKBOX
+				if($key2 == "checkbox")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",TUtil::formCheckBox(0,"trash_id[]",$key1));
+				}
+
+				// CREATE TEXT STRING
+				elseif($key2 == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",TUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach($this->data["buttons"] as $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	function removeAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+		exit();
+	}
 
 	function clearAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function undeleteAdmObject()
 	{
 		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");

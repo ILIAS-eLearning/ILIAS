@@ -94,7 +94,7 @@ class Template extends IntegratedTemplateExtension
 			  $this->setVariable("MSG", $_SESSION["message"]);
 			  session_unregister("message");
 		   }
-		   if($_SESSION["info"])
+		   else
 		   {
 			  $this->setVariable("INFO",$_SESSION["info"]);
 			  session_unregister("info");

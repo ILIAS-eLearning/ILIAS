@@ -823,12 +823,14 @@ class Tree
 	/**
 	* get data saved/deleted nodes
 	* @return	array data
+	* @param id of parent object of saved object
 	* @access	public
 	*/
-	function getSavedNodeData()
+	function getSavedNodeData($a_parent)
 	{
 		$query = "SELECT * FROM tree,object_data ".
 			"WHERE tree.tree < 0 ".
+			"AND tree.parent = '".$a_parent."' ".
 			"AND tree.child = object_data.obj_id";
 		
 		$res = $this->ilias->db->query($query);
