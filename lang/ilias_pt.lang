@@ -2478,12 +2478,14 @@ common#:#users_online#:#Utilizadores ligados
 common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Utilizador
 common#:#usr_a#:#um Utilizador
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Adicionar Utilizador
 common#:#usr_added#:#Utilizador adicionado
 common#:#usr_agreement#:#Acordo de utilizador
 common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
 common#:#usr_edit#:#Editar Utilizador
 common#:#usr_hits_per_page#:#Visitas/página em tabelas
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Novo Utilizador
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
 common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable

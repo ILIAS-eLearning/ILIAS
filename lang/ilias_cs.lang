@@ -2478,12 +2478,14 @@ common#:#users_online#:#Přihlášení uživatelé
 common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Uživatel
 common#:#usr_a#:#uživatel
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Přidat uživatele
 common#:#usr_added#:#Upravit údaje uživatele
 common#:#usr_agreement#:#Uživatelské ujednání
 common#:#usr_agreement_empty#:#Ujejednání neobsahuje žádný text
 common#:#usr_edit#:#Upravit údaje uživatele
 common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Přidat uživatele
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
 common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable

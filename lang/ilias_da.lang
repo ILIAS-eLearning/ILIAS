@@ -2242,12 +2242,14 @@ common#:#users_online#:#Brugere Online
 common#:#usertracking#:#Bruger Sporing
 common#:#usr#:#Bruger
 common#:#usr_a#:#En bruger
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Tilf&oslash;j Bruger
 common#:#usr_added#:#Bruger er tilf&oslash;jet
 common#:#usr_agreement#:#Brugeraftale
 common#:#usr_agreement_empty#:#Aftalen indeholder ingen tekst
 common#:#usr_edit#:#Rediger Bruger
 common#:#usr_hits_per_page#:#Hits/Sider i tabel
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Ny Bruger
 common#:#usr_skin_style#:#Design / Layout
 common#:#usr_style#:#User Style

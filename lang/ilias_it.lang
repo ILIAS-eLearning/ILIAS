@@ -2476,12 +2476,14 @@ common#:#users_online#:#Utenti online
 common#:#usertracking#:#Tracciamento utenti
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Aggiungi utente
 common#:#usr_added#:#Utente aggiunto
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Nuovo utente
 common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
 common#:#usr_settings_header_profile#:#Impostazioni profilo utenti

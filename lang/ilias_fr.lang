@@ -2454,12 +2454,14 @@ common#:#users_online#:#Utilisateurs en ligne
 common#:#usertracking#:#Suivi utilisateur
 common#:#usr#:#Utilisateur
 common#:#usr_a#:#un utilisateur
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Ajouter utilisateur
 common#:#usr_added#:#Utilisateur ajouté
 common#:#usr_agreement#:#Charte d'utilisation
 common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
 common#:#usr_edit#:#Modifier utilisateur
 common#:#usr_hits_per_page#:#Hits/page dans les tableaux
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Nouvel utilisateur
 common#:#usr_settings_explanation_profile#:#Cocher les cases pour désactiver ou masquer des paramètres du profil personnel pour tous les utilisateurs dans l'onglet 'profil personnel' du bureau. Les paramètres désactivés ou cachés ne peuvent être modifiés que dans la partie  'Comptes utilisateurs' de la console d'administration.
 common#:#usr_settings_header_profile#:#Paramètres de profil utilisateur

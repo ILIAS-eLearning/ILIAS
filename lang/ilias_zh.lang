@@ -2496,12 +2496,14 @@ common#:#users_online#:#用户在线
 common#:#usertracking#:#用户访问统计
 common#:#usr#:#用户
 common#:#usr_a#:#一个用户
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#增加用户
 common#:#usr_added#:#用户已增加
 common#:#usr_agreement#:#用户协议
 common#:#usr_agreement_empty#:#协议无文本
 common#:#usr_edit#:#编辑用户
 common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#新用户
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
 common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable

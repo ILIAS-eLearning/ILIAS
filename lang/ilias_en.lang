@@ -2478,12 +2478,14 @@ common#:#users_online#:#Users online
 common#:#usertracking#:#User Tracking
 common#:#usr#:#User
 common#:#usr_a#:#a User
+common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Add User
 common#:#usr_added#:#User added
 common#:#usr_agreement#:#User Agreement
 common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
+common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  
 common#:#usr_settings_header_profile#:#User profile settings
@@ -2491,8 +2493,6 @@ common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
-common#:#usr_active_only#:#Active Users only
-common#:#usr_inactive_only#:#Inactive Users only
 common#:#usrf#:#User accounts
 common#:#usrf_create_user#:#Create new user account
 common#:#usrf_delete#:#Delete user accounts

@@ -2478,12 +2478,14 @@ common#:#users_online#:#Bejelentkezett felhasználók
 common#:#usertracking#:#Felhasználói nyomkövetés
 common#:#usr#:#Felhasználó
 common#:#usr_a#:#egy felhasználó
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Felhasználó hozzáadása
 common#:#usr_added#:#Felhasználó hozzáadva
 common#:#usr_agreement#:#Felhasználói megállapodás
 common#:#usr_agreement_empty#:#A megállapodás nem tartalmaz szöveget
 common#:#usr_edit#:#Felhasználó szerkesztése
 common#:#usr_hits_per_page#:#Látogatottság/lap a táblázatokban
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Új felhasználó
 common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
 common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
