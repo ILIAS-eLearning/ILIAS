@@ -131,12 +131,16 @@ class ilTermDefinitionEditorGUI
 					$this->$cmd();
 					break;
 
+				case "chooseMetaSection":
+				case "addMeta":
+				case "deleteMeta":
 				case "cancelDefinitionDeletion":
 				case "deleteDefinition":
 				case "moveDown":
 				case "moveUp":
 					$this->$cmd();
 					break;
+
 
 				default:
 					$gloss_loc->display();
@@ -226,6 +230,59 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->save();
 		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$_GET["ref_id"].
 			"&def=".$_GET["def"]);
+	}
+
+	/**
+	* choose meta section
+	*/
+	function chooseMetaSection()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->definition);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&def=".$_GET["def"], $_REQUEST["meta_section"]);
+	}
+
+
+	/**
+	* add a meta subsection/-tag
+	*/
+	function addMeta()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->definition);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&def=".$_GET["def"], $meta_section);
+	}
+
+	/**
+	* delete meta subsection/-tag
+	*/
+	function deleteMeta()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->definition);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&def=".$_GET["def"], $_GET["meta_section"]);
 	}
 
 	/**
