@@ -27,3 +27,6 @@ CREATE TABLE desktop_item
 
 <#4>
 UPDATE object_data SET title = 'ILIAS' WHERE title = 'ILIAS open source';
+
+<#5>
+REPLACE INTO lm_data (obj_id, title, type, lm_id) VALUES (1, 'dummy', 'du', 0);
