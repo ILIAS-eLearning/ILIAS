@@ -326,17 +326,20 @@ class ASS_TextQuestion extends ASS_Question
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
-		// add answers to presentation
-		$qtiResponseLid = $this->domxml->create_element("response_lid");
-		if ($this->response == RESPONSE_SINGLE)
+		// add information on response rendering
+		$qtiResponseStr = $this->domxml->create_element("response_str");
+		$qtiResponseStr->set_attribute("ident", "TEXT");
+		$qtiResponseStr->set_attribute("rcardinality", "Ordered");
+		$qtiRenderFib = $this->domxml->create_element("render_fib");
+		$qtiRenderFib->set_attribute("fibtype", "String");
+		$qtiRenderFib->set_attribute("prompt", "Box");
+		$qtiResponseLabel = $this->domxml->create_element("response_label");
+		$qtiResponseLabel->set_attribute("ident", "A");
+		$qtiRenderFib->append_child($qtiResponseLabel);
+		$qtiResponseStr->append_child($qtiRenderFib);
+		if ($this->getMaxNumOfChars() > 0)
 		{
-			$qtiResponseLid->set_attribute("ident", "MCSR");
-			$qtiResponseLid->set_attribute("rcardinality", "Single");
-		}
-			else
-		{
-			$qtiResponseLid->set_attribute("ident", "MCMR");
-			$qtiResponseLid->set_attribute("rcardinality", "Multiple");
+			$qtiRenderFib->set_attribute("maxchars", $this->getMaxNumOfChars());
 		}
 		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
@@ -354,154 +357,31 @@ class ASS_TextQuestion extends ASS_Question
 				$qtiMatTextText = $this->domxml->create_text_node($intlink);
 				$qtiMatText->append_child($qtiMatTextText);
 				$qtiMaterial->append_child($qtiMatText);
-				$qtiResponseLid->append_child($qtiMaterial);
+				$qtiResponseStr->append_child($qtiMaterial);
 			}
 		}
-		$qtiRenderChoice = $this->domxml->create_element("render_choice");
-		// shuffle output
-		if ($this->getShuffle())
-		{
-			$qtiRenderChoice->set_attribute("shuffle", "yes");
-		}
-		else
-		{
-			$qtiRenderChoice->set_attribute("shuffle", "no");
-		}
-
-		$akeys = array_keys($this->answers);
-		if ($this->getshuffle() && $a_shuffle)
-		{
-			$akeys = $this->pcArrayShuffle($akeys);
-		}
-
-		// add answers
-		foreach ($akeys as $index)
-		{
-			$answer = $this->answers[$index];
-			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $index);
-			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
-			$qtiMatText->append_child($qtiMatTextText);
-			$qtiMaterial->append_child($qtiMatText);
-			$qtiResponseLabel->append_child($qtiMaterial);
-			$qtiRenderChoice->append_child($qtiResponseLabel);
-		}
-		$qtiResponseLid->append_child($qtiRenderChoice);
-		$qtiFlow->append_child($qtiResponseLid);
+		$qtiFlow->append_child($qtiResponseStr);
 		$qtiPresentation->append_child($qtiFlow);
 		$qtiIdent->append_child($qtiPresentation);
 		// PART II: qti resprocessing
 		$qtiResprocessing = $this->domxml->create_element("resprocessing");
+		$qtiResprocessing->set_attribute("scoremodel", "HumanRater");
 		$qtiOutcomes = $this->domxml->create_element("outcomes");
 		$qtiDecvar = $this->domxml->create_element("decvar");
+		$qtiDecvar->set_attribute("varname", "WritingScore");
+		$qtiDecvar->set_attribute("vartype", "Integer");
+		$qtiDecvar->set_attribute("minvalue", "0");
+		$qtiDecvar->set_attribute("maxvalue", $this->getPoints());
 		$qtiOutcomes->append_child($qtiDecvar);
 		$qtiResprocessing->append_child($qtiOutcomes);
-		// add response conditions
-		foreach ($this->answers as $index => $answer)
-		{
-			$qtiRespcondition = $this->domxml->create_element("respcondition");
-			$qtiRespcondition->set_attribute("continue", "Yes");
-			// qti conditionvar
-			$qtiConditionvar = $this->domxml->create_element("conditionvar");
-			if (!$answer->isStateSet())
-			{
-				$qtinot = $this->domxml->create_element("not");
-			}
-			$qtiVarequal = $this->domxml->create_element("varequal");
-			if ($this->response == RESPONSE_SINGLE)
-			{
-				$qtiVarequal->set_attribute("respident", "MCSR");
-			}
-				else
-			{
-				$qtiVarequal->set_attribute("respident", "MCMR");
-			}
-			$qtiVarequalText = $this->domxml->create_text_node($index);
-			$qtiVarequal->append_child($qtiVarequalText);
-			if (!$answer->isStateSet())
-			{
-				$qtiConditionvar->append_child($qtinot);
-				$qtinot->append_child($qtiVarequal);
-			}
-			else
-			{
-				$qtiConditionvar->append_child($qtiVarequal);
-			}
-			// qti setvar
-			$qtiSetvar = $this->domxml->create_element("setvar");
-			$qtiSetvar->set_attribute("action", "Add");
-			$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
-			$qtiSetvar->append_child($qtiSetvarText);
-			// qti displayfeedback
-			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
-			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
-			$linkrefid = "";
-			if ($answer->isStateChecked())
-			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
-			$qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
-			$qtiRespcondition->append_child($qtiConditionvar);
-			$qtiRespcondition->append_child($qtiSetvar);
-			$qtiRespcondition->append_child($qtiDisplayfeedback);
-			$qtiResprocessing->append_child($qtiRespcondition);
-		}
 		$qtiIdent->append_child($qtiResprocessing);
 
-		// PART III: qti itemfeedback
-		foreach ($this->answers as $index => $answer)
-		{
-			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
-			$linkrefid = "";
-			if ($answer->isStateChecked())
-			{
-				if ($this->response == RESPONSE_SINGLE)
-				{
-					$linkrefid = "True";
-				}
-					else
-				{
-					$linkrefid = "True_$index";
-				}
-			}
-			  else
-			{
-				$linkrefid = "False_$index";
-			}
-			$qtiItemfeedback->set_attribute("ident", $linkrefid);
-			$qtiItemfeedback->set_attribute("view", "All");
-			// qti flow_mat
-			$qtiFlowmat = $this->domxml->create_element("flow_mat");
-			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMattext = $this->domxml->create_element("mattext");
-			// Insert response text for right/wrong answers here!!!
-			$qtiMattextText = $this->domxml->create_text_node("");
-			$qtiMattext->append_child($qtiMattextText);
-			$qtiMaterial->append_child($qtiMattext);
-			$qtiFlowmat->append_child($qtiMaterial);
-			$qtiItemfeedback->append_child($qtiFlowmat);
-			$qtiIdent->append_child($qtiItemfeedback);
-		}
 		$xml = $this->domxml->dump_mem(true);
 		if (!$a_include_header)
 		{
 			$pos = strpos($xml, "?>");
 			$xml = substr($xml, $pos + 2);
 		}
-//echo htmlentities($xml);
 		return $xml;
 	}
 
@@ -542,13 +422,14 @@ class ASS_TextQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = 8;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, points, question_text, working_time, maxNumOfChars, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
 				$db->quote($this->comment),
 				$db->quote($this->author),
 				$db->quote($this->owner),
+				$db->quote($this->getPoints() . ""),
 				$db->quote($this->question),
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
@@ -575,11 +456,12 @@ class ASS_TextQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, points = %s, question_text = %s, working_time=%s, maxNumOfChars = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
 				$db->quote($this->author),
+				$db->quote($this->getPoints() . ""),
 				$db->quote($this->question),
 				$db->quote($estw_time),
 				$db->quote($this->getMaxNumOfChars()),
@@ -623,6 +505,7 @@ class ASS_TextQuestion extends ASS_Question
 				$this->owner = $data->owner;
 				$this->question = $data->question_text;
 				$this->maxNumOfChars = $data->maxNumOfChars;
+				$this->points = $data->points;
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 		}
@@ -741,6 +624,41 @@ class ASS_TextQuestion extends ASS_Question
 	function setMaxNumOfChars($maxchars = 0)
 	{
 		$this->maxNumOfChars = $maxchars;
+	}
+
+	/**
+	* Gets the maximum number of points for the text solution
+	*
+	* Gets the maximum number of points for the text solution
+	*
+	* @return integer The maximum number of points for the text solution
+	* @access public
+	* @see $points
+	*/
+	function getPoints()
+	{
+		if (strcmp($this->points, "") == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return $this->points;
+		}
+	}
+
+	/**
+	* Sets the maximum number of points for the text solution
+	*
+	* Sets the maximum number of points for the text solution
+	*
+	* @param integer $maxchars The maximum number of points for the text solution
+	* @access public
+	* @see $points
+	*/
+	function setPoints($points = 0)
+	{
+		$this->points = $points;
 	}
 
 	/**

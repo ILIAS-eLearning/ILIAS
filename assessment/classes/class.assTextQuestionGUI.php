@@ -112,6 +112,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$questiontext = $this->object->get_question();
 		$questiontext = preg_replace("/<br \/>/", "\n", $questiontext);
 		$this->tpl->setVariable("VALUE_QUESTION", htmlspecialchars($questiontext));
+		$this->tpl->setVariable("VALUE_POINTS", htmlspecialchars($this->object->getPoints()));
 		if ($this->object->getMaxNumOfChars())
 		{
 			$this->tpl->setVariable("VALUE_MAXCHARS", htmlspecialchars($this->object->getMaxNumOfChars()));
@@ -121,6 +122,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
+		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
 		if (count($this->object->suggested_solutions))
@@ -174,7 +176,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["points"]))
 		{
 			return false;
 		}
@@ -192,7 +194,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	function writePostData()
 	{
 		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["points"]))
 		{
 			$result = 1;
 		}
@@ -203,6 +205,7 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 		$questiontext = ilUtil::stripSlashes($_POST["question"], true, "<strong><em><code><cite>");
 		$questiontext = preg_replace("/\n/", "<br />", $questiontext);
 		$this->object->set_question($questiontext);
+		$this->object->setPoints($_POST["points"]);
 		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
 
@@ -227,45 +230,8 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
 		global $ilUser;
-		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION", $is_postponed);
-//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
-//		$solutionoutput = $matches[1];
-		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
-		$solutionoutput = preg_replace("/\"mc/", "\"solution_mc", $solutionoutput);
-		$solutionoutput = preg_replace("/multiple_choice_result/", "solution_multiple_choice_result", $solutionoutput);
-		// set solutions
-		if ($test_id)
-		{
-			$solutions =& $this->object->getSolutionValues($test_id);
-			foreach ($solutions as $idx => $solution_value)
-			{
-				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-//echo "<br>".htmlentities($repl_str);
-				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
-			}
-		}
-		
-		foreach ($this->object->answers as $idx => $answer)
-		{
-			if ($answer->isStateChecked())
-			{
-				$repl_str = "dummy=\"solution_mc$idx\"";
-				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
-			}
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
-		}
-
-		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
-		if ($test_id) 
-		{
-			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
-		}
-		if (!$showsolution)
-		{
-			$solutionoutput = "";
-			$received_points = "";
-		}
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput.$received_points);
+		$output = $this->outQuestionPage("TEXT_QUESTION", $is_postponed);
+		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output);
 	}
 
 	/**
@@ -277,67 +243,6 @@ class ASS_TextQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outUserSolution($user_id, $test_id)
 	{
-		$results = $this->object->getReachedInformation($user_id, $test_id);
-		foreach ($this->object->answers as $key => $answer)
-		{
-			$selected = 0;
-			$this->tpl->setCurrentBlock("tablerow");
-			if ($answer->isStateChecked())
-			{
-				$right = 0;
-				foreach ($results as $reskey => $resvalue)
-				{
-					if ($resvalue["value"] == $key)
-					{
-						$right = 1;
-						$selected = 1;
-					}
-				}
-			}
-			elseif ($answer->isStateUnchecked())
-			{
-				$right = 1;
-				foreach ($results as $reskey => $resvalue)
-				{
-					if ($resvalue["value"] == $key)
-					{
-						$right = 0;
-						$selected = 1;
-					}
-				}
-			}
-			if ($right)
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
-			}
-			else
-			{
-				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
-				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
-			}
-			if ($this->object->get_response() == RESPONSE_SINGLE)
-			{
-				$state = $this->lng->txt("unselected");
-			}
-			else
-			{
-				$state = $this->lng->txt("checkbox_unchecked");
-			}
-			if ($selected)
-			{
-				if ($this->object->get_response() == RESPONSE_SINGLE)
-				{
-					$state = $this->lng->txt("selected");
-				}
-				else
-				{
-					$state = $this->lng->txt("checkbox_checked");
-				}
-			}
-			$this->tpl->setVariable("ANSWER_DESCRIPTION", "$state: " . "&quot;<em>" . $answer->get_answertext() . "</em>&quot;");
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 	
 	function addSuggestedSolution()
