@@ -46,14 +46,7 @@ if ($ops_arr = getOperationList('',$_GET["order"],$_GET["direction"]))
 		$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
 		
 		// color changing
-		if ($key % 2)
-		{
-			$css_row = "row_high";	
-		}
-		else
-		{
-			$css_row = "row_low";
-		}
+		$css_row = TUtil::switchColor($key,"row_high","row_low");
 
 		$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");	
 		$tplContent->setVariable("OPS_TITLE",$ops["operation"]);

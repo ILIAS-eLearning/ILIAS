@@ -40,14 +40,7 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 		foreach ($type_data as $key => $val)
 		{
 			// color changing
-			if ($key % 2)
-			{
-				$css_row = "row_high";	
-			}
-			else
-			{
-				$css_row = "row_low";
-			}
+			$css_row = TUtil::switchColor($key,"row_high","row_low");
 
 			$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 			$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["obj_id"]."&parent=$obj_id");

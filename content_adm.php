@@ -30,7 +30,7 @@ if (empty($_GET["order"]))
 
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
-	$zaehler = 0;
+	$num = 0;
 	
 	foreach ($tree->Childs as $key => $val)
     {
@@ -40,17 +40,10 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 //			continue;
 //		}
 		
-		$zaehler++;
+		$num++;
 		
 		// color changing
-		if (!($zaehler % 2))
-		{
-			$css_row = "row_high";	
-		}
-		else
-		{
-			$css_row = "row_low";
-		}
+		$css_row = TUtil::switchColor($num,"row_high","row_low");
 		
 		$node = "[<a href=\"content.php?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
 		$tplContent->setVariable("LINK_TARGET","content.php?obj_id=".$val["id"]."&parent=".$val["parent"]);
