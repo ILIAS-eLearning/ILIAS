@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.22 2003/06/06 14:09:13 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.23 2003/06/11 09:14:49 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -257,12 +257,16 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 
 		// Check from Database if value
 		// of image"y" show user infomation
-		// Todo: make path of image flexible
+		
 		if($this->public_upload()=="y") {
+		//Getting the flexible path of image form ini file
+		require_once "classes/class.ilSetup.php";
+		$mySetup = new ilSetup();
+		$mySetup->readIniFile();
+		$webspace_dir = $mySetup->image_path;
 		$tpl->setVariable("TXT_IMAGE","Image");
-$tpl->setVariable("IMAGE_PATH","./docss/usr_images/".$userObj->getPref("profile_image"));
-		//echo "./docss/usr_images/".$userObj->getPref("profile_image");
-		//exit;
+		$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
+
 		}
 		else
 		{
