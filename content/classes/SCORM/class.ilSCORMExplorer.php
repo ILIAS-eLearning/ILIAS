@@ -361,7 +361,7 @@ class ilSCORMExplorer extends ilExplorer
 				$status = ($trdata["cmi.core.lesson_status"] == "")
 					? "not attempted"
 					: $trdata["cmi.core.lesson_status"];
-				$alt = $lng->txt("cont_status").": ".
+				$alt = $a_option["type"] . "-" . $lng->txt("cont_status").": ".
 					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
 
 				// score
@@ -379,6 +379,8 @@ class ilSCORMExplorer extends ilExplorer
 					": ".$trdata["cmi.core.total_time"];
 				}
 
+				$tpl->setVariable("ICON_NAME",
+					'scoIcon'.$a_node_id);
 				$tpl->setVariable("ICON_IMAGE",
 					ilUtil::getImagePath("scorm/".str_replace(" ", "_", $status).".gif"));
 				$tpl->setVariable("TXT_ALT_IMG", $alt);

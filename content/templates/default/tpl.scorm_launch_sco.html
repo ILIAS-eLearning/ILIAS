@@ -9,6 +9,14 @@
 API=parent.APIFRAME.API;
 parent.API=API; // gut gell?
 
+<!-- BEGIN tree_aufmotz -->
+var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
+if (ico != null) {
+	ico.src   = '{SCO_ICO}';
+	ico.title = '{SCO_ALT}';
+}
+<!-- END tree_aufmotz -->
+
 <!-- BEGIN alt_api_ref -->
 {API_NAME}=parent.APIFRAME.API;
 parent.{API_NAME}={API_NAME};
@@ -24,7 +32,7 @@ API.IliasSetValue('cmi.core.lesson_mode','{LESSON_MODE}');
 <!-- BEGIN set_value -->
 API.IliasSetValue('{VAR}','{VALUE}');
 <!-- END set_value -->
-document.location.href = '{HREF}';
+document.location.href = '{HREF}' 
 
 </script>
 </body>

@@ -30,9 +30,10 @@ public	class IliasApiAdapterApplet
 	private String  IliasScoId;
 	private String  IliasNextScoId;
 
-	private boolean IliasCredit = false;
 	private boolean isLaunched  = false;
+	private boolean isLaunching = false;
 	private boolean isVerbose   = false;
+	private long	clickTime = 0;
 
 	public IliasApiAdapterApplet () {
 		core = new ch.ethz.pfplms.scorm.api.ApiAdapter ();
@@ -44,10 +45,6 @@ public	class IliasApiAdapterApplet
 		IliasRefId       = getParameter ("ref_id");
 		IliasStudentId   = getParameter ("student_id");
 		IliasStudentName = getParameter ("student_name");
-		if (getParameter ("credit") != null) {
-			IliasCredit = true;
-			say ("cmi.core.credit=credit");
-		}
 		say ("cmi.core.student_id=" +IliasStudentId);
 		say ("cmi.core.student_name=" +IliasStudentName);
 	}
@@ -66,20 +63,40 @@ public	class IliasApiAdapterApplet
 	}
 
 	public	final void IliasLaunchSco (String sco_id) {
+		if (System.currentTimeMillis() < clickTime + 1000) {
+			say ("Overclicked.");
+			return;
+		}
+		if (isLaunching) {
+			say ("SCO " +IliasScoId +" is launching.");
+			return;
+		}
 		if (isLaunched && sco_id.equals(IliasScoId)) {
 			say ("SCO " +sco_id +" is already running.");
 			return;
 		}
 		IliasScoCmi.clear();
+		clickTime = System.currentTimeMillis();
+
 		say ("Launching sco " +sco_id);
-		if (isLaunched) say ("Sco "+IliasScoId +" will be unloaded.");
-		isLaunched = false;
-		IliasLaunchContent (
-			"../scorm_presentation.php?cmd=launchSco"
-			+"&sco_id=" + sco_id
-			+"&ref_id=" + IliasRefId
-		);
-		IliasNextScoId = sco_id;
+
+		if (isLaunched) {
+			say ("Sco "+IliasScoId +" will be unloaded.");
+			IliasNextScoId = sco_id;
+			IliasLaunchContent (
+				 "../scorm_presentation.php?cmd=unloadSco"
+				  +"&sco_id="  + IliasScoId
+			);
+		} else {
+			isLaunching = true;
+			IliasNextScoId = null;
+			IliasScoId     = sco_id;
+			IliasLaunchContent (
+				 "../scorm_presentation.php?cmd=launchSco"
+				  +"&ref_id="  + IliasRefId
+				  +"&sco_id="  + IliasScoId
+			);
+		}
 	}
 
 	public	final void IliasSetValue (String l, String r) {
@@ -88,17 +105,36 @@ public	class IliasApiAdapterApplet
 		if (l != null) IliasScoCmi.put (l, r);
 	}
 
+	public	final void IliasAbortSco (String sco_id) {
+		if (!IliasScoId.equals (sco_id)) return;
+		isLaunching = false;
+		if (!isLaunched) return;
+		say ("Warning: sco " +sco_id +" did not call LMSFinish()");
+		IliasFinish (false);
+		core.reset();
+	}
+
 	private	final void IliasInitialize () {
+		isLaunching = false;
 		core.sysPut ("cmi.core.student_id",   IliasStudentId);
 		core.sysPut ("cmi.core.student_name", IliasStudentName);
-		if (IliasCredit) {
-			core.sysPut ("cmi.core.credit", "credit");
-			core.sysPut ("cmi.core.lesson_mode", "normal");
-		}
 		core.sysPut (IliasScoCmi);
 		core.transBegin();
-		IliasScoId = IliasNextScoId;
-		isLaunched = true;
+		isLaunched  = true;
+	}
+
+	private	final void IliasFinish (boolean commit) {
+		if (!isLaunched) return;
+		if (commit) IliasCommit(); // Stupid "implicit commit"
+		isLaunched = false;
+		IliasLaunchContent (
+			"../scorm_presentation.php?cmd=finishSco"
+			  +"&sco_id="  + IliasScoId
+			  +"&ref_id="  + IliasRefId
+			  +"&status="  + core.sysGet("cmi.core.lesson_status")
+			  +"&totime="  + core.sysGet("cmi.core.total_time")
+			  +"&launch="  + IliasNextScoId
+		);
 	}
 
 	private final String IliasCommit () {
@@ -181,18 +217,6 @@ public	class IliasApiAdapterApplet
 		}
 	}
 
-	private	final void IliasFinish () {
-		if (!isLaunched) return;
-		IliasCommit(); // Stupid "implicit commit"
-		IliasLaunchContent (
-			"../scorm_presentation.php?cmd=view"
-			+"&sco_id=" + IliasScoId
-			+"&ref_id=" + IliasRefId
-			+"&status=" + core.sysGet ("cmi.core.lesson_status")
-			+"&totime=" + core.sysGet ("cmi.core.total_time")
-		);
-		isLaunched = false;
-	}
 
 	/*
 	 * Liveconnect interface methods for SCO
@@ -220,7 +244,7 @@ public	class IliasApiAdapterApplet
 		String rv = core.LMSFinish(s);
 		say ("LMSFinish("+s+")="+rv);
 		if (rv.equals("false")) return rv;
-		IliasFinish();
+		IliasFinish(true);
 		core.reset();
 		return rv;
 	}
