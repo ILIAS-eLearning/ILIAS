@@ -2511,7 +2511,7 @@ common#:#usrimport_cant_insert#:#Неможливо виконати дію "В�
 common#:#usrimport_cant_update#:#Неможливо виконати дію "Оновити". Немає такого користувача в базі даних.
 common#:#usrimport_conflict_handling_info#:#Коли вибрано "Ігнорувати при конфлікті", ILIAS ігнорує дію, якщо вона не може бути виконана (наприклад дія "Вставити" не буде виконана, якщо вже є користувач з таким логіном в базі даних.)\nКоли вибрано "Оновити при конфлікті", ILIAS оновлює базу даних якщо дія не може бути виконана. (наприклад дія "Вставити" замінюється на дію "Оновити", якщо користувач з таким самим логіном існує в базі даних). 
 common#:#usrimport_global_role_for_action_required#:#Принаймні одна глобальна роль повинна бути визначена для дії "%1$s".
-common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
+common#:#usrimport_ignore_role#:#Ігнорувати роль
 common#:#usrimport_login_is_not_unique#:#Логін не унікальний.
 common#:#usrimport_with_specified_role_not_permitted#:#Імпорт з вказаною роллю не довзолений.
 common#:#usrimport_xml_attribute_missing#:#Пропущений атрибут "%2$s" в елементі "%1$s".
@@ -3519,7 +3519,7 @@ forum#:#forums_censor_comment#:#Коментар Цензора
 forum#:#forums_count#:#Кількість Форумів
 forum#:#forums_count_art#:#Кілкість Постів
 forum#:#forums_count_thr#:#Кількість Віток
-forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
+forum#:#forums_created_by#:#Створено
 forum#:#forums_delete_file#:#Видалити прикріплення
 forum#:#forums_download_attachment#:#Завантажити файл
 forum#:#forums_edit_post#:#Редагувати Пост
@@ -3540,7 +3540,7 @@ forum#:#forums_post_new_entry#:#Нова стаття створена
 forum#:#forums_posts#:#Усі пости
 forum#:#forums_posts_not_available#:#Пост Недосупний
 forum#:#forums_print_thread#:#Друкувати Вітку
-forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
+forum#:#forums_print_view#:#Огляд перед друком
 forum#:#forums_quote#:#Цитата
 forum#:#forums_respond#:#Надіслати Відповідь
 forum#:#forums_subject#:#Тема
@@ -3551,7 +3551,7 @@ forum#:#forums_thread_create_date#:#Створений
 forum#:#forums_thread_create_from#:#Стоврений з
 forum#:#forums_thread_marked#:#Тема помічена як прочитана.
 forum#:#forums_thread_new_entry#:#Нова тема створена
-forum#:#forums_threads#:#Вітки###06 Apr 2005 content changed
+forum#:#forums_threads#:#Теми
 forum#:#forums_threads_not_available#:#Теми Недоступні
 forum#:#forums_topics_overview#:#Огляд Тем
 forum#:#forums_your_reply#:#Ваша Відповідь
@@ -4238,183 +4238,183 @@ payment#:#pay_bmf_credit_card_not_valid#:#Дані кредтиної картк
 payment#:#pay_bmf_debit_entry#:#Дебетний запис (тільки акаунти німецьких банків)
 payment#:#pay_bmf_debit_entry_data#:#Дебетний запис
 payment#:#pay_bmf_debit_entry_not_valid#:#Дані що ви ввели по дебетному запису не є коректні. Будь ласка перевірте чи усі поля заповнені коректно.
-payment#:#pay_bmf_description_credit_card#:#Будь ласка перевірте, чи усі предмети, що ви бажали замовити знаходяться у корзині. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###29 Nov 2004 new variable
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###29 Nov 2004 new variable
-payment#:#pay_bmf_house_number#:#House number###29 Nov 2004 new variable
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###29 Nov 2004 new variable
-payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
-payment#:#pay_bmf_or#:#or###29 Nov 2004 new variable
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.###29 Nov 2004 new variable
-payment#:#pay_bmf_payment_type#:#Kind of paying###29 Nov 2004 new variable
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.###29 Nov 2004 new variable
-payment#:#pay_bmf_personal_data#:#Your personal data###29 Nov 2004 new variable
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pay_bmf_please_select#:#Please select###29 Nov 2004 new variable
-payment#:#pay_bmf_po_box#:#PO Box###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.###29 Nov 2004 new variable
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.###29 Nov 2004 new variable
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.###29 Nov 2004 new variable
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.###29 Nov 2004 new variable
-payment#:#pay_bmf_terms_conditions_show#:#show###29 Nov 2004 new variable
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.###29 Nov 2004 new variable
-payment#:#pay_bmf_total_amount#:#Total amount###29 Nov 2004 new variable
-payment#:#pay_bmf_validity#:#valid until###29 Nov 2004 new variable
-payment#:#pay_bmf_vat_included#:#VAT included###29 Nov 2004 new variable
-payment#:#pay_bmf_your_order#:#Your order###29 Nov 2004 new variable
-payment#:#pay_click_to_buy#:#Buy now###29 Nov 2004 new variable
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.###29 Nov 2004 new variable
-payment#:#pay_customer_no#:#Customer no.###29 Nov 2004 new variable
-payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
-payment#:#pay_deleted_items#:#The selected items have been deleted.###29 Nov 2004 new variable
-payment#:#pay_ending#:#ends with###29 Nov 2004 new variable
-payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###29 Nov 2004 new variable
-payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.###29 Nov 2004 new variable
-payment#:#pay_filter#:#Filter###29 Nov 2004 new variable
-payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###29 Nov 2004 new variable
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###29 Nov 2004 new variable
-payment#:#pay_header#:#Payment###02 Oct 2004 new variable
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###29 Nov 2004 new variable
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
-payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.###29 Nov 2004 new variable
-payment#:#pay_message_hello#:#Dear###29 Nov 2004 new variable
-payment#:#pay_message_regards#:#Yours sincerely###29 Nov 2004 new variable
-payment#:#pay_message_subject#:#Your ILIAS order###29 Nov 2004 new variable
-payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.###29 Nov 2004 new variable
-payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.###29 Nov 2004 new variable
-payment#:#pay_order_date_from#:#Order date from###29 Nov 2004 new variable
-payment#:#pay_order_date_til#:#Order date til###29 Nov 2004 new variable
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.###29 Nov 2004 new variable
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.###29 Nov 2004 new variable
-payment#:#pay_reset_filter#:#Reset filter###29 Nov 2004 new variable
-payment#:#pay_select_one_item#:#Please select one item.###29 Nov 2004 new variable
-payment#:#pay_select_price#:#Please select a new price.###29 Nov 2004 new variable
-payment#:#pay_send_order#:#Send order###29 Nov 2004 new variable
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.###29 Nov 2004 new variable
-payment#:#pay_starting#:#starts with###29 Nov 2004 new variable
-payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data###29 Nov 2004 new variable
-payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment###29 Nov 2004 new variable
-payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order###29 Nov 2004 new variable
-payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###29 Nov 2004 new variable
-payment#:#pay_update_view#:#Update view###29 Nov 2004 new variable
-payment#:#paya_access#:#Access###04 Oct 2004 new variable
-payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
-payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
-payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.###04 Oct 2004 new variable
-payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
-payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
-payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
-payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
-payment#:#paya_buyed_objects#:#Buyed objects###29 Nov 2004 new variable
-payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
-payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
-payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
-payment#:#paya_deleted_last_price#:#The last price has been deleted.###04 Oct 2004 new variable
-payment#:#paya_deleted_object#:#Stoped payment for the selected object.###04 Oct 2004 new variable
-payment#:#paya_details_updated#:#Details updated.###04 Oct 2004 new variable
-payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
-payment#:#paya_edit_details#:#Edit details###04 Oct 2004 new variable
-payment#:#paya_edit_pay_method#:#Edit pay method###04 Oct 2004 new variable
-payment#:#paya_edit_prices#:#Edit prices###04 Oct 2004 new variable
-payment#:#paya_edit_prices_first#:#Please edit the prices first.###04 Oct 2004 new variable
-payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
-payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
-payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
-payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
-payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
-payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
-payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
-payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_months#:#Month(s)###04 Oct 2004 new variable
-payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given###04 Oct 2004 new variable
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
-payment#:#paya_no_object_selected#:#Please select one object.###04 Oct 2004 new variable
-payment#:#paya_no_objects_assigned#:#There are no sellable objects.###04 Oct 2004 new variable
-payment#:#paya_no_price_available#:#No prices available###04 Oct 2004 new variable
-payment#:#paya_no_prices_selected#:#Please select one price###04 Oct 2004 new variable
-payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method###04 Oct 2004 new variable
-payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
-payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
-payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.###04 Oct 2004 new variable
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
-payment#:#paya_not_buyable#:#Not buyable###04 Oct 2004 new variable
-payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
-payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.###04 Oct 2004 new variable
-payment#:#paya_order_date#:#Order date###04 Oct 2004 new variable
-payment#:#paya_pay_method#:#Pay method###04 Oct 2004 new variable
-payment#:#paya_pay_method_not_specified#:#Not specified###04 Oct 2004 new variable
-payment#:#paya_payed#:#Payed###04 Oct 2004 new variable
-payment#:#paya_payed_access#:#Payed/Access###04 Oct 2004 new variable
-payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
-payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
-payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers###04 Oct 2004 new variable
-payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.###04 Oct 2004 new variable
-payment#:#paya_select_pay_method_first#:#Please select one pay method first.###04 Oct 2004 new variable
-payment#:#paya_sell_object#:#Sell object###04 Oct 2004 new variable
-payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
-payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
-payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
-payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?###04 Oct 2004 new variable
-payment#:#paya_transaction#:#Transaction###04 Oct 2004 new variable
-payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_update_price#:#Update prices###04 Oct 2004 new variable
-payment#:#paya_updated_booking#:#Updated statistic.###04 Oct 2004 new variable
-payment#:#paya_updated_prices#:#Updated prices###04 Oct 2004 new variable
-payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
-payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
-payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
-payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
-payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
-payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
-payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
-payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
-payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:###31 Aug 2004 new variable
-payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:###31 Aug 2004 new variable
-payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
-payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
-payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
-payment#:#pays_cost_center#:#Cost center###31 Aug 2004 new variable
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.###29 Nov 2004 new variable
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)###29 Nov 2004 new variable
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)###29 Nov 2004 new variable
-payment#:#pays_delete_vendor#:#Deassign user###31 Aug 2004 new variable
-payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:###31 Aug 2004 new variable
-payment#:#pays_edit_vendor#:#Edit user###29 Nov 2004 new variable
-payment#:#pays_general_settings#:#General settings###29 Nov 2004 new variable
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
-payment#:#pays_header_select_vendor#:#Vendor selection###31 Aug 2004 new variable
-payment#:#pays_no_username_given#:#No username given###31 Aug 2004 new variable
-payment#:#pays_no_valid_username_given#:#No valid username given###31 Aug 2004 new variable
-payment#:#pays_no_vendor_selected#:#No vendor selected###31 Aug 2004 new variable
-payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
-payment#:#pays_online#:#Online###02 Oct 2004 new variable
-payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file###29 Nov 2004 new variable
-payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.###29 Nov 2004 new variable
-payment#:#pays_updated_general_settings#:#Your general settings were updated.###29 Nov 2004 new variable
-payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
-payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
-payment#:#pays_vat_rate#:#VAT rate in % (optional)###29 Nov 2004 new variable
-payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
-payment#:#price_a#:#Price###04 Oct 2004 new variable
-payment#:#prices#:#Prices###29 Nov 2004 new variable
-payment#:#update#:#Update###04 Oct 2004 new variable
-pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
+payment#:#pay_bmf_description_credit_card#:#Будь ласка перевірте, чи усі предмети, що ви бажали замовити знаходяться у корзині. Заповненням даних вашої кредитної картки та кліком на кнопку "Зберегти" ви пітверджуєте ваше замовлення, яке почнеться негайно. Перевірка даних займе час порядку декількох секунд.
+payment#:#pay_bmf_description_debit_entry#:#Будь ласка перевірте чи усі статті що ви бажали замовити знаходяться в корзині. Заповненням даних вашого дебетного запису та кліком на кнопку  "Зберегти" ви підтверджуєте ваше замовлення, яке почнеться негайно. Перевірка даних займе час порядку декількох секунд.
+payment#:#pay_bmf_description_payment_type#:#Будь ласка виберіть метод оплати.
+payment#:#pay_bmf_description_personal_data#:#Будь ласка заповніть повністю насутпну форму.
+payment#:#pay_bmf_house_number#:#Номер будинку
+payment#:#pay_bmf_info#:#Доступ до наступних матеріалів не безкоштовний. Якщо ви бажаєте отримати доступ до відповідних учбових об'єктів будь ласка виберіть ціну. Ви можете придбати декілька учбових об'єктів використовуючи кнопку "корзина" на ващому особистому робочому столі. Ви отримаєте безпосередній доступ до вибраного об'єкта та періода.
+payment#:#pay_bmf_optional#:#вибірково
+payment#:#pay_bmf_or#:#або
+payment#:#pay_bmf_password_not_valid#:#Невірний пароль.
+payment#:#pay_bmf_payment_type#:#Тип платежу
+payment#:#pay_bmf_payment_type_not_valid#:#Тип оплати що ви вибрали є невірним. Будь ласка виберіть іншу опцію.
+payment#:#pay_bmf_personal_data#:#Ваші персональні дані
+payment#:#pay_bmf_personal_data_not_valid#:#Ваші персональні дані є некореткними. Будь ласка перевірте усі поля, що вони заповнені коректно.
+payment#:#pay_bmf_please_select#:#Будь ласка виберіть
+payment#:#pay_bmf_po_box#:#PO Box
+payment#:#pay_bmf_server_error_code#:#Платіжний сервер повернув код помилки
+payment#:#pay_bmf_server_error_communication#:#Помилка при з'єднанні з платіжним сервером.
+payment#:#pay_bmf_server_error_sysadmin#:#Будь ласка зв'яжіться з системним адміністратором для подальшої інформації.
+payment#:#pay_bmf_shopping_cart_empty#:#Ваша корзина порожня.
+payment#:#pay_bmf_street_or_pobox#:#Будь ласка введіть вулицю та номер будинку або po box.
+payment#:#pay_bmf_terms_conditions#:#Загальні постанови та умови
+payment#:#pay_bmf_terms_conditions_read#:#Я прочитав загальні постанови та угоди та прийняв їх.
+payment#:#pay_bmf_terms_conditions_show#:#показати
+payment#:#pay_bmf_thanks#:#Дякуємо. Ваш заказ був відпарвлений.
+payment#:#pay_bmf_total_amount#:#Загальна кількість
+payment#:#pay_bmf_validity#:#дійсний до
+payment#:#pay_bmf_vat_included#:#VAT включений
+payment#:#pay_bmf_your_order#:#Ваш заказ
+payment#:#pay_click_to_buy#:#Придбати зараз
+payment#:#pay_confirm_order#:#Будь ласка підтвердіть ваш заказ введенням вашого паролю.
+payment#:#pay_customer_no#:#Клієнт №
+payment#:#pay_deleted_booking#:#Дані видалені.
+payment#:#pay_deleted_items#:#Вибраний пункт видалений.
+payment#:#pay_ending#:#закінсується з
+payment#:#pay_entitled_retrieve#:#Маючий право на вилучення даних з
+payment#:#pay_expires_info#:#Цей об'єкт є доступним. Термін дії оплати скінчився, ви не можете купити це.
+payment#:#pay_filter#:#Фільтр
+payment#:#pay_goto_buyed_objects#:#Перейти до ваших куплених об'єктів
+payment#:#pay_goto_shopping_cart#:#Перейти до корзини
+payment#:#pay_header#:#Оплата
+payment#:#pay_item_already_in_sc#:#Цей об'єкт вже існує в вашій корзині.
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
+payment#:#pay_locator#:#Оплата
+payment#:#pay_message_attachment#:#Як підтвердження на ваш заказ ми відсилаємо вам рахунок (PDF формат) як прикріплення.
+payment#:#pay_message_hello#:#Шановний
+payment#:#pay_message_regards#:#З щирою повагою
+payment#:#pay_message_subject#:#Ваш ILIAS заказ
+payment#:#pay_message_thanks#:#Дякуємо за ваш ILIAS 3 заказ.
+payment#:#pay_no_vendors_created#:#Продавців не сворено
+payment#:#pay_not_buyed_any_object#:#Ви не придбали жодного об'єкту.
+payment#:#pay_order_date_from#:#Дата заказу с
+payment#:#pay_order_date_til#:#Дата заказу не раніщ
+payment#:#pay_payed_credit_card#:#Заказ був оплачений кредитною картку.
+payment#:#pay_payed_debit_entry#:#Заказ був оплачений дебетним записом.
+payment#:#pay_reset_filter#:#Скинути фільтр
+payment#:#pay_select_one_item#:#Будь ласка виберіть один пункт.
+payment#:#pay_select_price#:#Будь ласка виберіть нову ціну.
+payment#:#pay_send_order#:#Відіслати заказ
+payment#:#pay_shopping_cart_empty#:#Ваша корзина порожня.
+payment#:#pay_starting#:#початок з
+payment#:#pay_step1#:#Ваш заказ - Крок 1/3: Введіть ваші особисті дані
+payment#:#pay_step2#:#Ваш заказ - Крок 2/3: Виберіть тип оплати
+payment#:#pay_step3_credit_card#:#Ваш заказ - Крок 3/3: Введіть дані вашої кредитної картки та відішлять ваш заказ
+payment#:#pay_step3_debit_entry#:#Ваш заказ - Крок 3/3: Введіть ваші банковські дані та відішлять ваш заказ
+payment#:#pay_update_view#:#Оновити вид
+payment#:#paya_access#:#Доступ
+payment#:#paya_add_price#:#Додати нову ціну
+payment#:#paya_add_price_title#:#Нова ціна
+payment#:#paya_added_new_object#:#Доданий новий об'єкт. Будь ласка відредагуйте метод оплати та ціни.
+payment#:#paya_added_new_price#:#Створена нова ціна
+payment#:#paya_added_trustee#:#Створений новий власник.
+payment#:#paya_bookings_available#:#Цей об'єкт проданий. Будь ласка видаліть усі статистичні дані спочатку.
+payment#:#paya_buyable#:#Може бути придбаний
+payment#:#paya_buyed_objects#:#Придбані об'єкти
+payment#:#paya_count_purchaser#:#Кількість покупців
+payment#:#paya_customer#:#Покупець
+payment#:#paya_delete_price#:#Видалити ціну
+payment#:#paya_delete_trustee_msg#:#Видалені відмічені власники.
+payment#:#paya_deleted_last_price#:#Остання ціна видалена.
+payment#:#paya_deleted_object#:#Зупинена оплата для вибраних об'єктів.
+payment#:#paya_details_updated#:#Деталі оновлені.
+payment#:#paya_disabled#:#Відключений
+payment#:#paya_edit_details#:#Редагувати деталі
+payment#:#paya_edit_pay_method#:#Редагувати метод оплати
+payment#:#paya_edit_prices#:#Редагувати ціни
+payment#:#paya_edit_prices_first#:#Будь ласка відредагуйте спочатку ціни.
+payment#:#paya_enabled#:#Дозволений
+payment#:#paya_enter_login#:#Будь ласка введіть ім'я користувача.
+payment#:#paya_err_adding_object#:#Помилка додавання об'єкту
+payment#:#paya_error_update_booking#:#Помилка зберігання статистичних даних.
+payment#:#paya_expires#:#Термін дії оплати скінчився
+payment#:#paya_filter_reseted#:#Фільтр скинутий.
+payment#:#paya_header#:#Адміністрування платежів
+payment#:#paya_insert_only_numbers#:#Будь ласка вставте тільки числа.
+payment#:#paya_locator#:#Адміністрування платежів
+payment#:#paya_months#:#Місяців
+payment#:#paya_no_booking_id_given#:#Помилка: не задано 'booking id'
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_object_selected#:#Будь ласка виберіть один об'єкт.
+payment#:#paya_no_objects_assigned#:#Немає об'єктів для продажу.
+payment#:#paya_no_price_available#:#Немає доступних цін
+payment#:#paya_no_prices_selected#:#Будь ласка виберіть одну ціну
+payment#:#paya_no_settings_necessary#:#Немає необхідних настроювань для цього методу оплати
+payment#:#paya_no_trustees#:#Немає створених власників.
+payment#:#paya_no_valid_login#:#Це ім'я користувача не є допустимим.
+payment#:#paya_no_vendor_selected#:#Ви не вибрали вендора.
+payment#:#paya_not_assign_yourself#:#Не є можливим призначити себе.
+payment#:#paya_not_buyable#:#Не може бути купленим
+payment#:#paya_object#:#Об'єкти
+payment#:#paya_object_not_purchasable#:#Не є можливим продати цей об'єкт.
+payment#:#paya_order_date#:#Дата заказу
+payment#:#paya_pay_method#:#Метод оплати
+payment#:#paya_pay_method_not_specified#:#Не вказаний
+payment#:#paya_payed#:#Оплачений
+payment#:#paya_payed_access#:#Оплачений/Доступ
+payment#:#paya_perm_obj#:#Редагувати об'єкти
+payment#:#paya_perm_stat#:#Редагувати статистику
+payment#:#paya_price_not_valid#:#Цю ціна не є коректною. Бідь ласка вставте тільки цифри
+payment#:#paya_select_object_to_sell#:#Будь ласка виберіть об'єкт який ви бажаєте продати.
+payment#:#paya_select_pay_method_first#:#Будь ласка виберіть спочатку метод оплати.
+payment#:#paya_sell_object#:#Продати об'єкт
+payment#:#paya_shopping_cart#:#Корзина
+payment#:#paya_statistic#:#Статистика
+payment#:#paya_sure_delete_object#:#Ви впевнені, що ви бажаєте зупинити оплату для цього об'єкта? Усі введені дані будуть втрачені.
+payment#:#paya_sure_delete_selected_prices#:#Ви впевнені що бажаєте видалити вибрані ціни?
+payment#:#paya_sure_delete_selected_trustees#:#Ви впевнені що бажаєте видалити вибраних власників?
+payment#:#paya_sure_delete_stat#:#Ви впевнені, що бажаєте видалити цю статистику?
+payment#:#paya_transaction#:#Транзакція
+payment#:#paya_trustee_table#:#Власники
+payment#:#paya_trustees#:#Власники
+payment#:#paya_update_price#:#Оновити ціни
+payment#:#paya_updated_booking#:#Оновити статистику.
+payment#:#paya_updated_prices#:#Оновлені ціни
+payment#:#paya_updated_trustees#:#Оновлені права.
+payment#:#paya_user_already_assigned#:#КОристувач вже призначений.
+payment#:#paya_vendor#:#Вендор
+payment#:#pays_active_bookings#:#Активні замовлення
+payment#:#pays_add_info#:#Додаткова інформація по оплаті (опціонально)
+payment#:#pays_add_vendor#:#Додати вендора
+payment#:#pays_added_vendor#:#Доданий новий вендор
+payment#:#pays_address#:#Адреса для оплати
+payment#:#pays_already_assigned_vendors#:#Наступна кількість користувачів вже була призначена:
+payment#:#pays_assigned_vendors#:#Наступна кількість користувачів призначена до списку вендора:
+payment#:#pays_bank_data#:#Банківські дані для платежу
+payment#:#pays_bill#:#Платіж
+payment#:#pays_bmf#:#BMF
+payment#:#pays_cost_center#:#Бюро калькуляцій
+payment#:#pays_cost_center_not_valid#:#Будь ласка введіть дійсне бюро калькуляцій.
+payment#:#pays_currency_subunit#:#Валюта (1/100) (наприклад Цент)
+payment#:#pays_currency_unit#:#Валюта (наприклад EUR)
+payment#:#pays_delete_vendor#:#Відмінити призначення користувача
+payment#:#pays_deleted_number_vendors#:#Наступна кількість вендорів видалена:
+payment#:#pays_edit_vendor#:#Редагувати користувача
+payment#:#pays_general_settings#:#Загальні настроювання
+payment#:#pays_general_settings_not_valid#:#Ваші загальні настроювання невірні. Будь ласка перевірте що усі поля заповнені коректно.
+payment#:#pays_header_select_vendor#:#Вибір вендора
+payment#:#pays_no_username_given#:#Не вказане ім'я користувача
+payment#:#pays_no_valid_username_given#:#Не вказане дійсне ім'я користувача
+payment#:#pays_no_vendor_selected#:#Вендор не вибраний
+payment#:#pays_number_bookings#:#Активні замовлення
+payment#:#pays_objects_bill_exist#:#Метод оплати 'bill' активований для деяких об'єктів. Тому він не може бути деактивований.
+payment#:#pays_objects_bmf_exist#:#Метод оплати 'BMF' активований дл ядеяких об'єктів. Тому він не може бути деактивований.
+payment#:#pays_offline#:#Оффлайн
+payment#:#pays_online#:#Онлайн
+payment#:#pays_pay_methods#:#Методи оплати
+payment#:#pays_pdf_path#:#Шлях до генерування платежу як PDF файлу
+payment#:#pays_sure_delete_selected_vendors#:#Ви дійсно бажаєте видалити вибраних ведорів
+payment#:#pays_too_many_vendors_selected#:#Будь ласка виберіть тільки одного замовника щоб виконати цю дію.
+payment#:#pays_updated_general_settings#:#Ваші загальні настроювання оновлені.
+payment#:#pays_updated_pay_method#:#Змінений метод оплати.
+payment#:#pays_user_already_assigned#:#Цей користувач вже призначений до списку вендора
+payment#:#pays_vat_rate#:#VAT ставка в % (опціонально)
+payment#:#pays_vendor#:#Вендор
+payment#:#price_a#:#Ціна
+payment#:#prices#:#Ціни
+payment#:#update#:#Оновити
+pwassist#:#password_assistance#:#Відновлення Паролю
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.###12 Nov 2004 new variable
 pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###12 Nov 2004 new variable
