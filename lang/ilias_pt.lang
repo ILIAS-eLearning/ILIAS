@@ -861,6 +861,7 @@ common#:#choose_location#:#Escolha a localização
 common#:#choose_only_one_language#:#Por favor escolha apenas uma linguagem
 common#:#city#:#Cidade###14 Sep 2004 content changed
 common#:#clear#:#Limpar
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID de cliente
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, benvindo à sua área pessoal!!
 common#:#inifile#:#Ficheiro-Ini
 common#:#input_error#:#Erro de entrada
 common#:#insert#:#Inserir
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#ID de instalação
 common#:#inst_info#:#Informações da Instalação
 common#:#inst_name#:#Nome da Instalação
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Anterior
 content#:#cont_booktitle#:#Título do livro###14 Sep 2004 content changed
 content#:#cont_bottom#:#Fundo
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#A eliminação do ficheiro de ecrã inteiro não é possível.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#A eliminação do ficheiro da vista padrão não é possível.

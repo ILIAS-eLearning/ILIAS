@@ -849,10 +849,10 @@ common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen überprüfen
 common#:#check_link#:#Externen Link überprüfen
-common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
+common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.###24 Dec 2004 content changed
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
+common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.###24 Dec 2004 content changed
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -861,6 +861,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
+common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client ip#:#Client IP
 common#:#client_id#:#Mandanten ID
 common#:#client_ip#:#Client IP
@@ -1409,9 +1410,8 @@ common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
 common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
-common#:#insert_object_here#:#Objekt hier einfügen
-common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#insert#:#Einfügen
+common#:#insert_object_here#:#Objekt hier einfügen
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
@@ -2413,6 +2413,7 @@ content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
