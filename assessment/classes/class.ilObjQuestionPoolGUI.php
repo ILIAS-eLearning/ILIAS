@@ -1004,8 +1004,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
-
-		$this->setAdminTabs($_POST["new_type"]);
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setAdminTabs($_POST["new_type"]);
+		}
 		$this->setLocator();
 
 	}
