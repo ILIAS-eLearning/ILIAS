@@ -727,6 +727,10 @@ class ilMail
 				}
 				if($a_as_email)
 				{
+					if($this->ilias->getSetting("mail_allow_smtp") == 'n')
+					{
+						return $lng->txt("mail_email_forbidden");
+					}
 					if(!$this->getEmailOfSender())
 					{
 						return $lng->txt("mail_check_your_email_addr");
@@ -757,6 +761,10 @@ class ilMail
 				break;
 
 			case 'email':
+				if($this->ilias->getSetting("mail_allow_smtp") == 'n')
+				{
+					return $lng->txt("mail_email_forbidden");
+				}
 				if(!$this->getEmailOfSender())
 				{
 					return $lng->txt("mail_check_your_email_addr");
@@ -783,6 +791,10 @@ class ilMail
 				}
 				if($a_as_email)
 				{
+					if($this->ilias->getSetting("mail_allow_smtp") == 'n')
+					{
+						return $lng->txt("mail_email_forbidden");
+					}
 					if(!$this->getEmailOfSender())
 					{
 						return $lng->txt("mail_check_your_email_addr");

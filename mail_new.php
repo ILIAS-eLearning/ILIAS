@@ -18,6 +18,8 @@ $_POST["attachments"] = $_POST["attachments"] ? $_POST["attachments"] : array();
 
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
+$allow_smtp = $ilias->getSetting("mail_allow_smtp");
+
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
@@ -193,10 +195,23 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 $tpl->setVariable("TXT_TYPE", $lng->txt("type"));
 $tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
 $tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
-$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 
-// EMAIL
-$tpl->setVariable("TXT_ALSO_AS_EMAIL", $lng->txt("also_as_email"));
+// ONLY IF SMTP MAIL ARE ALLOWED
+if($allow_smtp == 'y')
+{
+	$tpl->setCurrentBlock("allow_smtp");
+	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
+	if($mail_data["m_type"] == 'email')
+	{
+		$tpl->setVariable("CHECKED_EMAIL",'CHECKED');
+	}
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("smtp");
+	$tpl->setVariable("TXT_ALSO_AS_EMAIL", $lng->txt("also_as_email"));
+	$tpl->setVariable("CHECKED_ALSO_EMAIL",$mail_data["m_email"] ? 'CHECKED' : ''); 
+	$tpl->parseCurrentBlock();
+}
 
 // ATTACHMENT
 $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("mail_attachments"));
@@ -236,12 +251,6 @@ if($mail_data["m_type"] == 'system')
 {
 	$tpl->setVariable("CHECKED_SYSTEM",'CHECKED');
 }
-if($mail_data["m_type"] == 'email')
-{
-	$tpl->setVariable("CHECKED_EMAIL",'CHECKED');
-}
-
-$tpl->setVariable("CHECKED_ALSO_EMAIL",$mail_data["m_email"] ? 'CHECKED' : ''); 
 $tpl->setVariable("M_MESSAGE",$mail_data["m_message"]);
 $tpl->parseCurrentBlock();
 

@@ -52,13 +52,17 @@
 			<td class="std" >
 			  <input type="radio" name="m_type" value="normal" {CHECKED_NORMAL}/>{TXT_NORMAL}
 			  <input type="radio" name="m_type" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
+			  <!-- BEGIN also_smtp -->
 			  <input type="radio" name="m_type" value="email" {CHECKED_EMAIL}/>{TXT_EMAIL}
+			  <!-- END also_smtp -->
 			</td>
 		  </TR>
+		  <!-- BEGIN smtp --> 
 		  <TR>
 			<td class="std"  align="right">{TXT_ALSO_AS_EMAIL}</TD>
 			<td class="std" ><input type="checkbox" name="m_email" value="1" {CHECKED_ALSO_EMAIL}/></TD>
-		  </tr>
+		  </TR>
+		  <!-- END smtp -->
 		  <TR>
 			<td class="std"  align="right" valign="top">{TXT_ATTACHMENT}</TD>
 			<td class="std" >

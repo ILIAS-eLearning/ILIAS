@@ -596,3 +596,8 @@ CREATE TABLE addressbook (
   email varchar(40) default NULL,
   PRIMARY KEY  (addr_id)
 ) TYPE=MyISAM;
+
+<#23>
+UPDATE settings 
+SET value = 'y' 
+WHERE keyword = 'mail_allow_smtp';
