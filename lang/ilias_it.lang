@@ -830,6 +830,7 @@ common#:#exc_no_members_assigned#:#Nessun membro assegnato
 common#:#exc_notices#:#Note
 common#:#exc_obj#:#Esercizio
 common#:#exc_read#:#Accedere in lettura all&#039;esercizio
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Salva
 common#:#exc_search_for#:#Ricerca
 common#:#exc_select_one_file#:#Per favore, scegli un file solamente.
@@ -986,6 +987,7 @@ common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
 common#:#grp_back#:#Indietro
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_alm#:#Creare moduli AICC
 common#:#grp_create_chat#:#Creare Chat
@@ -1012,8 +1014,10 @@ common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminat
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
 common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#Iscrivere al gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
@@ -1023,9 +1027,12 @@ common#:#grp_msg_member_assigned#:#Utenti ammessi come membri del gruppo
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Accedere in lettura al gruppo
 common#:#grp_register#:#Registra
 common#:#grp_registration_completed#:#Registrazione completata
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Vedere il gruppo
 common#:#grp_write#:#Modificare il gruppo
 common#:#guest#:#Ospite

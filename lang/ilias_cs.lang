@@ -831,6 +831,7 @@ common#:#exc_no_members_assigned#:#Žádní přiřazení členové
 common#:#exc_notices#:#Upozornění
 common#:#exc_obj#:#Cvičení
 common#:#exc_read#:#Access exercise###16 Mar 2004 new variable
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Uložit
 common#:#exc_search_for#:#Vyhledávat
 common#:#exc_select_one_file#:#Please select exactly one file.###16 Mar 2004 new variable
@@ -987,6 +988,7 @@ common#:#grp_add#:#Přidat skupinu
 common#:#grp_added#:#Skupina přidána
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Create Group###16 Mar 2004 new variable
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###16 Mar 2004 new variable
@@ -1013,8 +1015,10 @@ common#:#grp_err_last_member#:#Poslední člen nemůže být odstraněn, odstra�
 common#:#grp_err_member_could_not_be_removed#:#Uživatel nemůže být odstraněn.  Ověřte prosím všechny závislosti tohoto uživatele.
 common#:#grp_err_no_permission#:#Nemáte práva pro tuto operaci.
 common#:#grp_err_registration_data#:#Zadejte prosím heslo a datum a čas platného registračního období!
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#User may join Group###16 Mar 2004 new variable
 common#:#grp_leave#:#User may leave Group###16 Mar 2004 new variable
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Změnit statut člena
 common#:#grp_mem_leave#:#Vyřadit člena ze skupiny
 common#:#grp_mem_send_mail#:#Poslat členovi zprávu
@@ -1024,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#Členství zrušeno
 common#:#grp_name_exists#:#Skupina s tímto názvem již existuje! Zvolte prosím jiný.
 common#:#grp_new#:#Nová skupina
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Read access to Group###16 Mar 2004 new variable
 common#:#grp_register#:#Registrovat
 common#:#grp_registration_completed#:#Registrace dokončena
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Group is visible###16 Mar 2004 new variable
 common#:#grp_write#:#Edit Group###16 Mar 2004 new variable
 common#:#guest#:#Host

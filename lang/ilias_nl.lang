@@ -831,6 +831,7 @@ common#:#exc_no_members_assigned#:#Geen leden toegewezen
 common#:#exc_notices#:#Notities
 common#:#exc_obj#:#Oefening
 common#:#exc_read#:#Toegang tot oefening
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Opslaan
 common#:#exc_search_for#:#Zoeken naar
 common#:#exc_select_one_file#:#Selecteer a.u.b. precies één bestand.
@@ -987,6 +988,7 @@ common#:#grp_add#:#Toevoegen van een groep
 common#:#grp_added#:#Groep toegevoegd
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Creëer groep
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Creëer Chat
@@ -1013,8 +1015,10 @@ common#:#grp_err_last_member#:#Laatste lid kan niet verwijderd worden, verwijder
 common#:#grp_err_member_could_not_be_removed#:#Lid kan niet verwijderd worden. Controleer alle  afhankelijkheden van deze gebruiker.
 common#:#grp_err_no_permission#:#U bezit niet de rechten voor deze handeling.
 common#:#grp_err_registration_data#:#Voer een wachtwoord, de verval-datum en -tijd voor een geldige registratie-periode !
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#Gebruiker mag deelnemen aan de groep
 common#:#grp_leave#:#Gebruikermag de groep verlaten
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Lid-status wijzigen
 common#:#grp_mem_leave#:#Lid uit groep verwijderen
 common#:#grp_mem_send_mail#:#Lid een bericht sturen
@@ -1024,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#Het lidmaatschap is gecancelled
 common#:#grp_name_exists#:#Er is al een groep met deze naam! Kies een andere naam s.v.p.
 common#:#grp_new#:#Nieuwe groep
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Lees-recht tot de groep
 common#:#grp_register#:#Registreer
 common#:#grp_registration_completed#:#De registratie is klaar
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#De groep is zichtbaar
 common#:#grp_write#:#Groep wijzigen
 common#:#guest#:#Gast

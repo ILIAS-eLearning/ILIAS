@@ -831,6 +831,7 @@ common#:#exc_no_members_assigned#:#Pas de membre assigné
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercice
 common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Enregistrer
 common#:#exc_search_for#:#Rechercher
 common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
@@ -987,6 +988,7 @@ common#:#grp_add#:#Ajouter groupe
 common#:#grp_added#:#Groupe ajouté
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
@@ -1013,8 +1015,10 @@ common#:#grp_err_last_member#:#Last member could not be removed, please delete g
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
 common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Changer le statut de membre
 common#:#grp_mem_leave#:#Enlever le membre du groupe
 common#:#grp_mem_send_mail#:#Envoyer un message au membre
@@ -1024,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#Un groupe portant ce nom existe déjà ! Veuillez choisir un autre nom.
 common#:#grp_new#:#Nouveau groupe
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
 common#:#grp_register#:#Registere###26 Nov 2003 new variable
 common#:#grp_registration_completed#:#Registration completede###26 Nov 2003 new variable
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
 common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
 common#:#guest#:#Invité
