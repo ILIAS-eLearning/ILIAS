@@ -3,22 +3,34 @@ lang_version#:#1
 lang_dateformat#:#MM/DD/YYYY
 sep_thousand#:#,
 sep_decimal#:#.
+absolute_path#:#absolute path
 accept_usr_agreement#:#accept user agreement?
 access#:#access
+actions#:#actions
 add_author#:#add author
 add_member#:#add member
 administrate#:#administrate
 administration#:#administration
 administrator#:#administrator
+also_as_email#:#also as email
 announce#:#announce
+announce_changes#:#announce changes
+archive#:#archive
 are_you_sure#:#Are you sure?
+assign_lo_forum#:#assign lo forum
 authors#:#authors
 available_languages#:#available languages
-basic_data#:#basic_data
+back#:#back
+basedn#:#BaseDN
+basic_data#:#basic data
+bc#:#bc
 bookmark_new#:#new bookmark
 bookmarks#:#bookmarks
 categories#:#categories
+cc#:#cc
 change#:#change
+change_lo_info#:#change lo info
+change_metadata#:#change metadata
 chapter#:#chapter
 chapter_number#:#chapter number
 chapter_title#:#chapter title
@@ -29,11 +41,14 @@ choose_language#:#choose your language
 city#:#city
 comma_separated#:#comma separated
 compose#:#compose
+contact_information#:#contact information
 country#:#country
 course#:#course
 courses#:#courses
 create#:#create
+create_in#:#create in
 crs_available#:#available courses
+crs_management_system#:#crs management system
 current_password#:#current password
 database#:#database
 database_exists#:#database exists
@@ -47,92 +62,167 @@ db_name#:#database name
 db_pass#:#database password
 db_type#:#database type
 db_user#:#database user
+db_version#:#database version
+default#:#default
 delete#:#delete
 delete_all#:#delete all
 delete_selected#:#delete selected
 deleted#:#deleted
 description#:#description
 desired_password#:#desired password
+drafts#:#drafts
 edit#:#edit
 edit_data#:#edit data
+edit_properties#:#edit properties
+editor#:#editor
 email#:#email
 employee#:#employee
+enable#:#enable
+enumerate#:#enumerate
 err_create_database_failed#:#creation of database failed
+error_recipient#:#error recipient
 execute#:#execute
 faq_exercise#:#faq exercise
 feedback#:#feedback
+feedback_recipient#:#feedback recipient
 file_version#:#version provided in file
 files_location#:#files location
+fill_out_all_required_fields#:#please fill out all required fields
 firstname#:#firstname
+folder#:#folder
+folders#:#folders
 forename#:#forename
 forum#:#forum
+forum_new#:#new forum
+forums#:#forums
 forums_available#:#available forums
 forums_of_your_groups#:#forums of your groups
+forward#:#forward
+from#:#from:
+functions#:#functions
 gender#:#gender
 generate#:#generate
+glossary#:#glossary
+group_filesharing#:#group file sharing
 groupname#:#groupname
 groups#:#groups
 groupscope#:#groupscope
 guest#:#guest
+help#:#help
+host#:#host
+http_path#:#http path
+id#:#ID
+ilias_version#:#ILIAS version
 inbox#:#inbox
+information_abbr#:#info
 inifile#:#INI-file
+inst_id#:#installation ID
+inst_info#:#installation info
+inst_name#:#installation name
+install#:#install
 installed#:#installed
 institution#:#institution
+ip_address#:#IP address
+item#:#item
 keywords#:#keywords
+lang_path#:#language path
 language#:#language
 languages#:#languages
 languages_generate_from_file#:#generate languages from file
 languages_generate_from_upload#:#generate languages from uploaded file
 last_change#:#last change
 lastname#:#lastname
+ldap#:#LDAP
 level#:#level
+linebreak#:#linebreak
+link#:#link
+linked_pages#:#linked pages
+list_of_pages#:#pages list
+list_of_questions#:#question list
+literature#:#literature
 literature_bookmarks#:#literature bookmarks
 lo#:#learning object
-los#:#learning objects
 lo_available#:#available learning objects
+lo_categories#:#lo categories
 lo_edit#:#edit learning object
-los_last_visited#:#last visited learning objects
 lo_new#:#new learning object
+lo_other_langs#:#lo's in other langauges
+lo_overview#:#lo overview
 login#:#login
 login_to_ilias#:#login to ILIAS
+logout#:#logout
+los#:#learning objects
+los_last_visited#:#last visited learning objects
 mail#:#mail
+mail_s#:#mail(s)
 mail_s_unread#:#unread mail(s)
 mails#:#mails
+mark_all_read#:#mark all as read
+mark_all_unread#:#mark all as unread
 members#:#members
+message#:#message
+message_content#:#message content
 message_to#:#message to:
 migrate#:#migrate
+move_to#:#move to
 msg_changes_ok#:#the changes were ok
 msg_failed#:#sorry, action failed
 msg_nothing_found#:#msg_nothing_found
+multimedia#:#multimedia
+must_fill_in#:#must fill in
 name#:#name
+new#:#new
 new_folder#:#new folder
 new_group#:#new group
+news#:#news
 nickname#:#nickname
 no#:#no
+no_objects#:#no objects
 no_title#:#no title
 none#:#none
+normal#:#normal
 not_installed#:#not installed
 objects#:#objects
 offline_version#:#offline version
 old#:#old
 online_chapter#:#online chapter
 online_version#:#online version
+optimize#:#optimize
 options#:#options
 other#:#other
+overview#:#overview
 owner#:#owner
 page#:#page
+page_edit#:#edit page
 password#:#password
+path_to_babylon#:#path to babylon
+path_to_convert#:#path to convert
+path_to_java#:#path to java
+path_to_unzip#:#path to unzip
+path_to_zip#:#path to zip
+payment_system#:#payment system
+perm_settings#:#permissions
 personal_desktop#:#personal desktop
 personal_profile#:#personal profile
 phone#:#phone
 phrase#:#phrase
+port#:#port
+position#:#position
+presentation_options#:#presentation options
+print#:#print
 profile#:#profile
+pub_section#:#public section
+publication#:#publication
+publication_date#:#publication date
 published#:#published
 publishing_organisation#:#publishing organisation
+question#:#question
 quit#:#quit
 read#:#read
+recipient#:#recipient
 refresh#:#refresh
 refresh_list#:#refresh list
+reply#:#reply
 reset#:#reset
 retype_password#:#retype password
 right#:#right
@@ -142,165 +232,74 @@ salutation_f#:#Ms./Mrs.
 salutation_m#:#Mr.
 save#:#save
 save_and_back#:#save and back
+save_message#:#save message
 saved#:#saved
+saved_successfully#:#saved successfully
 search#:#search
+search_bc_recipient#:#search bc recipient
+search_cc_recipient#:#search cc recipient
 search_in#:#search in
+search_recipient#:#search recipient
+sections#:#sections
+select_all#:#select all
+selected#:#selected
 send#:#send
 sender#:#sender
 sent#:#sent
 sequence#:#sequence
 sequences#:#sequences
+server#:#server
+server_software#:#server software
+set#:#set
 set_offline#:#set offline
 set_online#:#set online
 setup#:#setup
 setup_ready#:#setup is ready
 setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
+show_owner#:#show owner
+signature#:#signature
 startpage#:#startpage
 status#:#status
 step#:#step
 street#:#street
+structure#:#structure
 student#:#student
 subcat_name#:#subcategory name
+subchapter_new#:#new subchapter
 subject#:#subject
 submit#:#submit
+subscription#:#subscription
 summary#:#summary
 system#:#system
 system_groups#:#system groups
 system_grp#:#system group
+system_message#:#system message
 test_intern#:#test intern
 time#:#time
 title#:#title
+to#:#to:
+total#:#total
+tpl_path#:#template path
+trash#:#trash
+type#:#type
 type_your_message_here#:#type your message here
 uid#:#uid
+unknown#:#UNKNOWN
+unread#:#unread
 update_applied#:#update applied
 url#:#url
+url_description#:#url description
 user#:#user
 userdata#:#userdata
 username#:#username
 users#:#users
 usr_agreement#:#user agreement
+usr_skin#:#user skin
+usr_style#:#usr style
 version#:#version
+view_content#:#view content
 visible_layers#:#visible layers
 write#:#write
 yes#:#yes
 your_message#:#your message
-zip_code#:#zip code
-recipient#:#recipient
-search_recipient#:#search recipient
-cc#:#cc
-search_cc_recipient#:#search cc recipient
-bc#:#bc
-search_bc_recipient#:#search bc recipient
-type#:#type
-normal#:#normal
-system_message#:#system message
-also_as_email#:#also as email
-url_description#:#url description
-message_content#:#message content
-save_message#:#save message
-unread#:#unread
-actions#:#actions
-move_to#:#move to
-linebreak#:#linebreak
-signature#:#signature
-mark_all_read#:#mark all as read
-mark_all_unread#:#mark all as unread
-mail_s#:#mail(s)
-select_all#:#select all
-from#:#from:
-to#:#to:
-reply#:#reply
-forward#:#forward
-print#:#print
-message#:#message
-archive#:#archive
-drafts#:#drafts
-trash#:#trash
-overview#:#overview
-information_abbr#:#info
-structure#:#structure
-list_of_pages#:#pages list
-glossary#:#glossary
-list_of_questions#:#question list
-multimedia#:#multimedia
-subchapter_new#:#new subchapter
-enumerate#:#enumerate
-page_edit#:#edit page
-forum_new#:#new forum
-link#:#link
-folder#:#folder
-create_in#:#create in
-folders#:#folders
-back#:#back
-lo_categories#:#lo categories
-publication_date#:#publication date
-publication#:#publication
-functions#:#functions
-change_metadata#:#change metadata
-presentation_options#:#presentation options
-change_lo_info#:#change lo info
-announce_changes#:#announce changes
-assign_lo_forum#:#assign lo forum
-id#:#ID
-item#:#item
-question#:#question
-linked_pages#:#linked pages
-sections#:#sections
-set#:#set
-total#:#total
-new#:#new
-no_objects#:#no objects
-selected#:#selected
-subscription#:#subscription
-install#:#install
-lo_other_langs#:#lo's in other langauges
-unknown#:#UNKNOWN
-ilias_version#:#ILIAS version
-db_version#:#database version
-installation_id#:#installation ID
-host#:#host
-ip_address#:#IP address
-server_port#:#server port
-server_software#:#server software
-http_path#:#http path
-absolute_path#:#absolute path
-inst_info#:#installation info
-path_to_convert#:#path to convert
-path_to_zip#:#path to zip
-path_to_unzip#:#path to unzip
-path_to_java#:#path to java
-path_to_babylon#:#path to babylon
-feedback_recipient#:#feedback recipient
-error_recipient#:#error recipient
-pub_section#:#public section
-news#:#news
-payment_system#:#payment system
-group_filesharing#:#group file sharing
-crs_management_system#:#crs management system
-enable#:#enable
-server#:#server
-port#:#port
-basedn#:#BaseDN
-ldap#:#LDAP
-contact_information#:#contact information
-must_fill_in#:#must fill in
-position#:#position
-inst_name#:#installation name
-usr_skin#:#user skin
-default#:#default
-tpl_path#:#template path
-lang_path#:#language path
-fill_out_all_required_fields#:#please fill out all required fields
-saved_successfully#:#saved successfully
-usr_style#:#usr style
-lo_overview#:#lo overview
-literature#:#literature
-forums#:#forums
-editor#:#editor
-help#:#help
-logout#:#logout
-view_content#:#view content
-edit_properties#:#edit properties
-perm_settings#:#permissions
-show_owner#:#show owner
-optimize#:#optimize
+zipcode#:#zip code

@@ -26,8 +26,8 @@ back	back	zurück	indietro	back
 basedn	BaseDN	BaseDN	BaseDN	BaseDN
 basic_data	basic data	Grunddaten	dati di base	basic data
 bc	bc	BC	bc	bc
-bookmark_new	new bookmark	Favorit hinzufügen	nuovo favorito	new bookmark
-bookmarks	bookmarks	Favoriten	favorito	bookmarks
+bookmark_new	new bookmark	Bookmark hinzufügen	nuovo favorito	new bookmark
+bookmarks	bookmarks	Bookmarks	favorito	bookmarks
 categories	categories	Kategorien	categorie	categories
 cc	cc	CC	cc	cc
 change	change	ändern	cambiare	change
@@ -142,7 +142,7 @@ linked_pages	linked pages	verknüpft mit den Seiten	#linked pages	linked pages
 list_of_pages	pages list	Seitenliste	lista di pagine	pages list
 list_of_questions	question list	Fragenliste	lista di domande	question list
 literature	literature	Literatur	letteratura	literature
-literature_bookmarks	literature bookmarks	Literatur Favoriten	favoriti letteratura	literature bookmarks
+literature_bookmarks	literature bookmarks	Literatur Bookmarks	favoriti letteratura	literature bookmarks
 lo	learning object	Lerneinheit	lezione	learning object
 lo_available	available learning objects	verfügbare Lerneinheiten	lezioni disponibili	available learning objects
 lo_categories	lo categories	Lerneinheiten Kategorien	LO categorie	lo categories
