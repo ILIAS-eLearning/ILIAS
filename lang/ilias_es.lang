@@ -2785,6 +2785,8 @@ content#:#cont_table_cellpadding#:#Relleno de Celdas (Tabla)
 content#:#cont_table_cellspacing#:#Espacio entre Celdas (Tabla)
 content#:#cont_table_html_import#:#Importar Tabla HTML
 content#:#cont_table_html_import_info#:#Importar sólo funciona con tablas conformes a XHTML. La tabla debe ser tag raiz!
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Anchura de Tabla
 content#:#cont_target_within_source#:#El Destino no debe estar dentro del objeto fuente.
 content#:#cont_term#:#Término
@@ -4448,7 +4450,6 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable

@@ -2606,8 +2606,6 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
-content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
-content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -2938,6 +2936,8 @@ content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_html_import#:#Import HTML Table
 content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.
 content#:#cont_table_width#:#Table Width
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term

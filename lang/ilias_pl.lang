@@ -2936,6 +2936,8 @@ content#:#cont_table_cellpadding#:#Rozciągnięcie komórek
 content#:#cont_table_cellspacing#:#Odstęp komórkowy
 content#:#cont_table_html_import#:#Import tablicy HTML
 content#:#cont_table_html_import_info#:#Import działa tylko dla tablic XHTML. Tablica musi być znacznikiem głównym!
+content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
 content#:#cont_table_width#:#Szerokość tablicy
 content#:#cont_target_within_source#:#Przeznaczenie nie może być wewnątrz obiektu źródłowego.
 content#:#cont_term#:#Termin
