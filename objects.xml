@@ -148,11 +148,6 @@
 	<property cmd="edit">edit_properties</property>
 	<property cmd="perm">perm_settings</property>
 	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
 </object>
 <object name="typ">
 	<property cmd="view">view_content</property>

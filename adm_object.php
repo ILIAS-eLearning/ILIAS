@@ -64,8 +64,8 @@ $methode = $_GET["cmd"]."Object";
 switch ($_GET["type"])
 {
     case "le":
-		require_once "classes/class.LearningObject.php";
-		$obj = new LearningObject();
+		require_once "classes/class.LearningModuleObject.php";
+		$obj = new LearningModuleObject();
 		$data = $obj->$methode();
 		break;
 
@@ -135,7 +135,7 @@ switch ($_GET["type"])
 		$data = $obj->$methode();
 		break;
 
-	case "lang":
+	case "lng":
 		require_once "classes/class.LanguageObject.php";
 		$obj = new LanguageObject();
 		$data = $obj->$methode();
@@ -227,6 +227,7 @@ else
 	$tplpart = "edit";
 	
 $template = "tpl.".$obj->type."_".$tplpart.".html";
+
 if ($tpl->fileExists($template) == false)
 {
 	$template = "tpl.obj_".$tplpart.".html";

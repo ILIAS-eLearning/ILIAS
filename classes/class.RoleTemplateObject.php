@@ -63,7 +63,7 @@ class RoleTemplateObject extends Object
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with that name already exists!",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
 			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'n');

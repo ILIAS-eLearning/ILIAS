@@ -39,7 +39,7 @@ class UserObject extends Object
 	*/
 	function createObject()
 	{
-		global $tree,$tplContent,$rbacsystem;
+		global $tree,$tpl,$rbacsystem;
 
 		$obj = getObject($_GET["obj_id"]);
 

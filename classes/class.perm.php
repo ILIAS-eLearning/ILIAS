@@ -1,7 +1,7 @@
 <?php
 
 // TODO: this function collection must cleaned up!!! Many functions belong to other classes
-// or could be simplified and merged. I.E. all getXXXList-Funkctions.
+// or could be simplified and merged. I.E. all getXXXList-Functions.
 
  function getRole ($ARoleId)
  {
@@ -110,7 +110,7 @@
 	{
 	 $arr[] = array(
 	"obj_id"		 => $data->obj_id,
-	"type"		 => $data->type,
+	"type"		 => $data->typ,
 	"title"		=> $data->title,
 	"desc"		 => $data->description,
 	"usr_id"		 => $data->owner,
@@ -188,7 +188,7 @@
 	 $a_order = 'title';
 
 	$query = "SELECT * FROM object_data
-		WHERE type = 'lang'
+		WHERE type = 'lng'
 		ORDER BY ".$a_order." ".$a_direction;
 	$res = $db->query($query);
 
@@ -252,23 +252,22 @@
 	return mysql_insert_id();
  }	
 
- /**
- * deletes an object
- * @param	int	 $AObjId
- * @return boolean	returns true if successful otherwise false
- */
- function deleteObject ($AObjId)
- {
+/**
+* delete an object from tbl.object_data
+* @param	integer		$a_obj_id
+* @return	boolean		returns true if successful otherwise false
+*/
+function deleteObject ($a_obj_id)
+{
 	global $ilias;
 	$db = $ilias->db;
 
-	$query = "DELETE FROM object_data
-		WHERE obj_id = '".$AObjId."'";
+	$query = "DELETE FROM object_data ".
+			 "WHERE obj_id = '".$a_obj_id."'";
 	$db->query($query);
- $query = "DELETE FROM rbac_pa WHERE obj_id = '".$AObjId."'";
- $db->query($query);
+
 	return true;
- }
+}
 
  /**
  * updates an object
@@ -372,7 +371,7 @@
 	 $query = "SELECT * FROM rbac_operations ".
 	"LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
 	"LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
-	"WHERE object_data.title='".$Aobj_type."' AND object_data.type='type' ".
+	"WHERE object_data.title='".$Aobj_type."' AND object_data.type='typ' ".
 	"ORDER BY rbac_operations.".$a_order." ".$a_direction; 
 	}
 	else

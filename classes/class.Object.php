@@ -268,7 +268,7 @@ class Object
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["obj_id"],$_GET["parent"]))
 		{
-			$rbacadmin->revokePermission($_GET["obj_id"]);
+			$rbacadmin->revokePermission($_GET["obj_id"],$_GET["parent"]);
 			
 			foreach ($_POST["perm"] as $key => $new_role_perms)
 			{

@@ -29,25 +29,7 @@ class RbacAdmin
 	}
 
 	/**
-	* Checks if a role already exists. Role title should be unique
-	* @access	public
-	* @param	string
-	* @return	integer
-	*/
-	function roleExists($a_title)
-	{
-		$res = $this->ilias->db->query("SELECT obj_id FROM object_data ".
-								"WHERE title ='".$a_title.
-								"' AND type = 'role'");
-		while($res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$id[] = $row->obj_id;
-		}
-		return count($id);
-	}
-
-	/**
-	* Inserts userdata in user_data table
+	* Inserts userdata in usr_data table
 	* @access	public
 	* @param	array 
 	* @return	boolean
@@ -56,7 +38,7 @@ class RbacAdmin
 	{
 
 		$passwd = md5($a_data["Passwd"]);
-		$query = "INSERT INTO user_data ".
+		$query = "INSERT INTO usr_data ".
 			"(usr_id,login,passwd,firstname,surname,title,gender,email,last_login,last_update,create_date) ".
 			"VALUES('".$a_data["Id"]."','".$a_data["Login"]."','".$passwd."','".$a_data["FirstName"].
 			"','".$a_data["SurName"]."','".$a_data["Title"]."','".$a_data["Gender"]."','".$a_data["Email"].
@@ -67,7 +49,7 @@ class RbacAdmin
 	}
 
 	/**
-	* Deletes a user from object_data, rbac_pa, rbac_ua and user_data
+	* Deletes a user from object_data, rbac_pa, rbac_ua and usr_data
 	* @access	public
 	* @param	array
 	* @return	boolean
@@ -83,21 +65,21 @@ class RbacAdmin
 									"WHERE obj_id='".$id."'");
 			$res = $this->ilias->db->query("DELETE FROM rbac_ua ".
 									"WHERE usr_id='".$id."'");
-			$res = $this->ilias->db->query("DELETE FROM user_data ".
+			$res = $this->ilias->db->query("DELETE FROM usr_data ".
 									"WHERE usr_id='".$id."'");
 		}
 		return true;
 	}
 
 	/**
-	* updates user data in table user_data & object_data
+	* updates user data in table usr_data & object_data
 	* @access	public
 	* @param	array		with user data
 	* @return	boolean
 	*/
 	function updateUser($a_userdata)
 	{
-		$query = "UPDATE user_data ".
+		$query = "UPDATE usr_data ".
 				 "SET ".
 				 "login = '".$a_userdata["Login"]."',".
 				 "firstname = '".$a_userdata["FirstName"]."',".
@@ -119,6 +101,24 @@ class RbacAdmin
 		$res = $this->ilias->db->query($query);
 		
 		return true;
+	}
+	
+	/**
+	* Checks if a role already exists. Role title should be unique
+	* @access	public
+	* @param	string
+	* @return	integer
+	*/
+	function roleExists($a_title)
+	{
+		$res = $this->ilias->db->query("SELECT obj_id FROM object_data ".
+								"WHERE title ='".$a_title.
+								"' AND type = 'role'");
+		while($res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$id[] = $row->obj_id;
+		}
+		return count($id);
 	}
 
 	/**
@@ -171,21 +171,24 @@ class RbacAdmin
 	/**
 	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
 	* @access	public
-	* @param	integer		object_id
+	* @param	integer		obj_id of role (role_id)
+	* @param	integer		obj_id of role folder (parent_id)
 	* @return	boolean
 	*/
-	function deleteRole($a_obj_id)
+	function deleteRole($a_rol_id,$a_parent_id)
 	{
-		$this->ilias->db->query("DELETE FROM object_data ".
-						 "WHERE obj_id = '".$a_obj_id ."'");
-		$this->ilias->db->query("DELETE FROM rbac_pa ".
-						 "WHERE rol_id = '".$a_obj_id ."'");
-		$this->ilias->db->query("DELETE FROM rbac_templates ".
-						 "WHERE rol_id = '".$a_obj_id ."'");
+		// TODO: check assigned users before deletion
 		$this->ilias->db->query("DELETE FROM rbac_ua ".
-						 "WHERE rol_id = '".$a_obj_id ."'");
-		$this->ilias->db->query("DELETE FROM rbac_fa ".
-						 "WHERE rol_id = '".$a_obj_id ."'");
+						 "WHERE rol_id = '".$a_rol_id ."'");
+						 
+		// das geht so nicht: obj_id ist nicht rol_id!!!
+		$this->revokePermission($a_rol_id,$a_parent_id);
+		
+		$this->deleteLocalRole($a_rol_id,$a_obj_id);
+		
+		// at last: remove role entry in object_data
+		deleteObject($a_rol_id);						 
+	
 		return true;
 	}
 
@@ -196,7 +199,7 @@ class RbacAdmin
 	* @param	integer		parent_id
 	* @return	boolean
 	*/
-	function deleteTemplate($a_obj_id,$a_parent)
+	function deleteTemplate($a_obj_id,$a_parent_id)
 	{
 		$this->ilias->db->query("DELETE FROM object_data ".
 						 "WHERE obj_id = '".$a_obj_id ."'");
@@ -215,15 +218,16 @@ class RbacAdmin
 	* @param	integer	
 	* @return	boolean
 	*/
-	function deleteLocalRole($a_rol_id,$a_parent,$a_parent_obj)
+	function deleteLocalRole($a_rol_id,$a_parent_id,$a_parent_obj = 0)
 	{
 		$query = "DELETE FROM rbac_fa ".
 			"WHERE rol_id = '".$a_rol_id."' ".
-			"AND parent = '".$a_parent."'";
+			"AND parent = '".$a_parent_id."'";
 		$res = $this->ilias->db->query($query);
+
 		$query = "DELETE FROM rbac_templates ".
 			"WHERE rol_id = '".$a_rol_id."' ".
-			"AND parent = '".$a_parent."'";
+			"AND parent = '".$a_parent_id."'";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -321,18 +325,18 @@ class RbacAdmin
 	* Grants permissions to an object
 	* @access	public
 	* @param	integer		object id of role
-	* @param	array		array of operations
+	* @param	array		array of operation ids
 	* @param	integer		object id
 	* @param	integer		obj id of parent object
 	* @return	boolean
 	*/
-	function grantPermission($a_rol_id,$a_ops_id,$a_obj_id,$a_setid)
+	function grantPermission($a_rol_id,$a_ops,$a_obj_id,$a_parent_id)
 	{
 		// Serialization des ops_id Arrays
-		$ops_ids = addslashes(serialize($a_ops_id));
+		$ops_ids = addslashes(serialize($a_ops));
 		$query = "INSERT INTO rbac_pa ".
 				 "VALUES ".
-				 "('".$a_rol_id."','".$ops_ids."','".$a_obj_id."','".$a_setid."')";
+				 "('".$a_rol_id."','".$ops_ids."','".$a_obj_id."','".$a_parent_id."')";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -342,34 +346,25 @@ class RbacAdmin
 	* Revokes permissions of object
 	* @access	public
 	* @param	integer		object_id
-	* @param	integer		role_id
 	* @param	integer		object_id of parent object
+	* @param	integer		role_id (optional: if you want to revoke permissions of object only for a specific role)
 	* @return	boolean
 	*/
-	function revokePermission($a_obj_id, $a_rol_id = 0, $a_set_id = 0)
+	function revokePermission($a_obj_id, $a_parent_id, $a_rol_id = 0)
 	{
-		if ($a_set_id)
+		if ($a_rol_id)
 		{
-			$and1 = " AND set_id = '".$a_set_id."'";
+			$and1 = " AND rol_id = '".$a_rol_id."'";
 		}
 		else
 		{
 			$and1 = "";
 		}
 
-		if ($a_rol_id)
-		{
-			$and2 = " AND rol_id = '".$a_rol_id."'";
-		}
-		else
-		{
-			$and2 = "";
-		}
-
 		$query = "DELETE FROM rbac_pa ".
 				 "WHERE obj_id = '".$a_obj_id."' ".
-				 $and1.
-				 $and2;
+				 "AND set_id = '".$a_parent_id."' ".
+				 $and1;
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -379,18 +374,18 @@ class RbacAdmin
 	* Return template permissions of an role
 	* @access	public
 	* @param	integer		role_id
-	* @param	string
-	* @param	integer
+	* @param	string		object type
+	* @param	integer		parent_id
 	* @return	array		operation_ids
 	*/
-	function getRolePermission($a_rol_id,$a_type,$a_parent)
+	function getRolePermission($a_rol_id,$a_type,$a_parent_id)
 	{
 		$ops_id = array();
 
 		$query = "SELECT ops_id FROM rbac_templates ".
 				 "WHERE rol_id='".$a_rol_id."' ".
 				 "AND type='".$a_type."' ".
-				 "AND parent='".$a_parent."'";
+				 "AND parent='".$a_parent_id."'";
 		$res = $this->ilias->db->query($query);
 
 		if (!$res->numRows())
@@ -442,11 +437,11 @@ class RbacAdmin
 	* @param	integer		object_id of parent object
 	* @return	boolean
 	*/
-	function deleteRolePermission($a_rol_id,$a_parent)
+	function deleteRolePermission($a_rol_id,$a_parent_id)
 	{
 		$query = "DELETE FROM rbac_templates ".
 				 "WHERE rol_id = '".$a_rol_id."' ".
-				 "AND parent = '".$a_parent."'";
+				 "AND parent = '".$a_parent_id."'";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -461,18 +456,18 @@ class RbacAdmin
 	* @param	integer		object_id of parent object
 	* @return	boolean
 	*/
-	function setRolePermission($a_rol_id,$a_type,$a_ops_id,$a_parent)
+	function setRolePermission($a_rol_id,$a_type,$a_ops,$a_parent_id)
 	{
-		if (!$a_ops_id)
+		if (!$a_ops)
 		{
-			$a_ops_id = array();
+			$a_ops = array();
 		}
 
-		foreach ($a_ops_id as $o)
+		foreach ($a_ops as $op)
 		{
 			$query = "INSERT INTO rbac_templates ".
 					 "VALUES ".
-					 "('".$a_rol_id."','".$a_type."','".$o."','".$a_parent."')";
+					 "('".$a_rol_id."','".$a_type."','".$op."','".$a_parent_id."')";
 			$res = $this->ilias->db->query($query);
 		}
 
@@ -506,10 +501,10 @@ class RbacAdmin
 	* @access	public
 	* @param	integer		object id
 	* @param	string		order by type,title,desc or last_update
-	* @param	string		order ASC or DESC (defalut: ASC)
+	* @param	string		order ASC or DESC (default: ASC)
 	* @return	array		set ids
 	*/
-	function getRoleListByObject($a_parent, $a_order = "", $a_direction = "ASC")
+	function getRoleListByObject($a_parent_id, $a_order = "", $a_direction = "ASC")
 	{
 		$role_list = array();
 
@@ -522,20 +517,13 @@ class RbacAdmin
 				 "JOIN rbac_fa ".
 				 "WHERE object_data.type = 'role' ".
 				 "AND object_data.obj_id = rbac_fa.rol_id ".
-				 "AND rbac_fa.parent = '".$a_parent."' ".
+				 "AND rbac_fa.parent = '".$a_parent_id."' ".
 				 "ORDER BY ".$a_order." ".$a_direction;
 		$res = $this->ilias->db->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$role_list[] = array( 
-				"obj_id"		=> $row->obj_id,
-				"type"			=> $row->type,
-				"title"			=> $row->title,
-				"description"	=> $row->description,
-				"owner"			=> $row->owner,
-				"create_date"	=> $row->create_date,
-				"last_update"	=> $row->last_update);
+			$role_list[] = $this->fetchObject($row);
 		}
 
 		return $role_list;
@@ -549,7 +537,7 @@ class RbacAdmin
 	* @param	string		order ASC or DESC (defalut: ASC)
 	* @return	array		set ids
 	*/
-	function getRoleAndTemplateListByObject($a_parent, $a_order = "", $a_direction= "ASC")
+	function getRoleAndTemplateListByObject($a_parent_id, $a_order = "", $a_direction= "ASC")
 	{
 		$role_list = array();
 
@@ -562,20 +550,13 @@ class RbacAdmin
 				 "JOIN rbac_fa ".
 				 "WHERE object_data.type IN ('role','rolt')".
 				 "AND object_data.obj_id = rbac_fa.rol_id ".
-				 "AND rbac_fa.parent = '".$a_parent."' ".
+				 "AND rbac_fa.parent = '".$a_parent_id."' ".
 				 "ORDER BY ".$a_order." ".$a_direction;
 		$res = $this->ilias->db->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$role_list[] = array( 
-				"obj_id"		=> $row->obj_id,
-				"type"			=> $row->type,
-				"title"			=> $row->title,
-				"description"	=> $row->description,
-				"owner"			=> $row->owner,
-				"create_date"	=> $row->create_date,
-				"last_update"	=> $row->last_update);
+			$role_list[] = $this->fetchObject($row);
 		}
 
 		return $role_list;
@@ -606,11 +587,11 @@ class RbacAdmin
 	* @param	integer		parent id
 	* @return	boolean 
 	*/
-	function isAssignable($a_rol_id, $a_parent)
+	function isAssignable($a_rol_id, $a_parent_id)
 	{
 		$query = "SELECT * FROM rbac_fa ".
 				 "WHERE rol_id = '".$a_rol_id."' ".
-				 "AND parent = '".$a_parent."'";
+				 "AND parent = '".$a_parent_id."'";
 		$res = $this->ilias->db->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -636,14 +617,7 @@ class RbacAdmin
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$role_list = array( 
-				"obj_id"		=> $row->obj_id,
-				"type"			=> $row->type,
-				"title"			=> $row->title,
-				"description"	=> $row->description,
-				"owner"			=> $row->owner,
-				"create_date"	=> $row->create_date,
-				"last_update"	=> $row->last_update);
+			$role_list[] = $this->fetchObject($row);
 		}
 
 		return $role_list;
@@ -737,21 +711,25 @@ class RbacAdmin
 	}
 
 	/**
-	* return id of parent object
-	* @access	public
-	* @param	integer  
-	* @return	integer
+	* get role ids of all parent roles, if last parameter is set true
+	* you get also all parent templates
+	* @access	private
+	* @param	integer		object id of start node
+	* @param	integer		object id of start parent
+	* @param	boolean		true for role templates (default: false)
+	* @return	string 
 	*/
-	function getParentObject($a_child)
+	function getParentRoleIds($a_start_node = 0,$a_start_parent = 0,$a_templates = false)
 	{
-		$query = "SELECT * FROM tree WHERE child = '".$a_child."'";
-		$res = $this->ilias->db->query($query);
+		global $tree;
+		
+		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
+		$a_start_parent = $a_start_parent ? $a_start_parent : $_GET["parent"];
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$parent = $row->parent;
-		}
-		return $parent;
+		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
+		$pathIds[0] = SYSTEM_FOLDER_ID;
+
+		return $this->getParentRoles($pathIds,$a_templates);
 	}
 
 	/**
@@ -772,27 +750,25 @@ class RbacAdmin
 
 		return $ops_id ? $ops_id : array();
 	}
-
+	
 	/**
-	* get role ids of all parent roles, if last parameter is set true
-	* you get also all parent templates
+	* get data of object
 	* @access	private
-	* @param	integer		object id of start node
-	* @param	integer		object id of start parent
-	* @param	boolean		true for role templates (default: false)
-	* @return	string 
+ 	* @param	object	db	db result object containing object_data
+	* @return	array		2-dim (int/str) object_data
 	*/
-	function getParentRoleIds($a_start_node = 0,$a_start_parent = 0,$a_templates = false)
+	function fetchObject($a_row)
 	{
-		global $tree;
-		
-		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
-		$a_start_parent = $a_start_parent ? $a_start_parent : $_GET["parent"];
-
-		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
-		$pathIds[0] = SYSTEM_FOLDER_ID;
-
-		return $this->getParentRoles($pathIds,$a_templates);
+		$data = array(
+					"obj_id"		=> $a_row->obj_id,
+					"type"			=> $a_row->type,
+					"title"			=> $a_row->title,
+					"description"	=> $a_row->description,
+					"owner"			=> $a_row->owner,
+					"create_date"	=> $a_row->create_date,
+					"last_update"	=> $a_row->last_update
+					);
+		return $data ? $data : array();
 	}
 } // END class.rbacAdmin
 
