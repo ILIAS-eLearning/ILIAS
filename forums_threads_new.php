@@ -12,19 +12,36 @@ require_once "classes/class.Forum.php";
 
 $frm = new Forum();
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
+$topicData = $frm->getOneTopic();	
 
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-$tpl->setVariable("BTN_TXT", $lng->txt("back"));
-$tpl->parseCurrentBlock();
+$tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 if (!$rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
-$tpl->setVariable("TXT_FORUM_NEW_THREAD", $lng->txt("forums_new_thread"));
+$tpl->touchBlock("locator_separator");
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
+$tpl->setVariable("LINK_ITEM", "forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tpl->parseCurrentBlock();
+
+if (!$_GET["backurl"])
+{
+	$tpl->touchBlock("locator_separator");
+	$tpl->setCurrentBlock("locator_item");
+	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
+	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->parseCurrentBlock();
+}
+
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $topicData["top_name"].": ".$lng->txt("forums_new_thread"));
+if (!$_GET["backurl"]) $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+else $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
+$tpl->parseCurrentBlock();
 
 if ($_GET["cmd"] == "newthread")
 {		
@@ -42,18 +59,25 @@ if ($_GET["cmd"] == "newthread")
 	}
 	else
 	{		
-		$frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
-		$topicData = $frm->getOneTopic();	
-		
 		$newPost = $frm->generateThread($_GET["obj_id"], $_GET["parent"], $topicData["top_pk"], $_SESSION["AccountId"], $formData["subject"], $formData["message"]);
 		
-		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_thread_new_entry"));
+		// Visit-Counter
+		$frm->setDbTable("frm_data");
+		$frm->setWhereCondition("top_pk = ".$topicData["top_pk"]);
+		$frm->updateVisits($topicData["top_pk"]);
+			
+		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = '".$formData["subject"]."' AND thr_num_posts = 1");
+		if (is_array($thrData = $frm->getOneThread())) {
+			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&feedback=".urlencode($lng->txt("forums_thread_new_entry")));
+			exit();
+		} 
 	}
 }
 
 $tpl->setCurrentBlock("new_thread");
-$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-$tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
+$tpl->setVariable("TXT_MUSTBE", $lng->txt("mandatory_fields"));
+$tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
+$tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
 $tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);

@@ -10,7 +10,7 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
 
-$_SESSION["backurl"] = "forums";
+//$_SESSION["backurl"] = "forums";
 
 $frm = new Forum();
 
@@ -41,20 +41,22 @@ if (count($frm_obj) > 0)
 		$lpCont = "";
 		$lastPost = "";
 				
-		if ($topicData["top_last_post"] != "") $lastPost = $frm->getLastPost($topicData["top_last_post"]);
+		if ($topicData["top_last_post"] != "") {
+			$lastPost = $frm->getLastPost($topicData["top_last_post"]);
+			$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
+		}
 				
 		if ($rbacsystem->checkAccess("read", $data["obj_id"], $data["parent"])) 
 		{			
-			$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".
-							  $data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$data["title"]."</a>");
+			if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("write", $data["obj_id"], $data["parent"]))) {
+				$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
+			}
+			else $tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 			
-			if (is_array($lastPost)) {				
-				$lpCont = "<a href=\"forums_posts_reply.php?pos_pk=".
-					$lastPost["pos_pk"]."&obj_id=".$data["obj_id"]."&parent=".
-					$data["parent"]."&backurl=forums\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-				$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".
-					$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums\">".$lastPost["SurName"]."</a><br>";
-				$lpCont .= $lastPost["pos_date"];				
+			if (is_array($lastPost)) {					
+				$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
+				$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums\">".$lastPost["surname"]."</a><br>";
+				$lpCont .= $lastPost["pos_date"];							
 			}
 			$tpl->setVariable("LAST_POST", $lpCont);
 			
@@ -66,8 +68,7 @@ if (count($frm_obj) > 0)
 					unset($modData);
 					$modData = $frm->getModerator($MODS[$i]);	
 					if ($moderators != "") $moderators .= ", ";
-					$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"].
-						"&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums\">".$modData["SurName"]."</a>";
+					$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums\">".$modData["SurName"]."</a>";
 				}
 			}
 						
@@ -76,10 +77,10 @@ if (count($frm_obj) > 0)
 		}
 		else 
 		{
-			$tpl->setVariable("TITLE","<b>".$data["title"]."</b>");
+			$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
 			
 			if (is_array($lastPost)) {
-				$lpCont = $lastPost["pos_message"]."<br>".$lng->txt("from")." ".$lastPost["SurName"]."<br>".$lastPost["pos_date"];				
+				$lpCont = $lastPost["pos_message"]."<br>".$lng->txt("from")." ".$lastPost["surname"]."<br>".$lastPost["pos_date"];				
 			}
 			$tpl->setVariable("LAST_POST", $lpCont);
 			
@@ -106,6 +107,7 @@ if (count($frm_obj) > 0)
 		$tpl->setVariable("DESCRIPTION",$topicData["top_description"]);
 		$tpl->setVariable("NUM_THREADS",$topicData["top_num_threads"]);
 		$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);		
+		$tpl->setVariable("NUM_VISITS",$topicData["visits"]);		
 		
         $tpl->parseCurrentBlock("forum_row");
 		
@@ -125,11 +127,12 @@ else
 
 
 $tpl->setCurrentBlock("forum");
-$tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_of_your_groups"));
+$tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 $tpl->setVariable("TXT_NUM_THREADS", $lng->txt("forums_threads"));
-$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
+$tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
 $tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
