@@ -960,8 +960,8 @@
 	<xsl:param name="curType"/>
 	<xsl:choose>
 
-		<!-- all image mime types -->
-		<xsl:when test="substring($type, 1, 5) = 'image'">
+		<!-- all image mime types, except svg -->
+		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
 				<img border="0">
 					<xsl:if test = "$map_item = ''">
