@@ -22,6 +22,7 @@
 
 <script language="JavaScript">
 	this.API = window.document.APIX;
+	//API = window.document.APIX;
 
 	var code_base="{CODE_BASE}";
 	var user_id="{USER_ID}";
@@ -31,29 +32,29 @@
 
 function ILIASLaunchSCO(sco_id)
 {
- 	return document.API.IliasLaunchSco(sco_id);
+ 	return API.IliasLaunchSco(sco_id);
 }
 
 function ILIASSetValue(lvalue, rvalue)
 {
- 	return document.API.IliasSetValue(lvalue, rvalue);
+ 	return API.IliasSetValue(lvalue, rvalue);
 }
 
 function LMSGetValue(dataModelElement)
 {
- 	return document.API.LMSGetValue(dataModelElement);
+ 	return API.LMSGetValue(dataModelElement);
 }
 
 function LMSSetValue(dataModelElement,elemValue)
 {
-	return document.API.LMSSetValue(dataModelElement,elemValue);
+	return API.LMSSetValue(dataModelElement,elemValue);
 }
 
 function LMSInitialize(inString)
 {
-	document.API.SetParameter(user_id, item_id, session_id, code_base);
+	API.SetParameter(user_id, item_id, session_id, code_base);
 
-	document.API.LMSInitialize(inString);
+	API.LMSInitialize(inString);
 
 	//parent.parent._api.document.getElementById("API").SetParameter(user_id, item_id, session_id, code_base);
  	//return parent.parent._api.document.getElementById("API").LMSInitialize(inString);
@@ -61,32 +62,32 @@ function LMSInitialize(inString)
 
 function LMSFinish(inString)
 {
-	return document.API.LMSFinish(inString);
+	return API.LMSFinish(inString);
 }
 
 function LMSCommit(inString)
 {
- return document.API.LMSCommit(inString);
+ return API.LMSCommit(inString);
 }
 
 function LMSGetLastError()
 {
- 	return document.API.LMSGetLastError();
+ 	return API.LMSGetLastError();
 }
 
 function LMSGetErrorString(errorNumber)
 {
- 	return document.API.LMSGetErrorString(errorNumber);
+ 	return API.LMSGetErrorString(errorNumber);
 }
 
 function LMSGetDiagnostics(inString)
 {
-	return document.API.LMSGetDiagnostics(inString);
+	return API.LMSGetDiagnostics(inString);
 }
 
 function LMSTerminate(inString)
 {
- return document.API.LMSFinish(inString);
+ return API.LMSFinish(inString);
 }
 
 </script>
