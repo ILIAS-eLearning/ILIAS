@@ -1,4 +1,11 @@
 <?php
+/**
+ * Class Admin
+ * Core functions for Role Based Access Control
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+*/
 class Admin 
 {
 	var $ilias;

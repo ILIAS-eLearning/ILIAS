@@ -1,15 +1,21 @@
 <?php
-// CLASS RbaSystemH
-// 
-// System Functions for Hierachical Core RBAC
-//
-// @author Stefan Meyer smeyer@databay.de
-// 
+/**
+ * Class RbacSystemH
+ * extensions for hierachical Rbac (maybe later)
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+ */
 class RbacSystemH extends RbacSystem
 {
-    function RbacSystemH(&$dbhandle)
+/**
+ * Consructor
+ * @params object ilias
+ *
+ * */
+    function RbacSystemH(&$a_ilias)
     {
-        $this->RbacSystem($dbhandle);
+        $this->RbacSystem($a_ilias);
     }
     // 
     // @access public

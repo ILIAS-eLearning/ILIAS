@@ -1,10 +1,11 @@
 <?php
-// CLASS RbaSystem
-// 
-// System Functions for Core RBAC
-//
-// @author Stefan Meyer smeyer@databay.de
-// 
+/**
+ * class RbacSystem
+ * system function like checkAccess, addActiveRole ...
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+ */
 class RbacSystem
 {
     var $db; // Database Handle
@@ -47,17 +48,18 @@ class RbacSystem
     function dropActiveRole()
     {
     }
-	
-// @access public
-// @params ObjectId, das abzufragende Recht
-// @return true false
+/**	
+ * @access public
+ * @params ObjectId, das abzufragende Recht
+ * @return true false
+ */
     function checkAccess($Aobj_id,$Aoperation,$Aset_id="")
     {
 		$ops = array();
 
 		// Abfrage der ops_id der gewünschten Operation
 		$query = "SELECT ops_id FROM rbac_operations ".
-				 "WHERE operation ='".$Aoperation."'";
+			"WHERE operation ='".$Aoperation."'";
 
 		
 		$res = $this->db->query($query);
@@ -97,16 +99,18 @@ class RbacSystem
 		
 		return in_array($ops_id,$ops);
     }
-// @access public
-// @params ObjectId,RoleIds, das abzufragende Recht
-// @return true false
+/**
+ * @access public
+ * @params ObjectId,RoleIds, das abzufragende Recht
+ * @return true false
+ */
 	function checkPermission($Aobj_id,$Arol_id,$Aoperation,$Aset_id="")
 	{
 		$ops = array();
 
 		// Abfrage der ops_id der gewünschten Operation
 		$query = "SELECT ops_id FROM rbac_operations ".
-				 "WHERE operation ='".$Aoperation."'";
+			"WHERE operation ='".$Aoperation."'";
 
 		
 		$res = $this->db->query($query);

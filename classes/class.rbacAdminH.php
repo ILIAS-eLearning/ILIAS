@@ -1,11 +1,11 @@
 <?php
-// CLASS Rbac
-// 
-// Admin Functions for Hierachical Core RBAC
-// extends RbacAdmin
-// @author Stefan Meyer smeyer@databay.de
-
-
+/**
+ * class RbacAdminH
+ * extensions for hierachical Rbac (maybe later)
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+*/
 class RbacAdminH extends RbacAdmin
 {
     function RbacAdminH(&$dbhandle)

@@ -1,12 +1,19 @@
 <?php
-// Basis Klasse aller Objekte
-// Enthält die grundlegenden Methoden um Objekte zu erzeugen, editieren usw.
-
+/**
+ * Class Object
+ * Basic functions for all objects
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+ */
 class Object
 {
-	var $ilias;
-
 // PUBLIC METHODEN
+/**
+ * Constructor
+ * @params object ilias
+ *
+ */
 	function Object(&$a_ilias)
 	{
 		$this->ilias = $a_ilias;
@@ -95,6 +102,7 @@ class Object
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 		$tplContent->setVariable("TPOS",$_GET["parent"]);
 		$tplContent->setVariable("TREEPATH",$this->getPath());
+		$tplContent->setVariable("MESSAGE_TOP","Permissions of: ".$obj["title"]);
 
 		// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
 		$parentRoles = $this->getParentRoleIds();
@@ -137,6 +145,9 @@ class Object
 			$tplContent->parseCurrentBlock();
 		}
 		// END TABLE_DATA_OUTER
+
+		// ADD LOCAL ROLE
+		$tplContent->setVariable("MESSAGE_BOTTOM","You can also add local roles");
 	}
 	function permSaveObject()
 	{
@@ -200,13 +211,13 @@ class Object
 		}
 		header ("location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 	}
-	function add_roleObject()
+	function addRoleObject()
 	{
 		global $ilias;
 		global $tree;
 
-		$rbacadmin = new RbacAdminH($ilias->db);
-		$rbacreview = new RbacReviewH($ilias->db);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacreview = new RbacReviewH($this->ilias->db);
 
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
 		if(!($rolf_id = $rolf_data["child"]))
@@ -222,8 +233,7 @@ class Object
 		$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id);
 
 		// Suche aller Parent Rollen im Baum
-		$pathIds  = $tree->showPathId($_GET["obj_id"],1);
-		$parentRoles = $rbacadmin->getParentRoles($pathIds);
+		$parentRoles = $rthis->getParentRoleIds();
 		foreach($parentRoles as $parRol)
 		{
 			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
