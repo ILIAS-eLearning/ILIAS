@@ -3,7 +3,7 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.5 2003/03/31 11:03:41 akill Exp $
+* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.6 2003/04/01 07:31:53 akill Exp $
 *
 * @extends	ilObject
 * @package	ilias-core
@@ -162,6 +162,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		} //for
 
 		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("NUM_COLS", 6);
 		$this->showActions();
 	}
 

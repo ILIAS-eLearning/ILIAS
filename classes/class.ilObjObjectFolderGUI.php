@@ -137,9 +137,11 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		}
 
 		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("NUM_COLS", $num);
 		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
+		$this->tpl->setVariable("NUM_COLS", $num);
 		$this->showPossibleSubObjects();
 	}
 } // END class.ObjectFolderObjectOut
