@@ -47,6 +47,10 @@ $FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 $REVISION = "$Revision$";
 $VERSION = substr(substr($REVISION,2),0,-2);
 
+// set ilias pathes
+define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-1));
+define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-1));
+
 //instantiate template - later in the program please use own Templateclass
 $tpl = new $tpl_class_name ("./templates/default");
 $tpl->loadTemplatefile("tpl.setup.html", true, true);
