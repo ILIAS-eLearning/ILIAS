@@ -1163,10 +1163,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function editMetaObject()
 	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"test.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$meta_gui =& new ilMetaDataGUI();
+			$meta_gui->setObject($this->object);
+			$meta_gui->edit("ADM_CONTENT", "adm_content",
+				"test.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+		}
 	}
 
 		function saveMetaObject()
@@ -3024,17 +3028,25 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function maintenanceObject()
 	{
-		if ($_POST["cmd"]["delete_all_user_data"])
-		{
-			$this->object->removeAllTestEditings();
-			sendInfo($this->lng->txt("tst_all_user_data_deleted"));
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			if ($_POST["cmd"]["delete_all_user_data"])
+			{
+				$this->object->removeAllTestEditings();
+				sendInfo($this->lng->txt("tst_all_user_data_deleted"));
+			}
+			$add_parameter = $this->getAddParameter();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->parseCurrentBlock();
 		}
-		$add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
-		$this->tpl->parseCurrentBlock();
+		else
+		{
+			sendInfo($this->lng->txt("cannot_maintain_test"));
+		}
 	}	
 
 	/**

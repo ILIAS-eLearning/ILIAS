@@ -193,6 +193,7 @@ assessment#:#imagemap#:#Image map
 assessment#:#imagemap_file#:#Image map file
 assessment#:#imagemap_source#:#Image map source
 assessment#:#import_question#:#Import question(s)
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#insert_after#:#Insert after
 assessment#:#insert_before#:#Insert before
 assessment#:#internal_links#:#Internal Links
