@@ -1357,6 +1357,7 @@ copy various files and directories to your ILIAS web directory:
     cp -p * /opt/ilias/www/htdocs/ilias/
     cp -rp classes content css docs images include java /opt/ilias/www/htdocs/ilias/
     cp -rp lang layouts modules setup sql templates xml /opt/ilias/www/htdocs/ilias/
+    cp -rp assessment chat tracking survey syntax_highlight /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
