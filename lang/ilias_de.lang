@@ -546,6 +546,10 @@ common#:#auth_edit_permission#:#Rechteeinstellungen �ndern
 common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_local#:#ILIAS Datenbank
+common#:#ldap_version#:#LDAP Protokollversion
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
+common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
