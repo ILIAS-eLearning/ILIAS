@@ -64,8 +64,8 @@ if (file_exists($start_template))
 }
 else
 {
-	header("location: ".$start_script);
-	exit;
+	ilUtil::redirect($start_script);
+	exit();
 }
 
 ?>

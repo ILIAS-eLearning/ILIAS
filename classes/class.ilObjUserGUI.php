@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.79 2004/04/26 20:38:13 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.80 2004/05/07 17:29:37 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -681,6 +681,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// validate login
+		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// check loginname
 		if (loginExists($_POST["Fobject"]["login"]))
 		{
@@ -755,8 +761,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("user_added"),true);
 
-		header("Location:".$this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$this->usrf_ref_id));
 	}
 
 	/**
@@ -773,12 +778,23 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
 
+		foreach ($_POST["Fobject"] as $key => $val)
+		{
+			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
+		}
+
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
 			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// validate login
+		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// check loginname
@@ -807,11 +823,6 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// TODO: check length of login and passwd
 
-		foreach ($_POST["Fobject"] as $key => $val)
-		{
-			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
-		}
-		
 		// checks passed. save user
 		$this->object->assignData($_POST["Fobject"]);
 

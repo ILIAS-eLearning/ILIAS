@@ -98,6 +98,12 @@ function saveForm()
 		$ilias->raiseError($lng->txt("fill_out_all_required_fields"),$ilias->error_obj->MESSAGE);
 	}
 
+	// validate useername
+	if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
+	{
+		$ilias->raiseError($lng->txt("login_invalid"),$ilias->error_obj->MESSAGE);
+	}
+
 	// check loginname
 	if (loginExists($_POST["Fobject"]["login"]))
 	{
@@ -158,8 +164,7 @@ function saveForm()
 	$bmf = new ilBookmarkFolder(0, $userObj->getId());
 	$bmf->createNewBookmarkTree();*/
 
-	header("location: register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
-	exit();
+	ilUtil::redirect("register.php?lang=".$_GET["lang"]."&cmd=login&user=".base64_encode($_POST["Fobject"]["login"])."&pass=".base64_encode($_POST["Fobject"]["passwd"])."&name=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 }
 
 
@@ -229,7 +234,7 @@ function displayForm ()
 		}
 		else
 		{
-			$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
 		}
 	}
 
@@ -302,7 +307,7 @@ function displayForm ()
 		{
 			if ($key != "default_role" and $key != "language")
 			{
-				$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+				$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val,true));
 			}
 		}
 

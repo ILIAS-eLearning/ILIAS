@@ -55,8 +55,7 @@ if (!$ilias->getSetting("pub_section"))
 {
 	$ilias->auth->logout();
 	session_destroy();
-	header("location: login.php");
-	exit();
+	ilUtil::redirect("login.php");
 }
 
 // catch reload
@@ -74,12 +73,11 @@ if ($_GET["reload"])
 // check for auth
 if ($ilias->auth->getAuth())
 {
-	header("location: start.php");
-	exit();
+	ilUtil::redirect("start.php");
 }
 else
 {
 	echo "ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!";
-	exit;
+	exit();
 }
 ?>

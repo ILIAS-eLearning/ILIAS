@@ -53,7 +53,7 @@ if (!$ilias->getSetting("setup_ok"))
 // check for auth
 if ($ilias->auth->getAuth())
 {
-	if($ilias->getSetting("chat_active"))
+	if ($ilias->getSetting("chat_active"))
 	{
 		include_once "./chat/classes/class.ilChatServerCommunicator.php";
 		ilChatServerCommunicator::_login();
@@ -66,8 +66,7 @@ if ($ilias->auth->getAuth())
 		$return_to = urldecode($_GET["return_to"]);
 	}
 
-	header("location: ".$return_to);
-	exit();
+	ilUtil::redirect($return_to);
 }
 
 //instantiate login template

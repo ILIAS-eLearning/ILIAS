@@ -73,8 +73,7 @@ if ($_GET["cmd"] == "login")
 	setcookie("ilClientId","");
 	$_COOKIE["ilClientId"] = "";
 
-	header("location: login.php?client_id=".$client_id);
-	exit();
+	ilUtil::redirect("login.php?client_id=".$client_id);
 }
 
 // check correct setup
@@ -107,6 +106,5 @@ if ($_GET["reload"])
 	$connector = "&";
 }
 
-header("location: ".$start.$connector."return_to=".$_GET["return_to"]);
-exit();
+ilUtil::redirect($start.$connector."return_to=".$_GET["return_to"]);
 ?>
