@@ -894,7 +894,7 @@ class Tree
  	* @param	integer	parent id
 	* @access	public
 	*/
-	function setParentId($a_parent_id,)
+	function setParentId($a_parent_id)
 	{
 		$this->parent_id = $a_parent_id;
 	}
