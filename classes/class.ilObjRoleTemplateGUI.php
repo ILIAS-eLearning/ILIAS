@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.12 2003/06/11 08:41:44 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.13 2003/06/12 14:37:40 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -94,7 +94,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -133,6 +133,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 					{
 						$output["perm"]["$operation_name"][$num] = "";
 					}
+
+					$num++;
 				}
 				// END CHECK_PERM
 
@@ -146,7 +148,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$output["txt_save"] = $lng->txt("save");
 			$output["txt_permission"] = $lng->txt("permission");
 			$output["txt_obj_type"] = $lng->txt("obj_type");
-
+	
 			// ADOPT PERMISSIONS
 			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
 
