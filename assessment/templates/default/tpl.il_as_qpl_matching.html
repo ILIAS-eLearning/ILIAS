@@ -1,65 +1,69 @@
 <form name="frm_matching" action="{ACTION_MATCHING_QUESTION}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{MATCHING_ID}">
 <table class="std">
-<tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="5"><input name="title" type="text" value="{VALUE_MATCHING_TITLE}" size="50" /></td></tr>
-<tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="5"><input name="author" type="text" value="{VALUE_MATCHING_AUTHOR}" size="50" /></td></tr>
-<tr>
-  <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value" colspan="5"><input name="comment" type="text" value="{VALUE_MATCHING_COMMENT}" id="comment" size="50" /></td></tr>
-<tr>
-  <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="5"><textarea name="question" id="question" cols="80" rows="10">{VALUE_QUESTION}</textarea></td>
-</tr>
-<tr>
-  <td class="option">{TEXT_SHUFFLE_ANSWERS}:</td>
-  <td class="option_value" colspan="5"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
-</tr>
-{OTHER_QUESTION_DATA}
-{QUESTION_MATERIAL}
-<tr>
-  <td class="option"><label for="matching_type">{TEXT_TYPE}:</label></td>
-  <td class="option_value" colspan="5"><select name="matching_type" id="matching_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option><option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option></select></td>
-</tr>
-<tr><td colspan="6" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
-<!-- BEGIN answers -->
-<tr>
-  <td colspan="6" class="tblheader"><a name="pair_{ANSWER_ID}"></a>{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
-</tr>
-<tr>
-  <td class="option">{TEXT_MATCHING_PAIR}:</td>
-  <td class="option_value"><input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="text" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" /></td>
-  <td class="option_value">{TEXT_MATCHES}</td>
-<!-- BEGIN definitions -->
-  <td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="text" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
-<!-- END definitions -->
-<!-- BEGIN pictures -->
-  <td class="option_value">
-  <!-- BEGIN imageupload -->
-	{UPLOADED_IMAGE}<br>
-  <!-- END imageupload -->
-  <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
-  <input type="hidden" name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" value="{IMAGE_FILENAME}" />
-	<input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="file" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" />
-	<input type="submit" class="submit" name="cmd[upload_{A_ANSWER_ORDER}]" value="{UPLOAD}" />
-	</td>
-<!-- END pictures -->
-  <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
-  <td class="option_value">
-<!-- BEGIN deletebutton -->
-<input type="submit" class="submit" name="delete_{ANSWER_ORDER}" value="{DELETE}" />
-<!-- END deletebutton -->
-</td>
-</tr>
-<!-- END answers -->
-<tr><td colspan="6" class="submit">
-<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-<div align="right">
-<input name="cmd[apply]" type="submit" class="submit" id="apply_multiple_choice" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
-</div>
-</td></tr>
+	<tr>
+		<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+		<td class="option_value" colspan="5"><input name="title" type="text" value="{VALUE_MATCHING_TITLE}" size="50" /></td></tr>
+	<tr>
+		<td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+		<td class="option_value" colspan="5"><input name="author" type="text" value="{VALUE_MATCHING_AUTHOR}" size="50" /></td></tr>
+	<tr>
+		<td class="option">{TEXT_COMMENT}:</td>
+		<td class="option_value" colspan="5"><input name="comment" type="text" value="{VALUE_MATCHING_COMMENT}" id="comment" size="50" /></td></tr>
+	<tr>
+		<td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
+		<td class="option_value" colspan="5"><textarea name="question" id="question" cols="80" rows="10">{VALUE_QUESTION}</textarea></td>
+	</tr>
+	<tr>
+		<td class="option">{TEXT_SHUFFLE_ANSWERS}:</td>
+		<td class="option_value" colspan="5"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
+	</tr>
+	{OTHER_QUESTION_DATA}
+	{QUESTION_MATERIAL}
+	<tr>
+		<td class="option"><label for="matching_type">{TEXT_TYPE}:</label></td>
+		<td class="option_value" colspan="5"><select name="matching_type" id="matching_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option><option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option></select></td>
+	</tr>
+	<tr>
+		<td colspan="6" class="option"><input name="cmd[addPair]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+	</tr>
+	<!-- BEGIN answers -->
+	<tr>
+		<td colspan="6" class="tblheader"><a name="pair_{ANSWER_ID}"></a>{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
+	</tr>
+	<tr>
+		<td class="option">{TEXT_MATCHING_PAIR}:</td>
+		<td class="option_value"><input name="left_{ANSWER_ORDER}_{ANSWER_ID}" type="text" id="left_{ANSWER_ORDER}_{ANSWER_ID}" size="20" value="{VALUE_LEFT}" /></td>
+		<td class="option_value">{TEXT_MATCHES}</td>
+		<!-- BEGIN definitions -->
+		<td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="text" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
+		<!-- END definitions -->
+		<!-- BEGIN pictures -->
+		<td class="option_value">
+		<!-- BEGIN imageupload -->
+		{UPLOADED_IMAGE}<br>
+		<!-- END imageupload -->
+		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
+		<input type="hidden" name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" value="{IMAGE_FILENAME}" />
+		<input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="file" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" />
+		<input type="submit" class="submit" name="cmd[upload_{A_ANSWER_ORDER}]" value="{UPLOAD}" />
+		</td>
+		<!-- END pictures -->
+		<td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
+		<td class="option_value">
+		<!-- BEGIN deletebutton -->
+		<input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" />
+		<!-- END deletebutton -->
+		</td>
+	</tr>
+	<!-- END answers -->
+	<tr>
+		<td colspan="6" class="submit">
+		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+		<div align="right">
+		<input name="cmd[apply]" type="submit" class="submit" id="apply_multiple_choice" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+		</div>
+		</td>
+	</tr>
 </table>
 </form>

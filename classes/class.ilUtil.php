@@ -1129,13 +1129,16 @@ class ilUtil
 	* @param	string		$a_to				target file
 	* @param	string		$a_target_format	target image file format
 	*/
-	function convertImage($a_from, $a_to, $a_target_format = "")
+	function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "")
 	{
 		$format_str = ($a_target_format != "")
 			? strtoupper($a_target_format).":"
 			: "";
+		$geometry = ($a_geometry != "")
+			? " -geometry ".$a_geometry."x".$a_geometry." "
+			: "";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
-			ilUtil::escapeShellArg($a_from)." ".ilUtil::escapeShellArg($format_str.$a_to);
+			ilUtil::escapeShellArg($a_from)." ".$geometry.ilUtil::escapeShellArg($format_str.$a_to);
 		system($convert_cmd);
 	}
 
