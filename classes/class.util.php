@@ -423,20 +423,24 @@ class TUtil
 	function makeClickable($text)
 	{
 		// URL mit ://-Angabe
-		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])", "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $text);
+		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])", 
+							 "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $text);
 		
 		// www-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.]+)", "\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.]+)", 
+							 "\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 		
 		// ftp-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.]+)", "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
+		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.]+)", 
+							 "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 		
 		// E-Mail
-		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",  "<a  href=\"mailto:\\1\">\\1</a>", $ret);
+		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",  
+							 "<a  href=\"mailto:\\1\">\\1</a>", $ret);
 		
 		return($ret);
 	}
-	
+
 	/**
 	* StopWatch
 	* benchmark scriptcode

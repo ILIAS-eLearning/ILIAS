@@ -105,7 +105,6 @@ class Template extends IntegratedTemplateExtension
 			$this->parseCurrentBlock();
 		}
 
-		$this->fillVars();
 
 		if ($part == "DEFAULT")
 		{
