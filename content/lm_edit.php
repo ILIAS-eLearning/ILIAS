@@ -48,7 +48,6 @@ require_once "./content/classes/class.ilLMEditorGUI.php";
 $ilCtrl->setTargetScript("lm_edit.php");
 $ilBench->start("Editor", "getCallStructure");
 $ilCtrl->getCallStructure("illmeditorgui");
-
 $ilBench->stop("Editor", "getCallStructure");
 
 // editor GUI class does the rest

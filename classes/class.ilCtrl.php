@@ -325,7 +325,7 @@ class ilCtrl
 		{
 			foreach($a_parameter as $parameter)
 			{
-				$this->save_parameter[get_class($a_obj)][] = $parameter;
+				$this->save_parameter[strtolower(get_class($a_obj))][] = $parameter;
 			}
 		}
 		else
@@ -880,6 +880,7 @@ class ilCtrl
 
 	function getParameterArrayByClass($a_class, $a_cmd = "", $a_transits = "")
 	{
+//echo "<br>getparameter for $a_class";
 		if ($a_class == "")
 		{
 			return array();
@@ -893,10 +894,11 @@ class ilCtrl
 		$nr = $this->current_node;
 		foreach ($a_class as $class)
 		{
-//echo "-$class-";
+//echo "<br>-$class-";
 			$class = strtolower($class);
 			$nr = $this->getNodeIdForTargetClass($nr, $class);
 			$target_class = $class;
+//echo "-$nr-";
 		}
 
 		$path = $this->getPathNew(1, $nr);
