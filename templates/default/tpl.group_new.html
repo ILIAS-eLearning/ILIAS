@@ -1,25 +1,18 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
-{BUTTONS}
-{MESSAGE}
- <FORM ACTION="{FORMACTION}" METHOD="POST">
-    <table class="std">
-    <tr class="tblrow2">
-      <TD ALIGN="right">&nbsp;{TXT_GROUPNAME}&nbsp;</TD>
-      <TD><INPUT TYPE=text NAME="g_name" SIZE=20></TD>
-    </TR>
-    <tr class="tblrow1">
-      <TD ALIGN="right">&nbsp;{TXT_DESCRIPTION}&nbsp;</TD>
-      <TD><INPUT TYPE=text NAME="g_desc" SIZE=20></TD>
-    </TR>
-    <tr class="tblrow2">
-      <TD ALIGN="right">&nbsp;{TXT_ACCESS}&nbsp;</TD>
-      <TD><SELECT NAME="g_open"><OPTION>{TXT_ACCESS_CLOSED}<OPTION SELECTED>{TXT_ACCESS_OPEN}</SELECT></TD>
-    </TR>
-    <tr class="tblrow1">
-      <TD ALIGN="right">&nbsp;{TXT_GROUP_SCOPE}&nbsp;</TD>
-      <TD><SELECT NAME="g_target"><OPTION SELECTED>{TXT_FORUM}<OPTION>{TXT_LO}</SELECT></TD>
-    </TR>
-    </table>
-      <br/>
-      <INPUT TYPE="submit" VALUE="{TXT_SAVE}" NAME="save"/>
-    </FORM>
+<form name="form" action="{FORMACTION}" method="post">
+<table class="std">
+	<tr>
+		<td class="option">{TXT_GROUP_NAME}<span class="asterisk">*</span></td>
+		<td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
+	</tr>
+	<tr>
+		<td class="option"martin gr>{TXT_DESC}</td>
+		<td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+	</tr>
+	<tr class="tblrow2">
+		<td class="option">{TXT_GROUP_STATUS}</td>
+		<td class="option_value" colspan="{NUM_COLS}" align="left" valign="top">{SELECT_OBJTYPE}</td>
+	</tr>
+</table>
+<p class="small"><span class="asterisk">*</span> {TXT_REQUIRED_FLD}</p>
+<br /><input class="submit" type="submit" value="{TXT_SAVE}"/>
+</form>
