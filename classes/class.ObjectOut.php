@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.11 2002/12/19 16:25:36 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.12 2002/12/19 16:33:33 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -294,6 +294,9 @@ class ObjectOut
 	    $this->getTemplateFile("view");
 		$num = 0;
 
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+								$_GET["parent"]);
+		
 		//table header
 		foreach ($this->data["cols"] as $key)
 		{

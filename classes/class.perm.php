@@ -210,6 +210,41 @@ function createNewObject ($AObjType,$AObjData)
 }
 
 /**
+* creates a copy of an existing object
+* @param	string	$AObjType
+* @param	array	 $AObjData
+* @return int	 returns object id
+*/
+function copyObject ($a_obj_id)
+{
+	global $ilias;
+	
+	// GET ALL DATA
+	$query = "SELECT * FROM object_data ".
+		"WHERE obj_id = '".$a_obj_id."'";
+
+	$res = $ilias->db->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$old_object_data["type"] = $row->type;
+		$old_object_data["title"] = $row->title;
+		$old_object_data["description"] = $row->description;
+	}
+	$query = "INSERT INTO object_data ".
+			 "(type,title,description,owner,create_date,last_update) ".
+			 "VALUES ".
+			 "('".$old_object_data["type"]."','".$old_object_data["title"]."','".$old_object_data["description"]."',".
+			 "'".$ilias->account->Id."',now(),now())";
+	$res = $ilias->db->query($query);
+	
+ 	// get last insert id and return this
+	$query = "SELECT LAST_INSERT_ID()";
+	$res = $ilias->db->query($query);
+	$data = $res->fetchRow();
+	
+	return $data[0];
+}
+/**
 * creates a new object
 * @param	array	 $AObjData
 * @return int	 returns object id
