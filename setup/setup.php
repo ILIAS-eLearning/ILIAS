@@ -21,41 +21,23 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* logout script for ilias
+* setup file for ilias
+* 
+* this file helps setting up ilias
+* main purpose is writing the ilias.ini to the filesystem
+* it can set up the database to if the settings are correct and the dbuser has the rights
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @package ilias-core
+* @package ilias-setup
 */
 
-require_once "include/inc.header.php";
+require_once "./include/inc.setup_header.php";
 
-$ilias->auth->logout();
-session_destroy();
+// display info messages
+sendInfo();
 
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
-
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-
-if ($ilias->getSetting("pub_section"))
-{
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	
-$tpl->show();
+$setup =& new ilSetupGUI();
 ?>

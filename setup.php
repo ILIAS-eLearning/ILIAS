@@ -40,7 +40,6 @@ require_once "classes/class.ilSetup.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 
-
 $OK = "<font color=\"green\"><strong>OK</strong></font>";
 $FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 
@@ -117,6 +116,13 @@ if ($db_exists)
 {
 	$passwd_exists = $mySetup->checkPasswordExists();
 	include_once "./classes/class.ilDBUpdate.php";
+}
+else
+{
+	$setup_path = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"])."/setup/setup.php";
+	echo "<p>This setup version is outdated. Please use new the new setup program is located in <a href=\"".$setup_path."\">".$setup_path."</a></p><p>Use your old setup password to login. If you haven't had set a password it is 'homer'.</p>";
+	session_destroy();
+	exit();
 }
 
 if ($_SESSION["auth_setup"] == "yes")
@@ -290,6 +296,14 @@ switch ($_GET["step"])
 		if ($db_exists)
 		{
 			$myDB = new ilDBUpdate();
+			
+			if ($myDB->currentVersion > 60)
+			{
+				$setup_path = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"])."/setup/setup.php";
+				echo "<p>This setup version is outdated. Please use new the new setup program is located in <a href=\"".$setup_path."\">".$setup_path."</a></p><p>Use your old setup password to login. If you haven't had set a password it is 'homer'.</p>";
+				session_destroy();
+				exit();
+			}
 
 			if ($myDB->getDBVersionStatus())
 			{
@@ -686,7 +700,6 @@ switch ($_GET["step"])
 			
 			header ("Location: setup.php?step=begin&lang=".$_GET["lang"]);
 			exit();
-	
 		}
 		break;
 
@@ -885,4 +898,11 @@ function showMenulink()
 $tpl->setVariable("LANG", $_GET["lang"]);
 header('Content-type: text/html; charset=UTF-8');
 $tpl->show();
+
+				/*if ($myDB->currentVersion == "61")
+				{
+					$setup_path = substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6)."/setup/setup.php";
+					echo "<p>This setup version is outdated. Please use new the new setup program is located in <a href=\"".$setup_path."\">".$setup_path."</a></p><p>Your setup password is the same. If you haven't had set a password it is 'homer'.</p>";
+					exit();
+				}*/
 ?>

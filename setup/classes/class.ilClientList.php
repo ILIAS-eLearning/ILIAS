@@ -21,41 +21,57 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
-* logout script for ilias
+* client management
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @package ilias-core
+* @package ilias-setup
 */
 
-require_once "include/inc.header.php";
-
-$ilias->auth->logout();
-session_destroy();
-
-// reset cookie
-$client_id = $_COOKIE["ilClientId"];
-setcookie("ilClientId","");
-$_COOKIE["ilClientId"] = "";
-
-//instantiate logout template
-$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
-
-if ($ilias->getSetting("pub_section"))
+class ilClientList
 {
-	$tpl->setCurrentBlock("homelink");
-	$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
-	$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-	$tpl->parseCurrentBlock();
-}
-
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
-$tpl->setVariable("TXT_LOGOUT_TEXT",$lng->txt("logout_text"));
-$tpl->setVariable("TXT_LOGIN",$lng->txt("login_to_ilias"));
-$tpl->setVariable("CLIENT_ID","?client_id=".$client_id);
+	var $ini;			// ini file object
+	var $path;			// clients base dir
+	var $error = "";	// error text
 	
-$tpl->show();
+	function ilClientList()
+	{		
+		$this->path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR;
+		$this->init();
+	}
+
+	function init()
+	{
+		// set path to directory where clients reside
+		$d = dir($this->path);
+		$tmpPath = getcwd();
+		chdir ($this->path);
+
+		// get available lang-files
+		while ($entry = $d->read())
+		{
+			if (strlen($entry) == 32)
+			{
+				if (is_file($this->path."/".$entry."/client.ini.php"))
+				{
+					$client = new ilClient($entry);
+					$client->init();
+					
+					$this->clients[$entry] = $client;
+					
+					unset($client);
+				}
+			}
+		}
+		
+		chdir($tmpPath);
+	}
+	
+	function getClients()
+	{
+		return ($this->clients) ? $this->clients : array();
+	}
+}
 ?>

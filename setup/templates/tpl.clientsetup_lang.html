@@ -1,0 +1,24 @@
+<form method="post" action="{FORMACTION}">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="3">Available languages</td>
+</tr>
+<tr class="tblheader">
+	<td class="std">Language</td>
+	<td class="std">Installed</td>
+	<td class="std">Default</td>
+</tr>
+<!-- BEGIN language_row -->
+<tr>
+	<td class="option">{TXT_LANG}</td>
+	<td class="option_value"><input type="checkbox" name="form[lang_id][]" value="{LANG_KEY}"{CHECKED} /></td>
+	<td class="option_value"><input type="radio" name="form[lang_default]" value="{LANG_KEY}"{DEFAULT} /></td>
+</tr>
+<!-- END language_row -->
+<tr>
+	<td class="submit" align="right" colspan="3">
+	<input class="submit" type="submit" name="cmd[lang]" value="{TXT_SAVE}"/>
+	</td>
+</tr>
+</table>
+</form>

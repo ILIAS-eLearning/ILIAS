@@ -32,8 +32,23 @@
 * @package ilias-layout
 */
 
+// start correct client
+// if no client_id is given, default client is loaded (in class.ilias.php)
+if (isset($_GET["client_id"]))
+{	
+	setcookie("ilClientId",$_GET["client_id"]);
+	$_COOKIE["ilClientId"] = $_GET["client_id"];
+}
+
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
+
+// check correct setup
+if (!$ilias->getSetting("setup_ok"))
+{
+	echo "setup is not completed. Please run setup routine again. (login.php)";
+	exit();
+}
 
 // check for auth
 if ($ilias->auth->getAuth())

@@ -1,0 +1,21 @@
+<form method="post" action="{FORMACTION}">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">delete client options</td>
+</tr>
+<tr>
+	<td class="option_value"><input type="radio" name="form[delete]" value="1"/>&nbsp;remove client from list (delete ini file only)</td>
+</tr>
+<tr>
+	<td class="option_value"><input type="radio" name="form[delete]" value="2"/>&nbsp;delete ini file & database (keep files)</td>
+</tr>
+<tr>
+	<td class="option_value"><input type="radio" name="form[delete]" value="3"/>&nbsp;delete all (ini file, database & files)</td>
+</tr>
+<tr>
+	<td class="submit" align="right">
+	<input class="submit" type="submit" name="cmd[delete]" value="{TXT_DELETE}"/>
+	</td>
+</tr>
+</table>
+</form>

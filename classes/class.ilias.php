@@ -128,9 +128,39 @@ class ILIAS extends PEAR
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ILIAS()
+	function ILIAS($a_client_id = 0)
 	{
-		$this->INI_FILE = "./ilias.ini.php";
+		// load setup.ini
+		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
+		$this->ini_ilias->read();
+		
+		define("ILIAS_DATA_DIR",$this->ini_ilias->readVariable("clients","datadir"));
+		define("ILIAS_WEB_DIR",$this->ini_ilias->readVariable("clients","path"));
+		
+		define ("ILIAS_HTTP_PATH",$this->ini_ilias->readVariable('server','http_path'));
+		define ("ILIAS_ABSOLUTE_PATH",$this->ini_ilias->readVariable('server','absolute_path'));
+
+		// read path + command for third party tools from ilias.ini
+		define ("PATH_TO_CONVERT",$this->ini_ilias->readVariable("tools","convert"));	
+		define ("PATH_TO_ZIP",$this->ini_ilias->readVariable("tools","zip"));
+		define ("PATH_TO_UNZIP",$this->ini_ilias->readVariable("tools","unzip"));
+		define ("PATH_TO_JAVA",$this->ini_ilias->readVariable("tools","java"));
+		define ("PATH_TO_HTMLDOC",$this->ini_ilias->readVariable("tools","htmldoc"));
+		
+		// set to default client if empty
+		if (!$a_client_id)
+		{
+			$this->client_id = $this->ini_ilias->readVariable("clients","default");
+			setcookie("ilClientId",$this->client_id);
+			$_COOKIE["ilClientId"] = $this->client_id;
+		}
+		else
+		{
+			$this->client_id = $_COOKIE["ilClientId"];
+		}
+		
+		$this->INI_FILE = "./".ILIAS_WEB_DIR."/".$this->client_id."/client.ini.php";
+		
 		$this->PEAR();
 
 		// prepare file access to work with safe mode
@@ -143,8 +173,13 @@ class ILIAS extends PEAR
 		// if no ini-file found switch to setup routine
 		if ($this->ini->ERROR != "")
 		{
-			header("Location: ./setup.php?error=".$this->ini->ERROR);
+			header("Location: ./setup/setup.php");
 			exit();
+		}
+		
+		if (!$this->ini->readVariable("client","access"))
+		{
+			die("client disabled");
 		}
 		
 		// set constants
@@ -157,8 +192,8 @@ class ILIAS extends PEAR
 		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));		
 		define ("MAXLENGTH_OBJ_DESC",$this->ini->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
-		define ("ILIAS_HTTP_PATH",$this->ini->readVariable('server','http_path'));
-		define ("ILIAS_ABSOLUTE_PATH",$this->ini->readVariable('server','absolute_path'));
+		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".$this->client_id);
+		define ("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->client_id);
 
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").

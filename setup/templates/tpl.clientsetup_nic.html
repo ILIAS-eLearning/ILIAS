@@ -1,0 +1,24 @@
+<form method="post" action="{FORMACTION}">
+<table class="std">
+	<tr class="tblheader">
+      <td class="std" colspan="2">{TXT_NIC_REGISTER}</td>
+    </tr>
+    <tr>
+      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="1" {ENABLED}/>{TXT_NIC_ENABLE}</td>
+    </tr>
+    <tr>
+      <td class="option_value" colspan="2">
+	  	<input type="radio" name="form[register]" value="2" {EMAIL}/>{TXT_NIC_EMAIL}
+		<br/>&nbsp;&nbsp&nbsp;&nbsp&nbsp;<span class="subtitle">please enter id sent by email: </span><input type="text" name="form[nic_id]" size="5" maxsize="5" value="{NIC_ID}"/>
+	  </td>
+    </tr>
+    <tr>
+      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="0" {DISABLED}/>{TXT_NIC_DISABLE}</td>
+    </tr>
+    <tr>
+      <td class="submit" colspan="2">
+      <div align="right"><input class="submit" type="submit" name="cmd[nic]" value="{TXT_SAVE}"/></div>
+	  </td>
+    </tr>
+</table>
+</form>

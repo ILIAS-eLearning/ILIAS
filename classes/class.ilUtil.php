@@ -817,10 +817,10 @@ class ilUtil
 				{
 					if (!@is_dir($a_tdir."/".$file))
 					{
-						if (!mkdir($a_tdir."/".$file, 0775))
+						if (!ilUtil::makeDir($a_tdir."/".$file))
 							return FALSE;
 
-						chmod($a_tdir."/".$file, 0775);
+						//chmod($a_tdir."/".$file, 0775);
 					}
 
 					if (!ilUtil::rCopy($a_sdir."/".$file,$a_tdir."/".$file))
@@ -852,17 +852,17 @@ class ilUtil
 	{
 		if ($mode == "filesystem")
 		{
-			return "./data";
+			return "./".ILIAS_WEB_DIR;
 		}
 		else
 		{
 			if (defined("ILIAS_MODULE"))
 			{
-				return "../data";
+				return "../".ILIAS_WEB_DIR;
 			}
 			else
 			{
-				return "./data";
+				return "./".ILIAS_WEB_DIR;
 			}
 		}
 
@@ -874,9 +874,10 @@ class ilUtil
 	*/
 	function getDataDir()
 	{
-		global $ilias;
+		return CLIENT_DATA_DIR;
+		//global $ilias;
 
-		return $ilias->ini->readVariable("server", "data_dir");
+		//return $ilias->ini->readVariable("server", "data_dir");
 	}
 
 	/**
@@ -932,7 +933,7 @@ class ilUtil
 	*/
 	function unzip($a_file)
 	{
-		global $ilias;
+		//global $ilias;
 
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
@@ -941,7 +942,8 @@ class ilUtil
 		// unzip
 		$cdir = getcwd();
 		chdir($dir);
-		$unzip = $ilias->getSetting("unzip_path");
+		$unzip = PATH_TO_UNZIP;
+		//$unzip = $ilias->getSetting("unzip_path");
 
 		// workaround for unzip problem (unzip of subdirectories fails, so
 		// we create the subdirectories ourselves first)
@@ -985,7 +987,7 @@ class ilUtil
 	*/
 	function zip($a_dir, $a_file)
 	{
-		global $ilias;
+		//global $ilias;
 
 		$cdir = getcwd();
 
@@ -997,8 +999,8 @@ class ilUtil
 		$cdir = getcwd();
 		chdir($dir);
 		
-		
-		$zip = $ilias->getSetting("zip_path");
+		$zip = PATH_TO_ZIP;
+		//$zip = $ilias->getSetting("zip_path");
 		
 		$name = basename($a_dir);
 		
@@ -1011,9 +1013,10 @@ class ilUtil
 
 	function getConvertCmd()
 	{
-		global $ilias;
+		return PATH_TO_CONVERT;
+		//global $ilias;
 		
-		return $ilias->getSetting("convert_path");
+		//return $ilias->getSetting("convert_path");
 	}
 
 	/**
@@ -1023,7 +1026,7 @@ class ilUtil
 	*/
 	function html2pdf($html, $pdf_file)
     {
-        global $ilias;
+        //global $ilias;
         
         $html_file = str_replace(".pdf",".html",$pdf_file);
         
@@ -1031,7 +1034,8 @@ class ilUtil
         fwrite($fp, $html);
         fclose($fp);
         
-        $htmldoc_path = $ilias->getSetting("htmldoc_path");
+        $htmldoc_path = PATH_TO_HTMLDOC;
+		//$htmldoc_path = $ilias->getSetting("htmldoc_path");
 
         $htmldoc = $htmldoc_path." ";
         $htmldoc .= "--no-toc ";
@@ -1094,9 +1098,10 @@ class ilUtil
 	*/
 	function getJavaPath()
 	{
-		global $ilias;
+		return PATH_TO_JAVA;
+		//global $ilias;
 
-		return $ilias->getSetting("java_path");
+		//return $ilias->getSetting("java_path");
 	}
 
 	/**

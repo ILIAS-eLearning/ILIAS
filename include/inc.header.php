@@ -89,7 +89,7 @@ require_once "classes/class.ilLocatorGUI.php";
 require_once "classes/class.ilErrorHandling.php";
 
 // load main class
-$ilias = new ILIAS();
+$ilias = new ILIAS($_COOKIE["ilClientId"]);
 
 if (!db_set_save_handler())
 {

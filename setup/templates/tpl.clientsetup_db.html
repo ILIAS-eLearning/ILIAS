@@ -1,0 +1,33 @@
+<form method="post" action="{FORMACTION}">
+<input type="hidden" name="form[db_flag]" value="1"/>
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">database setup info</td>
+</tr>
+<tr>
+	<td class="option">database type</td>
+	<td class="option_value">MySQL</td>
+</tr>
+<tr>
+	<td class="option">database host</td>
+	<td class="option_value">{DB_HOST}</td>
+</tr>
+<tr>
+	<td class="option">database name</td>
+	<td class="option_value">{DB_NAME}</td>
+</tr>
+<tr>
+	<td class="option">database user</td>
+	<td class="option_value">{DB_USER}</td>
+</tr>
+<tr>
+	<td class="option">database password</td>
+	<td class="option_value">{DB_PASS}</td>
+</tr>
+<tr>
+	<td class="submit" align="right" colspan="2">
+	<input class="submit" type="submit" name="cmd[db]" value="{TXT_SAVE}"/>
+	</td>
+</tr>
+</table>
+</form>
