@@ -150,7 +150,7 @@ class ilFileDataForum extends ilFileData
 		return $files;
 	}
 
-	function clone($a_new_obj_id,$a_new_pos_id)
+	function ilClone($a_new_obj_id,$a_new_pos_id)
 	{
 		foreach($this->getFilesOfPost() as $file)
 		{
