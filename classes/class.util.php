@@ -39,26 +39,28 @@ class TUtil
 	* Fetch loaded modules or possible modules in context
 	* @param string
 	*/
-	function getModules ($ATypeList = "")
+	function getModules ($a_objname)
 	{
-		global $ilias;
+		global $ilias, $objDefinition;
 
 		$rbacadmin = new RbacAdminH($ilias->db);
 		$db = $ilias->db;
 		
 		$arr = array();
-
+		
+		$ATypeList = $objDefinition->getSubObjectsAsString($a_objname);
+		
 		if (empty($ATypeList))
 		{
 			$query = "SELECT * FROM object_data
-					  WHERE type = 'type'
+					  WHERE type = 'typ'
 					  ORDER BY type";
 		}
 		else
 		{
 			$query = "SELECT * FROM object_data
 					  WHERE title IN ($ATypeList)
-					  AND type='type'";
+					  AND type='typ'";
 		}
 
 		$res = $db->query($query);

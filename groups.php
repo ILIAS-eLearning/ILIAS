@@ -31,11 +31,6 @@ if ($objects = $tree->getChilds(1,"title"))
 //TODO: maybe move the code above to this method
 //$groups = $ilias->account->getGroups();
 
-//foreach ($groups as $row)			
-//{
-//	vd($row);
-//}			
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.groups.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 

@@ -54,13 +54,10 @@ if ($_POST["cmd"] != "")
 	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 }
 
-$myObj = new ObjectDefinition();
-$objData = $myObj->getDefinition($_GET["type"]);
-
 //if no cmd is given default to first property
 if ($_GET["cmd"] == "")
 {
-	$_GET["cmd"] = $myObj->getFirstProperty($_GET["type"]);
+	$_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
 }
 
 $methode = $_GET["cmd"]."Object";
@@ -173,9 +170,9 @@ if ($_GET["message"])
 //*************************admin tabs***********************+
 $tabs = array();
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-$data = $myObj->getProperties($_GET["type"]);
+$d = $objDefinition->getProperties($_GET["type"]);
 
-foreach ($data as $key => $row)
+foreach ($d as $key => $row)
 	$tabs[] = array($row["lng"], $row["name"]);
 
 foreach ($tabs as $row)
@@ -430,8 +427,8 @@ switch($_GET["cmd"])
 
 		$operations = array();
 
-		$data = $myObj->getActions($_GET["type"]);
-		foreach ($data as $row)
+		$d = $objDefinition->getActions($_GET["type"]);
+		foreach ($d as $row)
 		{
 			if (!in_array($row["name"], $notoperations))
 			{
@@ -451,8 +448,8 @@ switch($_GET["cmd"])
 		}		
 		
 		//***************allowed subobjects ****************************
-		$data = $myObj->getSubObjects($_GET["type"]);
-		foreach ($data as $row)
+		$d = $objDefinition->getSubObjects($_GET["type"]);
+		foreach ($d as $row)
 		{
 			//@todo max value abfragen und entsprechend evtl aus der liste streichen
 		    $count = 0;

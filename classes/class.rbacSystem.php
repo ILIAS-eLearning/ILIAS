@@ -50,7 +50,7 @@ class RbacSystem
 	*/
 	function checkAccess($a_operations,$a_obj_id,$a_parent,$a_type = "")
 	{
-		global $tree, $rbacadmin, $rbacreview;
+		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 		
 		$create = false;
 		$operations = explode(",",$a_operations);
@@ -78,7 +78,7 @@ class RbacSystem
 					$this->ilias->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",$this->ilias->error_obj->MESSAGE);
 				}
 				
-				if (!isset($this->ilias->typedefinition[$a_type]))
+				if ($objDefinition->getSubObjectsAsString($a_type) == "")
 				{
 					$this->ilias->raiseError("CheckAccess: Unknown type definition given: '".$a_type."'",$this->ilias->error_obj->MESSAGE);
 				}

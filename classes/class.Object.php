@@ -248,7 +248,7 @@ class Object
 		   $rbacsystem->checkAccess($permission, $rolf_id, $rolf_parent, "rolf"))
 		{
 			// Check if object is able to contain role folder
-			$child_objects = TUtil::getModules($ilias->typedefinition[$obj[type]]);
+			$child_objects = TUtil::getModules($obj[type]);
 			
 			if ($child_objects["rolf"])
 			{
@@ -363,7 +363,7 @@ class Object
 
 		if (!($rolf_id = $rolf_data["child"]))
 		{
-			if (!in_array('rolf',TUtil::getModules($ilias->typedefinition["$object[type]"])))
+			if (!in_array('rolf',TUtil::getModules($object[type])))
 			{
 				$this->ilias->raiseError("'".$object["title"]."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
 			}
@@ -516,21 +516,19 @@ class Object
 	{
 		global $rbacsystem;
 		
-		if (!empty($this->ilias->typedefinition[$this->type]))
-		{
-			// show only objects with permission 'create'
-			$objects = TUtil::getModules($this->ilias->typedefinition[$this->type]);
+		$data = array();
+		
+		// show only objects with permission 'create'
+		$objects = TUtil::getModules($this->type);
 
-			foreach ($objects as $key => $object)
+		foreach ($objects as $key => $object)
+		{
+			if ($rbacsystem->checkAccess("create", $this->id, $obj->parent, $key))
 			{
-				if ($rbacsystem->checkAccess("create", $this->id, $obj->parent, $key))
-				{
-					$data[$key] = $object;
-				} //if
-			} //foreach
-			return $data;
-		} //if
-		return false;	
+				$data[$key] = $object;
+			} //if
+		} //foreach
+		return $data;
 	}
 	
 } // class

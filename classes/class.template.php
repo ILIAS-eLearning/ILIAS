@@ -107,11 +107,8 @@ class Template extends IntegratedTemplateExtension
 
         while(list($key, $val) = each($this->vars))
 		{
-//            if (!array_key_exists($key, $this->variableCache))
-//			{
 			if (is_array($this->blockvariables[$this->activeBlock]))
 			{
-//				vd($this->blockvariables[$this->activeBlock]);
 				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
 				{
 					$count++;
@@ -119,7 +116,6 @@ class Template extends IntegratedTemplateExtension
 					$this->setVariable($key, $val);
 				}
 			}
-//			}
         }
 		
 		return $count;

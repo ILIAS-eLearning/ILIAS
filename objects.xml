@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE objects SYSTEM "http://127.0.0.1/ilias3/objects.dtd">
+<!DOCTYPE objects SYSTEM "./objects.dtd">
 <objects xmlns="http://www.w3.org" version="$Id$">
 <object name="adm">
 	<subobj name="usrf" max="1">usrf</subobj>
