@@ -24,7 +24,7 @@ path = ./lang
 
 [layout]
 skin = default
-style = default
+style = blueshadow
  
 [session]
 expire = 1800 
