@@ -436,7 +436,7 @@ common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
-common#:#import#:#Importieren
+common#:#import#:#importieren
 common#:#import_lm#:#Import Lernmodul
 common#:#import_slm#:#Import SCORM-Datei
 common#:#in#:#in
