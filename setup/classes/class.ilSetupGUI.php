@@ -428,7 +428,7 @@ class ilSetupGUI extends ilSetup
 		$java = $this->ini->readVariable("tools","java");
 		$htmldoc = $this->ini->readVariable("tools","htmldoc");
 		
-		$this->tpl->setVariable("CONVERT_PATH",($conver) ? $convert : $not_set);
+		$this->tpl->setVariable("CONVERT_PATH",($convert) ? $convert : $not_set);
 		$this->tpl->setVariable("ZIP_PATH",($zip) ? $zip : $not_set);
 		$this->tpl->setVariable("UNZIP_PATH",($unzip) ? $unzip : $not_set);
 		$this->tpl->setVariable("JAVA_PATH",($java) ? $java : $not_set);
