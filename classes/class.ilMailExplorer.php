@@ -113,6 +113,7 @@ class ilMailExplorer extends ilExplorer
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
 				$this->format_options["$counter"]["type"] = $object["type"];
+				$this->format_options["$counter"]["desc"] = $object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
 				$this->format_options["$counter"]["container"] = false;
 				$this->format_options["$counter"]["visible"]	  = true;
@@ -167,9 +168,9 @@ class ilMailExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["title"]);
-		$tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_cat.gif"));
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_cat.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_cat"));
 		$tpl->setVariable("TITLE", $a_option["title"]." ".strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
-
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();

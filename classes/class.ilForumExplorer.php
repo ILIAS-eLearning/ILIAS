@@ -78,10 +78,12 @@ class ilForumExplorer extends ilExplorer
 				{
 					$parent_index = $this->getIndex($object);
 				}
+
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
 				$this->format_options["$counter"]["type"] = $object["type"];
+				$this->format_options["$counter"]["desc"] = "forums_the_".$object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
 				$this->format_options["$counter"]["container"] = false;
 				$this->format_options["$counter"]["visible"]	  = true;
@@ -160,6 +162,8 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function formatObject($a_node_id,$a_option)
 	{
+		global $lng;
+
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -193,6 +197,7 @@ class ilForumExplorer extends ilExplorer
 			{
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
+				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -200,6 +205,7 @@ class ilForumExplorer extends ilExplorer
 		$tpl->setCurrentBlock("row");
 		//$tpl->setVariable("TYPE", $a_option["type"]);
 		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
@@ -236,12 +242,11 @@ class ilForumExplorer extends ilExplorer
 		$threadData = $frm->getOneThread();
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", "cat");
-		$tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_frm.gif"));
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);
-
 		$tpl->parseCurrentBlock();
 		
 		$this->output[] = $tpl->get();
