@@ -414,7 +414,7 @@ class ilObjectGUI
 	{
 //		foreach($_SESSION["clipboard"] as $id => $object)
 //		{
-//			$saved_tree = new Tree($id,0,-(int)$id);
+//			$saved_tree = new ilTree($id,0,-(int)$id);
 //			$saved_tree->deleteTree($saved_tree->getNodeData($id,$object["parent"]));
 //		}
 
@@ -602,7 +602,7 @@ class ilObjectGUI
 
 		$new_object_id = $this->object->clone($a_dest_id);
 
-		$saved_tree = new Tree($a_tree_id);
+		$saved_tree = new ilTree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
 
 		foreach ($childs as $child)
@@ -646,7 +646,7 @@ class ilObjectGUI
 			// INSERT AND SET PERMISSIONS
 			$this->insertSavedNodes($id,$_GET["obj_id"], $_GET["obj_id"],$_GET["parent"],-(int) $id);
 			// DELETE SAVED TREE
-			$saved_tree = new Tree(-(int)$id);
+			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
 
@@ -677,7 +677,7 @@ class ilObjectGUI
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
 		}
 
-		$saved_tree = new Tree($a_tree_id);
+		$saved_tree = new ilTree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
 
 		foreach ($childs as $child)
@@ -821,7 +821,7 @@ class ilObjectGUI
 		{
 
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$saved_tree = new Tree(-(int)$id);
+			$saved_tree = new ilTree(-(int)$id);
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 

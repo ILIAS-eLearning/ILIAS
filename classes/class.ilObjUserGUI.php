@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.3 2003/03/28 16:49:20 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -311,7 +311,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//$tree->addTree($user->getId(), $settingObj->getRefId());
 		
 		//add notefolder to user tree
-		//$userTree = new tree(0,0,$user->getId());
+		//$userTree = new ilTree(0,0,$user->getId());
 		require_once ("classes/class.ilObjNoteFolder.php");
 		$notfObj = new ilObjNoteFolder();
 		$notfObj->setType("notf");

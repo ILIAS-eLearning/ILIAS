@@ -9,7 +9,7 @@
 *
 * @package ilias-core
 */
-class Tree
+class ilTree
 {
 	/**
 	* ilias object
@@ -73,7 +73,7 @@ class Tree
 	* @param	integer	$a_tree_id		tree_id
 	* @param	integer	$a_root_id		root_id (optional)
 	*/
-	function Tree($a_tree_id, $a_root_id = 0)
+	function ilTree($a_tree_id, $a_root_id = 0)
 	{
 		global $ilias;
 

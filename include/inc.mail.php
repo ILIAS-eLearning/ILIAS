@@ -5,7 +5,7 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 
 		$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$mtree = new Tree($a_user_id);
+		$mtree = new ilTree($a_user_id);
 		$mtree->setTableNames('mail_tree','mail_obj_data');
 		$path_full = $mtree->getPathFull($a_obj_id,$mtree->readRootId());
 		

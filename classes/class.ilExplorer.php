@@ -79,7 +79,7 @@ class ilExplorer
 		$this->target = $a_target;
 		$this->target_get = 'ref_id';
 		$this->frameTarget = "content";
-		$this->tree = new Tree(ROOT_FOLDER_ID);
+		$this->tree = new ilTree(ROOT_FOLDER_ID);
 	}
 
 	/**

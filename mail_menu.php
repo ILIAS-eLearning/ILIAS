@@ -9,7 +9,7 @@ $exp->setTargetGet("mobj_id");
 
 if ($_GET["mexpand"] == "")
 {
-	$mtree = new Tree($_SESSION["AccountId"]);
+	$mtree = new ilTree($_SESSION["AccountId"]);
 	$mtree->setTableNames('mail_tree','mail_obj_data');
 	$expanded = $mtree->readRootId();
 }
