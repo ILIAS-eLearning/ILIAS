@@ -1551,17 +1551,16 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		//check if trash is filled
-		//TODO: it will be visiblle if trash works
-		//$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
-		//if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
-		/*{
+		if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
+		{
 			$tab[4] = array ();
 			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}*/
+		}
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1700,10 +1699,9 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
 				
-		//check if trash is filled
-		//TODO: if trash works, it will be visible
-		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 		
+		//TODO: if trash works, it will be visible
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 		if (count($objects) > 0)
 		{
 			$tab[4] = array ();
@@ -1711,7 +1709,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}*/
+		}
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1969,8 +1967,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
 
 		//check if trash is filled
-		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
-		//TODO:it will be visible if trash works
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 		if (count($objects) > 0)
 		{
 			$tab[4] = array ();
@@ -1978,7 +1975,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}*/
+		}
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -2218,7 +2215,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->prepareOutput(false);
 
-		$objects = $this->tree->getSavedNodeData($_GET["ref_id"]);
+		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
 		if (count($objects) == 0)
 		{
@@ -2322,6 +2319,8 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		$this->tpl->show();
 	}
+	
+	
 
 	function updateMemberStatusObject()
 	{
@@ -2728,7 +2727,7 @@ class ilGroupGUI extends ilObjectGUI
 	}
 	
 	
-	/** TODO MARTIN ANPASSEN AN GRUPPEN BESONDERHEITEN
+	/** 
 	* confirmed deletion if object -> objects are moved to trash
 	*
 	* However objects are only removed from tree!! That means that the objects
@@ -2750,9 +2749,6 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-
-																//echo " node_data "; var_dump($node_data); echo " subtree_nodes "; var_dump($subtree_nodes);
-
 
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
@@ -2940,5 +2936,134 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
+	
+	
+	/**
+	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
+	*
+	* @access	public
+	*/
+	function removeFromSystemObject()
+	{
+		global $rbacsystem;
+
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($_POST["trash_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		
+		// DELETE THEM
+		foreach ($_POST["trash_id"] as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM GRP_TREE TABLE
+			$saved_grp_tree = new ilGroupTree(-(int)$id);
+			$grp_node_data = $saved_grp_tree->getNodeData($id);
+			$grp_subtree_nodes = $saved_grp_tree->getSubTree($grp_node_data);
+		
+			if( $grp_subtree_nodes[0]["perm"] == 1 ) 
+			{
+				// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM TREE TABLE
+				$saved_tree = new ilTree(-(int)$id);
+				$node_data = $saved_tree->getNodeData($id);
+				$subtree_nodes = $saved_tree->getSubTree($node_data);
+			}
+			
+
+			// remember already checked deleted node_ids
+			$checked[] = -(int) $id;
+
+			// dive in recursive manner in each already deleted subtrees and remove these objects too
+			$this->removeDeletedNodes($id,$checked,"tree");
+			$this->removeDeletedNodes($id,$checked,"grp_tree");
+
+			foreach ($subtree_nodes as $node)
+			{
+				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				$node_obj->delete();
+			}
+			
+			// FIRST DELETE ALL ENTRIES IN RBAC TREE
+			$this->tree->deleteTree($node_data);
+			$this->grp_tree->deleteTree($grp_node_data);
+			
+		}
+		
+		sendInfo($this->lng->txt("msg_removed"),true);
+		
+		header("Location:".$this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
+		exit();
+	}
+	
+	/**
+	* remove already deleted objects within the objects in trash
+	* recursive function
+	*
+	* @access	public
+	* @param	integer ref_id of source object
+	* @param    boolean 
+	* @param	string database table
+	*/
+	function removeDeletedNodes($a_node_id,$a_checked,$a_db_table)
+	{
+		$q = "SELECT tree FROM ".$a_db_table." WHERE parent='".$a_node_id."' AND tree < 0";
+		
+		$r = $this->ilias->db->query($q);
+
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// only continue recursion if fetched node wasn't touched already!
+			if (!in_array($row->tree,$a_checked))
+			{
+				
+				if ($a_db_table=="grp_tree")
+				{
+					$deleted_tree = new ilGroupTree($row->tree);
+				}
+				else
+				{
+					$deleted_tree = new ilTree($row->tree);
+				}
+				$a_checked[] = $row->tree;
+			
+				$row->tree = $row->tree * (-1);
+				$del_node_data = $deleted_tree->getNodeData($row->tree);
+				$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
+
+				if ($a_db_table=="grp_tree")
+				{
+					$this->removeDeletedNodes($row->tree,$a_checked,$a_db_table);
+				}
+				else
+				{
+					$this->removeDeletedNodes($row->tree,$a_checked,$a_db_table);
+				}	
+				
+				if ($a_db_table=="tree")
+				{				
+					foreach ($del_subtree_nodes as $node)
+					{
+						$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+						$node_obj->delete();
+					}
+				}
+				if ($a_db_table=="grp_tree")
+				{
+					$this->grp_tree->deleteTree($del_node_data);
+				}
+				else
+				{
+					$this->tree->deleteTree($del_node_data);
+				}
+				
+			}
+		}
+		
+		return true;
+	}
+	
+	
 }
 ?>
