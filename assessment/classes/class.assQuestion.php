@@ -1217,11 +1217,16 @@ class ASS_Question extends PEAR
 
 	function copyPageOfQuestion($a_q_id)
 	{
-		$page = new ilPageObject("qpl", $a_q_id);
-		$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
-			$page->getXMLContent());
-		$this->page->setXMLContent($xml);
-		$this->page->updateFromXML();
+		if ($a_q_id > 0)
+		{
+			$page = new ilPageObject("qpl", $a_q_id);
+
+			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
+				$page->getXMLContent());
+
+			$this->page->setXMLContent($xml);
+			$this->page->updateFromXML();
+		}
 	}
 
 }

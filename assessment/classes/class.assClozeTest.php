@@ -342,7 +342,7 @@ class ASS_ClozeTest extends ASS_Question
 		}
 
 		// copy question page content
-		$clone->copyPageOfQuestion($this->id);
+		$clone->copyPageOfQuestion($original_id);
 
 		// duplicate the materials
 		$clone->duplicateMaterials($original_id);
