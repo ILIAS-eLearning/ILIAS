@@ -16,9 +16,11 @@
   <p>{TXT_SETUP_WELCOME}</p>
 
 <!-- BEGIN message -->
-  <p class="msg">{TXT_ERR}</p>
+  <p class="msg"><font color="red">{TXT_ERR}</font></p>
 <!-- END message -->
 
+<!-- BEGIN step1 -->
+<h1>Setup Ini-File</h1>
 <form method="post" name="form" action="setup.php">
 <input type="hidden" name="step" value="2">
 
@@ -26,15 +28,10 @@
   <tr>
     <td>{TXT_DB_TYPE}</td>
     <td><select name="dbtype">
-    <option value="mysql" selected>MySQL</option>
-    <option value="pgsql">PostgreSQL</option>
-    <option value="ibase">InterBase</option>
-    <option value="msql">Mini SQL</option>
-    <option value="mssql"> Microsoft SQL Server</option>
-    <option value="oci8">Oracle 7/8/8i</option>
-    <option value="odbc">ODBC (Open Database Connectivity)</option>
-    <option value="sybase">SyBase</option><option value="ifx">Informix</option>
-    <option value="fbsql">FrontBase</option></select></td>
+<!-- BEGIN seldbtype -->
+    <option value="{DBTYPESHORT}" {SELDBSELECTED}>{DBTYPE}</option>
+<!-- END seldbtype -->
+    </select></td>
   </tr>
   <tr>
     <td>{TXT_DB_HOST}</td>
@@ -45,15 +42,21 @@
     <td><input type="text" size=40 name="dbname" value="{DB_NAME}"></td>
   </tr>
   <tr>
-    <td>{TXT_USER}</td>
+    <td>{TXT_DB_USER}</td>
     <td><input type="text" name="dbuser" value="{DB_USER}"></td>
   </tr>
   <tr>
-    <td>{TXT_PASSWORD}</td>
+    <td>{TXT_DB_PASS}</td>
     <td><input type="text" name="dbpass" value="{DB_PASS}"></td>
   </tr>
 </table>
 
 <input type="submit" name="butSubmit" value="{TXT_SUBMIT}">&nbsp;<input type="reset" name="butReset" value="{TXT_RESET}"></form>
+<!-- END step1 -->
+<!-- BEGIN step2 -->
+<h1>Setup Database</h1>
+<p>The ini-File has been successfully saved on your host.</p>
+<p>
+<!-- END step2 -->
 </body>
 </html>

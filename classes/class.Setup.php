@@ -52,57 +52,37 @@ class Setup
 	* @param void
     * @return boolean
     */
-    function Setup()
+
+    function getDefaults()
     {
-		//initialize default values in case of error
-		$default["server"]["tpl_path"] = "./templates";
-		$default["server"]["lang_path"] = "./lang";
+	//initialize default values in case of error
+	
+	$this->default["server"]["tpl_path"] = "./templates";
+	$this->default["server"]["lang_path"] = "./lang";
 		
-		$default["db"]["type"] = "mysql";
-		$default["db"]["host"] = "your host";
-		$default["db"]["user"] = "your db username";
-		$default["db"]["pass"] = "";
-		$default["db"]["name"] = "your db name (i.e. ilias3)";
+	$this->default["db"]["type"] = "mysql";
+	$this->default["db"]["host"] = "your host";
+	$this->default["db"]["user"] = "your db username";
+	$this->default["db"]["pass"] = "";
+	$this->default["db"]["name"] = "your db name (i.e. ilias3)";
 
-		$default["session"]["save_db"] = "true";
+	$this->default["session"]["save_db"] = "true";
 
-		$default["auth"]["table"] = "user_data";
-		$default["auth"]["usercol"] = "login";
-		$default["auth"]["passcol"] = "passwd";
+	$this->default["auth"]["table"] = "user_data";
+	$this->default["auth"]["usercol"] = "login";
+	$this->default["auth"]["passcol"] = "passwd";
 
-		$default["language"]["default"] = "en";
+	$this->default["language"]["default"] = "en";
 
-		$default["error"]["debug"] = "false";
-		$default["error"]["haltonerror"] = "false";
+	$this->default["error"]["debug"] = "false";
+	$this->default["error"]["haltonerror"] = "false";
 
-		$default["layout"]["TABLE_BGCOLOR"] = "#DCDCFF";
-		$default["layout"]["TABLE_BORDER"] = "1";
-		$default["layout"]["TABLE_CELLSPACING"] = "0";
-		$default["layout"]["TABLE_CELLPADDING"] = "5";
-
-		// get settings from ini file
-		$this->ini = new IniFile($this->INI_FILE);
-		//check for error
-		if ($this->ini->ERROR != "")
-		{
-			$this->error = $this->ini->ERROR;
-		}
-		
-		if ($this->error == "file_does_not_exist")
-		{
-			//try to write
-			$this->ini->setContent($default);
-			if ($this->ini->save() == false)
-				$this->error = $this->ini->ERROR;
-		}
-
-		$this->setDbType($this->ini->readVariable("db","type"));
-		$this->setDbHost($this->ini->readVariable("db","host"));
-		$this->setDbName($this->ini->readVariable("db","name"));
-		$this->setDbUser($this->ini->readVariable("db","user"));
-		$this->setDbPass($this->ini->readVariable("db","pass"));
-
-		//build list of databasetypes
+	$this->default["layout"]["TABLE_BGCOLOR"] = "#DCDCFF";
+	$this->default["layout"]["TABLE_BORDER"] = "1";
+	$this->default["layout"]["TABLE_CELLSPACING"] = "0";
+	$this->default["layout"]["TABLE_CELLPADDING"] = "5";
+	
+	//build list of databasetypes
 		$this->dbTypes = array();
 		$this->dbTypes["mysql"] = "MySQL";
 		$this->dbTypes["pgsql"] = "PostgreSQL";
@@ -115,11 +95,37 @@ class Setup
 		$this->dbTypes["ifx"] = "Informix";
 		$this->dbTypes["fbsql"] = "FrontBase";
 
+    }
+
+    function Setup()
+    {
+		$this->ini = new IniFile($this->INI_FILE);
+    }
+
+    function readIniFile()
+    {
+		// get settings from ini file
+		$this->ini = new IniFile($this->INI_FILE);
+		$this->ini->read();
+		//check for error
+		if ($this->ini->ERROR != "")
+		{
+			$this->error = $this->ini->ERROR;
+			return false;
+		}
+		
+		
+		$this->setDbType($this->ini->readVariable("db","type"));
+		$this->setDbHost($this->ini->readVariable("db","host"));
+		$this->setDbName($this->ini->readVariable("db","name"));
+		$this->setDbUser($this->ini->readVariable("db","user"));
+		$this->setDbPass($this->ini->readVariable("db","pass"));
+
 		// set tplPath
 		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
 		return true;
-	}
+    }
 
     /**
 	 * connect
@@ -231,6 +237,7 @@ class Setup
 	/**
 	 * set the database data
 	*/
+
     function installDatabase()
 	{
 		//check parameters
@@ -299,12 +306,18 @@ class Setup
 			return false;
 		}
 		
-		//database things were okay - now change inifile
+		
+	    return true;
+	    }
+	    
+	    function writeIniFile()
+	    {		
+		//write inifile
 		$this->ini->setVariable("db", "host", $this->dbHost);
 		$this->ini->setVariable("db", "name", $this->dbName);
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
-		if ($this->ini->save()==false)
+		if ($this->ini->write()==false)
 		{
 			$this->error_msg = "cannot_write";
 			return false;
@@ -314,6 +327,18 @@ class Setup
 		return true;
 		
 	} //function
+
+
+    function checkIniFileExists()
+    {
+	return false;
+    }
+    
+    function checkIniFileWritable()
+    {
+	clearstatcache();
+	return is_writable(".");
+    }
 	
 } //class Setup
 ?>
