@@ -12,7 +12,7 @@ require_once("$BEAUT_PATH/Beautifier/HFile.php");
 // Flags
 
 $this->nocase            	= "0";
-$this->notrim            	= "0";
+$this->notrim            	= "1";
 $this->perl              	= "0";
 
 // Colours
@@ -35,9 +35,9 @@ $this->escchar           	= "";
 
 // Comment settings
 
-$this->linecommenton     	= array("");
-$this->blockcommenton    	= array("");
-$this->blockcommentoff   	= array("");
+$this->linecommenton     	= array();
+$this->blockcommenton    	= array();
+$this->blockcommentoff   	= array();
 
 // Keywords (keyword mapping to colour number)
 
