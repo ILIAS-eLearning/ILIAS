@@ -15,6 +15,11 @@ $tpl = new Template("tpl.group_new.html", false, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("new_group"));
 
+$tpl->setVariable("TXT_GROUPNAME", $lng->txt("groupname"));
+$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+$tpl->setVariable("TXT_ACCESS", $lng->txt("access"));
+$tpl->setVariable("TXT_GROUP_SCOPE", $lng->txt("groupscope"));
+$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
