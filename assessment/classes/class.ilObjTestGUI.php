@@ -2533,6 +2533,28 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Creates the maintenance form for a test
+	*
+	* Creates the maintenance form for a test
+	*
+	* @access	public
+	*/
+	function maintenanceObject()
+	{
+		if ($_POST["cmd"]["delete_all_user_data"])
+		{
+			$this->object->removeAllTestEditings();
+			sendInfo($this->lng->txt("tst_all_user_data_deleted"));
+		}
+		$add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+		$this->tpl->parseCurrentBlock();
+	}	
+
+	/**
 	* set Locator
 	*
 	* @param	object	tree object

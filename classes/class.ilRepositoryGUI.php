@@ -2002,7 +2002,16 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
+				} 
+				else if ($this->rbacsystem->checkAccess('read', $svy_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_edit");
+					$tpl->setVariable("EDIT_LINK","survey/survey.php?ref_id=".$svy_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->parseCurrentBlock();
 				}
+
 
 				if ($this->rbacsystem->checkAccess('delete', $svy_data["ref_id"]) and ($svy_data["status"] == 0))
 				{
@@ -2150,6 +2159,15 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
+				else if ($this->rbacsystem->checkAccess('read', $spl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("spl_edit");
+					$tpl->setVariable("EDIT_LINK","survey/questionpool.php?ref_id=".$spl_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->parseCurrentBlock();
+				}
+				
 
 				if ($this->rbacsystem->checkAccess('delete', $spl_data["ref_id"]))
 				{
