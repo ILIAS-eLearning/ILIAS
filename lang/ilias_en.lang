@@ -3870,8 +3870,15 @@ survey#:#svy_status_missing#:#There are required elements missing in this survey
 survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
+survey#:#title_resume_survey#:#Resume the survey - Enter survey code
+survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
+survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!
+survey#:#label_resume_survey#:#Enter your 32 digit survey code
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
+survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
+survey#:#subject_mail_survey_id#:#Your survey code for "%s"
+survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit#:#Upper limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
