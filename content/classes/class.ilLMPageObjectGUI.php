@@ -67,7 +67,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 
-		$page_object_gui->setOutputMode("edit");
 		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->lm_obj->getPageHeader()));
 		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
@@ -94,12 +93,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	{
 		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 
-		$page_object_gui->setOutputMode("preview");
 		$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->lm_obj->getPageHeader()));
 		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_object_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_object_gui->view();
+		$page_object_gui->preview();
 	}
 
 	/**

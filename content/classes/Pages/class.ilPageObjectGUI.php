@@ -139,9 +139,9 @@ class ilPageObjectGUI
 	}
 
 	/*
-	* display content of page (edit view)
+	* display content of page
 	*/
-	function view()
+	function showPage()
 	{
 		global $tree;
 
@@ -154,7 +154,7 @@ class ilPageObjectGUI
 
 		// get content
 		$builded = $this->obj->buildDom();
-		if($this->getOutputMode == "edit")
+		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();
 		}
@@ -180,6 +180,7 @@ class ilPageObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+//echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
@@ -194,7 +195,7 @@ class ilPageObjectGUI
 		$output = str_replace("&amp;", "&", $output);
 
 		// output
-		if($this->outputToTemplate)
+		if($this->outputToTemplate())
 		{
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
 		}
@@ -211,7 +212,17 @@ class ilPageObjectGUI
 	{
 		global $tree;
 		$this->setOutputMode("preview");
-		$this->view();
+		$this->showPage();
+	}
+
+	/*
+	* edit
+	*/
+	function view()
+	{
+		global $tree;
+		$this->setOutputMode("edit");
+		$this->showPage();
 	}
 
 	function edit()
