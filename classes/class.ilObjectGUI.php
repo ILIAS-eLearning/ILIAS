@@ -1283,7 +1283,6 @@ class ilObjectGUI
 	function importObject()
 	{
 		global $rbacsystem;
-
 		// CHECK ACCESS 'write' of role folder
 		// TODO: new_type will never be checked, if queried operation is not 'create'
 		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"], $_POST["new_type"]))
@@ -1815,7 +1814,8 @@ class ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
+					   $this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		foreach ($this->data["cols"] as $val)
@@ -1856,7 +1856,7 @@ class ilObjectGUI
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
+		#$tbl->disable("footer");
 
 		// render table
 		$tbl->render();
