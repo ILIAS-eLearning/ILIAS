@@ -31,4 +31,6 @@ UPDATE object_data SET title = 'ILIAS' WHERE title = 'ILIAS open source';
 <#5>
 REPLACE INTO lm_data (obj_id, title, type, lm_id) VALUES (1, 'dummy', 'du', 0);
 <#6>
-UPDATE role_data SET allow_register = 1 WHERE role_id = 5; 
+UPDATE role_data SET allow_register = 1 WHERE role_id = 5;
+<#7>
+REPLACE INTO settings (keyword, value) VALUES ('enable_registration', 1);

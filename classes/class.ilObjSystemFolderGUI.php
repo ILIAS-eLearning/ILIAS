@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.7 2003/06/11 08:41:44 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.8 2003/08/14 15:23:15 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -170,6 +170,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
 				$settings["news"] = $_POST["news"];
+				$settings["enable_registration"] = $_POST["enable_registration"];
 				$settings["payment_system"] = $_POST["payment_system"];
 				$settings["group_file_sharing"] = $_POST["group_file_sharing"];
 				$settings["crs_enable"] = $_POST["crs_enable"];
@@ -219,6 +220,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$ilias->setSetting("pub_section",$_POST["pub_section"]);
+				$ilias->setSetting("enable_registration",$_POST["enable_registration"]);
 				$ilias->setSetting("news",$_POST["news"]);
 				$ilias->setSetting("payment_system",$_POST["payment_system"]);
 				$ilias->setSetting("group_file_sharing",$_POST["group_file_sharing"]);
@@ -289,6 +291,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// modules
 		$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
 		$tpl->setVariable("TXT_PUB_SECTION", $lng->txt("pub_section"));
+		$tpl->setVariable("TXT_ENABLE_REGISTRATION", $lng->txt("enable_registration"));
 		$tpl->setVariable("TXT_NEWS", $lng->txt("news"));
 		$tpl->setVariable("TXT_PAYMENT_SYSTEM", $lng->txt("payment_system"));
 		$tpl->setVariable("TXT_GROUP_FILE_SHARING", $lng->txt("group_filesharing"));
@@ -400,6 +403,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($settings["pub_section"])
 		{
 			$tpl->setVariable("PUB_SECTION","checked=\"checked\"");
+		}
+
+		if ($settings["enable_registration"])
+		{
+			$tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
 		}
 
 		if ($settings["news"])

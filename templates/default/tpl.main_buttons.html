@@ -120,7 +120,15 @@ if (document.images)
     </table>
   </td>
 <!-- BEGIN userisanonymous -->
-  <td width="100%" align="right" nowrap="nowrap"><span class="il_menu">{TXT_NOT_LOGGED_IN}!</span><br/><a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a><span class="il_menu">&nbsp;|&nbsp;</span><a class="menu" href="{LINK_REGISTER}" target="bottom">{TXT_REGISTER}</a></td>
+  <td width="100%" align="right" nowrap="nowrap">
+  <span class="il_menu">{TXT_NOT_LOGGED_IN}!</span>
+  <br/>
+  <a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a>
+<!-- BEGIN registration_link -->  
+  <span class="il_menu">&nbsp;|&nbsp;</span>
+  <a class="menu" href="{LINK_REGISTER}" target="bottom">{TXT_REGISTER}</a>
+<!-- END registration_link -->
+  </td>
 <!-- END userisanonymous -->
 <!-- BEGIN userisloggedin -->
   <td width="100%" align="right" nowrap="nowrap">{TXT_WELCOME}, {USERNAME}!<br/><a class="menu" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a></td>
