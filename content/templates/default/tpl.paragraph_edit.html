@@ -508,7 +508,7 @@ function initEditor(TextAreaName)
 		  
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
-		  "copy", "cut", "paste"
+		  "copy", "cut", "paste","htmlmode"
 		  
           ],
 
@@ -749,41 +749,6 @@ function checkAllowTagInside3(which)
 		return(false);
 	}
 	
-	// {{{
-	/*
-	N1 = "";
-	N2 = "";
-	for (j=0;j<ancestors.length-1;j++) 
-	{
-		var el = ancestors[j];
-		var cl = el.className;
-		var tn = el.tagName.toLowerCase();
-		N1 = "<"+tn+" class=\""+cl+"\">"+N1;
-		N2 += "</"+tn+">";
-
-	}
-	S = editor.getSelectedHTML();
-	S = S.replace("<SPAN class=ilc_Comment>","<span class=\"ilc_Comment\">");
-	S = S.replace("</SPAN>","</span>");
-	
-	editor.insertHTML("#!#*#!#");
-	H = editor.getHTML();
-	H1 = H;
-	
-	H = H.replace("#!#*#!#",N2+S+N1);
-	
-	alert(S+"\n"+N1+"\n"+N2+"\n\n"+H1+"\n\n"+H);
-	
-	for(i=0;i<20;i++) {
-		H = H.replace("<span class=\"ilc_Comment\"></span>","");
-		H = H.replace("<p>","");
-		H = H.replace("</p>","");
-	}
-	
-	editor.setHTML(H);
-	editor.focusEditor();
-	*/
-	// }}}
 }
 // {{{
 function checkAllowTagInside(which) 
@@ -807,9 +772,9 @@ function checkAllowTagInside(which)
 					N1 = "";
 					N2 = "";
 					var ancestors = editor.getAllAncestors();
-					for (i=0;i<=j;i++)
+					for (k=0;k<=j;k++)
 					{
-						var el = ancestors[i];
+						var el = ancestors[k];
 						var cl = el.className;
 						var tn = el.tagName.toLowerCase();
 						
@@ -826,7 +791,7 @@ function checkAllowTagInside(which)
 					H = H.replace("#!#*#!#",N2+S+N1);
 					//alert(H);
 					
-					for(i=0;i<20;i++) {
+					for(k=0;k<20;k++) {
 						H = H.replace("<span class=\"ilc_Comment\"></span>","");
 						H = H.replace("<p>","");
 						H = H.replace("</p>","");
@@ -845,6 +810,30 @@ function checkAllowTagInside(which)
 	return(true);
 }
 // }}}
+
+function getClearTags() {
+	N1 = "";
+	N2 = "";
+	var ancestors = editor.getAllAncestors();
+	for (k=0;k<ancestors.length-1;k++)
+	{
+		var el = ancestors[k];
+		var cl = el.className;
+		var tn = el.tagName.toLowerCase();
+		
+		N0 = "<"+tn;
+		if (cl!="") N0 += " class=\""+cl+"\"";
+		N0 += ">";
+		
+		N1 = N0+N1;
+		N2 += "</"+tn+">";
+	}
+	A = new Array();
+	A[0] = N1;
+	A[1] = N2;
+	return(A);
+
+}
 
 function replaceAll(heystack, needle, newneedle) 
 {
@@ -903,16 +892,34 @@ function addInternalLink(Link,title)
 	Link = Link.replace("[iln ","<a class=\"iliasiln\" ");
 	Link = Link.replace("\"]","\">");
 	Link = Link.replace(" [/iln]","");
+	
 	if(editor.hasSelectedText()) 
 	{
-		editor.surroundHTML(Link,"</a>");
-	} 
-	else 
-	{
-		editor.insertHTML(Link+title+"</a>");
+		title = editor.getSelectedHTML();
 	}
-	S = editor.getHTML();
-	editor.setHTML(S+"&nbsp;&nbsp;");
+	
+	A = getClearTags();
+	if (A[0]=="") {
+		editor.insertHTML(Link+title+"</a>");
+		S = editor.getHTML();
+		
+		editor.setHTML(S+"&nbsp;&nbsp;");
+	} else {
+		N = Link+title+"</a>";
+		S = editor.getSelectedHTML();
+		editor.insertHTML("#!#*#!#");
+		H = editor.getHTML();
+		H = H.replace("#!#*#!#",A[1]+N+A[0]);
+		
+		for(k=0;k<20;k++) {
+			H = H.replace("<span class=\"ilc_Comment\"></span>","");
+			H = H.replace("<p>","");
+			H = H.replace("</p>","");
+			H = H.replace("<strong></strong>","");
+		}
+		
+		editor.setHTML(H+"&nbsp;");
+	}
 	editor.focusEditor();
 }
 
