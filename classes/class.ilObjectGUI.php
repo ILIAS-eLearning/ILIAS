@@ -866,19 +866,24 @@ class ilObjectGUI
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
 		{
 			$this->cloneNodes($id,$this->ref_id,$mapping);
-			
 		}
 		
-		// inform other objects in hierarchy about cut operation
+		// inform other objects in hierarchy about copy operation
 		$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);			
- 		
  
 		$this->clearObject();
+		
+		// copy folders and files in each copied group
+		foreach ($_SESSION["copied_group_refs"] as $grp_id)
+		{
+			$groupObj = $this->ilias->obj_factory->getInstanceByRefId($grp_id);
+			$groupObj->cloneNoneRbacObjects();
+		}
+		
+		unset($_SESSION["copied_group_refs"]);
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
-		
 		header("location:".$this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
-		
 		exit();
 	} // END CLONE
 
