@@ -87,9 +87,11 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Scan Log
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
@@ -102,6 +104,7 @@ assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
@@ -276,6 +279,7 @@ assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
@@ -301,6 +305,7 @@ assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#selected_image#:#Ausgewählte Grafik

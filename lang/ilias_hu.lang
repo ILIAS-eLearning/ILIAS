@@ -87,9 +87,11 @@ administration#:#systemcheck#:#Rendszerellenőrzés
 administration#:#view_last_log#:#Átvizsgálás naplójának megtekintése
 administration#:#view_log#:#Részletek megtekintése
 assessment#:#0_unlimited#:#(0 = korlátlan)
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Válasz hozzáadása
 assessment#:#add_answer_tf#:#Igaz/hamis válaszok hozzáadása
 assessment#:#add_answer_yn#:#Igen/nem válaszokat hozzáadása
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Applet-paraméterek hozzáadása
 assessment#:#add_area#:#Terület hozzáadása
 assessment#:#add_gap#:#Kiegészítendő szöveg hozzáadása
@@ -99,6 +101,7 @@ assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemé
 assessment#:#answer#:#Válasz
 assessment#:#answer_picture#:#Válaszkép
 assessment#:#answer_text#:#Válaszszöveg
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet-attribútumok
 assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
@@ -210,6 +213,7 @@ assessment#:#qt_matching#:#Párosító kérdés
 assessment#:#qt_multiple_choice_mr#:#Többszörös választásos kérdés (többszörös válasz)
 assessment#:#qt_multiple_choice_sr#:#Többszörös választásos kérdés (egyszeres válasz)
 assessment#:#qt_ordering#:#Sorrendbe rakó kérdés
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#A kérdés automatikusan mentésre került, hogy a lefoglalja a merevlemezhelyet a felöltött fájl számára. Ha most bezárja ezt az űrlapot, törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#kérdéstípus
@@ -229,6 +233,7 @@ assessment#:#save_finish#:#Mentés és a teszt befejezése
 assessment#:#save_introduction#:#Mentés és bevezetésre ugrás
 assessment#:#save_next#:#Mentés és a következő kérdésre ugrás
 assessment#:#save_previous#:#Mentés és az előző kérdésre ugrás
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Kitöltendő hely választása
 assessment#:#select_target_position_for_move_question#:#Válasszon ki célpozíciót a kérdés(ek) áthelyezéséhez, és nyomjon meg egy beszúrás gombot!
 assessment#:#set_filter#:#Szűrő beállítása

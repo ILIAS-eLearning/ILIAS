@@ -87,9 +87,11 @@ administration#:#systemcheck#:#Systeem-controle
 administration#:#view_last_log#:#Toon laatste scan-log
 administration#:#view_log#:#Toon details
 assessment#:#0_unlimited#:#(0=onbegrensd)
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Voeg goede/verkeerde antwoorden toe
 assessment#:#add_answer_yn#:#Voeg ja/nee antwoorden toe
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Voeg applet-parameter toe
 assessment#:#add_area#:#Toevoegen gebieden
 assessment#:#add_gap#:#Voeg gat-tekst toe
@@ -102,6 +104,7 @@ assessment#:#answer_is_right#:#Uw oplossing is goed
 assessment#:#answer_is_wrong#:#Uw oplossing is fout
 assessment#:#answer_picture#:#Antwoord-figuur
 assessment#:#answer_text#:#Antwoord-tekst
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#Nieuwe parameter
 assessment#:#applet_parameter#:#Parameter
@@ -271,6 +274,7 @@ assessment#:#qt_matching#:#Overeenkomende vraag
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één antwoord)
 assessment#:#qt_ordering#:#Bestel-vraag
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploadenbestand. Als u de verwerking van deze vraag nu annuleert moet u de vraag in de vraagpool, als u deze niet wilt bewaren, zelf verwijderen !
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type
@@ -295,6 +299,7 @@ assessment#:#save_finish#:#Sla test op en sluit test af
 assessment#:#save_introduction#:#Sla op en ga naar introductie
 assessment#:#save_next#:#Sla op en ga naar volgende vraag
 assessment#:#save_previous#:#Sla op en ga naar vorige vraag
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#select_target_position_for_move_question#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!
 assessment#:#selected_image#:#Plaatje geselecteerd

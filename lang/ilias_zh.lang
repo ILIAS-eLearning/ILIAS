@@ -104,9 +104,11 @@ administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
 administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
 administration#:#view_log#:#View details###09 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#增加答案
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
@@ -119,6 +121,7 @@ assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
 assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#答案文本
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
 assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
 assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
@@ -293,6 +296,7 @@ assessment#:#qt_matching#:#匹配问题
 assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#问题类型
@@ -318,6 +322,7 @@ assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#选择间隔
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
