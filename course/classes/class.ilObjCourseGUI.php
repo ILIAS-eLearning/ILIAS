@@ -2302,6 +2302,12 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_grouping'));
 		$this->tpl->parseCurrentBlock();
 
+		#$this->tpl->setCurrentBlock("btn_cell");
+		#$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
+		#$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','otherSelectAssign'));
+		#$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_assign_grouping'));
+		#$this->tpl->parseCurrentBlock();
+
 		if(!count($groupings = ilObjCourseGrouping::_getGroupings($this->object->getId())))
 		{
 			sendInfo($this->lng->txt('crs_no_groupings_assigned'));
@@ -2324,7 +2330,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($groupings as $grouping_id)
 		{
-			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
 
 			if(strlen($tmp_obj->getDescription()))
 			{
@@ -2389,7 +2395,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($_POST['grouping'] as $grouping_id)
 		{
-			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
 
 			if(strlen($tmp_obj->getDescription()))
 			{
@@ -2424,7 +2430,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		foreach($_SESSION['crs_grouping_del'] as $grouping_id)
 		{
-			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+			$tmp_obj =& new ilObjCourseGrouping($grouping_id);
 			$tmp_obj->delete();
 		}
 		sendInfo($this->lng->txt('crs_grouping_deleted'));

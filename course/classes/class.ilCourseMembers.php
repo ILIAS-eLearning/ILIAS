@@ -422,10 +422,10 @@ class ilCourseMembers
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess('write',$this->course_obj->getRefId()))
-		{
-			return true;
-		}
+		#if($rbacsystem->checkAccess('write',$this->course_obj->getRefId()))
+		#{
+		#	return true;
+		#}
 
 		return $this->isAssigned($a_usr_id) && !$this->isBlocked($a_usr_id) ? true : false;
 	}

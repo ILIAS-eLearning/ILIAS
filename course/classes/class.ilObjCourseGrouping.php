@@ -43,14 +43,13 @@ class ilObjCourseGrouping
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjCourseGrouping(&$course_obj,$a_id = 0)
+	function ilObjCourseGrouping($a_id = 0)
 	{
 		global $ilDB;
 
 		$this->setType('crsg');
 		$this->db =& $ilDB;
 
-		$this->course_obj =& $course_obj;
 		$this->setId($a_id);
 
 		if($a_id)
@@ -137,7 +136,7 @@ class ilObjCourseGrouping
 		return false;
 	}
 
-	function create()
+	function create($a_course_id)
 	{
 		global $ilUser;
 
@@ -161,7 +160,7 @@ class ilObjCourseGrouping
 
 		// INSERT in crs_groupings
 		$query = "INSERT INTO crs_groupings ".
-			"SET crs_id = '".$this->course_obj->getId()."',".
+			"SET crs_id = '".$a_course_id."',".
 			"crs_grp_id = '".$this->getId()."', ".
 			"unique_field = '".$this->getUniqueField()."'";
 
@@ -225,9 +224,25 @@ class ilObjCourseGrouping
 
 		return true;
 	}
+
+	function _getAllGroupings($a_crs_ref_id)
+	{
+		$groupings = array();
+		foreach(ilUtil::getObjectsByOperations('crs','write',false) as $crs_data)
+		{
+			if($a_crs_ref_id != $crs_data['ref_id'])
+			{
+				$groupings = array_merge($groupings,ilObjCourseGrouping::_getGroupings($crs_data['obj_id']));
+			}
+		}
+		return $groupings ? $groupings : array();
+	}
+
+		
 	// PRIVATE
 	
 	// STATIC
+
 	function _deleteAll($a_course_id)
 	{
 		global $ilDB;
@@ -262,6 +277,20 @@ class ilObjCourseGrouping
 			$groupings[] = $row->crs_grp_id;
 		}
 		return $groupings ? $groupings : array();
+	}
+
+	function _isInGrouping($a_crs_id)
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_crs_id,'crs') as $cond)
+		{
+			if($cond['operator'] == 'not_member')
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	function _checkCondition($trigger_obj_id,$operator,$value)
