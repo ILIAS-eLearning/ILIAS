@@ -1,9 +1,10 @@
-﻿/**
+?/**
 * ILIAS language file
 *
 * @modulelanguage file simplied Chinese
 * @modulegrouplanguage
 * @author 范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
+* @author 蔚福江 (Jason Wei) <jason.wei@hartung.com.cn>
 * @version$Id#:# ilias_zh_cn.lang,v 1.345 2003/11/07 09#:#12#:#34 mrus Exp $
 */
 
@@ -51,109 +52,109 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###09 Mar 2004 new variable
-administration#:#analyzing#:#Analyzing...###09 Mar 2004 new variable
-administration#:#clean#:#Clean up###09 Mar 2004 new variable
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###09 Mar 2004 new variable
-administration#:#cleaning#:#Cleaning...###09 Mar 2004 new variable
-administration#:#cleaning_final#:#Final cleaning...###09 Mar 2004 new variable
-administration#:#closing_gaps#:#Closing gaps in tree...###09 Mar 2004 new variable
-administration#:#disabled#:#disabled###09 Mar 2004 new variable
-administration#:#done#:#Done###09 Mar 2004 new variable
-administration#:#found#:#found.###09 Mar 2004 new variable
-administration#:#found_none#:#none found.###09 Mar 2004 new variable
-administration#:#log_scan#:#Log scan results###09 Mar 2004 new variable
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###09 Mar 2004 new variable
-administration#:#nothing_to_purge#:#Nothing to purge...###09 Mar 2004 new variable
-administration#:#nothing_to_remove#:#Nothing to remove...###09 Mar 2004 new variable
-administration#:#nothing_to_restore#:#Nothing to restore...###09 Mar 2004 new variable
-administration#:#options#:#Options###09 Mar 2004 new variable
-administration#:#purge_missing#:#Purge missing objects###09 Mar 2004 new variable
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###09 Mar 2004 new variable
-administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
-administration#:#purging#:#Purging...###09 Mar 2004 new variable
-administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
-administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
-administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
-administration#:#removing_invalid_refs#:#Removing invalid references...###09 Mar 2004 new variable
-administration#:#restore_missing#:#Restore missing objects###09 Mar 2004 new variable
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restore_trash#:#Restore deleted objects###09 Mar 2004 new variable
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restoring#:#Restoring...###09 Mar 2004 new variable
-administration#:#restoring_missing_objs#:#Restoring missing objects...###09 Mar 2004 new variable
-administration#:#restoring_trash#:#Restoring trash...###09 Mar 2004 new variable
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###09 Mar 2004 new variable
-administration#:#scan_completed#:#Scan completed###09 Mar 2004 new variable
-administration#:#scan_details#:#Scan details###09 Mar 2004 new variable
-administration#:#scan_modes#:#Scan modes used###09 Mar 2004 new variable
-administration#:#scan_only#:#Scan only###09 Mar 2004 new variable
-administration#:#scanning_system#:#Scanning system...###09 Mar 2004 new variable
-administration#:#searching_deleted_objs#:#Searching for deleted objects...###09 Mar 2004 new variable
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###09 Mar 2004 new variable
-administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
-administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
-administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
-administration#:#skipped#:#skipped###17 Apr 2004 new variable
-administration#:#start_scan#:#Start!###09 Mar 2004 new variable
-administration#:#stop_scan#:#Stop!###31 May 2004 new variable
-administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
-administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
-administration#:#view_log#:#View details###09 Mar 2004 new variable
-assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
-assessment#:#action#:#Action###20 Oct 2004 new variable
+administration#:#analyze_data#:#分析数据完整性
+administration#:#analyze_desc#:#扫描系统中已破坏/无效/丢失/未用的对象
+administration#:#analyzing#:#分析中。。。
+administration#:#clean#:#清理
+administration#:#clean_desc#:#清除无效的引用与目录树入口。关闭目录树结构缺口
+administration#:#cleaning#:#清除中。。。
+administration#:#cleaning_final#:#最后清楚。。。
+administration#:#closing_gaps#:#清除目录树中缺口。。。
+administration#:#disabled#:#作废的
+administration#:#done#:#已完成
+administration#:#found#:#发现
+administration#:#found_none#:#未发现
+administration#:#log_scan#:#日志扫描结果
+administration#:#log_scan_desc#:#往Client数据目录中写入日志 “scanlog.log”
+administration#:#nothing_to_purge#:#没有清除对象
+administration#:#nothing_to_remove#:#没有清除对象
+administration#:#nothing_to_restore#:#没有恢复对象
+administration#:#options#:#选项
+administration#:#purge_missing#:#清除丢失的对象
+administration#:#purge_missing_desc#:#清除所有系统中发现的丢失的、未用的对象
+administration#:#purge_trash#:#彻底删除对象
+administration#:#purge_trash_desc#:#从系统中清空垃圾筒
+administration#:#purging#:#清除中。。。
+administration#:#purging_missing_objs#:#清除丢失对象中。。。
+administration#:#purging_trash#:#清除垃圾筒。。。
+administration#:#purging_unbound_objs#:#清除无用的对象中。。。
+administration#:#removing_invalid_childs#:#清除无效目录树入口。。。
+administration#:#removing_invalid_refs#:#清除无效引用。。。
+administration#:#restore_missing#:#恢复丢失的对象
+administration#:#restore_missing_desc#:#恢复丢失与未用的对象至“恢复目录”中
+administration#:#restore_trash#:#恢复已删除对象
+administration#:#restore_trash_desc#:#恢复垃圾筒中对象至“恢复目录”中
+administration#:#restoring#:#恢复中
+administration#:#restoring_missing_objs#:#恢复丢失对象中。。。
+administration#:#restoring_trash#:#恢复垃圾筒中数据。。。
+administration#:#restoring_unbound_objs#:#恢复未用对象及其子对象。。。
+administration#:#scan_completed#:#扫描完成
+administration#:#scan_details#:#扫描细节
+administration#:#scan_modes#:#扫描模式
+administration#:#scan_only#:#仅扫描
+administration#:#scanning_system#:#扫描系统中。。。
+administration#:#searching_deleted_objs#:#搜索删除的对象。。。
+administration#:#searching_invalid_childs#:#搜索无效的目录树入口。。。
+administration#:#searching_invalid_refs#:#搜索无效的引用。。。
+administration#:#searching_missing_objs#:#搜索丢失的对象。。。
+administration#:#searching_unbound_objs#:#搜索未用的对象。。。
+administration#:#skipped#:#跳过
+administration#:#start_scan#:#开始
+administration#:#stop_scan#:#停止
+administration#:#systemcheck#:#系统检查
+administration#:#view_last_log#:#查看最后一次扫描日志
+administration#:#view_log#:#查看详细
+assessment#:#0_unlimited#:#(0 = 无限的)
+assessment#:#action#:#动作
 assessment#:#add_answer#:#增加答案
-assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
-assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
-assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
-assessment#:#add_area#:#Add area###15 Jun 2004 new variable
-assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
-assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
+assessment#:#add_answer_tf#:#添加 正确/错误 答案
+assessment#:#add_answer_yn#:#添加 是/否 答案
+assessment#:#add_answerblock#:#添加答案条
+assessment#:#add_applet_parameter#:#添加 applet 参数
+assessment#:#add_area#:#添加区域
+assessment#:#add_gap#:#添加填空文字
+assessment#:#add_imagemap#:#添加图片
 assessment#:#add_matching_pair#:#增加匹配对
-assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
+assessment#:#add_solution#:#添加建议答案
+assessment#:#all_available_question_pools#:#添加可用问题池
 assessment#:#answer#:#答案
-assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
-assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
-assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
+assessment#:#answer_is_right#:#回答正确
+assessment#:#answer_is_wrong#:#回答错误
+assessment#:#answer_picture#:#回答图片
 assessment#:#answer_text#:#答案文本
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
-assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
-assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
-assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
-assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
+assessment#:#answerblock#:#答案条
+assessment#:#applet_attributes#:#Applet 属性
+assessment#:#applet_new_parameter#:#新参数
+assessment#:#applet_parameter#:#参数
+assessment#:#applet_parameters#:#Applet 参数
 assessment#:#apply#:#申请
-assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
-assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
-assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_create_export_file#:#创建导出文件
+assessment#:#ass_export_files#:#导出文件
+assessment#:#ass_file#:#文件
 assessment#:#ass_questions#:#问题
-assessment#:#ass_size#:#Size###19 Oct 2004 new variable
-assessment#:#available_points#:#Available points###20 Sep 2004 new variable
+assessment#:#ass_size#:#大小###19 Oct 2004 new variable
+assessment#:#available_points#:#分值
 assessment#:#by#:#由
-assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
-assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
-assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
-assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
-assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
-assessment#:#circle#:#Circle###15 Jun 2004 new variable
-assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
+assessment#:#cancel_test#:#取消考试
+assessment#:#cannot_export_test#:#没有足够权限到处考试
+assessment#:#cannot_maintain_test#:#没有足够权限维护考试
+assessment#:#cannot_save_metaobject#:#没有足够权限保存Meta数据
+assessment#:#change_solution#:#更改建议答案
+assessment#:#checkbox_checked#:#选上
+assessment#:#checkbox_unchecked#:#未选上
+assessment#:#circle#:#圆周
+assessment#:#circle_click_center#:#请点击要选取的中心区域
+assessment#:#circle_click_circle#:#请点击要选取区域的周围
 assessment#:#cloze_text#:#填充测验文本###14 Sep 2004 content changed
-assessment#:#code#:#Code###19 May 2004 new variable
-assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
-assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
-assessment#:#counter#:#Counter###06 Oct 2004 new variable
+assessment#:#code#:#代码###19 May 2004 new variable
+assessment#:#coordinates#:#匹配###19 Jun 2004 new variable
+assessment#:#correct_solution_is#:#正确答案是###30 Aug 2004 new variable
+assessment#:#counter#:#计数器###06 Oct 2004 new variable
 assessment#:#create_date#:#已创建
 assessment#:#create_gaps#:#创建间隔
-assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
-assessment#:#create_new#:#创建新的
-assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#create_imagemap#:#创建一图片
+assessment#:#create_new#:#新创建
+assessment#:#delete_area#:#删除区域
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
@@ -791,12 +792,12 @@ common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
 common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
-common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
+common#:#chac_write#:#编辑聊天室设置
 common#:#change#:#更改
 common#:#change_active_assignment#:#更改当前任务
 common#:#change_assignment#:#更改任务
 common#:#change_existing_objects#:#更改现有对象
-common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
+common#:#change_header_title#:#编辑标题
 common#:#change_lo_info#:#更改学习对象信息
 common#:#change_metadata#:#更改元数据
 common#:#change_sort_direction#:#更改分类方向
@@ -804,20 +805,20 @@ common#:#changed_to#:#已更改为
 common#:#chapter#:#章
 common#:#chapter_number#:#章号
 common#:#chapter_title#:#章标题
-common#:#chat#:#Chat###05 Mar 2004 new variable
-common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
-common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
-common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chat_new#:#New Chat###05 Mar 2004 new variable
-common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
-common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
-common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
+common#:#chat#:#聊天室
+common#:#chat_add#:#添加聊天室
+common#:#chat_delete#:#删除聊天室
+common#:#chat_edit_permission#:#更改权限设置
+common#:#chat_new#:#新聊天室
+common#:#chat_read#:#聊天室可“读/写”权限
+common#:#chat_visible#:#聊天室可显示
+common#:#chat_write#:#编辑聊天室
 common#:#check#:#检查
-common#:#check_all#:#Check all###26 Aug 2004 new variable
+common#:#check_all#:#全部检查
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
 common#:#check_max_allowed_packet_size#:#页内容太长。
-common#:#checked_files#:#Importable files###31 Mar 2004 new variable
+common#:#checked_files#:#可导入文件
 common#:#chg_language#:#更改语言
 common#:#chg_password#:#更改口令
 common#:#choose_language#:#选择语言
@@ -826,40 +827,41 @@ common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市###14 Sep 2004 content changed
 common#:#clear#:#清除
 common#:#client ip#:#用户地址###14 Sep 2004 content changed
-common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
+common#:#client_id#:#Client ID
+common#:#client_ip#:#Client IP地址
 common#:#clipboard#:#剪贴板
 common#:#close#:#关闭
 common#:#comma_separated#:#逗号分隔
 common#:#comment#:#注解
 common#:#compose#:#写作
-common#:#condition#:#Condition###14 Aug 2004 new variable
-common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
-common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
-common#:#condition_deleted#:#Condition deleted.###25 Aug 2004 new variable
-common#:#condition_passed#:#Passed###14 Aug 2004 new variable
-common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
-common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
-common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
-common#:#condition_update#:#Save###14 Aug 2004 new variable
-common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
+common#:#condition#:#条件
+common#:#condition_already_assigned#:#对象已分配
+common#:#condition_circle_created#:#因为对象相互依赖，连接不可能
+common#:#condition_deleted#:#条件已删除
+common#:#condition_passed#:#已通过
+common#:#condition_precondition#:#前提
+common#:#condition_select_object#:#请选择一个对象
+common#:#condition_select_one#:#请选择一条件
+common#:#condition_update#:#保存
+common#:#conditions_updated#:#条件已保存
 common#:#confirm#:#确认
-common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
+common#:#confirmation#:#确认
 common#:#cont_object#:#对象
 common#:#contact_data#:#联系信息
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#容器
 common#:#context#:#上下文
-common#:#continue_work#:#Continue###16 Jun 2004 new variable
-common#:#copied_object#:#Copied object###07 Aug 2004 new variable
+common#:#continue_work#:#继续
+common#:#copied_object#:#已拷贝对象
 common#:#copy#:#拷贝
-common#:#copyPage#:#Copy###10 May 2004 new variable
+common#:#copyPage#:#拷贝页面
 common#:#copy_of#:#的拷贝
-common#:#copy_to#:#to###07 Aug 2004 new variable
+common#:#copy_to#:#至
 common#:#count#:#数目
 common#:#country#:#国家
 common#:#course#:#课程
 common#:#courses#:#课程
 common#:#create#:#创建
-common#:#create_date#:#Created On###14 Sep 2004 new variable
+common#:#create_date#:#创建日期
 common#:#create_in#:#创建于
 common#:#create_stylesheet#:#创建风格
 common#:#crs#:#课程
@@ -868,10 +870,10 @@ common#:#crs_add#:#增加课程
 common#:#crs_added#:#已增加课程
 common#:#crs_archives#:#Archives###07 Aug 2004 new variable
 common#:#crs_available#:#可提供的课程
-common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
+common#:#crs_container_link_not_allowed#:#不能连接容器对象
 common#:#crs_create#:#创建课程
-common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
+common#:#crs_create_alm#:#创建 AICC 学习课程
+common#:#crs_create_chat#:#创建 Chat
 common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
 common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
 common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
