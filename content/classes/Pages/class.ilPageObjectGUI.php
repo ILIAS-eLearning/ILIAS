@@ -353,6 +353,33 @@ class ilPageObjectGUI
 			{
 				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}
+			
+			// output media object edit list (of media links)
+			if($this->getOutputMode() == "edit")
+			{
+				$links = ilInternalLink::_getTargetsOfSource($this->obj->getParentType().":pg",
+					$this->obj->getId());
+				$mob_links = array();
+				foreach($links as $link)
+				{
+					if ($link["type"] == "mob")
+					{
+						$mob_links[$link["id"]] = ilObject::_lookupTitle($link["id"])." [".$link["id"]."]";
+					}
+				}
+				
+				if (count($mob_links) > 0)
+				{
+					$this->tpl->setCurrentBlock("med_link");
+					$this->tpl->setVariable("TXT_LINKED_MOBS", $this->lng->txt("cont_linked_mobs"));
+					$this->tpl->setVariable("SEL_MED_LINKS",
+						ilUtil::formSelect(0, "mob_id", $mob_links, false, true));
+					$this->tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
+					$this->tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
 		}
 		// get content
 		$builded = $this->obj->buildDom();

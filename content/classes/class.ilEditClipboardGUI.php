@@ -99,6 +99,13 @@ class ilEditClipboardGUI
 				//$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 				//$ret =& $mob_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
+				switch($cmd)
+				{
+					case "save":
+						$this->ilias->account->addObjectToClipboard($ret->getId(), "mob", $ret->getTitle());
+						$this->ctrl->redirect($this, "view");
+						break;
+				}
 				break;
 
 
@@ -119,8 +126,22 @@ class ilEditClipboardGUI
 		global $tree;
 
 		$this->setTabs();
+		
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+//echo "HH";
+		// create mob form button
+		if ($this->mode != "getObject")
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_mob"));
+			$this->tpl->parseCurrentBlock();
+		}
 
-		include_once "./classes/class.ilTableGUI.php";
+
+		include_once "./classes/class.ilTableGUI.php";		
+		
 //echo ":".$_GET["returnCommand"].":";
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
