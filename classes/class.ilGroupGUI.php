@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 require_once("include/inc.header.php");
-require_once("class.ilObjGroupGUI.php");
+require_once("classes/class.ilObjGroupGUI.php");
 require_once("classes/class.ilGroupExplorer.php");
 require_once("classes/class.ilTableGUI.php");
-require_once ("class.ilObjGroup.php");
+require_once("classes/class.ilObjGroup.php");
 /**
 * Class ilGroupGUI 
 *
@@ -152,7 +152,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function displayList()
 	{ 
-	
+
 	global  $tree, $rbacsystem;
 	
 	require_once "./include/inc.header.php";
@@ -240,7 +240,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		break;
 	}
 
-	$maxcount = count($cont_arr);	
+	$maxcount = count($cont_arr);
 
 	require_once "./include/inc.sort.php";
 	$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
@@ -250,7 +250,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	// load template for table
 	$this->tpl->addBlockfile("GROUP_TABLE", "group_table", "tpl.table.html");
 	// load template for table content data
-	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
+	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
 	$cont_num = count($cont_arr);
 
 
@@ -1047,9 +1047,9 @@ class ilGroupGUI extends ilObjGroupGUI
 	
 	
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
-			$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
-//			$link_change = "adm_object.php?cmd=perm&ref_id=".$this->ref_id."&mem_id=".$member->getId();		
-			$link_leave = "adm_object.php?type=grp&cmd=leaveGrp&ref_id=".$this->ref_id."&mem_id=".$member->getId();
+			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
+
+			$link_leave = "group.php?type=grp&cmd=leaveGrp&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 			$img_contact = "pencil";
 			$img_change = "change";
 			$img_leave = "group_out";						
@@ -1799,6 +1799,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	function updateMemberStatusObject()
 	{
 		global $rbacsystem;
+		
 
 		if($rbacsystem->checkAccess("write",$this->object->getRefId()) )
 			if(isset($_POST["member_status_select"]))
@@ -1881,7 +1882,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->data["buttons"] = array( "Confirm"  => $this->lng->txt("confirm"),
+		$this->data["buttons"] = array( "ConfirmedDeassignMember"  => $this->lng->txt("confirm"),
 						"cancel"  => $this->lng->txt("cancel"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
