@@ -186,10 +186,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutt
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
-assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+assessment#:#filter_all_question_types#:#Tutti i tipi di domande
+assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
+assessment#:#filter_show_question_types#:#Mostra i tipi di domande
+assessment#:#filter_show_questionpools#:#Mostra le raccolte di domande
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
@@ -713,7 +713,7 @@ common#:#cat_create_lm#:#Creare un modulo ILIAS
 common#:#cat_create_mep#:#Creare una libreria multimediale
 common#:#cat_create_qpl#:#Creare una raccolta di domande
 common#:#cat_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)###24 Sep 2004 content changed
+common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Eliminare un categoria
@@ -1007,15 +1007,15 @@ common#:#fold#:#Cartelle
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_alm#:#Creare modulo AICC
+common#:#fold_create_alm#:#Creare moduli AICC
 common#:#fold_create_chat#:#Creare chat
 common#:#fold_create_file#:#Creare file
 common#:#fold_create_fold#:#Creare cartelle
 common#:#fold_create_frm#:#Creare forum
 common#:#fold_create_glo#:#Creare glossari
-common#:#fold_create_hlm#:#Creare modulo HACP
-common#:#fold_create_lm#:#Creare moduli
-common#:#fold_create_sahs#:#Creaee un modulo SCORM/AICC
+common#:#fold_create_hlm#:#Creare moduli HACP
+common#:#fold_create_lm#:#Creare moduli ILIAS
+common#:#fold_create_sahs#:#Creare moduli SCORM/AICC
 common#:#fold_delete#:#Cancellare cartelle
 common#:#fold_edit#:#Modificare cartelle
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1266,7 +1266,7 @@ common#:#inst_name#:#Nome dell&#039;installazione
 common#:#install#:#Installa
 common#:#installed#:#Installata
 common#:#institution#:#Istituzione
-common#:#internal_local_roles_only#:#Ruoli locali (solamente generati automaticamente)
+common#:#internal_local_roles_only#:#Ruoli locali (generati automaticamente)
 common#:#internal_system#:#Sistema interno
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;
@@ -1589,7 +1589,7 @@ common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
 common#:#no_users_applied#:#Per favore scegli un utente.
 common#:#no_users_selected#:#Per favore seleziona un utente.
-common#:#non_internal_local_roles_only#:#Ruoli locali (solamente definiti dall'utente)
+common#:#non_internal_local_roles_only#:#Ruoli locali (definiti dall'utente)
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
@@ -1651,7 +1651,7 @@ common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
 common#:#obj_spl#:#Raccolta di domande (verifica)
 common#:#obj_st#:#Capitolo
-common#:#obj_svy#:#Verifica
+common#:#obj_svy#:#Questionario
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
@@ -1868,7 +1868,7 @@ common#:#role_no_results_found#:#Nessun risultato
 common#:#role_no_roles_selected#:#Per favore scegli almeno un ruolo
 common#:#role_search_enter_search_string#:#Per favore indica cosa ricercare
 common#:#role_search_users#:#Ricerca utenti
-common#:#role_templates_only#:#Solamente template di ruolo
+common#:#role_templates_only#:#Template di ruolo
 common#:#role_user_deassign#:#Annulla assegnamento dell'utente al ruolo
 common#:#role_user_edit#:#Modifica dati utente
 common#:#role_user_send_mail#:#Invia un messaggio all'utente
@@ -3296,9 +3296,9 @@ meta#:#meta_keyword#:#Chiave
 meta#:#meta_kind#:#Tipo
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#africano###14 Sep 2004 content changed
+meta#:#meta_l_af#:#africano
 meta#:#meta_l_am#:#amharic###14 Sep 2004 content changed
-meta#:#meta_l_ar#:#arabo###14 Sep 2004 content changed
+meta#:#meta_l_ar#:#arabo
 meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
 meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
 meta#:#meta_l_az#:#azerbaigiano
@@ -3680,10 +3680,10 @@ survey#:#export_data_as#:#Esporta i dati come
 survey#:#fill_out_all_category_fields#:#Per favore, riempi tutti i campi categoria prima di aggiungerne uno nuovo!
 survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i campi richiesti prima di aggiungere una nuova categoria!
 survey#:#filter#:#Filtro
-survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+survey#:#filter_all_question_types#:#Tutti i tipi di domande
+survey#:#filter_all_questionpools#:#Tutte le raccolte di domande (Questionari)
+survey#:#filter_show_question_types#:#Mostra i tipi di domande
+survey#:#filter_show_questionpools#:#Mostra le raccolte di domande (Questionari)
 survey#:#finished#:#finito
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
