@@ -556,12 +556,12 @@ class ilObjGlossary extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{
 		global $rbacadmin;
 
-		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		// always call parent ilClone function first!!
+		$new_ref_id = parent::ilClone($a_parent_ref);
 
 		// todo: put here glossary specific stuff
 

@@ -127,12 +127,12 @@ class ilObjExercise extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{		
 		global $rbacadmin;
 
-		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		// always call parent ilClone function first!!
+		$new_ref_id = parent::ilClone($a_parent_ref);
 		
 		// put here exc specific stuff
 		$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
@@ -142,11 +142,11 @@ class ilObjExercise extends ilObject
 
 		// CLONE FILES
 		$tmp_file_obj =& new ilFileDataExercise($this->getId());
-		$tmp_file_obj->clone($tmp_obj->getId());
+		$tmp_file_obj->ilClone($tmp_obj->getId());
 
 		// CLONE MEMBERS
 		$tmp_members_obj =& new ilExerciseMembers($this->getId(),$new_ref_id);
-		$tmp_members_obj->clone($tmp_obj->getId());
+		$tmp_members_obj->ilClone($tmp_obj->getId());
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
