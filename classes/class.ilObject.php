@@ -157,7 +157,7 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $log;
+		global $log, $objDefinition;
 
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
@@ -222,6 +222,30 @@ class ilObject
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
+		
+		// multilingual support systemobjects (sys) & categories (db)
+		$translation_type = $objDefinition->getTranslationType($this->type);
+		
+		if ($translation_type == "sys")
+		{
+			$this->title = $this->lng->txt("obj_".$this->type);
+			$this->desc = $this->lng->txt("obj_".$this->type."_desc");
+		}
+		elseif ($translation_type == "db")
+		{
+			$q = "SELECT title,description FROM object_translation ".
+				 "WHERE obj_id = ".$this->id." ".
+				 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+				 "AND NOT lang_default = 1";
+			$r = $this->ilias->db->query($q);
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+			if ($row)
+			{
+				$this->title = $row->title;
+				$this->desc = $row->description;
+			}
+		}
 	}
 
 

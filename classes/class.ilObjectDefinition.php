@@ -111,6 +111,17 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]["checkbox"];
 	}
+	
+	/**
+	* get translation type (sys, db or 0)s
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function getTranslationType($a_obj_name)
+	{
+		return $this->obj_data[$a_obj_name]["translate"];
+	}
 
 	/**
 	* Does object permits stopping inheritance?
@@ -278,6 +289,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
 				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
 				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];
+				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
