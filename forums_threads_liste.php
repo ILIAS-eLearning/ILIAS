@@ -83,7 +83,7 @@ $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
 if (is_array($topicData = $frm->getOneTopic()))
 {
-	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+	if ($rbacsystem->checkAccess("edit_post", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
 		$tpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);

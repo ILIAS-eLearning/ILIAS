@@ -32,5 +32,5 @@ if(!$ilias->auth->getAuth() or !$rbacsystem->checkAccess("read",(int) $_GET["ref
 $chat_controller =& new ilChatController((int) $_GET["ref_id"]);
 $chat_controller->execute();
 
-$tpl->show();
+$tpl->show(false);
 ?>
