@@ -190,13 +190,58 @@ class ilLMTable extends ilPageContent
 		}
 	}
 
-	function getHeaderCaption()
+	/**
+	* set width of table data cell
+	*/
+	function setTDWidth($a_hier_id, $a_width)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//TableData[@HierId = '".$a_hier_id."']";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			if($a_width != "")
+			{
+				$res->nodeset[0]->set_attribute("Width", $a_width);
+			}
+			else
+			{
+				$res->nodeset[0]->remove_attribute("Width");
+			}
+		}
+	}
+
+	/**
+	* set class of table data cell
+	*/
+	function setTDClass($a_hier_id, $a_class)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//TableData[@HierId = '".$a_hier_id."']";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			if($a_class != "")
+			{
+				$res->nodeset[0]->set_attribute("Class", $a_class);
+			}
+			else
+			{
+				$res->nodeset[0]->remove_attribute("Class");
+			}
+		}
+	}
+
+	/**
+	* get caption
+	*/
+	function getCaption()
 	{
 		$hier_id = $this->getHierId();
 		if(!empty($hier_id))
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//Table[@HierId = '".$hier_id."']/HeaderCaption";
+			$path = "//Table[@HierId = '".$hier_id."']/Caption";
 			$res =& xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
@@ -205,19 +250,52 @@ class ilLMTable extends ilPageContent
 		}
 	}
 
-	function setHeaderCaption($a_content)
+	/**
+	* get caption alignment (Top | Bottom)
+	*/
+	function getCaptionAlign()
 	{
-		$this->setFirstOptionalElementContent("HeaderCaption",
-			array("FooterCaption", "Summary", "TableRow"), $a_content);
+		$hier_id = $this->getHierId();
+		if(!empty($hier_id))
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//Table[@HierId = '".$hier_id."']/Caption";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) == 1)
+			{
+				return $res->nodeset[0]->get_attribute("Align");
+			}
+		}
 	}
 
-	function setFooterCaption($a_content)
+	function setCaption($a_content, $a_align)
 	{
-		$this->setFirstOptionalElementContent("FooterCaption",
-			array("Summary", "TableRow"), $a_content);
+		if ($a_content != "")
+		{
+			$this->setFirstOptionalElement("Caption",
+				array("Summary", "TableRow"), $a_content,
+				array("Align" => $a_align));
+		}
+		else
+		{
+			$this->deleteAllChildsByName(array("Caption"));
+		}
 	}
 
-	function setFirstOptionalElementContent($a_node_name, $a_predecessors, $a_content)
+	function deleteAllChildsByName($a_node_names)
+	{
+		$childs = $this->node->child_nodes();
+		foreach($childs as $child)
+		{
+			$child_name = $child->node_name();
+			if (in_array($child_name, $a_node_names))
+			{
+				$child->unlink_node();
+			}
+		}
+	}
+
+	function setFirstOptionalElement($a_node_name, $a_predecessors, $a_content, $a_attributes)
 	{
 		$search = $a_predecessors;
 		$search[] = $a_node_name;
@@ -234,6 +312,7 @@ class ilLMTable extends ilPageContent
 				break;
 			}
 		}
+		// didn't found element
 		if(!$found)
 		{
 			$new_node =& $this->dom->create_element($a_node_name);
@@ -246,6 +325,7 @@ class ilLMTable extends ilPageContent
 				$new_node =& $childs[0]->insert_before($new_node, $childs[0]);
 			}
 			$new_node->set_content($a_content);
+			$this->set_attributes($new_node, $a_attributes);
 		}
 		else
 		{
@@ -258,31 +338,26 @@ class ilLMTable extends ilPageContent
 					$child->remove_child($childs2[$i]);
 				}
 				$child->set_content($a_content);
+				$this->set_attributes($child, $a_attributes);
 			}
 			else
 			{
 				$new_node =& $this->dom->create_element($a_node_name);
 				$new_node =& $child->insert_before($new_node, $child);
 				$new_node->set_content($a_content);
+				$this->set_attributes($new_node, $a_attributes);
 			}
 		}
 	}
 
-
-	function getFooterCaption()
+	function set_attributes(&$a_node, $a_attributes)
 	{
-		$hier_id = $this->getHierId();
-		if(!empty($hier_id))
+		foreach ($a_attributes as $attribute => $value)
 		{
-			$xpc = xpath_new_context($this->dom);
-			$path = "//Table[@HierId = '".$hier_id."']/FooterCaption";
-			$res =& xpath_eval($xpc, $path);
-			if (count($res->nodeset) == 1)
-			{
-				return $res->nodeset[0]->get_content();
-			}
+			$a_node->set_attribute($attribute, $value);
 		}
 	}
+
 
 }
 ?>

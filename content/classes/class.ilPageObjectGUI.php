@@ -174,7 +174,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		// unmask user html
 		$output = str_replace("&lt;","<",$output);
 		$output = str_replace("&gt;",">",$output);
-
+//echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
 	}
 
