@@ -286,6 +286,10 @@ class ilMail
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($row->sender_id and !ilObjectFactory::ObjectIdExists($row->sender_id))
+			{
+				continue;
+			}
 			$tmp = $this->fetchMailData($row);
 
 			if ($tmp["m_status"] == 'read')

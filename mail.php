@@ -260,6 +260,11 @@ $mail_max_hits = 20;
 $counter = 0;
 foreach ($mail_data as $mail)
 {
+	if($mail["sender_id"] and !ilObjectFactory::ObjectIdExists($mail["sender_id"]))
+	{
+		--$mail_count;
+		continue;
+	}
 	// LINKBAR
 	if($mail_count > $mail_max_hits)
 	{
