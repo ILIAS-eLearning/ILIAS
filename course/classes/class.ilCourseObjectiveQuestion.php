@@ -343,6 +343,8 @@ class ilCourseObjectiveQuestion
 	// PRIVATE
 	function __read()
 	{
+		include_once './assessment/classes/class.ilObjTest.php';
+
 		global $tree;
 
 		$this->questions = array();
@@ -357,7 +359,11 @@ class ilCourseObjectiveQuestion
 				$this->__deleteTest($row->ref_id);
 				continue;
 			}
-
+			if(!$question = ilObjTest::_instanciateQuestion($row->question_id))
+			{
+				$this->delete($row->question_id);
+				continue;
+			}
 			$qst['ref_id'] = $row->ref_id;
 			$qst['obj_id'] = $row->obj_id;
 			$qst['question_id'] = $row->question_id;
