@@ -243,7 +243,7 @@ class ilMail
 
 		$query = "SELECT * FROM $this->table_mail ".
 			"WHERE user_id = $this->user_id ".
-			"AND folder_id = '".$a_folder_id."' ORDER BY send_time";
+			"AND folder_id = '".$a_folder_id."' ORDER BY send_time DESC";
 		
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
