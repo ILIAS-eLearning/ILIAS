@@ -1129,11 +1129,13 @@ class ilObjTest extends ilObject
 			if ($addTries) {
 				$tries++;
 			}
-			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s",
+			$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
 				$db->quote($lastindex),
 				$db->quote($sequence),
 				$db->quote($postponed),
-				$db->quote($tries)
+				$db->quote($tries),
+				$db->quote($ilUser->id),
+				$db->quote($this->test_id)
 			);
 		} else {
 			$sequence_arr = array_flip($this->questions);
@@ -1193,12 +1195,9 @@ class ilObjTest extends ilObject
 			array_push($result_array, $row);
 			$key++;
     }
-		foreach ($result_array as $key => $value) {
-			$result_array[$key]["total_max_points"] = $total_max_points;
-			$result_array[$key]["total_reached_points"] = $total_reached_points;
-			$result_array[$key]["test_title"] = $this->getTitle();
-			$result_array[$key]["test_type"] = $this->get_test_type();
-		}
+		$result_array["test"]["total_max_points"] = $total_max_points;
+		$result_array["test"]["total_reached_points"] = $total_reached_points;
+		$result_array["test"]["test"] = $this;
 		return $result_array;
 	}
 	

@@ -800,24 +800,26 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		foreach ($result_array as $key => $value) {
-      $this->tpl->setCurrentBlock("question");
-      $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-      $this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-      $this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
-      $this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
-      $this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
-			$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
-      $this->tpl->parseCurrentBlock();
-      $counter++;
+			if (preg_match("/\d+/", $key)) {
+				$this->tpl->setCurrentBlock("question");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
+				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
+				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
+				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
 		}
 
-    $percentage = ($result_array[0]["total_reached_points"]/$result_array[0]["total_max_points"])*100;
+    $percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
     $this->tpl->setCurrentBlock("question");
 		$this->tpl->setVariable("COLOR_CLASS", "std");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $result_array[0]["total_max_points"]) . "</strong>");
-		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $result_array[0]["total_reached_points"]) . "</strong>");
+		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $result_array["test"]["total_max_points"]) . "</strong>");
+		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $result_array["test"]["total_reached_points"]) . "</strong>");
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$this->tpl->parseCurrentBlock();
 		
