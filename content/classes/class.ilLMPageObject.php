@@ -395,6 +395,35 @@ class ilLMPageObject extends ilLMObject
 	}
 
 	/**
+	* export page object to fo
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportFO(&$a_xml_writer)
+	{
+		global $ilBench;
+
+		//$attrs = array();
+		//$a_xml_writer->xmlStartTag("PageObject", $attrs);
+		$title = ilLMPageObject::_getPresentationTitle($this->getId());
+		if ($title != "")
+		{
+			$attrs = array();
+			$attrs["font-family"] = "Times";
+			$attrs["font-size"] = "14pt";
+			$a_xml_writer->xmlElement("fo:block", $attrs, $title);
+		}
+
+		// PageContent
+		$this->page_object->buildDom();
+		$fo = $this->page_object->getFO();
+		$a_xml_writer->appendXML($fo);
+
+		//$a_xml_writer->xmlEndTag("PageObject");
+	}
+
+	/**
 	* redirect script
 	*
 	* @param	string		$a_target

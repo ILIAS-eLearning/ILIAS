@@ -1205,8 +1205,8 @@ class ilObjContentObject extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				substr($entry, -3) == ".fo" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.fo\$", $entry))
+				substr($entry, -4) == ".pdf" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$", $entry))
 			{
 				$file[] = $entry;
 			}

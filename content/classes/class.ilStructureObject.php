@@ -236,12 +236,44 @@ class ilStructureObject extends ilLMObject
 
 		// page objects
 		//$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjects");
-		//$this->exportXMLPageObjects($a_xml_writer, $a_inst);
+		$this->exportFOPageObjects($a_xml_writer);
 		//$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjects");
 
 		// structure objects
 		//$this->exportFOStructureObjects($a_xml_writer);
 
+	}
+
+	/**
+	* export page objects of structure object (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportFOPageObjects(&$a_xml_writer)
+	{
+		global $ilBench;
+
+		$this->tree = new ilTree($this->getLmId());
+		$this->tree->setTableNames('lm_tree', 'lm_data');
+		$this->tree->setTreeTablePK("lm_id");
+
+		$childs = $this->tree->getChilds($this->getId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "pg")
+			{
+				continue;
+			}
+
+			// export xml to writer object
+			//$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
+
+			$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
+			$page_obj->exportFO($a_xml_writer);
+
+			//$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
+		}
 	}
 
 }

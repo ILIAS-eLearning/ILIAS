@@ -59,15 +59,15 @@ class ilFOPUtil
 
 		/* Add redirection so we can get stderr. */
 		$handle = popen($fop_cmd.' 2>&1', 'r');
-//echo "'$handle'; " . gettype($handle) . "\n";
+echo "'$handle'; " . gettype($handle) . "\n";
 		$read = fread($handle, 2096);
-//echo $read;
+echo $read;
 		pclose($handle);
 
 		$ret = exec($fop_cmd, $arr, $r2);
-//echo $ret.$r2;
-//echo ":";
-//var_dump($arr);
+echo $ret.$r2;
+echo ":";
+var_dump($arr);
 		putenv("JAVACMD=$saved");
 	}
 
