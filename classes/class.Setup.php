@@ -1,6 +1,6 @@
 <?php
 
-require_once "./classes/class.IniFile.php";
+require_once "./classes/class.ilIniFile.php";
 require_once "./classes/class.util.php";
 require_once "./classes/class.perm.php";
 require_once "DB.php";
@@ -103,7 +103,7 @@ class Setup
 	*/
 	function Setup()
 	{
-		$this->ini = new IniFile($this->INI_FILE);
+		$this->ini = new ilIniFile($this->INI_FILE);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Setup
 	function readIniFile()
 	{
 		// get settings from ini file
-		$this->ini = new IniFile($this->INI_FILE);
+		$this->ini = new ilIniFile($this->INI_FILE);
 		$this->ini->read();
 		//check for error
 		if ($this->ini->ERROR != "")

@@ -105,7 +105,7 @@ class ILIAS extends PEAR
 		umask(0117);
 
 		// get settings from ini file
-		$this->ini = new IniFile($this->INI_FILE);
+		$this->ini = new ilIniFile($this->INI_FILE);
 		$this->ini->read();
 
 		// if no ini-file found switch to setup routine
