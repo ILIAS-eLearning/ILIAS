@@ -573,11 +573,7 @@ class ilObject
 		foreach ($parentRoles as $parRol)
 		{
 			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			
-			if (count($ops) != 0)
-			{
-				$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
-			}
+			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
 		}
 	}
 
