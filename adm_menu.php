@@ -2,7 +2,7 @@
 require_once "include/ilias_header.inc";
 require_once "classes/class.Explorer.php";
 
-$tplContent = new Template("explorer.html",true,true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 $explorer = new Explorer("content.php");
 
@@ -12,9 +12,11 @@ $explorer->setOutput(0);
 
 $output = $explorer->getOutput();
 
-$tplContent->setVariable("EXPLORER",$output);
-$tplContent->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("EXPLORER",$output);
+$tpl->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT", $tplContent->get());
-$tplmain->show();
+$tpl->show();
+
 ?>

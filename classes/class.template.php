@@ -31,8 +31,8 @@ class Template extends IntegratedTemplateExtension
 	* @param array $vars zu ersetzenden Variablen
 	* @access public
 	*/
-	function Template($file,$flag1,$flag2,$vars="DEFAULT") {
-
+	function Template($file,$flag1,$flag2,$vars="DEFAULT")
+	{
         global $ilias;
 		$this->activeBlock = "__global__";
 		$this->vars = array();
@@ -40,24 +40,7 @@ class Template extends IntegratedTemplateExtension
         if (strpos($file,"/")===false)
 		{
             $fname = $ilias->tplPath;
-
-			//pda support - currently only Windows CE
-			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
-			{
-				$fname .= "pda/";
-			}
-			else
-			{
-				if (is_object($ilias->account) && $ilias->account->skin != "")
-				{
-				    $fname .= $ilias->account->skin."/";
-				}
-				else
-				{
-					//choose default skin
-				    $fname .= $ilias->ini->readVariable("layout","defaultskin")."/";
-				}
-			}
+		    $fname .= $ilias->account->skin."/";
 			$fname .= basename($file);
         }
 		else

@@ -36,18 +36,14 @@ if ($objects = $tree->getChilds(1,"title"))
 //	vd($row);
 //}			
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","group_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("new_group"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->addBlockFile("CONTENT", "content", "tpl.groups.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl = new Template("tpl.groups.html", false, true);
-$tpl->setVariable("BUTTONS",$tplbtn->get());
-
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("groups"));
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","group_new.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("new_group"));
+$tpl->parseCurrentBlock();
+$tpl->touchBlock("btn_row");
 
 $i=0;
 
@@ -70,7 +66,11 @@ $tpl->setVariable("TXT_OWNER", $lng->txt("owner"));
 
 $tpl->parseCurrentBlock("group");
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
+$tpl->parseCurrentBlock();
+
+$tpl->show();
+
 session_unregister("Error_Message");
 ?>

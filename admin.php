@@ -9,11 +9,9 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
+$tpl->setVariable("PAGETITLE"," - ".$lng->txt("profile"));
 
-$tpl = new Template("tpl.admin.html", true, true);
-
-$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
+$tpl->addBlockFile("CONTENT", "content", "tpl.admin.html");
 
 //User-Administration
 $tpl->setCurrentBlock("adminitem");
@@ -86,6 +84,10 @@ if ($_GET["message"])
         $tpl->parseCurrentBlock();
 }
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
+$tpl->parseCurrentBlock();
+
+$tpl->show();
+
 ?>

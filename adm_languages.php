@@ -13,8 +13,9 @@ require_once "./include/ilias_header.inc";
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 $lng->setUserLanguage($lng->lng);
 
-$tpl = new Template("tpl.adm_languages.html", true, true);
-$tpl->setVariable("TXT_LANGUAGES", $lng->txt("languages"));
+$tpl->addBlockFile("CONTENT", "content", "tpl.adm_languages.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
 
 if ($_POST["cmd"]=="generateall")
 {
@@ -65,34 +66,30 @@ $tpl->parseCurrentBlock();
 
 $langs = $lng->getAvailableLanguages();
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./admin.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("back"));
-$tplbtn->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","./admin.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("back"));
+$tpl->parseCurrentBlock();
 
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->touchBlock("btn_row");
 
-$tpl->setVariable("BUTTONS",$tplbtn->get());
-unset($tplbtn);
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./adm_languages.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("refresh"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK",".php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("change"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK",".php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("check"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->addBlockFile("BUTTONS2", "buttons2", "tpl.buttons.html");
 
-$tpl->setVariable("BUTTONS2",$tplbtn->get());
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","./adm_languages.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("refresh"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK",".php");
+$tpl->setVariable("BTN_TXT", $lng->txt("change"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK",".php");
+$tpl->setVariable("BTN_TXT", $lng->txt("check"));
+$tpl->parseCurrentBlock();
+$tpl->touchBlock("btn_row");
+
+
 $tpl->setVariable("TXT_AVAILLANG", $lng->txt("available_languages"));
 $tpl->setVariable("TXT_LANG", $lng->txt("language"));
 $tpl->setVariable("TXT_STATUS", $lng->txt("status"));
@@ -142,6 +139,10 @@ $tpl->setVariable("OPTION", $lng->txt("install"));
 $tpl->parseCurrentBlock();
 
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_LANGUAGES", $lng->txt("languages"));
+$tpl->parseCurrentBlock();
+
+$tpl->show();
+
 ?>

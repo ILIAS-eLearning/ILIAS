@@ -27,25 +27,20 @@ if ($_GET["cmd"] != "")
 	exit;
 }
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","bookmark_newfolder.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("new_folder"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","bookmark_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("bookmark_new"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->addBlockFile("CONTENT", "content", "tpl.bookmarks.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl = new Template("tpl.bookmarks.html", true, true);
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","bookmark_newfolder.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("new_folder"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","bookmark_new.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("bookmark_new"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
-$tpl->setVariable("TXT_URL", $lng->txt("url"));
-$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 
 $bm = $myBm->getBookmarkList();
 
@@ -64,6 +59,11 @@ foreach ($bm as $row)
 	$tpl->parseCurrentBlock();
 }
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
+$tpl->setVariable("TXT_URL", $lng->txt("url"));
+$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+$tpl->parseCurrentBlock();
+
+$tpl->show();
 ?>

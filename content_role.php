@@ -83,7 +83,7 @@ if ($_GET["message"])
 
 $tplContent->setVariable("TPLPATH", $tplContent->tplPath);
 
-$tplmain->setVariable("PAGECONTENT", $tplContent->get());	
-$tplmain->show();
+$tpl->setVariable("CONTENT", $tplContent->get());	
+$tpl->show();
 
 ?>

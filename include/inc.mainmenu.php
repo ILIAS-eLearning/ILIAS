@@ -5,26 +5,26 @@
 * @version $Id$
 */
 
-$tplnav = new Template("tpl.main_buttons.html", true, true);
+$tpl->setCurrentBlock("userisadmin");
+$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
+$tpl->parseCurrentBlock();
 
-$tplnav->setCurrentBlock("userisadmin");
-$tplnav->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
-$tplnav->parseCurrentBlock();
+$tpl->setCurrentBlock("userisauthor");
+$tpl->setVariable("TXT_EDITOR", $lng->txt("editor"));
+$tpl->parseCurrentBlock();
 
-$tplnav->setCurrentBlock("userisauthor");
-$tplnav->setVariable("TXT_EDITOR", $lng->txt("editor"));
-$tplnav->parseCurrentBlock();
+$tpl->setCurrentBlock("navigation");
+$tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
+$tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
+$tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
+$tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+$tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+$tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
+$tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
+$tpl->setVariable("TXT_HELP", $lng->txt("help"));
+$tpl->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
+$tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+$tpl->parseCurrentBlock();
 
-$tplnav->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
-$tplnav->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
-$tplnav->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
-$tplnav->setVariable("TXT_SEARCH", $lng->txt("search"));
-$tplnav->setVariable("TXT_LITERATURE", $lng->txt("literature"));
-$tplnav->setVariable("TXT_MAIL", $lng->txt("mail"));
-$tplnav->setVariable("TXT_FORUMS", $lng->txt("forums"));
-$tplnav->setVariable("TXT_GROUPS", $lng->txt("groups"));
-$tplnav->setVariable("TXT_HELP", $lng->txt("help"));
-$tplnav->setVariable("TXT_FEEDBACK", $lng->txt("feedback"));
-$tplnav->setVariable("TXT_LOGOUT", $lng->txt("logout"));
-//vd($tplnav->variableCache);
 ?>

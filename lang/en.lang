@@ -7,6 +7,7 @@ absolute_path#:#absolute path
 accept_usr_agreement#:#accept user agreement?
 access#:#access
 actions#:#actions
+add#:#add
 add_author#:#add author
 add_member#:#add member
 administrate#:#administrate
@@ -195,6 +196,7 @@ owner#:#owner
 page#:#page
 page_edit#:#edit page
 password#:#password
+path#:#path
 path_to_babylon#:#path to babylon
 path_to_convert#:#path to convert
 path_to_java#:#path to java
@@ -303,3 +305,4 @@ write#:#write
 yes#:#yes
 your_message#:#your message
 zipcode#:#zip code
+object_not_found#:#object not found

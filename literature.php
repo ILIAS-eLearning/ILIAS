@@ -9,11 +9,7 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tpl = new Template("tpl.literature.html", true, true);
-
-$tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("literature_bookmarks"));
-$tpl->setVariable("TXT_DESCRIPTION",  $lng->txt("description"));
-$tpl->setVariable("TXT_URL", $lng->txt("url"));
+$tpl->addBlockFile("CONTENT", "content", "tpl.literature.html");
 
 $lit = $ilias->account->getLiterature();
 
@@ -26,6 +22,10 @@ foreach ($lit as $row)
 	$tpl->parseCurrentBlock();
 }
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_LITERATURE",  $lng->txt("literature_bookmarks"));
+$tpl->setVariable("TXT_DESCRIPTION",  $lng->txt("description"));
+$tpl->setVariable("TXT_URL", $lng->txt("url"));
+$tpl->parseCurrentBlock();
+$tpl->show();
 ?>

@@ -2,7 +2,7 @@
 require_once "./include/ilias_header.inc";
 require_once "./classes/class.Search.php";
 
-$tpl = new Template("tpl.search.html", true, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.search.html");
 
 if ($_POST["search"] != "")
 {
@@ -59,14 +59,15 @@ $tpl->setVariable("SELVALUE", "grp");
 $tpl->setVariable("SELOPTION", $lng->txt("groups"));
 $tpl->parseCurrentBlock();
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("search"));
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 
 $tpl->setVariable("TXT_SEARCH_IN", $lng->txt("search_in"));
 $tpl->setVariable("TXT_KEYWORDS",$lng->txt("keywords"));
 $tpl->setVariable("TXT_PHRASE", $lng->txt("phrase"));
 
 $tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+$tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->show();
 ?>

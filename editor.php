@@ -9,35 +9,28 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tpl = new Template("tpl.editor.html", false, true);
+$tpl->addBlockFile("CONTENT", "content", "tpl.editor.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("lo_edit"));
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","???.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("test_intern"));
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","???.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("test_intern"));
 
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","lo_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("lo_new"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","lo_new.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("lo_new"));
 
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","crs_edit.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("courses"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","crs_edit.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("courses"));
 
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_row");
+$tpl->parseCurrentBlock();
 
-$tpl->setVariable("BUTTONS",$tplbtn->get());
-
-$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TXT_ONLINE_VERSION", $lng->txt("online_version"));
-$tpl->setVariable("TXT_OFFLINE_VERSION", $lng->txt("offline_version"));
-$tpl->setVariable("TXT_PUBLISHED", $lng->txt("published"));
 
 for ($i = 0; $i < 5; $i++)
 {
@@ -62,7 +55,14 @@ for ($i = 0; $i < 5; $i++)
 	$tpl->parseCurrentBlock();
 }
 
+$tpl->setCurrentBlock("content");
+$tpl->setVariable("TXT_LO_EDIT", $lng->txt("lo_edit"));
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_ONLINE_VERSION", $lng->txt("online_version"));
+$tpl->setVariable("TXT_OFFLINE_VERSION", $lng->txt("offline_version"));
+$tpl->setVariable("TXT_PUBLISHED", $lng->txt("published"));
+$tpl->parseCurrentBlock();
+
+$tpl->show();
 ?>
