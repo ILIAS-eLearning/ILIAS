@@ -1,0 +1,27 @@
+<h2>{TEXT_ADD_PHRASE}</h2>
+<form name="addPhrases" method="post" action="{FORM_ACTION}">
+<table class="fullwidth_invisible">
+<tr>
+<td>{TEXT_INTRODUCTION}</td>
+<td>
+<select name="phrases" size="1">
+<!-- BEGIN phrases -->
+<option value="{ID_PHRASE}"{SELECTED_PHRASE}>{TEXT_PHRASE}</option>
+<!-- END phrases -->
+</select>
+</td>
+<td>
+<input type="submit" name="cmd[view_phrase]" value="{TEXT_VIEW_PHRASE}" class="submit" />
+<input type="submit" name="cmd[select_phrase]" value="{TEXT_ADD_PHRASE}" class="submit" />
+</td>
+</tr>
+<tr><td></td><td>
+<!-- BEGIN categories -->
+{VALUE_CATEGORY}. {TEXT_CATEGORY}<br />
+<!-- END categories -->
+</td><td></td></tr>
+</table>
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+</form>

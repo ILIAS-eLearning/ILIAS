@@ -178,7 +178,25 @@ class SurveyNominalQuestion extends SurveyQuestion {
 */
 	function removeCategory($index)
 	{
-		$this->categories = array_splice($this->categories, $index, 1);
+		array_splice($this->categories, $index, 1);
+	}
+
+/**
+* Removes many categories from the list of categories
+*
+* Removes many categories from the list of categories
+*
+* @param array $array An array containing the index positions of the categories to be removed
+* @access public
+* @see $categories
+*/
+	function removeCategories($array)
+	{
+		foreach ($array as $index)
+		{
+			unset($this->categories[$index]);
+		}
+		$this->categories = array_values($this->categories);
 	}
 
 /**

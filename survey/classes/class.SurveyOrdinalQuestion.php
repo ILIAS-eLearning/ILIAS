@@ -136,7 +136,25 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 */
 	function removeCategory($index)
 	{
-		$this->categories = array_splice($this->categories, $index, 1);
+		array_splice($this->categories, $index, 1);
+	}
+
+/**
+* Removes many categories from the list of categories
+*
+* Removes many categories from the list of categories
+*
+* @param array $array An array containing the index positions of the categories to be removed
+* @access public
+* @see $categories
+*/
+	function removeCategories($array)
+	{
+		foreach ($array as $index)
+		{
+			unset($this->categories[$index]);
+		}
+		$this->categories = array_values($this->categories);
 	}
 
 /**
@@ -177,8 +195,97 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 * @access public
 * @see $categories
 */
-	function flushCategories() {
+	function flushCategories() 
+	{
 		$this->categories = array();
+	}
+	
+/**
+* Gets the available phrases from the database
+*
+* Gets the available phrases from the database
+*
+* @result array All available phrases as key/value pairs
+* @access public
+*/
+	function &getAvailablePhrases()
+	{
+		global $ilUser;
+		
+		$phrases = array();
+    $query = sprintf("SELECT * FROM survey_phrase WHERE defaultvalue = '1' OR owner_fi = %s ORDER BY title",
+      $this->ilias->db->quote($ilUser->id)
+    );
+    $result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if ($row->defaultvalue)
+			{
+				$phrases[$row->phrase_id] = $this->lng->txt($row->title);
+			}
+			else
+			{
+				$phrases[$row->phrase_id] = $row->title;
+			}
+		}
+		return $phrases;
+	}
+	
+/**
+* Gets the available categories for a given phrase
+*
+* Gets the available categories for a given phrase
+*
+* @param integer $phrase_id The database id of the given phrase
+* @result array All available categories
+* @access public
+*/
+	function &getCategoriesForPhrase($phrase_id)
+	{
+		$categories = array();
+    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
+      $this->ilias->db->quote($phrase_id)
+    );
+    $result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if ($row->defaultvalue == 1)
+			{
+				$categories[$row->category_id] = $this->lng->txt($row->title);
+			}
+			else
+			{
+				$categories[$row->category_id] = $row->title;
+			}
+		}
+		return $categories;
+	}
+	
+/**
+* Adds a phrase to the question
+*
+* Adds a phrase to the question
+*
+* @param integer $phrase_id The database id of the given phrase
+* @access public
+*/
+	function addPhrase($phrase_id)
+	{
+    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
+      $this->ilias->db->quote($phrase_id)
+    );
+    $result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if ($row->defaultvalue == 1)
+			{
+				array_push($this->categories, $this->lng->txt($row->title));
+			}
+			else
+			{
+				array_push($this->categories, $row->title);;
+			}
+		}
 	}
 	
 /**
