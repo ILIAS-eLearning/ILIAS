@@ -103,6 +103,7 @@ class ilRepositoryGUI
 		$this->forums = array();
 		$this->groups = array();
 		$this->glossaries = array();
+		$this->exercises = array();
 
 	}
 
@@ -249,6 +250,11 @@ class ilRepositoryGUI
 				case "glo":
 					$this->glossaries[$key] = $object;
 					break;
+
+				//
+				case "exc":
+					$this->exercises[$key] = $object;
+					break;
 			}
 		}
 
@@ -307,7 +313,12 @@ class ilRepositoryGUI
 		{
 			$this->showGroups();
 		}
-
+		
+		// exercises
+		if(count($this->exercises))
+		{
+			$this->showExercises();
+		}
 		$this->tpl->show();
 	}
 
@@ -1056,6 +1067,98 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("GROUPS", $tpl->get());
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	* show groups
+	*/
+	function showExercises()
+	{
+		global  $tree, $rbacsystem;
+
+		// set offset & limit
+		//$offset = intval($_GET["offset"]);
+		//$limit = intval($_GET["limit"]);
+
+		$limit = 99999;
+		$offset = 0;
+
+		$tpl =& new ilTemplate("tpl.table.html", true, true);
+
+		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
+		$tpl->setVariable("FORM_ACTION_METHOD", "post");
+		$tpl->setVariable("ACTIONTARGET", "bottom");
+
+		$maxcount = count($this->exercises);
+
+		$cont_arr = array_slice($this->exercises, $offset, $limit);
+
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_exc_row.html");
+
+		$cont_num = count($cont_arr);
+
+		// render table content data
+		if ($cont_num > 0)
+		{
+			// counter for rowcolor change
+			$num = 0;
+			foreach ($cont_arr as $cont_data)
+			{
+				$tpl->setCurrentBlock("tbl_content");
+				$newuser = new ilObjUser($cont_data["owner"]);
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+				$obj_link = "exercise.php?cmd=edit&ref_id=".$cont_data["ref_id"];
+				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
+				$tpl->setVariable("TITLE", $cont_data["title"]);
+				$tpl->setVariable("LINK", $obj_link);
+				$tpl->setVariable("LINK_TARGET", "bottom");
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
+				//$tpl->setVariable("IMG", $obj_icon);
+				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
+				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				$tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$tpl->setCurrentBlock("no_content");
+			$tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("group_not_available"));
+			$tpl->parseCurrentBlock("no_content");
+		}
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("excs"),"icon_exc_b.gif",$this->lng->txt("excs"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner")));
+		$tbl->setHeaderVars(array("","title","owner"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("1%","89%","10%"));
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
+		$tbl->setMaxCount($maxcount);
+		//$this->showActions(true);
+
+		// footer
+		#$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+
+		// render table
+		$tbl->setTemplate($tpl);
+		$tbl->render();
+
+		$this->tpl->setCurrentBlock("exercises");
+		$this->tpl->setVariable("EXERCISES", $tpl->get());
+		$this->tpl->parseCurrentBlock();
+	}
+
 
 	/**
 	* set tabs

@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.1 2003/11/05 15:29:30 smeyer Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.2 2003/11/06 13:59:54 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -140,14 +140,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			date("Y",$this->object->getTimestamp());
 		
 		// SET TPL VARIABLES
-		$this->getTemplateFile("edit");
+		$this->getTemplateFile("edit","exc");
 
 		// TEXT VAIRABLES
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 		$this->tpl->setVariable("TXT_INSTRUCTION", $this->lng->txt("exc_instruction"));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("exc_edit_exercise"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", 
+								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
@@ -188,7 +189,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_HEADER_FILE",$this->lng->txt("file_add"));
 		$this->tpl->setVariable("TXT_FILE",$this->lng->txt("file"));
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("upload"));
-		$this->tpl->setVariable("FORMACTION_FILE","adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION_FILE",
+								$this->getFormAction("gateway","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway"));
 		$this->tpl->setVariable("CMD_FILE_SUBMIT","uploadFile");
 		$this->tpl->parseCurrentBlock();
 
@@ -224,7 +226,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("exc_upload_error"),true);
 		}
-		header("location: adm_object.php?ref_id=$_GET[ref_id]");
+		header("location: ".$this->getReturnLocation("uploadFile","adm_object.php?ref_id=$_GET[ref_id]"));
 		exit;
 	}
 	function updateMembersObject()
@@ -250,13 +252,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->__deassignMembers();
 				break;
 		}
-		header("location: adm_object?ref_id=$_GET[ref_id]&cmd=members");
+		header("location: ".$this->getReturnLocation("members","adm_object?ref_id=$_GET[ref_id]&cmd=members"));
 		exit;
 	}
 		
 	function membersObject()
 	{
-		$this->getTemplateFile("members");
+		$this->getTemplateFile("members","exc");
 
 		if(!count($this->object->members_obj->getMembers()))
 		{
@@ -295,7 +297,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// SEARCH CANCELED
 		if(isset($_POST["cancel"]))
 		{
-			header("location: adm_object.php?ref_id=$_GET[ref_id]");
+			header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]"));
 			exit;
 		}
 		
@@ -311,14 +313,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 				{
 					sendInfo($this->lng->txt("exc_members_assigned"),true);
 				}
-				header("location: adm_object?ref_id=".$_GET["ref_id"]."&cmd=members");
+				header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]"));
 				exit;
 			}
 		}
 		$show_search = true;
 
-		$this->getTemplateFile("add_member");
-		$this->tpl->setVariable("F_ACTION", "adm_object.php?ref_id=$_GET[ref_id]&cmd=newMembers");
+		$this->getTemplateFile("add_member","exc");
+		$this->tpl->setVariable("F_ACTION", 
+								$this->getFormAction("newMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=newMembers"));
 		
 		if($_POST["search_str"])
 		{
@@ -529,7 +532,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		else
 		{
 			sendInfo($message,true);
-			header("location: adm_object.php?ref_id=".$this->object->getRefId()."&cmd=newMembers");
+			header("location: ".$this->getReturnLocation("newMembers",
+														 "adm_object.php?ref_id=".$this->object->getRefId()."&cmd=newMembers"));
 			exit;
 		}
 		return $search->getResultByType($a_search_for);
@@ -575,7 +579,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// SET FORMAACTION
 		$this->tpl->setCurrentBlock("tbl_form_header");
-		$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=$_GET[ref_id]&cmd=updateMembers");
+		$this->tpl->setVariable("FORMACTION",
+								$this->getFormAction("updateMembers","adm_object.php?ref_id=$_GET[ref_id]&cmd=updateMembers"));
 		$this->tpl->parseCurrentBlock();
 
 		// SET FOOTER BUTTONS

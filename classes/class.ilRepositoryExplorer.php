@@ -61,6 +61,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 		$this->addFilter("root");
 		$this->addFilter("cat");
+		$this->addFilter("exc");
 		$this->addFilter("grp");
 		$this->addFilter("lm");
 		$this->addFilter("frm");

@@ -1439,7 +1439,7 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->ref_id);
+		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
 		exit();
 	}
 
@@ -1623,7 +1623,7 @@ class ilObjectGUI
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-		$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+								$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -2536,7 +2536,6 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 
