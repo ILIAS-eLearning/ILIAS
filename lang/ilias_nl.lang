@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Wijzig type
 content#:#cont_chap_and_pages#:#Hoofdstukken en pagina's
 content#:#cont_chap_select_target_now#:#Hoofdstuk gemarkeerd voor verplaatsen. Selecteer nu nieuwe positie.
 content#:#cont_chapters#:#Hoofdstukken
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Karakteristieken
 content#:#cont_choose_cont_obj#:#Kies het content-object
 content#:#cont_choose_glossary#:#Kies de woordenlijst
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Begrip
 content#:#cont_terms#:#Begrippen
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhoudsopgave
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Bovenkant
 content#:#cont_translations#:#Vertaling(en)
 content#:#cont_translations_assigned#:#De vertaling(en) zijn toegewezen

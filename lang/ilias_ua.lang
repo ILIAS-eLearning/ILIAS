@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Змінити Тип
 content#:#cont_chap_and_pages#:#Глави та Сторінки
 content#:#cont_chap_select_target_now#:#Глави відмічені для переміщення. Виберіть зараз ціль.
 content#:#cont_chapters#:#Глави
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Характеристика
 content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмісту
 content#:#cont_choose_glossary#:#Виберіть Глосарій
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Зміст
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Вершина
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені

@@ -1630,9 +1630,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_toc_mode#:#TOC Mode
-content#:#cont_chapters_only#:#Chapters only
-content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1668,6 +1665,8 @@ content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
+content#:#cont_chapters_and_pages#:#Chapters and Pages
+content#:#cont_chapters_only#:#Chapters only
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
@@ -1863,6 +1862,7 @@ content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table of Contents
+content#:#cont_toc_mode#:#TOC Mode
 content#:#cont_top#:#Top
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
