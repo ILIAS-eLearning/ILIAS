@@ -1324,6 +1324,8 @@ common#:#lang_en#:#英语
 common#:#lang_es#:#西班牙语
 common#:#lang_fi#:#芬兰语
 common#:#lang_fr#:#法语
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#印度尼西亚语
 common#:#lang_it#:#意大利语
 common#:#lang_ja#:#日语
@@ -1633,6 +1635,8 @@ common#:#no_title#:#无标题
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)###16 Sep 2004 new variable
 common#:#none#:#无
 common#:#normal#:#正常

@@ -1235,6 +1235,8 @@ common#:#lang_en#:#Angielski
 common#:#lang_es#:#Hiszpański
 common#:#lang_fi#:#Fiński
 common#:#lang_fr#:#Francuski
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonezyjski
 common#:#lang_it#:#Włoski
 common#:#lang_ja#:#Japoński
@@ -1537,6 +1539,8 @@ common#:#no_permission_to_join#:#Nie możesz przystąpić do tej grupy!
 common#:#no_title#:#Brak tytułu
 common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
 common#:#no_users_applied#:#Nie zgłoszono użytkowników.
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#none#:#Brak
 common#:#normal#:#Normalny
 common#:#not_implemented_yet#:#Jeszcze nie implementowane

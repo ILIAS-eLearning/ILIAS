@@ -1110,8 +1110,6 @@ common#:#group_any_objects#:#No subobjects available
 common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
-common#:#no_zip_file#:#No zip file found.
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_import#:#Group import
 common#:#group_import_file#:#Import file
@@ -1621,6 +1619,8 @@ common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#no_users_applied#:#Please select a user.
 common#:#no_users_selected#:#Please select one user.
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
+common#:#no_zip_file#:#No zip file found.
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)
 common#:#none#:#None
 common#:#normal#:#Normal

@@ -1308,6 +1308,8 @@ common#:#lang_en#:#Angličtina
 common#:#lang_es#:#Španělština
 common#:#lang_fi#:#Finština
 common#:#lang_fr#:#Francouzština
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonézština
 common#:#lang_it#:#Italština
 common#:#lang_ja#:#Japonština
@@ -1617,6 +1619,8 @@ common#:#no_title#:#Žádný název
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
 common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Local roles (only userdefined)###16 Sep 2004 new variable
 common#:#none#:#Neurčeno
 common#:#normal#:#Normální
