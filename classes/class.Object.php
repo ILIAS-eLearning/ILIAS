@@ -333,7 +333,6 @@ class Object
 		return $this->id;
 	}
 
-
 	/*
 	* update object in db
 	*/

@@ -32,12 +32,23 @@ class RbacAdmin
 	* deletes a user from rbac_ua
 	* @access	public
 	* @param	integer	user_id
-	* @return	boolean
+	* @return	boolean	true on success
 	*/
 	function removeUser($a_usr_id)
 	{
+		if (!isset($a_usr_id))
+		{
+			$message = get_class($this)."::removeUser(): No usr_id given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_ua WHERE usr_id='".$a_usr_id."'";
-		$this->ilias->db->query($q);
+		$r = $this->ilias->db->query($q);
+		
+		if (!$r->affectedRows())
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -46,24 +57,36 @@ class RbacAdmin
 	* TODO: use DISTINCT and return true/false !
 	* Checks if a role already exists. Role title should be unique
 	* @access	public
-	* @param	string
-	* @return	integer
+	* @param	string	role title
+	* @return	boolean	true if exists
 	*/
 	function roleExists($a_title)
 	{
-		$q = "SELECT obj_id FROM object_data ".
+		if (empty($a_title))
+		{
+			$message = get_class($this)."::roleExists(): No title given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		$q = "SELECT DISTINCT obj_id FROM object_data ".
 			 "WHERE title ='".$a_title."' ".
 			 "AND type IN('role','rolt')";
 		$r = $this->ilias->db->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		if ($r->numRows() == 1)
 		{
-			$id[] = $row->obj_id;
+			return true;
 		}
-
-		return count($id);
+		else
+		{
+			return false;
+		}
 	}
 
+	/**
+	* add Role
+	* @access	public
+	*/
 	function addRole()
 	{
 
@@ -73,11 +96,17 @@ class RbacAdmin
 	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
 	* @access	public
 	* @param	integer		obj_id of role (role_id)
-	* @param	integer		obj_id of role folder (parent_id)
+	* @param	integer		ref_id of role folder (ref_id)
 	* @return	boolean
 	*/
-	function deleteRole($a_rol_id,$a_parent_id)
+	function deleteRole($a_rol_id,$a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::deleteRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		// TODO: check assigned users before deletion
 		
 		// delete user assignements
@@ -92,7 +121,7 @@ class RbacAdmin
 		
 		//TODO: delete rbac_templates and rbac_fa
 
-		$this->deleteLocalRole($a_rol_id,$a_parent_id);
+		$this->deleteLocalRole($a_rol_id,$a_ref_id);
 		
 		return true;
 	}
@@ -101,11 +130,17 @@ class RbacAdmin
 	* Deletes a template from role folder and deletes all entries in rbac_templates, rbac_fa
 	* TODO: function could be merged with rbacAdmin::deleteLocalRole
  	* @access	public
-	* @param	integer		object_id
+	* @param	integer		object_id of role template
 	* @return	boolean
 	*/
 	function deleteTemplate($a_obj_id)
 	{
+		if (!isset($a_obj_id))
+		{
+			$message = get_class($this)."::deleteTemplate(): No obj_id given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_obj_id ."'";
 		$this->ilias->db->query($q);
@@ -121,21 +156,31 @@ class RbacAdmin
 	* Deletes a local role and entries in rbac_fa and rbac_templates
 	* @access	public
 	* @param	integer	object_id of role
-	* @param	integer	object_id of parent object
-	* @param	integer	THIS PARAM IS SENSELESS
-	* @return	boolean
+	* @param	integer	ref_id of role folder
+	* @return	boolean ture on success
 	*/
-	function deleteLocalRole($a_rol_id,$a_parent_id,$a_parent_obj = 0)
+	function deleteLocalRole($a_rol_id,$a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_parent_id."'";
+			 "AND parent = '".$a_ref_id."'";
 		$this->ilias->db->query($q);
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_parent_id."'";
-		$this->ilias->db->query($q);
+			 "AND parent = '".$a_ref_id."'";
+		$r = $this->ilias->db->query($q);
+		
+		if (!$r->affectedRows())
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -144,12 +189,18 @@ class RbacAdmin
 	* Get parent roles in a path. If last parameter is set 'true'
 	* it delivers also all templates in the path
 	* @access	public
-	* @param	array		path_id
-	* @param	boolean		true for role templates (default: false)
-	* @return	boolean
+	* @param	array	array with path_ids
+	* @param	boolean	true for role templates (default: false)
+	* @return	array	array with all parent roles (obj_ids)
 	*/
 	function getParentRoles($a_path,$a_templates = false)
 	{
+		if (!isset($a_path) or !is_array($a_path))
+		{
+			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$parentRoles = array();
 
 		$child = $this->getRoleFolder();
@@ -174,6 +225,7 @@ class RbacAdmin
 				foreach ($roles as $role)
 				{
 					$id = $role["obj_id"];
+					// TODO: need a parent here?
 					$role["parent"] = $row->child;
 					$parentRoles[$id] = $role;
 				}
@@ -188,12 +240,25 @@ class RbacAdmin
 	* @access	public
 	* @param	integer	object_id of role
 	* @param	integer	object_id of user
-	* @param	boolean	true means default role
+	* @param	boolean	true means default role (optional
 	* @return	boolean
 	*/
-	function assignUser($a_rol_id,$a_usr_id,$a_default )
+	function assignUser($a_rol_id,$a_usr_id,$a_default = false)
 	{
-		$a_default = $a_default ? 'y' : 'n';
+		if (!isset($a_rol_id) or !isset($a_usr_id))
+		{
+			$message = get_class($this)."::assignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		if ($a_default)
+		{
+			$a_default = "y";
+		}
+		else
+		{
+			$a_default = "n";
+		}
 
 		$q = "INSERT INTO rbac_ua ".
 			 "VALUES ('".$a_usr_id."','".$a_rol_id."','".$a_default."')";
@@ -205,34 +270,52 @@ class RbacAdmin
 	/**
 	* Deassigns a user from a role
 	* @access	public
-	* @param	integer		object id of role
-	* @param	integer		user id
-	* @return	boolean
+	* @param	integer	object id of role
+	* @param	integer	object id of user
+	* @return	boolean	true on success
 	*/
 	function deassignUser($a_rol_id,$a_usr_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_usr_id))
+		{
+			$message = get_class($this)."::deassignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_ua ".
 			 "WHERE usr_id='".$a_usr_id."' ".
 			 "AND rol_id='".$a_rol_id."'";
-		$this->ilias->db->query($q);
+		$r = $this->ilias->db->query($q);
+		
+		if (!$r->affectedRows())
+		{
+			return false;
+		}
 
 		return true;
 	}
 
 	/**
-	* Update of default role
+	* Update of the default role from a user
 	* @access	public
-	* @param	integer		object id of role
-	* @param	integer		user id
-	* @return	boolean
+	* @param	integer	object id of role
+	* @param	integer	user id
+	* @return	integer	object id of new default role
 	*/
 	function updateDefaultRole($a_rol_id,$a_usr_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_usr_id))
+		{
+			$message = get_class($this)."::updateDefaultRole(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$this->deassignUser($this->getDefaultRole($a_usr_id),$a_usr_id);
 		$this->deassignUser($a_rol_id,$a_usr_id);
 
 		return $this->assignUser($a_rol_id,$a_usr_id,true);
 	}
+
 	/**
 	* get Default role
 	* @access	public
@@ -242,6 +325,12 @@ class RbacAdmin
 	*/
 	function getDefaultRole($a_usr_id)
 	{
+		if (!isset($a_usr_id))
+		{
+			$message = get_class($this)."::getDefaultRole(): No usr_id given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "SELECT * FROM rbac_ua ".
 			 "WHERE usr_id = '".$a_usr_id."' ".
 			 "AND default_role = 'y'";
@@ -251,11 +340,11 @@ class RbacAdmin
 	}
 
 	/**
-	* Grants permissions to an object
+	* Grants permissions to an object and a specific role
 	* @access	public
-	* @param	integer		object id of role
-	* @param	array		array of operation ids
-	* @param	integer		reference id of object
+	* @param	integer	object id of role
+	* @param	array	array of operation ids
+	* @param	integer	reference id of that object which is granted the permissions
 	* @return	boolean
 	*/
 	function grantPermission($a_rol_id,$a_ops,$a_ref_id)
@@ -270,12 +359,13 @@ class RbacAdmin
 		{
 			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
 		}
+
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
 
 		$q = "INSERT INTO rbac_pa ".
 			 "VALUES ".
-			 "('".$a_rol_id."','".$ops_ids."','".$a_obj_id."')";
+			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -283,17 +373,19 @@ class RbacAdmin
 
 	/**
 	* Revokes permissions of object
+	* Revokes all permission for all roles for that object (with this reference).
+	* When a role_id is given this applies only to that role
 	* @access	public
-	* @param	integer		reference id of object
-	* @param	integer		role_id (optional: if you want to revoke permissions of object only for a specific role)
+	* @param	integer	reference id of object where permissions should be revoked
+	* @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
 	* @return	boolean
 	*/
 	function revokePermission($a_ref_id,$a_rol_id = 0)
 	{
 		if (!isset($a_ref_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::revokePermission(): Missing parameter! ".
-							"ref_id: ".$a_ref_id,$this->ilias->error_obj->WARNING);
+			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		if ($a_rol_id)
@@ -315,14 +407,23 @@ class RbacAdmin
 
 	/**
 	* Return template permissions of an role
+	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	* settings that are derived from another role. Roles using an internal referencing system
 	* @access	public
-	* @param	integer	role_id
+	* @param	integer	object id of role
 	* @param	string	object type
-	* @param	integer	parent_id
-	* @return	array	operation_ids
+	* @param	integer	ref_id of role folder
+	* @return	array	operation_ids or empty
 	*/
-	function getRolePermission($a_rol_id,$a_type,$a_parent_id)
+	function getRolePermission($a_rol_id,$a_type,$a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_type) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::getRolePermission(): Missing parameter! ".
+					   "role_id: ".$a_rol_id." type_id: ".$a_type." ref_id: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$ops_arr = array();
 
 		$q = "SELECT ops_id FROM rbac_templates ".
@@ -331,20 +432,19 @@ class RbacAdmin
 			 "AND parent='".$a_parent_id."'";
 		$r = $this->ilias->db->query($q);
 
-		if (!$r->numRows())
+		if ($r->numRows() > 0)
 		{
-			return $ops_arr;
-		}
-		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$ops_arr[] = $row->ops_id;
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$ops_arr[] = $row->ops_id;
+			}
 		}
 
 		return $ops_arr;
 	}
 
 	/**
+	* TODO: we can't get rid off the parents if roles are referenced in this way!
 	* Copies template permissions
 	* @access	public
 	* @param	integer		role_id source
@@ -355,7 +455,16 @@ class RbacAdmin
 	*/
 	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id)
 	{
-		$a_dest_id = $a_dest_id ? $a_dest_id : $a_source_id;
+		if (!isset($a_source_id) or !isset($a_source_parent) or !isset($a_dest_id) or !isset($a_dest_parent))
+		{
+			$message = get_class($this)."::copyRolePermission(): Missing parameter! source_id: ".$a_source_id.
+					   " source_parent_id: ".$a_source_parent.
+					   " dest_id : ".$a_dest_id.
+					   " dest_parent_id: ".$a_dest_parent;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		//$a_dest_id = $a_dest_id ? $a_dest_id : $a_source_id;
 
 		$q = "SELECT * FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_source_id."' ".
@@ -376,15 +485,21 @@ class RbacAdmin
 	/**
 	* Deletes a template
 	* @access	public
-	* @param	integer		role_id
-	* @param	integer		object_id of parent object
+	* @param	integer		object id of role
+	* @param	integer		ref_id of role folder
 	* @return	boolean
 	*/
-	function deleteRolePermission($a_rol_id,$a_parent_id)
+	function deleteRolePermission($a_rol_id,$a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::deleteRolePermission(): Missing parameter! role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_parent_id."'";
+			 "AND parent = '".$a_ref_id."'";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -396,21 +511,38 @@ class RbacAdmin
 	* @param	integer		role_id
 	* @param	string		object type
 	* @param	array		operation_ids
-	* @param	integer		object_id of parent object
+	* @param	integer		ref_id of role folder object
 	* @return	boolean
 	*/
-	function setRolePermission($a_rol_id,$a_type,$a_ops,$a_parent_id)
+	function setRolePermission($a_rol_id,$a_type,$a_ops,$a_ref_id)
 	{
-		if (!$a_ops)
+		if (!isset($a_rol_id) or !isset($a_type) or !isset($a_ops) or !isset($a_ref_id))
 		{
-			$a_ops = array();
+			$message = get_class($this)."::setRolePermission(): Missing parameter!".
+					   " role_id: ".$a_rol_id.
+					   " type: ".$a_type.
+					   " operations: ".$a_ops.
+					   " ref_id: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
+		if (!is_string($a_type) or empty($a_type))
+		{
+			$message = get_class($this)."::setRolePermission(): a_type is no string or empty!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		if (!is_array($a_ops) or empty($a_ops))
+		{
+			$message = get_class($this)."::setRolePermission(): a_ops is no array or empty!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
 		foreach ($a_ops as $op)
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
-				 "('".$a_rol_id."','".$a_type."','".$op."','".$a_parent_id."')";
+				 "('".$a_rol_id."','".$a_type."','".$op."','".$a_ref_id."')";
 			$this->ilias->db->query($q);
 		}
 
@@ -421,14 +553,22 @@ class RbacAdmin
 	* TODO: maybe deprecated
 	* Returns a list of roles in an container
 	* @access	public
-	* @param	integer	object id
+	* @param	integer	ref_id
 	* @param	boolean	if true fetch template roles too
 	* @param	string	order by type,title,desc or last_update
 	* @param	string	order ASC or DESC (default: ASC)
 	* @return	array	set ids
 	*/
-	function getRoleListByObject($a_parent_id,$a_templates,$a_order = "",$a_direction = "ASC")
+	function getRoleListByObject($a_ref_id,$a_templates,$a_order = "",$a_direction = "ASC")
 	{
+		if (!isset($a_ref_id) or !isset($a_templates))
+		{
+			$message = get_class($this)."::getRoleListByObject(): Missing parameter!".
+					   "ref_id: ".$a_ref_id.
+					   "tpl_flag: ".$a_templates;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$role_list = array();
 
 		if (!$a_order)
@@ -448,7 +588,7 @@ class RbacAdmin
 		$q = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.parent = '".$a_parent_id."' ".
+			 "AND rbac_fa.parent = '".$a_ref_id."' ".
 			 "ORDER BY ".$a_order." ".$a_direction;
 		$r = $this->ilias->db->query($q);
 

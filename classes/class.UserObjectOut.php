@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.11 2003/03/14 23:17:55 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.12 2003/03/18 08:51:23 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -148,7 +148,7 @@ class UserObjectOut extends ObjectOut
 			   // BEGIN TABLE_ROLES
 			   $obj = getObject($role);
 
-			   if($user->getId() == $_SESSION["AccountId"])
+			   if ($user->getId() == $_SESSION["AccountId"])
 			   {
 				  $data["active_role"]["access"] = true;
 				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
@@ -176,6 +176,7 @@ class UserObjectOut extends ObjectOut
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -188,6 +189,7 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->setCurrentBlock("TABLE_ROLES");
 
 		$counter = 0;
+
 		foreach($data["active_role"] as $role_id => $role)
 		{
 		   ++$counter;
@@ -201,12 +203,11 @@ class UserObjectOut extends ObjectOut
 		$this->tpl->parseCurrentBlock();
 		// END ACTIVE ROLES
 
-		if($data["active_role"]["access"] == true)
+		if ($data["active_role"]["access"] == true)
 		{
 		   $this->tpl->touchBlock("TABLE_SUBMIT");
 	    }
 	}
-
 
 	/**
 	* save user data
@@ -246,22 +247,23 @@ class UserObjectOut extends ObjectOut
 			//create usertree from class.user.php
 			// tree_id is the obj_id of user not ref_id!
 			// this could become a problem with same ids
-			$tree->addTree($user->getId(), $settingObj->getRefId());
+			//$tree->addTree($user->getId(), $settingObj->getRefId());
 			
 			//add notefolder to user tree
-			$userTree = new tree(0,0,$user->getId());
+			//$userTree = new tree(0,0,$user->getId());
 			require_once ("classes/class.NoteFolderObject.php");
 			$notfObj = new NoteFolderObject();
 			$notfObj->setTitle($user->getFullname());
 			$notfObj->setDescription("Note Folder Object");
 			$notfObj->create();
 			$notfObj->createReference();
-			$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
+			//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
 		}
 		else
 		{
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
+		
 		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
 		exit();
 	}
