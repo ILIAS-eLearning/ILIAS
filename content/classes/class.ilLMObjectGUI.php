@@ -206,9 +206,13 @@ class ilLMObjectGUI
 		// delete all selected objects
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$tree->deleteTree($tree->getNodeData($id));
 			$obj =& ilLMObjectFactory::getInstance($id);
+			$obj->setLMId($_GET["lm_id"]);
 			$obj->delete();
+			if($tree->isInTree($id))
+			{
+				$tree->deleteTree($tree->getNodeData($id));
+			}
 		}
 
 		// feedback
