@@ -768,6 +768,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function prepareOutput()
 	{
+		if (!defined("ILIAS_MODULE"))
+		{
+			parent::prepareOutput();
+			return;
+		}
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
