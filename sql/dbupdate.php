@@ -3670,3 +3670,17 @@ ALTER  TABLE  `tst_tests`  ADD  `ending_time` varchar(14) default NULL AFTER  `s
 
 ALTER  TABLE  `survey_question`  CHANGE  `original_id`  `original_id` INT( 11  ) ;
 UPDATE `survey_question` SET `original_id` = NULL WHERE `original_id` = 0;
+
+<#224>
+
+CREATE TABLE ctrl_classfile
+(
+	class		VARCHAR(100) NOT NULL PRIMARY KEY,
+	file		VARCHAR(250)
+);
+
+CREATE TABLE ctrl_calls
+(
+	parent		VARCHAR(100) NOT NULL,
+	child		VARCHAR(100)
+);
