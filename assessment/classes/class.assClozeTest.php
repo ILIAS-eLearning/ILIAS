@@ -23,7 +23,6 @@
 
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerCloze.php";
-require_once "./classes/class.ilXmlWriter.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
@@ -371,17 +370,17 @@ class ASS_ClozeTest extends ASS_Question
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
 		$qtiIdent->set_attribute("ident", $this->getId());
-		$qtiIdent->set_attribute("title", ilXmlWriter::xmlEscapeData($this->getTitle()));
+		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($this->getComment()));
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 
 		// PART I: qti presentation
 		$qtiPresentation = $this->domxml->create_element("presentation");
-		$qtiPresentation->set_attribute("label", ilXmlWriter::xmlEscapeData($this->getTitle()));
+		$qtiPresentation->set_attribute("label", $this->getTitle());
 		// add flow to presentation
 		$qtiFlow = $this->domxml->create_element("flow");
 
@@ -392,7 +391,7 @@ class ASS_ClozeTest extends ASS_Question
 			// n-th text part
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($text_parts[$i]));
+			$qtiMatTextText = $this->domxml->create_text_node($text_parts[$i]);
 			$qtiMatText->append_child($qtiMatTextText);
 			$qtiMaterial->append_child($qtiMatText);
 			$qtiFlow->append_child($qtiMaterial);
@@ -482,7 +481,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiConditionvar = $this->domxml->create_element("conditionvar");
 					$qtiVarequal = $this->domxml->create_element("varequal");
 					$qtiVarequal->set_attribute("respident", "gap_$i");
-					$qtiVarequalText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($answer->get_answertext()));
+					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
 					$qtiVarequal->append_child($qtiVarequalText);
 					$qtiConditionvar->append_child($qtiVarequal);
 					// qti setvar
@@ -519,7 +518,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiConditionvar = $this->domxml->create_element("conditionvar");
 					$qtiVarequal = $this->domxml->create_element("varequal");
 					$qtiVarequal->set_attribute("respident", "gap_$i");
-					$qtiVarequalText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData($answer->get_answertext()));
+					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
 					$qtiVarequal->append_child($qtiVarequalText);
 					$qtiConditionvar->append_child($qtiVarequal);
 					// qti setvar
@@ -565,7 +564,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiMaterial = $this->domxml->create_element("material");
 					$qtiMattext = $this->domxml->create_element("mattext");
 					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData(""));
+					$qtiMattextText = $this->domxml->create_text_node("");
 					$qtiMattext->append_child($qtiMattextText);
 					$qtiMaterial->append_child($qtiMattext);
 					$qtiFlowmat->append_child($qtiMaterial);
@@ -594,7 +593,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiMaterial = $this->domxml->create_element("material");
 					$qtiMattext = $this->domxml->create_element("mattext");
 					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node(ilXmlWriter::xmlEscapeData(""));
+					$qtiMattextText = $this->domxml->create_text_node("");
 					$qtiMattext->append_child($qtiMattextText);
 					$qtiMaterial->append_child($qtiMattext);
 					$qtiFlowmat->append_child($qtiMaterial);
