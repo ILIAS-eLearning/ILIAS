@@ -305,7 +305,6 @@ class ilPCParagraph extends ilPageContent
 			$wysiwygUtil = new ilWysiwygUtil();
 			$a_text = $wysiwygUtil->convertFromPost($a_text);
 			//$a_text = addslashes($a_text);
-
 		}
 
 //echo "<br>between:".htmlentities($a_text);

@@ -556,7 +556,7 @@ function initEditor(TextAreaName)
 		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator","ilias-fn", "separator",
 		   "ilias-xtl", "ilias-itl",
 		  "separator",
-		  "copy", "cut", "paste","htmlmode"
+		  "copy", "cut", "paste"
 		  
           ],
 
@@ -1015,7 +1015,10 @@ function addInternalLink(Link,title)
 	
 	if(editor.hasSelectedText()) 
 	{
-		title = editor.getSelectedHTML();
+		st = editor.getSelectedHTML();
+		st = st.replace("&nbsp;","");
+		st = st.trim();
+		if(st!="") title = editor.getSelectedHTML();
 	}
 	
 	A = getClearTags();
@@ -1176,17 +1179,30 @@ function buttonInternalLink()
 		T2 = T;
 		while (T2.indexOf("[iln ")!=-1) 
 		{
+			// Suche [iln und beginne String dahinter
 			T2 = T2.substring(T2.indexOf("[iln ")+5,T2.length );
 			
+			// in Tb der Teil zwischen [iln und ] 
 			Tb = T2.substr(0,T2.indexOf("]") );
 
-			Td = "[iln "+Tb+"]"; 
+			// Td ist der gefundene TAG
+			Td = "[iln "+Tb+"]";
 			
+			// Beginne T2 hinter ]
 			T2 = T2.substring(T2.indexOf("]")+1,T2.length );
-			Te = T2.substr(0,T2.indexOf("[/iln]") );
 			
-			Tc = Td+ Te+"[/iln]";
-			T = T.replace(Td,"<a class=\"iliasiln\" "+Tb+">");
+			// nach [/iln] nur dann suchen, wenn nicht der [iln-Tag direkt mit /] beendet wurde
+			if(Td.indexOf("/]")==-1) 
+			{
+				// in Te der Teil zwischen öffnendem und schließendem iln-TAG
+				Te = T2.substr(0,T2.indexOf("[/iln]") );
+				
+				// Tc ist gesamter Tag inkl iln und inerem Teil
+				Tc = Td+ Te+"[/iln]";
+				
+				// Ersetzen des öffnenden Tags durch "a href" und class=...
+				T = T.replace(Td,"<a class=\"iliasiln\" "+Tb+">");
+			}
 			
 		}
 		T = replaceAll(T,"[/iln]","</a>");
