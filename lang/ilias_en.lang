@@ -670,14 +670,14 @@ common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_create#:#Create Forum
 common#:#frm_delete#:#Delete Forum
-common#:#frm_delete_post#:#Delete a post
+common#:#frm_delete_post#:#Delete a post, censorship
 common#:#frm_edit#:#Edit Forum
 common#:#frm_edit_permission#:#Change permission settings
-common#:#frm_edit_post#:#Edit a post
+common#:#frm_edit_post#:#Add new thread, posting
 common#:#frm_new#:#New Forum
 common#:#frm_read#:#Read access to Forum
 common#:#frm_visible#:#Forum is visible
-common#:#frm_write#:#Edit forum/write post
+common#:#frm_write#:#Edit forum
 common#:#from#:#From
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
