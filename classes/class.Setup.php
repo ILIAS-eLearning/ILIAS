@@ -34,33 +34,19 @@ class Setup
     var $db = "";
 	
     /**
-    *  template path
-    *  @var string
-    *  @access private
-    */
-    var $tplPath = "";
-
-    /**
-    *  auth parameters
-    *  @var array
-    *  @access private
-    */
-    var $auth_params = array();
-		
-    /**
-    *  auth handler
-    *  @var object
-    *  @access public
-    */
-    var $auth = "";
-	
-    /**
-    *  system settings
-    *  @var object
-    *  @access private
-    */
+	 *  ini-object
+	 *  @var object
+	 *  @access private
+	 */
 	var $ini;
 
+	/**
+	 * default array for ini-file
+	 * @var array
+     * @access private
+	 */
+	var $default;
+	
 	/**
     * constructor
 	* @param void
@@ -68,6 +54,29 @@ class Setup
     */
     function Setup()
     {
+		//initialize default values in case of error
+		$default["db"]["type"] = "mysql";
+		$default["db"]["host"] = "your host";
+		$default["db"]["user"] = "your db username";
+		$default["db"]["pass"] = "";
+		$default["db"]["name"] = "your db name (i.e. ilias3)";
+
+		$default["session"]["save_db"] = "true";
+
+		$default["auth"]["table"] = "user_data";
+		$default["auth"]["usercol"] = "login";
+		$default["auth"]["passcol"] = "passwd";
+
+		$default["language"]["default"] = "en";
+
+		$default["error"]["debug"] = "false";
+		$default["error"]["haltonerror"] = "false";
+
+		$default["layout"]["TABLE_BGCOLOR"] = "#DCDCFF";
+		$default["layout"]["TABLE_BORDER"] = "1";
+		$default["layout"]["TABLE_CELLSPACING"] = "0";
+		$default["layout"]["TABLE_CELLPADDING"] = "5";
+
 		// get settings from ini file
 		$this->ini = new IniFile($this->INI_FILE);
 		//check for error
@@ -75,12 +84,20 @@ class Setup
 		{
 			$this->error = $this->ini->ERROR;
 		}
+		
+		if ($this->error == "file_does_not_exist")
+		{
+			//try to write
+			$this->ini->setContent($default);
+			if ($this->ini->save() == false)
+				$this->error = $this->ini->ERROR;
+		}
+
 		$this->setDbType($this->ini->readVariable("db","type"));
 		$this->setDbHost($this->ini->readVariable("db","host"));
 		$this->setDbName($this->ini->readVariable("db","name"));
 		$this->setDbUser($this->ini->readVariable("db","user"));
 		$this->setDbPass($this->ini->readVariable("db","pass"));
-
 
 		//build list of databasetypes
 		$this->dbTypes = array();
@@ -222,15 +239,17 @@ class Setup
 		
         //connect to databasehost
 		$dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
+		
 		$db = DB::connect($dsn);
+
 		if (DB::isError($db))
 		{
 			$this->error_msg = $db->getMessage();
 			$this->error = "data_invalid";
 			return false;
 		}
-		
 		$db->disconnect();
+
 		//try to connect to database
 		$db = DB::connect($dsn."/".$this->dbName);
 		if (DB::isError($db)==false)
@@ -282,7 +301,11 @@ class Setup
 		$this->ini->setVariable("db", "name", $this->dbName);
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
-		$this->ini->save();	
+		if ($this->ini->save()==false)
+		{
+			$this->error_msg = "cannot_write";
+			return false;
+		}
 		
 		//everything went okay
 		return true;

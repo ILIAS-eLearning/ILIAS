@@ -106,7 +106,7 @@ class ILIAS extends PEAR
 		//check for error
 		if ($this->ini->ERROR != "")
 		{
-			echo "shit";
+			header("Location: ./setup.php?error=".$this->ini->ERROR);
 		}
 	
         // build dsn of database connection and connect
