@@ -113,13 +113,13 @@ class ilObjectGUI
 		if ($this->call_by_reference)
 		{
 			$this->link_params = "ref_id=".$this->ref_id;
-			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
 
 		}
 		else
 		{
 			$this->link_params = "ref_id=".$this->ref_id;
-			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($a_id);
 		}
 
 		//prepare output

@@ -933,3 +933,7 @@ CREATE TABLE meta_keyword(
 	keyword varchar(200) NOT NULL default ''
 ) TYPE=MyISAM;
 
+<#39>
+UPDATE object_data SET title='lm' WHERE title='le' AND type='typ';
+UPDATE object_data SET type='lm' WHERE type='le';
+

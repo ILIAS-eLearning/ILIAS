@@ -21,7 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+require_once("content/classes/class.ilLearningModule.php");
+require_once("classes/class.ilObjLearningModuleGUI.php");
 
 /**
 * Class ilLearningModuleGUI
@@ -33,7 +34,7 @@
 *
 * @package content
 */
-class ilLearningModuleGUI
+class ilLearningModuleGUI extends ilObjLearningModuleGUI
 {
 	var $tree;
 	var $lm_obj;
@@ -41,20 +42,27 @@ class ilLearningModuleGUI
 	var $tpl;
 	var $lng;
 	var $objDefinition;
+	var $lm_tree;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModuleGUI(&$a_tree)
+	function ilLearningModuleGUI($a_id = 0)
 	{
+		parent::ilObjLearningModuleGUI("", $a_id, false,false);
+		if($a_id != 0)
+		{
+			$this->lm_tree =& $this->object->getLMTree();
+		}
+		/*
 		global $ilias, $tpl, $lng, $objDefinition;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
-		$this->tree =& $a_tree;
+		$this->lm_tree =& $a_tree;*/
 
 		//$this->read(); todo
 	}
@@ -67,19 +75,24 @@ class ilLearningModuleGUI
 
 	function view()
 	{
+		
+	}
+
+	function chapters()
+	{
 		global $tree;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&cmd=post");
+			$this->object->getId()."&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 
 		$cnt = 0;
-		$childs = $this->tree->getChilds($this->tree->getRootId());
+		$childs = $this->lm_tree->getChilds($this->tree->getRootId());
 		foreach ($childs as $child)
 		{
 			if($child["type"] != "st")
@@ -97,7 +110,7 @@ class ilLearningModuleGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&lm_id=".$this->object->getId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -117,7 +130,7 @@ class ilLearningModuleGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->showActions();
+			//$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
@@ -175,7 +188,7 @@ class ilLearningModuleGUI
 			$this->tpl->setVariable("TEXT_CONTENT", $page["title"]);
 
 			// context
-			if ($this->tree->isInTree($page["obj_id"]))
+			if ($this->lm_tree->isInTree($page["obj_id"]))
 			{
 				$path_str = $this->getContextPath($page["obj_id"]);
 			}
@@ -327,7 +340,7 @@ class ilLearningModuleGUI
 	{
 		$path = "";
 
-		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);
+		$tmpPath = $this->lm_tree->getPathFull($a_endnode_id, $a_startnode_id);
 
 		// count -1, to exclude the learning module itself
 		for ($i = 1; $i < (count($tmpPath) - 1); $i++)
@@ -395,16 +408,16 @@ class ilLearningModuleGUI
 		}
 	}
 
-	function edit_meta()
+	function editMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setLMObject($this->lm_obj);
 		$meta_gui->setObject($this->lm_obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&cmd=save_meta");
+			$this->lm_obj->getId()."&cmd=saveMeta");
 	}
 
-	function save_meta()
+	function saveMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setLMObject($this->lm_obj);

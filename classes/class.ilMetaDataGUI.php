@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilMetaData.php");
+require_once("./classes/class.ilMetaData.php");
 
 /**
 * Class ilMetaDataGUI
@@ -38,7 +38,6 @@ class ilMetaDataGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
-	var $lm_obj;
 	var $obj;
 	var $meta_obj;
 
@@ -58,10 +57,6 @@ class ilMetaDataGUI
 
 	}
 
-	function setLMObject($a_lm_obj)
-	{
-		$this->lm_obj =& $a_lm_obj;
-	}
 
 	function setObject($a_obj)
 	{
@@ -89,7 +84,7 @@ class ilMetaDataGUI
 	function edit($a_temp_var, $a_temp_block, $a_formaction)
 	{
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
-		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data.html", true);
+		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data.html", false);
 		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
 		$this->tpl->setVariable("FORMACTION", $a_formaction);
@@ -99,7 +94,7 @@ class ilMetaDataGUI
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("meta_title"));
 		$this->tpl->setVariable("VAL_TITLE", $this->curValue("Title"));
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-		$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", true);
+		$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
 		$this->tpl->setVariable("SEL_NAME", "language");
 		$languages = ilMetaData::getLanguages();
 		foreach($languages as $code => $language)
@@ -116,7 +111,6 @@ class ilMetaDataGUI
 
 	function save()
 	{
-//echo "updating ".$this->obj->getType().":".$this->obj->getId().":<br>";
 		$meta = $_POST["meta"];
 		$this->meta_obj->setTitle($meta["title"]);
 		$this->obj->update();

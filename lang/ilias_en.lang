@@ -570,7 +570,7 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
-content#:#cont_meta_data#:#Meta Data
+common#:#meta_data#:#Meta Data
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_pages#:#Pages

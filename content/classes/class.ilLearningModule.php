@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
 require_once("classes/class.ilObjLearningModule.php");
 
 /**
@@ -37,11 +36,8 @@ require_once("classes/class.ilObjLearningModule.php");
 *
 * @package content
 */
-class ilLearningModule
+class ilLearningModule extends ilObjLearningModule
 {
-	var $ilias;
-	var $meta_data;
-	var $id;
 
 	/**
 	* Constructor
@@ -49,67 +45,9 @@ class ilLearningModule
 	*/
 	function ilLearningModule($a_id)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-
-		$this->id = $a_id;
-		if(!empty($a_id))
-		{
-			$this->read();
-		}
+		parent::ilObjLearningModule($a_id, false);
 	}
 
-	function read()
-	{
-		$this->meta_data =& new ilMetaData("lm", $this->id);
-	}
-
-	function getLayout()
-	{
-		// todo: make it real
-		return "toc2win";
-	}
-
-	function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
-
-	function getId()
-	{
-		return $this->id;
-	}
-
-	function getType()
-	{
-		return "lm";
-	}
-
-	function getTitle()
-	{
-		return $this->meta_data->getTitle();
-	}
-
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-
-
-	function update()
-	{
-		$lo_obj =& new ilObjLearningModule($this->getId(), false);
-		$lo_obj->setTitle($this->meta_data->getTitle());
-		$lo_obj->setDescription($this->meta_data->getDescription());
-		$lo_obj->update();
-		$this->meta_data->update();
-	}
-
+	// try to use ilObjLearningModule only!
 }
 ?>

@@ -27,13 +27,13 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.10 2003/05/14 17:16:56 shofmann Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.11 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "classes/class.ilObjectGUI.php";
 
 class ilObjLearningModuleGUI extends ilObjectGUI
 {
@@ -42,11 +42,36 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
-		$this->type = "le";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		global $lng;
+
+		$lng->loadLanguageModule("content");
+		$this->type = "lm";
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
 	}
+
+	function editMetaObject()
+	{
+		require_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+	}
+
+	function saveMetaObject()
+	{
+		require_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save();
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit;
+	}
+
+
 
 	/**
 	* view object
@@ -61,14 +86,14 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-	
+
 		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);
-	
+
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-	
+
 		$this->data["cols"] = array("", "view", "title", "description", "last_change");
 
 		$lo_childs = $lotree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
@@ -87,7 +112,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 					"description" => $val["desc"],
 					"last_change" => $val["last_update"]
 				);
-	
+
 			//control information
 			$this->data["ctrl"][] = array(
 					"type" => $val["type"],
@@ -96,7 +121,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 					"lo_id" => $val["child"]
 				);
 	    } //foreach
-	
+
 		parent::displayList();
 	}
 
@@ -186,5 +211,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 
 		//nada para mirar ahora :-)
 	}
-} // END class.LeraningObject
+
+
+}
 ?>

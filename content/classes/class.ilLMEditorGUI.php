@@ -22,12 +22,11 @@
 */
 
 require_once ("content/classes/class.ilLMObjectFactory.php");
-//require_once ("classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilLearningModule.php");
+require_once ("content/classes/class.ilLearningModuleGUI.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
-require_once ("content/classes/class.ilLearningModuleGUI.php");
-require_once ("content/classes/class.ilMetaDataGUI.php");
+
 
 /**
 * GUI class for learning module editor
@@ -186,12 +185,15 @@ class ilLMEditorGUI
 							break;
 
 						case "lm":
-							$lm_gui =& new ilLearningModuleGUI($this->tree);
-							$lm_gui->setLearningModuleObject($this->lm_obj);
+							$lm_gui =& new ilLearningModuleGUI($_GET["lm_id"]);
+							//require_once ("content/classes/class.ilObjLearningModuleGUI.php");
+							//$lm_gui =& new ilObjLearningModuleGUI("", $_GET["lm_id"], false);
+							//$lm_gui->setLearningModuleObject($this->lm_obj);
 							$lm_gui->$cmd();
 							break;
 
 						case "meta":
+							require_once ("classes/class.ilMetaDataGUI.php");
 							$meta_gui =& new ilMetaDataGUI($obj->getMetaData());
 							$meta_gui->setLMObject($this->lm_obj);
 							$meta_gui->setObject($obj);
