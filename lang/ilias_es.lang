@@ -305,6 +305,7 @@ assessment#:#save_finish#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Seleccionar hueco
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
@@ -315,6 +316,7 @@ assessment#:#shuffle_answers#:#Barajar respuestas
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
 assessment#:#starting_time_not_reached#:#No ha alcanzado el tiempo de comienzo
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Símbolo
 assessment#:#text_gap#:#Hueco de texto
 assessment#:#time_format#:#HH MM SS

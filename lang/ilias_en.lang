@@ -222,7 +222,6 @@ assessment#:#javaapplet#:#Java Applet
 assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
 assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
 assessment#:#last_update#:#Last update
-assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#maintenance#:#Maintenance
@@ -308,6 +307,7 @@ assessment#:#save_finish#:#Save and finish the test
 assessment#:#save_introduction#:#Save and go to introduction
 assessment#:#save_next#:#Save and go to next question
 assessment#:#save_previous#:#Save and go to previous question
+assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
@@ -316,10 +316,10 @@ assessment#:#set_filter#:#Set filter
 assessment#:#shape#:#Shape
 assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_hint#:#Suggested solution
-assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#starting_time_not_reached#:#You have not reached the starting time
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#The test was cancelled
 assessment#:#text_gap#:#Text gap

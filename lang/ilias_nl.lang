@@ -301,6 +301,7 @@ assessment#:#save_finish#:#Sla test op en sluit test af
 assessment#:#save_introduction#:#Sla op en ga naar introductie
 assessment#:#save_next#:#Sla op en ga naar volgende vraag
 assessment#:#save_previous#:#Sla op en ga naar vorige vraag
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#select_target_position_for_move_question#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!
@@ -312,6 +313,7 @@ assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Oplossings-volgorde
 assessment#:#start_tag#:#Start-tag
 assessment#:#starting_time_not_reached#:#De start-tijd is nog niet bereikt
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbool
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Tekst-gat

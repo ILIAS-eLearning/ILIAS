@@ -307,6 +307,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Seleziona una risposta ---
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
@@ -318,6 +319,7 @@ assessment#:#solution_hint#:#Soluzione suggerita
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
 assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
 assessment#:#text_gap#:#Spazio vuoto

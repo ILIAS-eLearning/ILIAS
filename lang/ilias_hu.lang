@@ -235,6 +235,7 @@ assessment#:#save_finish#:#Mentés és a teszt befejezése
 assessment#:#save_introduction#:#Mentés és bevezetésre ugrás
 assessment#:#save_next#:#Mentés és a következő kérdésre ugrás
 assessment#:#save_previous#:#Mentés és az előző kérdésre ugrás
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Kitöltendő hely választása
 assessment#:#select_target_position_for_move_question#:#Válasszon ki célpozíciót a kérdés(ek) áthelyezéséhez, és nyomjon meg egy beszúrás gombot!
@@ -244,6 +245,7 @@ assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#solution_order#:#Megoldási sorrend
 assessment#:#start_tag#:#Kezdő címke
 assessment#:#starting_time_not_reached#:#Nem érte el a kezdőidőt
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Szimbólum
 assessment#:#text_gap#:#Szöveg helye
 assessment#:#time_format#:#ÓÓ PP MM

@@ -290,6 +290,7 @@ assessment#:#save_finish#:#Enregistrer et terminer le test
 assessment#:#save_introduction#:#Enregistrer et aller à l'introduction
 assessment#:#save_next#:#Enregistrer et aller à la prochaine question
 assessment#:#save_previous#:#Enregistrer et aller à la question précédente
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_gap#:#Selectionner lacune
 assessment#:#select_target_position_for_move_question#:#Veuillez sélectionner une position de destination pour déplacer la (les) question(s) et cliquez sur un des boutons d'insertion.
 assessment#:#selected_image#:#Image sélectionnée
@@ -300,6 +301,7 @@ assessment#:#solution_hint#:#Proposition de solution
 assessment#:#solution_order#:#Ordre correct
 assessment#:#start_tag#:#Point de départ
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbole
 assessment#:#test_cancelled#:#Le test a été annulé
 assessment#:#text_gap#:#Lacune du texte
