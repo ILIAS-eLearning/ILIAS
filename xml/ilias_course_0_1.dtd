@@ -68,7 +68,7 @@
     Type CDATA #REQUIRED
 >
 
-<!ELEMENT Object (Start,End,Object*)>
+<!ELEMENT Object (Title,Description,Start,End,Object*)>
 
 <!ELEMENT Object EMPTY>
 <!ATTLIST Object
@@ -77,3 +77,6 @@
     Unlimited CDATA #REQUIRED
     Position CDATA #REQUIRED
 >
+
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
