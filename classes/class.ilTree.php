@@ -349,7 +349,8 @@ class ilTree
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND ".$this->table_obj_data.".type='".$a_type."'";
+			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
+			 "ORDER BY ".$this->table_tree.".lft";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -528,7 +529,7 @@ class ilTree
 		// delete subtree
 		$q = "DELETE FROM ".$this->table_tree." ".
 			 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
-			 "AND ".$this->tree_pk." = '".$a_node["tree"]."'";
+			 "AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilias->db->query($q);
 
 		// close gaps
@@ -543,7 +544,7 @@ class ilTree
 			 "THEN rgt - '".$diff." '".
 			 "ELSE rgt ".
 			 "END ".
-			 "WHERE ".$this->tree_pk." = '".$a_node["tree"]."'";
+			 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilias->db->query($q);
 
 		// TODO: DO WE NEED THIS INFORMATION????
@@ -554,7 +555,7 @@ class ilTree
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
 	* @access	private
-	* @param	integer		node_id of endnode 
+	* @param	integer		node_id of endnode
 	* @param	integer		node_id of startnode
 	* @return	object		query result
 	*/
@@ -985,7 +986,7 @@ class ilTree
 		{
 			$this->ilias->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$q = "DELETE FROM ".$this->table_tree." WHERE ".$this->tree_pk." = '".$a_tree_id."'";
 		$this->ilias->db->query($q);
 
