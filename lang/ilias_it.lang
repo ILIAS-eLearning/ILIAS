@@ -35,13 +35,13 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_data#:#Verifica dell'integrit&#224; dei dati
-administration#:#analyze_desc#:#Esame del sistema per oggetti corrotti/invalidi/mancanti/scollegati.
+administration#:#analyze_desc#:#Effetta l'esame del sistema per oggetti corrotti/invalidi/mancanti/scollegati.
 administration#:#analyzing#:#Sto verificando ...
 administration#:#analyzing_tree_structure#:#Sto analizzando la struttura dell'albero...
 administration#:#check_tree#:#Verifica la struttura dell'albero
-administration#:#check_tree_desc#:#Verifica della consistenza dell'intera struttura dell'albero. In base alle dimensioni dell'albero, potrebbe occorrere un po' di tempo!
-administration#:#clean#:#Pulizia
-administration#:#clean_desc#:#Elimina i riferimenti e le voci dell'albero invalide. Compatta la struttura dell'albero.
+administration#:#check_tree_desc#:#Verifica la consistenza dell'intera struttura dell'albero. Il tempo di esecuzione dipende dalle dimensioni dell'albero!
+administration#:#clean#:#Ripulisci l'albero
+administration#:#clean_desc#:#Elimina i riferimenti e le voci dell'albero non valide. Compatta la struttura dell'albero.
 administration#:#cleaning#:#Sto pulendo ...
 administration#:#cleaning_final#:#Pulizia finale ...
 administration#:#closing_gaps#:#Sto compattando l'albero ...
@@ -49,17 +49,17 @@ administration#:#disabled#:#disabilitato
 administration#:#done#:#Eseguito
 administration#:#found#:#trovato.
 administration#:#found_none#:#non trovato.
-administration#:#log_scan#:#Vedi il log con i risultati
-administration#:#log_scan_desc#:#Scrivi i risultati nel log 'scanlog.log' nella cartella utente.
+administration#:#log_scan#:#Scrivi nel log i risultati
+administration#:#log_scan_desc#:#Scrive i risultati nel log 'scanlog.log' nella cartella del client.
 administration#:#nothing_to_purge#:#Niente da liberare ...
 administration#:#nothing_to_remove#:#Niente da eliminare ...
 administration#:#nothing_to_restore#:#Niente da ripristinare ...
 administration#:#options#:#Opzioni
 administration#:#passwd_auto_generate#:#Invio/Creazione password
 administration#:#purge_missing#:#Libera gli oggetti mancanti
-administration#:#purge_missing_desc#:#Rimuovi tutti gli oggetti mancanti o scollegati trovati nel sistema.
+administration#:#purge_missing_desc#:#Rimuove tutti gli oggetti mancanti o scollegati trovati nel sistema.
 administration#:#purge_trash#:#Svuota il cestino
-administration#:#purge_trash_desc#:#Rimuovi dal sistema tutti gli oggetti nel cestino.
+administration#:#purge_trash_desc#:#Rimuove dal sistema tutti gli oggetti nel cestino.
 administration#:#purging#:#Sto liberando ...
 administration#:#purging_missing_objs#:#Sto eliminando gli oggetti mancanti ...
 administration#:#purging_trash#:#Sto svuotando il cestino ...
@@ -69,16 +69,16 @@ administration#:#removing_invalid_refs#:#Rimuovi i riferimenti non validi ...
 administration#:#removing_invalid_rolfs#:#Sto rimuovendo le cartelle non valide...
 administration#:#restore_missing#:#Ripristina gli oggetti mancanti
 administration#:#restore_missing_desc#:#Ripristina gli oggetti mancanti e scollegati nella cartella di ricupero.
-administration#:#restore_trash#:#Ripristina gli oggetti cancellati.
+administration#:#restore_trash#:#Ripristina gli oggetti cancellati
 administration#:#restore_trash_desc#:#Ripristina nella cartella di ricupero tutti gli oggetti che sono nel cestino.
 administration#:#restoring#:#Sto ripristinando ...
 administration#:#restoring_missing_objs#:#Sto ripristinando gli oggetti mancanti ...
 administration#:#restoring_trash#:#Sto ripristinando il cestino ...
 administration#:#restoring_unbound_objs#:#Sto ripristinando gli oggetti scollegati ...
-administration#:#scan_completed#:#Esame completato
-administration#:#scan_details#:#Esame dettagliato
-administration#:#scan_modes#:#Esame nei modi usati
-administration#:#scan_only#:#Esame semplice
+administration#:#scan_completed#:#Esegui esame completato
+administration#:#scan_details#:#Esegui esame dettagliato
+administration#:#scan_modes#:#Tipi di esame
+administration#:#scan_only#:#Esegui esame semplice
 administration#:#scanning_system#:#Sto esaminando il sistema ...
 administration#:#searching_deleted_objs#:#Sto cercando gli oggetti cancellati ...
 administration#:#searching_invalid_childs#:#Sto cercando gli elementi non validi dell'albero ...
@@ -267,8 +267,8 @@ assessment#:#no_user_or_group_selected#:#Per favore indica cosa stai ricercando 
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
-assessment#:#passed_official#:#superato
-assessment#:#passed_short#:#superato
+assessment#:#passed_official#:#Superato
+assessment#:#passed_short#:#Superato
 assessment#:#percentage_solved#:#Hai risolto il %.2f percento di questa domanda!
 assessment#:#percentile#:#Percentuale
 assessment#:#please_select#:#---- per favore seleziona ----
@@ -389,12 +389,12 @@ assessment#:#tst_mark_short_form#:#Form ridotto
 assessment#:#tst_maximum_points#:#Punteggi massimi
 assessment#:#tst_missing_author#:#Non hai indicato il nome dell'autore nelle propriet&#224; del test! Per favore specifica il nome dell'autore.
 assessment#:#tst_missing_marks#:#Non hai indicato uno schema di punteggio per il test! Per favore specifica almento uno schema di punteggio semplificato.
-assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda nel test.
+assessment#:#tst_missing_questions#:#Non hai indicato nessuna domanda nel test! Per favore inserisci almeno una domanda.
 assessment#:#tst_missing_title#:#Non hai indicato il titolo del test! Per favore vai nella sezione dei metadati e inserisci un titolo.
 assessment#:#tst_no_marks_defined#:#Non sono stati definiti i voti. Per favore, crea almeno uno schema per i voti!
 assessment#:#tst_no_more_available_questionpools#:#Non ci sono pi&#249; domande disponibili nelle raccolte
 assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno una domanda da eliminare!
-assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi crearne di nuove.
+assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi creare nuove domande.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
 assessment#:#tst_no_tries#:#Nessun tentativo
 assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
@@ -412,7 +412,7 @@ assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande
 assessment#:#tst_random_questionpools#:#Raccolta di domande sorgente
 assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dal quale scegliere le domande
 assessment#:#tst_random_test#:#Test casuale
-assessment#:#tst_random_test_description#:#Se selezionate, le domande del test saranno generate casualmente
+assessment#:#tst_random_test_description#:#Se abilitato, le domande del test saranno generate casualmente.
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_remove_questions#:#Sei sicuro che vuoi eliminare le seguenti domande dal test?
 assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
@@ -471,8 +471,8 @@ assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_total_questions#:#Numero di domande
 assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, il numero di domande inserite nella raccolta viene ignorato ed il numero rappresenta le domande prelevate da ogni raccolta!
 assessment#:#tst_type#:#Tipo del test
-assessment#:#tst_type_changed#:#Hai modificato il tipo del test. Tutti i test precedentemente svolti sono stati eliminati!
-assessment#:#tst_type_comment#:#Attenzione: modificando il tipo del test, verranno eliminati tutti i test svolti precedentemente!
+assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test precedentemente svolti sono stati eliminati!
+assessment#:#tst_type_comment#:#Attenzione: modificando il tipo di test, verranno eliminati tutti i test svolti precedentemente!
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
 assessment#:#tst_your_ects_mark_is#:#Il tuo voto ECTS &#232;
@@ -534,7 +534,7 @@ bibitem#:#bibitem_number#:#Numero
 bibitem#:#bibitem_organization#:#Organizzazione
 bibitem#:#bibitem_pages#:#Pagine
 bibitem#:#bibitem_phd_thesis#:#Tesi scientifica
-bibitem#:#bibitem_please_select#:#Scegli uno dei seguenti
+bibitem#:#bibitem_please_select#:#--- Seleziona un elemento ---
 bibitem#:#bibitem_print#:#Stampa
 bibitem#:#bibitem_proceedings#:#Procedimenti
 bibitem#:#bibitem_publisher#:#Editore
@@ -661,7 +661,7 @@ common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
-common#:#adm_create_tax#:#Crea tassonomia
+common#:#adm_create_tax#:#Creare una tassonomia
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
@@ -744,7 +744,7 @@ common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#auto_registration#:#Registrazione approvata automaticamente
-common#:#available#:#Available###23 Dec 2004 new variable
+common#:#available#:#Disponibile
 common#:#available_languages#:#Lingue disponibili
 common#:#average_time#:#Tempo medio
 common#:#back#:#Indietro
@@ -849,10 +849,10 @@ common#:#check_all#:#Controlla tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
 common#:#check_link#:#Verifica il link
-common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.###24 Dec 2004 content changed
+common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
-common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.###24 Dec 2004 content changed
+common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -861,7 +861,7 @@ common#:#choose_location#:#Scegli la cartella
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.
 common#:#city#:#Citt&#224;
 common#:#clear#:#Annulla
-common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
+common#:#clear_clipboard#:#Appunti vuoto
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
@@ -907,7 +907,7 @@ common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
 common#:#crs_archives#:#Archivi di corsi
-common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
+common#:#crs_at_least_one_admin#:#Deve essere definito almeno un amministratore di corso.
 common#:#crs_available#:#Corsi disponibili
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
 common#:#crs_create#:#Creare un corso
@@ -1017,10 +1017,10 @@ common#:#email#:#Email
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
 common#:#enable#:#Abilita
-common#:#enable_hist_user_comments#:#Abilita i commenti degli utenti nella storia
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
+common#:#enable_hist_user_comments#:#Abilita i commenti nella storia delle pagine
+common#:#enable_hist_user_comments_desc#:#Con questa opzione gli autori possono aggiungere commenti nella storia delle pagine.
 common#:#enable_js_edit#:#Abilita la modifica di JavaScript
-common#:#enable_js_edit_info#:#Questa opzione abilita la modifica dei JavaScript per tutti gli oggetti contenuti (Moduli ILIAS, Glossari, Domande, Libreria digitale) 
+common#:#enable_js_edit_info#:#Questa opzione abilita la modifica dei JavaScript per tutti gli oggetti contenuti (Moduli ILIAS, Glossari, Domande, Librerie digitali) 
 common#:#enable_password_assistance#:#Abilita il servizio di assistenza per la password
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
 common#:#enabled#:#Abilitata
@@ -1367,7 +1367,7 @@ common#:#import_forum_finished#:#Il forum &#232; stato importato.
 common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
-common#:#import_lm#:#Importa modulo ILIAS
+common#:#import_lm#:#Importa modulo
 common#:#import_qpl#:#Importa raccolta di domande per test
 common#:#import_root_user#:#Importa utente root
 common#:#import_sahs#:#Importa modulo SCORM/AICC
@@ -1411,7 +1411,7 @@ common#:#ingmedia_welcome#:#, benvenuto nel tuo desktop personale!!
 common#:#inifile#:#File ilias.ini
 common#:#input_error#:#Errore di inserimento
 common#:#insert#:#Aggiungi
-common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
+common#:#insert_object_here#:#Inserisci qui l'oggetto
 common#:#inst_id#:#ID dell&#039;installazione
 common#:#inst_info#:#Informazioni sull&#039;installazione
 common#:#inst_name#:#Nome dell&#039;installazione
@@ -1607,7 +1607,7 @@ common#:#message_to#:#Messaggio a:
 common#:#meta_data#:#Meta Dati
 common#:#migrate#:#migrare
 common#:#min_time#:#Tempo minimo
-common#:#missing#:#Missing###23 Dec 2004 new variable
+common#:#missing#:#Mancante
 common#:#mob#:#Oggetto multimediale
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
@@ -1891,7 +1891,7 @@ common#:#operation#:#Operazione
 common#:#optimize#:#Ottimizza
 common#:#options#:#Opzioni
 common#:#options_for_subobjects#:#Opzioni per i sotto-oggetti
-common#:#order_by#:#Ordina per
+common#:#order_by#:#Ordinato per
 common#:#other#:#Altro
 common#:#overview#:#Visione generale
 common#:#owner#:#Proprietario
@@ -1962,7 +1962,7 @@ common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato
 common#:#profile_of#:#Profilo di
 common#:#properties#:#Propriet&#224;
 common#:#pub_section#:#Sezione pubblica
-common#:#public#:#public###23 Dec 2004 new variable
+common#:#public#:#pubblico
 common#:#public_profile#:#Profilo pubblico
 common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
@@ -2130,7 +2130,7 @@ common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#select_object_to_link#:#Per favore seleziona l'oggetto che vuoi collegare
 common#:#select_password#:#Scegli una nuova password
 common#:#select_questionpool#:#Raccolta di domande per Test
-common#:#select_questionpool_option#:#Per favore scegli una raccolta di domande
+common#:#select_questionpool_option#:#--- Seleziona una raccolta di domande ---
 common#:#selected#:#Selezionati
 common#:#selected_items#:#Elementi selezionati
 common#:#send#:#Invia
@@ -2279,7 +2279,7 @@ common#:#uncheck_all#:#Deseleziona tutto
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
-common#:#unread#:#non lette
+common#:#unread#:#non letti
 common#:#unselected#:#Deseleziona
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
@@ -2365,12 +2365,12 @@ common#:#zipcode#:#Codice postale
 content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
-content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
+content#:#add_menu_entry#:#Aggiungi voce nel menu >>
 content#:#all#:#Tutti
 content#:#all_pages#:#l'intero modulo 
 content#:#choose_public_mode#:#Gliutenti non registrati possono accedere
 content#:#choose_public_pages#:#Scegli le pagine accessibili a tutti
-content#:#cont_Additional#:#Aggiuntive
+content#:#cont_Additional#:#Extra
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
 content#:#cont_Circle#:#Cerchio
 content#:#cont_Citation#:#Citazione
@@ -2413,7 +2413,7 @@ content#:#cont_autoindent#:#Indentazione automatica
 content#:#cont_back#:#Indietro
 content#:#cont_booktitle#:#Titolo del libro
 content#:#cont_bottom#:#In fondo
-content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
+content#:#cont_browser_not_js_capable#:#Il JavaScript che consente le modifiche non &#232; supportato dal tuo browser.
 content#:#cont_cant_copy_folders#:#Le cartelle non possono essere copiate negli appunti.
 content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.
 content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.
@@ -2424,15 +2424,15 @@ content#:#cont_chap_select_target_now#:#Capitolo selezionato per lo spostamento.
 content#:#cont_chapters#:#Capitoli
 content#:#cont_chapters_and_pages#:#Capitoli e pagine
 content#:#cont_chapters_only#:#Capitoli solamente
-content#:#cont_characteristic#:#Caratteristica
+content#:#cont_characteristic#:#Stile
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
 content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
-content#:#cont_clean_frames#:#Ripulisci i frame addizioali di navigazione
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
+content#:#cont_clean_frames#:#Svuota i frame addizionali
+content#:#cont_clean_frames_desc#:#Con questa opzione i frame addizionali (per es. quello multimediale o quello con il glossario) vengono ripuliti se l'utente si sposta da una pagina all'altra. L'opzione vale se &#232; stato scelto un layout con pi&#249; frame (per es. quello 3window).
 content#:#cont_click_br_corner#:#Per favore, clicca nell&#039;angolo inferiore destro dell'area desiderata.
 content#:#cont_click_center#:#Per favore, clicca nel centro dell'area desiderata.
 content#:#cont_click_circle#:#Per favore, clicca in una circonferenza dell'area desiderata.
@@ -2472,8 +2472,8 @@ content#:#cont_dir_file#:#Cartella/File
 content#:#cont_disable_js#:#Disabilita i JavaScript
 content#:#cont_disable_media#:#Disabilita i file multimediali
 content#:#cont_download_title#:#Download titolo
-content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
-content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
+content#:#cont_downloads#:#Download
+content#:#cont_downloads_desc#:#Abilita i download di tutti i file pubblici esportabili.
 content#:#cont_ed_align_center#:#allineam: centrato
 content#:#cont_ed_align_left#:#allineam: a sinistra
 content#:#cont_ed_align_left_float#:#allineam: left float
@@ -2490,12 +2490,12 @@ content#:#cont_ed_delete_row#:#elimina riga
 content#:#cont_ed_edit#:#modifica
 content#:#cont_ed_edit_prop#:#modifica propriet&#224;
 content#:#cont_ed_go#:#Conferma
-content#:#cont_ed_insert_code#:#inserisci Codice
-content#:#cont_ed_insert_filelist#:#inserisci Lista di file
-content#:#cont_ed_insert_list#:#inserisci Lista
-content#:#cont_ed_insert_media#:#inserisci Media
-content#:#cont_ed_insert_par#:#inserisci Paragr.
-content#:#cont_ed_insert_table#:#inserisci Tabella
+content#:#cont_ed_insert_code#:#inserisci codice
+content#:#cont_ed_insert_filelist#:#inserisci lista di file
+content#:#cont_ed_insert_list#:#inserisci lista
+content#:#cont_ed_insert_media#:#inserisci multimedia
+content#:#cont_ed_insert_par#:#inserisci paragrafo
+content#:#cont_ed_insert_table#:#inserisci tabella
 content#:#cont_ed_item_down#:#sposta loggetto in basso
 content#:#cont_ed_item_up#:#sposta l'oggetto in alto
 content#:#cont_ed_moveafter#:#sposta dopo
@@ -2573,19 +2573,19 @@ content#:#cont_linked_mobs#:#Oggetto multimediale collegato
 content#:#cont_list_files#:#Elenco file
 content#:#cont_list_properties#:#Elenca le propriet&#224;
 content#:#cont_lk_chapter#:#Capitolo
-content#:#cont_lk_chapter_new#:#Capitolo (Nuovo Frame)
-content#:#cont_lk_media_faq#:#Media (FAQ frame)
+content#:#cont_lk_chapter_new#:#Capitolo (Nuovo frame)
+content#:#cont_lk_media_faq#:#Media (Frame per FAQ)
 content#:#cont_lk_media_inline#:#Media (Inline)
 content#:#cont_lk_media_media#:#Media (Frame per Media)
-content#:#cont_lk_media_new#:#Media (Nuovo Frame)
+content#:#cont_lk_media_new#:#Media (Nuovo frame)
 content#:#cont_lk_page#:#Pagina
-content#:#cont_lk_page_faq#:#Pagina (Frame FAQ)
+content#:#cont_lk_page_faq#:#Pagina (Frame per FAQ)
 content#:#cont_lk_page_new#:#Pagina (Nuovo frame)
 content#:#cont_lk_survey#:#Esame
 content#:#cont_lk_term#:#Glossario
-content#:#cont_lk_term_new#:#Glossario (New Frame)
+content#:#cont_lk_term_new#:#Glossario (Nuovo frame)
 content#:#cont_lm_menu#:#Menu
-content#:#cont_lm_properties#:#Propriet&#224; del Modulo
+content#:#cont_lm_properties#:#Propriet&#224; del modulo
 content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
@@ -2614,7 +2614,7 @@ content#:#cont_no_access#:#Accesso non consentito
 content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso
 content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
-content#:#cont_no_page#:#Nessuna pagina trovata.
+content#:#cont_no_page#:#Non &#232; stata trovata nessuna pagina.
 content#:#cont_none#:#Nessuno
 content#:#cont_nr_cols#:#Numero di colonne
 content#:#cont_nr_items#:#Numero di elementi
@@ -2727,7 +2727,7 @@ content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_title#:#titolo
 content#:#cont_title_footnotes#:#Pi&#232; di pagina
 content#:#cont_toc#:#Tabella dei contenuti
-content#:#cont_toc_mode#:#Modalit&#224; menu
+content#:#cont_toc_mode#:#Tipo menu
 content#:#cont_top#:#Alto
 content#:#cont_total_time#:#Tempo totale
 content#:#cont_tracking_data#:#Dati tracciati
@@ -2750,15 +2750,15 @@ content#:#cont_wysiwyg#:#Contenuto WYSIWYG
 content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
 content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
-content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
-content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
-content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
-content#:#lm_menu_new_entry#:#Create a new menu entry###23 Dec 2004 new variable
-content#:#lm_menu_select_internal_object#:#Select internal object >>###23 Dec 2004 new variable
-content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###23 Dec 2004 new variable
-content#:#msg_entry_added#:#Menu entry added###23 Dec 2004 new variable
-content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
-content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
+content#:#lm_menu_edit_entry#:#Modifica voce del menu
+content#:#lm_menu_entry_target#:#Obiettivo
+content#:#lm_menu_entry_title#:#Titolo
+content#:#lm_menu_new_entry#:#Crea una nuova voce nel menu
+content#:#lm_menu_select_internal_object#:#Scegli un oggetto interno >>
+content#:#lm_menu_select_object_to_add#:#Per favore, seleziona l'oggetto che vuoi aggiungere al menu
+content#:#msg_entry_added#:#Voce aggiunta la menu
+content#:#msg_entry_removed#:#Voce tolta dal menu
+content#:#msg_entry_updated#:#Voce del menu aggiornata
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
@@ -3856,7 +3856,7 @@ payment#:#pay_confirm_order#:#Per favore, conferma il tuo ordine inserendo la tu
 payment#:#pay_customer_no#:#Cliente n.
 payment#:#pay_deleted_booking#:#L'elemento &#232; stato cancellato.
 payment#:#pay_deleted_items#:#L'elemento selezionato &#232; stato cancellato.
-payment#:#pay_ending#:#termina il 
+payment#:#pay_ending#:#terminata il 
 payment#:#pay_entitled_retrieve#:#Indica di ricavare i dati per
 payment#:#pay_expires_info#:#Questo oggetto &#232; disponibile, ma il pagamento &#232; scaduto e non puoi comprarlo.
 payment#:#pay_filter#:#Filtro
@@ -3877,12 +3877,12 @@ payment#:#pay_order_date_from#:#Ordini a partire da
 payment#:#pay_order_date_til#:#Ordini fino a 
 payment#:#pay_payed_credit_card#:#L'ordine &#232; stato acquistato con carta di credito.
 payment#:#pay_payed_debit_entry#:#L'ordine &#232; stato acquistato con una voce a debito.
-payment#:#pay_reset_filter#:#Azzera il filtro.
+payment#:#pay_reset_filter#:#Azzera il filtro
 payment#:#pay_select_one_item#:#Seleziona un item.
 payment#:#pay_select_price#:#Scegli un nuovo prezzo.
 payment#:#pay_send_order#:#Invia l'ordine.
 payment#:#pay_shopping_cart_empty#:#Il tuo carrello &#232; vuoto.
-payment#:#pay_starting#:#inizia con
+payment#:#pay_starting#:#iniziata il
 payment#:#pay_step1#:#Il tuo ordine - Fase 1 di 3: Inserisci i tuoi dati personali
 payment#:#pay_step2#:#Il tuo ordine - Fase 2 di 3: Scegli il tipo di pagamento
 payment#:#pay_step3_credit_card#:#Il tuo ordine - Fase 3 di 3: Inserisci i dati della tual carta di credito e invia l'ordine
@@ -3898,7 +3898,7 @@ payment#:#paya_bookings_available#:#Questo oggetto &#232; stato venduto. Per fav
 payment#:#paya_buyable#:#Acquistabile
 payment#:#paya_buyed_objects#:#Oggetti acquistati
 payment#:#paya_count_purchaser#:#Numero dei venditori
-payment#:#paya_customer#:#Clienti
+payment#:#paya_customer#:#Cliente
 payment#:#paya_delete_price#:#Prezzo cancellato
 payment#:#paya_delete_trustee_msg#:#Amministratori eliminati
 payment#:#paya_deleted_last_price#:#L'ultimo prezzo &#232; stato cancellato.
@@ -4014,7 +4014,7 @@ pwassist#:#pwassist_update_error#:#Per favore, contatta il tuo amministratore di
 search#:#search_active#:#Includi utenti attivi
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_and#:#AND
-search#:#search_concatenation#:#Concatenazione
+search#:#search_concatenation#:#Operazione
 search#:#search_content#:#Contenuto della pagina
 search#:#search_dbk_content#:#Libraria digitale (contenuto)
 search#:#search_dbk_meta#:#Libraria digitale (metadati)
@@ -4043,7 +4043,7 @@ search#:#search_or#:#OR
 search#:#search_rename_title#:#Rinomina il titolo
 search#:#search_results_saved#:#Ricerca i risultati salvati
 search#:#search_save_as_select#:#Salva come:
-search#:#search_search_for#:#Ricerca per
+search#:#search_search_for#:#Ricerca in
 search#:#search_search_no_results_saved#:#Non ci sono risultati salvati
 search#:#search_search_results#:#Ricerca risultati
 search#:#search_search_term#:#Ricerca termine
@@ -4199,7 +4199,7 @@ survey#:#finished#:#finito
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
-survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
+survey#:#glossary_term#:#Voce del glossario
 survey#:#harmonic_mean#:#Significato armonico
 survey#:#heading#:#Intestazione
 survey#:#horizontal#:#orizzontale
@@ -4221,8 +4221,8 @@ survey#:#legend#:#Legenda
 survey#:#lower_limit#:#Limite inferiore
 survey#:#maintenance#:#Manutenzione
 survey#:#manage_phrases#:#Gestione frasi
-survey#:#material#:#Material###23 Dec 2004 new variable
-survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
+survey#:#material#:#Materiale
+survey#:#material_added_successfully#:#Hai con successo creato un link al materiale!
 survey#:#material_file#:#File materiale
 survey#:#maxchars#:#Numero massimo di caratteri
 survey#:#maximum#:#Valore massimo
