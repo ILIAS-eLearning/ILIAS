@@ -64,6 +64,16 @@ class ilObjDlBook extends ilObjContentObject
 		return true;
 	}
 
+    /**
+    *   export lm_data-table to xml-structure
+    *
+    *   @param  integer obj_id
+    *   @param  integer depth
+    *   @param  integer left    left border of nested-set-structure
+    *   @param  integer right   right border of nested-set-structure   
+    *   @access public
+    *   @return string  xml
+    */
     function exportRekursiv($obj_id, $depth, $left, $right) {
 
 		// Jetzt alle lm_data anhand der obj_id auslesen.
@@ -186,9 +196,11 @@ class ilObjDlBook extends ilObjContentObject
         // get mediaobject-xml-data
 		// ------------------------------------------------------
         $mob_ids = $this->mob_ids;
-        if (is_array($mob_ids) && count($mob_ids)>0) {
+        if (is_array($mob_ids) && count($mob_ids)>0) 
+        {
             reset ($mob_ids);
-            while (list ($key, $val) = each ($mob_ids)) {
+            while (list ($key, $val) = each ($mob_ids)) 
+            {
 
                 $xml .= "<MediaObject>";
 
@@ -198,7 +210,8 @@ class ilObjDlBook extends ilObjContentObject
                 $result = $this->ilias->db->query($query);
                 while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
                 {
-                    if($first) {
+                    if($first) 
+                    {
                         //vd($row[purpose]);
                         $nested = new ilNestedSetXML();
                         $metaxml = $nested->export($key,"mob");
@@ -253,6 +266,7 @@ class ilObjDlBook extends ilObjContentObject
 			@mkdir($export_dir."/".$fileName);
 			@chmod($export_dir."/".$fileName,0755);
 		}
+        
 		if (!file_exists($export_dir."/".$fileName."/objects"))
 		{
 			@mkdir($export_dir."/".$fileName."/objects");
@@ -263,9 +277,11 @@ class ilObjDlBook extends ilObjContentObject
         // copy mob-files
 		// ------------------------------------------------------
         $mob_ids = $this->mob_ids;
-        if (is_array($mob_ids) && count($mob_ids)>0) {
+        if (is_array($mob_ids) && count($mob_ids)>0) 
+        {
             reset ($mob_ids);
-            while (list ($key, $val) = each ($mob_ids)) {
+            while (list ($key, $val) = each ($mob_ids)) 
+            {
 
                 if (!file_exists($export_dir."/".$fileName."/objects/mm".$key))
                 {

@@ -28,7 +28,7 @@ require_once ("classes/class.ilMetaData.php");
 *
 * Handles Bib-Items of ILIAS DigiLib-Books (see ILIAS DTD)
 *
-* @author Databay AG <ay@databay.de>
+* @author Databay AG <jc@databay.de>
 * @version $Id$
 *
 * @package application
@@ -86,17 +86,39 @@ class ilBibItem
 		$this->bibliography_attr = $a_data;
 	}
 
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function setAbstract($a_data)
 	{
 		$this->abstract = $a_data;
 	}
 
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function setBibItemData($a_key,$a_value,$a_bib_item_nr)
 	{
 		$this->bib_item_data[$a_bib_item_nr]["$a_key"] = $a_value;
 		
 		return true;
 	}
+
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function appendBibItemData($a_key,$a_value,$a_bib_item_nr)
 	{
 		$this->bib_item_data[$a_bib_item_nr]["$a_key"] = array_merge($this->bib_item_data[$a_bib_item_nr]["$a_key"],array($a_value));
@@ -127,17 +149,37 @@ class ilBibItem
 		return $this->abstract;
 	}
 
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return string title
+    */
 	function getTitle()
 	{
 		return $this->title;
 	}
 
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return string xml-structure
+    */
 	function getXML()
 	{
 		return $this->xml;
 	}
 
-
+    /**
+    *
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function readXML()
 	{
 		if(!$this->__initNestedSet())

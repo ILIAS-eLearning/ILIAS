@@ -241,6 +241,13 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->object->export($_GET["ref_id"]);
 	}
 
+    /**
+    *   print export-form to screen
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function offlineexportform() 
 	{
 		

@@ -71,6 +71,15 @@ class ilContObjectExport
 		return $this->inst_id;
 	}
 
+    /**
+    *   exports lm_data-table to xml-structure
+    *
+    *   @param  integer $depth
+    *   @param  integer $left   left border of nested-set-structure
+    *   @param  integer $right  right border of nested-set-structure
+    *   @access public  
+    *   @return string  xml-structure
+    */
     function exportRekursiv($depth, $left, $right)
 	{
 		// Jetzt alle lm_data anhand der obj_id auslesen.
@@ -140,203 +149,20 @@ class ilContObjectExport
 
 	/**
 	*	exports the digi-lib-object into a xml structure
+    *   ay: what for ist this method ?
 	*/
 	function export()
 	{
-		/*
-		include_once("./classes/class.ilNestedSetXML.php");
-
-        $this->mob_ids = array();
-
-		// ------------------------------------------------------
-        // start xml-String
-		// ------------------------------------------------------
-		$xml = "<?xml version=\"1.0\"?><!DOCTYPE ContentObject SYSTEM \"ilias_co.dtd\">\n<ContentObject Type=\"LibObject\">";
-
-		// ------------------------------------------------------
-        // get global meta-data
-		// ------------------------------------------------------
-		$nested = new ilNestedSetXML();
-		$xml .= $nested->export($this->cont_obj->getId(),
-			$this->cont_obj->getType());
-
-		// ------------------------------------------------------
-        // get all book-xml-data recursiv
-		// ------------------------------------------------------
-
-		$query = "SELECT  *
-			FROM lm_tree, lm_data
-			WHERE lm_tree.lm_id = ".$this->cont_obj->getId()."
-			AND   lm_tree.child = lm_data.obj_id
-			AND   ( lm_data.type =  'du' )
-			AND lm_tree.depth = 1
-			ORDER BY lm_tree.lft";
-		$result = $this->db->query($query);
-		$treeData = $result->fetchRow(DB_FETCHMODE_ASSOC);
-
-		$xml .= $this->exportRekursiv(2, $treeData["lft"], $treeData["rgt"]);
-
-        // get/create export-directory
-		$export_dir = $this->cont_obj->getExportDirectory();
-
-		if ($export_dir == false)
-		{
-			$this->cont_obj->createExportDirectory();
-
-			$export_dir = $this->cont_obj->getExportDirectory();
-			if ($export_dir == false)
-			{
-				$this->ilias->raiseError("Creation of Export-Directory failed.", $this->err->FATAL);
-			}
-		}
-
-		// ------------------------------------------------------
-        // get mediaobject-xml-data
-		// ------------------------------------------------------
-		$mob_ids = $this->mob_ids;
-		if (is_array($mob_ids) && count($mob_ids)>0)
-		{
-			reset ($mob_ids);
-			while (list ($key, $val) = each ($mob_ids))
-			{
-				$xml .= "<MediaObject>";
-
-				$query = "SELECT * FROM media_item WHERE mob_id='".$key."' ";
-				//vd($query);
-				$first = true;
-				$result = $this->db->query($query);
-				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
-				{
-					if($first)
-					{
-						//vd($row[purpose]);
-						$nested = new ilNestedSetXML();
-						$metaxml = $nested->export($key, "mob");
-						$metaxml = preg_replace("/Entry=\"(.*?)\"/","Entry=\"il__mob_".$key."\"",$metaxml);
-
-						$metaxml2 = "<Technical>";
-						$metaxml2 .= "<Format>".$row["format"]."</Format>";
-						$metaxml2 .= "<Size>14559</Size>";
-						$metaxml2 .= "<Location Type=\"".$row["location_type"]."\">".$row["location"]."</Location>";
-						$metaxml2 .= "</Technical>";
-
-						$metaxml = str_replace("</MetaData>",$metaxml2."</MetaData>",$metaxml);
-
-						$xml .= $metaxml;
-
-						$first = false;
-					}
-
-					$xml .= "<MediaItem Purpose=\"".$row["purpose"]."\">";
-					$xml .= "<Location Type=\"".$row["location_type"]."\">".$row["location"]."</Location>";
-					$xml .= "<Format>".$row["format"]."</Format>";
-					$xml .= "<Layout Width=\"".$row["width"]."\" Height=\"".$row["height"]."\"/>";
-					$xml .= "</MediaItem>";
-
-				}
-				$xml .= "</MediaObject>";
-			}
-		}
-
-
-		// ------------------------------------------------------
-		// get bib-xml-data
-		// ------------------------------------------------------
-		$nested = new ilNestedSetXML();
-		$bib = $nested->export($this->cont_obj->getId(), "bib");
-
-		$xml .= $bib;
-
-		// ------------------------------------------------------
-        // xml-ending
-		// ------------------------------------------------------
-		$xml .= "</ContentObject>";
-
-		// ------------------------------------------------------
-        // filename and directory-creation
-		// ------------------------------------------------------
-		// get timestamp for dir and file names
-		$date = time();
-
-		// set dir and file names (format: <timestamp>__<inst>__le_<id>__lm/)
-		//$this->dir = $this->targetDir.$date."__".$this->luInst."__le_".$this->luId."__lm/";
-		//$this->file = $this->dir.$date."__".$this->luInst."__".
-		//	$this->cont_obj->getType()."_".$this->cont_obj->getId().xml";
-
-		$fileName = $date."__".$this->inst_id."__".
-			$this->cont_obj->getType()."_".$this->cont_obj->getId();
-
-		if (!file_exists($export_dir."/".$fileName))
-		{
-			@mkdir($export_dir."/".$fileName);
-			@chmod($export_dir."/".$fileName,0755);
-		}
-		if (!file_exists($export_dir."/".$fileName."/objects"))
-		{
-			@mkdir($export_dir."/".$fileName."/objects");
-			@chmod($export_dir."/".$fileName."/objects",0755);
-		}
-
-		// ------------------------------------------------------
-        // copy mob-files
-		// ------------------------------------------------------
-		$mob_ids = $this->mob_ids;
-		if (is_array($mob_ids) && count($mob_ids)>0)
-		{
-			reset ($mob_ids);
-			while (list ($key, $val) = each ($mob_ids))
-			{
-
-				if (!file_exists($export_dir."/".$fileName."/objects/mm".$key))
-				{
-					@mkdir($export_dir."/".$fileName."/objects/mm".$key);
-					@chmod($export_dir."/".$fileName."/objects/mm".$key,0755);
-				}
-
-				$mobdir = "./data/mobs/mm_".$key;
-				ilUtil::rCopy($mobdir, $export_dir."/".$fileName."/objects/mm".$key);
-			}
-		}
-
-		// ------------------------------------------------------
-        // save xml-file
-		// ------------------------------------------------------
-		$fp = fopen($export_dir."/".$fileName."/".$fileName.".xml","wb");
-		fwrite($fp,$xml);
-		fclose($fp);
-
-		// ------------------------------------------------------
-        // zip all files
-		// ------------------------------------------------------
-		ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
-
-		// ------------------------------------------------------
-        // deliver files
-		// ------------------------------------------------------
-		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-store, no-cache, must-revalidate");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
-		header("Content-type: application/octet-stream");
-		if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") )
-		{
-			header ("Content-Disposition: attachment; filename=" . $fileName.".zip");
-		}
-		else
-		{
-			header ("Content-Disposition: inline; filename=".$fileName.".zip" );
-		}
-		header ("Content-length:".(string)( filesize($export_dir."/".$fileName.".zip")) );
-
-		readfile( $export_dir."/".$fileName.".zip" );
-		*/
+		
 	}
 
 
-	/**
-	* build export file (complete zip file)
-	*/
+    /**
+    *   build export file (complete zip file)
+    *
+    *   @access public
+    *   @return
+    */
 	function buildExportFile()
 	{
 		global $ilBench;
