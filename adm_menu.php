@@ -9,7 +9,7 @@ $expanded = explode('|',$_GET["expand"]);
 
 $tplContent = new Template("explorer.html",true,true);
 $explorer = new Explorer($ilias);
-$explorer->setOutput(1,0);
+$explorer->setOutput(0);
 $output = $explorer->getOutput();
 $tplContent->setVariable("EXPLORER",$output);
 $tplContent->setVariable("EXPAND",$_GET["expand"]);
