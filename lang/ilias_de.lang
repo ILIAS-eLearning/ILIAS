@@ -2884,7 +2884,7 @@ crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subscribers#:#Anmeldungen
 crs#:#crs_subscribers_deleted#:#Die Anmeldung wurde gelöscht
 crs#:#crs_subscription#:#Anmeldung
-crs#:#crs_subscription_max_members#:#Maiximale Mitgliederanzahl
+crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_subscription_options_confirmation#:#Anmeldung mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Ausgeschaltet
