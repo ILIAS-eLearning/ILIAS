@@ -28,7 +28,8 @@ class ilWysiwygUtil
     var $struct = array();
     var $depth;
     var $newXml;
-    function convertFromPost($content) {
+    function convertFromPost($content) 
+	{
         
         $xml_parser = xml_parser_create("UTF-8");
         xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
@@ -42,7 +43,8 @@ class ilWysiwygUtil
         $this->struct = array();
         $this->$newXml = "";
         
-        if (!xml_parse($xml_parser, $xml_data)) {
+        if (!xml_parse($xml_parser, $xml_data)) 
+		{
             die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
         }
         xml_parser_free($xml_parser);
@@ -66,9 +68,11 @@ class ilWysiwygUtil
                                 );
 
         $new["convert"] = "<".$name;                
-        if (is_array($attrs)) {
+        if (is_array($attrs)) 
+		{
             reset ($attrs);
-            while (list ($key, $val) = each ($attrs)) {
+            while (list ($key, $val) = each ($attrs)) 
+			{
                 $new["convert"] .= " ".$key."=\"".$val."\"";
             }
         }
@@ -77,25 +81,30 @@ class ilWysiwygUtil
         
 		
 		
-        if ($attrs["class"] == "iliasstrong") {
+        if ($attrs["class"] == "iliasstrong") 
+		{
             $new["convert"] = "[str]";
             $new["convert2"] = "[/str]";
         }
-        if ($attrs["class"] == "iliascom") {
+        if ($attrs["class"] == "iliascom") 
+		{
             $new["convert"] = "[com]";
             $new["convert2"] = "[/com]";
         }
-        if ($attrs["class"] == "iliasemp") {
+        if ($attrs["class"] == "iliasemp") 
+		{
             $new["convert"] = "[emp]";
             $new["convert2"] = "[/emp]";
         }
         
-        if ($attrs["class"] == "iliasquot") {
+        if ($attrs["class"] == "iliasquot") 
+		{
             $new["convert"] = "[quot]";
             $new["convert2"] = "[/quot]";
         }
         
-		if ($attrs["class"] == "footnote") {
+		if ($attrs["class"] == "footnote") 
+		{
 			//vd($attrs);
 			$new["convert"] = "[fn]".$attrs[value];
             $new["convert2"] = "[/fn]";
@@ -112,9 +121,12 @@ class ilWysiwygUtil
         $this->struct[$this->depth] = $new;
         $this->depth++;
         
-        if ($name!="br") {
+        if ($name!="br") 
+		{
             $this->newXml .= $new[convert];
-        } else {
+        } 
+		else 
+		{
             $this->newXml .= "\n";
         }
         
@@ -126,7 +138,8 @@ class ilWysiwygUtil
 	{
 //        vd($data);
 		//if ($data == "[1]") $data = "";
-		if (!stristr( $this->struct[$this->depth-1]["convert"], "[fn]" )) { 
+		if (!stristr( $this->struct[$this->depth-1]["convert"], "[fn]" )) 
+		{ 
 			$this->newXml .= $data;
 		}
 		
@@ -137,7 +150,8 @@ class ilWysiwygUtil
         $this->depth--;
         
         //$this->newXml .= "</".$name.">";
-        if ($name!="br") {
+        if ($name!="br") 
+		{
             $this->newXml .= $this->struct[$this->depth]["convert2"];
         }
         
