@@ -528,7 +528,6 @@ class ilContObjParser extends ilSaxParser
 				$this->in_file_item = true;
 				$this->file_item =& new ilObjFile();
 				$this->file_item->setTitle("dummy");
-				$this->file_item->create();
 				if (is_object($this->page_object))
 				{
 					$this->page_object->needsImportParsing(true);
@@ -567,9 +566,12 @@ class ilContObjParser extends ilSaxParser
 				}
 				if ($this->in_file_item)
 				{
-					$this->file_item->setImportId($a_attribs["Entry"]);
-					//$this->file_item_mapping[$this->file_item->getId()] = $a_attribs["Entry"];
-					$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
+					if ($this->file_item_mapping[$a_attribs["Entry"]] == "")
+					{
+						$this->file_item->create();
+						$this->file_item->setImportId($a_attribs["Entry"]);
+						$this->file_item_mapping[$a_attribs["Entry"]] = $this->file_item->getId();
+					}
 				}
 				break;
 
@@ -695,7 +697,8 @@ class ilContObjParser extends ilSaxParser
 			// change identifier entry of file items to new local file id
 			if ($this->in_file_item && $app_name == "Identifier")
 			{
-				$app_attribs["Entry"] = "il__file_".$this->file_item->getId();
+				$app_attribs["Entry"] = "il__file_".$this->file_item_mapping[$a_attribs["Entry"]];
+				//$app_attribs["Entry"] = "il__file_".$this->file_item->getId();
 			}
 
 			$this->page_object->appendXMLContent($this->buildTag("start", $app_name, $app_attribs));
@@ -1012,7 +1015,11 @@ class ilContObjParser extends ilSaxParser
 
 			case "FileItem":
 				$this->in_file_item = false;
-				$this->file_item->update();
+				// only update new file items
+				if ($this->file_item->getImportId($a_attribs["Entry"] != ""))
+				{
+					$this->file_item->update();
+				}
 				break;
 
 			case "Bibliography":
