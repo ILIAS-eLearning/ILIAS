@@ -5,23 +5,35 @@
 	</td>
 	<!-- END check_col -->
 	<td class="std" valign="top">
-		<a href="{TARGET_TERM}">
-		{TEXT_TERM}
-		</a>
+		<b>{TEXT_TERM}</b>
+		<!-- BEGIN edit_term -->
+			[<a href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>]
+		<!-- END edit_term -->
 	</td>
 	<td class="std" valign="top">
 		{TEXT_LANGUAGE}
 	</td>
 	<td class="std" valign="top">
-	<!-- BEGIN definition -->
-		<a href="{DEF_LINK}">
-			{DEF_TEXT}
-		</a><br />
-		{DEF_SHORT}<br />
-	<!-- END definition -->
-	<!-- BEGIN definition_no_link -->
-		<b>{DEF_TEXT}</b><br />
-		{DEF_SHORT}<br />
-	<!-- END definition_no_link -->
+	<!-- BEGIN definition_row -->
+		<!-- BEGIN definition -->
+			{DEF_SHORT}<br />
+		<!-- END definition -->
+		<!-- BEGIN move_up -->
+			[<a href="{LINK_UP}">{TXT_UP}</a>]
+		<!-- END move_up -->
+		<!-- BEGIN move_down -->
+			[<a href="{LINK_DOWN}">{TXT_DOWN}</a>]
+		<!-- END move_down -->
+		<!-- BEGIN delete -->
+			[<a href="{LINK_DELETE}">{TXT_DELETE}</a>]
+		<!-- END delete -->
+		<!-- BEGIN edit -->
+			[<a href="{LINK_EDIT}">{TXT_EDIT}</a>]<br />
+		<!-- END edit -->
+		<!-- BEGIN definition_no_link -->
+			<b>{DEF_TEXT}</b><br />
+			{DEF_SHORT}<br />
+		<!-- END definition_no_link -->
+	<!-- END definition_row -->
 	</td>
 </tr>
