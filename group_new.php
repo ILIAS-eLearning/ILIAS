@@ -7,7 +7,7 @@
 *
 * @package ilias
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");

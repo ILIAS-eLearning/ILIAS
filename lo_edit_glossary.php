@@ -7,7 +7,7 @@
 *
 * @package ilias
 */
-include_once "./include/ilias_header.inc";
+include_once "./include/inc.header.php";
 
 $tpl = new Template("tpl.lo_edit_glossary.html", false, false);
 

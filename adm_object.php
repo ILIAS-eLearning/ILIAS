@@ -1,5 +1,5 @@
 <?php
-require_once "include/ilias_header.inc";
+require_once "include/inc.header.php";
 require_once "classes/class.Object.php";	// base class for all Object Types
 require_once "classes/class.ObjectOut.php";
 

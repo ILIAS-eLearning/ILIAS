@@ -7,7 +7,7 @@
 *
 * @package ilias
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
 
 $frm = new Forum();

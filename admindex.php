@@ -8,7 +8,7 @@
  * @package ilias-core
  * @version $Id$
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 //look if there is a file tpl.adm.html
 $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html"; 

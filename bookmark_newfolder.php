@@ -7,7 +7,7 @@
 * 
 * @package application
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 require_once "./classes/class.Bookmarks.php";
 
 $myBm = new Bookmarks($ilias->account->Id);
