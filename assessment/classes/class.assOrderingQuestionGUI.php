@@ -198,6 +198,17 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("question_data");
+		echo $this->ctrl->getCmd();
+		$javascript = "<script type=\"text/javascript\">%s</script>";
+		switch ($this->ctrl->getCmd())
+		{
+			case "addItem":
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_ordering.answer_".($this->object->get_answer_count()).".focus(); document.frm_ordering.answer_".($this->object->get_answer_count()).".scrollIntoView(\"true\");"));
+				break;
+			default:
+				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_ordering.title.focus();"));
+				break;
+		}
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -252,7 +263,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_ordering");
-		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this) . "#bottom");
+		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
 

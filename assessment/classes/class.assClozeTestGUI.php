@@ -164,7 +164,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", sprintf("%d", $answer_points));
 				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
+				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 				$this->tpl->parseCurrentBlock();
 				
 			}
@@ -255,6 +255,19 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->outOtherQuestionData();
 
 		$this->tpl->setCurrentBlock("question_data");
+		$javascript = "<script type=\"text/javascript\">%s</script>";
+		if (preg_match("/addTextGap_(\d+)/", $this->ctrl->getCmd(), $matches))
+		{
+			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.textgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
+		}
+		else if (preg_match("/addSelectGap_(\d+)/", $this->ctrl->getCmd(), $matches))
+		{
+			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".focus(); document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(count($this->object->gaps[$matches[1]]) - 1).".scrollIntoView(\"true\");"));
+		}
+		else
+		{
+			$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_cloze_test.title.focus();"));
+		}
 		$this->tpl->setVariable("VALUE_CLOZE_TITLE", htmlspecialchars($this->object->getTitle()));
 		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", htmlspecialchars($this->object->getComment()));
 		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", htmlspecialchars($this->object->getAuthor()));
@@ -273,7 +286,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_cloze");
-		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this) . "#bottom");
+		$this->tpl->setVariable("ACTION_CLOZE_TEST", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
 
@@ -417,10 +430,9 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 		$len = strlen("addTextGap_");
 		$i = substr($this->ctrl->getCmd(), $len);
-		$j = $i-1;
 		$this->object->set_answertext(
-			ilUtil::stripSlashes($j),
-			ilUtil::stripSlashes($this->object->get_gap_text_count($j)),
+			ilUtil::stripSlashes($i),
+			ilUtil::stripSlashes($this->object->get_gap_text_count($i)),
 			"",
 			1
 		);

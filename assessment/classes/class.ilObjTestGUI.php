@@ -749,7 +749,72 @@ class ilObjTestGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		global $rbacsystem;
-
+		$this->lng->loadLanguageModule("jscalendar");
+		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
+		$this->tpl->setCurrentBlock("calendar_javascript");
+		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
+		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
+		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
+		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
+		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
+		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
+		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
+		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
+		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
+		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
+		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
+		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
+		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
+		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
+		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
+		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
+		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
+		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
+		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
+		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
+		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
+		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
+		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
+		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
+		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
+		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
+		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
+		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
+		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
+		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
+		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
+		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
+		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
+		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
+		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
+		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
+		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
+		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
+		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
+		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
+		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
+		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
+		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
+		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
+		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
+		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
+		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
+		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
+		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
+		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
+		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
+		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
+		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
+		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
+		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
+		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
+		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("CalendarJS");
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", ilUtil::getJSPath("calendar.js"));
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", ilUtil::getJSPath("calendar-setup.js"));
+		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", ilUtil::getJSPath("calendar.css"));
+		$this->tpl->parseCurrentBlock();
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
 			// allow only read and write access
@@ -797,6 +862,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 				$time_input = ilUtil::makeTimeSelect("starting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
 			}
+			$this->tpl->setVariable("IMG_STARTING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
+			$this->tpl->setVariable("TXT_STARTING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
 			if ($data["starting_time"])
 			{
@@ -818,6 +885,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 				$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
 			}
+			$this->tpl->setVariable("IMG_ENDING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
+			$this->tpl->setVariable("TXT_ENDING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
 			if ($data["ending_time"])
 			{
@@ -837,6 +906,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
 				$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
 			}
+			$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
+			$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
 			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
 			if ($data["reporting_date"]) {
 				$this->tpl->setVariable("CHECKED_REPORTING_DATE", " checked=\"checked\"");

@@ -20,7 +20,13 @@
 	<script type="text/javascript" src="{LOCATION_JAVASCRIPT}/functions.js"></script>
 <!-- BEGIN HeadContent -->	
 {CONTENT_BLOCK}
-<!-- END HeadContent -->	
+<!-- END HeadContent -->
+<!-- BEGIN CalendarJS -->
+<style type="text/css">@import url({LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET});</style>
+<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR}"></script>
+{CALENDAR_LANG_JAVASCRIPT}
+<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script> 
+<!-- END CalendarJS -->
 </head>
 <body{BODY_ATTRIBUTES}>
 {CONTENT}
