@@ -1,0 +1,386 @@
+/**
+* ILIAS language file
+*
+* @module       language file english
+* @modulegroup  language
+* @author       Matthias Kunkel <m.kunkel@uni-koeln.de> 
+* @version      $Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+3rd_party_software#:#مورد اخر للبرامج
+absolute_path#:#تحديد المسار
+access#:#المدخل
+access_status#:#حالة المدخل
+admin_login#:#الدخول كمدير
+available_clients#:#العميل المتواجد
+available_languages#:#اللغات المتاحة
+back#:#رجوع
+cannot_create_datadir_no_write_access#:#لايسمح بالدخول. لايمكن انشاء دليل البيانات
+change#:#تغير - تبديل
+change_basic_settings#:#تغير اساس المحيط
+change_password#:#تغير كلمة السر
+change_sort_direction#:#تغير اتجاه التصنيف
+check_failed_convert#:# أخفاق اختبار التحويل
+check_failed_htmldoc#:#Testing FOP failed
+check_failed_htmldoc#:#أخفاق اختبار HTMLdoc
+check_failed_java#:#أخفاق اختبار JAVA
+check_failed_unzip#:#أخفاق اختبار UNZIP
+check_failed_zip#:#أخفاق اختبار ZIP
+choose_language#:#من فضلك اختر الغة
+choose_languages#:#من فضلك اختر لغات أضافيهّ  كذلك/او حذف لغات اخرى
+choose_password#:#من فضلك اختر كلمة السر
+city#:#المدينة
+client#:#العميل
+client_access_mode_changed#:#تم تغير حالة دخول العميل
+client_data#:#بينات العميل
+client_id#:#ID العميل
+client_info#:#وصف
+client_institution#:#منشأة
+client_login#:#أدخل ب ID العميل
+client_name#:#ألاسم
+client_setup_not_finished#:#تركيب العميل لم ينته بعد
+contact#:#بينات الاتصال
+contact_data#:#بينات الاتصال الخاصة بمدير النظام
+convert_path#:#مسار التغير
+convert_path_comment#:#ضروري لاظهار الصور
+could_not_create_logfile#:#عدم امكانيه أنشاؤ ملف الدخول
+country#:#الدولة
+create#:#تخليق
+create_datadir_failed#:#أخفاق انشاء دليل البيانات
+create_new_client#:#أنشاء عميل جديد
+create_webdir_failed#:#أخفاق أنشاء دليل ال WEB
+data_path#:#مسار البيانات
+database#:#قاعدة البيانات
+database_create#:#أنشاء قاعدة البيانات
+database_exists#:#قاعدة البيانات موجده من قبل
+database_install#:#تثبيت تقاعدة البيانات
+database_installed#:#تم تثبيت قاعده البيانات
+database_is_uptodate#:#تم تحديث قاعدة البيانات الخاصه
+database_needs_update#:#قاعدة البيانات الخاصه تحتاج الى تحديث
+database_not_exists_create_first#:#لاتوجد قاعدة بيانات, من فضلك أنشأءهااولا
+database_ready#:#قاعدة البيانات معده للاستخدام.
+database_update#:#تحديث قاعدة البيانات
+database_version#:#ألاصدار الحالى لقاعدة البيانات
+datadir_path#:#مسار دليل البيانات
+datadir_path_comment1#:#أجباري
+datadir_path_comment2#:#لايمكن التغير فى هذا اللاصدار
+datadir_webspacedir_match#:#المسار الى دليل البيانات يشير الى نفس المسار الخاص بدليل. من فضلك اختر دليل أخر web space
+date#:#التاريخ
+db_conn#:#الاتصال بقاعدة البيانات
+db_host#:#قاعدة البيانات  Host
+db_name#:#أسم قاعدة البيانات
+db_needs_update#:#قاعدة البيانات تحتاج الى تجديد
+db_pass#:#كلمة المرور لقاعدة البيانات
+db_type#:#نوع قاعدة البيانات
+db_user#:#مستخدم قاعدة البيانات
+db_version#اصدار قاعدة البيانات
+default#:#قياسى
+default_client_changed#:#تم تثبيت العميل
+default_language#:#الغة القياسيه
+delete#:#حذف
+delete_confirm#:#تاكيد حذف العميل
+delete_info#:#هل انت متاكد؟
+details#:#تفاصيل
+dir_exists_create#:#الدليل موجود من قبل, احذف الاختيار "تخليق" لكى تسطيع اختيار الدليل كدليل خاص بك
+disable#:#تعطيل
+disable_check#:#مراجعة التعطيل
+disable_logging#:#تعطيل التسجيل
+disabled#:#معطل
+display_clientlist#:#اظهار اختيار العميل
+email#:#البريد اللاكترونى
+email_not_valid#:#البريد اللاكترونى غير صالح
+en_by_default#:#(الغة الانكليزيه لغة قياسيه, لايمكن حذفها).
+enable#:#اظهار
+enabled#:#تم الاظهار
+enter_dir_and_filename#:#من فضلك ادخل المسار المحدد, وكذلك اسم الملف!
+enter_password#:#من فضلك ادخال كلمة المرور
+env_ok#:#Ok. يبدو ان كل شئ تمام.
+env_using#:#سيتم تشغيل ILIAS 3.
+env_warning#:#تم اختبار ILIAS 3 فقط على Linux و Windows باستخدام Apache web server!<br /> من ناحية أخرى يمكن استخدام ILIAS 3 بالمحيط الخاص بك ايضا.
+environment#:#المحيط
+err_create_database_failed#:#لم يمكن انشأء قاعدة البيانات
+err_wrong_login#:#بيانات الدخول غير سليمة
+error_recipient#:#أستلام خطأ
+feedback_recipient#:#رجوع المستلم
+file_does_not_exist#:#الملف غير موجود.
+file_version#:#أصدار الملف
+fill_both_fields#:#من فضلك أملاء المجالين!
+fill_out_required_fields#:# من فضلك املاء جميع المجلات المشار اليها بانها ضروريه
+filled_out#:#التسجيل تم بنجاح
+finish#:#أنهى الاعداد
+finish_initial_setup_first#:#من فضلك ,أنهى الاعداد الاولى اولا
+finish_setup#:#أنتهاء الاعداد
+firstname#:#الاسم 
+fop_path#:#مسار الى FOP
+fop_path_comment#:#ضرورى لانتاج الوثأق من نوع PDF
+hide_clientlist#:#أخفاء أختيار العميل
+host#:#Host
+htmldoc_path#:#مسار الى HTMLdoc
+htmldoc_path_comment#:#ضرورى لانتاج الوثأق من نوع PDF
+http_path#:#مسار HTTP
+id#:#ID
+ilias_homepage#:#ILIAS Homepage
+ilias_nic#:#تسجيل NIC
+ilias_nic_id#:#NIC ID
+ilias_setup#:#الاعداد ل ILIAS 3
+ilias_version#:#أصدار ILIAS 
+info_text_contact#:#من فضلك أضافة و تدوين معلومات عن العميل والتركيب, كذلك بياناتمدير النظام حتى يتثنى لنا الاتصال به. جميع المعلومات سيتم تخزيناها بقاعدة البيانات الخاصة بك.من خلال خطوات التركيب القادمة ,لديك الامكانية لتسجيل التركيب الخاص بك وذلك بواسطة ILIAS-NIC.
+info_text_db#:#قاعدة البيانات غير موجوده او فارغة.أضغط على ال button السفلى حتى يتثنى لك تثبيتها.من فضلك أشر على الاختيار "خلق قاعدة البيانات",فى حالة عدم وجود قاعدة بيانات أخرى بنفس الاسم.برنامج الاعداد سيتولى تلقاءيا مهمة أنشاء قاعدة البيانات.أذا لم يتم أنشاء قاعدة البيانات بنجاح وذلك بسبب السماحية المحدوده لك للقيام بهذه المهمة,يرجى الاتصال بمدير النظام المسؤل بهذا العمل,لكى ينشأء القاعدة لك.
+info_text_delete#:#يمكنك حذف هذا التركيب,اذا تم الضغط على ال button السفلى.سيتم فقط حذف الملف التمهيدى دون المساس بقاعدة البيانات و الملفات الاخرى ,حيث لابد من حذفهم يدويا بواسطة مذير النظام.
+info_text_finish1#:#مبروك ! الاعداد و التثبيت تم بنجاح. أضغط على "دخول" للدخول الى ILIAS.
+info_text_finish2#:# أحد او بعض خطوات التثبيت لم تتم بنجاح. من فضلك قم بمراجعة مخطط التشغيل فى الجة اليمنى.
+info_text_first_client#:#تم تخزين الترتيب الاساسى الخاص بك.سيتم الان تثبيت العميل الاول.برنامج العداد سيقم بأرشادك أثناء عملية العداد و التثبيت.فى الاطار الايمن تستطيع رؤية و ملاحظة حالة الاعداد و التركيب. 
+info_text_first_install#:#هذه هى المرة الاولى لتثبيت ILIAS 3, عليه لابد من اجراء عدة خطوات لحماية ILIAS من الدخول غير المشروع.
+info_text_ini#:#من فضلك حدد اسم العميل ID.جميع الحروف والاعداد مسموح بها,عدا علامات التشكيل.<br />أدخل البيانات المطلوبه للدخول الى  قاعدة البيانات.برنامج الاعداد والتركيب سيقوم باختبار الاتصال بقاعدة البيانات فى ضوء البيانات المعطاة منك أليه,وكذلك التأكد من وجود أو عدم وجود القاعدة.يمكنك أيضا فى الخطوة القادمة,تكليف البرنامج نتخليق أو أنشأء قاعدة البيانات لك. 
+info_text_lang#:#من فضلك اختر لغات أضافيهّ  كذلك/او حذف لغات اخرى.من خلال التأشير على الاختيار "قياسى" سيتم تثبيت الغة المختارة كلغة قياسية لك و لكل مستخدم لم يختر لغة أخرى.
+info_text_list#:#من خلال هذا المختصر,تستطيع رؤية و معرفة حالة الاعدادات والتركيبات المتاحة.فى أقصى الجهة اليمنى تستطيع هظهار او اخفاء اختيار العميل.أذا تم أختيار أظهار العميل,فانه سيتم أظهار جميع العملاء المتاحين على صفحة النداية ل ILIAS "index".أذا تم تأشير الاختيار"عدم اظهار العميل",واراد المستخدم اظهار صفحة البداية,ستكون شاشة الدخول<i>قياسى</i> للعميل غير ظاهرة.يمكنك تحديد العميل القياسى من خلال الضغط على ال button السفلى.
+info_text_login#:#برجاء أدخل البيانات المطلوبة,ID-العميل و كذلك بيانات الحساب الخاص بك. حسابك لابدان يكون موكل بنفس حقوق مدير النظام.
+info_text_nic1#:#عند تسجيل العداد و التركيب الخاص بك من خلال الحاسوب"ILIAS-NIC-Server", فانك تحصل على (nic-id)وحيد (متفرد(.يمكنك التسجيل او عدم التسجيل.لكنه من الافضل التسجيل .اذا واجهت اى مشكلة لسبب م(مثل انك خلف جدار حماية),من فضلك أرسلها الى 
+info_text_nic2#:#ilias-info@uni-koeln.de .بعد أستلامك ل nic-id الخاص بك عن طريق البريد الالكترونى,برجاء ادخاله فى المجال المخصص له مع أختيار وسيلة التسجيل "البريد الالكترونى".
+info_text_nic3#:#لقد قمت بتسجيل اللاعداد و التركيب الخاص بك. هذا هو nic-idالخاص بك. 
+info_text_password#:#يمكنك هنا تغير كلمة السر الخاصة بمدير النظام,التى تستخدم فى برنامج الاعداد.
+info_text_pathes#:#ILIAS 3 يدعم تعدد العملاء بعدة قاعدات بيانات مختلفة.بالاسفل يتم تحديد دليل البيانات الاساسى, المسار الى ملف سجل المعلومات و كذلك موقع المورد الثالث للبرامج.هذه الاعدادات ملزمة لكل العملاء الذين يتم أنشأهم فيما بعد.
+ini_client_id_exists#:#يوجد عميل بنفس ال ID. من فضلك أختر ID اخر.
+ini_client_id_invalid#:#ال ID العميل يحتوى على حروف غير مسموح بها.
+ini_client_id_no_change#:#فى هذا الاصدار لايمكن تغير ID العميل بعد ان تم أنشأء دلائل العميل بنجاح.
+ini_client_id_too_long#:#عدد حروف ID العميل اكثر من المسموح به.
+ini_client_id_too_short#:#عدد حروف ID العميل اقل من المسموح به.
+ini_db_name_exists#:#الاسم موجود من قبل, من فضلك أختر أسم أخر لقاعدة البيانات.
+ini_no_client_id#:#لم يتم أدخال ID العميل.
+ini_no_db_host#:#أدخل اسم ال HOST.
+ini_no_db_name#:#أدخل اسم قاعدة البيانات.
+ini_no_db_user#:#أدخل اسم المستخدم.
+inifile#:#ملف تمهيدى
+inifile_can_write#:#برنامج اعداد و ترتيب ILIAS 3 يستطيع تخليق الملف التمهيدى.
+inifile_cannot_write#:#برنامج اعداد و ترتيب ILIAS 3 لايستطيع تخليق الملف التمهيدى.من فضلك تاكد من حقوق الكتابة الخاصة بك.
+inifile_content#:#الملف التمهيدى الخاص بك يحتوى على:
+inifile_exists#:#يوجد سابقا ملف تمهيدى.برجاء ملاحظة ,ان عملية العداد و التركيب الحالية ,ستمحو التركيب والاعدادات السابقة. 
+inifile_fill_all#:#برجاء ملئ جميع المجالات .
+inifile_firsttime#:#لايوجد ملف تمهيدى! يبدو انها المرة الاولى لتشغيل ILIAS 3.
+inifile_written#:#الملف التمهيدى تم حفظة بنجاح على ال Host الخاص بك.
+input_error#:#خطأ ادخال
+inst_identification#:#تعريف التجهيزات
+inst_name#:#اسم التجهيز او الاعداد
+install#:#ثبت او ركب
+installation#:#تثبيت او تركيب
+installed#:#تم التثبيت او التركيب
+institution#:#مؤسسة
+intro_install#:#هذه هى الصفحة الرئسيه لبرنامج الاعداد و التركيب لILIAS 3, من هنا تبدا مراحل التثبيت.
+ip_address#:#عنوان IP
+java_path#:#المسار الى JAVA
+java_path_comment#:#ضرورى ل SCORM Learning modules
+lang_cs#:#تشيكى
+lang_de#:#ألمانى
+lang_dk#:#دانمركى
+lang_en#:#أنكليزى
+lang_error_occurred#:#تم ايقاف العمل لحدوث خظأ.
+lang_es#:#أسبانى
+lang_fr#:#فرنسى
+lang_id#:#اندونسى
+lang_it#:#ايطالى
+lang_lt#:#لتوانى
+lang_min_one_language#:#لابد من تركيب لغة واجده على الاقل.
+lang_nl#:#هولندى
+lang_no#:#نرويجى
+lang_none_installed#:#لم يتم تثبيت الغة
+lang_not_installed_default#:#الغة المختارة كلغة قياسية غير موجودة!
+lang_pl#:#بولندى
+lang_pt#:#برتغالى
+lang_se#:#سويدى
+lang_ua#:#اكرانى
+lang_xx#:#تحديد المستخدم
+lang_zh#:#صينى
+langs_not_valid_not_installed#:#الغات التالية لم يتم تثبيتها, بسبب عدم صلاحية ملف الغة
+language#:#لغة
+languages#:#لغات
+languages_installed#:#الغة (ت) المثبتة
+lastname#:#أسم العائله
+list#:#قائمة
+list_disabled#:#أختيار العميل معطل
+list_enabled#:#أختيار العميل ممكن
+log_path#:#المسار الى ملف سجل المعلومات
+log_path_comment#:#أدخل أسم الملف. سيتم أبشا الملف.
+logged_out#:#أنت الان خارخ النظام
+logging#:#أستخدام النظام
+login#:#دخول
+login_invalid#:#بيانات الدخول غير صحيحة
+login_to_ilias#:#دخول الى ILIAS
+logout#:#خروج
+main_datadir_outside_webspace#:#دليل البيانات الرئيسى اكبر من المساحه ل web.
+missing_data#:#بيانات غير كاملة
+name#:#أسم 
+new#:#جديد
+next#:#التالى
+nic_not_disabled#:#لا NIC-ID & غير معطل
+nic_reg_disable#:#تخطى تسجيل ال NIC
+nic_reg_disable_comment#:#(التسجيل لاحقاً)
+nic_reg_disabled#:#تسجيل ال NIC معطل
+nic_reg_email#:#تسجيل بواسطةالبريدالكترونى
+nic_reg_enabled#:#تسجيل ال NIC ممكن
+nic_reg_enter_checksum#:#مجموعة الضبط للتاكد
+nic_reg_enter_correct_id#:#برجاء ادخال ال nic_id الصحيح
+nic_reg_enter_id#:#تاكد من NIC ID
+nic_reg_failed#:#اخفاق تسجيل ال NIC
+nic_reg_online#:#التسجيل عبر اللانترنت
+nic_registration#:#تسجيل NIC
+no_changes#:#لايوجد تغيرات.
+no_client_id#:#لم يتم ادخال ID العميل
+no_client_name#:#لم يتم ادخال أسم العميل
+no_clients_available#:#لايوجد عملاء
+no_database#:#لايوجد قاعدة بيانات
+no_db_connect_consult_admin#:#لم يمكن الاتصال بقاعدة البيانات. من فضلك ألجئ الى مدير النظام
+no_db_update_file#:#ملف dbupdate.php غير موجود!
+no_password#:#لم يتم أدخال كلمة سر
+no_path_convert#:#لم يتم ادخال مسار التحويل
+no_path_datadir#:#لم يتم ادخال دليل البيانات
+no_path_fop#:#لم يتم ادخال مسار FOP
+no_path_given#:#لم يتم ادخال مسار 
+no_path_htmldoc#:#لم يتم ادخال مسار HTMLdoc
+no_path_java#:#لم يتم ادخال مسار JAVA
+no_path_log#:#لم يتم ادخال مسار سجل المعلومات
+no_path_unzip#:#لم يتم ادخال مسار unzip
+no_path_zip#:#لم يتم ادخال مسار zip
+no_setup_pass_given#:#لم يتم ادخالِ كلمة سر
+no_username#:#لم يتم ادخال أسم المستخدم
+no_valid_client_id#:#ID العميل غير مسموح به
+not_connected_to_db#:#أنت غير متصل بقاعدة البيانات
+online#:#online
+or#:#أو
+out_of_webspace#:#(خارج حيز مساحة ال web)
+overall_status#:#الحالة العامة
+overview#:#نظرة عامة
+pass_does_not_match#:#كلمات السر المعطاه غير متطابقين
+password#:#كلمة السر
+password_changed#:#تم تغير كلمة السر.
+password_enter_old#:#لابد من ادخال كلمة السر القديمة اولاً
+password_info#:#برجاء ادخال كلمة السر ,لكى تتمكن من حماية البيانات الخاصة بك.
+password_new_master#:#تغير كلمة السر لمدير النظام
+password_not_match#:#كلمة السر الجديدة غير مطابفة !
+password_old_wrong#:#كلمة السر القديمة غير صحيحة!
+password_retype#:#اعادة ادخال كلمة السر
+password_same#:#كلمة السر الجديدة مطابقة للقديمة
+password_set#:#تم حفظ كلمة السر
+path_not_set#:#لم يتم تحديد المسار
+path_to_convert#:#مسار التحويل
+path_to_fop#:#مسار ال FOP
+path_to_htmldoc#:#مسار ال HTMLdoc
+path_to_java#:#مسار ال JAVA
+path_to_unzip#:#مسار ال unzip
+path_to_zip#:#مسار ال zip
+pathes#:#المسارات
+phone#:#تليفون
+port#:#منفذ
+position#:#موضع او مكان
+pre_cookies_disabled#:#Cookies معطلة,Cookies ضروريه لكي تتمكن من استخدام ILIAS 3.
+pre_cookies_enabled#:#Cookies ممكنة 
+pre_error#:#شئ او شئين ناقصين, من فضلك اصلاح الخطاء اولاً, حتى تتمكن من اعداد و تثبيت  ILIAS 3.
+pre_folder_create#:#أنشأء مجلدات جديدة داخل مجلد ILIAS 3
+pre_folder_create_error#:#لايمكن أنشأء المجلدات الفرعية! من فضلك تاكد من الاذن او الاجازة الممنوحه لك داخل  الملف.
+pre_folder_write#:#أمر كتابة مجلد ILIAS 3
+pre_folder_write_error#:#لايمكن الكتابة داخل مجلد ILIAS 3 ! من فضلك تاكد من الاذن او الاجازة الممنوحه لك داخل  الملف.
+pre_intro#:#دعنا نتأكد اولاً, أن تجهيزات نظامك تتوافق مع الامتطلبات الضرورية لتركيب وتشغيل ILIAS 3.
+pre_javascript_comment#:#بامكانك تشغيل ILIAS بدون JavaScript, لكن عندئذً ستفقد بعض الميزات.
+pre_javascript_enabled#:#JavaScript ممكنة
+pre_php_version#:#PHP أصدار
+pre_php_version_3#:#أصدار PHP قديم لايمكن استخدامة مع ILIAS 3. من فضلك حدث ألاصدار الحالى من PHP.
+pre_php_version_4.1#:#أحد أصناف PEAR لن تستطيع العمل مع هذا ألاصدار من PHP. برجاء تحديث أصدار PHP.
+pre_php_version_4.2#:#دعم DOMXML و XSLT لن تستطيع العمل مع هذا ألاصدار من PHP.
+pre_php_version_5#:#لم يتم بعد أختبار ILIAS 3 مع PHP 5 . يمكن استخدامة لاكن على مسؤليتك الخاصة.
+pre_php_version_unknown#:#برنامج اللاعداد و التثبيت ل ILIAS استخدامة لاكن على مسؤليتك الخاصة.
+preliminaries#:#تمهيدات
+prev#:#السابق
+required_field#:#المجالات المطلوبة
+reset#:#أعادة ضبط
+root_access#:#منفذ/مدخل مديري النظام فقط
+safe_mode_enabled#:#نمط أمن ممكن
+save#:#حفظ
+save_error#:#خطاء حفظ!
+saved_successfully#:#حفظ بنجاح
+select_client#:#أختر عميل
+server_info#:#معلومات عن ILIAS-SERVER
+server_software#:#برامج الحاسوب
+set_default_client#:#وضع/حدد العميل القياسى
+set_newpasswd#:#برجاء أدخال كلمة السر الجديدة
+set_oldpasswd#:#برجاء أدخال كلمة السر القديمة
+settings_changed#:#تم تغير المحيط
+settings_saved#:#تم حفظ المحيط
+setup#:#أعداد و تثبيت
+setup_basic_settings#:#تثبيت العدادات الاساسية
+setup_contact_data#:#بيانات الاتصال
+setup_database#:#تثبيت و اعداد قاعدة البيانات
+setup_database_desc#:#ثبت قاعدة البيانات
+setup_db_first#:#من فضلك قم بتثبيت قاعدة لبيانات اولاً!
+setup_finished#:#تم التثبيت
+setup_first_client#:#ثبت العميل الاول
+setup_ini_first#:#برجاء أنشاء الملف التمهيدى أولاً!
+setup_inifile#:#أنشاء ملف تمهيدى
+setup_inifile_desc#:#أنشاء الملف التمهيدى للتثبيت الخاص بك
+setup_languages#:#تركيب اللغات
+setup_languages_desc#:#تركيب لغات أضافية
+setup_login#:#دخول الى التثبيت
+setup_mainmenu#:#القائمة الرئيسية للتثبيت
+setup_menu#:#قائمة التثبيت
+setup_nic_desc#:#تسجيل التركيب الخاص بك على ILIAS-NIC-Server.
+setup_not_finished#:#التثبيت لم ينتهى بعد
+setup_pass#:#كلمة السر
+setup_pass2#:#اعد كتابة كلمة السر
+setup_pass_title#:#حدد كلمة السر الرئيسية
+setup_password#:#تخليق كلمة السر
+setup_password_desc#:#أنشاء كلمة سر,لكى تتمكن من أجراء و مواصلة عملىة التثبيت لاحقاً.(مثل تجديد او تحديث قاعدة البيانات)
+setup_process_status#:#حالة مرحلة التثبيت
+setup_process_step_contact#:#أدخل بيانات الاتصال
+setup_process_step_db#:#ركب/جدد/حدث قاعدة البيانات
+setup_process_step_finish#:#أنهاء التثبيت و التركيب
+setup_process_step_ini#:#بيانات التثبيت الرئيسية
+setup_process_step_lang#:#تركيب نظام اللغات
+setup_process_step_nic#:#تسجيل على ILIAS-NIC
+setup_ready#:#تم التثبيت بنجاح.تستطيع الان الدخول الى ILIAS 3, و مراجعة الاعدادات الاضافية للنظام
+setup_welcome#:#مرحباً  بك  لتثبيت و أعداد ILIAS 3. هذه العملية سوف تساعدك على
+sort_by_this_column#:#تصنيف حسب هدا العمود
+status#:#حالة
+step#:#خطوة
+street#:#شارع
+submit#:#أرسل
+title#:#عنوان
+unknown_client_id#:#عميل غير معروف
+unknown_command#:#أمر غير معروف
+unknown_display_mode#:#نظام عرض غير معروف
+unzip_path#:#مسار الى Unzip
+unzip_path_comment#:# ضرورى لاجتلاب ال modules التعليمية
+update_applied#:#نفذ التحديث
+update_error#:#حدوث خظأء اثناء التحديث
+update_not_found#:#لايوجد تحديث!
+username#:#أسم المستخدم
+version#:#أصدار
+webspace_dir#:#مسار الى بيانات web space
+with#:#مع
+wrong_password#:#كلمة السر خظأ!
+zip_path#:#مسار الى Zip
+zip_path_comment#:#ضرورى لتوريد ال modules التعليمية
+zipcode#:#نظام ال Zip
