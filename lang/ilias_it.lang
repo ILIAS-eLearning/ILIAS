@@ -204,6 +204,9 @@ common#:#err_session_expired#:#La sessione &egrave; scaduta!###04 Aug 2003 new v
 common#:#err_wrong_header#:#Causa: errata intestazione.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#Tentativo di accesso errato
 common#:#error_recipient#:#Destinatario per gli errori
+common#:#exc#:#Exercise###07 Nov 2003 new variable
+common#:#exc_add#:#Add Exercise###07 Nov 2003 new variable
+common#:#exc_added#:#Exercise added###07 Nov 2003 new variable
 common#:#exc_ask_delete#:#Delete file?###06 Nov 2003 new variable
 common#:#exc_assign_usr#:#Assign User###06 Nov 2003 new variable
 common#:#exc_date_not_valid#:#The date is not valid###06 Nov 2003 new variable
@@ -212,19 +215,24 @@ common#:#exc_edit#:#New exercise created###06 Nov 2003 new variable
 common#:#exc_edit_exercise#:#Edit exercise###06 Nov 2003 new variable
 common#:#exc_edit_until#:#Edit until###06 Nov 2003 new variable
 common#:#exc_files#:#Files###06 Nov 2003 new variable
+common#:#exc_groups#:#Groups###07 Nov 2003 new variable
 common#:#exc_header_members#:#Exercise(members)###06 Nov 2003 new variable
 common#:#exc_instruction#:#Work instructions###06 Nov 2003 new variable
+common#:#exc_members_already_assigned#:#These user are already assigned to this exercise###07 Nov 2003 new variable
 common#:#exc_members_assigned#:#Members assigned###06 Nov 2003 new variable
+common#:#exc_new#:#New exercise###07 Nov 2003 new variable
 common#:#exc_no_members_assigned#:#No members assigned###06 Nov 2003 new variable
 common#:#exc_notices#:#Notices###06 Nov 2003 new variable
 common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
 common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
+common#:#exc_search_for#:#Search for###07 Nov 2003 new variable
 common#:#exc_send_exercise#:#Send exercise###06 Nov 2003 new variable
 common#:#exc_sent#:#The exercise has been sent to the selected users###06 Nov 2003 new variable
 common#:#exc_status_returned#:#Returned###06 Nov 2003 new variable
 common#:#exc_status_saved#:#Exercise updated###06 Nov 2003 new variable
 common#:#exc_status_solved#:#Solved###06 Nov 2003 new variable
 common#:#exc_upload_error#:#Error uploading file###06 Nov 2003 new variable
+common#:#exc_users#:#Users###07 Nov 2003 new variable
 common#:#execute#:#Esegui
 common#:#export_html#:#Esporta come file html###09 May 2003 new variable
 common#:#export_xml#:#Esporta come file xml###09 May 2003 new variable

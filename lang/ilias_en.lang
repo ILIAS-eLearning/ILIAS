@@ -206,6 +206,9 @@ common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#error_recipient#:#Error Recipient
+common#:#exc#:#Exercise
+common#:#exc_add#:#Add Exercise
+common#:#exc_added#:#Exercise added
 common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
 common#:#exc_date_not_valid#:#The date is not valid
@@ -214,19 +217,24 @@ common#:#exc_edit#:#New exercise created
 common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_until#:#Edit until
 common#:#exc_files#:#Files
+common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise(members)
 common#:#exc_instruction#:#Work instructions
+common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
+common#:#exc_new#:#New exercise
 common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
 common#:#exc_save_changes#:#Save
+common#:#exc_search_for#:#Search for
 common#:#exc_send_exercise#:#Send exercise
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_returned#:#Returned
 common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_solved#:#Solved
 common#:#exc_upload_error#:#Error uploading file
+common#:#exc_users#:#Users
 common#:#execute#:#Execute
 common#:#export_html#:#export as html file
 common#:#export_xml#:#export as xml file
@@ -1717,11 +1725,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#exc_users#:#Users
-common#:#exc_groups#:#Groups
-common#:#exc_search_for#:#Search for
-common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
-common#:#exc#:#Exercise
-common#:#exc_new#:#New exercise
-common#:#exc_add#:#Add Exercise
-common#:#exc_added#:#Exercise added
