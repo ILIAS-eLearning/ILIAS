@@ -154,25 +154,19 @@ class RoleObject extends Object
 	**/
 	function editObject()
 	{
-		global $tplContent, $rbacsystem;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
-			$tplContent->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
-									 "&parent_parent=".$_GET["parent_parent"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
-			$tplContent->setVariable("CMD","update");
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-
-			$obj = getObject($_GET["obj_id"]);
-			$tplContent->setVariable("TYPE",$obj["type"]);
-
-			$tplContent->setVariable("OBJ_ID",$obj["obj_id"]);
-			$tplContent->setVariable("OBJ_TITLE",$obj["title"]);
-			$tplContent->setVariable("OBJ_DESC",$obj["desc"]);
+			$obj = getObject($this->id);
+			
+			$data = array();
+			$data["fields"] = array();
+			
+			$data["cmd"] = "update";
+			$data["title"] = $obj["title"];
+			$data["desc"] = $obj["desc"];
+			return $data;
 		}
 		else
 		{
@@ -204,7 +198,7 @@ class RoleObject extends Object
 	* show permission templates of role object
 	* @access	public
 	**/
-	function permObject() 
+	function permObject()
 	{
 		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
@@ -214,22 +208,6 @@ class RoleObject extends Object
 			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
 			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
 
-//			$tabs = new Tabs();
-			
-			//show tabs
-			$o = array();
-			$o["LINK1"] = "content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"];
-			$o["LINK2"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=edit";
-			$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm";
-			$o["LINK4"] = "./object.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]."&cmd=owner";
-			$tpl->setVariable("TABS", TUtil::showTabs(3,$o));	
-
-			//show locator
-			$tpl->setCurrentBlock("locator");
-			$tpl->setVariable("TXT_PATH", $lng->txt("path"));
-			$tpl->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
-			$tpl->parseCurrentBlock();
-						
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES
 			$tpl->setCurrentBlock("OBJECT_TYPES");

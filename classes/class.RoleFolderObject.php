@@ -50,9 +50,9 @@ class RoleFolderObject extends Object
 					//control information
 					$this->objectList["ctrl"][] = array(
 						"type" => $val["type"],
-						"obj_id" => $val["id"],
-						"parent" => $val["parent"],
-						"parent_parent" => $val["parent_parent"],
+						"obj_id" => $val["obj_id"],
+						"parent" => $this->id,
+						"parent_parent" => $this->parent,
 					);
 				}
 			} //if userdata

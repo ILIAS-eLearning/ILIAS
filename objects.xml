@@ -123,6 +123,11 @@
 	<property cmd="owner">show_owner</property>
 	<action cmd="delete">delete</action>
 </object>
+<object name="usr">
+	<property cmd="edit">edit_properties</property>
+	<property cmd="perm">perm_settings</property>
+	<property cmd="owner">show_owner</property>
+</object>
 <object name="rolf">
 	<subobj>rolt</subobj>
 	<subobj>role</subobj>
@@ -131,6 +136,11 @@
 	<property cmd="perm">perm_settings</property>
 	<property cmd="owner">show_owner</property>
 	<action cmd="delete">delete</action>
+</object>
+<object name="role">
+	<property cmd="edit">edit_properties</property>
+	<property cmd="perm">perm_settings</property>
+	<property cmd="owner">show_owner</property>
 </object>
 <object name="objf">
 	<subobj>type</subobj>
