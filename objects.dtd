@@ -1,4 +1,6 @@
-<!ENTITY % objecttype "adm | cat | crs | file | frm | grp | le | lo | lng | lngf | mail | objf | role | rolf | rolt | usr | usrf">
+<!ENTITY % objecttype "adm | cat | crs | dat | datf | fav | favf | file | frm | grp | le | lo | lng | lngf | mail | note | notf | objf | role | rolf | rolt | typ | usr | usrf | root">
+<!ENTITY % propertytype "view | edit | perm | owner | trash | members">
+<!ENTITY % actiontype "add | cut | copy | paste | delete | clear | link | import | install | uninstall | refresh | setsyslang | setuserlang | checklang">
 
 <!ELEMENT objects (object*)>
 <!ATTLIST objects
@@ -10,9 +12,10 @@
 <!ATTLIST object
 	name (%objecttype;) #REQUIRED
     class_name CDATA #IMPLIED
+    checkbox CDATA #REQUIRED 
 >
 
-<!ELEMENT subobj (%objecttype;)>
+<!ELEMENT subobj (#PCDATA)>
 <!ATTLIST subobj
 	name (%objecttype;) #REQUIRED
 	max CDATA #IMPLIED
@@ -20,10 +23,10 @@
 
 <!ELEMENT property (#PCDATA)>
 <!ATTLIST property
-	name (%objecttype;) #REQUIRED
+	name (%propertytype;) #REQUIRED
 >
 
 <!ELEMENT action (#PCDATA)>
 <!ATTLIST action
-	name (%objecttype;) #REQUIRED
+	name (%actiontype;) #IMPLIED
 >
