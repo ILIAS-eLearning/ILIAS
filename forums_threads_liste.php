@@ -61,6 +61,7 @@ $frm =& $forumObj->Forum;
 
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
+$ilCtrl->getCallStructure(strtolower("ilObjForumGUI"));
 
 if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))
 {

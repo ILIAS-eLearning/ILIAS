@@ -22,7 +22,8 @@
 */
 
 /**
-* This class provides processing control methods
+* This class provides processing control methods.
+* A global instance is available via variable $ilCtrl
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -37,7 +38,7 @@ class ilCtrl
 	var $return;			// return commmands
 
 	/**
-	*
+	* control class constructor
 	*/
 	function ilCtrl()
 	{
@@ -45,22 +46,34 @@ class ilCtrl
 
 		$this->bench =& $ilBench;
 		$this->transit = array();
-//echo "<br><br>:".$_GET["cmdTransit"].":";
+
+		/*
 		if (is_array($_GET["cmdTransit"]))
 		{
 			foreach($_GET["cmdTransit"] as $transClass)
 			{
-//echo "<br>:$transClass:";
 				$this->transit[] = strtolower($transClass);
 			}
-		}
+		}*/
+
 		$this->location = array();
 		$this->tab = array();
 		$this->current_node = 0;
 
 	}
 
-	function forwardCommand(&$a_gui_object)
+
+	/**
+	* forward flow of control to next gui class
+	* this invokes the executeCommand() method of the
+	* gui object that is passed via reference
+	*
+	* @param	object		$a_gui_object		gui object that should receive
+	*											the flow of control
+	*
+	* @return	mixed		return data of invoked executeCommand() method
+	*/
+	function &forwardCommand(&$a_gui_object)
 	{
 		$class = get_class($a_gui_object);
 //echo "<br>wanna forward from :".$this->current_node.": to :$class:";
@@ -75,6 +88,28 @@ class ilCtrl
 //echo "end forward<br>";
 	}
 
+
+	/**
+	* Searchs a node for a given class ($a_class) "near" the another
+	* node ($a_par_node).
+	*
+	* It first looks if the given class is a child class of the current node.
+	* If such a child node has been found, its id is returned.
+	*
+	* If not, this method determines wether the given class is a sibling
+	* of the current node within the call structure. If this is the case
+	* then the corresponding id is returned.
+	*
+	* At last the methode searchs for the given class along the path from
+	* the current node to the root class of the call structure.
+	*
+	* @param	$a_par_node		id of starting node for the search
+	* @param	$a_class		class that should be searched
+	*
+	* @access	private
+	*
+	* @return	int				id of target node that has been found
+	*/
 	function getNodeIdForTargetClass($a_par_node, $a_class)
 	{
 		$class = strtolower($a_class);
@@ -122,11 +157,17 @@ class ilCtrl
 		echo "ERROR: Can't find target class $a_class for node $a_par_node.<br>"; exit;
 	}
 
+	/**
+	* get command target node
+	*
+	* @return	int		id of current command target node
+	*/
 	function getCmdNode()
 	{
 		return $_GET["cmdNode"];
 	}
 
+	/*
 	function getNextTransit()
 	{
 		reset($this->transit);
@@ -134,13 +175,12 @@ class ilCtrl
 		{
 			if ($transClass != "")
 			{
-//echo "<br><br>".$transClass;
 				return strtolower($transClass);
 			}
 		}
 
 		return false;
-	}
+	}*/
 
 	function addLocation($a_title, $a_link, $a_target = "")
 	{
@@ -272,6 +312,11 @@ class ilCtrl
 
 	/**
 	* set parameters that must be saved in forms an links
+	*
+	* @param	object	$a_obj		 command object for that the parameter should be saved
+	*								 between multiple http requests
+	* @param	string	$a_parameter parameter name
+	* @access	public
 	*/
 	function saveParameter(&$a_obj, $a_parameter)
 	{
@@ -289,8 +334,8 @@ class ilCtrl
 	}
 
 	/**
-	* set a parameter (note: if this is also a saved parameter, the saved
-	* value will be overwritten)
+	* Set a parameter (note: if this is also a saved parameter, the saved
+	* value will be overwritten).
 	*/
 	function setParameter(&$a_obj, $a_parameter, $a_value)
 	{
@@ -298,8 +343,8 @@ class ilCtrl
 	}
 
 	/**
-	* set a parameter (note: if this is also a saved parameter, the saved
-	* value will be overwritten)
+	* Set a parameter (note: if this is also a saved parameter, the saved
+	* value will be overwritten).
 	*/
 	function setParameterByClass($a_class, $a_parameter, $a_value)
 	{
@@ -307,6 +352,14 @@ class ilCtrl
 	}
 
 
+	/**
+	* Get next class of the way from the current class
+	* to the target command class (this is the class that should
+	* be instantiated and be invoked via $ilCtrl->forwardCommand($class)
+	* next).
+	*
+	* @return	string		class name of next class
+	*/
 	function getNextClass()
 	{
 //echo "getNextClass:";
@@ -332,28 +385,15 @@ class ilCtrl
 		}
 	}
 
+
 	/**
-	* get next class
+	* get path in call structure
+	*
+	* @param	string		$a_source_node		source node id
+	* @param	string		$a_source_node		target node id
+	*
+	* @access	private
 	*/
-	/*
-	function getNextClass($a_gui_obj)
-	{
-//echo "<br>getNextClass::"; flush();
-		$path = array();
-		$this->getPath($path, get_class($a_gui_obj));
-
-		$next = $path[1];
-
-		if ($this->getNextTransit() == $next)
-		{
-			$this->removeTransit();
-		}
-//echo "<br><b>".get_class($a_gui_obj).":".$this->getCmdClass().":</b>";
-//foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
-		return $next;
-	}*/
-
-
 	function getPathNew($a_source_node, $a_target_node)
 	{
 //echo "-".$a_source_node."-";
@@ -386,6 +426,7 @@ class ilCtrl
 		return $path;
 	}
 
+	/*
 	function getPath(&$path, $a_class, $a_target_class = "", $a_transits = "")
 	{
 
@@ -429,14 +470,14 @@ class ilCtrl
 		$this->transit = $this->store_transit;
 //foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
 		$this->bench->stop("GUIControl", "getPath");
-	}
+	}*/
 
 	/**
 	* private
 	*/
+	/*
 	function searchNext(&$a_path, $a_class, $a_target_class, $c_path = "")
 	{
-//echo "SN($a_class)";
 		$a_target_class = strtolower($a_target_class);
 		$a_class = strtolower($a_class);
 
@@ -504,20 +545,30 @@ class ilCtrl
 			}
 		}
 		return false;
-	}
+	}*/
+
 
 	/**
-	* target script name
+	* set target script name
+	*
+	* @param	string		$a_target_script		target script name
 	*/
 	function setTargetScript($a_target_script)
 	{
 		$this->target_script = $a_target_script;
 	}
 
+
+	/**
+	* get target script name
+	*
+	* @return	string		target script name
+	*/
 	function getTargetScript()
 	{
 		return $this->target_script;
 	}
+
 
 	/**
 	* determines current get/post command
@@ -598,6 +649,13 @@ class ilCtrl
 		ilUtil::redirect($script);
 	}
 
+
+	/**
+	* redirect to other gui class
+	*
+	* @param	string		$a_class		command target class
+	* @param	string		$a_cmd			command
+	*/
 	function redirectByClass($a_class, $a_cmd = "")
 	{
 //echo "<br>class:".get_class($a_gui_obj).":";
@@ -606,6 +664,15 @@ class ilCtrl
 		ilUtil::redirect($script);
 	}
 
+
+	/**
+	* get link target for (current) gui class
+	*
+	* @param	object		$a_gui_obj		(current) gui object (usually $this)
+	* @param	string		$a_cmd			command
+	*
+	* @return	string		target link
+	*/
 	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
 	{
 //echo "<br>getLinkTarget";
@@ -613,6 +680,16 @@ class ilCtrl
 		return $script;
 	}
 
+
+	/**
+	* get link target for a target class
+	*
+	* @param	string		$a_class		command target class
+	* @param	string		$a_cmd			command
+	* @param	array		$a_transits		transit classes (deprecated)
+	*
+	* @return	string		target link
+	*/
 	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "", $a_prepend_transits = false)
 	{
 		//$a_class = strtolower($a_class);
@@ -687,15 +764,23 @@ class ilCtrl
 		ilUtil::redirect($script);
 	}
 
+
+	/**
+	* get current redirect source
+	*
+	* @return	string		redirect source class
+	*/
 	function getRedirectSource()
 	{
 		return $_GET["redirectSource"];
 	}
 
+
 	function getParentReturn(&$a_gui_obj)
 	{
 		return $this->getParentReturnByClass(get_class($a_gui_obj));
 	}
+
 
 	function getParentReturnByClass($a_class)
 	{
@@ -706,10 +791,11 @@ class ilCtrl
 		}
 	}
 
+	/**
+	* get current return class
+	*/
 	function searchReturnClass($a_class)
 	{
-		//$path = array();
-		//$this->getPath($path, strtolower($this->root_class), $a_class, $_GET["cmdTransit"]);
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);
 		$path = $this->getPathNew(1, $nr);
 //var_dump($path);
@@ -724,7 +810,6 @@ class ilCtrl
 		}
 
 		return false;
-
 	}
 
 	function getUrlParameters($a_class, $a_str, $a_cmd = "", $a_transits = "")
@@ -811,8 +896,6 @@ class ilCtrl
 			$target_class = $class;
 		}
 
-		// get root class
-		//$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);
 		$path = $this->getPathNew(1, $nr);
 		$params = array();
 

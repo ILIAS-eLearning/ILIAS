@@ -25,7 +25,7 @@ chdir("..");
 
 require_once "./include/inc.header.php";
 require_once "./chat/classes/class.ilObjChatGUIAdapter.php";
-
+$ilCtrl->getCallStructure(strtolower("ilObjChatGUI"));
 $chat_adapter =& new ilObjChatGUIAdapter($_GET["ref_id"],$_GET["cmd"]);
 
 $tpl->show();
