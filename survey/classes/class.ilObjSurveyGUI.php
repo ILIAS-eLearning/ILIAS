@@ -2053,38 +2053,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$_POST["export_format"] = TYPE_PRINT;
 		}
-
 		switch ($_POST["export_format"])
 		{
-			case (TYPE_SPSS || TYPE_PRINT):
-				$csvfile = array();
-				$csvrow = array();
-				array_push($csvrow, $this->lng->txt("title"));
-				array_push($csvrow, $this->lng->txt("question"));
-				array_push($csvrow, $this->lng->txt("question_type"));
-				array_push($csvrow, $this->lng->txt("users_answered"));
-				array_push($csvrow, $this->lng->txt("users_skipped"));
-				array_push($csvrow, $this->lng->txt("mode"));
-
-/* I commented it because there was no corresponding value for this column
-	   Muzaffar
-*/
-				//array_push($csvrow, $this->lng->txt("mode_text"));
-
-
-				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
-				array_push($csvrow, $this->lng->txt("median"));
-				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
-				array_push($csvrow, $this->lng->txt("geometric_mean"));
-				array_push($csvrow, $this->lng->txt("harmonic_mean"));
-				array_push($csvfile, $csvrow);
-				break;
 			case TYPE_XLS:
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
 				// sending HTTP headers
 				$workbook->send("$surveyname.xls");
-
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
 				$format_percent =& $workbook->addFormat();
@@ -2108,6 +2083,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$mainworksheet->write(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
 				$mainworksheet->write(0, 10, $this->lng->txt("geometric_mean"), $format_bold);
 				$mainworksheet->write(0, 11, $this->lng->txt("harmonic_mean"), $format_bold);
+				break;
+			case (TYPE_SPSS || TYPE_PRINT):
+				$csvfile = array();
+				$csvrow = array();
+				array_push($csvrow, $this->lng->txt("title"));
+				array_push($csvrow, $this->lng->txt("question"));
+				array_push($csvrow, $this->lng->txt("question_type"));
+				array_push($csvrow, $this->lng->txt("users_answered"));
+				array_push($csvrow, $this->lng->txt("users_skipped"));
+				array_push($csvrow, $this->lng->txt("mode"));
+
+				//array_push($csvrow, $this->lng->txt("mode_text"));
+
+
+				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
+				array_push($csvrow, $this->lng->txt("median"));
+				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
+				array_push($csvrow, $this->lng->txt("geometric_mean"));
+				array_push($csvrow, $this->lng->txt("harmonic_mean"));
+				array_push($csvfile, $csvrow);
 				break;
 		}
 
@@ -2160,6 +2155,30 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			switch ($_POST["export_format"])
 			{
+				case TYPE_XLS:
+					$mainworksheet->write($counter+1, 0, $data["title"]);
+					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
+					$mainworksheet->write($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
+					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
+					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
+					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
+					switch ($eval["QUESTION_TYPE"])
+					{
+						case "qt_metric":
+							$mainworksheet->write($counter+1, 5, $eval["MODE"]);
+							$mainworksheet->write($counter+1, 6, $eval["MODE"]);
+							break;
+						default:
+							$mainworksheet->write($counter+1, 5, $matches[1]);
+							$mainworksheet->write($counter+1, 6, $matches[2]);
+							break;
+					}
+					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
+					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
+					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
+					$mainworksheet->write($counter+1, 10, $eval["GEOMETRIC_MEAN"]);
+					$mainworksheet->write($counter+1, 11, $eval["HARMONIC_MEAN"]);
+					break;
 				case (TYPE_SPSS || TYPE_PRINT):
 					$csvrow = array();
 					array_push($csvrow, $data["title"]);
@@ -2185,30 +2204,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					array_push($csvrow, $eval["GEOMETRIC_MEAN"]);
 					array_push($csvrow, $eval["HARMONIC_MEAN"]);
 					array_push($csvfile, $csvrow);
-					break;
-				case TYPE_XLS:
-					$mainworksheet->write($counter+1, 0, $data["title"]);
-					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
-					$mainworksheet->write($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
-					$mainworksheet->write($counter+1, 3, $eval["USERS_ANSWERED"]);
-					$mainworksheet->write($counter+1, 4, $eval["USERS_SKIPPED"]);
-					preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
-					switch ($eval["QUESTION_TYPE"])
-					{
-						case "qt_metric":
-							$mainworksheet->write($counter+1, 5, $eval["MODE"]);
-							$mainworksheet->write($counter+1, 6, $eval["MODE"]);
-							break;
-						default:
-							$mainworksheet->write($counter+1, 5, $matches[1]);
-							$mainworksheet->write($counter+1, 6, $matches[2]);
-							break;
-					}
-					$mainworksheet->write($counter+1, 7, $eval["MODE_NR_OF_SELECTIONS"]);
-					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
-					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
-					$mainworksheet->write($counter+1, 10, $eval["GEOMETRIC_MEAN"]);
-					$mainworksheet->write($counter+1, 11, $eval["HARMONIC_MEAN"]);
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
