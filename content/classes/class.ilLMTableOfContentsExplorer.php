@@ -66,7 +66,18 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		$this->setFilterMode(IL_FM_POSITIVE);
 
 
-		$this->setFrameTarget("_top");
+                // Determine whether the view of a learning resource should
+                // be shown in the frameset of ilias, or in a separate window.
+                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+                if ($showViewInFrameset) 
+                {
+                    $this->setFrameTarget("bottom");
+                }
+                else
+                {
+                    $this->setFrameTarget("_top");
+                }
 
 	}
 
@@ -97,7 +108,18 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
-		return "_top";
+                // Determine whether the view of a learning resource should
+                // be shown in the frameset of ilias, or in a separate window.
+                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+                if ($showViewInFrameset) 
+                {
+                    return "bottom";
+                }
+                else
+                {
+                    return "_top";
+                }
 	}
 
 	function isClickable($a_type, $a_obj_id)

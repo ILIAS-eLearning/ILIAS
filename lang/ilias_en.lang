@@ -864,6 +864,7 @@ common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
 common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
+common#:#open_views_inside_frameset#:#Open views inside frameset
 common#:#delete#:#Delete
 common#:#delete_all#:#Delete All
 common#:#delete_all_rec#:#Delete all records

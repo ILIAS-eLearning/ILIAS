@@ -99,6 +99,10 @@ class ilPersonalDesktopGUI
 
 		$items = $this->ilias->account->getDesktopItems($a_type);
 
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 		if (count($items) > 0)
 		{
 			$tstCount = 0;
@@ -175,8 +179,16 @@ class ilPersonalDesktopGUI
 				{
 					$tpl->setCurrentBlock("continue_link");
 					$tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
-					$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
-					//$tpl->setVariable("TARGET_CONTINUE", "bottom");
+
+					if ($showViewInFrameset) 
+					{
+						$tpl->setVariable("TARGET_CONTINUE", "bottom");
+					}
+					else
+					{
+						$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
+					}
+
 					$tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
 					$tpl->setVariable("IMG_CONTINUE", ilUtil::getImagePath("nav_arr_R.gif"));
 					$tpl->parseCurrentBlock();
@@ -271,8 +283,14 @@ class ilPersonalDesktopGUI
 					$tpl->setCurrentBlock("show_link");
 					$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
 					$tpl->setVariable("LINK_SHOW", $item["link"]);
-					$tpl->setVariable("TARGET_SHOW", $item["target"]);
-					//$tpl->setVariable("TARGET_SHOW", "bottom");
+					if ($showViewInFrameset) 
+					{
+						$tpl->setVariable("TARGET_SHOW", "bottom");
+					}
+					else
+					{
+						$tpl->setVariable("TARGET_SHOW", $item["target"]);
+					}
 					$tpl->parseCurrentBlock();
 				}
 				else

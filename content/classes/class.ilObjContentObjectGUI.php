@@ -722,6 +722,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -744,7 +748,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
 		}
-		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+                if ($showViewInFrameset) 
+                {
+        		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+                }
+                else
+                {
+        		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+                }
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
@@ -1877,11 +1888,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
 		$tpl_menu->setCurrentBlock("lm_menu_btn");
 
+                // Determine whether the view of a learning resource should
+                // be shown in the frameset of ilias, or in a separate window.
+                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+
+                if ($showViewInFrameset) 
+                {
+                    $buttonTarget = "bottom";
+                }
+                else
+                {
+                    $buttonTarget = "_top";
+                }
+
 		if ($this->object->isActiveTOC())
 		{
 			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showTableOfContents&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_contents"));
-			$tpl_menu->setVariable("BTN_TARGET", "_top");
+                        $tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
 		}
 
@@ -1889,7 +1913,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showPrintViewSelection&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("cont_print_view"));
-			$tpl_menu->setVariable("BTN_TARGET", "_top");
+                        $tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
 			$tpl_menu->parseCurrentBlock();
 		}
 

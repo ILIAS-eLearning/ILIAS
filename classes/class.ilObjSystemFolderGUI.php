@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.37 2004/08/09 18:22:33 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.38 2004/09/15 23:52:30 bblackmoor Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -385,6 +385,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						$this->ilias->ini->setVariable("layout","style",$sknst[1]);
 					}
 				}
+                                // set default view target
+                                if ($_POST["open_views_inside_frameset"] == "1")
+                                {
+                                    $this->ilias->ini->setVariable("layout","view_target","frame");
+                                }
+                                else
+                                {
+                                    $this->ilias->ini->setVariable("layout","view_target","window");
+                                }
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
@@ -467,6 +476,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_INST_NAME", $this->lng->txt("inst_name"));
 		$this->tpl->setVariable("TXT_INST_INFO", $this->lng->txt("inst_info"));
 		$this->tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $this->lng->txt("default_skin_style"));
+		$this->tpl->setVariable("TXT_OPEN_VIEWS_INSIDE_FRAMESET", $this->lng->txt("open_views_inside_frameset"));
 		$this->tpl->setVariable("TXT_DEFAULT_LANGUAGE", $this->lng->txt("default_language"));
 		$this->tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $this->lng->txt("feedback_recipient"));
 		$this->tpl->setVariable("TXT_ERROR_RECIPIENT", $this->lng->txt("error_recipient"));
@@ -594,6 +604,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			}
 		}
 
+                // default view target
+		$view_target = $this->ilias->ini->readVariable("layout","view_target");
+                if ($view_target == "frame") 
+                {
+                    $this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","checked=\"checked\"");
+                }
+                else
+                {
+                    $this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","");
+                }
+ 
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
 		$this->tpl->setCurrentBlock("selectlanguage");
