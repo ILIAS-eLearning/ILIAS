@@ -802,7 +802,7 @@ class ilGroupGUI extends ilObjectGUI
 			$data["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];
 			$data["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];
 		}
-		else
+		else if(strlen($this->grp_object->getTitle()) > 0)
 		{
 			$data["title"] = $this->grp_object->getTitle();
 			$data["desc"] = $this->grp_object->getDescription();
@@ -810,6 +810,14 @@ class ilGroupGUI extends ilObjectGUI
 			$datetime = $this->grp_object->getExpirationDateTime();
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
 			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
+		}
+		else
+		{
+			$data["title"] = "";
+			$data["desc"] = "";
+			$data["password"] = "";
+			$data["expirationdate"] = "";
+			$data["expirationtime"] = "";
 		}
 
 		$this->tpl->addBlockFile("CONTENT", "edit", "tpl.grp_edit.html");
@@ -825,8 +833,7 @@ class ilGroupGUI extends ilObjectGUI
 		//build form
 		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
-//		$cb_keyregistration = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_keyregistration", 1, false);		
-//		$cb_registration = ilUtil::formCheckbox($this->object->getRegistrationFlag(), "enable_registration", 1, false);
+
 		$checked = array(0=>0,1=>0,2=>0);
 		switch($this->object->getRegistrationFlag())
 		{
@@ -835,13 +842,14 @@ class ilGroupGUI extends ilObjectGUI
 			case 1: $checked[1]=1;
 				break;
 			case 2: $checked[2]=1;
-				break;				
+				break;
 		}
 		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
+
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
 //		$cb_password = ilUtil::formCheckbox($this->object->getKeyRegistrationFlag(), "enable_password", 1, false);
-		
+
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
