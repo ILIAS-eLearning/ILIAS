@@ -691,6 +691,8 @@ input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color: #dd0000;
 	font-weight:bold;
 	text-align:center;
+	background-color:#D0D0D0;
+	margin-bottom: 2px;
 }
 
 select.ilEditSelect {

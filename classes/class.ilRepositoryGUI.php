@@ -405,6 +405,14 @@ class ilRepositoryGUI
 				// glossary
 				case "glo":
 					$this->glossaries[$key] = $object;
+
+					// check if glossary is online
+					include_once("content/classes/class.ilObjGlossary.php");
+					if((!ilObjGlossary::_lookupOnline($object["obj_id"]))
+						&& (!$this->rbacsystem->checkAccess('write',$object["child"])))
+					{
+						unset ($this->glossaries[$key]);
+					}
 					break;
 
 				//

@@ -206,6 +206,17 @@ class ilRepositoryExplorer extends ilExplorer
 							return false;
 						}
 					}
+					// check if glossary is online
+					if ($a_type == "glo")
+					{
+						$obj_id = ilObject::_lookupObjectId($a_ref_id);
+						include_once("content/classes/class.ilObjGlossary.php");
+						if((!ilObjGlossary::_lookupOnline($obj_id)) &&
+							(!$rbacsystem->checkAccess('write',$a_ref_id)))
+						{
+							return false;
+						}
+					}
 
 					return true;
 				}
