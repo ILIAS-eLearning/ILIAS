@@ -55,6 +55,7 @@ administration#:#nothing_to_purge#:#Nothing to purge...###16 Mar 2004 new variab
 administration#:#nothing_to_remove#:#Nothing to remove...###16 Mar 2004 new variable
 administration#:#nothing_to_restore#:#Nothing to restore...###16 Mar 2004 new variable
 administration#:#options#:#Options###16 Mar 2004 new variable
+administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
 administration#:#purge_missing#:#Purge missing objects###16 Mar 2004 new variable
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###16 Mar 2004 new variable
 administration#:#purge_trash#:#Purge deleted objects###16 Mar 2004 new variable
@@ -617,6 +618,7 @@ common#:#accept_usr_agreement#:#Akceptovat uživatelské ujednání?
 common#:#access#:#Přístup
 common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
+common#:#action#:#Action###29 Nov 2004 new variable
 common#:#action_aborted#:#Akce přerušena
 common#:#actions#:#Akce
 common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
@@ -680,6 +682,7 @@ common#:#approve_date#:#Approved On###14 Sep 2004 new variable
 common#:#approve_recipient#:#Login ID of approver###14 Sep 2004 new variable
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Určitě pokračovat?
+common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Přiřadit
 common#:#assign_global_role#:#Assign to global role###16 Mar 2004 new variable
 common#:#assign_lo_forum#:#Přiřadit výukovému objektu diskusní skupinu
@@ -977,6 +980,8 @@ common#:#email#:#E-mail### identical translation
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Zadaná e-mailová adresa je neplatné!###14 Sep 2004 content changed
 common#:#enable#:#Povolit
+common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
 common#:#enable_registration#:#Povolit registraci nového uživatele
 common#:#enabled#:#Povoleno
@@ -1002,6 +1007,7 @@ common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Důvod: Chybná hlavička.
 common#:#err_wrong_login#:#Chybné přihlášení
 common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
+common#:#error#:#Error###29 Nov 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Příjemce chybových hlášení
 common#:#exc#:#Cvičení
@@ -1140,6 +1146,7 @@ common#:#gdf_new#:#Nová definice
 common#:#gender#:#Pohlaví
 common#:#gender_f#:#ženské
 common#:#gender_m#:#mužské
+common#:#general_settings#:#General settings###29 Nov 2004 new variable
 common#:#generate#:#Generovat
 common#:#glo#:#Glosář
 common#:#glo_a#:#glosář
@@ -1264,6 +1271,9 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Nápověda
 common#:#hide_details#:#skrýt podrobnosti
 common#:#hide_structure#:#Zakázat strukturované zobrazení
+common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
+common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page###16 Sep 2004 new variable
 common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
@@ -1321,6 +1331,7 @@ common#:#in#:#v
 common#:#in_use#:#Uživatelský jazyk
 common#:#inactive#:#Inactive###14 Sep 2004 new variable
 common#:#inbox#:#Doručená pošta
+common#:#info#:#Information###29 Nov 2004 new variable
 common#:#info_assign_sure#:#Určitě chcete přiřadit následující uživatele?
 common#:#info_delete_sure#:#Určitě chcete vymazat následující objekty?
 common#:#info_deleted#:#Objekty byly odstraněny
@@ -1401,6 +1412,7 @@ common#:#languages_already_installed#:#Vybraný jazyk je již instanován###14 S
 common#:#languages_already_uninstalled#:#Vybraný jazyk je již odinstanován###14 Sep 2004 content changed
 common#:#languages_updated#:#Všechny instalované jazyky byly aktualizovány
 common#:#last_change#:#Poslední změna
+common#:#last_update#:#Last Update###29 Nov 2004 new variable
 common#:#last_visit#:#Poslední návštěva
 common#:#lastname#:#Příjmení
 common#:#launch#:#Spustit
@@ -1623,6 +1635,7 @@ common#:#msg_no_scan_log#:#Scan log not implemented yet###16 Mar 2004 new variab
 common#:#msg_no_search_result#:#Nebyly nalezeny žádné položky
 common#:#msg_no_search_string#:#Zadejte prosím dotaz
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###16 Mar 2004 new variable
+common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
 common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#Vybraná stránka je přístupná pouze registrovaným uživatelům
 common#:#msg_not_in_itself#:#Není možné vložit objekt do sebe samého.
@@ -1631,6 +1644,7 @@ common#:#msg_obj_created#:#Objekt vytvořen.
 common#:#msg_obj_exists#:#Tento objekt již existuje v této složce
 common#:#msg_obj_modified#:#Úpravy byly uloženy.
 common#:#msg_obj_no_link#:#are not allowed to be linked###16 Mar 2004 new variable
+common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
 common#:#msg_perm_adopted_from1#:#Nastavení přístupových práv převzata z
 common#:#msg_perm_adopted_from2#:#(Nastavení byla uložena!)
 common#:#msg_perm_adopted_from_itself#:#Není možné převzít nastavení přístupových práv z aktuální role/šablony role samotné.
@@ -1660,6 +1674,7 @@ common#:#new_appointment#:#Nová schůzka
 common#:#new_folder#:#Nová složka
 common#:#new_group#:#Nová skupina
 common#:#new_language#:#Nový jazyk
+common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
 common#:#new_mail#:#Nová pošta!
 common#:#news#:#Novinky
 common#:#next#:#další
@@ -1913,6 +1928,12 @@ common#:#refresh#:#Aktualizovat
 common#:#refresh_languages#:#Aktualizovat jazyky
 common#:#refresh_list#:#Aktualizovat seznam
 common#:#refuse#:#Refuse###18 Apr 2004 new variable
+common#:#reg_mail_body_salutation#:#Hello###29 Nov 2004 new variable
+common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!###29 Nov 2004 new variable
+common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:###29 Nov 2004 new variable
+common#:#reg_mail_body_text3#:#Further personal information:###29 Nov 2004 new variable
+common#:#reg_mail_subject#:#ILIAS eLearning - Your access data###29 Nov 2004 new variable
+common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.###29 Nov 2004 new variable
 common#:#register#:#Registrovat
 common#:#register_info#:#Vypnňte prosím registrační formulář (položky označené hvězdičkou jsou povinné).
 common#:#registered_since#:#Registrace od
@@ -1926,6 +1947,7 @@ common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Odstranit překlad
 common#:#rename#:#Přejmenovat
 common#:#rename_file#:#Rename File###03 May 2004 new variable
+common#:#replace_file#:#Replace File###29 Nov 2004 new variable
 common#:#reply#:#Odpovědět
 common#:#repository#:#Výuka
 common#:#require_city#:#Require city###14 Sep 2004 new variable
@@ -2044,6 +2066,7 @@ common#:#select_file#:#Vybrat soubor
 common#:#select_mode#:#Vybrat mód
 common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
 common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
+common#:#select_password#:#Select a new password###29 Nov 2004 new variable
 common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
 common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
 common#:#selected#:#Vybrané
@@ -2054,7 +2077,7 @@ common#:#sent#:#Odeslané### identical translation
 common#:#sequence#:#Sekvence
 common#:#sequences#:#Sekvence
 common#:#server#:#Server### identical translation
-common#:#server_data#:#Data serveru 
+common#:#server_data#:#Data serveru ###29 Nov 2004 content changed
 common#:#server_software#:#Software serveru 
 common#:#set#:#Nastavit
 common#:#setSystemLanguage#:#Nastavit systémový jazyk
@@ -2070,6 +2093,7 @@ common#:#show_owner#:#Zobrazit vlastníka
 common#:#show_structure#:#Povolit strukturovaný pohled
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Signatura
+common#:#size#:#Size###29 Nov 2004 new variable
 common#:#smtp#:#SMTP### identical translation
 common#:#sort_by_this_column#:#Setřídit podle tohoto sloupce
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -2344,10 +2368,12 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.###16 Mar 2004 new variable
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###16 Mar 2004 new variable
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###16 Mar 2004 new variable
+content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
 content#:#cont_content#:#Obsah
 content#:#cont_content_obj#:#Obsahový objekt
 content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordinates###16 Mar 2004 new variable
+content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Vytvořit Adresář
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
@@ -2408,6 +2434,7 @@ content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
 content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
 content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
+content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###16 Mar 2004 new variable
 content#:#cont_edit_file_list_properties#:#Upravit vlastnosti seznamu souborů
@@ -2422,8 +2449,10 @@ content#:#cont_edit_term#:#Upravit pojem
 content#:#cont_edition#:#Vydání
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
 content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
+content#:#cont_example#:#e.g.###29 Nov 2004 new variable
 content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#external###16 Mar 2004 new variable
+content#:#cont_external_url#:#external url###29 Nov 2004 new variable
 content#:#cont_file#:#Soubor
 content#:#cont_files#:#Soubory
 content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
@@ -2445,6 +2474,7 @@ content#:#cont_insert_file_item#:#Vložit soubor
 content#:#cont_insert_file_list#:#Vložit skupinu souborů
 content#:#cont_insert_list#:#Vložit seznam
 content#:#cont_insert_mob#:#Vložit mediální objekt
+content#:#cont_insert_new_footnote#:#insert new footnore###29 Nov 2004 new variable
 content#:#cont_insert_par#:#Vložit odstavec
 content#:#cont_insert_search#:#Vložte prosím výraz k vyhledání
 content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
@@ -2494,6 +2524,7 @@ content#:#cont_mob_inst_prop#:#Vlastnosti instance
 content#:#cont_mob_prop#:#Vlastnosti objektu
 content#:#cont_mob_usages#:#Použití
 content#:#cont_month#:#Měsíc
+content#:#cont_move_object#:#move object###29 Nov 2004 new variable
 content#:#cont_msg_multiple_editions#:#Není možné zobrazit podrobnosti několika vydání najednou
 content#:#cont_name#:#Name###16 Mar 2004 new variable
 content#:#cont_new_area#:#New Link Area###16 Mar 2004 new variable
@@ -2513,6 +2544,7 @@ content#:#cont_nr_rows#:#Počet řádků
 content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_online#:#Online### identical translation
+content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Způsob objednání
 content#:#cont_organization#:#Organizace
 content#:#cont_organizations#:#Organizace
@@ -2570,8 +2602,12 @@ content#:#cont_series#:#Série
 content#:#cont_series_editor#:#Editor sérií
 content#:#cont_series_title#:#Název série
 content#:#cont_series_volume#:#Díl série
+content#:#cont_set_after#:#insert after###29 Nov 2004 new variable
+content#:#cont_set_before#:#insert before###29 Nov 2004 new variable
+content#:#cont_set_cancel#:#cancel###29 Nov 2004 new variable
 content#:#cont_set_class#:#Nastav třídu
 content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
+content#:#cont_set_into#:#insert into###29 Nov 2004 new variable
 content#:#cont_set_link#:#Edit Link###16 Mar 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###16 Mar 2004 new variable
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
@@ -2585,6 +2621,7 @@ content#:#cont_size#:#Velikost (Bajty)
 content#:#cont_source#:#Zdroj###01 Apr 2004 content changed
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_src_other#:#other###18 Jun 2004 new variable
+content#:#cont_st_on_pg#:#this function is not allowed.###29 Nov 2004 new variable
 content#:#cont_st_title#:#Název kapitoly
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable
@@ -2604,6 +2641,8 @@ content#:#cont_term#:#Pojem
 content#:#cont_terms#:#Pojmy
 content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction### identical translation
+content#:#cont_title#:#title###29 Nov 2004 new variable
+content#:#cont_title_footnotes#:#Footnotes###29 Nov 2004 new variable
 content#:#cont_toc#:#Obsah
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Nahoru
@@ -3661,10 +3700,93 @@ meta#:#meta_yes#:#Ano
 payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
 payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
 payment#:#duration#:#Duration###04 Oct 2004 new variable
+payment#:#excel_export#:#Excel export###29 Nov 2004 new variable
+payment#:#info#:#Informations about the pay method###29 Nov 2004 new variable
+payment#:#pay_add_to_shopping_cart#:#Add to shopping cart###29 Nov 2004 new variable
+payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.###29 Nov 2004 new variable
+payment#:#pay_all#:#All###29 Nov 2004 new variable
+payment#:#pay_article#:#Article###29 Nov 2004 new variable
+payment#:#pay_bank_data#:#Bank data###29 Nov 2004 new variable
+payment#:#pay_bill_no#:#Incoice no.###29 Nov 2004 new variable
+payment#:#pay_bmf_account_holder#:#Account holder###29 Nov 2004 new variable
+payment#:#pay_bmf_account_number#:#Account number###29 Nov 2004 new variable
+payment#:#pay_bmf_back#:#back###29 Nov 2004 new variable
+payment#:#pay_bmf_bank_code#:#Bank code###29 Nov 2004 new variable
+payment#:#pay_bmf_card_holder#:#Card holder###29 Nov 2004 new variable
+payment#:#pay_bmf_card_number#:#Card number###29 Nov 2004 new variable
+payment#:#pay_bmf_check_number#:#Check number###29 Nov 2004 new variable
+payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card_data#:#Credit card###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry_data#:#Debit entry###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###29 Nov 2004 new variable
+payment#:#pay_bmf_house_number#:#House number###29 Nov 2004 new variable
+payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###29 Nov 2004 new variable
+payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
+payment#:#pay_bmf_or#:#or###29 Nov 2004 new variable
+payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.###29 Nov 2004 new variable
+payment#:#pay_bmf_payment_type#:#Kind of paying###29 Nov 2004 new variable
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.###29 Nov 2004 new variable
+payment#:#pay_bmf_personal_data#:#Your personal data###29 Nov 2004 new variable
+payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_please_select#:#Please select###29 Nov 2004 new variable
+payment#:#pay_bmf_po_box#:#PO Box###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_code#:#Payment server returns error code###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.###29 Nov 2004 new variable
+payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.###29 Nov 2004 new variable
+payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions#:#General terms and conditions###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions_show#:#show###29 Nov 2004 new variable
+payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.###29 Nov 2004 new variable
+payment#:#pay_bmf_total_amount#:#Total amount###29 Nov 2004 new variable
+payment#:#pay_bmf_validity#:#valid until###29 Nov 2004 new variable
+payment#:#pay_bmf_vat_included#:#VAT included###29 Nov 2004 new variable
+payment#:#pay_bmf_your_order#:#Your order###29 Nov 2004 new variable
+payment#:#pay_click_to_buy#:#Buy now###29 Nov 2004 new variable
+payment#:#pay_confirm_order#:#Please confirm your order by entering your password.###29 Nov 2004 new variable
+payment#:#pay_customer_no#:#Customer no.###29 Nov 2004 new variable
 payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
+payment#:#pay_deleted_items#:#The selected items have been deleted.###29 Nov 2004 new variable
+payment#:#pay_ending#:#ends with###29 Nov 2004 new variable
+payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###29 Nov 2004 new variable
+payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.###29 Nov 2004 new variable
+payment#:#pay_filter#:#Filter###29 Nov 2004 new variable
+payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###29 Nov 2004 new variable
+payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###29 Nov 2004 new variable
 payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###29 Nov 2004 new variable
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
 payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
+payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.###29 Nov 2004 new variable
+payment#:#pay_message_hello#:#Dear###29 Nov 2004 new variable
+payment#:#pay_message_regards#:#Yours sincerely###29 Nov 2004 new variable
+payment#:#pay_message_subject#:#Your ILIAS order###29 Nov 2004 new variable
+payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.###29 Nov 2004 new variable
 payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
+payment#:#pay_not_buyed_any_object#:#You have not bought any object.###29 Nov 2004 new variable
+payment#:#pay_order_date_from#:#Order date from###29 Nov 2004 new variable
+payment#:#pay_order_date_til#:#Order date til###29 Nov 2004 new variable
+payment#:#pay_payed_credit_card#:#The order was paid by credit card.###29 Nov 2004 new variable
+payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.###29 Nov 2004 new variable
+payment#:#pay_reset_filter#:#Reset filter###29 Nov 2004 new variable
+payment#:#pay_select_one_item#:#Please select one item.###29 Nov 2004 new variable
+payment#:#pay_select_price#:#Please select a new price.###29 Nov 2004 new variable
+payment#:#pay_send_order#:#Send order###29 Nov 2004 new variable
+payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.###29 Nov 2004 new variable
+payment#:#pay_starting#:#starts with###29 Nov 2004 new variable
+payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data###29 Nov 2004 new variable
+payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment###29 Nov 2004 new variable
+payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order###29 Nov 2004 new variable
+payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###29 Nov 2004 new variable
+payment#:#pay_update_view#:#Update view###29 Nov 2004 new variable
 payment#:#paya_access#:#Access###04 Oct 2004 new variable
 payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
 payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
@@ -3673,6 +3795,7 @@ payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
 payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
 payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
 payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
+payment#:#paya_buyed_objects#:#Buyed objects###29 Nov 2004 new variable
 payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
 payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
 payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
@@ -3690,6 +3813,7 @@ payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variab
 payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
 payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
 payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
+payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
 payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
 payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
 payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
@@ -3735,15 +3859,24 @@ payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variabl
 payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
 payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
 payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
 payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
+payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
 payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:###31 Aug 2004 new variable
 payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:###31 Aug 2004 new variable
+payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
 payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
 payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Cost center###31 Aug 2004 new variable
+payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.###29 Nov 2004 new variable
+payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)###29 Nov 2004 new variable
+payment#:#pays_currency_unit#:#Currency (e.g. EUR)###29 Nov 2004 new variable
 payment#:#pays_delete_vendor#:#Deassign user###31 Aug 2004 new variable
 payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:###31 Aug 2004 new variable
+payment#:#pays_edit_vendor#:#Edit user###29 Nov 2004 new variable
+payment#:#pays_general_settings#:#General settings###29 Nov 2004 new variable
+payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
 payment#:#pays_header_select_vendor#:#Vendor selection###31 Aug 2004 new variable
 payment#:#pays_no_username_given#:#No username given###31 Aug 2004 new variable
 payment#:#pays_no_valid_username_given#:#No valid username given###31 Aug 2004 new variable
@@ -3754,11 +3887,16 @@ payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some object
 payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
 payment#:#pays_online#:#Online###02 Oct 2004 new variable
 payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
+payment#:#pays_pdf_path#:#Path for generating bill as PDF file###29 Nov 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
+payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.###29 Nov 2004 new variable
+payment#:#pays_updated_general_settings#:#Your general settings were updated.###29 Nov 2004 new variable
 payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
+payment#:#pays_vat_rate#:#VAT rate in % (optional)###29 Nov 2004 new variable
 payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
 payment#:#price_a#:#Price###04 Oct 2004 new variable
+payment#:#prices#:#Prices###29 Nov 2004 new variable
 payment#:#update#:#Update###04 Oct 2004 new variable
 pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
@@ -3843,6 +3981,7 @@ survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
 survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
+survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
@@ -3931,6 +4070,9 @@ survey#:#exit#:#Exit###01 Jun 2004 new variable
 survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
+survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###29 Nov 2004 new variable
 survey#:#filter#:#Filter###21 May 2004 new variable
 survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
 survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
@@ -3964,6 +4106,8 @@ survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#median#:#Median###02 Jun 2004 new variable
 survey#:#median_between#:#between###01 Sep 2004 new variable
+survey#:#menuback#:#Back###29 Nov 2004 new variable
+survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
@@ -4000,6 +4144,7 @@ survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
 survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
+survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
 survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
 survey#:#preview#:#Preview###21 May 2004 new variable
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
@@ -4053,6 +4198,7 @@ survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
 survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
 survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable

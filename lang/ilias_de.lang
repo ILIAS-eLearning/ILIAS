@@ -55,6 +55,7 @@ administration#:#nothing_to_purge#:#Nichts zu eliminieren...
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
+administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#purge_missing#:#Entferne fehlende Objekte
 administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
 administration#:#purge_trash#:#Eliminiere gelöschte Objekte
@@ -327,15 +328,6 @@ assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
-administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
-common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
-common#:#reg_mail_body_salutation#:#Hallo
-common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
-common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
-common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
-common#:#select_password#:#Neues Passwort wählen
-common#:#new_list_password#:#Weitere Vorschläge
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
@@ -344,11 +336,11 @@ assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
+assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!###29 Nov 2004 content changed
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
+assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?###29 Nov 2004 content changed
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
@@ -548,7 +540,7 @@ chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#Benutzer entfernt
-chat#:#chat_edit#:#Chat bearbeiten
+chat#:#chat_edit#:#Chat bearbeiten###29 Nov 2004 content changed
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
@@ -626,6 +618,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
+common#:#action#:#Action###29 Nov 2004 new variable
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
@@ -689,6 +682,7 @@ common#:#approve_date#:#Freigegeben am
 common#:#approve_recipient#:#Freigegeben durch (Login ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
+common#:#as_of#:#Stand
 common#:#assign#:#Annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
@@ -986,6 +980,8 @@ common#:#email#:#E-Mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
+common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
@@ -1011,6 +1007,7 @@ common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
 common#:#err_wrong_password#:#Falsches Passwort
+common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#exc#:#Übung
@@ -1149,8 +1146,8 @@ common#:#gdf_new#:#Neue Definition
 common#:#gender#:#Geschlecht
 common#:#gender_f#:#Weiblich
 common#:#gender_m#:#Männlich
-common#:#generate#:#generieren
 common#:#general_settings#:#Allgemeine Einstellungen
+common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
@@ -1274,6 +1271,9 @@ common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
+common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
+common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
 common#:#hlm_added#:#HACP Lernmodul angelegt
@@ -1331,6 +1331,7 @@ common#:#in#:#in###05 Nov 2004 new variable
 common#:#in_use#:#Benutzersprache
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Posteingang
+common#:#info#:#Information###29 Nov 2004 new variable
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_deleted#:#Objekt(e) gelöscht
@@ -1411,6 +1412,7 @@ common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits inst
 common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
+common#:#last_update#:#Last Update###29 Nov 2004 new variable
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
@@ -1633,6 +1635,7 @@ common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
+common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
@@ -1641,6 +1644,7 @@ common#:#msg_obj_created#:#Objekt angelegt!
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
 common#:#msg_obj_modified#:#Änderungen gespeichert!
 common#:#msg_obj_no_link#:#können nicht verknüpft werden
+common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
@@ -1670,6 +1674,7 @@ common#:#new_appointment#:#Neuer Termin
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
+common#:#new_list_password#:#Weitere Vorschläge
 common#:#new_mail#:#Neue Mail!
 common#:#news#:#News###05 Nov 2004 new variable
 common#:#next#:#weiter
@@ -1923,6 +1928,12 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#refuse#:#Ablehnen
+common#:#reg_mail_body_salutation#:#Hallo
+common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
+common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
+common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
+common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
 common#:#register#:#Anmelden
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
@@ -1936,6 +1947,7 @@ common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
+common#:#replace_file#:#Replace File###29 Nov 2004 new variable
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#require_city#:#Pflichteingabe Stadt
@@ -2054,6 +2066,7 @@ common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
+common#:#select_password#:#Neues Passwort wählen
 common#:#select_questionpool#:#Fragenpool für Test
 common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
 common#:#selected#:#Ausgewählte
@@ -2064,7 +2077,7 @@ common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
-common#:#server_data#:#Serverdaten
+common#:#server_data#:#Serverdaten###29 Nov 2004 content changed
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
@@ -2080,6 +2093,7 @@ common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
+common#:#size#:#Size###29 Nov 2004 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
@@ -2354,10 +2368,12 @@ content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des 
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
+content#:#cont_confirm_delete#:#wirklich löschen ?
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object###03 Nov 2004 new variable
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
+content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Export-Datei anlegen
@@ -2379,8 +2395,8 @@ content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
-content#:#cont_disable_js#:#JavaScript deaktivieren
-content#:#cont_disable_media#:#Medienobjekte inaktiv
+content#:#cont_disable_js#:#JavaScript deaktivieren###29 Nov 2004 content changed
+content#:#cont_disable_media#:#Medienobjekte inaktiv###29 Nov 2004 content changed
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -2418,6 +2434,7 @@ content#:#cont_ed_paste_clip#:#Aus Ablage einf.
 content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
 content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
+content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
@@ -2430,10 +2447,12 @@ content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_enable_js#:#JavaScript aktivieren
-content#:#cont_enable_media#:#Medienobjekte aktiv
+content#:#cont_enable_js#:#JavaScript aktivieren###29 Nov 2004 content changed
+content#:#cont_enable_media#:#Medienobjekte aktiv###29 Nov 2004 content changed
+content#:#cont_example#:#Beispiel
 content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
+content#:#cont_external_url#:#Externe URL
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_fix_tree#:#Struktur reparieren
@@ -2455,6 +2474,7 @@ content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
+content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_src#:#Sourcecode einfügen
@@ -2504,6 +2524,7 @@ content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
+content#:#cont_move_object#:#Objekt veschieben
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#Neuer Link-Bereich
@@ -2523,6 +2544,7 @@ content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versionen
 content#:#cont_online#:#Online
+content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
@@ -2580,8 +2602,12 @@ content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
+content#:#cont_set_after#:#dahinter einfügen
+content#:#cont_set_before#:#davor einfügen
+content#:#cont_set_cancel#:#Abbruch
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_edit_mode#:#Bearbeitungsmodus setzen
+content#:#cont_set_into#:#darunter einfügen
 content#:#cont_set_link#:#Verweis ändern
 content#:#cont_set_shape#:#Form ändern
 content#:#cont_set_start_file#:#Startdatei festlegen
@@ -2595,6 +2621,7 @@ content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
 content#:#cont_src_other#:#Andere
+content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
@@ -2614,6 +2641,8 @@ content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time#:#Zeit
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###05 Nov 2004 new variable
+content#:#cont_title#:#Titel
+content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
 content#:#cont_top#:#Oben
@@ -3671,10 +3700,93 @@ meta#:#meta_yes#:#Ja
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Dauer
+payment#:#excel_export#:#Excel Export
+payment#:#info#:#Informationen zur Bezahlart
+payment#:#pay_add_to_shopping_cart#:#In den Warenkorb legen
+payment#:#pay_added_to_shopping_cart#:#Der Artikel wurde in den Warenkorb aufgenommen.
+payment#:#pay_all#:#Alle
+payment#:#pay_article#:#Artikel
+payment#:#pay_bank_data#:#Bankverbindung
+payment#:#pay_bill_no#:#Rechnungsnr.
+payment#:#pay_bmf_account_holder#:#Kontoinhaber
+payment#:#pay_bmf_account_number#:#Kontonummer
+payment#:#pay_bmf_back#:#zurück
+payment#:#pay_bmf_bank_code#:#Bankleitzahl
+payment#:#pay_bmf_card_holder#:#Karteninhaber
+payment#:#pay_bmf_card_number#:#Kartennummer
+payment#:#pay_bmf_check_number#:#Kartenprüfnummer
+payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.
+payment#:#pay_bmf_credit_card#:#Kreditkarte
+payment#:#pay_bmf_credit_card_data#:#Kreditkarte
+payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
+payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
+payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
+payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
+payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
+payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
+payment#:#pay_bmf_house_number#:#Hausnummer
+payment#:#pay_bmf_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
+payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
+payment#:#pay_bmf_or#:#oder
+payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
+payment#:#pay_bmf_payment_type#:#Bezahlart
+payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.
+payment#:#pay_bmf_personal_data#:#Ihre persönlichen Daten
+payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_please_select#:#Bitte wählen
+payment#:#pay_bmf_po_box#:#Postfach
+payment#:#pay_bmf_server_error_code#:#Der Payment-Server meldet einen Fehler Code
+payment#:#pay_bmf_server_error_communication#:#Fehler bei der Kommunikation mit dem Payment-Server.
+payment#:#pay_bmf_server_error_sysadmin#:#Bitte wenden Sie sich für weitere Informationen an den Systemadministrator.
+payment#:#pay_bmf_shopping_cart_empty#:#Ihr Warenkorb ist leer.
+payment#:#pay_bmf_street_or_pobox#:#Bitte geben Sie entweder Straße und Hausnummer oder ein Postfach ein.
+payment#:#pay_bmf_terms_conditions#:#AGB
+payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.
+payment#:#pay_bmf_terms_conditions_show#:#anzeigen
+payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
+payment#:#pay_bmf_total_amount#:#Gesamtsumme
+payment#:#pay_bmf_validity#:#gültig bis
+payment#:#pay_bmf_vat_included#:#MwSt. enthalten
+payment#:#pay_bmf_your_order#:#Ihre Bestellung
+payment#:#pay_click_to_buy#:#Zur Kasse
+payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS Passwort eingeben.
+payment#:#pay_customer_no#:#Kundennr.
 payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
+payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
+payment#:#pay_ending#:#hört auf mit
+payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
+payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
+payment#:#pay_filter#:#Filtermöglichkeiten
+payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
+payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
 payment#:#pay_header#:#Payment###05 Nov 2004 new variable
+payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
 payment#:#pay_locator#:#Payment###05 Nov 2004 new variable
+payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
+payment#:#pay_message_hello#:#Guten Tag
+payment#:#pay_message_regards#:#Mit freundlichen Grüßen
+payment#:#pay_message_subject#:#Ihre ILIAS Bestellung
+payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS Bestellung.
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
+payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
+payment#:#pay_order_date_from#:#Zeitraum von
+payment#:#pay_order_date_til#:#Zeitraum bis
+payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
+payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
+payment#:#pay_reset_filter#:#Filter zurücksetzen
+payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
+payment#:#pay_select_price#:#Bitte wählen Sie einen Preis aus.
+payment#:#pay_send_order#:#Bestellung abschicken
+payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
+payment#:#pay_starting#:#beginnt mit
+payment#:#pay_step1#:#Ihre Bestellung - Schritt 1/3: Eingabe der persönlichen Daten
+payment#:#pay_step2#:#Ihre Bestellung - Schritt 2/3: Auswahl der Bezahlart
+payment#:#pay_step3_credit_card#:#Ihre Bestellung - Schritt 3/3: Eingabe der Kreditkarten-Daten und Absenden der Bestellung
+payment#:#pay_step3_debit_entry#:#Ihre Bestellung - Schritt 3/3: Eingabe der Bankverbindung und Absenden der Bestellung
+payment#:#pay_update_view#:#Ansicht aktualisieren
 payment#:#paya_access#:#Zugriff
 payment#:#paya_add_price#:#Neuen Preis anlegen
 payment#:#paya_add_price_title#:#Neuer Preis
@@ -3683,6 +3795,7 @@ payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
 payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
 payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
 payment#:#paya_buyable#:#Kaufbar
+payment#:#paya_buyed_objects#:#Gekaufte Objekte
 payment#:#paya_count_purchaser#:#Anzahl Käufer
 payment#:#paya_customer#:#Käufer
 payment#:#paya_delete_price#:#Preis löschen
@@ -3700,12 +3813,13 @@ payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
 payment#:#paya_error_update_booking#:#Fehler beim Speichern.
 payment#:#paya_expires#:#Bezahlung auslaufen lassen
+payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
 payment#:#paya_header#:#Paymentverwaltung
 payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_locator#:#Paymentverwaltung
 payment#:#paya_months#:#Monat(e)
 payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###29 Nov 2004 content changed
 payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
 payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
 payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
@@ -3745,15 +3859,24 @@ payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
 payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
 payment#:#paya_vendor#:#Verkäufer
 payment#:#pays_active_bookings#:#Bitte löschen Sie zuerst alle noch aktiven Verkaufsvorgänge.
+payment#:#pays_add_info#:#Zusatzdaten für Rechnung (optional)
 payment#:#pays_add_vendor#:#Verkäufer anlegen
 payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
+payment#:#pays_address#:#Adresse für Rechnung
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:
 payment#:#pays_assigned_vendors#:#Die folgende Anzahl an Verkäufern wurde angelegt:
+payment#:#pays_bank_data#:#Bankverbindung für Rechnung
 payment#:#pays_bill#:#Rechnung
 payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Kostenstelle
+payment#:#pays_cost_center_not_valid#:#Bitte geben Sie eine gültige Kostenstelle ein.
+payment#:#pays_currency_subunit#:#Währung (1/100) (z.B. Cent)
+payment#:#pays_currency_unit#:#Währung (z.B. EUR)
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
+payment#:#pays_edit_vendor#:#Benutzer bearbeiten
+payment#:#pays_general_settings#:#Allgemeine Einstellungen
+payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_header_select_vendor#:#Verkäuferauswahl
 payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
 payment#:#pays_no_valid_username_given#:#Der angegebene Benutzername ist nicht gültig.
@@ -3764,14 +3887,19 @@ payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' a
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Bezahlarten
+payment#:#pays_pdf_path#:#Pfad zur Rechnungs-Generierung als PDF-Datei
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
+payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.
+payment#:#pays_updated_general_settings#:#Ihre allgemeinen Einstellungen wurden aktualisiert.
 payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
 payment#:#pays_user_already_assigned#:#Dieser Benutzer ist bereits zugeordnet.
+payment#:#pays_vat_rate#:#MwSt.-Satz in % (optional)
 payment#:#pays_vendor#:#Verkäufer
 payment#:#price_a#:#Preis
+payment#:#prices#:#Preise
 payment#:#update#:#Aktualisieren
 pwassist#:#password_assistance#:#Passwort Unterstützung
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. 
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet ein E-Mail an diese Adresse. Das E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s. ###29 Nov 2004 content changed
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort Unterstützung angefordert hatten.
@@ -3853,6 +3981,7 @@ survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
+survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraints#:#Beschränkungen
@@ -3941,6 +4070,9 @@ survey#:#exit#:#Beenden
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
+survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###29 Nov 2004 new variable
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
@@ -3974,6 +4106,8 @@ survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
+survey#:#menuback#:#Back###29 Nov 2004 new variable
+survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
@@ -4010,6 +4144,7 @@ survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworte
 survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Katgorie ausgewählt haben
+survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fraen %d - %d von %d
@@ -4063,6 +4198,7 @@ survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
 survey#:#search_users#:#Nutzerinnen
 survey#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
+survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
 survey#:#select_questionpool_short#:#Fragenpool für Umfrage
@@ -4079,20 +4215,20 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s
 survey#:#subtype#:#Untertyp
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
-survey#:#survey_finish#:#Umfrage beenden >>>
+survey#:#survey_finish#:#Umfrage beenden >>>###29 Nov 2004 content changed
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
-survey#:#survey_next#:#Weiter >>>
+survey#:#survey_next#:#Weiter >>>###29 Nov 2004 content changed
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
-survey#:#survey_previous#:#<<< Zurück
+survey#:#survey_previous#:#<<< Zurück###29 Nov 2004 content changed
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Zur Startseite
+survey#:#survey_start#:#<<< Zur Startseite###29 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
@@ -4130,119 +4266,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-content#:#cont_set_after#:#dahinter einfügen
-content#:#cont_set_before#:#davor einfügen
-content#:#cont_set_into#:#darunter einfügen
-content#:#cont_move_object#:#Objekt veschieben
-content#:#cont_copy_object#:#Objekt kopieren
-content#:#cont_external_url#:#Externe URL
-content#:#cont_title#:#Titel
-content#:#cont_title_footnotes#:#Fußnoten
-content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
-content#:#cont_set_cancel#:#Abbruch
-content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.
-payment#:#info#:#Informationen zur Bezahlart
-payment#:#pay_bmf_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
-common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
-payment#:#pay_add_to_shopping_cart#:#In den Warenkorb legen
-payment#:#prices#:#Preise
-payment#:#pay_select_price#:#Bitte wählen Sie einen Preis aus.
-payment#:#pay_added_to_shopping_cart#:#Der Artikel wurde in den Warenkorb aufgenommen.
-payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
-payment#:#pay_click_to_buy#:#Zur Kasse
-payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
-payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
-payment#:#pay_bmf_your_order#:#Ihre Bestellung
-payment#:#pay_bmf_personal_data#:#Ihre persönlichen Daten
-payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
-payment#:#pay_bmf_house_number#:#Hausnummer
-payment#:#pay_bmf_or#:#oder
-payment#:#pay_bmf_po_box#:#Postfach
-payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_payment_type#:#Bezahlart
-payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
-payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
-payment#:#pay_bmf_credit_card#:#Kreditkarte
-payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.
-payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
-payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
-payment#:#pay_bmf_account_holder#:#Kontoinhaber
-payment#:#pay_bmf_account_number#:#Kontonummer
-payment#:#pay_bmf_bank_code#:#Bankleitzahl
-payment#:#pay_bmf_optional#:#optional
-payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_credit_card_data#:#Kreditkarte
-payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
-payment#:#pay_bmf_card_holder#:#Karteninhaber
-payment#:#pay_bmf_check_number#:#Kartenprüfnummer
-payment#:#pay_bmf_card_number#:#Kartennummer
-payment#:#pay_bmf_validity#:#gültig bis
-payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_shopping_cart_empty#:#Ihr Warenkorb ist leer.
-payment#:#pay_bmf_server_error_code#:#Der Payment-Server meldet einen Fehler Code
-payment#:#pay_bmf_server_error_communication#:#Fehler bei der Kommunikation mit dem Payment-Server.
-payment#:#pay_bmf_server_error_sysadmin#:#Bitte wenden Sie sich für weitere Informationen an den Systemadministrator.
-payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
-payment#:#pay_bmf_back#:#zurück
-payment#:#pay_bmf_please_select#:#Bitte wählen
-payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
-payment#:#pay_bmf_total_amount#:#Gesamtsumme
-payment#:#pay_bmf_vat_included#:#MwSt. enthalten
-payment#:#paya_buyed_objects#:#Gekaufte Objekte
-payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
-payment#:#pay_bmf_terms_conditions#:#AGB
-payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.
-payment#:#pay_bmf_terms_conditions_show#:#anzeigen
-payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
-payment#:#pays_general_settings#:#Allgemeine Einstellungen
-payment#:#pays_address#:#Adresse für Rechnung
-payment#:#pays_bank_data#:#Bankverbindung für Rechnung
-payment#:#pays_add_info#:#Zusatzdaten für Rechnung (optional)
-payment#:#pays_vat_rate#:#MwSt.-Satz in % (optional)
-payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pays_updated_general_settings#:#Ihre allgemeinen Einstellungen wurden aktualisiert.
-payment#:#pays_currency_unit#:#Währung (z.B. EUR)
-payment#:#pays_currency_subunit#:#Währung (1/100) (z.B. Cent)
-payment#:#pay_customer_no#:#Kundennr.
-payment#:#pay_bill_no#:#Rechnungsnr.
-payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
-payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
-payment#:#pay_bank_data#:#Bankverbindung
-payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
-payment#:#pay_article#:#Artikel
-payment#:#pay_message_subject#:#Ihre ILIAS Bestellung
-payment#:#pay_message_hello#:#Guten Tag
-payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS Bestellung.
-payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
-payment#:#pay_message_regards#:#Mit freundlichen Grüßen
-payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS Passwort eingeben.
-payment#:#pays_pdf_path#:#Pfad zur Rechnungs-Generierung als PDF-Datei
-payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
-payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
-payment#:#pay_send_order#:#Bestellung abschicken
-payment#:#pay_step1#:#Ihre Bestellung - Schritt 1/3: Eingabe der persönlichen Daten
-payment#:#pay_step2#:#Ihre Bestellung - Schritt 2/3: Auswahl der Bezahlart
-payment#:#pay_step3_credit_card#:#Ihre Bestellung - Schritt 3/3: Eingabe der Kreditkarten-Daten und Absenden der Bestellung
-payment#:#pay_step3_debit_entry#:#Ihre Bestellung - Schritt 3/3: Eingabe der Bankverbindung und Absenden der Bestellung
-payment#:#pay_bmf_street_or_pobox#:#Bitte geben Sie entweder Straße und Hausnummer oder ein Postfach ein.
-payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.
-payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
-common#:#error#:#Fehler
-payment#:#pay_starting#:#beginnt mit
-payment#:#pay_ending#:#hört auf mit
-payment#:#pay_order_date_from#:#Zeitraum von
-payment#:#pay_order_date_til#:#Zeitraum bis
-payment#:#pay_update_view#:#Ansicht aktualisieren
-payment#:#pay_filter#:#Filtermöglichkeiten
-payment#:#pay_all#:#Alle
-payment#:#pays_edit_vendor#:#Benutzer bearbeiten
-payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.
-payment#:#pays_cost_center_not_valid#:#Bitte geben Sie eine gültige Kostenstelle ein.
-payment#:#pay_reset_filter#:#Filter zurücksetzen
-common#:#as_of#:#Stand
-payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
-payment#:#excel_export#:#Excel Export
-content#:#cont_or#:#oder
-content#:#cont_example#:#Beispiel
-content#:#cont_confirm_delete#:#wirklich löschen ?
