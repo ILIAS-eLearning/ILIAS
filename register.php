@@ -49,7 +49,7 @@ switch ($_GET["cmd"])
 	case "login":
 		loginPage();
 		break;
-		
+
 	default:
 		displayForm();
 		break;
@@ -68,12 +68,12 @@ function loginPage()
 	$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
 	$tpl->setVariable("USERNAME", $_GET["username"]);
 	$tpl->setVariable("PASSWORD", $_GET["password"]);
-	
+
 	$ilias->auth->logout();
 	session_destroy();
-	
+
 	$tpl->show();
-}	
+}
 
 function saveForm()
 {
@@ -162,7 +162,7 @@ function displayForm ()
 		 "LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
 		 "WHERE allow_register = 1";
 	$r = $ilias->db->query($q);
-	
+
 	if ($r->numRows() > 0)
 	{
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -170,14 +170,14 @@ function displayForm ()
 			$role_list[$row->obj_id] = fetchObjectData($row);
 		}
 	}
-	
+
 	foreach ($role_list as $obj_data)
 	{
 		$rol[$obj_data["obj_id"]] = $obj_data["title"];
 	}
 
 	$role = ilUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
-	
+
 	$data = array();
 	$data["fields"] = array();
 	$data["fields"]["login"] = "";
@@ -188,21 +188,25 @@ function displayForm ()
 	$data["fields"]["firstname"] = "";
 	$data["fields"]["lastname"] = "";
 	$data["fields"]["institution"] = "";
+	$data["fields"]["department"] = "";
 	$data["fields"]["street"] = "";
 	$data["fields"]["city"] = "";
 	$data["fields"]["zipcode"] = "";
 	$data["fields"]["country"] = "";
-	$data["fields"]["phone"] = "";
+	$data["fields"]["phone_office"] = "";
+	$data["fields"]["phone_home"] = "";
+	$data["fields"]["phone_mobile"] = "";
+	$data["fields"]["fax"] = "";
 	$data["fields"]["email"] = "";
 	$data["fields"]["hobby"] = "";
 	$data["fields"]["default_role"] = $role;
-	
+
 	foreach ($data["fields"] as $key => $val)
 	{
 		$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
 		$tpl->setVariable(strtoupper($key), $val);
 	}
-	
+
 	$tpl->setVariable("FORMACTION", "register.php?cmd=save");
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 	$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
@@ -217,35 +221,39 @@ function displayForm ()
 
 	// language selection
 	$languages = $lng->getInstalledLanguages();
-	
+
 	foreach ($languages as $lang_key)
 	{
 		$tpl->setCurrentBlock("language_selection");
 		$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
 		$tpl->setVariable("LANGSHORT", $lang_key);
-	
+
 		if ($ilias->getSetting("language") == $lang_key)
 		{
 			$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 		}
-	
+
 		$tpl->parseCurrentBlock();
 	} // END language selection
-	
+
 	// FILL SAVED VALUES IN CASE OF ERROR
 	$tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
 	$tpl->setVariable("FIRSTNAME",$_SESSION["error_post_vars"]["Fobject"]["firstname"]);
 	$tpl->setVariable("LASTNAME",$_SESSION["error_post_vars"]["Fobject"]["lastname"]);
 	$tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
 	$tpl->setVariable("INSTITUTION",$_SESSION["error_post_vars"]["Fobject"]["institution"]);
+	$tpl->setVariable("DEPARTMENT",$_SESSION["error_post_vars"]["Fobject"]["department"]);
 	$tpl->setVariable("STREET",$_SESSION["error_post_vars"]["Fobject"]["street"]);
 	$tpl->setVariable("CITY",$_SESSION["error_post_vars"]["Fobject"]["city"]);
 	$tpl->setVariable("ZIPCODE",$_SESSION["error_post_vars"]["Fobject"]["zipcode"]);
 	$tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
-	$tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
+	$tpl->setVariable("PHONE_OFFICE",$_SESSION["error_post_vars"]["Fobject"]["phone_office"]);
+	$tpl->setVariable("PHONE_HOME",$_SESSION["error_post_vars"]["Fobject"]["phone_home"]);
+	$tpl->setVariable("PHONE_MOBILE",$_SESSION["error_post_vars"]["Fobject"]["phone_mobile"]);
+	$tpl->setVariable("FAX",$_SESSION["error_post_vars"]["Fobject"]["fax"]);
 	$tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
 	$tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
-	
+
 	// gender selection
 	if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
 	{
