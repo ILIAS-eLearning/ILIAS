@@ -3397,109 +3397,109 @@ dateplaner#:#help_inbox#:#Планувальник Вхідні
 dateplaner#:#help_inbox_l#:#Тут показані усі нові, змінені та видалені дати груп.
 dateplaner#:#help_keyword#:#Вибір ключового слова
 dateplaner#:#help_keywordUse#:#Вибір ключового слова
-dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.###16 Mar 2004 new variable
-dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
-dateplaner#:#help_list#:#Dateplaner datelist###16 Mar 2004 new variable
-dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_month#:#Dateplaner monthview###16 Mar 2004 new variable
-dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt#:#Changes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_del#:#Deletes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.###16 Mar 2004 new variable
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files###16 Mar 2004 new variable
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
-dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters###16 Mar 2004 new variable
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
-dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.###16 Mar 2004 new variable
-dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters###16 Mar 2004 new variable
-dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
-dateplaner#:#help_text_l#:#Here one can enter the text for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_week#:#Dateplaner weekview###16 Mar 2004 new variable
-dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.###16 Mar 2004 new variable
-dateplaner#:#hour#:#hour###16 Mar 2004 new variable
-dateplaner#:#importDates#:#Import of Outlook Dates###16 Mar 2004 new variable
-dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
-dateplaner#:#insertImportDates#:#These dates were successfully registered:###16 Mar 2004 new variable
-dateplaner#:#k_alldates#:#all dates###16 Mar 2004 new variable
-dateplaner#:#keep#:#keep###16 Mar 2004 new variable
-dateplaner#:#keyword#:#Keyword###16 Mar 2004 new variable
-dateplaner#:#keywords#:#Keywords###16 Mar 2004 new variable
-dateplaner#:#last_change#:#Last changed###16 Mar 2004 new variable
-dateplaner#:#long_01#:#January###16 Mar 2004 new variable
-dateplaner#:#long_02#:#February###16 Mar 2004 new variable
-dateplaner#:#long_03#:#March###16 Mar 2004 new variable
-dateplaner#:#long_04#:#April###16 Mar 2004 new variable
-dateplaner#:#long_05#:#May###16 Mar 2004 new variable
-dateplaner#:#long_06#:#June###16 Mar 2004 new variable
-dateplaner#:#long_07#:#July###16 Mar 2004 new variable
-dateplaner#:#long_08#:#August###16 Mar 2004 new variable
-dateplaner#:#long_09#:#September###16 Mar 2004 new variable
-dateplaner#:#long_10#:#October###16 Mar 2004 new variable
-dateplaner#:#long_11#:#November###16 Mar 2004 new variable
-dateplaner#:#long_12#:#December###16 Mar 2004 new variable
-dateplaner#:#main_dates#:#Main Dates###16 Mar 2004 new variable
-dateplaner#:#menue#:#Menu###16 Mar 2004 new variable
-dateplaner#:#mmonth#:#last month###16 Mar 2004 new variable
-dateplaner#:#month#:#month###16 Mar 2004 new variable
-dateplaner#:#more#:#more###16 Mar 2004 new variable
-dateplaner#:#mweek#:#last week###16 Mar 2004 new variable
-dateplaner#:#myeahr#:#last year###16 Mar 2004 new variable
-dateplaner#:#newDates#:#New dates###16 Mar 2004 new variable
-dateplaner#:#newKeyword#:#New:###16 Mar 2004 new variable
-dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
-dateplaner#:#no_entry#:#no dates available###16 Mar 2004 new variable
-dateplaner#:#o_day_date#:#24h date###16 Mar 2004 new variable
-dateplaner#:#of#:#of###16 Mar 2004 new variable
-dateplaner#:#open_day#:#dayview###16 Mar 2004 new variable
-dateplaner#:#pmonth#:#next month###16 Mar 2004 new variable
-dateplaner#:#printlist#:#print###16 Mar 2004 new variable
-dateplaner#:#properties#:#Properties###16 Mar 2004 new variable
-dateplaner#:#pweek#:#next week###16 Mar 2004 new variable
-dateplaner#:#pyear#:#next year###16 Mar 2004 new variable
-dateplaner#:#r_14#:#every 14 days###16 Mar 2004 new variable
-dateplaner#:#r_4_weeks#:#every 4 weeks###16 Mar 2004 new variable
-dateplaner#:#r_day#:#every day###16 Mar 2004 new variable
-dateplaner#:#r_halfyear#:#every half year###16 Mar 2004 new variable
-dateplaner#:#r_month#:#every month###16 Mar 2004 new variable
-dateplaner#:#r_nonrecurring#:#Once###16 Mar 2004 new variable
-dateplaner#:#r_week#:#every week###16 Mar 2004 new variable
-dateplaner#:#r_year#:#every year###16 Mar 2004 new variable
-dateplaner#:#readimportfile#:#insert###16 Mar 2004 new variable
-dateplaner#:#rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#rotation_dates#:#Rotation Dates###16 Mar 2004 new variable
-dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
-dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
-dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
-dateplaner#:#short_03#:#Mar###16 Mar 2004 new variable
-dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
-dateplaner#:#short_05#:#May###16 Mar 2004 new variable
-dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
-dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
-dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
-dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
-dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
-dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
-dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
-dateplaner#:#shorttext#:#Short Text###16 Mar 2004 new variable
-dateplaner#:#singleDate#:#single date###16 Mar 2004 new variable
-dateplaner#:#starttime_for_view#:#Starttime for view:###16 Mar 2004 new variable
-dateplaner#:#timedate#:#Time / Date###16 Mar 2004 new variable
-dateplaner#:#timeslice#:#Time:###16 Mar 2004 new variable
-dateplaner#:#title#:#Ilias dateplaner###16 Mar 2004 new variable
-dateplaner#:#to#:#to###16 Mar 2004 new variable
-dateplaner#:#today#:#today###16 Mar 2004 new variable
-dateplaner#:#viewlist#:#view###16 Mar 2004 new variable
-dateplaner#:#week#:#week###16 Mar 2004 new variable
-dateplaner#:#year#:#year###16 Mar 2004 new variable
+dateplaner#:#help_keywordUse_l#:#Виберіть одне або більше ключових слів з діалогового вікна. <br>Порада: використовуйте клавішу CTRL для вибору декількох слів.
+dateplaner#:#help_keyword_l#:#Містить ключові слова які користувач може асоціювати з датами.
+dateplaner#:#help_list#:#Планувальник список дат
+dateplaner#:#help_list_l#:#В списку дат показані усі дати за даний період.
+dateplaner#:#help_month#:#Планувальник місячний огляд
+dateplaner#:#help_month_l#:#В місячному огляді будуть показані усі дати за даний період.
+dateplaner#:#help_properties_alt#:#Зміни ключового слова
+dateplaner#:#help_properties_alt_l#:#Виберіть ключове слово з діалогового вікна.<br>Зміність ключове слово в текстовому полі. Важливо: максимум 20 символів.
+dateplaner#:#help_properties_del#:#Видалене ключове слово
+dateplaner#:#help_properties_del_l#:#Виберіть ключове слово з діалогового вікна. Нажміть на кнопку для видалення ключового слова.
+dateplaner#:#help_properties_import#:#Імпортувати Outlook-CSV-Файли
+dateplaner#:#help_properties_import_l#:#Тут можна вибрати CSC-Файл, який містить Outlook-Дати. Ці дати будуть імпортовані в планувальник.
+dateplaner#:#help_properties_new#:#Додати ключове слово, максимум 20 символів
+dateplaner#:#help_properties_new_l#:#Додайте нове ключове слово в поле \"нове\". Важливо: максимум 20 символів.
+dateplaner#:#help_properties_time#:#Час показу для денного огляду/тижневого огляду
+dateplaner#:#help_properties_time_l#:#Стандартний час показу для денного огляду та тижневого огляду може бути змінений. Якщо дати не попадають в час показу для даного дня або тижня, час показу буде змінений та розтягнутий. Стандарт це 8г -18г.
+dateplaner#:#help_rotation#:#Повторення
+dateplaner#:#help_rotation_l#:#Містить тип чергування / повторення.
+dateplaner#:#help_shorttext#:#Короткий текст з максимумом 50 символів
+dateplaner#:#help_shorttext_l#:#Тут ви можете ввести короткий текст для вибраної дати.
+dateplaner#:#help_startdate#:#Дата початаку - синтакс[dd//mm/yyyy]
+dateplaner#:#help_startdate_l#:#Містить початкову точку призначення. <br> Символ відкриває маленький календар для вибору відповідної дати.
+dateplaner#:#help_starttime#:#Час почтаку - синтакс[hh/mm] 24h формат
+dateplaner#:#help_starttime_l#:#Містить початкову точку призначення використовуючи 24h формат.
+dateplaner#:#help_text#:#Текст
+dateplaner#:#help_text_l#:#Тут ви можете ввести текст для вибраної дати.
+dateplaner#:#help_week#:#Планувальник тижневий огляд
+dateplaner#:#help_week_l#:#В тижневому огляді усі дати вибраного тижня будуть показані.
+dateplaner#:#hour#:#година
+dateplaner#:#importDates#:#Імпортувати Outlook Дати
+dateplaner#:#inbox#:#Вхідні
+dateplaner#:#insertImportDates#:#Ці дати були вдало зареєстровані:
+dateplaner#:#k_alldates#:#усі дати
+dateplaner#:#keep#:#зберегти
+dateplaner#:#keyword#:#Клюсове слово
+dateplaner#:#keywords#:#Ключові слова
+dateplaner#:#last_change#:#Остання зміна
+dateplaner#:#long_01#:#Січень
+dateplaner#:#long_02#:#Лютий
+dateplaner#:#long_03#:#Березень
+dateplaner#:#long_04#:#Квітень
+dateplaner#:#long_05#:#Травень
+dateplaner#:#long_06#:#Червень
+dateplaner#:#long_07#:#Липень
+dateplaner#:#long_08#:#Серпень
+dateplaner#:#long_09#:#Вересень
+dateplaner#:#long_10#:#Жовтень
+dateplaner#:#long_11#:#Листопад
+dateplaner#:#long_12#:#Грудень
+dateplaner#:#main_dates#:#Головні Дати
+dateplaner#:#menue#:#Меню
+dateplaner#:#mmonth#:#останній місяць
+dateplaner#:#month#:#місяць
+dateplaner#:#more#:#більше
+dateplaner#:#mweek#:#останній тиждень
+dateplaner#:#myeahr#:#останній рік
+dateplaner#:#newDates#:#Нові дати
+dateplaner#:#newKeyword#:#Нове:
+dateplaner#:#new_doc#:#створити нову дату
+dateplaner#:#no_entry#:#немає доступних дат
+dateplaner#:#o_day_date#:#24h дата
+dateplaner#:#of#:#
+dateplaner#:#open_day#:#денний огляд
+dateplaner#:#pmonth#:#наступний місяць
+dateplaner#:#printlist#:#друк
+dateplaner#:#properties#:#Властивості
+dateplaner#:#pweek#:#наступний тиждень
+dateplaner#:#pyear#:#наступний рік
+dateplaner#:#r_14#:#кожні 14 днів
+dateplaner#:#r_4_weeks#:#кожні 4 тижні
+dateplaner#:#r_day#:#кожен день
+dateplaner#:#r_halfyear#:#кожні пів року
+dateplaner#:#r_month#:#кожен місяць
+dateplaner#:#r_nonrecurring#:#Один раз
+dateplaner#:#r_week#:#кожну неділю
+dateplaner#:#r_year#:#кожен рік
+dateplaner#:#readimportfile#:#вставити
+dateplaner#:#rotation#:#Повторення
+dateplaner#:#rotation_dates#:#Дати Потоврів
+dateplaner#:#semester_name#:#Ім'я Семестру
+dateplaner#:#short_01#:#Січ
+dateplaner#:#short_02#:#Лют
+dateplaner#:#short_03#:#Бер
+dateplaner#:#short_04#:#Кві
+dateplaner#:#short_05#:#Тра
+dateplaner#:#short_06#:#Чер
+dateplaner#:#short_07#:#Лип
+dateplaner#:#short_08#:#Сер
+dateplaner#:#short_09#:#Вер
+dateplaner#:#short_10#:#Жов
+dateplaner#:#short_11#:#Лис
+dateplaner#:#short_12#:#Гру
+dateplaner#:#shorttext#:#Короткий Текст
+dateplaner#:#singleDate#:#одиночна дата
+dateplaner#:#starttime_for_view#:#Початковий час для огляду:
+dateplaner#:#timedate#:#Час / Дата
+dateplaner#:#timeslice#:#Час:
+dateplaner#:#title#:#Планувальник Ilias
+dateplaner#:#to#:#для
+dateplaner#:#today#:#сьогодні
+dateplaner#:#viewlist#:#огляд
+dateplaner#:#week#:#тиждень
+dateplaner#:#year#:#рік
 forum#:#forums#:#Форуми
 forum#:#forums_articles#:#Пост
 forum#:#forums_attachments#:#Прикріплення
@@ -3517,25 +3517,25 @@ forum#:#forums_info_censor2_post#:#Відмінити права на Цензу
 forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте сховати цей пост?
 forum#:#forums_info_delete_post#:#Ви впевнені що ви бажаєте видалитти цей пост разом з усіма відповідями на нього?
 forum#:#forums_last_post#:#Останній Пост
-forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
+forum#:#forums_mark_read#:#Помітити усе як прочитане
 forum#:#forums_moderators#:#Модератори
-forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
+forum#:#forums_new_articles#:#Нові статті
 forum#:#forums_new_entries#:#Нові Надходження в Форуми
 forum#:#forums_new_thread#:#Нова Тема
 forum#:#forums_not_available#:#Форуми Недоступні
 forum#:#forums_overview#:#Огляд Форумів
 forum#:#forums_post_deleted#:#Пост був видалений
 forum#:#forums_post_modified#:#Пост був відредагований
-forum#:#forums_post_new_entry#:#Новий пост був зареєстрований###14 Sep 2004 content changed
+forum#:#forums_post_new_entry#:#Нова стаття створена
 forum#:#forums_posts#:#Усі пости
 forum#:#forums_posts_not_available#:#Пост Недосупний
 forum#:#forums_print_thread#:#Друкувати Вітку
 forum#:#forums_quote#:#Цитата
 forum#:#forums_respond#:#Надіслати Відповідь
-forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
+forum#:#forums_subject#:#Тема
 forum#:#forums_the_post#:#Пост
 forum#:#forums_thread#:#Тема
-forum#:#forums_thread_articles#:#Пости до теми###14 Sep 2004 content changed
+forum#:#forums_thread_articles#:#Статті розділу
 forum#:#forums_thread_create_date#:#Створений
 forum#:#forums_thread_create_from#:#Стоврений з
 forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
