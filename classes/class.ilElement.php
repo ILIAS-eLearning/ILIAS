@@ -10,7 +10,7 @@
 * @access public
 * @version $Id$
 */
-class Element {
+class ilElement {
 
     /**
     * database handle
@@ -70,7 +70,7 @@ class Element {
     */
     function setDbTable($AdbTable) {
         if ($AdbTable == "") {
-            die("Element::setDbTable(): No database table given.");
+            die("ilElement::setDbTable(): No database table given.");
         } else {
             $this->dbTable = $AdbTable;
         }
@@ -117,15 +117,15 @@ class Element {
     * @access public
     */
     function queryDb($query) {
-        $this->checkDb("Element::queryDb()");
+        $this->checkDb("ilElement::queryDb()");
         //query is empty?
         if ($query == "") {
-            die("Element::queryDb(): No query given.");
+            die("ilElement::queryDb(): No query given.");
         }
         //evaluate the result
         $result = $this->dbHandle->query($query);
         if (DB::isError($result)) {
-            die("Element::queryDb(): ".$result->getMessage());
+            die("ilElement::queryDb(): ".$result->getMessage());
         }
 
         return true;
@@ -139,18 +139,18 @@ class Element {
     * @access public
     */
     function updateDb($unique, $value) {
-        $this->checkDb("Element::updateDb()");
+        $this->checkDb("ilElement::updateDb()");
         //check unique
         if ($unique == "") {
-            die("Element::updateDB(): No unique database field given.");
+            die("ilElement::updateDB(): No unique database field given.");
         }
         //check value
         if ($value == "") {
-            die("Element::updateDB(): No value given.");
+            die("ilElement::updateDB(): No value given.");
         }
         //check the private data-array
         if (!is_array($this->data)) {
-            die("Element::updateDB(): No data given.");
+            die("ilElement::updateDB(): No data given.");
         }
         //build query
         $subq = "";
@@ -172,7 +172,7 @@ class Element {
         */
         //query is empty
         if ($subq == "") {
-            die("Element::updateDB(): No data given.");
+            die("ilElement::updateDB(): No data given.");
         }
         //truncate subq (there is a comma...)
         $subq = substr($subq, 0, strlen($subq)-2);
@@ -181,7 +181,7 @@ class Element {
         $this->dbHandle->query($q);
         //evaluate result
         if (DB::isError($result)) {
-            die("Element::updateDb(): ".$result->getMessage()." : $q");
+            die("ilElement::updateDb(): ".$result->getMessage()." : $q");
         }
     } //end function updateDb
 
@@ -193,10 +193,10 @@ class Element {
     * @access public
     */
     function insertDb() {
-        $this->checkDb("Element::insertDb()");
+        $this->checkDb("ilElement::insertDb()");
         //check data
         if (!is_array($this->data)) {
-            die("Element::insertDB(): No data given.");
+            die("ilElement::insertDB(): No data given.");
         }
         //build query
         $fields = "";
@@ -214,11 +214,11 @@ class Element {
         }
         //check fields string
         if ($fields == "") {
-            die("Element::insertDB(): No fields given.");
+            die("ilElement::insertDB(): No fields given.");
         }
         //check values-string
         if ($values == "") {
-            die("Element::insertDB(): No values given.");
+            die("ilElement::insertDB(): No values given.");
         }
         //truncate fields (there is a comma at the end...)
         $fields = substr($fields, 0, strlen($fields)-2);
@@ -228,13 +228,13 @@ class Element {
         //evaluate result
         $result = $this->dbHandle->query($q);
         if (DB::isError($result)) {
-            die("Element::insertDb(): ".$result->getMessage()." : $q");
+            die("ilElement::insertDb(): ".$result->getMessage()." : $q");
         }
         //query the unique-key of inserted dataset
         $q = "SELECT LAST_INSERT_ID()";
         $this->result = $this->dbHandle->query($q);
         if (DB::isError($result)) {
-            die("Element::insertDb()-Last_ID: ".$result->getMessage());
+            die("ilElement::insertDb()-Last_ID: ".$result->getMessage());
         }
         //query the result
         if ($data = $this->result->fetchRow()) {
@@ -252,21 +252,21 @@ class Element {
     * @access public
     */
     function getDbData($unique, $value) {
-        $this->checkDb("Element::getDbData()");
+        $this->checkDb("ilElement::getDbData()");
         //check unique-key
         if ($unique == "") {
-            die("Element::getDbData(): No unique database field given.");
+            die("ilElement::getDbData(): No unique database field given.");
         }
         //check value
         if ($value == "") {
-            die("Element::getDbData(): No value given.");
+            die("ilElement::getDbData(): No value given.");
         }
         //build query
         $q = "SELECT * FROM " . $this->getDbTable() . " WHERE " . $unique . " = " . $this->dbHandle->quote($value);
         $result = $this->dbHandle->query($q);
         //check result
         if (DB::isError($result)) {
-            die("Element::getDbData(): ".$result->getMessage());
+            die("ilElement::getDbData(): ".$result->getMessage());
         }
         //return an associative array from query or false
         if ($result->numRows() > 0) {
@@ -285,17 +285,17 @@ class Element {
     function getDbDataByQuery($query) {
         //check database handle
         if ($this->dbHandle == "") {
-            die("Element::getDbDataByQuery(): No database handle given.");
+            die("ilElement::getDbDataByQuery(): No database handle given.");
         }
         //check query
         if ($query == "") {
-            die("Element::getDbDataByQuery(): No query given.");
+            die("ilElement::getDbDataByQuery(): No query given.");
         }
         //send query
         $result = $this->dbHandle->query($query);
         //analyze resultset
         if (DB::isError($result)) {
-            die("Element::getDbDataByQuery(): ".$result->getMessage());
+            die("ilElement::getDbDataByQuery(): ".$result->getMessage());
         }
         //return associative array or false
         if ($result->numRows() > 0) {
@@ -312,16 +312,16 @@ class Element {
     function getDbValueByQuery($query, $field) {
         //check database handle
         if ($this->dbHandle == "") {
-            die("Element::getDbDataByQuery(): No database handle given.");
+            die("ilElement::getDbDataByQuery(): No database handle given.");
         }
         //check query
         if ($query == "") {
-            die("Element::getDbDataByQuery(): No query given.");
+            die("ilElement::getDbDataByQuery(): No query given.");
         }
         $result = $this->dbHandle->query($query);
         //analyze resultset
         if (DB::isError($result)) {
-            die("Element::getDbValueByQuery(): ".$result->getMessage());
+            die("ilElement::getDbValueByQuery(): ".$result->getMessage());
         }
         //return associative array or false
         if ($result->numRows() > 0) {
