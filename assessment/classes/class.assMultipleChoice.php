@@ -491,10 +491,11 @@ class ASS_MultipleChoice extends ASS_Question {
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
 			if ($update) {
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s, WHERE solution_id = %s",
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
 					$db->quote($_POST["multiple_choice_result"]),
 					$db->quote($update)
 				);
+				print $query;
 			} else {
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 					$db->quote($ilUser->id),
