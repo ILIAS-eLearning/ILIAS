@@ -1,6 +1,12 @@
 <tr>
 	<td valign="top" class="{ROWCOL}" nowrap="nowrap">
-		<a href="{LINK}" target="{LINK_TARGET}">{TITLE}</a><br />
+		<a href="{LINK}" target="{LINK_TARGET}">{TITLE}</a>
+		<!-- BEGIN exc_desklink -->
+ 			[<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a>]
+		<!-- END exc_desklink -->
+	  <!-- BEGIN exc_delete -->
+	  [<a href="{DELETE_LINK}">{TXT_DELETE}</a>]
+	  <!-- END exc_delete -->
 		<div class="il_Description">{DESCRIPTION}</div>
 	</td>
 	<td valign="top" class="{ROWCOL}">{OWNER}</td>
