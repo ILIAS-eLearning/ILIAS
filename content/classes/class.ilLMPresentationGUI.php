@@ -1935,7 +1935,7 @@ class ilLMPresentationGUI
 		// set style sheets
 		if (!$this->offlineMode())
 		{
-			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			$this->tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		}
 		else
 		{

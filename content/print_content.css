@@ -13,6 +13,19 @@ a.menu:link, a.menu:visited {
 	color:#a0c0ff;
 }
 
+table.fullwidth_invisible {
+	color:#222222;
+	background-color:#FFFFFF;
+	width:100%;
+	border-spacing:0px;
+}
+
+td.ilInvisibleBorder
+{
+	padding:40px;
+}
+
+
 
 /* --- content styles (will move to content.css) --- */
 table.ilc_Page {
