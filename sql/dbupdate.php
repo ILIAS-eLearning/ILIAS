@@ -185,3 +185,11 @@ INSERT INTO cal_category (categoryId, description, term) VALUES ('1','test','tes
 <#29>
 ALTER TABLE page_object CHANGE content content TEXT NOT NULL;
 ALTER TABLE page_object ADD FULLTEXT ( content );
+
+<#30>
+CREATE TABLE dbk_translations
+(
+	id			int(11) NOT NULL,
+	tr_id		int(11) NOT NULL,
+	PRIMARY KEY (id,tr_id)
+);
