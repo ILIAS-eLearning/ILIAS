@@ -29,7 +29,7 @@ if ($_REQUEST["ok"] == "ok")
 	$iliasDir = $_REQUEST["iliasDir"];
 	$sDir = $_REQUEST["sDir"];
 	$tDir = $_REQUEST["tDir"];
-	
+
 	// check if set
 	if (is_string($zipCmd) and
 		is_integer($luId) and
