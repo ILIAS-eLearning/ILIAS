@@ -34,11 +34,11 @@
 * @package ilias-core
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "content/classes/class.ilObjContentObject.php";
-require_once ("classes/class.ilObjStyleSheetGUI.php");
-require_once ("content/classes/class.ilLMPageObjectGUI.php");
-require_once ("content/classes/class.ilStructureObjectGUI.php");
+include_once "classes/class.ilObjectGUI.php";
+include_once "content/classes/class.ilObjContentObject.php";
+include_once ("classes/class.ilObjStyleSheetGUI.php");
+include_once ("content/classes/class.ilLMPageObjectGUI.php");
+include_once ("content/classes/class.ilStructureObjectGUI.php");
 
 class ilObjContentObjectGUI extends ilObjectGUI
 {

@@ -100,6 +100,7 @@ class ilRepositoryGUI
 			}
 		}
 
+		// get current mode
 		if (!empty($_GET["set_mode"]))
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
@@ -109,7 +110,7 @@ class ilRepositoryGUI
 			? $_SESSION["il_rep_mode"]
 			: "flat";
 
-		if (($this->mode == "tree") || !$tree->isInTree($this->cur_ref_id))
+		if (!$tree->isInTree($this->cur_ref_id))
 		{
 			$this->cur_ref_id = $this->tree->getRootId();
 		}
@@ -281,6 +282,18 @@ class ilRepositoryGUI
 				break;*/
 
 			default:
+			
+				// process repository frameset
+				if ($cmd == "frameset")
+				{
+					if ($_SESSION["il_rep_mode"] == "tree")
+					{
+						$this->frameset();
+						return;
+					}
+					$cmd = "";
+					$this->ctrl->setCmd("");
+				}
 
 				if (!isset($obj_type))
 				{
@@ -330,6 +343,16 @@ class ilRepositoryGUI
 				break;
 		}
 	}
+	
+	/**
+	* output tree frameset
+	*/
+	function frameset()
+	{
+		$this->tpl = new ilTemplate("tpl.rep_frameset.html", false, false);
+		$this->tpl->setVariable("REF_ID",$this->cur_ref_id);
+		$this->tpl->show();
+	}
 
 	function prepareOutput($a_tabs_out = true)
 	{
@@ -361,6 +384,8 @@ class ilRepositoryGUI
 	*/
 	function showList()
 	{
+		$this->showFlatList();
+		/*
 		switch ($this->mode)
 		{
 			case "tree":
@@ -370,7 +395,7 @@ class ilRepositoryGUI
 			default:
 				$this->showFlatList();
 				break;
-		}
+		}*/
 	}
 
 
@@ -379,13 +404,15 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
-		$this->prepareOutput();
-		
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_explorer.html");
+		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		include_once ("classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
+		$exp->setExpandTarget("repository.php?cmd=showTree");
 		$exp->setTargetGet("ref_id");
 
 		if ($_GET["repexpand"] == "")
@@ -402,13 +429,13 @@ class ilRepositoryGUI
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
-
-		$this->tpl->setCurrentBlock("objects");
-		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
+		
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
 		$this->tpl->setVariable("EXPLORER", $output);
 		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		$this->tpl->show(false);
 	}
 
 	
@@ -751,15 +778,17 @@ class ilRepositoryGUI
 
 		//$this->tpl->setCurrentBlock("content");
 
-		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
-		{
+		/*
 			$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
 			$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
-
-			$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&ref_id=".$this->cur_ref_id);
-			$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
-		}
+		*/
+		$s_mode = ($_SESSION["il_rep_mode"] == "flat")
+			? "tree"
+			: "flat";
+		$this->tpl->setVariable("LINK_MODE", "repository.php?cmd=frameset&set_mode=".$s_mode."&ref_id=".$this->cur_ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
 	}
+	
 
 	/**
 	* set admin tabs
