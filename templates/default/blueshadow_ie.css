@@ -482,11 +482,7 @@ a.btn:hover {
 }
 
 input {
-	background-color:#ffffff;
 	color:#000000;
-	border-width:1px;
-	border-color:#bbbbbb;
-	border-style:inset;
 	font-size:13px;
 }
 
@@ -510,11 +506,6 @@ label, input[type=checkbox], input[type=radio], select
 	cursor:pointer;
 }
 
-input[type=checkbox], input[type=radio]
-{
-	border-style:none;
-	background-color:none;
-}
 
 a.ilEditSubmit, input.ilEditSubmit {
 	background-color:#ffffff;
