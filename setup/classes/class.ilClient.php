@@ -83,8 +83,15 @@ class ilClient
 		}
 
 		// only for ilias main
-		define(CLIENT_WEB_DIR,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId());
-		define(CLIENT_DATA_DIR,ILIAS_DATA_DIR."/".$this->getId());
+		define("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId());
+		define("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".$this->getId());
+		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID'));
+		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
+		define ("ROLE_FOLDER_ID",$this->ini->readVariable('system','ROLE_FOLDER_ID'));
+		define ("ANONYMOUS_USER_ID",13);
+		define ("ANONYMOUS_ROLE_ID",14);
+		define ("SYSTEM_USER_ID",6);
+		define ("SYSTEM_ROLE_ID",2);
 		
 		$this->db_exists = $this->connect();
 		
