@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.20 2003/07/16 12:37:55 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.21 2003/07/16 13:48:32 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -152,8 +152,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
 
-
-		$childs = $this->grp_tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
+// tmp display std tree
+		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
 		foreach ($childs as $key => $val)
 		{
@@ -1076,7 +1076,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	* TODO an die Besonderheiten der Gruppe (grp_tree) anpassen
 	* @access	public
  	*/
-	function pasteObject()
+	/*function pasteObject()
 	{
 		global $rbacsystem,$rbacadmin,$tree,$objDefinition;
 
@@ -1331,7 +1331,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("msg_changes_ok"),true);
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-	}
+	}*/
 
 	/**
 	* display object list

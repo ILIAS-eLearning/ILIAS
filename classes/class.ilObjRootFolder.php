@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.6 2003/07/11 12:20:53 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.7 2003/07/11 13:23:05 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -86,10 +86,30 @@ class ilObjRootFolder extends ilObject
 		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		return false;
 		
-		// put here rootfolder specific stuff
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
 		
-		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		// put here rootfolder specific stuff
+
+		return true;;
+	}
+
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional parameters if required
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id,$a_params = 0)
+	{
+		return true;
 	}
 } // END class.ObjRootFolder
 ?>
