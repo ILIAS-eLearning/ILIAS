@@ -48,12 +48,57 @@ class ilObjRoleTemplate extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	/**
+	* copy all properties and subobjects of a role template.
+	* DISABLED
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		// DISABLED
+		return false;
 
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here role template specific stuff
+		
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete role template and all related data
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+
+		// put here role template specific stuff
+		global $rbacadmin;
+
+		// delete rbac permissions
+		$rbacadmin->deleteTemplate($this->getId(),$_GET["ref_id"]);
+
+		return true;
+	}
+
+	
 	/**
 	* delete a role template object 
 	* @access	public
 	* @return	boolean
-	**/
+	*
 	function delete()
 	{
 		global $rbacsystem, $rbacadmin;
@@ -65,6 +110,6 @@ class ilObjRoleTemplate extends ilObject
 		parent::delete();
 
 		return true;
-	}
+	}*/
 } // END class.ilObjRoleTemplate
 ?>

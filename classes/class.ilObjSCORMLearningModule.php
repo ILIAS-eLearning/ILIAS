@@ -104,7 +104,28 @@ class ilObjSCORMLearningModule extends ilObject
 		$new_ref_id = parent::clone($a_parent_ref);
 		
 		// put here slm specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
 	}
 
+	/**
+	* delete SCORM learning module and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// put here SCORM learning module specific stuff
+		
+		return true;
+	}
 } // END class.ilObjSCORMLearningModule
 ?>

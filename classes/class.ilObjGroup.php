@@ -678,8 +678,28 @@ class ilObjGroup extends ilObject
 		unset($rfoldObj);
 		unset($roleObj);
 
+		// ... and finally always return new reference ID!!
 		return $new_ref_id;
 	}
 
-} //END class.GroupObject
+	/**
+	* delete group and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// put here group specific stuff
+		
+		return true;
+	}
+
+} //END class.ilObjGroup
 ?>

@@ -49,12 +49,36 @@ class ilObjRole extends ilObject
 	}
 
 	/**
-	* delete role object
+	* copy all properties and subobjects of a role.
+	* DISABLED
 	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		// DISABLED
+		return false;
+
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here role specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete role and all related data
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{
-		global $tree, $rbacadmin, $rbacreview;
+	{		
+		global $rbacadmin, $rbacreview;
 		
 		// TODO: unassign users from deleted role
 
@@ -83,7 +107,7 @@ class ilObjRole extends ilObject
 			// users with last role found?
 			if (count($last_role_user_ids) > 0)
 			{
-				foreach($last_role_user_ids as $user_id)
+				foreach ($last_role_user_ids as $user_id)
 				{
 					// GET OBJECT TITLE
 					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
@@ -102,6 +126,7 @@ class ilObjRole extends ilObject
 
 				// delete object_data entry
 				parent::delete();
+				return true;
 			}
 		}
 		else
@@ -112,5 +137,5 @@ class ilObjRole extends ilObject
 
 		return true;
 	}
-} // END class.RoleObject
+} // END class.ilObjRole
 ?>

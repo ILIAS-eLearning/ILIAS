@@ -53,7 +53,7 @@ class ilObjRoleFolder extends ilObject
 	* 
 	* @access	public
 	* @return	boolean	true on success
-	*/
+	*
 	function delete()
 	{
 		global $rbacadmin, $rbacreview;
@@ -72,18 +72,59 @@ class ilObjRoleFolder extends ilObject
 		parent::delete();
 
 		return true;
+	}*/
+
+	/**
+	* copy all properties and subobjects of an rolefolder.
+	* DISABLED
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		// DISABLED
+		// DO NOTHING ROLE FOLDERS AREN'T COPIED
+		//	$new_ref_id = parent::clone($a_parent_ref);
+		return false;
+
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here rolefolder specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
 	}
 
 	/**
-	* clone role folder
-	* 
+	* delete rolefolder and all related data	
+	*
 	* @access	public
-	* @return	boolean	true on success
+	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
-	function clone($a_parent_ref)
-	{
-		// DO NOTHING ROLE FOLDERS AREN'T COPIED
-		//	$new_id = parent::clone($a_parent_ref);
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// put here rolefolder specific stuff
+		global $rbacadmin, $rbacreview;
+
+		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
+
+		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
+		foreach ($roles as $role)
+		{
+			$roleObj =& $this->ilias->obj_factory->getInstanceByObjId($role);
+			$roleObj->delete();
+			unset($roleObj);
+		}
+		
 		return true;
 	}
 
@@ -97,5 +138,5 @@ class ilObjRoleFolder extends ilObject
 	{
 		return false;
 	}
-} // END class.ilObjRoleFOlder
+} // END class.ilObjRoleFolder
 ?>

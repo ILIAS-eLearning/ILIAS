@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.4 2003/05/16 13:39:22 smeyer Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.5 2003/06/12 14:37:40 smeyer Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -48,27 +48,53 @@ class ilObjRootFolder extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-	/*
-	* deletion (no deletion of root folder)
+
+	/**
+	* copy all properties and subobjects of a rootfolder.
+	* DISABLED
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		// DISABLED
+		return false;
+
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here rootfolder specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete rootfolder and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{
-		global $rbacadmin, $rbacreview;
-		
-		$this->ilias->raiseError("ilObjRootFolder::delete(): Can't delete root folder", $this->ilias->error_obj->MESSAGE);
+	{		
+		// DISABLED
+		global $log;
+		$message = get_class($this)."::delete(): Can't delete root folder!";
+		$log->writeWarning($message);
+		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		return false;
 
-		// GET ALL ROLES OF ROLE FOLDER
-		/*
-		$all_roles = $rbacreview->getRolesOfRoleFolder($this->getId());
-		
-		// FIRST DELETE THIS ROLES
-		foreach($all_roles as $role_id)
+		// always call parent delete function first!!
+		if (!parent::delete())
 		{
-			$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			$role_obj->delete();
+			return false;
 		}
-		// NOW DELETE ROLE FOLDER
-		parent::delete();*/
+		
+		// put here rootfolder specific stuff
+		
+		return true;
 	}
-} // END class.RootFolder
+} // END class.ObjRootFolder
 ?>

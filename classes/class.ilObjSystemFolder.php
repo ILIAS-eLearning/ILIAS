@@ -47,5 +47,49 @@ class ilObjSystemFolder extends ilObject
 		$this->type = "adm";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
-} // END class.SystemFolderObject
+
+	/**
+	* copy all properties and subobjects of a systemfolder.
+	* DISABLED
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		// DISABLED
+		return false;
+
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here cat specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete systemfolder and all related data	
+	* DISABLED
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// DISABLED
+		return false;
+
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// put here systemfolder specific stuff
+		
+		return true;
+	}
+} // END class.ilObjSystemFolder
 ?>
