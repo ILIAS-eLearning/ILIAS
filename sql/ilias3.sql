@@ -1082,7 +1082,6 @@ INSERT INTO `lng_data` VALUES ('common', 'accept_usr_agreement', 'en', 'Accept u
 INSERT INTO `lng_data` VALUES ('common', 'access', 'en', 'Access');
 INSERT INTO `lng_data` VALUES ('common', 'action_aborted', 'en', 'Action aborted');
 INSERT INTO `lng_data` VALUES ('common', 'actions', 'en', 'Actions');
-INSERT INTO `lng_data` VALUES ('common', 'active', 'en', 'Active');
 INSERT INTO `lng_data` VALUES ('common', 'active_roles', 'en', 'Active Roles');
 INSERT INTO `lng_data` VALUES ('common', 'add', 'en', 'Add');
 INSERT INTO `lng_data` VALUES ('common', 'add_author', 'en', 'Add Author');
@@ -1107,8 +1106,6 @@ INSERT INTO `lng_data` VALUES ('common', 'application_completed', 'en', 'Applica
 INSERT INTO `lng_data` VALUES ('common', 'application_date', 'en', 'Application date');
 INSERT INTO `lng_data` VALUES ('common', 'appointment', 'en', 'Appointment');
 INSERT INTO `lng_data` VALUES ('common', 'appointment_list', 'en', 'Appointment List');
-INSERT INTO `lng_data` VALUES ('common', 'approve_date', 'en', 'Approved On ');
-INSERT INTO `lng_data` VALUES ('common', 'approve_recipient', 'en', 'Login ID of approver');
 INSERT INTO `lng_data` VALUES ('common', 'archive', 'en', 'Archive');
 INSERT INTO `lng_data` VALUES ('common', 'are_you_sure', 'en', 'Are you sure?');
 INSERT INTO `lng_data` VALUES ('common', 'assign', 'en', 'Assign');
@@ -1119,7 +1116,6 @@ INSERT INTO `lng_data` VALUES ('common', 'attachment', 'en', 'Attachment');
 INSERT INTO `lng_data` VALUES ('common', 'attachments', 'en', 'Attachments');
 INSERT INTO `lng_data` VALUES ('common', 'author', 'en', 'Author');
 INSERT INTO `lng_data` VALUES ('common', 'authors', 'en', 'Authors');
-INSERT INTO `lng_data` VALUES ('common', 'auto_registration', 'en', 'Automatically approve registration');
 INSERT INTO `lng_data` VALUES ('common', 'available_languages', 'en', 'Available Languages');
 INSERT INTO `lng_data` VALUES ('common', 'back', 'en', 'Back');
 INSERT INTO `lng_data` VALUES ('common', 'basedn', 'en', 'BaseDN');
@@ -1214,7 +1210,6 @@ INSERT INTO `lng_data` VALUES ('common', 'country', 'en', 'Country');
 INSERT INTO `lng_data` VALUES ('common', 'course', 'en', 'Course');
 INSERT INTO `lng_data` VALUES ('common', 'courses', 'en', 'Courses');
 INSERT INTO `lng_data` VALUES ('common', 'create', 'en', 'Create');
-INSERT INTO `lng_data` VALUES ('common', 'create_date', 'en', 'Created On');
 INSERT INTO `lng_data` VALUES ('common', 'create_in', 'en', 'Create in');
 INSERT INTO `lng_data` VALUES ('common', 'create_stylesheet', 'en', 'Create Style');
 INSERT INTO `lng_data` VALUES ('common', 'crs', 'en', 'Course');
@@ -1305,7 +1300,6 @@ INSERT INTO `lng_data` VALUES ('common', 'err_1_param', 'en', 'Only 1 parameter!
 INSERT INTO `lng_data` VALUES ('common', 'err_2_param', 'en', 'Only 2 parameter!');
 INSERT INTO `lng_data` VALUES ('common', 'err_count_param', 'en', 'Reason: Wrong parameter count');
 INSERT INTO `lng_data` VALUES ('common', 'err_in_line', 'en', 'Error in line');
-INSERT INTO `lng_data` VALUES ('common', 'err_inactive', 'en', 'This account has not been activated. Please contact the system administrator for access.');
 INSERT INTO `lng_data` VALUES ('common', 'err_no_langfile_found', 'en', 'No language file found!');
 INSERT INTO `lng_data` VALUES ('common', 'err_no_param', 'en', 'No parameter!');
 INSERT INTO `lng_data` VALUES ('common', 'err_over_3_param', 'en', 'More than 3 parameters!');
@@ -1512,7 +1506,6 @@ INSERT INTO `lng_data` VALUES ('common', 'import_lm', 'en', 'Import Learningmodu
 INSERT INTO `lng_data` VALUES ('common', 'import_slm', 'en', 'Import SCORM Package');
 INSERT INTO `lng_data` VALUES ('common', 'in', 'en', 'in');
 INSERT INTO `lng_data` VALUES ('common', 'in_use', 'en', 'User Language');
-INSERT INTO `lng_data` VALUES ('common', 'inactive', 'en', 'Inactive');
 INSERT INTO `lng_data` VALUES ('common', 'inbox', 'en', 'Inbox');
 INSERT INTO `lng_data` VALUES ('common', 'info_assign_sure', 'en', 'Are you sure you want to assign the following user(s)?');
 INSERT INTO `lng_data` VALUES ('common', 'info_delete_sure', 'en', 'Are you sure you want to delete the following object(s)?');
@@ -1961,7 +1954,6 @@ INSERT INTO `lng_data` VALUES ('common', 'quit', 'en', 'Quit');
 INSERT INTO `lng_data` VALUES ('common', 'quote', 'en', 'Quote');
 INSERT INTO `lng_data` VALUES ('common', 'read', 'en', 'Read');
 INSERT INTO `lng_data` VALUES ('common', 'recipient', 'en', 'Recipient');
-INSERT INTO `lng_data` VALUES ('common', 'referral_comment', 'en', 'How did you hear about ILIAS?');
 INSERT INTO `lng_data` VALUES ('common', 'refresh', 'en', 'Refresh');
 INSERT INTO `lng_data` VALUES ('common', 'refresh_languages', 'en', 'Refresh Languages');
 INSERT INTO `lng_data` VALUES ('common', 'refresh_list', 'en', 'Refresh List');
@@ -1977,27 +1969,6 @@ INSERT INTO `lng_data` VALUES ('common', 'remove_translation', 'en', 'Remove tra
 INSERT INTO `lng_data` VALUES ('common', 'rename', 'en', 'Rename');
 INSERT INTO `lng_data` VALUES ('common', 'reply', 'en', 'Reply');
 INSERT INTO `lng_data` VALUES ('common', 'repository', 'en', 'Repository');
-INSERT INTO `lng_data` VALUES ('common', 'require_city', 'en', 'Require city');
-INSERT INTO `lng_data` VALUES ('common', 'require_country', 'en', 'Require country');
-INSERT INTO `lng_data` VALUES ('common', 'require_default_role', 'en', 'Require role');
-INSERT INTO `lng_data` VALUES ('common', 'require_department', 'en', 'Require department');
-INSERT INTO `lng_data` VALUES ('common', 'require_email', 'en', 'Require email');
-INSERT INTO `lng_data` VALUES ('common', 'require_faxRequire fax', 'en', 'Require fax');
-INSERT INTO `lng_data` VALUES ('common', 'require_firstname', 'en', 'Require first name');
-INSERT INTO `lng_data` VALUES ('common', 'require_gender', 'en', 'Require gender');
-INSERT INTO `lng_data` VALUES ('common', 'require_hobby', 'en', 'Require hobby');
-INSERT INTO `lng_data` VALUES ('common', 'require_institution', 'en', 'Require institution');
-INSERT INTO `lng_data` VALUES ('common', 'require_lastname', 'en', 'Require last name');
-INSERT INTO `lng_data` VALUES ('common', 'require_login', 'en', 'Require login');
-INSERT INTO `lng_data` VALUES ('common', 'require_mandatory', 'en', 'mandatory');
-INSERT INTO `lng_data` VALUES ('common', 'require_passwd', 'en', 'Require password');
-INSERT INTO `lng_data` VALUES ('common', 'require_passwd2', 'en', 'Require retype password');
-INSERT INTO `lng_data` VALUES ('common', 'require_phone_home', 'en', 'Require home phone');
-INSERT INTO `lng_data` VALUES ('common', 'require_phone_mobile', 'en', 'Require mobile phone');
-INSERT INTO `lng_data` VALUES ('common', 'require_phone_office', 'en', 'Require office phone');
-INSERT INTO `lng_data` VALUES ('common', 'require_referral_comment', 'en', 'Require referral comment');
-INSERT INTO `lng_data` VALUES ('common', 'require_street', 'en', 'Require street');
-INSERT INTO `lng_data` VALUES ('common', 'require_zipcode', 'en', 'Require zip code');
 INSERT INTO `lng_data` VALUES ('common', 'required_field', 'en', 'Required Field');
 INSERT INTO `lng_data` VALUES ('common', 'reset', 'en', 'Reset');
 INSERT INTO `lng_data` VALUES ('common', 'resources', 'en', 'Resources');
@@ -2047,11 +2018,8 @@ INSERT INTO `lng_data` VALUES ('common', 'save_return', 'en', 'Save and Return')
 INSERT INTO `lng_data` VALUES ('common', 'saved', 'en', 'Saved');
 INSERT INTO `lng_data` VALUES ('common', 'saved_successfully', 'en', 'Saved Successfully');
 INSERT INTO `lng_data` VALUES ('common', 'search', 'en', 'Search');
-INSERT INTO `lng_data` VALUES ('common', 'search_active', 'en', 'Include active users');
 INSERT INTO `lng_data` VALUES ('common', 'search_in', 'en', 'Search in');
-INSERT INTO `lng_data` VALUES ('common', 'search_inactive', 'en', 'Include inactive users');
 INSERT INTO `lng_data` VALUES ('common', 'search_new', 'en', 'New Search');
-INSERT INTO `lng_data` VALUES ('common', 'search_note', 'en', 'If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.');
 INSERT INTO `lng_data` VALUES ('common', 'search_recipient', 'en', 'Search Recipient');
 INSERT INTO `lng_data` VALUES ('common', 'search_result', 'en', 'Search result');
 INSERT INTO `lng_data` VALUES ('common', 'search_user', 'en', 'Search User');
@@ -2115,7 +2083,6 @@ INSERT INTO `lng_data` VALUES ('common', 'system', 'en', 'System');
 INSERT INTO `lng_data` VALUES ('common', 'system_choose_language', 'en', 'System Choose Language');
 INSERT INTO `lng_data` VALUES ('common', 'system_groups', 'en', 'System Groups');
 INSERT INTO `lng_data` VALUES ('common', 'system_grp', 'en', 'System Group');
-INSERT INTO `lng_data` VALUES ('common', 'system_information', 'en', 'System Information');
 INSERT INTO `lng_data` VALUES ('common', 'system_language', 'en', 'System Language');
 INSERT INTO `lng_data` VALUES ('common', 'system_message', 'en', 'System Message');
 INSERT INTO `lng_data` VALUES ('common', 'term', 'en', 'Term');
@@ -2143,7 +2110,6 @@ INSERT INTO `lng_data` VALUES ('common', 'tst_write', 'en', 'Edit Test');
 INSERT INTO `lng_data` VALUES ('common', 'txt_add_object_instruction1', 'en', 'Browse to the location where you want to add');
 INSERT INTO `lng_data` VALUES ('common', 'txt_add_object_instruction2', 'en', '.');
 INSERT INTO `lng_data` VALUES ('common', 'txt_registered', 'en', 'You successfully registered to ILIAS. Please click on the button below to login to ILIAs with your useraccount.');
-INSERT INTO `lng_data` VALUES ('common', 'txt_submitted', 'en', 'You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.');
 INSERT INTO `lng_data` VALUES ('common', 'typ', 'en', 'Object Type Definition');
 INSERT INTO `lng_data` VALUES ('common', 'type', 'en', 'Type');
 INSERT INTO `lng_data` VALUES ('common', 'type_your_message_here', 'en', 'Type Your Message Here');
@@ -3068,7 +3034,6 @@ INSERT INTO `lng_data` VALUES ('meta', 'meta_very_easy', 'en', 'Very Easy');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_very_high', 'en', 'Very High');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_very_low', 'en', 'Very Low');
 INSERT INTO `lng_data` VALUES ('meta', 'meta_yes', 'en', 'Yes');
-INSERT INTO `lng_data` VALUES ('search', 'search_active', 'en', 'Include active users');
 INSERT INTO `lng_data` VALUES ('search', 'search_all_results', 'en', 'All results');
 INSERT INTO `lng_data` VALUES ('search', 'search_concatenation', 'en', 'Concatenation');
 INSERT INTO `lng_data` VALUES ('search', 'search_content', 'en', 'Page Content');
@@ -3077,7 +3042,6 @@ INSERT INTO `lng_data` VALUES ('search', 'search_dbk_meta', 'en', 'Digital Libra
 INSERT INTO `lng_data` VALUES ('search', 'search_delete_sure', 'en', 'The object and its content will be deleted permanantly');
 INSERT INTO `lng_data` VALUES ('search', 'search_group', 'en', 'Groups');
 INSERT INTO `lng_data` VALUES ('search', 'search_in_result', 'en', 'Search within results');
-INSERT INTO `lng_data` VALUES ('search', 'search_inactive', 'en', 'Include inactive users');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_content', 'en', 'Learning materials (content)');
 INSERT INTO `lng_data` VALUES ('search', 'search_lm_meta', 'en', 'Learning materials (meta data)');
 INSERT INTO `lng_data` VALUES ('search', 'search_meta', 'en', 'Meta data');
@@ -4896,7 +4860,7 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '288');
+INSERT INTO `settings` VALUES ('db_version', '272');
 INSERT INTO `settings` VALUES ('ilias_version', '3.2.0_beta1 2004/09/02');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
@@ -4922,28 +4886,6 @@ INSERT INTO `settings` VALUES ('sys_user_tracking_id', '17');
 INSERT INTO `settings` VALUES ('enable_tracking', '0');
 INSERT INTO `settings` VALUES ('save_user_related_data', '0');
 INSERT INTO `settings` VALUES ('auth_mode', '1');
-INSERT INTO `settings` VALUES ('auto_registration', '1');
-INSERT INTO `settings` VALUES ('approve_recipient', '');
-INSERT INTO `settings` VALUES ('require_login', '1');
-INSERT INTO `settings` VALUES ('require_passwd', '1');
-INSERT INTO `settings` VALUES ('require_passwd2', '1');
-INSERT INTO `settings` VALUES ('require_firstname', '1');
-INSERT INTO `settings` VALUES ('require_gender', '1');
-INSERT INTO `settings` VALUES ('require_lastname', '1');
-INSERT INTO `settings` VALUES ('require_institution', '');
-INSERT INTO `settings` VALUES ('require_department', '');
-INSERT INTO `settings` VALUES ('require_street', '');
-INSERT INTO `settings` VALUES ('require_city', '');
-INSERT INTO `settings` VALUES ('require_zipcode', '');
-INSERT INTO `settings` VALUES ('require_country', '');
-INSERT INTO `settings` VALUES ('require_phone_office', '');
-INSERT INTO `settings` VALUES ('require_phone_home', '');
-INSERT INTO `settings` VALUES ('require_phone_mobile', '');
-INSERT INTO `settings` VALUES ('require_fax', '');
-INSERT INTO `settings` VALUES ('require_email', '1');
-INSERT INTO `settings` VALUES ('require_hobby', '');
-INSERT INTO `settings` VALUES ('require_default_role', '1');
-INSERT INTO `settings` VALUES ('require_referral_comment', '');
 # --------------------------------------------------------
 
 #
@@ -5683,47 +5625,44 @@ CREATE TABLE `tst_times` (
 #
 
 CREATE TABLE `usr_data` (
-    `usr_id` int(10) unsigned NOT NULL default '0',
-    `login` varchar(80) NOT NULL default '',
-    `passwd` varchar(32) NOT NULL default '',
-    `firstname` varchar(32) NOT NULL default '',
-    `lastname` varchar(32) NOT NULL default '',
-    `title` varchar(32) NOT NULL default '',
-    `gender` enum('m','f') NOT NULL default 'm',
-    `email` varchar(80) NOT NULL default '',
-    `institution` varchar(80) default NULL,
-    `street` varchar(40) default NULL,
-    `city` varchar(40) default NULL,
-    `zipcode` varchar(10) default NULL,
-    `country` varchar(40) default NULL,
-    `phone_office` varchar(40) NOT NULL default '',
-    `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
-    `last_update` datetime NOT NULL default '0000-00-00 00:00:00',
-    `create_date` datetime NOT NULL default '0000-00-00 00:00:00',
-    `referral_comment` varchar(250) default '',
-    `active` int(4) unsigned NOT NULL default '0',
-    `approve_date` datetime NOT NULL default '0000-00-00 00:00:00',
-    `hobby` text NOT NULL,
-    `department` varchar(80) NOT NULL default '',
-    `phone_home` varchar(40) NOT NULL default '',
-    `phone_mobile` varchar(40) NOT NULL default '',
-    `fax` varchar(40) NOT NULL default '',
-    `i2passwd` varchar(32) NOT NULL default '',
-    `time_limit_owner` int(10) default '0',
-    `time_limit_unlimited` int(2) default '0',
-    `time_limit_from` int(10) default '0',
-    `time_limit_until` int(10) default '0',
-    `time_limit_message` int(2) default '0',
-    PRIMARY KEY  (`usr_id`),
-    KEY `login` (`login`,`passwd`)
+  `usr_id` int(10) unsigned NOT NULL default '0',
+  `login` varchar(80) NOT NULL default '',
+  `passwd` varchar(32) NOT NULL default '',
+  `firstname` varchar(32) NOT NULL default '',
+  `lastname` varchar(32) NOT NULL default '',
+  `title` varchar(32) NOT NULL default '',
+  `gender` enum('m','f') NOT NULL default 'm',
+  `email` varchar(80) NOT NULL default '',
+  `institution` varchar(80) default NULL,
+  `street` varchar(40) default NULL,
+  `city` varchar(40) default NULL,
+  `zipcode` varchar(10) default NULL,
+  `country` varchar(40) default NULL,
+  `phone_office` varchar(40) NOT NULL default '',
+  `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_update` datetime NOT NULL default '0000-00-00 00:00:00',
+  `create_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `hobby` text NOT NULL,
+  `department` varchar(80) NOT NULL default '',
+  `phone_home` varchar(40) NOT NULL default '',
+  `phone_mobile` varchar(40) NOT NULL default '',
+  `fax` varchar(40) NOT NULL default '',
+  `i2passwd` varchar(32) NOT NULL default '',
+  `time_limit_owner` int(10) default '0',
+  `time_limit_unlimited` int(2) default '0',
+  `time_limit_from` int(10) default '0',
+  `time_limit_until` int(10) default '0',
+  `time_limit_message` int(2) default '0',
+  PRIMARY KEY  (`usr_id`),
+  KEY `login` (`login`,`passwd`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `usr_data`
 #
 
-INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', 1, '0000-00-00 00:00:00', '', '', '', '', '', '', 0, 1, 0, 0, 0);
-INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', 1, '0000-00-00 00:00:00', '', '', '', '', '', '', 0, 1, 0, 0, 0);
+INSERT INTO `usr_data` VALUES (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', '', 'm', 'ilias@yourserver.com', '', '', '', '', '', '', '2004-01-20 12:11:07', '2003-09-30 19:50:01', '0000-00-00 00:00:00', '', '', '', '', '', '', 0, 1, 0, 0, 0);
+INSERT INTO `usr_data` VALUES (13, 'anonymous', '294de3557d9d00b3d2d8a1e6aab028cf', 'anonymous', 'anonymous', '', 'm', 'nomail', NULL, NULL, NULL, NULL, NULL, '', '2003-08-15 11:03:36', '2003-08-15 10:07:30', '2003-08-15 10:07:30', '', '', '', '', '', '', 0, 1, 0, 0, 0);
 # --------------------------------------------------------
 
 #
