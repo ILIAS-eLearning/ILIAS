@@ -27,7 +27,6 @@ require_once("assessment/classes/class.ilObjTest.php");
 * Export class for tests
 *
 * @author Alex Killing <alex.killing@gmx.de>
-*
 * @version $Id$
 *
 * @package assessment
