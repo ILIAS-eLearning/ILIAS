@@ -2260,6 +2260,7 @@ content#:#cont_please_select#:#please select###16 Aug 2004 new variable
 content#:#cont_prereq_type#:#adlcp先决条件。类型
 content#:#cont_prerequisites#:#adlcp先决条件
 content#:#cont_preview#:#预览
+content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
 content#:#cont_publisher#:#出版者
 content#:#cont_purpose#:#用途
 content#:#cont_ref_helptext#:#例如， http://www.server.org/myimage.jpg)

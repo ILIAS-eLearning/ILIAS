@@ -2242,6 +2242,7 @@ content#:#cont_please_select#:#please select###16 Aug 2004 new variable
 content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
 content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
 content#:#cont_preview#:#Previsualizar
+content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)

@@ -2244,6 +2244,7 @@ content#:#cont_please_select#:#please select###16 Aug 2004 new variable
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Попередній Огляд
+content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
 content#:#cont_publisher#:#Видавник
 content#:#cont_purpose#:#Призначення
 content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
