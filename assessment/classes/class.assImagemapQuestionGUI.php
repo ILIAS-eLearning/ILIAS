@@ -81,30 +81,33 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 		
-		// Create gap between head and answers
-		if ($this->object->get_answer_count() > 0) 
+		if ($this->object->get_answer_count())
 		{
-			$this->tpl->setCurrentBlock("gape");
+			$this->tpl->setCurrentBlock("answerheader");
+			$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
+			$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			$this->tpl->setVariable("TEXT_SHAPE", $this->lng->txt("shape"));
+			$this->tpl->setVariable("TEXT_COORDINATES", $this->lng->txt("coordinates"));
 			$this->tpl->parseCurrentBlock();
 		}
+		$tblrow = array("tblrow1", "tblrow2");
 		for ($i = 0; $i < $this->object->get_answer_count(); $i++)
 		{
 			$this->tpl->setCurrentBlock("answers");
 			$answer = $this->object->get_answer($i);
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 			$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
-			$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-			$this->tpl->setVariable("TEXT_REGION", $this->lng->txt("region"));
-			$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
+			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
 			if ($answer->is_true()) 
 			{
 				$this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("COORDINATES", $answer->get_coords());
 			$this->tpl->setVariable("AREA", $answer->get_area());
+			$this->tpl->setVariable("TEXT_SHAPE", strtoupper($answer->get_area()));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -114,29 +117,35 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->setCurrentBlock("question_data");
 		$img = $this->object->get_image_filename();
 		$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
-		if (!empty($img)) {
-		$this->tpl->setVariable("IMAGE_FILENAME", $img);
-		$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
-		$this->tpl->setCurrentBlock("imageupload");
-		//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
-		$this->tpl->parse("imageupload");
-		$imagepath = $this->object->getImagePathWeb() . $img;
-		$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
-		} else {
-		$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
+		if (!empty($img)) 
+		{
+			$this->tpl->setVariable("IMAGE_FILENAME", $img);
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
+			$this->tpl->setCurrentBlock("imageupload");
+			//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+			$this->tpl->parse("imageupload");
+			$imagepath = $this->object->getImagePathWeb() . $img;
+			$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
+		} 
+		else 
+		{
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 		}
 		
 		// imagemap block
 		$imgmap = $this->object->get_imagemap_filename();
 		$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
-		if (!empty($imgmap)) {
-		$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
-		$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
-		$this->tpl->setCurrentBlock("imagemapupload");
-		$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
-		$this->tpl->parse("imagemapupload");
-		} else {
-		$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
+		if (!empty($imgmap)) 
+		{
+			$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
+			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
+			$this->tpl->setCurrentBlock("imagemapupload");
+			$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
+			$this->tpl->parse("imagemapupload");
+		} 
+		else 
+		{
+			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
 		}
 		$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->object->getTitle());

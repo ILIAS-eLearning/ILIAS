@@ -158,7 +158,7 @@ class ASS_QuestionGUI {
 		{
 			if (preg_match("/material_list_/", $key, $matches)) 
 			{
-				$this->object->add_materials($value, str_replace("material_list_", "", $key));
+				$this->object->addMaterials($value, str_replace("material_list_", "", $key));
 			}
 		}
 		if (!empty($_FILES['materialFile']['tmp_name']) and ($_POST["cmd"]["uploadingMaterial"])) 
