@@ -3455,6 +3455,7 @@ survey#:#browse_for_questions#:#Browse for questions
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
@@ -3661,6 +3662,7 @@ survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
 survey#:#subtype#:#Subtype
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_finish#:#save and finish survey
 survey#:#survey_finished#:#You have completed the survey. Thank you for your participation!
 survey#:#survey_next#:#save >>>

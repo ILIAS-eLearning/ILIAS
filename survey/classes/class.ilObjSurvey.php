@@ -55,6 +55,7 @@ define("MODE_PREDEFINED_USERS", 1);
 define("SURVEY_START_ALLOWED", 0);
 define("SURVEY_START_START_DATE_NOT_REACHED", 1);
 define("SURVEY_START_END_DATE_REACHED", 2);
+define("SURVEY_START_OFFLINE", 3);
 
 class ilObjSurvey extends ilObject
 {
@@ -1193,11 +1194,22 @@ class ilObjSurvey extends ilObject
 * Sets the survey status
 *
 * @param integer $status Survey status
+* @return string An error message, if the status cannot be set, otherwise an empty string
 * @access public
 * @see $status
 */
   function setStatus($status = STATUS_OFFLINE) {
-    $this->status = $status;
+		$result = "";
+		if (($status == STATUS_ONLINE) && (count($this->questions) == 0))
+		{
+    	$this->status = STATUS_OFFLINE;
+			$result = $this->lng->txt("cannot_switch_to_online_no_questions");
+		}
+		else
+		{
+    	$this->status = $status;
+		}
+		return $result;
   }
 
 /**
@@ -1239,6 +1251,10 @@ class ilObjSurvey extends ilObject
 			if ($now > $epoch_time) {
 				$result = SURVEY_START_END_DATE_REACHED;
 			}
+		}
+		if ($this->getStatus() == STATUS_OFFLINE)
+		{
+			$result = SURVEY_START_OFFLINE;
 		}
 		return $result;
 	}
