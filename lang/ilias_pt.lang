@@ -673,6 +673,7 @@ common#:#chat_read#:#Acesso de Leitura/Escrita ao chat
 common#:#chat_visible#:#O Chat está visível
 common#:#chat_write#:#Editar chat
 common#:#check#:#Verificar
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
 common#:#check_languages#:#Verificar Linguagens
 common#:#check_max_allowed_packet_size#:#O tamanho do conteúdo da página é grande demais.
@@ -1252,6 +1253,8 @@ common#:#lo_no_content#:#Nenhuns Recursos de Aprendizagem Disponíveis
 common#:#lo_other_langs#:#OA em outras linguagens
 common#:#lo_overview#:#Vista de OA
 common#:#locator#:#Localização:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Entrar
 common#:#login_as#:#Entrou como
 common#:#login_data#:#Dados da entrada
@@ -1899,6 +1902,7 @@ common#:#typ#:#Definição de Tipo de Objecto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Insira a sua mensagem aqui
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Desinstalar
 common#:#uninstalled#:#desinstalado.
 common#:#unknown#:#DESCONHECIDO
@@ -3340,7 +3344,7 @@ search#:#search_move_folder_not_allowed#:#A pasta não pode ser movida.
 search#:#search_move_to#:#Mover para:
 search#:#search_my_search_results#:#Os meus resultados de procuras
 search#:#search_new_folder#:#Nova pasta
-search#:#search_no_category#:#Você não seleccionou nenhuma categoria de procura
+search#:#search_no_category#:#Você não seleccionou nenhuma categoria de procura###26 Aug 2004 content changed
 search#:#search_no_match#:#A sua procura não coincidiu com nenhuns resultados
 search#:#search_no_results_saved#:#Nenhuns resultados guardados.
 search#:#search_no_search_term#:#Você não seleccionou nenhum termo de procura
@@ -3595,6 +3599,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

@@ -673,6 +673,7 @@ common#:#chat_read#:#Lees/schrijf-rechten op chat
 common#:#chat_visible#:#Chat is zichtbaar
 common#:#chat_write#:#Wijzig chat
 common#:#check#:#Controleer
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Controleer A.u.b. uw taal-bestand
 common#:#check_languages#:#Talen controleren
 common#:#check_max_allowed_packet_size#:#De pagina-inhoud is te groot.
@@ -1252,6 +1253,8 @@ common#:#lo_no_content#:#Geen leermiddelen beschikbaar
 common#:#lo_other_langs#:#Lesobjecten in andere talen
 common#:#lo_overview#:#Lesobjecten-overzicht
 common#:#locator#:#Locatie:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Inloggen
 common#:#login_as#:#Ingelogd als
 common#:#login_data#:#Login-gegevens
@@ -1899,6 +1902,7 @@ common#:#typ#:#Objecttype-definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type uw bericht hier
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#De-installeer
 common#:#uninstalled#:#Gedeïnstalleerd.
 common#:#unknown#:#Onbekend
@@ -3340,7 +3344,7 @@ search#:#search_move_folder_not_allowed#:#Map kan niet verplaatst worden.
 search#:#search_move_to#:#Verplaatsen naar:
 search#:#search_my_search_results#:#Mijn zoekresultaten
 search#:#search_new_folder#:#Nieuwe map
-search#:#search_no_category#:#U heeft geen enkele zoek-kategorie geselecteerd
+search#:#search_no_category#:#U heeft geen enkele zoek-kategorie geselecteerd###26 Aug 2004 content changed
 search#:#search_no_match#:#Uw zoekopdracht heeft geen enkel resultaat
 search#:#search_no_results_saved#:#Geen resultaten opgeslagen.
 search#:#search_no_search_term#:#U heeft geen enkel zoek-begrip geselecteerd
@@ -3595,6 +3599,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

@@ -1253,6 +1253,8 @@ common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
 common#:#locator#:#Location:
+common#:#logic_and#:#and
+common#:#logic_or#:#or
 common#:#login#:#Login
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
@@ -1260,8 +1262,6 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
-common#:#logic_and#:#and
-common#:#logic_or#:#or
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#los#:#Learning Objects
@@ -3599,6 +3599,7 @@ survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#save and go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_delete_all_user_data#:#Delete all user data
+survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -3611,4 +3612,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#svy_statistical_evaluation#:#Statistical evaluation

@@ -673,6 +673,7 @@ common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Перевірити
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
@@ -1252,6 +1253,8 @@ common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Дост�
 common#:#lo_other_langs#:#LO's в інших Мовах
 common#:#lo_overview#:#LO Огляд
 common#:#locator#:#Місцезнаходження:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Логін
 common#:#login_as#:#Залогінений як
 common#:#login_data#:#Дата логіна
@@ -1899,6 +1902,7 @@ common#:#typ#:#Визначення Типу Об'єкту
 common#:#type#:#Тип
 common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Деінсталювати
 common#:#uninstalled#:#деінстальовано.
 common#:#unknown#:#НЕВІДОМИЙ
@@ -3340,7 +3344,7 @@ search#:#search_move_folder_not_allowed#:#Папка не може бути пе
 search#:#search_move_to#:#Перемістити в:
 search#:#search_my_search_results#:#Результати пошуку
 search#:#search_new_folder#:#Нова папка
-search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку
+search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку###26 Aug 2004 content changed
 search#:#search_no_match#:#Ваш пошук не приніс жодного результату
 search#:#search_no_results_saved#:#Не збережено жодних результатів.
 search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну
@@ -3595,6 +3599,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

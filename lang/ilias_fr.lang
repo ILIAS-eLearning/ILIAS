@@ -673,6 +673,7 @@ common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Vérifier
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier les langues
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
@@ -1252,6 +1253,8 @@ common#:#lo_no_content#:#Pas de ressource d'apprentissage disponible
 common#:#lo_other_langs#:#Cours dans d'autres langues
 common#:#lo_overview#:#Vue d'ensemble des cours
 common#:#locator#:#Location:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Connexion
 common#:#login_as#:#Connecté en tant que
 common#:#login_data#:#Données de connexion
@@ -1899,6 +1902,7 @@ common#:#typ#:#Définition de type d'objet
 common#:#type#:#Type
 common#:#type_your_message_here#:#Saisissez votre message ici
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Désinstaller
 common#:#uninstalled#:#désinstallé.
 common#:#unknown#:#INCONNU
@@ -3340,7 +3344,7 @@ search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 
 search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
 search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
 search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
-search#:#search_no_category#:#Vous n'avez choisi aucune catégorie de recherche
+search#:#search_no_category#:#Vous n'avez choisi aucune catégorie de recherche###26 Aug 2004 content changed
 search#:#search_no_match#:#Votre recherche ne correspond à aucun résultat
 search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
 search#:#search_no_search_term#:#Vous n'avez choisi aucun terme de recherche
@@ -3595,6 +3599,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
