@@ -2872,7 +2872,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				if($_GET['crs_show_result'])
 				{
-					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?cmd=frameset&ref_id=".(int) $_GET['crs_show_result']));
+					ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=".(int) $_GET['crs_show_result']));
 				}
 				
 			}
@@ -4870,9 +4870,15 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE")) {
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
+				$ilias_locator->navigate($i++, $row["title"], 
+										 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH).
+										 "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		} else {
+
+			// Workaround for crs_objectives
+			$frameset = $_GET['crs_show_result'] ? '' : 'cmd=frameset&';
+
 			foreach ($path as $key => $row)
 			{
 				if (strcmp($row["title"], "ILIAS") == 0) {
@@ -4884,22 +4890,32 @@ class ilObjTestGUI extends ilObjectGUI
 					} else {
 						$param = "";
 					}
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"");
+					$ilias_locator->navigate($i++, $row["title"], 
+											 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+											 "/assessment/test.php" . "?crs_show_result=".$_GET['crs_show_result'].
+											 "&ref_id=".$row["child"] . $param,"");
 					if ($this->sequence) {
 						if (($this->sequence <= $this->object->getQuestionCount()) and (!$_POST["cmd"]["showresults"])) {
-							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"");
+							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), 
+													 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . 
+													 "/assessment/test.php" . "?crs_show_result=".$_GET['crs_show_result'].
+													 "&ref_id=".$row["child"] . $param . 
+													 "&sequence=" . $this->sequence,"");
 						} else {
 						}
 					}
 				} else {
-					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?cmd=frameset&ref_id=".$row["child"],"");
+					$ilias_locator->navigate($i++, $row["title"], 
+											 ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . 
+											 $scriptname."?".$frameset."ref_id=".$row["child"],"");
 				}
 			}
 
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?cmd=frameset&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
+				$ilias_locator->navigate($i++,$obj_data->getTitle(),
+										 $scriptname."?".$frameset."ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"");
 			}
 		}
 		$ilias_locator->output();
@@ -4919,7 +4935,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			exit();
+			exit;
 		}
 
 		// only display superordinate roles; local roles with other scope are not displayed
