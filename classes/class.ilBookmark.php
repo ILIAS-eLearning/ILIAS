@@ -24,45 +24,95 @@ class ilBookmark
 	*/	
 	var $ilias;
 	var $tree;
-	
-	var $name;
+
+	var $title;
 	var $target;
 	var $id;
 	var $parent;
-	
+
 	/**
 	* Constructor
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmark($bm_id = 0, $tree_id = 0)
+	function ilBookmark($a_bm_id = 0, $a_tree_id = 0)
 	{
 		global $ilias;
-		
+
 		// Initiate variables
 		$this->ilias =& $ilias;
-		if ($tree_id == 0)
+		if ($a_tree_id == 0)
 		{
-			$tree_id = $_SESSION["AccountId"];
+			$a_tree_id = $_SESSION["AccountId"];
 		}
 
-		$this->tree = new ilTree($tree_id);
+		$this->tree = new ilTree($a_tree_id);
 		$this->tree->setTableNames('bookmark_tree','bookmark_data');
 
+		$this->id = $a_bm_id;
+
+		if(!empty($this->id))
+		{
+			$this->read();
+		}
+
 	}
+
+
+	/**
+	* read bookmark folder data from db
+	*/
+	function read()
+	{
+		global $log, $ilias;
+
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = '".$this->id."'";
+		$bm_set = $this->ilias->db->query($q);
+		if ($bm_set->numRows() == 0)
+		{
+			$message = "ilBookmark::read(): Bookmark with id ".$this->id." not found!";
+			$log->writeWarning($message);
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+		}
+		else
+		{
+			$bm = $bm_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->setTitle($bm["title"]);
+			$this->setTarget($bm["target"]);
+			$this->setParent($this->tree->getParentId($this->id));
+		}
+	}
+
+	/**
+	* delete object data
+	*/
+	function delete()
+	{
+		$q = "DELETE FROM bookmark_data WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 
 	function create()
 	{
 		$q = 	"INSERT INTO bookmark_data (user_id, title, target, type) ".
-				"VALUES ('".$_SESSION["AccountId"]."','".$this->getName().
+				"VALUES ('".$_SESSION["AccountId"]."','".$this->getTitle().
 				"','".$this->getTarget()."','bm')";
-echo $q."<br>";
+
 		$this->ilias->db->query($q);
 
 		$this->setId(getLastInsertId());
 
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
+
+	function update()
+	{
+		$q = "UPDATE bookmark_data SET title = '".$this->getTitle().
+			"', target = '".$this->getTarget()."' WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
 
 	/*
 	* set id
@@ -84,14 +134,14 @@ echo $q."<br>";
 	* @access	public
  	* @param	string
 	*/
-	function setName($a_str)
+	function setTitle($a_str)
 	{
-		$this->name = $a_str;
+		$this->title = $a_str;
 	}
 
-	function getName()
+	function getTitle()
 	{
-		return $this->name;
+		return $this->title;
 	}
 
 	/**
