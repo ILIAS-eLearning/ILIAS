@@ -51,6 +51,8 @@ class ilGroupGUI extends ilObjectGUI
 	var $grp_tree;
 	var $grp_id;
 	var $grp_title;
+	var $rbacsystem;
+
 	/**
 	* Constructor
 	* @access	public
@@ -68,6 +70,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();
+		$this->rbacsystem =& $rbacsystem;
 
 		$this->data = $a_data;
 		$this->id = $a_id;
@@ -1093,51 +1096,79 @@ class ilGroupGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function getURLbyType($cont_data)
+	function getURLbyType($cont_data, $mode = "view")
 	{
-		switch ($cont_data["type"])
+		if ($mode == "view")
 		{
-	  		case "frm":
+			switch ($cont_data["type"])
+			{
+				case "frm":
 
-				require_once "classes/class.ilForum.php";
+					require_once "classes/class.ilForum.php";
 
-				$frm = new ilForum();
-				$frm->setWhereCondition("top_frm_fk = ".$cont_data["obj_id"]);
-				$topicData = $frm->getOneTopic();
+					$frm = new ilForum();
+					$frm->setWhereCondition("top_frm_fk = ".$cont_data["obj_id"]);
+					$topicData = $frm->getOneTopic();
 
-				if ($topicData["top_num_threads"] > 0)
-				{
-					$thr_page = "liste";
-				}
-				else
-				{
-					$thr_page = "new";
-				}
+					if ($topicData["top_num_threads"] > 0)
+					{
+						$thr_page = "liste";
+					}
+					else
+					{
+						$thr_page = "new";
+					}
 
-				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["ref_id"];
-				break;
+					$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["ref_id"];
+					break;
 
 
 
-			case "lm":
-				$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
-				break;
-			
-			case "slm":
-				$URL = "content/scorm_presentation.php?ref_id=".$cont_data["ref_id"];
-				break;
+				case "lm":
+					$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
+					break;
 
-			case "fold":
-				$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=view";
-				break;
-			
-			case "glo":
-				$URL = "./content/glossary_edit.php?ref_id=".$cont_data["ref_id"]."&cmd=listTerms";
-				break;
+				case "slm":
+					$URL = "content/scorm_presentation.php?ref_id=".$cont_data["ref_id"];
+					break;
 
-			case "file":
-				$URL = "group.php?cmd=get_file&ref_id=".$cont_data["ref_id"];
-				break;
+				case "fold":
+					$URL = "group.php?ref_id=".$cont_data["ref_id"]."&cmd=view";
+					break;
+
+				case "glo":
+					$URL = "./content/glossary_presentation.php?ref_id=".$cont_data["ref_id"]."&cmd=listTerms";
+					break;
+
+				case "file":
+					$URL = "group.php?cmd=get_file&ref_id=".$cont_data["ref_id"];
+					break;
+			}
+		}
+		else if ($mode == "edit")
+		{
+			switch ($cont_data["type"])
+			{
+				case "frm":
+					break;
+
+				case "lm":
+					$URL = "content/lm_edit.php?ref_id=".$cont_data["ref_id"];
+					break;
+
+				case "slm":
+					break;
+
+				case "fold":
+					break;
+
+				case "glo":
+					$URL = "./content/glossary_edit.php?ref_id=".$cont_data["ref_id"]."&cmd=listTerms";
+					break;
+
+				case "file":
+					break;
+			}
 		}
 
 		return $URL;
@@ -2056,6 +2087,18 @@ class ilGroupGUI extends ilObjectGUI
 					$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 					$this->tpl->setVariable("OWNER", $newuser->getFullName());
 					$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
+
+					if ($this->rbacsystem->checkAccess("write", $cont_data["ref_id"]))
+					{
+						$obj_link = $this->getURLbyType($cont_data, "edit");
+						if (!empty($obj_link))
+						{
+							$this->tpl->setVariable("EDIT_LINK", $obj_link);
+							$this->tpl->setVariable("EDIT_TARGET", "bottom");
+							$this->tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+						}
+					}
+
 					//TODO
 					$this->tpl->parseCurrentBlock();
 				}
@@ -2159,7 +2202,7 @@ class ilGroupGUI extends ilObjectGUI
 	function show_tree()
 	{
 		$this->prepareOutput(false,1);
-		
+
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
@@ -2171,7 +2214,7 @@ class ilGroupGUI extends ilObjectGUI
 
 
 		$exp = new ilGroupExplorer("group.php?cmd=show_tree",$this->grp_id);
-			
+
 		$expanded = array();
 
 		if ($_GET["grp_expand"] == "")
