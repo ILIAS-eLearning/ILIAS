@@ -33,7 +33,17 @@
 require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.feedback.html");
-$tpl->addBlockFile("MESSAGE","message","tpl.message.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("feedback"));
+$tpl->setVariable("LINK_ITEM", "feedback.php");
+$tpl->parseCurrentBlock();
+
+// display infopanel if something happened
+infoPanel();
 
 $recipient = $ilias->getSetting("feedback_recipient");
 
