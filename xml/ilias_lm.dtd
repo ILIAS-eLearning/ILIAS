@@ -40,7 +40,7 @@
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
-<!ELEMENT MediaObject ((MetaData | MediaAlias), Layout?, Parameter?)>
+<!ELEMENT MediaObject ((MetaData | MediaAlias), Layout?, Parameter*)>
 <!-- MediaAlias -->
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
