@@ -2420,8 +2420,15 @@ class ilGroupGUI extends ilObjectGUI
 			else
 			{
 				$this->tpl->setCurrentBlock("locator_item");
-				$this->tpl->setVariable("ITEM", $row["title"]);
-				$this->tpl->setVariable("LINK_ITEM", "grp_list.php?ref_id=".$row["child"]);
+				if ($this->tree->getRootId() == $row["child"])
+				{
+					$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
+				}
+				else
+				{
+					$this->tpl->setVariable("ITEM", $row["title"]);
+				}
+				$this->tpl->setVariable("LINK_ITEM", "repository.php?ref_id=".$row["child"]);
 				$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 				$this->tpl->parseCurrentBlock();
 			}
