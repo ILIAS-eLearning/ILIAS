@@ -74,6 +74,9 @@ class ilRbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 
+//echo "<br/>".$a_operations."  ".$a_ref_id." ".$a_type;
+//return true;
+
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
@@ -85,7 +88,6 @@ class ilRbacSystem
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
 		}
 
-		// temp. disabled
 		$create = false;
 		$operations = explode(",",$a_operations);
 		$ops_arr = array();
@@ -104,10 +106,12 @@ class ilRbacSystem
 					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking 'create' permission",
 											 $this->ilias->error_obj->WARNING);
 				}
-				
-				if ($objDefinition->getSubObjectsAsString($a_type) == "")
+
+				$obj = $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+		
+				if ($objDefinition->getSubObjectsAsString($obj->getType()) == "")
 				{
-					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Unknown type definition given: '".$a_type."'",
+					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Wrong or unknown type definition given: '".$a_type."'",
 											 $this->ilias->error_obj->WARNING);
 				}
 
