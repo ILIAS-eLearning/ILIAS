@@ -966,9 +966,12 @@ class ilObjectGUI
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
 		
+		$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		
 		sendInfo($this->lng->txt("msg_undeleted"),true);
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("Location:".$this->getReturnLocation("undelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	}
 
@@ -1075,6 +1078,7 @@ class ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("no_perm_delete"),$this->ilias->error_obj->MESSAGE);
 			}
 		}
+		
 		else
 		{
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
@@ -1082,21 +1086,25 @@ class ilObjectGUI
 			{
 				// DELETE OLD PERMISSION ENTRIES
 				$subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
-
+			
 				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
 				}
-
+				
 				$this->tree->saveSubTree($id);
 				$this->tree->deleteTree($this->tree->getNodeData($id));
 			}
+			// inform other objects in hierarchy about paste operation
+			$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
+		
 		}
-
+		
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	}
 
@@ -1111,7 +1119,8 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("Location:".$this->getReturnLocation("cancelDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	}
 
@@ -1130,6 +1139,8 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
@@ -1155,8 +1166,9 @@ class ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
-
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		
+		header("Location:".$this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
+		
 		exit();
 	}
 
@@ -1171,6 +1183,7 @@ class ilObjectGUI
 	function removeDeletedNodes($a_node_id,$a_checked)
 	{
 		$q = "SELECT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
+		
 		$r = $this->ilias->db->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1420,7 +1433,7 @@ class ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview;
 
-#		static $num = 0;
+		static $num = 0;
 
 		if (!$rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
 		{
