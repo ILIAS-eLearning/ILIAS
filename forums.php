@@ -20,7 +20,7 @@ sendInfo();
 infoPanel();
 
 // get all forums
-$frm_obj = TUtil::getObjectsByOperations('frm','visible');
+$frm_obj = ilUtil::getObjectsByOperations('frm','visible');
 $frmNum = count($frm_obj);
 
 $pageHits = $frm->getPageHits();
@@ -45,7 +45,7 @@ if ($frmNum > 0)
 			$Start = $_GET["offset"];
 		}
 		
-		$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$frmNum,$pageHits,$Start,$params);
+		$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$frmNum,$pageHits,$Start,$params);
 		
 		if ($linkbar != "")
 		{
@@ -81,7 +81,7 @@ if ($frmNum > 0)
 			$tpl->setCurrentBlock("forum_row");
 			$tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
 		
-			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 			$tpl->setVariable("ROWCOL", $rowCol);		
 			
 			$moderators = "";		

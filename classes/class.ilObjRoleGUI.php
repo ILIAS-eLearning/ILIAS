@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.3 2003/03/28 16:49:20 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -98,7 +98,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
+						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
 						$output["perm"]["$operation_name"][] = $box;
 					}
 					else
@@ -109,12 +109,12 @@ class ilObjRoleGUI extends ilObjectGUI
 
 				// END CHECK_PERM
 				// color changing
-				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["perm"]["$operation_name"]["color"] = $css_row;
 			}
 
 			// END TABLE DATA OUTER
-			$box = TUtil::formCheckBox($checked,"recursive",1);
+			$box = ilUtil::formCheckBox($checked,"recursive",1);
 
 			$output["col_anz"] = count($obj_data);
 			$output["check_bottom"] = $box;
@@ -130,7 +130,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				{
 					$output["users"][$key]["css_row_user"] = $key % 2 ? "tblrow1" : "tblrow2";
 					$checked = in_array($user["obj_id"],$assigned_users);
-					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
+					$box = ilUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
 					$output["users"][$key]["check_user"] = $box;
 					$output["users"][$key]["username"] = $user["title"];
 				}
@@ -149,8 +149,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			foreach ($parent_role_ids as $key => $par)
 			{
-				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$output["adopt"][$key]["css_row_adopt"] = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+				$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["adopt"][$key]["check_adopt"] = $radio;
 				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 				$output["adopt"][$key]["role_name"] = $par["title"];

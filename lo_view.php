@@ -13,13 +13,13 @@ require_once "classes/class.ilDOMXML.php";
 
 ob_start(); 
 
-//$T1 = TUtil::StopWatch();
+//$T1 = ilUtil::StopWatch();
 
 $sql2xml = new ilSQL2XML($_GET["lm_id"],$_GET["lo_id"]);
 $lo = $sql2xml->getLearningObject();
 $navbar = $sql2xml->setNavigation();
 
-//echo TUtil::StopWatch($T1)." get_XMLdata total<br/>"; 
+//echo ilUtil::StopWatch($T1)." get_XMLdata total<br/>"; 
 
 //echo "<pre>".$lo."</pre>";
 //exit;
@@ -27,7 +27,7 @@ $navbar = $sql2xml->setNavigation();
 //echo "<pre>".htmlentities($lo)."</pre>";
 
 
-//$T1 = TUtil::StopWatch(); 
+//$T1 = ilUtil::StopWatch(); 
 // load xsl into string
 $path = getcwd();
 $xsl = file_get_contents($path."/xml/default.xsl");
@@ -37,9 +37,9 @@ $xh = xslt_create();
 $output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
 echo xslt_error($xh);
 xslt_free($xh);
-//echo TUtil::StopWatch($T1)." XSLT_parsing total<br/>"; 
+//echo ilUtil::StopWatch($T1)." XSLT_parsing total<br/>"; 
 
-//$T1 = TUtil::StopWatch(); 
+//$T1 = ilUtil::StopWatch(); 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_content.html");
 //$tpl->addBlockFile("LM_NAVBAR", "navbar", "tpl.lm_navbar.html");
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -68,12 +68,12 @@ $tpl->setVariable("LO_CONTENT",$output);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-//echo TUtil::StopWatch($T1)." template_output<br/>"; 
+//echo ilUtil::StopWatch($T1)." template_output<br/>"; 
 
 $ret_str = ob_get_contents(); 
 ob_end_clean(); 
 
 echo $ret_str;
 
-echo "<p><i>server processing time: ".TUtil::StopWatch($t_pagestart)." seconds</i></p>"; 
+echo "<p><i>server processing time: ".ilUtil::StopWatch($t_pagestart)." seconds</i></p>"; 
 ?>

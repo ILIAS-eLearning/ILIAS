@@ -66,7 +66,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 					$num++;
 
 					// color changing
-					$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+					$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
 
 					// surpress checkbox for particular object types
 					if (!$this->objDefinition->hasCheckbox($obj["type"]))

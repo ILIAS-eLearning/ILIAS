@@ -1,7 +1,7 @@
 <?php
 
 require_once "./classes/class.ilIniFile.php";
-require_once "./classes/class.util.php";
+require_once "./classes/class.ilUtil.php";
 require_once "./classes/class.perm.php";
 require_once "DB.php";
 
@@ -132,7 +132,7 @@ class ilSetup
 		$this->setDSN();
 		
 		// set tplPath
-		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
+		$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
 		return true;
 	}

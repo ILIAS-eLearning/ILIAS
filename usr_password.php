@@ -44,7 +44,7 @@ if ($_POST["save_passwd"])
 	}
 			
 	// validate password
-	if (!TUtil::is_password($_POST["pw1"]))
+	if (!ilUtil::is_password($_POST["pw1"]))
 	{
 		$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
 	}

@@ -109,7 +109,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$lng->txt("message")   => $formData["message"]	
 		);
 		
-		$errors = TUtil::checkFormEmpty($checkEmptyFields);
+		$errors = ilUtil::checkFormEmpty($checkEmptyFields);
 
 		if ($errors != "")
 		{
@@ -180,7 +180,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$Start = $_GET["offset"];
 		}
 		
-		$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$posNum,$pageHits,$Start,$params);
+		$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$posNum,$pageHits,$Start,$params);
 		
 		if ($linkbar != "")
 		{
@@ -300,7 +300,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			}
 			
 			$tpl->setCurrentBlock("posts_row");
-			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 			$tpl->setVariable("ROWCOL", $rowCol);
 			
 			// get author data
@@ -328,7 +328,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$node["message"] = $frm->prepareText($node["message"]);
 			
 			// make links in post usable 
-			$node["message"] = TUtil::makeClickable($node["message"]);
+			$node["message"] = ilUtil::makeClickable($node["message"]);
 
 			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));

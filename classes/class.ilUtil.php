@@ -7,7 +7,7 @@
 * @version $Id$
 * @package ilias-core
 */
-class TUtil
+class ilUtil
 {
 	/**
 	* Builds an html image tag
@@ -298,7 +298,7 @@ class TUtil
 						}
 					}
 
-					TUtil::getObjectsByOperations($a_type,$a_operation,$child["child"]);
+					ilUtil::getObjectsByOperations($a_type,$a_operation,$child["child"]);
 				}
 			}
 		}

@@ -1067,11 +1067,11 @@ class ilObjectGUI
 
 				if(!in_array($r["obj_id"],$local_roles))
 				{
-					$data["check_inherit"][] = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+					$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 				}
 				else
 				{
-					$data["check_inherit"][] = TUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
+					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
 
@@ -1086,7 +1086,7 @@ class ilObjectGUI
 				{
 					$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
 					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-					$box = TUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
+					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
 					$opdata["values"][] = $box;
 				}
 				$data["permission"][] = $opdata;
@@ -1151,7 +1151,7 @@ class ilObjectGUI
 
 			// BEGIN TABLE DATA OUTER
 			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
-			$css_row = TUtil::switchColor($num++, "tblrow1", "tblrow2");
+			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
 			$this->tpl->setVariable("CSS_ROW",$css_row);
 			$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
 			$this->tpl->parseCurrentBlock();
@@ -1377,7 +1377,7 @@ class ilObjectGUI
 				$ctrl = $this->data["ctrl"][$i];
 
 				// color changing
-				$css_row = TUtil::switchColor($i+1,"tblrow1","tblrow2");
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
 				// surpress checkbox for particular object types
 				if (!$this->objDefinition->hasCheckbox($ctrl["type"]))
@@ -1575,7 +1575,7 @@ class ilObjectGUI
 				// CREATE TEXT STRING
 				if($key == "type")
 				{
-					$this->tpl->setVariable("TEXT_CONTENT",TUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
 				else
 				{
@@ -1585,7 +1585,7 @@ class ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->parseCurrentBlock();
 			// END TABLE CELL
 		}
@@ -1635,13 +1635,13 @@ class ilObjectGUI
 				// CREATE CHECKBOX
 				if($key2 == "checkbox")
 				{
-					$this->tpl->setVariable("TEXT_CONTENT",TUtil::formCheckBox(0,"trash_id[]",$key1));
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::formCheckBox(0,"trash_id[]",$key1));
 				}
 
 				// CREATE TEXT STRING
 				elseif($key2 == "type")
 				{
-					$this->tpl->setVariable("TEXT_CONTENT",TUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
 				else
 				{
@@ -1652,7 +1652,7 @@ class ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",TUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->parseCurrentBlock();
 			// END TABLE CELL
 		}
@@ -1742,7 +1742,7 @@ class ilObjectGUI
 		if (is_array($subobj))
 		{
 			//build form
-			$opts = TUtil::formSelect(12,"new_type",$subobj);
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
 
 			$this->tpl->setCurrentBlock("add_obj");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);

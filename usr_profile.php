@@ -46,7 +46,7 @@ if ($_GET["cmd"] == "save")
 	}
 
 	// check email adress
-	if (!TUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
+	if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 	{
 		sendInfo($lng->txt("email_not_valid"));
 		$form_valid = false;

@@ -33,21 +33,21 @@ if (isset($_POST["save_settings"]))  // formular sent
 	}
 	// check email adresses
 	// feedback_recipient
-	if (!TUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
+	if (!ilUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
 	{
 		sendInfo($lng->txt("input_error").": '".$lng->txt("feedback_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 	
 	// error_recipient
-	if (!TUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
+	if (!ilUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
 	{
 		sendInfo($lng->txt("input_error").": '".$lng->txt("error_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 
 	// admin email
-	if (!TUtil::is_email($_POST["admin_email"]) and $form_valid)
+	if (!ilUtil::is_email($_POST["admin_email"]) and $form_valid)
 	{
 		sendInfo($lng->txt("input_error").": '".$lng->txt("email")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
@@ -417,3 +417,4 @@ $tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
 $tpl->setVariable("TXT_DAYS",$lng->txt("days"));
 $tpl->setVariable("TXT_KB",$lng->txt("kb"));
 ?>
+

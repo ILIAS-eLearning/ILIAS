@@ -175,7 +175,7 @@ class ilSQL2XML
 				// get next LO
 				//todo: first check if LO is of Level 1 !!!
 			
-				//$T6 = TUtil::StopWatch();
+				//$T6 = ilUtil::StopWatch();
 
 				if ($level == "1")
 				{
@@ -199,7 +199,7 @@ class ilSQL2XML
 					// build next XML
 					$this->buildXML();
 
-					//echo TUtil::StopWatch($T6)." get_sub LO<br/>";
+					//echo ilUtil::StopWatch($T6)." get_sub LO<br/>";
 				}
 				else
 				{
@@ -221,7 +221,7 @@ class ilSQL2XML
 	{
 	global $start;
 
-		//$T4 = TUtil::StopWatch();
+		//$T4 = ilUtil::StopWatch();
 
 		foreach ($this->lo_struct as $key => $node_data)
 		{
@@ -266,13 +266,13 @@ class ilSQL2XML
 			}
 		}
 
-		//echo TUtil::StopWatch($T4)." build_XML<br/>";
+		//echo ilUtil::StopWatch($T4)." build_XML<br/>";
 	}
 	
 
 	function getStructure($a_lo_id)
 	{
-		//$T1 = TUtil::StopWatch();
+		//$T1 = ilUtil::StopWatch();
 		
 		/*
 		$q = "SELECT lo.node_id, lo.node_type_id, lo.lo_id, lo.parent_node_id, lo.struct, tx.textnode, el.element ".
@@ -396,7 +396,7 @@ class ilSQL2XML
 			$data[] = $row["parsed_text"];
 		}
 		
-		echo TUtil::StopWatch($T1)." get_structure<br/>";
+		echo ilUtil::StopWatch($T1)." get_structure<br/>";
 		
 		return implode($data);
 */
@@ -430,7 +430,7 @@ class ilSQL2XML
 		// remove document node
 		//array_shift($data);
 		
-		//echo TUtil::StopWatch($T1)." get_structure<br/>";
+		//echo ilUtil::StopWatch($T1)." get_structure<br/>";
 		return $data;
 	}
 	
@@ -531,7 +531,7 @@ class ilSQL2XML
 	*/
 	function getAttributeValue ($a_lo_id,$a_element,$a_attribute)
 	{
-		//$T3 = TUtil::StopWatch();		
+		//$T3 = ilUtil::StopWatch();		
 
 		$q = "SELECT a_value.value ".
 			 "FROM lo_tree AS lo ".
@@ -549,7 +549,7 @@ class ilSQL2XML
 
 		$res = $this->ilias->db->query($q);
 		$row = $res->fetchRow();
-		//echo TUtil::StopWatch($T3)." getAttributeValue<br/>";
+		//echo ilUtil::StopWatch($T3)." getAttributeValue<br/>";
 	
 		return $row[0];
 	}
@@ -687,3 +687,4 @@ class ilSQL2XML
 	}
 } // END class.SQL2XML
 ?>
+
