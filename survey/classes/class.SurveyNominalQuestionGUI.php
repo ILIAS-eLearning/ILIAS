@@ -105,8 +105,8 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		// call to other question data
 		$this->outOtherQuestionData();
 
-		if ($this->object->getSubtype() == SUBTYPE_MCSR)
-		{
+//		if ($this->object->getSubtype() == SUBTYPE_MCSR)
+//		{
 			$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
 			switch ($this->object->getOrientation())
 			{
@@ -119,7 +119,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 			}
 			$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
 			$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
-		}
+//		}
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
@@ -217,32 +217,65 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 		else
 		{
 			// horizontal orientation
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+			if ($this->object->getSubtype() == SUBTYPE_MCSR)
 			{
-				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("radio_col_nominal");
-				$this->tpl->setVariable("VALUE_NOMINAL", $i);
-				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				if (is_array($working_data))
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 				{
-					if (strcmp($working_data[0]["value"], "") != 0)
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("radio_col_nominal");
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
 					{
-						if ($working_data[0]["value"] == $i)
+						if (strcmp($working_data[0]["value"], "") != 0)
 						{
-							$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+							}
 						}
 					}
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->parseCurrentBlock();
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("text_col_nominal");
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("TEXT_NOMINAL", $category);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					$this->tpl->parseCurrentBlock();
+				}
 			}
-			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+			else
 			{
-				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("text_col_nominal");
-				$this->tpl->setVariable("VALUE_NOMINAL", $i);
-				$this->tpl->setVariable("TEXT_NOMINAL", $category);
-				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-				$this->tpl->parseCurrentBlock();
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("checkbox_col_nominal");
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						if (strcmp($working_data[0]["value"], "") != 0)
+						{
+							if ($working_data[0]["value"] == $i)
+							{
+								$this->tpl->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+							}
+						}
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+				for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->getCategory($i);
+					$this->tpl->setCurrentBlock("text_col_nominal_mr");
+					$this->tpl->setVariable("VALUE_NOMINAL", $i);
+					$this->tpl->setVariable("TEXT_NOMINAL", $category);
+					$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 		
@@ -336,10 +369,10 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setSubtype($_POST["type"]);
-		if ($this->object->getSubtype() == SUBTYPE_MCSR)
-		{
+//		if ($this->object->getSubtype() == SUBTYPE_MCSR)
+//		{
 			$this->object->setOrientation($_POST["orientation"]);
-		}
+//		}
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);
 		$questiontext = str_replace("\n", "<br />", $questiontext);
     $this->object->setQuestiontext($questiontext);
