@@ -122,7 +122,7 @@ class ilObjectGUI
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
-		
+
 		// get the object
 		$this->assignObject();
 
@@ -168,6 +168,10 @@ class ilObjectGUI
 		}
 	}
 
+	function withReferences()
+	{
+		return $this->call_by_reference;
+	}
 
 	function assignObject()
 	{
@@ -568,7 +572,7 @@ class ilObjectGUI
 			{
 				$is_child[] = $ref_id;
 			}			
-			
+
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$obj_type = $obj_data->getType();
 
@@ -736,7 +740,7 @@ class ilObjectGUI
 							{
 								// a role folder was created, so map it to old role folder
 								$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
-								
+
 								// ... use mapping array to find out the correct new parent node where to put in the node...
 								//$new_parent = array_search($node["parent"],$mapping);
 								// ... append node to mapping for further possible subnodes ...
@@ -1574,7 +1578,7 @@ class ilObjectGUI
 					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
-			
+
 			$data["roles"][] = $r;
 		}
 
@@ -1586,7 +1590,7 @@ class ilObjectGUI
 			$opdata = array();
 
 			$opdata["name"] = $operation["operation"];
-			
+
 			$colspan = count($parentRoles) + 1;
 
 			foreach ($parentRoles as $role)
@@ -1625,10 +1629,10 @@ class ilObjectGUI
 				$this->tpl->setVariable("LINK_ROLE_RULESET","adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
-				
+
 				$this->tpl->touchBlock("ROLELINK_CLOSE");
 			}
-			
+
 			$this->tpl->setCurrentBlock("ROLENAMES");
 			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
 			$this->tpl->parseCurrentBlock();
@@ -1704,7 +1708,7 @@ class ilObjectGUI
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-								$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -1748,7 +1752,7 @@ class ilObjectGUI
 	* @param	string		$a_cmd		command
 	* @param	string		$a_location	default return location (is returned, if no special
 	*									return location was set)
-	* @access	public 
+	* @access	public
 	*/
 	function getReturnLocation($a_cmd, $a_location ="")
 	{
@@ -1767,7 +1771,7 @@ class ilObjectGUI
 	* @param	string		$a_cmd		command
 	* @param	string		$a_location	default return location (is returned, if no special
 	*									return location was set)
-	* @access	public 
+	* @access	public
 	*/
 	function setReturnLocation($a_cmd, $a_location)
 	{
@@ -1779,7 +1783,7 @@ class ilObjectGUI
 	* @param	string		$a_cmd			command
 	* @param	string		$a_target_frame	default target frame (is returned, if no special
 	*										target frame was set)
-	* @access	public 
+	* @access	public
 	*/
 	function getTargetFrame($a_cmd, $a_target_frame = "")
 	{
@@ -1802,7 +1806,7 @@ class ilObjectGUI
 	* @param	string		$a_cmd			command
 	* @param	string		$a_target_frame	default target frame (is returned, if no special
 	*										target frame was set)
-	* @access	public 
+	* @access	public
 	*/
 	function setTargetFrame($a_cmd, $a_target_frame)
 	{

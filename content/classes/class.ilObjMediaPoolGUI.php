@@ -35,6 +35,8 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once "content/classes/class.ilObjMediaPool.php";
+require_once("classes/class.ilTableGUI.php");
+require_once("classes/class.ilObjFolderGUI.php");
 
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
@@ -88,6 +90,29 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
+	/**
+	* save objects
+	*/
+	function save()
+	{
+return;
+		switch($_GET["cmdClass"])
+		{
+			case "ilObjFolderGUI":
+				$folder_gui = new ilObjFolderGUI("", 0, false, false);
+				$folder_gui->setReturnLocation("save", "mep_edit.php?ref_id=".$_GET["ref_id"].
+					"&obj_id=".$_GET["obj_id"]."&cmd=listMedia");
+				$tree =& $this->object->getTree();
+				$parent = ($_GET["obj_id"] == "")
+					? $tree->getRootId()
+					: $_GET["obj_id"];
+				$folder_gui->saveObject($parent);
+				break;
+
+			default:
+				break;
+		}
+	}
 
 	/**
 	* edit properties of object (admin form)
@@ -141,6 +166,60 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
+	* update properties
+	*/
+	function update()
+	{
+		$this->setReturnLocation("update", "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]);
+		$this->updateObject();
+	}
+
+	/**
+	* permission form
+	*/
+	function perm()
+	{
+		$this->prepareOutput();
+		$this->setFormAction("permSave", "mep_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]);
+		$this->setFormAction("addRole", "mep_edit.php?ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
+		$this->permObject();
+		$this->tpl->show();
+	}
+
+	/**
+	* save permissions
+	*/
+	function permSave()
+	{
+		$this->setReturnLocation("permSave",
+			"mep_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		$this->permSaveObject();
+	}
+
+	/**
+	* add role
+	*/
+	function addRole()
+	{
+		$this->setReturnLocation("addRole",
+			"mep_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		$this->addRoleObject();
+	}
+
+	/**
+	* show owner of media pool
+	*/
+	function owner()
+	{
+		$this->prepareOutput();
+		$this->ownerObject();
+		$this->tpl->show();
+	}
+
+	/**
 	* list media objects
 	*/
 	function listMedia()
@@ -186,9 +265,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "mep_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=post");
 
-		$tbl->setTitle($this->lng->txt("cont_objects"));
+		$tbl->setTitle($this->lng->txt("cont_content"));
 
-		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_title")));
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
 
 		$cols = array("", "", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"],
@@ -449,6 +528,19 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* create folder form
+	*/
+	function createFolderForm()
+	{
+		$this->prepareOutput();
+
+		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+		$folder_gui->setFormAction("save", "mep_edit.php?cmd=post&cmdClass=ilObjFolderGUI&ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$folder_gui->createObject();
+		//$this->tpl->show();
+	}
 
 }
 ?>
