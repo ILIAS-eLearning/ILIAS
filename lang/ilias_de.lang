@@ -2537,7 +2537,7 @@ content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
 content#:#cont_browser_not_js_capable#:#Der JavaScript-Editor wird für Ihre Browserversion leider nicht unterstützt. 
-content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
+content#:#cont_cant_copy_folders#:#Ordner können nicht in die Zwischenablage kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
@@ -2569,7 +2569,7 @@ content#:#cont_content_obj#:#Content-Objekt
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
-content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
+content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
@@ -2761,7 +2761,7 @@ content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Se
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
-content#:#cont_personal_clipboard#:#Persönliches Clipboard
+content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_please_select#:#Bitte auswählen
@@ -2870,7 +2870,7 @@ content#:#cont_update#:#Aktualisieren
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Clipboard von
+content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich in der Zwischenablage von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
 content#:#cont_version#:#version
@@ -2880,7 +2880,7 @@ content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
-content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
+content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
