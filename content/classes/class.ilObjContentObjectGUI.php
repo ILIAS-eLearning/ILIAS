@@ -101,8 +101,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$roles = $newObj->initDefaultRoles();
 
 			// assign author role to creator of forum object
-			$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
-			ilObjUser::updateActiveRoles($newObj->getOwner());
+			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
+			//ilObjUser::updateActiveRoles($newObj->getOwner());
 
 			// save meta data
 			include_once "classes/class.ilMetaDataGUI.php";
