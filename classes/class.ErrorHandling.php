@@ -60,7 +60,7 @@ class ErrorHandling
 	*/
 	function errorHandler($a_error_obj)
 	{
-		if($_GET["message"])
+		if($_SESSION["message"])
 		{
 			return;
 		}
@@ -80,8 +80,8 @@ class ErrorHandling
 			{
 				$message = "Under Construction";
 			}
-			
-			header("location: error.php?message=".urlencode($message));
+			$_SESSION["message"] = $message;
+			header("location: error.php");
 			exit;
 		}
 		if ($a_error_obj->getCode() == $this->MESSAGE)
