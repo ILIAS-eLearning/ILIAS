@@ -117,7 +117,7 @@ email_not_valid#:#Email non valida
 en_by_default#:#(la lingua inglese &#232; installata come predefinita e non pu&#242; essere cancellata).
 enable#:#abilita
 enabled#:#abilitato
-enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
+enter_dir_and_filename#:#Per favore, specifica il percorso completo (assoluto) ed il nome del file ! 
 enter_password#:#Per favore, inserisci la password
 env_ok#:#Ok. Sembra corretto.
 env_using#:#ILIAS3 girer&#224; su
@@ -141,7 +141,7 @@ fop_path_comment#:#richiesto per generare documenti PDF
 hide_clientlist#:#Nascondi la lista dei client
 host#:#Host
 htmldoc_path#:#Percorso della cartella con i doc HTML
-htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (nei sistemi a pagamento)###07 Aug 2004 content changed
+htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (nei sistemi a pagamento)
 http_path#:#percorso HTTP 
 id#:#ID
 ilias_homepage#:#Homepage ILIAS3
