@@ -1,11 +1,11 @@
 <?php
 /**
- * change user password
- * 
- * @author Peter Gabriel <pgabriel@databay.de> 
- * @version $Id$
- * @package ilias
- */
+* change user password
+* 
+* @author	Peter Gabriel <pgabriel@databay.de> 
+* @version	$Id$
+* @package	ilias
+*/
 require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
@@ -28,10 +28,10 @@ $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("btn_row");
 $tpl->parseCurrentBlock();
 
-
 if ($_POST["pw_old"] != "")
 {
-	if ($ilias->account->updatePassword($_POST["pw_old"], $_POST["pw1"], $_POST["pw2"]) == true) {
+	if ($ilias->account->updatePassword($_POST["pw_old"], $_POST["pw1"], $_POST["pw2"]))
+	{
 		$ilias->error_obj->sendInfo("msg_changes_ok");
 		$msg = "msg_changes_ok";
 	}
