@@ -60,6 +60,13 @@ class Setup
 	var $ini;
 	
 	/**
+	*  path to directory out of webspace
+	*  @var		string
+	*  @access	private
+	*/
+	var $data_path;
+
+	/**
 	* default array for ini-file
 	* @var		array
 	* @access	private
@@ -120,6 +127,7 @@ class Setup
 		$this->setDbName($this->ini->readVariable("db","name"));
 		$this->setDbUser($this->ini->readVariable("db","user"));
 		$this->setDbPass($this->ini->readVariable("db","pass"));
+		$this->setDataPath($this->ini->readVariable("server","data_dir"));
 
 		$this->setDSN();
 		
@@ -144,6 +152,7 @@ class Setup
 		$this->ini->setVariable("db", "name", $this->dbName);
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
+		$this->ini->setVariable("server", "data_dir", $this->data_path);
 		
 		//try to write the file
 		if ($this->ini->write()==false)
@@ -239,6 +248,28 @@ class Setup
 	{
 		$this->dbPass = $str;
 		$this->setDSN();
+	}
+
+	/**
+	* set the path to data directory
+	* @param	string
+	*/
+	function setDataPath($a_path)
+	{
+		if(substr($a_path,-1) == '/')
+		{
+			$a_path = substr($a_path,-1);
+		}
+		$this->data_path = $a_path;
+	}
+
+	/**
+	* get the path to data directory
+	* @param	string
+	*/
+	function getDataPath()
+	{
+		return $this->data_path;
 	}
 
 	/**

@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.15 2003/03/19 21:12:02 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.16 2003/03/20 00:32:40 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -219,9 +219,8 @@ class UserObjectOut extends ObjectOut
 
 		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("No permission to create user",$this->ilias->error_obj->WARNING);
 		}
-
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
@@ -281,6 +280,14 @@ class UserObjectOut extends ObjectOut
 		$notfObj->createReference();
 		//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
 
+		// CREATE ENTRIES FOR MAIL BOX
+		require_once ("classes/class.Mailbox.php");
+		$mbox = new MailBox($userObj->getId());
+		$mbox->createDefaultFolder();
+			
+		require_once "classes/class.FormatMail.php";
+		$fmail = new FormatMail($userObj->getId());
+		$fmail->createMailOptionsEntry();
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}

@@ -350,13 +350,17 @@ switch ($_GET["step"])
 
 	// SETUP INIFILE
 	case "1":
-		$dbhost = $_POST["dbhost"];
-		$dbname = $_POST["dbname"];
-		$dbuser = $_POST["dbuser"];
-		$dbpass = $_POST["dbpass"];
-		
+		$mySetup->readIniFile();
+		$dbhost = $_POST["dbhost"] ? $_POST["dbhost"] : $mySetup->dbHost;
+		$dbname = $_POST["dbname"] ? $_POST["dbname"] : $mySetup->dbName;
+		$dbuser = $_POST["dbuser"] ? $_POST["dbuser"] : $mySetup->dbUser;
+		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
+		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
+		$dpath  = $_POST["dpath"]  ? $_POST["dpath"]  : $mySetup->data_path;
+
+/*
 		//load defaults if neccessary
-		if ($_POST["dbhost"] == "")
+		if(!$_POST)
 		{
 			$mySetup->getDefaults();		
 			$dbtype = $mySetup->default["db"]["type"];
@@ -365,7 +369,7 @@ switch ($_GET["step"])
 			$dbuser = $mySetup->default["db"]["user"];
 			$dbpass = $mySetup->default["db"]["pass"];
 		}
-		
+*/
 		//try to read the ini-file and build msg if error
 		if (!$ini_exists)
 		{
@@ -416,6 +420,7 @@ switch ($_GET["step"])
 		$tpl->setVariable("TXT_DB_TYPE", $lng->txt("db_type"));
 		$tpl->setVariable("TXT_DB_USER", $lng->txt("db_user"));
 		$tpl->setVariable("TXT_DB_PASS", $lng->txt("db_pass"));
+		$tpl->setVariable("TXT_DATA_PATH", $lng->txt("data_path")."<br>".$lng->txt("out_of_webspace"));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
 	
@@ -426,16 +431,24 @@ switch ($_GET["step"])
 		$tpl->setVariable("DB_TYPE", $dbtype);
 		$tpl->setVariable("DB_USER", $dbuser);
 		$tpl->setVariable("DB_PASS", $dbpass);
+		$tpl->setVariable("D_PATH", $dpath);
 		$tpl->parseCurrentBlock();
 		break;
 
 	// GENERATE INIFILE
 	case "2":
+		if(!$_POST["dpath"] or @!file_exists($_POST["dpath"]))
+		{
+			header("location: setup.php?step=1&lang=en");
+			exit;
+		}
+
 		$mySetup->setDbType($_POST["dbtype"]);
 		$mySetup->setDbHost($_POST["dbhost"]);
 		$mySetup->setDbName($_POST["dbname"]);
 		$mySetup->setDbUser($_POST["dbuser"]);
 		$mySetup->setDbPass($_POST["dbpass"]);
+		$mySetup->setDataPath($_POST["dpath"]);
 		
 		//write the inifile if all things are okay
 		if (!$mySetup->writeIniFile())
@@ -444,6 +457,16 @@ switch ($_GET["step"])
 		}
 		else
 		{
+			// PREPARE MAIL DIRECTORY
+			if(file_exists($mySetup->getDataPath()))
+			{
+				if(!file_exists($mySetup->getDataPath()))
+				{
+					mkdir($mySetup->getDataPath().'/mail');
+				}
+				chmod($mySetup->getDataPath().'/mail',0755);
+			}
+
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");
 
 			showMessage($msg,$lng->txt("setup_inifile"));

@@ -416,3 +416,173 @@ ALTER TABLE usr_data CHANGE login login VARCHAR( 32 ) NOT NULL;
 ALTER TABLE usr_data CHANGE firstname firstname VARCHAR( 32 ) NOT NULL;
 ALTER TABLE usr_data CHANGE lastname lastname VARCHAR( 32 ) NOT NULL;
 ALTER TABLE usr_data CHANGE title title VARCHAR( 32 ) NOT NULL;
+
+<#20>
+# init mail functions
+DROP TABLE IF EXISTS mail;
+CREATE TABLE mail (
+	mail_id int(11) NOT NULL auto_increment,
+	user_id int(11) NOT NULL default '0',
+	folder_id int(11) NOT NULL default '0',
+	sender_id int(11) default NULL,
+	attachments varchar(255) default NULL,
+	send_time datetime NOT NULL default '0000-00-00 00:00:00',
+	timest timestamp(14) NOT NULL,
+	rcp_to varchar(255) default NULL,
+	rcp_cc varchar(255) default NULL,
+	rcp_bcc varchar(255) default NULL,
+	m_status varchar(16) default NULL,
+	m_type varchar(16) default NULL,
+	m_email tinyint(1) default NULL,
+	m_subject varchar(255) default NULL,
+	m_message text,
+	PRIMARY KEY (mail_id)
+	) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS mail_attachment;
+CREATE TABLE mail_attachment (
+	mail_id int(11) NOT NULL default '0',
+	path text NOT NULL,
+	PRIMARY KEY  (mail_id)
+	) TYPE=MyISAM;
+	
+DROP TABLE IF EXISTS mail_obj_data;
+CREATE TABLE mail_obj_data (
+	obj_id int(11) NOT NULL auto_increment,
+	user_id int(11) NOT NULL default '0',
+	title char(70) NOT NULL default '',
+	type char(16) NOT NULL default '',
+	PRIMARY KEY  (obj_id,user_id)
+) TYPE=MyISAM;
+			
+DROP TABLE IF EXISTS mail_options;
+CREATE TABLE mail_options (
+				user_id int(11) NOT NULL default '0',
+  linebreak tinyint(4) NOT NULL default '0',
+  signature text NOT NULL,
+  KEY user_id (user_id,linebreak)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS mail_saved;
+CREATE TABLE mail_saved (
+  user_id int(11) NOT NULL default '0',
+  attachments varchar(255) default NULL,
+  rcp_to varchar(255) default NULL,
+  rcp_cc varchar(255) default NULL,
+  rcp_bcc varchar(255) default NULL,
+  m_type varchar(16) default NULL,
+  m_email tinyint(1) default NULL,
+  m_subject varchar(255) default NULL,
+  m_message text
+	) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS mail_tree;
+CREATE TABLE mail_tree (
+  tree int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned default NULL,
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  KEY child (child),
+  KEY parent (parent)
+) TYPE=MyISAM;
+
+<#21>
+<?php
+$query = "SELECT usr_id FROM usr_data";
+$result = $this->db->query($query);
+$counter = 1;
+while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$parent = $counter + 1;
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '0',".
+		"lft = '1',".
+		"rgt = '12',".
+		"depth = '1'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'a_root',".
+		"type = 'root'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '".$parent."',".
+		"lft = '2',".
+		"rgt = '3',".
+		"depth = '2'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'b_inbox',".
+		"type = 'inbox'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '".$parent."',".
+		"lft = '4',".
+		"rgt = '5',".
+		"depth = '2'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'c_trash',".
+		"type = 'trash'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '".$parent."',".
+		"lft = '6',".
+		"rgt = '7',".
+		"depth = '2'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'd_drafts',".
+		"type = 'drafts'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '".$parent."',".
+		"lft = '8',".
+		"rgt = '9',".
+		"depth = '2'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'e_sent',".
+		"type = 'sent'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '".++$counter."',".
+		"parent = '".$parent."',".
+		"lft = '10',".
+		"rgt = '11',".
+		"depth = '2'";
+	$res2 = $this->db->query($query);
+	$query = "INSERT INTO mail_obj_data ".
+		"SET obj_id = '".$counter."',".
+		"user_id = '".$row->usr_id."',".
+		"title = 'z_local',".
+		"type = 'local'";
+	$res3 = $this->db->query($query);
+	$query = "INSERT INTO mail_options ".
+		"SET user_id = '".$row->usr_id."',".
+		"linebreak = '60'";
+	$res4 = $this->db->query($query);
+}
+?>
