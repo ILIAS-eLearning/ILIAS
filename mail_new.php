@@ -22,7 +22,6 @@ $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 $allow_smtp = $ilias->getSetting("mail_allow_smtp");
 
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
 infoPanel();
@@ -30,83 +29,79 @@ infoPanel();
 // LOCATOR
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-if(isset($_POST["cmd"]))
+if(isset($_POST["cmd"]["send"]))
 {
-	switch($_POST["cmd"])
+	$f_message = $umail->formatLinebreakMessage($_POST["m_message"]);
+	if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
+										 $_POST["rcp_bcc"],$_POST["m_subject"],$f_message,
+										 $_POST["attachments"],$_POST["m_type"],$_POST["m_email"]))
 	{
-		case $lng->txt("send"):
-			$f_message = $umail->formatLinebreakMessage($_POST["m_message"]);
-			if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
-												 $_POST["rcp_bcc"],$_POST["m_subject"],$f_message,
-												 $_POST["attachments"],$_POST["m_type"],$_POST["m_email"]))
-			{
-				sendInfo($error_message);
-				break;
-			}
-			sendInfo($lng->txt("mail_message_send"));
-			break;
-
-		case $lng->txt("save_message"):
-			$mbox = new ilMailbox($_SESSION["AccountId"]);
-			$drafts_id = $mbox->getDraftsFolder();
-
-			if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
-										$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
-										$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
-			{
-				sendInfo($lng->txt("mail_saved"));
-			}
-			else
-			{
-				sendInfo($lng->txt("mail_send_error"));
-			}
-			break;
-
-		case $lng->txt("cancel"):
-			unset($_SESSION["mail_search"]);
-			break;
-
-		case $lng->txt("mail_to_search"):
-			$_SESSION["mail_search"] = 'to';
-			sendInfo($lng->txt("mail_insert_query"));
-			break;
-
-		case $lng->txt("mail_cc_search"):
-			$_SESSION["mail_search"] = 'cc';
-			sendInfo($lng->txt("mail_insert_query"));
-			break;
-
-		case $lng->txt("mail_bc_search"):
-			$_SESSION["mail_search"] = 'bc';
-			sendInfo($lng->txt("mail_insert_query"));
-			break;
-
-		case $lng->txt("edit"):
-			$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
-								 $_POST["rcp_to"],$_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-								 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-			header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
-			exit;
-
-		case $lng->txt("search_system"):
-			if(!empty($_POST["search"]))
-			{
-				$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
-									 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-									 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-				header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=system");
-				exit();
-			}
-			sendInfo($lng->txt("mail_insert_query"));
-			break;
-		case $lng->txt("search_addressbook"):
-			$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
-								 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-								 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-			header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=addr");
-			exit();
+		sendInfo($error_message);
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_message_send"));
 	}
 }
+if(isset($_POST["cmd"]["save_message"]))
+{
+	$mbox = new ilMailbox($_SESSION["AccountId"]);
+	$drafts_id = $mbox->getDraftsFolder();
+
+	if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
+								$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
+								$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
+	{
+		sendInfo($lng->txt("mail_saved"));
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_send_error"));
+	}
+}
+if(isset($_POST["cmd"]["rcp_to"]))
+{
+	$_SESSION["mail_search"] = 'to';
+	sendInfo($lng->txt("mail_insert_query"));
+}
+if(isset($_POST["cmd"]["rcp_cc"]))
+{
+	$_SESSION["mail_search"] = 'cc';
+	sendInfo($lng->txt("mail_insert_query"));
+}
+if(isset($_POST["cmd"]["rcp_bc"]))
+{
+	$_SESSION["mail_search"] = 'bc';
+	sendInfo($lng->txt("mail_insert_query"));
+}
+if(isset($_POST["cmd"]["edit"]))
+{
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
+						 $_POST["rcp_to"],$_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+	header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
+}
+if(isset($_POST["cmd"]["search_system"]))
+{
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=system");
+	exit();
+}
+if(isset($_POST["cmd"]["search_addr"]))
+{
+	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+	header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=addr");
+	exit();
+}
+if(isset($_POST["cmd"]["search_cancel"]) or isset($_POST["cmd"]["cancel"]))
+{
+	unset($_SESSION["mail_search"]);
+}
+
 // BUTTONS
 include "./include/inc.mail_buttons.php";
 
@@ -168,10 +163,10 @@ switch($_GET["type"])
 $tpl->setVariable("ACTION", "mail_new.php?mobj_id=$_GET[mobj_id]");
 
 // SEARCH BLOCK
-if($_POST["cmd"] == $lng->txt("mail_to_search") or
-   $_POST["cmd"] == $lng->txt("mail_cc_search") or
-   $_POST["cmd"] == $lng->txt("mail_bc_search") or
-   $_POST["cmd"] == $lng->txt("search"))
+if(isset($_POST["cmd"]["rcp_to"]) or
+   isset($_POST["cmd"]["rcp_cc"]) or
+   isset($_POST["cmd"]["rcp_bc"]))
+#   isset($_POST["cmd"][""] == $lng->txt("search"))
 {
 	$tpl->setCurrentBlock("search");
 	$tpl->setVariable("BUTTON_SEARCH_SYSTEM",$lng->txt("search_system"));

@@ -30,21 +30,19 @@ if($_POST["cmd"])
 {
 	if($_POST["filename"])
 	{
-		switch($_POST["cmd"])
+		if(isset($_POST["cmd"]["download"]))
 		{
-			case $lng->txt("download"):
-				require_once "classes/class.ilFileDataMail.php";
-				
-				$mfile = new ilFileDataMail($_SESSION["AccountId"]);
-				if(!$path = $mfile->getAttachmentPath($_POST["filename"],$_GET["mail_id"]))
-				{
-					sendInfo("Error reading file!");
-					break;
-				}
-				header("Content-Type: application/octet-stream");
-				header("Content-Disposition: attachment; filename=\"".$_POST["filename"]."\"");
-				readfile($path);
+			require_once "classes/class.ilFileDataMail.php";
+			
+			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
+			if(!$path = $mfile->getAttachmentPath($_POST["filename"],$_GET["mail_id"]))
+			{
+				sendInfo("Error reading file!");
 				break;
+			}
+			header("Content-Type: application/octet-stream");
+			header("Content-Disposition: attachment; filename=\"".$_POST["filename"]."\"");
+			readfile($path);
 		}
 	}
 }
@@ -132,7 +130,8 @@ if($mail_data["attachments"])
 
 // MESSAGE
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
-$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlentities($mail_data["m_message"]))));
+//$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlentities($mail_data["m_message"]))));
+$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable($mail_data["m_message"])));
 
 $tpl->show();
 ?>
