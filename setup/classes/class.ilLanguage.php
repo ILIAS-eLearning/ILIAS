@@ -445,11 +445,11 @@ class ilLanguage
 			}
 		}
 		
-		$languages = array_intersect($languages1,$setup_langs);	
+		//$languages = array_intersect($languages1,$setup_langs);	
 
 		chdir($tmpPath);
 
-		return $languages;
+		return $languages1;
 	}
 	
 	/**
