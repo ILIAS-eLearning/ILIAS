@@ -794,7 +794,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html",true);
-		$this->__showButton("members",$this->lng->txt("print_list"),"target=\"_blank\"");
+		$this->__showButton("printMembers",$this->lng->txt("print_list"),"target=\"_blank\"");
 
 		// INFO NO MEMBERS
 		$this->object->initCourseMemberObject();
@@ -1687,6 +1687,124 @@ class ilObjCourseGUI extends ilObjectGUI
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), "unsubscribe", get_class($this));
 		}
 			
+	}
+
+	function printMembersObject()
+	{
+		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,true);
+
+		$this->object->initCourseMemberObject();
+
+
+		// MEMBERS
+		if(count($members = $this->object->members_obj->getAssignedUsers()))
+		{
+			foreach($members as $member_id)
+			{
+				$member_data = $this->object->members_obj->getUserData($member_id);
+
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+				{
+					$tpl->setCurrentBlock("members_row");
+					$tpl->setVariable("LOGIN",$tmp_obj->getLogin());
+					$tpl->setVariable("FIRSTNAME",$tmp_obj->getFirstname());
+					$tpl->setVariable("LASTNAME",$tmp_obj->getLastname());
+
+					switch($member_data["role"])
+					{
+						case $this->object->members_obj->ROLE_ADMIN:
+							$role = $this->lng->txt("crs_admin");
+							break;
+
+						case $this->object->members_obj->ROLE_TUTOR:
+							$role = $this->lng->txt("crs_tutor");
+							break;
+
+						case $this->object->members_obj->ROLE_MEMBER:
+							$role = $this->lng->txt("crs_member");
+							break;
+					}
+					$tpl->setVariable("ROLE",$role);
+					
+					switch($member_data["status"])
+					{
+						case $this->object->members_obj->STATUS_NOTIFY:
+							$status = $this->lng->txt("notify");
+							break;
+
+						case $this->object->members_obj->STATUS_NO_NOTIFY:
+							$status = $this->lng->txt("no_notify");
+							break;
+
+						case $this->object->members_obj->STATUS_BLOCKED:
+							$status = $this->lng->txt("blocked");
+							break;
+
+						case $this->object->members_obj->STATUS_UNBLOCKED:
+							$status = $this->lng->txt("unblocked");
+							break;
+					}
+					$tpl->setVariable("STATUS",$status);
+					$tpl->parseCurrentBlock();
+				}
+			}
+			$tpl->setCurrentBlock("members");
+
+			$tpl->setVariable("MEMBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
+			$tpl->setVariable("MEMBERS_IMG_ALT",$this->lng->txt('crs_members'));
+			$tpl->setVariable("MEMBERS_TABLE_HEADER",$this->lng->txt('crs_members_title'));
+			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('login'));
+			$tpl->setVariable("TXT_FIRSTNAME",$this->lng->txt('firstname'));
+			$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
+			$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
+			$tpl->setVariable("TXT_STATUS",$this->lng->txt('crs_status'));
+
+			$tpl->parseCurrentBlock();
+
+		}
+		// SUBSCRIBERS
+		if(count($members = $this->object->members_obj->getSubscribers()))
+		{
+			foreach($members as $member_id)
+			{
+				$member_data = $this->object->members_obj->getSubscriberData($member_id);
+
+				// GET USER OBJ
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
+				{
+					$tpl->setCurrentBlock("members_row");
+					$tpl->setVariable("SLOGIN",$tmp_obj->getLogin());
+					$tpl->setVariable("SFIRSTNAME",$tmp_obj->getFirstname());
+					$tpl->setVariable("SLASTNAME",$tmp_obj->getLastname());
+					$tpl->setVariable("STIME",$member_data["time"]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+			$tpl->setCurrentBlock("members");
+
+			$tpl->setVariable("SUBSCRIBERS_IMG_SOURCE",ilUtil::getImagePath('icon_usr_b.gif'));
+			$tpl->setVariable("SUBSCRIBERS_IMG_ALT",$this->lng->txt('crs_subscribers'));
+			$tpl->setVariable("SUBSCRIBERS_TABLE_HEADER",$this->lng->txt('crs_subscribers_title'));
+			$tpl->setVariable("TXT_SLOGIN",$this->lng->txt('login'));
+			$tpl->setVariable("TXT_SFIRSTNAME",$this->lng->txt('firstname'));
+			$tpl->setVariable("TXT_SLASTNAME",$this->lng->txt('lastname'));
+			$tpl->setVariable("TXT_STIME",$this->lng->txt('crs_time'));
+
+			$tpl->parseCurrentBlock();
+
+		}
+
+		$tpl->setVariable("TITLE",$this->lng->txt('crs_members_print_title'));
+		$tpl->setVariable("CSS_PATH",$this->tpl->tplPath);
+		
+		$headline = $this->lng->txt('obj_crs').': '.$this->object->getTitle().
+			' -> '.$this->lng->txt('crs_members').' ('.strftime("%Y-%m-%d %R",time()).')';
+
+		$tpl->setVariable("HEADLINE",$headline);
+
+		$tpl->show();
+		exit;
 	}
 
 
