@@ -83,8 +83,14 @@ class ilObjectFactory
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
+		// get module
+		$module = $objDefinition->getModule($object_rec["type"]);
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+
 		// create instance
-		require_once("classes/class.".$class_name.".php");
+		require_once($module_dir."classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
 		$obj->setObjDataRecord($object_rec);
@@ -138,8 +144,14 @@ class ilObjectFactory
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
+		// get module
+		$module = $objDefinition->getModule($object_rec["type"]);
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+
 		// create instance
-		require_once("classes/class.".$class_name.".php");
+		require_once($module_dir."classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);

@@ -29,6 +29,10 @@ define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
 define("IL_INSERT_CHILD", 2);
 
+define ("IL_CHAPTER_TITLE", "st_title");
+define ("IL_PAGE_TITLE", "pg_title");
+define ("IL_NO_HEADER", "none");
+
 /**
 * Class ilPageObject
 *
@@ -178,7 +182,9 @@ class ilPageObject extends ilLMObject
 
 	function &getContentObject($a_hier_id)
 	{
+//echo "ilPageObject::getContentObject:hierid:".$a_hier_id.":<br>";
 		$cont_node =& $this->getContentNode($a_hier_id);
+//echo "ilPageObject::getContentObject:nodename:".$cont_node->node_name().":<br>";
 		switch($cont_node->node_name())
 		{
 			case "PageContent":
@@ -212,7 +218,7 @@ class ilPageObject extends ilLMObject
 						$list =& new ilLMList($this->dom);
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
-						return $tab;
+						return $list;
 				}
 				break;
 
@@ -762,9 +768,21 @@ class ilPageObject extends ilLMObject
 	/**
 	* presentation title doesn't have to be page title, it may be
 	* chapter title + page title or chapter title only, depending on settings
+	*
+	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
-	function getPresentationTitle()
+	function getPresentationTitle($a_mode = IL_CHAPTER_TITLE)
 	{
+		if($a_mode == IL_NO_HEADER)
+		{
+			return "";
+		}
+
+		if($a_mode == IL_PAGE_TITLE)
+		{
+			return $this->getTitle();
+		}
+
 		$tree = new ilTree($this->getLMId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");

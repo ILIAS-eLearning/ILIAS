@@ -98,8 +98,13 @@ else
 // call gui object method
 $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
+$module = $objDefinition->getModule($obj_type);
+$module_dir = ($module == "")
+	? ""
+	: $module."/";
+
 $class_constr = "ilObj".$class_name."GUI";
-require_once("./classes/class.ilObj".$class_name."GUI.php");
+require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 //echo $class_constr.":".$method;
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->$method();

@@ -113,22 +113,9 @@ class ilObjectGUI
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		// TODO: it seems that we always have to pass only the ref_id
-		if ($a_id != 0)
-		{
-			if ($this->call_by_reference)
-			{
-				$this->link_params = "ref_id=".$this->ref_id;
-				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
+		// get the object
+		$this->assignObject();
 
-			}
-			else
-			{
-				$this->link_params = "ref_id=".$this->ref_id;
-				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($a_id);
-			}
-		}
-		
 		$this->lng =& $this->object->lng;
 
 		//prepare output
@@ -179,6 +166,26 @@ class ilObjectGUI
 			else
 			{
 				$_GET["sort_by"] = "title";
+			}
+		}
+	}
+
+
+	function assignObject()
+	{
+		// TODO: it seems that we always have to pass only the ref_id
+		if ($this->id != 0)
+		{
+			if ($this->call_by_reference)
+			{
+				$this->link_params = "ref_id=".$this->ref_id;
+				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($this->id);
+
+			}
+			else
+			{
+				$this->link_params = "ref_id=".$this->ref_id;
+				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($this->id);
 			}
 		}
 	}
