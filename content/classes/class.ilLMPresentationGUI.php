@@ -1193,8 +1193,16 @@ class ilLMPresentationGUI
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				"syntaxhighlight.css");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// track user access to page

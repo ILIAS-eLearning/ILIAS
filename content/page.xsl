@@ -607,9 +607,11 @@
 	<xsl:param name="p_id" select="-1"/>
 	<p class="ilc_Code"><table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
 		<xsl:value-of select="." />
-		<xsl:if test="@DownloadTitle != '' and $download_script != ''">
-			<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
-			<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$download_script}&amp;cmd=download_paragraph&amp;downloadtitle={$downloadtitle}&amp;pg_id={$pg_id}&amp;par_id={$p_id}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
+		<xsl:if test="$mode != 'offline'">
+			<xsl:if test="@DownloadTitle != '' and $download_script != ''">
+				<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
+				<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$download_script}&amp;cmd=download_paragraph&amp;downloadtitle={$downloadtitle}&amp;pg_id={$pg_id}&amp;par_id={$p_id}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
+			</xsl:if>
 		</xsl:if>
 	</table></p>
 </xsl:template>
