@@ -40,11 +40,12 @@ class ilLMEditorExplorer extends ilLMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLMEditorExplorer($a_target,&$a_lm_obj)
+	function ilLMEditorExplorer($a_target, &$a_lm_obj, $a_gui_class)
 	{
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
+		$this->gui_class = $a_gui_class;
 
 		parent::ilLMExplorer($a_target, $a_lm_obj);
 		$this->setExpandTarget("lm_edit.php?cmd=explorer&ref_id=".$this->lm_obj->getRefId());
@@ -59,12 +60,14 @@ class ilLMEditorExplorer extends ilLMExplorer
 		{
 			case "pg":
 				$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $a_node_id);
-				return $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view");
+				return $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI",
+					"view", array($this->gui_class));
 				break;
 
 			case "st":
 				$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_node_id);
-				return $this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view");
+				return $this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
+					"view", array($this->gui_class));
 				break;
 		}
 	}

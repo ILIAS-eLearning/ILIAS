@@ -87,6 +87,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		switch($next_class)
 		{
 			case "ilpageobjectgui":
+				$this->ctrl->setReturn($this, "view");
 				require_once("content/classes/class.ilContObjLocatorGUI.php");
 				$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
 				$contObjLocator->setObject($this->obj);
@@ -110,6 +111,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				break;
 
 			case "ileditclipboardgui":
+				$this->ctrl->setReturn($this, "view");
 				$clip_gui = new ilEditClipboardGUI();
 				$ret =& $clip_gui->executeCommand();
 				break;
@@ -304,21 +306,30 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		// obj_id is empty, if page is created from "all pages" screen
 		// -> a free page is created (not in the tree)
-		if (empty($_GET["obj_id"]))
-		{
-			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".
-				$this->content_object->getRefId());
-		}
-		else
+		if ($_GET["obj_id"] != 0)
 		{
 			$this->putInTree();
 
 			// check the tree
 			$this->checkTree();
 
-			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$_GET["obj_id"]);
+			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
+				"view", "", true));
 		}
+	}
+
+	/**
+	* cancel
+	*/
+	function cancel()
+	{
+		sendInfo($this->lng->txt("msg_cancel"), true);
+		if ($_GET["obj_id"] != 0)
+		{
+			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
+				"view", "", true));
+		}
+		//$this->ctrl->returnToParent($this);
 	}
 
 	/**
