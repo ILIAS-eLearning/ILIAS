@@ -100,8 +100,8 @@ class ilPageObject extends ilLMObject
 
 	function buildDom()
 	{
-//echo ":xml:".htmlentities($this->getXMLContent(true)).":";
-		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
+echo ":xml:".htmlentities($this->getXMLContent(true)).":";
+		$this->dom = domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
@@ -304,7 +304,7 @@ class ilPageObject extends ilLMObject
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
 	*/
-	function getXMLFromDom($a_incl_head = false)
+	function getXMLFromDom($a_incl_head = false, $a_append_mobs = false)
 	{
 		if ($a_incl_head)
 		{
@@ -312,8 +312,36 @@ class ilPageObject extends ilLMObject
 		}
 		else
 		{
+			$mobs =& $this->getMultimediaXML();
 			return $this->dom->dump_node($this->node);
 		}
+	}
+
+	/**
+	* get a xml string that contains all media object elements, that
+	* are referenced by any media alias in the page
+	*/
+	function getMultimediaXML()
+	{
+		// determine all media aliases of the page
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaObject/MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		$mob_ids = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$mob_ids[$res->nodeset[$i]->get_attribute("OriginId")] = true;
+		}
+
+		// get xml of corresponding media objects
+		$mobs_xml = "";
+		require_once("content/classes/class.ilMediaObject.php");
+		foreach($mob_ids as $mob_id => $dummy)
+		{
+			$mob_obj =& new ilMediaObject($mob_id);
+			$mobs_xml .= $mob_obj->getXML();
+		}
+		return $mobs_xml;
 	}
 
 	function validateDom()

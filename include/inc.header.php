@@ -177,6 +177,7 @@ if ($script != "login.php" && $script != "index.php")
 }*/
 
 $location_stylesheet = ilUtil::getStyleSheetLocation();
+//echo "loc:".$location_stylesheet.":<br>";
 
 $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 $tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));

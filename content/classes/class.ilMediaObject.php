@@ -241,7 +241,7 @@ class ilMediaObject extends ilObjMediaObject
 			$parameters = $this->getParameters();
 			foreach ($parameters as $name => $value)
 			{
-				$xml .= "<Parameter Name=\"$name\" Value=\"$value\">\n";
+				$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
 			}
 		}
 		$xml .= "</MediaObject>";

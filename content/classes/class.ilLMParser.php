@@ -309,12 +309,14 @@ class ilLMParser extends ilSaxParser
 
 			// TECHNICAL
 			case "Technical":
-				$this->meta_data->setTechnicalFormat($a_attribs["Format"]);
+				$this->meta_technical =& new ilMetaTechnical();
+				$this->meta_data->addTechnicalSection();
+				$this->meta_technical->setFormat($a_attribs["Format"]);
 				break;
 
 			// TECHNICAL: Size
 			case "Size":
-				$this->meta_data->setTechnicalSize($a_attribs["Size"]);
+				$this->meta_technical->setSize($a_attribs["Size"]);
 				break;
 
 			// TECHNICAL: Requirement
@@ -344,18 +346,18 @@ class ilLMParser extends ilSaxParser
 
 			// TECHNICAL: OrComposite
 			case "OrComposite":
-				$this->meta_data->addTechnicalRequirementSet($this->requirement_set);
+				$this->meta_technical->addRequirementSet($this->requirement_set);
 				unset($this->requirement_set);
 				break;
 
 			// TECHNICAL: InstallationRemarks
 			case "InstallationRemarks":
-				$this->setTechnicalInstallationRemarksLanguage($a_attribs["Language"]);
+				$this->meta_technical->setInstallationRemarksLanguage($a_attribs["Language"]);
 				break;
 
 			// TECHNICAL: InstallationRemarks
 			case "OtherPlatformRequirements":
-				$this->setTechnicalOtherRequirementsLanguage($a_attribs["Language"]);
+				$this->meta_technical->setOtherRequirementsLanguage($a_attribs["Language"]);
 				break;
 
 		}
@@ -363,7 +365,7 @@ class ilLMParser extends ilSaxParser
 //echo "Begin Tag: $a_name<br>";
 
 		// append content to page xml content
-		if($this->in_page_object && !$this->in_meta_data)
+		if($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
 		{
 			$this->page_object->appendXMLContent($this->buildTag("start", $a_name, $a_attribs));
 		}
@@ -377,7 +379,7 @@ class ilLMParser extends ilSaxParser
 	{
 
 		// append content to page xml content
-		if($this->in_page_object && !$this->in_meta_data)
+		if ($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
 		{
 			$this->page_object->appendXMLContent($this->buildTag("end", $a_name));
 		}
@@ -548,27 +550,27 @@ class ilLMParser extends ilSaxParser
 
 				// TECHNICAL: Size
 				case "Size":
-					$this->meta_data->setTechnicalSize($a_data);
+					$this->meta_technical->setSize($a_data);
 					break;
 
 				// TECHNICAL: Location
 				case "Location":
-					$this->meta_data->addTechnicalLocation($a_data);
+					$this->meta_technical->addLocation($a_data);
 					break;
 
 				// TECHNICAL: InstallationRemarks
 				case "InstallationRemarks":
-					$this->setTechnicalInstallationRemarks($a_data);
+					$this->meta_technical->setInstallationRemarks($a_data);
 					break;
 
 				// TECHNICAL: InstallationRemarks
 				case "OtherPlatformRequirements":
-					$this->setTechnicalOtherRequirements($a_data);
+					$this->meta_technical->setOtherRequirements($a_data);
 					break;
 
 				// TECHNICAL: Duration
 				case "Duration":
-					$this->setTechnicalDuration($a_data);
+					$this->meta_technical->setDuration($a_data);
 					break;
 
 			}
