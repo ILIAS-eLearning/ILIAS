@@ -513,25 +513,36 @@ class Tree extends PEAR
 	* @access	private
 	* @return	object	$res			query result
 	*/
-	function fetchPath ($a_endnode = "",$a_startnode = "")
+	function fetchPath ($a_endnode = "", $a_endparent = "", $a_startnode = "", $a_startparent = "")
 	{
-		if(empty($a_endnode))
+		if (empty($a_endnode))
 		{
 			$a_endnode = $this->node_id;
 		}
 
-		if(empty($a_startnode))
+		if(!empty($a_startnode) && empty($a_startparent))
+		{
+			$this->ilias->raiseError("function fetchPath(start,startparent,end,endparent) needs one more Argument",
+									 $this->ilias->error_object->WARNING);
+		}
+		if (empty($a_startnode))
 		{
 			$a_startnode = $this->root_id;
+			$a_startparent = 0;
 		}
 
+		if (empty($a_endparent))
+		{
+			$a_endparent = $this->parent_id;
+		}
+//		var_dump("<pre>",$a_endnode,$a_endparent,$a_startnode,$a_startparent,"</pre");
 		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
-				 "WHERE T1.child = '".$a_startnode." '".
-				 //"AND T1.parent = '0' ".
-				 "AND T3.child = '".$a_endnode." '".
-				 //"AND T3.parent = '".$this->parent_id." '".
+				 "WHERE T1.child = '".$a_startnode."' ".
+				 "AND T1.parent = '".$a_startparent."' ".
+				 "AND T3.child = '".$a_endnode."' ".
+				 "AND T3.parent = '".$a_endparent."' ".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
 				 "AND T2.tree = '".$this->tree_id." '".
@@ -558,9 +569,11 @@ class Tree extends PEAR
 	* @access	public
 	* @return	array	$this->Path		ordered path info (id,title,parent) from start to end
 	*/
-	function getPathFull ($a_endnode = "", $a_startnode = "")
+	function getPathFull ($a_end = '',$a_endparent = '', $a_start = '' ,$a_startparent = '')
 	{
-		$res = $this->fetchPath($a_endnode,$a_startnode);
+		$a_end = $a_end ? $a_end : $_GET["obj_id"];
+		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
+		$res = $this->fetchPath($a_end ,$a_endparent, $a_start, $a_startparent);
 		
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -570,7 +583,6 @@ class Tree extends PEAR
 							   "parent"	=> $data["parent"]
 							   );
 		}
-	
 		return $this->Path;
 	}	
 
@@ -583,9 +595,13 @@ class Tree extends PEAR
 	* @access	public
 	* @return	array	$id				all path ids from startnode to endnode
 	*/
-	function getPathId ($a_endnode = "", $a_startnode = "")
+	function getPathId ($a_end = '',$a_endparent = '', $a_start = '' ,$a_startparent = '')
 	{
-		$res = $this->fetchPath($a_endnode,$a_startnode);
+
+		$a_end = $a_end ? $a_end : $_GET["obj_id"];
+		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
+
+		$res = $this->fetchPath($a_end ,$a_endparent, $a_start, $a_startparent);
 		
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

@@ -458,7 +458,7 @@ class Object
 	* @param string
 	* @return string
 	*/
-	function getPath($a_id = "")
+	function getPath($a_id = "", $a_id_parent = '')
 	{		
 		global $tree;
 		
@@ -466,10 +466,13 @@ class Object
 		{
 			$a_id = $_GET["obj_id"];
 		}
-
-		//$tree = new Tree($a_id,1,1);
-		// TODO: skriptname ist hardkodiert!! Unschön.
-		return $tree->showPath($tree->getPathFull($a_id,ROOT_FOLDER_ID),"content.php");
+		if(!$a_id_parent)
+		{
+			$a_id_parent = $_GET["parent"];
+		}
+		$path = $tree->getPathFull($a_id,$a_id_parent);
+//		var_dump("<pre>",$path,"</pre");
+		return $tree->showPath($path,"content.php");
 	}
 
 	/**
@@ -503,8 +506,6 @@ class Object
 		global $tree;
 		
 		$a_start = $a_start ? $a_start : $_GET["parent"];
-		
-		//$tree = new Tree($a_start,$this->ROOT_FOLDER_ID);
 		
 		$path_ids = $tree->getPathId($a_start,ROOT_FOLDER_ID);
 		array_pop($path_ids);
