@@ -823,3 +823,34 @@ CREATE TABLE int_link
 	target_inst INT NOT NULL DEFAULT '0',
 	PRIMARY KEY (source_type, source_id, target_type, target_id, target_inst)
 );
+
+<#63>
+<?php
+// remove LDAP node temporary
+
+// get LDAP node data
+$query = "SELECT * FROM tree WHERE child=13 AND tree=1";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// take out node in main tree
+$query = "update tree SET tree='-13' WHERE child=13";
+$this->db->query($query);
+
+// close gaps
+$diff = $row->rgt - $row->lft + 1;
+
+$query = "UPDATE tree SET ".
+		 "lft = CASE ".
+		 "WHEN lft > '".$row->lft." '".
+		 "THEN lft - '".$diff." '".
+		 "ELSE lft ".
+		 "END, ".
+		 "rgt = CASE ".
+		 "WHEN rgt > '".$row->lft." '".
+		 "THEN rgt - '".$diff." '".
+		 "ELSE rgt ".
+		 "END ".
+		 "WHERE tree = 1";
+$this->db->query($query);
+?>
