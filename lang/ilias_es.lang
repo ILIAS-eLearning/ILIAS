@@ -287,6 +287,7 @@ assessment#:#reset_filter#:#Reiniciar filtro
 assessment#:#result#:#Resultado
 assessment#:#save_before_upload_imagemap#:#Debe aplicar los cambios antes de poder cargar un mapa de imagen!
 assessment#:#save_before_upload_javaapplet#:#Debe aplicar los camibos antes de poder cargar un applet java!
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
@@ -305,7 +306,7 @@ assessment#:#text_gap#:#Hueco de texto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Por favor rellene los parámetros vacíos para el applet antes de añadir un nuevo parámetro!
 assessment#:#true#:#Verdadero
-assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
+assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Tests realizados
 assessment#:#tst_anon_eval#:#-Anonymous aggregated results-
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas
@@ -411,7 +412,8 @@ assessment#:#tst_status_progress#:#en progreso
 assessment#:#tst_time_already_spent#:#Tiempo de trabajo dedicado hasta el momento
 assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_types#:#Tipos de Test
-assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'
+assessment#:#tst_use_javascript#:#Usar Javascript para acciones de 'arrastrar y soltar'###19 Oct 2004 content changed
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Su calificación es
 assessment#:#tt_assessment#:#Test de evaluación
 assessment#:#tt_navigation_controlling#:#Test de control de navegación de estudiantes
@@ -657,6 +659,7 @@ common#:#auth_configure#:#configurar...
 common#:#auth_edit_permission#:#Cambiar configuración de permisos
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticar usuarios mediante servidor LDAP
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#base de datos ILIAS
 common#:#auth_local_desc#:#Autenticar usuarios mediante base de datos local ILIAS (por defecto)
 common#:#auth_mode#:#Modo de Autenticación

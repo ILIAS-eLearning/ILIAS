@@ -289,9 +289,9 @@ assessment#:#remove_solution#:#Remove suggested solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
 assessment#:#reset_filter#:#Reset filter
 assessment#:#result#:#Result
-assessment#:#save_edit#:#Save and edit content
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
+assessment#:#save_edit#:#Save and edit content
 assessment#:#save_finish#:#Save and finish the test
 assessment#:#save_introduction#:#Save and go to introduction
 assessment#:#save_next#:#Save and go to next question
@@ -421,8 +421,8 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_types#:#Test types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
-assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
+assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
@@ -667,8 +667,8 @@ common#:#attend#:#Attend
 common#:#auth_configure#:#configure...
 common#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
-common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)
 common#:#auth_mode#:#Authentication mode

@@ -282,6 +282,7 @@ assessment#:#reset_filter#:#Remettre le filtre à zéro
 assessment#:#result#:#Resultat
 assessment#:#save_before_upload_imagemap#:#Vous devez appliquer vos changements avant de pouvoir télécharger une image réactive.
 assessment#:#save_before_upload_javaapplet#:#Vous devez appliquer vos changements avant de pouvoir télécharger une applet Java
+assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
 assessment#:#save_finish#:#Enregistrer et terminer le test
 assessment#:#save_introduction#:#Enregistrer et aller à l'introduction
 assessment#:#save_next#:#Enregistrer et aller à la prochaine question
@@ -302,7 +303,7 @@ assessment#:#text_gap#:#Lacune du texte
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Veuillez remplir les paramètres vides de votre applet avant d'ajouter un nouveau paramètre.
 assessment#:#true#:#Vrai
-assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
+assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites###19 Oct 2004 content changed
 assessment#:#tst_already_taken#:#Tests déjà pris
 assessment#:#tst_anon_eval#:#Résultats anonymes agrégés
 assessment#:#tst_browse_for_questions#:#Parcourir les questions
@@ -411,6 +412,7 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Types de test
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###03 Oct 2004 content changed
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
 assessment#:#tst_your_mark_is#:#Votre note est
 assessment#:#tt_assessment#:#Test d'évaluation
 assessment#:#tt_navigation_controlling#:#Contrôle du test de navigation des étudiants
@@ -657,6 +659,7 @@ common#:#auth_configure#:#configuration en cours...
 common#:#auth_edit_permission#:#Changer les paramètres de permission
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
+common#:#auth_ldap_not_configured#:#LDAP is not configured yet###19 Oct 2004 new variable
 common#:#auth_local#:#Base de données ILIAS
 common#:#auth_local_desc#:#Authentifier les utilisateurs avec la base de données ILIAS locale (défaut)
 common#:#auth_mode#:#Mode d'authentification
