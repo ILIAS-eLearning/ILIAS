@@ -495,7 +495,9 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
 				$filename = $thispair->get_matchingtext();
 				if ($filename) {
-					$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
+					//$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
+					$imagepath = $this->question->get_image_path() . $thispair->get_matchingtext();
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
 					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
 					$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
 				}
@@ -910,10 +912,10 @@ class ASS_QuestionGUI extends PEAR {
 				if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
 					foreach ($_FILES as $key2 => $value2) {
 						if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2)) {
-							if ($value["tmp_name"]) {
+							if ($value2["tmp_name"]) {
 								// upload the matching picture
-								$this->question->set_image_file($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
-								$_POST["right_$matches[1]_$matchingtext_id"] = $_FILES['imageName']['name'];
+								$this->question->set_image_file($value2['name'], $value2['tmp_name']);
+								$_POST["right_$matches[1]_$matchingtext_id"] = $value2['name'];
 							}
 						}
 					}
@@ -1202,7 +1204,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_matching_question() {
     foreach ($this->question->matchingpairs as $key => $value) {
-      $array_matching[$value->get_matchingtext_order()] = $value->get_matchingtext();
+      $array_matching[$value->get_order()] = $value->get_answertext();
     }
     asort($array_matching);
     
@@ -1215,9 +1217,14 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("COMBO_MATCHING", $match_key);
         $this->tpl->parseCurrentBlock();
       }
-      $this->tpl->setVariable("COUNTER", $value->get_order());
-      $this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_answertext() . "</strong>");
-      $this->tpl->setVariable("TEXT_MATCHES", "matches");
+      $this->tpl->setVariable("COUNTER", $value->get_matchingtext_order());
+			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
+				$imagepath = $this->question->get_image_path() . $value->get_matchingtext();
+				$this->tpl->setVariable("MATCHING_TEXT", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
+			} else {
+	      $this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_matchingtext() . "</strong>");
+  		}
+	    $this->tpl->setVariable("TEXT_MATCHES", "matches");
       $this->tpl->parse("matching_question");
     }
 
