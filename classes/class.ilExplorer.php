@@ -209,7 +209,7 @@ class ilExplorer
 
 		return implode('',$this->output);
 	}
-	
+
 	/**
 	* Creates output
 	* recursive method
@@ -258,7 +258,8 @@ class ilExplorer
 		}
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+		//$tpl->setVariable("TYPE", $a_option["type"]);
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
@@ -273,7 +274,7 @@ class ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
-	
+
 	/**
 	* Creates Get Parameter
 	* @access	private

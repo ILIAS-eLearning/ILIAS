@@ -198,13 +198,14 @@ class ilForumExplorer extends ilExplorer
 		}
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["type"]);
+		//$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
-		$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH 
-			? $a_option["title"] 
-			: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."..."; 
+		$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH
+			? $a_option["title"]
+			: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
@@ -216,7 +217,7 @@ class ilForumExplorer extends ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
-	
+
 	/**
 	* method to create a forum system specific header
 	* @access	public
