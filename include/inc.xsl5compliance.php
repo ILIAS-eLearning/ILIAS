@@ -40,7 +40,7 @@ class php4XSLTProcessor
 function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params)
 {
 	$xslt = $proc->myProc;
-
+//echo htmlentities($args[substr($xslt_var, 4)]);
 	$xslt->importStyleSheet(DomDocument::loadXML($args[substr($xslt_var, 4)]));
 	if (is_array($params))
 	{

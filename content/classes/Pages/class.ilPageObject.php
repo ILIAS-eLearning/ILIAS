@@ -1392,7 +1392,7 @@ class ilPageObject
 	
 	function highlightText($a_text, $proglang, $autoindent)
 	{
-		
+
 		if (!$this->hasHighlighter($proglang)) {
 			$proglang="plain";
 		}
@@ -1406,12 +1406,12 @@ class ilPageObject
 			$h_instance ->unindent = array ("");
 		}
 
-		$highlighter = new Core($h_instance, new Output_css());	
+		$highlighter = new Core($h_instance, new Output_css());
 		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));
 
-			$a_text = str_replace("&","&amp;",$a_text);
-		$a_text = str_replace("<","&lt;", $a_text);
-		$a_text = str_replace(">","&gt;", $a_text);
+		//$a_text = str_replace("&","&amp;",$a_text);
+		//$a_text = str_replace("<","&lt;", $a_text);
+		//$a_text = str_replace(">","&gt;", $a_text);
 		return $a_text;
 	}
 
@@ -1466,7 +1466,8 @@ class ilPageObject
 			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);
 			$content = $this->highlightText($plain_content, $subchar, $autoindent);
 
-			$rows  	 = htmlentities ("<TR valign=\"top\">");
+			//$rows  	 = htmlentities ("<TR valign=\"top\">");
+			$rows  	 = "<TR valign=\"top\">";
 			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
 
 			if (strcmp($showlinenumbers,"y")==0)
@@ -1481,12 +1482,14 @@ class ilPageObject
 						$rownumbers .= "<br />";
 					}
 				}
-				$rows .= $rownumbers.htmlentities ("</PRE></TD>");
+				//$rows .= $rownumbers.htmlentities ("</PRE></TD>");
+				$rows .= $rownumbers."</PRE></TD>";
 			}
-			$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");
+			//$rows .= htmlentities ("<TD class=\"ilc_Sourcecode\"><PRE>").$content.htmlentities ("</PRE></TD></TR>");
+			$rows .= "<TD class=\"ilc_Sourcecode\"><PRE>".$content."</PRE></TD></TR>";
 
 			$newcontent = str_replace("\n", "<br />", $rows);
-
+//echo "<br>".htmlentities($newcontent);
 			$context_node->set_content($newcontent);
 		}
 

@@ -357,7 +357,7 @@ class ilPageObjectGUI
 		$this->obj->addSourceCodeHighlighting();
 //echo "<br><b>ilPageObjectGUI::showPage5</b>"; flush();
 		$content = $this->obj->getXMLFromDom(false, true, true, $this->getLinkXML());
-//echo "<br><b>ilPageObjectGUI::showPage5</b>"; flush();
+//echo "<br><br>".htmlentities($content);
 		// check validation errors
 		if($builded !== true)
 		{
