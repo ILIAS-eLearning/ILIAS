@@ -176,6 +176,13 @@ class ilLanguage
 
 			$this->lang_default = $this->ilias->ini->readVariable("language","default");
 			$this->lang_user = $this->ilias->account->prefs["language"];
+			
+			$langs = $this->getInstalledLanguages();
+			
+			if (!in_array($this->lang_key,$langs))
+			{
+				$this->lang_key = $this->lang_default;
+			}
 
 			$this->loadLanguageModule("common");
 		}
