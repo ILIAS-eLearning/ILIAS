@@ -31,7 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-3rd_party_software#:#3rd party softwareeee
+3rd_party_software#:#3rd party softwareee
 absolute_path#:#Absolute path
 access#:#Access
 access_status#:#Access status
