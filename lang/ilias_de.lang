@@ -2246,3 +2246,5 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#no_chat_in_personal_list#:#Es sind keine Chats abonniert
+chat#:#chat_drop_user#:#Benutzer ausladen

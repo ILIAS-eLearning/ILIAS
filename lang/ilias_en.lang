@@ -2246,3 +2246,5 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#no_chat_in_personal_list#:#No chats in personal list
+chat#:#chat_drop_user#:#User kicked

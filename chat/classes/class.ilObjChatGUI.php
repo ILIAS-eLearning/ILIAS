@@ -576,7 +576,8 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->tpl->setVariable("ONLINE_LINK_A","chat.php?cmd=".$cmd.
 										"&ref_id=".$this->ref_id."&room_id=".
 										$_REQUEST["room_id"]."&i_id=".$user["user_id"]);
-				$this->tpl->setVariable("TXT_INVITE_USER",$this->lng->txt("chat_invite_user"));
+				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
+					$this->lng->txt("chat_drop_user"));
 				$this->tpl->setVariable("ONLINE_USER_NAME_A",$user["login"]);
 				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,true));
 				
@@ -672,7 +673,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		else
 		{
-			$opt = array("exportRoom" => $this->lng->txt("html_export"));
+			$opt = array("exportRoom" => $this->lng->txt("chat_html_export"));
 		}
 		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
 		{
