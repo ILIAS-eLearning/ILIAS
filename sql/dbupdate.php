@@ -923,3 +923,13 @@ $res = $this->db->query($query);
 ALTER TABLE meta_data ADD column language VARCHAR(200) NOT NULL DEFAULT '';
 ALTER TABLE meta_data ADD column keyword BLOB NOT NULL DEFAULT '';
 ALTER TABLE meta_data ADD column description BLOB NOT NULL DEFAULT '';
+
+<#38>
+ALTER TABLE meta_data DROP column keyword;
+CREATE TABLE meta_keyword(
+	obj_id int(11) NOT NULL,
+	obj_type char(3) NOT NULL,
+	language char(2) NOT NULL,
+	keyword varchar(200) NOT NULL default ''
+) TYPE=MyISAM;
+
