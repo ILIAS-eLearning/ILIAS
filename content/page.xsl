@@ -50,6 +50,7 @@
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
 <xsl:param name="enable_split_new"/>
+<xsl:param name="enable_split_next"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -373,23 +374,33 @@
 			<xsl:with-param name="langvar">ed_delete</xsl:with-param>
 		</xsl:call-template>
 		
-		<!-- move after -->
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">moveAfter</xsl:with-param>
-			<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
-		</xsl:call-template>
-		
-		<!-- move before -->
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">moveBefore</xsl:with-param>
-			<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
-		</xsl:call-template>
+		<xsl:if test="$javascript = 'disable'">
+			<!-- move after -->
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">moveAfter</xsl:with-param>
+				<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
+			</xsl:call-template>
+			
+			<!-- move before -->
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">moveBefore</xsl:with-param>
+				<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
 
-		<!-- split page -->
+		<!-- split page to new page -->
 		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
 			<xsl:call-template name="EditMenuItem">
 				<xsl:with-param name="command">splitPage</xsl:with-param>
 				<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+
+		<!-- split page to next page -->
+		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">splitPageNext</xsl:with-param>
+				<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
 		

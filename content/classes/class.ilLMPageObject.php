@@ -237,6 +237,51 @@ class ilLMPageObject extends ilLMObject
 		
 	}
 
+	/**
+	* split page to next page at hierarchical id
+	*
+	* the main reason for this method being static is that a lm page
+	* object is not available within ilPageContentGUI where this method
+	* is called
+	*/
+	function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
+	{
+		// get content object (learning module / digilib book)
+		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
+		$type = ilObject::_lookupType($lm_id, false);
+		switch ($type)
+		{
+			case "lm":
+				$cont_obj = new ilObjLearningModule($lm_id, false);
+				break;
+				
+			case "dbk":
+				$cont_obj = new ilObjDlBook($lm_id, false);
+				break;
+		}
+		$tree = new ilTree($cont_obj->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		
+		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
+		$source_page =& $source_lm_page->getPageObject();
+		
+		// get next page
+		$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
+		if ($succ > 0)
+		{
+			$target_lm_page =& new ilLMPageObject($cont_obj, $succ);
+			$target_page =& $target_lm_page->getPageObject();
+				
+			// remove all nodes >= hierarchical id from source page
+			$source_page->buildDom();
+			$source_page->addHierIds();
+			$source_page->deleteContentFromHierId($a_hier_id);
+		}
+		
+		return $lm_page;		
+	}
+
 	
 	/**
 	* assign page object

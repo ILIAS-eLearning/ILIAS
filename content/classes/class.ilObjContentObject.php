@@ -1029,6 +1029,26 @@ class ilObjContentObject extends ilObject
 		}
 	}
 	
+	/**
+	* checks if page has a successor page
+	*/
+	function hasSuccessorPage($a_cont_obj_id, $a_page_id)
+	{
+		$tree = new ilTree($a_cont_obj_id);
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		if ($tree->isInTree($a_page_id))
+		{
+			$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
+			if ($succ > 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
 	function checkTree()
 	{
 		$tree = new ilTree($this->getId());
