@@ -57,7 +57,9 @@ assessment#:#points#:#Points
 assessment#:#possible_gap_text#:#Possible gap text
 assessment#:#preview#:#Preview
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
+assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
+assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it

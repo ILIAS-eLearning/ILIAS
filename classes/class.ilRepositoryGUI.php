@@ -1366,8 +1366,7 @@ class ilRepositoryGUI
 
 			foreach ($qpool as $qpl_data)
 			{
-//				$obj_link = "assessment/il_as_question_manager.php?ref_id=".$qpl_data["ref_id"];
-          $obj_link = "#";
+          $obj_link = "assessment/adm_object.php?ref_id=" . $qpl_data["ref_id"];
 
 				if ($this->rbacsystem->checkAccess('read',$qpl_data["ref_id"]))
 				{

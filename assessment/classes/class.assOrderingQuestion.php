@@ -193,6 +193,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
         $this->id = $question_id;
         $this->title = $data->title;
+        $this->ref_id = $data->ref_fi;
         $this->comment = $data->comment;
         $this->author = $data->author;
         $this->owner = $data->owner;

@@ -1304,7 +1304,6 @@ class ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
-
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
