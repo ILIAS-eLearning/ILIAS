@@ -997,7 +997,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			$acts = array("delete" => "delete", "movePage" => "movePage");
+			$acts = array("delete" => "delete", "movePage" => "movePage", "copyPage" => "copyPage");
+			if(ilEditClipboard::getContentObjectType() == "pg" &&
+				ilEditClipboard::getAction() == "copy")
+			{
+				// check wether page belongs to lm
+				if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+					== $this->object->getID())
+				{
+					$acts["pastePage"] = "pastePage";
+				}
+			}
+
 			/*
 			if (ilEditClipboard::getContentObjectType() == "st")
 			{
@@ -1031,6 +1042,53 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->parseCurrentBlock();
 
+	}
+
+	/**
+	* paste page
+	*/
+	function pastePage()
+	{
+		if(ilEditClipboard::getContentObjectType() != "pg")
+		{
+			$this->ilias->raiseError($this->lng->txt("no_page_in_clipboard"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// paste selected object
+		$id = ilEditClipboard::getContentObjectId();
+
+		// copy page, if action is copy
+		if (ilEditClipboard::getAction() == "copy")
+		{
+			$lm_page = new ilLMPageObject($this->object, $id);
+			$new_page =& $lm_page->copy();
+			$id = $new_page->getId();
+		}
+
+		ilEditClipboard::clear();
+		$this->ctrl->redirect($this, "pages");
+	}
+
+	/**
+	* copy page
+	*/
+	function copyPage()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		ilEditClipboard::storeContentObject("pg",$_POST["id"][0],"copy");
+
+		sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+
+		$this->ctrl->redirect($this, "pages");
 	}
 
 	/**
