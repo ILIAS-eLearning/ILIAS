@@ -239,6 +239,7 @@ switch($_GET["cmd"])
 	case "save":
 	case "addPermission":
 	case "permSave":
+	case "update":
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 		break;
@@ -261,13 +262,9 @@ switch($_GET["cmd"])
 			$tpl->setVariable(strtoupper($key), $val);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("FORMACTION", "adm_objects.php?type=".$obj->type."&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
-		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+		$tpl->setVariable("FORMACTION", "adm_object.php?type=".$obj->type."&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_REQUIRED_FLD", $lng->txt("required_field"));
-		$tpl->setVariable("OBJ_TITLE", $data["title"]);
-		$tpl->setVariable("OBJ_DESC", $data["desc"]);
 		break;
 
 	case "owner":
