@@ -577,6 +577,8 @@ common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool (Assessment)
 common#:#cat_create_slm#:#Create SCORM Learning Module
+common#:#cat_create_alm#:#Create AICC Learning Module
+common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_spl#:#Create Question Pool (Survey)
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
@@ -670,6 +672,8 @@ common#:#crs_create_frm#:#Create Forum
 common#:#crs_create_glo#:#Create Glossary
 common#:#crs_create_lm#:#Create Learning Module
 common#:#crs_create_slm#:#Create SCORM Learning Module
+common#:#crs_create_alm#:#Create AICC Learning Module
+common#:#crs_create_hlm#:#Create HACP Learning Module
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
 common#:#crs_edit_permission#:#Change permission settings
@@ -842,6 +846,8 @@ common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
 common#:#fold_create_lm#:#Create Learning Module
 common#:#fold_create_slm#:#Create SCORM Learning Module
+common#:#fold_create_alm#:#Create AICC Learning Module
+common#:#fold_create_hlm#:#Create HACP Learning Module
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
 common#:#fold_edit_permission#:#Change Permission settings
@@ -955,6 +961,8 @@ common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#grp_create_lm#:#Create Learning Module
 common#:#grp_create_mep#:#Create Media Pool
 common#:#grp_create_slm#:#Create SCORM Learning Module
+common#:#grp_create_alm#:#Create AICC Learning Module
+common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_delete#:#Delete Group
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.
 common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group.
@@ -1020,6 +1028,8 @@ common#:#import_grp_finished#:#Imported group without any error
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
+common#:#import_alm#:#Import AICC Package
+common#:#import_hlm#:#Import HACP Package
 common#:#import_users#:#Import Users
 common#:#imported#:#imported
 common#:#in#:#in
@@ -1411,6 +1421,8 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
+common#:#obj_alm#:#AICC Learning Module
+common#:#obj_hlm#:#HACP Learning Module
 common#:#obj_spl#:#Question Pool (Survey)
 common#:#obj_st#:#Chapter
 common#:#obj_svy#:#Survey
@@ -1457,6 +1469,8 @@ common#:#objs_qpl#:#Question Pools (Assessment)
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_slm#:#SCORM Learning Modules
+common#:#objs_alm#:#AICC Learning Modules
+common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_spl#:#Question Pools (Surveys)
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
@@ -1667,6 +1681,26 @@ common#:#slm_leave#:#Unsubscribe from SCORM Learning Module
 common#:#slm_read#:#Read access to SCORM Learning Module
 common#:#slm_visible#:#SCORM Learning Module is visible
 common#:#slm_write#:#Edit SCORM Learning Module
+common#:#alm#:#AICC Learning Module
+common#:#alm_added#:#AICC Learning Module added
+common#:#alm_create#:#Create AICC Learning Module
+common#:#alm_delete#:#Delete AICC Learning Module
+common#:#alm_edit_permission#:#Change permission settings
+common#:#alm_join#:#Subscribe to AICC Learning Module
+common#:#alm_leave#:#Unsubscribe from AICC Learning Module
+common#:#alm_read#:#Read access to AICC Learning Module
+common#:#alm_visible#:#AICC Learning Module is visible
+common#:#alm_write#:#Edit AICC Learning Module
+common#:#hlm#:#HACP Learning Module
+common#:#hlm_added#:#HACP Learning Module added
+common#:#hlm_create#:#Create HACP Learning Module
+common#:#hlm_delete#:#Delete HACP Learning Module
+common#:#hlm_edit_permission#:#Change permission settings
+common#:#hlm_join#:#Subscribe to HACP Learning Module
+common#:#hlm_leave#:#Unsubscribe from HACP Learning Module
+common#:#hlm_read#:#Read access to HACP Learning Module
+common#:#hlm_visible#:#HACP Learning Module is visible
+common#:#hlm_write#:#Edit HACP Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question pool (Survey)
