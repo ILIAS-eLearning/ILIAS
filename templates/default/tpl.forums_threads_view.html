@@ -59,8 +59,19 @@ body { margin:0px; }
    <!-- BEGIN cens_cell -->
  <span class="small">[{CENS_BUTTON}]&nbsp;</span>
  <!-- END cens_cell -->
- <br/> 
- 
+<!-- BEGIN attachments -->
+			  <span class="small">
+			  <div align="right">
+				<b>{TXT_ATTACHMENTS_DOWNLOAD}</b>
+				<!-- BEGIN attachment_download_row -->
+				<a href="{HREF_DOWNLOAD}">
+				  <img src="{DOWNLOAD_IMGPATH}/images/icon_attachment.gif" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" border="0" />
+				</a>
+				<!-- END attachment_download_row -->
+			  </div>
+			  </span>
+<!-- END attachments -->
+ <br/>
  <!-- BEGIN kill_cell -->
  <form name="formular2" action="{DEL_FORMACTION}" target="bottom" method="post">
  {KILL_SPACER}<a name="{KILL_ANKER}"></a>
@@ -95,22 +106,54 @@ body { margin:0px; }
 	<tr>
 		<td>
 			<br/><p><b>{TXT_FORM_HEADER}</b></p>
-			<form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
+			<form name="formular1" action="{FORMACTION}" enctype="multipart/form-data" method="post" onSubmit="return isEmpty(this, 'all', '')">
 			<table class="std">
 			<tr>
 			    <td valign="top">
 				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
 			</tr>
+							<!-- BEGIN reply_attachment -->
+						  <tr>
+							<td><b>{TXT_ATTACHMENTS_ADD}</b></td>
+						  </tr>
+						  <tr>
+							<td class="std"  align="right">
+								<input class="submit" type="file" name="userfile" />
+							</td>
+						  </tr>
+							<!-- END reply_attachment -->
 			<tr>
 			    <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"/></td>
 			</tr>
 			</table>
-			</form>
 		</td>
 	</tr>
+<!-- BEGIN reply_attachment_edit -->
+				  <tr>
+					<td>
+					  <form action="{FILE_DELETE_ACTION}" method="post">
+						<table class="std" width="100%">
+							<tr>
+							  <td><b>{TXT_ATTACHMENTS_EDIT}</b></td>
+							</tr>
+							<!-- BEGIN ATTACHMENT_EDIT_ROW -->
+							<tr>
+							  <td class="std"  align="left">{CHECK_FILE}&nbsp;<b>{FILENAME}</b></td>
+							</tr>
+							<!-- END ATTACHMENT_EDIT_ROW -->
+							<tr>
+							  <td class="std" align="right">
+								<input class="submit" type="submit" name="cmd[delete_file]" value="{ATTACHMENT_EDIT_DELETE}"/>
+							  </td>
+							</tr>
+						</table>
+					  </form>
+					</td>
+				  </tr>
+<!-- END reply_attachment_edit -->
 </table>
 <!-- END reply_post -->
- </td> 
+ </td>
 </tr>
 <!-- END posts_row -->
 <!-- BEGIN posts_no -->

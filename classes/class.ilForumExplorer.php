@@ -231,6 +231,8 @@ class ilForumExplorer extends ilExplorer
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
+
+		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
 		$a_option["title"] = strlen($a_option["title"]) <= FULLNAME_MAXLENGTH
 			? $a_option["title"]
@@ -267,6 +269,7 @@ class ilForumExplorer extends ilExplorer
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_frm.gif"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_frm"));
+		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);

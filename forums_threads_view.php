@@ -32,11 +32,14 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjForum.php";
+require_once "./classes/class.ilFileDataForum.php";
 
 $lng->loadLanguageModule("forum");
 
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm =& $forumObj->Forum;
+
+$file_obj =& new ilFileDataForum($forumObj->getId(),$_GET["pos_pk"]);
 
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
@@ -54,6 +57,25 @@ infoPanel();
 if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
+
+// UPLOAD FILE
+// DELETE FILE
+if(isset($_POST["cmd"]["delete_file"]))
+{
+	$file_obj->unlinkFiles($_POST["del_file"]);
+	sendInfo("Datei gelöscht");
+}
+// DOWNLOAD FILE
+if($_GET["file"])
+{
+	if(!$path = $file_obj->getAbsolutePath(urldecode($_GET["file"])))
+	{
+		sendInfo("Error reading file!");
+	}
+	header("Content-Type: application/octet-stream");
+	header("Content-Disposition: attachment; filename=\"".$_GET["file"]."\"");
+	readfile($path);
 }
 
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
@@ -182,8 +204,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if ($_GET["cmd"] == "ready_showreply")
 				{
 					// reply: new post
-					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
+					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], 
+												  $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
 					sendInfo($lng->txt("forums_post_new_entry"));
+					if(isset($_FILES["userfile"]))
+					{
+						$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$newPost);
+						$tmp_file_obj->storeUploadedFile($_FILES["userfile"]);
+					}
+
 				}
 				else
 				{				
@@ -191,6 +220,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 					if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
 					{
 						sendInfo($lng->txt("forums_post_modified"));
+					}
+					if(isset($_FILES["userfile"]))
+					{
+						$file_obj->storeUploadedFile($_FILES["userfile"]);
 					}
 				}
 			}
@@ -278,7 +311,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// if anchor-link was not found ...
 			if ($_GET["pos_pk"] && $jump < 1)
 			{
-				header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
+				header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".
+					   $_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
 				exit();
 			}
 			else
@@ -294,6 +328,31 @@ if (is_array($topicData = $frm->getOneTopic()))
 				// reply/edit
 				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
 				{
+					// EDIT ATTACHMENTS
+					if(count($file_obj->getFilesOfPost()) && $_GET["cmd"] == "showedit")
+					{
+						foreach($file_obj->getFilesOfPost() as $file)
+						{
+							$tpl->setCurrentBlock("ATTACHMENT_EDIT_ROW");
+							$tpl->setVariable("FILENAME",$file["name"]);
+							$tpl->setVariable("CHECK_FILE",ilUtil::formCheckbox(0,"del_file[]",$file["name"]));
+							$tpl->parseCurrentBlock();
+						}
+						$tpl->setCurrentBlock("reply_attachment_edit");
+						$tpl->setVariable("FILE_DELETE_ACTION","forums_threads_view.php?ref_id=$_GET[ref_id]&cmd=showedit".
+										  "&pos_pk=$_GET[pos_pk]&thr_pk=$_GET[thr_pk]");
+						$tpl->setVariable("TXT_ATTACHMENTS_EDIT",$lng->txt("attachments_edit"));
+						$tpl->setVariable("ATTACHMENT_EDIT_DELETE",$lng->txt("delete_file"));
+						$tpl->parseCurrentBlock();
+					}
+
+					// ADD ATTACHMENTS
+					$tpl->setCurrentBlock("reply_attachment");
+					$tpl->setVariable("TXT_ATTACHMENTS_ADD",$lng->txt("attachments_add"));
+					#						$tpl->setVariable("UPLOAD_ACTION","forums_threads_view.php?ref_id=$_GET[ref_id]&cmd=showedit".
+					#										  "&pos_pk=$_GET[pos_pk]&thr_pk=$_GET[thr_pk]");
+					$tpl->setVariable("BUTTON_UPLOAD",$lng->txt("upload"));
+					$tpl->parseCurrentBlock();
 					$tpl->setCurrentBlock("reply_post");
 					$tpl->setVariable("REPLY_ANKER", $_GET["pos_pk"]);
 					
@@ -319,9 +378,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
-					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
+					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".
+									  $_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
+									  "&offset=".$Start."&orderby=".$_GET["orderby"]);
 					$tpl->parseCurrentBlock("reply_post");
-					
+
 				} // if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
 				else
 				{						
@@ -336,7 +397,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setVariable("KILL_SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 							$tpl->setVariable("TXT_KILL", $lng->txt("forums_info_delete_post"));								
 //							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
-							$tpl->setVariable("DEL_FORMACTION", "forums_frameset.php?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
+							$tpl->setVariable("DEL_FORMACTION", "forums_frameset.php?cmd=ready_delete&ref_id=".
+											  $_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
+											  "&offset=".$Start."&orderby=".$_GET["orderby"]);
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel")); 
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm")); 
 							$tpl->parseCurrentBlock("kill_cell");
@@ -345,7 +408,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 						{
 							// 1. delete-level
 							$tpl->setCurrentBlock("del_cell");
-							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("delete")."</a>"); 
+							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".
+											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start.
+											  "&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
+											  $node["pos_pk"]."\">".$lng->txt("delete")."</a>"); 
 							$tpl->parseCurrentBlock("del_cell");
 						}
 						
@@ -356,7 +422,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setCurrentBlock("censorship_cell");
 							$tpl->setVariable("CENS_ANKER", $_GET["pos_pk"]);
 							$tpl->setVariable("CENS_SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
-							$tpl->setVariable("CENS_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_censor&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
+							$tpl->setVariable("CENS_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_censor&ref_id=".
+											  $_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
+											  "&offset=".$Start."&orderby=".$_GET["orderby"]);							
 							$tpl->setVariable("TXT_CENS_MESSAGE", $lng->txt("forums_the_post"));
 							$tpl->setVariable("TXT_CENS_COMMENT", $lng->txt("comment").":");
 							$tpl->setVariable("CENS_MESSAGE", $frm->prepareText($node["pos_cens_com"],2));
@@ -374,7 +442,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 						{
 							// 1. cens button
 							$tpl->setCurrentBlock("cens_cell");
-							$tpl->setVariable("CENS_BUTTON","<a href=\"forums_threads_view.php?cmd=censor&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("censorship")."</a>"); 
+							$tpl->setVariable("CENS_BUTTON","<a href=\"forums_threads_view.php?cmd=censor&pos_pk=".
+											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".
+											  $Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
+											  $node["pos_pk"]."\">".$lng->txt("censorship")."</a>"); 
 							$tpl->parseCurrentBlock("cens_cell");
 						}
 					} // if ($rbacsystem->checkAccess("delete post", $_GET["ref_id"]))
@@ -385,7 +456,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 						if ($frm->checkEditRight($node["pos_pk"]) && $node["pos_cens"] != 1)
 						{
 							$tpl->setCurrentBlock("edit_cell");
-							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("edit")."</a>"); 
+							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".
+											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
+											  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
+											  $lng->txt("edit")."</a>"); 
 							$tpl->parseCurrentBlock("edit_cell");
 						}
 						
@@ -394,7 +468,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 							// button: print
 							$tpl->setCurrentBlock("print_cell");
 							//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
-							$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".$node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".$threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>"); 
+							$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".
+											  $node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".
+											  $threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>"); 
 							$tpl->parseCurrentBlock("print_cell");
 						}
 						if ($node["pos_cens"] != 1)
@@ -402,7 +478,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 						// button: reply
 						$tpl->setCurrentBlock("reply_cell");
 						//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
-						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
+						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".
+										  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
+										  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
+										  $lng->txt("reply")."</a>"); 
 						$tpl->parseCurrentBlock("reply_cell");
 						}
 												
@@ -419,6 +498,27 @@ if (is_array($topicData = $frm->getOneTopic()))
 			{
 				$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
 			}
+			// DOWNLOAD ATTACHMENTS
+			$tmp_file_obj =& new ilFileDataForum($forumObj->getId(),$node["pos_pk"]);
+			if(count($tmp_file_obj->getFilesOfPost()))
+			{
+				if($node["pos_pk"] != $_GET["pos_pk"] || $_GET["cmd"] != "showedit")
+				{
+					foreach($tmp_file_obj->getFilesOfPost() as $file)
+					{
+						$tpl->setCurrentBlock("attachment_download_row");
+						$tpl->setVariable("HREF_DOWNLOAD","forums_threads_view.php?ref_id=$_GET[ref_id]&pos_pk=$node[pos_pk]&file=".
+										  urlencode($file["name"]));
+						$tpl->setVariable("DOWNLOAD_IMGPATH",$tpl->tplPath);
+						$tpl->setVariable("TXT_DOWNLOAD_ATTACHMENT",$lng->txt("!!Attachment herunterladen"));
+						$tpl->parseCurrentBlock();
+					}
+					$tpl->setCurrentBlock("attachments");
+					$tpl->setVariable("TXT_ATTACHMENTS_DOWNLOAD","!!Attachments");
+					$tpl->parseCurrentBlock();
+				}
+			}
+
 			
 			$tpl->setCurrentBlock("posts_row");
 			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
@@ -427,7 +527,9 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// get author data
 			unset($author);
 			$author = $frm->getUser($node["author"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+							  $node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".
+							  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>"); 
 			
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
@@ -453,7 +555,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$lastuser = $frm->getUser($node["update_user"]);	
 				if ($span_class == "")				
 					$span_class = "small";
-				$tpl->setVariable("POST_UPDATE","<span class=\"".$span_class."\"><br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]</span>");
+				$tpl->setVariable("POST_UPDATE","<span class=\"".$span_class."\"><br/>[".$lng->txt("edited_at").": ".
+								  $node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]</span>");
 				
 			} // if ($node["update_user"] > 0)
 
@@ -499,6 +602,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				else
 					$tpl->setVariable("POST",nl2br($node["message"]));	
 			}
+
 			$tpl->parseCurrentBlock("posts_row");	
 				
 		} // if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
