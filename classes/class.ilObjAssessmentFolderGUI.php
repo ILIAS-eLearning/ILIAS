@@ -87,30 +87,35 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $tpl,$lng,$ilias;
-/*
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_settings.html");
-		$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
-			"&cmd=gateway");
-		$tpl->setVariable("TXT_TRACKING_SETTINGS", $this->lng->txt("tracking_settings"));
-		$tpl->setVariable("TXT_ACTIVATE_TRACKING", $this->lng->txt("activate_tracking"));
-		$tpl->setVariable("TXT_USER_RELATED_DATA", $this->lng->txt("save_user_related_data"));
-		$tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
-		$tpl->setVariable("NUMBER_RECORDS", $this->object->getRecordsTotal());
-		$tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_settings.html");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("TXT_ACTIVATE_ASSESSMENT_LOGGING", $this->lng->txt("activate_assessment_logging"));
+		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("assessment_settings"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-		if($this->object->_enabledTracking())
+		if($this->object->_enabledAssessmentLogging())
 		{
-			$this->tpl->setVariable("ACT_TRACK_CHECKED", " checked=\"1\" ");
+			$this->tpl->setVariable("ASSESSMENT_LOGGING_CHECKED", " checked=\"checked\"");
 		}
 
-		if($this->object->_enabledUserRelatedData())
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Save Assessment settings
+	*/
+	function saveSettingsObject()
+	{
+		if ($_POST["chb_assessment_logging"] == 1)
 		{
-			$this->tpl->setVariable("USER_RELATED_CHECKED", " checked=\"1\" ");
+			$this->object->_enableAssessmentLogging(1);
 		}
-
-		$tpl->parseCurrentBlock();
-*/
+		else
+		{
+			$this->object->_enableAssessmentLogging(0);
+		}
+		sendInfo($this->lng->txt("msg_obj_modified"));
+		$this->settingsObject();
 	}
 
 	/**

@@ -206,5 +206,32 @@ class ilObjAssessmentFolder extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+	/**
+	* enable assessment logging
+	*/
+	function _enableAssessmentLogging($a_enable)
+	{
+		global $ilias;
+
+		if ($a_enable)
+		{
+			$ilias->setSetting("assessment_logging", 1);
+		}
+		else
+		{
+			$ilias->setSetting("assessment_logging", 0);
+		}
+	}
+
+	/**
+	* check wether assessment logging is enabled or not
+	*/
+	function _enabledAssessmentLogging()
+	{
+		global $ilias;
+
+		return (boolean) $ilias->getSetting("assessment_logging");
+	}
+	
 } // END class.ilObjAssessmentFolder
 ?>
