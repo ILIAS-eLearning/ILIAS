@@ -1150,9 +1150,11 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 			}
 		}
 		btn.state("enabled", (!text || btn.text) && inContext);
+		
 		if (typeof cmd == "function") {
 			continue;
 		}
+		
 		// look-it-up in the custom dropdown boxes
 		var dropdown = this.config.customSelects[cmd];
 		if ((!text || btn.text) && (typeof dropdown != "undefined")) {
@@ -1187,20 +1189,53 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 				}
 			} catch(e) {};
 			break;
+			
+			case "my_hilite":
+
+				var el = this.getParentElement();
+				var cl = el.className;
+				var tn = el.tagName.toLowerCase();
+				if (tn=="span" && cl=="my_hilite") {
+					//btn.state("active",text);
+						
+					try {
+						with (btn.element.style) {
+							backgroundColor = HTMLArea._colorToRgb( "rgb(255,255,255)" );
+							if (/transparent/i.test(backgroundColor)) { // Mozilla
+								backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+							}
+						}
+					} catch (e) {}
+				} else {
+					try {
+						with (btn.element.style) {
+							backgroundColor = HTMLArea._colorToRgb( "rgb(212,208,200)" );
+							if (/transparent/i.test(backgroundColor)) { // Mozilla
+								backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+							}
+						}
+					} catch (e) {}
+	
+				
+				}
+			
+				break;
 		    case "textindicator":
 			if (!text) {
-				try {with (btn.element.style) {
-					backgroundColor = HTMLArea._makeColor(
-						doc.queryCommandValue(HTMLArea.is_ie ? "backcolor" : "hilitecolor"));
-					if (/transparent/i.test(backgroundColor)) {
-						// Mozilla
-						backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+				try {
+					with (btn.element.style) {
+						backgroundColor = HTMLArea._makeColor(
+							doc.queryCommandValue(HTMLArea.is_ie ? "backcolor" : "hilitecolor"));
+						if (/transparent/i.test(backgroundColor)) {
+							// Mozilla
+							backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+						}
+						color = HTMLArea._makeColor(doc.queryCommandValue("forecolor"));
+						fontFamily = doc.queryCommandValue("fontname");
+						fontWeight = doc.queryCommandState("bold") ? "bold" : "normal";
+						fontStyle = doc.queryCommandState("italic") ? "italic" : "normal";
 					}
-					color = HTMLArea._makeColor(doc.queryCommandValue("forecolor"));
-					fontFamily = doc.queryCommandValue("fontname");
-					fontWeight = doc.queryCommandState("bold") ? "bold" : "normal";
-					fontStyle = doc.queryCommandState("italic") ? "italic" : "normal";
-				}} catch (e) {
+				} catch (e) {
 					// alert(e + "\n\n" + cmd);
 				}
 			}
@@ -1215,9 +1250,53 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 				btn.state("active", (el.style.direction == ((cmd == "righttoleft") ? "rtl" : "ltr")));
 			break;
 		    default:
-			try {
-				btn.state("active", (!text && doc.queryCommandState(cmd)));
-			} catch (e) {}
+				// *******************************************************************************************
+				
+				extraButtons = new Array();
+				extraButtons[0] = new Array("ilias-code","code","");
+				extraButtons[1] = new Array("ilias-quot","span","ilc_Quotation");
+				extraButtons[2] = new Array("ilias-com","span","ilc_Comment");
+				extraButtons[3] = new Array("ilias-str","span","ilc_Strong");
+				extraButtons[4] = new Array("ilias-emp","span","ilc_Emph");
+				extraButtons[5] = new Array("ilias-xtl","a","ilc_ExtLink");
+				extraButtons[6] = new Array("ilias-itl","a","iliasiln");
+				
+				extraButtons[7] = new Array("ilias-str","strong","");
+				extraButtons[8] = new Array("ilias-emp","em","");
+				extraButtons[9] = new Array("ilias-fn","span","footnote");
+				
+				for(ic=0;ic<extraButtons.length;ic++) {
+					EB = extraButtons[ic];
+					if(EB[0] == cmd) {
+						if (this.isInTag(EB[1],EB[2])) {
+							try {
+								with (btn.element.style) {
+									backgroundColor = HTMLArea._colorToRgb( "rgb(255,255,255)" );
+									if (/transparent/i.test(backgroundColor)) { // Mozilla
+										backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+									}
+								}
+							} catch (e) {}
+							break;
+						} else {
+							try {
+								with (btn.element.style) {
+									backgroundColor = HTMLArea._colorToRgb( "rgb(212,208,200)" );
+									if (/transparent/i.test(backgroundColor)) { // Mozilla
+										backgroundColor = HTMLArea._makeColor(doc.queryCommandValue("backcolor"));
+									}
+								}
+							} catch (e) {}
+						}
+					}
+				}
+				
+			
+				// *******************************************************************************************
+				try {
+					btn.state("active", (!text && doc.queryCommandState(cmd)));
+				} catch (e) {}
+				
 		}
 	}
 	// take undo snapshots
@@ -1235,6 +1314,29 @@ HTMLArea.prototype.updateToolbar = function(noStatus) {
 			plugin.onUpdateToolbar();
 	}
 };
+
+HTMLArea.prototype.isInTag = function(tag, classname) 
+{
+	
+	var ancestors = this.getAllAncestors();
+	for (k=0;k<ancestors.length;k++)
+	{
+		var el = ancestors[k];
+		var cl = el.className;
+		var tn = el.tagName.toLowerCase();
+		
+		if(classname!="") {
+			if (tn == tag && cl==classname) return(true);
+		} else {
+			if (tn == tag) return(true);
+		}
+		
+	}
+	
+	
+	
+	return(false);
+}
 
 /** Returns a node after which we can insert other nodes, in the current
  * selection.  The selection is removed.  It splits a text node, if needed.
