@@ -23,6 +23,7 @@
 
 
 require_once "classes/class.ilObject.php";
+require_once "classes/class.ilSCORMValidator.php";
 //require_once "classes/class.ilMetaData.php";  //we need that later
 
 /**
@@ -138,6 +139,7 @@ class ilObjSCORMLearningModule extends ilObject
         */
 	function validate($directory)
 	{
+		$o = new 
 		return true;
 	}
 
