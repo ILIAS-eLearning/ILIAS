@@ -2787,3 +2787,21 @@ CREATE TABLE file_usage
 	usage_id INT NOT NULL,
 	PRIMARY KEY (id, usage_type, usage_id)
 );
+
+<#179>
+<?php
+
+// prepare file access to work with safe mode
+umask(0117);
+
+// get settings from ini file
+$ini = new ilIniFile(CLIENT_WEB_DIR."/client.ini.php");
+$ini->read();
+$ini->setVariable("layout", "skin", "default");
+$ini->setVariable("layout", "style", "blueshadow");
+$ini->write();
+
+?>
+
+<#180>
+UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='style';
