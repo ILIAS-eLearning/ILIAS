@@ -41,6 +41,11 @@ class Forum
     var $orderField;
 	
 	var $whereCondition = "1";
+	
+	var $txtQuote1 = "[quote]"; 
+	var $txtQuote2 = "[/quote]"; 
+	var $replQuote1 = "<blockquote><i>"; 
+	var $replQuote2 = "</blockquote></i>"; 
 
 	/**
 	* Constructor
@@ -136,6 +141,24 @@ class Forum
 		return $result;	
 	}
 	
+	/**
+	* get thread-data by WhereCondition
+	* @param	string	$AObjType
+	* @return object $result result identifier for use with getNext()
+	* @access public
+	*/
+	function getOneThread()
+	{	
+		
+		$query = "SELECT * FROM frm_threads WHERE ( ".$this->whereCondition." )";
+		
+		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
+     		
+		$this->setWhereCondition("1");
+		
+		return $result;	
+	}
+	
 	
 	/**
 	* generate new dataset in frm_posts
@@ -145,9 +168,8 @@ class Forum
 	* @param	string	$message	
 	* @access public
 	*/
-	function generatePost($obj_id, $parent_id, $topic, $thread, $user, $message)
-	{	
-		global $tree;
+	function generatePost($obj_id, $parent_id, $topic, $thread, $user, $message, $parent_pos=0, $firstPos="no")
+	{		
 		
 		$pos_data = array(
             "pos_top_fk"   	=> $topic,
@@ -170,9 +192,13 @@ class Forum
 		$res = $this->ilias->db->query($query);
 		$lastInsert = $res->fetchRow();	
 		
-		$tree->tree_id = $obj_id;
-		$tree->insertNode($lastInsert[0],$thread,$obj_id);		
-				
+		//$tree->tree_id = $obj_id;
+		//$tree->insertNode($lastInsert[0],$thread,$obj_id);		
+		
+		// Eintrag in tree-table
+		if ($firstPos == "yes") $this->addPostTree($thread, $lastInsert[0]);		
+		else $this->insertPostNode($lastInsert[0],$parent_pos,$thread);
+			
 		$lastPost = $topic."#".$thread."#".$lastInsert[0];
 			
 		// Thread aktualisieren		
@@ -227,8 +253,7 @@ class Forum
 	* @access public
 	*/
 	function generateThread($obj_id, $parent_id, $topic, $user, $subject, $message)
-	{	
-		global $tree;
+	{			
 		
 		$thr_data = array(
             "thr_top_fk"   	=> $topic,
@@ -248,17 +273,14 @@ class Forum
 		// get last insert id and return it
 		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();		
-		
-		$tree->tree_id = $obj_id;
-		$tree->insertNode($lastInsert[0],$obj_id,0);
-		
+		$lastInsert = $res->fetchRow();				
+				
 		// Thread-Zähler in frm_data erhöhen
         $q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
         $q .= "WHERE top_pk = '" . $topic . "'";
         $result = $this->ilias->db->query($q);
 		
-		$newPost = $this->generatePost($obj_id, $parent_id, $topic, $lastInsert[0], $user, $message);
+		$newPost = $this->generatePost($obj_id, $parent_id, $topic, $lastInsert[0], $user, $message, 0, "yes");
 		
 	}
 	
@@ -360,17 +382,16 @@ class Forum
 		$path = "";
 		
 		if ($topic == 0 && $thread == 0)
-		{
-			//var_dump("<pre>",$tmpPath,"obj ".$obj,"parent ".$parent,"</pre>");
-			
-			$tmpPath = $tree->getPathFull($obj_id, $parent_id);			
+		{			
+			$tmpPath = $tree->getPathFull($obj_id, $parent_id);		
+			//var_dump("<pre>",$tmpPath,"obj= ".$obj_id,"parent ".$parent_id,"</pre>");
 			for ($i = 0; $i < (count($tmpPath)-1); $i++)
 			{
 				if ($path != "") $path .= " > ";
-				$path .= $tmpPath[$i]["title"];				
+				$path .= $tmpPath[$i]["title"];						
 			}
 		}
-		
+				
 		if ($topic > 0)
 		{
 			$q = "SELECT * FROM frm_data WHERE ";
@@ -392,8 +413,7 @@ class Forum
 			if ($path != "") $path .= " > ";
 			$path .= $res2["thr_subject"];
 		}
-		
-		//$path .= ": ";
+				
 		
 		return $path;
 	}
@@ -433,6 +453,226 @@ class Forum
         }
     }
 	
+	
+	/**
+	* create a new post-tree
+	* @param	integer		a_tree_id: obj_id of object where tree belongs to
+	* @param	integer		a_node_id: root node of tree (optional; default is tree_id itself)
+	* @return	boolean		true on success
+	* @access	public
+	*/
+	function addPostTree($a_tree_id,$a_node_id = -1)
+	{
+		if ($a_node_id <= 0)
+		{
+			$a_node_id = $a_tree_id;
+		}
+		
+		$query = "INSERT INTO frm_posts_tree (thr_fk, pos_fk, parent_pos, lft, rgt, depth, date) ".
+				 "VALUES ".
+				 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1, '".date("Y-m-d H:i:s")."')";
+		$this->ilias->db->query($query);
+		
+		return true;
+	}
+	
+	
+	/**
+	* insert node under parent node
+	* @access	public
+	* @param	integer		node_id
+	* @param	integer		parent_id (optional)
+	*/
+	function insertPostNode($a_node_id,$a_parent_id,$tree_id)
+	{		
+		// get left value
+	    $query = "SELECT * FROM frm_posts_tree ".
+		   "WHERE pos_fk = '".$a_parent_id."' ".		   
+		   "AND thr_fk = '".$tree_id."'";
+
+	    $res = $this->ilias->db->getRow($query);
+		
+		$left = $res->lft;
+
+		$lft = $left + 1;
+		$rgt = $left + 2;
+//		var_dump("<pre>","child = ".$a_parent_id,"parent = ".$a_parent_parent_id,"left = ".$left,"lft = ".$lft,"rgt = ".$rgt,"</pre");
+
+		// spread tree
+		$query = "UPDATE frm_posts_tree SET ".
+				 "lft = CASE ".
+				 "WHEN lft > ".$left." ".
+				 "THEN lft + 2 ".
+				 "ELSE lft ".
+				 "END, ".
+				 "rgt = CASE ".
+				 "WHEN rgt > ".$left." ".
+				 "THEN rgt + 2 ".
+				 "ELSE rgt ".
+				 "END ".
+				 "WHERE thr_fk = '".$tree_id."'";
+
+		$this->ilias->db->query($query);
+		
+		$depth = $this->getPostDepth($a_parent_id, $tree_id) + 1;
+	
+		// insert node
+		$query = "INSERT INTO frm_posts_tree (thr_fk,pos_fk,parent_pos,lft,rgt,depth,date) ".
+				 "VALUES ".
+				 "('".$tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."','".date("Y-m-d H:i:s")."')";
+		$this->ilias->db->query($query);
+	}
+	
+	/**
+	* Return depth of an object
+	* @access	private
+	* @param	integer		node_id of parent's node_id
+	* @param	integer		node_id of parent's node parent_id
+	* @return	integer		depth of node
+	*/
+	function getPostDepth($a_node_id, $tree_id)
+	{
+		if ($tree_id)
+		{
+			$query = "SELECT depth FROM frm_posts_tree ".
+					 "WHERE pos_fk = '".$a_node_id."' ".					 
+					 "AND thr_fk = '".$tree_id."'";
+	
+			$res = $this->ilias->db->getRow($query);
+	
+			return $res->depth;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	/**
+	* get all nodes in the subtree under specified node
+	* 
+	* @access	public
+	* @param	array		node_data
+	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
+	*/
+	
+	function getPostTree($a_node)
+	{
+	    $subtree = array();
+	
+		$query = "SELECT * FROM frm_posts_tree ".
+				 "LEFT JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk ".
+				 "WHERE frm_posts_tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+				 "AND thr_fk = '".$a_node["tree"]."'";
+		if ($this->orderField != "")
+			$query .= " ORDER BY ".$this->orderField." DESC";		 
+		
+		$res = $this->ilias->db->query($query);
+		
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$subtree[] = $this->fetchPostNodeData($row);
+		}
+					
+		return $subtree;
+	}
+	
+	/**
+	* get all information of the first node.
+	* get data of the first node from frm_posts_tree and frm_posts
+	* @access	public
+	* @param	integer		tree id	
+	* @return	object		db result object
+	*/
+	function getFirstPostNode($tree_id)
+	{
+		$query = "SELECT * FROM frm_posts, frm_posts_tree ".
+				 "WHERE pos_pk = pos_fk ".				 
+				 "AND parent_pos = 0 ".
+				 "AND thr_fk = '".$tree_id."'";
+		$res = $this->ilias->db->query($query);
+		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return $this->fetchPostNodeData($row);
+	}
+	
+	/**
+	* get data of parent node from frm_posts_tree and frm_posts
+	* @access	private
+ 	* @param	object	db	db result object containing node_data
+	* @return	array		2-dim (int/str) node_data
+	*/
+	function fetchPostNodeData($a_row)
+	{
+		$data = array(
+					"pos_pk"		=> $a_row->pos_pk,
+					"author"		=> $a_row->pos_usr_id,
+					"message"		=> $a_row->pos_message,
+					"date"			=> $a_row->date,
+					"create_date"	=> $a_row->pos_date,
+					"update"		=> $a_row->pos_update,					
+					"tree"			=> $a_row->thr_fk,					
+					"parent"		=> $a_row->parent_pos,
+					"lft"			=> $a_row->lft,
+					"rgt"			=> $a_row->rgt,
+					"depth"			=> $a_row->depth,
+					"id"			=> $a_row->fpt_pk		
+					);
+		return $data ? $data : array();
+	}
+	
+	
+	function updateVisits($ID)
+	{
+		$checkTime = time() - (60*60);
+		
+		if ($_SESSION["frm_visit_".$this->dbTable."_".$ID] < $checkTime)
+		{
+			$_SESSION["frm_visit_".$this->dbTable."_".$ID] = time();		
+		
+			$q = "UPDATE ".$this->dbTable." SET ";
+			$q .= "visits = visits + 1 ";
+			$q .= "WHERE ( ".$this->whereCondition." )";			
+			
+			$this->ilias->db->query($q);
+		}
+		
+		$this->setWhereCondition("1");
+	}
+	
+	function prepareText($text)
+	{		
+		// Zitate		
+		$startZ = substr_count ($text, $this->txtQuote1);
+		$endZ = substr_count ($text, $this->txtQuote2);
+		if ($startZ > 0 || $endZ > 0)
+		{
+			if ($startZ > $endZ) 
+			{
+				$diff = $startZ - $endZ;
+				for ($i = 0; $i < $diff; $i++)
+				{
+					$text .= $this->txtQuote2;
+				}
+			}
+			elseif ($startZ < $endZ)
+			{
+				$diff = $endZ - $startZ;
+				for ($i = 0; $i < $diff; $i++)
+				{				
+					$text = $this->txtQuote1.$text;
+				}
+			}
+			
+			$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
+			$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
+		
+		}		
+		
+		
+		return $text;
+	}
 	
 	
 	
