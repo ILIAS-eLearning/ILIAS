@@ -211,7 +211,7 @@ class ilLanguage
 
 		if ($translation == "")
 		{
-			$log->writeLanguageLog($a_topic);
+			$log->writeLanguageLog($a_topic,$this->lang_key);
 			return "-".$a_topic."-";
 		}
 		else
