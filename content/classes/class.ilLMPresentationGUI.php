@@ -229,8 +229,20 @@ class ilLMPresentationGUI
 					@chmod($export_dir."/".$fileName."/css", 0755);
 
 				}
- 
-				if($_POST["type"] == "print")
+                
+
+                if($_POST["type"] == "xml")
+                {
+                    //vd($_GET["ref_id"]);
+                    $tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+                    
+                    if ($tmp_obj->getType() == "dbk" ) {
+                        require_once "content/classes/class.ilObjDlBook.php";
+                        $dbk =& new ilObjDlBook();
+                        $dbk->export($_GET["ref_id"]);
+                    }
+                    
+                } else if($_POST["type"] == "print")
 				{
 					echo $html;
 				}
