@@ -113,6 +113,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
 		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
+		// todo: checks + unzip
+
 		// start SCORM package parser
 		require_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
 		$slmParser = new ilSCORMPackageParser($newObj, $file_path);
@@ -121,7 +123,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		header("Location: adm_object.php?".$this->link_params);
 		exit();
 	}
-
 
 
 }
