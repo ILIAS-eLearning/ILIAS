@@ -4288,6 +4288,9 @@ survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
+survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
+survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
 survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
 survey#:#svy_file#:#File###05 Nov 2004 new variable
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable

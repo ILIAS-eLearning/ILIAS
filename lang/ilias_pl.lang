@@ -4270,6 +4270,9 @@ survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę###26 Nov 2004
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Usuń wszystkie dane użytkowników
+survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
+survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
+survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
 survey#:#svy_export_files#:#Export files###05 Nov 2004 new variable
 survey#:#svy_file#:#File###05 Nov 2004 new variable
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.###05 Nov 2004 new variable

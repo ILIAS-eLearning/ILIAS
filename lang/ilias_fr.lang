@@ -4236,6 +4236,9 @@ survey#:#survey_start#:#<<< enregistrer et revenir à la page de départ###26 No
 survey#:#svy_all_user_data_deleted#:#Toutes les données utilisateurs de ce sondage ont été détruites.
 survey#:#svy_create_export_file#:#Créer fichier d'exportation
 survey#:#svy_delete_all_user_data#:#Détruire toutes les données utilisateurs.
+survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
+survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
+survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
 survey#:#svy_export_files#:#Fichiers d'exportation
 survey#:#svy_file#:#Fichier
 survey#:#svy_missing_author#:#Vous n'avez pas saisi les noms des auteurs du sondage dans les propriétés du sondage. Veuillez ajouter les noms d'auteurs

@@ -4129,9 +4129,6 @@ survey#:#insert_missing_questionblock#:#Please select at least one question bloc
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
-survey#:#svy_eval_cumulated#:#Cumulated results
-survey#:#svy_eval_detail#:#Cumulated results (details)
-survey#:#svy_eval_user#:#User specific results
 survey#:#invitation_mode#:#Invitation mode
 survey#:#invite_participants#:#Invite participants
 survey#:#invited_groups#:#Invited groups
@@ -4273,6 +4270,9 @@ survey#:#survey_start#:#go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_create_export_file#:#Create export file
 survey#:#svy_delete_all_user_data#:#Delete all user data
+survey#:#svy_eval_cumulated#:#Cumulated results
+survey#:#svy_eval_detail#:#Cumulated results (details)
+survey#:#svy_eval_user#:#User specific results
 survey#:#svy_export_files#:#Export files
 survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
