@@ -184,31 +184,31 @@ class ilUserImportParser extends ilSaxParser
 
 				case "User":
 
-// for test purposes
-if ($this->userObj->getLogin() == "guest123")
-{
-					// checks passed. save user
-					$this->userObj->setTitle($this->userObj->getFullname());
-					$this->userObj->setDescription($this->userObj->getEmail());
-					$this->userObj->create();
-
-					//insert user data in table user_data
-					$this->userObj->saveAsNew();
-
-					// set user preferences
-					$this->userObj->setPref("skin",
-						$ilias->ini->readVariable("layout","skin"));
-					$this->userObj->setPref("style",
-						$ilias->ini->readVariable("layout","style"));
-					$this->userObj->writePrefs();
-
-					//set role entries
-					foreach($this->roles as $role_id => $role)
+					// check if login name doesn't exist
+					if (ilObjUser::getUserIdByLogin($this->userObj->getLogin()) == 0)
 					{
-						$rbacadmin->assignUser($this->role_assign[$role_id],
-							$this->userObj->getId(), true);
+						// checks passed. save user
+						$this->userObj->setTitle($this->userObj->getFullname());
+						$this->userObj->setDescription($this->userObj->getEmail());
+						$this->userObj->create();
+
+						//insert user data in table user_data
+						$this->userObj->saveAsNew();
+
+						// set user preferences
+						$this->userObj->setPref("skin",
+							$ilias->ini->readVariable("layout","skin"));
+						$this->userObj->setPref("style",
+							$ilias->ini->readVariable("layout","style"));
+						$this->userObj->writePrefs();
+
+						//set role entries
+						foreach($this->roles as $role_id => $role)
+						{
+							$rbacadmin->assignUser($this->role_assign[$role_id],
+								$this->userObj->getId(), true);
+						}
 					}
-}
 
 					// init role array for next user
 					$this->roles = array();

@@ -130,6 +130,21 @@ $ilUser =& $ilias->account;
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
+
+// check ilias 2 password, if authentication failed
+if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
+{
+	if (ilObjUser::_lookupHasIlias2Password($_POST["username"]))
+	{
+		if (ilObjUser::_switchToIlias3Password($_POST["username"], $_POST["password"]))
+		{
+			$ilias->auth->start();
+			ilUtil::redirect("start.php");
+		}
+	}
+}
+
+
 if ($ilias->auth->getAuth())
 {
 	//get user id
@@ -156,9 +171,10 @@ if ($ilias->auth->getAuth())
 		$ilias->account->refreshLogin();
 	}
 }
-elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php" 
+elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
+
 	header("Location: index.php?reload=true");
 	exit;
 }
