@@ -125,7 +125,14 @@ class ilObjRoleFolder extends ilObject
 	*/
 	function createRole($a_title,$a_desc)
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
+		
+		// check if role title is unique
+		if ($rbacreview->roleExists($a_title))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$a_title."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+		}		
 
 		include_once ("classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
