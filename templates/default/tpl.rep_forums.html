@@ -21,6 +21,7 @@
   <td class="std" width=60%>{TXT_FORUM}</td>
   <td class="std" align="center">{TXT_NUM_THREADS}</td>
   <td class="std" align="center" nowrap="nowrap" >{TXT_NUM_POSTS}</td>
+  <td class="std" align="center" nowrap="nowrap" >{TXT_NEW_POSTS}</td>
   <td class="std" align="center">{TXT_NUM_VISITS}</td>
   <td class="std" width="39%" align="center" nowrap="nowrap">{TXT_LAST_POST}</td>
 </tr>
@@ -47,23 +48,24 @@
  </td>
  <td align="center" nowrap="nowrap" class="tblrow1" valign="top">{NUM_THREADS}</td>
  <td align="center" nowrap="nowrap" class="tblrow2" valign="top">{NUM_POSTS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow2" valign="top">{NEW_POSTS}</td>
  <td align="center" nowrap="nowrap" class="tblrow1" valign="top">{NUM_VISITS}</td>
  <td width="20%" nowrap="nowrap" class="tblrow2" valign="top">{LAST_POST}</td>
  </tr>
 <!-- END forum_row -->
 <!-- BEGIN forum_no -->
 <tr class="std">
-	<td class="std" colspan="6">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+	<td class="std" colspan="7">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 <!-- BEGIN forum_options -->
 <tr>
-	<td class="submit" nowrap="nowrap" colspan="6"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
+	<td class="submit" nowrap="nowrap" colspan="7"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
 	<strong>{TXT_SELECT_ALL}</strong>
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="6">
+	<td class="submit" colspan="7">
 	<img src="{IMGPATH}/images/arrow_downright.gif" />&nbsp;
 	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>

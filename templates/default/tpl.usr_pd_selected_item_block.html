@@ -1,4 +1,4 @@
-  <table class="ilPDSelectedItemBlock">
+  <table class="ilPDSelectedItemBlock" border="0">
 	<tr class="tblheader">
 	  <td class="std" colspan="3"><img border="0" src="{IMG_HEADER}" align="middle" />
 		  {TXT_BLOCK_HEADER}</td>
@@ -24,9 +24,6 @@
 			  <!-- BEGIN finished -->
 			  [{TXT_FINISHED}]
 			  <!-- END finished -->
-			  <!-- BEGIN frm_info -->
-			  <b>{TXT_FRM_INFO}</b>
-			  <!-- END frm_info -->
 			  <!-- BEGIN crs_status -->
 			  {STATUS}
 			  <!-- END crs_status -->
@@ -37,6 +34,11 @@
 			  <br /><div class="il_Description">{TXT_ITEM_DESCRIPTION}</div>
 				<!-- END description -->
 			</td>
+			<!-- BEGIN frm_info -->
+			<td valign="center"  align="right" nowrap="nowrap" class="std">
+			  <b>{TXT_FRM_INFO}</b>
+			</td>
+			<!-- END frm_info -->
 			<td valign="top" class="std" width="1px">{CONTINUE}
 			  <!-- BEGIN continue_link -->
 			  <a href="{LINK_CONTINUE}" class="navigation" target="{TARGET_CONTINUE}">

@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.18 2004/11/29 10:51:16 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.19 2004/12/01 14:12:09 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -171,8 +171,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 						$num_unread = $this->object->getCountUnread($ilUser->getId(),$thrData['thr_pk']);
 						$this->tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"].' ('.$num_unread.')');
-
-				
+						$this->tpl->setVariable("NEW_POSTS",$this->object->getCountNew($ilUser->getId(),$thrData['thr_pk']));
 						$this->tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
 				
 						// get author data
@@ -241,6 +240,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TOPIC", $this->lng->txt("forums_thread"));
 		$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TXT_NUM_POSTS", $this->lng->txt("forums_articles").' ('.$this->lng->txt('unread').')');
+		$this->tpl->setVariable("TXT_NEW_POSTS",$this->lng->txt('forums_new_articles'));
 		$this->tpl->setVariable("TXT_NUM_VISITS", $this->lng->txt("visits"));
 		$this->tpl->setVariable("TXT_LAST_POST", $this->lng->txt("forums_last_post"));
 		$this->tpl->parseCurrentBlock("threadtable");

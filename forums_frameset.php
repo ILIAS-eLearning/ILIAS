@@ -39,6 +39,13 @@ $lng->loadLanguageModule("forum");
 
 $forumObj = new ilObjForum($_GET["ref_id"]);
 
+if($_GET['mark_read'])
+{
+	$forumObj->markThreadRead($ilUser->getId(),(int) $_GET['thr_pk']);
+	sendInfo($lng->txt('forums_thread_marked'),true);
+}
+
+
 // delete post and its sub-posts
 if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 {

@@ -33,7 +33,7 @@
 */
 
 require_once "class.ilForum.php";
-require_once "class.ilObject.php";
+require_once "./classes/class.ilObject.php";
 require_once "./classes/class.ilFileDataForum.php";
 
 class ilObjForum extends ilObject
@@ -208,12 +208,115 @@ class ilObjForum extends ilObject
 		return $res->numRows() ? true : false;
 	}
 
+
+	// METHODS FOR NEW STATUS
+	function getCountNew($a_usr_id,$a_thread_id = 0)
+	{
+		if($a_thread_id)
+		{
+			return $this->__getCountNew($a_usr_id,$a_thread_id);
+		}
+		else
+		{
+			$counter = 0;
+
+			// Get threads
+			$query = "SELECT DISTINCT(pos_thr_fk) FROM frm_posts,frm_data ".
+				"WHERE top_pk = pos_top_fk ".
+				"AND top_frm_fk = '".$this->getId()."' ";
+
+			$res = $this->ilias->db->query($query);
+			
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$counter += $this->__getCountNew($a_usr_id,$row->pos_thr_fk);
+			}
+			return $counter;
+		}
+		return 0;
+	}
+
+
+	function __getCountNew($a_usr_id,$a_thread_id = 0)
+	{
+		$counter = 0;
+		
+		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
+		
+		// CHECK FOR NEW
+		$query = "SELECT pos_pk FROM frm_posts ".
+			"WHERE pos_thr_fk = '".$a_thread_id."' ".
+			"AND ( pos_date > '".date('Y-m-d H:i:s',$timest)."' ".
+			"OR pos_update > '".date('Y-m-d H:i:s',$timest)."') ".
+			"AND pos_usr_id != '".$a_usr_id."'";
+		
+		$res  =  $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(!$this->isRead($a_usr_id,$row->pos_pk))
+			{
+				++$counter;
+			}
+		}
+		return $counter;
+	}
+
+	function isNew($a_usr_id,$a_thread_id,$a_post_id)
+	{
+		if($this->isRead($a_usr_id,$a_post_id))
+		{
+			return false;
+		}
+		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
+		
+		$query = "SELECT * FROM frm_posts ".
+			"WHERE pos_pk = '".$a_post_id."' ".
+			"AND (pos_date > '".date('Y-m-d H:i:s',$timest)."' ".
+			"OR pos_update > '".date('Y-m-d H:i:s',$timest)."') ".
+			"AND pos_usr_id != '".$a_usr_id."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
+	function updateLastAccess($a_usr_id,$a_thread_id)
+	{
+		$query = "UPDATE frm_thread_access ".
+			"SET access_last = '".time()."' ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$this->getId()."' ".
+			"AND thread_id = '".$a_thread_id."'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+
 	// STATIC
+	function _updateOldAccess($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "UPDATE frm_thread_access ".
+			"SET access_old = access_last ".
+			"WHERE usr_id = '".$a_usr_id."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+
 	function _deleteUser($a_usr_id)
 	{
 		global $ilDB;
 
 		$query = "DELETE FROM frm_user_read ".
+			"WHERE usr_id = '".$a_usr_id."'";
+
+		$ilDB->query($query);
+
+		$query = "DELETE FROM frm_thread_access ".
 			"WHERE usr_id = '".$a_usr_id."'";
 
 		$ilDB->query($query);
@@ -565,6 +668,33 @@ class ilObjForum extends ilObject
 		return true;
 	}
 
+	function __getLastThreadAccess($a_usr_id,$a_thread_id)
+	{
+		$query = "SELECT * FROM frm_thread_access ".
+			"WHERE thread_id = '".$a_thread_id."' ".
+			"AND usr_id = '".$a_usr_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$last_access = $row->access_old;
+		}
+		// CREATE ENTRY IF IT DOES NOT EXIST
+		if(!$last_access)
+		{
+			$query = "INSERT INTO frm_thread_access ".
+				"SET usr_id = '".$a_usr_id."', ".
+				"obj_id = '".$this->getId()."', ".
+				"thread_id = '".$a_thread_id."', ".
+				"access_old = '".time()."', ".
+				"access_last = '".time()."'";
+
+			$this->ilias->db->query($query);
+
+			$last_access = time();
+		}
+		return $last_access;
+	}
 
 } // END class.ilObjForum
 ?>

@@ -254,7 +254,14 @@ class ilForumExplorer extends ilExplorer
 		}
 		else
 		{
-			$tpl->setVariable("A_CLASS",'class="postunread"');
+			if($this->forum_obj->isNew($ilUser->getId(),$this->thread_id,$a_node_id))
+			{
+				$tpl->setVariable("A_CLASS",'class="postnew"');
+			}
+			else
+			{
+				$tpl->setVariable("A_CLASS",'class="postunread"');
+			}
 			$tpl->setVariable("ONCLICK",'onClick="this.className=\'postread\';"');
 		}
 
