@@ -8,13 +8,25 @@
 <!ELEMENT Users (User*)>
 
 <!-- User -->
-<!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender, Email?,
+<!ELEMENT User (Action?, Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender?, Email?,
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
-	PhoneMobile?, Fax?, Hobby?, Department?)>
+	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
 >
+
+<!-- Action 
+     The action element specifies what to do, when the user 
+     is imported into ILIAS.
+     The following content is supported for this element:
+        insert
+        update
+        delete
+     If this element is missing, the action "insert" is
+     assumed. 
+-->
+<!ELEMENT Action (#PCDATA)>
 
 <!-- Role -->
 <!ELEMENT Role (#PCDATA)>
@@ -45,3 +57,5 @@
 <!ELEMENT Fax (#PCDATA)>
 <!ELEMENT Hobby (#PCDATA)>
 <!ELEMENT Department (#PCDATA)>
+<!ELEMENT Comment (#PCDATA)>
+<!ELEMENT Matriculation (#PCDATA)>
