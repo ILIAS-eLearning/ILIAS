@@ -1584,6 +1584,7 @@ class ilObjUser extends ilObject
 			$a_types = array($a_types);
 		}
 		$items = array();
+		$foundsurveys = array();
 		foreach($a_types as $a_type)
 		{
 			switch ($a_type)
@@ -1689,6 +1690,7 @@ class ilObjUser extends ilObject
 							$link = "survey/survey.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
 							$target = "bottom";
 							$edit_link = "";
+							array_push($foundsurveys, $item_rec["ref_id"]);
 						}
 						elseif ($a_type == "mep")
 						{
@@ -1768,6 +1770,23 @@ class ilObjUser extends ilObject
 							"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
 					}
 					break;
+			}
+			if ($a_type == "svy")
+			{
+				$query = sprintf("SELECT survey_finished.state, survey_survey.ref_fi FROM survey_finished, survey_survey WHERE survey_finished.user_fi = %s AND survey_finished.survey_fi = survey_survey.survey_id AND survey_survey.ref_fi IN (%s)",
+					$this->ilias->db->quote($ilUser->id),
+					join($foundsurveys, ",")
+				);
+				$result = $this->ilias->db->query($query);
+				$states = array();
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$states[$row["ref_fi"]] = $row["state"];
+				}
+				foreach ($items as $key => $value)
+				{
+					$items[$key]["finished"] = $states[$value["id"]];
+				}
 			}
 			if ($a_type == "tst")
 			{
