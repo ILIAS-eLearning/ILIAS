@@ -52,6 +52,9 @@ require_once "PEAR.php";
 require_once "DB.php";
 require_once "Auth/Auth.php";
 
+// memory usage at this point (2005-02-09): ~781KB)
+//echo "<br>memory1:".memory_get_usage()."<br>";
+
 // wrapper for php 4.3.2 & higher
 @include_once "HTML/ITX.php";
 
@@ -92,6 +95,9 @@ require_once "include/inc.ilias_version.php";
 require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.ilRbacSystem.php";
 require_once "classes/class.ilRbacReview.php";
+
+// memory usage at this point (2005-02-09): ~3MB)
+//echo "<br>memory2:".memory_get_usage()."<br>";
 
 // ### AA 03.10.29 added new LocatorGUI class ###
 //include LocatorGUI

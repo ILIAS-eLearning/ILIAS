@@ -21,16 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/class.ilLMObjectFactory.php");
-require_once ("classes/class.ilDOMUtil.php");
-require_once ("content/classes/class.ilObjLearningModule.php");
-require_once ("content/classes/class.ilObjLearningModuleGUI.php");
-require_once ("content/classes/class.ilObjDlBook.php");
-require_once ("content/classes/class.ilObjDlBookGUI.php");
-require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
-//require_once ("content/classes/Pages/class.ilMediaItem.php");
-require_once ("classes/class.ilObjStyleSheet.php");
-require_once ("content/classes/class.ilEditClipboard.php");
+include_once ("content/classes/class.ilLMObjectFactory.php");
+include_once ("classes/class.ilDOMUtil.php");
+include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
+include_once ("classes/class.ilObjStyleSheet.php");
+include_once ("content/classes/class.ilEditClipboard.php");
 
 
 /**
@@ -94,18 +89,6 @@ class ilLMEditorGUI
 	{
 		$cmd = $this->ctrl->getCmd("frameset");
 
-		/*
-		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
-		{
-			$this->explorer();
-			return;
-		}
-
-		if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
-		{
-			$this->ctrl->setReturn($this, "explorer");
-		}*/
-
 		$next_class = $this->ctrl->getNextClass($this);
 //echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":<br>";
 		$cmd = $this->ctrl->getCmd("frameset");
@@ -128,22 +111,19 @@ class ilLMEditorGUI
 			//$next_class = $this->ctrl->getNextClass($this);
 		}
 
-		// this is messed up by ilCtrl sometimes
-		/*
-		if (($this->lm_obj->getType() == "dbk") && ($next_class == "ilobjlearningmodulegui"))
-		{
-			$next_class = "ilobjdlbookgui";
-		}
-		if (($this->lm_obj->getType() == "lm") && ($next_class == "ilobjdlbookgui"))
-		{
-			$next_class = "ilobjlearningmodulegui";
-		}*/
+		// show footer
+		$show_footer = ($cmd == "explorer")
+			? false
+			: true;
 
 
 // if ($this->lm_obj->getType()
 		switch($next_class)
 		{
 			case "ilobjdlbookgui":
+				include_once ("content/classes/class.ilObjDlBook.php");
+				include_once ("content/classes/class.ilObjDlBookGUI.php");
+
 				$this->main_header($this->lm_obj->getType());
 				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $book_gui->executeCommand();
@@ -154,7 +134,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get("DEFAULT", true, true);
+				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -162,6 +142,8 @@ class ilLMEditorGUI
 				break;
 
 			case "ilobjlearningmodulegui":
+				include_once ("content/classes/class.ilObjLearningModule.php");
+				include_once ("content/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $lm_gui->executeCommand();
@@ -172,7 +154,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get("DEFAULT", true, true);
+				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');

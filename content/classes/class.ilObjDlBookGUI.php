@@ -32,7 +32,8 @@
 *
 * @package content
 */
-require_once "content/classes/class.ilObjContentObjectGUI.php";
+include_once "content/classes/class.ilObjContentObjectGUI.php";
+include_once "content/classes/class.ilObjDlBook.php";
 
 class ilObjDlBookGUI extends ilObjContentObjectGUI
 {

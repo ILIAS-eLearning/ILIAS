@@ -112,11 +112,16 @@ class ilTemplate extends ilTemplateX
 	* @return	string
 	*/
 	function get($part = "DEFAULT", $add_error_mess = false,
-		$handle_referer = false)
+		$handle_referer = false, $add_ilias_footer = false)
 	{
 		if ($add_error_mess)
 		{
 			$this->addErrorMessage();
+		}
+
+		if ($add_ilias_footer)
+		{
+			$this->addILIASFooter();
 		}
 
 		if ($handle_referer)
@@ -171,16 +176,7 @@ class ilTemplate extends ilTemplateX
 		// display ILIAS footer
 		if ($part !== false)
 		{
-			$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
-			$this->setVariable("ILIAS_VERSION",$ilias->getSetting("ilias_version"));
-			if (DEVMODE)
-			{
-				if(function_exists(memory_get_usage))
-				{
-					$this->setVariable("MEMORY_USAGE",
-									   ", Memory Usage: ".memory_get_usage()." Bytes");
-				}
-			}
+			$this->addILIASFooter();
 		}
 
 		if ($part == "DEFAULT" or is_bool($part))
@@ -194,6 +190,26 @@ class ilTemplate extends ilTemplateX
 
 		$this->handleReferer();
 	}
+
+	/**
+	* add ILIAS footer
+	*/
+	function addILIASFooter()
+	{
+		global $ilias;
+
+		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
+		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+		if (DEVMODE)
+		{
+			if(function_exists(memory_get_usage))
+			{
+				$this->setVariable("MEMORY_USAGE",
+					", Memory Usage: ".memory_get_usage()." Bytes");
+			}
+		}
+	}
+
 
 	function handleReferer()
 	{
