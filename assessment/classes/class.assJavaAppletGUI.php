@@ -192,6 +192,18 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+		if ($this->object->getSolutionHint())
+		{
+			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+		}
+		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -272,6 +284,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->setQuestion(ilUtil::stripSlashes($_POST["question"]));
+		$this->object->setSolutionHint($_POST["solution_hint"]);
 		$this->object->setShuffle($_POST["shuffle"]);
 		$this->object->setPoints($_POST["applet_points"]);
 		// adding estimated working time
@@ -351,5 +364,12 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	{
 	}
 	
+
+	function addSuggestedSolution()
+	{
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		$this->getQuestionTemplate("qt_javaapplet");
+		parent::addSuggestedSolution();
+	}
 }
 ?>

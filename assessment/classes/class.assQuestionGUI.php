@@ -439,5 +439,50 @@ class ASS_QuestionGUI
 		$this->editQuestion();
 	}
 	
+	function cancelExplorer()
+	{
+		$this->editQuestion();
+	}
+	
+	function addSuggestedSolution()
+	{
+		global $tree;
+
+		require_once("./assessment/classes/class.ilSolutionExplorer.php");
+
+		$_SESSION["link_new_type"] = "lm";
+
+		sendInfo($this->lng->txt("select_object_to_link"));
+		
+		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this));
+
+		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addSuggestedSolution'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		$exp->addFilter($_SESSION["link_new_type"]);
+		$exp->setSelectableType($_SESSION["link_new_type"]);
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->addBlockFile("EXPLORER", "explorer", "tpl.il_as_qpl_explorer.html", true);
+		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
+		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	function removeSuggestedSolution()
+	{
+		$this->object->setSolutionHint("");
+		$this->editQuestion();
+	}
+	
+	function linkChilds()
+	{
+		$this->object->setSolutionHint($_GET["source_id"]);
+		$this->editQuestion();
+	}
 }
 ?>

@@ -167,6 +167,18 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 			}
+			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+			if ($this->object->getSolutionHint())
+			{
+				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+			}
+			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -247,6 +259,18 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
 			}
+			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+			if ($this->object->getSolutionHint())
+			{
+				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+			}
+			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -534,6 +558,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->object->setSolutionHint($_POST["solution_hint"]);
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		$saved = $this->writeOtherPostData($result);
@@ -790,6 +815,20 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("ANSWER_DESCRIPTION", "$state: " . "&quot;<em>" . $answer->get_answertext() . "</em>&quot;");
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+	
+	function addSuggestedSolution()
+	{
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		if ($this->object->get_response() == RESPONSE_SINGLE)
+		{
+			$this->getQuestionTemplate("qt_multiple_choice_sr");
+		}
+		else
+		{
+			$this->getQuestionTemplate("qt_multiple_choice_mr");
+		}
+		parent::addSuggestedSolution();
 	}
 }
 ?>

@@ -218,6 +218,19 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
 		}
 
+		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+		if ($this->object->getSolutionHint())
+		{
+			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+		}
+		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
+
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_ordering");
@@ -330,6 +343,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->object->setSolutionHint($_POST["solution_hint"]);
 		$this->object->setShuffle($_POST["shuffle"]);
 
 		// adding estimated working time
@@ -500,6 +514,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("ANSWER_DESCRIPTION_CONNECTOR", $this->lng->txt("with_order") . " &quot;<em>" . $results[$key]["order"] . "</em>&quot;");
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	function addSuggestedSolution()
+	{
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		$this->getQuestionTemplate("qt_ordering");
+		parent::addSuggestedSolution();
 	}
 }
 ?>

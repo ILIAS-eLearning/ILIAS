@@ -177,6 +177,15 @@ class ASS_Question
 	var $outputType;
 
 	/**
+	* Contains an internal link reference id to a solution hint learning module
+	*
+	* Contains an internal link reference id to a solution hint learning module
+	*
+	* @var integer
+	*/
+	var $solution_hint;
+
+	/**
 	* ASS_Question constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_Question object.
@@ -216,6 +225,7 @@ class ASS_Question
 		}
 		$this->id = -1;
 		$this->test_id = -1;
+		$this->solution_hint = "";
 		$this->shuffle = 1;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
@@ -294,6 +304,20 @@ class ASS_Question
 	function setTitle($title = "")
 	{
 		$this->title = $title;
+	}
+
+	/**
+	* Sets the solution hint
+	*
+	* Sets the solution hint
+	*
+	* @param integer $hint The reference id of the solution hint learning module
+	* @access public
+	* @see $solution_hint
+	*/
+	function setSolutionHint($hint = "")
+	{
+		$this->solution_hint = $hint;
 	}
 
 	/**
@@ -458,6 +482,20 @@ class ASS_Question
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	* Gets the reference id of the solution hint learning module
+	*
+	* Gets the reference id of the solution hint learning module
+	*
+	* @return integer The reference id of the solution hint learning module
+	* @access public
+	* @see $solution_hint
+	*/
+	function getSolutionHint()
+	{
+		return $this->solution_hint;
 	}
 
 	/**

@@ -556,7 +556,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$now = getdate();
 			$question_type = 4;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, solution_hint, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type. ""),
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title. ""),
@@ -568,6 +568,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$db->quote($this->matching_type. ""),
 				$db->quote($this->points. ""),
 				$db->quote($complete. ""),
+				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($created. ""),
 				$original_id
 			);
@@ -590,7 +591,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, matching_type = %s, points = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, matching_type = %s, points = %s, complete = %s, solution_hint = %s WHERE question_id = %s",
 				$db->quote($this->title. ""),
 				$db->quote($this->comment. ""),
 				$db->quote($this->author. ""),
@@ -599,6 +600,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$db->quote($this->matching_type. ""),
 				$db->quote($this->points. ""),
 				$db->quote($complete. ""),
+				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($this->id. "")
 			);
 			$result = $db->query($query);
@@ -657,6 +659,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$this->title = $data->title;
 				$this->comment = $data->comment;
 				$this->author = $data->author;
+				$this->solution_hint = $data->solution_hint;
 				$this->obj_id = $data->obj_fi;
 				$this->owner = $data->owner;
 				$this->matching_type = $data->matching_type;

@@ -502,7 +502,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$question_type = 2;
 			}
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, solution_hint, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -514,6 +514,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote("$this->shuffle"),
 				$db->quote($this->response),
 				$db->quote("$complete"),
+				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($created),
 				$original_id
 			);
@@ -526,7 +527,7 @@ class ASS_MultipleChoice extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingef�gt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 				$this->insertIntoTest($this->getTestId());
@@ -536,7 +537,7 @@ class ASS_MultipleChoice extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s, solution_hint = %s WHERE question_id = %s",
 				$db->quote($this->title),
 				$db->quote($this->comment),
 				$db->quote($this->author),
@@ -545,6 +546,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote("$this->shuffle"),
 				$db->quote($this->response),
 				$db->quote("$complete"),
+				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
@@ -599,6 +601,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$this->id = $question_id;
 				$this->title = $data->title;
 				$this->comment = $data->comment;
+				$this->solution_hint = $data->solution_hint;
 				$this->obj_id = $data->obj_fi;
 				$this->author = $data->author;
 				$this->owner = $data->owner;
@@ -789,7 +792,7 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		if ($found >= 0)
 		{
-			// Antwort einf�gen
+			// Antwort einfügen
 			$answer = new ASS_AnswerBinaryState($answertext, $points, $found, $state);
 			array_push($this->answers, $answer);
 			for ($i = $found + 1; $i < count($this->answers); $i++)
@@ -800,7 +803,7 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		else
 		{
-			// Anwort anh�ngen
+			// Anwort anhängen
 			$answer = new ASS_AnswerBinaryState($answertext, $points, count($this->answers), $state);
 			array_push($this->answers, $answer);
 		}

@@ -19,7 +19,17 @@
   <td class="option_value" colspan="4"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 {OTHER_QUESTION_DATA}
-{QUESTION_MATERIAL}
+<tr>
+	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="solution_hint" value="{VALUE_SOLUTION_HINT}" />
+		{TEXT_VALUE_SOLUTION_HINT}
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution]" value="{BUTTON_ADD_SOLUTION}" />
+		<!-- BEGIN remove_solution -->
+		<input type="submit" class="submit" name="cmd[removeSuggestedSolution]" value="{BUTTON_REMOVE_SOLUTION}" />
+		<!-- END remove_solution -->
+	</td>
+</tr>
 <tr>
   <td class="option"><label for="ordering_type">{TEXT_TYPE}:</label></td>
   <td class="option_value" colspan="5"><select name="ordering_type" id="ordering_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_PICTURES}</option><option value="1"{SELECTED_TERMS}>{TEXT_TYPE_TERMS}</option></select></td>
