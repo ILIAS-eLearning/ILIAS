@@ -527,3 +527,4 @@ desc	description	Beschreibung	descrizione	description
 default_role	default role	Standardrolle	def_role	def_role
 enabled	enabled	eingeschaltet	enabled	enabled
 disabled	disabled	ausgeschaltet	disabled	disabled
+import	import	import	import	import	import
