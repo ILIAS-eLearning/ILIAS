@@ -2488,40 +2488,17 @@ class ilObjTestGUI extends ilObjectGUI
 				$evaluation_array[$key] = $stat_eval;
 			}
 
+			require_once "./classes/class.ilStatistics.php";
+			
 			// calculate the median
-			$median_array = array();
-			if ($_POST["cmd"]["stat_all_users"] or $_POST["stat_all_users"]) {
-				foreach ($evaluation_array as $key => $value)
-				{
-					array_push($median_array, $value["resultspoints"]);
-				}
-				sort($median_array);
-				reset($median_array);
-			}
-			else
-			{
-				$median_array =& $this->object->getMedianArray();
-			}
-			$median = 0;
-			if ((count($median_array) % 2) == 0)
-			{
-				$median = ($median_array[(count($median_array) / 2) - 1] + $median_array[(count($median_array) / 2)]) / 2;
-			}
-			else
-			{
-				$median = $median_array[((count($median_array) + 1) / 2) - 1];
-			}
-
-//			print_r($median_array);
-//			print "<br>Median: $median<br>";
+			$median_array =& $this->object->getTotalPointsArray();
+			$statistics = new ilStatistics();
+			$statistics->setData($median_array);
+			$median = $statistics->median();
 
 			foreach ($evaluation_array as $key => $stat_eval)
 			{
 				$csvrow = array();
-				//$t = print_r($stat_eval, true);
-				//$t = preg_replace("/\n/", "<br>", $t);
-				//$t = preg_replace("/ /", "&nbsp;", $t);
-				//print ($t);
 				if (!$question_legend)
 				{
 					$i = 1;
@@ -2722,19 +2699,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$rank_participant = array_search($stat_eval["resultspoints"], $median_array) + 1;
+					$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
 					$this->tpl->setVariable("TXT_DATA", $rank_participant);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					if ((count($median_array) % 2) == 0)
-					{
-						$rank_median = (count($median_array) + count($median_array) + 1) / 2;
-					}
-					else
-					{
-						$rank_median = (count($median_array) + 1) / 2;
-					}
+					$rank_median = $statistics->rank_median();
 					$this->tpl->setVariable("TXT_DATA", $rank_median);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("datacol");
