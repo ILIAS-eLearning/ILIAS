@@ -1762,5 +1762,72 @@ class ilUtil
 		return $a_value;
 	}
 
+	/**
+	* checks if group name already exists. Groupnames must be unique for mailing purposes
+	* static function
+	* @access	public
+	* @param	string	groupname
+	* @param	integer	obj_id of group to exclude from the check. 
+	* @return	boolean	true if exists
+	*/
+	function groupNameExists($a_group_name,$a_id = 0)
+	{
+		global $ilDB,$ilErr;
+		
+		if (empty($a_group_name))
+		{
+			$message = get_class($this)."::_NameExists(): No groupname given!";
+			$ilErr->raiseError($message,$ilErr->WARNING);
+		}
+
+		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
+
+		$q = "SELECT obj_id FROM object_data ".
+			 "WHERE title = '".addslashes($a_group_name)."' ".
+			 "AND type = 'grp'".
+			 $clause;
+		$r = $ilDB->query($q);
+
+		if ($r->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/*
+	* get the user_ids which correspond a search string
+	* static function 
+	* @param	string search string
+	* @access	public
+	*/
+	function searchGroups($a_search_str)
+	{
+		global $ilDB;
+
+		$q = "SELECT * ".
+			"FROM object_data ,object_reference ".
+			"WHERE (object_data.title LIKE '%".$a_search_str."%' ".
+			"OR object_data.description LIKE '%".$a_search_str."%') ".
+			"AND object_data.type = 'grp' ".
+			"AND object_data.obj_id = object_reference.obj_id";
+
+		$res = $ilDB->query($q);
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// STORE DATA IN ARRAY WITH KEY obj_id
+			// SO DUPLICATE ENTRIES ( LINKED OBJECTS ) ARE UNIQUE
+			$ids[$row->obj_id] = array(
+				"ref_id"        => $row->ref_id,
+				"title"         => $row->title,
+				"description"   => $row->description);
+		}
+
+		return $ids ? $ids : array();
+	}
 } // END class.ilUtil
 ?>

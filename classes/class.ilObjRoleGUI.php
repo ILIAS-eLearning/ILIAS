@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.75 2004/02/17 17:59:03 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.76 2004/02/18 17:30:18 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -832,14 +832,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		// exclude allow register option for anonymous role, system role and all local roles
 		$global_roles = $rbacreview->getGlobalRoles();
 
-		if ($this->object->getId() != ANONYMOUS_ROLE_ID and $this->object->getId() != SYSTEM_ROLE_ID and in_array($this->object->getId(),$global_roles))
-		{
-			$this->tpl->setCurrentBlock("allow_register");
-			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-			$this->tpl->parseCurrentBlock();
-		}
-
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
@@ -847,6 +839,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID and $this->object->getId() != SYSTEM_ROLE_ID and in_array($this->object->getId(),$global_roles))
+		{
+			$this->tpl->setCurrentBlock("allow_register");
+			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/**

@@ -261,6 +261,7 @@ class ilObject
 				$this->desc = $row->description;
 			}
 		}
+
 		$ilBench->stop("Core", "ilObject_Constructor_getTranslation");
 
 		$ilBench->stop("Core", "ilObject_read");
@@ -566,6 +567,7 @@ class ilObject
 		$q = "SELECT * FROM object_data WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $this->ilias->db->query($q);
+
 		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			return $obj_rec["obj_id"];
@@ -588,10 +590,12 @@ class ilObject
 		$q = "SELECT * FROM object_reference WHERE obj_id = '".$a_id."'";
 		$obj_set = $ilDB->query($q);
 		$ref = array();
+
 		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ref[$obj_rec["ref_id"]] = $obj_rec["ref_id"];
 		}
+
 		return $ref;
 	}
 
@@ -727,9 +731,6 @@ class ilObject
 		$new_obj->putInTree($a_parent_ref);
 		$new_obj->setPermissions($a_parent_ref);
 		
-		// for group object only!
-		$this->updateGroupTree($new_ref_id,$new_obj->getId(),$a_parent_ref,$this->getRefId());
-
 		unset($new_obj);
 	
 		// ... and finally always return new reference ID!!
@@ -880,51 +881,6 @@ class ilObject
 			$obj_data->notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$parent_id,$a_params);
 		}
 				
-		return true;
-	}
-	
-	/**
-	* updates group tree
-	* @access	private
-	* @param	integer	reference_id	new ref_id of this object, created by clone method
-	* @return	
-	*/
-	function updateGroupTree($a_new_ref_id,$a_new_obj_id,$a_parent_ref_id,$a_old_ref_id)
-	{
-		global $objDefinition,$tree;
-		
-
-		// do nothing if no group was cloned
-		if (!isset($_SESSION["copied_group_refs"]))
-		{
-			return false;
-		}
-		
-		// do nothing if current object is not a valid subobject of group object
-		$subobjects = $objDefinition->getSubObjects("grp");
-		
-		if (!array_key_exists($this->getType(),$subobjects))
-		{
-			return false;
-		}
-		
-		// get entries in grp_trees (2)
-		$q = "SELECT tree FROM grp_tree WHERE child='".$a_old_ref_id."'";
-		$r = $this->ilias->db->query($q);
-		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$grp_ids[] = $row->tree;
-		}
-		
-		// fetch correct grp_id
-		$grp_id = array_intersect($grp_ids,$_SESSION["copied_group_refs"]);
-		
-		//var_dump("<pre>",$_SESSION["copied_group_refs"],$grp_id,"</pre>");
-		$q = "UPDATE grp_tree SET child='".$a_new_ref_id."',parent='".$a_parent_ref_id."',obj_id='".$a_new_obj_id."' ".
-			 "WHERE tree='".current($grp_id)."' AND child='".$a_old_ref_id."'";
-		$this->ilias->db->query($q);
-
 		return true;
 	}
 	

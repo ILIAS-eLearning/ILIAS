@@ -281,6 +281,7 @@ chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
 chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
 chat#:#chat_black#:#schwarz
 chat#:#chat_blue#:#blau
+common#:#add_members#:#Mitglieder hinzufügen
 chat#:#chat_bold#:#Fett
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
@@ -670,8 +671,10 @@ common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
+common#:#files#:#Dateien
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
+common#:#file_edit#:#Datei bearbeiten
 common#:#file_added#:#Datei hochgeladen
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
@@ -685,6 +688,7 @@ common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
+common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
 common#:#folder#:#Ordner

@@ -33,7 +33,6 @@
 */
 
 require_once "class.ilObject.php";
-//require_once "class.ilGroupTree.php";
 
 class ilObjFolder extends ilObject
 {
@@ -68,7 +67,7 @@ class ilObjFolder extends ilObject
 		{
 			$this->folder_tree =& $tree; 
 		}
-//vd($this->withReferences());exit;
+
 		if ($this->withReferences())
 		{
 			// put reference id into tree
@@ -81,28 +80,13 @@ class ilObjFolder extends ilObject
 		}
 	}
 
-	function clone()
-	{
-		$new_obj = new ilObject();
-		$new_obj->setTitle($this->getTitle());
-		$new_obj->setType($this->getType());
-		$new_obj->setDescription($this->getDescription());
-		$new_obj->create();
-		$new_ref_id = $new_obj->createReference();
-		
-		unset($new_obj);
-	
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
-	
 	/**
 	* statical function to get the group id where the folder is
 	* 
 	*/
 	function __getGroupId($a_folder_ref_id)
 	{
-		global $ilias, $tree;
+		global $tree;
 		
 		$path = $tree->getPathFull($a_folder_ref_id);
 		

@@ -71,9 +71,10 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->addFilter("dbk");
 		$this->addFilter("chat");
 		$this->addFilter("glo");
+		$this->addFilter("file");
+		$this->addFilter("fold");
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
-
 	}
 
 	function buildLinkTarget($a_node_id, $a_type)
@@ -94,7 +95,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/mep_edit.php?ref_id=".$a_node_id;
 
 			case "grp":
-				return "group.php?ref_id=".$a_node_id."&cmd=view";
+				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
 			case "frm":
 				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
@@ -107,6 +108,12 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "chat":
 				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
+
+			case "fold":
+				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjfoldergui";
+				
+			case "file":
+				return "repository.php?cmd=sendfile&ref_id=".$a_node_id."&set_mode=flat";
 		}
 	}
 

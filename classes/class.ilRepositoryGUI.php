@@ -161,7 +161,7 @@ class ilRepositoryGUI
 		$this->setLocator();
 
 		// output message
-		if($this->message)
+		if ($this->message)
 		{
 			sendInfo($this->message);
 		}
@@ -296,6 +296,7 @@ class ilRepositoryGUI
 					$grp_id = ilObjFolder::__getGroupId($object["child"]);
 					$found = true;
 				}
+
 				if (!$this->rbacsystem->checkAccess('create',$grp_id,$object["type"]))
 				{
 					continue;
@@ -2053,7 +2054,6 @@ class ilRepositoryGUI
 				$num++;
 				$this->ctrl->setParameterByClass("ilObjFolderGUI", "ref_id", $cont_data["ref_id"]);
 				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjFolderGUI");
-				//$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
@@ -2232,6 +2232,16 @@ class ilRepositoryGUI
 	function showPossibleSubObjects($type)
 	{
 		$found = false;
+		
+		if ($type == "file" or $type == "fold")
+		{
+			$ref_id = ilObjFolder::__getGroupId($this->cur_ref_id);
+			$found = true;
+		}
+		else
+		{
+			$ref_id = $this->cur_ref_id;
+		}
 
 		$d = $this->objDefinition->getCreatableSubObjects($type);
 
@@ -2251,6 +2261,7 @@ class ilRepositoryGUI
 						}
 					}
 				}
+
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					if (in_array($row["name"], array("lm", "grp", "frm", "mep",
@@ -2265,10 +2276,11 @@ class ilRepositoryGUI
 								$found = true;
 							}
 						}
+						/*
 						else
 						{
 							$ref_id = $this->cur_ref_id;
-						}
+						}*/
 
 						if ($this->rbacsystem->checkAccess("create", $ref_id, $row["name"]))
 						{

@@ -248,8 +248,10 @@ class ilSearch
 					break;
 			}
 		}
+
 		$this->setResult($result);
-		if($this->getPerformUpdate())
+
+		if ($this->getPerformUpdate())
 		{
 			$this->__updateDBResult();
 		}
@@ -261,7 +263,7 @@ class ilSearch
 
 	function getWhereCondition($a_type,$a_fields)
 	{
-		switch($a_type)
+		switch ($a_type)
 		{
 			case "like":
 				$where = $this->__createLikeCondition($a_fields);
@@ -271,6 +273,7 @@ class ilSearch
 				$where = $this->__createFulltextCondition($a_fields);
 				break;
 		}
+
 		return $where;
 	}
 
@@ -278,7 +281,7 @@ class ilSearch
 	{
 		$in = '';
 
-		switch($this->getSearchType())
+		switch ($this->getSearchType())
 		{
 			case "new":
 				$in .= "";
@@ -289,6 +292,7 @@ class ilSearch
 				break;
 
 		}
+
 		return $in;
 	}
 
@@ -303,7 +307,7 @@ class ilSearch
 		$where .= "1 ";
 
 		// AND
-		foreach($this->parsed_str["and"] as $and)
+		foreach ($this->parsed_str["and"] as $and)
 		{
 			$where .= "AND ";
 			$where .= $concat;
@@ -311,27 +315,31 @@ class ilSearch
 		}
 		
 		// AND NOT
-		foreach($this->parsed_str["not"] as $not)
+		foreach ($this->parsed_str["not"] as $not)
 		{
 			$where .= "AND ";
 			$where .= $concat;
 			$where .= "NOT LIKE(\"%".$not."%\") ";
 		}
 		// OR
-		if(count($this->parsed_str["or"]) and
+		if (count($this->parsed_str["or"]) and
 		   !count($this->parsed_str["and"]) and
 		   !count($this->parsed_str["not"]))
 		{
 			$where .= "AND ( ";
-			foreach($this->parsed_str["all"] as $or)
+
+			foreach ($this->parsed_str["all"] as $or)
 			{
 				$where .= $concat;
 				$where .= "LIKE(\"%".$or."%\") ";
 				$where .= "OR ";
 			}
+
 			$where .= "0) ";
 		}
+
 		$where .= ") ";
+
 		return $where;
 	}
 
@@ -342,14 +350,14 @@ class ilSearch
 		
 		$where .= "1 ";
 		// OR
-		if(count($this->parsed_str["or"]))
+		if (count($this->parsed_str["or"]))
 		{
 			$where .= "AND ";
 			$where .= $match;
 			$where .= " AGAINST('".implode(" ",$this->parsed_str["all"])."') ";
 		}
 		// AND	
-		foreach($this->parsed_str["and"] as $and)
+		foreach ($this->parsed_str["and"] as $and)
 		{
 			$where .= "AND ";
 			$where .= $match;
@@ -374,31 +382,35 @@ class ilSearch
 		$tmp_arr = explode(" ",$this->getSearchString());
 		$this->parsed_str["and"] = $this->parsed_str["or"] = $this->parsed_str["not"] = array();
 		
-		foreach($tmp_arr as $word)
+		foreach ($tmp_arr as $word)
 		{
 			$word = trim($word);
-			if($word)
+
+			if ($word)
 			{
-				if(substr($word,0,1) == '+')
+				if (substr($word,0,1) == '+')
 				{
 					$this->parsed_str["all"][] = substr($word,1);
 					$this->parsed_str["and"][] = substr($word,1);
 					continue;
 				}
-				if(substr($word,0,1) == '-')
+
+				if (substr($word,0,1) == '-')
 				{
 					// better parsed_str["allmost_all"] ;-)
 					#$this->parsed_str["all"][] = substr($word,1);
 					$this->parsed_str["not"][] = substr($word,1);
 					continue;
 				}
-				if($this->getCombination() == 'and')
+
+				if ($this->getCombination() == 'and')
 				{
 					$this->parsed_str["all"][] = $word;
 					$this->parsed_str["and"][] = $word;
 					continue;
 				}
-				if($this->getCombination() == 'or')
+
+				if ($this->getCombination() == 'or')
 				{
 					$this->parsed_str["all"][] = $word;
 					$this->parsed_str["or"][] = $word;
@@ -410,27 +422,29 @@ class ilSearch
 
 	function __validateParsedString(&$message)
 	{
-		foreach($this->parsed_str as $type)
+		foreach ($this->parsed_str as $type)
 		{
-			foreach($type as $word)
+			foreach ($type as $word)
 			{
-				if(strlen($word) < 3)
+				if (strlen($word) < 3)
 				{
 					$to_short = true;
 				}
 			}
 		}
-		if($to_short)
+
+		if ($to_short)
 		{
 			$message .= $this->lng->txt("search_minimum_three")."<br/>";
 			return false;
 		}
+
 		return true;
 	}
 
 	function __updateDBResult()
 	{
-		if($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
+		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "REPLACE INTO usr_search ".
 				"VALUES('".$this->getUserId()."','".addslashes(serialize($this->getResults()))."')";
@@ -439,18 +453,20 @@ class ilSearch
 
 			return true;
 		}
+
 		return false;
 	}
 	
 	function __readDBResult()
 	{
-		if($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
+		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$query = "SELECT search_result FROM usr_search ".
 				"WHERE usr_id = '".$this->getUserId()."'";
 
 			$res = $this->ilias->db->query($query);
-			if($res->numRows())
+
+			if ($res->numRows())
 			{
 				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->setResult(unserialize(stripslashes($row->search_result)));
@@ -470,6 +486,7 @@ class ilSearch
 								   "lm"  => array(),
 								   "dbk" => array()));
 		}
+
 		return true;
 	}
 
@@ -478,7 +495,7 @@ class ilSearch
 		$results = $this->getResultByType($this->act_type);
 
 		// GET 'content' or 'meta' array
-		switch($this->act_type)
+		switch ($this->act_type)
 		{
 
 			case "lm":
@@ -487,27 +504,30 @@ class ilSearch
 				break;
 		}
 
-		foreach($results as $result)
+		foreach ($results as $result)
 		{
 			$ids[] = $result["id"];
 		}
+
 		return $ids ? $ids : array();
 	}
 
 	function __checkAccess($a_results)
 	{
-		if(is_array($a_results))
+		if (is_array($a_results))
 		{
-			foreach($a_results as $result)
+			foreach ($a_results as $result)
 			{
-				if($this->rbacsystem->checkAccess("read",$result["id"]))
+				if ($this->rbacsystem->checkAccess("read",$result["id"]))
 				{
 					$checked_result[] = $result;
 				}
 			}
+
 			return $checked_result ? $checked_result : array();
 		}
+
 		return false;
 	}
-} // END class.Search
+} // END class.ilSearch
 ?>

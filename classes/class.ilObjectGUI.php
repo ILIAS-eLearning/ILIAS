@@ -118,6 +118,7 @@ class ilObjectGUI
 		$this->tpl =& $tpl;
 
 		$this->ctrl =& $ilCtrl;
+
 		$params = array("ref_id");
 		
 		if (!$a_call_by_reference)
@@ -141,8 +142,8 @@ class ilObjectGUI
 		$this->call_by_reference = $a_call_by_reference;
 		$this->prepare_output = $a_prepare_output;
 
-		$this->ref_id = $_GET["ref_id"];
-		$this->obj_id = $_GET["obj_id"];
+		$this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
+		$this->obj_id = ($this->call_by_reference) ? $_GET["obj_id"] : $this->id;
 
 		// get the object
 		$this->assignObject();
@@ -231,6 +232,8 @@ class ilObjectGUI
 	*/
 	function setAdminTabs($a_new_type = 0)
 	{
+		// temp. for groups
+		// TODO: use this style for all objects
 		if ($this->object->getType() == "grp")
 		{
 			include_once "./classes/class.ilTabsGUI.php";
@@ -242,118 +245,117 @@ class ilObjectGUI
 		}
 		else
 		{
-
-		global $rbacsystem;
-
-		$tabs = array();
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-
-		// for new objects display properties of parent object
-		if ($a_new_type)
-		{
-			$d = $this->objDefinition->getProperties($this->object->getType());
-		}
-		else
-		{
-			$d = $this->objDefinition->getProperties($this->type);
-		}
-
-		foreach ($d as $key => $row)
-		{
-			$tabs[] = array($row["lng"], $row["name"]);
-		}
-
-		// check for call_by_reference too to avoid hacking
-		if (isset($_GET["obj_id"]) and $this->call_by_reference === false)
-		{
-			$object_link = "&obj_id=".$_GET["obj_id"];
-		}
-
-		foreach ($tabs as $row)
-		{
-			$i++;
-
-			if ($row[1] == $_GET["cmd"])
+			global $rbacsystem;
+	
+			$tabs = array();
+			$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+	
+			// for new objects display properties of parent object
+			if ($a_new_type)
 			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
+				$d = $this->objDefinition->getProperties($this->object->getType());
 			}
 			else
 			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
+				$d = $this->objDefinition->getProperties($this->type);
 			}
-
-			$show = true;
-
-			// only check permissions for tabs if object is a permission object
-			// TODO: automize checks by using objects.xml definitions!!
-			if (true)
-			//if ($this->call_by_reference)
+	
+			foreach ($d as $key => $row)
 			{
-				// only show tab when the corresponding permission is granted
-				switch ($row[1])
+				$tabs[] = array($row["lng"], $row["name"]);
+			}
+	
+			// check for call_by_reference too to avoid hacking
+			if (isset($_GET["obj_id"]) and $this->call_by_reference === false)
+			{
+				$object_link = "&obj_id=".$_GET["obj_id"];
+			}
+	
+			foreach ($tabs as $row)
+			{
+				$i++;
+	
+				if ($row[1] == $_GET["cmd"])
 				{
-					case 'view':
-						if (!$rbacsystem->checkAccess('visible',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'edit':
-						if (!$rbacsystem->checkAccess('write',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'perm':
-						if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'trash':
-						if (!$this->tree->getSavedNodeData($this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					// user object only
-					case 'roleassignment':
-						if (!$rbacsystem->checkAccess('edit_roleassignment',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					// role object only
-					case 'userassignment':
-						if (!$rbacsystem->checkAccess('edit_userassignment',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-				} //switch
+					$tabtype = "tabactive";
+					$tab = $tabtype;
+				}
+				else
+				{
+					$tabtype = "tabinactive";
+					$tab = "tab";
+				}
+	
+				$show = true;
+	
+				// only check permissions for tabs if object is a permission object
+				// TODO: automize checks by using objects.xml definitions!!
+				if (true)
+				//if ($this->call_by_reference)
+				{
+					// only show tab when the corresponding permission is granted
+					switch ($row[1])
+					{
+						case 'view':
+							if (!$rbacsystem->checkAccess('visible',$this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+	
+						case 'edit':
+							if (!$rbacsystem->checkAccess('write',$this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+	
+						case 'perm':
+							if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+	
+						case 'trash':
+							if (!$this->tree->getSavedNodeData($this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+	
+						// user object only
+						case 'roleassignment':
+							if (!$rbacsystem->checkAccess('edit_roleassignment',$this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+	
+						// role object only
+						case 'userassignment':
+							if (!$rbacsystem->checkAccess('edit_userassignment',$this->ref_id))
+							{
+								$show = false;
+							}
+							break;
+					} //switch
+				}
+	
+				if (!$show)
+				{
+					continue;
+				}
+	
+				$this->tpl->setCurrentBlock("tab");
+				$this->tpl->setVariable("TAB_TYPE", $tabtype);
+				$this->tpl->setVariable("TAB_TYPE2", $tab);
+				$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
+				$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
+				$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
+				$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
+				$this->tpl->parseCurrentBlock();
 			}
-
-			if (!$show)
-			{
-				continue;
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
-			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
-		}
 		}
 	}
 
@@ -461,9 +463,10 @@ class ilObjectGUI
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
+
 			$this->tpl->setCurrentBlock("locator_item");
 
-			if($a_root_title != "" && ($row["child"] == $a_tree->getRootId()))
+			if ($a_root_title != "" && ($row["child"] == $a_tree->getRootId()))
 			{
 				$title = $a_root_title;
 			}
@@ -560,7 +563,6 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 
@@ -784,11 +786,6 @@ class ilObjectGUI
 							}
 						}
 						
-						if ($node["type"] != 'grp')
-						{
-							// do group stuff
-						}
-						
 						// re-map $subnodes
 						foreach ($subnodes as $old_ref => $subnode)
 						{
@@ -806,7 +803,7 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -887,7 +884,6 @@ class ilObjectGUI
 		}
 		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 		
@@ -952,7 +948,6 @@ class ilObjectGUI
 
 		// WRITE TO CLIPBOARD
 		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["parent_non_rbac_id"] = $_GET["parent_non_rbac_id"];
 		$clipboard["cmd"] = key($_POST["cmd"]);
 		
 		foreach ($_POST["id"] as $ref_id)
@@ -990,21 +985,9 @@ class ilObjectGUI
 		}
 		
 		// inform other objects in hierarchy about copy operation
-		$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
+		//$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
  
 		$this->clearObject();
-		
-		// copy folders and files in each copied group
-		if(is_array($_SESSION["copied_group_refs"]))
-		{
-			foreach ($_SESSION["copied_group_refs"] as $old_tree => $new_tree)
-			{
-				$groupObj = $this->ilias->obj_factory->getInstanceByRefId($new_tree);
-				$groupObj->cloneNoneRbacObjects();
-				$groupObj->fixTreeStructure($old_tree);
-			}
-		}		
-		unset($_SESSION["copied_group_refs"]);
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
 		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
@@ -1095,7 +1078,7 @@ class ilObjectGUI
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
 
-		$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 		
 		sendInfo($this->lng->txt("msg_undeleted"),true);
 		
@@ -1234,7 +1217,7 @@ class ilObjectGUI
 				//$mail->sendMail($id,$msg,$affected_users);
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
+			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		}
 		
 		// Feedback
@@ -1274,7 +1257,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
+		//$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
@@ -1406,7 +1389,6 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
 		ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
-
 	}
 
 	/**
@@ -1425,28 +1407,26 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
-		else
-		{
-			$module = $objDefinition->getModule($_GET["new_type"]);
-			$module_dir = ($module == "")
-				? ""
-				: $module."/";
 
- 			// create and insert object in objecttree
-			$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
-			include_once($module_dir."classes/class.".$class_name.".php");
-			$newObj = new $class_name();
-			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-			$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$module = $objDefinition->getModule($_GET["new_type"]);
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
 
-			return $newObj;
-		}
+			// create and insert object in objecttree
+		$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
+		include_once($module_dir."classes/class.".$class_name.".php");
+		$newObj = new $class_name();
+		$newObj->setType($_GET["new_type"]);
+		$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		//$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		return $newObj;
 	}
 
 
@@ -1491,24 +1471,22 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$fields = array();
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		}
 		else
 		{
-			$fields = array();
-
-			if ($_SESSION["error_post_vars"])
-			{
-				// fill in saved values in case of error
-				$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-				$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-			}
-			else
-			{
-				$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-				$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
-			}
-
-			$this->displayEditForm($fields);
+			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
+			$fields["desc"] = ilUtil::stripSlashes($this->object->getDescription());
 		}
+
+		$this->displayEditForm($fields);
 	}
 
 	/**
@@ -1570,7 +1548,6 @@ class ilObjectGUI
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-			exit();
 		}
 
 		// only display superordinate roles; local roles with other scope are not displayed
@@ -1657,10 +1634,10 @@ class ilObjectGUI
 
 		$num = 0;
 
-		foreach($data["roles"] as $role)
+		foreach ($data["roles"] as $role)
 		{
 			// BLOCK ROLENAMES
-			if ($role["link"])
+			/*if ($role["link"])
 			{
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
 				$this->tpl->setVariable("LINK_ROLE_RULESET","adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
@@ -1668,7 +1645,7 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->touchBlock("ROLELINK_CLOSE");
-			}
+			}*/
 
 			$this->tpl->setCurrentBlock("ROLENAMES");
 			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
@@ -1734,18 +1711,21 @@ class ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", $this->ctrl->getLinkTarget($this,"addRole")));
+//			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->parseCurrentBlock();
 		}
-
+//vd($this->link_params);
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+			$this->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
+//		$this->tpl->setVariable("FORMACTION",
+//			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -1933,9 +1913,7 @@ class ilObjectGUI
 		}
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
-
-		ilUtil::redirect($this->getReturnLocation("permSave","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
-
+		ilUtil::redirect($this->getReturnLocation("permSave",$this->ctrl->getLinkTarget($this,"perm")));
 	}
 
 	/**
@@ -2083,6 +2061,7 @@ class ilObjectGUI
 						$cmd = $_SESSION["clipboard"]["cmd"];
 						$parent = $_SESSION["clipboard"]["parent"];
 
+						// TODO: broken! fix me
 						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
 						{
 							if ($ctrl["ref_id"] == $clip_id)
@@ -2236,7 +2215,7 @@ class ilObjectGUI
 		unset($this->data);
 		$this->data["cols"] = array("type", "title", "last_change");
 
-		foreach($_POST["id"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
 			// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
@@ -2281,12 +2260,12 @@ class ilObjectGUI
 		foreach ($this->data["data"] as $key => $value)
 		{
 			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
+			foreach ($value as $key => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
 
 				// CREATE TEXT STRING
-				if($key == "type")
+				if ($key == "type")
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
@@ -2512,9 +2491,9 @@ class ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);
-
-		ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
-
+		$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
+		ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
+		//ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
 	}
 
 	/**
@@ -2603,6 +2582,7 @@ class ilObjectGUI
 			foreach ($d as $row)
 			{
 			    $count = 0;
+
 				if ($row["max"] > 0)
 				{
 					//how many elements are present?
@@ -2614,6 +2594,7 @@ class ilObjectGUI
 						}
 					}
 				}
+
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					$subobj[] = $row["name"];
