@@ -1065,11 +1065,6 @@ class ilObjSurvey extends ilObject
 */
 	function moveQuestions($move_questions, $target_index, $insert_mode)
 	{
-		foreach ($move_questions as $question_id)
-		{
-			unset($this->questions[array_search($question_id, $this->questions)]);
-		}
-		$this->questions = array_values($this->questions);
 		$array_pos = array_search($target_index, $this->questions);
 		if ($insert_mode == 0)
 		{
@@ -1081,8 +1076,168 @@ class ilObjSurvey extends ilObject
 			$part1 = array_slice($this->questions, 0, $array_pos + 1);
 			$part2 = array_slice($this->questions, $array_pos + 1);
 		}
+		foreach ($move_questions as $question_id)
+		{
+			if (array_search($question_id, $part1))
+			{
+				unset($part1[array_search($question_id, $part1)]);
+			}
+			if (array_search($question_id, $part2))
+			{
+				unset($part2[array_search($question_id, $part2)]);
+			}
+		}
+		$part1 = array_values($part1);
+		$part2 = array_values($part2);
+
 		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
 		$this->saveQuestionsToDb();
+	}
+		
+/**
+* Remove questions from the survey
+*
+* Remove questions from the survey
+*
+* @param array $remove_questions An array with the question id's of the questions to remove
+* @access public
+*/
+	function removeQuestions($remove_questions)
+	{
+		foreach ($remove_questions as $question_id)
+		{
+			unset($this->questions[array_search($question_id, $this->questions)]);
+		}
+		$this->questions = array_values($this->questions);
+		$this->saveQuestionsToDb();
+	}
+		
+/**
+* Unfolds question blocks of a question pool
+* 
+* Unfolds question blocks of a question pool
+*
+* @param array $questionblocks An array of question block id's
+* @access public
+*/
+	function unfoldQuestionblocks($questionblocks)
+	{
+		foreach ($questionblocks as $index)
+		{
+			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
+				$this->ilias->db->quote($index)
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s",
+				$this->ilias->db->quote($index)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
+* Returns the titles of all question blocks of the question pool
+* 
+* Returns the titles of all question blocks of the question pool
+*
+* @result array The titles of the the question blocks
+* @access public
+*/
+	function &getQuestionblockTitles()
+	{
+		$titles = array();
+		$query = sprintf("SELECT survey_questionblock.* FROM survey_questionblock, survey_question, survey_questionblock_question WHERE survey_questionblock_question.question_fi = survey_question.question_id AND survey_question.ref_fi = %s",
+			$this->ilias->db->quote($this->getRefId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$titles[$row->questionblock_id] = $row->title;
+		}
+		return $titles;
+	}
+	
+/**
+* Creates a question block for the question pool
+* 
+* Creates a question block for the question pool
+*
+* @param string $title The title of the question block
+* @param array $questions An array with the database id's of the question block questions
+* @access public
+*/
+	function createQuestionblock($title, $questions)
+	{
+		// if the selected questions are not in a continous selection, move all questions of the
+		// questionblock at the position of the first selected question
+		$this->moveQuestions($questions, $questions[0], 0);
+		
+		// now save the question block
+		global $ilUser;
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+			$this->ilias->db->quote($title),
+			$this->ilias->db->quote($ilUser->id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result == DB_OK) {
+			$questionblock_id = $this->ilias->db->getLastInsertId();
+			foreach ($questions as $index)
+			{
+				$query = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, questionblock_fi, question_fi) VALUES (NULL, %s, %s)",
+					$this->ilias->db->quote($questionblock_id),
+					$this->ilias->db->quote($index)
+				);
+				$result = $this->ilias->db->query($query);
+			}
+		}
+	}
+
+/**
+* Returns the survey questions and questionblocks in an array
+* 
+* Returns the survey questions and questionblocks in an array
+*
+* @access public
+*/
+	function &getSurveyQuestions()
+	{
+		// get questionblocks
+		$all_questions = array();
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$all_questions[$row["question_id"]] = $row;
+		}
+		// get all questionblocks
+		$questionblocks = array();
+		$in = join(array_keys($all_questions), ",");
+		if ($in)
+		{
+			$query = "SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.question_fi IN ($in)";
+			$result = $this->ilias->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$questionblocks[$row->question_fi] = $row;
+			}			
+		}
+		
+		foreach ($all_questions as $question_id => $row)
+		{
+			if (isset($questionblocks[$question_id]))
+			{
+				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
+				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+			}
+			else
+			{
+				$all_questions[$question_id]["questionblock_title"] = "";
+				$all_questions[$question_id]["questionblock_id"] = "";
+			}
+		}
+		return $all_questions;
 	}
 		
 } // END class.ilObjSurvey
