@@ -2151,6 +2151,7 @@ common#:#tst_delete#:#Apagar Teste
 common#:#tst_edit_permission#:#Mudar definições de permissões
 common#:#tst_new#:#Novo teste
 common#:#tst_read#:#Acesso de Leitura ao Teste
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#O Teste é visível
 common#:#tst_write#:#Editar Teste
 common#:#txt_add_object_instruction1#:#Indique a localização onde quer adicionar

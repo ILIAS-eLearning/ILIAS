@@ -2144,6 +2144,7 @@ common#:#tst_delete#:#Eliminar Test
 common#:#tst_edit_permission#:#Modificar configuración permisos
 common#:#tst_new#:#Nuevo test
 common#:#tst_read#:#Acceso de Lectura al Test
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#Test visible
 common#:#tst_write#:#Editar Test
 common#:#txt_add_object_instruction1#:#-Browse to the location where you want to add-

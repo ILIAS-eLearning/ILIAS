@@ -1136,7 +1136,6 @@ common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_new#:#New Glossary
 common#:#glo_read#:#Read access to Glossary
 common#:#glo_upload_file#:#File
-common#:#tst_upload_file#:#Upload file
 common#:#glo_visible#:#Glossary is visible
 common#:#glo_write#:#Edit Glossary
 common#:#global#:#Global
@@ -2152,6 +2151,7 @@ common#:#tst_delete#:#Delete Test
 common#:#tst_edit_permission#:#Change permission settings
 common#:#tst_new#:#New test
 common#:#tst_read#:#Read access to Test
+common#:#tst_upload_file#:#Upload file
 common#:#tst_visible#:#Test is visible
 common#:#tst_write#:#Edit Test
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add

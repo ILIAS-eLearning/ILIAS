@@ -1772,6 +1772,7 @@ common#:#tst_delete#:#Teszt törlése
 common#:#tst_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#tst_new#:#Új teszt
 common#:#tst_read#:#Olvasási elérés teszthez
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#A teszt látható
 common#:#tst_write#:#Teszt szerkesztése
 common#:#txt_add_object_instruction1#:#Válassza ki, hová akarja hozzáadni

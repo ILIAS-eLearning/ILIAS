@@ -2151,6 +2151,7 @@ common#:#tst_delete#:#Видалити Тест
 common#:#tst_edit_permission#:#Змінити настройки прав
 common#:#tst_new#:#Новий тест
 common#:#tst_read#:#Доступ на читання до Тесту
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#Тест є видимим
 common#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати

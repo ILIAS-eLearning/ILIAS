@@ -2143,6 +2143,7 @@ common#:#tst_delete#:#Verwijderen test
 common#:#tst_edit_permission#:#Wijzige instellingen van de rechten
 common#:#tst_new#:#Nieuwe test
 common#:#tst_read#:#Leesrechten op test
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#De test is zichbaar
 common#:#tst_write#:#Wijzigen test
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen

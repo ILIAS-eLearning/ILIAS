@@ -2169,6 +2169,7 @@ common#:#tst_delete#:#删除测验
 common#:#tst_edit_permission#:#更改许可设置
 common#:#tst_new#:#新测验
 common#:#tst_read#:#测试设为读访问
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#测验可视
 common#:#tst_write#:#编辑测验
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方

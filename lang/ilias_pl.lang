@@ -2008,6 +2008,7 @@ common#:#tst_delete#:#Usuń Test
 common#:#tst_edit_permission#:#Zmień ustawienia uprawnień
 common#:#tst_new#:#Nowy test
 common#:#tst_read#:#Prawo czytania testu
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#Test jest widoczny
 common#:#tst_write#:#Edycja Testu
 common#:#txt_add_object_instruction1#:#Przejdź do miejsca gdzie chcesz dodać
