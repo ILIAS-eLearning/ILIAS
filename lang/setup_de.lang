@@ -271,6 +271,7 @@ pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
 pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS 3.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
+pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 preliminaries#:#Vorbereitende Massnahmen
 prev#:#Zurück
 overall_status#:#Installationsstatus

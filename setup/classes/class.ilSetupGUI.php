@@ -573,6 +573,7 @@ class ilSetupGUI extends ilSetup
 	function displayPreliminaries()
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
+		$FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 		
 		$this->tpl->addBlockFile("CONTENT","content","tpl.preliminaries.html");
 		
@@ -671,7 +672,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setCurrentBlock("preliminary_js");
 		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_javascript_enabled"));
 		$this->tpl->setVariable("STATUS_PRE", $FAILED);
-		$this->tpl->setVariable("COMMENT_PRE", "You may run ILIAS without Javascript enabled.");
+		$this->tpl->setVariable("COMMENT_PRE", $this->lng->txt("pre_javascript_comment"));
 		$this->tpl->parseCurrentBlock();
 
 		// summary
@@ -2035,6 +2036,7 @@ class ilSetupGUI extends ilSetup
 		
 		if ($this->client->status["nic"]["status"])
 		{
+			//var_dump("<pre>",$this->client->status,"</pre>");
 			$this->setButtonNext("finish","finish");
 		}
 		
