@@ -304,6 +304,9 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
+assessment#:#tst_delete_results#:#Reset test
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? 
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_ending_time#:#Ending time

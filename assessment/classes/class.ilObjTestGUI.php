@@ -1520,6 +1520,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$directfeedback = 0;
 		// catch feedback message
 		sendInfo();
+
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"] or $_POST["cmd"]["directfeedback"] or isset($_GET["selImage"]))
 		{
 			// set new finish time for test
@@ -1544,21 +1545,6 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($_POST["cmd"]["directfeedback"])
 				{
 					$directfeedback = 1;
-/*					$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
-					$this->tpl->setCurrentBlock("question_feedback");
-					$percentage = 0.0;
-					$max_points = $question_gui->object->getMaximumPoints();
-					$reached_points = $question_gui->object->getReachedPoints($ilUser->id, $this->object->getTestId());
-					if ($max_points > 0)
-					{
-						$percentage = ($reached_points / $max_points) * 100.0;
-					}
-					$this->tpl->setVariable("PERCENTAGE_SOLVED", sprintf($this->lng->txt("percentage_solved"), $percentage));
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->addBlockFile("RESULT_DESCRIPTION", "result_description", "tpl.il_as_tst_result_table.html", true);
-					$question_gui->outUserSolution($ilUser->id, $this->object->getTestId());
-*/					
 				}
 			}
 		}
@@ -1580,6 +1566,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->sequence = $_GET["sequence"];
+		if ($_POST["cmd"]["deleteresults"] or $_POST["cmd"]["canceldeleteresults"] or $_POST["cmd"]["confirmdeleteresults"])
+		{
+			// reset sequence. it is not needed for test reset
+			$this->sequence = "";
+		}
 		if (($_POST["cmd"]["next"]) and $saveResult)
 		{
 			$this->sequence++;
@@ -1595,6 +1586,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
+		if ($_POST["cmd"]["confirmdeleteresults"])
+		{
+			$this->object->deleteResults($ilUser->id);
+			sendInfo("tst_confirm_delete_results");
+		}
+		
+		if ($_POST["cmd"]["deleteresults"])
+		{
+			$this->confirmDeleteResults();
+			return;
+		}
+		
 		if ($_GET["evaluation"])
 		{
 			$this->outEvaluationForm();
@@ -1825,6 +1828,13 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("DISABLED", " disabled");
 				$test_disabled = true;
 				$add_sequence = "";
+			}
+			else
+			{
+				// if resume is active it is possible to reset the test
+				$this->tpl->setCurrentBlock("delete_results");
+				$this->tpl->setVariable("BTN_DELETERESULTS", $this->lng->txt("tst_delete_results"));
+				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("results");
@@ -2965,6 +2975,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
 		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
 		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
+* Output of the learners view of an existing test
+*
+* Output of the learners view of an existing test
+*
+* @access public
+*/
+	function confirmDeleteResults() 
+	{
+		$add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_delete_results_confirm.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_CONFIRM_DELETE_RESULTS", $this->lng->txt("tst_confirm_delete_results"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_delete_results"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->parseCurrentBlock();
 	}
 
