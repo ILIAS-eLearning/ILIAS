@@ -4473,3 +4473,11 @@ DELETE FROM settings WHERE keyword='ldap_enable';
 UPDATE settings SET value = '3.2.0_beta1 2004/09/02' WHERE keyword = 'ilias_version' LIMIT 1;
 <#273>
 ALTER TABLE content_object ADD COLUMN print_view_active ENUM('y','n') DEFAULT 'y';
+<#274>
+CREATE TABLE `payment_trustees` (
+`vendor_id` INT( 11 ) NOT NULL ,
+`trustee_id` INT( 11 ) NOT NULL ,
+`perm_stat` INT( 1 ) ,
+`perm_obj` INT( 1 ) NOT NULL ,
+PRIMARY KEY ( `vendor_id` , `trustee_id` )
+);
