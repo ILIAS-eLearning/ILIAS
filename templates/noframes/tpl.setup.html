@@ -13,7 +13,7 @@
 <table width="100%">
   <tr class="head">
     <td><a href="setup.php?step=begin&amp;lang={LANG}">ILIAS3 - {TXT_SETUP}</a></td>
-    <td>{TXT_SETUP} Version {VERSION}</td>
+    <td>{TXT_SETUP} {TXT_VERSION} {VERSION}</td>
 	<td>
 <!-- BEGIN languages -->
 	<a href="{LINK_LANG}"> {LANG_DESC} </a> 
@@ -21,29 +21,31 @@
 	</td>
   </tr>
 </table>
+
+<!-- BEGIN title -->
+<h1>{TXT_TITLE}</h1>
+<!-- END title -->
+
 <!-- BEGIN message -->
-  <p class="msg"><font color="red">{TXT_ERR}</font></p>
+  <p class="msg"><font color="red">{TXT_MSG}</font></p>
 <!-- END message -->
 
-<!-- BEGIN menulink -->
-  <p><a href="{LINK_MENU}">[ {TXT_MENU} ]</a></p>
-<!-- END menulink -->
-  
 <!-- BEGIN step0 -->
-<p>Welcome to ILIAS setup. This setup-routine helps you
+<p>{TXT_SETUP_WELCOME}
 <ul>
-  <li>write the ini-file for your installation</li>
-  <li>setup the database</li>
-  <li>install additional languages</li>
-  <li>create a password for accessing setup-routine later again</li>
+  <li>{TXT_SETUP_INIFILE_DESC}</li>
+  <li>{TXT_SETUP_DATABASE_DESC}</li>
+  <li>{TXT_SETUP_LANGUAGES_DESC}</li>
+  <li>{TXT_SETUP_PASSWORD_DESC}</li>
 </ul>
 </p>
 
-<h3>Environment</h3>
-<p>{TXT_ENV}</p>
+<h3>{TXT_ENV_TITLE}</h3>
+<p>{TXT_ENV_INTRO}</p>
+<p>{TXT_ENV_COMMENT}</p>
 
-<h3>Preliminaries</h3>
-<p>Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system</p>
+<h3>{TXT_PRE_TITLE}</h3>
+<p>{TXT_PRE_INTRO}</p>
 <table>
 <!-- BEGIN preliminary -->
 <tr>
@@ -55,20 +57,17 @@
 <!-- END preliminary -->
 </table>
 <!-- BEGIN all_ok -->
-<p><a href="{LINK_OVERVIEW}">[ Installation ]</a></p>
+<p><a href="{LINK_OVERVIEW}">[ {TXT_INSTALLATION} ]</a></p>
 <!-- END all_ok -->
 <!-- BEGIN premessage -->
-  <p class="msg"><font color="red">{TXT_PREERR}</font></p>
+  <p class="msg"><font color="red">{TXT_PRE_ERR}</font></p>
 <!-- END premessage -->
 <!-- END step0 -->
-
-
 
 <!-- BEGIN begininstallation -->
 <h3>{TXT_TITLE}</h3>
 <p>{TXT_SETUP_INTRO_INSTALL}</p>
 <table>
-
 <!-- BEGIN link -->
 <tr>
   <td>&nbsp;&nbsp;&nbsp;&nbsp;{NR}. </td>
@@ -77,23 +76,17 @@
   <td>&nbsp;{TXT_REMARK}&nbsp;</td>
 </tr>
 <!-- END link -->
-
 </table>
-
 <!-- BEGIN ready -->
 <div align="center">
 <p>{TXT_SETUP_READY}</p>
 <p><a href="{LINK_LOGIN}">[ {TXT_LOGIN} ]</a></p>
 </div>
 <!-- END ready -->
-
 <!-- END begininstallation -->
 
-
-
 <!-- BEGIN step1 -->
-<h1>{TXT_INIFILE1}</h1>
-<form method="post" name="form" action="setup.php?step=2&amp;lang={LANG1}">
+<form method="post" name="form" action="setup.php?step=2&amp;lang={LANG}">
 <table>
   <tr>
     <td>{TXT_DB_TYPE}</td>
@@ -126,11 +119,6 @@
 <!-- END step1 -->
 
 <!-- BEGIN step2 -->
-<h1>{TXT_INIFILE2}</h1>
-<!-- BEGIN step2_success -->
-		<p>The ini-file has been successfully saved on your host.</p>
-		<p>Your ini-file has this content:</p>
-		<p>ILIAS.INI:</p>
 		<table>
 		<tr bgcolor="#eeeeee">
 			<td>
@@ -142,16 +130,9 @@
 			</td>
 		</tr>
 		</table>
-<!-- END step2_success -->
-		<p><a href="{LINK_STEP2}">[ {TXT_STEP2} ]</a></p>
 <!-- END step2 -->
 
-<!-- BEGIN step3 -->
-	<p><h1>{TXT_DATABASE3}</h1></p>
-<!-- END step3 -->
-
 <!-- BEGIN step4 -->
-<h1>{TXT_LANGUAGES4}</h1>
 <form method="post" name="form" action="setup.php?step=5&amp;lang={LANG}">
 <table>
 <tr>
@@ -173,30 +154,18 @@
 </tr>
 </table>
 </form>
-<p><a href="{LINK_STEP4}">[ {TXT_STEP4} ]</a></p>
 <!-- END step4 -->
 
-<!-- BEGIN step5 -->
-<h1>{TXT_LANGUAGES5}</h1>
-<p>Installing chosen languages...</p>
-<p><font color="red">{TXT_MESSAGE}</font></p>
-<p><a href="{LINK_STEP5}">[ {TXT_STEP5} ]</a></p>
-<!-- END step5 -->
-
 <!-- BEGIN step6 -->
-<h1>{TXT_PASSWORD6}</h1>
-<p>To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.</p>
 <form action="setup.php?step=7&amp;lang={LANG}" method="post">
 <p>{TXT_CHOOSE_PASSWD}: 
 <input type="password" name="passwd" size="20"/>
 <input type="submit" name="ok" value="ok" />
 </p>
 </form>
-<p><a href="{LINK_STEP6}">[ {TXT_STEP6} ]</a></p>
 <!-- END step6 -->
 
 <!-- BEGIN login -->
-<h1>{TXT_TITLE}</h1>
 <form action="setup.php?step=9&amp;lang={LANG}" method="post">
 <p>{TXT_ENTER_PASSWD}: 
 <input type="password" name="passwd" size="20"/>
@@ -206,7 +175,6 @@
 <!-- END login -->
 
 <!-- BEGIN changepasswd -->
-<h1>{TXT_TITLE}</h1>
 <form action="setup.php?step=12&amp;lang={LANG}" method="post">
 <p>{TXT_SET_OLDPASSWD}: 
 <input type="password" name="passwdold" size="20"/>
@@ -218,12 +186,21 @@
 <!-- END changepasswd -->
 
 <hr />
-<!-- BEGIN logout -->
-<table width="100%">
-<tr>
-<td align="right"><a href="setup.php?step=10&amp;lang={LANG}">[ {TXT_LOGOUT} ]</a>&nbsp;</td>
-</tr>
+
+<table width="100%" border="0">
+	<tr>
+		<!-- BEGIN menulink -->
+		<td align="left" nowrap="nowrap">&nbsp;<a href="setup.php?step=begin&amp;lang={LANG}">[ {TXT_MENU} ]</a>&nbsp;</td>
+		<!-- END menulink -->
+		<!-- BEGIN backlink -->
+		<td align="left" width="100%">&nbsp;<a href="setup.php?step={BACK}&amp;lang={LANG}">[ {TXT_BACK} ]</a>&nbsp;</td>
+		<!-- END backlink -->
+		<td align="left">&nbsp;</td>
+		<!-- BEGIN logout -->
+		<td align="right" nowrap="nowrap">&nbsp;<a href="setup.php?step=10&amp;lang={LANG}">[ {TXT_LOGOUT} ]</a>&nbsp;</td>
+		<!-- END logout -->
+	</tr>
 </table>
-<!-- END logout -->
+
 </body>
 </html>

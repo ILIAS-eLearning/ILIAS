@@ -3,8 +3,6 @@ available_languages#:#verfügbare Sprachen
 choose_language#:#Bitte wählen Sie Ihre Sprache
 database#:#Datenbank
 database_exists#:#Datenbank existiert bereits
-database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
-database_needs_update#:#Datenbank benötigt Update
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion
 date#:#Datum
@@ -31,6 +29,18 @@ password#:#Passwort
 setup#:#setup
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS3 einloggen.
 setup_welcome#:#Willkommen
+setup_inifile#:#ini-Datei erzeugen
+setup_database#:#Datenbank anlegen
+setup_languages#:#Sprachen installieren
+setup_password#:#Passwort erstellen
+setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
+setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
+setup_database_desc#:#Erstellung der Datanbank
+setup_languages_desc#:#Installation zusätzlicher Sprachen
+setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
+setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
+setup_db_first#:#Please legen Sie zuerst die Datenbank an!
+back#:#zurück
 lang_de#:#Deutsch
 lang_en#:#Englisch
 lang_dk#:#D&auml;nisch
@@ -57,11 +67,43 @@ enter_password#:#Bitte geben Sie das Passwort ein
 choose_password#:#Bitte geben Sie das gewünschte Passwort ein
 languages_installed#:#Sprachen installiert.
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
-passwd_set#:#Das Passwort wurde gespeichert.
-passwd_changed#:#Das Passwort wurde geändert.
+password_set#:#Das Passwort wurde gespeichert.
+password_changed#:#Das Passwort wurde geändert.
 setup_menu#:#setup menü
 inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
 inifile_can_write#:#ILIAS3 setup kann eine neue ini-Datei erzeugen.
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
 intro_install#:#Das ist das Hauptmenü von ILIAS3 setup. Hier können Sie Schritt für Schritt die Installation von ILIAS3 durchführen.
 setup_mainmenu#:#Setup Hauptmenü
+version#:#Version
+preliminaries#:#Vorbereitende Massnahmen
+environment#:#Softwareumgebung
+with#:#mit
+env_using#:#ILIAS3 wird betrieben auf
+env_ok#:#Ok. Hört sich gut an.
+env_warning#:#ILIAS 3 wurde nur auf Linux und Windows mit einem Apache-Webserver getestet!<br />Möglicherweise läuft die Software auch in dieser Softwareumgebung.
+pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
+pre_php_version#:#PHP-Version
+pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
+pre_folder_create#:#Neu Ordner anlegen im ILIAS 3 Verzeichnis
+pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
+inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 3.
+inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
+inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
+inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
+inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
+choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
+password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um evtl. später Ihre Konfiguration zu ändern oder die Datenbank zu aktualisieren.
+password_set#:#Passwort gesetzt.
+wrong_password#:#Falsches Passwort!
+fill_both_fields#:#Bitte beide Felder ausfüllen!
+password_empty#:#Kein Passwort angegeben!
+installation#:#Installation
+no_db_update_file#:#dbupdate.php nicht gefunden!
+database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
+database_needs_update#:#Datenbank benötigt ein Update
+update_not_found#:#Update not found!
+update_applied#:#Update applied
+update_error#:#Error while updating
+file_version#:#file version
+no_changes#:#No changes.

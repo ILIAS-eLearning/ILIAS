@@ -1,6 +1,6 @@
 <?php
 // include pear
-include_once("DB.php");
+//require_once("DB.php");
 
 /**
 * Database Update class
@@ -11,19 +11,30 @@ include_once("DB.php");
 */
 class DBUpdate
 {
-
 	/**
-	 * db update file
-	 */
+	* db update file
+	*/
 	var $DB_UPDATE_FILE = "./sql/dbupdate.php";
 
 	/**
-	 * constructor
-	 */
+	* current version of db
+	* @var	integer	db version number
+	*/
+	var $currentVersion;
+
+	/**
+	* current version of file
+	* @var	integer	fiel version number
+	*/
+	var $fileVersion;
+
+	/**
+	* constructor
+	*/
 	function DBUpdate()
 	{
-	    global $ilias;
-		$this->db = $ilias->db;	
+	    global $mySetup;
+		$this->db = $mySetup->db;	
    
 		$this->readDBUpdateFile();
 		$this->getFileVersion();
@@ -31,273 +42,292 @@ class DBUpdate
 	}
 	
     /**
-	 * destructor
-	 * 
-	 * @return boolean
-	 */
-function _DBUpdate()
-{
-	$this->db->disconnect();
-}
-
-
-function readDBUpdateFile()
-{
-	if (!file_exists($this->DB_UPDATE_FILE))
+	* destructor
+	* 
+	* @return boolean
+	*/
+	function _DBUpdate()
 	{
-		$this->error = "no_db_update_file";
-		$this->filecontent = array();
-		return false;
+		$this->db->disconnect();
+	}
+
+	function readDBUpdateFile()
+	{
+		if (!file_exists($this->DB_UPDATE_FILE))
+		{
+			$this->error = "no_db_update_file";
+			$this->filecontent = array();
+			return false;
+		}
+		
+		$this->filecontent = @file($this->DB_UPDATE_FILE);
+		return true;
+	}
+
+	function getCurrentVersion()
+	{
+		$query = "SELECT value FROM settings ".
+					 "WHERE keyword = 'db_version'";
+		$res = $this->db->query($query);
+			
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			
+		$this->currentVersion = (integer) $row->value;
+
+		return $this->currentVersion;
+	}
+
+	function setCurrentVersion ($a_version)
+	{
+		{
+			$query = "UPDATE settings SET ".
+				 "value = '".$a_version."' ".
+				 "WHERE keyword = 'db_version'";
+		}
+
+		$this->db->query($query);
+		$this->currentVersion = $a_version;
+		
+		return true;
+	}
+
+	function getFileVersion()
+	{
+		//go through filecontent and search for last occurence of <#x>
+		reset($this->filecontent);
+		$regs = array();
+		foreach ($this->filecontent as $row)
+		{
+			if (ereg("^<#([0-9]+)>", $row, $regs))
+			{
+				$version = $regs[1];
+			}
+		}
+	
+		$this->fileVersion = (integer) $version;
+		return $this->fileVersion; 
 	}
 	
-	$this->filecontent = @file($this->DB_UPDATE_FILE);
-	return true;
-}
-
-function getCurrentVersion()
-{
-	global $ilias;
-
-	//read settingskey from settingstable
-	$this->currentVersion = $ilias->getSetting("db_version");
-
-	return $this->currentVersion;
-}
-
-function getFileVersion()
-{
-	//go through filecontent and search for last occurence of <#x>
-	reset($this->filecontent);
-	$regs = array();
-	foreach ($this->filecontent as $row)
+	/**
+	* execute a query
+	* @param	object	DB 
+	* @param	string	query
+	* @return	boolean
+	*/
+	function execQuery($db,$str)
 	{
-		if (ereg("^<#([0-9]+)>", $row, $regs))
+		$sql = explode("\n",trim($str));
+		for ($i=0; $i<count($sql); $i++)
 		{
-			$version = $regs[1];
-		}
-	}
-
-	$this->fileVersion = $version;
-	return $this->fileVersion; 
-}
-
-/**
- * execute a query
- * @param object DB 
- * @param string query
- * @return bool
- */
-function execQuery($db,$str)
-{
-	$sql = explode("\n",trim($str));
-	for ($i=0; $i<count($sql); $i++)
-	{
-		$sql[$i] = trim($sql[$i]);
-		if ($sql[$i] != "" && substr($sql[$i],0,1)!="#")
-		{
-			//take line per line, until last char is ";"
-			if (substr($sql[$i],-1)==";")
+			$sql[$i] = trim($sql[$i]);
+			if ($sql[$i] != "" && substr($sql[$i],0,1)!="#")
 			{
-				//query is complete
-				$q .= " ".substr($sql[$i],0,-1);
-				$r = $db->query($q);
-				if (DB::isError($r))
+				//take line per line, until last char is ";"
+				if (substr($sql[$i],-1)==";")
 				{
-					$this->error = $r->getMessage();
-					return false;
-				}
-				unset($q);
+					//query is complete
+					$q .= " ".substr($sql[$i],0,-1);
+					$r = $db->query($q);
+					if (DB::isError($r))
+					{
+						$this->error = $r->getMessage();
+						return false;
+					}
+					unset($q);
+				} //if
+				else
+				{
+					$q .= " ".$sql[$i];
+				} //else
 			} //if
-			else
-			{
-				$q .= " ".$sql[$i];
-			} //else
-		} //if
-	} //for
-	if ($q != "")
-		echo "incomplete_statement: ".$q."<br>";
-	return true;
-}
+		} //for
+		if ($q != "")
+			echo "incomplete_statement: ".$q."<br>";
+		return true;
+	}
 
-function applyUpdate()
-{
-	$f = $this->fileVersion;
-	$c = $this->currentVersion;
-
-	if ($c < $f)
+	function applyUpdate()
 	{
-		$msg = array();
-		for ($i=($c+1); $i<=$f; $i++)
+		$f = $this->fileVersion;
+		$c = $this->currentVersion;
+	
+		if ($c < $f)
 		{
-			if ($this->applyUpdateNr($i)==false)
+			$msg = array();
+			for ($i=($c+1); $i<=$f; $i++)
 			{
-				$msg[] = array(
-					"msg" => "update_error: ".$this->error,
-					"nr" => $i
-				);
-				$this->updateMsg = $msg;
-				return false;
-			}
-			else
-			{
-				$msg[] = array(
-					"msg" => "update_applied",
-					"nr" => $i
-				);
-			}
-		}
-		$this->updateMsg = $msg;
-	}
-	else
-	{
-		$this->updateMsg = "no_changes";
-	}
-	return true;
-}
-
-/**
- * apply an update
- * @param int nr number what patch to apply
- * @return bool
- * @access private
- */
-function applyUpdateNr($nr)
-{
-	global $ilias;
-
-	//search for desired $nr
-	reset($this->filecontent);
-	//init
-	$i = 0;
-    //go through filecontent
-	while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
-	{
-		$i++;
-	}
-
-	//update not found
-	if ($i == count($this->filecontent))
-	{
-		$this->error = "update_not_found";
-		return false;
-	}
-
-	$i++;
-	//update found, now extract this update to a new array
-	$update = array();
-	while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
-	{
-		$update[] = trim($this->filecontent[$i]);
-		$i++;
-	}
-
-	//now you have the update, now process it
-	$sql = array();
-	$php = array();
-	$mode = "sql";
-	foreach ($update as $row)
-	{
-		if (ereg("<\?php", $row))
-		{
-			if (count($sql)>0)
-			{
-				if ($this->execQuery($this->db, implode("\n", $sql))==false)
-				{	
-					$this->error = "dump_error: ".$this->error;
+				if ($this->applyUpdateNr($i) == false)
+				{
+					$msg[] = array(
+						//"msg" => "update_error: ".$this->error,
+						"msg" => "update_error",
+						"nr" => $i
+					);
+					$this->updateMsg = $msg;
 					return false;
 				}
-				$sql = array();
+				else
+				{
+					$msg[] = array(
+						"msg" => "update_applied",
+						"nr" => $i
+					);
+				}
 			}
-			$mode = "php";
-		}
-		elseif (ereg("\?>", $row))
-		{
-			if (count($php)>0)
-			{
-				eval(implode("\n", $php));
-				$php = array();
-			}
-			$mode = "sql";
-
+			$this->updateMsg = $msg;
 		}
 		else
 		{
-			if ($mode == "sql")
-			{
-				$sql[] = $row;
-			}
-
-			if ($mode == "php")
-			{
-				$php[] = $row;
-			}
-		} //else
-	} //foreach
-
-	if ($mode=="sql" && count($sql)>0)
+			$this->updateMsg = "no_changes";
+		}
+		return true;
+	}
+	
+	/**
+	 * apply an update
+	 * @param int nr number what patch to apply
+	 * @return bool
+	 * @access private
+	 */
+	function applyUpdateNr($nr)
 	{
-		if ($this->execQuery($this->db, implode("\n", $sql))==false)
-		{  
-			$this->error = "dump_error: ".$this->error;
+		//search for desired $nr
+		reset($this->filecontent);
+
+		//init
+		$i = 0;
+
+	    //go through filecontent
+		while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
+		{
+			$i++;
+		}
+	
+		//update not found
+		if ($i == count($this->filecontent))
+		{
+			$this->error = "update_not_found";
 			return false;
 		}
-	}
-
-	//increase db_Version number
-	$ilias->setSetting("db_version", $nr);
-	$this->currentVersion = $ilias->getSetting("db_version");
 	
-	return true;
+		$i++;
+
+		//update found, now extract this update to a new array
+		$update = array();
+		while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
+		{
+			$update[] = trim($this->filecontent[$i]);
+			$i++;
+		}
 	
-}
+		//now you have the update, now process it
+		$sql = array();
+		$php = array();
+		$mode = "sql";
 
-function getDBVersionStatus()
-{
-	if ($this->fileVersion > $this->currentVersion)
-		return "database_needs_update";
-	else
-		return "database_is_uptodate";
-}
-
-function getTables()
-{
-	$a = array();
-
-	$query = "SHOW TABLES";	
-	$res = $this->db->query($query);
-	while ($row = $res->fetchRow())
-	{
-		$status = $this->getTableStatus($row[0]);
-		$a[] = array(
-			"name" => $status["Table"],
-			"table" => $row[0],
-			"status" => $status["Msg_text"]
-		);
+		foreach ($update as $row)
+		{
+			if (ereg("<\?php", $row))
+			{
+				if (count($sql)>0)
+				{
+					if ($this->execQuery($this->db, implode("\n", $sql)) == false)
+					{	
+						$this->error = "dump_error: ".$this->error;
+						return false;
+					}
+					$sql = array();
+				}
+				$mode = "php";
+			}
+			elseif (ereg("\?>", $row))
+			{
+				if (count($php)>0)
+				{
+					eval(implode("\n", $php));
+					$php = array();
+				}
+				$mode = "sql";
+	
+			}
+			else
+			{
+				if ($mode == "sql")
+				{
+					$sql[] = $row;
+				}
+	
+				if ($mode == "php")
+				{
+					$php[] = $row;
+				}
+			} //else
+		} //foreach
+	
+		if ($mode == "sql" && count($sql) > 0)
+		{
+			if ($this->execQuery($this->db, implode("\n", $sql)) == false)
+			{  
+				$this->error = "dump_error: ".$this->error;
+				return false;
+			}
+		}
+	
+		//increase db_Version number
+		$this->setCurrentVersion($nr);
+		//$this->currentVersion = $ilias->getSetting("db_version");
+		
+		return true;
+		
 	}
-	return $a;
-}
-
-function getTableStatus($table)
-{
-	$a = array();
-
-	$query = "ANALYZE TABLE ".$table;	
-	$res = $this->db->query($query);
-	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-	return $row;
-}
-
-function optimizeTables($tables)
-{
-	$msg = array();
-	foreach ($_POST["tables"] as $key => $value)
+	
+	function getDBVersionStatus()
 	{
-		$query = "OPTIMIZE TABLE ".$key;	
+		if ($this->fileVersion > $this->currentVersion)
+			return false;
+		else
+			return true;
+	}
+	
+	function getTables()
+	{
+		$a = array();
+	
+		$query = "SHOW TABLES";	
 		$res = $this->db->query($query);
-		$msg[] = "table $key: ok";
-	}	
-	return $msg;
-}
+		while ($row = $res->fetchRow())
+		{
+			$status = $this->getTableStatus($row[0]);
+			$a[] = array(
+				"name" => $status["Table"],
+				"table" => $row[0],
+				"status" => $status["Msg_text"]
+			);
+		}
+		return $a;
+	}
+	
+	function getTableStatus($table)
+	{
+		$a = array();
+	
+		$query = "ANALYZE TABLE ".$table;	
+		$res = $this->db->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row;
+	}
+	
+	function optimizeTables($tables)
+	{
+		$msg = array();
+		foreach ($_POST["tables"] as $key => $value)
+		{
+			$query = "OPTIMIZE TABLE ".$key;	
+			$res = $this->db->query($query);
+			$msg[] = "table $key: ok";
+		}	
+		return $msg;
+	}
 
-} //class
+} // END class.DBUdate
 ?>
