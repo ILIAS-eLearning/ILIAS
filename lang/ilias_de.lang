@@ -156,11 +156,11 @@ assessment#:#ects_fill_out_all_values#:#Bitte geben Sie einen Wert für jede ECT
 assessment#:#ects_grade#:#ECTS-Note
 assessment#:#ects_grade_a#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
 assessment#:#ects_grade_a_short#:#HERVORRAGEND
-assessment#:#ects_grade_b#:#überdurchschnittliche Leistungen, aber einige Fehler
+assessment#:#ects_grade_b#:#überdurchschnittliche Leistungen, aber einige Fehler
 assessment#:#ects_grade_b_short#:#SEHR GUT
 assessment#:#ects_grade_c#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
 assessment#:#ects_grade_c_short#:#GUT
-assessment#:#ects_grade_d#:#mittelmäßig, jedoch deutliche Mängel
+assessment#:#ects_grade_d#:#mittelmäßig, jedoch deutliche Mangel
 assessment#:#ects_grade_d_short#:#BEFRIEDIGEND
 assessment#:#ects_grade_e#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
 assessment#:#ects_grade_e_short#:#AUSREICHEND
@@ -327,6 +327,15 @@ assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
+administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
+common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
+common#:#reg_mail_body_salutation#:#Hallo
+common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
+common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
+common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
+common#:#select_password#:#Neues Passwort wählen
+common#:#new_list_password#:#Weitere Vorschläge
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
@@ -1023,7 +1032,7 @@ common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
-common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet 
+common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_new#:#Neue Übung
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
@@ -1141,6 +1150,7 @@ common#:#gender#:#Geschlecht
 common#:#gender_f#:#Weiblich
 common#:#gender_m#:#Männlich
 common#:#generate#:#generieren
+common#:#general_settings#:#Allgemeine Einstellungen
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
@@ -1149,7 +1159,7 @@ common#:#glo_create#:#Neues Glossar anlegen
 common#:#glo_delete#:#Glossar löschen
 common#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_join#:#Glossar abonnieren
-common#:#glo_leave#:#Glossarabonnement aufheben 
+common#:#glo_leave#:#Glossarabonnement aufheben
 common#:#glo_new#:#Neues Glossar
 common#:#glo_read#:#Glossar lesen
 common#:#glo_upload_file#:#Datei
@@ -2054,8 +2064,8 @@ common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
-common#:#server_data#:#Serverdaten 
-common#:#server_software#:#Server Software###05 Nov 2004 new variable
+common#:#server_data#:#Serverdaten
+common#:#server_software#:#Server Software
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#setUserLanguage#:#Benutzersprache ändern
@@ -2325,7 +2335,7 @@ content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht m�
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
-content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
+content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll.
 content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
@@ -2371,7 +2381,7 @@ content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#JavaScript deaktivieren
 content#:#cont_disable_media#:#Medienobjekte inaktiv
-content#:#cont_download_title#:#Link-Bezeichner 
+content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
@@ -2518,7 +2528,7 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
 content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
-content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
+content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
@@ -2858,7 +2868,7 @@ dateplaner#:#changedDates#:#Geänderte Gruppen Termine
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#created#:#erstellt am
 dateplaner#:#date#:#Termin
-dateplaner#:#date_format#:#T.M.J H:i 
+dateplaner#:#date_format#:#T.M.J H:i
 dateplaner#:#date_format_middle#:#T/M/J
 dateplaner#:#del_all#:#alle Termine löschen
 dateplaner#:#del_one#:#einmalig löschen
@@ -4130,3 +4140,105 @@ content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_set_cancel#:#Abbruch
 content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.
+payment#:#info#:#Informationen zur Bezahlart
+payment#:#pay_bmf_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
+common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
+payment#:#pay_add_to_shopping_cart#:#In den Warenkorb legen
+payment#:#prices#:#Preise
+payment#:#pay_select_price#:#Bitte wählen Sie einen Preis aus.
+payment#:#pay_added_to_shopping_cart#:#Der Artikel wurde in den Warenkorb aufgenommen.
+payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
+payment#:#pay_click_to_buy#:#Zur Kasse
+payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
+payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
+payment#:#pay_bmf_your_order#:#Ihre Bestellung
+payment#:#pay_bmf_personal_data#:#Ihre persönlichen Daten
+payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
+payment#:#pay_bmf_house_number#:#Hausnummer
+payment#:#pay_bmf_or#:#oder
+payment#:#pay_bmf_po_box#:#Postfach
+payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_payment_type#:#Bezahlart
+payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
+payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
+payment#:#pay_bmf_credit_card#:#Kreditkarte
+payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.
+payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
+payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
+payment#:#pay_bmf_account_holder#:#Kontoinhaber
+payment#:#pay_bmf_account_number#:#Kontonummer
+payment#:#pay_bmf_bank_code#:#Bankleitzahl
+payment#:#pay_bmf_optional#:#optional
+payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_credit_card_data#:#Kreditkarte
+payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
+payment#:#pay_bmf_card_holder#:#Karteninhaber
+payment#:#pay_bmf_check_number#:#Kartenprüfnummer
+payment#:#pay_bmf_card_number#:#Kartennummer
+payment#:#pay_bmf_validity#:#gültig bis
+payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pay_bmf_shopping_cart_empty#:#Ihr Warenkorb ist leer.
+payment#:#pay_bmf_server_error_code#:#Der Payment-Server meldet einen Fehler Code
+payment#:#pay_bmf_server_error_communication#:#Fehler bei der Kommunikation mit dem Payment-Server.
+payment#:#pay_bmf_server_error_sysadmin#:#Bitte wenden Sie sich für weitere Informationen an den Systemadministrator.
+payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
+payment#:#pay_bmf_back#:#zurück
+payment#:#pay_bmf_please_select#:#Bitte wählen
+payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
+payment#:#pay_bmf_total_amount#:#Gesamtsumme
+payment#:#pay_bmf_vat_included#:#MwSt. enthalten
+payment#:#paya_buyed_objects#:#Gekaufte Objekte
+payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
+payment#:#pay_bmf_terms_conditions#:#AGB
+payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.
+payment#:#pay_bmf_terms_conditions_show#:#anzeigen
+payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
+payment#:#pays_general_settings#:#Allgemeine Einstellungen
+payment#:#pays_address#:#Adresse für Rechnung
+payment#:#pays_bank_data#:#Bankverbindung für Rechnung
+payment#:#pays_add_info#:#Zusatzdaten für Rechnung (optional)
+payment#:#pays_vat_rate#:#MwSt.-Satz in % (optional)
+payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
+payment#:#pays_updated_general_settings#:#Ihre allgemeinen Einstellungen wurden aktualisiert.
+payment#:#pays_currency_unit#:#Währung (z.B. EUR)
+payment#:#pays_currency_subunit#:#Währung (1/100) (z.B. Cent)
+payment#:#pay_customer_no#:#Kundennr.
+payment#:#pay_bill_no#:#Rechnungsnr.
+payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
+payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
+payment#:#pay_bank_data#:#Bankverbindung
+payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
+payment#:#pay_article#:#Artikel
+payment#:#pay_message_subject#:#Ihre ILIAS Bestellung
+payment#:#pay_message_hello#:#Guten Tag
+payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS Bestellung.
+payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
+payment#:#pay_message_regards#:#Mit freundlichen Grüßen
+payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS Passwort eingeben.
+payment#:#pays_pdf_path#:#Pfad zur Rechnungs-Generierung als PDF-Datei
+payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
+payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
+payment#:#pay_send_order#:#Bestellung abschicken
+payment#:#pay_step1#:#Ihre Bestellung - Schritt 1/3: Eingabe der persönlichen Daten
+payment#:#pay_step2#:#Ihre Bestellung - Schritt 2/3: Auswahl der Bezahlart
+payment#:#pay_step3_credit_card#:#Ihre Bestellung - Schritt 3/3: Eingabe der Kreditkarten-Daten und Absenden der Bestellung
+payment#:#pay_step3_debit_entry#:#Ihre Bestellung - Schritt 3/3: Eingabe der Bankverbindung und Absenden der Bestellung
+payment#:#pay_bmf_street_or_pobox#:#Bitte geben Sie entweder Straße und Hausnummer oder ein Postfach ein.
+payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.
+payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
+common#:#error#:#Fehler
+payment#:#pay_starting#:#beginnt mit
+payment#:#pay_ending#:#hört auf mit
+payment#:#pay_order_date_from#:#Zeitraum von
+payment#:#pay_order_date_til#:#Zeitraum bis
+payment#:#pay_update_view#:#Ansicht aktualisieren
+payment#:#pay_filter#:#Filtermöglichkeiten
+payment#:#pay_all#:#Alle
+payment#:#pays_edit_vendor#:#Benutzer bearbeiten
+payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.
+payment#:#pays_cost_center_not_valid#:#Bitte geben Sie eine gültige Kostenstelle ein.
+payment#:#pay_reset_filter#:#Filter zurücksetzen
+common#:#as_of#:#Stand
+payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
+payment#:#excel_export#:#Excel Export
