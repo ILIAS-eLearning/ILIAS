@@ -76,6 +76,22 @@ assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
+assessment#:#tst_general_properties#:#General properties
+assessment#:#tst_types#:#Test types
+assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_sequence#:#Sequence
+assessment#:#tst_sequence_properties#:#Sequence properties
+assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
+assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
+assessment#:#tst_score_type#:#Score reporting type
+assessment#:#tst_score_reporting#:#Score reporting
+assessment#:#tst_report_after_question#:#Report the score after every question is answered
+assessment#:#tst_report_after_test#:#Report the score after completing the whole test
+assessment#:#tst_score_reporting_date#:#Score reporting date
+assessment#:#tst_session_settings#:#Session settings
+assessment#:#tst_nr_of_tries#:#Max. number of tries
+assessment#:#tst_processing_time#:#Max. processing time
+assessment#:#tst_starting_time#:#Starting time
 common#:#3rd_party_software#:#3rd party software 
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
