@@ -34,6 +34,7 @@ require_once("classes/class.ilObjGroup.php");
 * @author	Martin Rus <mrus@smail.uni-koeln.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
 *
+
 * @version	$Id$
 * @package	ilias-core
 */
@@ -94,7 +95,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->assignObject();
 		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$this->lng =& $this->object->lng;
-		
+
 		// get group object ($this->object nad $this->grp_object are not always the same)
 		if($this->object->getType()=="fold")
 		{
@@ -469,7 +470,6 @@ class ilGroupGUI extends ilObjectGUI
 		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
-//		$this->tpl->setVariable("TARGET", "bottom");
 		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -492,43 +492,23 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tab = array();
 
-		if (!isset($_SESSION["viewmode"]) OR $_SESSION["viewmode"] == "flat")
-		{
-			$tab[0] = array ();
-			$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
-			$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
-			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-			$tab[0]["tab_text"] = 'treeview';
-		
-			$tab[1] = array ();
-			$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-			$tab[1]["ftabtype"] = "tabactive";  					//tab is marked
-			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
-			$tab[1]["tab_text"] ='flatview';
-		}
-		else
-		{
-			$tab[0] = array ();
-			$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
-			$tab[0]["ftabtype"] = "tabactive"; 					//tab is marked
-			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-			$tab[0]["tab_text"] = 'treeview';
-			
-			$tab[1] = array ();
-			$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-			$tab[1]["ftabtype"] = "tabinactive";  					//tab is marked
-			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
-			$tab[1]["tab_text"] ='flatview';
-		}
 
-		$tab[2] = array ();
-		$tab[2]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
-		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd		
-		$tab[2]["tab_text"] = 'group_members';						//tab -text
+
+		$tab[0] = array ();
+		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+		$tab[0]["ftabtype"] = "tabactive";  					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] ='ressources';
+
+		$tab[1] = array ();
+		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';						//tab -text
 
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+
 
 		if (count($objects) > 0)
 		{
@@ -541,15 +521,15 @@ class ilGroupGUI extends ilObjectGUI
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
-			$tab[4] = array ();
-			$tab[4]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[4]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[4]["tab_text"] = "grp_edit";				//tab -text
+			$tab[2] = array ();
+			$tab[2]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[2]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[2]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[2]["tab_text"] = "properties";				//tab -text
 		}
 
 		$this->prepareOutput(false, $tab);
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_details"));
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -558,7 +538,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 		// set offset & limit
-		
+
 
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
@@ -573,7 +553,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
 		// load template for table content data
@@ -970,10 +950,10 @@ class ilGroupGUI extends ilObjectGUI
 
 		//create additional tabs for tab-bar
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
+		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'group_objects';
+		$tab[0]["tab_text"] = 'ressources';
 
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
@@ -982,18 +962,20 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["tab_text"] = 'group_members';
 
 		$this->prepareOutput(false, $tab);
-		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$admin_ids = $newGrp->getGroupAdminIds();
 
 		//if current user is admin he is able to add new members to group
+		
+		/*$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		if (in_array($_SESSION["AccountId"], $admin_ids))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("add_member"));
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
@@ -1083,6 +1065,20 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("BTN_VALUE",$value);
 				$this->tpl->parseCurrentBlock();
 			}
+			$subobj[0] = "member";
+			$opts = ilUtil::formSelect(12,"new_type", $subobj);
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "newmembers");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+
+
+
+			/*$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add_member"));
+			$this->tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -1923,6 +1919,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
+
 
 	function get_file()
 	{
