@@ -919,14 +919,14 @@ common#:#item#:#Begriff
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_cs#:#Tschechisch
+common#:#lang_da#:#Dänisch
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
-common#:#lang_da#:#Dänisch
+common#:#lang_el#:#Neugriechisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
 common#:#lang_fi#:#Finnisch
 common#:#lang_fr#:#Französisch
-common#:#lang_el#:#Neugriechisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_ja#:#Japanisch
@@ -936,9 +936,9 @@ common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_pt#:#Portugisisch
-common#:#lang_sv#:#Schwedisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
+common#:#lang_sv#:#Schwedisch
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainisch
 common#:#lang_version#:#1
