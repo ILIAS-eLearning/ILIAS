@@ -29,33 +29,31 @@ infoPanel();
 // LOCATOR
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-if(isset($_POST["cmd"]["submit"]))
+if(isset($_POST["attachment"]["adopt"]))
 {
-	switch($_POST["action"])
+	$umail->saveAttachments($_POST["filename"]);
+	header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
+	exit();
+
+}
+if(isset($_POST["attachment"]["cancel"]))
+{
+	header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
+	exit;
+
+}
+if(isset($_POST["attachment"]["delete"]))
+{
+	if(!$_POST["filename"])
 	{
-		case "adopt":
-			$umail->saveAttachments($_POST["filename"]);
-			header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
-			exit();
-
-		case "cancel":
-			header("location:mail_new.php?mobj_id=$_GET[mobj_id]&type=attach");
-			exit;
-
-		case "delete":
-			if(!$_POST["filename"])
-			{
-				sendInfo($lng->txt("mail_select_one_file"));
-				$error_delete = true;
-			}
-			else
-			{
-				sendInfo($lng->txt("mail_sure_delete_file"));
-			}
-			break;
+		sendInfo($lng->txt("mail_select_one_file"));
+		$error_delete = true;
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_sure_delete_file"));
 	}
 }
-
 // UPLOAD FILE
 if(isset($_POST["cmd"]["upload"]))
 {
@@ -91,7 +89,7 @@ $tpl->setVariable("ACTION","mail_attachment.php?mobj_id=$_GET[mobj_id]");
 $tpl->setVariable("UPLOAD","mail_attachment.php?mobj_id=$_GET[mobj_id]");
 
 // BEGIN CONFIRM_DELETE
-if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]))
+if(isset($_POST["attachment"]["delete"]) and !$error_delete and !isset($_POST["cmd"]["confirm"]))
 {
 	$tpl->setCurrentBlock("confirm_delete");
 	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
@@ -104,21 +102,12 @@ $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
 $tpl->setVariable("TXT_FILENAME",$lng->txt("mail_file_name"));
 $tpl->setVariable("TXT_FILESIZE",$lng->txt("mail_file_size"));
 $tpl->setVariable("TXT_CREATE_TIME",$lng->txt("forums_thread_create_date"));
+$tpl->setVariable("TXT_NEW_FILE",$lng->txt("mail_new_file"));
 
 // ACTIONS
-$tpl->setCurrentBlock("actions");
-$tpl->setVariable("ACTION_NAME","adopt");
-$tpl->setVariable("ACTION_VALUE",$lng->txt("adopt"));
-$tpl->parseCurrentBlock();
-
-$tpl->setVariable("ACTION_NAME","delete");
-$tpl->setVariable("ACTION_VALUE",$lng->txt("delete"));
-$tpl->setVariable("ACTION_SELECTED",$_POST["cmd"] == 'delete' ? 'selected' : '');
-$tpl->parseCurrentBlock();
-
-$tpl->setVariable("ACTION_NAME","cancel");
-$tpl->setVariable("ACTION_VALUE",$lng->txt("cancel"));
-$tpl->parseCurrentBlock();
+$tpl->setVariable("BUTTON_ATTACHMENT_ADOPT",$lng->txt("adopt"));
+$tpl->setVariable("BUTTON_ATTACHMENT_CANCEL",$lng->txt("cancel"));
+$tpl->setVariable("BUTTON_ATTACHMENT_DELETE",$lng->txt("delete"));
 
 // BUTTONS
 $tpl->setVariable("BUTTON_SUBMIT",$lng->txt("submit"));

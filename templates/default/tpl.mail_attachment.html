@@ -51,15 +51,18 @@
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>
 			<td class="std"  colspan="4">
-			  <select name="action">
-				<!-- BEGIN actions -->
-				<option value="{ACTION_NAME}" {ACTION_SELECTED}>{ACTION_VALUE}</option>
-				<!-- END actions -->	  
-			  </select>
-			  <input class="submit" type="submit" name="cmd[submit]" value="{BUTTON_SUBMIT}">
+			  <input class="submit" type="submit" name="attachment[adopt]" value="{BUTTON_ATTACHMENT_ADOPT}">
+			  <input class="submit" type="submit" name="attachment[cancel]" value="{BUTTON_ATTACHMENT_CANCEL}">
+			  <input class="submit" type="submit" name="attachment[delete]" value="{BUTTON_ATTACHMENT_DELETE}">
+			</td>
+		  </tr>
+		  <tr>
+			<td>
+			  &nbsp;
 			</td>
 		  </tr>
 	  </table>
+{TXT_NEW_FILE}
 	</form>
 	<table class="fullwidth">
 		<tr>

@@ -9,6 +9,31 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 		$mtree->setTableNames('mail_tree','mail_obj_data');
 		$path_full = $mtree->getPathFull($a_obj_id,$mtree->readRootId());
 		
+		// FIRST ITEM IS INBOX
+		$tpl->touchBlock("locator_separator");
+		$tpl->setCurrentBlock("locator_item");
+		$tpl->setVariable("ITEM", $lng->txt("mail_mails_of"));
+		$tpl->setVariable("LINK_ITEM", "mail.php");
+		$tpl->parseCurrentBlock();
+#		var_dump("<pre>",$_SERVER,"</pre");
+		switch(basename($_SERVER["SCRIPT_NAME"]))
+		{
+			case "mail_addressbook.php":
+				$tpl->setCurrentBlock("locator_item");
+				$tpl->setVariable("ITEM", $lng->txt("mail_addressbook"));
+				$tpl->setVariable("LINK_ITEM", "mail_addressbook.php?mobj_id=$a_obj_id");
+				$tpl->parseCurrentBlock();
+				return true;
+
+			case "mail_new.php":
+			case "mail_attachment.php":
+			case "mail_search.php":
+				$tpl->setCurrentBlock("locator_item");
+				$tpl->setVariable("ITEM", $lng->txt("mail_compose"));
+				$tpl->setVariable("LINK_ITEM", "mail_new.php?mobj_id=$a_obj_id");
+				$tpl->parseCurrentBlock();
+				return true;
+		}
 		unset($path_full[0]);
 		foreach ($path_full as $key => $row)
 		{
@@ -29,7 +54,7 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 
 		$tpl->setCurrentBlock("locator");
 		
-
+		
 		$tpl->setVariable("TXT_PATH",$a_txt_prefix);
 		$tpl->parseCurrentBlock();
 }

@@ -311,7 +311,7 @@ common#:#mail_delete_error#:#Error while deleting
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_e_sent#:#Sent
 common#:#mail_intern_enable#:#Enable
-common#:#mail_mails_of#:#Mails:
+common#:#mail_mails_of#:#Mails
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. mail size
@@ -583,7 +583,7 @@ mail#:#mail_moved#:#The mail(s) have been moved
 mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
-mail#:#mail_options_of#:#Options:
+mail#:#mail_options_of#:#Options
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_s_unread#:#Unread Mail(s)
@@ -600,3 +600,4 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
+mail#:#mail_change_to_folder#:#Switch to folder:

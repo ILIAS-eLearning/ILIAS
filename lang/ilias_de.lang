@@ -311,7 +311,7 @@ common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Nachrichten:###28 Mar 2003 content changed
+common#:#mail_mails_of#:#Nachrichten
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxsize_mail#:#Max. Mailgrösse
@@ -583,7 +583,7 @@ mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
-mail#:#mail_options_of#:#Einstellungen:
+mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
@@ -600,3 +600,5 @@ mail#:#search_addressbook#:#Adressbuchsuche
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
 mail#:#search_system#:#Systemsuche
+mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
+mail#:#mail_new_file#:#Neue Datei hinzufügen:
