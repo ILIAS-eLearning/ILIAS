@@ -30,6 +30,7 @@
 	<b><font color="#0000FF">private</font></b> String  IliasStudentName<font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> String  IliasRefId<font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> String  IliasScoId<font color="#990000">;</font>
+	<b><font color="#0000FF">private</font></b> String  IliasNextScoId<font color="#990000">;</font>
 
 	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> IliasCredit <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> isLaunched  <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
@@ -81,7 +82,7 @@
 			<font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font> sco_id
 			<font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font> IliasRefId
 		<font color="#990000">)</font><font color="#990000">;</font>
-		IliasScoId <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+		IliasNextScoId <font color="#990000">=</font> sco_id<font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasSetValue</font></b> <font color="#990000">(</font>String l<font color="#990000">,</font> String r<font color="#990000">)</font> <font color="#FF0000">{</font>
@@ -98,6 +99,7 @@
 		<font color="#FF0000">}</font>
 		core<font color="#990000">.</font><b><font color="#000000">sysPut</font></b> <font color="#990000">(</font>IliasScoCmi<font color="#990000">)</font><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">transBegin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+		IliasScoId <font color="#990000">=</font> IliasNextScoId<font color="#990000">;</font>
 		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
@@ -129,10 +131,10 @@
 			<b><font color="#0000FF">return</font></b> <font color="#FF0000">"true"</font><font color="#990000">;</font>
 		<font color="#FF0000">}</font>
 
-		HttpURLConnection http<font color="#990000">;</font>
+		HttpURLConnection po<font color="#990000">;</font>
 
 		<b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
-			http <font color="#990000">=</font> <font color="#990000">(</font>HttpURLConnection<font color="#990000">)</font> <font color="#990000">(</font> <b><font color="#0000FF">new</font></b> java<font color="#990000">.</font>net<font color="#990000">.</font><b><font color="#000000">URL</font></b> <font color="#990000">(</font>
+			po <font color="#990000">=</font> <font color="#990000">(</font>HttpURLConnection<font color="#990000">)</font> <font color="#990000">(</font> <b><font color="#0000FF">new</font></b> java<font color="#990000">.</font>net<font color="#990000">.</font><b><font color="#000000">URL</font></b> <font color="#990000">(</font>
 				<b><font color="#000000">getCodeBase</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font>
 				<font color="#990000">+</font> <font color="#FF0000">"../scorm_server.php"</font>
 				<font color="#990000">+</font> <font color="#FF0000">"?cmd=store"</font> 
@@ -142,25 +144,25 @@
 				<font color="#990000">+</font> <font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font>IliasRefId
 			<font color="#990000">)</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">openConnection</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 
-			http<font color="#990000">.</font><b><font color="#000000">setRequestProperty</font></b> <font color="#990000">(</font>
+			po<font color="#990000">.</font><b><font color="#000000">setRequestProperty</font></b> <font color="#990000">(</font>
 				<font color="#FF0000">"Content-Type"</font><font color="#990000">,</font>
 				<font color="#FF0000">"application/x-www-form-urlencoded"</font>
 			<font color="#990000">)</font><font color="#990000">;</font>
-			http<font color="#990000">.</font><b><font color="#000000">setRequestProperty</font></b> <font color="#990000">(</font>
+			po<font color="#990000">.</font><b><font color="#000000">setRequestProperty</font></b> <font color="#990000">(</font>
 				<font color="#FF0000">"Content-Length"</font><font color="#990000">,</font>
 				Integer<font color="#990000">.</font><b><font color="#000000">toString</font></b> <font color="#990000">(</font>P<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font>
 			<font color="#990000">)</font><font color="#990000">;</font>
-			http<font color="#990000">.</font><b><font color="#000000">setDoOutput</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
-			http<font color="#990000">.</font><b><font color="#000000">setUseCaches</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
-			http<font color="#990000">.</font><b><font color="#000000">setRequestMethod</font></b> <font color="#990000">(</font><font color="#FF0000">"POST"</font><font color="#990000">)</font><font color="#990000">;</font>
-			http<font color="#990000">.</font><b><font color="#000000">setAllowUserInteraction</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
+			po<font color="#990000">.</font><b><font color="#000000">setDoOutput</font></b> <font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
+			po<font color="#990000">.</font><b><font color="#000000">setUseCaches</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
+			po<font color="#990000">.</font><b><font color="#000000">setRequestMethod</font></b> <font color="#990000">(</font><font color="#FF0000">"POST"</font><font color="#990000">)</font><font color="#990000">;</font>
+			po<font color="#990000">.</font><b><font color="#000000">setAllowUserInteraction</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
 
-			OutputStream os <font color="#990000">=</font> http<font color="#990000">.</font><b><font color="#000000">getOutputStream</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+			OutputStream os <font color="#990000">=</font> po<font color="#990000">.</font><b><font color="#000000">getOutputStream</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"post:"</font> <font color="#990000">+</font>P<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 			os<font color="#990000">.</font><b><font color="#000000">write</font></b> <font color="#990000">(</font>P<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">getBytes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 			os<font color="#990000">.</font><b><font color="#000000">close</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 			DataInputStream r <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">DataInputStream</font></b><font color="#990000">(</font>
-				http<font color="#990000">.</font><b><font color="#000000">getInputStream</font></b> <font color="#990000">(</font><font color="#990000">)</font>
+				po<font color="#990000">.</font><b><font color="#000000">getInputStream</font></b> <font color="#990000">(</font><font color="#990000">)</font>
 			<font color="#990000">)</font><font color="#990000">;</font>
 
 			<b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
@@ -180,7 +182,6 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">private</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
-		core<font color="#990000">.</font><b><font color="#000000">transEnd</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
 			<font color="#FF0000">"../scorm_presentation.php?cmd=view"</font>
@@ -197,6 +198,8 @@
 		String rv <font color="#990000">=</font> core<font color="#990000">.</font><b><font color="#000000">LMSInitialize</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"LMSInitialize("</font><font color="#990000">+</font>s<font color="#990000">+</font><font color="#FF0000">")="</font><font color="#990000">+</font>rv<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>rv<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font><font color="#FF0000">"false"</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
+		core<font color="#990000">.</font><b><font color="#000000">reset</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+		rv <font color="#990000">=</font> core<font color="#990000">.</font><b><font color="#000000">LMSInitialize</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#000000">IliasInitialize</font></b> <font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">return</font></b> rv<font color="#990000">;</font>
 	<font color="#FF0000">}</font>

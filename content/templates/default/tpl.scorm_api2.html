@@ -9,7 +9,7 @@
 <body>
 <applet code="IliasApiAdapterApplet" codebase="./apiadapter"
 	archive="gnu.jar,ilias.jar,PfPLMS-API-adapter-core.jar"
-	ID="APIX" NAME="APIX" width="10" height="10">
+	ID="APIX" NAME="APIX" width="9" height="9">
 <param name="mayscript" value="true" >
 <param name="scriptable" value="true" >
 <param name="ref_id" value="{REF_ID}" >
@@ -20,32 +20,9 @@
 </applet>
 
 <script language="JavaScript">
-function init () {
-	setupApi();
-}
 function setupApi () {
 	this.API = window.document.APIX;
 }
-
-
-
-	var code_base="{CODE_BASE}";
-	var user_id="{USER_ID}";
-	var item_id="{ITEM_ID}";
-	var session_id="{SESSION_ID}";
-
-
-function ILIASLaunchSCO(sco_id)
-{
-	setupApi();
- 	return API.IliasLaunchSco(sco_id);
-}
-
-function ILIASSetValue(lvalue, rvalue)
-{
- 	return API.IliasSetValue(lvalue, rvalue);
-}
-
 </script>
 
 <p>

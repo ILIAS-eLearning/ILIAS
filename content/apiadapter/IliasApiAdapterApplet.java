@@ -28,6 +28,7 @@ public	class IliasApiAdapterApplet
 	private String  IliasStudentName;
 	private String  IliasRefId;
 	private String  IliasScoId;
+	private String  IliasNextScoId;
 
 	private boolean IliasCredit = false;
 	private boolean isLaunched  = false;
@@ -79,7 +80,7 @@ public	class IliasApiAdapterApplet
 			+"&sco_id=" + sco_id
 			+"&ref_id=" + IliasRefId
 		);
-		IliasScoId = sco_id;
+		IliasNextScoId = sco_id;
 	}
 
 	public	final void IliasSetValue (String l, String r) {
@@ -96,6 +97,7 @@ public	class IliasApiAdapterApplet
 		}
 		core.sysPut (IliasScoCmi);
 		core.transBegin();
+		IliasScoId = IliasNextScoId;
 		isLaunched = true;
 	}
 
@@ -127,10 +129,10 @@ public	class IliasApiAdapterApplet
 			return "true";
 		}
 
-		HttpURLConnection http;
+		HttpURLConnection po;
 
 		try {
-			http = (HttpURLConnection) ( new java.net.URL (
+			po = (HttpURLConnection) ( new java.net.URL (
 				getCodeBase().toString()
 				+ "../scorm_server.php"
 				+ "?cmd=store" 
@@ -140,25 +142,25 @@ public	class IliasApiAdapterApplet
 				+ "&ref_id=" +IliasRefId
 			)).openConnection();
 
-			http.setRequestProperty (
+			po.setRequestProperty (
 				"Content-Type",
 				"application/x-www-form-urlencoded"
 			);
-			http.setRequestProperty (
+			po.setRequestProperty (
 				"Content-Length",
 				Integer.toString (P.length())
 			);
-			http.setDoOutput (true);
-			http.setUseCaches (false);
-			http.setRequestMethod ("POST");
-			http.setAllowUserInteraction (false);
+			po.setDoOutput (true);
+			po.setUseCaches (false);
+			po.setRequestMethod ("POST");
+			po.setAllowUserInteraction (false);
 
-			OutputStream os = http.getOutputStream();
+			OutputStream os = po.getOutputStream();
 			say ("post:" +P.toString());
 			os.write (P.toString().getBytes());
 			os.close ();
 			DataInputStream r = new DataInputStream(
-				http.getInputStream ()
+				po.getInputStream ()
 			);
 
 			try {
@@ -178,7 +180,6 @@ public	class IliasApiAdapterApplet
 	}
 
 	private	final void IliasFinish () {
-		core.transEnd();
 		if (!isLaunched) return;
 		IliasLaunchContent (
 			"../scorm_presentation.php?cmd=view"
@@ -195,6 +196,8 @@ public	class IliasApiAdapterApplet
 		String rv = core.LMSInitialize(s);
 		say ("LMSInitialize("+s+")="+rv);
 		if (rv.equals("false")) return rv;
+		core.reset();
+		rv = core.LMSInitialize(s);
 		IliasInitialize ();
 		return rv;
 	}
