@@ -49,7 +49,7 @@ administration#:#done#:#Terminé
 administration#:#found#:#trouvé.
 administration#:#found_none#:#aucun trouvé.
 administration#:#log_scan#:#Résultats de l'analyse du journal.
-administration#:#log_scan_desc#:#Ecriture des résultats de l'analyse dans le fichier 'scanlog.log' dans le répertoire de données du client.
+administration#:#log_scan_desc#:#Ecriture des résultats de l'analyse dans le fichier 'scanlog.log' dans le dossier de données du client.
 administration#:#nothing_to_purge#:#Rien à purger...
 administration#:#nothing_to_remove#:#Rien à supprimer...
 administration#:#nothing_to_restore#:#Rien à restaurer...
@@ -65,11 +65,11 @@ administration#:#purging_trash#:#Purge de la corbeille...
 administration#:#purging_unbound_objs#:#Purge des objets orphelins...
 administration#:#removing_invalid_childs#:#Suppression des branches invalides...
 administration#:#removing_invalid_refs#:#Suppression des références invalides...
-administration#:#removing_invalid_rolfs#:#Suppression des répertoires de rôles invalides...
+administration#:#removing_invalid_rolfs#:#Suppression des dossiers de rôles invalides...
 administration#:#restore_missing#:#Restauration des objets manquants
 administration#:#restore_missing_desc#:#Restauration des objets manquants et orphelins
 administration#:#restore_trash#:#Restauration des objets détruits
-administration#:#restore_trash_desc#:#Restauration des tous les objets de la corbeille (dans le répertoire de restauration)
+administration#:#restore_trash_desc#:#Restauration des tous les objets de la corbeille (dans le dossier de restauration)
 administration#:#restoring#:#Restauration en cours...
 administration#:#restoring_missing_objs#:#Restauration des objets manquants en cours...
 administration#:#restoring_trash#:#Restauration de la corbeille en cours...
@@ -82,7 +82,7 @@ administration#:#scanning_system#:#Examen du système en cours...
 administration#:#searching_deleted_objs#:#Recherche des objets détruits...
 administration#:#searching_invalid_childs#:#Recherche des branches invalides...
 administration#:#searching_invalid_refs#:#Recherche des références invalides...
-administration#:#searching_invalid_rolfs#:#Recherche des répertoires de rôles invalides...
+administration#:#searching_invalid_rolfs#:#Recherche des dossiers de rôles invalides...
 administration#:#searching_missing_objs#:#Recherche des objets manquants
 administration#:#searching_unbound_objs#:#Recherche des objets orphelins...
 administration#:#skipped#:#passé
@@ -187,7 +187,7 @@ assessment#:#edit_content#:#Modifier contenu
 assessment#:#edit_properties#:#Modifier propriétés
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
-assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son répertoire de destination.
+assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son dossier de destination.
 assessment#:#error_image_upload_wrong_format#:#Veuillez téléverser un fichier image valide. Les formats d'images acceptés sont gif, jpeg et png.
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
@@ -727,6 +727,7 @@ common#:#approve_date#:#Approuvé le
 common#:#approve_recipient#:#Login de la personne qui donné son approbation
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
+common#:#articels_unread#:#Articles non lus
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assessment_log#:#Créer un journal de test & évaluation pour une période spécifique
 common#:#assessment_log_datetime#:#Date/heure
@@ -786,11 +787,11 @@ common#:#benchmark#:#Banc d'essais
 common#:#benchmark_settings#:#Paramètres des bancs d'essais
 common#:#benchmarks#:#Bancs d'essais
 common#:#bib_data#:#Données bibliographiques
-common#:#bm#:#Signet
-common#:#bmf#:#Répertoire de liens internet
+common#:#bm#:#Lien internet
+common#:#bmf#:#Dossier de liens internet
 common#:#bookmark_edit#:#Modifier lien internet
-common#:#bookmark_folder_edit#:#Modifier répertoire de liens internet
-common#:#bookmark_folder_new#:#Nouveau répertoire de liens internet
+common#:#bookmark_folder_edit#:#Modifier dossier de liens internet
+common#:#bookmark_folder_new#:#Nouveau dossier de liens internet
 common#:#bookmark_new#:#Nouveau lien internet
 common#:#bookmark_target#:#Cible
 common#:#bookmarks#:#Liens internet
@@ -851,7 +852,7 @@ common#:#cen_delete#:#Détruire  événement Centra
 common#:#cen_edit#:#Modifier  événement Centra
 common#:#cen_new#:#Nouvel événement Centra
 common#:#cen_save#:#Enregistrer événement Centra
-common#:#censorship#:#censure
+common#:#censorship#:#censurer
 common#:#centra_account#:#Compte d'administration Centra
 common#:#centra_rooms#:#Salles Centra
 common#:#centra_server#:#Serveur Centra
@@ -962,7 +963,7 @@ common#:#crs_create_chat#:#Créer Chat
 common#:#crs_create_dbk#:#Créer livre Digilib
 common#:#crs_create_exc#:#Créer Exercice
 common#:#crs_create_file#:#Téléverser fichier
-common#:#crs_create_fold#:#Créer répertoire
+common#:#crs_create_fold#:#Créer dossier
 common#:#crs_create_frm#:#Créer forum
 common#:#crs_create_glo#:#Créer glossaire
 common#:#crs_create_grp#:#Créer groupe
@@ -1171,16 +1172,16 @@ common#:#fill_out_all_required_fields#:#Veuillez renseigner tous les champs obli
 common#:#filter#:#Filtre
 common#:#firstname#:#Prénom
 common#:#flatview#:#A plat
-common#:#fold#:#Répertoire
-common#:#fold_a#:#un répertoire
-common#:#fold_add#:#Ajouter répertoire
-common#:#fold_added#:#Répertoire ajouté
+common#:#fold#:#Dossier
+common#:#fold_a#:#un dossier
+common#:#fold_add#:#Ajouter dossier
+common#:#fold_added#:#Dossier ajouté
 common#:#fold_create_alm#:#Créer document AICC
 common#:#fold_create_chat#:#Créer chat
 common#:#fold_create_dbk#:#Créer livre Digilib
 common#:#fold_create_exc#:#Créer exercice
 common#:#fold_create_file#:#Téléverser fichier
-common#:#fold_create_fold#:#Créer répertoire
+common#:#fold_create_fold#:#Créer dossier
 common#:#fold_create_frm#:#Créer forum
 common#:#fold_create_glo#:#Créer glossaire
 common#:#fold_create_hlm#:#Créer document HACP
@@ -1192,15 +1193,15 @@ common#:#fold_create_sahs#:#Créer document SCORM/AICC
 common#:#fold_create_spl#:#Créer jeu de questions pour des sondages
 common#:#fold_create_svy#:#Créer sondage
 common#:#fold_create_tst#:#Créer test
-common#:#fold_delete#:#Détruire répertoire
-common#:#fold_edit#:#Modifier répertoire
+common#:#fold_delete#:#Détruire dossier
+common#:#fold_edit#:#Modifier dossier
 common#:#fold_edit_permission#:#Modifier paramètres de permission
-common#:#fold_new#:#Nouveau répertoire
-common#:#fold_read#:#Accès en lecture au répertoire
-common#:#fold_visible#:#Le répertoire est visible
-common#:#fold_write#:#Modifier répertoire
-common#:#folder#:#répertoire
-common#:#folders#:#Répertoires
+common#:#fold_new#:#Nouveau dossier
+common#:#fold_read#:#Accès en lecture au dossier
+common#:#fold_visible#:#Le dossier est visible
+common#:#fold_write#:#Modifier dossier
+common#:#folder#:#dossier
+common#:#folders#:#Dossiers
 common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !
 common#:#forename#:#Prénom
 common#:#forgot_password#:#Mot de passe oublié ?
@@ -1308,7 +1309,7 @@ common#:#grp_create_chat#:#Créer chat
 common#:#grp_create_dbk#:#Créer livre Digilib
 common#:#grp_create_exc#:#Créer exercice
 common#:#grp_create_file#:#L'utilisateur peut téléverser des fichiers
-common#:#grp_create_fold#:#L'utilisateur peut créer des répertoires
+common#:#grp_create_fold#:#L'utilisateur peut créer des dossiers
 common#:#grp_create_frm#:#Créer Forum
 common#:#grp_create_glo#:#Créer glossaire
 common#:#grp_create_hlm#:#Créer document HACP 
@@ -1392,7 +1393,7 @@ common#:#hlm_read#:#Accès en lecture au document HACP
 common#:#hlm_visible#:#Le document HACP est visible
 common#:#hlm_write#:#Modifier document HACP
 common#:#hobby#:#Intérêts/hobbies
-common#:#home#:#Accueil public
+common#:#home#:#Espace public
 common#:#host#:#Hôte
 common#:#hours_of_day#:#Heures du jour
 common#:#htlm#:#Document HTML importé
@@ -1825,7 +1826,7 @@ common#:#no#:#N°
 common#:#no_access_item#:#Vous n'avez pas la permission d'accéder à cet objet
 common#:#no_access_item_public#:#Cet objet n'est pas accessible dans la section publique.
 common#:#no_access_link_object#:#Vous n'êtes pas autorisé à lier cet objet.
-common#:#no_bm_in_personal_list#:#Pas de signets définis
+common#:#no_bm_in_personal_list#:#Pas de liens internet définis
 common#:#no_chat_in_personal_list#:#Pas de chat dans la liste personnelle
 common#:#no_checkbox#:#Aucune case cochée
 common#:#no_datasets#:#Le tableau est vide variable
@@ -1921,7 +1922,7 @@ common#:#obj_stys_desc#:#Gérez les thèmes et les paramètres de style du syst�
 common#:#obj_svy#:#Sondage
 common#:#obj_tax#:#Taxinomie
 common#:#obj_taxf#:#Taxinomies
-common#:#obj_taxf_desc#:#Répertoires pour taxinomies
+common#:#obj_taxf_desc#:#Dossiers pour taxinomies
 common#:#obj_trac#:#Suivi utilisateur
 common#:#obj_trac_desc#:#Données de suivi des accès utilisateurs
 common#:#obj_tst#:#Test
@@ -1950,7 +1951,7 @@ common#:#objs_dbk#:#Livres digilib
 common#:#objs_delete#:#Détruire objets
 common#:#objs_exc#:#Exercices
 common#:#objs_file#:#Fichiers
-common#:#objs_fold#:#Répertoires
+common#:#objs_fold#:#Dossiers
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaires
 common#:#objs_grp#:#Groupes
@@ -2083,7 +2084,7 @@ common#:#question_pools#:#Jeux de questions
 common#:#quit#:#Quitter
 common#:#quote#:#Citation
 common#:#read#:#Lire
-common#:#recf_edit#:#Modifier répertoire de restauration
+common#:#recf_edit#:#Modifier dossier de restauration
 common#:#recipient#:#Destinataire
 common#:#referral_comment#:#Comment avez-vous entendu parler d'ILIAS ?
 common#:#refresh#:#Actualiser
@@ -2341,9 +2342,9 @@ common#:#tax_read#:#Accès en lecture aux taxinomies
 common#:#tax_visible#:#La taxinomie est visible
 common#:#tax_write#:#Accès en écriture aux taxinomies
 common#:#taxf_edit_permission#:#Changer paramètres de permission
-common#:#taxf_read#:#Accès en lecture au répertoire de taxinomie
-common#:#taxf_visible#:#Le répertoire de taxinomie est visible
-common#:#taxf_write#:#Accès en lecture au  répertoire de taxinomie
+common#:#taxf_read#:#Accès en lecture au dossier de taxinomie
+common#:#taxf_visible#:#Le dossier de taxinomie est visible
+common#:#taxf_write#:#Accès en lecture au  dossier de taxinomie
 common#:#term#:#Terme
 common#:#test#:#Test
 common#:#test_intern#:#Test interne
@@ -2466,7 +2467,7 @@ common#:#usr_settings_header_profile_profile#:#Paramètres de profil utilisateur
 common#:#usr_settings_saved#:#Paramètres globaux enregistrés
 common#:#usr_skin_style#:#Thème / Style
 common#:#usr_style#:#Style utilisateur
-common#:#usrf#:#Répertoire utilisateur
+common#:#usrf#:#Dossier utilisateur
 common#:#usrf_create_user#:#Créer nouveau compte utilisateur
 common#:#usrf_delete#:#Détruire comptes utilisateurs
 common#:#usrf_edit_permission#:#Changer paramètres de permission
@@ -2598,7 +2599,7 @@ content#:#cont_back#:#Retour
 content#:#cont_booktitle#:#Titre du livre
 content#:#cont_bottom#:#Bas
 content#:#cont_browser_not_js_capable#:#La modification JavaScript n'est pas possible avec votre navigateur.
-content#:#cont_cant_copy_folders#:#Les répertoires ne peuvent pas être copiés dans le presse-papier
+content#:#cont_cant_copy_folders#:#Les dossiers ne peuvent pas être copiés dans le presse-papier
 content#:#cont_cant_del_full#:#Suppression du fichier plein écran impossible
 content#:#cont_cant_del_std#:#Suppression du fichier vue standard impossible
 content#:#cont_caption#:#Titre
@@ -2632,12 +2633,12 @@ content#:#cont_coords#:#Coordonnées
 content#:#cont_copy_object#:#insérer l'objet
 content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_copy_to_media_pool#:#Copier dans le jeu de ressources multimédia
-content#:#cont_create_dir#:#Créer répertoire
+content#:#cont_create_dir#:#Créer dossier
 content#:#cont_create_export_file#:#Créer fichier d'exportation
 content#:#cont_create_export_file_html#:#Créer fichier d'exportation (HTML)
 content#:#cont_create_export_file_scorm#:#Créer fichier d'exportation (SCORM)
 content#:#cont_create_export_file_xml#:#Créer fichier d'exportation (XML)
-content#:#cont_create_folder#:#Créer répertoire
+content#:#cont_create_folder#:#Créer dossier
 content#:#cont_create_html_version#:#Créer paquet HTML
 content#:#cont_create_mob#:#Créer objet média
 content#:#cont_credit_mode#:#Mode de crédit (pour le mode leçon 'normal') XXX
@@ -2655,7 +2656,7 @@ content#:#cont_del_assignment#:#Supprimer assignation
 content#:#cont_dependencies#:#Dépendances
 content#:#cont_derive_from_obj#:#Alignement de l'objet
 content#:#cont_details#:#Détails
-content#:#cont_dir_file#:#Répertoire/fichier
+content#:#cont_dir_file#:#Dossier/fichier
 content#:#cont_disable_js#:#JavaScript inactif
 content#:#cont_disable_media#:#Média inactif
 content#:#cont_download_title#:#Télécharger titre
@@ -2723,7 +2724,7 @@ content#:#cont_fix_tree_confirm#:#Veuillez exécuter cette commande seulement si
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#Cette opération n'est pas possible!
 content#:#cont_free_pages#:#Pages libres
-content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le répertoire.
+content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le dossier.
 content#:#cont_fullscreen#:#Plein écran
 content#:#cont_get_link#:#récupérer lien
 content#:#cont_get_orig_size#:#Mettre à la taille originale
@@ -2793,13 +2794,13 @@ content#:#cont_msg_multiple_editions#:#Il n'est pas possible d'afficher les dét
 content#:#cont_name#:#Nom
 content#:#cont_new_area#:#Nouvelle zone de lien
 content#:#cont_new_assignment#:#Nouvelle assignation
-content#:#cont_new_dir#:#Nouveau répertoire
+content#:#cont_new_dir#:#Nouveau dossier
 content#:#cont_new_file#:#Nouveau fichier
 content#:#cont_new_media_obj#:#Nouvel objet média
 content#:#cont_new_term#:#Nouveau terme
 content#:#cont_no_access#:#Pas d'accès
 content#:#cont_no_assign_itself#:#L'objet ne peut pas être assigné à lui-même
-content#:#cont_no_manifest#:#Pas de fichier imsmanifest.xml trouvé dans le répertoire principal
+content#:#cont_no_manifest#:#Pas de fichier imsmanifest.xml trouvé dans le dossier principal
 content#:#cont_no_object_found#:#Aucun objet portant ce titre n'a été trouvé
 content#:#cont_no_page#:#Aucune page trouvée
 content#:#cont_none#:#Aucun
@@ -2904,7 +2905,7 @@ content#:#cont_st_on_pg#:#cette fonction n'est pas autorisée
 content#:#cont_st_title#:#Titre de chapitre
 content#:#cont_startfile#:#Fichier de départ
 content#:#cont_status#:#Statut
-content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le répertoire.
+content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le dossier.
 content#:#cont_std_view#:#Vue standard
 content#:#cont_structure#:#structure
 content#:#cont_style#:#Style
@@ -3497,6 +3498,7 @@ forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cac
 forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet article ?
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?
 forum#:#forums_last_post#:#Dernier article
+forum#:#forums_mark_read#:#Marquer tous lus
 forum#:#forums_moderators#:#Modérateurs
 forum#:#forums_new_articles#:#Nouveaux articles
 forum#:#forums_new_entries#:#Nouvelles entrées de forum
@@ -3522,6 +3524,9 @@ forum#:#forums_threads#:#Fils de discussion
 forum#:#forums_threads_not_available#:#Sujets non disponibles
 forum#:#forums_topics_overview#:#Vue générale des sujets
 forum#:#forums_your_reply#:#Votre réponse
+forum#:#frm_default_view#:#Affichage par défaut
+forum#:#frm_title_required#:#Veuillez saisir un titre
+forum#:#is_read#:#marqué comme lu
 jscalendar#:#about_calendar#:#A propos du calendrier
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPour la dernière version, voir : http://dynarch.com/mishoo/calendar.epl\nDistribué selon les termes de la licence GNU LGPL.  Voir http://gnu.org/licenses/lgpl.html pour plus de détails.\n\nSélection de la date:\n- Utiliser les boutons << et >> pour sélectionner l'année\n- Utiliser les boutons < et > pour sélectionner le mois\n- Maintenir le bouton de la souris appuyé plus longtemps pour une sélection rapide.
 jscalendar#:#about_time#:#\n\nSélection de l'heure :\n- Cliquer sur n'importe quelle partie de l'heure pour l'augmenter\n- cliquer en maintenant la touche 'Shift' (majuscule) du clavier appuyée pour la diminuer, ou cliquez et déplacez la souris pour une sélection rapide.
@@ -4405,10 +4410,10 @@ search#:#search_lm_content#:#Matériaux d'apprentissage (contenu)
 search#:#search_lm_meta#:#Matériaux d'apprentissage (méta-données)
 search#:#search_meta#:#Méta-données
 search#:#search_minimum_three#:#Votre recherche doit comporter au moins trois caractères
-search#:#search_move_folder_not_allowed#:#Le répertoire ne peut pas être déplacé.
+search#:#search_move_folder_not_allowed#:#Le dossier ne peut pas être déplacé.
 search#:#search_move_to#:#Déplacer vers :
 search#:#search_my_search_results#:#Mes résultats de recherche
-search#:#search_new_folder#:#Nouveau répertoire
+search#:#search_new_folder#:#Nouveau dossier
 search#:#search_no_category#:#Vous n'avez choisi aucune catégorie de recherche
 search#:#search_no_match#:#Votre recherche ne correspond à aucun résultat
 search#:#search_no_results_saved#:#Pas de résultats enregistrés.
@@ -4427,11 +4432,11 @@ search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistr
 search#:#search_search_results#:#Résultats de recherche
 search#:#search_search_term#:#Terme de recherche
 search#:#search_select_exactly_one_object#:#Vous devez sélectionner exactement un objet.
-search#:#search_select_one#:#Selectionner un répertoire
+search#:#search_select_one#:#Selectionner un dossier
 search#:#search_select_one_action#:#--Selectionner une action--
-search#:#search_select_one_folder_select#:#--Selectionner un répertoire--
+search#:#search_select_one_folder_select#:#--Selectionner un dossier--
 search#:#search_select_one_result#:#Selectionner au moins un résultat de recherche
-search#:#search_select_one_select#:#--Selectionner un répertoire--
+search#:#search_select_one_select#:#--Selectionner un dossier--
 search#:#search_show_result#:#Afficher
 search#:#search_user#:#Utilisateurs
 survey#:#add_category#:#Ajouter catégorie
