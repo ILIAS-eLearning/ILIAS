@@ -113,13 +113,12 @@ switch ($obj->getType())
 		$_GET["ref_id"] = ilUtil::getGroupId($obj->getRefId());
 		break;
 }
-
 			$module_dir = ($module == "")
 				? ""
 				: $module."/";
 			$class_constr = "ilObj".$class_name."GUI";
 			//echo "class kons ".$class_constr." module_dir ".$module_dir;exit;
-			require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+			include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 			$obj = new $class_constr($data, $id, $call_by_reference,false);
 			$method= $cmd."Object";
 			$obj->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
