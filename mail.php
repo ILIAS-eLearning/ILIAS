@@ -19,6 +19,7 @@ $mbox = new MailBox($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
 // display infopanel if something happened
+$tpl->setVariable("TXT_MAILS_OF",$lng->txt("mail_mails_of"));
 infoPanel();
 
 // IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
@@ -34,7 +35,7 @@ if(isset($_GET["mail_id"]))
 	$_POST["mail_id"] = array($_GET["mail_id"]);
 }	
 
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 if ($_POST["cmd"] != "")
 {

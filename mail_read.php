@@ -20,8 +20,8 @@ $umail->markRead(array($_GET["mail_id"]));
 $mail_data = $umail->getMail($_GET["mail_id"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_read.html");
-
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+$tpl->setVariable("TXT_MAILS_OF",$lng->txt("mail_mails_of"));
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 // DOWNLOAD FILE
 if($_POST["cmd"])

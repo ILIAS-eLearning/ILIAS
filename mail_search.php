@@ -14,8 +14,11 @@ require_once "classes/class.Group.php";
 require_once "classes/class.Addressbook.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_search.html");
+$tpl->setVariable("TXT_SEARCH",$lng->txt("search"));
+infoPanel();
+
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 // BUTTONS
 include "./include/inc.mail_buttons.php";

@@ -21,9 +21,11 @@ $mail_data = $umail->getSavedData();
 $_POST["filename"] = $_POST["filename"] ? $_POST["filename"] : array();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_attachment.html");
+$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
+infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 if(isset($_POST["cmd"]))
 {

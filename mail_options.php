@@ -17,44 +17,58 @@ $umail = new FormatMail($_SESSION["AccountId"]);
 
 // CREATE OUTPUT
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_options.html");
+$tpl->setVariable("TXT_OPTIONS_OF",$lng->txt("mail_options_of"));
+infoPanel();
+
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 switch($_POST["cmd"])
 {
 	case $lng->txt("rename"):
-		$mbox->renameFolder($_GET["mobj_id"],$_POST["folder_name"]);
-		sendInfo("Die Namen wurden geändert.");
+		$tmp_data = $mbox->getFolderData($_GET["mobj_id"]);
+		if($tmp_data["title"] != $_POST["folder_name"])
+		{
+			if($mbox->renameFolder($_GET["mobj_id"],$_POST["folder_name"]))
+			{
+				sendInfo($lng->txt("mail_folder_name_changed"));
+			}
+			else
+			{
+				sendInfo($lng->txt("mail_folder_exists"));
+			}
+		}
 		break;
 	case $lng->txt("confirm"):
+		$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
 		if($mbox->deleteFolder($_GET["mobj_id"]))
 		{
-			sendInfo("Der Ordner wurde erfolgreich gelöscht.");
-			$new_parent = $mbox->getParentFolderId($_GET["mobj_id"]);
+			sendInfo($lng->txt("mail_folder_deleted",true));
 			header("location: mail_options.php?mobj_id=".$new_parent);
 			exit();
 		}
 		else
 		{
-			sendInfo("Fehler beim Löschen des Ordners");
+			sendInfo($lng->txt("mail_error_delete"));
 		}
 		break;
 
 	case $lng->txt("add"):
 		if(empty($_POST['folder_name_add']))
 		{
-			sendInfo("Sie müssen einen Ordnernamen angeben");
+			sendInfo($lng->txt("mail_insert_folder_name"));
 		}
 		else if($mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
 		{
-			sendInfo("Ein neuer Ordner wurde angelegt");
+			sendInfo($lng->txt("mail_folder_created"));
 		}
 		else
 		{
-			sendInfo("Fehler beim Erstellen des neuen Ordners");
+			sendInfo($lng->txt("mail_folder_exists"));
 		}
 
 		break;
 	case $lng->txt("delete"):
-		sendInfo("Achtung der Ordner und sein Inhalt wird unwiederruflich gelöscht!");
+		sendInfo($lng->txt("mail_sure_delete_folder"));
 		break;
 
 	case $lng->txt("cancel"):
@@ -67,10 +81,8 @@ switch($_POST["cmd"])
 		break;
 }
 
-
 // GET FOLDER DATA
 $folder_data = $mbox->getFolderData($_GET["mobj_id"]);
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_options_of"));
 
 include "./include/inc.mail_buttons.php";
 
@@ -83,8 +95,6 @@ $tpl->setCurrentBlock("content");
 if($_POST["cmd"] == $lng->txt("delete"))
 {
 	$tpl->setCurrentBlock("confirm");
-	$tpl->setVariable("ACTION_DELETE_CONFIRM","mail_options.php?mobj_id=".$_GET["mobj_id"]);
-	$tpl->setVariable("TXT_CONFIRM","wirklich loschen");
 	$tpl->setVariable("TXT_DELETE_CONFIRM",$lng->txt("confirm"));
 	$tpl->setVariable("TXT_DELETE_CANCEL",$lng->txt("cancel"));
 	$tpl->parseCurrentBlock();
@@ -96,7 +106,7 @@ if($folder_data["type"] == 'user_folder' and $_POST["cmd"] != $lng->txt("delete"
 	$tpl->setCurrentBlock('edit');
 	$tpl->setVariable("FOLDER_OPTIONS",$lng->txt("mail_folder_options"));
 	$tpl->setVariable("TXT_DELETE",$lng->txt("delete"));
-	$tpl->setVariable("ACTION_EDIT","mail_options.php?mobj_id=".$_GET["mobj_id"]);
+	$tpl->setVariable("ACTION","mail_options.php?mobj_id=".$_GET["mobj_id"]);
 	$tpl->setVariable("TXT_NAME",$lng->txt("mail_folder_name"));
 	$tpl->setVariable("FOLDER_NAME",$folder_data["title"]);
 	$tpl->setVariable("TXT_RENAME",$lng->txt("rename"));
@@ -108,7 +118,6 @@ if(($folder_data["type"] == 'user_folder' or $folder_data["type"] == 'local')
 	and $_POST["cmd"] != $lng->txt("delete"))
 {
 	$tpl->setCurrentBlock('add');
-	$tpl->setVariable("ACTION_FOLDER_ADD","mail_options.php?mobj_id=".$_GET["mobj_id"]);
 	$tpl->setVariable("TXT_NAME_ADD",$lng->txt("mail_folder_name"));
 	$tpl->setVariable("TXT_FOLDER_ADD",$lng->txt("add"));
 	$tpl->parseCurrentBlock();
@@ -134,7 +143,6 @@ if($_POST["cmd"] != $lng->txt("delete"))
 		$tpl->parseCurrentBlock();
 	}
 	$tpl->setVariable("GLOBAL_OPTIONS",$lng->txt("mail_global_options"));
-	$tpl->setVariable("ACTION_GLOBAL","mail_options.php?mobj_id=".$_GET["mobj_id"]);
 	$tpl->setVariable("TXT_LINEBREAK", $lng->txt("linebreak"));
 	$tpl->setVariable("TXT_SIGNATURE", $lng->txt("signature"));
 	$tpl->setVariable("CONTENT",$umail->getSignature());
