@@ -96,8 +96,6 @@ require_once "classes/class.ilErrorHandling.php";
 
 $ilBench->stop("Core", "HeaderInclude_IncludeFiles");
 
-
-
 $ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 $ilErr = new ilErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
@@ -196,11 +194,11 @@ if ($ilias->auth->getAuth())
 	{
 		$ilias->account->refreshLogin();
 	}
-	
-	// set hits per page for all lists using table module 
+
+	// set hits per page for all lists using table module
 	$_GET["limit"] = ($_GET["limit"]) ? intval($_GET["limit"]): intval($ilias->account->prefs["hits_per_page"]);
 	$_GET["offset"] = intval($_GET["offset"]);
-	
+
 	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
@@ -213,14 +211,15 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 
 	if ($subdir)
 	{
-		$num_subdirs = substr_count($subdir,"/");	
+		$num_subdirs = substr_count($subdir,"/");
 
 		for ($i=1;$i<=$num_subdirs;$i++)
 		{
 			$updir .= "../";
 		}
 	}
-	
+	session_unset();
+	session_destroy();
 	ilUtil::redirect($updir."index.php?reload=true");
 }
 
