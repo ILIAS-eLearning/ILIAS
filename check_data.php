@@ -41,7 +41,7 @@ require_once "./classes/class.ilValidator.php";
 
 $validator = new ilValidator();
 //$validator->setMode("analyze",false);
-//$validator->setMode("clean",true);
+//$validator->setMode("all",true);
 //$validator->setMode("purge_trash",true);
 
 // STEP 1: Analyzing: Get all incomplete entries
@@ -53,20 +53,20 @@ if (!$validator->isModeEnabled("analyze"))
 }
 else
 {
-	echo "<br/>Search for unbound references...";
-	if ($validator->findUnboundReferences())
+	echo "<br/>Search for invalid references...";
+	if ($validator->findInvalidReferences())
 	{
-		echo "done (".count($validator->getUnboundReferences())." found).";
+		echo "done (".count($validator->getInvalidReferences())." found).";
 	}
 	else
 	{
 		echo "nothing found.";
 	}
 	
-	echo "<br/>Search for unbound tree entries...";
-	if ($validator->findUnboundChilds())
+	echo "<br/>Search for invalid tree entries...";
+	if ($validator->findInvalidChilds())
 	{
-		echo "done (".count($validator->getUnboundChilds())." found).";
+		echo "done (".count($validator->getInvalidChilds())." found).";
 	}
 	else
 	{
@@ -83,18 +83,18 @@ else
 		echo "nothing found.";
 	}
 
-	echo "<br/>Search for invalid Childs...";
-	if ($validator->findInvalidChilds())
+	echo "<br/>Search for unbound objects...";
+	if ($validator->findUnboundObjects())
 	{
-		echo "done (".count($validator->getChildsWithInvalidParent())." found).";
+		echo "done (".count($validator->getUnboundObjects())." found).";
 	}
 	else
 	{
 		echo "nothing found.";
 	}
 
-	echo "<br/>Search for deleted Objects...";
-	if (count($validator->findDeletedObjects()) > 0 )
+	echo "<br/>Search for deleted objects...";
+	if ($validator->findDeletedObjects())
 	{
 		echo "done (".count($validator->getDeletedObjects())." found).";
 	}
@@ -113,29 +113,29 @@ if (!$validator->isModeEnabled("clean"))
 }
 else
 {
-	echo "<br/>Removing unbound references...";
-	if ($validator->removeUnboundReferences())
+	echo "<br/>Removing invalid references...";
+	if ($validator->removeInvalidReferences())
 	{
 		echo "done.";
 	}
 	else
 	{
-		echo "none. passed.";
+		echo "nothing to remove. Skipped.";
 	}
 	
-	echo "<br/>Removing unbound tree entries...";
-	if ($validator->removeUnboundChilds())
+	echo "<br/>Removing invalid tree entries...";
+	if ($validator->removeInvalidChilds())
 	{
 		echo "done.";
 	}
 	else
 	{
-		echo "none. passed.";
+		echo "nothing to remove. Skipped.";
 	}
 }
 
-// find invalid childs again AFTER cleaning process!
-$validator->findInvalidChilds();
+// find unbound objects again AFTER cleaning process!
+$validator->findUnboundObjects();
 
 // STEP 3: Restore objects
 echo "<br/><br/>Restoring...";
@@ -153,17 +153,17 @@ else
 	}
 	else
 	{
-		echo "none. passed.";
+		echo "nothing to restore. Skipped.";
 	}
 	
-	echo "<br/>Restoring unbounded childs & subtree entries...";
-	if ($validator->restoreUnboundChilds())
+	echo "<br/>Restoring unbound objects & subobjects...";
+	if ($validator->restoreUnboundObjects())
 	{
 		echo "done.";
 	}
 	else
 	{
-		echo "none. passed.";
+		echo "nothing to restore. Skipped.";
 	}
 }
 
@@ -177,7 +177,7 @@ if ($validator->isModeEnabled("restore_trash"))
 	}
 	else
 	{
-		echo "none or error";
+		echo "nothing to restore. Skipped.";
 	}
 }
 
@@ -191,7 +191,7 @@ if ($validator->isModeEnabled("purge"))
 	}
 	else
 	{
-		echo "none or error";
+		echo "nothing to purge. Skipped.";
 	}
 }
 
@@ -205,14 +205,14 @@ if ($validator->isModeEnabled("purge_trash"))
 	}
 	else
 	{
-		echo "none or error";
+		echo "nothing to purge. Skipped.";
 	}
 }
 
 // STEP 6: Close gaps in tree
 if ($validator->isModeEnabled("clean"))
 {
-	echo "<br/><br/>Cleaning...";
+	echo "<br/><br/>Final cleaning...";
 	if ($validator->closeGapsInTree())
 	{
 		echo "<br/>Closing gaps in tree...done";
@@ -230,9 +230,9 @@ foreach ($validator->mode as $mode => $value)
 
 $mode = implode(", ",$arr);
 
-$tpl->setVariable("CONTENT", "<p>Tree ok. (Mode: ".$mode.")</p>");
+$tpl->setVariable("CONTENT", "<p>Scan ok. <br/> (Mode: ".$mode.")</p>");
 $tpl->show();
 
-$validator->findInvalidChilds();
-vd($validator->getChildsWithInvalidParent(),$validator->getMissingObjects(),$validator->getUnboundChilds(),$validator->getUnboundReferences(),$validator->getDeletedObjects());
+//$validator->findInvalidChilds();
+//vd($validator->getUnboundObjects(),$validator->getMissingObjects(),$validator->getInvalidChilds(),$validator->getInvalidReferences(),$validator->getDeletedObjects());
 ?>
