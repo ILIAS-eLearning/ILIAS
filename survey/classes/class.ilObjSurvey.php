@@ -3699,9 +3699,10 @@ class ilObjSurvey extends ilObject
 		$root->append_child($qtiSurvey);
 		$xml = $domxml->dump_mem(true);
 		$domxml->free();
+		$obligatory_states =& $this->getObligatoryStates();
 		foreach ($this->questions as $question_id) {
 			$question =& $this->_instanciateQuestion($question_id);
-			$qti_question = $question->to_xml(false);
+			$qti_question = $question->to_xml(false, $obligatory_states[$question_id]);
 			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
 			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
 			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
