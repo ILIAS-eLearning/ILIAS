@@ -22,6 +22,7 @@
 */
 
 require_once("content/classes/Pages/class.ilPageContent.php");
+require_once("./content/classes/Pages/class.ilWysiwygUtil.php");
 
 /**
 * Class ilPCParagraph
@@ -285,7 +286,7 @@ class ilPCParagraph extends ilPageContent
 	/**
 	* converts user input to xml
 	*/
-	function input2xml($a_text)
+	function input2xml($a_text, $a_wysiwyg = 0)
 	{
 		$a_text = stripslashes($a_text);
 
@@ -293,10 +294,28 @@ class ilPCParagraph extends ilPageContent
 		// and should be the same as in xml2output() in REVERSE order!
 		$a_text = trim($a_text);
 
+//echo "<br>first:".htmlentities($a_text);
+
+		if ($a_wysiwyg == 1)
+		{
+			$a_text = str_replace("&","&amp;",$a_text);
+			$a_text = str_replace("<","&lt;",$a_text);
+			$a_text = str_replace(">","&gt;",$a_text);
+
+			$wysiwygUtil = new ilWysiwygUtil();
+			$a_text = $wysiwygUtil->convertFromPost($a_text);
+			$a_text = addslashes($a_text);
+
+		}
+
+//echo "<br>between:".htmlentities($a_text);
+
 		// mask html
 		$a_text = str_replace("&","&amp;",$a_text);
 		$a_text = str_replace("<","&lt;",$a_text);
 		$a_text = str_replace(">","&gt;",$a_text);
+
+//echo "<br>second:".htmlentities($a_text);
 
 		// mask curly brackets
 /*
