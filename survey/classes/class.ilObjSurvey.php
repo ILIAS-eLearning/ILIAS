@@ -3294,12 +3294,27 @@ class ilObjSurvey extends ilObject
 				$result_array["MODE"] =  $prefix . $variables[key($cumulated)]->title;
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
+				$maxvalues = 0;
+				foreach ($variables as $key => $value)
+				{
+					$maxvalues += $cumulated[$key];
+				}
 				foreach ($variables as $key => $value)
 				{
 					$percentage = 0;
 					if ($numrows > 0)
 					{
-						$percentage = (float)((int)$cumulated[$key]/$numrows);
+						if ($questions[$question_id]["subtype"] == SUBTYPE_MCMR)
+						{
+							if ($maxvalues > 0)
+							{
+								$percentage = (float)((int)$cumulated[$key]/$maxvalues);
+							}
+						}
+						else
+						{
+							$percentage = (float)((int)$cumulated[$key]/$numrows);
+						}
 					}
 					$result_array["variables"][$key] = array("title" => $value->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 				}
