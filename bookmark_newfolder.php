@@ -8,9 +8,9 @@
 * @package application
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.Bookmarks.php";
+require_once "./classes/class.ilBookmark.php";
 
-$myBm = new Bookmarks($ilias->account->getId());
+$myBm = new ilBookmark($ilias->account->getId());
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");

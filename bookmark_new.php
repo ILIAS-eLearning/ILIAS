@@ -8,11 +8,11 @@
 * @package application
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.Bookmarks.php";
+require_once "./classes/class.ilBookmark.php";
 
 $tpl = new Template("tpl.bookmark_new.html", true, true);
 
-$myBm = new Bookmarks($ilias->account->getId());
+$myBm = new ilBookmark($ilias->account->getId());
 
 //form has been submitted
 if ($_POST["submit"] != "")
