@@ -162,17 +162,17 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
-		if ($a_ref_id != 0)
-		{
-			$clause = "AND parent = '".$a_ref_id."'";
-		}
-		
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
 			return true;
 		}
 
+		if ($a_ref_id != 0)
+		{
+			$clause = "AND parent = '".$a_ref_id."'";
+		}
+		
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 $clause;
