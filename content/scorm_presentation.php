@@ -38,7 +38,27 @@ $lng->loadLanguageModule("content");
 
 // learning module presentation class does the rest
 require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
-$scorm_presentation = new ilSCORMPresentationGUI();
+//session_start();
+//$lm_locklist = Array("wa","ser");
+//session_register($lm_locklist);
+//	print_r($_SESSION["lm_locklist"]);
+//if (($_SESSION['lm_locklist'])&&($_GET["obj_id"])) {
+//	print_r($_SESSION['lm_locklist']);
+//	if (in_array($_GET["obj_id"],$_SESSION['lm_locklist'][$ilias->account->login])) {
+//		$locked = 1;
+//	}
+//}
+//if ((!$locked)&&($_GET["obj_id"])) {
+//	$lm_locklist[$ilias->account->login] = Array();
+//	array_push($lm_locklist[$ilias->account->login], $_GET["obj_id"]);
+//	session_register($lm_locklist);
+	//echo $_GET["obj_id"]." wurde soeben gelockt!";
+//} elseif ($locked) {
+	//echo $_GET["obj_id"]." ist gesperrt fuer Login: ".$ilias->account->login;
+//}
+//if (!($_GET["obj_id"])) {
+	$scorm_presentation = new ilSCORMPresentationGUI();
+//}
 
   //eval("$temp");
 
