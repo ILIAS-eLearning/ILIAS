@@ -2,7 +2,7 @@
 [server]
 tpl_path = ./templates
 start = ./login.php
-data_dir = /home/smeyer/ilias_data/ilias4
+data_dir = /opt/iliasdata
 webspace_dir =
 
 [db]
