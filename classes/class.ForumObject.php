@@ -172,6 +172,10 @@ class ForumObject extends Object
 		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$a_obj_id."'";
 		$this->ilias->db->query($query);
 		
+		// delete forum-object in tree
+		$query = "DELETE FROM tree WHERE tree = '".$a_obj_id."'";		
+		$this->ilias->db->query($query);
+		
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);
 		
 		
