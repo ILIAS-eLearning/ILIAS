@@ -553,7 +553,14 @@ class Object
 
 
 		$objects = $tree->getSavedNodeData($_GET["ref_id"]);
-		if(count($objects))
+
+		if(count($objects) == 0)
+		{
+			sendInfo($lng->txt("msg_trash_empty"));
+			$data["empty"] = true;
+			return $data;
+		}
+		else
 		{
 			$data["empty"] = false;
 			$data["cols"] = array("","type", "title", "description", "last_change");
@@ -569,12 +576,6 @@ class Object
 			}
 			$data["buttons"] = array( "btn_undelete"  => $lng->txt("btn_undelete"),
 									  "btn_remove_system"  => $lng->txt("btn_remove_system"));
-			return $data;
-		}
-		else
-		{
-			$this->ilias->error_obj->sendInfo($lng->txt("msg_trash_empty"));
-			$data["empty"] = true;
 			return $data;
 		}
 	}

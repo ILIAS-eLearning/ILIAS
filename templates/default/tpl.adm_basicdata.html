@@ -217,17 +217,17 @@
     <tr>
       <td class="option">{TXT_MAIL_MAXSIZE_MAIL}</td>
       <td class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxsize_mail" value="{MAIL_MAXSIZE_MAIL}" />
-	  {TXT_IN_KB}</td>
+	  {TXT_KB}</td>
     </tr>
     <tr>
       <td class="option">{TXT_MAIL_MAXSIZE_ATTACH}</td>
       <td class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxsize_attach" value="{MAIL_MAXSIZE_ATTACH}" />
-	  {TXT_IN_KB}</td>
+	  {TXT_KB}</td>
     </tr>
     <tr>
       <td class="option">{TXT_MAIL_MAXSIZE_BOX}</td>
       <td class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxsize_box" value="{MAIL_MAXSIZE_BOX}" />
-	  {TXT_IN_KB}</td>
+	  {TXT_KB}</td>
     </tr>
     <tr>
       <td class="option">{TXT_MAIL_MAXTIME_MAIL}</td>
@@ -243,14 +243,14 @@
       <td colspan="2">&nbsp;</td>
     </tr>
 	<tr class="tblheader">
-      <td class="std" colspan="2">{TXT_CONTACT_INFORMATION}</td>
+      <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
     </tr>
     <tr>
-      <td class="option">{TXT_FIRSTNAME} *</td>
+      <td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_firstname" value="{ADMIN_FIRSTNAME}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_LASTNAME} *</td>
+      <td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_lastname" value="{ADMIN_LASTNAME}" /></td>
     </tr>
     <tr>
@@ -266,34 +266,34 @@
       <td class="option_value"><input type="text" size="40" maxlength="200" name="admin_institution" value="{ADMIN_INSTITUTION}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_STREET} *</td>
+      <td class="option">{TXT_STREET}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_street" value="{ADMIN_STREET}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_ZIPCODE} *</td>
+      <td class="option">{TXT_ZIPCODE}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="5" maxlength="10" name="admin_zipcode" value="{ADMIN_ZIPCODE}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_CITY} *</td>
+      <td class="option">{TXT_CITY}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_city" value="{ADMIN_CITY}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_COUNTRY} *</td>
+      <td class="option">{TXT_COUNTRY}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_country" value="{ADMIN_COUNTRY}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_PHONE} *</td>
+      <td class="option">{TXT_PHONE}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_phone" value="{ADMIN_PHONE}" /></td>
     </tr>
     <tr>
-      <td class="option">{TXT_EMAIL} *</td>
+      <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_email" value="{ADMIN_EMAIL}" /></td>
     </tr>
+	<tr>
+	  <td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
+	</tr>
+	<tr>
+	  <td colspan="2" align="right"><input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}"/></td>
+	</tr>
     </table>
-	<br />
-	* {TXT_MUST_FILL_IN}
-
-    <br /><br />
-    <input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}" />
-
     </form>

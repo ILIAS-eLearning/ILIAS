@@ -1,6 +1,5 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
-
 <table width="100%" cellpadding="0" cellsapcing="0" border="0">
 <tr>
 	<td width="1%" nowrap="nowrap" valign="top">{COUNT_POST}</td>
@@ -10,9 +9,7 @@
 	<td align="right">{BUTTONS}</td>
 </tr>
 </table>
-
 {NO_BTN}
-
 <table width="100%" cellpadding="3" cellspacing="1" border="0">
 <tr>
 	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>
@@ -25,46 +22,45 @@
 	</td>
 </tr>
 </table>
-
 {MESSAGE}
-
 <!-- BEGIN posttable -->
-<table class="fullwidth">
-
-<tr class="tblheader" valign="top">
-  <td class="std" width="25%"><b>{TXT_AUTHOR}</b></td>
-  <td class="std"><b>{TXT_POST}</b></td>
+<table cellpadding="4" cellspacing="1" border="0" width="100%" bgcolor="#000000">
+<tr class="tblheader">
+  <td class="frm_header" width="25%">{TXT_AUTHOR}</td>
+  <td class="frm_header">{TXT_POST}</td>
 </tr>
-
 <!-- BEGIN posts_row -->
 <tr>
- <td width="25%" valign="top" class="{ROWCOL}">{AUTHOR}<br/>{POST_DATE}<br/>{POST_UPDATE}</td>
- <td valign="top" class="{ROWCOL}"><a name="{POST_ANKER}"></a>{POST}<br/>
+ <td valign="top" width="25%" class="{ROWCOL}">{AUTHOR}<br/><br/>
+ <span class="small">{TXT_REGISTERED}: {REGISTERED_SINCE}
+ <br/>{TXT_NUM_POSTS}: {NUM_POSTS}</span>
+ </td>
+ <td class="{ROWCOL}">
+ <span class="small">{TXT_CREATE_DATE}: {POST_DATE}</span>
+ {SPACER}
+ <a name="{POST_ANKER}"></a>{POST}<br/>
+ <span class="small">{POST_UPDATE}</span>
  <!-- BEGIN reply_cell -->
  {SPACER}
- &nbsp;<b>></b>{REPLY_BUTTON}&nbsp;
-
+ <span class="frm_option">{REPLY_BUTTON}&nbsp;</span>
  <!-- BEGIN edit_cell -->
- &nbsp;<b>></b>{EDIT_BUTTON}&nbsp;
+ <span class="frm_option">{EDIT_BUTTON}&nbsp;</span>
  <!-- END edit_cell -->
-
   <!-- BEGIN del_cell -->
- &nbsp;<b>></b>{DEL_BUTTON}&nbsp;
+ <span class="frm_option">{DEL_BUTTON}&nbsp;</span>
  <!-- END del_cell -->
  <br/>
  <!-- END reply_cell -->
-
  <!-- BEGIN kill_cell -->
  <form name="formular2" action="{DEL_FORMACTION}" method="post">
  {KILL_SPACER}<a name="{KILL_ANKER}"></a>
  <p><b><font color="red">{TXT_KILL}</font></b></p>
- <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}">
+ <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
  &nbsp;&nbsp;
- <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}">
+ <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
  </form>
  <br/>
  <!-- END kill_cell -->
-
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
 <table cellpadding="3" cellspacing="1" border="0">
@@ -79,7 +75,7 @@
 				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
 			</tr>
 			<tr>
-			    <td nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"></td>
+			    <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"/></td>
 			</tr>
 			</table>
 			</form>

@@ -86,7 +86,7 @@ common#:#clear#:#Clear
 common#:#comma_separated#:#Comma Separated
 common#:#compose#:#Compose
 common#:#confirm#:#Confirm
-common#:#contact_information#:#Contact Information
+common#:#contact_data#:#Contact Information
 common#:#context#:#Context
 common#:#copy#:#Copy
 common#:#country#:#Country
@@ -131,7 +131,6 @@ common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
-common#:#employee#:#Employee
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
 common#:#enumerate#:#Enumerate
@@ -175,9 +174,10 @@ common#:#forums_posts#:#All articles
 common#:#forums_posts_not_available#:#Articles Not Available
 common#:#forums_respond#:#Respond to an Article
 common#:#forums_the_post#:#Article
-common#:#forums_thread#:#Thread
-common#:#forums_thread_articles#:#Articles to the Thread
-common#:#forums_thread_create#:#Created from
+common#:#forums_thread#:#Topic
+common#:#forums_thread_articles#:#Articles to the topic
+common#:#forums_thread_create_from#:#Created from
+common#:#forums_thread_create_date#:#Created at
 common#:#forums_thread_new_entry#:#New topic has been inscribed
 common#:#forums_threads#:#Threads
 common#:#forums_threads_not_available#:#Topics Not Available
@@ -185,7 +185,7 @@ common#:#forums_topics_overview#:#Topics Overview
 common#:#forums_your_reply#:#Your Reply
 common#:#forward#:#Forward
 common#:#frm#:#Forum
-common#:#from#:#From:
+common#:#from#:#From
 common#:#functions#:#Functions
 common#:#gender#:#Gender
 common#:#generate#:#Generate
@@ -195,7 +195,6 @@ common#:#groupname#:#Groupname
 common#:#groups#:#Groups
 common#:#groupscope#:#Groupscope
 common#:#grp#:#Group
-common#:#guest#:#Guest
 common#:#help#:#Help
 common#:#host#:#Host
 common#:#http_path#:#Http Path
@@ -278,7 +277,6 @@ common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mails#:#Mails
-common#:#mandatory_fields#:#Mandatory Fields
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
 common#:#members#:#Members
@@ -303,7 +301,6 @@ common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#multimedia#:#Multimedia
-common#:#must_fill_in#:#Must Fill in
 common#:#name#:#Name
 common#:#new#:#New
 common#:#new_folder#:#New Folder
@@ -362,7 +359,6 @@ common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Presentation Options
 common#:#print#:#Print
-common#:#profile#:#Profile
 common#:#pub_section#:#Public Section
 common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
@@ -374,7 +370,7 @@ common#:#read#:#Read
 common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
 common#:#refresh_list#:#Refresh List
-common#:#registered_since#:#Registered Since
+common#:#registered_since#:#Registered since
 common#:#reply#:#Reply
 common#:#required_field#:#Required Field
 common#:#reset#:#Reset
@@ -424,7 +420,6 @@ common#:#status#:#Status
 common#:#step#:#Step
 common#:#street#:#Street
 common#:#structure#:#Structure
-common#:#student#:#Student
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Subject
@@ -497,8 +492,15 @@ common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxtime_mail#:#Max. days to keep mails 
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#in_kb#:#in Kb
+common#:#kb#:#KByte
 common#:#days#:#Days
+common#:#login_data#:#Login data
+common#:#personal_data#:#Personal information
+common#:#inform_user_mail#:#Send email to inform user about changes
+common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
+common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
+common#:#passwd_wrong#:#The password you entered is wrong!
+common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
 common#:#mail_select_one#:#You have to select one mail.
 common#:#mail_deleted#:#The mail(s) have been deleted
 common#:#mail_delete_error#:#Error deleting mail(s)
@@ -514,3 +516,6 @@ common#:#mail_saved#:#The message is saved
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_search_word#:#Search word
 common#:#mail_attachments#:#Attachments
+common#:#settings#:#Settings
+common#:#profile_changed#:#Your profile has changed
+common#:#quote#:#Quote

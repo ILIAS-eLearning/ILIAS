@@ -9,7 +9,7 @@
 * 
 * @package	application
 */
-require_once("classes/class.Mail.php");
+require_once "classes/class.Mail.php";
 
 class FormatMail extends Mail
 {

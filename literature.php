@@ -11,7 +11,7 @@ require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.literature.html");
 
-$ilias->error_obj->sendInfo("Attention: Functions to handle literature bookmarks aren't implemented yet.",$ilias->error_obj->MESSAGE);
+sendInfo("Attention: Functions to handle literature bookmarks ist not implemented yet.");
 
 $lit = $ilias->account->getLiterature();
 

@@ -1,47 +1,37 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
-
 <table width="100%" cellpadding="0" cellpadding="0" border="0">
 <tr>
 	<td width=1% nowrap="nowrap" valign="top">{COUNT_THREAD}</td>
 	<td align="right">{BUTTONS}</td>
 </tr>
 </table>
-
 {NO_BTN}
-
 {MESSAGE}
-
 <!-- BEGIN threadtable -->
-
 <!-- BEGIN linkbar -->
 <table cellpadding="3" cellspacing="1" border="0">
 <tr><td>{LINKBAR}</td></tr>
 </table>
 <!-- END linkbar -->
 
-<table class="fullwidth">
-
-<tr class="tblheader" valign="top">
-  <td class="std" width=20%><b>{TXT_TITLE}</b></td>
-  <td class="std"><b>{TXT_AUTHOR}</b></td>
-  <td class="std"><b>{TXT_DATE}</b></td>
-  <td class="std"><b>{TXT_NUM_POSTS}</b></td>
-  <td class="std"><b>{TXT_NUM_VISITS}</b></td>
-  <td class="std"><b>{TXT_LAST_POST}</b></td>
+<table cellpadding="4" cellspacing="1" border="0" width="100%" bgcolor="#000000">
+<tr class="tblheader">
+  <td class="frm_header" width="60%">{TXT_TOPIC}</td>
+  <td class="frm_header" align="center" width="20%">{TXT_AUTHOR}</td>
+  <td class="frm_header" align="center" nowrap="nowrap">{TXT_NUM_POSTS}</td>
+  <td class="frm_header" align="center" nowrap="nowrap">{TXT_NUM_VISITS}</td>
+  <td class="frm_header" align="center" width="20%">{TXT_LAST_POST}</td>
 </tr>
-
 <!-- BEGIN threads_row -->
 <tr>
- <td valign="top" class="{ROWCOL}" width="20%">{TITLE}</td>
- <td valign="top" class="{ROWCOL}">{AUTHOR}</td>
- <td valign="top" class="{ROWCOL}">{DATE}</td>
- <td valign="top" class="{ROWCOL}">{NUM_POSTS}</td>
- <td valign="top" class="{ROWCOL}">{NUM_VISITS}</td>
- <td valign="top" class="{ROWCOL}">{LAST_POST}</td>
+ <td width="60%" class="frm_column2" width="20%"><span class="frm_topic">{TITLE}</span></td>
+ <td width="20%" align="center" class="frm_column1">{AUTHOR}</td>
+ <td align="center" class="frm_column2">{NUM_POSTS}</td>
+ <td align="center" class="frm_column1">{NUM_VISITS}</td>
+ <td width="20%" class="frm_column2">{LAST_POST}</td>
 </tr>
 <!-- END threads_row -->
-
 <!-- BEGIN threads_no -->
 <tr class="std">
  <td  class="std" colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>

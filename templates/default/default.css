@@ -1,31 +1,35 @@
 body {
-        color:#222222;
-        background-color:#dddddd;
-        font-family:Verdana,Arial,Helvetica,sans-serif;
-        font-size:small;
-                margin:10px;
+	color:#222222;
+	background-color:#dddddd;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:small;
+	margin:10px;
 }
+
 td {
-        font-size:small;
+	font-size:13px;
 }
 
 .btnbar {
-        background-color:#006699;
+	background-color:#006699;
 }
 
 input, textarea {
-        font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:13px;
 }
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-        color:#222222;
-        background-color:#eeeeee;
+	color:#222222;
+	background-color:#eeeeee;
+	font-size:13px;
 }
 
 .tblrow1 {
-        color:#222222;
-        background-color:#bbbbbb;
+	color:#222222;
+	background-color:#bbbbbb;
+	font-size:13px;
 }
 
 /* -------------------- table formatting ------------------ */
@@ -43,126 +47,199 @@ td.std {
 	padding:3px;
 }
 
+td.option {
+	padding:3px;
+	border-bottom:1px solid #000000
+}
+
+td.option_value {
+	padding:3px;
+	border-bottom:1px solid #000000
+}
 
 .tblheader {
-     color:#ffffff;
-     background-color:#666677;
+	font-weight:bold;
+	color:#ffffff;
+	background-color:#666677;
 }
 
 /* ---------------- headlines ------------------ */
 
 h1 {
-   font-size:medium;
-   color:#222222;
+	font-size:16px;
+	color:#222222;
 }
 
 h2 {
-   font-size:medium;
-   color:#222222;
+	font-size:16px;
+	color:#222222;
 }
 
 /* ----------------- alternative text styles ------------- */
 .small {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 }
 
 .smallgreen {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 	color:green;
 }
 
 .smallred {
-        text-decoration:none;
-        font-size:x-small;
+	text-decoration:none;
+	font-size:9px;
 	color:red;
+}
+
+.warning {
+	text-decoration:none;
+	font-weight;bold;
+	color:red;
+}
+
+.asterisk {
+	color:red;
+}
+
+.default {
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.quote {
+	font-style:italic;
+	font-weight:normal;
+}
+
+/* ---------------- forum design ----------------- */
+
+.frm_header {
+	padding:3px;
+	font-size:11px;
+	font-weight:bold;
+}
+
+.frm_topic {
+	text-decoration:none;
+	font-size:13px;
+}
+
+.frm_desc {
+	font-style:italic;
+	font-size:13px;
+}
+
+.frm_context {
+	font-size:9px;
+}
+
+.frm_column2 {
+	color:#222222;
+	background-color:#eeeeee;
+	text-decoration:none;
+	font-size:9px;
+}
+
+.frm_column1 {
+	color:#222222;
+	background-color:#bbbbbb;
+	text-decoration:none;
+	font-size:9px;
+}
+
+.frm_option {
+	text-decoration:none;
+	font-size:9px;
 }
 
 /* ----------------- normal links ------------- */
 a {
-        font-weight:bold;
-        text-decoration:none;
-        color:#0066ff;
+	font-weight:bold;
+	text-decoration:none;
+	color:#0066ff;
 }
 
 a:hover {
-        color:#0066ff;
+	color:#0066ff;
 }
 
 a:visited {
-        color:#0066ff;
+	color:#0066ff;
 }
 
 /* ------------------- mail links ----------- */
 a.mailread
 {
-        font-weight: normal;
-        color: blue;
+	font-weight: normal;
+	color: blue;
 }
 
 a.mailunread
 {
-        color: blue;
-        font-weight: bold;
+	color: blue;
+	font-weight: bold;
 }
 
 /* ------------------ buttons -------------- */
 
 .btn {
-        background-color:#006699;
-        color:#ffffff;
+	background-color:#006699;
+	color:#ffffff;
 }
 
 a.btn {
-        color:#ffffff;
-        text-decoration:none;
-        font-size:small;
+	color:#ffffff;
+	text-decoration:none;
+	font-size:13px;
 }
 
 a.tblheader:visited, a.tblheader:hover {
-                color:#ffffff;
+	color:#ffffff;
 }
 
 a.btn:visited {
-        color:#ffffff;
-        text-decoration:none;
-        font-size:small;
+	color:#ffffff;
+	text-decoration:none;
+	font-size:13px;
 }
 
 a.btn:hover {
-        color:#eeeeff;
+	color:#eeeeff;
 }
 
 .message {
-  color: #dd0000;
-  font-weight: bold;
-  text-align: center;
+	color: #dd0000;
+	line-height: 25px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: top;
 }
 
 /* ------------------ tabs -------------- */
 .tab {
-        font-size: x-small;
-        color: #000000;
-        font-weight: bold;
-        background-color:#000000;
+	font-size: x-small;
+	color: #000000;
+	font-weight: bold;
+	background-color:#000000;
 }
 
 .tabactive {
-        background-color:#dddddd;
+	background-color:#dddddd;
 }
 .tabinactive {
-        background-color:#bbbbbb;
+	background-color:#bbbbbb;
 }
 
 /* ------------------ content window body tag (not used yet) -------------- */
 .content {
-        margin:0px;
+	margin:0px;
 }
 
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
-        display: block;
+	display: block;
 }
 
 sup {

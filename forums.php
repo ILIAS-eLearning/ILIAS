@@ -48,7 +48,7 @@ if ($frmNum > 0)
 			$tpl->setVariable("LINKBAR", $linkbar);
 		}
 	}	
-		
+
 	// get forums dates
 	foreach($frm_obj as $data)
 	{		
@@ -73,8 +73,10 @@ if ($frmNum > 0)
 			{
 				$thr_page = "new";
 			}
-		
+
 			$tpl->setCurrentBlock("forum_row");
+			$tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
+		
 			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
 			$tpl->setVariable("ROWCOL", $rowCol);		
 			
@@ -108,9 +110,9 @@ if ($frmNum > 0)
 					$moderator = $frm->getUser($topicData["top_usr_id"]);	
 					
 					$tpl->setVariable("START_DATE_TXT1", $lng->txt("launch"));
-					$tpl->setVariable("START_DATE_TXT2", $lng->txt("by"));
+					$tpl->setVariable("START_DATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("START_DATE", $frm->convertDate($topicData["top_date"]));
-					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["top_usr_id"]."&backurl=forums&offset=".$Start."\">".$moderator->getLastName()."</a>"); 										
+					$tpl->setVariable("START_DATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["top_usr_id"]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>"); 										
 				}
 				
 				// when forum was changed ...
@@ -119,16 +121,16 @@ if ($frmNum > 0)
 					$moderator = $frm->getUser($topicData["update_user"]);	
 					
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
-					$tpl->setVariable("LAST_UPDATE_TXT2", $lng->txt("by"));
+					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
-					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["update_user"]."&backurl=forums&offset=".$Start."\">".$moderator->getLastName()."</a>"); 										
+					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$topicData["update_user"]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>"); 										
 				}
 				
 				// show content of last-post
 				if (is_array($lastPost))
 				{					
-					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["lastname"]."</a><br>";
+					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";			
+					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
 					$lpCont .= $lastPost["pos_date"];							
 				}
 	
@@ -149,7 +151,7 @@ if ($frmNum > 0)
 							$moderators .= ", ";
 						}
 
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$moderator->getLastName()."</a>";
+						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$data["ref_id"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$moderator->getLogin()."</a>";
 					}
 				}							
 				$tpl->setVariable("MODS",$moderators); 
@@ -162,7 +164,7 @@ if ($frmNum > 0)
 				
 				if (is_array($lastPost))
 				{
-					$lpCont = $lastPost["pos_message"]."<br>".$lng->txt("from")." ".$lastPost["lastname"]."<br>".$lastPost["pos_date"];				
+					$lpCont = $lastPost["pos_message"]."<br/>".$lng->txt("from")." ".$lastPost["lastname"]."<br/>".$lastPost["pos_date"];				
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);
@@ -181,7 +183,7 @@ if ($frmNum > 0)
 							$moderators .= ", ";
 						}
 						
-						$moderators .= $moderator->getLastName();
+						$moderators .= $moderator->getLogin();
 					}
 				}
 				$tpl->setVariable("MODS",$moderators); 
@@ -218,6 +220,7 @@ if ($_GET["feedback"] != "")
 
 $tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
+$tpl->setVariable("TXT_FORUM", $lng->txt("forum"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 $tpl->setVariable("TXT_NUM_THREADS", $lng->txt("forums_threads"));
@@ -225,7 +228,6 @@ $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
 $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
-$tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
 $tpl->parseCurrentBlock("forum");
 
 if ($_GET["message"])

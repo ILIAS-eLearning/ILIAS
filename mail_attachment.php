@@ -47,16 +47,16 @@ if(isset($_POST["cmd"]))
 			{
 				if(!is_array($_POST["filename"]))
 				{
-					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Datei auswählen.");
+					sendInfo("Sie müssen mindestens eine Datei auswählen.");
 				}
 
 				else if($error = $mfile->unlinkFiles($_POST["filename"]))
 				{
-					$ilias->error_obj->sendInfo("Fehler beim Löschen der Datei $error.");
+					sendInfo("Fehler beim Löschen der Datei $error.");
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo("Die Datei(en) wurde(n) gelöscht.");
+					sendInfo("Die Datei(en) wurde(n) gelöscht.");
 				}
 				break;
 			}
@@ -64,12 +64,12 @@ if(isset($_POST["cmd"]))
 			{
 				if(!is_array($_POST["filename"]))
 				{
-					$ilias->error_obj->sendInfo("Sie müssen mindestens eine Datei auswählen.");
+					sendInfo("Sie müssen mindestens eine Datei auswählen.");
 					$error_delete = true;
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo("Sollen die markierten Dateien wirklich gelöscht werden?");
+					sendInfo("Sollen die markierten Dateien wirklich gelöscht werden?");
 				}
 			}
 			else if(isset($_POST["cancel"]))

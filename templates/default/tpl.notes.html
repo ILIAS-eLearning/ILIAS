@@ -1,15 +1,14 @@
 <h1>{TXT_NOTES}</h1>
 {BUTTONS}
-<table CELLPADDING=2 CELLSPACING=0 BORDER=0>
+{MESSAGE}
+<form name="form" action="{FORMACTION}" method="post">
+<table>
 <tr class="tblheader">
   <td>&nbsp;<b>delete{TXT_DELETE}</b>&nbsp;</td>
   <td>&nbsp;<b>{TXT_TITLE}</b>&nbsp;</td>
   <td>&nbsp;<b>{TXT_DESCRIPTION}</b>&nbsp;</td>
   <td colspan=2>&nbsp;</td>
 </tr>
-
-<form name="form" action="{FORMACTION}" method="post">
-
 <!-- BEGIN noterow -->
 <tr class="{ROWCOL}">
   <td>&nbsp;<input type="checkbox" name="id[]" value="{NOTE_ID}"></td>
@@ -20,7 +19,7 @@
 </tr>
 <!-- END noterow -->
 </table>
-  <br>
-  <input type=submit name="submit" value="delete">
-</FORM>
+  <br/>
+  <input type=submit name="submit" value="delete"/>
+</form>
 

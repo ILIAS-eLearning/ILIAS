@@ -86,7 +86,7 @@ common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
 common#:#compose#:#Schreiben
 common#:#confirm#:#Bestätigen
-common#:#contact_information#:#Kontakt
+common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
 common#:#country#:#Land
@@ -120,7 +120,7 @@ common#:#delete_selected#:#Auswahl löschen
 common#:#deleted#:#Gelöscht
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
-common#:#desired_password#:#Neues Password
+common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#drafts#:#Entwürfe
 common#:#edit#:#Bearbeiten
@@ -177,7 +177,8 @@ common#:#forums_respond#:#Beitrag beantworten
 common#:#forums_the_post#:#Beitrag
 common#:#forums_thread#:#Thema
 common#:#forums_thread_articles#:#Beiträge zum Thema
-common#:#forums_thread_create#:#Erstellt von
+common#:#forums_thread_create_from#:#Erstellt von
+common#:#forums_thread_create_date#:#Erstellt am
 common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 common#:#forums_threads#:#Themen
 common#:#forums_threads_not_available#:#Keine Themen verfügbar
@@ -355,14 +356,13 @@ common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#personal_desktop#:#Persönlicher Schreibtisch
-common#:#personal_profile#:#persönliches Profil
+common#:#personal_profile#:#Persönliches Profil
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Präsentationsoptionen
 common#:#print#:#Drucken
-common#:#profile#:#Profil
 common#:#pub_section#:#öffentlicher Bereich
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -488,5 +488,16 @@ common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
 common#:#mail_maxsize_box#:#Max. Mailboxgrösse
 common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails 
 common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
-common#:#in_kb#:#in Kb
+common#:#kb#:#KByte
 common#:#days#:#Tage
+common#:#login_data#:#Logindaten
+common#:#personal_data#:#Daten zur Person
+common#:#permission_settings#:#Rechteeinstellungen
+common#:#inform_user_mail#:#Benutzer per Email über Änderungen informieren
+common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
+common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#settings#:#Einstellungen
+common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
+common#:#profile_changed#:#Ihr Profil wurde geändert
+common#:#quote#:#Zitat

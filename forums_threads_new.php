@@ -99,7 +99,7 @@ if ($_GET["cmd"] == "newthread")
 }
 
 $tpl->setCurrentBlock("new_thread");
-$tpl->setVariable("TXT_MUSTBE", $lng->txt("mandatory_fields"));
+$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));

@@ -1,15 +1,15 @@
 <form action="{FORMACTION}" method="post">
 <table class="std">
 <tr>
-  <td class="option">{TXT_TITLE} *</td>
-  <td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="30" maxsize="70" /></td>
+  <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
+  <td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
 </tr>
 <tr>
-  <td class="option">{TXT_DESC}&nbsp;</td>
-  <td class="option_value" valign="top"><textarea name="Fobject[desc]" rows="3" cols="25">{DESC}</textarea></td>
+  <td class="option">{TXT_DESC}</td>
+  <td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
 </tr>
 </table>
-<p class="infotext">* {TXT_REQUIRED_FLD}</p>
-<br /><input class="submit" type="submit" value="{TXT_SAVE}">
+<p class="small"><span class="asterisk">*</span> {TXT_REQUIRED_FLD}</p>
+<br /><input class="submit" type="submit" value="{TXT_SAVE}"/>
 </form>
 

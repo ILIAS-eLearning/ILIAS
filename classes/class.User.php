@@ -272,7 +272,7 @@ class User
 	* @return	boolean	true on success; otherwise false
 	* @access	public
 	*/
-	function updatePassword($old, $pw1, $pw2)
+	function updatePassword($a_old, $a_new1, $a_new2)
 	{
 		if (func_num_args() != 3)
 		{
@@ -284,28 +284,92 @@ class User
 			return false;
 		}
 
-		if ($pw1 != $pw2)
+		if ($a_new1 != $a_new2)
 		{
 			return false;
 		}
 		
 		// is catched by isset() ???
-		if ($pw1 == "" || $old == "")
+		if ($a_new1 == "" || $a_old == "")
 		{
 			return false;
 		}
 		
 		//check old password
-		if (md5($old) != $this->passwd)
+		if (md5($a_old) != $this->passwd)
 		{
 			return false;
 		}
 		
 		//update password
-		$this->passwd = md5($pw1);
+		$this->passwd = md5($a_new1);
 
 		$q = "UPDATE usr_data SET ".
 			 "passwd='".$this->passwd."' ".
+			 "WHERE usr_id='".$this->id."'";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
+	* reset password
+	* @param	string	new password1
+	* @param	string	new password2
+	* @return	boolean	true on success; otherwise false
+	* @access	public
+	*/
+	function resetPassword($a_new1, $a_new2)
+	{
+		if (func_num_args() != 2)
+		{
+			return false;
+		}
+		
+		if (!isset($a_new1) or !isset($a_new2))
+		{
+			return false;
+		}
+
+		if ($a_new1 != $a_new2)
+		{
+			return false;
+		}
+		
+		//update password
+		$this->passwd = md5($a_new1);
+
+		$q = "UPDATE usr_data SET ".
+			 "passwd='".$this->passwd."' ".
+			 "WHERE usr_id='".$this->id."'";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+	
+	/**
+	* update login name
+	* @param	string	new login
+	* @return	boolean	true on success; otherwise false
+	* @access	public
+	*/
+	function updateLogin($a_login)
+	{
+		if (func_num_args() != 1)
+		{
+			return false;
+		}
+		
+		if (!isset($a_login))
+		{
+			return false;
+		}
+
+		//update login
+		$this->login = $a_login;
+
+		$q = "UPDATE usr_data SET ".
+			 "login='".$this->login."' ".
 			 "WHERE usr_id='".$this->id."'";
 		$this->ilias->db->query($q);
 

@@ -44,8 +44,8 @@ class Forum
 	
 	var $txtQuote1 = "[quote]"; 
 	var $txtQuote2 = "[/quote]"; 
-	var $replQuote1 = "<blockquote><i>"; 
-	var $replQuote2 = "</blockquote></i>"; 
+	var $replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">"; 
+	var $replQuote2 = "<hr size=\"1\" color=\"#000000\"/></blockquote>"; 
 	
 	// max. datasets per page
 	var $pageHits = 20;
@@ -290,8 +290,8 @@ class Forum
 	* @access	public
 	*/
 	function generatePost($topic, $thread, $user, $message, $parent_pos=0)
-	{		
-				
+	{
+	
 		$pos_data = array(
 			"pos_top_fk"	=> $topic,
 			"pos_thr_fk"	=> $thread,
@@ -583,7 +583,7 @@ class Forum
 	{
 		$LP = explode("#", $lastPost);		
 		
-		$q = "SELECT DISTINCT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";
+		$q = "SELECT DISTINCT frm_posts.*, usr_data.login FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk = '".$LP[0]."' AND ";
 		$q .= "pos_thr_fk = '".$LP[1]."' AND ";
 		$q .= "pos_pk = '".$LP[2]."' AND ";
@@ -715,7 +715,7 @@ class Forum
 		
 		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
         {
-			return  $lng->txt("today")." ".Format::formatDate($date,"time");
+			return  $lng->txt("today").", ".Format::formatDate($date,"time");
 		}
 		
 		return Format::formatDate($date);
@@ -998,6 +998,8 @@ class Forum
 	*/
 	function prepareText($text,$edit=0)
 	{		
+		global $lng;
+
 		if ($edit == 1)
 		{
 			$text = str_replace($this->txtQuote1, "", $text);		
@@ -1050,7 +1052,7 @@ class Forum
 				
 				if ($edit == 0)
 				{
-					$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
+					$text = str_replace($this->txtQuote1, "<blockquote><span><b>".$lng->txt("quote")."</b>:</blockquote>".$this->replQuote1, $text);		
 					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
 				}
 			}		
