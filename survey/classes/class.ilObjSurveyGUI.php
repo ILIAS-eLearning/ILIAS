@@ -3847,6 +3847,52 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	/**
+	* Creates a confirmation form for delete all user data
+	*
+	* Creates a confirmation form for delete all user data
+	*
+	* @access	public
+	*/
+	function deleteAllUserDataObject()
+	{
+		sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+		$this->tpl->setCurrentBlock("confirm_delete");
+		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Deletes all user data of the survey after confirmation
+	*
+	* Deletes all user data of the survey after confirmation
+	*
+	* @access	public
+	*/
+	function confirmDeleteAllUserDataObject()
+	{
+		$this->object->deleteAllUserData();
+		sendInfo($this->lng->txt("svy_all_user_data_deleted"), true);
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Cancels delete of all user data in maintenance
+	*
+	* Cancels delete of all user data in maintenance
+	*
+	* @access	public
+	*/
+	function cancelDeleteAllUserDataObject()
+	{
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
 	* Creates the maintenance form for a survey
 	*
 	* Creates the maintenance form for a survey
@@ -3865,19 +3911,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
-		
-		if ($_POST["cmd"]["delete_all_user_data"])
-		{
-			$this->object->deleteAllUserData();
-			sendInfo($this->lng->txt("svy_all_user_data_deleted"));
-		}
-		$add_parameter = $this->getAddParameter();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
+
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setCurrentBlock("delete_button");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
-			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
