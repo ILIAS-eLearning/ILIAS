@@ -551,6 +551,19 @@ class ASS_Question extends PEAR {
 	function get_image_path() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 	}
+
+/**
+* Returns the web image path for web accessable images of a question
+* 
+* Returns the web image path for web accessable images of a question.
+* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
+*
+* @access public
+*/
+	function get_image_path_web() {
+		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
+		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+	}
 }
 
 ?>
