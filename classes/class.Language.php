@@ -279,10 +279,12 @@ class Language
 					break;
 					
 				case 2:
+					$langs = array();
+					
 					$rows = explode("\t",$l_file[$i]);
 					for ($j=1; $j<count($rows); $j++)
 					{
-
+						$langs[] = $rows[$j];
 						if (fputs($file[$j-1], trim($rows[$j])."\n")==false)
 						{
 							$this->error = "Could not write to file";
@@ -295,7 +297,17 @@ class Language
 					$rows = explode("\t",$l_file[$i]);
 					for ($j=1; $j<count($rows); $j++)
 					{
-						fputs($file[$j-1], trim($rows[0])."#:#".trim($rows[$j])."\n");
+						$translation = trim($rows[$j]);
+						
+						//check content of translation, if no translation present
+						// the topic itself is returned
+						if ($translation=="")
+						{
+							$translation = $rows[0];	
+							$this->log->write("Language: '".$rows[0]."' not defined in Language '".$langs[$j]."'");
+						}
+							
+						fputs($file[$j-1], trim($rows[0])."#:#". $translation ."\n");
 					}
 
 			} //switch
