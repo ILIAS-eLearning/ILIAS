@@ -59,7 +59,7 @@ class ilObjRoleTemplate extends ilObject
 		global $rbacsystem, $rbacadmin;
 
 		// delete rbac permissions
-		$rbacadmin->deleteTemplate($this->getId());
+		$rbacadmin->deleteTemplate($this->getId(),$_GET["ref_id"]);
 
 		// delete object data entry
 		parent::delete();
