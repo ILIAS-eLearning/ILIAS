@@ -14,25 +14,35 @@
 <!ENTITY % simpletext "#PCDATA | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | GlossaryTerm">
 <!ENTITY % titletext "#PCDATA | Emph | Strong | Quotation | Code | Formula">
 <!-- LearningModule -->
-<!-- Object of highest complexity -->
+<!-- Object of highest complexity; LearningModule is a container for all content, meta data and layout information; it is comparable to an entire book-->
+<!-- LearningModules are comparable to LOM LearningObjects of aggregation level 3 -->
 <!ELEMENT LearningModule (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)>
 <!-- StructureObject -->
+<!-- Object for structuring the learning material of a LearningModule and comparable to a chapter of a book; a StructureObject contains other StructureObjects (=chapters) and PageObjects (=pages) or a StructureAlias-->
+<!-- StructureObjects are comparable to LOM LearningObjects of aggregation level 3 -->
 <!ELEMENT StructureObject (((MetaData, (StructureObject | PageObject)+) | StructureAlias), Layout?)>
 <!-- StructureAlias -->
+<!-- Alias for an already existing StructureObject; this allows an easy reuse of existing StructureObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT StructureAlias EMPTY>
 <!ATTLIST StructureAlias
 	OriginID CDATA #REQUIRED
 >
 <!-- PageObject -->
+<!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
+<!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (((MetaData, (Paragraph | MediaObject)+) | PageAlias), Layout?)>
 <!-- PageAlias -->
+<!-- Alias for an already existing PageObject; this allows an easy reuse of existing PageObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT PageAlias EMPTY>
 <!ATTLIST PageAlias
 	OriginID CDATA #REQUIRED
 >
 <!-- MediaObject -->
+<!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
+<!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
 <!ELEMENT MediaObject ((MetaData | MediaAlias), Layout?, Parameter?)>
 <!-- MediaAlias -->
+<!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
 	OriginID CDATA #REQUIRED
@@ -203,7 +213,7 @@
 	Id ID #IMPLIED
 >
 <!-- Paragraph -->
-<!-- (textual) Content of a page object should be divided in single paragraphs -->
+<!-- All textual content of a PageObject has to be divided in single paragraphs -->
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
 	Language (%langcode;) #REQUIRED
@@ -286,7 +296,7 @@
 	Alt CDATA #REQUIRED
 >
 <!-- ExtLink -->
-<!-- An element to link to _external_ resources -->
+<!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
 <!-- It is fixed to xlink-type simple, only required attribute value is href -->
 <!ELEMENT ExtLink (%linktext;)*>
 <!ATTLIST ExtLink
@@ -305,6 +315,7 @@
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 >
 <!-- Anchor -->
+<!-- Allows to jump to a specified target point within a page; the use of anchors in ILIAS is equal to its use in HTML-->
 <!ELEMENT Anchor (%linktext;)*>
 <!ATTLIST Anchor
 	Id ID #REQUIRED
@@ -321,7 +332,7 @@
 	Attribute5 CDATA #IMPLIED
 >
 <!-- Test -->
-<!-- Only a minimum of functionality defined to support simple multiple choice tests -->
+<!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
 <!ELEMENT Test (MetaData, TestItem+)>
 <!ATTLIST Test
 	Id ID #IMPLIED
@@ -337,14 +348,17 @@
 >
 <!ELEMENT Hint (Paragraph | MediaObject)+>
 <!-- Glossary -->
+<!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
 <!ELEMENT Glossary (MetaData, GlossaryItem+)>
 <!ATTLIST Glossary
 	Id ID #IMPLIED
 >
+<!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects--> 
 <!ELEMENT GlossaryItem (MetaData, GlossaryTerm, Definition+)>
 <!ATTLIST GlossaryItem
 	Id ID #IMPLIED
 >
+<!--GlossaryTerms can be included in Paragraphs -->
 <!ELEMENT GlossaryTerm (%titletext;)*>
 <!ELEMENT Definition (Paragraph | MediaObject)+>
 <!-- Bibliography -->
@@ -354,7 +368,7 @@
 	Id ID #IMPLIED
 >
 <!-- Layout -->
-<!-- Layout information for formatting content output -->
+<!-- Layout information for formatting content output different from default layout -->
 <!ELEMENT Layout EMPTY>
 <!ATTLIST Layout
 	KeepWithPrevious (Yes | No) #IMPLIED
@@ -367,7 +381,7 @@
 	Height CDATA #IMPLIED
 >
 <!-- Parameter -->
-<!-- Parameters needed for MediaObjects -->
+<!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
 <!ELEMENT Parameter EMPTY>
 <!ATTLIST Parameter
 	ParameterName CDATA #REQUIRED
