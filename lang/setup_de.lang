@@ -35,7 +35,7 @@ setup_languages#:#Sprachen installieren
 setup_password#:#Passwort erstellen
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
 setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
-setup_database_desc#:#Erstellung der Datanbank
+setup_database_desc#:#Erstellung der Datenbank
 setup_languages_desc#:#Installation zusätzlicher Sprachen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
 setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
@@ -71,7 +71,7 @@ password_set#:#Das Passwort wurde gespeichert.
 password_changed#:#Das Passwort wurde geändert.
 setup_menu#:#setup menü
 inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
-inifile_can_write#:#ILIAS3 setup kann eine neue ini-Datei erzeugen.
+inifile_can_write#:#ILIAS 3 setup kann eine neue ini-Datei erzeugen.
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
 intro_install#:#Das ist das Hauptmenü von ILIAS3 setup. Hier können Sie Schritt für Schritt die Installation von ILIAS3 durchführen.
 setup_mainmenu#:#Setup Hauptmenü
@@ -85,7 +85,7 @@ env_warning#:#ILIAS 3 wurde nur auf Linux und Windows mit einem Apache-Webserver
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
 pre_php_version#:#PHP-Version
 pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
-pre_folder_create#:#Neu Ordner anlegen im ILIAS 3 Verzeichnis
+pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
 inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 3.
 inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
