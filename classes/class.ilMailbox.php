@@ -223,14 +223,14 @@ class ilMailbox
 	* add folder
 	* @param integer id of parent folder
 	* @param string name of folder
-	* @return boolean
+	* @return integer new id of folder
 	* @access	public
 	*/
 	function addFolder($a_parent_id,$a_folder_name)
 	{
 		if($this->folderNameExists($a_folder_name))
 		{
-			return false;
+			return 0;
 		}
 		// ENTRY IN mail_obj_data
 		$query = "INSERT INTO $this->table_mail_obj_data ".
@@ -242,7 +242,7 @@ class ilMailbox
 		// ENTRY IN mail_tree
 		$new_id = $this->getLastInsertId();
 		$this->mtree->insertNode($new_id,$a_parent_id);
-		return true;
+		return $new_id;
 	}
 
 	/**
