@@ -31,8 +31,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-3rd_party_software#:#3rd party software###21 Nov 2003 new variable
-3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
@@ -100,7 +98,6 @@ file_version#:#bylos versija
 fill_both_fields#:#Prašom užpildyti abu laukelius!
 finish#:#Finish setup###21 Nov 2003 new variable
 finish_setup#:#Finishing setup###21 Nov 2003 new variable
-finish_setup#:#Finishing setup###28 Nov 2003 new variable
 firstname#:#Firstname###21 Nov 2003 new variable
 host#:#Host###21 Nov 2003 new variable
 htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
@@ -155,7 +152,6 @@ lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Lenkų
 lang_se#:#Swedish###28 Nov 2003 new variable
 lang_se#:#Švedų
-lang_ua#:#Ukrainian
 lang_xx#:#(kita)
 language#:#kalba
 languages#:#kalbos
@@ -188,7 +184,6 @@ not_connected_to_db#:#You are not connected to database.###28 Nov 2003 new varia
 out_of_webspace#:#(out of webspace)###28 Nov 2003 new variable
 out_of_webspace#:#(vietos stygius)
 overview#:#Overview###21 Nov 2003 new variable
-overview#:#Overview###28 Nov 2003 new variable
 password#:#slaptažodis
 password_changed#:#Slaptažodis pakeistas.
 password_empty#:#Tuščias slaptažodis!
@@ -212,6 +207,7 @@ pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite rei
 pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima
 pre_folder_write#:#ILIAS 3 kataloge rašyti galima
 pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.
+pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###12 Dec 2003 new variable
 pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
 pre_php_version#:#PHP versija
 preliminaries#:#Preliminariai
@@ -263,7 +259,6 @@ status#:#Status###21 Nov 2003 new variable
 step#:#Step###21 Nov 2003 new variable
 street#:#Street###21 Nov 2003 new variable
 submit#:#Patvirtinti
-target#:#target###28 Nov 2003 new variable
 title#:#Title###21 Nov 2003 new variable
 unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unzip_path#:#Path to Unzip###21 Nov 2003 new variable

@@ -187,6 +187,7 @@ pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem pon
 pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS 3
 pre_folder_write#:#Katalog ILIAS 3 z możliwością zapisu
 pre_intro#:#Najpierw sprawdź czy, twoje środowisko spełnia wymagania instalacji i uruchomienia ILIAS3 na twoim serwerze.
+pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###12 Dec 2003 new variable
 pre_javascript_enabled#:#Javascript wybrane
 pre_php_version#:#Wersja PHP
 preliminaries#:#Proces instalacji
