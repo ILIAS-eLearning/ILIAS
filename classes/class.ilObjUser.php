@@ -256,6 +256,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
+		$this->setTimeLimitMessage($a_data['time_limit_message']);
 
 
 	}
@@ -373,7 +374,8 @@ class ilObjUser extends ilObject
             "time_limit_owner='".ilUtil::prepareDBString($this->getTimeLimitOwner())."', ".
 			"time_limit_unlimited='".ilUtil::prepareDBString($this->getTimeLimitUnlimited())."', ".
 			"time_limit_from='".ilUtil::prepareDBString($this->getTimeLimitFrom())."', ".
-			"time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."' ".
+			"time_limit_until='".ilUtil::prepareDBString($this->getTimeLimitUntil())."', ".
+			"time_limit_message='".$this->getTimeLimitMessage()."' ".
 			"WHERE usr_id='".$this->id."'";
 
 		$this->ilias->db->query($q);
@@ -1329,6 +1331,15 @@ class ilObjUser extends ilObject
     {
         return $this->time_limit_unlimited;
     }
+	function setTimeLimitMessage($a_time_limit_message)
+	{
+		return $this->time_limit_message = $a_time_limit_message;
+	}
+	function getTimeLimitMessage()
+	{
+		return $this->time_limit_message;
+	}
+		
 
 	function checkTimeLimit()
 	{

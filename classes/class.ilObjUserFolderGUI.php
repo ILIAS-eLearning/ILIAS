@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.28 2004/08/09 18:22:33 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.29 2004/08/13 15:52:44 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1180,6 +1180,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$tmp_user->setTimeLimitUnlimited((int) $_POST['au']['time_limit_unlimited']);
 			$tmp_user->setTimeLimitFrom($start);
 			$tmp_user->setTimeLimitUntil($end);
+			$tmp_user->setTimeLimitMessage(0);
 			$tmp_user->update();
 
 			unset($tmp_user);

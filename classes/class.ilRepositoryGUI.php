@@ -3352,6 +3352,8 @@ class ilRepositoryGUI
 		}
 		if($_POST['new_type'] == 'cat')
 		{
+			$this->lng->loadLanguageModule('crs');
+
 			sendInfo($this->lng->txt('crs_copy_cat_not_allowed'),true);
 			$this->ctrl->redirect($this);
 		}
