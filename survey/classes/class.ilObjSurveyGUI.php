@@ -612,87 +612,114 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
     $this->tpl->parseCurrentBlock();
 
-		$browserdata = &$this->object->getQuestionbrowserData($browsequestions, $_POST["sel_filter_type"], $_POST["filter_text"], $_GET["sort"]);
-		if (is_array($_GET["sort"]))
+		if ($_POST["cmd"]["reset"])
 		{
-			$value = $_GET["sort"][key($_GET["sort"])];
-			switch(key($_GET["sort"])) {
-				case "title":
-					$img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "description":
-					$img_description = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "type":
-					$img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "author":
-					$img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "created":
-					$img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "updated":
-					$img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "qpl":
-					$img_qpl = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-				case "svy":
-					$img_svy = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
-					break;
-			}
+			$_POST["filter_text"] = "";
 		}
-
+		$startrow = 0;
+		if ($_GET["prevrow"])
+		{
+			$startrow = $_GET["prevrow"];
+		}		
+		if ($_GET["nextrow"])
+		{
+			$startrow = $_GET["nextrow"];
+		}
+		if ($_GET["startrow"])
+		{
+			$startrow = $_GET["startrow"];
+		}
+		if ($browsequestions)
+		{
+			$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+		}
+		else
+		{
+			$table = $this->object->getQuestionblocksTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+		}
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
 		$questionblock_id = 0;
 		$questionpools =& $this->object->getQuestionpoolTitles();
-    if (count($browserdata) > 0)
-    {
-			$existing_questions =& $this->object->getExistingQuestions();
-			foreach ($browserdata as $id => $data)
-      {
-				if ($browsequestions)
-				{
-					if (($rbacsystem->checkAccess("read", $data["ref_fi"])) and (!in_array($data["question_id"], $existing_questions))) {
-				    $this->tpl->setCurrentBlock("QTab");
-						if ($data["complete"]) {
-							// make only complete questions selectable
-							$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-						}
-						$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-						$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
-						$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-						$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-						$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-						$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-						$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
-						$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-						$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
-						$this->tpl->parseCurrentBlock();
-						$counter++;
+		if ($browsequestions)
+		{
+			foreach ($table["rows"] as $data)
+			{
+				if ($rbacsystem->checkAccess("read", $data["ref_fi"])) {
+					$this->tpl->setCurrentBlock("QTab");
+					if ($data["complete"]) {
+						// make only complete questions selectable
+						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					}
-				}
-				else
-				{
-			    $this->tpl->setCurrentBlock("questionblock_row");
-					$this->tpl->setVariable("QUESTIONBLOCK_ID", $data[key($data)]["questionblock_id"]);
-					$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<strong>" . $data[key($data)]["title"] . "</strong>");
-					$this->tpl->setVariable("SURVEY_TITLE", $data[key($data)]["surveytitle"]);
+					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
+					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
+					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$questions = array();
-					foreach ($data as $key => $value)
-					{
-						array_push($questions, $value["sequence"] . ". " . $value["questiontitle"]);
-					}
-					$this->tpl->setVariable("QUESTIONS_TITLE", join($questions, ", "));
+					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
+			}		
+			if ($table["rowcount"] > count($table["rows"]))
+			{
+				$this->tpl->setCurrentBlock("questions_navigation_bottom");
+				$this->tpl->setVariable("PREV_ROWS", sprintf($this->lng->txt("previous_question_rows"), $table["prevrow"] + 1, $table["prevrow"] + $table["step"], $table["rowcount"]));
+				$nextstep = $table["nextrow"] + $table["step"];
+				if ($nextstep > $table["rowcount"])
+				{
+					$nextstep = $table["rowcount"];
+				}
+				$sort = "";
+				if (is_array($_GET["sort"]))
+				{
+					$key = key($_GET["sort"]);
+					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
+				}
+				$this->tpl->setVariable("NEXT_ROWS", sprintf($this->lng->txt("next_question_rows"), $table["nextrow"] + 1, $nextstep, $table["rowcount"]));
+				$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+				$this->tpl->parseCurrentBlock();
 			}
-    }
-
+		}
+		else
+		{
+			foreach ($table["rows"] as $data)
+			{
+				$this->tpl->setCurrentBlock("questionblock_row");
+				$this->tpl->setVariable("QUESTIONBLOCK_ID", $data["questionblock_id"]);
+				$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<strong>" . $data["title"] . "</strong>");
+				$this->tpl->setVariable("SURVEY_TITLE", $data["surveytitle"]);
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setVariable("QUESTIONS_TITLE", $data["questions"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+			if ($table["rowcount"] > count($table["rows"]))
+			{
+				$this->tpl->setCurrentBlock("questionblocks_navigation_bottom");
+				$this->tpl->setVariable("PREV_ROWS", sprintf($this->lng->txt("previous_question_rows"), $table["prevrow"] + 1, $table["prevrow"] + $table["step"], $table["rowcount"]));
+				$nextstep = $table["nextrow"] + $table["step"];
+				if ($nextstep > $table["rowcount"])
+				{
+					$nextstep = $table["rowcount"];
+				}
+				$sort = "";
+				if (is_array($_GET["sort"]))
+				{
+					$key = key($_GET["sort"]);
+					$sort = "&sort[$key]=" . $_GET["sort"]["$key"];
+				}
+				$this->tpl->setVariable("NEXT_ROWS", sprintf($this->lng->txt("next_question_rows"), $table["nextrow"] + 1, $nextstep, $table["rowcount"]));
+				$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
+				$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
     // if there are no questions, display a message
     if ($counter == 0) {
       $this->tpl->setCurrentBlock("Emptytable");
@@ -729,20 +756,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($browsequestions)
 		{
 			$this->tpl->setCurrentBlock("questions_header");
-			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
-			$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[description]=" . $sort["description"] . "\">" . $this->lng->txt("description") . "</a>$img_description");
-			$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>$img_type");
-			$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>$img_author");
-			$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>$img_created");
-			$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>$img_updated");
-			$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_spl") . "</a>$img_qpl");
+			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+			$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[description]=" . $sort["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
+			$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+			$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+			$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+			$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+			$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_spl") . "</a>" . $table["images"]["qpl"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock("questionblocks_header");
-			$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
-			$this->tpl->setVariable("SURVEY_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[svy]=" . $sort["svy"] . "\">" . $this->lng->txt("obj_svy") . "</a>$img_svy");
+			$this->tpl->setVariable("QUESTIONBLOCK_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+			$this->tpl->setVariable("SURVEY_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[svy]=" . $sort["svy"] . "\">" . $this->lng->txt("obj_svy") . "</a>" . $table["images"]["svy"]);
 			$this->tpl->setVariable("QUESTIONS_TITLE", $this->lng->txt("contains"));
 			$this->tpl->parseCurrentBlock();
 		}

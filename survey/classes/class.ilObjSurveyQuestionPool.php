@@ -494,6 +494,108 @@ class ilObjSurveyQuestionPool extends ilObject
 		$query = "DELETE FROM survey_phrase_category WHERE phrase_fi IN (" . join($phrase_array, ",") . ")";
 		$result = $this->ilias->db->query($query);
 	}
+
+/**
+* Calculates the data for the output of the questionpool
+*
+* Calculates the data for the output of the questionpool
+*
+* @access public
+*/
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	{
+		global $ilUser;
+		$where = "";
+		if (strlen($filter_text) > 0) {
+			switch($sel_filter_type) {
+				case "title":
+					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "description":
+					$where = " AND qpl_questions.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "author":
+					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+			}
+		}
+  
+    // build sort order for sql query
+		$order = "";
+		$images = array();
+    if (count($sortoptions)) {
+      foreach ($sortoptions as $key => $value) {
+        switch($key) {
+          case "title":
+            $order = " ORDER BY title $value";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "description":
+            $order = " ORDER BY description $value";
+            $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "type":
+            $order = " ORDER BY question_type_id $value";
+            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "author":
+            $order = " ORDER BY author $value";
+            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "created":
+            $order = " ORDER BY created $value";
+            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "updated":
+            $order = " ORDER BY TIMESTAMP $value";
+            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+        }
+      }
+    }
+		$maxentries = $ilUser->prefs["hits_per_page"];
+    $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $this->getRefId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query_result = $this->ilias->db->query($query);
+		$max = $query_result->numRows();
+		if ($startrow > $max -1)
+		{
+			$startrow = $max - ($max % $maxentries);
+		}
+		else if ($startrow < 0)
+		{
+			$startrow = 0;
+		}
+		$limit = " LIMIT $startrow, $maxentries";
+    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $this->getRefId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query_result = $this->ilias->db->query($query);
+		$rows = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($rows, $row);
+			}
+		}
+		$nextrow = $startrow + $maxentries;
+		if ($nextrow > $max - 1)
+		{
+			$nextrow = $startrow;
+		}
+		$prevrow = $startrow - $maxentries;
+		if ($prevrow < 0)
+		{
+			$prevrow = 0;
+		}
+		return array(
+			"rows" => $rows,
+			"images" => $images,
+			"startrow" => $startrow,
+			"nextrow" => $nextrow,
+			"prevrow" => $prevrow,
+			"step" => $maxentries,
+			"rowcount" => $max
+		);
+	}
 	
 } // END class.ilSurveyObjQuestionPool
 ?>
