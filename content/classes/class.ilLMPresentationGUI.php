@@ -230,7 +230,6 @@ class ilLMPresentationGUI
 
 				}
                 
-
                 if($_POST["type"] == "xml")
                 {
                     //vd($_GET["ref_id"]);
@@ -302,6 +301,43 @@ class ilLMPresentationGUI
 		
 	}
 	
+    
+	function exportbibinfo()
+    {
+        $query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+        $result = $this->ilias->db->query($query);
+
+		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+
+        $filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
+        
+        $C = $this->lm_gui->showAbstract(array(1));
+        
+        if ($_GET["print"]==1) 
+        {
+            $printTpl = new ilTemplate("tpl.print.html", true, true, true);
+            $printTpl->touchBlock("printreq");
+            $css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
+            $css2 = ilUtil::getStyleSheetLocation();
+            $printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
+
+            $printTpl->setVariable("LOCATION_STYLESHEET", $css2);
+            $printTpl->setVariable("CONTENT",$C);                    
+            
+            echo $printTpl->get();
+            exit;
+        } 
+        else 
+        {
+            ilUtil::deliverData($C, $filename.".html");
+            exit;
+        }
+            
+    }
+
+	
+    
+    
 	function attrib2arr(&$a_attributes)
 	{
 		$attr = array();
@@ -411,7 +447,6 @@ class ilLMPresentationGUI
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
-
 				$child_attr = $this->attrib2arr($child->attributes());
 				switch ($child->node_name())
 				{

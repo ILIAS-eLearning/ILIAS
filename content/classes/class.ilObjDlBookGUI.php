@@ -210,7 +210,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		$this->tpl->setVariable("PAGE_CONTENT",$output);
 		
-		return true;
+		return $output;
 	}
 	
 	/**
@@ -221,10 +221,8 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		// BASE CLASS objectGUI IS INSTATIATING $this->object
 		#$this->object =& new ilObjDlBook($this->id, true);
 		$this->object->export($_GET["ref_id"]);
-		
-		
 	}
-	
+
 	function offlineexportform() 
 	{
 		
@@ -300,17 +298,30 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$tpl_menu->parseCurrentBlock();
 */		
 
+        if ($_POST["action"]=="details" && count($_POST["target"])==1) 
+        {
+            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
+            $tpl_menu->parseCurrentBlock();
+    
+            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print"));
+            $tpl_menu->parseCurrentBlock();
+        }
+        else 
+        {
+            
+            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
+            // $tpl_menu->setVariable("BTN_TARGET","...");
+            $tpl_menu->parseCurrentBlock();
+    
+            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print") );
+            // $tpl_menu->setVariable("BTN_TARGET","...");
+            $tpl_menu->parseCurrentBlock();
 
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
-		// $tpl_menu->setVariable("BTN_TARGET","...");
-		$tpl_menu->parseCurrentBlock();
-
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print") );
-		// $tpl_menu->setVariable("BTN_TARGET","...");
-		$tpl_menu->parseCurrentBlock();
-		
+        }
 		$tpl_menu->setCurrentBlock("btn_row");
 		$tpl_menu->parseCurrentBlock();
 
