@@ -11,7 +11,7 @@
 require_once "./include/inc.header.php";
 
 // limit access only to admins
-if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID)
+if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
 {
 	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 }
