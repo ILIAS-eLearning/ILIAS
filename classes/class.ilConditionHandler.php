@@ -312,17 +312,24 @@ class ilConditionHandler
 	*/
 	function _checkCondition($a_id)
 	{
-		switch ($a_trigger_type)
+		$condition = ilConditionHandler::_getCondition($a_id);
+
+		switch($condition['trigger_type'])
 		{
 			case "tst":
-				return ilObjTest::_checkCondition($a_operator, $a_value);
-				break;
+				return ilObjTest::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "qst":
-				return ilObjCourse::_checkCondition($a_operator, $a_value);
+				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "crs":
-				return ilObjCourse::_checkCondition($a_operator, $a_value);
+				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+
+			case 'exc':
+				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+
+			default:
+				return false;
 
 		}
 
@@ -331,8 +338,15 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_obj_type, $a_target_id)
+	function _checkAllConditionsOfTarget($a_target_id)
 	{
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_id) as $condition)
+		{
+			if(!ilConditionHandler::_checkCondition($condition['id']))
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 

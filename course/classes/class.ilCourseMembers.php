@@ -75,7 +75,7 @@ class ilCourseMembers
 
 	}
 
-	function add(&$user_obj,$a_role,$a_status = 0)
+	function add(&$user_obj,$a_role,$a_status = 0,$a_passed = 0)
 	{
 		global $rbacadmin;
 
@@ -95,6 +95,7 @@ class ilCourseMembers
 					$status = $this->__getDefaultMemberStatus();
 				}
 				$role = $this->course_obj->getDefaultMemberRole();
+				$passed = $a_passed;
 				break;
 
 			case $this->ROLE_ADMIN:
@@ -111,6 +112,7 @@ class ilCourseMembers
 					$status = $this->__getDefaultAdminStatus();
 				}
 				$role = $this->course_obj->getDefaultAdminRole();
+				$passed = 1;
 				break;
 
 			case $this->ROLE_TUTOR:
@@ -127,15 +129,16 @@ class ilCourseMembers
 					$status = $this->__getDefaultTutorStatus();
 				}
 				$role = $this->course_obj->getDefaultTutorRole();
+				$passed = 1;
 				break;
 				
 		}
-		$this->__createMemberEntry($user_obj->getId(),$a_role,$status);
+		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
 
 		return $rbacadmin->assignUser($role,$user_obj->getId());
 	}
 
-	function update($a_usr_id,$a_role,$a_status)
+	function update($a_usr_id,$a_role,$a_status,$a_passed)
 	{
 		global $rbacadmin;
 
@@ -206,10 +209,10 @@ class ilCourseMembers
 
 		$query = "UPDATE crs_members ".
 			"SET role = '".$a_role."', ".
-			"status = '".$a_status."' ".
+			"status = '".$a_status."', ".
+			"passed = '".$a_passed."' ".
 			"WHERE obj_id = '".$this->course_obj->getId()."' ".
 			"AND usr_id = '".$a_usr_id."'";
-
 		$res = $this->ilDB->query($query);
 
 		return true;
@@ -619,13 +622,14 @@ class ilCourseMembers
 		return $this->STATUS_NO_NOTIFY;
 	}
 
-	function __createMemberEntry($a_usr_id,$a_role,$a_status)
+	function __createMemberEntry($a_usr_id,$a_role,$a_status,$a_passed)
 	{
 		$query = "INSERT INTO crs_members ".
 			"SET usr_id = '".$a_usr_id."', ".
 			"obj_id = '".$this->course_obj->getId()."', ".
 			"status = '".$a_status."', ".
-			"role = '".$a_role."'";
+			"role = '".$a_role."', ".
+			"passed = '".$a_passed."'";
 
 		$res = $this->ilDB->query($query);
 
@@ -646,6 +650,7 @@ class ilCourseMembers
 			$this->member_data["usr_id"]	= $row->usr_id;
 			$this->member_data["role"]		= $row->role;
 			$this->member_data["status"]	= $row->status;
+			$this->member_data['passed']	= $row->passed;
 		}
 		return true;
 	}
@@ -685,6 +690,21 @@ class ilCourseMembers
 			$data["usr_id"] = $row->usr_id;
 		}
 		return $data ? $data : array();
+	}
+
+	function _hasPassed($a_obj_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_members ".
+			"WHERE obj_id = '".$a_obj_id."' ".
+			"AND usr_id = '".$a_usr_id."' ".
+			"AND passed = 1";
+
+		
+		$res = $ilDB->query($query);
+		
+		return $res->numRows() ? true : false;
 	}
 
 }

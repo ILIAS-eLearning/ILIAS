@@ -4197,3 +4197,5 @@ CREATE TABLE `conditions` (
 `value` VARCHAR( 64 ) ,
 PRIMARY KEY ( `id` )
 );
+<#249>
+ALTER TABLE `crs_members` ADD `passed` TINYINT( 1 ) ;

@@ -968,6 +968,11 @@ class ilObjCourseGUI extends ilObjectGUI
 							$f_result[$counter][] = $this->lng->txt("crs_unblocked");
 							break;
 					}
+
+					$f_result[$counter]['passed'] = $member_data['passed'] ?
+						$this->lng->txt('crs_member_passed') :
+						$this->lng->txt('crs_member_not_passed');
+
 					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&mail_data[rcp_to]=".
 						$tmp_obj->getLogin()."\"".$img_mail."</a>";
 
@@ -1015,6 +1020,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		$f_result[0][]	= $tmp_obj->getLogin();
 		$f_result[0][]	= $tmp_obj->getFirstname();
 		$f_result[0][]	= $tmp_obj->getLastname();
+
+		$f_result[0][]	= ilUtil::formCheckbox($member_data['passed'] ? 1 : 0,'passed',1);
 
 		$actions = array(0	=> $this->lng->txt("crs_member_unblocked"),
 						 1 	=> $this->lng->txt("crs_member_blocked"),
@@ -1134,7 +1141,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			default:
 				$this->ilias->raiseError("No valid status given",$this->ilias->error_obj->MESSAGE);
 		}
-		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status);
+		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status,(int) $_POST['passed']);
 
 		// NOTIFICATION
 		if($user_data["role"] != $role or $user_data["status"] != $status)
@@ -1833,6 +1840,9 @@ class ilObjCourseGUI extends ilObjectGUI
 							break;
 					}
 					$tpl->setVariable("STATUS",$status);
+					$tpl->setVariable("PASSED",$member_data['passed'] ? 
+									  $this->lng->txt('crs_member_passed') :
+									  $this->lng->txt('crs_members_not_passed'));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -1846,6 +1856,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tpl->setVariable("TXT_LASTNAME",$this->lng->txt('lastname'));
 			$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
 			$tpl->setVariable("TXT_STATUS",$this->lng->txt('crs_status'));
+			$tpl->setVariable("TXT_PASSED",$this->lng->txt('crs_passed'));
 
 			$tpl->parseCurrentBlock();
 
@@ -2045,7 +2056,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",4);
+		$tpl->setVariable("COLUMN_COUNTS",5);
 		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 		$tpl->parseCurrentBlock();
 
@@ -2054,17 +2065,19 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array($this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
 								   $this->lng->txt("lastname"),
+								   $this->lng->txt('crs_passed'),
 								   $this->lng->txt("crs_role_status")));
 		$tbl->setHeaderVars(array("login",
 								  "firstname",
 								  "lastname",
+								  "passed",
 								  "role"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members",
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 
-		$tbl->setColumnWidth(array("25%","25%","25%","25%","25%"));
+		$tbl->setColumnWidth(array("20%","20%","20%","20%","20%"));
 
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set);
@@ -2433,7 +2446,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("plain_buttons");
 		$tpl->parseCurrentBlock();
 
-		$tpl->setVariable("COLUMN_COUNTS",7);
+		$tpl->setVariable("COLUMN_COUNTS",8);
 
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -2453,6 +2466,7 @@ class ilObjCourseGUI extends ilObjectGUI
 								   $this->lng->txt("lastname"),
 								   $this->lng->txt("crs_role"),
 								   $this->lng->txt("crs_status"),
+								   $this->lng->txt("crs_passed"),
 								   $this->lng->txt("crs_options")));
 		$tbl->setHeaderVars(array("",
 								  "login",
@@ -2460,13 +2474,14 @@ class ilObjCourseGUI extends ilObjectGUI
 								  "lastname",
 								  "role",
 								  "status",
+								  "passed",
 								  "options"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => "members",
 								  "update_members" => 1,
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("4%","17%","17%","17%","17%","17%","17%"));
+		$tbl->setColumnWidth(array("4%","12%","12%","12%","12%","12%","12%"));
 
 
 		$this->__setTableGUIBasicData($tbl,$a_result_set,"members");
@@ -2768,7 +2783,10 @@ class ilObjCourseGUI extends ilObjectGUI
 				$this->chi_init($item_id);
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 			}
-			$this->chi_init();
+			else
+			{
+				$this->chi_init();
+			}
 		}
 		return true;
 	}

@@ -1000,5 +1000,16 @@ class ilObject
 		return false;
 	}
 
+	// static method for condition handler
+	function _checkCondition($a_obj_id,$a_operator,$a_value)
+	{
+		switch($a_operator)
+		{
+			default:
+				return false;
+		}
+	}
+
+
 } // END class.ilObject
 ?>
