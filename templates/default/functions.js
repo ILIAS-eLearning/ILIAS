@@ -13,13 +13,13 @@ function popup_window(url, x1, x2, y1, y2)
 }
 
 function CheckAll(){
-	if(document.formmsg.all)
+	if(document.cmd.all)
 	{
-		var c = document.formmsg.all.checked;
+		var c = document.cmd.all.checked;
 	}
-	for (var i=0;i<document.formmsg.elements.length;i++)
+	for (var i=0;i<document.cmd.elements.length;i++)
 	{
-		var e = document.formmsg.elements[i];
+		var e = document.cmd.elements[i];
  	  	if(e.name != 'all') e.checked = c;
    	}
 }
