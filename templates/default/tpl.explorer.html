@@ -13,3 +13,28 @@ body { margin:4px; }
     <input class="submit" type="submit" value="refresh" />
   </form>
 </div>
+
+<!-- BEGIN includejavascript -->
+<script src="./js/wz_dragdrop.js"></script>
+
+<script>
+SET_DHTML({ICONIDS});
+</script>
+
+<a href='#' onClick="window.open('{POPUPLINK}','','width=400,height=350');return(false);">Test Popup</a>
+
+<script>
+var sourceId = -1;
+var targetId = -1;
+var copymove = "move";	// move | copy
+var position = "after";	// before | after
+function doDragDropAction() {
+	window.location = "{TESTPFAD}";
+}
+</script>
+
+<!-- END includejavascript -->
+
+
+
+
