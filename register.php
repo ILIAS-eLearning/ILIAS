@@ -36,7 +36,7 @@ require_once "include/inc.header.php";
 // catch hack attempts
 if (!$ilias->getSetting("enable_registration"))
 {
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->FATAL);
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
 
