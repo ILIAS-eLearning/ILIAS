@@ -238,6 +238,8 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
 	{
+		include_once './content/classes/class.ilLMPageObject.php';
+
 		global $ilBench;
 
 		$this->tree = new ilTree($this->getLmId());

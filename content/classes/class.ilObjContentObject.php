@@ -1101,6 +1101,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLStructureObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
+		include_once './content/classes/class.ilStructureObject.php';
+
 		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
 		foreach ($childs as $child)
 		{
