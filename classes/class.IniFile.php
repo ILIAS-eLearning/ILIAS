@@ -55,6 +55,7 @@ class IniFile
     var $CURRENT_GROUP = "";
 	
     /**
+    * @param string
 	 * constructor
 	 * @access public
 	 */
@@ -71,7 +72,10 @@ class IniFile
 
 		return true;
     }
-    
+
+    /**
+    * read
+    */    
     function read()
     {
         //check if file exists
@@ -115,6 +119,7 @@ class IniFile
 	
     /**
 	 * parse data
+	 * @param array
 	 * @access private
 	 */
     function parse_data($data)
@@ -129,7 +134,9 @@ class IniFile
     		$this->GROUPS[$this->CURRENT_GROUP][trim($split_data[0])]=trim($split_data[1]);
     	}
     }
-
+/**
+	 * @param string
+	 */
 	function setContent($data)
 	{
 		$this->GROUPS = $data;
@@ -179,7 +186,6 @@ class IniFile
 	/**
 	* returns the content of IniFile
 	* @access public
-	* @param void
 	* @return string content
 	*/
 	function show()
@@ -231,6 +237,7 @@ class IniFile
 	
     /**
 	 * checks if a group exists
+	 * @param string
 	 */
     function groupExists($group_name)
     {
@@ -247,6 +254,7 @@ class IniFile
     
     /**
 	 * returns an associative array of the variables in one group	
+	 * @param string
 	 */
     function readGroup($group)
     {
@@ -262,6 +270,7 @@ class IniFile
 	
     /**
 	 * adds a new group
+	 * @param string
 	 */
     function addGroup($group_name)
     {
@@ -275,6 +284,8 @@ class IniFile
     
     /**
 	 * reads a single variable from a group
+	 * @param string
+	 * @param string
 	 */
     function readVariable($group, $var_name)
     {
@@ -290,6 +301,9 @@ class IniFile
 	
     /**
 	 * sets a variable in a group
+	 * @param string
+	 * @param string
+	 * @param string
 	 */
     function setVariable($group, $var_name, $var_value)
     {
@@ -299,6 +313,7 @@ class IniFile
     
     /**
 	 * error handling
+	 * @param string
 	 */
     function error($errmsg)
     {

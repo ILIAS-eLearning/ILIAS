@@ -1,4 +1,9 @@
 <?php
+
+include_once("./classes/class.IniFile.php");
+include_once("./classes/class.util.php");
+include_once("DB.php");
+
 /**
 * Setup class
 *
@@ -9,11 +14,6 @@
 * @access public
 * @version $Id$
 */
-
-include_once("./classes/class.IniFile.php");
-include_once("./classes/class.util.php");
-include_once("DB.php");
-
 class Setup
 {
 	/**
@@ -166,6 +166,7 @@ class Setup
 
 	/**
 	 * set the databasetype
+	 * @param string
 	 */
 	function setDbType($str)
 	{
@@ -174,6 +175,7 @@ class Setup
 	
 	/**
 	 * set the host
+	 * @param string
 	 */
 	function setDbHost($str)
 	{
@@ -182,6 +184,7 @@ class Setup
 
 	/**
 	 * set the name of database
+	 * @param string
 	 */
 	function setDbName($str)
 	{
@@ -190,6 +193,7 @@ class Setup
 
 	/**
 	 * set the user
+	 * @param string
 	 */
 	function setDbUser($str)
 	{
@@ -198,6 +202,7 @@ class Setup
 
 	/**
 	 * set the password
+	 * @param string
 	 */
 	function setDbPass($str)
 	{
@@ -206,7 +211,8 @@ class Setup
 
     /**
 	 * execute a query
-	 * @param string $str query
+	 * @param string 
+	 * @param string
 	 * @return bool true
 	 */
 	function execQuery($db,$str)

@@ -29,7 +29,6 @@ class Element {
     /**
     * associative array containing data of the element
     * @var array
-    * @see getData(), setData()
     * @access private
     */
     var $data = array();
@@ -70,7 +69,7 @@ class Element {
 
     /**
     * set database table
-    * @param string $dbTable database table
+    * @param string database table
     * @see $dbTable
     * @access public
     */
@@ -96,7 +95,7 @@ class Element {
     * set database handle
     * @see $dbHandle
 	* @access public
-    * @param string $dbHandle database handle
+    * @param string database handle
 	* @return void
     */
     function setDbHandle($AdbHandle) {
@@ -313,7 +312,10 @@ class Element {
         }
     } //end function getDbDataByQuery
 
-    
+    /**
+    * @param string
+    * @param string
+    */
     function getDbValueByQuery($query, $field) {
         //check database handle
         if ($this->dbHandle == "") {

@@ -1,10 +1,4 @@
 <?
-/**
-* Rechte-Klasse von ILIAS3                                      /
-* Berechnet die Rechte und šberprft die Zugriffsrechte         /
-* @version $Id$
-* @package ilias-core
-*/
 
 /* permission system:
   Each right is represented by a certain bit that can be set to 0 or 1.
@@ -20,6 +14,13 @@
 
 */
 
+
+/**
+* Rechte-Klasse von ILIAS3                                      /
+* Berechnet die Rechte und šberprft die Zugriffsrechte         /
+* @version $Id$
+* @package ilias-core
+*/
 class TRole
 {
     var $ClassName = "TRole";

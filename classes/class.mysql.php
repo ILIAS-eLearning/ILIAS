@@ -1,4 +1,10 @@
 <?php
+
+//
+//  Copyright (c) 1998-2000 NetUSE AG
+//                    Boris Erdmann, Kristian Koehntopp
+//
+//
 /**
 * MySQL-Klasse fr Datenbankabfragen von ILIAS3
 * @version $Id$
@@ -6,11 +12,6 @@
 * @package ilias-core
 */
 
-/*
-*  Copyright (c) 1998-2000 NetUSE AG
- *                    Boris Erdmann, Kristian Koehntopp
- *
-*/
 class DB_Sql extends PEAR {
   
   /* public: connection parameters */

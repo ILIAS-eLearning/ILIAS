@@ -11,7 +11,10 @@ class Admin
 {
 	var $ilias;
 
-	// constructor
+	/**
+	* constructor
+	* @param object ILIAS
+	*/
 	function Admin(&$a_ilias)
 	{
 		$this->ilias = $a_ilias;

@@ -1,11 +1,5 @@
 <?php
 
-/**
-* data representation in hierarchical trees using the nested set model by Joe Celco
-* @author Sascha Hofmann <shofmann@databay.de>
-* @version $Id$
-* @package ilias-core
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // Name: class.tree.php
@@ -27,7 +21,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
+/**
+* data representation in hierarchical trees using the nested set model by Joe Celco
+* @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
+* @package ilias-core
+*/
 class Tree extends PEAR
 {
     var $db;                    // database object

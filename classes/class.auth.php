@@ -1,16 +1,9 @@
 <?php
-/*
-+---------------------------------------------------------------+
-/ classes/class.auth.php                                        /
-/                                                               /
-/ Benutzerauthentifizierung fr ILIAS3                          /
-/                                                               /
-/                                                               /
-/                                                               /
-+---------------------------------------------------------------+
+/**
+* Benutzerauthentifizierung
+* @package ilias-core
+* @version $Id$
 */
-
-
 class TAuth
 {
     function authenticate($ALogin, $APasswd)

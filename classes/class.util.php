@@ -43,6 +43,7 @@ class TUtil
 	
 	/**
 	 * Fetch loaded modules or possible modules in context
+	 * @param string
 	 */
 	function getModules ($ATypeList = "")
     {
@@ -143,6 +144,8 @@ class TUtil
 
     /**
 	 * builds an array for access output
+	 * @param string
+	 * @param string
 	 */
     function setAccessString ($ARights,$AVar)
     {
@@ -163,10 +166,10 @@ class TUtil
 	
     /**
 	 * Builds aa select form field with options and shows the selected option first
-	 * @param $selected=$value to be selected
-	 * @param $varname=variable name in formular
-	 * @param $options=array with $options
-	 * @param $multiple=
+	 * @param string value to be selected
+	 * @param string variable name in formular
+	 * @param array array with $options
+	 * @param boolean
 	 */
     function formSelect ($selected,$varname,$options,$multiple = false)
     {
@@ -193,6 +196,8 @@ class TUtil
 
 	/**
 	 * ???
+* @param string
+* @param string	 
 	 */
     function getSelectName ($selected,$values)
     {
@@ -201,6 +206,9 @@ class TUtil
 
     /**
 	 * ???
+* @param string	 
+* @param string	 
+* @param string	 
 	 */
     function formCheckbox ($checked,$varname,$value)
     {
@@ -218,6 +226,9 @@ class TUtil
 
 	/**
 	 * ???
+* @param string	 
+* @param string	 
+* @param string	 
 	 */
     function formRadioButton($checked,$varname,$value)
     {
@@ -234,6 +245,7 @@ class TUtil
 
 	/**
 	 * ???
+* @param string	 
 	 */
 	function checkInput ($vars)
 	{
@@ -243,6 +255,7 @@ class TUtil
 
 	/**
 	 * ???
+* @param string	 
 	 */
     function setPathStr ($Apath)
 	{
@@ -255,6 +268,7 @@ class TUtil
 	
 	/**
 	 * liefert den owner des objektes $Aobj_id als user_objekt zurück
+* @param string	 
 	 */
 	function getOwner ($Aobj_id)
 	{

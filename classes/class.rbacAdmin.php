@@ -1,4 +1,7 @@
 <?php
+
+include_once "classes/class.Object.php";
+
 /**
  * Class RbacAdmin 
  * core functions for role based access control
@@ -6,7 +9,6 @@
  * @version $Id$
  * @package rbac
  */
-include_once "classes/class.Object.php";
 class RbacAdmin
 {
     var $db;			//  Database Handle

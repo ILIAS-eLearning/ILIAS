@@ -1,11 +1,4 @@
 <?php
-/**
-* classes/class.prevnextnavbar.php                              /
-*                                                               /
-* Hilfsmodul-Klasse von ILIAS3                                  /
-* @version $Id$
-* @package ilias-core
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // Name: class.prevnextnavbar.php
@@ -37,8 +30,16 @@
 // Klasse wird nicht instanziert
 ////////////////////////////////////////////////////////////////////////////////
 
-class TPrevNextNavBar {
 
+/**
+* classes/class.prevnextnavbar.php                              /
+*                                                               /
+* Hilfsmodul-Klasse von ILIAS3                                  /
+* @version $Id$
+* @package ilias-core
+*/
+class TPrevNextNavBar 
+{
     function TPrevNextNavBar ()
 	{
 		return true;

@@ -84,8 +84,9 @@ function getFileVersion()
 
 /**
  * execute a query
- * @param string $str query
- * @return bool true
+ * @param object DB 
+ * @param string query
+ * @return bool
  */
 function execQuery($db,$str)
 {

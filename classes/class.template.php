@@ -1,4 +1,6 @@
 <?php
+require_once('HTML/ITX.php');
+
 /**
 * special template class to simplify handling of ITX/PEAR
 * @author Stefan Kesseler <skesseler@databay.de>
@@ -6,10 +8,6 @@
 * @version $Id$
 * @package application
 */
-
-require_once('HTML/ITX.php');
-
-
 class Template extends IntegratedTemplateExtension {
 
     /*
@@ -30,6 +28,13 @@ class Template extends IntegratedTemplateExtension {
     */
     var $activeBlock;
 
+/**
+* constructor
+* @param string
+* @param string
+* @param string
+* @param string
+*/
    function Template($file,$flag1,$flag2,$vars="DEFAULT") {
 
         global $ilias;
@@ -57,6 +62,9 @@ class Template extends IntegratedTemplateExtension {
         return true;
     }
 
+/**
+* @param string
+*/
     function get($part = "DEFAULT") {
 
 //         $this->replace($this->vars);
@@ -68,6 +76,9 @@ class Template extends IntegratedTemplateExtension {
         }
     }
 
+/**
+* @param string
+*/
     function show($part = "DEFAULT") {
 
         $this->replace($this->vars);
@@ -83,6 +94,7 @@ class Template extends IntegratedTemplateExtension {
 
     /**
     *	überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
+    * @param string
     */
     function setCurrentBlock($part = "DEFAULT") {
 	    $this->activeBlock = $part;
@@ -96,6 +108,7 @@ class Template extends IntegratedTemplateExtension {
 
     /**
     *	überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
+    * @param string
     */
     function parseCurrentBlock($part = "DEFAULT") {
 
@@ -131,6 +144,10 @@ class Template extends IntegratedTemplateExtension {
                 "field"=>"kategorie_selected",
                 "text"=>"selected"
                 );
+		* @param string
+		* @param string
+		* @param string
+		* @param string
     */
     function replaceFromDatabase(&$DB,$block,$conv,$select="default") {
 
@@ -166,6 +183,7 @@ class Template extends IntegratedTemplateExtension {
        /**
        *    Wird angewendet, wenn die Daten in ein Formular replaced werden sollen,
        *    Dann wird erst noch ein htmlspecialchars drumherum gemacht.
+       * @param string
        */
     function prepareForFormular($vars) {
         if (!is_array($vars))  return;
@@ -178,7 +196,8 @@ class Template extends IntegratedTemplateExtension {
     }
 
     /**
-    *
+    * @param string
+    * @param string
     */
     function replace($vars,$Prefix = "DEFAULT") {
         if (!is_array($vars))  return;

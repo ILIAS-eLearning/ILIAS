@@ -1,24 +1,24 @@
 <?php
+
+  //**************************************************************************\
+  //* Browser detect functions                                                 *
+  // This file written by Miles Lott <milosch@phpgroupware.org>               *
+  // Majority of code borrowed from Sourceforge 2.5                           *
+  // Copyright 1999-2000 (c) The SourceForge Crew - http://sourceforge.net    *
+  // Browser detection functions for phpGroupWare developers                  *
+  // -------------------------------------------------------------------------*
+  // This library is borrowed from the phpGroupWare API                       *
+  // http://www.phpgroupware.org/api                                          *
+  // Modifications made by Sascha Hofmann <sascha.hofmann@uni-koeln.de>       *
+  //                                                                          *
+  //**************************************************************************/
+
 /**
 * Hilfsmodul-Klasse von ILIAS
 * Bisher noch nicht genutzt 
 * @package ilias-core
 * @version $Id$
 */
-
-  /**************************************************************************\
-  * Browser detect functions                                                 *
-  * This file written by Miles Lott <milosch@phpgroupware.org>               *
-  * Majority of code borrowed from Sourceforge 2.5                           *
-  * Copyright 1999-2000 (c) The SourceForge Crew - http://sourceforge.net    *
-  * Browser detection functions for phpGroupWare developers                  *
-  * -------------------------------------------------------------------------*
-  * This library is borrowed from the phpGroupWare API                       *
-  * http://www.phpgroupware.org/api                                          *
-  * Modifications made by Sascha Hofmann <sascha.hofmann@uni-koeln.de>       *
-  *                                                                          *
-  \**************************************************************************/
-
 	class TBrowser
 	{
 		var $BROWSER_AGENT;
@@ -251,7 +251,13 @@
 			}
 		}
 
-		// Echo content headers for file downloads
+		/**
+		* Echo content headers for file downloads
+		* @param string
+		* @param string
+		* @param string
+		* @param string
+		*/
 		function content_header($fn='',$mime='',$length='',$nocache=True)
 		{
 			if (!$mime)

@@ -228,8 +228,8 @@ class ElementList {
 
     /**
     * select a limited number of datasets of one database table
-    * @param int $start first datasets to be selected
-    * @param int $count max. number of datasets to be selected
+    * @param integer $start first datasets to be selected
+    * @param integer $count max. number of datasets to be selected
     * @return object $result result identifier for use with getDbNextElement()
     * @access public
     * @see selectDbAll(), getDbNextElement()
@@ -269,7 +269,7 @@ class ElementList {
 
     /**
     * get next dataset of a (optionally) given select result
-    * @param object $result result identifier returned by functions like selectDbAll(), selectDbAllLimited(), selectDbAllByQuery()
+    * @param string result identifier returned by functions like selectDbAll(), selectDbAllLimited(), selectDbAllByQuery()
     * @return boolean false if no further result datasets are given, otherwise true
     * @access public
     * @see selectDbAll(), selectDbAllLimited(), selectDbAllByQuery()
