@@ -620,5 +620,16 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->outWorkingForm("", "", $empty);
 	}
 
+	/**
+	* Creates an output of the user's solution
+	*
+	* Creates an output of the user's solution
+	*
+	* @access public
+	*/
+	function outUserSolution($user_id, $test_id)
+	{
+	}
+	
 }
 ?>
