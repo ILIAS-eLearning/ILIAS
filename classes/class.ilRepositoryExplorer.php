@@ -221,17 +221,24 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			case "crs":
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
+				$tmp_obj->initCourseMemberObject();
+
 				if(!$tmp_obj->isActivated())
 				{
 					unset($tmp_obj);
 					return false;
 				}
 
-				if($rbacsystem->checkAccess('join',$a_ref_id) or
-				   $rbacsystem->checkAccess('read',$a_ref_id))
+				if(($rbacsystem->checkAccess('join',$a_ref_id) or
+				   $rbacsystem->checkAccess('read',$a_ref_id)) and
+				   !$tmp_obj->members_obj->isBlocked($this->ilias->account->getId()))
 				{
 					return true;
 				}
+				
+				unset($tmp_obj);
+				return false;
+				break;
 
 			// visible groups can allways be clicked; group processing decides
 			// what happens next
@@ -307,7 +314,7 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}
 
-	function showChilds($a_ref_id)
+	function showChilds($a_ref_id,$a_obj_id = 0)
 	{
 		global $rbacsystem,$tree;
 //vd($a_ref_id);
@@ -315,6 +322,10 @@ class ilRepositoryExplorer extends ilExplorer
 		if ($a_ref_id == 0)
 		{
 			return true;
+		}
+		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
+		{
+			return false;
 		}
 		if ($rbacsystem->checkAccess("read", $a_ref_id))
 		{
