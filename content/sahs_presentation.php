@@ -24,64 +24,48 @@
 /**
 * scorm learning module presentation script
 *
-* @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
-* @version $Id: scorm_server.php,v 1.0 2003/08/12
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
 *
 * @package content
 */
+
+define("ILIAS_MODULE", "content");
 chdir("..");
-
-$api = ($_GET["api"] == "")
-	? $_POST["api"]
-	: $_GET["api"];
-
-$cmd = ($_GET["cmd"] == "")
-	? $_POST["cmd"]
-	: $_GET["cmd"];
-
-
-if ($api == 2)
-{
-	require_once "./include/inc.header.php";
-	require_once "./content/classes/SCORM/class.ilObjSCORMTracking2.php";
-	$track = new ilObjSCORMTracking2();
-	$track->$cmd();
-	exit;
-}
-
-session_id($_GET["PHPSESSID"]);
 require_once "./include/inc.header.php";
+require_once "classes/class.ilObjectGUI.php";
 
-require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
-require_once "./content/classes/SCORM/class.ilObjDebug.php";
-$scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
+$lng->loadLanguageModule("content");
 
-exit;
+	$ref_id=$_GET["ref_id"];
+	
+	//read type of cbt
+	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
+	$lm_set = $ilias->db->query($q);
+	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+	$type=$lm_rec["type"];	
 
-$debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
+	switch ($type) {
+		case "slm":
+					//SCORM
+					require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
+					$scorm_presentation = new ilSCORMPresentationGUI();
+					break;
+		case "alm":
+					//AICC
+					require_once "./content/classes/AICC/class.ilAICCPresentationGUI.php";
+					$aicc_presentation = new ilAICCPresentationGUI();
+					break;
+		case "hlm":
+					//HACP
+					require_once "./content/classes/HACP/class.ilHACPPresentationGUI.php";
+					$hacp_presentation = new ilHACPPresentationGUI();
+					break;
+		default:
+					//unknown type
+					$ilias->raiseError($lng->txt("unknown type in sahs_presentation"),$ilias->error_obj->MESSAGE);
 
-if (isset($_GET["value"])) //setValue Call
-{
-	//fehler $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
-	$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'","'.$_GET["value"].'");';
-	$debug->debug("Method: ".$temp);
-	$retval=eval("$temp");
-	$debug->debug("ReturnValue: ".$retval);
+	}
 
-	return $retval;
-
-}
-else
-{
-	if ($_GET["var"]=="null") {
-		$temp='$scorm_communication->'.$_GET["function"].'("");';
-	}	else {
-		$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'");';
-		}
-		$debug->debug("Method: ".$temp);
-	$retval=eval("$temp");
-	$debug->debug("ReturnValue: ".$retval);
-	return $retval;
-}
 
 ?>

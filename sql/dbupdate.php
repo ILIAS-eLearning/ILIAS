@@ -3684,3 +3684,7 @@ CREATE TABLE ctrl_calls
 	parent		VARCHAR(100) NOT NULL,
 	child		VARCHAR(100)
 );
+
+<#225>
+DROP TABLE IF EXISTS `aicc_lm`;
+DROP TABLE IF EXISTS `aicc_tree`;

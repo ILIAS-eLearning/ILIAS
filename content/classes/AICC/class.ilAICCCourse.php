@@ -215,20 +215,20 @@ class ilAICCCourse extends ilAICCObject
 																	total_complex_obj, total_objectives, version, max_normal,
 																	description) VALUES (";
 		$q.="'".$this->getId()."', ";
-		$q.="'".$this->getCourseCreator()."', ";
-		$q.="'".$this->getCourseId()."', ";
-		$q.="'".$this->getCourseSystem()."', ";
-		$q.="'".$this->getCourseTitle()."', ";
-		$q.="'".$this->getLevel()."', ";
-		$q.="'".$this->getMaxFieldsCst()."', ";
-		$q.="'".$this->getMaxFieldsOrt()."', ";
-		$q.="'".$this->getTotalAUs()."', ";
-		$q.="'".$this->getTotalBlocks()."', ";
-		$q.="'".$this->getTotalComplexObj()."', ";
-		$q.="'".$this->getTotalObjectives()."', ";
-		$q.="'".$this->getVersion()."', ";
-		$q.="'".$this->getMaxNormal()."', ";
-		$q.="'".$this->getDescription()."')";
+		$q.="'".$this->prepForStore($this->getCourseCreator())."', ";
+		$q.="'".$this->prepForStore($this->getCourseId())."', ";
+		$q.="'".$this->prepForStore($this->getCourseSystem())."', ";
+		$q.="'".$this->prepForStore($this->getCourseTitle())."', ";
+		$q.="'".$this->prepForStore($this->getLevel())."', ";
+		$q.="'".$this->prepForStore($this->getMaxFieldsCst())."', ";
+		$q.="'".$this->prepForStore($this->getMaxFieldsOrt())."', ";
+		$q.="'".$this->prepForStore($this->getTotalAUs())."', ";
+		$q.="'".$this->prepForStore($this->getTotalBlocks())."', ";
+		$q.="'".$this->prepForStore($this->getTotalComplexObj())."', ";
+		$q.="'".$this->prepForStore($this->getTotalObjectives())."', ";
+		$q.="'".$this->prepForStore($this->getVersion())."', ";
+		$q.="'".$this->prepForStore($this->getMaxNormal())."', ";
+		$q.="'".$this->prepForStore($this->getDescription())."')";
 		$this->ilias->db->query($q);
 	}
 
@@ -237,20 +237,20 @@ class ilAICCCourse extends ilAICCObject
 		parent::update();
 		
 		$q = "UPDATE aicc_course SET ";
-		$q.="course_creator='".$this->getCourseCreator()."', ";
-		$q.="course_id='".$this->getCourseId()."', ";
-		$q.="course_system='".$this->getCourseSystem()."', ";
-		$q.="course_title='".$this->getCourseTitle()."', ";
-		$q.="level='".$this->getLevel()."', ";
-		$q.="max_fields_cst='".$this->getMaxFieldsCst()."', ";
-		$q.="max_fields_ort='".$this->getMaxFieldsOrt()."', ";
-		$q.="total_aus='".$this->getTotalAUs()."', ";
-		$q.="total_blocks='".$this->getTotalBlocks()."', ";
-		$q.="total_complex_obj='".$this->getTotalComplexObj()."', ";
-		$q.="total_objectives='".$this->getTotalObjectives()."', ";
-		$q.="version='".$this->getVersion()."', ";
-		$q.="max_normal='".$this->getMaxNormal()."', ";
-		$q.="description='".$this->getDescription()."' ";		
+		$q.="course_creator='".$this->prepForStore($this->getCourseCreator())."', ";
+		$q.="course_id='".$this->prepForStore($this->getCourseId())."', ";
+		$q.="course_system='".$this->prepForStore($this->getCourseSystem())."', ";
+		$q.="course_title='".$this->prepForStore($this->getCourseTitle())."', ";
+		$q.="level='".$this->prepForStore($this->getLevel())."', ";
+		$q.="max_fields_cst='".$this->prepForStore($this->getMaxFieldsCst())."', ";
+		$q.="max_fields_ort='".$this->prepForStore($this->getMaxFieldsOrt())."', ";
+		$q.="total_aus='".$this->prepForStore($this->getTotalAUs())."', ";
+		$q.="total_blocks='".$this->prepForStore($this->getTotalBlocks())."', ";
+		$q.="total_complex_obj='".$this->prepForStore($this->getTotalComplexObj())."', ";
+		$q.="total_objectives='".$this->prepForStore($this->getTotalObjectives())."', ";
+		$q.="version='".$this->prepForStore($this->getVersion())."', ";
+		$q.="max_normal='".$this->prepForStore($this->getMaxNormal())."', ";
+		$q.="description='".$this->prepForStore($this->getDescription())."' ";		
 		$q.="WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
@@ -263,11 +263,11 @@ class ilAICCCourse extends ilAICCObject
 
 		$q = "DELETE FROM aicc_course WHERE obj_id =".$ilDB->quote($this->getId());
 		$ilDB->query($q);
-/*
+
 		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sc_item_id = ".$ilDB->quote($this->getId());
+			"sco_id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
-*/
+
 	}
 
 	/**
@@ -275,7 +275,6 @@ class ilAICCCourse extends ilAICCObject
 	*
 	*
 	*/
-/*
 	function getTrackingDataOfUser($a_user_id = 0)
 	{
 		global $ilDB, $ilUser;
@@ -286,42 +285,24 @@ class ilAICCCourse extends ilAICCObject
 		}
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
+			"sco_id = '".$this->getId()."' AND ".
+			"user_id = '".$a_user_id."'";
 
 		$track_set = $ilDB->query($q);
-
-		return $track_set->fetchRow(DB_FETCHMODE_ASSOC);
-	}
-
-	function getAllTrackingData()
-	{
-		global $ilDB, $ilUser;
-
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."'";
-
-		$track_set = $ilDB->query($q);
-
-		$data = array();
-		while($row = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$trdata = array();
+		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$user =& new ilObjUser($row["usr_id"]);
-			$row["user_lastname"] = $user->getLastname();
-			$row["user_firstname"] = $user->getFirstname();
-			$data[] = $row;
-			unset($user);
+			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
 
-		return $data;
+		return $trdata;
+	}
+	
+	function insertTrackData($a_lval, $a_rval, $a_ref_id)
+	{
+		require_once("content/classes/SCORM/class.ilObjSCORMTracking.php");
+		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
 	}
 
-	function getCumulativeTrackingData()
-	{
-		$q = "SELECT count(*) FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
-	}
-*/
 }
 ?>

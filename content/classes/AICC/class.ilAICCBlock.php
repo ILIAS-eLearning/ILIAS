@@ -28,7 +28,7 @@ class ilAICCBlock extends ilAICCObject
 		$this->type="sbl";
 
 	}
-
+	
 
 }
 ?>

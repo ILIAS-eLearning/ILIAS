@@ -23,6 +23,8 @@
 
 require_once("./classes/class.ilObjAICCLearningModule.php");
 require_once("content/classes/AICC/class.ilAICCObjectGUI.php");
+require_once("content/classes/SCORM/class.ilSCORMPresentationGUI.php");
+
 
 /**
 * Class ilAICCPresentationGUI
@@ -34,7 +36,7 @@ require_once("content/classes/AICC/class.ilAICCObjectGUI.php");
 *
 * @package content
 */
-class ilAICCPresentationGUI
+class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 {
 	var $ilias;
 	var $slm;
@@ -52,104 +54,35 @@ class ilAICCPresentationGUI
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
-		$this->alm =& new ilObjAICCLearningModule($_GET["ref_id"], true);
+		$this->slm =& new ilObjAICCLearningModule($_GET["ref_id"], true);
 
 		$this->$cmd();
 	}
-
-	function attrib2arr(&$a_attributes)
-	{
-		$attr = array();
-		if(!is_array($a_attributes))
-		{
-			return $attr;
-		}
-		foreach ($a_attributes as $attribute)
-		{
-			$attr[$attribute->name()] = $attribute->value();
-		}
-		return $attr;
-	}
-
-
-	/**
-	* output main menu
-	*/
-	function frameset()
-	{
-//echo "frameset2";
-		//$this->tpl = new ilTemplate("tpl.aicc_pres_frameset.html", false, false, "content");
-		$this->tpl = new ilTemplate("tpl.aicc_pres_frameset2.html", false, false, "content");
-		$this->tpl->setVariable("REF_ID",$this->alm->getRefId());
-		$this->tpl->show();
-	}
-
-	/**
-	* output table of content
-	*/
-	function explorer($a_target = "aicc_content")
-	{
-		$this->tpl = new ilTemplate("tpl.aicc_exp_main.html", true, true, true);
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
-		
-		require_once("./content/classes/AICC/class.ilAICCExplorer.php");
-		$exp = new ilAICCExplorer("aicc_presentation.php?cmd=view&ref_id=".$this->alm->getRefId(), $this->alm);
-		$exp->setTargetGet("obj_id");
-		$exp->setFrameTarget($a_target);
-		//$exp->setFiltered(true);
-
-		if ($_GET["mexpand"] == "")
-		{
-			$mtree = new ilAICCTree($this->alm->getId());
-			$expanded = $mtree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["mexpand"];
-		}
-		$exp->setExpand($expanded);
-
-		// build html-output
-		//666$exp->setOutput(0);
-		$exp->setOutput(0);
-
-		$output = $exp->getOutput();
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
-		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "aicc_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->alm->getRefId()."&mexpand=".$_GET["mexpand"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
-	}
 	
 	/**
 	* output table of content
 	*/
-	function explorer2($a_target = "aicc_content")
+	function explorer($a_target = "sahs_content")
 	{
-		$this->tpl = new ilTemplate("tpl.aicc_exp_main.html", true, true, true);
+		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, true);
 		//$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
+		
 		require_once("./content/classes/AICC/class.ilAICCExplorer.php");
-		$exp = new ilAICCExplorer("aicc_presentation.php?cmd=view&ref_id=".$this->alm->getRefId(), $this->alm);
+		$exp = new ilAICCExplorer("sahs_presentation.php?cmd=view&ref_id=".$this->slm->getRefId(), $this->slm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		//$exp->setFiltered(true);
 
-		if ($_GET["mexpand"] == "")
+		if ($_GET["scexpand"] == "")
 		{
-			$mtree = new ilAICCTree($this->alm->getId());
+			$mtree = new ilSCORMTree($this->slm->getId());
 			$expanded = $mtree->readRootId();
 		}
 		else
 		{
-			$expanded = $_GET["mexpand"];
+			$expanded = $_GET["scexpand"];
 		}
 		$exp->setExpand($expanded);
-		$exp->setAPI(2);
 
 		// build html-output
 		//666$exp->setOutput(0);
@@ -158,95 +91,47 @@ class ilAICCPresentationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "aicc_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->alm->getRefId()."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->setVariable("ACTION", "sahs_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
+			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
 
-	function view()
+	function launchSahs()
 	{
-		$sc_gui_object =& ilAICCObjectGUI::getInstance($_GET["obj_id"]);
+		global $ilUser, $ilDB;
 
-		if(is_object($sc_gui_object))
-		{
-			$sc_gui_object->view();
-		}
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->show();
-	}
-
-	function api()
-	{
-		// should be an item
-		$sc_gui_object =& ilAICCObjectGUI::getInstance($_GET["obj_id"]);
-
-		if(is_object($sc_gui_object))
-		{
-			$sc_gui_object->api();
-		}
-
-	}
-	
-	function api2()
-	{
-		global $ilias;
-
-		$alm_obj =& new ilObjAICCLearningModule($_GET["ref_id"]);
-
-		$this->tpl = new ilTemplate("tpl.aicc_api2.html", true, true, true);
-		//$func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
-		//$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
-		//$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
-		//$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
-		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
-		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
-		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
-		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
-		$this->tpl->setVariable("SESSION_ID",session_id());
-
-		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/aicc_presentation.php")));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->show(false);
-		exit;
-	}
-
-	function launchAICC()
-	{
-		global $ilUser;
-		
-		$aicc_id = ($_GET["aicc_id"] == "")
-			? $_POST["aicc_id"]
-			: $_GET["aicc_id"];
+		$sahs_id = ($_GET["sahs_id"] == "")
+			? $_POST["sahs_id"]
+			: $_GET["sahs_id"];
 		$ref_id = ($_GET["ref_id"] == "")
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
-			
-		$this->alm =& new ilObjAICCLearningModule($ref_id, true);
 
-		//include_once("content/classes/AICC/class.ilAICCCourse.php");
-		//$course =& new ilAICCCourse($this->alm->getId());
+		$this->slm =& new ilObjAICCLearningModule($ref_id, true);
+
 		include_once("content/classes/AICC/class.ilAICCUnit.php");
-		$unit =& new ilAICCUnit($aicc_id);
+		$unit =& new ilAICCUnit($sahs_id);
 		
-/*
-		$id_ref = $unit->getIdentifierRef();
-		$resource =& new ilSCORMResource();
-		$resource->readByIdRef($id_ref, $unit->getALMId());
-		//$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
-		$href = $resource->getHref();
+		//guess the url
+		$url=$unit->getCommand_line();
+		if (strlen($url)==0)
+			$url=$unit->getFilename();
+		if (strcasecmp(substr($unit->getFilename(),0,4),"http")!=0)
+			$url=$this->slm->getDataDirectory("output")."/".$url;
+		if (strlen($unit->getWebLaunch())>0)
+			$url.="?".$unit->getWebLaunch();
+/*		
+		if (strcasecmp(substr($unit->getFilename(),0,4),"http")==0)
+			$href=$unit->getFilename();
+		else
+			$href=$this->slm->getDataDirectory("output")."/".$unit->getFilename();
 */		
-
-		$href= $unit->getFilename();
-		
-		$this->tpl = new ilTemplate("tpl.aicc_launch_aicc.html", true, true, true);
-		$this->tpl->setVariable("HREF", $this->alm->getDataDirectory("output")."/".$href);
+		$this->tpl = new ilTemplate("tpl.sahs_launch_cbt.html", true, true, true);
+		$this->tpl->setVariable("HREF", $url);
 //		$this->tpl->setVariable("LAUNCH_DATA", $unit->getDataFromLms());
 		$this->tpl->setVariable("MAST_SCORE", $unit->getMasteryScore());
 		$this->tpl->setVariable("MAX_TIME", $unit->getMaxTimeAllowed());
@@ -257,8 +142,143 @@ class ilAICCPresentationGUI
 			$this->tpl->setVariable("CREDIT_MODE", "normal");
 			$this->tpl->parseCurrentBlock();
 		}
+		$query = "SELECT * FROM scorm_tracking WHERE".
+			" user_id = ".$ilDB->quote($ilUser->getId()).
+			" AND sco_id = ".$ilDB->quote($sahs_id);
+
+
+		$val_set = $ilDB->query($query);
+		$re_value = array();
+		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);
+			$val_rec["rvalue"] = str_replace("\n", "%n%", $val_rec["rvalue"]);
+			$re_value[$val_rec["lvalue"]] = $val_rec["rvalue"];
+		}
+
+		foreach($re_value as $var => $value)
+		{
+			switch ($var)
+			{
+				case "cmi.core.lesson_location":
+				case "cmi.core.lesson_status":
+				case "cmi.core.entry":
+				case "cmi.core.score.raw":
+				case "cmi.core.score.max":
+				case "cmi.core.score.min":
+				case "cmi.core.total_time":
+				case "cmi.core.exit":
+				case "cmi.suspend_data":
+				case "cmi.comments":
+				case "cmi.student_preference.audio":
+				case "cmi.student_preference.language":
+				case "cmi.student_preference.speed":
+				case "cmi.student_preference.text":
+					$this->setSingleVariable($var, $value);
+					break;
+
+				case "cmi.objectives._count":
+					$this->setSingleVariable($var, $value);
+					$this->setArray("cmi.objectives", $value, "id", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.raw", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.max", $re_value);
+					$this->setArray("cmi.objectives", $value, "score.min", $re_value);
+					$this->setArray("cmi.objectives", $value, "status", $re_value);
+					break;
+
+				case "cmi.interactions._count":
+					$this->setSingleVariable($var, $value);
+					$this->setArray("cmi.interactions", $value, "id", $re_value);
+					for($i=0; $i<$value; $i++)
+					{
+						$var2 = "cmi.interactions.".$i.".objectives._count";
+						if (isset($v_array[$var2]))
+						{
+							$cnt = $v_array[$var2];
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "id", $re_value);
+							/*
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.raw", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.max", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "score.min", $re_value);
+							$this->setArray("cmi.interactions.".$i.".objectives",
+								$cnt, "status", $re_value);*/
+						}
+					}
+					$this->setArray("cmi.interactions", $value, "time", $re_value);
+					$this->setArray("cmi.interactions", $value, "type", $re_value);
+					for($i=0; $i<$value; $i++)
+					{
+						$var2 = "cmi.interactions.".$i.".correct_responses._count";
+						if (isset($v_array[$var2]))
+						{
+							$cnt = $v_array[$var2];
+							$this->setArray("cmi.interactions.".$i.".correct_responses",
+								$cnt, "pattern", $re_value);
+							$this->setArray("cmi.interactions.".$i.".correct_responses",
+								$cnt, "weighting", $re_value);
+						}
+					}
+					$this->setArray("cmi.interactions", $value, "student_response", $re_value);
+					$this->setArray("cmi.interactions", $value, "result", $re_value);
+					$this->setArray("cmi.interactions", $value, "latency", $re_value);
+					break;
+			}
+		}
+
+		global $lng;
+		$this->tpl->setCurrentBlock("switch_icon");
+		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.gif"));
+		$this->tpl->setVariable("SCO_ALT",
+			 $lng->txt("cont_status").": "
+			.$lng->txt("cont_sc_stat_running")
+		);
+		$this->tpl->parseCurrentBlock();
+
+		// lesson mode
+		$lesson_mode = $this->slm->getDefaultLessonMode();
+		if ($this->slm->getAutoReview())
+		{
+			if ($re_value["cmi.core.lesson_status"] == "completed" ||
+				$re_value["cmi.core.lesson_status"] == "passed" ||
+				$re_value["cmi.core.lesson_status"] == "failed")
+			{
+				$lesson_mode = "review";
+			}
+		}
+		$this->tpl->setVariable("LESSON_MODE", $lesson_mode);
+
+		// credit mode
+		if ($lesson_mode == "normal")
+		{
+			$this->tpl->setVariable("CREDIT_MODE",
+				str_replace("_", " ", $this->slm->getCreditMode()));
+		}
+		else
+		{
+			$this->tpl->setVariable("CREDIT_MODE", "no-credit");
+		}
+
+		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry
+		if (!isset($re_value["cmi.core.total_time"]))
+		{
+			$unit->insertTrackData("cmi.core.total_time", "0000:00:00", $_GET["ref_id"]);
+		}
+		if (!isset($re_value["cmi.core.lesson_status"]))
+		{
+			$unit->insertTrackData("cmi.core.lesson_status", "not attempted", $_GET["ref_id"]);
+		}
+		if (!isset($re_value["cmi.core.entry"]))
+		{
+			$unit->insertTrackData("cmi.core.entry", "", $_GET["ref_id"]);
+		}
+
 		$this->tpl->show();
-	
 	}
 
 }

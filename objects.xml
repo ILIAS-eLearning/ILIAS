@@ -38,6 +38,7 @@
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="alm" import="1">alm</subobj>
+	<subobj name="hlm" import="1">hlm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="qpl">qpl</subobj>
@@ -170,6 +171,13 @@
 	<property name="owner">show_owner</property>
 </object>
 <object name="alm" class_name="AICCLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="editMeta">meta_data</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="hlm" class_name="HACPLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="editMeta">meta_data</property>

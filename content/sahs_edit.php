@@ -22,7 +22,7 @@
 */
 
 /**
-* aicc learning module presentation script
+* edit scorm modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -35,37 +35,52 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
+// check write permission
+if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
 
-// learning module presentation class does the rest
-require_once "./content/classes/AICC/class.ilAICCPresentationGUI.php";
-//session_start();
-//$lm_locklist = Array("wa","ser");
-//session_register($lm_locklist);
-//	print_r($_SESSION["lm_locklist"]);
-//if (($_SESSION['lm_locklist'])&&($_GET["obj_id"])) {
-//	print_r($_SESSION['lm_locklist']);
-//	if (in_array($_GET["obj_id"],$_SESSION['lm_locklist'][$ilias->account->login])) {
-//		$locked = 1;
-//	}
-//}
-//if ((!$locked)&&($_GET["obj_id"])) {
-//	$lm_locklist[$ilias->account->login] = Array();
-//	array_push($lm_locklist[$ilias->account->login], $_GET["obj_id"]);
-//	session_register($lm_locklist);
-	//echo $_GET["obj_id"]." wurde soeben gelockt!";
-//} elseif ($locked) {
-//	echo $_GET["obj_id"]." ist gesperrt fuer Login: ".$ilias->account->login;
-//}
-//if (!($_GET["obj_id"])) {
-	$aicc_presentation = new ilAICCPresentationGUI();
-//}
+	$ref_id=$_GET["ref_id"];
+	
+	//read type of cbt
+	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
+	$lm_set = $ilias->db->query($q);
+	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+	$type=$lm_rec["type"];
+	
 
-  //eval("$temp");
-
-
-
-
-
-//$tpl->show();
-
+	switch ($type) {
+		case "slm":
+					//SCORM
+					require_once "./classes/class.ilObjSCORMLearningModuleGUI.php";
+					$ilCtrl->setTargetScript("sahs_edit.php");
+					
+					$ilCtrl->getCallStructure("ilObjSCORMLearningModuleGUI");
+					$scorm_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true, false);
+					$scorm_gui->executeCommand();
+					break;
+		case "alm":
+					//AICC
+					require_once "./classes/class.ilObjAICCLearningModuleGUI.php";
+					$ilCtrl->setTargetScript("sahs_edit.php");
+					
+					$ilCtrl->getCallStructure("ilObjAICCLearningModuleGUI");
+					$aicc_gui =& new ilObjAICCLearningModuleGUI("", $_GET["ref_id"],true, false);
+					$aicc_gui->executeCommand();
+					break;
+		case "hlm":
+					//HACP
+					require_once "./classes/class.ilObjHACPLearningModuleGUI.php";
+					$ilCtrl->setTargetScript("sahs_edit.php");
+					
+					$ilCtrl->getCallStructure("ilObjHACPLearningModuleGUI");
+					$hacp_gui =& new ilObjHACPLearningModuleGUI("", $_GET["ref_id"],true, false);
+					$hacp_gui->executeCommand();
+					break;
+		default:
+					//unknown type
+					$ilias->raiseError($lng->txt("unknown type in sahs_edit"),$ilias->error_obj->MESSAGE);
+	}
+	
 ?>

@@ -1,40 +1,11 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-/*
-* Explorer View for AICC Learning Modules
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @package content
-*/
 
 require_once("classes/class.ilExplorer.php");
 require_once("content/classes/AICC/class.ilAICCTree.php");
-require_once("content/classes/SCORM/class.ilSCORMExplorer.php");
+require_once("content/classes/AICC/class.ilAICCExplorer.php");
 
-class ilAICCExplorer extends ilSCORMExplorer
+class ilHACPExplorer extends ilAICCExplorer
 {
 
 	/**
@@ -43,7 +14,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilAICCExplorer($a_target, &$a_slm_obj)
+	function ilHACPExplorer($a_target, &$a_slm_obj)
 	{
 		parent::ilExplorer($a_target);
 		$this->slm_obj =& $a_slm_obj;
@@ -219,10 +190,23 @@ class ilAICCExplorer extends ilSCORMExplorer
 						$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
 						
 					} else {
+						include_once("content/classes/AICC/class.ilAICCUnit.php");
+						$unit =& new ilAICCUnit($a_node_id);
+						
+						//guess the url to be able to launch most contents
+						$url=$unit->getCommand_line();
+						if (strlen($url)==0)
+							$url=$unit->getFilename();
+						if (strlen($unit->getWebLaunch())>0)
+							$url.="?".$unit->getWebLaunch();
+						
+						$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/content/sahs_server.php";
+						//$hacpURL="http://projekt.ragbildung.de/ilias3/red/ilias3/aicctest/test.php";
+						$url.="?aicc_url=$hacpURL&aicc_sid=testsid";
 						
 						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-						$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSahs('".$a_node_id."');return false;\"");
+						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+						$tpl->setVariable("LINK_TARGET", "$url");
 						
 //					}
 				}

@@ -100,7 +100,6 @@ class ilObjSCORMLearningModule extends ilObject
 		$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
 		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
 		$this->setCreditMode($lm_rec["credit"]);
-
 	}
 
 	/**
