@@ -32,7 +32,7 @@ require_once "classes/class.ObjectDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
 require_once "classes/class.ilLanguage.php";
-require_once "classes/class.Log.php";
+require_once "classes/class.ilLog.php";
 
 //include role based access control system
 require_once "classes/class.rbacAdmin.php";
@@ -65,7 +65,7 @@ if (DEBUG)
 $ilias->auth->start();
 
 // start logging
-$log = new Log("ilias.log");
+$log = new ilLog("ilias.log");
 
 //load object definitions
 $objDefinition = new ObjectDefinition();
