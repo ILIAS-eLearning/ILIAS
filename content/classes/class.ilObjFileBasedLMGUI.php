@@ -455,6 +455,151 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
 	}
 
+	/**
+	* save bib item (admin call)
+	*/
+	function saveBibItemObject($a_target = "")
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bibItemIndex *= 1;
+		if ($bibItemIndex < 0)
+		{
+			$bibItemIndex = 0;
+		}
+		$bibItemIndex = $bib_gui->save($bibItemIndex);
+
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
+	}
+
+	/**
+	* save bib item (module call)
+	*/
+	function saveBibItem()
+	{
+		//$this->setTabs();
+		$this->saveBibItemObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* edit bib items (admin call)
+	*/
+	function editBibItemObject($a_target = "")
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bibItemIndex *= 1;
+		if ($bibItemIndex < 0)
+		{
+			$bibItemIndex = 0;
+		}
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
+	}
+
+	/**
+	* edit bib items (module call)
+	*/
+	function editBibItem()
+	{
+		//$this->setTabs();
+		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* delete bib item (admin call)
+	*/
+	function deleteBibItemObject($a_target = "")
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bib_gui->bib_obj->delete($_GET["bibItemName"], $_GET["bibItemPath"], $bibItemIndex);
+		if (strpos($bibItemIndex, ",") > 0)
+		{
+			$bibItemIndex = substr($bibItemIndex, 0, strpos($bibItemIndex, ","));
+		}
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
+	}
+
+	/**
+	* delete bib item (module call)
+	*/
+	function deleteBibItem()
+	{
+		//$this->setTabs();
+		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* add bib item (admin call)
+	*/
+	function addBibItemObject($a_target = "")
+	{
+		$bibItemName = $_POST["bibItemName"] ? $_POST["bibItemName"] : $_GET["bibItemName"];
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		if ($bibItemName == "BibItem")
+		{
+			include_once "content/classes/class.ilBibItem.php";
+			$bib_item =& new ilBibItem();
+			$bib_item->setId($this->object->getId());
+			$bib_item->setType($this->object->getType());
+			$bib_item->create();
+		}
+
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		if ($bibItemIndex == "")
+			$bibItemIndex = 0;
+		$bibItemPath = $_POST["bibItemPath"] ? $_POST["bibItemPath"] : $_GET["bibItemPath"];
+
+		//if ($bibItemName != "" && $bibItemName != "BibItem")
+		if ($bibItemName != "")
+		{
+			$bib_gui->bib_obj->add($bibItemName, $bibItemPath, $bibItemIndex);
+			$data = $bib_gui->bib_obj->getElement("BibItem");
+			$bibItemIndex = (count($data) - 1);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("bibitem_choose_element"), true);
+		}
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
+	}
+
+	/**
+	* add bib item (module call)
+	*/
+	function addBibItem()
+	{
+		//$this->setTabs();
+		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
+	}
 
 	/**
 	* output main frameset of media pool
@@ -638,6 +783,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// edit meta
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+			get_class($this));
+
+		// edit bib item information
+
+		$tabs_gui->addTarget("bib_data",
+			$this->ctrl->getLinkTarget($this, "editBibItem"), "editBibItem",
 			get_class($this));
 
 		// perm

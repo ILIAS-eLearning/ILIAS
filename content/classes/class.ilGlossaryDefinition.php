@@ -397,6 +397,71 @@ class ilGlossaryDefinition
 		return $defs;
 	}
 
+	/**
+	* export xml
+	*/
+	function exportXML(&$a_xml_writer, $a_inst)
+	{
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("Definition", $attrs);
+
+		$this->exportXMLMetaData($a_xml_writer);
+		$this->exportXMLDefinition($a_xml_writer, $a_inst);
+
+		$a_xml_writer->xmlEndTag("Definition");
+	}
+
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "modifyExportIdentifier");
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+
+	/**
+	*
+	*/
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param == "Entry")
+		{
+			$a_value = "il_".IL_INST_ID."_pg_".$this->getId();
+		}
+
+		return $a_value;
+	}
+
+
+	/**
+	* export page objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLDefinition(&$a_xml_writer, $a_inst = 0)
+	{
+
+		$this->page_object->buildDom();
+		$this->page_object->insertInstIntoIDs($a_inst);
+		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
+		$this->files_contained = $this->page_object->collectFileItems();
+		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
+		$xml = str_replace("&","&amp;", $xml);
+		$a_xml_writer->appendXML($xml);
+
+		$this->page_object->freeDom();
+	}
+
+
 } // END class ilGlossaryDefinition
 
 ?>

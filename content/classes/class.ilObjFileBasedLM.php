@@ -177,6 +177,19 @@ class ilObjFileBasedLM extends ilObject
 
 	}
 
+	/**
+	*	init bib object (contains all bib item data)
+	*/
+	function initBibItemObject()
+	{
+		include_once("content/classes/class.ilBibItem.php");
+
+		$this->bib_obj =& new ilBibItem($this);
+		$this->bib_obj->read();
+
+		return true;
+	}
+
 
 	/**
 	* create file based lm

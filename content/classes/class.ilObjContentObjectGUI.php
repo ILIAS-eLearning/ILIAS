@@ -409,7 +409,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function addBibItemObject($a_target = "adm_object.php")
+	/**
+	* add bib item (admin call)
+	*/
+	function addBibItemObject($a_target = "")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -429,13 +432,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("bibitem_choose_element"), true);
 		}
-#		echo "Name: " . $bibItemName . " | Path: " . $bibItemPath . " | Index: " . $bibItemIndex . "<br>\n";
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $bibItemIndex);
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
 	}
 
+	/**
+	* add bib item (module call)
+	*/
 	function addBibItem()
 	{
-		$this->addBibItemObject("lm_edit.php");
+		$this->setTabs();
+		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function deleteMetaObject($a_target = "")
@@ -459,7 +470,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function deleteBibItemObject($a_target = "adm_object.php")
+	/**
+	* delete bib item (admin call)
+	*/
+	function deleteBibItemObject($a_target = "")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -470,16 +484,26 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$bibItemIndex = substr($bibItemIndex, 0, strpos($bibItemIndex, ","));
 		}
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $bibItemIndex);
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
 	}
 
+	/**
+	* delete bib item (module call)
+	*/
 	function deleteBibItem()
 	{
-		$this->deleteBibItemObject("lm_edit.php");
+		$this->setTabs();
+		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function editMetaObject($a_target = "")
 	{
+
 		if ($a_target == "")
 		{
 			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
@@ -498,7 +522,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function editBibItemObject($a_target = "adm_object.php")
+	/**
+	* edit bib items (admin call)
+	*/
+	function editBibItemObject($a_target = "")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -509,12 +536,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$bibItemIndex = 0;
 		}
-		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $bibItemIndex);
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
 	}
 
+	/**
+	* edit bib items (module call)
+	*/
 	function editBibItem()
 	{
-		$this->editBibItemObject("lm_edit.php");
+		$this->setTabs();
+		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function saveMetaObject($a_target = "adm_object.php")
@@ -532,7 +568,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->saveMetaObject("lm_edit.php");
 	}
 
-	function saveBibItemObject($a_target = "adm_object.php")
+	/**
+	* save bib item (admin call)
+	*/
+	function saveBibItemObject($a_target = "")
 	{
 		include_once "content/classes/class.ilBibItemGUI.php";
 		$bib_gui =& new ilBibItemGUI();
@@ -544,12 +583,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$bibItemIndex = 0;
 		}
 		$bibItemIndex = $bib_gui->save($bibItemIndex);
-		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $bibItemIndex);
+
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=" . $this->object->getRefId();
+		}
+
+		$bib_gui->edit("ADM_CONTENT", "adm_content", $a_target, $bibItemIndex);
 	}
 
+	/**
+	* save bib item (module call)
+	*/
 	function saveBibItem()
 	{
-		$this->saveBibItemObject("lm_edit.php");
+		$this->setTabs();
+		$this->saveBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
 	/**
@@ -1321,7 +1370,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		require_once("content/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
-		//$cont_exp->export();	// old method
 		$cont_exp->buildExportFile();
 		$this->exportList();
 	}

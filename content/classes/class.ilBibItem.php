@@ -404,7 +404,8 @@ class ilBibItem
 
 		/* Get bib data from nested set */
 		if ($this->getType() == "lm" ||
-			$this->getType() == "dbk") 
+			$this->getType() == "htlm" ||
+			$this->getType() == "dbk")
 		{
 			include_once("./classes/class.ilNestedSetXML.php");
 			$this->nested_obj = new ilNestedSetXML();
@@ -543,15 +544,15 @@ class ilBibItem
 		$this->nested->init($this->id, $this->getType());
 		if ( !$this->nested->initDom() )
 		{
-			
-			if (is_object($this->obj)) 
+
+			if (is_object($this->obj))
 			{
 				$booktitle = $this->obj->getBooktitle();
 				$edition = $this->obj->getEdition();
 				$publisher = $this->obj->getPublisher();
 				$year = $this->obj->getYear();
 			}
-			
+
 			$xml = '
 				<Bibliography>
 					<BibItem Type="" Label="">
@@ -587,6 +588,7 @@ class ilBibItem
 		$this->ilias->db->query($query);
 
 		if ($this->getType() == "lm" ||
+			$this->getType() == "htlm" ||
 			$this->getType() == "dbk")
 		{
 			$p = "//Bibliography";

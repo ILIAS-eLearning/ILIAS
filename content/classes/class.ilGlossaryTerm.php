@@ -279,6 +279,32 @@ class ilGlossaryTerm
 		return $terms;
 	}
 
+	/**
+	* export xml
+	*/
+	function exportXML(&$a_xml_writer, $a_inst)
+	{
+		//include_once("content/classes/class..php");
+
+		$attrs = array();
+		$attrs["Language"] = $this->getLanguage();
+		$attrs["Id"] = "il_".IL_INST_ID."_git_".$this->getId();
+		$a_xml_writer->xmlStartTag("GlossaryItem", $attrs);
+
+		$attrs = array();
+		$a_xml_writer->xmlElement("GlossaryTerm", $this->getTerm());
+
+		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
+
+		foreach($defs as $def)
+		{
+			$definition = new ilGlossaryDefinition($def["id"]);
+			$definition->exportXML($a_xml_writer, $a_inst);
+		}
+
+		$a_xml_writer->xmlEndTag("GlossaryItem");
+	}
+
 } // END class ilGlossaryTerm
 
 ?>
