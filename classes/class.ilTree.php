@@ -446,7 +446,12 @@ class ilTree
 					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
 				$r = $this->ilias->db->getRow($q);
-
+				// crosscheck parents of sibling and new node (must be identical)
+				if ($r->parent != $a_parent_id)
+				{
+					$this->ilias->raiseError(get_class($this)."::Wrong use of insertNode(): Parents mismatch! ".
+						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilias->error_obj->WARNING);
+				}
 				$right = $r->rgt;
 				$lft = $right + 1;
 				$rgt = $right + 2;
