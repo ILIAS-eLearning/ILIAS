@@ -635,12 +635,17 @@ class ilUtil
 	function makeDateSelect($prefix, $year = "", $month = "", $day = "")
 	{
 		global $lng;
-		
+
 		if (!strlen("$year$month$day")) {
 			$now = getdate();
 			$year = $now["year"];
 			$month = $now["mon"];
 			$day = $now["mday"];
+		} else {
+			// delete leading zeros
+			$year = (int)$year;
+			$month = (int)$month;
+			$day = (int)$day;
 		}
 
 		// build day select

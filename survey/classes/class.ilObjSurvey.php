@@ -29,14 +29,103 @@
 *
 * @extends ilObject
 * @package ilias-core
-* @package assessment
+* @package survey
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once("classes/class.ilMetaData.php");
+require_once "classes/class.ilObject.php";
+require_once "classes/class.ilMetaData.php";
+
+define("STATUS_OFFLINE", 0);
+define("STATUS_ONLINE", 1);
+
+define("EVALUATION_ACCESS_OFF", 0);
+define("EVALUATION_ACCESS_ON", 1);
 
 class ilObjSurvey extends ilObject
 {
+/**
+* Survey database id
+*
+* A unique positive numerical ID which identifies the survey.
+* This is the primary key from a database table.
+*
+* @var integer
+*/
+  var $survey_id;
+
+/**
+* Contains the name of the author
+*
+* A text representation of the authors name. The name of the author must
+* not necessary be the name of the owner.
+*
+* @var string
+*/
+  var $author;
+
+/**
+* Contains the introduction of the survey
+*
+* A text representation of the surveys introduction.
+*
+* @var string
+*/
+  var $introduction;
+
+/**
+* Survey status (online/offline)
+*
+* Survey status (online/offline)
+*
+* @var integer
+*/
+  var $status;
+
+/**
+* Indicates the evaluation access for learners
+*
+* Indicates the evaluation access for learners
+*
+* @var string
+*/
+  var $evaluation_access;
+
+/**
+* The start date of the survey
+*
+* The start date of the survey
+*
+* @var string
+*/
+  var $start_date;
+
+/**
+* Indicates if the start date is enabled
+*
+* Indicates if the start date is enabled
+*
+* @var boolean
+*/
+	var $startdate_enabled;
+
+/**
+* The end date of the survey
+*
+* The end date of the survey
+*
+* @var string
+*/
+  var $end_date;
+
+/**
+* Indicates if the end date is enabled
+*
+* Indicates if the end date is enabled
+*
+* @var boolean
+*/
+	var $enddate_enabled;
+
 	/**
 	* Constructor
 	* @access	public
@@ -45,6 +134,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function ilObjSurvey($a_id = 0,$a_call_by_reference = true)
 	{
+		global $ilUser;
 		$this->type = "svy";
 		$this->ilObject($a_id,$a_call_by_reference);
 		if ($a_id == 0)
@@ -52,6 +142,13 @@ class ilObjSurvey extends ilObject
 			$new_meta =& new ilMetaData();
 			$this->assignMetaData($new_meta);
 		}
+		$this->survey_id = -1;
+		$this->introduction = "";
+		$this->author = $ilUser->fullname;
+		$this->status = STATUS_OFFLINE;
+		$this->evaluation_access = EVALUATION_ACCESS_OFF;
+		$this->startdate_enabled = 0;
+		$this->enddate_enabled = 0;
 	}
 
 	/**
@@ -97,6 +194,7 @@ class ilObjSurvey extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
+		$this->loadFromDb();
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 	
@@ -241,6 +339,112 @@ class ilObjSurvey extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+/**
+* Returns true, if a survey is complete for use
+*
+* Returns true, if a survey is complete for use
+*
+* @return boolean True, if the survey is complete for use, otherwise false
+* @access public
+*/
+	function isComplete()
+	{
+		if (($this->getTitle()) and ($this->author) and (count($this->questions)))
+		{
+			return true;
+		} 
+			else 
+		{
+			return false;
+		}
+	}
+
+/**
+* Saves a survey object to a database
+*
+* Saves a survey object to a database
+*
+* @access public
+*/
+  function saveToDb()
+  {
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
+		$startdate = $this->getStartDate();
+		if (!$startdate or !$this->startdate_enabled)
+		{
+			$startdate = "NULL";
+		}
+		else
+		{
+			$startdate = $this->ilias->db->quote($startdate);
+		}
+		$enddate = $this->getEndDate();
+		if (!$enddate or !$this->enddate_enabled)
+		{
+			$enddate = "NULL";
+		}
+		else
+		{
+			$enddate = $this->ilias->db->quote($enddate);
+		}
+    if ($this->survey_id == -1) {
+      // Write new dataset
+      $now = getdate();
+      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+      $query = sprintf("INSERT INTO survey_survey (survey_id, ref_fi, author, introduction, status, startdate, enddate, evaluation_access, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $this->ilias->db->quote($this->ref_id),
+        $this->ilias->db->quote($this->author),
+        $this->ilias->db->quote($this->introduction),
+        $this->ilias->db->quote($this->status),
+        $startdate,
+				$enddate,
+        $this->ilias->db->quote($this->evaluation_access),
+				$this->ilias->db->quote("$complete"),
+        $this->ilias->db->quote($created)
+      );
+      $result = $this->ilias->db->query($query);
+      if ($result == DB_OK) {
+        $this->survey_id = $this->ilias->db->getLastInsertId();
+      }
+    } else {
+      // update existing dataset
+      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, complete = %s WHERE survey_id = %s",
+        $this->ilias->db->quote($this->author),
+        $this->ilias->db->quote($this->introduction),
+        $this->ilias->db->quote($this->status),
+        $startdate,
+				$enddate,
+        $this->ilias->db->quote($this->evaluation_access),
+				$this->ilias->db->quote("$complete"),
+        $this->ilias->db->quote($this->survey_id)
+      );
+      $result = $this->ilias->db->query($query);
+    }
+    if ($result == DB_OK) {
+			// save questions to db
+			// delete existing category relations
+/*      $query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+        $this->ilias->db->quote($this->id)
+      );
+      $result = $this->ilias->db->query($query);
+      // create new category relations
+      foreach ($this->categories as $key => $value) {
+				$category_id = $this->saveCategoryToDb($value);
+        $query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+					$this->ilias->db->quote($category_id),
+          $this->ilias->db->quote($this->id),
+          $this->ilias->db->quote(($key + 1)),
+          $this->ilias->db->quote($key)
+        );
+        $answer_result = $this->ilias->db->query($query);
+      }*/
+    }
+  }
+
+
 	/**
 	* get description of content object
 	*
@@ -282,6 +486,131 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		parent::update();
+	}
+	
+/**
+* Loads a survey object from a database
+* 
+* Loads a survey object from a database
+*
+* @access public
+*/
+  function loadFromDb()
+  {
+    $query = sprintf("SELECT * FROM survey_survey WHERE ref_fi = %s",
+      $this->ilias->db->quote($this->getRefId())
+    );
+    $result = $this->ilias->db->query($query);
+    if (strcmp(get_class($result), db_result) == 0) {
+      if ($result->numRows() == 1) {
+        $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+				$this->survey_id = $data->survey_id;
+        $this->author = $data->author;
+        $this->introduction = $data->introduction;
+        $this->status = $data->status;
+        $this->start_date = $data->startdate;
+				if (!$data->startdate)
+				{
+					$this->startdate_enabled = 0;
+				}
+				else
+				{
+					$this->startdate_enabled = 1;
+				}
+        $this->end_date = $data->enddate;
+				if (!$data->enddate)
+				{
+					$this->enddate_enabled = 0;
+				}
+				else
+				{
+					$this->enddate_enabled = 1;
+				}
+        $this->evaluation_access = $data->evaluation_access;
+//				$this->load_questions();
+      }
+    }
+	}
+
+/**
+* Sets the enabled state of the start date
+*
+* Sets the enabled state of the start date
+*
+* @param boolean $enabled True to enable the start date, false to disable the start date
+* @access public
+* @see $start_date
+*/
+	function setStartDateEnabled($enabled = false)
+	{
+		if ($enabled)
+		{
+			$this->startdate_enabled = 1;
+		}
+		else
+		{
+			$this->startdate_enabled = 0;
+		}
+	}
+	
+/**
+* Gets the enabled state of the start date
+*
+* Gets the enabled state of the start date
+*
+* @result boolean True for an enabled end date, false otherwise
+* @access public
+* @see $start_date
+*/
+	function getStartDateEnabled()
+	{
+		return $this->startdate_enabled;
+	}
+
+/**
+* Sets the enabled state of the end date
+*
+* Sets the enabled state of the end date
+*
+* @param boolean $enabled True to enable the end date, false to disable the end date
+* @access public
+* @see $end_date
+*/
+	function setEndDateEnabled($enabled = false)
+	{
+		if ($enabled)
+		{
+			$this->enddate_enabled = 1;
+		}
+		else
+		{
+			$this->enddate_enabled = 0;
+		}
+	}
+	
+/**
+* Gets the enabled state of the end date
+*
+* Gets the enabled state of the end date
+*
+* @result boolean True for an enabled end date, false otherwise
+* @access public
+* @see $end_date
+*/
+	function getEndDateEnabled()
+	{
+		return $this->enddate_enabled;
+	}
+
+	/**
 	* assign a meta data object to glossary object
 	*
 	* @param	object		$a_meta_data	meta data object
@@ -301,17 +630,285 @@ class ilObjSurvey extends ilObject
 		return $this->meta_data;
 	}
 
-	/**
-	* update meta data only
-	*/
-	function updateMetaData()
-	{
-		$this->meta_data->update();
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
-		parent::update();
-	}
-	
+/**
+* Sets the authors name
+*
+* Sets the authors name of the SurveyQuestion object
+*
+* @param string $author A string containing the name of the questions author
+* @access public
+* @see $author
+*/
+  function setAuthor($author = "") {
+    if (!$author) {
+      $author = $this->ilias->account->fullname;
+    }
+    $this->author = $author;
+  }
 
-} // END class.ilSurveyObjQuestionPool
+/**
+* Sets the introduction text
+*
+* Sets the introduction text
+*
+* @param string $introduction A string containing the introduction
+* @access public
+* @see $introduction
+*/
+  function setIntroduction($introduction = "") {
+    $this->introduction = $introduction;
+  }
+
+/**
+* Gets the authors name
+*
+* Gets the authors name of the SurveyQuestion object
+*
+* @return string The string containing the name of the questions author
+* @access public
+* @see $author
+*/
+  function getAuthor() {
+    return $this->author;
+  }
+
+/**
+* Gets the survey status
+*
+* Gets the survey status
+*
+* @return integer Survey status
+* @access public
+* @see $status
+*/
+  function getStatus() {
+    return $this->status;
+  }
+
+/**
+* Sets the survey status
+*
+* Sets the survey status
+*
+* @param integer $status Survey status
+* @access public
+* @see $status
+*/
+  function setStatus($status = STATUS_OFFLINE) {
+    $this->status = $status;
+  }
+
+/**
+* Gets the start date of the survey
+*
+* Gets the start date of the survey
+*
+* @return string Survey start date (YYYY-MM-DD)
+* @access public
+* @see $start_date
+*/
+  function getStartDate() {
+    return $this->start_date;
+  }
+
+/**
+* Sets the start date of the survey
+*
+* Sets the start date of the survey
+*
+* @param string $start_data Survey start date (YYYY-MM-DD)
+* @access public
+* @see $start_date
+*/
+  function setStartDate($start_date = "") {
+    $this->start_date = $start_date;
+  }
+
+/**
+* Gets the start month of the survey
+*
+* Gets the start month of the survey
+*
+* @return string Survey start month
+* @access public
+* @see $start_date
+*/
+  function getStartMonth() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
+		{
+			return $matches[2];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the start day of the survey
+*
+* Gets the start day of the survey
+*
+* @return string Survey start day
+* @access public
+* @see $start_date
+*/
+  function getStartDay() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
+		{
+			return $matches[3];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the start year of the survey
+*
+* Gets the start year of the survey
+*
+* @return string Survey start year
+* @access public
+* @see $start_date
+*/
+  function getStartYear() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->start_date, $matches))
+		{
+			return $matches[1];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the end date of the survey
+*
+* Gets the end date of the survey
+*
+* @return string Survey end date (YYYY-MM-DD)
+* @access public
+* @see $end_date
+*/
+  function getEndDate() {
+    return $this->end_date;
+  }
+
+/**
+* Sets the end date of the survey
+*
+* Sets the end date of the survey
+*
+* @param string $end_date Survey end date (YYYY-MM-DD)
+* @access public
+* @see $end_date
+*/
+  function setEndDate($end_date = "") {
+    $this->end_date = $end_date;
+  }
+
+/**
+* Gets the end month of the survey
+*
+* Gets the end month of the survey
+*
+* @return string Survey end month
+* @access public
+* @see $end_date
+*/
+  function getEndMonth() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
+		{
+			return $matches[2];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the end day of the survey
+*
+* Gets the end day of the survey
+*
+* @return string Survey end day
+* @access public
+* @see $end_date
+*/
+  function getEndDay() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
+		{
+			return $matches[3];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the end year of the survey
+*
+* Gets the end year of the survey
+*
+* @return string Survey end year
+* @access public
+* @see $end_date
+*/
+  function getEndYear() {
+		if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $this->end_date, $matches))
+		{
+			return $matches[1];
+		}
+		else
+		{
+			return "";
+		}
+  }
+
+/**
+* Gets the learners evaluation access
+*
+* Gets the learners evaluation access
+*
+* @return integer The evaluation access
+* @access public
+* @see $evaluation_access
+*/
+  function getEvaluationAccess() {
+    return $this->evaluation_access;
+  }
+
+/**
+* Sets the learners evaluation access
+*
+* Sets the learners evaluation access
+*
+* @param integer $evaluation_access The evaluation access
+* @access public
+* @see $evaluation_access
+*/
+  function setEvaluationAccess($evaluation_access = EVALUATION_ACCESS_OFF) {
+    $this->evaluation_access = $evaluation_access;
+  }
+
+/**
+* Gets the introduction text
+*
+* Gets the introduction text
+*
+* @return string The introduction of the survey object
+* @access public
+* @see $introduction
+*/
+  function getIntroduction() {
+    return $this->introduction;
+  }
+
+
+} // END class.ilObjSurvey
 ?>
