@@ -265,9 +265,8 @@ if ($step == "begin")
 	$tpl->parseCurrentBlock();
 
 	//languages
-	$check = $lng->getAllLanguages();
-	if (count($check) > 0)
-		$msg = $OK.", ".count($check). " ".$lng->txt("languages");
+	if (count($langs) > 0)
+		$msg = $OK.", ".count($langs). " ".$lng->txt("languages");
 	else
 	{
 		$msg = "";
