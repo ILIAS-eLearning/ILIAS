@@ -35,7 +35,7 @@
 * @package		dateplaner-core
 */
 	
-class Interface
+class ilCalInterface
 {
 	
 	/**
@@ -183,7 +183,7 @@ class Interface
 	var $sock   = FALSE;
 
 
-	function Interface($ilias,  $nb="")
+	function ilCalInterface($ilias,  $nb="")
 	{
 		
 		global $tpl;
@@ -517,7 +517,7 @@ class Interface
 	// 
 	function getMemberGroups ($userId)
 	{
-		$GroupIds				= interface::getGroupIds();
+		$GroupIds				= ilCalInterface::getGroupIds();
 		return $GroupIds;
 	}//end function
 

@@ -74,8 +74,8 @@ define("DATEPLANER_ROOT_DIR", $modulDir ); /* relative path to the dateplaner di
 
 
 /*dynamic variables and interface connection to ilias*/
-require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.Interface.php');
-	$Interface		= new Interface($ilias);
+require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.ilCalInterface.php');
+	$Interface		= new ilCalInterface($ilias);
 
 	/* if the gui used without frames */
 	if(!$uptext) {
