@@ -235,6 +235,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_matching");
