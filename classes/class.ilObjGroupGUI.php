@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.47 2003/10/29 15:01:09 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.48 2003/10/29 18:19:56 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,8 +65,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		if ($_SESSION["error_post_vars"])
 		{
 			// fill in saved values in case of error
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 			$data["fields"]["password"] = $_SESSION["error_post_vars"]["password"];
 			$data["fields"]["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];
 			$data["fields"]["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];
@@ -85,7 +85,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			$this->tpl->setVariable(strtoupper($key), $val);
 
 			if ($this->prepare_output)
 			{
@@ -218,14 +218,20 @@ class ilObjGroupGUI extends ilObjectGUI
 		include_once "./classes/class.ilGroup.php";
 		$grp = new ilGroup();
 
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// check groupname
-		if ($grp->groupNameExists($_POST["Fobject"]["title"],$this->object->getId()))
+		if ($grp->groupNameExists(ilUtil::stripSlashes($_POST["Fobject"]["title"]),$this->object->getId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("grp_name_exists"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->setTitle($_POST["Fobject"]["title"]);
-		$this->object->setDescription($_POST["Fobject"]["desc"]);
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setGroupStatus($_POST["group_status"]);
 		$this->object->setRegistrationFlag($_POST["enable_registration"]);
 
@@ -255,13 +261,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		if ($_SESSION["error_post_vars"])
 		{
 			// fill in saved values in case of error
-			$data["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];			
+			$data["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);			
 			$data["registration"] = $_SESSION["error_post_vars"]["registration"];			
 		}
 		else
 		{
-			$data["title"] = $this->object->getTitle();
+			$data["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
 			$data["desc"] = $this->object->getDescription();			
 			$data["registration"] = $this->object->getRegistrationFlag();
 		}
@@ -271,7 +277,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach ($data as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -746,7 +752,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
 		$admin_ids = $newGrp->getGroupAdminIds($_GET["ref_id"]);
 
-		foreach($member_ids as $member_id)
+		foreach ($member_ids as $member_id)
 		{
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
 
