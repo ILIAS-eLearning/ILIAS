@@ -33,195 +33,195 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
-assessment#:#add_answer#:#Add answer###01 Mar 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###01 Mar 2004 new variable
-assessment#:#answer#:#Answer###01 Mar 2004 new variable
-assessment#:#answer_text#:#Answer text###01 Mar 2004 new variable
-assessment#:#apply#:#Apply###01 Mar 2004 new variable
-assessment#:#ass_questions#:#Questions###01 Mar 2004 new variable
-assessment#:#by#:#by###01 Mar 2004 new variable
-assessment#:#cloze_text#:#Cloze text###01 Mar 2004 new variable
-assessment#:#create_date#:#Created###01 Mar 2004 new variable
-assessment#:#create_gaps#:#Create gaps###01 Mar 2004 new variable
-assessment#:#create_new#:#Create new###01 Mar 2004 new variable
-assessment#:#duplicate#:#Duplicate###01 Mar 2004 new variable
-assessment#:#export#:#Export###01 Mar 2004 new variable
-assessment#:#false#:#False###01 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
-assessment#:#filter#:#Filter###01 Mar 2004 new variable
-assessment#:#gap_selection#:#Gap selection###01 Mar 2004 new variable
-assessment#:#imagemap#:#Image map###01 Mar 2004 new variable
-assessment#:#last_update#:#Last update###01 Mar 2004 new variable
-assessment#:#mark_schema#:#Mark schema###01 Mar 2004 new variable
-assessment#:#match_terms_and_definitions#:#Match terms and definitions###01 Mar 2004 new variable
-assessment#:#match_terms_and_pictures#:#Match terms and pictures###01 Mar 2004 new variable
-assessment#:#matches#:#matches###01 Mar 2004 new variable
-assessment#:#matching_pair#:#Matching pair###01 Mar 2004 new variable
-assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###01 Mar 2004 new variable
-assessment#:#points#:#Points###01 Mar 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###01 Mar 2004 new variable
-assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
-assessment#:#postponed#:#postponed###07 Mar 2004 new variable
-assessment#:#preview#:#Preview###01 Mar 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###01 Mar 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###01 Mar 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###01 Mar 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###01 Mar 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###01 Mar 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###01 Mar 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###01 Mar 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###01 Mar 2004 new variable
-assessment#:#qt_imagemap#:#Image Map Question###01 Mar 2004 new variable
-assessment#:#qt_matching#:#Matching Question###01 Mar 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###01 Mar 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###01 Mar 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###01 Mar 2004 new variable
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
-assessment#:#question_type#:#Question Type###01 Mar 2004 new variable
-assessment#:#region#:#Region###01 Mar 2004 new variable
-assessment#:#remove_question#:#Remove###01 Mar 2004 new variable
-assessment#:#reset_filter#:#Reset filter###01 Mar 2004 new variable
-assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
-assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
-assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
-assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
-assessment#:#select_gap#:#Select gap###01 Mar 2004 new variable
-assessment#:#set_filter#:#Set filter###01 Mar 2004 new variable
-assessment#:#solution_order#:#Solution order###01 Mar 2004 new variable
-assessment#:#text_gap#:#Text gap###01 Mar 2004 new variable
-assessment#:#true#:#True###01 Mar 2004 new variable
-assessment#:#tst_browse_for_questions#:#Browse for questions###01 Mar 2004 new variable
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###01 Mar 2004 new variable
-assessment#:#tst_general_properties#:#General properties###01 Mar 2004 new variable
-assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###01 Mar 2004 new variable
-assessment#:#tst_introduction#:#Introduction###01 Mar 2004 new variable
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###01 Mar 2004 new variable
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###01 Mar 2004 new variable
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###01 Mar 2004 new variable
-assessment#:#tst_mark_official_form#:#Official form###01 Mar 2004 new variable
-assessment#:#tst_mark_passed#:#Passed###01 Mar 2004 new variable
-assessment#:#tst_mark_short_form#:#Short form###01 Mar 2004 new variable
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###01 Mar 2004 new variable
-assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###01 Mar 2004 new variable
-assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###01 Mar 2004 new variable
-assessment#:#tst_nr_of_tries#:#Max. number of tries###01 Mar 2004 new variable
-assessment#:#tst_processing_time#:#Max. processing time###01 Mar 2004 new variable
-assessment#:#tst_question_title#:#Title###01 Mar 2004 new variable
-assessment#:#tst_question_type#:#Question type###01 Mar 2004 new variable
-assessment#:#tst_report_after_question#:#Report the score after every question is answered###01 Mar 2004 new variable
-assessment#:#tst_report_after_test#:#Report the score after completing the whole test###01 Mar 2004 new variable
+assessment#:#0_unlimited#:#(0 = unlimited)###08 Mar 2004 new variable
+assessment#:#add_answer#:#Adicionar resposta
+assessment#:#add_matching_pair#:#Adicionar par correpondente
+assessment#:#answer#:#Resposta
+assessment#:#answer_text#:#Texto de resposta
+assessment#:#apply#:#Aplicar
+assessment#:#ass_questions#:#Questões
+assessment#:#by#:#por
+assessment#:#cloze_text#:#Fechar texto
+assessment#:#create_date#:#Criado
+assessment#:#create_gaps#:#Criar espaços
+assessment#:#create_new#:#Criar novo
+assessment#:#duplicate#:#Duplicar
+assessment#:#export#:#Exportar
+assessment#:#false#:#Falso
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###08 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###08 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###08 Mar 2004 new variable
+assessment#:#filter#:#Filtro
+assessment#:#gap_selection#:#Selecção de espaço
+assessment#:#imagemap#:#Image map###08 Mar 2004 new variable
+assessment#:#last_update#:#Last update
+assessment#:#mark_schema#:#Mark schema###08 Mar 2004 new variable
+assessment#:#match_terms_and_definitions#:#Match terms and definitions###08 Mar 2004 new variable
+assessment#:#match_terms_and_pictures#:#Match terms and pictures###08 Mar 2004 new variable
+assessment#:#matches#:#correspondências
+assessment#:#matching_pair#:#Par correspondente
+ssessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
+assessment#:#points#:#Pontos
+assessment#:#possible_gap_text#:#Texto possível do espaço
+assessment#:#postpone#:#Postpone question###08 Mar 2004 new variable
+assessment#:#postponed#:#postponed###08 Mar 2004 new variable
+assessment#:#preview#:#Previsão
+assessment#:#qpl_delete_rbac_error#:#Você não tem permissão para apagar esta questão!
+assessment#:#qpl_delete_select_none#:#Por favor seleccione pelo menos uma questão para apagar
+assessment#:#qpl_duplicate_select_none#:#Por favor seleccione pelo menos uma questão para duplicar
+assessment#:#qpl_edit_rbac_error#:#Você não tem permissão para editar esta questão!
+assessment#:#qpl_edit_select_multiple#:#Por favor seleccione apenas uma questão para editar
+assessment#:#qpl_edit_select_none#:#Por favor seleccione uma questão para editar
+assessment#:#qpl_export_select_none#:#Por favor seleccione pelo menos uma questão para exportar
+assessment#:#qt_cloze#:#Fechar questão
+assessment#:#qt_imagemap#:#Image Map Question###08 Mar 2004 new variable
+assessment#:#qt_matching#:#Questão correspondente
+assessment#:#qt_multiple_choice_mr#:#Questão de escolha múltipla (resposta múltipla)
+assessment#:#qt_multiple_choice_sr#:#Questão de escolha múltipla (resposta única)
+assessment#:#qt_ordering#:#Questão de ordenação
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###08 Mar 2004 new variable
+assessment#:#question_type#:#Tipo de questão
+assessment#:#region#:#Region###08 Mar 2004 new variable
+assessment#:#remove_question#:#Remove###08 Mar 2004 new variable
+assessment#:#reset_filter#:#Reajustar filtro
+assessment#:#save_finish#:#Save and finish the test###08 Mar 2004 new variable
+assessment#:#save_introduction#:#Save and goto introduction###08 Mar 2004 new variable
+assessment#:#save_next#:#Save and goto next question###08 Mar 2004 new variable
+assessment#:#save_previous#:#Save and goto previous question###08 Mar 2004 new variable
+assessment#:#select_gap#:#Seleccionar espaço
+assessment#:#set_filter#:#Definir filtro
+assessment#:#solution_order#:#Ordem solução
+assessment#:#text_gap#:#Espaço de Texto
+assessment#:#true#:#Verdadeiro
+assessment#:#tst_browse_for_questions#:#Browse for questions###08 Mar 2004 new variable
+assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###08 Mar 2004 new variable
+assessment#:#tst_general_properties#:#Propriedades gerais
+assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###08 Mar 2004 new variable
+assessment#:#tst_introduction#:#Introdução
+assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###08 Mar 2004 new variable
+assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###08 Mar 2004 new variable
+assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###08 Mar 2004 new variable
+assessment#:#tst_mark_official_form#:#Official form###08 Mar 2004 new variable
+assessment#:#tst_mark_passed#:#Passed###08 Mar 2004 new variable
+assessment#:#tst_mark_short_form#:#Short form###08 Mar 2004 new variable
+assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###08 Mar 2004 new variable
+assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###08 Mar 2004 new variable
+assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###08 Mar 2004 new variable
+assessment#:#tst_nr_of_tries#:#Max. número de tentativas
+assessment#:#tst_processing_time#:#Max. tempo de processamento
+assessment#:#tst_question_title#:#Title###08 Mar 2004 new variable
+assessment#:#tst_question_type#:#Question type###08 Mar 2004 new variable
+assessment#:#tst_report_after_question#:#Mostrar pontuação depois de cada questão respondida
+assessment#:#tst_report_after_test#:#Mostrar pontuação depois de completo todo o teste
 assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
-assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
-assessment#:#tst_score_reporting#:#Score reporting###01 Mar 2004 new variable
-assessment#:#tst_score_reporting_date#:#Score reporting date###01 Mar 2004 new variable
-assessment#:#tst_score_type#:#Score reporting type###01 Mar 2004 new variable
-assessment#:#tst_sequence#:#Sequence###01 Mar 2004 new variable
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###01 Mar 2004 new variable
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###01 Mar 2004 new variable
-assessment#:#tst_sequence_properties#:#Sequence properties###01 Mar 2004 new variable
-assessment#:#tst_session_settings#:#Session settings###01 Mar 2004 new variable
+assessment#:#tst_resume_test#:#Resume the test###08 Mar 2004 new variable
+assessment#:#tst_score_reporting#:#Mostragem de pontuação
+assessment#:#tst_score_reporting_date#:#Data de mostragem de pontuação
+assessment#:#tst_score_type#:#Tipo de mostragem de pontuação
+assessment#:#tst_sequence#:#Sequência
+assessment#:#tst_sequence_fixed#:#A sequência das questões é fixa
+assessment#:#tst_sequence_postpone#:#O aluno pode adiar a questão para o fim do teste
+assessment#:#tst_sequence_properties#:#Propriedades da sequência
+assessment#:#tst_session_settings#:#Parâmetros de sessão
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
-assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
-assessment#:#tst_starting_time#:#Starting time###01 Mar 2004 new variable
-assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
-assessment#:#tst_types#:#Test types###01 Mar 2004 new variable
-assessment#:#tt_assessment#:#Assessment test###01 Mar 2004 new variable
-assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###01 Mar 2004 new variable
-assessment#:#tt_self_assessment#:#Self assessment test###01 Mar 2004 new variable
-assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
-chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
-chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
-chat#:#chat_add_ip#:#Please add the server ip.###05 Mar 2004 new variable
-chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
-chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
-chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
-chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
-chat#:#chat_black#:#black###05 Mar 2004 new variable
-chat#:#chat_blue#:#blue###05 Mar 2004 new variable
-chat#:#chat_bold#:#Bold###05 Mar 2004 new variable
-chat#:#chat_chatroom_body#:#Chatroom:###05 Mar 2004 new variable
-chat#:#chat_chatroom_rename#:#Edit chatroom###05 Mar 2004 new variable
-chat#:#chat_chatrooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_color#:#Font color###05 Mar 2004 new variable
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###05 Mar 2004 new variable
-chat#:#chat_edit#:#Edit chat ###05 Mar 2004 new variable
-chat#:#chat_face#:#Font type###05 Mar 2004 new variable
-chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
-chat#:#chat_gray#:#gray###05 Mar 2004 new variable
-chat#:#chat_green#:#green###05 Mar 2004 new variable
-chat#:#chat_hide_details#:#Hide details###05 Mar 2004 new variable
-chat#:#chat_html_export#:#HTML export###05 Mar 2004 new variable
-chat#:#chat_ilias#:#Ilias Chat module###05 Mar 2004 new variable
-chat#:#chat_inactive#:#Inaktive###05 Mar 2004 new variable
-chat#:#chat_input#:#Input###05 Mar 2004 new variable
-chat#:#chat_insert_message#:#PLease insert a message###05 Mar 2004 new variable
-chat#:#chat_invitation_body#:#Invitation to chat from:###05 Mar 2004 new variable
-chat#:#chat_invitation_subject#:#Chat invitation###05 Mar 2004 new variable
-chat#:#chat_invite_user#:#Invite user###05 Mar 2004 new variable
-chat#:#chat_italic#:#Italic###05 Mar 2004 new variable
-chat#:#chat_level_all#:#All###05 Mar 2004 new variable
-chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
-chat#:#chat_level_error#:#Error###05 Mar 2004 new variable
-chat#:#chat_level_fatal#:#Fatal###05 Mar 2004 new variable
-chat#:#chat_level_info#:#Info###05 Mar 2004 new variable
-chat#:#chat_lime#:#lime###05 Mar 2004 new variable
-chat#:#chat_maroon#:#maroon###05 Mar 2004 new variable
-chat#:#chat_messages_deleted#:#Messages have been deleted.###05 Mar 2004 new variable
-chat#:#chat_moderator_password#:#Moderator password###05 Mar 2004 new variable
-chat#:#chat_navy#:#navy###05 Mar 2004 new variable
-chat#:#chat_no_active_users#:#No users present.###05 Mar 2004 new variable
-chat#:#chat_no_connection#:#Cannot contact chatserver.###05 Mar 2004 new variable
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###05 Mar 2004 new variable
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###05 Mar 2004 new variable
-chat#:#chat_no_rename_public#:#The public room cannot be renamed###05 Mar 2004 new variable
-chat#:#chat_no_write_perm#:#No permission to write###05 Mar 2004 new variable
-chat#:#chat_olive#:#olive###05 Mar 2004 new variable
-chat#:#chat_online_users#:#User (online)###05 Mar 2004 new variable
-chat#:#chat_private_message#:#Private Message###05 Mar 2004 new variable
-chat#:#chat_public_room#:#Public chatroom###05 Mar 2004 new variable
-chat#:#chat_purple#:#purple###05 Mar 2004 new variable
-chat#:#chat_red#:#red###05 Mar 2004 new variable
-chat#:#chat_refresh#:#Refresh###05 Mar 2004 new variable
-chat#:#chat_room_added#:#Added new chatroom###05 Mar 2004 new variable
-chat#:#chat_room_name#:#Name of chatroom###05 Mar 2004 new variable
-chat#:#chat_room_renamed#:#Chatroom renamed.###05 Mar 2004 new variable
-chat#:#chat_room_select#:#Private chatroom###05 Mar 2004 new variable
-chat#:#chat_rooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###05 Mar 2004 new variable
-chat#:#chat_select_one_room#:#Please select one chatroom###05 Mar 2004 new variable
-chat#:#chat_server_allowed#:#Allowed hosts###05 Mar 2004 new variable
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###05 Mar 2004 new variable
-chat#:#chat_server_ip#:#Server Ip###05 Mar 2004 new variable
-chat#:#chat_server_logfile#:#Logfile path###05 Mar 2004 new variable
-chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
-chat#:#chat_server_not_active#:#The chatserver is not active###05 Mar 2004 new variable
-chat#:#chat_server_port#:#Server Port###05 Mar 2004 new variable
-chat#:#chat_server_settings#:#Chatserver settings###05 Mar 2004 new variable
-chat#:#chat_settings_saved#:#Settings saved###05 Mar 2004 new variable
-chat#:#chat_show_details#:#Show details###05 Mar 2004 new variable
-chat#:#chat_silver#:#silver###05 Mar 2004 new variable
-chat#:#chat_status#:#Status###05 Mar 2004 new variable
-chat#:#chat_status_saved#:#The status has been changed###05 Mar 2004 new variable
-chat#:#chat_tahoma#:#Tahoma###05 Mar 2004 new variable
-chat#:#chat_teal#:#teal###05 Mar 2004 new variable
-chat#:#chat_times#:#Times###05 Mar 2004 new variable
-chat#:#chat_title_missing#:#Please insert a name.###05 Mar 2004 new variable
-chat#:#chat_to_chat_body#:#To the chat###05 Mar 2004 new variable
-chat#:#chat_type#:#Font face###05 Mar 2004 new variable
-chat#:#chat_underlined#:#Underlined###05 Mar 2004 new variable
-chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
-chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
-chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
-chat#:#chats#:#Chats###05 Mar 2004 new variable
-chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
-common#:#3rd_party_software#:#3rd party software###01 Mar 2004 new variable
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###01 Mar 2004 new variable
-common#:#HH:MM#:#HH:MM###01 Mar 2004 new variable
+assessment#:#tst_start_test#:#Start the test###08 Mar 2004 new variable
+assessment#:#tst_starting_time#:#Tempo de começo
+assessment#:#tst_type#:#Test type###08 Mar 2004 new variable
+assessment#:#tst_types#:#Tipos de teste
+assessment#:#tt_assessment#:#Assessment test###08 Mar 2004 new variable
+assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###08 Mar 2004 new variable
+assessment#:#tt_self_assessment#:#Self assessment test###08 Mar 2004 new variable
+assessment#:#unlimited#:#unlimited###08 Mar 2004 new variable
+chat#:#chat_active#:#Aktive###08 Mar 2004 new variable
+chat#:#chat_active_users#:#User (aktive)###08 Mar 2004 new variable
+chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###08 Mar 2004 new variable
+chat#:#chat_add_ip#:#Please add the server ip.###08 Mar 2004 new variable
+chat#:#chat_add_moderator_password#:#Please add a moderator password.###08 Mar 2004 new variable
+chat#:#chat_add_port#:#Please add the server port.###08 Mar 2004 new variable
+chat#:#chat_aqua#:#aqua###08 Mar 2004 new variable
+chat#:#chat_arial#:#Arial###08 Mar 2004 new variable
+chat#:#chat_black#:#black###08 Mar 2004 new variable
+chat#:#chat_blue#:#blue###08 Mar 2004 new variable
+chat#:#chat_bold#:#Bold###08 Mar 2004 new variable
+chat#:#chat_chatroom_body#:#Chatroom:###08 Mar 2004 new variable
+chat#:#chat_chatroom_rename#:#Edit chatroom###08 Mar 2004 new variable
+chat#:#chat_chatrooms#:#Chatrooms###08 Mar 2004 new variable
+chat#:#chat_color#:#Font color###08 Mar 2004 new variable
+chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###08 Mar 2004 new variable
+chat#:#chat_edit#:#Edit chat ###08 Mar 2004 new variable
+chat#:#chat_face#:#Font type###08 Mar 2004 new variable
+chat#:#chat_fuchsia#:#fuchsia###08 Mar 2004 new variable
+chat#:#chat_gray#:#gray###08 Mar 2004 new variable
+chat#:#chat_green#:#green###08 Mar 2004 new variable
+chat#:#chat_hide_details#:#Hide details###08 Mar 2004 new variable
+chat#:#chat_html_export#:#HTML export###08 Mar 2004 new variable
+chat#:#chat_ilias#:#Ilias Chat module###08 Mar 2004 new variable
+chat#:#chat_inactive#:#Inaktive###08 Mar 2004 new variable
+chat#:#chat_input#:#Input###08 Mar 2004 new variable
+chat#:#chat_insert_message#:#PLease insert a message###08 Mar 2004 new variable
+chat#:#chat_invitation_body#:#Invitation to chat from:###08 Mar 2004 new variable
+chat#:#chat_invitation_subject#:#Chat invitation###08 Mar 2004 new variable
+chat#:#chat_invite_user#:#Invite user###08 Mar 2004 new variable
+chat#:#chat_italic#:#Italic###08 Mar 2004 new variable
+chat#:#chat_level_all#:#All###08 Mar 2004 new variable
+chat#:#chat_level_debug#:#Debug###08 Mar 2004 new variable
+chat#:#chat_level_error#:#Error###08 Mar 2004 new variable
+chat#:#chat_level_fatal#:#Fatal###08 Mar 2004 new variable
+chat#:#chat_level_info#:#Info###08 Mar 2004 new variable
+chat#:#chat_lime#:#lime###08 Mar 2004 new variable
+chat#:#chat_maroon#:#maroon###08 Mar 2004 new variable
+chat#:#chat_messages_deleted#:#Messages have been deleted.###08 Mar 2004 new variable
+chat#:#chat_moderator_password#:#Moderator password###08 Mar 2004 new variable
+chat#:#chat_navy#:#navy###08 Mar 2004 new variable
+chat#:#chat_no_active_users#:#No users present.###08 Mar 2004 new variable
+chat#:#chat_no_connection#:#Cannot contact chatserver.###08 Mar 2004 new variable
+chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###08 Mar 2004 new variable
+chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###08 Mar 2004 new variable
+chat#:#chat_no_rename_public#:#The public room cannot be renamed###08 Mar 2004 new variable
+chat#:#chat_no_write_perm#:#No permission to write###08 Mar 2004 new variable
+chat#:#chat_olive#:#olive###08 Mar 2004 new variable
+chat#:#chat_online_users#:#User (online)###08 Mar 2004 new variable
+chat#:#chat_private_message#:#Private Message###08 Mar 2004 new variable
+chat#:#chat_public_room#:#Public chatroom###08 Mar 2004 new variable
+chat#:#chat_purple#:#purple###08 Mar 2004 new variable
+chat#:#chat_red#:#red###08 Mar 2004 new variable
+chat#:#chat_refresh#:#Refresh###08 Mar 2004 new variable
+chat#:#chat_room_added#:#Added new chatroom###08 Mar 2004 new variable
+chat#:#chat_room_name#:#Name of chatroom###08 Mar 2004 new variable
+chat#:#chat_room_renamed#:#Chatroom renamed.###08 Mar 2004 new variable
+chat#:#chat_room_select#:#Private chatroom###08 Mar 2004 new variable
+chat#:#chat_rooms#:#Chatrooms###08 Mar 2004 new variable
+chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###08 Mar 2004 new variable
+chat#:#chat_select_one_room#:#Please select one chatroom###08 Mar 2004 new variable
+chat#:#chat_server_allowed#:#Allowed hosts###08 Mar 2004 new variable
+chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###08 Mar 2004 new variable
+chat#:#chat_server_ip#:#Server Ip###08 Mar 2004 new variable
+chat#:#chat_server_logfile#:#Logfile path###08 Mar 2004 new variable
+chat#:#chat_server_loglevel#:#Loglevel###08 Mar 2004 new variable
+chat#:#chat_server_not_active#:#The chatserver is not active###08 Mar 2004 new variable
+chat#:#chat_server_port#:#Server Port###08 Mar 2004 new variable
+chat#:#chat_server_settings#:#Chatserver settings###08 Mar 2004 new variable
+chat#:#chat_settings_saved#:#Settings saved###08 Mar 2004 new variable
+chat#:#chat_show_details#:#Show details###08 Mar 2004 new variable
+chat#:#chat_silver#:#silver###08 Mar 2004 new variable
+chat#:#chat_status#:#Status###08 Mar 2004 new variable
+chat#:#chat_status_saved#:#The status has been changed###08 Mar 2004 new variable
+chat#:#chat_tahoma#:#Tahoma###08 Mar 2004 new variable
+chat#:#chat_teal#:#teal###08 Mar 2004 new variable
+chat#:#chat_times#:#Times###08 Mar 2004 new variable
+chat#:#chat_title_missing#:#Please insert a name.###08 Mar 2004 new variable
+chat#:#chat_to_chat_body#:#To the chat###08 Mar 2004 new variable
+chat#:#chat_type#:#Font face###08 Mar 2004 new variable
+chat#:#chat_underlined#:#Underlined###08 Mar 2004 new variable
+chat#:#chat_user_dropped#:#User kicked###08 Mar 2004 new variable
+chat#:#chat_user_invited#:#Invited user to chat.###08 Mar 2004 new variable
+chat#:#chat_yellow#:#yellow###08 Mar 2004 new variable
+chat#:#chats#:#Chats###08 Mar 2004 new variable
+chat#:#my_chats#:#My Chats###08 Mar 2004 new variable
+common#:#3rd_party_software#:#Software 3rd party
+common#:#DD.MM.YYYY#:#DD.MM.AAAA
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
 common#:#accept_usr_agreement#:#Aceitar acordo de utilização?
 common#:#access#:#Acesso
@@ -229,23 +229,23 @@ common#:#action_aborted#:#Acção abortada
 common#:#actions#:#Acções
 common#:#active_roles#:#Papéis activos
 common#:#add#:#Adicionar
-common#:#add_author#:#Adicionar Autor
-common#:#add_member#:#Adicionar Membro
+common#:#add_author#:#Adicionar autor
+common#:#add_member#:#Adicionar membro
 common#:#add_translation#:#Adicionar tradução
-common#:#adm_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#adm_read#:#Read access to System settings###01 Mar 2004 new variable
-common#:#adm_visible#:#Systemsettings are visible###01 Mar 2004 new variable
-common#:#adm_write#:#Edit Basic system settings###01 Mar 2004 new variable
+common#:#adm_edit_permission#:#Mudar definições de permissões
+common#:#adm_read#:#Acesso de leitura às Definições de sistema
+common#:#adm_visible#:#Definições de sistema são visíveis
+common#:#adm_write#:#Editar definições de sistema Básicas
 common#:#administrate#:#Administrar
 common#:#administration#:#Administração
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
-common#:#adopt_perm_from_template#:#Adoptar definições de permissões de Papel Modelo
+common#:#adopt_perm_from_temsplate#:#Adoptar definições de permissões de Papel Modelo
 common#:#all_objects#:#Todos os Objectos
 common#:#allow_register#:#Disponível no registo de novos utilizadores
 common#:#and#:#e
 common#:#announce#:#Anunciar
-common#:#announce_changes#:#Anunciar alterações
+common#:#announce_changes#:#Anunciar Alterações
 common#:#answers#:#Respostas
 common#:#application_completed#:#Aplicação completa
 common#:#application_date#:#Data da aplicação
@@ -254,7 +254,7 @@ common#:#appointment_list#:#Lista de marcações
 common#:#archive#:#Arquivo
 common#:#are_you_sure#:#Tem a certeza?
 common#:#assign#:#Atribuir
-common#:#assign_global_role#:#Assign to global role###01 Mar 2004 new variable
+common#:#assign_global_role#:#Assign to global role###08 Mar 2004 new variable
 common#:#assign_lo_forum#:#Atribuir a Fórum LO
 common#:#assign_user_to_role#:#Atribuir utilizador ao papel
 common#:#at_location#:#na localização
@@ -267,78 +267,78 @@ common#:#back#:#Anterior
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dados Básicos
 common#:#bm#:#Marcador
-common#:#bmf#:#Pasta de marcadores
-common#:#bookmark_edit#:#Editar marcador
-common#:#bookmark_folder_edit#:#Editar pasta de marcadores
-common#:#bookmark_folder_new#:#Nova pasta de marcadores
-common#:#bookmark_new#:#Novo marcador
+common#:#bmf#:#Pasta de Marcadores
+common#:#bookmark_edit#:#Editar Marcador
+common#:#bookmark_folder_edit#:#Editar Pasta de Marcadores
+common#:#bookmark_folder_new#:#Nova Pasta de Marcadores
+common#:#bookmark_new#:#Novo Marcador
 common#:#bookmark_target#:#Alvo
 common#:#bookmarks#:#Marcadores
 common#:#bookmarks_of#:#Marcadores de
-common#:#btn_remove_system#:#Remover do sistema
+common#:#btn_remove_system#:#Remover do Sistema
 common#:#btn_undelete#:#Repor
 common#:#by#:#Por
-common#:#calendar#:#Calendario
+common#:#calendar#:#Calendário
 common#:#cancel#:#Cancelar
 common#:#cannot_uninstall_language_in_use#:#Não pode desinstalar a linguagem actualmente em utilizacão!
 common#:#cannot_uninstall_systemlanguage#:#Não pode desinstalar a linguagem de sistema!
 common#:#cat#:#Categoria
-common#:#cat_a#:#uma categoria
+common#:#cat_a#:#uma Categoria
 common#:#cat_add#:#Adicionar Categoria
 common#:#cat_added#:#Categoria adicionada
-common#:#cat_create#:#Create Category###01 Mar 2004 new variable
-common#:#cat_create_cat#:#Create Category###01 Mar 2004 new variable
-common#:#cat_create_chat#:#Create Chat###01 Mar 2004 new variable
-common#:#cat_create_crs#:#Create Course###01 Mar 2004 new variable
-common#:#cat_create_dbk#:#Create Digibook###01 Mar 2004 new variable
-common#:#cat_create_exc#:#Create Exercise###01 Mar 2004 new variable
-common#:#cat_create_frm#:#Create Forum###01 Mar 2004 new variable
-common#:#cat_create_glo#:#Create Glossary###01 Mar 2004 new variable
-common#:#cat_create_grp#:#Create Group###01 Mar 2004 new variable
-common#:#cat_create_lm#:#Create Learning Module###01 Mar 2004 new variable
-common#:#cat_create_qpl#:#Create Question Pool###01 Mar 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###01 Mar 2004 new variable
-common#:#cat_create_tst#:#Create Test###01 Mar 2004 new variable
-common#:#cat_delete#:#Delete Category###01 Mar 2004 new variable
+common#:#cat_create#:#Criar Categoria
+common#:#cat_create_cat#:#Criar Categoria
+common#:#cat_create_chat#:#Criar Chat
+common#:#cat_create_crs#:#Criar Curso
+common#:#cat_create_dbk#:#Criar Digibook
+common#:#cat_create_exc#:#Criar Exercício
+common#:#cat_create_frm#:#Criar Fórum
+common#:#cat_create_glo#:#Criar Glossário
+common#:#cat_create_grp#:#Criar Grupo
+common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
+common#:#cat_create_qpl#:#Criar Banco de Questões
+common#:#cat_create_slm#:#Criar Módulo de Aprendizagem SCORM
+common#:#cat_create_tst#:#Criar Teste
+common#:#cat_delete#:#Apagar Categoria
 common#:#cat_edit#:#Editar Categoria
-common#:#cat_edit_permission#:#Change permission settings###01 Mar 2004 new variable
+common#:#cat_edit_permission#:#Mudar definições de permissões
 common#:#cat_new#:#Nova categoria
-common#:#cat_read#:#Read access to Category###01 Mar 2004 new variable
-common#:#cat_visible#:#Category is visible###01 Mar 2004 new variable
-common#:#cat_write#:#Edit Category###01 Mar 2004 new variable
+common#:#cat_read#:#Acesso de Leitura à Categoria
+common#:#cat_visible#:#A Categoria é visível
+common#:#cat_write#:#Editar Categoria
 common#:#categories#:#Categorias
-common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
+common#:#categories_imported#:#Category import complete.###08 Mar 2004 new variable
 common#:#cc#:#CC
-common#:#censorship#:#Censorship###01 Mar 2004 new variable
-common#:#chac_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#chac_read#:#Read access to chat settings###01 Mar 2004 new variable
-common#:#chac_visible#:#Chat settings are visible###01 Mar 2004 new variable
-common#:#chac_write#:#Edit chat settings###01 Mar 2004 new variable
+common#:#censorship#:#Censura
+common#:#chac_edit_permission#:#Mudar definições de permissões
+common#:#chac_read#:#Acesso de Leitura às definições de Chat
+common#:#chac_visible#:#As definições de Chat são visíveis
+common#:#chac_write#:#Editar definições de chat
 common#:#change#:#Mudar
 common#:#change_active_assignment#:#Mudar atribuição activa
 common#:#change_assignment#:#Mudar atribuição
 common#:#change_existing_objects#:#Mudar os Objectos existentes
-common#:#change_lo_info#:#Mudar informações LO
-common#:#change_metadata#:#Mudar metadados
+common#:#change_lo_info#:#Mudar Informações LO
+common#:#change_metadata#:#Mudar Metadados
 common#:#change_sort_direction#:#Mudar direcção de ordenação
 common#:#changed_to#:#mudado para
 common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número do Capítulo
 common#:#chapter_title#:#Título do Capítulo
-common#:#chat#:#Chat###05 Mar 2004 new variable
-common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
-common#:#chat_delete#:#Delete chat###01 Mar 2004 new variable
-common#:#chat_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#chat_new#:#New Chat###05 Mar 2004 new variable
-common#:#chat_read#:#Read/Write access to chat###01 Mar 2004 new variable
-common#:#chat_visible#:#Chat is visible###01 Mar 2004 new variable
-common#:#chat_write#:#Edit chat###01 Mar 2004 new variable
+common#:#chat#:#Chat###08 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###08 Mar 2004 new variable
+common#:#chat_delete#:#Apagar chat
+common#:#chat_edit_permission#:#Mudar definições de permissões
+common#:#chat_new#:#New Chat###08 Mar 2004 new variable
+common#:#chat_read#:#Acesso de Leitura/Escrita ao chat
+common#:#chat_visible#:#O Chat está visível
+common#:#chat_write#:#Editar chat
 common#:#check#:#Verificar
 common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
-common#:#check_languages#:#Verifica linguagens
-common#:#check_max_allowed_packet_size#:#The page content size is too large.###01 Mar 2004 new variable
+common#:#check_languages#:#Verificar Linguagens
+common#:#check_max_allowed_packet_size#:#O tamanho do conteúdo da página é grande demais.
 common#:#chg_language#:#Mudar linguagem
-common#:#chg_password#:#Mudar palavra passe
+common#:#chg_password#:#Mudar Palavra-passe
 common#:#choose_language#:#Escolha a sua linguagem
 common#:#choose_location#:#Escolha a localização
 common#:#choose_only_one_language#:#Por favor escolha apenas uma linguagem
@@ -347,12 +347,12 @@ common#:#clear#:#Limpar
 common#:#client_id#:#ID de cliente
 common#:#clipboard#:#Clipboard
 common#:#close#:#Fechar
-common#:#comma_separated#:#Separado por vírgulas
+common#:#comma_separated#:#Separado por Vírgulas
 common#:#comment#:#comentário
 common#:#compose#:#Compor
 common#:#confirm#:#Confirmar
 common#:#cont_object#:#Objecto
-common#:#contact_data#:#Informação de contacto
+common#:#contact_data#:#Informação de Contacto
 common#:#context#:#Contexto
 common#:#copy#:#Copiar
 common#:#copy_of#:#Copia de
@@ -361,72 +361,72 @@ common#:#course#:#Curso
 common#:#courses#:#Cursos
 common#:#create#:#Criar
 common#:#create_in#:#Criar em
-common#:#create_stylesheet#:#Criar estilo
+common#:#create_stylesheet#:#Criar Estilo
 common#:#crs#:#Curso
 common#:#crs_a#:#um Curso
 common#:#crs_add#:#Adicionar Curso
 common#:#crs_added#:#Curso adicionado
 common#:#crs_available#:#Cursos disponíveis
-common#:#crs_create#:#Create Course###01 Mar 2004 new variable
-common#:#crs_create_frm#:#Create Forum###01 Mar 2004 new variable
-common#:#crs_create_glo#:#Create Glossary###01 Mar 2004 new variable
-common#:#crs_create_lm#:#Create Learning Module###01 Mar 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###01 Mar 2004 new variable
-common#:#crs_delete#:#Delete Course###01 Mar 2004 new variable
+common#:#crs_create#:#Criar Curso
+common#:#crs_create_frm#:#Criar Fórum
+common#:#crs_create_glo#:#Criar Glossário
+common#:#crs_create_lm#:#Criar Módulo de Aprendizagem
+common#:#crs_create_slm#:#Criar Módulo de Aprendizagem SCORM
+common#:#crs_delete#:#Apagar Curso
 common#:#crs_edit#:#Editar Curso
-common#:#crs_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#crs_join#:#Subscribe to Course###01 Mar 2004 new variable
-common#:#crs_leave#:#Unsubscribe from Course###01 Mar 2004 new variable
+common#:#crs_edit_permission#:#Mudar definições de permissões
+common#:#crs_join#:#Subscrever curso
+common#:#crs_leave#:#Desistir do Curso
 common#:#crs_management_system#:#Sistema de Gestão de Cursos
 common#:#crs_new#:#Novo Curso
-common#:#crs_read#:#Read access to Course###01 Mar 2004 new variable
-common#:#crs_visible#:#Course is visible###01 Mar 2004 new variable
-common#:#crs_write#:#Edit Course###01 Mar 2004 new variable
-common#:#current_password#:#Palavra passe actual
+common#:#crs_read#:#Acesso de Leitura ao Curso
+common#:#crs_visible#:#O Curso é visível
+common#:#crs_write#:#Editar- Curso
+common#:#current_password#:#Palavra-passe Actual
 common#:#cut#:#Cortar
 common#:#cutPage#:#Cortar
 common#:#database#:#Base de dados
-common#:#database_version#:#Actual versão da base de dados
+common#:#database_version#:#Actual Versão da Base de dados
 common#:#dataset#:#Item
 common#:#date#:#Data
-common#:#dateplaner#:#Dateplaner
+common#:#dateplaner#:#Planeador de datas
 common#:#day#:#Dia
 common#:#days#:#Dias
-common#:#db_host#:#Anfitrião da base de dados
-common#:#db_name#:#Nome da base de dados
-common#:#db_need_update#:#A base de dados necessita de uma actualização!
-common#:#db_pass#:#Palavra passe da base de dados
-common#:#db_type#:#Tipo da base de dados
-common#:#db_user#:#Utilizador da base de dados
-common#:#db_version#:#Versão da base de dados
+common#:#db_host#:#Anfitrião da Base de dados
+common#:#db_name#:#Nome da Base de dados
+common#:#db_need_update#:#A Base de dados necessita de uma actualização!
+common#:#db_pass#:#Palavra-passe da Base de dados
+common#:#db_type#:#Tipo da Base de dados
+common#:#db_user#:#Utilizador da Base de dados
+common#:#db_version#:#Versão da Base de dados
 common#:#dbk#:#Livro Digilib
 common#:#dbk_a#:#um Livro Digilib
 common#:#dbk_add#:#Adicionar Livro Digilib
-common#:#dbk_added#:#Livro Digilib Book adicionado
-common#:#dbk_create#:#Create Digibook###01 Mar 2004 new variable
-common#:#dbk_delete#:#Delete Digibook###01 Mar 2004 new variable
-common#:#dbk_edit_permission#:#Change permission settings###01 Mar 2004 new variable
+common#:#dbk_added#:#Livro Digilib adicionado
+common#:#dbk_create#:#Criar Digibook
+common#:#dbk_delete#:#Apagar Digibook
+common#:#dbk_edit_permission#:#Mudar definições de permissões
 common#:#dbk_new#:#Novo Livro Digilib
-common#:#dbk_read#:#Read access to Digibook###01 Mar 2004 new variable
-common#:#dbk_visible#:#Digibook is visible###01 Mar 2004 new variable
-common#:#dbk_write#:#Edit Digibook###01 Mar 2004 new variable
+common#:#dbk_read#:#Acesso de Leitura ao Digibook
+common#:#dbk_visible#:#O Digibook é visível
+common#:#dbk_write#:#Editar Digibook
 common#:#default#:#Defeito
-common#:#default_language#:#Languagem defeito
-common#:#default_perm_settings#:#Default permissions###01 Mar 2004 new variable
+common#:#default_language#:#Linguagem Defeito
+common#:#default_perm_settings#:#Permissões default
 common#:#default_role#:#Papel Defeito
-common#:#default_roles#:#Papeis Defeito
+common#:#default_roles#:#Papéis Defeito
 common#:#default_skin#:#Pele defeito
-common#:#default_skin_style#:#Pele defeito / estilo
+common#:#default_skin_style#:#Pele / Estilo defeito
 common#:#default_style#:#Estilo defeito
 common#:#delete#:#Apagar
-common#:#delete_all#:#Apagar todos
+common#:#delete_all#:#Apagar Todos
 common#:#delete_object#:#Apagar Objecto(s)
 common#:#delete_selected#:#Apagar Seleccionados
 common#:#deleted#:#Apagados
-common#:#department#:#Departmento
+common#:#department#:#Departamento
 common#:#desc#:#Descrição
 common#:#description#:#Descrição
-common#:#desired_password#:#Palavra passe desejada
+common#:#desired_password#:#Palavra-passe desejada
 common#:#disabled#:#Desligado
 common#:#down#:#Baixo
 common#:#download#:#Descarregar
@@ -435,9 +435,9 @@ common#:#drop#:#Desistir
 common#:#edit#:#Editar
 common#:#edit_data#:#editar dados
 common#:#edit_operations#:#Editar Operações
-common#:#edit_perm_ruleset#:#Edit default permission rules###01 Mar 2004 new variable
+common#:#edit_perm_ruleset#:#Editar regras de permissões defeito
 common#:#edit_properties#:#Editar Propriedades
-common#:#edit_stylesheet#:#Editar estilo
+common#:#edit_stylesheet#:#Editar Estilo
 common#:#edited_at#:#Editado em
 common#:#editor#:#Editor
 common#:#email#:#E-mail
@@ -453,36 +453,36 @@ common#:#err_in_line#:#Erro na linha
 common#:#err_no_langfile_found#:#Nenhum ficheiro de linguagem encontrado!
 common#:#err_no_param#:#Nenhum parâmetro!
 common#:#err_over_3_param#:#Mais de 3 parâmetros!
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###01 Mar 2004 new variable
+common#:#err_role_not_assignable#:#Você não pode atribuir utilizadores a este papel nesta localização
 common#:#err_session_expired#:#A sua sessão expirou!
-common#:#err_wrong_header#:#Razão: Header errado.
-common#:#err_wrong_login#:#Login errado
-common#:#error_recipient#:#Recipiente errado
+common#:#err_wrong_header#:#Razão: Cabeçalho errado.
+common#:#err_wrong_login#:#Entrada Errada
+common#:#error_recipient#:#Recipiente Errado
 common#:#exc#:#Exercício
-common#:#exc_add#:#Adicionar exercício
+common#:#exc_add#:#Adicionar Exercício
 common#:#exc_added#:#Exercício adicionado
 common#:#exc_ask_delete#:#Apagar ficheiro?
-common#:#exc_assign_usr#:#Atribuir utilizador
-common#:#exc_create#:#Create exercise###01 Mar 2004 new variable
+common#:#exc_assign_usr#:#Atribuir Utilizador
+common#:#exc_create#:#Criar exercício
 common#:#exc_date_not_valid#:#A data não é válida
 common#:#exc_deassign_members#:#Apagar membro(s)
-common#:#exc_delete#:#Delete exercise###01 Mar 2004 new variable
-common#:#exc_edit#:#Novo exercício creado
+common#:#exc_delete#:#Apagar exercício
+common#:#exc_edit#:#Novo exercício criado
 common#:#exc_edit_exercise#:#Editar exercício
-common#:#exc_edit_permission#:#Change permission settings###01 Mar 2004 new variable
+common#:#exc_edit_permission#:#Mudar definições de permissões
 common#:#exc_edit_until#:#Editar até
 common#:#exc_files#:#Ficheiros
 common#:#exc_groups#:#Grupos
 common#:#exc_header_members#:#Exercício(membros)
 common#:#exc_instruction#:#Instruções de trabalho
-common#:#exc_members_already_assigned#:#Este utilizador já está atribuido a este exercício
+common#:#exc_members_already_assigned#:#Estes utilizadores já estão atribuidos a este exercício
 common#:#exc_members_assigned#:#Membros atribuidos
 common#:#exc_new#:#Novo exercício
 common#:#exc_no_members_assigned#:#Nenhuns membros atribuidos
-common#:#exc_notices#:#Notices
+common#:#exc_notices#:#Nuances
 common#:#exc_obj#:#Exercício
-common#:#exc_read#:#Access exercise###01 Mar 2004 new variable
-common#:#exc_save_changes#:#Salvar
+common#:#exc_read#:#Aceder ao exercício
+common#:#exc_save_changes#:#Guardar
 common#:#exc_search_for#:#Procurar por
 common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
 common#:#exc_send_exercise#:#Enviar exercício
@@ -490,61 +490,61 @@ common#:#exc_sent#:#O exercício foi enviado aos utilizadores seleccionados
 common#:#exc_status_returned#:#Returnou
 common#:#exc_status_saved#:#Exercício actualizado
 common#:#exc_status_solved#:#Resolvido
-common#:#exc_upload_error#:#Erro a enviar ficheiro
+common#:#exc_upload_error#:#Erro a enviar o ficheiro
 common#:#exc_users#:#Utilizadores
-common#:#exc_visible#:#Exercise is visible###01 Mar 2004 new variable
-common#:#exc_write#:#Edit exercise###01 Mar 2004 new variable
+common#:#exc_visible#:#O Exercise é visível
+common#:#exc_write#:#Editar exercício
 common#:#excs#:#Exercícios
 common#:#execute#:#Executar
 common#:#export_html#:#exportar como ficheiro html
 common#:#export_xml#:#exportar como ficheiro xml
 common#:#faq_exercise#:#Exercício FAQ
 common#:#fax#:#Fax
-common#:#feedback#:#Feedback###01 Mar 2004 new variable
-common#:#feedback_recipient#:#Feedback Recipient###01 Mar 2004 new variable
+common#:#feedback#:#Reações
+common#:#feedback_recipient#:#Recipiente de Reacções
 common#:#file#:#Ficheiro
-common#:#file_a#:#a Ficheiro
+common#:#file_a#:#um Ficheiro
 common#:#file_add#:#Enviar ficheiro
 common#:#file_added#:#Ficheiro enviado
-common#:#file_new#:#Novo ficheiro
-common#:#file_not_found#:#Ficheiro não encontrado
+common#:#file_new#:#Novo Ficheiro
+common#:#file_not_found#:#Ficheiro Não Encontrado
 common#:#file_not_valid#:#Ficheiro inválido!
 common#:#file_valid#:#Ficheiro válido!
-common#:#file_version#:#Versão fornecida no ficheiro
+common#:#file_version#:#Versão Fornecida no Ficheiro
 common#:#files_location#:#Localização dos ficheiros
 common#:#fill_out_all_required_fields#:#Por favor preencha todos os campos necessários
 common#:#firstname#:#Primeiro nome
-common#:#flatview#:#Vista plana
+common#:#flatview#:#Vista Plana
 common#:#fold#:#Pasta
 common#:#fold_a#:#uma Pasta
 common#:#fold_add#:#Adicionar Pasta
 common#:#fold_added#:#Pasta adicionada
 common#:#fold_new#:#Nova Pasta
-common#:#folder#:#pasta
+common#:#folder#:#Pasta
 common#:#folders#:#Pastas
 common#:#force_accept_usr_agreement#:#Você tem de aceitar o acordo de utilização!
-common#:#forename#:#Apelido
+common#:#forename#:#Nome próprio
 common#:#form_empty_fields#:#Por favor complete estes campos:
 common#:#forum#:#Fórum
-common#:#forum_notification#:#Notification###01 Mar 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###01 Mar 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###01 Mar 2004 new variable
+common#:#forum_notification#:#Notificação
+common#:#forum_notify_me#:#Notifica-me quando uma resposta for enviada
+common#:#forum_post_replied#:#Responderam à sua mensagem para o no fórum
 common#:#forums#:#Fóruns
 common#:#forums_overview#:#Vista de Fóruns
 common#:#frm#:#Fórum
 common#:#frm_a#:#um Fórum
 common#:#frm_add#:#Adicionar Fórum
 common#:#frm_added#:#Fórum adicionado
-common#:#frm_create#:#Create Forum###01 Mar 2004 new variable
-common#:#frm_delete#:#Delete Forum###01 Mar 2004 new variable
-common#:#frm_delete_post#:#Delete a post###01 Mar 2004 new variable
+common#:#frm_create#:#Criar Fórum
+common#:#frm_delete#:#Apagar Fórum
+common#:#frm_delete_post#:#Apagar uma mensagem
 common#:#frm_edit#:#Editar Fórum
-common#:#frm_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#frm_edit_post#:#Edit a post###01 Mar 2004 new variable
+common#:#frm_edit_permission#:#Mudar definições de permissões
+common#:#frm_edit_post#:#Editar uma mensagem
 common#:#frm_new#:#Novo Fórum
-common#:#frm_read#:#Read access to Forum###01 Mar 2004 new variable
-common#:#frm_visible#:#Forum is visible###01 Mar 2004 new variable
-common#:#frm_write#:#Edit forum/write post###01 Mar 2004 new variable
+common#:#frm_read#:#Acesso de Leitura ao Fórum
+common#:#frm_visible#:#O Fórum é visível
+common#:#frm_write#:#Editar fórum/escrever mensagem
 common#:#from#:#De
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funções
@@ -554,94 +554,94 @@ common#:#gender#:#Género
 common#:#gender_f#:#Feminino
 common#:#gender_m#:#Masculino
 common#:#generate#:#Gerar
-common#:#glo#:#Glossario
-common#:#glo_a#:#a Glossario
-common#:#glo_add#:#Add Glossario
-common#:#glo_added#:#Glossario adicionado
-common#:#glo_create#:#Create Glossary###01 Mar 2004 new variable
-common#:#glo_delete#:#Delete Glossary###01 Mar 2004 new variable
-common#:#glo_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#glo_join#:#Subscribe to Glossary###01 Mar 2004 new variable
-common#:#glo_leave#:#Unsubscribe from Glossary###01 Mar 2004 new variable
-common#:#glo_new#:#Novo Glossario
-common#:#glo_read#:#Read access to Glossary###01 Mar 2004 new variable
-common#:#glo_visible#:#Glossary is visible###01 Mar 2004 new variable
-common#:#glo_write#:#Edit Glossary###01 Mar 2004 new variable
-common#:#glossaries#:#Glossarios
-common#:#glossary#:#Glossario
-common#:#glossary_added#:#Glossario adicionado
-common#:#group_access_denied#:#Acesso negado
+common#:#glo#:#Glossário
+common#:#glo_a#:#um Glossário
+common#:#glo_add#:#Adicionar Glossário
+common#:#glo_added#:#Glossário adicionado
+common#:#glo_create#:#Criar Glossário
+common#:#glo_delete#:#Apagar Glossário
+common#:#glo_edit_permission#:#Mudar definições de permissões
+common#:#glo_join#:#Subscrever Glossário
+common#:#glo_leave#:#Desistir do Glossário
+common#:#glo_new#:#Novo Glossário
+common#:#glo_read#:#Acesso de Leitura ao Glossário
+common#:#glo_visible#:#O Glossário é visível
+common#:#glo_write#:#Editar Glossário
+common#:#glossaries#:#Glossários
+common#:#glossary#:#Glossário
+common#:#glossary_added#:#Glossário adicionado
+common#:#group_access_denied#:#Acesso Negado
 common#:#group_any_objects#:#Nenhuns Subobjectos disponíveis
-common#:#group_create_chat#:#Create chat###01 Mar 2004 new variable
+common#:#group_create_chat#:#Criar Chat
 common#:#group_desc#:#Descrição do Grupo
 common#:#group_details#:#Detalhes do Grupo
 common#:#group_filesharing#:#Partilha de ficheiros de grupo
-common#:#group_members#:#Membros do grupo
+common#:#group_members#:#Membros do Grupo
 common#:#group_memstat#:#Estado do Membro
 common#:#group_memstat_admin#:#Administrador
 common#:#group_memstat_member#:#Membro
 common#:#group_name#:#Nome do Grupo
-common#:#group_new_registrations#:#Novas inscrições
-common#:#group_no_registration#:#registo não requerido
+common#:#group_new_registrations#:#Novas Inscrições
+common#:#group_no_registration#:#registo não necessário
 common#:#group_no_registration_msg#:#Você não é um membro deste grupo até agora. Devido a razões de administração é necessário subscrever o grupo requerido.<br> Como membro você tem as seguintes vantagens:<br>- Você é informado de notícias e actualizações<br>- Você pode aceder a objectos como fóruns, módulos de aprendizagem, etc.<br><br>Você pode anular a sua inscrição a qualquer momento.
 common#:#group_not_available#:#Nenhum grupo disponível
-common#:#group_objects#:#Objectos de grupo
-common#:#group_password_registration_expired_msg#:#O período de registo deste grupo expirou, um anuncio já não é possível. Por favor contacte o repectivo dono do grupo ou administrador.
+common#:#group_objects#:#Objectos de Grupo
+common#:#group_password_registration_expired_msg#:#O período de inscrição deste grupo expirou, um anuncio já não é possível. Por favor contacte o repectivo dono do grupo ou administrador.
 common#:#group_password_registration_msg#:#Para se inscrever neste grupo você tem de fornecer a palavra passe fornecida pelo administrador deste grupo.<br>Você é automáticamente atribuido ao grupo se a sua palavra passe for correcta.
-common#:#group_registration_expiration_date#:#Data de expiração
-common#:#group_registration_expiration_time#:#Tempo de expiração
-common#:#group_registration_expired#:#Período de registo expirou
-common#:#group_registration_mode#:#Modo de Registo
-common#:#group_req_password#:#Palavra de registo necessária
-common#:#group_req_registration#:#Registo necessário
-common#:#group_req_registration_msg#:#Para se inscrever neste grupo você tem de se registar. O respectivo administrador de grupo atribuilo-á ao grupo. Por favor forneça um assunto para dar razões à sua aplicação.<br>Você receberá uma mensagem quando for atribuido ao grupo.
-common#:#group_reset#:#Redefinir permissões do Grupo
+common#:#group_registration_expiration_date#:#Data de Expiração
+common#:#group_registration_expiration_time#:#Tempo de Expiração
+common#:#group_registration_expired#:#O período de inscrição expirou
+common#:#group_registration_mode#:#Modo de Inscrição
+common#:#group_req_password#:#Palavra-passe de inscrição necessária
+common#:#group_req_registration#:#Inscrição necessária
+common#:#group_req_registration_msg#:#Para se juntar a este grupo você tem de se inscrever. O respectivo administrador de grupo atribuilo-á ao grupo. Por favor forneça um assunto para dar razões à sua aplicação.<br>Você receberá uma mensagem quando for atribuido ao grupo.
+common#:#group_reset#:#Redefinir Permissões do Grupo
 common#:#group_status#:#Estado do Grupo
 common#:#group_status_closed#:#Fechado
 common#:#group_status_public#:#Público
 common#:#groups#:#Grupos
-common#:#groups_overview#:#Vista dos Groups
+common#:#groups_overview#:#Vista dos Grupos
 common#:#grp#:#Grupo
 common#:#grp_a#:#um Grupo
 common#:#grp_add#:#Adicionar Grupo
 common#:#grp_added#:#Grupo adicionado
-common#:#grp_create#:#Create Group###01 Mar 2004 new variable
-common#:#grp_create_chat#:#Create Chat###01 Mar 2004 new variable
-common#:#grp_create_file#:#User may upload Files###01 Mar 2004 new variable
-common#:#grp_create_fold#:#User may create Folders###01 Mar 2004 new variable
-common#:#grp_create_frm#:#Create Forum###01 Mar 2004 new variable
-common#:#grp_create_lm#:#Create Learning Module###01 Mar 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###01 Mar 2004 new variable
-common#:#grp_delete#:#Delete Group###01 Mar 2004 new variable
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###01 Mar 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###01 Mar 2004 new variable
+common#:#grp_create#:#Criar Grupo
+common#:#grp_create_chat#:#Criar Chat
+common#:#grp_create_file#:#O Utilizador pode enviar Ficheiros
+common#:#grp_create_fold#:#O Utilizador pode criar Pastas
+common#:#grp_create_frm#:#Criar Fórum
+common#:#grp_create_lm#:#Criar Módulo de Aprendizagem
+common#:#grp_create_slm#:#Criar Módulo de Aprendizagem SCORM
+common#:#grp_delete#:#Apagar Grupo
+common#:#grp_dismiss_member#:#Tem a certeza que quer dispensar os seguintes membros do grupo.
+common#:#grp_dismiss_myself#:#Tem a certeza que quer dispensar-se do grupo.
 common#:#grp_edit#:#Editar Grupo
-common#:#grp_edit_permission#:#Change permission settings###01 Mar 2004 new variable
+common#:#grp_edit_permission#:#Mudar definições de permissões
 common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necessita de pelo menos um administrador de grupo
 common#:#grp_err_error#:#Ocorreu um erro
 common#:#grp_err_last_member#:#O último membro no pôde ser removido, por favor apague antes o grupo.
 common#:#grp_err_member_could_not_be_removed#:#O membro não pôde ser removido. Por favor verifique todas as dependências deste utilizador.
 common#:#grp_err_no_permission#:#Você não possui as permissões para esta operação.
-common#:#grp_err_registration_data#:#Por favor forneça a palavra passe, a data e hora de expiração para um período válido de registo !
-common#:#grp_join#:#User may join Group###01 Mar 2004 new variable
-common#:#grp_leave#:#User may leave Group###01 Mar 2004 new variable
+common#:#grp_err_registration_data#:#Por favor forneça uma palavra-passe, a data e hora de expiração para um período válido de inscrição !
+common#:#grp_join#:#O utilizador pode juntar-se ao Grupo
+common#:#grp_leave#:#O utilizador pode sair do Grupo
 common#:#grp_mem_change_status#:#Mudar estado do membro
 common#:#grp_mem_leave#:#Dispensar membro do grupo
 common#:#grp_mem_send_mail#:#Enviar mensagem a membro
 common#:#grp_msg_membership_annulled#:#Inscrição anulada
 common#:#grp_name_exists#:#Já existe um grupo com este nome! Por favor escolha outro nome.
 common#:#grp_new#:#Novo Grupo
-common#:#grp_read#:#Read access to Group###01 Mar 2004 new variable
+common#:#grp_read#:#Acesso de Leitura ao Grupo
 common#:#grp_register#:#Inscrever
 common#:#grp_registration_completed#:#Inscrição completa
-common#:#grp_visible#:#Group is visible###01 Mar 2004 new variable
-common#:#grp_write#:#Edit Group###01 Mar 2004 new variable
+common#:#grp_visible#:#O Grupo é visível
+common#:#grp_write#:#Editar Grupo
 common#:#guest#:#Convidado
 common#:#guests#:#Convidados
 common#:#help#:#Ajuda
 common#:#hide_details#:#esconder detalhes
-common#:#hide_structure#:#Desligar vista-estruturada
+common#:#hide_structure#:#Desligar Vista-Estruturada
 common#:#hobby#:#Interesses/Passatempos
 common#:#home#:#Casa
 common#:#host#:#Anfitrião
@@ -652,21 +652,21 @@ common#:#ilias_version#:#Versão do ILIAS
 common#:#image#:#Imagem
 common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a administração do sistema e verifique o caminho para o convert.
 common#:#import#:#Importar
-common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
-common#:#import_file#:#Import File###01 Mar 2004 new variable
-common#:#import_lm#:#Importar Módulo de aprendizagem
-common#:#import_root_user#:#Import Root User###01 Mar 2004 new variable
-common#:#import_slm#:#Importar pacote SCORM
-common#:#import_users#:#Import Users###01 Mar 2004 new variable
+common#:#import_categories#:#Import Categories###08 Mar 2004 new variable
+common#:#import_file#:#Import File###08 Mar 2004 new variable
+common#:#import_lm#:#Importar Módulo de Aprendizagem
+common#:#import_root_user#:#Import Root User###08 Mar 2004 new variable
+common#:#import_slm#:#Importar Pacote SCORM
+common#:#import_users#:#Import Users###08 Mar 2004 new variable
 common#:#in#:#em
-common#:#in_use#:#Linguagem de utilizador
-common#:#inbox#:#Caixa de entrada
-common#:#info_assign_sure#:#Tem a certeza que quer atribuir os seguintes utilizadore(s)?
+common#:#in_use#:#Linguagem de Utilizador
+common#:#inbox#:#Caixa de Entrada
+common#:#info_assign_sure#:#Tem a certeza que quer atribuir os seguintes utilizadores?
 common#:#info_delete_sure#:#Tem a certeza que deseja apagar os seguintes objecto(s)?
-common#:#info_deleted#:#Objecto(s) apagados
-common#:#info_trash#:#Objectos apagados
-common#:#inform_user_mail#:#Enviar email para imformar o utilizador das alterações
-common#:#information_abbr#:#Informação
+common#:#info_deleted#:#Objecto(s) Apagados
+common#:#info_trash#:#Objectos Apagados
+common#:#inform_user_mail#:#Enviar email para informar o utilizador das alterações
+common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#Todos LE
 common#:#ingmedia_back_to_le#:#Voltar para LE
 common#:#ingmedia_good_afternoon#:#Boa tarde
@@ -680,10 +680,10 @@ common#:#ingmedia_level_zero#:#Subir nível
 common#:#ingmedia_pers_dates#:#Dados pessoais
 common#:#ingmedia_reg_fo#:#Fóruns registados
 common#:#ingmedia_reg_le#:#LE registados
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you have to accept the user agreement.
+common#:#ingmedia_use_info1#:#Aqui você pode mudar os seus dados pessoais. Excepto o nome de utilizador e palavra-passe INGMEDIA, você não tem de preencher outros campos. Lembre-se que palavras-passe perdidas apenas podem ser devolvidas por e-mail (!).
+common#:#ingmedia_use_info2#:#Não é permitido o uso de caracteres especiais (como , ; . = - * + #) no seu nome de utilizador e palavra-passe INGMEDIA. Para ser permitido utilizar a plataforma INGMEDIA, você tem de aceitar o acordo de utilizador.
 common#:#ingmedia_use_info3#:#Por favor seleccione uma das ligações na barra do lado.
-common#:#ingmedia_use_title#:#Mudar os seus dados de utilizador.
+common#:#ingmedia_use_title#:#Mudar os dados de utilizador.
 common#:#ingmedia_user_agree#:#Acordo
 common#:#ingmedia_vis_le#:#LE visitados
 common#:#ingmedia_visited_le#:#Todos os LE que visitou até agora.
@@ -692,117 +692,117 @@ common#:#inifile#:#Ficheiro-Ini
 common#:#input_error#:#Erro de entrada
 common#:#insert#:#Inserir
 common#:#inst_id#:#ID de instalação
-common#:#inst_info#:#Informações da instalação
-common#:#inst_name#:#Nome da instalação
+common#:#inst_info#:#Informações da Instalação
+common#:#inst_name#:#Nome da Instalação
 common#:#install#:#Instalar
 common#:#installed#:#Instalado
 common#:#institution#:#Instituição
 common#:#internal_system#:#Sistema interno
 common#:#ip_address#:#Endereço IP
 common#:#is_already_your#:#já é o seu
-common#:#item#:#Item###01 Mar 2004 new variable
-common#:#kb#:#KByte###01 Mar 2004 new variable
+common#:#item#:#Item
+common#:#kb#:#KByte
 common#:#keywords#:#Palavras chave
-common#:#lang_cz#:#Czech###01 Mar 2004 new variable
-common#:#lang_dateformat#:#Y-m-d###01 Mar 2004 new variable
-common#:#lang_de#:#German###01 Mar 2004 new variable
-common#:#lang_dk#:#Danish###01 Mar 2004 new variable
-common#:#lang_en#:#English###01 Mar 2004 new variable
-common#:#lang_es#:#Spanish###01 Mar 2004 new variable
-common#:#lang_fi#:#Finnish###01 Mar 2004 new variable
-common#:#lang_fr#:#French###01 Mar 2004 new variable
-common#:#lang_gr#:#Greek###01 Mar 2004 new variable
-common#:#lang_id#:#Indonesian###01 Mar 2004 new variable
-common#:#lang_it#:#Italian###01 Mar 2004 new variable
-common#:#lang_ja#:#Japanese###01 Mar 2004 new variable
-common#:#lang_lt#:#Lithuanian###01 Mar 2004 new variable
-common#:#lang_nl#:#Dutch###01 Mar 2004 new variable
-common#:#lang_no#:#Norwegian###01 Mar 2004 new variable
-common#:#lang_path#:#Language Path###01 Mar 2004 new variable
-common#:#lang_pl#:#Polish###01 Mar 2004 new variable
-common#:#lang_pt#:#Portuguese###01 Mar 2004 new variable
-common#:#lang_se#:#Swedish###01 Mar 2004 new variable
+common#:#lang_cz#:#Checo
+common#:#lang_dateformat#:#A-m-d
+common#:#lang_de#:#Alemão
+common#:#lang_dk#:#Dinamarquês
+common#:#lang_en#:#Inglês
+common#:#lang_es#:#Espanhol
+common#:#lang_fi#:#Filandês
+common#:#lang_fr#:#Francês
+common#:#lang_gr#:#Grego
+common#:#lang_id#:#Indonésio
+common#:#lang_it#:#Italiano
+common#:#lang_ja#:#Japonês
+common#:#lang_lt#:#Lituano
+common#:#lang_nl#:#Holandês
+common#:#lang_no#:#Norueguês
+common#:#lang_path#:#Caminho da Linguagem
+common#:#lang_pl#:#Polaco
+common#:#lang_pt#:#Português
+common#:#lang_se#:#Sueco
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
-common#:#lang_timeformat#:#H:i:s###01 Mar 2004 new variable
-common#:#lang_ua#:#Ukrainian###01 Mar 2004 new variable
+common#:#lang_timeformat#:#H:i:s
+common#:#lang_ua#:#Ucrâniano
 common#:#lang_version#:#1
-common#:#lang_xx#:#Custom###01 Mar 2004 new variable
-common#:#lang_zh#:#Simplified Chinese###01 Mar 2004 new variable
-common#:#langfile_found#:#Ficheiro de linguagem não encontrdo
+common#:#lang_xx#:#Personalizada
+common#:#lang_zh#:#Chinês Simplificado
+common#:#langfile_found#:#Ficheiro de linguagem encontrdo
 common#:#language#:#Linguagem
-common#:#language_not_installed#:#não está intalada. Por favor instale esta linguagem promeiro
+common#:#language_not_installed#:#não está intalado. Por favor instale esta linguagem primeiro
 common#:#languages#:#Linguagens
-common#:#languages_already_installed#:#Linguagens escolhidas já estão instaladas
-common#:#languages_already_uninstalled#:#Linguagens escolhidas já estão desinstaladas
+common#:#languages_already_installed#:#As Linguagens escolhidas já estão instaladas
+common#:#languages_already_uninstalled#:#As Linguagens escolhidas já estão desinstaladas
 common#:#languages_updated#:#Todas as linguagens instaladas foram actualizadas
-common#:#last_change#:#Última mudança
-common#:#last_visit#:#Última visita
+common#:#last_change#:#Última Mudança
+common#:#last_visit#:#Última Visita
 common#:#lastname#:#Apelido
 common#:#launch#:#Lançar
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#ldap_read#:#Read access to LDAP settings###01 Mar 2004 new variable
-common#:#ldap_visible#:#LDAP settings are visible###01 Mar 2004 new variable
-common#:#ldap_write#:#Edit LDAP settings###01 Mar 2004 new variable
-common#:#learning_objects#:#Módulos de aprendizagem
-common#:#learning_resources#:#Recursos de aprendizagem
+common#:#ldap_edit_permission#:#Mudar definições de permissões
+common#:#ldap_read#:#Acesso de Leitura às definições LDAP
+common#:#ldap_visible#:#Definições LDAP são visíveis
+common#:#ldap_write#:#Editar definições LDAP
+common#:#learning_objects#:#Objectos de Aprendizagem
+common#:#learning_resources#:#Recursos de Aprendizagem
 common#:#level#:#Nível
 common#:#link#:#Ligação
-common#:#linked_pages#:#Páginas ligadas
-common#:#list_of_pages#:#Lista de páginas
-common#:#list_of_questions#:#Lista de questões
+common#:#linked_pages#:#Páginas Ligadas
+common#:#list_of_pages#:#Lista de Páginas
+common#:#list_of_questions#:#Lista de Questões
 common#:#literature#:#Literatura
-common#:#literature_bookmarks#:#Marcadores de literatura
-common#:#lm#:#Módulo de aprendizagem
-common#:#lm_a#:#um Módulo de aprendizagem
-common#:#lm_add#:#Adicionar módulo de aprendizagem
-common#:#lm_added#:#Módulo de aprendizagem adicionado
-common#:#lm_create#:#Create Learning Module###01 Mar 2004 new variable
-common#:#lm_delete#:#Delete Learning Module###01 Mar 2004 new variable
-common#:#lm_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#lm_join#:#Subscribe to Learning Module###01 Mar 2004 new variable
-common#:#lm_leave#:#Unsubscribe from Learning Module###01 Mar 2004 new variable
-common#:#lm_new#:#Novo módulo de aprendizagem
-common#:#lm_read#:#Read access to Learning Module###01 Mar 2004 new variable
-common#:#lm_visible#:#Learning Module is visible###01 Mar 2004 new variable
-common#:#lm_write#:#Edit Learning Module###01 Mar 2004 new variable
+common#:#literature_bookmarks#:#Marcadores de Literatura
+common#:#lm#:#Módulo de Aprendizagem
+common#:#lm_a#:#um Módulo de Aprendizagem
+common#:#lm_add#:#Adicionar Módulo de Aprendizagem
+common#:#lm_added#:#Módulo de Aprendizagem adicionado
+common#:#lm_create#:#Criar Módulo de Aprendizagem
+common#:#lm_delete#:#Apagar Módulo de Aprendizagem
+common#:#lm_edit_permission#:#Mudar definições de permissões
+common#:#lm_join#:#Subscrever Módulo de Aprendizagem
+common#:#lm_leave#:#Desistir do Módulo de Aprendizagem
+common#:#lm_new#:#Novo Módulo de Aprendizagem
+common#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem
+common#:#lm_visible#:#O Módulo de Aprendizagem é visível
+common#:#lm_write#:#Editar Módulo de Aprendizagem
 common#:#lng#:#Linguagem
-common#:#lngf#:#Pasta de linguagem
-common#:#lngf_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#lngf_read#:#Read access to Language settings###01 Mar 2004 new variable
-common#:#lngf_visible#:#Language settings are visible###01 Mar 2004 new variable
-common#:#lo#:#Objecto de aprendizagem
-common#:#lo_available#:#Vista dos Módulos de aprendizagem e Cursos
-common#:#lo_categories#:#Categorias LO
-common#:#lo_edit#:#Editar Módulo de aprendizagem
-common#:#lo_new#:#Novo módulo de aprendizagem
-common#:#lo_no_content#:#Nenhuns recursos de aprendizagem disponíveis
-common#:#lo_other_langs#:#LO's em outras linguagens
-common#:#lo_overview#:#Vista LO
+common#:#lngf#:#Linguagens
+common#:#lngf_edit_permission#:#Mudar definições de permissões
+common#:#lngf_read#:#Acesso de Leitura às definições de Linguagens
+common#:#lngf_visible#:#As definições de Linuguagens são visíveis
+common#:#lo#:#Objecto de Aprendizagem
+common#:#lo_available#:#Vista dos Módulos de Aprendizagem e Cursos
+common#:#lo_categories#:#Categorias de LO
+common#:#lo_edit#:#Editar Módulo de Aprendizagem
+common#:#lo_new#:#Novo Módulo de Aprendizagem
+common#:#lo_no_content#:#Nenhuns Recursos de Aprendizagem Disponíveis
+common#:#lo_other_langs#:#OA em outras linguagens
+common#:#lo_overview#:#Vista de OA
 common#:#locator#:#Localização:
-common#:#login#:#Entar
+common#:#login#:#Entrar
 common#:#login_as#:#Entrou como
 common#:#login_data#:#Dados da entrada
 common#:#login_exists#:#Já existe um utilizador com este nome de entrada! Por favor escolha outro nome de entrada.
-common#:#login_time#:#Tempo que esteve ligado
+common#:#login_time#:#Tempo ligado
 common#:#login_to_ilias#:#Entrada no ILIAS
 common#:#logout#:#Sair
 common#:#logout_text#:#Você saiu do ILIAS. A sua sessão foi fechada.
-common#:#los#:#Objectos de aprendizagem
-common#:#los_last_visited#:#Últimos objectos de aprendizagem visitados
+common#:#los#:#Objectos de Aprendizagem
+common#:#los_last_visited#:#Últimos Objectos de Aprendizagem Visitados
 common#:#mail#:#Correio
-common#:#mail_a_root#:#Caixa de correio
-common#:#mail_addressbook#:#Livro de endereços
+common#:#mail_a_root#:#Caixa de Correio
+common#:#mail_addressbook#:#Livro de Endereços
 common#:#mail_allow_smtp#:#Permitir SMTP
-common#:#mail_b_inbox#:#Caixa de entrada
+common#:#mail_b_inbox#:#Caixa de Entrada
 common#:#mail_c_trash#:#Lixo
 common#:#mail_d_drafts#:#Rascunhos
 common#:#mail_delete_error#:#Erro a apagar
-common#:#mail_delete_error_file#:#Error a apagar ficheiro
+common#:#mail_delete_error_file#:#Erro a apagar ficheiro
 common#:#mail_e_sent#:#Enviado
-common#:#mail_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#mail_folders#:#Pastas de correio
+common#:#mail_edit_permission#:#Mudar definições de permissões
+common#:#mail_folders#:#Pastas de Correio
 common#:#mail_intern_enable#:#Ligar
 common#:#mail_mails_of#:#Mensagens
 common#:#mail_maxsize_attach#:#Max. tamanho anexo
@@ -811,34 +811,34 @@ common#:#mail_maxsize_mail#:#Max. tamanho mensagem
 common#:#mail_maxtime_attach#:#Max. dias para manter anexos
 common#:#mail_maxtime_mail#:#Max. dias para manter mensagens
 common#:#mail_not_sent#:#Mensagen não enviada!
-common#:#mail_read#:#Read access to Mail settings###01 Mar 2004 new variable
+common#:#mail_read#:#Acesso de Leitura às definições de Correio
 common#:#mail_search_no#:#Nenhuma entrada encontrada
 common#:#mail_search_word#:#Procurar palavra
 common#:#mail_select_one#:#Você tem de seleccionar uma mensagem
 common#:#mail_send_error#:#Erro a enviar mensagem
 common#:#mail_sent#:#Mensagem enviada!
-common#:#mail_smtp_mail#:#User may send mail via SMTP###01 Mar 2004 new variable
-common#:#mail_system#:#Mensagem de sistema
-common#:#mail_system_message#:#User may send internal system messages###01 Mar 2004 new variable
-common#:#mail_visible#:#Mail settings are visible###01 Mar 2004 new variable
-common#:#mail_write#:#Edit Mail settings###01 Mar 2004 new variable
-common#:#mail_z_local#:#Pastas de utilizador
+common#:#mail_smtp_mail#:#O Utilizador pode enviar mensagens por SMTP
+common#:#mail_system#:#Mensagem de Sistema
+common#:#mail_system_message#:#O Utilizador pode enviar mensagens internas
+common#:#mail_visible#:#Definções de Correio são visíveis
+common#:#mail_write#:#Editar definições de Correio
+common#:#mail_z_local#:#Pastas de Utilizador
 common#:#mails#:#Mensagens
-common#:#mark_all_read#:#Marcar todas como lidas
-common#:#mark_all_unread#:#Marcar todas como não lidas
+common#:#mark_all_read#:#Marcar Todas como Lidas
+common#:#mark_all_unread#:#Marcar Todas como Não Lidas
 common#:#member#:#Membro
 common#:#members#:#Membros
 common#:#membership_annulled#:#A sua inscrição foi cancelada
 common#:#message#:#Mensagem
-common#:#message_content#:#Conteúdo da mensagem
+common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados
 common#:#migrate#:#Migrar
-common#:#mob#:#Objecto de média
+common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
 common#:#month#:#Mês
-common#:#move#:#Move###01 Mar 2004 new variable
+common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
 common#:#move_to#:#Mover para
@@ -850,82 +850,82 @@ common#:#msg_copy_clipboard#:#Objecto(s) seleccionados guardados no clipboard (A
 common#:#msg_cut_clipboard#:#Objecto(s) seleccionados guardados no clipboard (Acção: cortar)
 common#:#msg_cut_copied#:#Objecto(s) seleccionados movidos.
 common#:#msg_deleted_role#:#Papel apagado
-common#:#msg_deleted_roles#:#Papeis apagados
-common#:#msg_deleted_roles_rolts#:#Papeis e Modelos de papeis apagados
-common#:#msg_deleted_rolt#:#Modelo de papel apagado
-common#:#msg_deleted_rolts#:#Modelo de papel apagado
-common#:#msg_error_copy#:#Erro a copiar
+common#:#msg_deleted_roles#:#Papéis apagados
+common#:#msg_deleted_roles_rolts#:#Papéis e Modelos de Papéis apagados
+common#:#msg_deleted_rolt#:#Modelo de Papel apagado
+common#:#msg_deleted_rolts#:#Modelo de Papel apagado
+common#:#msg_error_copy#:#Erro a Copiar
 common#:#msg_failed#:#Lamentamos, a acção falhou
-common#:#msg_is_last_role#:#You deassigned the following users from their last global role###01 Mar 2004 new variable
-common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)###01 Mar 2004 new variable
-common#:#msg_linked#:#Selected object(s) linked.###01 Mar 2004 new variable
-common#:#msg_may_not_contain#:#This object may not contain objects of type:###01 Mar 2004 new variable
-common#:#msg_min_one_active_role#:#Cada utilizador tem de ter pelo menos um papel global activo!###01 Mar 2004 new variable
-common#:#msg_min_one_role#:#Cada utilizador tem de ter pelo menos um papel global!###01 Mar 2004 new variable
-common#:#msg_multi_language_selected#:#You selected the same language for different translations!###01 Mar 2004 new variable
-common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.###01 Mar 2004 new variable
-common#:#msg_no_delete_yourself#:#You cannot delete your own user account.###01 Mar 2004 new variable
-common#:#msg_no_file#:#You didn't choose a file###01 Mar 2004 new variable
-common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation###01 Mar 2004 new variable
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Mar 2004 new variable
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):###01 Mar 2004 new variable
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s):###01 Mar 2004 new variable
-common#:#msg_no_perm_create_object1#:#You have no permission to create###01 Mar 2004 new variable
+common#:#msg_is_last_role#:#Você desatribuiu os seguintes utilizadores do seu último papel global
+common#:#msg_link_clipboard#:#Objecto(s) seleccionados guardados no clipboard (Acção: ligar)
+common#:#msg_linked#:#Objecto(s) seleccionados ligados.
+common#:#msg_may_not_contain#:#Este objecto não pode conter objectos do tipo:
+common#:#msg_min_one_active_role#:#Cada utilizador tem de ter pelo menos um papel global activo!
+common#:#msg_min_one_role#:#Cada utilizador tem de ter pelo menos um papel global!
+common#:#msg_multi_language_selected#:#Você seleccionou a mesma linguagem para diferentes traduções!
+common#:#msg_no_default_language#:#Nenhuma linguagem por defeito especificada! Você tem de definir uma tradução como tradução por defeito.
+common#:#msg_no_delete_yourself#:#Você não pode apagar a sua própria conta de utilizador.
+common#:#msg_no_file#:#Você não escolheu um ficheiro
+common#:#msg_no_language_selected#:#Nenhuma linguagem de tradução especificada! Você tem de definir uma linguagem para cada tradução
+common#:#msg_no_perm_assign_role_to_user#:#Você não tem permissão para mudar a atribuição de papel do utilizador
+common#:#msg_no_perm_copy#:#Você não tem permissão para criar uma cópia dos seguintes objecto(s):
+common#:#msg_no_perm_create#:#Você não tem permissão para criar os seguintes objecto(s):
+common#:#msg_no_perm_create_object1#:#Você não tem permissão para criar
 common#:#msg_no_perm_create_object2#:#nesta localização!
-common#:#msg_no_perm_create_role#:#Não tem permissão para adicionar papeis
-common#:#msg_no_perm_create_rolf#:#Não tem permissão para criar uma pasta de papeis. Therefore you may not stop inheritance of roles or add local roles here.###01 Mar 2004 new variable
-common#:#msg_no_perm_create_rolt#:#Não tem permissão para adicionar modelos de papeis
-common#:#msg_no_perm_create_user#:#Não tem permissão para adicionar utilizadores
-common#:#msg_no_perm_cut#:#Não tem permissão para cortar os seguintes objecto(s):
-common#:#msg_no_perm_delete#:#Não tem permissão para apagar os seguintes objecto(s):
-common#:#msg_no_perm_link#:#Não tem permissão para criar uma ligação a partir dos seguintes objecto(s):
-common#:#msg_no_perm_modify_role#:#Não tem permissão para modificar papeis
-common#:#msg_no_perm_modify_rolt#:#Não tem permissão para modificar modelos de papeis
-common#:#msg_no_perm_modify_user#:#Não tem permissão para modificar dados de utilizadores
-common#:#msg_no_perm_paste#:#Não tem permissão para colar os seguintes objecto(s):
-common#:#msg_no_perm_perm#:#Não tem permissão para editar definições de permissões
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###01 Mar 2004 new variable
-common#:#msg_no_perm_write#:#Não tem permissão para escrever
+common#:#msg_no_perm_create_role#:#Você não tem permissão para adicionar papéis
+common#:#msg_no_perm_create_rolf#:#Você não tem permissão para criar uma Pasta de Papéis. Como tal, você não pode parar a herança de papéis ou adicionar aqui papéis locais.
+common#:#msg_no_perm_create_rolt#:#Você não tem permissão para adicionar modelos de papéis
+common#:#msg_no_perm_create_user#:#Você não tem permissão para adicionar utilizadores
+common#:#msg_no_perm_cut#:#Você não tem permissão para cortar os seguintes objecto(s):
+common#:#msg_no_perm_delete#:#Você não tem permissão para apagar os seguintes objecto(s):
+common#:#msg_no_perm_link#:#Você não tem permissão para criar uma ligação a partir dos seguintes objecto(s):
+common#:#msg_no_perm_modify_role#:#Você não tem permissão para modificar papéis
+common#:#msg_no_perm_modify_rolt#:#Você não tem permissão para modificar modelos de papéis
+common#:#msg_no_perm_modify_user#:#Você não tem permissão para modificar dados de utilizadores
+common#:#msg_no_perm_paste#:#Você não tem permissão para colar os seguintes objecto(s):
+common#:#msg_no_perm_perm#:#Você não tem permissão para editar definições de permissões
+common#:#msg_no_perm_undelete#:#Você não tem permissão para repor os seguintes objecto(s):
+common#:#msg_no_perm_write#:#Você não tem permissão para escrever
 common#:#msg_no_rolf_allowed1#:#O objecto
-common#:#msg_no_rolf_allowed2#:#não é permitido conter uma pasta de papeis
-common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
+common#:#msg_no_rolf_allowed2#:#não é permitido conter uma Pasta de Papéis
+common#:#msg_no_scan_log#:#Scan log not implemented yet###08 Mar 2004 new variable
 common#:#msg_no_search_result#:#Nenhumas entradas encontradas
 common#:#msg_no_search_string#:#Por favor insira a sua consulta
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Mar 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Você não pode atribuir utilizadores ao papel de Adminitrador de sistema se você não tiver o mesmo papel
 common#:#msg_not_available_for_anon#:#A página que escolheu apenas é acessível por utilizadores registados
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself###01 Mar 2004 new variable
+common#:#msg_not_in_itself#:#Não é possível colar o objecto em si mesmo
 common#:#msg_nothing_found#:#msg_nada_encontrado
 common#:#msg_obj_created#:#Objecto criado.
 common#:#msg_obj_exists#:#Este objecto já existe nesta pasta
-common#:#msg_obj_modified#:#Modificações salvas.
-common#:#msg_obj_no_link#:#are not allowed to be linked###01 Mar 2004 new variable
+common#:#msg_obj_modified#:#Modificações guardadas.
+common#:#msg_obj_no_link#:#não são permitidos de serem ligados
 common#:#msg_perm_adopted_from1#:#Definições de permissões adoptadas de
-common#:#msg_perm_adopted_from2#:#(As definições foram salvas!)
-common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.###01 Mar 2004 new variable
+common#:#msg_perm_adopted_from2#:#(As definições foram guardadas!)
+common#:#msg_perm_adopted_from_itself#:#Você não pode adoptar definições de permissões do actual papel/modelo de papel para si mesmo.
 common#:#msg_removed#:#Objecto(s) removidos do sistema.
 common#:#msg_role_exists1#:#Um papel/modelo de papel com o nome
 common#:#msg_role_exists2#:#já existe! Por favor escolha outro nome
-common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for autogenerated roles. Please choose another name
-common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed###01 Mar 2004 new variable
-common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again.###01 Mar 2004 new variable
-common#:#msg_roleassignment_changed#:#Roleassigment changed###01 Mar 2004 new variable
-common#:#msg_sysrole_not_deletable#:#O papelsistema não pode ser apagado
-common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.###01 Mar 2004 new variable
+common#:#msg_role_reserved_prefix#:#O prefixo 'il_' é reservado para papéis auto-gerados. Por favor escolha outro nome
+common#:#msg_roleassignment_active_changed#:#Atribuição de papel Activa mudou
+common#:#msg_roleassignment_active_changed_comment#:#Estas definições não estão guardadas para o perfil de utilizador! Se o utilizador re-entrar, todos os papéis activos voltarão aos valores guardados.
+common#:#msg_roleassignment_changed#:#A Atribuição de papel mudou
+common#:#msg_sysrole_not_deletable#:#O papel de sistema não pode ser apagado
+common#:#msg_sysrole_not_editable#:#As definições de permissões do papel de sistema não podem ser mudadas. O papel de sistema dá a todos os utilizadores atribuidos acesso ilimitado a todos os objectos e funções.
 common#:#msg_trash_empty#:#Não existem objectos apagados
-common#:#msg_undeleted#:#Object(s) undeleted.###01 Mar 2004 new variable
+common#:#msg_undeleted#:#Objecto(s) repostos.
 common#:#msg_user_last_role1#:#Os seguintes utilizadores estão atribuidos apenas a este papel:
 common#:#msg_user_last_role2#:#Por favor apague os utilizadores ou atribua-os a outro papel para apagar este papel.
-common#:#msg_userassignment_changed#:#Userassigment changed
+common#:#msg_userassignment_changed#:#A Atribuição de utilizador mudou
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Os Meus Marcadores
 common#:#my_frms#:#Os Meus Fóruns
 common#:#my_grps#:#Os Meus Grupos
 common#:#my_los#:#Os Meus Objectos de Aprendizagem
-common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
+common#:#my_tsts#:#My Tests
 common#:#name#:#Nome
 common#:#new#:#Novo
-common#:#new_appointment#:#Nova marcação
-common#:#new_folder#:#Nova pasta
+common#:#new_appointment#:#Nova Marcação
+common#:#new_folder#:#Nova Pasta
 common#:#new_group#:#Novo Grupo
 common#:#new_language#:#Nova Linguagem
 common#:#new_mail#:#Nova mensagem!
@@ -933,110 +933,110 @@ common#:#news#:#Notícias
 common#:#next#:#próximo
 common#:#nickname#:#Alcunha
 common#:#no#:#Não
-common#:#no_bm_in_personal_list#:#Nenhums marcadores definidos.
+common#:#no_bm_in_personal_list#:#Nenhuns marcadores definidos.
 common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
 common#:#no_date#:#Nenhuma data
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
-common#:#no_import_available#:#Import not available for type###01 Mar 2004 new variable
+common#:#no_import_available#:#Importação não disponível para o tipo
 common#:#no_lo_in_personal_list#:#Não existem objectos de aprendizagem na sua lista pessoal.
 common#:#no_objects#:#Nenhuns objectos
-common#:#no_permission_to_join#:#You are not allowed to join this group!
+common#:#no_permission_to_join#:#Não lhe é permitido juntar-se a este grupo!
 common#:#no_title#:#Nenhum título
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#none#:#Nenhum
 common#:#normal#:#Normal
 common#:#not_installed#:#Não Instalado
-common#:#not_logged_in#:#Your are not logged in
+common#:#not_logged_in#:#Você não está ligado
 common#:#obj#:#Objecto
-common#:#obj_adm#:#Definições de sistema###05 Mar 2004 content changed
-common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_adm#:#Definições de Sistema
+common#:#obj_adm_desc#:#Principal pasta de definições de sistema contendo todos os painéis para administrar a sua instalação do ILIAS.
 common#:#obj_cat#:#Categoria
-common#:#obj_chac#:#Chat settings###01 Mar 2004 new variable
-common#:#obj_chat#:#Chat###01 Mar 2004 new variable
+common#:#obj_chac#:#Definições de Chat
+common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curso
-common#:#obj_dbk#:#Digilib Book
-common#:#obj_exc#:#Exercise###01 Mar 2004 new variable
+common#:#obj_dbk#:#Livro Digilib
+common#:#obj_exc#:#Exercício
 common#:#obj_file#:#Ficheiro
 common#:#obj_fold#:#Pasta
 common#:#obj_frm#:#Fórum
-common#:#obj_glo#:#Glossario
+common#:#obj_glo#:#Glossário
 common#:#obj_grp#:#Grupo
 common#:#obj_ldap#:#Definições LDAP
-common#:#obj_ldap_desc#:#Configure global LDAP Settings here.###01 Mar 2004 new variable
-common#:#obj_lm#:#Learning Module###01 Mar 2004 new variable
+common#:#obj_ldap_desc#:#Configure aqui as definições globais de LDAP.
+common#:#obj_lm#:#Módulo de Aprendizagem
 common#:#obj_lng#:#Linguagem
 common#:#obj_lngf#:#Linguagens
-common#:#obj_lngf_desc#:#Manage your system languages here.###01 Mar 2004 new variable
-common#:#obj_lo#:#LearningObject###01 Mar 2004 new variable
-common#:#obj_mail#:#Mail Settings###01 Mar 2004 new variable
-common#:#obj_mail_desc#:#Configure global mail settings here###01 Mar 2004 new variable.
-common#:#obj_mob#:#Multimedia Object###01 Mar 2004 new variable
-common#:#obj_not_found#:#Objecto não encontrado
+common#:#obj_lngf_desc#:#Gira aqui as suas linguagens de sistema.
+common#:#obj_lo#:#Módulo de Aprendizagem
+common#:#obj_mail#:#Definições de Correio
+common#:#obj_mail_desc#:#Configure aqui as definições globais de correio.
+common#:#obj_mob#:#Objecto Multimédia
+common#:#obj_not_found#:#Objecto Não Encontrado
 common#:#obj_note#:#Nota
-common#:#obj_notf#:#Administração de notas
+common#:#obj_notf#:#Administração de Notas
 common#:#obj_objf#:#Definições de objecto
-common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
-common#:#obj_owner#:#Este objecto de
+common#:#obj_objf_desc#:#Gira tipos e permissões de objectos ILIAS. (apenas para especialistas!)
+common#:#obj_owner#:#Este Objecto é possuído por
 common#:#obj_pg#:#Página
-common#:#obj_qpl#:#Question Pool###01 Mar 2004 new variable
+common#:#obj_qpl#:#Banco de Questões
 common#:#obj_role#:#Papel
-common#:#obj_rolf#:#Papeis
-common#:#obj_rolf_desc#:#Manage your roles here.###01 Mar 2004 new variable
-common#:#obj_rolf_local#:#Local Roles###01 Mar 2004 new variable
-common#:#obj_rolf_local_desc#:#Contains local roles of object no.###01 Mar 2004 new variable
-common#:#obj_rolt#:#Modelo de papel
-common#:#obj_root#:#root
-common#:#obj_slm#:#SCORM LM###01 Mar 2004 new variable
+common#:#obj_rolf#:#Papéis
+common#:#obj_rolf_desc#:#Gira aqui os seus papéis.
+common#:#obj_rolf_local#:#Papéis Locais
+common#:#obj_rolf_local_desc#:#Contém papéis locais do objecto.
+common#:#obj_rolt#:#Modelo de Papel
+common#:#obj_root#:#Nó raiz do ILIAS
+common#:#obj_slm#:#Módulo de Aprendizagem SCORM
 common#:#obj_st#:#Capítulo
-common#:#obj_tst#:#Test###01 Mar 2004 new variable
-common#:#obj_typ#:#Objecttype Definition###01 Mar 2004 new variable
-common#:#obj_type#:#Tipo de objecto
-common#:#obj_uset#:#Definições de utilizador
+common#:#obj_tst#:#Teste
+common#:#obj_typ#:#Definição de Tipo de Objecto
+common#:#obj_type#:#Tipo de Objecto
+common#:#obj_uset#:#Definições de Utilizador
 common#:#obj_usr#:#Utilizador
 common#:#obj_usrf#:#Contas de utilizadores
 common#:#obj_usrf_desc#:#Gira aqui as contas de utilizadores.
 common#:#objects#:#Objectos
-common#:#objf#:#Objectdefinitions###01 Mar 2004 new variable
-common#:#objf_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#objf_read#:#Read access to Objectdefinitions###01 Mar 2004 new variable
-common#:#objf_visible#:#Objectdefinitions are visible###01 Mar 2004 new variable
-common#:#objf_write#:#Edit Objectdefinitions###01 Mar 2004 new variable
-common#:#objs_cat#:#Categories###01 Mar 2004 new variable
-common#:#objs_confirm#:#Confirmar acção
-common#:#objs_crs#:#Courses###01 Mar 2004 new variable
-common#:#objs_dbk#:#Digilib Books###01 Mar 2004 new variable
+common#:#objf#:#Definições de Objectos
+common#:#objf_edit_permission#:#Mudar definições de permissões
+common#:#objf_read#:#Acesso de Leitura às Definições de Objectos
+common#:#objf_visible#:#Definições de Objectos são visíveis
+common#:#objf_write#:#Editar Definições de Objectos
+common#:#objs_cat#:#Categorias
+common#:#objs_confirm#:#Confirmar Acção
+common#:#objs_crs#:#Cursos
+common#:#objs_dbk#:#Livros Digilib
 common#:#objs_delete#:#Apagar objectos
-common#:#objs_exc#:#Exersices###01 Mar 2004 new variable
-common#:#objs_file#:#Files###01 Mar 2004 new variable
-common#:#objs_fold#:#Folders###01 Mar 2004 new variable
-common#:#objs_frm#:#Forums###01 Mar 2004 new variable
-common#:#objs_glo#:#Glossaries###01 Mar 2004 new variable
-common#:#objs_grp#:#Groups###01 Mar 2004 new variable
-common#:#objs_lm#:#Learning Modules###01 Mar 2004 new variable
-common#:#objs_lng#:#Languages###01 Mar 2004 new variable
-common#:#objs_lo#:#Learning Objects###01 Mar 2004 new variable
-common#:#objs_mob#:#Multimedia Objects###01 Mar 2004 new variable
-common#:#objs_note#:#Notes###01 Mar 2004 new variable
-common#:#objs_pg#:#Pages###01 Mar 2004 new variable
-common#:#objs_qpl#:#Question Pools###01 Mar 2004 new variable
-common#:#objs_role#:#Roles###01 Mar 2004 new variable
-common#:#objs_rolt#:#Role Templates###01 Mar 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###01 Mar 2004 new variable
-common#:#objs_st#:#Chapters###01 Mar 2004 new variable
-common#:#objs_tst#:#Tests###01 Mar 2004 new variable
-common#:#objs_type#:#Objecttypes###01 Mar 2004 new variable
-common#:#objs_usr#:#Users###01 Mar 2004 new variable
+common#:#objs_exc#:#Exercícios
+common#:#objs_file#:#Ficheiros
+common#:#objs_fold#:#Pastas
+common#:#objs_frm#:#Fóruns
+common#:#objs_glo#:#Glossários
+common#:#objs_grp#:#Grupos
+common#:#objs_lm#:#Módulos de Aprendizagem
+common#:#objs_lng#:#Linguagens
+common#:#objs_lo#:#Objectos de Aprendizagem
+common#:#objs_mob#:#Objectos Multimédia
+common#:#objs_note#:#Notas
+common#:#objs_pg#:#Páginas
+common#:#objs_qpl#:#Bancos de Questões
+common#:#objs_role#:#Papéis
+common#:#objs_rolt#:#Modelos de Papéis
+common#:#objs_slm#:#Módulos de Aprendizagem SCORM
+common#:#objs_st#:#Capítulos
+common#:#objs_tst#:#Testes
+common#:#objs_type#:#Tipos de Objectos
+common#:#objs_usr#:#Utilizadores
 common#:#of#:#De
-common#:#offline_version#:#Offline Version###01 Mar 2004 new variable
-common#:#ok#:#OK###01 Mar 2004 new variable
+common#:#offline_version#:#Versão Offline
+common#:#ok#:#OK
 common#:#old#:#Antigo
-common#:#online_chapter#:#Online Chapter###01 Mar 2004 new variable
-common#:#online_version#:#Online Version###01 Mar 2004 new variable
+common#:#online_chapter#:#Capítulo Online
+common#:#online_version#:#Versão Online
 common#:#operation#:#Operação
-common#:#optimize#:#Optimize
+common#:#optimize#:#Optimizar
 common#:#options#:#Opções
-common#:#order_by#:#Order by
+common#:#order_by#:#Ordenar por
 common#:#other#:#Outros
 common#:#overview#:#Vista
 common#:#owner#:#Dono
@@ -1044,12 +1044,12 @@ common#:#page#:#Página
 common#:#page_edit#:#Editar Página
 common#:#pages#:#Páginas
 common#:#parameter#:#Parâmetro
-common#:#parse#:#Parse
-common#:#passwd#:#Palavra passe
+common#:#parse#:#Analisar
+common#:#passwd#:#Palavra-passe
 common#:#passwd_invalid#:#A nova palavra passe é inválida! Apenas os seguintes caracteres são permitidos(mínimo 6 caracteres): A-Z a-z 0-9 _.-+*@!$%~
-common#:#passwd_not_match#:#As suas entradas para a nova palavra passe não são iguais! Por favor reinsira a sua nova palavra passe.
-common#:#passwd_wrong#:#A palavra passe que forneceu está errada!
-common#:#password#:#Palavra passe
+common#:#passwd_not_match#:#As suas entradas para a nova palavra-passe não são iguais! Por favor reinsira a sua nova palavra-passe.
+common#:#passwd_wrong#:#A palavra-passe que forneceu está errada!
+common#:#password#:#Palavra-passe
 common#:#paste#:#Colar
 common#:#pasteChapter#:#Colar
 common#:#pastePage#:#Colar
@@ -1062,15 +1062,15 @@ common#:#path_to_java#:#Caminho para o Java
 common#:#path_to_unzip#:#Caminho para o Unzip
 common#:#path_to_zip#:#Caminho para o Zip
 common#:#pathes#:#Caminhos
-common#:#payment_system#:#Sistema de pagamento
+common#:#payment_system#:#Sistema de Pagamento
 common#:#perm_settings#:#Permissões
 common#:#permission#:#Permissão
-common#:#permission_denied#:#Permissão negada
-common#:#permission_settings#:#Permission settings###01 Mar 2004 new variable
+common#:#permission_denied#:#Permissão Negada
+common#:#permission_settings#:#Definições de Permissões
 common#:#personal_data#:#Informação pessoal
-common#:#personal_desktop#:#Área pessoal
-common#:#personal_picture#:#Fotografia pessoal
-common#:#personal_profile#:#Perfil pessoal
+common#:#personal_desktop#:#Área Pessoal
+common#:#personal_picture#:#Fotografia Pessoal
+common#:#personal_profile#:#Perfil Pessoal
 common#:#persons#:#Pessoas
 common#:#pg_a#:#uma página
 common#:#pg_add#:#Adicionar página
@@ -1079,147 +1079,147 @@ common#:#pg_edit#:#Editar página
 common#:#pg_new#:#Nova página
 common#:#phone#:#Telefone
 common#:#phone_home#:#Telefone, Casa
-common#:#phone_mobile#:#Telefone, Móvel
+common#:#phone_mobile#:#Telefone, Movél
 common#:#phone_office#:#Telefone, Escritório
 common#:#phrase#:#Frase
 common#:#please_enter_target#:#Por favor insira um destino
 common#:#please_enter_title#:#Por favor insira um título
-common#:#port#:#Port###01 Mar 2004 new variable
+common#:#port#:#Porto
 common#:#position#:#Posição
-common#:#presentation_options#:#Presentation Options
+common#:#presentation_options#:#Opções de Apresentação
 common#:#previous#:#anterior
 common#:#print#:#Imprimir
 common#:#profile_changed#:#O seu perfil mudou
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propriedades
-common#:#pub_section#:#Secção pública
-common#:#public_profile#:#Perfil público
+common#:#pub_section#:#Secção Pública
+common#:#public_profile#:#Perfil Público
 common#:#publication#:#Publicação
-common#:#publication_date#:#Data da publicação
+common#:#publication_date#:#Data da Publicação
 common#:#published#:#Publicado
-common#:#publishing_organisation#:#Organização públicadora
-common#:#qpl#:#Question pool###01 Mar 2004 new variable
-common#:#qpl_add#:#Add question pool###01 Mar 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###01 Mar 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#qpl_new#:#New question pool###01 Mar 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###01 Mar 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###01 Mar 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###01 Mar 2004 new variable
+common#:#publishing_organisation#:#Organização Públicadora
+common#:#qpl#:#Banco de Questões
+common#:#qpl_add#:#Adicionar banco de questões
+common#:#qpl_delete#:#Apagar Banco de Questões
+common#:#qpl_edit_permission#:#Mudar definições de permissões
+common#:#qpl_new#:#Novo banco de questões
+common#:#qpl_read#:#Acesso de Leitura ao Banco de Questões
+common#:#qpl_visible#:#O Banco de Questões é visível
+common#:#qpl_write#:#Editar Banco de Questões
 common#:#question#:#Questão
-common#:#question_pools#:#Question pools###01 Mar 2004 new variable
+common#:#question_pools#:#Bancos de Questões
 common#:#quit#:#Desistir
-common#:#quote#:#Quote###01 Mar 2004 new variable
+common#:#quote#:#Cotar
 common#:#read#:#Ler
 common#:#recipient#:#Recipiente
 common#:#refresh#:#Actualizar
-common#:#refresh_languages#:#Actualizar linguagens
-common#:#refresh_list#:#Actualizar lista
+common#:#refresh_languages#:#Actualizar Linguagens
+common#:#refresh_list#:#Actualizar Lista
 common#:#register#:#Registar
 common#:#register_info#:#Por favor preencha o formulário para se registar (Campos marcados com um asterisco são informação requerida).
 common#:#registered_since#:#Registado desde
 common#:#registered_user#:#Utilizador registado
 common#:#registered_users#:#Utilizadores registados
 common#:#registration#:#Registo de nova conta
-common#:#registration_expired#:#Período de registo expirado...
-common#:#remove#:#Dismiss###01 Mar 2004 new variable
+common#:#registration_expired#:#O período de registo expirou...
+common#:#remove#:#Dispensar
 common#:#remove_translation#:#Remover tradução
 common#:#rename#:#Renomear
 common#:#reply#:#Responder
-common#:#repository#:#Repositorio
-common#:#required_field#:#Campo requerido
-common#:#reset#:#Reset
+common#:#repository#:#Repositório
+common#:#required_field#:#Campo Necessário
+common#:#reset#:#Reajustar
 common#:#resources#:#Recursos
-common#:#retype_password#:#Repetir palavra passe
+common#:#retype_password#:#Reinserir Palavra-passe
 common#:#right#:#Direita
 common#:#rights#:#Direitos
 common#:#role#:#Papel
 common#:#role_a#:#um Papel
 common#:#role_add#:#Adicionar Papel
-common#:#role_add_local#:#Adicionar papel local
+common#:#role_add_local#:#Adicionar Papel local
 common#:#role_added#:#Papel adicionado
-common#:#role_assignment#:#Atribuição de papel
+common#:#role_assignment#:#Atribuição de papéis
 common#:#role_deleted#:#Papel apagado
-common#:#role_edit#:#Editar papel
-common#:#role_new#:#Novo papel
-common#:#roles#:#Papeis
-common#:#roles_of_import#:#Roles of Import File###01 Mar 2004 new variable
-common#:#rolf#:#Pasta de papeis
-common#:#rolf_added#:#Pasta de papeis adicionada###01 Mar 2004 new variable
-common#:#rolf_create_role#:#Create new Role definition###01 Mar 2004 new variable
-common#:#rolf_create_rolt#:#Create new Role definition template###01 Mar 2004 new variable
-common#:#rolf_delete#:#Delete Roles/Role templates###01 Mar 2004 new variable
-common#:#rolf_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###01 Mar 2004 new variable
-common#:#rolf_read#:#Read access to Roles/Role templates###01 Mar 2004 new variable
-common#:#rolf_visible#:#Roles/Role templates are visible###01 Mar 2004 new variable
-common#:#rolf_write#:#Edit default permission settings of Roles/Role templates###01 Mar 2004 new variable
-common#:#rolt#:#Modelo de papel
-common#:#rolt_a#:#um Modelo de papel
-common#:#rolt_add#:#Adicionar modelo de papel
-common#:#rolt_added#:#Modelo de papel adicionado
-common#:#rolt_edit#:#Editar modelo de papel
-common#:#rolt_new#:#Novo modelo de papel
-common#:#root_create_cat#:#User may create Categories###01 Mar 2004 new variable
-common#:#root_edit#:#Edit system root node###01 Mar 2004 new variable
-common#:#root_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#root_read#:#Read access to ILIAS system###01 Mar 2004 new variable
-common#:#root_visible#:#ILIAS system is visible###01 Mar 2004 new variable
-common#:#root_write#:#Edit metadata of system root node###01 Mar 2004 new variable
+common#:#role_edit#:#Editar Papel
+common#:#role_new#:#Novo Papel
+common#:#roles#:#Papéis
+common#:#roles_of_import#:#Roles of Import File###08 Mar 2004 new variable
+common#:#rolf#:#Papéis
+common#:#rolf_added#:#Pasta de Papéis adicionada
+common#:#rolf_create_role#:#Criar nova definição de Papel
+common#:#rolf_create_rolt#:#Criar nova definição de Modelo de Papel
+common#:#rolf_delete#:#Apagar Papéis/Modelos de Papéis
+common#:#rolf_edit_permission#:#Mudar definições de permissões
+common#:#rolf_edit_userassignment#:#Mudar atribuições de Papéis a utilizadores
+common#:#rolf_read#:#Acesso de Leitura a Papéis/Modelos de papéis
+common#:#rolf_visible#:#Os Papéis/Modelos de papéis são visíveis
+common#:#rolf_write#:#Editar definições de permissões defeito dos Papéis/Modelos de papéis
+common#:#rolt#:#Modelo de Papel
+common#:#rolt_a#:#um Modelo de Papel
+common#:#rolt_add#:#Adicionar Modelo de Papel
+common#:#rolt_added#:#Modelo de Papel Adicionado
+common#:#rolt_edit#:#Editar Modelo de Papel
+common#:#rolt_new#:#Novo Modelo de Papel
+common#:#root_create_cat#:#O Utilizador pode criar Categorias
+common#:#root_edit#:#Editar o nó raiz do sistema
+common#:#root_edit_permission#:#Mudar definições de permissões
+common#:#root_read#:#Acesso de Leiruta ao sistema ILIAS
+common#:#root_visible#:#O sistema ILIAS é visível
+common#:#root_write#:#Editar metadados do nó raiz do sistema
 common#:#salutation#:#Saudação
 common#:#salutation_f#:#Sr./Sra.
 common#:#salutation_m#:#Sr.
-common#:#save#:#Salvar
-common#:#save_and_back#:#Salvar e Voltar
+common#:#save#:#Guardar
+common#:#save_and_back#:#Guardar e Voltar
 common#:#save_message#:#Salvar Mensagem
 common#:#save_refresh#:#Salvar e Actualizar
-common#:#save_return#:#Salvar e Retornar
-common#:#saved#:#Salvo
-common#:#saved_successfully#:#Salvo com sucesso
+common#:#save_return#:#Salvar e Voltar
+common#:#saved#:#Guardado
+common#:#saved_successfully#:#Guardado com Sucesso
 common#:#search#:#Procurar
 common#:#search_in#:#Procurar em
 common#:#search_new#:#Nova Procura
-common#:#search_recipient#:#Procurar recipiente
+common#:#search_recipient#:#Procurar Recipiente
 common#:#search_result#:#Resultado da procura
-common#:#search_user#:#Procurar utilizador
+common#:#search_user#:#Procurar Utilizador
 common#:#sections#:#Secções
 common#:#select#:#Seleccionar
-common#:#select_all#:#Seleccionar todos
+common#:#select_all#:#Seleccionar Todos
 common#:#select_file#:#Seleccionar ficheiro
 common#:#select_mode#:#Seleccionar modo
 common#:#selected#:#Seleccionado
 common#:#send#:#Enviar
 common#:#sender#:#Remetente
 common#:#sent#:#Enviado
-common#:#sequence#:#Sequencia
-common#:#sequences#:#Sequencias
+common#:#sequence#:#Sequência
+common#:#sequences#:#Sequências
 common#:#server#:#Servidor
-common#:#server_data#:#Dadoa do servidor
-common#:#server_software#:#Software servidor
+common#:#server_data#:#Dados do servidor
+common#:#server_software#:#Software Servidor
 common#:#set#:#Definir
-common#:#setSystemLanguage#:#Definir linguagem de sistema
-common#:#setUserLanguage#:#Definir linguagem de utilizador
-common#:#set_offline#:#Set Offline
-common#:#set_online#:#Set Online
+common#:#setSystemLanguage#:#Definir Linguagem de Sistema
+common#:#setUserLanguage#:#Definir Linguagem de Utilizador
+common#:#set_offline#:#Por Offline
+common#:#set_online#:#Por Online
 common#:#settings#:#Definições
 common#:#show_details#:#mostrar detalhes
-common#:#show_list#:#Mostrar lista
-common#:#show_members#:#Mostar membros
-common#:#show_owner#:#Mostrar dono
+common#:#show_list#:#Mostrar Lista
+common#:#show_members#:#Mostrar Membros
+common#:#show_owner#:#Mostrar Dono
 common#:#show_structure#:#Ligar Vista-Estruturada
-common#:#signature#:#Signature###01 Mar 2004 new variable
-common#:#slm#:#SCORM LM###01 Mar 2004 new variable
-common#:#slm_added#:#SCORM LearningModule added###01 Mar 2004 new variable
-common#:#slm_create#:#Create SCORM Learning Module###01 Mar 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###01 Mar 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###01 Mar 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###01 Mar 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###01 Mar 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###01 Mar 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###01 Mar 2004 new variable
-common#:#smtp#:#SMTP###01 Mar 2004 new variable
-common#:#sort_by_this_column#:#Sort by this column###01 Mar 2004 new variable
+common#:#signature#:#Assinatura
+common#:#slm#:#Módulo de Aprendizagem SCORM
+common#:#slm_added#:#Módulo de Aprendizagem SCORM adicionado
+common#:#slm_create#:#Criar Módulo de Aprendizagem SCORM
+common#:#slm_delete#:#Apagar Módulo de Aprendizagem SCORM
+common#:#slm_edit_permission#:#Mudar definições de permissões
+common#:#slm_join#:#Subscrever Módulo de Aprendizagem SCORM
+common#:#slm_leave#:#Desistir do Módulo de Aprendizagem SCORM
+common#:#slm_read#:#Acesso de Leitura ao Módulo de Aprendizagem SCORM
+common#:#slm_visible#:#O Módulo de Aprendizagem SCORM é visível
+common#:#slm_write#:#Editar Módulo de Aprendizagem SCORM
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Ordenar por esta coluna
 common#:#st_a#:#um capítulo
 common#:#st_add#:#Adicionar capítulo
 common#:#st_added#:#Capítulo adicionado
@@ -1227,107 +1227,107 @@ common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Novo capítulo
 common#:#startpage#:#Página inicial
 common#:#status#:#Estado
-common#:#step#:#Step###01 Mar 2004 new variable
-common#:#stop_inheritance#:#Stop inheritance###01 Mar 2004 new variable
+common#:#step#:#Passo
+common#:#stop_inheritance#:#Parar herança
 common#:#street#:#Rua
 common#:#structure#:#Estrutura
-common#:#subcat_name#:#Nome da subcategoria
-common#:#subchapter_new#:#Novo subcapítulo
+common#:#subcat_name#:#Nome da Subcategoria
+common#:#subchapter_new#:#Novo Subcapítulo
 common#:#subject#:#Assunto
 common#:#submit#:#Submeter
-common#:#subobjects#:#Subobjectos
+common#:#subobjects#:#Assuntos
 common#:#subscription#:#Subscrição
-common#:#summary#:#Sumario
+common#:#summary#:#Sumário
 common#:#system#:#Sistema
-common#:#system_check#:#System Check###05 Mar 2004 new variable
-common#:#system_choose_language#:#System Choose Language
-common#:#system_groups#:#Grupos do sistema
-common#:#system_grp#:#Grupo de sistema
-common#:#system_language#:#Linguagem de sistema
-common#:#system_message#:#Mensagem de sistema
+common#:#system_check#:#System Check###08 Mar 2004 new variable
+common#:#system_choose_language#:#Sistema Escolha Linguagem
+common#:#system_groups#:#Grupos do Sistema
+common#:#system_grp#:#Grupo do Sistema
+common#:#system_language#:#Linguagem de Sistema
+common#:#system_message#:#Mensagem de Sistema
 common#:#term#:#Termo
-common#:#test_intern#:#Test Intern###01 Mar 2004 new variable
-common#:#tests#:#Tests###01 Mar 2004 new variable
+common#:#test_intern#:#Teste Interno
+common#:#tests#:#Testes
 common#:#time#:#Tempo
 common#:#title#:#Título
 common#:#to#:#Para
-common#:#to_client_list#:#To Client selection###01 Mar 2004 new variable
+common#:#to_client_list#:#Para selecção de Clientes
 common#:#to_desktop#:#Subscrever
 common#:#today#:#Hoje
 common#:#total#:#Total
-common#:#tpl_path#:#Caminho modelo
+common#:#tpl_path#:#Caminho Modelo
 common#:#translation#:#Tradução
 common#:#trash#:#Lixo
-common#:#treeview#:#Vista em árvore
-common#:#tst#:#Test###01 Mar 2004 new variable
-common#:#tst_add#:#Add test###01 Mar 2004 new variable
-common#:#tst_delete#:#Delete Test###01 Mar 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###01 Mar 2004 new variable
-common#:#tst_new#:#New test###01 Mar 2004 new variable
-common#:#tst_read#:#Read access to Test###01 Mar 2004 new variable
-common#:#tst_visible#:#Test is visible###01 Mar 2004 new variable
-common#:#tst_write#:#Edit Test###01 Mar 2004 new variable
+common#:#treeview#:#Vista em Árvore
+common#:#tst#:#Teste
+common#:#tst_add#:#Adicionar teste
+common#:#tst_delete#:#Apagar Teste
+common#:#tst_edit_permission#:#Mudar definições de permissões
+common#:#tst_new#:#Novo teste
+common#:#tst_read#:#Acesso de Leitura ao Teste
+common#:#tst_visible#:#O Teste é visível
+common#:#tst_write#:#Editar Teste
 common#:#txt_add_object_instruction1#:#Indique a localização onde quer adicionar
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Registou-se com sucesso no sistema ILIAS. Por favor carregue no botão abaixo para entrar no sistema ILIAS com a sua conta de utilizador.
-common#:#typ#:#Definição de tipo de objecto
+common#:#typ#:#Definição de Tipo de Objecto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Insira a sua mensagem aqui
 common#:#uid#:#UID
 common#:#uninstall#:#Desinstalar
-common#:#uninstalled#:#Desinstalado.
+common#:#uninstalled#:#desinstalado.
 common#:#unknown#:#DESCONHECIDO
 common#:#unread#:#Não lido
-common#:#unsubscribe#:#unsubscribe
+common#:#unsubscribe#:#desistir
 common#:#up#:#Cima
-common#:#update_applied#:#Actualização aplicada
-common#:#update_language#:#Actualizar linguagem
+common#:#update_applied#:#Actualização Aplicada
+common#:#update_language#:#Actualizar Linguagem
 common#:#upload#:#Mandar
 common#:#url#:#URL
 common#:#url_description#:#Descrição do URL
 common#:#user#:#Utilizador
 common#:#user_added#:#Utilizador adicionado
-common#:#user_assignment#:#Atribuição de utilizador
+common#:#user_assignment#:#Atribuição de Utilizador
 common#:#user_deleted#:#Utilizador apagado
-common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
-common#:#user_language#:#Linguagem de utilizador
-common#:#user_not_chosen#:#Não escolheu um membro do grupo!
+common#:#user_imported#:#User import complete.###08 Mar 2004 new variable
+common#:#user_language#:#Linguagem de Utilizador
+common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
 common#:#userdata#:#Dados do utilizador
 common#:#username#:#Nome do utilizador
 common#:#users#:#Utilizadores
 common#:#users_online#:#Utilizadores ligados
 common#:#usr#:#Utilizador
 common#:#usr_a#:#um Utilizador
-common#:#usr_add#:#Adicionar utilizador
+common#:#usr_add#:#Adicionar Utilizador
 common#:#usr_added#:#Utilizador adicionado
-common#:#usr_agreement#:#Acordo do utilizador
+common#:#usr_agreement#:#Acordo de utilizador
 common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
-common#:#usr_edit#:#Editar utilizador
-common#:#usr_new#:#Novo utilizador
+common#:#usr_edit#:#Editar Utilizador
+common#:#usr_new#:#Novo Utilizador
 common#:#usr_skin_style#:#Pele / Estilo
-common#:#usr_style#:#Estilo do utilizador
-common#:#usrf#:#Pasta do utilizador
-common#:#usrf_create_user#:#Create new user account###01 Mar 2004 new variable
-common#:#usrf_delete#:#Delete user accounts###01 Mar 2004 new variable
-common#:#usrf_edit_permission#:#Change access to user accounts###01 Mar 2004 new variable
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###01 Mar 2004 new variable
-common#:#usrf_read#:#Read access to user accounts###01 Mar 2004 new variable
-common#:#usrf_visible#:#User accounts are visible###01 Mar 2004 new variable
-common#:#usrf_write#:#Edit user accounts###01 Mar 2004 new variable
+common#:#usr_style#:#Estilo do Utilizador
+common#:#usrf#:#Contas de utilizadores
+common#:#usrf_create_user#:#Criar nova conta de utilizador
+common#:#usrf_delete#:#Apagar contas de utilizadores
+common#:#usrf_edit_permission#:#Mudar acesso às contas de utilizadores
+common#:#usrf_edit_roleassignment#:#Mudar atribuição de papéis das contas de utilizadores
+common#:#usrf_read#:#Acesso de Leitura às contas de utilizadores
+common#:#usrf_visible#:#As contas de utilizadores são visíveis
+common#:#usrf_write#:#Editar contas de utilizadores
 common#:#validate#:#Validar
 common#:#value#:#Valor
 common#:#version#:#Versão
 common#:#view#:#Vista
 common#:#view_content#:#Ver Conteúdo
-common#:#visible_layers#:#Camadas vísiveis
+common#:#visible_layers#:#Camadas Vísiveis
 common#:#visits#:#Visitas
 common#:#week#:#Semana
-common#:#welcome#:#Welcome###01 Mar 2004 new variable
+common#:#welcome#:#Benvindo
 common#:#who_is_online#:#Quem está ligado?
 common#:#with#:#com
 common#:#write#:#Escrever
 common#:#yes#:#Sim
-common#:#you_may_add_local_roles#:#Pode adicionar papeis locais
+common#:#you_may_add_local_roles#:#Pode Adicionar Papéis Locais
 common#:#your_message#:#Sua mensagem
 common#:#zip#:#Código Postal
 common#:#zipcode#:#Código Postal
@@ -1335,287 +1335,287 @@ content#:#HTML export#:#Exportar HTML
 content#:#PDF export#:#Exportar PDF
 content#:#Pages#:#Páginas
 content#:#all#:#Todos
-content#:#cont_Additional#:#Additional###01 Mar 2004 new variable
+content#:#cont_Additional#:#Additional###08 Mar 2004 new variable
 content#:#cont_Alphabetic#:#Alfabético A, B, ...
-content#:#cont_Circle#:#Circle###01 Mar 2004 new variable
+content#:#cont_Circle#:#Círculo
 content#:#cont_Citation#:#Citação
 content#:#cont_Example#:#Exemplo
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
-content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Ficheiro local
-content#:#cont_Mnemonic#:#Mnemonica
+content#:#cont_List#:#List
+content#:#cont_LocalFile#:#Local File
+content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Número
-content#:#cont_Poly#:#Polygon###01 Mar 2004 new variable
-content#:#cont_Rect#:#Rectangle###01 Mar 2004 new variable
-content#:#cont_Reference#:#Referencia
-content#:#cont_Remark#:#Remark###01 Mar 2004 new variable
+content#:#cont_Poly#:#Poligono
+content#:#cont_Rect#:#Rectângulo
+content#:#cont_Reference#:#Referência
+content#:#cont_Remark#:#Observação
 content#:#cont_Roman#:#Romano I, II, ...
 content#:#cont_Unordered#:#Desordenado
-content#:#cont_add_area#:#Add Area###01 Mar 2004 new variable
-content#:#cont_add_definition#:#Adicionar definição
-content#:#cont_add_fullscreen#:#Add Fullscreen###01 Mar 2004 new variable
+content#:#cont_add_area#:#Adicionar Área
+content#:#cont_add_definition#:#Adicionar Definição
+content#:#cont_add_fullscreen#:#Add Fullscreen###08 Mar 2004 new variable
 content#:#cont_added_term#:#Termo adicionado
-content#:#cont_all_definitions#:#Todas as definições
-content#:#cont_all_pages#:#Todas as páginas
+content#:#cont_all_definitions#:#Todas as Definições
+content#:#cont_all_pages#:#Todas as Páginas
 content#:#cont_alphabetic#:#Alfabético a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###01 Mar 2004 new variable
-content#:#cont_assign_full#:#Atribuir ecrã inteiro
-content#:#cont_assign_std#:#Assign Standard
+content#:#cont_areas_deleted#:#Áreas apagadas do Mapa.
+content#:#cont_assign_full#:#Atribuir Ecrã Inteiro
+content#:#cont_assign_std#:#Atribuir Padrão
 content#:#cont_assign_translation#:#Atribuir tradução
-content#:#cont_assignments_deleted#:#The assignments have been deleted###01 Mar 2004 new variable
-content#:#cont_back#:#Voltar
+content#:#cont_assignments_deleted#:#As atribuições foram apagadas
+content#:#cont_back#:#Anterior
 content#:#cont_booktitle#:#Título do livro
 content#:#cont_bottom#:#Fundo
-content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###01 Mar 2004 new variable
-content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###01 Mar 2004 new variable
-content#:#cont_caption#:#Caption###01 Mar 2004 new variable
-content#:#cont_change_type#:#Mudar tipo
-content#:#cont_chap_and_pages#:#Capítulos e páginas
+content#:#cont_cant_del_full#:#A eliminação do ficheiro de ecrã inteiro não é possível.
+content#:#cont_cant_del_std#:#A eliminação do ficheiro da vista padrão não é possível.
+content#:#cont_caption#:#Legenda
+content#:#cont_change_type#:#Mudar Tipo
+content#:#cont_chap_and_pages#:#Capítulos e Páginas
 content#:#cont_chap_select_target_now#:#Capítulo marcado para mover. Seleccione linha destino.
 content#:#cont_chapters#:#Capítulos
 content#:#cont_characteristic#:#Característica
-content#:#cont_choose_cont_obj#:#Choose Content Object###01 Mar 2004 new variable
-content#:#cont_choose_glossary#:#Escolha glossario
-content#:#cont_citation_err_one#:#You have to select exactly one edition###01 Mar 2004 new variable
-content#:#cont_citation_selection_not_valid#:#You're selection is not valid###01 Mar 2004 new variable
+content#:#cont_choose_cont_obj#:#Escolher Objecto de Conteúdo
+content#:#cont_choose_glossary#:#Escolher Glossário
+content#:#cont_citation_err_one#:#Você tem de seleccionar exactamente uma edição
+content#:#cont_citation_selection_not_valid#:#A sua selecção não é válida
 content#:#cont_citations#:#Citações
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###01 Mar 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###01 Mar 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###01 Mar 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###01 Mar 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###01 Mar 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###01 Mar 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###01 Mar 2004 new variable
+content#:#cont_click_br_corner#:#Por favor carregue no canto inferior direito da área desejada.
+content#:#cont_click_center#:#Por favor carregue no centro da área desejada.
+content#:#cont_click_circle#:#Por favor carregue num ponto de círculo da área desejada.
+content#:#cont_click_next_or_save#:#Por favor carregue no próximo ponto do poligono ou guarde a área. (Não é necessário carregar outra vez no primeiro ponto deste poligono !)
+content#:#cont_click_next_point#:#Por favor carregue no próximo ponto do poligono.
+content#:#cont_click_starting_point#:#Por favor carregue no primeiro ponto do poligono.
+content#:#cont_click_tl_corner#:#Por favor carregue no canto superior esquerdo da área desejada.
 content#:#cont_content#:#Conteúdo
-content#:#cont_content_obj#:#Objecto de conteúdo
-content#:#cont_coords#:#Coordinates###01 Mar 2004 new variable
-content#:#cont_create_dir#:#Criar directoria
-content#:#cont_cross_reference#:#Cross reference
-content#:#cont_data_from_lms#:#adlcp:datafromlms
-content#:#cont_def_layout#:#Default Layout###01 Mar 2004 new variable
-content#:#cont_def_organization#:#default###01 Mar 2004 new variable
+content#:#cont_content_obj#:#Objecto de Conteúdo
+content#:#cont_coords#:#Coordenadas
+content#:#cont_create_dir#:#Criar Directoria
+content#:#cont_cross_reference#:#Referência cruzada
+content#:#cont_data_from_lms#:#adlcp:datadelms
+content#:#cont_def_layout#:#Disposição por Defeito
+content#:#cont_def_organization#:#defeito
 content#:#cont_definition#:#Definição
 content#:#cont_definitions#:#Definições
 content#:#cont_del_assignment#:#Apagar atribuição
-content#:#cont_dependencies#:#Dependencias
-content#:#cont_derive_from_obj#:#Derive from Object###01 Mar 2004 new variable
+content#:#cont_dependencies#:#Dependências
+content#:#cont_derive_from_obj#:#Derive from Object###08 Mar 2004 new variable
 content#:#cont_details#:#Detalhes
 content#:#cont_dir_file#:#Directoria/Ficheiro
-content#:#cont_edit_area#:#Edit Area###01 Mar 2004 new variable
-content#:#cont_edit_file_list_properties#:#Edit File List Properties###01 Mar 2004 new variable
-content#:#cont_edit_mob#:#Editar objecto de média
-content#:#cont_edit_mob_alias_prop#:#Editar propriedades da instância de objecto média
-content#:#cont_edit_mob_files#:#Ficheiros de objecto
-content#:#cont_edit_mob_properties#:#Editar propriedades do objecto média
+content#:#cont_edit_area#:#Edit Area###08 Mar 2004 new variable
+content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros
+content#:#cont_edit_mob#:#Editar Objecto de Média
+content#:#cont_edit_mob_alias_prop#:#Editar Propriedades da Instância de Objecto Média
+content#:#cont_edit_mob_files#:#Ficheiros de Objecto
+content#:#cont_edit_mob_properties#:#Editar Propriedades do Objecto Média
 content#:#cont_edit_par#:#Editar Parágrafo
-content#:#cont_edit_tab_properties#:#Propriedades da tabela
+content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
-content#:#cont_external#:#external###01 Mar 2004 new variable
+content#:#cont_external#:#externo
 content#:#cont_file#:#Ficheiro
 content#:#cont_files#:#Ficheiros
-content#:#cont_format#:#Format###01 Mar 2004 new variable
-content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###01 Mar 2004 new variable
+content#:#cont_format#:#Format###08 Mar 2004 new variable
+content#:#cont_full_is_in_dir#:#Eliminação não possível. Ficheiro de ecrã inteiro está na directoria.
 content#:#cont_fullscreen#:#Ecrã inteiro
-content#:#cont_get_link#:#get link###01 Mar 2004 new variable
-content#:#cont_get_orig_size#:#Set original size###01 Mar 2004 new variable
+content#:#cont_get_link#:#obter ligação
+content#:#cont_get_orig_size#:#Set original size###08 Mar 2004 new variable
 content#:#cont_height#:#Altura
-content#:#cont_how_published#:#How published###01 Mar 2004 new variable
+content#:#cont_how_published#:#Como está publicado
 content#:#cont_href#:#href
-content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###01 Mar 2004 new variable
-content#:#cont_import_id#:#identifier###01 Mar 2004 new variable
-content#:#cont_insert_file_item#:#Insert File Item###01 Mar 2004 new variable
-content#:#cont_insert_file_list#:#Insert File List###01 Mar 2004 new variable
-content#:#cont_insert_list#:#Inserir lista
-content#:#cont_insert_mob#:#Inserir objecto média
-content#:#cont_insert_par#:#Inserir parágrafo
+content#:#cont_id_ref#:#refidentificador
+content#:#cont_imagemap#:#Mapa de Imagem
+content#:#cont_import_id#:#identificador
+content#:#cont_insert_file_item#:#Inserir Item de Ficheiro
+content#:#cont_insert_file_list#:#Inserir Lista de Ficheiros
+content#:#cont_insert_list#:#Inserir Lista
+content#:#cont_insert_mob#:#Inserir Objecto Média
+content#:#cont_insert_par#:#Inserir Parágrafo
 content#:#cont_insert_search#:#Por favor insira um termo a procurar
 content#:#cont_insert_table#:#Inserir Tabela
-content#:#cont_internal#:#internal###01 Mar 2004 new variable
+content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#ligação interna
-content#:#cont_is_visible#:#évisivel
+content#:#cont_is_visible#:#évisível
 content#:#cont_isbn#:#ISBN
 content#:#cont_issn#:#ISSN
-content#:#cont_item#:#Item###01 Mar 2004 new variable
+content#:#cont_item#:#Item
 content#:#cont_journal#:#Jornal
-content#:#cont_keyword#:#Palavra chave
-content#:#cont_link#:#Link###01 Mar 2004 new variable
-content#:#cont_link_ext#:#Link (external)###01 Mar 2004 new variable
-content#:#cont_link_int#:#Link (internal)###01 Mar 2004 new variable
-content#:#cont_link_select#:#Ligação interna
-content#:#cont_link_type#:#Tipo de ligação
-content#:#cont_list_properties#:#Propriedades da lista
+content#:#cont_keyword#:#Palavra-chave
+content#:#cont_link#:#Ligação
+content#:#cont_link_ext#:#Ligação (externa)
+content#:#cont_link_int#:#Ligação (interna)
+content#:#cont_link_select#:#Ligação Interna
+content#:#cont_link_type#:#Tipo de Ligação
+content#:#cont_list_properties#:#Propriedades da Lista
 content#:#cont_lk_chapter#:#Capítulo
 content#:#cont_lk_chapter_new#:#Capítulo (Nova janela)
 content#:#cont_lk_media_faq#:#Média (janela FAQ)
-content#:#cont_lk_media_inline#:#Média (Inline)
-content#:#cont_lk_media_media#:#Média (Media Frame)
-content#:#cont_lk_media_new#:#Média (New Frame)
+content#:#cont_lk_media_inline#:#Média (Enlinha)
+content#:#cont_lk_media_media#:#Média (janela Média)
+content#:#cont_lk_media_new#:#Média (Nova janela)
 content#:#cont_lk_page#:#Página
-content#:#cont_lk_page_faq#:#Página (FAQ Frame)
-content#:#cont_lk_page_new#:#Página (New Frame)
-content#:#cont_lk_term#:#Termo do glossario
-content#:#cont_lk_term_new#:#Termo do glossario (Nova janela)
-content#:#cont_lm_properties#:#Propriedades do módulo de aprendizagem
-content#:#cont_manifest#:#Manifest###01 Mar 2004 new variable
-content#:#cont_map_areas#:#Link Areas###01 Mar 2004 new variable
-content#:#cont_mastery_score#:#adlcp:masteryscore
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_mob_files#:#Ficheiros de objecto
-content#:#cont_mob_inst_prop#:#Propriedades de instância
-content#:#cont_mob_prop#:#Propriedades de objecto
+content#:#cont_lk_page_faq#:#Página (janela FAQ)
+content#:#cont_lk_page_new#:#Página (Nova janela)
+content#:#cont_lk_term#:#Termo do Glossário
+content#:#cont_lk_term_new#:#Termo do Glossário (Nova janela)
+content#:#cont_lm_properties#:#Propriedades do Módulo de Aprendizagem
+content#:#cont_manifest#:#Manifesto
+content#:#cont_map_areas#:#Ligar Áreas
+content#:#cont_mastery_score#:#adlcp:pontuaçãomestre
+content#:#cont_max_time_allowed#:#adlcp:maxtempopermitido
+content#:#cont_mob_files#:#Ficheiros de Objecto
+content#:#cont_mob_inst_prop#:#Propriedades de Instância
+content#:#cont_mob_prop#:#Propriedades de Objecto
 content#:#cont_mob_usages#:#Uso
 content#:#cont_month#:#Mês
 content#:#cont_msg_multiple_editions#:#Não é possível mostrar detalhes de múltiplas edições
-content#:#cont_name#:#Name###01 Mar 2004 new variable
-content#:#cont_new_area#:#New Link Area###01 Mar 2004 new variable
+content#:#cont_name#:#Nome
+content#:#cont_new_area#:#Nova Área de Ligação
 content#:#cont_new_assignment#:#Nova atribuição
-content#:#cont_new_dir#:#Nova directoria
-content#:#cont_new_file#:#Novo ficheiro
-content#:#cont_new_media_obj#:#Novo objecto média
-content#:#cont_new_term#:#Novo termo
-content#:#cont_no_assign_itself#:#The object cannot be assigned to itself###01 Mar 2004 new variable
-content#:#cont_no_object_found#:#Could not find any object with this title###01 Mar 2004 new variable
-content#:#cont_no_page#:#Nenhuma página encontrada.
+content#:#cont_new_dir#:#Nova Directoria
+content#:#cont_new_file#:#Novo Ficheiro
+content#:#cont_new_media_obj#:#Novo Objecto Média
+content#:#cont_new_term#:#Novo Termo
+content#:#cont_no_assign_itself#:#O objecto não pode ser atribuído a si mesmo
+content#:#cont_no_object_found#:#Não pôde encontrar nenhum objecto com este título
+content#:#cont_no_page#:#Nenhuma Página encontrada.
 content#:#cont_none#:#Nenhum
-content#:#cont_nr_cols#:#Número de colunas
-content#:#cont_nr_items#:#Número de itens
-content#:#cont_nr_rows#:#Número de linhas
-content#:#cont_online#:#Ligado
-content#:#cont_order#:#Order Type###01 Mar 2004 new variable
+content#:#cont_nr_cols#:#Número de Colunas
+content#:#cont_nr_items#:#Número de Itens
+content#:#cont_nr_rows#:#Número de Linhas
+content#:#cont_online#:#Online
+content#:#cont_order#:#Tipo de Ordem
 content#:#cont_organization#:#Organização
 content#:#cont_organizations#:#Organizações
-content#:#cont_orig_size#:#Tamanho original
-content#:#cont_page_header#:#Cabeçalho de página
-content#:#cont_page_select_target_now#:#Página marcada para mover. Seleccionar destino.
+content#:#cont_orig_size#:#Tamanho Original
+content#:#cont_page_header#:#Cabeçalho da Página
+content#:#cont_page_select_target_now#:#Página marcada para mover. Seleccione agora o destino.
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parâmetro
 content#:#cont_parameters#:#parâmetros
-content#:#cont_personal_clipboard#:#Clipboard pessoal
-content#:#cont_pg_content#:#Conteúdo da página
-content#:#cont_pg_title#:#Título da página
-content#:#cont_prereq_type#:#adlcp:prerequisites.type
-content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_personal_clipboard#:#Clipboard Pessoal
+content#:#cont_pg_content#:#Conteúdo da Página
+content#:#cont_pg_title#:#Título da Página
+content#:#cont_prereq_type#:#adlcp:prérequisitos.tipo
+content#:#cont_prerequisites#:#adlcp:prérequisitos
 content#:#cont_preview#:#Previsão
 content#:#cont_publisher#:#Publicador
-content#:#cont_purpose#:#Purpose###01 Mar 2004 new variable
+content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(e.g. http://www.servidor.pt/minhaimagem.jpg)
-content#:#cont_reference#:#Referencia
-content#:#cont_remove_fullscreen#:#Remove Fullscreen###01 Mar 2004 new variable
+content#:#cont_reference#:#Referência
+content#:#cont_remove_fullscreen#:#Remove Fullscreen###08 Mar 2004 new variable
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
 content#:#cont_roman#:#Romano i, ii, ...
-content#:#cont_saved_map_area#:#Saved map area###01 Mar 2004 new variable
-content#:#cont_saved_map_data#:#Saved map data###01 Mar 2004 new variable
+content#:#cont_saved_map_area#:#Área de mapa guardada
+content#:#cont_saved_map_data#:#Dados de mapa guardados
 content#:#cont_sc_title#:#título
 content#:#cont_school#:#Escola
-content#:#cont_scorm_type#:#adlcp:scormtype###01 Mar 2004 new variable
-content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
-content#:#cont_select_max_one_item#:#Please select one item only###01 Mar 2004 new variable
-content#:#cont_select_max_one_term#:#Select one term only###01 Mar 2004 new variable
-content#:#cont_select_one_edition#:#Please select at least one edition.###01 Mar 2004 new variable
-content#:#cont_select_one_translation#:#Please select one translation###01 Mar 2004 new variable
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###01 Mar 2004 new variable
+content#:#cont_scorm_type#:#adlcp:tiposcorm
+content#:#cont_select_item#:#Select at least one item.###08 Mar 2004 new variable
+content#:#cont_select_max_one_item#:#Por favor seleccione apenas um item
+content#:#cont_select_max_one_term#:#Por favor seleccione apenas um termo
+content#:#cont_select_one_edition#:#Por favor seleccione pelo menos uma edição.
+content#:#cont_select_one_translation#:#Por favor seleccione uma tradução
+content#:#cont_select_one_translation_warning#:#Não é possível mostrar mais de uma tradução.
 content#:#cont_select_term#:#Seleccione um termo
-content#:#cont_select_translation#:#Por favor seleccione uma atribuição na lista acima
+content#:#cont_select_translation#:#Por favor seleccione a atribuição na lista acima
 content#:#cont_series#:#Séries
 content#:#cont_series_editor#:#Editor de séries
-content#:#cont_series_title#:#Series title###01 Mar 2004 new variable
-content#:#cont_series_volume#:#Series volume###01 Mar 2004 new variable
-content#:#cont_set_class#:#Definir classe
-content#:#cont_set_link#:#Edit Link###01 Mar 2004 new variable
-content#:#cont_set_shape#:#Edit Shape###01 Mar 2004 new variable
-content#:#cont_set_width#:#Definir largura
-content#:#cont_shape#:#Shape###01 Mar 2004 new variable
+content#:#cont_series_title#:#Título da Série
+content#:#cont_series_volume#:#Volume da Série
+content#:#cont_set_class#:#Definir Classe
+content#:#cont_set_link#:#Edit Link###08 Mar 2004 new variable
+content#:#cont_set_shape#:#Edit Shape###08 Mar 2004 new variable
+content#:#cont_set_width#:#Definir Largura
+content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
 content#:#cont_show_citation#:#Mostar com citação
 content#:#cont_size#:#Tamanho (Bytes)
-content#:#cont_source#:#Quelle
-content#:#cont_st_title#:#Título do capítulo
-content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###01 Mar 2004 new variable
-content#:#cont_std_view#:#Standard View###01 Mar 2004 new variable
+content#:#cont_source#:#Fonte
+content#:#cont_st_title#:#Título do Capítulo
+content#:#cont_std_is_in_dir#:#Eliminação não possível. Ficheiro de vista padrão está na directoria.
+content#:#cont_std_view#:#Vista Padrão
 content#:#cont_structure#:#estrutura
 content#:#cont_subchapters#:#Subcapítulos
 content#:#cont_table#:#Tabela
-content#:#cont_table_border#:#Borda da tabela
-content#:#cont_table_cellpadding#:#Table Cell Padding###01 Mar 2004 new variable
-content#:#cont_table_cellspacing#:#Table Cell Spacing###01 Mar 2004 new variable
-content#:#cont_table_width#:#Largura de tabela
-content#:#cont_target_within_source#:#Target must not be within source object.###01 Mar 2004 new variable
+content#:#cont_table_border#:#Limite da Tabela
+content#:#cont_table_cellpadding#:#Padding das Células da Tabela
+content#:#cont_table_cellspacing#:#Espaçamento das Células da Tabela
+content#:#cont_table_width#:#Largura de Tabela
+content#:#cont_target_within_source#:#O destino não pode estar contido no objecto de origem.
 content#:#cont_term#:#Termo
 content#:#cont_terms#:#Termos
-content#:#cont_time_limit_action#:#adlcp:timelimitaction
-content#:#cont_toc#:#Tabela de conteúdos
+content#:#cont_time_limit_action#:#adlcp:limitetempoacção
+content#:#cont_toc#:#Tabela de Conteúdos
 content#:#cont_top#:#Topo
 content#:#cont_translations#:#Tradução(ões)
-content#:#cont_translations_assigned#:#A tradução(ões) foi atribuida
-content#:#cont_update#:#Update###01 Mar 2004 new variable
-content#:#cont_update_names#:#Update Names###01 Mar 2004 new variable
-content#:#cont_upload_file#:#Mandar ficheiro
+content#:#cont_translations_assigned#:#A tradução(ões) foi atribuída
+content#:#cont_update#:#Actualizar
+content#:#cont_update_names#:#Update Names###08 Mar 2004 new variable
+content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
 content#:#cont_version#:#versão
-content#:#cont_where_published#:#Foram publicadas
+content#:#cont_where_published#:#Foram publicados
 content#:#cont_width#:#Largura
-content#:#cont_wysiwyg#:#Content Wysiwyg###01 Mar 2004 new variable
+content#:#cont_wysiwyg#:#Conteúdo Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Ano
-content#:#pages from#:#Páginas de
+content#:#pages from#:#Páginas De
 content#:#par#:#Parágrafo
 content#:#pg#:#Página
-content#:#read offline#:#Read Offline###01 Mar 2004 new variable
+content#:#read offline#:#Ler Offline
 content#:#st#:#Capítulo
-content#:#start export#:#Start Export###01 Mar 2004 new variable
-forum#:#forums#:#Fóruns
+content#:#start export#:#Começar Exportação
+forum#:#forums#:#Fórums
 forum#:#forums_articles#:#Artigos
 forum#:#forums_attachments#:#Anexos
 forum#:#forums_attachments_add#:#Adicionar anexo
 forum#:#forums_attachments_edit#:#Editar anexo
 forum#:#forums_available#:#Fóruns disponíveis
-forum#:#forums_censor_comment#:#Comment of Censor###01 Mar 2004 new variable
-forum#:#forums_count#:#Número de fóruns
-forum#:#forums_count_art#:#Número ode artigos
-forum#:#forums_count_thr#:#Number of Threads###01 Mar 2004 new variable
+forum#:#forums_censor_comment#:#Comentário de Censura
+forum#:#forums_count#:#Número de Fóruns
+forum#:#forums_count_art#:#Número de Artigos
+forum#:#forums_count_thr#:#Número de Threads
 forum#:#forums_delete_file#:#Apagar anexo
 forum#:#forums_download_attachment#:#Descarregar ficheiro
-forum#:#forums_edit_post#:#Editar artigo
-forum#:#forums_info_censor2_post#:#Revoke Censorship?###01 Mar 2004 new variable
-forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?###01 Mar 2004 new variable
-forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?###01 Mar 2004 new variable
-forum#:#forums_last_post#:#Último artigo
-forum#:#forums_moderators#:#Moderators###01 Mar 2004 new variable
-forum#:#forums_new_entries#:#Novas entradas de fóruns
-forum#:#forums_new_thread#:#Novo tópico
-forum#:#forums_not_available#:#Fóruns não disponíveis
-forum#:#forums_overview#:#Vista de fóruns
+forum#:#forums_edit_post#:#Editar Artigo
+forum#:#forums_info_censor2_post#:#Revogar Censura?
+forum#:#forums_info_censor_post#:#Tem a certeza que quer esconder este artigo?
+forum#:#forums_info_delete_post#:#Tem a certeza que quer esconder este artigo incluíndo as respostas?
+forum#:#forums_last_post#:#Último Artigo
+forum#:#forums_moderators#:#Moderadores
+forum#:#forums_new_entries#:#Novas Entradas em Fóruns
+forum#:#forums_new_thread#:#Novo Tópico
+forum#:#forums_not_available#:#Fóruns Não Disponíveis
+forum#:#forums_overview#:#Vista de Fóruns
 forum#:#forums_post_deleted#:#O artigo foi apagado
 forum#:#forums_post_modified#:#O artigo foi modificado
-forum#:#forums_post_new_entry#:#New article has been inscribed###01 Mar 2004 new variable
+forum#:#forums_post_new_entry#:#Um novo artigo foi inscrito
 forum#:#forums_posts#:#Todos os artigos
-forum#:#forums_posts_not_available#:#Artigos não disponíveis
-forum#:#forums_print_thread#:#Print Thread###01 Mar 2004 new variable
-forum#:#forums_quote#:#Quote###01 Mar 2004 new variable
-forum#:#forums_respond#:#Post Reply###01 Mar 2004 new variable
+forum#:#forums_posts_not_available#:#Artigos Não Disponíveis
+forum#:#forums_print_thread#:#Imprimir Thread
+forum#:#forums_quote#:#Cotar
+forum#:#forums_respond#:#Mandar Resposta
 forum#:#forums_the_post#:#Artigo
 forum#:#forums_thread#:#Tópico
 forum#:#forums_thread_articles#:#Artigos para o tópico
 forum#:#forums_thread_create_date#:#Criado em
 forum#:#forums_thread_create_from#:#Criado de
-forum#:#forums_thread_new_entry#:#New topic has been inscribed###01 Mar 2004 new variable
-forum#:#forums_threads#:#Threads###01 Mar 2004 new variable
-forum#:#forums_threads_not_available#:#Tópicos não disponíveis
-forum#:#forums_topics_overview#:#Vista dos tópicos
-forum#:#forums_your_reply#:#Your Reply###01 Mar 2004 new variable
-mail#:#also_as_email#:#Também como email
+forum#:#forums_thread_new_entry#:#Um novo tópico foi inscrito
+forum#:#forums_threads#:#Threads
+forum#:#forums_threads_not_available#:#Tópicos Não Disponíveis
+forum#:#forums_topics_overview#:#Vista dos Tópicos
+forum#:#forums_your_reply#:#Sua Resposta
+mail#:#also_as_email#:#Também como Email
 mail#:#bc#:#BC
-mail#:#forward#:#Frente
-mail#:#linebreak#:#Linebreak
-mail#:#mail_add_recipient#:#Please enter a recipient###01 Mar 2004 new variable
-mail#:#mail_add_subfolder#:#Adicionar subpasta
-mail#:#mail_add_subject#:#Por favor ponha um assunto
+mail#:#forward#:#Redireccionar
+mail#:#linebreak#:#Quebra de linha
+mail#:#mail_add_recipient#:#Por favor insira um recipiente
+mail#:#mail_add_subfolder#:#Adicionar Subpasta
+mail#:#mail_add_subject#:#Por favor insira um assunto
 mail#:#mail_add_to_addressbook#:#Adicionar ao livro de endereços
 mail#:#mail_add_type#:#Por favor adicione o tipo de mendagem que quer enviar
 mail#:#mail_addr_entries#:#Entradas
@@ -1625,50 +1625,50 @@ mail#:#mail_bc_search#:#Procura BC
 mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#O recipiente Cc não é válido
 mail#:#mail_cc_search#:#Procura CC
-mail#:#mail_change_to_folder#:#Mudar para pasta:
+mail#:#mail_change_to_folder#:#Mudar para a pasta:
 mail#:#mail_check_your_email_addr#:#O seu endereço email não é válido
 mail#:#mail_compose#:#Compor mensagem
 mail#:#mail_deleted#:#A mensagem(s) está apagada
 mail#:#mail_deleted_entry#:#As entradas estão apagadas
 mail#:#mail_email_forbidden#:#Não lhe é permitido enviar mensagens
-mail#:#mail_entry_added#:#Adicionada nova entrada
-mail#:#mail_entry_changed#:#The entry is changed###01 Mar 2004 new variable
-mail#:#mail_file_name#:#Nome de ficheiro
-mail#:#mail_file_size#:#Tamanho de ficheiro
+mail#:#mail_entry_added#:#Adicionada nova Entrada
+mail#:#mail_entry_changed#:#A entrada mudou
+mail#:#mail_file_name#:#Nome do ficheiro
+mail#:#mail_file_size#:#Tamanho do ficheiro
 mail#:#mail_files_deleted#:#Os ficheiro(s) estão apagados
 mail#:#mail_folder_created#:#Uma nova página foi criada
 mail#:#mail_folder_deleted#:#A pasta foi apagada
 mail#:#mail_folder_exists#:#Já existe uma pasta com este nome
 mail#:#mail_folder_name#:#Nome da pasta
 mail#:#mail_folder_name_changed#:#A pasta foi renomeada
-mail#:#mail_folder_options#:#Opções de pasta
+mail#:#mail_folder_options#:#Opções de Pasta
 mail#:#mail_following_rcp_not_valid#:#Os seguintes recipientes não são válidos:
 mail#:#mail_global_options#:#Opções globais
-mail#:#mail_incoming#:#Incoming mails###01 Mar 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###01 Mar 2004 new variable
-mail#:#mail_incoming_local#:#only local###01 Mar 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###01 Mar 2004 new variable
+mail#:#mail_incoming#:#Mensagens Recebidas
+mail#:#mail_incoming_both#:#local e redireccionando
+mail#:#mail_incoming_local#:#apenas local
+mail#:#mail_incoming_smtp#:#redireccionar para o endereço de email
 mail#:#mail_insert_folder_name#:#Por favor insira um nome de pasta
 mail#:#mail_insert_query#:#Por favor insira uma consulta
 mail#:#mail_intern#:#Interno
-mail#:#mail_mark_read#:#Marcar mensagens como lidas
-mail#:#mail_mark_unread#:#Marcar mensagens como não lidas
-mail#:#mail_maxsize_attachment_error#:#The upload limit is:
+mail#:#mail_mark_read#:#Marcar mensagens lidas
+mail#:#mail_mark_unread#:#Marcar mensagens não lidas
+mail#:#mail_maxsize_attachment_error#:#O limite para enviar é:
 mail#:#mail_message_send#:#Mensagem enviada
 mail#:#mail_move_error#:#Erro a mover mensagem(s)
 mail#:#mail_move_to#:#Mover para:
 mail#:#mail_moved#:#As mensagem(s) foram movidas
 mail#:#mail_moved_to_trash#:#As mensagens foram movidas para o lixo
-mail#:#mail_new_file#:#Adicionar novo ficheiro:
+mail#:#mail_new_file#:#Adicionar um novo ficheiro:
 mail#:#mail_no_attach_allowed#:#Não é permitido a mensagens de sistema conter anexos
 mail#:#mail_no_attachments_found#:#Nenhuns anexos encontrados
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###01 Mar 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#Você não tem permissões para escrever mensagens externas
 mail#:#mail_options_of#:#Opções
-mail#:#mail_options_saved#:#Opções salvas
+mail#:#mail_options_saved#:#Opções guardadas
 mail#:#mail_recipient_not_valid#:#O recipiente não é válido
 mail#:#mail_s#:#Mensagem(s)
 mail#:#mail_s_unread#:#Mensagem(s) não lidas
-mail#:#mail_saved#:#A mensagem foi salva
+mail#:#mail_saved#:#A mensagem foi guardada
 mail#:#mail_search_addressbook#:#procurar no livro de endereços
 mail#:#mail_search_system#:#procurar no sistema
 mail#:#mail_select_one_entry#:#Tem de seleccionar uma entrada
@@ -1679,32 +1679,32 @@ mail#:#mail_sure_delete_file#:#O ficheiro será removido permanentemente
 mail#:#mail_sure_delete_folder#:#A pasta e os seus conteúdos serão removidos permanentemente
 mail#:#mail_to_search#:#Para procurar
 mail#:#mail_user_addr_n_valid#:#Os seguintes utilizadores não têm endereço de email válido
-mail#:#search_bc_recipient#:#Search BC Recipient###01 Mar 2004 new variable
-mail#:#search_cc_recipient#:#Search CC Recipient###01 Mar 2004 new variable
-meta#:#meta_accessibility_restrictions#:#Restrições de acessibilidade
+mail#:#search_bc_recipient#:#Procurar Recipiente BC
+mail#:#search_cc_recipient#:#Procurar Recipiente CC
+meta#:#meta_accessibility_restrictions#:#Restrições de Acessibilidade
 meta#:#meta_active#:#Activo
 meta#:#meta_add#:#Adicionar
 meta#:#meta_annotation#:#Anotação
 meta#:#meta_atomic#:#Atómico
 meta#:#meta_author#:#Autor
-meta#:#meta_browser#:#Browser###01 Mar 2004 new variable
+meta#:#meta_browser#:#Browser
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Emirados Árabes Unidos
 meta#:#meta_c_AF#:#Afeganistão
-meta#:#meta_c_AG#:#Antigua And Barbuda
+meta#:#meta_c_AG#:#Antígua e Barbuda
 meta#:#meta_c_AI#:#Anguilla
 meta#:#meta_c_AL#:#Albânia
 meta#:#meta_c_AM#:#Arménia
-meta#:#meta_c_AN#:#Netherlands Antilles
+meta#:#meta_c_AN#:#Antilhas Holandesas
 meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antárctida
 meta#:#meta_c_AR#:#Argentina
-meta#:#meta_c_AS#:#American Samoa
+meta#:#meta_c_AS#:#Samoa Americana
 meta#:#meta_c_AT#:#Áustria
 meta#:#meta_c_AU#:#Austrália
 meta#:#meta_c_AW#:#Aruba
-meta#:#meta_c_AZ#:#Azerbeijão
-meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_AZ#:#Azerbaijão
+meta#:#meta_c_BA#:#Bósnia-Herzegovina
 meta#:#meta_c_BB#:#Barbados
 meta#:#meta_c_BD#:#Bangladesh
 meta#:#meta_c_BE#:#Bélgica
@@ -1718,18 +1718,18 @@ meta#:#meta_c_BN#:#Brunei Darussalam
 meta#:#meta_c_BO#:#Bolívia
 meta#:#meta_c_BR#:#Brazil
 meta#:#meta_c_BS#:#Bahamas
-meta#:#meta_c_BT#:#Bhutan
-meta#:#meta_c_BV#:#Bouvet Island
-meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BT#:#Butão
+meta#:#meta_c_BV#:#Ilha Bouvet
+meta#:#meta_c_BW#:#Botsuana
 meta#:#meta_c_BY#:#Belarus
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Canadá
-meta#:#meta_c_CC#:#Cocos (Keeling) Islands
-meta#:#meta_c_CF#:#Central African Republic
+meta#:#meta_c_CC#:#Ilhas Cocos (Keeling)
+meta#:#meta_c_CF#:#Républica Central Africana
 meta#:#meta_c_CG#:#Congo
 meta#:#meta_c_CH#:#Suiça
 meta#:#meta_c_CI#:#Cote D' Ivoire
-meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CK#:#Ilhas Cook
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Camarões
 meta#:#meta_c_CN#:#China
@@ -1737,365 +1737,365 @@ meta#:#meta_c_CO#:#Colômbia
 meta#:#meta_c_CR#:#Costa Rica
 meta#:#meta_c_CU#:#Cuba
 meta#:#meta_c_CV#:#Cabo Verde
-meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CX#:#Ilha Christmas
 meta#:#meta_c_CY#:#Chipre
-meta#:#meta_c_CZ#:#Republica Checa
+meta#:#meta_c_CZ#:#Républica Checa
 meta#:#meta_c_DE#:#Alemanha
 meta#:#meta_c_DJ#:#Djibouti
 meta#:#meta_c_DK#:#Dinamarca
 meta#:#meta_c_DM#:#Dominica
-meta#:#meta_c_DO#:#Republica Dominicana
+meta#:#meta_c_DO#:#Républica Dominicana
 meta#:#meta_c_DZ#:#Algéria
 meta#:#meta_c_EC#:#Equador
 meta#:#meta_c_EE#:#Estónia
 meta#:#meta_c_EG#:#Egipto
-meta#:#meta_c_EH#:#Western Sahara
-meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_EH#:#Sahara Ocidental
+meta#:#meta_c_ER#:#Eritreia
 meta#:#meta_c_ES#:#Espanha
 meta#:#meta_c_ET#:#Etiópia
 meta#:#meta_c_FI#:#Finlândia
 meta#:#meta_c_FJ#:#Fiji
-meta#:#meta_c_FK#:#Falkland Islands
-meta#:#meta_c_FM#:#Micronesia
-meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FK#:#Ilhas Falkland
+meta#:#meta_c_FM#:#Micronésia
+meta#:#meta_c_FO#:#Ilhas Faroé
 meta#:#meta_c_FR#:#França
-meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_FX#:#França, Metropolitana
 meta#:#meta_c_GA#:#Gabão
 meta#:#meta_c_GB#:#Reino Unido
 meta#:#meta_c_GD#:#Granada
-meta#:#meta_c_GE#:#Giorgia
-meta#:#meta_c_GF#:#French Guiana
-meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GE#:#Geórgia
+meta#:#meta_c_GF#:#Guiana Francesa
+meta#:#meta_c_GH#:#Gana
 meta#:#meta_c_GI#:#Gibraltar
-meta#:#meta_c_GL#:#Greenland
-meta#:#meta_c_GM#:#Gambia
-meta#:#meta_c_GN#:#Guinea
-meta#:#meta_c_GP#:#Guadeloupe
-meta#:#meta_c_GQ#:#Equatorial Guinea
-meta#:#meta_c_GR#:#Grecia
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_GL#:#Gronelândia
+meta#:#meta_c_GM#:#Gâmbia
+meta#:#meta_c_GN#:#Guiné
+meta#:#meta_c_GP#:#Guadalupe
+meta#:#meta_c_GQ#:#Guiné Equatorial
+meta#:#meta_c_GR#:#Grécia
+meta#:#meta_c_GS#:#Geórgia do Sul e As Ilhas Sanduiche do Sul
 meta#:#meta_c_GT#:#Guatemala
 meta#:#meta_c_GU#:#Guam
-meta#:#meta_c_GW#:#Guinea-Bissau
-meta#:#meta_c_GY#:#Guyana
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_GW#:#Guiné-Bissau
+meta#:#meta_c_GY#:#Guiana
+meta#:#meta_c_HM#:#Ilhas Heard e Nc Donald
 meta#:#meta_c_HN#:#Honduras
-meta#:#meta_c_HR#:#Croacia
+meta#:#meta_c_HR#:#Croácia
 meta#:#meta_c_HT#:#Haiti
 meta#:#meta_c_HU#:#Hungria
 meta#:#meta_c_ID#:#Indonésia
-meta#:#meta_c_IE#:#Irelanda
+meta#:#meta_c_IE#:#Irlanda
 meta#:#meta_c_IL#:#Israel
-meta#:#meta_c_IN#:#India
-meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IN#:#Índia
+meta#:#meta_c_IO#:#Território Oceânico Indiano Britânico
 meta#:#meta_c_IQ#:#Iraque
 meta#:#meta_c_IR#:#Irão
 meta#:#meta_c_IS#:#Islândia
-meta#:#meta_c_IT#:#Italia
+meta#:#meta_c_IT#:#Itália
 meta#:#meta_c_JM#:#Jamaica
-meta#:#meta_c_JO#:#Jordan
+meta#:#meta_c_JO#:#Jordão
 meta#:#meta_c_JP#:#Japão
-meta#:#meta_c_KE#:#Kenya
-meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KE#:#Kénia
+meta#:#meta_c_KG#:#Kirgizstão
 meta#:#meta_c_KH#:#Cambodja
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
-meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
-meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KN#:#Saint Kitts e Nevis
+meta#:#meta_c_KP#:#Coreia do Norte (Républica do Povo da Coreia)
+meta#:#meta_c_KR#:#Coreia do Sul (Républica da Coreia)
 meta#:#meta_c_KW#:#Kuwait
-meta#:#meta_c_KY#:#Cayman Islands
-meta#:#meta_c_KZ#:#Kazakhstan
-meta#:#meta_c_LA#:#Lao People's Republic
-meta#:#meta_c_LB#:#Lebanon
-meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_KY#:#Ilhas Caimão
+meta#:#meta_c_KZ#:#Cazaquistão
+meta#:#meta_c_LA#:#Républica do Povo Lao
+meta#:#meta_c_LB#:#Líbano
+meta#:#meta_c_LC#:#Santa Lúcia
 meta#:#meta_c_LI#:#Liechtenstein
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Libéria
-meta#:#meta_c_LS#:#Lesotho
-meta#:#meta_c_LT#:#Lituania
+meta#:#meta_c_LS#:#Lesoto
+meta#:#meta_c_LT#:#Lituânia
 meta#:#meta_c_LU#:#Luxemburgo
-meta#:#meta_c_LV#:#Latvia
-meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
-meta#:#meta_c_MA#:#Morocco
-meta#:#meta_c_MC#:#Monaco
-meta#:#meta_c_MD#:#Moldova
-meta#:#meta_c_MG#:#Madagascar
-meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_LV#:#Letónia
+meta#:#meta_c_LY#:#Jamahiriya Líbia Árabe
+meta#:#meta_c_MA#:#Marrocos
+meta#:#meta_c_MC#:#Mónaco
+meta#:#meta_c_MD#:#Moldávia
+meta#:#meta_c_MG#:#Madagáscar
+meta#:#meta_c_MH#:#Ilhas Marshall
 meta#:#meta_c_MK#:#Macedónia
 meta#:#meta_c_ML#:#Mali
-meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MM#:#Mianmar
 meta#:#meta_c_MN#:#Mongólia
 meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_MP#:#Ilhas Mariana do Norte
 meta#:#meta_c_MQ#:#Martinique
 meta#:#meta_c_MR#:#Mauritânia
-meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MS#:#Monserrate
 meta#:#meta_c_MT#:#Malta
 meta#:#meta_c_MU#:#Mauritius
 meta#:#meta_c_MV#:#Maldivas
-meta#:#meta_c_MW#:#Malawi
-meta#:#meta_c_MX#:#Mexico
-meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MW#:#Malaui
+meta#:#meta_c_MX#:#México
+meta#:#meta_c_MY#:#Malásia
 meta#:#meta_c_MZ#:#Moçambique
 meta#:#meta_c_NA#:#Namíbia
-meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NC#:#Nova Caledónia
 meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Island
-meta#:#meta_c_NG#:#Nigeria
-meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NF#:#Ilha Norfolk
+meta#:#meta_c_NG#:#Nigéria
+meta#:#meta_c_NI#:#Nicarágua
 meta#:#meta_c_NL#:#Holanda
 meta#:#meta_c_NO#:#Noruega
 meta#:#meta_c_NP#:#Nepal
 meta#:#meta_c_NR#:#Nauru
 meta#:#meta_c_NU#:#Niue
-meta#:#meta_c_NZ#:#New Zealand
+meta#:#meta_c_NZ#:#Nova Zelândia
 meta#:#meta_c_OM#:#Oman
-meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PA#:#Panamá
 meta#:#meta_c_PE#:#Peru
-meta#:#meta_c_PF#:#French Polynesia
-meta#:#meta_c_PG#:#Papua New Guinea
-meta#:#meta_c_PH#:#Philippines
-meta#:#meta_c_PK#:#Pakistan
-meta#:#meta_c_PL#:#Poland
-meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PF#:#Polinésia Francesa
+meta#:#meta_c_PG#:#Papua Nova Guiné
+meta#:#meta_c_PH#:#Filipinas
+meta#:#meta_c_PK#:#Paquistão
+meta#:#meta_c_PL#:#Polónia
+meta#:#meta_c_PM#:#St. Pierre e Miquelon
 meta#:#meta_c_PN#:#Pitcairn
-meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PR#:#Porto Rico
 meta#:#meta_c_PT#:#Portugal
 meta#:#meta_c_PW#:#Palau
-meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_PY#:#Paraguai
 meta#:#meta_c_QA#:#Qatar
-meta#:#meta_c_RE#:#Reunion
-meta#:#meta_c_RO#:#Romania
-meta#:#meta_c_RU#:#Ran Federation
-meta#:#meta_c_RW#:#Rwanda
-meta#:#meta_c_SA#:#Saudi Arabia
-meta#:#meta_c_SB#:#Solomon Islands
-meta#:#meta_c_SC#:#Seychelles
-meta#:#meta_c_SD#:#Sudan
-meta#:#meta_c_SE#:#Sweden
-meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_RE#:#Reunião
+meta#:#meta_c_RO#:#Roménia
+meta#:#meta_c_RU#:#Federação Ran
+meta#:#meta_c_RW#:#Ruanda
+meta#:#meta_c_SA#:#Arábia Saudita
+meta#:#meta_c_SB#:#Ilhas Solomon
+meta#:#meta_c_SC#:#Seicheles
+meta#:#meta_c_SD#:#Sudão
+meta#:#meta_c_SE#:#Suécia
+meta#:#meta_c_SG#:#Singapura
 meta#:#meta_c_SH#:#St. Helena
-meta#:#meta_c_SI#:#Slovenia
-meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
-meta#:#meta_c_SK#:#Slovakia
-meta#:#meta_c_SL#:#Siearra Leone
-meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SI#:#Eslovénia
+meta#:#meta_c_SJ#:#Ilhas Svalbard e Jan Mayen
+meta#:#meta_c_SK#:#Eslováquia
+meta#:#meta_c_SL#:#Serra Leoa
+meta#:#meta_c_SM#:#São Marino
 meta#:#meta_c_SN#:#Senegal
-meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SO#:#Somália
 meta#:#meta_c_SR#:#Suriname
-meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_ST#:#São Tomé e Príncipe
 meta#:#meta_c_SV#:#El Salvador
-meta#:#meta_c_SY#:#Syrian Arab Republic
-meta#:#meta_c_SZ#:#Swaziland
-meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_SY#:#Républica Síria Árabe
+meta#:#meta_c_SZ#:#Suazilândia
+meta#:#meta_c_TC#:#Ilhas Turcas e Caicos
 meta#:#meta_c_TD#:#Chad
-meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_TF#:#Territórios Franceses do Sul
 meta#:#meta_c_TG#:#Togo
-meta#:#meta_c_TH#:#Thailand
-meta#:#meta_c_TJ#:#Tajikistan
-meta#:#meta_c_TK#:#Tokelau
-meta#:#meta_c_TM#:#Turkmenistan
-meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TH#:#Tailândia
+meta#:#meta_c_TJ#:#Tajiquistão
+meta#:#meta_c_TK#:#Toquelau
+meta#:#meta_c_TM#:#Turkmenistão
+meta#:#meta_c_TN#:#Tunísia
 meta#:#meta_c_TO#:#Tonga
-meta#:#meta_c_TP#:#East Timor
-meta#:#meta_c_TR#:#Turkey
-meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TP#:#Timor Leste
+meta#:#meta_c_TR#:#Turquia
+meta#:#meta_c_TT#:#Trinidade e Tobago
 meta#:#meta_c_TV#:#Tuvalu
 meta#:#meta_c_TW#:#Taiwan
-meta#:#meta_c_TZ#:#Tanzania
-meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_TZ#:#Tanzânia
+meta#:#meta_c_UA#:#Ucrânia
 meta#:#meta_c_UG#:#Uganda
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
-meta#:#meta_c_US#:#U.S.A
-meta#:#meta_c_UY#:#Uruguay
-meta#:#meta_c_UZ#:#Uzbekistan
-meta#:#meta_c_VA#:#Vatican City State
-meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_UM#:#Ilhas Menores dos E.U.
+meta#:#meta_c_US#:#E.U.A
+meta#:#meta_c_UY#:#Uruguai
+meta#:#meta_c_UZ#:#Uzbequistão
+meta#:#meta_c_VA#:#Estado da Cidade do Vaticano
+meta#:#meta_c_VC#:#Santo Vincente e As Grenadines
 meta#:#meta_c_VE#:#Venezuela
-meta#:#meta_c_VG#:#Virgin Islands (British)
-meta#:#meta_c_VI#:#Virgin Islands (US)
-meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VG#:#Ilhas Virgens (Britânicas)
+meta#:#meta_c_VI#:#Ilhas Virgens (EUA)
+meta#:#meta_c_VN#:#Vietname
 meta#:#meta_c_VU#:#Vanuatu
-meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_WF#:#Ilhas Wallis e Futuna
 meta#:#meta_c_WS#:#Samoa
-meta#:#meta_c_YE#:#Yemen
-meta#:#meta_c_YT#:#Mayotte
-meta#:#meta_c_ZA#:#South Africa
-meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_YE#:#Iémen
+meta#:#meta_c_YT#:#Maiote
+meta#:#meta_c_ZA#:#África do Sul
+meta#:#meta_c_ZM#:#Zâmbia
 meta#:#meta_c_ZR#:#Zaire
-meta#:#meta_c_ZW#:#Zimbabwe
-meta#:#meta_c_ZZ#:#Other Country###01 Mar 2004 new variable
-meta#:#meta_catalog#:#Catalog###01 Mar 2004 new variable
-meta#:#meta_choose_element#:#Please choose an element you want to add!###01 Mar 2004 new variable
-meta#:#meta_choose_language#:#Please choose a language###01 Mar 2004 new variable
-meta#:#meta_choose_section#:#Please choose a section###01 Mar 2004 new variable
-meta#:#meta_classification#:#Classification###01 Mar 2004 new variable
-meta#:#meta_collection#:#Collection###01 Mar 2004 new variable
-meta#:#meta_competency#:#Competency###01 Mar 2004 new variable
+meta#:#meta_c_ZW#:#Zimbabué
+meta#:#meta_c_ZZ#:#Outro País
+meta#:#meta_catalog#:#Catálogo
+meta#:#meta_choose_element#:#Por favor escolha um elemento que queira adicionar!
+meta#:#meta_choose_language#:#Por favor escolha uma linguagem
+meta#:#meta_choose_section#:#Por favor escolha uma secção
+meta#:#meta_classification#:#Classificação
+meta#:#meta_collection#:#Colecção
+meta#:#meta_competency#:#Competência
 meta#:#meta_context#:#Contexto
-meta#:#meta_contribute#:#Contribute###01 Mar 2004 new variable
-meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions###01 Mar 2004 new variable
-meta#:#meta_cost#:#Cost###01 Mar 2004 new variable
-meta#:#meta_coverage#:#Coverage###01 Mar 2004 new variable
-meta#:#meta_date#:#Data###01 Mar 2004 new variable
+meta#:#meta_contribute#:#Contribuir
+meta#:#meta_copyright_and_other_restrictions#:#Copyright e Outras Restrições
+meta#:#meta_cost#:#Custo
+meta#:#meta_coverage#:#Cobertura
+meta#:#meta_date#:#Data
 meta#:#meta_delete#:#Apagar
-meta#:#meta_description#:#Description###01 Mar 2004 new variable
+meta#:#meta_description#:#Descrição
 meta#:#meta_diagramm#:#Diagrama
 meta#:#meta_difficulty#:#Dificuldade
-meta#:#meta_dificult#:#Dificil
+meta#:#meta_dificult#:#Díficil
 meta#:#meta_draft#:#Rascunho
 meta#:#meta_duration#:#Duração
 meta#:#meta_easy#:#Fácil
-meta#:#meta_education#:#Educação
+meta#:#meta_education#:#Education
 meta#:#meta_educational_level#:#Nível Educacional
-meta#:#meta_educational_objective#:#Objectivo Educational
+meta#:#meta_educational_objective#:#Objectivo Educacional
 meta#:#meta_entity#:#Entidade
-meta#:#meta_entry#:#Entry
+meta#:#meta_entry#:#Entrada
 meta#:#meta_exam#:#Exame
 meta#:#meta_exercise#:#Exercício
 meta#:#meta_experiment#:#Experiência
-meta#:#meta_expositive#:#Expositive
-meta#:#meta_figure#:#Figure
+meta#:#meta_expositive#:#Expositivo
+meta#:#meta_figure#:#Figura
 meta#:#meta_final#:#Final
-meta#:#meta_format#:#Format
-meta#:#meta_general#:#General
-meta#:#meta_graph#:#Grafico
-meta#:#meta_has_format#:#Has Format###01 Mar 2004 new variable
-meta#:#meta_has_part#:#Has Part###01 Mar 2004 new variable
-meta#:#meta_has_version#:#Has Version###01 Mar 2004 new variable
-meta#:#meta_hierarchical#:#Hierarchical###01 Mar 2004 new variable
-meta#:#meta_high#:#High###01 Mar 2004 new variable
-meta#:#meta_higher_education#:#Higher Education###01 Mar 2004 new variable
-meta#:#meta_id#:#Id###01 Mar 2004 new variable
-meta#:#meta_idea#:#Idea###01 Mar 2004 new variable
-meta#:#meta_identifier#:#Identifier###01 Mar 2004 new variable
-meta#:#meta_index#:#Indice
-meta#:#meta_installation_remarks#:#Installation Remarks###01 Mar 2004 new variable
-meta#:#meta_intended_end_user_role#:#Intended End User Role###01 Mar 2004 new variable
-meta#:#meta_interactivity_level#:#Interactivity Level###01 Mar 2004 new variable
-meta#:#meta_interactivity_type#:#Interactivity Type###01 Mar 2004 new variable
-meta#:#meta_is_based_on#:#Is Based On###01 Mar 2004 new variable
-meta#:#meta_is_basis_for#:#Is Basis For###01 Mar 2004 new variable
-meta#:#meta_is_format_of#:#Is Format Of###01 Mar 2004 new variable
-meta#:#meta_is_part_of#:#Is Part Of###01 Mar 2004 new variable
-meta#:#meta_is_referenced_by#:#Is Referenced By###01 Mar 2004 new variable
-meta#:#meta_is_required_by#:#Is Required By###01 Mar 2004 new variable
-meta#:#meta_is_version_of#:#Is Version Of###01 Mar 2004 new variable
-meta#:#meta_keyword#:#Keyword###01 Mar 2004 new variable
-meta#:#meta_kind#:#Kind###01 Mar 2004 new variable
+meta#:#meta_format#:#Formato
+meta#:#meta_general#:#Geral
+meta#:#meta_graph#:#Gráfico
+meta#:#meta_has_format#:#Tem Formato
+meta#:#meta_has_part#:#Tem Parte
+meta#:#meta_has_version#:#Tem Versão
+meta#:#meta_hierarchical#:#Hierárquico
+meta#:#meta_high#:#Alto
+meta#:#meta_higher_education#:#Educação Superior
+meta#:#meta_id#:#Id
+meta#:#meta_idea#:#Idéia
+meta#:#meta_identifier#:#Identificador
+meta#:#meta_index#:#Índice
+meta#:#meta_installation_remarks#:#Observações da Instalação
+meta#:#meta_intended_end_user_role#:#Papel de Utilizador Final Planeado
+meta#:#meta_interactivity_level#:#Nível de Interactividade
+meta#:#meta_interactivity_type#:#Tipo de Interactividade
+meta#:#meta_is_based_on#:#É Baseado Em
+meta#:#meta_is_basis_for#:#É Base Para
+meta#:#meta_is_format_of#:#É Formato De
+meta#:#meta_is_part_of#:#É Parte De
+meta#:#meta_is_referenced_by#:#É Referênciado Por
+meta#:#meta_is_required_by#:#É Requerido Por
+meta#:#meta_is_version_of#:#É Versão De
+meta#:#meta_keyword#:#Palavra-chave
+meta#:#meta_kind#:#Tipo
 meta#:#meta_l_aa#:#afar
-meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#afrikaans
-meta#:#meta_l_am#:#amharic
-meta#:#meta_l_ar#:#arabic
+meta#:#meta_l_ab#:#abkaziano
+meta#:#meta_l_af#:#africano
+meta#:#meta_l_am#:#amharico
+meta#:#meta_l_ar#:#arábico
 meta#:#meta_l_as#:#assamese
-meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaijani
+meta#:#meta_l_ay#:#aimara
+meta#:#meta_l_az#:#azerbaijanes
 meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#byelorussian
-meta#:#meta_l_bg#:#bulgarian
+meta#:#meta_l_be#:#bielorusso
+meta#:#meta_l_bg#:#búlgaro
 meta#:#meta_l_bh#:#bihari
 meta#:#meta_l_bi#:#bislama
 meta#:#meta_l_bn#:#bengali;bangla
-meta#:#meta_l_bo#:#tibetan
-meta#:#meta_l_br#:#breton
-meta#:#meta_l_ca#:#catalan
-meta#:#meta_l_co#:#corsican
-meta#:#meta_l_cs#:#czech
+meta#:#meta_l_bo#:#tibetano
+meta#:#meta_l_br#:#bretão
+meta#:#meta_l_ca#:#catalão
+meta#:#meta_l_co#:#corsicão
+meta#:#meta_l_cs#:#checo
 meta#:#meta_l_cy#:#welsh
-meta#:#meta_l_da#:#danish
-meta#:#meta_l_de#:#german
-meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greek
-meta#:#meta_l_en#:#english
+meta#:#meta_l_da#:#dinamarquês
+meta#:#meta_l_de#:#alemão
+meta#:#meta_l_dz#:#butanez
+meta#:#meta_l_el#:#grego
+meta#:#meta_l_en#:#inglês
 meta#:#meta_l_eo#:#esperanto
-meta#:#meta_l_es#:#spanish
-meta#:#meta_l_et#:#estonian
-meta#:#meta_l_eu#:#basque
-meta#:#meta_l_fa#:#persian (farsi)
-meta#:#meta_l_fi#:#finnish
+meta#:#meta_l_es#:#espanhol
+meta#:#meta_l_et#:#estoniano
+meta#:#meta_l_eu#:#basco
+meta#:#meta_l_fa#:#persa (farsi)
+meta#:#meta_l_fi#:#finlandês
 meta#:#meta_l_fj#:#fiji
 meta#:#meta_l_fo#:#faroese
-meta#:#meta_l_fr#:#french
+meta#:#meta_l_fr#:#francês
 meta#:#meta_l_fy#:#frisian
-meta#:#meta_l_ga#:#irish
+meta#:#meta_l_ga#:#irlândes
 meta#:#meta_l_gd#:#scots gaelic
-meta#:#meta_l_gl#:#galician
+meta#:#meta_l_gl#:#galego
 meta#:#meta_l_gn#:#guarani
 meta#:#meta_l_gu#:#gujarati
 meta#:#meta_l_ha#:#hausa
-meta#:#meta_l_he#:#hebrew
+meta#:#meta_l_he#:#hebreu
 meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croatian
-meta#:#meta_l_hu#:#hungarian
-meta#:#meta_l_hy#:#armenian
-meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesian
+meta#:#meta_l_hr#:#croáta
+meta#:#meta_l_hu#:#húngaro
+meta#:#meta_l_hy#:#arménio
+meta#:#meta_l_ia#:#interlíngua
+meta#:#meta_l_id#:#indonésio
 meta#:#meta_l_ie#:#interlingue
 meta#:#meta_l_ik#:#inupiak
-meta#:#meta_l_is#:#icelandic
-meta#:#meta_l_it#:#italian
+meta#:#meta_l_is#:#islandês
+meta#:#meta_l_it#:#italiano
 meta#:#meta_l_iu#:#inuktitut
-meta#:#meta_l_ja#:#japanese
-meta#:#meta_l_jv#:#javanese
-meta#:#meta_l_ka#:#georgian
+meta#:#meta_l_ja#:#japonês
+meta#:#meta_l_jv#:#javanês
+meta#:#meta_l_ka#:#georgiano
 meta#:#meta_l_kk#:#kazakh
-meta#:#meta_l_kl#:#greenlandic
-meta#:#meta_l_km#:#cambodian
-meta#:#meta_l_kn#:#kannada
-meta#:#meta_l_ko#:#korean
+meta#:#meta_l_kl#:#gronelandês
+meta#:#meta_l_km#:#cambodjiano
+meta#:#meta_l_kn#:#cannada
+meta#:#meta_l_ko#:#coreano
 meta#:#meta_l_ks#:#kashmiri
 meta#:#meta_l_ku#:#kurdish
 meta#:#meta_l_ky#:#kirghiz
 meta#:#meta_l_la#:#latin
 meta#:#meta_l_ln#:#lingala
 meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lithuanian
+meta#:#meta_l_lt#:#lituano
 meta#:#meta_l_lv#:#latvian;lettish
 meta#:#meta_l_mg#:#malagasy
 meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_mk#:#macedónio
 meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolian
-meta#:#meta_l_mo#:#moldavian
+meta#:#meta_l_mn#:#mongólio
+meta#:#meta_l_mo#:#moldávo
 meta#:#meta_l_mr#:#marathi
 meta#:#meta_l_ms#:#malay
 meta#:#meta_l_mt#:#maltese
 meta#:#meta_l_my#:#burmese
 meta#:#meta_l_na#:#nauru
 meta#:#meta_l_ne#:#nepali
-meta#:#meta_l_nl#:#dutch
-meta#:#meta_l_no#:#norwegian
+meta#:#meta_l_nl#:#holandês
+meta#:#meta_l_no#:#norueguês
 meta#:#meta_l_oc#:#occitan
 meta#:#meta_l_om#:#afan (oromo)
 meta#:#meta_l_or#:#oriya
 meta#:#meta_l_pa#:#punjabi
-meta#:#meta_l_pl#:#polish
+meta#:#meta_l_pl#:#poláco
 meta#:#meta_l_ps#:#pashto;pushto
-meta#:#meta_l_pt#:#portuguese
+meta#:#meta_l_pt#:#português
 meta#:#meta_l_qu#:#quechua
 meta#:#meta_l_rm#:#rhaeto-romance
 meta#:#meta_l_rn#:#kurundi
-meta#:#meta_l_ro#:#romanian
-meta#:#meta_l_ru#:#russian
+meta#:#meta_l_ro#:#romeno
+meta#:#meta_l_ru#:#russo
 meta#:#meta_l_rw#:#kinyarwanda
 meta#:#meta_l_sa#:#sanskrit
 meta#:#meta_l_sd#:#sindhi
 meta#:#meta_l_sg#:#sangho
-meta#:#meta_l_sh#:#serbo-croatian
+meta#:#meta_l_sh#:#servo-croáta
 meta#:#meta_l_si#:#singhalese
-meta#:#meta_l_sk#:#slovak
-meta#:#meta_l_sl#:#slovenian
+meta#:#meta_l_sk#:#eslováco
+meta#:#meta_l_sl#:#esloveno
 meta#:#meta_l_sm#:#samoan
 meta#:#meta_l_sn#:#shona
 meta#:#meta_l_so#:#somali
-meta#:#meta_l_sq#:#albanian
-meta#:#meta_l_sr#:#serbian
+meta#:#meta_l_sq#:#albanês
+meta#:#meta_l_sr#:#servio
 meta#:#meta_l_ss#:#siswati
 meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanese
-meta#:#meta_l_sv#:#swedish
+meta#:#meta_l_su#:#sundanês
+meta#:#meta_l_sv#:#suéco
 meta#:#meta_l_sw#:#swahili
 meta#:#meta_l_ta#:#tamil
 meta#:#meta_l_te#:#telugu
@@ -2106,7 +2106,7 @@ meta#:#meta_l_tk#:#turkmen
 meta#:#meta_l_tl#:#tagalog
 meta#:#meta_l_tn#:#setswana
 meta#:#meta_l_to#:#tonga
-meta#:#meta_l_tr#:#turkish
+meta#:#meta_l_tr#:#turco
 meta#:#meta_l_ts#:#tsonga
 meta#:#meta_l_tt#:#tatar
 meta#:#meta_l_tw#:#twi
@@ -2114,116 +2114,116 @@ meta#:#meta_l_ug#:#uigur
 meta#:#meta_l_uk#:#ukrainian
 meta#:#meta_l_ur#:#urdu
 meta#:#meta_l_uz#:#uzbek
-meta#:#meta_l_vi#:#vietnamese
+meta#:#meta_l_vi#:#vietnamês
 meta#:#meta_l_vo#:#volapuk
 meta#:#meta_l_wo#:#wolof
 meta#:#meta_l_xh#:#xhosa
 meta#:#meta_l_yi#:#yiddish
 meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#zhuang
-meta#:#meta_l_zh#:#chinese
+meta#:#meta_l_zh#:#chinês
 meta#:#meta_l_zu#:#zulu
-meta#:#meta_language#:#Language###01 Mar 2004 new variable
-meta#:#meta_learner#:#Learner###01 Mar 2004 new variable
-meta#:#meta_learning_resource_type#:#Learning Resource Type###01 Mar 2004 new variable
-meta#:#meta_lecture#:#Lecture###01 Mar 2004 new variable
-meta#:#meta_lifecycle#:#Lifecycle###01 Mar 2004 new variable
-meta#:#meta_linear#:#Linear###01 Mar 2004 new variable
-meta#:#meta_local_file#:#Local File###01 Mar 2004 new variable
-meta#:#meta_location#:#Location###01 Mar 2004 new variable
-meta#:#meta_low#:#Low###01 Mar 2004 new variable
-meta#:#meta_mac_os#:#MacOS###01 Mar 2004 new variable
-meta#:#meta_manager#:#Manager###01 Mar 2004 new variable
-meta#:#meta_maximum_version#:#Maximum Version###01 Mar 2004 new variable
-meta#:#meta_medium#:#Medium###01 Mar 2004 new variable
-meta#:#meta_meta_metadata#:#Meta-Metadata###01 Mar 2004 new variable
-meta#:#meta_metadatascheme#:#Metadata Scheme###01 Mar 2004 new variable
-meta#:#meta_minimum_version#:#Minimum Version###01 Mar 2004 new variable
-meta#:#meta_mixed#:#Mixed###01 Mar 2004 new variable
-meta#:#meta_ms_windows#:#MS-Windows###01 Mar 2004 new variable
-meta#:#meta_multi_os#:#Multi-OS###01 Mar 2004 new variable
-meta#:#meta_name#:#Name###01 Mar 2004 new variable
-meta#:#meta_narrative_text#:#Narrative Text###01 Mar 2004 new variable
-meta#:#meta_networked#:#Networked###01 Mar 2004 new variable
-meta#:#meta_new_element#:#New Element###01 Mar 2004 new variable
-meta#:#meta_no#:#No###01 Mar 2004 new variable
-meta#:#meta_no_annotation#:#No meta data available for the Annotation section.###01 Mar 2004 new variable
-meta#:#meta_no_classification#:#No meta data available for the Classification section.###01 Mar 2004 new variable
-meta#:#meta_no_educational#:#No meta data available for Educational section.###01 Mar 2004 new variable
-meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.###01 Mar 2004 new variable
-meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.###01 Mar 2004 new variable
-meta#:#meta_no_relation#:#No meta data available for the Relation section.###01 Mar 2004 new variable
-meta#:#meta_no_rights#:#No meta data available for the Rights section.###01 Mar 2004 new variable
-meta#:#meta_no_technical#:#No meta data available for Technical section.###01 Mar 2004 new variable
-meta#:#meta_none#:#None###01 Mar 2004 new variable
-meta#:#meta_operating_system#:#Operating System###01 Mar 2004 new variable
-meta#:#meta_or_composite#:#Or Composite###01 Mar 2004 new variable
-meta#:#meta_other#:#Other###01 Mar 2004 new variable
-meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements###01 Mar 2004 new variable
-meta#:#meta_pc_dos#:#PC-DOS###01 Mar 2004 new variable
-meta#:#meta_please_select#:#Please select###01 Mar 2004 new variable
-meta#:#meta_prerequisite#:#Prerequisite###01 Mar 2004 new variable
-meta#:#meta_problem_statement#:#Problem Statement###01 Mar 2004 new variable
-meta#:#meta_publisher#:#Publisher###01 Mar 2004 new variable
-meta#:#meta_purpose#:#Purpose###01 Mar 2004 new variable
-meta#:#meta_questionnaire#:#Questionnaire###01 Mar 2004 new variable
-meta#:#meta_reference#:#Reference###01 Mar 2004 new variable
-meta#:#meta_references#:#References###01 Mar 2004 new variable
-meta#:#meta_relation#:#Relation###01 Mar 2004 new variable
-meta#:#meta_requirement#:#Requirement###01 Mar 2004 new variable
-meta#:#meta_requires#:#Requires###01 Mar 2004 new variable
-meta#:#meta_resource#:#Resource###01 Mar 2004 new variable
-meta#:#meta_revised#:#Revised###01 Mar 2004 new variable
-meta#:#meta_rights#:#Rights###01 Mar 2004 new variable
-meta#:#meta_role#:#Role###01 Mar 2004 new variable
-meta#:#meta_school#:#School###01 Mar 2004 new variable
-meta#:#meta_security_level#:#Security Level###01 Mar 2004 new variable
-meta#:#meta_self_assessment#:#Self Assessment###01 Mar 2004 new variable
-meta#:#meta_semantic_density#:#Semantic Density###01 Mar 2004 new variable
-meta#:#meta_simulation#:#Simulation###01 Mar 2004 new variable
-meta#:#meta_size#:#Size###01 Mar 2004 new variable
-meta#:#meta_skill_level#:#Skill Level###01 Mar 2004 new variable
-meta#:#meta_slide#:#Slide###01 Mar 2004 new variable
-meta#:#meta_source#:#Source###01 Mar 2004 new variable
-meta#:#meta_status#:#Status###01 Mar 2004 new variable
-meta#:#meta_structure#:#Structure###01 Mar 2004 new variable
-meta#:#meta_table#:#Table###01 Mar 2004 new variable
-meta#:#meta_taxon#:#Taxon###01 Mar 2004 new variable
-meta#:#meta_taxon_path#:#Taxon Path###01 Mar 2004 new variable
-meta#:#meta_teacher#:#Teacher###01 Mar 2004 new variable
-meta#:#meta_technical#:#Technical###01 Mar 2004 new variable
-meta#:#meta_title#:#Title###01 Mar 2004 new variable
-meta#:#meta_training#:#Training###01 Mar 2004 new variable
-meta#:#meta_type#:#Type###01 Mar 2004 new variable
-meta#:#meta_typical_age_range#:#Typical Age Range###01 Mar 2004 new variable
-meta#:#meta_typical_learning_time#:#Typical Learning Time###01 Mar 2004 new variable
-meta#:#meta_unavailable#:#Unavailable###01 Mar 2004 new variable
-meta#:#meta_unix#:#Unix###01 Mar 2004 new variable
-meta#:#meta_value#:#Value###01 Mar 2004 new variable
-meta#:#meta_version#:#Version###01 Mar 2004 new variable
-meta#:#meta_very_difficult#:#Very Difficult###01 Mar 2004 new variable
-meta#:#meta_very_easy#:#Very Easy###01 Mar 2004 new variable
-meta#:#meta_very_high#:#Very High###01 Mar 2004 new variable
-meta#:#meta_very_low#:#Very Low###01 Mar 2004 new variable
-meta#:#meta_yes#:#Yes###01 Mar 2004 new variable
-search#:#search_all_results#:#All results###01 Mar 2004 new variable
-search#:#search_concatenation#:#Concatenation
-search#:#search_content#:#Page Content###01 Mar 2004 new variable
-search#:#search_dbk_content#:#Digital Library (content)###01 Mar 2004 new variable
-search#:#search_dbk_meta#:#Digital Library (meta data)###01 Mar 2004 new variable
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###01 Mar 2004 new variable
-search#:#search_group#:#Groups###01 Mar 2004 new variable
-search#:#search_in_result#:#Search within results###01 Mar 2004 new variable
-search#:#search_lm_content#:#Learning materials (content)###01 Mar 2004 new variable
-search#:#search_lm_meta#:#Learning materials (meta data)###01 Mar 2004 new variable
-search#:#search_meta#:#Meta data###01 Mar 2004 new variable
-search#:#search_minimum_three#:#Your search has to be at least three characters long###01 Mar 2004 new variable
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###01 Mar 2004 new variable
-search#:#search_move_to#:#Move to:###01 Mar 2004 new variable
-search#:#search_my_search_results#:#My search results###01 Mar 2004 new variable
-search#:#search_new_folder#:#New folder###01 Mar 2004 new variable
-search#:#search_no_category#:#You haven't selected any search category###01 Mar 2004 new variable
-search#:#search_no_match#:#Your search didn't match any results###01 Mar 2004 new variable
+meta#:#meta_language#:#Linguagem
+meta#:#meta_learner#:#Estudante
+meta#:#meta_learning_resource_type#:#Tipo de Recurso de Apredizagem
+meta#:#meta_lecture#:#Leitura
+meta#:#meta_lifecycle#:#Ciclo de vida
+meta#:#meta_linear#:#Linear
+meta#:#meta_local_file#:#Ficheiro Local
+meta#:#meta_location#:#Localização
+meta#:#meta_low#:#Baixo
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Gestor
+meta#:#meta_maximum_version#:#Versão Máxima
+meta#:#meta_medium#:#Médio
+meta#:#meta_meta_metadata#:#Meta-Metadados
+meta#:#meta_metadatascheme#:#Esquema de Metadados
+meta#:#meta_minimum_version#:#Versão Mínima
+meta#:#meta_mixed#:#Misturado
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-SO
+meta#:#meta_name#:#Nome
+meta#:#meta_narrative_text#:#Texto Narrativo
+meta#:#meta_networked#:#Em Rede
+meta#:#meta_new_element#:#Novo Elemento
+meta#:#meta_no#:#Não
+meta#:#meta_no_annotation#:#Nenhuns metadados disponíveis para a secção de Anotações.
+meta#:#meta_no_classification#:#Nenhuns metadados disponíveis para a secção de Classificações.
+meta#:#meta_no_educational#:#Nenhuns metadados disponíveis para a secção de Educação.
+meta#:#meta_no_lifecycle#:#Nenhuns metadados disponíveis para a secção de Ciclo de vida.
+meta#:#meta_no_meta_metadata#:#Nenhuns metadados disponíveis para a secção de Meta-Metadados.
+meta#:#meta_no_relation#:#Nenhuns metadados disponíveis para a secção de Relações.
+meta#:#meta_no_rights#:#Nenhuns metadados disponíveis para a secção de Direitos.
+meta#:#meta_no_technical#:#Nenhuns metadados disponíveis para a secção Técnica.
+meta#:#meta_none#:#Nenhum
+meta#:#meta_operating_system#:#Sistema Operativo
+meta#:#meta_or_composite#:#Composição Ou
+meta#:#meta_other#:#Outro
+meta#:#meta_other_plattform_requirements#:#Outros Requisitos da Plataforma
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_please_select#:#Por favor seleccione
+meta#:#meta_prerequisite#:#Pré-requisito
+meta#:#meta_problem_statement#:#Alegação do Problema
+meta#:#meta_publisher#:#Publicador
+meta#:#meta_purpose#:#Propósito
+meta#:#meta_questionnaire#:#Questionário
+meta#:#meta_reference#:#Referência
+meta#:#meta_references#:#Referências
+meta#:#meta_relation#:#Relação
+meta#:#meta_requirement#:#Requisito
+meta#:#meta_requires#:#Necessita
+meta#:#meta_resource#:#Recurso
+meta#:#meta_revised#:#Revisto
+meta#:#meta_rights#:#Direitos
+meta#:#meta_role#:#Papel
+meta#:#meta_school#:#Escola
+meta#:#meta_security_level#:#Nível de Segurança
+meta#:#meta_self_assessment#:#Auto Avaliação
+meta#:#meta_semantic_density#:#Densidade Semântica
+meta#:#meta_simulation#:#Simulação
+meta#:#meta_size#:#Tamanho
+meta#:#meta_skill_level#:#Nível de Competência
+meta#:#meta_slide#:#Slide
+meta#:#meta_source#:#Fonte
+meta#:#meta_status#:#Estado
+meta#:#meta_structure#:#Estrutura
+meta#:#meta_table#:#Tabela
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_taxon_path#:#Caminho para o Taxon
+meta#:#meta_teacher#:#Professor
+meta#:#meta_technical#:#Técnico
+meta#:#meta_title#:#Título
+meta#:#meta_training#:#Estudo
+meta#:#meta_type#:#Tipo
+meta#:#meta_typical_age_range#:#Alcance de Idades Típico
+meta#:#meta_typical_learning_time#:#Tempo de Aprendizagem Típico
+meta#:#meta_unavailable#:#Indisponível
+meta#:#meta_unix#:#Unix
+meta#:#meta_value#:#Valor
+meta#:#meta_version#:#Versão
+meta#:#meta_very_difficult#:#Muito Díficil
+meta#:#meta_very_easy#:#Muito Fácil
+meta#:#meta_very_high#:#Muito Alto
+meta#:#meta_very_low#:#Muito Baixo
+meta#:#meta_yes#:#Sim
+search#:#search_all_results#:#Todos os resultados
+search#:#search_concatenation#:#Concatenação
+search#:#search_content#:#Conteúdo da Página
+search#:#search_dbk_content#:#Biblioteca Digital (conteúdo)
+search#:#search_dbk_meta#:#Biblioteca Digital (meta dados)
+search#:#search_delete_sure#:#O objecto e os seus conteúdos serão apagados permanentemente
+search#:#search_group#:#Grupos
+search#:#search_in_result#:#Procurar dentro dos resultados
+search#:#search_lm_content#:#Materiais de Apredizagem (conteúdo)
+search#:#search_lm_meta#:#Materiais de Apredizagem (meta dados)
+search#:#search_meta#:#Meta dados
+search#:#search_minimum_three#:#A sua procura tem de ter pelo menos três caracteres
+search#:#search_move_folder_not_allowed#:#A pasta não pode ser movida.
+search#:#search_move_to#:#Mover para:
+search#:#search_my_search_results#:#Os meus resultados de procuras
+search#:#search_new_folder#:#Nova pasta
+search#:#search_no_category#:#Você não seleccionou nenhuma categoria de procura
+search#:#search_no_match#:#A sua procura não coincidiu com nenhuns resultados
 search#:#search_no_results_saved#:#Nenhuns resultados guardados.
 search#:#search_no_search_term#:#Você não seleccionou nenhum termo de procura
 search#:#search_no_selection#:#Você não fez nenhuma selecção.
@@ -2235,7 +2235,7 @@ search#:#search_rename_title#:#Renomear título
 search#:#search_results_saved#:#Resultados da procura guardados
 search#:#search_save_as_select#:#Guardar como:
 search#:#search_search_for#:#Procurar por
-search#:#search_search_no_results_saved#:#Não existem resultados de procura guardados
+search#:#search_search_no_results_saved#:#Não existem resultados de procuras guardados
 search#:#search_search_results#:#Resultados da procura
 search#:#search_search_term#:#Termo de procura
 search#:#search_select_exactly_one_object#:#Você tem de seleccionar exactamente um objecto.
@@ -2244,5 +2244,5 @@ search#:#search_select_one_action#:#--Seleccione uma acção--
 search#:#search_select_one_folder_select#:#--Seleccione uma pasta--
 search#:#search_select_one_result#:#Seleccione pelo menos um resultado da procura
 search#:#search_select_one_select#:#--Seleccione uma pasta--
-search#:#search_show_result#:#Mostra
+search#:#search_show_result#:#Mostrar
 search#:#search_user#:#Utilizadores
