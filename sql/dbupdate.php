@@ -1595,3 +1595,42 @@ CREATE TABLE `qpl_questions` (
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`question_id`)
 ) TYPE=MyISAM;
+
+<#101>
+<?php
+
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'chat', 'Chat object', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// INSERT NEW OPERATIONS
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','6')";
+$this->db->query($query);
+
+
+// ADD NEW OPERATION create_chat
+$query = "INSERT INTO rbac_operations VALUES('29','create_chat','create chat object')";
+$this->db->query($query);
+
+// ADD CREATE PERMISSION FOR TYPE 'cat','grp'
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND ( title = 'cat' OR title = 'grp') ";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	echo $row->obj_id;
+	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','29')";
+	$this->db->query($query);
+}
+?>
