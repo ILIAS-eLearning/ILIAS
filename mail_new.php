@@ -15,7 +15,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");
 
-$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$myMails = new UserMail($ilias->account->Id);
 
 if ($_POST["msg_send"] != "")
 {

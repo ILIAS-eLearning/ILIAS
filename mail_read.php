@@ -16,7 +16,7 @@ if ($_GET["id"]=="")
 	header("location: mail.php");
 
 //get the mail from user
-$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$myMails = new UserMail($ilias->account->Id);
 
 $mail = $myMails->getOneMail($id);
 

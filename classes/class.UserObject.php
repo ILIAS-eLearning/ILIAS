@@ -147,7 +147,7 @@ class UserObject extends Object
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
-			$user = new User($this->ilias->db,$_GET["obj_id"]);
+			$user = new User($_GET["obj_id"]);
 			
 			$tplContent = new Template("user_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);

@@ -32,7 +32,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 //mails
-$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$myMails = new UserMail($ilias->account->Id);
 $mails = $myMails->getMail();
 
 //last visited lessons
