@@ -5,11 +5,13 @@
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>
+			<ilLMMenu />
 		</StructureObject>
 		<PageObject template="tpl.page.html" template_location="module">
 			<ilPage/>
 			<ilLMNavigation/>
 			<ilLocator/>
+			<ilLMMenu />
 		</PageObject>
 	</ilFrame>
 	<ilLinkTargets>

@@ -288,7 +288,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
 
-		$tpl_menu->setCurrentBlock("btn_cell");		
+		$tpl_menu->setCurrentBlock("btn_cell");
 
 		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?frame=maincontent&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("back"));
@@ -298,53 +298,53 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$tpl_menu->parseCurrentBlock();
 
 		return $tpl_menu->get();
-	}		
+	}
 
 
     function setilLMMenu()
 	{
-		
+//echo "<br>ObjDlBookGUI->setilLMMenu()";
 		include_once("./classes/class.ilTemplate.php");
 
-		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
+		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, true);
 
-		$tpl_menu->setCurrentBlock("btn_cell");		
+		$tpl_menu->setCurrentBlock("lm_menu_btn");
 /*
 		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("export") );
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
-*/		
+*/
 
-        if ($_POST["action"]=="details" && count($_POST["target"])==1) 
-        {
-            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
-            $tpl_menu->parseCurrentBlock();
-    
-            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print"));
-            $tpl_menu->parseCurrentBlock();
-        }
-        else 
-        {
-            
-            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
-            // $tpl_menu->setVariable("BTN_TARGET","...");
-            $tpl_menu->parseCurrentBlock();
-    
-            $tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-            $tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print") );
-            // $tpl_menu->setVariable("BTN_TARGET","...");
-            $tpl_menu->parseCurrentBlock();
+		if ($_POST["action"]=="details" && count($_POST["target"])==1)
+		{
+			$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
+			$tpl_menu->parseCurrentBlock();
 
-        }
+			$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=exportbibinfo&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print"));
+			$tpl_menu->parseCurrentBlock();
+		}
+		else
+		{
+
+			$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("download"));
+			// $tpl_menu->setVariable("BTN_TARGET","...");
+			$tpl_menu->parseCurrentBlock();
+
+			$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&print=1&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("print") );
+			// $tpl_menu->setVariable("BTN_TARGET","...");
+			$tpl_menu->parseCurrentBlock();
+
+		}
 		$tpl_menu->setCurrentBlock("btn_row");
 		$tpl_menu->parseCurrentBlock();
 
 		return $tpl_menu->get();
-		
+
 	}
 
 	function properties()
