@@ -1904,6 +1904,47 @@ class ilUtil
 			return escapeshellarg($a_arg);
 		}
 	}
+	
+	/*
+	* Calculates a Microsoft Excel date/time value
+	*
+	* Calculates a Microsoft Excel date/time value (nr of days after 1900/1/1 0:00) for
+	* a given date and time. The function only accepts dates after 1970/1/1, because the
+	* unix timestamp functions used in the function are starting with that date.
+	* If you don't enter parameters the date/time value for the actual date/time
+	* will be calculated.
+	*
+	* static function 
+	*
+	* @param	integer $year Year
+	* @param	integer $month Month
+	* @param	integer $day Day
+	* @param	integer $hour Hour
+	* @param	integer $minute Minute
+	* @param	integer $second Second
+	* @return float The Microsoft Excel date/time value
+	* @access	public
+	*/
+	function excelTime($year = "", $month = "", $day = "", $hour = "", $minute = "", $second = "")
+	{
+		$starting_time = mktime(0, 0, 0, 1, 1, 1970);
+		if (strcmp("$year$month$day$hour$minute$second", "") == 0)
+		{
+			$target_time = time();
+		}
+		else
+		{
+			if ($year < 1970)
+			{
+				return 0;			
+			}
+		}
+		$target_time = mktime($hour, $minute, $second, $month, $day, $year);
+		$difference = $target_time - $starting_time;
+		$days = (($difference - ($difference % 86400)) / 86400); 
+		$difference = $difference - ($days * 86400) + 3600; 
+		return ($days + 25569 + ($difference / 86400));
+	}
 
 } // END class.ilUtil
 ?>
