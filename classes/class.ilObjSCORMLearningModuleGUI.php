@@ -137,7 +137,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		ilUtil::unzip($file_path);
 
 		//validate the XML-Files in the SCORM-Package
-		$newObj->validate($newObj->getDataDirectory());
+		//$newObj->validate($newObj->getDataDirectory());
 
 		// start SCORM package parser
 		include_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
