@@ -295,6 +295,7 @@ common#:#news#:#News
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_checkbox#:#No checkbox checked!
+common#:#no_date#:#No date
 common#:#no_objects#:#No objects
 common#:#no_title#:#No Title
 common#:#none#:#None
@@ -455,4 +456,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#no_date#:#No date
