@@ -21,11 +21,47 @@
         +-----------------------------------------------------------------------------+
 */
 class ilObjSCORMValidator {
+	var $dir,$flag,$summary;
+
+	function validateXML($file) {
+        	$error = system("/usr/local/java/bin/java -jar /opt/ilias/www/htdocs/ilias3/java/vali.jar ".$file." 2>&1");
+        	if (!$error) {
+                	$this->summary .= $file." is ok!<br>";
+        	} else {
+			$this->summary .= $file." is not valid!<br>Errormessage is:<br>".$error;
+		}
+	}
+                                                                                                                             
+	function searchDir($dir) {
+        	if (is_dir($dir)) {
+                	if ($dh = opendir($dir)) {
+                        	while (($file = readdir($dh)) !== false) {
+                        		if (!eregi("^[\.]{1,2}",$file)) {
+                        			//2DO FIXME regex machen dass nur . und .. erkannt werden und nicht .lala. oder so
+                                		if (is_dir($dir.$file)) {
+							//$this->searchDir($dir.$file."/");
+                                		}
+                                		if (eregi("(\.xml)$",$file)) {
+                                        		$this->validateXML($dir.$file);
+                                		}
+					}
+                        	}
+                	}
+                	closedir($dh);
+        	}
+	}
+                                                                                                                             
 	function ilObjSCORMValidator($directory) {
+		$this->dir = $directory.'/';
 	}
 
 	function validate() {
-		return true;
+		$this->searchDir($this->dir);
+		return $this->flag;
+	}
+
+	function getSummary() {
+		return $this->summary;
 	}
 }
 
