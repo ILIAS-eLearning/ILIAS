@@ -4336,3 +4336,56 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 #
 
 DROP  TABLE `qpl_question_material`;
+
+<#262>
+<?php
+
+  // INSERT TYPE ENTRY
+$query = "INSERT object_data VALUES('','typ','pays','Payment settings',-1,NOW(),NOW(),'')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$type_id = $row[0];
+
+$query = "INSERT INTO object_data VALUES('','pays','Payment settings','Payment settings',-1,NOW(),NOW(),'')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$obj_id = $row[0];
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$ref_id = $row[0];
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+?>
+<#263>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'pays'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','1')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','2')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','3')";
+$this->db->query($query);
+
+$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','4')";
+$this->db->query($query);
+?>

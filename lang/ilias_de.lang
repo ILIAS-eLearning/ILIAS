@@ -3604,3 +3604,9 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+common#:#pays_edit_permission#:#Rechteeinstellungen ändern
+common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
+common#:#pays_read#:#Lesezugrif auf Paymenteinstellungen
+common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
+common#:#obj_pays#:#Paymenteinstellungen
+common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
