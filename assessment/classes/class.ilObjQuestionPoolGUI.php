@@ -175,10 +175,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"])) {
       $missing_required_fields = $question_gui->set_question_data_from_template($question_type);
     }
+		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
+			$in_use = $question->is_in_use();
+			if ($in_use) {
+				// ???do you really want to delete the test data???
+				// either use a session variable and store $question
+				// or collect all GET's and POST's and build new form to submit that data
+			}
+		}
+		
     if (strlen($_POST["cmd"]["save"]) > 0) {
       // Save and back to question pool
       if (!$missing_required_fields) {
         $question->save_to_db();
+				// remove all references to the question in test solutions
+				$question->remove_all_question_references();
         $this->cancel_action($question->get_id());
         exit();
       } else {
@@ -189,6 +200,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       // Save and continue editing
       if (!$missing_required_fields) {
         $question->save_to_db();
+				// remove all references to the question in test solutions
+				$question->remove_all_question_references();
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
       }
@@ -258,6 +271,55 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->set_question_form($type, $_GET["edit"]);
 	}
 
+	function deleteQuestions($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", true);
+		$whereclause = join($checked_questions, " OR qpl_questions.question_id = ");
+		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					if ($this->object->is_in_use($data->question_id)) {
+						$this->tpl->setVariable("TXT_LOCKED", $img_locked);
+					}
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("TXT_LOCKED", $this->lng->txt("locked"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
   function questionsObject()
   {
     global $rbacsystem;
@@ -282,11 +344,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
-    $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
-    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
-    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
-
     $add_parameter = $this->get_add_parameter();
 
     // create an array of all checked checkboxes
@@ -317,10 +374,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       // delete button was pressed
       if (count($checked_questions) > 0) {
         if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-          foreach ($checked_questions as $key => $value) {
-            $this->object->delete_question($value);
-          }
-        } else {
+					sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
+					$this->deleteQuestions($checked_questions);
+					return;
+				} else {
           sendInfo($this->lng->txt("qpl_delete_rbac_error"));
         }
       } elseif (count($checked_questions) == 0) {
@@ -328,6 +385,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       }
     }
     
+		if (strlen($_POST["cmd"]["confirm_delete"]) > 0)
+		{
+			// delete questions after confirmation
+			sendInfo($this->lng->txt("qpl_questions_deleted"));
+			$checked_questions = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/id_(\d+)/", $key, $matches)) {
+					array_push($checked_questions, $matches[1]);
+				}
+			}
+      foreach ($checked_questions as $key => $value) {
+        $this->object->delete_question($value);
+      }
+		}
+
     if (strlen($_POST["cmd"]["duplicate"]) > 0) {
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
@@ -366,6 +438,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         sendInfo($this->lng->txt("qpl_export_select_none"));
       }
     }
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
+    $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
+    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
+    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
+
     
 /*    if (strlen($_POST["cmd"]["insert"]) > 0) {
       // insert button was pressed

@@ -158,6 +158,8 @@ assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
+assessment#:#qpl_questions_deleted#:#Question(s) deleted.
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question
