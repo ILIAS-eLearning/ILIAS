@@ -67,6 +67,13 @@ class ILIAS2To3Converter
 	var $luId;
 	
 	/**
+	* learninigunit installation id 
+	* @var		integer
+	* @access	private 
+	*/
+	var $luInst;
+	
+	/**
 	* ILIAS 2 base directory 
 	* @var		string
 	* @access	private 
@@ -348,7 +355,7 @@ class ILIAS2To3Converter
 				break;
 			
 			case "mc":  // TestItem
-				// no additional data available
+				// Todo: get additional data
 				break;
 			
 			case "glos": // Glossary
@@ -2172,9 +2179,10 @@ class ILIAS2To3Converter
 	/**
 	* Exports Learningunit 2 to ILIAS 3 LearningModule
 	* @param	integer	learningunit id
+	* @param	integer	learningunit installation id
 	* @access	private
 	*/
-	function exportLearningunit ($id)
+	function exportLearningunit ($id, $inst)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -2183,6 +2191,7 @@ class ILIAS2To3Converter
 		$sql =	"SELECT id ".
 				"FROM lerneinheit ".
 				"WHERE id = ".$id." ".
+				"AND inst = ".$inst." ".
 				"AND deleted = '0000-00-00 00:00:00';";
 		// get db result
 		$result = $this->dbQuery($sql, __FILE__, __LINE__);
@@ -2439,17 +2448,18 @@ class ILIAS2To3Converter
 	* @param	boolean	indent text (TRUE) or not (FALSE)
 	* @access	public
 	*/
-	function dumpLearningModuleFile ($luId, $format = TRUE)
+	function dumpLearningModuleFile ($luId, $luInst, $format = TRUE)
 	{
-		// set member var for Learningunit
+		// set member vars for Learningunit
 		$this->luId = $luId;
+		$this->luInst = $luInst;
 		
 		// get timestamp for names
 		$date = time();
 		
-		// set dir and file names *** an ilias2 export anpassen inkl. inst
-		$this->dir = $this->targetDir.$date."__lm__le_".$this->luId."/";
-		$this->file = $this->dir.$date."__lm__le_".$this->luId.".xml";
+		// set dir and file names (format: <timestamp>__<inst>__le_<id>__lm/)
+		$this->dir = $this->targetDir.$date."__".$this->luInst."__le_".$this->luId."__lm/";
+		$this->file = $this->dir.$date."__".$this->luInst."__le_".$this->luId."__lm.xml";
 		
 		// create dir
 		$this->utils->makeDir($this->dir);
@@ -2470,14 +2480,14 @@ class ILIAS2To3Converter
 		$this->xml->xmlHeader();
 		
 		// create ILIAS 3 LearningModule out of ILIAS 2 Learningunit
-		$this->exportLearningunit($this->luId);
+		$this->exportLearningunit($this->luId, $this->luInst);
 		
 		// dump xml document to screen ***
 		echo "<PRE>";
 		echo htmlentities($this->xml->xmlDumpMem($format));
 		echo "</PRE>";
 		
-		// dump xml document to file ***
+		// dump xml document to file
 		$this->xml->xmlDumpFile($this->file, $format);
 		
 		// destroy writer object
