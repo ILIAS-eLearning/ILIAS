@@ -127,11 +127,11 @@ assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbei
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
 assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#duplicate#:#Duplizieren
-assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
-assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
+assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
+assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
-assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
+assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
