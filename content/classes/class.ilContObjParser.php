@@ -100,6 +100,7 @@ class ilContObjParser extends ilSaxParser
 		$this->pg_into_tree = array();
 		$this->pages_with_int_links = array();
 		$this->mob_mapping = array();
+		$this->pg_mapping = array();
 		$this->subdir = $a_subdir;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
@@ -304,7 +305,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BEGIN_TAG:".$a_name.": ";
+//echo "BEGIN_TAG:".$a_name.": <br>";
 		switch($a_name)
 		{
 			case "ContentObject":

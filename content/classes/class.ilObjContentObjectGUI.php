@@ -1007,7 +1007,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$target = $_POST["id"][0];
 		}
 
-		$tree->insertNode($id, $tree->getRootId(), $target);
+		if (!$tree->isInTree($id))
+		{
+			$tree->insertNode($id, $tree->getRootId(), $target);
+		}
 
 		foreach ($subnodes as $node)
 		{
