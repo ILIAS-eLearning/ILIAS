@@ -259,6 +259,7 @@ common#:#glo_added#:#Added glossary
 common#:#glo_new#:#New Glossary
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
+common#:#group_access_denied#:#Access Denied
 common#:#group_any_objects#:#No Subobjects available
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
