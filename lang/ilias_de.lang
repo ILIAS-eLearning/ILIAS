@@ -2011,7 +2011,7 @@ common#:#tst_add#:#Test anfügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
-common#:#tst_read#:#Lesezugriff zu Test
+common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
