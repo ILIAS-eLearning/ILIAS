@@ -273,7 +273,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		$tpl_menu->setCurrentBlock("btn_cell");		
 
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?frame=maincontent&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("back"));
 		$tpl_menu->parseCurrentBlock();
 
