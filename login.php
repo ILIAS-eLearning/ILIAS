@@ -177,7 +177,7 @@ if($_GET['time_limit'])
 }
 
 $tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-$tpl->setVariable("USERNAME", $_GET["username"]);
+$tpl->setVariable("USERNAME", $_POST["username"]);
 $tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
 
 $tpl->show(false);
