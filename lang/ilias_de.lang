@@ -61,7 +61,6 @@ common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
-common#:#copy_of#:#Kopie von
 common#:#attachments#:#Attachments
 common#:#author#:#Autor
 common#:#authors#:#Autoren
@@ -125,6 +124,7 @@ common#:#cont_object#:#Object###15 Sep 2003 new variable
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
+common#:#copy_of#:#Kopie von
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
@@ -836,6 +836,7 @@ content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bi
 content#:#cont_citations#:#Zitate
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
+content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
@@ -845,6 +846,7 @@ content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details###19 Sep 2003 new variable
+content#:#cont_dir_file#:#Directory/File###22 Oct 2003 new variable
 content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
@@ -922,6 +924,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_publisher#:#Herausgeber
+content#:#cont_purpose#:#Purpose###22 Oct 2003 new variable
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Referenz
 content#:#cont_resource#:#Ressource
@@ -944,6 +947,7 @@ content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
+content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_std_view#:#Standardsicht
@@ -962,6 +966,7 @@ content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
+content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Veröffentlichungsort

@@ -124,6 +124,7 @@ common#:#cont_object#:#Oggetto###15 Sep 2003 new variable
 common#:#contact_data#:#Dati personali###25 Mar 2003 new variable
 common#:#context#:#Contesto
 common#:#copy#:#Copia
+common#:#copy_of#:#Copy of###22 Oct 2003 new variable
 common#:#country#:#Nazione
 common#:#course#:#Corso
 common#:#courses#:#Corsi
@@ -832,6 +833,7 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09
 content#:#cont_citations#:#Citations###09 Oct 2003 new variable
 content#:#cont_content#:#Contenuto###12 May 2003 new variable
 content#:#cont_content_obj#:#Contenuto dell&acute;oggetto###10 Sep 2003 new variable
+content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
 content#:#cont_cross_reference#:#Riferimento incrociato###19 Sep 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Layout predefinito###01 Jul 2003 new variable
@@ -841,6 +843,7 @@ content#:#cont_definitions#:#Definizioni###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Assegnamento cancellato###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dipendenze###04 Aug 2003 new variable
 content#:#cont_details#:#Dettagli###19 Sep 2003 new variable
+content#:#cont_dir_file#:#Directory/File###22 Oct 2003 new variable
 content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Modifica oggetto multimediale###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Modifica propriet&agrave; dell&acute;istanza dell&acute;oggetto multimediale###04 Aug 2003 new variable
@@ -917,6 +920,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
 content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
 content#:#cont_preview#:#Anteprima###07 Jun 2003 new variable
 content#:#cont_publisher#:#Editore###19 Sep 2003 new variable
+content#:#cont_purpose#:#Purpose###22 Oct 2003 new variable
 content#:#cont_ref_helptext#:#(cio&egrave; http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
 content#:#cont_reference#:#Riferimento###04 Aug 2003 new variable
 content#:#cont_resource#:#Risorsa###04 Aug 2003 new variable
@@ -939,6 +943,7 @@ content#:#cont_set_class#:#Imposta classe###11 Jun 2003 new variable
 content#:#cont_set_width#:#Imposta larghezza###11 Jun 2003 new variable
 content#:#cont_show#:#Mostra###19 Sep 2003 new variable
 content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
+content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Sorgente###13 Sep 2003 new variable
 content#:#cont_st_title#:#Titolo capitolo###16 Jul 2003 new variable
 content#:#cont_std_view#:#Vista standard###04 Aug 2003 new variable
@@ -957,6 +962,7 @@ content#:#cont_toc#:#Tabella dei contenuti###20 Aug 2003 new variable
 content#:#cont_top#:#Alto###11 Jun 2003 new variable
 content#:#cont_translations#:#Traduzione(i)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata###26 Sep 2003 new variable
+content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#Versione###04 Aug 2003 new variable
 content#:#cont_where_published#:#Dove pubblicata###19 Sep 2003 new variable

@@ -45,7 +45,6 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
-common#:#copy_of#:#Copy of
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
@@ -125,6 +124,7 @@ common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
 common#:#context#:#Context
 common#:#copy#:#Copy
+common#:#copy_of#:#Copy of
 common#:#country#:#Country
 common#:#course#:#Course
 common#:#courses#:#Courses
@@ -806,11 +806,6 @@ content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
-content#:#cont_create_dir#:#Create Directory
-content#:#cont_upload_file#:#Upload File
-content#:#cont_dir_file#:#Directory/File
-content#:#cont_size#:#Size
-content#:#cont_purpose#:#Purpose
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
@@ -841,6 +836,7 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
+content#:#cont_create_dir#:#Create Directory
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
@@ -850,6 +846,7 @@ content#:#cont_definitions#:#Definitions
 content#:#cont_del_assignment#:#Delete assignment
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details
+content#:#cont_dir_file#:#Directory/File
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
@@ -927,6 +924,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
 content#:#cont_publisher#:#Publisher
+content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
 content#:#cont_resource#:#Resource
@@ -949,6 +947,7 @@ content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
+content#:#cont_size#:#Size
 content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_view#:#Standard View
@@ -967,6 +966,7 @@ content#:#cont_toc#:#Table of Contents
 content#:#cont_top#:#Top
 content#:#cont_translations#:#Translation(s)
 content#:#cont_translations_assigned#:#The translation(s) have been assigned
+content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Where published

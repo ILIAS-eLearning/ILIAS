@@ -124,6 +124,7 @@ common#:#cont_object#:#Object###15 Sep 2003 new variable
 common#:#contact_data#:#Contact Information###25 Mar 2003 new variable
 common#:#context#:#context
 common#:#copy#:#copy
+common#:#copy_of#:#Copy of###22 Oct 2003 new variable
 common#:#country#:#country
 common#:#course#:#course
 common#:#courses#:#courses
@@ -832,6 +833,7 @@ content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09
 content#:#cont_citations#:#Citations###09 Oct 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
+content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
 content#:#cont_cross_reference#:#Cross reference###19 Sep 2003 new variable
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
@@ -841,6 +843,7 @@ content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Delete assignment###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
 content#:#cont_details#:#Details###19 Sep 2003 new variable
+content#:#cont_dir_file#:#Directory/File###22 Oct 2003 new variable
 content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
@@ -917,6 +920,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
 content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
 content#:#cont_publisher#:#Publisher###19 Sep 2003 new variable
+content#:#cont_purpose#:#Purpose###22 Oct 2003 new variable
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
 content#:#cont_reference#:#Reference###04 Aug 2003 new variable
 content#:#cont_resource#:#Resource###04 Aug 2003 new variable
@@ -939,6 +943,7 @@ content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_show#:#Show###19 Sep 2003 new variable
 content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
+content#:#cont_size#:#Size###22 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
 content#:#cont_std_view#:#Standard View###04 Aug 2003 new variable
@@ -957,6 +962,7 @@ content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable
+content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable
 content#:#cont_where_published#:#Where published###19 Sep 2003 new variable
