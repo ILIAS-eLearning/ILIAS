@@ -108,13 +108,13 @@ class ilExplorer
 	*/
 	function setOutput($a_parent_id, $a_depth = 1)
 	{
+		global $rbacadmin, $rbacsystem;
+		static $counter = 0;
+
 		if (!isset($a_parent_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
-
-		global $rbacadmin, $rbacsystem;
-		static $counter = 0;
 
 		$objects = $this->tree->getChilds($a_parent_id,"title");
 		
@@ -128,11 +128,10 @@ class ilExplorer
 				//ask for FILTER
 				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
-					if ($rbacsystem->checkAccess('visible',$object["child"]))
+					if ($rbacsystem->checkAccess("visible",$object["child"]))
 					{
 						if ($object["child"] != 1)
 						{
-							//$data = $this->tree->getParentNodeData($object["child"]);
 							$parent_index = $this->getIndex($object);
 						}
 

@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.8 2003/04/25 18:18:09 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.9 2003/04/29 07:33:18 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -17,7 +17,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	/**
 	* Constructor
 	*
-	* @access public
+	* @access	public
 	*/
 	function ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference)
 	{
@@ -25,24 +25,33 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
 
-
+	/**
+	* view object
+	*
+	* @access	public
+	*/
 	function viewObject()
 	{
 		global $rbacsystem, $tree, $tpl;
 
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+	
 		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);
-
+	
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-
+	
 		$this->data["cols"] = array("", "view", "title", "description", "last_change");
 
 		$lo_childs = $lotree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
 		foreach ($lo_childs as $key => $val)
-	    {
+		{
 			// visible
 			//if (!$rbacsystem->checkAccess("visible",$val["id"]))
 			//{
@@ -50,24 +59,29 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			//}
 			//visible data part
 			$this->data["data"][] = array(
-				"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
-				"title" => $val["title"],
-				"description" => $val["desc"],
-				"last_change" => $val["last_update"]
-			);
-
+					"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+	
 			//control information
 			$this->data["ctrl"][] = array(
-				"type" => $val["type"],
-				"ref_id" => $_GET["ref_id"],
-				"lm_id" => $_GET["obj_id"],
-				"lo_id" => $val["child"]
-			);
+					"type" => $val["type"],
+					"ref_id" => $_GET["ref_id"],
+					"lm_id" => $_GET["obj_id"],
+					"lo_id" => $val["child"]
+				);
 	    } //foreach
-
+	
 		parent::displayList();
 	}
 
+	/**
+	* export object
+	*
+	* @access	public
+	*/
 	function exportObject()
 	{
 		return;
@@ -76,7 +90,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	/**
 	* display dialogue for importing XML-LeaningObjects
 	*
-	*  @access	public
+	* @access	public
 	*/
 	function importObject()
 	{

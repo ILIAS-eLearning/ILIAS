@@ -25,12 +25,19 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 	/**
 	* list childs of current object
+	*
+	* @access	public
 	*/
 	function viewObject()
 	{
 		global $tree, $rbacsystem;
 
-	    $this->getTemplateFile("view");
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+    	$this->getTemplateFile("view");
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
@@ -52,84 +59,82 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
 			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"].
-				"&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
+					"&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
+		if ($list = getObjectList("typ",$_GET["order"],$_GET["direction"]))
 		{
-			if ($list = getObjectList("typ",$_GET["order"],$_GET["direction"]))
+			foreach ($list as $key => $obj)
 			{
-				foreach ($list as $key => $obj)
+				$num++;
+
+				// color changing
+				$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
+
+				// surpress checkbox for particular object types
+				if (!$this->objDefinition->hasCheckbox($obj["type"]))
 				{
-					$num++;
-
-					// color changing
-					$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
-
-					// surpress checkbox for particular object types
-					if (!$this->objDefinition->hasCheckbox($obj["type"]))
-					{
-						$this->tpl->touchBlock("empty_cell");
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("checkbox");
-						$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
-						$this->tpl->setVariable("CSS_ROW", $css_row);
-						$this->tpl->parseCurrentBlock();
-					}
-
-					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->touchBlock("empty_cell");
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("checkbox");
+					$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
+				}
 
-					//data
-					$data = array(
-							"type" => ilUtil::getImageTagByType("type",$this->tpl->tplPath),
-							"name" => $obj["title"],
-							"description" => $obj["desc"],
-							"last_change" => ilFormat::formatDate($obj["last_update"]));
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->parseCurrentBlock();
 
-					foreach ($data as $key => $val)
+				//data
+				$data = array(
+						"type" => ilUtil::getImageTagByType("type",$this->tpl->tplPath),
+						"name" => $obj["title"],
+						"description" => $obj["desc"],
+						"last_change" => ilFormat::formatDate($obj["last_update"])
+						);
+
+				foreach ($data as $key => $val)
+				{
+					//build link
+					$link = "adm_object.php?";
+
+					if ($_GET["type"] == "lo" && $key == "type")
 					{
-						//build link
-						$link = "adm_object.php?";
+						$link = "lo_view.php?";
+					}
+
+					$link.= "&type=typ&obj_id=".$obj["obj_id"]."&ref_id=".$_GET["ref_id"];
+
+					if ($key == "title" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
 
 						if ($_GET["type"] == "lo" && $key == "type")
 						{
-							$link = "lo_view.php?";
+							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
 						}
 
-						$link.= "&type=typ&obj_id=".$obj["obj_id"]."&ref_id=".$_GET["ref_id"];
-
-						if ($key == "title" || $key == "type")
-						{
-							$this->tpl->setCurrentBlock("begin_link");
-							$this->tpl->setVariable("LINK_TARGET", $link);
-
-							if ($_GET["type"] == "lo" && $key == "type")
-							{
-								$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
-							}
-
-							$this->tpl->parseCurrentBlock();
-							$this->tpl->touchBlock("end_link");
-						}
-
-						$this->tpl->setCurrentBlock("text");
-						$this->tpl->setVariable("TEXT_CONTENT", $val);
 						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("table_cell");
-						$this->tpl->parseCurrentBlock();
-					} //foreach
+						$this->tpl->touchBlock("end_link");
+					}
 
-					$this->tpl->setCurrentBlock("table_row");
-					$this->tpl->setVariable("CSS_ROW", $css_row);
+					$this->tpl->setCurrentBlock("text");
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
-				} //for
-			} //if is_array
-		}
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+				} //foreach
+
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+		} //if is_array
 		else
 		{
 			$this->tpl->setCurrentBlock("notfound");
