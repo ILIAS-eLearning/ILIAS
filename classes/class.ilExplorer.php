@@ -565,7 +565,6 @@ class ilExplorer
 	function formatObject($a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
-
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -608,6 +607,10 @@ class ilExplorer
 		{
 			$tpl->setCurrentBlock("icon");
 			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
+			
+			$this->iconList[] = "iconid_".$a_node_id;
+			
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 			$tpl->parseCurrentBlock();
 		}
