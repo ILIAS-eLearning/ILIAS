@@ -163,7 +163,7 @@ class ilObjTestGUI extends ilObjectGUI
 			} else {
 				$data["enable_processing_time"] = "0";
 			}
-			if ($_POST["processing_time"]["s"]) {
+			if ($data["enable_processing_time"]) {
 				$data["processing_time"] = sprintf("%02d:%02d:%02d",
 					$_POST["processing_time"]["h"],
 					$_POST["processing_time"]["m"],
@@ -1215,6 +1215,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
+		$maxprocessingtimereached = 0;
 
 		// catch feedback message
 		sendInfo();
@@ -1224,8 +1225,14 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($_SESSION["active_time_id"]) {
 				$this->object->updateWorkingTime($_SESSION["active_time_id"]);
 			}
+			if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
+			{
+				// maximum processing time reached
+				$maxprocessingtimereached = 1;
+			}
+			
 			// save question solution
-			if (!($this->object->endingTimeReached() and ($this->object->getTestType == TYPE_ASSESSMENT)))
+			if (!($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT)) and (!$maxprocessingtimereached))
 			{
 				// but only if the ending time is not reached
 				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
@@ -1355,14 +1362,21 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
 			}
 			$introduction = $this->object->getIntroduction();
-			$introduction = preg_replace("/0n/i", "<br />", $introduction);
+			$introduction = preg_replace("/\n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
 		} else {
-			if ($this->object->endingTimeReached() and ($this->object->getTestType == TYPE_ASSESSMENT))
+			if ($this->object->endingTimeReached() and ($this->object->getTestType() == TYPE_ASSESSMENT))
 			{
-				sendInfo($this->lng->txt("detail_ending_time_reached"));
+				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+				$this->object->setActiveTestUser(1, "", true);
+				$this->outTestResults();
+				return;
+			}
+			if ($maxprocessingtimereached)
+			{
+				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
 				$this->object->setActiveTestUser(1, "", true);
 				$this->outTestResults();
 				return;

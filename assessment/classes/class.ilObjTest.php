@@ -1027,6 +1027,27 @@ class ilObjTest extends ilObject
   function getProcessingTime() {
     return $this->processing_time;
   }
+	
+/**
+* Returns the processing time for the test in seconds
+* 
+* Returns the processing time for the test in seconds
+*
+* @return integer The processing time for the test in seconds
+* @access public
+* @see $processing_time
+*/
+	function getProcessingTimeInSeconds()
+	{
+		if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $this->getProcessingTime(), $matches))
+		{
+			return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3];
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
 /**
 * Returns the state of the processing time (enabled/disabled)
@@ -2356,7 +2377,7 @@ class ilObjTest extends ilObject
 				$now = mktime();
 				if ($now < $epoch_time) 
 				{
-					// starting time not reachd
+					// starting time not reached
 					return false;
 				}
 			}
@@ -2382,14 +2403,14 @@ class ilObjTest extends ilObject
 				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches);
 				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
-				if ($now < $epoch_time) 
+				if ($now > $epoch_time) 
 				{
-					// starting time not reachd
-					return false;
+					// ending time reached
+					return true;
 				}
 			}
 		}
-		return true;
+		return false;
 	}		
 	
 /**
