@@ -889,11 +889,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 *
 * Displays the definition form for a question block
 *
+* @param integer $questionblock_id The database id of the questionblock to edit an existing questionblock
 * @access public
 */
-	function defineQuestionblock()
+	function defineQuestionblock($questionblock_id = "")
 	{
 		sendInfo();
+		if ($questionblock_id)
+		{
+			$questionblock = $this->object->getQuestionblock($questionblock_id);
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
 		foreach ($_POST as $key => $value)
 		{
@@ -905,13 +910,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		if ($questionblock_id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "questionblock_id");
+			$this->tpl->setVariable("HIDDEN_VALUE", $questionblock_id);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("obligatory");
 		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		if ($questionblock_id)
+		{
+			if ($questionblock["obligatory"])
+			{
+				$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+			}
+		}
+		else
+		{
+			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
+		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		if ($questionblock_id)
+		{
+			$this->tpl->setVariable("VALUE_TITLE", $questionblock["title"]);
+		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -1327,6 +1353,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
+		if ($_GET["editblock"])
+		{
+			$this->defineQuestionblock($_GET["editblock"]);
+			return;
+		}
+		
 		if ($_POST["cmd"]["questionblock"])
 		{
 			$questionblock = array();
@@ -1372,15 +1404,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if ($_POST["title"])
 			{
-				$questionblock = array();
-				foreach ($_POST as $key => $value)
+				if ($_POST["questionblock_id"])
 				{
-					if (preg_match("/cb_(\d+)/", $key, $matches))
-					{
-						array_push($questionblock, $value);
-					}
+					$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]), $_POST["obligatory"]);
 				}
-				$this->object->createQuestionblock($_POST["title"], $_POST["obligatory"], $questionblock);
+				else
+				{
+					$questionblock = array();
+					foreach ($_POST as $key => $value)
+					{
+						if (preg_match("/cb_(\d+)/", $key, $matches))
+						{
+							array_push($questionblock, $value);
+						}
+					}
+					$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $_POST["obligatory"], $questionblock);
+				}
 			}
 		}
 
@@ -1591,6 +1630,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("block");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
+						$this->tpl->setVariable("HREF_EDIT", $_SERVER['PHP_SELF'] . "$add_parameter&editblock=" . $data["questionblock_id"]);
+					}
 					if (count($data["constraints"]))
 					{
 						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
@@ -1621,7 +1664,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
 				}
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				if (!$data["questionblock_id"])
 				{
@@ -1697,7 +1739,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_CONSTRAINTS", $this->lng->txt("constraints"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("spl"));
+		$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 
     if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));

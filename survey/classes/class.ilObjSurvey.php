@@ -1514,6 +1514,25 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
+* Returns the database row for a given question block
+* 
+* Returns the database row for a given question block
+*
+* @param integer $questionblock_id The database id of the question block
+* @result array The database row of the question block
+* @access public
+*/
+	function getQuestionblock($questionblock_id)
+	{
+		$query = sprintf("SELECT * FROM survey_questionblock WHERE questionblock_id = %s",
+			$this->ilias->db->quote($questionblock_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row;
+	}
+	
+/**
 * Creates a question block for the survey
 * 
 * Creates a question block for the survey
@@ -1558,6 +1577,34 @@ class ilObjSurvey extends ilObject
 				$this->deleteConstraints($index);
 			}
 		}
+	}
+	
+/**
+* Modifies a question block
+* 
+* Modifies a question block
+*
+* @param integer $questionblock_id The database id of the question block
+* @param string $title The title of the question block
+* @param boolean $obligatory True, if the question block is obligatory, otherwise false
+* @access public
+*/
+	function modifyQuestionblock($questionblock_id, $title, $obligatory)
+	{
+		if ($obligatory)
+		{
+			$obligatory = 1;
+		}
+		else
+		{
+			$obligatory = 0;
+		}
+		$query = sprintf("UPDATE survey_questionblock SET title = %s, obligatory = %s WHERE questionblock_id = %s",
+			$this->ilias->db->quote($title),
+			$this->ilias->db->quote("$obligatory"),
+			$this->ilias->db->quote($questionblock_id)
+		);
+		$result = $this->ilias->db->query($query);
 	}
 	
 /**
