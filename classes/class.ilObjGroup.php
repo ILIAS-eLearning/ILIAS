@@ -292,17 +292,17 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	integer [ 0 = no registration| 1 = registration]
 	*/
-	function setRegistrationFlag($a_regFlag)
+	function setRegistrationFlag($a_regFlag="")
 	{
 		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
 		$res = $this->ilias->db->query($q);
 	
-		if($a_regFlag != 1) 
+		if(!isset($a_regFlag)) 
 			$a_regFlag = 0;
 		
 		if($res->numRows() == 0)
 		{
-			$q = "INSERT INTO grp_data VALUES(".$this->getId().",".$a_regFlag.")";
+			$q = "INSERT INTO grp_data (grp_id, register) VALUES(".$this->getId().",".$a_regFlag.")";
 			$res = $this->ilias->db->query($q);			
 		}
 		else
@@ -325,6 +325,122 @@ class ilObjGroup extends ilObject
 		return $row["register"];
 	}
 	
+	function getPassword()
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		return $row["password"];
+	}
+	
+	function setPassword($a_password="")
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+	
+//		if($a_password) 
+//			$a_passwordFlag = 0;
+		
+		if($res->numRows() == 0)
+		{
+			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".$this->getId().",'".$a_password."')";
+			$res = $this->ilias->db->query($q);			
+		}
+		else
+		{
+			$q = "UPDATE grp_data SET password='".$a_password."' WHERE grp_id=".$this->getId()."";
+			$res = $this->ilias->db->query($q);						
+		}
+	}
+	
+	function setExpirationDateTime($a_date)
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+//		echo "setExp:".$a_date;
+		$date = ilFormat::input2date($a_date);
+		
+		if($res->numRows() == 0)
+		{
+			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".$this->getId().",'".$date."')";
+			$res = $this->ilias->db->query($q);			
+		}
+		else
+		{
+			$q = "UPDATE grp_data SET expiration='".$date."' WHERE grp_id=".$this->getId()."";
+			$res = $this->ilias->db->query($q);						
+		}
+	}
+	
+	function getExpirationDateTime()
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		$datetime = $row["expiration"];
+//		echo "get:".ilFormat::fdateDB2dateDE($datetime);
+		$date = ilFormat::fdateDB2dateDE($datetime);
+		$time = substr($row["expiration"], -8);
+		$datetime = array(0=>$date, 1=>$time);
+		return $datetime;
+	}
+	
+	function registrationPossible()
+	{
+		//missing time !!!
+		$datetime = $this->getExpirationDateTime();
+		$today = ilFormat::getDateDE();
+		
+		$ts_datetime = ilFormat::dateDE2timestamp($datetime[0]);
+		$ts_today = ilFormat::dateDE2timestamp($today);
+	
+		if($ts_today < $ts_datetime)
+			return true;
+		else
+			return false;
+		
+	}
+	
+	/**
+	* set Registration Flag 
+	* @access	public
+	* @param	integer [ 0 = no registration| 1 = registration]
+	*/
+/*	
+	function setKeyRegistrationFlag($a_passwordFlag)
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+	
+		if($a_passwordFlag != 1) 
+			$a_passwordFlag = 0;
+		
+		if($res->numRows() == 0)
+		{
+			$q = "INSERT INTO grp_data (grp_id, key_registration) VALUES(".$this->getId().",".$a_passwordFlag.")";
+			$res = $this->ilias->db->query($q);			
+		}
+		else
+		{
+			$q = "UPDATE grp_data SET key_registration=".$a_passwordFlag." WHERE grp_id=".$this->getId()."";
+			$res = $this->ilias->db->query($q);						
+		}
+	}
+*/	
+	/**
+	* get Registration Flag
+	* @access	public
+	* @param	return flag => [ 0 = no registration| 1 = registration]
+	*/
+/*	
+	function getKeyRegistrationFlag()
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		return $row["key_registration"];
+	}
+*/	
 	/**
 	* set group status
 	* @access	public
