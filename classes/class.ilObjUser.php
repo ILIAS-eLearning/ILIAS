@@ -1868,7 +1868,7 @@ class ilObjUser extends ilObject
 			$roles = "RoleId|".serialize($role_arr);
 			$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$a_user_id]["data"]);
 
-			$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$a_user_id."'";
+			$q = "UPDATE usr_session SET data='".ilUtil::prepareDBString($modified_data)."' WHERE user_id = '".$a_user_id."'";
 			$ilDB->query($q);
 		}
 
