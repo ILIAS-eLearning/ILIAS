@@ -796,11 +796,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function getImportDir()
 	{
-		// FIXME - The following code does not work properly. $ilUser->getId()
-		//		   always returns 0. It should return the usr_id of the current
-		//         user.
-
-		// For each user a different directory must be used, to prevent
+		// For each user a different directory must be used to prevent
 		// that one user overwrites the import data that another user is
 		// currently importing.
 		global $ilUser;
