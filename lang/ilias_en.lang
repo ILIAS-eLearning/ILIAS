@@ -1260,6 +1260,8 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
+common#:#logic_and#:#and
+common#:#logic_or#:#or
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#los#:#Learning Objects
