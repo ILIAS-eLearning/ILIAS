@@ -11,7 +11,7 @@ $tplContent->setVariable("TPOS",$parent);
 
 // display path
 $tree = new Tree($obj_id,1,1);
-$path = showPath($tree->getPathFull(),"content.php");
+$path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a role to edit the template of that role</h5>");
 $tplContent->setVariable("TYPE","role");

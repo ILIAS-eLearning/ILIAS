@@ -60,7 +60,7 @@ if (!empty($clipboard))
 }
 
 // display path
-$path = showPath($tree->getPathFull(),"content.php");
+$path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
 $tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
