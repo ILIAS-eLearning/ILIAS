@@ -279,6 +279,7 @@ class ilObjUser extends ilObject
 			 "phone='".$this->phone."', ".
 			 "last_update=now() ".
 			 "WHERE usr_id='".$this->id."'";
+
 		$this->ilias->db->query($q);
 
 		$this->writePrefs();

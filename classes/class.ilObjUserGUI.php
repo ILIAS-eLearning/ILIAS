@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.27 2003/06/23 15:29:10 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.28 2003/06/23 18:18:16 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -64,11 +64,15 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 
-
-	// new method
-	// To display information according check box on Destop
-function insertPublicProfile($a_template_var, $a_template_block_name)
-{
+	/**
+	* display public profile
+	*
+	* @param	string	$a_template_var			template variable where profile
+	*											should be inserted
+	* @param	string	$a_template_block_name	name of profile template block
+	*/
+	function insertPublicProfile($a_template_var, $a_template_block_name)
+	{
 		global $tpl;
 
 		$tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
@@ -77,142 +81,139 @@ function insertPublicProfile($a_template_var, $a_template_block_name)
 		// Get name of picture of user
 
 		require_once "classes/class.ilObjUser.php";
-  		$userObj = new ilObjUser($_GET["user"]);
+		$userObj = new ilObjUser($_GET["user"]);
 
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");
 
 		//if (usr_id == $_GET["user"])
- 		// Check from Database if value
+		// Check from Database if value
 		// of public_profile = "y" show user infomation
-		if($userObj->getPref("public_profile")=="y") {
-  		$tpl->setVariable("TXT_NAME","Name");
-		$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
-		$tpl->setVariable("LASTNAME",$userObj->getLastName());
-		$tpl->setVariable("TXT_TITLE","Title");
-		$tpl->setVariable("TITLE",$userObj->getTitle());
+		if($userObj->getPref("public_profile")=="y")
+		{
+			$tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
+			$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
+			$tpl->setVariable("LASTNAME",$userObj->getLastName());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_NAME","Name");
-
-		$tpl->setVariable("FIRSTNAME","N /");
-		$tpl->setVariable("LASTNAME","A");
-		$tpl->setVariable("TXT_TITLE","Title");
-		$tpl->setVariable("TITLE","N / A");
+			$tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
+			$tpl->setVariable("FIRSTNAME","N /");
+			$tpl->setVariable("LASTNAME","A");
 		}
 
-		if($userObj->getPref("public_upload")=="y") {
-		//Getting the flexible path of image form ini file
-		require_once "classes/class.ilSetup.php";
-		$mySetup = new ilSetup();
-		$mySetup->readIniFile();
-		$webspace_dir = $mySetup->getWebspacePath();
-		$tpl->setVariable("TXT_IMAGE","Image");	$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
-
+		if($userObj->getPref("public_upload")=="y")
+		{
+			//Getting the flexible path of image form ini file
+			require_once "classes/class.ilSetup.php";
+			$mySetup = new ilSetup();
+			$mySetup->readIniFile();
+			$webspace_dir = $mySetup->getWebspacePath();
+			$tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
+			$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$userObj->getPref("profile_image"));
 		}
 		else
 		{
-		$tpl->setVariable("TXT_IMAGE","Image");
-		// Todo: point to anonymous picture
+			$tpl->setVariable("TXT_IMAGE",$this->lng->txt("image"));
+			// Todo: point to anonymous picture
 		}
 
 		// Check from Database if value
 		// "y" show institute information
-		if($userObj->getPref(public_institution)=="y") {
-		$tpl->setVariable("TXT_INSTITUTE","Institution");
-		$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
+		$tpl->setVariable("TXT_INSTITUTE",$this->lng->txt("institution"));
+		if($userObj->getPref(public_institution)=="y")
+		{
+			$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_INSTITUTE","Institution");
-		$tpl->setVariable("INSTITUTE","N / A");
+			$tpl->setVariable("INSTITUTE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show institute information
-		if($userObj->getPref(public_street)=="y") {
-		$tpl->setVariable("TXT_STREET","Street");
-		$tpl->setVariable("STREET",$userObj->getStreet());
+		$tpl->setVariable("TXT_STREET",$this->lng->txt("street"));
+		if($userObj->getPref(public_street)=="y")
+		{
+			$tpl->setVariable("STREET",$userObj->getStreet());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_STREET","Street");
-		$tpl->setVariable("STREET","N / A");
+			$tpl->setVariable("STREET","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show zip code information
-		if($userObj->getPref(public_zip)=="y") {
-		$tpl->setVariable("TXT_ZIPCODE","Zip Code");
-		$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
+		$tpl->setVariable("TXT_ZIPCODE",$this->lng->txt("zipcode"));
+		if($userObj->getPref(public_zip)=="y")
+		{
+			$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_ZIPCODE","Zip Code");
-		$tpl->setVariable("ZIPCODE","N / A");
+			$tpl->setVariable("ZIPCODE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show city information
-		if($userObj->getPref(public_city)=="y") {
-		$tpl->setVariable("TXT_CITY","City");
-		$tpl->setVariable("CITY",$userObj->getCity());
+		$tpl->setVariable("TXT_CITY",$this->lng->txt("city"));
+		if($userObj->getPref(public_city)=="y")
+		{
+			$tpl->setVariable("CITY",$userObj->getCity());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_CITY","City");
-		$tpl->setVariable("CITY","N / A");
+			$tpl->setVariable("CITY","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show country information
-		if($userObj->getPref(public_country)=="y") {
-		$tpl->setVariable("TXT_COUNTRY","Country");
-		$tpl->setVariable("COUNTRY",$userObj->getCountry());
+		$tpl->setVariable("TXT_COUNTRY",$this->lng->txt("country"));
+		if($userObj->getPref(public_country)=="y")
+		{
+			$tpl->setVariable("COUNTRY",$userObj->getCountry());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_COUNTRY","Country");
-		$tpl->setVariable("COUNTRY","N / A");
+			$tpl->setVariable("COUNTRY","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show phone information
-		if($userObj->getPref(public_phone)=="y") {
-		$tpl->setVariable("TXT_PHONE","Phone");
-		$tpl->setVariable("PHONE",$userObj->getPhone());
+		$tpl->setVariable("TXT_PHONE",$this->lng->txt("phone"));
+		if($userObj->getPref(public_phone)=="y")
+		{
+			$tpl->setVariable("PHONE",$userObj->getPhone());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_PHONE","Phone");
-		$tpl->setVariable("PHONE","N / A");
+			$tpl->setVariable("PHONE","N / A");
 		}
 
 		// Check from Database if value
 		// "y" show email information
-		if($userObj->getPref(public_email)=="y") {
-		$tpl->setVariable("TXT_EMAIL","Email");
-		$tpl->setVariable("EMAIL",$userObj->getEmail());
+		$tpl->setVariable("TXT_EMAIL",$this->lng->txt("email"));
+		if($userObj->getPref(public_email)=="y")
+		{
+			$tpl->setVariable("EMAIL",$userObj->getEmail());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_EMAIL","Email");
-		$tpl->setVariable("EMAIL","N / A");
+			$tpl->setVariable("EMAIL","N / A");
 		}
 
-
-		if($userObj->getPref(public_hobby)=="y") {
-		$tpl->setVariable("TXT_HOBBY","hobby");
-		$tpl->setVariable("HOBBY",$userObj->getHobby());
+		$tpl->setVariable("TXT_HOBBY",$this->lng->txt("hobby"));
+		if($userObj->getPref(public_hobby)=="y")
+		{
+			$tpl->setVariable("HOBBY",$userObj->getHobby());
 		}
 		else
 		{
-		$tpl->setVariable("TXT_HOBBY","Hobby");
-		$tpl->setVariable("HOBBY","N / A");
+			$tpl->setVariable("HOBBY","N / A");
 		}
-	$tpl->parseCurrentBlock($a_template_block_name);
-}
+
+		$tpl->parseCurrentBlock($a_template_block_name);
+	}
 
 
 	/**
