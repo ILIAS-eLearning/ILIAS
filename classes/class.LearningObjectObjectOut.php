@@ -21,11 +21,70 @@ class LearningObjectObjectOut extends ObjectOut
 		$this->ObjectOut($a_data);
 	} 
 
+	function viewObject()
+	{
+		global $rbacsystem, $tree, $tpl;
+		
+		if (empty($_GET["lo_id"]))
+		{
+			$_GET["lo_id"] = $_GET["obj_id"];
+			$_GET["lo_parent"] = $_GET["parent"];
+		}
+
+		if (empty($_GET["lo_parent"]))
+		{
+			$_GET["lo_parent"] = $_GET["lm_id"];
+		}
+		
+		// TODO get rid of these $_GET variables
+		$lotree = new Tree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+
+		$this->data["cols"] = array("", "view", "title", "description", "last_change");
+		
+		if ($lotree->getChilds($_GET["lo_id"], $a_order, $a_direction))
+		{
+			foreach ($lotree->Childs as $key => $val)
+		    {
+				// visible
+				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				//{
+				//	continue;
+				//}
+		
+				//visible data part
+				$this->data["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+
+				//control information
+				$this->data["ctrl"][] = array(
+					"type" => $val["type"],
+					"obj_id" => $_GET["obj_id"],
+					"parent" => $_GET["parent"],
+					"parent_parent" => $val["parent_parent"],
+					"lm_id" => $_GET["lm_id"],
+					"lo_id" => $val["id"],
+					"lo_parent" => $val["parent"]
+				);
+				
+		    } //foreach
+		} //if 
+
+		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
+		parent::displayList();
+	}
 	/**
 	* DESC MISSING
 	* 
 	* 
-	*/
+	*
 	function viewObject()
 	{
 		global $lotree;
@@ -40,7 +99,7 @@ class LearningObjectObjectOut extends ObjectOut
 		}
 
 		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
-	}
+	}*/
 
 	/**
 	* DESC MISSING
