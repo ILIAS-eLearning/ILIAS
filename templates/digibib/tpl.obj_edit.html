@@ -1,27 +1,27 @@
 <form action="{FORMACTION}" method="post">
 
-<table border="0" cellspacing="0" cellpadding="4">
+<table border="1" cellspacing="0" cellpadding="2">
 
 <tr>
 
-  <td class="tblrow1" align="right">{TXT_TITLE}<sup>*</sup></td>
+  <td align="right">{TXT_TITLE}<sup>*</sup></td>
 
-  <td class="blrow2" ><input type="text" name="Fobject[title]" value="{TITLE}" size="30" maxsize="70" /></td>
+  <td><input type="text" name="Fobject[title]" value="{TITLE}" size="30" maxsize="70" /></td>
 
 </tr>
 
 <tr>
 
-  <td class="tblrow1" valign="top" align="right">{TXT_DESC}</td>
+  <td valign="top" align="right">{TXT_DESC}&nbsp;</td>
 
-  <td class="tblrow2" valign="top"><textarea type="text" name="Fobject[desc]" rows="3" cols="25">{DESC}</textarea></td>
+  <td valign="top"><textarea type="text" name="Fobject[desc]" rows="3" cols="25">{DESC}</textarea></td>
 
 </tr>
 <tr>
 
-  <td class="tblrow1">&nbsp;</td>
+  <td>&nbsp;</td>
 
-  <td class="tblrow2">
+  <td>
 
     <input type="submit" value="{TXT_SAVE}">&nbsp;
 
@@ -31,7 +31,7 @@
 
 <tr>
 
-  <td colspan="2"><p class="small"><sup>*</sup>{TXT_REQUIRED_FLD}</p></td>
+  <td colspan="2"><p class="infotext"><sup>*</sup> {TXT_REQUIRED_FLD}</p></td>
 
 </tr>
 
