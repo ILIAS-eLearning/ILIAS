@@ -36,6 +36,7 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "assessment/classes/class.assQuestionGUI.php";
 require_once "assessment/classes/class.ilObjQuestionPool.php";
+require_once "classes/class.ilMetaDataGUI.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
@@ -80,71 +81,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","questionpool.php?".$this->link_params));
 		exit();
 	}
-
-	/**
-	* updates object entry in object_data
-	*
-	* @access	public
-	*/
-	function updateObject()
-	{
-		if (empty($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}
-  	$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
-
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
-
-		header("location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->ref_id));
-		exit();
-	}
-  
-  function propertiesObject()
-  {
-    $add_parameter = $this->get_add_parameter();
-    if ($_POST["cmd"]["save"]) {
-      $this->updateObject();
-      return;
-    }
-    if ($_POST["cmd"]["cancel"]) {
-      sendInfo($this->lng->txt("msg_cancel"),true);
-      header("location: ". $this->getReturnLocation("cancel","adm_object.php?ref_id=".$this->ref_id));
-      exit();
-    }
-    $data = array();
-		$data["fields"] = array();
-    if ($_SESSION["error_post_vars"]) {
-      $data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-      $data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-    } else {
-      $data["fields"]["title"] = $this->object->getTitle();
-      $data["fields"]["desc"] = $this->object->getDescription();
-    }
-		$this->getTemplateFile("edit");
-
-		foreach ($data["fields"] as $key => $val)
-    {
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-      if ($this->prepare_output)
-			{
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $add_parameter);
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("obj_qpl") . ": " . $this->object->getTitle());
-		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
-		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-  }
 
   function out_preview_page($question_id) {
     $question_gui =& new ASS_QuestionGUI();
@@ -441,10 +377,102 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->tpl->parseCurrentBlock();
   }
   
-  function editMetaObject()
-  {
-  }
- 
+	function editMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+	}
+	
+		function saveMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		if (!strcmp($_POST["meta_section"], "General")) {
+			$this->updateObject();
+		}
+		ilUtil::redirect("questionpool.php?ref_id=".$_GET["ref_id"]);
+	}
+
+	// called by administration
+	function chooseMetaSectionObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
+	}
+
+	// called by editor
+	function chooseMetaSection()
+	{
+		$this->chooseMetaSectionObject("questionpool.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function addMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
+	}
+
+	function addMeta()
+	{
+		$this->addMetaObject("questionpool.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function deleteMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "questionpool.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
+	}
+
+	function deleteMeta()
+	{
+		$this->deleteMetaObject("questionpool.php?ref_id=".
+			$this->object->getRefId());
+	}
+	
+	function updateObject() {
+		$this->update = $this->object->update();
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+	}
+
 	/**
 	* set Locator
 	*

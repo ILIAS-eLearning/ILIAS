@@ -33,6 +33,7 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
+require_once("classes/class.ilMetaData.php");
 
 class ilObjQuestionPool extends ilObject
 {
@@ -46,6 +47,28 @@ class ilObjQuestionPool extends ilObject
 	{
 		$this->type = "qpl";
 		$this->ilObject($a_id,$a_call_by_reference);
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
+	}
+
+	/**
+	* create question pool object
+	*/
+	function create($a_upload = false)
+	{
+		parent::create();
+		if (!$a_upload)
+		{
+			$this->meta_data->setId($this->getId());
+			$this->meta_data->setType($this->getType());
+			$this->meta_data->setTitle($this->getTitle());
+			$this->meta_data->setDescription($this->getDescription());
+			$this->meta_data->setObject($this);
+			$this->meta_data->create();
+		}
 	}
 
 	/**
@@ -56,6 +79,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
 		if (!parent::update())
 		{			
 			return false;
@@ -64,6 +88,17 @@ class ilObjQuestionPool extends ilObject
 		// put here object specific stuff
 		
 		return true;
+	}
+	
+/**
+	* read object data from db into object
+	* @param	boolean
+	* @access	public
+	*/
+	function read($a_force_db = false)
+	{
+		parent::read($a_force_db);
+		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 	
 	/**
@@ -238,5 +273,77 @@ class ilObjQuestionPool extends ilObject
       return;
     }
   }
+
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*/
+	function setDescription($a_description)
+	{
+		parent::setDescription($a_description);
+		$this->meta_data->setDescription($a_description);
+	}
+
+	/**
+	* get title of glossary object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+		//return $this->title;
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of glossary object
+	*/
+	function setTitle($a_title)
+	{
+		parent::setTitle($a_title);
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* assign a meta data object to glossary object
+	*
+	* @param	object		$a_meta_data	meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	/**
+	* get meta data object of glossary object
+	*
+	* @return	object		meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		parent::update();
+	}
+
 } // END class.ilObjQuestionPool
 ?>
