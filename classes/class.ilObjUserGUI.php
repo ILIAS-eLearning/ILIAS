@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -342,7 +342,7 @@ class ilObjUserGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin;
 
 		// check write access
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]) || $this->object->getId() == $_SESSION["AccountId"])
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("No permission to modify user",$this->ilias->error_obj->WARNING);
 		}

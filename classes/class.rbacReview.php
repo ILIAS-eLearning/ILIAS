@@ -35,6 +35,15 @@ class RbacReview
 	*/
 	function assignedUsers($a_rol_id)
 	{
+		global $log;
+
+		if (!isset($a_rol_id))
+		{
+			$message = get_class($this)."::assignedUsers(): No role_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 	    $usr_arr = array();
 	   
 		$q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
@@ -56,6 +65,15 @@ class RbacReview
 	*/
 	function assignedRoles($a_usr_id)
 	{
+		global $log;
+
+		if (!isset($a_usr_id))
+		{
+			$message = get_class($this)."::assignedRoles(): No user_id given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$role_arr = array();
 		
 		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$a_usr_id."'";
@@ -85,6 +103,18 @@ class RbacReview
 	*/
 	function getOperations($a_rol_id,$a_type,$a_parent = 0)
 	{
+		global $log;
+
+		if (!isset($a_rol_id) or !isset($a_type) or func_num_args() != 3)
+		{
+			$message = get_class($this)."::getOperations(): Missing Parameter!".
+					   "role_id: ".$a_rol_id.
+					   "type: ".$a_type.
+					   "parent_id: ".$a_parent;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$ops_arr = array();
 
 		// TODO: what happens if $a_parent is empty???????
@@ -117,6 +147,17 @@ class RbacReview
 	*/
 	function assignPermissionToObject($a_type_id,$a_ops_id)
 	{
+		global $log;
+
+		if (!isset($a_type_id) or !isset($a_ops_id))
+		{
+			$message = get_class($this)."::assignPermissionToObject(): Missing parameter!".
+					   "type_id: ".$a_type_id.
+					   "ops_id: ".$a_ops_id;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "INSERT INTO rbac_ta ".
 			 "VALUES('".$a_type_id."','".$a_ops_id."')";
 		$this->ilias->db->query($q);
@@ -133,6 +174,17 @@ class RbacReview
 	*/
 	function deassignPermissionFromObject($a_type_id,$a_ops_id)
 	{
+		global $log;
+
+		if (!isset($a_type_id) or !isset($a_ops_id))
+		{
+			$message = get_class($this)."::deassignPermissionFromObject(): Missing parameter!".
+					   "type_id: ".$a_type_id.
+					   "ops_id: ".$a_ops_id;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "DELETE FROM rbac_ta ".
 			 "WHERE typ_id = '".$a_type_id."' ".
 			 "AND ops_id = '".$a_ops_id."'";
