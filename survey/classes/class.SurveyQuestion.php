@@ -201,6 +201,7 @@ class SurveyQuestion {
     $this->id = -1;
     $this->survey_id = -1;
 		$this->obligatory = 1;
+		$this->materials = array();
 		register_shutdown_function(array(&$this, '_SurveyQuestion'));
 	}
 
