@@ -45,6 +45,13 @@ input, textarea {
 	padding:4px;
 }
 
+.tblrowmarked {
+	background-color:#ffe0e0;
+	color:#222222;
+	font-size:13px;
+	padding:4px;
+}
+
 /* -------------------- table formatting ------------------ */
 
 table.std {

@@ -427,12 +427,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 						else
 						{
 							// 1. delete-level
-							$tpl->setCurrentBlock("del_cell");
-							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".
-											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start.
-											  "&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
-											  $node["pos_pk"]."\">".$lng->txt("delete")."</a>");
-							$tpl->parseCurrentBlock("del_cell");
+							if ($_GET["cmd"] != "censor" || $_GET["pos_pk"] != $node["pos_pk"])
+							{
+								$tpl->setCurrentBlock("del_cell");
+								$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".
+												  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start.
+												  "&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".
+												  $node["pos_pk"]."\">".$lng->txt("delete")."</a>");
+								$tpl->parseCurrentBlock("del_cell");
+							}
 						}
 
 						// censorship
@@ -476,37 +479,40 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 					if (($_GET["cmd"] != "delete") || ($_GET["cmd"] == "delete" && $_GET["pos_pk"] != $node["pos_pk"]))
 					{
-						// button: edit article
-						if ($frm->checkEditRight($node["pos_pk"]) && $node["pos_cens"] != 1)
+						if ($_GET["cmd"] != "censor" || $_GET["pos_pk"] != $node["pos_pk"])
 						{
-							$tpl->setCurrentBlock("edit_cell");
-							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".
-											  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
-											  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
-											  $lng->txt("edit")."</a>");
-							$tpl->parseCurrentBlock("edit_cell");
-						}
+							// button: edit article
+							if ($frm->checkEditRight($node["pos_pk"]) && $node["pos_cens"] != 1)
+							{
+								$tpl->setCurrentBlock("edit_cell");
+								$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".
+												$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
+												$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
+												$lng->txt("edit")."</a>");
+								$tpl->parseCurrentBlock("edit_cell");
+							}
 
-						if ($node["pos_cens"] != 1)
-						{
-							// button: print
-							$tpl->setCurrentBlock("print_cell");
+							if ($node["pos_cens"] != 1)
+							{
+								// button: print
+								$tpl->setCurrentBlock("print_cell");
+								//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
+								$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".
+												$node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".
+												$threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>");
+								$tpl->parseCurrentBlock("print_cell");
+							}
+							if ($node["pos_cens"] != 1)
+							{
+							// button: reply
+							$tpl->setCurrentBlock("reply_cell");
 							//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
-							$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".
-											  $node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".
-											  $threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>");
-							$tpl->parseCurrentBlock("print_cell");
-						}
-						if ($node["pos_cens"] != 1)
-						{
-						// button: reply
-						$tpl->setCurrentBlock("reply_cell");
-						//$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">");
-						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".
-										  $node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
-										  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
-										  $lng->txt("reply")."</a>");
-						$tpl->parseCurrentBlock("reply_cell");
+							$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".
+											$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".
+											$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".
+											$lng->txt("reply")."</a>");
+							$tpl->parseCurrentBlock("reply_cell");
+							}
 						}
 
 						$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
@@ -546,7 +552,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 			$tpl->setCurrentBlock("posts_row");
 			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
-			$tpl->setVariable("ROWCOL", $rowCol);
+			if ($_GET["cmd"] != "censor" || $_GET["pos_pk"] != $node["pos_pk"])
+			{
+				$tpl->setVariable("ROWCOL", $rowCol);
+			}
+			else
+			{
+				$tpl->setVariable("ROWCOL", "tblrowmarked");
+			}
 
 			// get author data
 			unset($author);
