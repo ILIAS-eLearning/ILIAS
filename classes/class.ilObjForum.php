@@ -235,9 +235,6 @@ class ilObjForum extends ilObject
 		$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
 		$roles[] = $roleObj->getId();
 
-		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
-		
 		unset($rfoldObj);
 		unset($roleObj);
 
