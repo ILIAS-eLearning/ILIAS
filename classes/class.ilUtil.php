@@ -1197,7 +1197,7 @@ class ilUtil
 			$target_arr = array();
 			foreach ($a_par_arr as $par => $val)
 			{
-				$target_arr[] = "$par = \"$val\"";
+				$target_arr[] = "$par=\"$val\"";
 			}
 			$target_str = implode(", ", $target_arr);
 		}
