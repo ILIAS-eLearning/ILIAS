@@ -878,12 +878,12 @@ class ilNestedSetXML
 				$xml = '<General Structure="' . ilUtil::stripSlashes($meta["Structure"]) . '">';
 				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"]) . '">' . ilUtil::stripSlashes($meta["Identifier"][$i]["Value"]) . '</Identifier>';
+					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  str_replace("\"", "", ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"])) . '"/>';
 				}
 				$xml .= '<Title Language="' . ilUtil::stripSlashes($meta["Title"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Title"]["Value"]) . '</Title>';
 				for ($i = 0; $i < count($meta["Language"]); $i++)
 				{
-					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '">' . ilUtil::stripSlashes($meta["Language"][$i]["Value"]) . '</Language>';
+					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '"/>';
 				}
 				for ($i = 0; $i < count($meta["Description"]); $i++)
 				{
@@ -928,10 +928,10 @@ class ilNestedSetXML
 			else if ($nodes[0]->node_name() == "Meta-Metadata")
 			{
 
-				$xml = '<Meta-Metadata MetadataScheme="' . ilUtil::stripSlashes($meta["MetadataScheme"]) . '" Language="' . ilUtil::stripSlashes($meta["Language"]) . '">';
+				$xml = '<Meta-Metadata MetadataScheme="LOM v 1.0" Language="' . ilUtil::stripSlashes($meta["Language"]) . '">';
 				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"]) . '">' . ilUtil::stripSlashes($meta["Identifier"][$i]["Value"]) . '</Identifier>';
+					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  str_replace("\"", "", ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"])) . '"/>';
 				}
 				for ($i = 0; $i < count($meta["Contribute"]); $i++)
 				{
@@ -974,11 +974,11 @@ class ilNestedSetXML
 						$xml .= '<Type>';
 						if (is_array($meta["Requirement"][$i]["Type"]["OperatingSystem"]))
 						{
-							$xml .= '<OperatingSystem Name="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["Name"]) . '" MinimumVersion="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"]) . '" MaximumVersion="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"]) . '"/>';
+							$xml .= '<OperatingSystem Name="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["Name"]) . '" MinimumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"])) . '" MaximumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"])) . '"/>';
 						}
 						if (is_array($meta["Requirement"][$i]["Type"]["Browser"]))
 						{
-							$xml .= '<Browser Name="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["Name"]) . '" MinimumVersion="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"]) . '" MaximumVersion="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"]) . '"/>';
+							$xml .= '<Browser Name="' . ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["Name"]) . '" MinimumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"])) . '" MaximumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"])) . '"/>';
 						}
 						$xml .= '</Type>';
 						$xml .= '</Requirement>';
@@ -995,11 +995,11 @@ class ilNestedSetXML
 							$xml .= '<Type>';
 							if (is_array($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]))
 							{
-								$xml .= '<OperatingSystem Name="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["Name"]) . '" MinimumVersion="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"]) . '" MaximumVersion="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"]) . '"/>';
+								$xml .= '<OperatingSystem Name="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["Name"]) . '" MinimumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"])) . '" MaximumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"])) . '"/>';
 							}
 							if (is_array($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]))
 							{
-								$xml .= '<Browser Name="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["Name"]) . '" MinimumVersion="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"]) . '" MaximumVersion="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"]) . '"/>';
+								$xml .= '<Browser Name="' . ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["Name"]) . '" MinimumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"])) . '" MaximumVersion="' . str_replace("\"", "", ilUtil::stripSlashes($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"])) . '"/>';
 							}
 							$xml .= '</Type>';
 							$xml .= '</Requirement>';
@@ -1041,7 +1041,7 @@ class ilNestedSetXML
 				}
 				for ($i = 0; $i < count($meta["Language"]); $i++)
 				{
-					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '">' . ilUtil::stripSlashes($meta["Language"][$i]["Value"]) . '</Language>';
+					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '"/>';
 				}
 				$xml .= '</Educational>';
 
@@ -1074,7 +1074,7 @@ class ilNestedSetXML
 					$xml .= '<Resource>';
 					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Identifier"]); $i++)
 					{
-						$xml .= '<Identifier_ Catalog="' . ilUtil::stripSlashes($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Catalog"]) . '" Entry="' . ilUtil::stripSlashes($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Entry"]) . '">' . ilUtil::stripSlashes($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Value"]) . '</Identifier_>';
+						$xml .= '<Identifier_ Catalog="' . ilUtil::stripSlashes($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Catalog"]) . '" Entry="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Entry"])) . '"/>';
 					}
 					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Description"]); $i++)
 					{
@@ -1122,7 +1122,7 @@ class ilNestedSetXML
 						$xml .= '<Source Language="' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Value"]) . '</Source>';
 						for ($i = 0; $i < count($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"]); $i++)
 						{
-							$xml .= '<Taxon Language="' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Language"]) . '" Id="' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Id"]) . '">' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Value"]) . '</Taxon>';
+							$xml .= '<Taxon Language="' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Language"]) . '" Id="' . str_replace("\"", "", ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Id"])) . '">' . ilUtil::stripSlashes($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Value"]) . '</Taxon>';
 						}
 						$xml .= '</TaxonPath>';
 					}
@@ -1187,6 +1187,40 @@ class ilNestedSetXML
 			}
 		}
 		return false;
+	}	
+	
+	/**
+	*	returns all contents of this node
+	*/
+	function updateDomContent($xPath, $name = "", $index = 0, $newNode) 
+	{
+#		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
+		if (count($nodes) > 0)
+		{
+			$children = $nodes[$index]->child_nodes();
+			if (count($children) > 0)
+			{
+				for ($i = 0; $i < count($children); $i++)
+				{
+					if ($children[$i]->tagname == $name &&
+						is_array($newNode))
+					{
+						foreach ($newNode as $key => $val)
+						{
+							if ($key == "value")
+							{
+								$children[$i]->set_content($val);
+							}
+							else
+							{
+								$children[$i]->set_attribute($key, $val);
+							}
+						}
+					}
+				}
+			}
+		}
 	}	
 	
 	function getFirstDomNode($xPath) 

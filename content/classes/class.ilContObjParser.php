@@ -719,7 +719,16 @@ class ilContObjParser extends ilSaxParser
 
 						include_once("./classes/class.ilNestedSetXML.php");
 						$nested = new ilNestedSetXML();
-						$nested->import($this->meta_data->getXMLContent(),$this->lm_page_object->getId(),"pg");
+						$xml = $this->meta_data->getXMLContent();
+						$nested->dom = domxml_open_mem($xml);
+						$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+						if (is_array($nodes))
+						{
+							$nodes[0]["Entry"] = "il__" . $this->current_object->getType() . "_" . $this->current_object->getId();
+							$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+						}
+						$xml = $nested->dom->dump_mem(0);
+						$nested->import($xml,$this->lm_page_object->getId(),"pg");
 					}
                 }
 				else if(get_class($this->current_object) == "ilstructureobject")
@@ -743,14 +752,32 @@ class ilContObjParser extends ilSaxParser
 					// Metadaten eines StructureObjects sichern in NestedSet
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
-					$nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");
+					$xml = $this->meta_data->getXMLContent();
+					$nested->dom = domxml_open_mem($xml);
+					$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+					if (is_array($nodes))
+					{
+						$nodes[0]["Entry"] = "il__" . $this->current_object->getType() . "_" . $this->current_object->getId();
+						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+					}
+					$xml = $nested->dom->dump_mem(0);
+					$nested->import($xml,$this->current_object->getId(),"st");
 				}
 				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjcontentobject")
 				{
 					// Metadaten eines ContentObjects sichern in NestedSet
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
-					$nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),$this->current_object->getType());
+					$xml = $this->meta_data->getXMLContent();
+					$nested->dom = domxml_open_mem($xml);
+					$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+					if (is_array($nodes))
+					{
+						$nodes[0]["Entry"] = "il__" . $this->current_object->getType() . "_" . $this->current_object->getId();
+						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+					}
+					$xml = $nested->dom->dump_mem(0);
+					$nested->import($xml,$this->current_object->getId(),$this->current_object->getType());
 				}
 				else if(get_class($this->current_object) == "ilglossarydefinition" && !$this->in_media_object)
 				{
@@ -762,7 +789,16 @@ class ilContObjParser extends ilSaxParser
 					// save glossary term definition to nested set
 					include_once("./classes/class.ilNestedSetXML.php");
 					$nested = new ilNestedSetXML();
-					$nested->import($this->meta_data->getXMLContent(),$this->glossary_definition->getId(),"gdf");
+					$xml = $this->meta_data->getXMLContent();
+					$nested->dom = domxml_open_mem($xml);
+					$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
+					if (is_array($nodes))
+					{
+						$nodes[0]["Entry"] = "il__" . $this->current_object->getType() . "_" . $this->current_object->getId();
+						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
+					}
+					$xml = $nested->dom->dump_mem(0);
+					$nested->import($xml,$this->glossary_definition->getId(),"gdf");
                 }
 
 
@@ -777,6 +813,8 @@ class ilContObjParser extends ilSaxParser
 					}
 					$this->current_object->update();
 				}
+#				echo "Type: " . $this->current_object->getType() . "<br>\n";
+#				echo "Obj.-ID: " . $this->current_object->getId() . "<br>\n";
 				break;
 
 			case "FileItem":

@@ -379,8 +379,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit;
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
+#		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+#		exit;
 	}
 
 
