@@ -67,6 +67,8 @@ common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
 common#:#authors#:#Authors
+common#:#image#:#Image
+common#:#profile_of#:#Profile of
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
@@ -882,6 +884,8 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Postal Code
+common#:#zip#:#Postal Code
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages

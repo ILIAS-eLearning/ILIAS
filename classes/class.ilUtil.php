@@ -979,7 +979,7 @@ class ilUtil
 		global $ilias;
 
 		$cdir = getcwd();
-		
+
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
@@ -1000,12 +1000,19 @@ class ilUtil
 		chdir($cdir);
 	}
 
+	function getConvertCmd()
+	{
+		global $ilias;
+		
+		return $ilias->getSetting("convert_path");
+	}
+
 	/**
 	*	produce pdf out of html with htmldoc
     *   @param  html    String  HTML-Data given to create pdf-file
     *   @param  pdf_file    String  Filename to save pdf in
 	*/
-	function html2pdf($html, $pdf_file) 
+	function html2pdf($html, $pdf_file)
     {
         global $ilias;
         

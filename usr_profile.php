@@ -58,11 +58,12 @@ function upload_file()
 // Check the type of file and then check the size
 // of the file whether we allow people to upload or not
 	global $userfile, $userfile_name, $userfile_size,
-	$userfile_type, $archive_dir, $WINDIR, $webspace_dir,$ilias;
+	$userfile_type, $archive_dir, $WINDIR,$ilias,$lng;
 	global $target_file, $return_path;
 
+	$webspace_dir = ilUtil::getWebspaceDir();
 	$image_dir = $webspace_dir."/usr_images";
-	
+
 	if(!@is_dir($image_dir))		// this is done in setup.php, line 518. Dir creation could be removed...
 	{
 		ilUtil::makeDir($image_dir);
@@ -85,53 +86,66 @@ function upload_file()
 		".".$path_info["extension"];
 	$part = explode(".",$rename_file);
 	$show_file = $image_dir."/".$part[0].".jpg";
+	$thumb_file = $image_dir."/".$part[0]."_small.jpg";
 
-	//convert -size 1000x1000 usr_6.jpg usr_66.jpg
-	system("convert -size 100x100 $target_file $show_file");
+	if (@is_file($thumb_file))
+	{
+		unlink($thumb_file);
+	}
+	system(ilUtil::getConvertCmd()." $target_file -geometry 200x200 JPEG:$show_file");
+	system(ilUtil::getConvertCmd()." $target_file -geometry 100x100  JPEG:$thumb_file");
 
+	if (!@is_file($thumb_file))
+	{
+		//$ilias->raiseError($lng->txt("image_gen_unsucc"), $ilias->error_obj->MESSAGE);
+		sendInfo($lng->txt("image_gen_unsucc"), true);
+		header ("Location: usr_profile.php");
+		exit();
+
+	}
 	return $target_file;
 }
 // End of function upload file
 
 // change user password
 function change_password()
-{	
+{
 	global $ilias, $lng, $tpl, $password_error;
-	
+
 	// check old password
 	if (md5($_POST["current_password"]) != $ilias->account->getPasswd())
-	{ 
+	{
 		$password_error=$lng->txt("passwd_wrong");
 		//$ilias->raiseError($lng->txt("passwd_wrong"),$ilias->error_obj->MESSAGE);
 	}
-	
+
 	// check new password
 	if ($_POST["desired_password"] != $_POST["retype_password"])
-	{	
+	{
 		$password_error=$lng->txt("passwd_not_match");
 		//$ilias->raiseError($lng->txt("passwd_not_match"),$ilias->error_obj->MESSAGE);
 	}
-			
+
 	// validate password
 	if (!ilUtil::is_password($_POST["desired_password"]))
-	{ 
+	{
 		$password_error=$lng->txt("passwd_invalid");
 		//$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
 	}
-	
+
 	if ($_POST["current_password"] != "")
-	{	
+	{
 		$ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
-		
+
 		/*if ($ilias->account->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]))
 		{
 			sendInfo($lng->txt("msg_changes_ok"));
-			
+
 		}
 		else
 		{
 			sendInfo($lng->txt("msg_failed"));
-			
+
 		}*/
 	}
 }
@@ -142,7 +156,7 @@ $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-// set locator 
+// set locator
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
@@ -175,7 +189,7 @@ if ($_GET["cmd"] == "save")
 	{
 		upload_file();
 	}
-	
+
 	// error content
 	$password_error;
 
@@ -401,6 +415,21 @@ $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
 $tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
+
+$webspace_dir = ilUtil::getWebspaceDir("output");
+$full_img = $ilias->account->getPref("profile_image");
+$last_dot = strrpos($full_img, ".");
+$small_img = substr($full_img, 0, $last_dot).
+	"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
+$image_file = $webspace_dir."/usr_images/".$small_img;
+if (@is_file($image_file))
+{
+	$tpl->setCurrentBlock("pers_image");
+	$tpl->parseCurrentBlock();
+	$tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+	$tpl->setCurrentBlock("content");
+}
+
 $tpl->setVariable("UPLOAD",$lng->txt("upload"));
 $tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 $tpl->setVariable("USER_FILE", $lng->txt("user_file"));
@@ -438,7 +467,7 @@ $tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($ilias->account->getLast
 
 // gender selection
 $gender = strtoupper($ilias->account->getGender());
-			
+
 if (!empty($gender))
 {
 	$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
