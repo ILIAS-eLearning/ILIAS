@@ -204,8 +204,15 @@ if ($ilias->auth->getAuth())
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
+	$dirname = dirname($_SERVER["PHP_SELF"]);
+	$num_subdirs = substr_count(substr($dirname,strlen(substr(ILIAS_HTTP_PATH,strrpos(ILIAS_HTTP_PATH,"/"))) - strlen($dirname)),"/");
 
-	header("Location: index.php?reload=true");
+	for ($i=1;$i<=$num_subdirs;$i++)
+	{
+		$updir .= "../";
+	}
+
+	header("Location: ".$updir."index.php?reload=true");
 	exit;
 }
 
