@@ -645,8 +645,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 					// delete
 					$this->tpl->setCurrentBlock("delete");
-					$this->ctrl->setParameterByClass($this, "term_id", $term["id"]);
-					$this->ctrl->setParameterByClass($this, "def", $def["id"]);
+					$this->ctrl->setParameter($this, "term_id", $term["id"]);
+					$this->ctrl->setParameter($this, "def", $def["id"]);
 					$this->tpl->setVariable("LINK_DELETE",
 						$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));
 					$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));

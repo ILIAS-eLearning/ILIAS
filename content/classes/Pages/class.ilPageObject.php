@@ -114,7 +114,6 @@ class ilPageObject
 				return;
 			}
 		}
-
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
 
@@ -372,7 +371,6 @@ class ilPageObject
 	{
 		// build full http path for XML DOCTYPE header.
 		// Under windows a relative path doesn't work :-(
-
 		if($a_incl_head)
 		{
 			$enc_str = (!empty($this->encoding))
