@@ -395,7 +395,6 @@ class ilObjGroup extends ilObject
 	* create Group Role
 	* @access	public
 	* @param	integer	role folder id (reference)
-	* @param	integer status of group (0=public|1=private|2=closed)
 	*/
 	function createGroupRoles($rolfId)
 	{
@@ -604,10 +603,9 @@ class ilObjGroup extends ilObject
 	}	
 
 	/**
-	* copy all prperties and subobjects of a group.
+	* copy all properties and subobjects of a group.
 	* Does not copy the settings in the group's local role folder. Instead a new local role folder is created from
 	* the template settings (same process as creating a new group manually)
-	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
 	* 
 	* @access	public
 	* @return	integer	new ref id
@@ -616,9 +614,10 @@ class ilObjGroup extends ilObject
 	{		
 		global $rbacadmin;
 
+		// always call parent clone function first!!
 		$new_ref_id = parent::clone($a_parent_ref);
 		
-		// get object instance
+		// get object instance of cloned group
 		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
 		// create role folder and set up default local roles (like in saveObject)

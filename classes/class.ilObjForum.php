@@ -156,9 +156,10 @@ class ilObjForum extends ilObject
 	{		
 		global $rbacadmin;
 
+		// always call parent clone function first!!
 		$new_ref_id = parent::clone($a_parent_ref);
 		
-		// get object instance
+		// get object instance of cloned forum
 		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 
 		// create role folder and set up default local roles (like in saveObject)
