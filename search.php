@@ -12,16 +12,16 @@ if ($_POST["search"] != "")
 	$mySearch->setArea($_POST["area"]);
 	$mySearch->setText($_POST["searchtext"]);
 	$mySearch->setOptions($_POST["options"]);
-	
+
 	$tpl->setVariable("SEARCHTEXT", $_POST["searchtext"]);
-	
+
 	//perform search
 	if ($mySearch->execute() == true)
 	{
 		$tpl->setCurrentBlock("message");
 		$tpl->setVariable("MSG", $mySearch->hits." ".$lng->txt("treffer"));
 		$tpl->parseCurrentBlock();
-		
+
 		foreach ($mySearch->result as $row)
 		{
 		 	$i++;
@@ -31,6 +31,7 @@ if ($_POST["search"] != "")
 			$tpl->setVariable("TEXT", $row["text"]);
 			$tpl->parseCurrentBlock();
 		}
+		$tpl->touchBlock("result");
 	}
 	else
 	{

@@ -187,3 +187,25 @@ write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
 zip_code	zip code	Postleitzahl	codice postale	zip_code
+recipient	recipient	Empfänger	destinario	recipient
+search_recipient	search recipient	Empfänger suchen	cercare destinario	search recipient
+cc	cc	CC	cc	cc
+search_cc_recipient	search cc recipient	CC Empfänger suchen	cercare cc destinario	search cc recipient
+bc	bc	BC	bc	bc
+search_bc_recipient	search bc recipient	BC Empfänger suchen	cercare bc destinario	search bc recipient
+type 	type 	Typ	tipo	type 
+normal	normal	normal	normale	normal
+system_message	system message	Systemnachricht	messaggio di sistema	system message
+also_as_email	also as email	auch als eMail	anche come email	also as email
+url_description	url description	URL Beschreibung	URL descrizione	url description
+message_content	message content	Nachrichteninhalt	contenuto del messaggio	message content
+save_message	save message	Nachricht speichern	salva messaggio	save message
+unread	unread	ungelesen	non letto	unread
+actions	actions	Aktionen	azioni	actions
+move_to	move to	ablegen in 	mettere in	move to
+linebreak	linebreak	Zeilenumbruch	linebreak	linebreak
+signature	signature	Signatur	signature	signature
+mark_all_read	mark all as read	als gelesen markieren		
+mark_all_unread	mark all as unread	als ungelesen markieren
+mail_s	mail(s)	Mail(s)
+select_all	select all	Alle auswählen

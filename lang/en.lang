@@ -185,3 +185,25 @@ write#:#write
 yes#:#yes
 your_message#:#your message
 zip_code#:#zip code
+recipient#:#recipient
+search_recipient#:#search recipient
+cc#:#cc
+search_cc_recipient#:#search cc recipient
+bc#:#bc
+search_bc_recipient#:#search bc recipient
+type#:#type
+normal#:#normal
+system_message#:#system message
+also_as_email#:#also as email
+url_description#:#url description
+message_content#:#message content
+save_message#:#save message
+unread#:#unread
+actions#:#actions
+move_to#:#move to
+linebreak#:#linebreak
+signature#:#signature
+mark_all_read#:#mark all as read
+mark_all_unread#:#mark all as unread
+mail_s#:#mail(s)
+select_all#:#select all
