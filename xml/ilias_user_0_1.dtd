@@ -16,7 +16,7 @@
 <!-- User -->
 <!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender?, Email?,
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
-	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?)>
+	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
@@ -56,3 +56,4 @@
 <!ELEMENT Comment (#PCDATA)>
 <!ELEMENT Matriculation (#PCDATA)>
 <!ELEMENT Active (#PCDATA)> <!-- content must be "true" or "false" -->
+<!ELEMENT ClientIP (#PCDATA)>

@@ -992,6 +992,10 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
+		// The password type is not passed in the post data.  Therefore we
+		// append it here manually.
+		require_once "class.ilObjUser.php";
+	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
 		if (!ilUtil::is_email($_POST["Fobject"]["email"]))
@@ -1195,6 +1199,10 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->object->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
 			}
 		}
+		// The password type is not passed with the post data.  Therefore we
+		// append it here manually.
+		require_once "class.ilObjUser.php";
+	    $_POST["Fobject"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
 		if (!ilUtil::is_email($_POST["Fobject"]["email"]))

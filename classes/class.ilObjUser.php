@@ -25,8 +25,6 @@ define ("IL_PASSWD_PLAIN", "plain");
 define ("IL_PASSWD_MD5", "md5");			// ILIAS 3 Password
 define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 
-// only used by assignData() method
-define ("IL_NO_PASSWD", "");
 
 require_once "classes/class.ilObject.php";
 
@@ -48,8 +46,25 @@ class ilObjUser extends ilObject
 	// personal data
 
 	var $login;		// username in system
-	var $passwd;	// md5 hash of password
+
+	var $passwd;	// password encoded in the format specified by $passwd_type
 	var $passwd_type;
+					// specifies the password format. 
+					// value: IL_PASSWD_PLAIN, IL_PASSWD_MD5 or IL_PASSWD_CRYPT.
+
+					// Differences between password format in class ilObjUser and
+					// in table usr_data:
+					// Class ilObjUser supports three different password types 
+					// (plain, MD5 and CRYPT) and it uses the variables $passwd 
+					// and $passwd_type to store them.
+					// Table usr_data supports only two different password types
+					// (MD5 and CRYPT) and it uses the columns "passwd" and 
+					// "il2passwd" to store them.
+					// The conversion between these two storage layouts is done 
+					// in the methods that perform SQL statements. All other 
+					// methods work exclusively with the $passwd and $passwd_type 
+					// variables.
+
 	var $gender;	// 'm' or 'f'
 	var $utitle;	// user title (keep in mind, that we derive $title from object also!)
 	var $firstname;
@@ -174,16 +189,23 @@ class ilObjUser extends ilObject
 		{
 			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
+			// convert password storage layout used by table usr_data into
+			// storage layout used by class ilObjUser
+			if ($a_data["passwd"] == "" && $data["i2passwd"] != "")
+			{
+				$a_data["passwd_type"] = IL_PASSWD_CRYPT;
+				$a_data["passwd"] = $a_data["i2passwd"];
+			}
+			else 
+			{
+				$a_data["passwd_type"] = IL_PASSWD_MD5;
+				//$a_data["passwd"] = $a_data["passwd"]; (implicit)
+			}
+			unset($a_data["i2passw"]);
+
+
 			// fill member vars in one shot
 			$this->assignData($data);
-			if ($data["i2passwd"] != "" && $data["passwd"] == "")
-			{
-				$this->setPasswd($data["i2passwd"], IL_PASSWD_CRYPT);
-			}
-			else
-			{
-				$this->setPasswd($data["passwd"], IL_PASSWD_MD5);
-			}
 
 			//get userpreferences from usr_pref table
 			$this->readPrefs();
@@ -236,25 +258,11 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	array		userdata
 	*/
-	function assignData($a_data, $a_passwd_type = IL_PASSWD_PLAIN)
+	function assignData($a_data)
 	{
 		// basic personal data
 		$this->setLogin($a_data["login"]);
-
-		if ($a_passwd_type != IL_NO_PASSWD)
-		{
-			$this->setPasswd($a_data["passwd"], $a_passwd_type);
-		}
-
-		/*
-		if ($a_data["passwd"])
-		{
-			$this->setPasswd($a_data["passwd"], IL_PASSWD_MD5);
-		}
-		else
-		{
-			$this->setPasswd($a_data["il2passwd"], IL_PASSWD_CRYPT);
-		}*/
+		$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
 		$this->setFirstname($a_data["firstname"]);
@@ -499,9 +507,9 @@ class ilObjUser extends ilObject
 
 	/**
 	* updates password
-	* @param	string	old password
-	* @param	string	new password1
-	* @param	string	new password2
+	* @param	string	old password as plaintext
+	* @param	string	new password1 as plaintext
+	* @param	string	new password2 as plaintext
 	* @return	boolean	true on success; otherwise false
 	* @access	public
 	*/
@@ -529,13 +537,33 @@ class ilObjUser extends ilObject
 		}
 
 		//check old password
-		if (md5($a_old) != $this->passwd)
+		switch ($this->passwd_type)
 		{
-			return false;
+			case IL_PASSWD_PLAIN:
+				if ($a_old != $this->passwd)
+				{
+					return false;
+				}
+				break;
+
+			case IL_PASSWD_MD5:
+				if (md5($a_old) != $this->passwd)
+				{
+					return false;
+				}
+				break;
+
+			case IL_PASSWD_CRYPT:
+				if (_makeIlias2Password($a_old) != $this->passwd)
+				{
+					return false;
+				}
+				break;
 		}
 
 		//update password
 		$this->passwd = md5($a_new1);
+		$this->passwd_type = IL_PASSWD_MD5;
 
 		$q = "UPDATE usr_data SET ".
 			 "passwd='".$this->passwd."' ".
@@ -547,8 +575,8 @@ class ilObjUser extends ilObject
 
 	/**
 	* reset password
-	* @param	string	new password1
-	* @param	string	new password2
+	* @param	string	new password1 as plaintext
+	* @param	string	new password2 as plaintext
 	* @return	boolean	true on success; otherwise false
 	* @access	public
 	*/
@@ -571,6 +599,7 @@ class ilObjUser extends ilObject
 
 		//update password
 		$this->passwd = md5($a_new1);
+		$this->passwd_type = IL_PASSWD_MD5;
 
 		$q = "UPDATE usr_data SET ".
 			 "passwd='".$this->passwd."' ".
@@ -1031,12 +1060,25 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* get password (md5 hash)
+	* get password
+	* @return password. The password is encoded depending on the current 
+    *                   password type.
 	* @access	public
+	* @see getPasswdType
 	*/
 	function getPasswd()
 	{
 		return $this->passwd;
+	}
+	/**
+	* get password type
+	* @return password type (IL_PASSWD_PLAIN, IL_PASSWD_MD5 or IL_PASSWD_CRYPT).
+	* @access	public
+	* @see getPasswd
+	*/
+	function getPasswdType()
+	{
+		return $this->passwd_type;
 	}
 
 	/**
@@ -1437,6 +1479,26 @@ class ilObjUser extends ilObject
     function getComment()
     {
         return $this->referral_comment;
+    }
+
+    /**
+    * set client ip
+    * @access   public
+    * @param    string  hobby
+    */
+    function setClientIP($a_ip)
+    {
+		// XXX To be implemented
+    }
+
+    /**
+    * get client ip
+    * @access   public
+    */
+    function getClientIP()
+    {
+		// XXX To be implemented
+        return null;
     }
 
     /**
