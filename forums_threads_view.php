@@ -132,7 +132,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 	// ********************************************************************************
 	// build location-links
-	require_once("classes/class.ilForumLocatorGUI.php");
+	include_once("classes/class.ilForumLocatorGUI.php");
 	$frm_loc =& new ilForumLocatorGUI();
 	$frm_loc->setRefId($_GET["ref_id"]);
 	$frm_loc->setForum($frm);
@@ -318,7 +318,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$jump = 0;
 
 	// generate post-dates
-	foreach($subtree_nodes as $node)
+	foreach ($subtree_nodes as $node)
 	{
 //echo ":".$frm->convertDate($node["create_date"]).":<br>";
 		if ($_GET["pos_pk"] && $_GET["pos_pk"] == $node["pos_pk"])
@@ -340,7 +340,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				break;
 			}
 		}
-//echo ":".$posNum.":".$pageHits.":".$z.":".$Start."<br>";
+
 		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
 			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -349,15 +349,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
 				{
 					// EDIT ATTACHMENTS
-					if(count($file_obj->getFilesOfPost()) && $_GET["cmd"] == "showedit")
+					if (count($file_obj->getFilesOfPost()) && $_GET["cmd"] == "showedit")
 					{
-						foreach($file_obj->getFilesOfPost() as $file)
+						foreach ($file_obj->getFilesOfPost() as $file)
 						{
 							$tpl->setCurrentBlock("ATTACHMENT_EDIT_ROW");
 							$tpl->setVariable("FILENAME",$file["name"]);
 							$tpl->setVariable("CHECK_FILE",ilUtil::formCheckbox(0,"del_file[]",$file["name"]));
 							$tpl->parseCurrentBlock();
 						}
+
 						$tpl->setCurrentBlock("reply_attachment_edit");
 						$tpl->setVariable("FILE_DELETE_ACTION","forums_threads_view.php?ref_id=$_GET[ref_id]&cmd=showedit".
 										  "&pos_pk=$_GET[pos_pk]&thr_pk=$_GET[thr_pk]");
