@@ -427,3 +427,4 @@ common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Ty
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
 common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
 common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#forums_thread_articles#:#Beiträge zum Thema
