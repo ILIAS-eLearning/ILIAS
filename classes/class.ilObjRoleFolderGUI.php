@@ -158,7 +158,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		$this->showActions(true);
 
 		// footer
@@ -280,6 +279,59 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	}
 
 	/**
+	* show possible action (form buttons)
+	*
+	* @param	boolean
+	* @access	public
+ 	*/
+	function showActions($with_subobjects = false)
+	{
+		global $rbacsystem;
+
+		$operations = array();
+
+		if ($this->actions == "")
+		{
+			$d = $this->objDefinition->getActions($_GET["type"]);
+		}
+		else
+		{
+			$d = $this->actions;
+		}
+
+		foreach ($d as $row)
+		{
+			if ($rbacsystem->checkAccess($row["name"],$this->object->getRefId()))
+			{
+				$operations[] = $row;
+			}
+		}
+
+		if (count($operations) > 0)
+		{
+			foreach ($operations as $val)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($with_subobjects === true)
+		{
+			$subobjs = $this->showPossibleSubObjects();
+		}
+
+		if ((count($operations) > 0) or $subobjs === true)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
 	* confirmObject
 	* handles deletion of roles and role templates NOT the rolefolder object itself!!
 	* 
@@ -294,7 +346,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			$perform_delete = false;
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-						 $not_deletable,$this->ilias->error_obj->WARNING);
+						 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
 
 		$return_loc = $this->tree->getParentId($this->object->getRefId());
@@ -524,7 +576,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_NAME", "create");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
+			
+			return true;
 		}
+		
+		return false;
 	}
 
 	/**
