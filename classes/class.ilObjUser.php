@@ -1344,7 +1344,7 @@ class ilObjUser extends ilObject
 																		 "zipcode","country","phone_home","fax"));
 		$in = $a_search_obj->getInStatement("usr_data.usr_id");
 
-		$query = "SELECT usr_data.usr_id FROM usr_data ".
+		$query = "SELECT DISTINCT(usr_data.usr_id) FROM usr_data ".
 			"LEFT JOIN usr_pref USING (usr_id) ".
 			$where_condition." ".
 			$in." ".
@@ -1367,7 +1367,6 @@ class ilObjUser extends ilObject
 			#$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
 			#$result_data[$counter++]["target"]			=  "";
 		}
-
 		return $result_data ? $result_data : array();
 	}
 
