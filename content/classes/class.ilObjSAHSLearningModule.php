@@ -138,7 +138,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getTitle()
 	{
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
 	}
 
 	/**
