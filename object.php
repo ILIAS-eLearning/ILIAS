@@ -40,6 +40,12 @@ switch ($type)
 		$obj->$methode();
 		break;
 
+    case "crs":
+		include_once "classes/class.CourseObject.php";
+		$obj = new CourseObject();
+		$obj->$methode();
+		break;
+		
     case "role": 
 		include_once "classes/class.RoleObject.php";
 		$obj = new RoleObject();
@@ -69,33 +75,7 @@ switch ($type)
 		$obj = new UserFolderObject();
 		$obj->$methode();
 		break;
-		
-		/*
-		  case "kurs":
-		  include_once ("include/kurs.inc");
-		  break;
-
-		  case "file":
-		  include_once ("include/file.inc");
-		  break;
-
-		  case "set":
-		  include_once ("include/set.inc");
-		  break;
-
-		  case "abo":
-		  include_once ("include/abo.inc");
-		  break;
-    
-		  case "adm":
-		  include_once ("include/adm.inc");
-		  break;
-
-		  case "none":
-		  include_once ("include/none.inc");
-		  break;
-		*/
-		
+	
 	case "type":
 		include_once "classes/class.TypeDefinitionObject.php";
 		$obj = new TypeDefinitionObject();
