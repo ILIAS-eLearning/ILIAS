@@ -48,6 +48,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
+	function viewObject()
+	{
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+
 	/**
 	* no manual SCORM creation, only import at the time
 	*/
@@ -94,12 +108,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
 
+		$file = pathinfo($_FILES["scormfile"]["name"]);
+		$name = substr($file["basename"], 0,
+			strlen($file["basename"]) - strlen($file["extension"]) - 1);
+		if ($name == "")
+		{
+			$name = $this->lng->txt("no_title");
+		}
+
 		// create and insert object in objecttree
 		include_once("classes/class.ilObjSCORMLearningModule.php");
 		$newObj = new ilObjSCORMLearningModule();
 		$newObj->setType("slm");
-		$newObj->setTitle("temp title");				// should be set by
-		$newObj->setDescription("temp description");	// import parser
+		$newObj->setTitle($name);
+		$newObj->setDescription("");
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
@@ -109,7 +131,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->createDataDirectory();
 
 		// copy uploaded file to data directory
-		$file = pathinfo($_FILES["scormfile"]["name"]);
 		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
 		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
@@ -124,9 +145,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// start SCORM package parser
 		include_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
 		// todo determine imsmanifest.xml path here...
-		//$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
-		//$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
-		//$slmParser->startParsing();
+		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
+		$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
+		$slmParser->startParsing();
 
 		header("Location: adm_object.php?".$this->link_params);
 		exit();

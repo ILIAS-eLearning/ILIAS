@@ -36,6 +36,7 @@ class ilSCORMObject
 	var $id;
 	var $title;
 	var $type;
+	var $slm_id;
 
 
 	/**
@@ -71,7 +72,7 @@ class ilSCORMObject
 		return $this->type;
 	}
 
-	function setId($a_type)
+	function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
@@ -86,6 +87,16 @@ class ilSCORMObject
 		$this->title = $a_title;
 	}
 
+	function getSLMId()
+	{
+		return $this->slm_id;
+	}
+
+	function setSLMId($a_slm_id)
+	{
+		$this->slm_id = $a_slm_id;
+	}
+
 	function read()
 	{
 		$q = "SELECT * FROM scorm_object WHERE id = '".$this->getId()."'";
@@ -94,14 +105,26 @@ class ilSCORMObject
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setTitle($obj_rec["title"]);
 		$this->setType($obj_rec["type"]);
+		$this->setSLMId($obj_rec["slm_id"]);
 	}
 
 	function create()
 	{
-		$q = "INSERT INTO scorm_object (title, type) VALUES ".
-			"('".$this->getTitle()."', '".$this->getType()."')";
+		$q = "INSERT INTO scorm_object (title, type, slm_id) VALUES ".
+			"('".$this->getTitle()."', '".$this->getType()."',".
+			"'".$this->getSLMId()."')";
 		$this->ilias->db->query($q);
 		$this->setId(getLastInsertId());
+	}
+
+	function update()
+	{
+		$q = "UPDATE scorm_object SET ".
+			"title = '".$this->getTitle()."', ".
+			"type = '".$this->getType()."', ".
+			"slm_id = '".$this->getSLMId()."' ".
+			"WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
 	}
 
 }

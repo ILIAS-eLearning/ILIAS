@@ -97,6 +97,13 @@ class ilExplorer
 	var $expand_target;
 
 	/**
+	* rbac check true/false (default true)
+	* @var boolean
+	* @access private
+	*/
+	var $rbac_check;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -119,6 +126,7 @@ class ilExplorer
 		$this->order_column = "title";
 		$this->tree = new ilTree(ROOT_FOLDER_ID);
 		$this->expand_target = $_SERVER["SCRIPT_NAME"];
+		$this->rbac_check = true;
 	}
 
 	/**
@@ -159,6 +167,16 @@ class ilExplorer
 		$this->expand_target = $a_exp_target;
 	}
 
+	/**
+	* check permissions via rbac
+	*
+	* @param	boolean		$a_check		check true/false
+	*/
+	function checkPermissions($a_check)
+	{
+		$this->rbac_check = $a_check;
+	}
+
 
 	/**
 	* Creates output for explorer view in admin menue
@@ -178,7 +196,6 @@ class ilExplorer
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
-
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
@@ -188,9 +205,9 @@ class ilExplorer
 				//ask for FILTER
 				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
-					if ($rbacsystem->checkAccess("visible",$object["child"]))
+					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
 					{
-						if ($object["child"] != 1)
+						if ($object["child"] != $this->tree->getRootId())
 						{
 							$parent_index = $this->getIndex($object);
 						}
@@ -210,14 +227,14 @@ class ilExplorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["child"] != 1 and (!in_array($object["parent"],$this->expanded)
+						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
 
 						// if object exists parent is container
-						if ($object["child"] != 1)
+						if ($object["child"] != $this->tree->getRootId())
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
@@ -377,7 +394,7 @@ class ilExplorer
 	/**
 	* Creates lines for explorer view
 	* @access	private
-	* @param	integer 
+	* @param	integer
 	*/
 	function createLines($a_depth)
 	{
@@ -411,7 +428,7 @@ class ilExplorer
 			}
 		}
 	}
-	
+
 	/**
 	* DESCRIPTION MISSING
 	* @access	private
