@@ -249,7 +249,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$tpl->setVariable("RESET", $lng->txt("reset"));
 					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
 					$tpl->parseCurrentBlock("reply_post");
-				}
+					
+				} // if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
 				else
 				{						
 					// button: delete article
@@ -286,16 +287,23 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->parseCurrentBlock("edit_cell");
 						}
 						
+						// button: print
+						$tpl->setCurrentBlock("print_cell");
+						$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
+						$tpl->setVariable("PRINT_BUTTON","<a href=\"forums_export.php?&print_post=".$node["pos_pk"]."&top_pk=".$topicData["top_pk"]."&thr_pk=".$threadData["thr_pk"]."\" target=\"_blank\">".$lng->txt("print")."</a>"); 
+						$tpl->parseCurrentBlock("print_cell");
+						
 						// button: reply
 						$tpl->setCurrentBlock("reply_cell");
 						$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
 						$tpl->parseCurrentBlock("reply_cell");
-						
+												
 						$tpl->setVariable("POST_ANKER", $node["pos_pk"]);		
 					}			
-				}
-			}
+				} // else
+				
+			} // if ($rbacsystem->checkAccess("write", $_GET["ref_id"])) 
 			else
 			{
 				$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
@@ -336,11 +344,13 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));
 			$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
 			$tpl->setVariable("POST",nl2br($node["message"]));	
-			$tpl->parseCurrentBlock("posts_row");		
-		}
+			$tpl->parseCurrentBlock("posts_row");	
+				
+		} // if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 
-		$z ++;		
-	}
+		$z ++;	
+			
+	} // foreach($subtree_nodes as $node)
 }
 else
 {
