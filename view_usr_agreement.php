@@ -42,23 +42,68 @@ sendInfo();
 // display infopanel if something happened
 infoPanel();
 
+	// language selection
+	$languages = $lng->getInstalledLanguages();
+	
+		$count = (int) round(count($languages) / 2);
+		$num = 1;
+		
+		foreach ($languages as $lang_key)
+		{
+			/*
+			if ($num === $count)
+			{
+				$tpl->touchBlock("lng_new_row");
+			}
+			*/
+
+			$tpl->setCurrentBlock("languages");
+			$tpl->setVariable("LINK_LANG", "./view_usr_agreement.php?lang=".$lang_key);
+			$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+			$tpl->setVariable("LANG_ICON", $lang_key);
+			$tpl->setVariable("BORDER", 0);
+			$tpl->setVariable("VSPACE", 0);
+			$tpl->parseCurrentBlock();
+
+			$num++;
+		}
+		
+		/*
+		if (count($languages) % 2)
+		{
+			$tpl->touchBlock("lng_empty_cell");
+		}
+		*/
+
+
+
 // display tabs
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
+$tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement());
 $tpl->setVariable("BACK", $lng->txt("back"));
+
 $tpl->show();
 
 function getUserAgreement()
 {
+
 	global $lng, $ilias;
 
 	$tmpPath = getcwd();
+	$tmpsave = getcwd();
 	$agrPath = $tmpPath."/agreement";
 	chdir($agrPath);
 
 	$agreement = "agreement_".$lng->lang_key.".html";
 
-	if ($agreement)
+	// fallback to default language if selected translated user agreement of selected language was not found
+	if (!file_exists($agreement))
+	{
+		$agreement = "agreement_".$lng->lang_default.".html";
+	}
+	
+	if (file_exists($agreement))
 	{
 		if ($content = file($agreement))
 		{
@@ -66,6 +111,7 @@ function getUserAgreement()
 			{
 				$text .= trim(nl2br($val));
 			}
+			chdir($tmpsave);
 			return $text;
 		}
 		else
@@ -77,5 +123,7 @@ function getUserAgreement()
 	{
 		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
 	}
+
+	chdir($tmpsave);
 }
 ?>
