@@ -76,7 +76,16 @@ else
 	$obj_type = $_GET["type"];
 }
 
-$method = $_GET["cmd"]."Object";
+if ($_GET["cmd"] == "gateway")
+{
+	$cmd = key($_POST["cmd"]);
+}
+else
+{
+	$cmd = $_GET["cmd"];
+}
+
+$method = $cmd."Object";
 // build object instance
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
@@ -84,65 +93,13 @@ $class_name = $objDefinition->getClassName($obj_type);
 //$class_constr = "ilObj".$class_name;
 //require_once("./classes/class.ilObj".$class_name.".php");
 //$obj = new $class_constr($id,$call_by_reference);
-// call object method
+//
+// Direct calls of Object methods removed completely!
+//
 /*
 switch ($_GET["cmd"])
 {
-	// no more view() here! all calls moved to "out" class
-	case "view":
-		break;
-
-	// no more save() here! all calls moved to "out" class
-	case "save":
-		break;
-
-	// no more update() here! all calls moved to "out" class
-	case "update":
-		break;
-
-	// no more edit() here! all calls moved to "out" class
-	case "edit":
-		break;
-
-	// no more create() here! all calls moved to "out" class
-	case "create":
-		break;
-
-	// no more perm() here! all calls moved to "out" class
-	case "perm":
-		break;
-
-	// no more permsave() here! all calls moved to "out" class
-	case "permSave":
-		break;
-
-	// functions that shouldnt be called here
-	case "delete":
-	case "clone":
-		echo "delete or clone called !!!!!!!!!!!!!!";
-		// shouldn't be called here, just a test
-		break;
-
-	// no more gateway() here! all calls moved to "out" class
-	case "gateway":
-		break;
-
-	// no more addRole() here! all calls moved to "out" class
-	case "addRole":
-		break;
-
-	// no more owner() here! all calls moved to "out" class
-	case "owner":
-		break;
-		
-	case "adoptPermSave":
-	case "assignSave":
-	case "trash":
-	case "activeRoleSave":
-		break;
-
 	default:
-//echo "hier!!! ".$_GET["cmd"]."!"; exit;
 		$data = $obj->$method();
 		break;
 }*/
