@@ -60,7 +60,11 @@
 <tr>
 <td class="option" colspan="6">
 	<input type="submit" class="submit" name="cmd[addArea]" value="{ADD_AREA}" />
-	<select name="newarea"><option value="rect">{TEXT_RECT}</option><option value="circle">{TEXT_CIRCLE}</option><option value="poly">{TEXT_POLY}</option></select>
+	<select name="newarea">
+		<option value="rect"{SELECTED_RECT}>{TEXT_RECT}</option>
+		<option value="circle"{SELECTED_CIRCLE}>{TEXT_CIRCLE}</option>
+		<option value="poly"{SELECTED_POLY}>{TEXT_POLY}</option>
+	</select>
 </td>
 </tr>
 <!-- END addarea -->
