@@ -45,7 +45,7 @@
 <tr>
   <td class="option">{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
   <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
-  <td class="option_value" colspan="2">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <input type="radio" name="status" id="status_{ANSWER_ORDER}" value="{ANSWER_ORDER}"{STATUS_CHECKED}> <label for="status_{ANSWER_ORDER}">{TEXT_SET}</label></td>
+  <td class="option_value" colspan="2">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="5" value="{VALUE_MULTIPLE_CHOICE_POINTS}" /> {TEXT_WHEN} <select name="status_{ANSWER_ORDER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select></td>
   <td class="option_value">
 <!-- BEGIN deletebutton -->
 <input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" />
