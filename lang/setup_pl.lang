@@ -1,0 +1,145 @@
+/**
+* ILIAS language file
+*
+* @module		language file english
+* @modulegroup	language
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de> 
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+available_languages#:#dostępne języki
+back#:#powrót
+change#:#zmień
+change_password#:#zmień hasło
+choose_language#:#wybierz język
+choose_languages#:#Wybierz dodatkowe języki lub usuń wybrane języki.
+choose_password#:#Wybierz hasło
+data_path#:#ścieżka do danych
+database#:#baza danych
+database_exists#:#baza danych już istnieje
+database_is_uptodate#:#Wersja twojej bazy danych jest prawidłowa.
+database_needs_update#:#Twoja baza danych wymaga aktualizacji.
+database_ready#:#baza danych jest gotowa
+database_update#:#aktualizuj bazę danych
+database_version#:#wersja bieżącej bazy danych
+date#:#data
+db_host#:#serwer bazy danych
+db_name#:#nazwa bazy danych
+db_pass#:#hasło użytkownika bazy danych
+db_type#:#typ bazy danych
+db_user#:#użytkownik bazy danych
+db_version#:#wersja bazy danych
+default#:#domyślny
+delete#:#usuń
+en_by_default#:#(Angielski jest zainstalowany domyślnie i nie może być usunięty).
+enter_password#:#Podaj hasło
+env_ok#:#Ok. Wszystko w porządku
+env_using#:#ILIAS 3 będzie uruchomiony na:
+env_warning#:#ILIAS 3 był testowany na Linuksie i w Windows przy użyciu serwera Apache!<br />Jednak, ILIAS 3 może również pracować w twoim środowisku.
+environment#:#środowisko
+err_create_database_failed#:#utworzenie bazy danych nieudane
+err_wrong_login#:#Błędny login
+file_does_not_exist#:#Plik nie istnieje.
+file_version#:#wersja pliku
+fill_both_fields#:#Wypełnij oba pola!
+ilias_version#:#wersja ILIAS
+inifile#:#plik-ini
+inifile_can_write#:#Instalacja ILIAS 3 może zostać zapisana w pliku-ini.
+inifile_cannot_write#:#Instalator ILIAS 3 nie może zapisać pliku-ini. Sprawdź uprawnienia do zapisu.
+inifile_content#:#Zawartość twojego pliku-ini:
+inifile_exists#:#Plik-ini już istnieje. Bieżący proces instalacji usunie poprzednie ustawienia.
+inifile_fill_all#:#Wypełnij wszystkie pola.
+inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 3.
+inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
+inst_name#:#nazwa instalacji
+install#:#instaluj
+installation#:#Instaluj
+installed#:#zainstalowany
+intro_install#:#To jest główna strona instalatora ILIAS 3. Stąd można wywołać kolejne etapy instalacji.
+lang_de#:#Niemiecki
+lang_dk#:#Duński
+lang_en#:#Angielski
+lang_error_occurred#:#Wystąpił błąd. akcja przerwana.
+lang_es#:#Hiszpański
+lang_fr#:#Francuski
+lang_id#:#Indonezyjski
+lang_it#:#Włoski
+lang_lt#:#Litewski
+lang_no#:#Norweski
+lang_pl#:#Polski
+lang_se#:#Szwedzki
+lang_xx#:#Inny
+language#:#język
+languages#:#języki
+languages_installed#:#Zainstalowano języki.
+logged_out#:#Jesteś wylogowany.
+login#:#login
+login_to_ilias#:#login do ILIAS
+logout#:#logout
+no_changes#:#Brak zmian.
+no_db_update_file#:#dbupdate.php nie został odnaleziony!
+not_connected_to_db#:#Nie jesteś podłączony do bazy danych.
+out_of_webspace#:#(poza przestrzenią WWW)
+password#:#hasło
+password_changed#:#Hasło zostało zmienione.
+password_empty#:#Nie podano hasła!
+password_info#:#Aby zabezpieczyć dane konfiguracyjne przed niepowołanym dostępem powinieneś ustawić hasło do instalatora ILIAS 3.
+password_set#:#Hasło zostało zapisane.
+pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem ponieważ dalsza instalacja ILIAS 3 nie jest możliwa.
+pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS 3
+pre_folder_write#:#Katalog ILIAS 3 z możliwością zapisu
+pre_intro#:#Najpierw sprawdź czy, twoje środowisko spełnia wymagania instalacji i uruchomienia ILIAS3 na twoim serwerze.
+pre_php_version#:#Wersja PHP
+preliminaries#:#Proces instalacji
+reset#:#Przywróć
+set_newpasswd#:#Podaj nowe hasło
+set_oldpasswd#:#Podaj stare hasło
+setup#:#Instalator
+setup_database#:#utwórz bazę danych
+setup_database_desc#:#utworzenie bazy danych
+setup_db_first#:#Najpierw utwórz bazę danych!
+setup_ini_first#:#Najpierw utwórz plik konfiguracyjny!
+setup_inifile#:#utwórz plik konfiguracyjny (ini)
+setup_inifile_desc#:#utworzenie pliku konfiguracyjnego (ini) dla swojej istalacji
+setup_languages#:#zainstaluj języki
+setup_languages_desc#:#zainstalowanie dodatkowych języków
+setup_mainmenu#:#Instalator - Głowne menu
+setup_menu#:#menu instalatora
+setup_password#:#utwórz hasło
+setup_password_desc#:#utworzenie hasła dostępu do instalatora w przyszłości (np. dla aktualizacji twojej bazy danych)
+setup_ready#:#Instalacja jest gotowa. Możesz się zalogować i sprawdzić pozostałe ustawienia.
+setup_welcome#:#Witamy w instalatorze ILIAS. Instalator pomoże ci wykonać poniższe czynności.
+submit#:#Wykonaj
+update_applied#:#Aktualizacja została przeprowadzona.
+update_error#:#błąd podczas aktualizacji
+update_not_found#:#Aktualizacja nie została odnaleziona!
+version#:#Wersja
+webspace_dir#:#ścieżka do danych WWW
+with#:#z
+wrong_password#:#Złe hasło!
