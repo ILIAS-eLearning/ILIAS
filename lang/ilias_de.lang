@@ -33,7 +33,7 @@
 // Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#Drittanbieter-Software
+common#:#3rd_party_software#:#Drittanbieter-Software###09 Jan 2004 content changed
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
@@ -112,6 +112,7 @@ common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
+common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
@@ -1793,10 +1794,9 @@ search#:#search_search_results#:#Suchergebnisse
 search#:#search_search_term#:#Suchbegriff
 search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
 search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
-search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
+search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--###09 Jan 2004 content changed
 search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.

@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#Software di terze parti
+common#:#3rd_party_software#:#Software di terze parti###09 Jan 2004 content changed
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -112,6 +112,7 @@ common#:#chapter_title#:#Titolo del capitolo
 common#:#check#:#Controlla
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
+common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
 common#:#choose_language#:#Scegli la lingua
@@ -1793,7 +1794,7 @@ search#:#search_search_results#:#Cerca resultati
 search#:#search_search_term#:#Cerca termine
 search#:#search_select_exactly_one_object#:#Devi selezionare un solo oggetto.
 search#:#search_select_one#:#Seleziona una cartella
-search#:#search_select_one_action#:#--Scegli una azione--
+search#:#search_select_one_action#:#--Scegli una azione--###09 Jan 2004 content changed
 search#:#search_select_one_folder_select#:#--Scegli una cartella--
 search#:#search_select_one_result#:#Seleziona almeno un risultato della ricerca
 search#:#search_select_one_select#:#--Scegli una cartella--
