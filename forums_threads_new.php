@@ -120,7 +120,7 @@ if ($_GET["cmd"] == "newthread")
 	{		
 		// build new thread
 		$newPost = $frm->generateThread($topicData["top_pk"], $_SESSION["AccountId"], 
-										$formData["subject"], $formData["message"],$formData["notify"]);
+			ilUtil::stripSlashes($formData["subject"]), ilUtil::stripSlashes($formData["message"]),$formData["notify"]);
 		
 		// Visit-Counter
 		$frm->setDbTable("frm_data");

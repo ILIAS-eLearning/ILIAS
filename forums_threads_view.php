@@ -216,9 +216,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 				{
 					// reply: new post
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
-												  $_SESSION["AccountId"], $formData["message"], 
+												  $_SESSION["AccountId"], ilUtil::stripSlashes($formData["message"]),
 												  $_GET["pos_pk"],$_POST["notify"],
-												  $_POST["subject"] ? $_POST["subject"] : $threadData["thr_subject"]);
+												  $_POST["subject"]
+												  	? ilUtil::stripSlashes($_POST["subject"])
+													: $threadData["thr_subject"]);
 					sendInfo($lng->txt("forums_post_new_entry"));
 					if(isset($_FILES["userfile"]))
 					{
@@ -230,8 +232,10 @@ if (is_array($topicData = $frm->getOneTopic()))
 				else
 				{
 					// edit: update post
-					if ($frm->updatePost($formData["message"], $_GET["pos_pk"],$_POST["notify"],
-										 $_POST["subject"] ? $_POST["subject"] : $threadData["thr_subject"]))
+					if ($frm->updatePost(ilUtil::stripSlashes($formData["message"]), $_GET["pos_pk"],$_POST["notify"],
+										 $_POST["subject"]
+										 	? ilUtil::stripSlashes($_POST["subject"])
+											: $threadData["thr_subject"]))
 					{
 						sendInfo($lng->txt("forums_post_modified"));
 					}
@@ -394,12 +398,12 @@ if (is_array($topicData = $frm->getOneTopic()))
 					
 					if ($_GET["cmd"] == "showreply")
 					{
-						$tpl->setVariable("SUBJECT_VALUE",$threadData["thr_subject"]);
+						$tpl->setVariable("SUBJECT_VALUE",ilUtil::prepareFormOutput($threadData["thr_subject"]));
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
 					}
 					else
 					{
-						$tpl->setVariable("SUBJECT_VALUE",$node["subject"]);
+						$tpl->setVariable("SUBJECT_VALUE",ilUtil::prepareFormOutput($node["subject"]));
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
 					}
 					// NOTIFY
