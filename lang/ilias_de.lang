@@ -1890,6 +1890,7 @@ common#:#qpl_delete#:#Fragenpool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
 common#:#qpl_new#:#Neuer Fragenpool für Test
 common#:#qpl_read#:#Lesezugriff auf Fragenpool
+common#:#qpl_upload_file#:#Datei hochladen
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
 common#:#query_data#:#Daten anzeigen
