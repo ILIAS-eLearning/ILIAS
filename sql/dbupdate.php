@@ -5256,4 +5256,14 @@ ALTER TABLE `survey_question` ADD `maxchars` INT DEFAULT '0' NOT NULL AFTER `ori
 <#370>
 ALTER TABLE content_object ADD public_html_file VARCHAR(50) DEFAULT '' NOT NULL;
 ALTER TABLE content_object ADD public_xml_file VARCHAR(50) DEFAULT '' NOT NULL;
+<#371>
+CREATE TABLE `survey_material` (
+`material_id` INT NOT NULL AUTO_INCREMENT ,
+`question_fi` INT NOT NULL ,
+`internal_link` VARCHAR( 50 ) ,
+`import_id` VARCHAR( 50 ) ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `material_id` ) ,
+INDEX ( `question_fi` )
+);
 

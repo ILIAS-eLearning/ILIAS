@@ -82,7 +82,34 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
 		// call to other question data
 		$this->outOtherQuestionData();
+		$internallinks = array(
+			"lm" => $this->lng->txt("obj_lm"),
+			"st" => $this->lng->txt("obj_st"),
+			"pg" => $this->lng->txt("obj_pg"),
+			"glo" => $this->lng->txt("glossary_term")
+		);
+		foreach ($internallinks as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("internallink");
+			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
+		if (count($this->object->material))
+		{
+			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
+			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
+			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
+			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("change"));
+			$this->tpl->setVariable("VALUE_MATERIAL", $this->object->material["internal_link"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("add"));
+		}
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
@@ -183,6 +210,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+		$this->object->setMaterial($_POST["material"]);
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);
 		$questiontext = str_replace("\n", "<br />", $questiontext);
     $this->object->setQuestiontext($questiontext);
@@ -219,6 +247,13 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 */
 	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
+		if (count($this->object->material))
+		{
+			$this->tpl->setCurrentBlock("material_metric");
+			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
+			$this->tpl->setVariable("TEXT_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
 		if ($this->object->getObligatory())

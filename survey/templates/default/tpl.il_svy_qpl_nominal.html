@@ -38,6 +38,22 @@
 	</select></td>
 </tr>
 <!-- END orientation -->
+<tr>
+	<td class="option">{TEXT_MATERIAL}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="material" value="{VALUE_MATERIAL}" />
+		{TEXT_VALUE_MATERIAL}
+		<!-- BEGIN remove_material -->
+		<input type="submit" class="submit" name="cmd[removeMaterial]" value="{BUTTON_REMOVE_MATERIAL}" />
+		<!-- END remove_material -->
+		<input type="submit" class="submit" name="cmd[addMAterial]" value="{BUTTON_ADD_MATERIAL}" />
+		<select name="internalLinkType">
+<!-- BEGIN internallink -->
+		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
+<!-- END internallink -->
+		</select>
+	</td>
+</tr>
 <tr><td colspan="5" class="option">
 <!-- BEGIN move_buttons -->
 <input type="submit" class="submit" name="cmd[insertBeforeCategory]" value="{INSERT_BEFORE}" />

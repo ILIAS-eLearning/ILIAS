@@ -93,6 +93,7 @@ class SurveyTextQuestion extends SurveyQuestion {
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
 		}
+		parent::loadFromDb($id);
   }
 
 /**
@@ -205,6 +206,7 @@ class SurveyTextQuestion extends SurveyQuestion {
       // saving material uris in the database
       $this->saveMaterialsToDb();
     }
+		parent::saveToDb($original_id);
   }
 
 	/**
@@ -418,6 +420,7 @@ class SurveyTextQuestion extends SurveyQuestion {
       );
       $result = $this->ilias->db->query($query);
 		}
+		parent::syncWithOriginal();
 	}
 	
 	/**
