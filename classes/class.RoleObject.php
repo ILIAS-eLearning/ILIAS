@@ -264,7 +264,7 @@ class RoleObject extends Object
 				// END CHECK_PERM
 				$tplContent->setCurrentBlock("TABLE_DATA_OUTER");
 				// color changing
-				$css_row = switchColor($key,"row_high","row_low");
+				$css_row = TUtil::switchColor($key,"row_high","row_low");
 				$tplContent->setVariable("CSS_ROW",$css_row);
 				$tplContent->setVariable("PERMISSION",$operations["operation"]);
 				$tplContent->parseCurrentBlock();
@@ -310,7 +310,7 @@ class RoleObject extends Object
 			foreach ($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$tplContent->setVariable("CSS_ROW_ADOPT",switchColor($key,"row_high","row_low");
+				$tplContent->setVariable("CSS_ROW_ADOPT",TUtil::switchColor($key,"row_high","row_low"));
 				$tplContent->setVariable("CHECK_ADOPT",$radio);
 				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
 				$tplContent->setVariable("ROLE_NAME",$par["title"]);
