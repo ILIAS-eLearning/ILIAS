@@ -23,18 +23,30 @@ body { margin:0px; }
 </tr>
 <!-- BEGIN posts_row -->
 <tr>
- <td valign="top" width="25%" class="{ROWCOL}">{AUTHOR}<br/><br/>
- <span class="small">{TXT_REGISTERED} {REGISTERED_SINCE}
- <br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
- </td>
+	<td valign="top" width="25%" class="{ROWCOL}">
+	<table border="0" cellpadding="0" cellspacing="0"><tr>
+	<td width="80px" valign="top">
+	<!-- BEGIN usr_image -->
+	<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+	<br />
+	<!-- END usr_image -->
+	{AUTHOR}
+	</td>
+
+	<td valign="top" nowrap="1"><span class="small">{TXT_REGISTERED}<br />{REGISTERED_SINCE}
+	<br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
+	</td></tr></table>
+
+	</td>
+
  <td class="{ROWCOL}">
- <b>{SUBJECT}</b><br /> 
+ <b>{SUBJECT}</b><br />
  <span class="small">{TXT_CREATE_DATE}: {POST_DATE}</span>
  {SPACER}
  <a name="{POST_ANKER}"></a>{POST}<br/>
  {POST_UPDATE}
  {SPACER}
- <!-- BEGIN reply_cell --> 
+ <!-- BEGIN reply_cell -->
  <span class="small">[{REPLY_BUTTON}]&nbsp;</span>
  <!-- END reply_cell -->
  <!-- BEGIN edit_cell -->
@@ -49,47 +61,47 @@ body { margin:0px; }
    <!-- BEGIN cens_cell -->
  <span class="small">[{CENS_BUTTON}]&nbsp;</span>
  <!-- END cens_cell -->
-<!-- BEGIN attachments -->
-			  <span class="small">
-			  <div align="right">
-				<b>{TXT_ATTACHMENTS_DOWNLOAD}:</b>
-				<!-- BEGIN attachment_download_row -->
-				<a href="{HREF_DOWNLOAD}">
-				  <img src="{DOWNLOAD_IMGPATH}/images/icon_attachment.gif" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" border="0" />
-				</a>
-				<!-- END attachment_download_row -->
-			  </div>
-			  </span>
-<!-- END attachments -->
- <br/>
- <!-- BEGIN kill_cell -->
- <form name="formular2" action="{DEL_FORMACTION}" target="bottom" method="post">
- {KILL_SPACER}<a name="{KILL_ANKER}"></a>
- <p class="warning">{TXT_KILL}</p>
- <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
- &nbsp;&nbsp;
- <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
- </form>
- <br/>
- <!-- END kill_cell -->
- 
- <!-- BEGIN censorship_cell -->
- <form name="formular3" action="{CENS_FORMACTION}" method="post">
- {CENS_SPACER}<a name="{CENS_ANKER}"></a>
-	<table class="std">
-	<tr>
-	    <td valign="top">{TXT_CENS_COMMENT}<br>
-		<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap=virtual style="width:550px; height=80px">{CENS_MESSAGE}</textarea></td>
-	</tr>
-	</table>
- <p class="warning">{TXT_CENS}</p>
- <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
- &nbsp;&nbsp;
- <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
- </form>
- <br/>
- <!-- END censorship_cell -->
- 
+	<!-- BEGIN attachments -->
+		<span class="small">
+		<div align="right">
+			<b>{TXT_ATTACHMENTS_DOWNLOAD}:</b>
+			<!-- BEGIN attachment_download_row -->
+			<a href="{HREF_DOWNLOAD}">
+			<img src="{DOWNLOAD_IMGPATH}/images/icon_attachment.gif" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" border="0" />
+			</a>
+			<!-- END attachment_download_row -->
+		</div>
+		</span>
+	<!-- END attachments -->
+	<br/>
+	<!-- BEGIN kill_cell -->
+	<form name="formular2" action="{DEL_FORMACTION}" target="bottom" method="post">
+	{KILL_SPACER}<a name="{KILL_ANKER}"></a>
+	<p class="warning">{TXT_KILL}</p>
+	<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
+	&nbsp;&nbsp;
+	<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
+	</form>
+	<br/>
+	<!-- END kill_cell -->
+
+	<!-- BEGIN censorship_cell -->
+	<form name="formular3" action="{CENS_FORMACTION}" method="post">
+	{CENS_SPACER}<a name="{CENS_ANKER}"></a>
+		<table class="std">
+		<tr>
+			<td valign="top">{TXT_CENS_COMMENT}<br>
+			<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap=virtual style="width:550px; height=80px">{CENS_MESSAGE}</textarea></td>
+		</tr>
+		</table>
+	<p class="warning">{TXT_CENS}</p>
+	<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
+	&nbsp;&nbsp;
+	<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
+	</form>
+	<br/>
+	<!-- END censorship_cell -->
+
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
 <table class="std">

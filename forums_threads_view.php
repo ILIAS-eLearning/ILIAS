@@ -589,6 +589,22 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 			if($node["author"])
 			{
+				$user_obj = new ilObjUser($usr_data["usr_id"]);
+
+				// user image
+				$webspace_dir = ilUtil::getWebspaceDir();
+				$image_dir = $webspace_dir."/usr_images";
+				$xthumb_file = $image_dir."/usr_".$user_obj->getID()."_xsmall.jpg";
+				if ($user_obj->getPref("public_upload") == "y" &&
+					$user_obj->getPref("public_profile") == "y" &&
+					@is_file($xthumb_file))
+				{
+					$tpl->setCurrentBlock("usr_image");
+					$tpl->setVariable("USR_IMAGE", $xthumb_file."?t=".rand(1, 99999));
+					$tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("posts_row");
+				}
+
 				$backurl = urlencode("forums_frameset.php?ref_id=".$_GET["ref_id"].
 									 "&thr_pk=".$_GET["thr_pk"].
 									 "&pos_pk=".$node["pos_pk"]."#".$node["pos_pk"]);

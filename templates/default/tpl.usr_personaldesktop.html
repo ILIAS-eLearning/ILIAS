@@ -46,22 +46,28 @@ body { margin:0px; }
 <h2>{TXT_USERS_ONLINE}</h2>
     <table class="fullwidth">
 	<tr class="tblheader">
-      <td class="std" valign="top" colspan="4">{USER_LIST}</td>
+      <td class="std" valign="top" colspan="5">{USER_LIST}</td>
 	</tr>
 <!-- BEGIN tbl_users_header -->
 	<tr class="tblheader">
-      <td class="std" valign="top" width="25%"><b>{TXT_USR_LOGIN}</b></td>
-      <td class="std" valign="top" width="35%"><b>{TXT_USR_FULLNAME}</b></td>
-      <td class="std" valign="top" width="25%"><b>{TXT_USR_LOGIN_TIME}</b></td>
-  	  <td class="std" valign="top" width="15%">&nbsp;</td>
+		<td class="std" valign="middle" align="center" width="1%">&nbsp;</td>
+		<td class="std" valign="top" width="30%"><b>{TXT_USR_LOGIN}</b></td>
+		<td class="std" valign="top" width="48%"><b>{TXT_USR_FULLNAME}</b></td>
+		<td class="std" valign="top" width="20%"><b>{TXT_USR_LOGIN_TIME}</b></td>
+		<td class="std" valign="top" width="1%">&nbsp;</td>
 	</tr>
 <!-- END tbl_users_header -->
 <!-- BEGIN tbl_users_row -->
     <tr class="{ROWCOL}">
-      <td class="std" valign="top">{USR_LOGIN}</td>
-      <td class="std" valign="top">{USR_FULLNAME}</td>
-      <td class="std" valign="top">{USR_LOGIN_TIME}</td>
-      <td class="std" valign="top">
+		<td class="std" valign="middle" align="center" width="1%">{NO_IMAGE}
+		<!-- BEGIN usr_image -->
+		<img border="0" src="{USR_IMAGE}" style="vertical-align:text-bottom" />
+		<!-- END usr_image -->
+		</td>
+		<td class="std" valign="top">{USR_LOGIN}</td>
+		<td class="std" valign="top">{USR_FULLNAME}</td>
+		<td class="std" valign="top">{USR_LOGIN_TIME}</td>
+		<td class="std" valign="top" nowrap="1">
 <!-- BEGIN profile_link -->
 	    <a href="profile.php?user={USR_ID}"><img src="{IMG_VIEW}" alt="{ALT_TXT_VIEW}" title="{ALT_TXT_VIEW}" border="0"/></a>
 <!-- END profile_link -->

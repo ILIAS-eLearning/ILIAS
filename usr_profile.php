@@ -73,19 +73,18 @@ function upload_file()
 // Check the type of file and then check the size
 // of the file whether we allow people to upload or not
 
-
 	$webspace_dir = ilUtil::getWebspaceDir();
 	$image_dir = $webspace_dir."/usr_images";
-
 	$path_info = pathinfo($_FILES["userfile"]["name"]);
 	$target_file = $image_dir."/usr_".$ilias->account->getId()."."."jpg";
 	$store_file = "usr_".$ilias->account->getID()."."."jpg";
+
+	// store filename
 	$ilias->account->setPref("profile_image", $store_file);
 	$ilias->account->update();
+
+	//
 	move_uploaded_file($_FILES["userfile"]["tmp_name"],$target_file);
-	//echo "from:".$_FILES["userfile"]["tmp_name"]."to:".$target_file."<br>";
-	// by default after copy it will loss
-	// some permission so set it to readable
 	chmod($target_file, 0770);
 
 	// got file name (ex-usr_6.jpg) change then convert it to
@@ -95,13 +94,22 @@ function upload_file()
 	$part = explode(".",$rename_file);
 	$show_file = $image_dir."/".$part[0].".jpg";
 	$thumb_file = $image_dir."/".$part[0]."_small.jpg";
+	$xthumb_file = $image_dir."/".$part[0]."_xsmall.jpg";
+	$xxthumb_file = $image_dir."/".$part[0]."_xxsmall.jpg";
 
 	if (@is_file($thumb_file))
 	{
 		unlink($thumb_file);
 	}
+
+	if (@is_file($thumb_file))
+	{
+		unlink($show_file);
+	}
 	system(ilUtil::getConvertCmd()." $target_file -geometry 200x200 JPEG:$show_file");
-	system(ilUtil::getConvertCmd()." $target_file -geometry 100x100  JPEG:$thumb_file");
+	system(ilUtil::getConvertCmd()." $target_file -geometry 100x100 JPEG:$thumb_file");
+	system(ilUtil::getConvertCmd()." $target_file -geometry 75x75 JPEG:$xthumb_file");
+	system(ilUtil::getConvertCmd()." $target_file -geometry 30x30 JPEG:$xxthumb_file");
 
 	if (!@is_file($thumb_file))
 	{
@@ -114,6 +122,41 @@ function upload_file()
 
 	return $target_file;
 }
+
+function removePicture()
+{
+	global $ilias;
+
+	$webspace_dir = ilUtil::getWebspaceDir();
+	$image_dir = $webspace_dir."/usr_images";
+	$file = $image_dir."/usr_".$ilias->account->getID()."."."jpg";
+	$thumb_file = $image_dir."/usr_".$ilias->account->getID()."_small.jpg";
+	$xthumb_file = $image_dir."/usr_".$ilias->account->getID()."_xsmall.jpg";
+	$xxthumb_file = $image_dir."/usr_".$ilias->account->getID()."_xxsmall.jpg";
+
+	// remove user pref file name
+	$ilias->account->setPref("profile_image", "");
+	$ilias->account->update();
+
+	if (@is_file($file))
+	{
+		unlink($file);
+	}
+	if (@is_file($thumb_file))
+	{
+		unlink($thumb_file);
+	}
+	if (@is_file($xthumb_file))
+	{
+		unlink($xthumb_file);
+	}
+	if (@is_file($xxthumb_file))
+	{
+		unlink($xxthumb_file);
+	}
+
+}
+
 // End of function upload file
 
 // change user password
@@ -201,7 +244,13 @@ if ($_GET["cmd"] == "save")
 	{
 		upload_file();
 	}
-	
+
+	// remove user image
+	if (!empty($_POST["removePicture"]))
+	{
+		removePicture();
+	}
+
 	// error content
 	$password_error;
 
@@ -461,8 +510,11 @@ $image_file = $webspace_dir."/usr_images/".$small_img;
 if (@is_file($image_file))
 {
 	$tpl->setCurrentBlock("pers_image");
-	$tpl->parseCurrentBlock();
 	$tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
+	$tpl->parseCurrentBlock();
+	$tpl->setCurrentBlock("remove_pic");
+	$tpl->setVariable("TXT_REMOVE_PIC",$lng->txt("remove_personal_picture"));
+	$tpl->parseCurrentBlock();
 	$tpl->setCurrentBlock("content");
 }
 
