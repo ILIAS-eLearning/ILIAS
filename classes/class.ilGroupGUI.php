@@ -450,8 +450,18 @@ class ilGroupGUI extends ilObjectGUI
 		$member_ids = array();
 		if(isset($_POST["user_id"]))
 			$member_ids = $_POST["user_id"];
-		else if(isset($_GET["mem_id"]))
+		else
+		{	
+			if(isset($_GET["mem_id"]))
+			{
 			$member_ids[0] = $_GET["mem_id"];
+			}
+			else
+			{
+				$this->ilias->raiseError($this->lng->txt("usr_not_chosen"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$local_roles = $newGrp->getLocalGroupRoles();
