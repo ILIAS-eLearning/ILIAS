@@ -85,9 +85,9 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->grp_tree = new ilTree($_GET["tree_id"]);
 		}else{
-			$this->grp_tree = new ilTree($this->object->getId());
+			$this->grp_tree = new ilTree($this->object->getRefId());
 		}
-		$this->grp_tree->setTableNames("grp_tree","object_data");
+		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		
 		//return to the same place , where the action was executed
 		$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
