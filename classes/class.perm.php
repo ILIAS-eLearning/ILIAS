@@ -211,7 +211,7 @@ function getObjectList ($a_obj_type = "",$a_order = "", $a_direction = "ASC", $a
 	{
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr[] = fetchObjectData($row);
+			$arr[$row->obj_id] = fetchObjectData($row);
 		}
 
 		return $arr;
