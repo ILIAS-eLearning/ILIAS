@@ -1265,10 +1265,11 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			
+
 			return $newObj;
 		}
 	}
+
 
 	/**
 	* import new object form
