@@ -2366,5 +2366,107 @@ class ilObjTest extends ilObject
 		return true;
 	}		
 	
+/**
+* Calculates the data for the output of the questionpool
+*
+* Calculates the data for the output of the questionpool
+*
+* @access public
+*/
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	{
+		global $ilUser;
+		$where = "";
+		if (strlen($filter_text) > 0) {
+			switch($sel_filter_type) {
+				case "title":
+					$where = " AND qpl_questions.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "comment":
+					$where = " AND qpl_questions.comment LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "author":
+					$where = " AND qpl_questions.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+			}
+		}
+  
+    // build sort order for sql query
+		$order = "";
+		$images = array();
+    if (count($sortoptions)) {
+      foreach ($sortoptions as $key => $value) {
+        switch($key) {
+          case "title":
+            $order = " ORDER BY title $value";
+            $images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "comment":
+            $order = " ORDER BY comment $value";
+            $images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "type":
+            $order = " ORDER BY question_type_id $value";
+            $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "author":
+            $order = " ORDER BY author $value";
+            $images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "created":
+            $order = " ORDER BY created $value";
+            $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "updated":
+            $order = " ORDER BY TIMESTAMP $value";
+            $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+        }
+      }
+    }
+		$maxentries = $ilUser->prefs["hits_per_page"];
+		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+    $query_result = $this->ilias->db->query($query);
+		$max = $query_result->numRows();
+		if ($startrow > $max -1)
+		{
+			$startrow = $max - ($max % $maxentries);
+		}
+		else if ($startrow < 0)
+		{
+			$startrow = 0;
+		}
+		$limit = " LIMIT $startrow, $maxentries";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+    $query_result = $this->ilias->db->query($query);
+		$rows = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $query_result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($rows, $row);
+			}
+		}
+		$nextrow = $startrow + $maxentries;
+		if ($nextrow > $max - 1)
+		{
+			$nextrow = $startrow;
+		}
+		$prevrow = $startrow - $maxentries;
+		if ($prevrow < 0)
+		{
+			$prevrow = 0;
+		}
+		return array(
+			"rows" => $rows,
+			"images" => $images,
+			"startrow" => $startrow,
+			"nextrow" => $nextrow,
+			"prevrow" => $prevrow,
+			"step" => $maxentries,
+			"rowcount" => $max
+		);
+	}
+		
 } // END class.ilObjTest
 ?>

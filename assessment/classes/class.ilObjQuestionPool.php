@@ -521,7 +521,6 @@ class ilObjQuestionPool extends ilObject
 	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
-		
 		$where = "";
 		if (strlen($filter_text) > 0) {
 			switch($sel_filter_type) {
@@ -596,7 +595,7 @@ class ilObjQuestionPool extends ilObject
 		$nextrow = $startrow + $maxentries;
 		if ($nextrow > $max - 1)
 		{
-			$nextrow = $max - ($max % $maxentries);
+			$nextrow = $startrow;
 		}
 		$prevrow = $startrow - $maxentries;
 		if ($prevrow < 0)
