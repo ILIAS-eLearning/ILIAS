@@ -83,7 +83,17 @@ class ilChatController
 	// PRIVATE
 	function __getCommand()
 	{
-		$_GET["cmd"] = $_GET["cmd"] == 'gateway' ? key($_POST["cmd"]) : $_GET["cmd"];
+		if($_GET["cmd"] == 'gateway')
+		{
+			if(is_array($_POST["cmd"]))
+			{
+				$_GET["cmd"] = key($_POST["cmd"]);
+			}
+			else
+			{
+				$_GET["cmd"] = 'cancel';
+			}
+		}
 
 		if($_GET["cmd"])
 		{
