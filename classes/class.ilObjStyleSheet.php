@@ -331,6 +331,12 @@ class ilObjStyleSheet extends ilObject
 			"border-width-left" => array(),
 			"border-width-right" => array(),
 
+			"border-color" => array(),
+			"border-top-color" => array(),
+			"border-bottom-color" => array(),
+			"border-left-color" => array(),
+			"border-right-color" => array(),
+
 			"border-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
 				"groove", "ridge", "inset", "outset"),
 			"border-top-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
