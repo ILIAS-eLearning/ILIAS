@@ -75,20 +75,29 @@ class ilWysiwygUtil
         $new["convert"] .= ">";
         $new["convert2"] = "</".$name.">";
         
-        if ($attrs["style"] == "font-weight: bold;") {
+		
+		
+        if ($attrs["class"] == "iliasstrong") {
             $new["convert"] = "[str]";
             $new["convert2"] = "[/str]";
         }
-        if ($attrs["style"] == "color: rgb(0, 128, 0);") {
+        if ($attrs["class"] == "iliascom") {
             $new["convert"] = "[com]";
             $new["convert2"] = "[/com]";
         }
         
-        if ($attrs["style"] == "color: rgb(165, 42, 42); font-style: italic;") {
+        if ($attrs["class"] == "iliasquot") {
             $new["convert"] = "[quot]";
             $new["convert2"] = "[/quot]";
         }
         
+		if ($attrs["class"] == "footnote") {
+			//vd($attrs);
+			$new["convert"] = "[fn]".$attrs[value];
+            $new["convert2"] = "[/fn]";
+			
+		}
+		
         if ($name == "code") {
             $new["convert"] = "[code]";
             $new["convert2"] = "[/code]";
@@ -112,7 +121,11 @@ class ilWysiwygUtil
     function characterData($parser, $data) 
 	{
 //        vd($data);
-        $this->newXml .= $data;
+		//if ($data == "[1]") $data = "";
+		if (!stristr( $this->struct[$this->depth-1]["convert"], "[fn]" )) { 
+			$this->newXml .= $data;
+		}
+		
     }
     
     function endElement($parser, $name)
