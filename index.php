@@ -42,6 +42,12 @@ if ($start == "")
 	$start = "login.php";
 }
 
+// catch reload
+if ($_GET["reload"])
+{
+	$start .= "?reload=true";
+}
+
 header("location: ".$start);
 exit();
 ?>

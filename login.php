@@ -53,6 +53,12 @@ if ($_GET["lang"] == "")
 //instantiate language
 $lng = new ilLanguage($_GET["lang"]);
 
+// catch reload
+if ($_GET["reload"])
+{
+	$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n");
+}
+
 $languages = $lng->getInstalledLanguages();
 
 foreach ($languages as $lang_key)
@@ -72,10 +78,17 @@ $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 
-// TODO: Move this to header.inc since an expired session could not detected in login script 
-if (!empty($ilias->auth->status))
+if ($_GET["expired"])
 {
-	switch($ilias->auth->status)
+	$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
+}
+
+// TODO: Move this to header.inc since an expired session could not detected in login script 
+$status = $ilias->auth->getStatus();
+
+if (!empty($status))
+{
+	switch ($status)
 	{
 		case AUTH_EXPIRED:
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));

@@ -39,6 +39,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
+common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#add#:#hinzuf&uuml;gen
 common#:#add_author#:#Autor hinzuf&uuml;gen
 common#:#add_member#:#Mitglied hinzuf&uuml;gen
