@@ -1096,8 +1096,15 @@ if ($_REQUEST["ok"] == "ok")
 	$path = $_REQUEST["path"];
 	
 	// test run ***
-	$exp = new ilias2export($user, $pass, $host, $dbname);
-	$exp->outputFile($leId, $path);
+	if (is_integer($leId) and is_string($path))
+	{
+		$exp = new ilias2export($user, $pass, $host, $dbname);
+		$exp->outputFile($leId, $path);
+	}
+	else
+	{
+		echo "Fill all fields, please.";
+	}
 }
 else
 {
