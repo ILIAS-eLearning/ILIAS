@@ -163,7 +163,17 @@ class ilSCORMExplorer extends ilExplorer
 														
 						if ($object["type"]=="sos")
 							$this->setExpand($object["obj_id"]);
-						
+
+						// fix explorer (sometimes explorer disappears)
+						if ($parent_index == 0)
+						{
+							if (!in_array($object["parent"],$this->expanded))
+							{
+								$this->expanded[] = $object["parent"];
+							}
+							//$this->format_options["$parent_index"]["visible"] = true;
+						}
+
 						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
@@ -200,7 +210,7 @@ class ilSCORMExplorer extends ilExplorer
 	} //function
 
 
-/**
+	/**
 	* Creates output
 	* recursive method
 	* @access	public
