@@ -1,11 +1,10 @@
 <?php
-/*
-* Objekt-Klasse von ILIAS3                                      /
+
+/**
+* Objekt-Klasse von ILIAS3
 * @version $Id$
 * @package ilias-core
 */
-
-
 class TResource
 {
     // Properties

@@ -1,4 +1,6 @@
 <?php
+include_once("./classes/class.IniFile.php");
+
 /**
 * ILIAS base class
 *
@@ -9,7 +11,6 @@
 * @access public
 * @version $Id$
 */
-include_once("./classes/class.IniFile.php");
 class ILIAS extends PEAR
 {
 	/**

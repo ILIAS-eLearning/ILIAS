@@ -1,11 +1,5 @@
 <?php
 
-/**
-* format conversions
-* @version $Id$
-* @package application
-*/
-
 ////////////////////////////////////////////////////////////////////////////////
 // Name: class.format.php
 // Appl: ILIAS3
@@ -22,6 +16,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
+/**
+* format conversions
+* @version $Id$
+* @package application
+*/
 class TFormat
 {
 	var $ClassName = "TFormat";
@@ -41,11 +40,14 @@ class TFormat
 	}
 
 
-	// Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
-	// Eingabe: TT.MM.JJJJ oder T.M.JJ oder TT.MM.JJJJ HH:MM:SS oder T.M.JJ HH:MM:SS
-	// Bei zweistelliger Jahresangabe wird bei YY > 70 19, bei YY < 70 20 vorgestellt
-	// Ausgabe: YYYY-MM-DD oder YYYY-MM-DD HH:MM:SS
-	// OPTIONAL wird die aktuelle Systemzeit hinzugefgt (Ausgabe: YYYY-MM-DD hh:mm:ss)
+	/**
+	* Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
+	* Eingabe: TT.MM.JJJJ oder T.M.JJ oder TT.MM.JJJJ HH:MM:SS oder T.M.JJ HH:MM:SS
+	* Bei zweistelliger Jahresangabe wird bei YY > 70 19, bei YY < 70 20 vorgestellt
+	* Ausgabe: YYYY-MM-DD oder YYYY-MM-DD HH:MM:SS
+	* OPTIONAL wird die aktuelle Systemzeit hinzugefgt (Ausgabe: YYYY-MM-DD hh:mm:ss)
+	* @param string
+	*/
 	function input2date ($AInputDate)
 	{
 		$date=""; $y=""; $m=""; $d="";

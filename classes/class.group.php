@@ -20,7 +20,10 @@ class TGroup
 	
 	var $db;					// database-handler
 
-    // Constructor
+    /**
+* constructor
+* @param string
+*/
     function TGroup ($AGroupId = "")
     {
 	    global $ilias;
@@ -62,12 +65,18 @@ class TGroup
 		}
     }
 
+    /**
+	* set the group data
+	* @param array
+	*/
     function setGroup ($AGroupdata)
     {
 	    $this->data = $AGroupdata;
     }
 
-    // saves a new group
+    /**
+    * saves a new group
+    */
     function saveAsNew ()
     {
         global $ilias;  // wegen $account->Id und $account->data[Role]
@@ -97,8 +106,10 @@ class TGroup
         $this->createDefaultRoles();
     }
 
-    // Private method
-    // inserts all default roles when a new group is created
+    /**
+    * inserts all default roles when a new group is created
+    * @access private
+    */
     function createDefaultRoles()
     {
 		global $ilias;  // wegen $accound->Id und $account->data[Role]
@@ -141,7 +152,9 @@ class TGroup
         }
     }
 
-
+    /**
+	* update
+	*/
     function update ()
     {
         $this->Id = $this->data["Id"];
@@ -155,7 +168,10 @@ class TGroup
         $this->db->query($query);
     }
 
-
+/**
+* delete
+* @param string
+*/
     function delete ($AGroupId = "")
     {
         if (empty($AGroupId))
@@ -175,7 +191,9 @@ class TGroup
     }
 
 
-    // gets all groupmembers plus their roles and perms
+    /**
+    *  gets all groupmembers plus their roles and perms
+    */
     function getMembers ()
     {
         $query = "SELECT * FROM user_data
@@ -218,8 +236,11 @@ class TGroup
         }
     }
     
-	// shortcut to check if user is member of recent group
-	// returns true (is member) or false (is not) 
+	/**
+	*  shortcut to check if user is member of recent group
+	* @param int
+	* @return bool true (is member) or false (is not) 
+	*/
 	function isMemberOfGroup ($AUserId)
 	{
 		foreach ($this->Members as $member)
@@ -233,9 +254,13 @@ class TGroup
 		return false;
 	}
 
-    // puts a user into group
-    // if RoleId is not set, welookup for the correct role id according to
-    // the system role of the user
+    /**
+    * puts a user into group
+    * if RoleId is not set, welookup for the correct role id according to
+    * the system role of the user
+    * @param int
+    * @param string
+    */
     function joinGroup ($AUserId,$ARoleId="")
     {
         global $ilias;
@@ -257,16 +282,26 @@ class TGroup
 		$this->db->query($query);
     }
     
+    /**
+    * @param string
+    * @param string
+    */
     function leaveGroup ($AUserId,$ARoleId)
     {
 		$this->db->query("DELETE FROM idx_usr_rol WHERE usr_id=".$AUserId." AND rol_id=".$ARoleId);
     }
 
+/**
+* @param int
+*/
 	function isOwner ($AUserId)
 	{
 		return false;
 	}
 
+/**
+* @param int
+*/
 	function isLastMember ($AUserid)
 	{
 		return true;
@@ -277,13 +312,19 @@ class TGroup
 		return true;
 	}
 
+/**
+* @param int
+*/
 	function doesUserHasStandardRole ($AUserId)
 	{
 		return true;
 	}
 
 
-    // returns the RoleId of a groupmember
+    /**
+    * returns the RoleId of a groupmember
+    * @param int
+    */
     function getRoleId ($AUserId)
     {
 		foreach ($this->Members as $member)

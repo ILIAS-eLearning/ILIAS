@@ -1,11 +1,11 @@
 <?php
-/*
-* Gruppenmitglieder-Klasse von ILIAS3                           /
+
+/**
+* Gruppenmitglieder
 * @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
 * @package ilias-core
 */
-
 class TGroupmember
 {
     // Properties
@@ -16,13 +16,18 @@ class TGroupmember
     var $Roles = array();
     var $noGroup = false;
 
-    // Constructor
+    /**
+    * Constructor
+    * @param int
+    */
     function TGroupmember ($AUserId)
     {
         $this->UserId = $AUserId;
     }
     
-    // Get Groups and their roles of $this->UserId
+    /**
+    * Get Groups and their roles of $this->UserId
+    */
     function getMemberships ()
     {
         global $ilias;
@@ -75,6 +80,9 @@ class TGroupmember
         }
     }
 
+    /**
+    * @param string
+    */
     function setAccessString ($ARights)
     {
         $granted = "<font face=\"courier\" color=\"green\">o</font>";
@@ -104,16 +112,25 @@ class TGroupmember
         // leer
     }
     
+    /**
+    * @param int
+    */
     function inviteUser ($AUserId)
     {
         // leer
     }
     
+    /**
+    * @param int
+    */
     function kickUser ($AUserId)
     {
         // leer
     }
     
+    /**
+    * @param int
+    */
     function changeRole ($ARoleId)
     {
         // leer

@@ -119,6 +119,7 @@ class Language
 
 	/**
 	 * generate all language files from masterfile
+	 * @param string textfile with all language topics
 	 * @access public
 	 */
 	function generateLanguageFiles($langfile)

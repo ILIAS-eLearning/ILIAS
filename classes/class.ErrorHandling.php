@@ -15,6 +15,11 @@ class ErrorHandling
 	{
 		$this->DEBUG_ENV = 1;
 	}
+	
+	/**
+	* defines what has to happen in case of error
+	* @param object Error
+	*/
 	function errorHandler($a_error_obj)
 	{
 		if($a_error_obj->getCode() == $this->FATAL)
