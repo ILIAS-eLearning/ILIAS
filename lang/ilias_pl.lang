@@ -88,6 +88,7 @@ assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#dodaj pasującą parę
+assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Odpowiedź
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Tekst odpowiedzi
@@ -99,6 +100,7 @@ assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_new#:#Twórz nowe
 assessment#:#duplicate#:#Kopiuj
+assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
@@ -113,6 +115,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Wypełnij wszystkie niezb
 assessment#:#fill_out_all_required_fields_add_matching#:#Wypełnij wszystkie niezbędne pola przed dodaniem pasującej pary!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Wypełnij wszystkie niezbędne pola przed utworzeniem odstępu!
 assessment#:#filter#:#Filtr
+assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#imagemap#:#Mapa bitowa
 assessment#:#last_update#:#Ostatnia aktualizacja
@@ -128,6 +131,7 @@ assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
+assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Punkty
@@ -156,6 +160,7 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Typ pytania
+assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
@@ -167,7 +172,9 @@ assessment#:#save_next#:#Zapisz i skocz do następnego pytania
 assessment#:#save_previous#:#Zapisz i skocz do poprzedniego pytania
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#set_filter#:#Ustaw filtr
+assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Porządek rozwiązywania
+assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#true#:#Prawda
@@ -203,10 +210,13 @@ assessment#:#tst_nr_of_tries#:#Maks. ilość prób
 assessment#:#tst_percent_solved#:#Procent rozwiązanych
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_question_no#:#Porządek
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Tytuł
 assessment#:#tst_question_type#:#Typ pytania
 assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
 assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
+assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
+assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Osiągnięte punkty
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
@@ -427,6 +437,7 @@ common#:#cat_create_exc#:#Twórz Ćwiczenie
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
+common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Twórz pulę pytań
@@ -794,6 +805,15 @@ common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
+common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
+common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
+common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
+common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Ścieżka http
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
@@ -1156,6 +1176,7 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
+common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
 common#:#obj_lm#:#Moduł Nauczania (MN)
@@ -1211,9 +1232,11 @@ common#:#objs_fold#:#Foldery
 common#:#objs_frm#:#Fora
 common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
+common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
+common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Obiekty multimedialne###06 Apr 2004 content changed
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
@@ -1480,6 +1503,7 @@ common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
 common#:#unread#:#Nie czytany
 common#:#unsubscribe#:#przerwij subskrybcję
+common#:#unzip#:#Unzip###07 Apr 2004 new variable
 common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
@@ -1656,6 +1680,7 @@ content#:#cont_link_ext#:#Łącznik (zewnętrzny)
 content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
+content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Lista właściwości
 content#:#cont_lk_chapter#:#Rozdział
 content#:#cont_lk_chapter_new#:#Rozdział (nowa ramka)
@@ -1838,8 +1863,8 @@ dateplaner#:#changedDates#:#Terminy zmienione
 dateplaner#:#checkforfreetime#:#Sprawdź czy czas jest wolny
 dateplaner#:#created#:#Utworzony
 dateplaner#:#date#:#Termin
-dateplaner#:#date_format#:#m/d/R G:m
-dateplaner#:#date_format_middle#:#m/d/r
+dateplaner#:#date_format#:#m/d/R G:m###07 Apr 2004 content changed
+dateplaner#:#date_format_middle#:#m/d/r###07 Apr 2004 content changed
 dateplaner#:#del_all#:#usuń wszystkie terminy
 dateplaner#:#del_one#:#usuń jeden termin
 dateplaner#:#delete#:#usuń
@@ -1874,6 +1899,7 @@ dateplaner#:#dv_whole_rotation#:#Chcesz usunąć cały termin cykliczny? (klikni
 dateplaner#:#end_date#:#DataKon:
 dateplaner#:#endtime_for_view#:#Czas końca widoku:
 dateplaner#:#error_minical_img#:#Nie mona utworzyć strumienia obrazu GD
+dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#Terminy jednodniowe
 dateplaner#:#free#:#wolny
 dateplaner#:#freetime#:#Czas wolny grupy

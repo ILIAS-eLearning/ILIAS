@@ -88,6 +88,7 @@ assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
+assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Rispondi
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Rispondi il testo
@@ -99,6 +100,7 @@ assessment#:#create_date#:#Creata
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_new#:#Crea nuovo
 assessment#:#duplicate#:#Duplica
+assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
@@ -113,6 +115,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti 
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#filter#:#Filtro
+assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#last_update#:#Ultimo aggiornamento
@@ -128,6 +131,7 @@ assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
+assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#points#:#Punti
@@ -156,6 +160,7 @@ assessment#:#qt_ordering#:#Domanda con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi cancellare il form, stai attento perch&#233; devi cancellare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
+assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
@@ -167,7 +172,9 @@ assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#set_filter#:#Imposta filtro
+assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordine risposte
+assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Simbolo
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#true#:#Vero
@@ -203,10 +210,13 @@ assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_question_no#:#Ordine
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Titolo
 assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domanda(e) inserita(e)!
 assessment#:#tst_questions_removed#:#Domanda(e) cancellata(e)!
+assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
+assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_remove_questions#:#Sei sicuro che vuoi cancellare le seguenti domande dal test?
 assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
@@ -427,6 +437,7 @@ common#:#cat_create_exc#:#Creare un esercizio
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
+common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Creare un modulo
 common#:#cat_create_mep#:#Creare un Media Pool
 common#:#cat_create_qpl#:#Creare un esame
@@ -794,6 +805,15 @@ common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
+common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
+common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
+common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
+common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
@@ -1156,6 +1176,7 @@ common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
+common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
 common#:#obj_lm#:#Modulo
@@ -1211,9 +1232,11 @@ common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
 common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
+common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Risorse
+common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
@@ -1480,6 +1503,7 @@ common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#Non letto
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
+common#:#unzip#:#Unzip###07 Apr 2004 new variable
 common#:#up#:#Su
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
@@ -1656,6 +1680,7 @@ content#:#cont_link_ext#:#Link (esterno)
 content#:#cont_link_int#:#Link (interno)
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
+content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Elenca le propriet&#224;
 content#:#cont_lk_chapter#:#Capitolo
 content#:#cont_lk_chapter_new#:#Capitolo (Nuovo Frame)
@@ -1838,8 +1863,8 @@ dateplaner#:#changedDates#:#Appuntamenti modificati:
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
-dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
-dateplaner#:#date_format_middle#:#m/d/y//month/day/Year
+dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###07 Apr 2004 content changed
+dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###07 Apr 2004 content changed
 dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
 dateplaner#:#del_one#:#Cancella un appuntamento
 dateplaner#:#delete#:#Cancella
@@ -1874,6 +1899,7 @@ dateplaner#:#dv_whole_rotation#:#Vuoi cancellare tutti gli appuntamenti ricorren
 dateplaner#:#end_date#:#Fine dell'appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
 dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
