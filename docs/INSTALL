@@ -245,11 +245,11 @@ For running ILIAS 3 please also unpack the following files:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-2.3.8.tar.gz
+    ilias-2.4.2.tar.gz
 
 or for ILIAS 3 in:
 
-    ilias-3.0.0_beta1.tar.gz
+    ilias-3.0.0_beta2.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -926,7 +926,7 @@ must be specified in the ILIAS 3 system settings.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.0.0_beta1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.0.0_beta2.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -1105,7 +1105,7 @@ must be specified in the ILIAS 3 system settings.
           PAM. It is available from: http://www.freeradius.org/pam_radius_auth
 
     Before compiling PHP, the modified version of pam_auth must be added to the
-    PHP source code. Please note that PHP requires libtool 1.4.3 or newer 
+    PHP source code. Please note that PHP requires libtool 1.4.3 or newer
     installed in order to run buildconf:
 
          cd /opt/ilias/src
@@ -1114,13 +1114,13 @@ must be specified in the ILIAS 3 system settings.
          ./buildconf --force
 
     When compiling PHP add this configure directive:
-    
+
          --with-pam_auth
 
     Create the file /etc/pam.d/php containing this line:
 
          auth     required     /lib/security/pam_radius_auth.so
-	
+
     If desired 'debug' may be added to the end of the line. Debug messages from
     the PAM Radius module will then be written to /var/log/messages.
 
@@ -1140,17 +1140,17 @@ must be specified in the ILIAS 3 system settings.
          Example:
 
          mail1.rrz.uni-koeln.de:1645    xyz    60
-	
+
     According to the pam_radius_auth documentation /etc/raddb/server and its
     directory need to be secure, accessible only by root. However, this does not
     work when using tha pam_radius_auth module together with PHP/pam_auth. As a
     workaround, permissions may be set to allow read access for the httpd daemon
-    user. Please be aware of the resulting security gap. 
+    user. Please be aware of the resulting security gap.
 
     In ILIAS, Radius support must be enabled in 'Administration / Modules'.
-	
+
     IMPORTANT: Please note that the ILIAS Radius authentication should only be
-    used with secure connections. At least the ILIAS registration script 
+    used with secure connections. At least the ILIAS registration script
     (neuanmeldung.php) should be secured with SSL encryption. Otherwise the
     usernames/passwords of the Radius accounts to be validated might easily
     be intercepted when being sent via http.
@@ -1164,7 +1164,7 @@ must be specified in the ILIAS 3 system settings.
 3.1  Updating ILIAS 2
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
-AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES! 
+AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
 
 IMPORTANT: With ILIAS release 2.3.8 some recommendations in this document have
 changed:
@@ -1173,9 +1173,9 @@ changed:
     - /opt/ilias/log/ was formerly /opt/ilias/logfiles/
     - the third-party software packages Apache, MySQL, PHP and ImageMagick now
       have the same base directory /opt/ilias/ instead of being installed in
-      separate base directories under /opt/ilias/. 
+      separate base directories under /opt/ilias/.
     - /opt/ilias/log/ilias/ has been introduced as directory for ILIAS logfiles.
-      Write access must be granted to the web server daemon user. 
+      Write access must be granted to the web server daemon user.
 
 Please take this into consideration when upgrading from an old installation and
 adapt the path names if necessary. If you decide to rename your existing
@@ -1272,20 +1272,78 @@ To do so, access the file
     'http://www.yourserver.com/ilias/sql/migration/db_migration.php'
 
 with your web browser and identify yourself using the ILIAS 'root' account and
-password. The migration process is performed immediately after authentication. 
+password. The migration process is performed immediately after authentication.
 Depending on the size of your database this may take a while.
 
-Please check section 2.4.1 (Installing ILIAS 2), c) (Inital login) for new 
+Please check section 2.4.1 (Installing ILIAS 2), c) (Inital login) for new
 options in the ILIAS system settings.
 
 
 3.2  Updating ILIAS 3
 
-At the time being ILIAS 3 is only available as a first beta version for test
-purposes. We recommend not to update from an older alpha version because this
-may cause ambiguous errors in the future. Please setup ILIAS 3 beta 1 from
-scratch. Update and migration information will be available as soon as second
-beta release becomes available.
+THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ILIAS 3 beta 1 to ILIAS 3 beta 2.
+AT THE TIME BEING THERE ARE NO MIGRATION INSTRUCTIONS FROM ILIAS 2 TO ILIAS 3
+AVAILABLE.
+
+BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
+AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
+
+We recommend not to update from an any alpha version of ILIAS 3 because this
+may cause ambiguous errors in the future. Please setup any beta version of
+ILIAS 3 from scratch.
+
+At the time being no installation script is available for updating ILIAS 3. For
+this reason the ILIAS script files must be updated manually. In the following
+steps it it assumed that your existing ILIAS 3 installation is located in
+/opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
+file lies in /tmp/. If the locations differ on your system you may need to adapt
+the commands used in the following.
+
+Some files and directories will be replaced in the update process. They must be
+removed from your ILIAS web directory. If you keep any additional files or data
+that is worth to be saved in one of these directories please take all necessary
+precautions. This is especially important if you have modified parts of the
+ILIAS source code, the language files in ./lang/ or any template files in
+the templates/ subdirectories. It is also recommended to save the file
+ilias.ini.php located in the main ILIAS directory which contains individual
+settings of your ILIAS installation. After installing the new ILIAS release you
+may easily restore it.
+
+    cd /opt/ilias/www/htdocs/ilias
+    rm *.php *.xml *.dtd *.css
+    rm -r classes content css docs images include java lang layouts
+    rm -r modules setup sql templates xml
+
+You may ignore any 'no such file or directory' errors because depending on
+your current ILIAS installation some of the directories above may not exist on
+your system.
+
+Then extract the ILIAS distribution tar file to /tmp/ (or any other directory of
+your choice). Do not simply overwrite the 'ilias' directory in your webspace!
+Example:
+
+    cd /tmp
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.0.0_beta2.tar.gz
+
+After extracting the files you will find a newly created subdirectory 'ilias3' in
+your tmp/ directory. Depending on the ILIAS version you are replacing you must
+copy various files and directories to your ILIAS web directory:
+
+    cd /tmp/ilias3
+    cp -p * /opt/ilias/www/htdocs/ilias/
+    cp -rp classes content css docs images include java /opt/ilias/www/htdocs/ilias/
+    cp -rp lang layouts modules setup sql templates xml /opt/ilias/www/htdocs/ilias/
+
+Please ignore any 'File exists' error messages. After all files have been copied
+you may remove /tmp/ilias/.
+
+Copy your saved ilias.ini.php file to /opt/ilias/www/htdocs/ilias/.
+
+After installing a new ILIAS 3 release you must run the setup script
+'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
+your clients. Select "Details" for every client in the client list and click on
+the "Database" button. Depending on the size of your database the update process
+may take a while.
 
 
 3.3  Updating third-party software
