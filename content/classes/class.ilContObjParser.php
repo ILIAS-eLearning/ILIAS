@@ -432,7 +432,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BEGIN TAG: $a_name <br>"; flush();
+//echo "<b>BEGIN TAG: $a_name <br></b>"; flush();
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -752,7 +752,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-//echo "END TAG: $a_name <br>"; flush();
+//echo "<b>END TAG: $a_name <br></b>"; flush();
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)

@@ -145,8 +145,16 @@ class ilDBx extends PEAR
 	/**
 	* wrapper for quote method
 	*/
-	function quote($a_query)
+	function quote($a_query, $null_as_empty_string = true)
 	{
+		if ($null_as_empty_string)
+		{
+			if ($a_query == "")
+			{
+				$a_query = "";
+			}
+		}
+
 		// maybe quoteSmart should be used in the future
 		return $this->db->quote($a_query);
 	}
