@@ -32,6 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_data#:#Analyze data Integrity
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
@@ -920,12 +921,12 @@ common#:#keywords#:#Keywords
 common#:#lang_cs#:#Czech
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#German
-common#:#lang_dk#:#Danish
+common#:#lang_da#:#Danish
 common#:#lang_en#:#English
 common#:#lang_es#:#Spanish
 common#:#lang_fi#:#Finnish
 common#:#lang_fr#:#French
-common#:#lang_gr#:#Greek
+common#:#lang_el#:#Greek
 common#:#lang_id#:#Indonesian
 common#:#lang_it#:#Italian
 common#:#lang_ja#:#Japanese
@@ -935,12 +936,13 @@ common#:#lang_no#:#Norwegian
 common#:#lang_path#:#Language Path
 common#:#lang_pl#:#Polish
 common#:#lang_pt#:#Portuguese
-common#:#lang_se#:#Swedish
+common#:#lang_sv#:#Swedish
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian
 common#:#lang_version#:#1
+common#:#lang_vi#:#Vietnamese
 common#:#lang_xx#:#Custom
 common#:#lang_zh#:#Simplified Chinese
 common#:#langfile_found#:#Language file found
