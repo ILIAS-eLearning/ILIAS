@@ -118,6 +118,7 @@ assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
 assessment#:#delete_area#:#Delete area
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
+assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
