@@ -3,7 +3,7 @@
 #
 # Tabellenstruktur für Tabelle `frm_posts_tree`
 #
-
+<#2>
 DROP TABLE IF EXISTS frm_posts_tree;
 CREATE TABLE frm_posts_tree (
   fpt_pk bigint(20) NOT NULL auto_increment,
