@@ -162,7 +162,7 @@ class ilLMPresentationGUI
 					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) 
                     {
 
-                        if ($showpage>0) 
+                        if ($showpage>0)
                         {
                             if($_POST["type"] == "pdf") $output .= "<hr BREAK >\n";
                             if($_POST["type"] == "print") $output .= "<p style=\"page-break-after:always\" />";
@@ -555,7 +555,13 @@ class ilLMPresentationGUI
 
 		if ($doShow)
 		{
-			$this->tpl->show();
+			// (horrible) workaround for preventing template engine
+			// from hiding paragraph text that is enclosed
+			// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+			$output =  $this->tpl->get();
+			$output = str_replace("&#123;", "{", $output);
+			$output = str_replace("&#125;", "}", $output);
+			echo $output;
 		}
 
 		$ilBench->stop("ContentPresentation", "layout");

@@ -417,8 +417,8 @@ echo htmlentities($a_text);*/
 		$a_text = str_replace("<br/>", "\n", $a_text);
 
 		// prevent curly brackets from being swallowed up by template engine
-		// $a_text = str_replace("{", "&#123;", $a_text);
-		// $a_text = str_replace("{", "&#125;", $a_text);
+		$a_text = str_replace("{", "&#123;", $a_text);
+		$a_text = str_replace("}", "&#125;", $a_text);
 
 		// unmask html
 		$a_text = str_replace("&lt;", "<", $a_text);
