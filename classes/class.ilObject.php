@@ -270,7 +270,6 @@ class ilObject
 		$this->desc = addslashes(shortenText($a_desc, $this->max_desc, $this->add_dots));
 	}
 
-
 	/**
 	* get object owner
 	* @access	public
@@ -292,7 +291,7 @@ class ilObject
 		global $lng;
 		
 		// Todo: remove this from TUtil
-		$owner = TUtil::getOwner($this->getRefId());
+		$owner = TUtil::getOwner($this->getId());
 
 		if (is_object($owner))
 		{
