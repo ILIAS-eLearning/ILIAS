@@ -2800,3 +2800,61 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:
+bibitem#:#bibitem_not_found#:#No bibliographical information available.
+bibitem#:#bibitem_add#:#Add
+bibitem#:#bibitem_bibitem#:#Bibliographical information
+bibitem#:#bibitem_new_element#:#New element
+bibitem#:#bibitem_language#:#Language
+bibitem#:#bibitem_author#:#Author
+bibitem#:#bibitem_cross_reference#:#Cross reference
+bibitem#:#bibitem_editor#:#Editor
+bibitem#:#bibitem_where_published#:#Where published
+bibitem#:#bibitem_institution#:#Institution
+bibitem#:#bibitem_keyword#:#Keyword
+bibitem#:#bibitem_school#:#School
+bibitem#:#bibitem_journal#:#Journal
+bibitem#:#bibitem_month#:#Month
+bibitem#:#bibitem_pages#:#Pages
+bibitem#:#bibitem_series#:#Series
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_type#:#Type
+bibitem#:#bibitem_please_select#:#Please select
+bibitem#:#bibitem_book#:#Book
+bibitem#:#bibitem_inbook#:#Inbook
+bibitem#:#bibitem_journal_article#:#Journal article
+bibitem#:#bibitem_proceedings#:#Proceedings
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_dissertation#:#Dissertation
+bibitem#:#bibitem_phd_thesis#:#PhD thesis
+bibitem#:#bibitem_master_thesis#:#Master thesis
+bibitem#:#bibitem_technical_report#:#Technical report
+bibitem#:#bibitem_manual#:#Manual
+bibitem#:#bibitem_newspaper_article#:#Newspaper article
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_unpublished#:#Unpublished
+bibitem#:#bibitem_label#:#Label
+bibitem#:#bibitem_identifier#:#Identifier
+bibitem#:#bibitem_catalog#:#Catalog
+bibitem#:#bibitem_entry#:#Entry
+bibitem#:#bibitem_delete#:#Delete
+bibitem#:#bibitem_first_name#:#First name
+bibitem#:#bibitem_last_name#:#Last name
+bibitem#:#bibitem_middle_name#:#Middle name
+bibitem#:#bibitem_booktitle#:#Booktitle
+bibitem#:#bibitem_note#:#Note
+bibitem#:#bibitem_number#:#Number
+bibitem#:#bibitem_organization#:#Organization
+bibitem#:#bibitem_edition#:#Edition
+bibitem#:#bibitem_how_published#:#How published
+bibitem#:#bibitem_grey_literature#:#Grey literature
+bibitem#:#bibitem_print#:#Print
+bibitem#:#bibitem_publisher#:#Publisher
+bibitem#:#bibitem_series_title#:#Series title
+bibitem#:#bibitem_series_editor#:#Editor
+bibitem#:#bibitem_series_volume#:#Volume
+bibitem#:#bibitem_year#:#Year
+bibitem#:#bibitem_save#:#Save

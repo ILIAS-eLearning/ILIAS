@@ -2799,4 +2799,62 @@ search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
-search#:#search_user#:#Benutzer
+search#:#search_user#:#Benutze
+bibitem#:#bibitem_choose_index#:#Bitte wählen Sie eine bibliographische Information:
+bibitem#:#bibitem_not_found#:#Es liegen noch keine bibliographischen Informationen vor.
+bibitem#:#bibitem_add#:#Hinzufügen
+bibitem#:#bibitem_bibitem#:#Bibliographische Information
+bibitem#:#bibitem_new_element#:#Neues Element
+bibitem#:#bibitem_language#:#Sprache
+bibitem#:#bibitem_author#:#Autor
+bibitem#:#bibitem_cross_reference#:#Querverweis
+bibitem#:#bibitem_editor#:#Verfasser
+bibitem#:#bibitem_where_published#:#Wo herausgegeben
+bibitem#:#bibitem_institution#:#Institution
+bibitem#:#bibitem_keyword#:#Schlagwort
+bibitem#:#bibitem_school#:#Schule
+bibitem#:#bibitem_journal#:#Journal
+bibitem#:#bibitem_month#:#Monat
+bibitem#:#bibitem_pages#:#Seiten
+bibitem#:#bibitem_series#:#Reihe
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_type#:#Typ
+bibitem#:#bibitem_please_select#:#Bitte wählen Sie
+bibitem#:#bibitem_book#:#Buch
+bibitem#:#bibitem_inbook#:#Bucheinlage
+bibitem#:#bibitem_journal_article#:#Journal Artikel
+bibitem#:#bibitem_proceedings#:#Bericht
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_dissertation#:#Doktorarbeit
+bibitem#:#bibitem_phd_thesis#:#Promotion
+bibitem#:#bibitem_master_thesis#:#Masterarbeit
+bibitem#:#bibitem_technical_report#:#Forschungsbericht
+bibitem#:#bibitem_manual#:#Handbuch
+bibitem#:#bibitem_newspaper_article#:#Zeitungsartikel
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_unpublished#:#Unveröffentlicht
+bibitem#:#bibitem_label#:#Kennzeichen
+bibitem#:#bibitem_identifier#:#Bezeichner
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_entry#:#Eintrag
+bibitem#:#bibitem_delete#:#Löschen
+bibitem#:#bibitem_first_name#:#Vorname
+bibitem#:#bibitem_last_name#:#Nachname
+bibitem#:#bibitem_middle_name#:#Mittelname
+bibitem#:#bibitem_booktitle#:#Buchtitel
+bibitem#:#bibitem_note#:#Notiz
+bibitem#:#bibitem_number#:#Nummer
+bibitem#:#bibitem_organization#:#Organisation
+bibitem#:#bibitem_edition#:#Ausgabe
+bibitem#:#bibitem_how_published#:#Wie veröffentlicht
+bibitem#:#bibitem_grey_literature#:#Graue Literatur
+bibitem#:#bibitem_print#:#Druck
+bibitem#:#bibitem_publisher#:#Herausgeber
+bibitem#:#bibitem_series_title#:#Titel der Reihe
+bibitem#:#bibitem_series_editor#:#Verfasser
+bibitem#:#bibitem_series_volume#:#Band
+bibitem#:#bibitem_year#:#Jahr
+bibitem#:#bibitem_save#:#Speichern
