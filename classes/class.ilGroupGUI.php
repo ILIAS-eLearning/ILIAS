@@ -886,6 +886,8 @@ class ilGroupGUI extends ilObjectGUI
 		// because grp object is the the first RBAC-parent object
 		if ($new_type == "fold" or $new_type == "file")
 		{
+			$this->prepareOutput(false, 99);
+			$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
 			if (!$rbacsystem->checkAccess("create_".$new_type, $this->grp_id))
 			{
 				$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -939,7 +941,8 @@ class ilGroupGUI extends ilObjectGUI
 			$data["fields"]["file"] = $_SESSION["error_post_vars"]["Fobject"]["file"];
 
 			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.file_new.html");
-
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
