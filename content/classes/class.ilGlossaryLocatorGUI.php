@@ -126,6 +126,11 @@ class ilGlossaryLocatorGUI
 				$title = $this->glossary->getTitle();
 				$link = $script."?ref_id=".$_GET["ref_id"];
 			}
+			else if ($row["type"] == "grp")
+			{
+				$title = $row["title"];
+				$link = "../group.php?cmd=view&ref_id=".$row["child"];
+			}
 			else
 			{
 				$title = $row["title"];
