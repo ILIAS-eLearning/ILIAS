@@ -102,9 +102,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->content_obj->create();
 
 		// determine and create mob directory, move uploaded file to directory
-		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
-//		$mob_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$this->content_obj->getId();
-		ilUtil::createDirectory($mob_dir);
+		//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$this->content_obj->createDirectory();
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
 
 		$media_item =& new ilMediaItem();
 		$this->content_obj->addMediaItem($media_item);
@@ -1048,11 +1048,16 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
 
+		// create/update imagemap work copy
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$st_item->makeMapWorkCopy();
+
 		// output image map
 		$xml = "<dummy>";
 		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
 		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
 		$xml.="</dummy>";
+echo "xml:".htmlentities($xml).":<br>";
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
@@ -1130,6 +1135,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
 			$area->update();
 		}
+		sendInfo($this->lng->txt("cont_saved_map_data"), true);
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
@@ -1139,7 +1145,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	{
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
 			, $this->content_obj->getTitle());
-		sendInfo($this->lng->txt("copied_to_clipboard"));
+		sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		header("Location: ".$this->getReturnLocation());
 	}
 
