@@ -51,7 +51,7 @@ if (!class_exists(IntegratedTemplateExtension))
 {
 	include_once "HTML/Template/ITX.php";
 	//include_once "classes/class.ilTemplate2.php";
-	include_once "class.ilTemplateHMTLITX.php";
+	include_once "classes/class.ilTemplateHTMLITX.php";
 }
 else
 {
