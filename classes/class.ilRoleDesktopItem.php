@@ -71,6 +71,8 @@ class ilRoleDesktopItem
 				"item_type = '".$a_item_type."'";
 			
 			$this->db->query($query);
+
+			$this->__assign($a_item_id,$a_item_type);
 			
 			return true;
 		}
@@ -147,7 +149,22 @@ class ilRoleDesktopItem
 		return $items ? $items : array();
 	}
 
+	// PRIVATE
+	function __assign($a_item_id,$a_item_type)
+	{
+		global $rbacreview;
 
-
-		
+		foreach($rbacreview->assignedUsers($this->getRoleId()) as $user_id)
+		{
+			if(is_object($tmp_user = ilObjectFactory::getInstanceByObjId($user_id,false)))
+			{
+				if(!$tmp_user->isDesktopItem($a_item_id,$a_item_type))
+				{
+					$tmp_user->addDesktopItem($a_item_id,$a_item_type);
+				}
+			}
+		}
+		return true;
+	}
 }
+?>
