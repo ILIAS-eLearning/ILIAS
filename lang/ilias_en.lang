@@ -491,6 +491,7 @@ common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
 common#:#member#:#Member
 common#:#members#:#Members
+common#:#membership_annulled#:#Your membership has been canceled
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
