@@ -63,10 +63,28 @@ class ilLearningModule
 		return "toc2win";
 	}
 
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	function getId()
+	{
+		return $this->id;
+	}
 
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
+	}
+
+	function update()
+	{
+		$lo_obj =& new ilObjLearningModule($this->getId(), false);
+		$lo_obj->setTitle($this->meta_data->getTitle());
+		$lo_obj->setDescription($this->meta_data->getDescription());
+		$lo_obj->update();
+		$this->meta_data->update();
 	}
 
 }
