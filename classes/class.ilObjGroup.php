@@ -575,18 +575,18 @@ class ilObjGroup extends ilObject
 
 	/**
 	* set group status
-        *
-        * Grants permissions on the group object for all parent roles.  
-        * Each permission is granted by computing the intersection of the role 
-        * template il_grp_status_open/_closed and the permission template of 
-        * the parent role.
-        *
-        * Creates linked roles in the local role folder object for all 
-        * parent roles and initializes their permission templates.
-        * Each permission template is initialized by computing the intersection 
-        * of the role template il_grp_status_open/_closed and the permission
-        * template of the parent role.
-        *
+	*
+	* Grants permissions on the group object for all parent roles.  
+	* Each permission is granted by computing the intersection of the role 
+	* template il_grp_status_open/_closed and the permission template of 
+	* the parent role.
+	*
+	* Creates linked roles in the local role folder object for all 
+	* parent roles and initializes their permission templates.
+	* Each permission template is initialized by computing the intersection 
+	* of the role template il_grp_status_open/_closed and the permission
+	* template of the parent role.
+	*
 	* @access	public
 	* @param	integer	group id (optional)
 	* @param	integer group status (0=public|1=private|2=closed)
@@ -603,54 +603,53 @@ class ilObjGroup extends ilObject
 		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultGroupRoles());
 
 		//group status open (aka public) or group status closed
-	  	if ($a_grpStatus == 0 || $a_grpStatus == 1)
+		if ($a_grpStatus == 0 || $a_grpStatus == 1)
 		{
-		
 			if ($a_grpStatus == 0)
 			{
-                            $template_id = $this->getGrpStatusOpenTemplateId();
+				$template_id = $this->getGrpStatusOpenTemplateId();
 			} else {
-			    $template_id = $this->getGrpStatusClosedTemplateId();
+				$template_id = $this->getGrpStatusClosedTemplateId();
 			}
-                        //get defined operations from template
-                        $template_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', ROLE_FOLDER_ID);
+			//get defined operations from template
+			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'grp', ROLE_FOLDER_ID);
 
 			foreach ($arr_relevantParentRoleIds as $parentRole)
 			{
 				$granted_permissions = array();
 
 				// Delete the linked role for the parent role
-                                // (just in case if it already exists).
+				// (just in case if it already exists).
 				$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
-				
-                                // Grant permissions on the group object for 
-                                // the parent role. In the foreach loop we
-                                // compute the intersection of the role     
-                                // template il_grp_status_open/_closed and the 
-                                // permission template of the parent role.
+
+				// Grant permissions on the group object for 
+				// the parent role. In the foreach loop we
+				// compute the intersection of the role     
+				// template il_grp_status_open/_closed and the 
+				// permission template of the parent role.
 				$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
 				$rbacadmin->revokePermission($this->getRefId(), $parentRole);
 				foreach ($template_ops as $template_op) 
 				{
-				    if (in_array($template_op,$current_ops)) 
-				    {
-					array_push($granted_permissions,$template_op);
-				    }
+					if (in_array($template_op,$current_ops)) 
+					{
+						array_push($granted_permissions,$template_op);
+					}
 				}
 				if (!empty($granted_permissions))
 				{
 					$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
 				}
-                         
-                                // Create a linked role for the parent role and
-                                // initialize it with the intersection of 
-                                // il_grp_status_open/_closed and the permission
-                                // template of the parent role
-                                $rbacadmin->copyRolePermissionIntersection(
-                                        $template_id, ROLE_FOLDER_ID, 
-                                        $parentRole, $arr_parentRoles[$parentRole]['parent'], 
-                                        $rolf_data["child"], $parentRole
-                                );	
+
+				// Create a linked role for the parent role and
+				// initialize it with the intersection of 
+				// il_grp_status_open/_closed and the permission
+				// template of the parent role
+				$rbacadmin->copyRolePermissionIntersection(
+					$template_id, ROLE_FOLDER_ID, 
+					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
+					$rolf_data["child"], $parentRole
+				);	
 				$rbacadmin->assignRoleToFolder($parentRole,$rolf_data["child"],"false");
 			}//END foreach
 		}
