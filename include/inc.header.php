@@ -33,6 +33,7 @@ require_once "classes/class.perm.php";
 require_once "classes/class.ilTree.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
+require_once "classes/class.ilMailbox.php";
 
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
@@ -142,11 +143,14 @@ if ($script != "login.php" && $script != "index.php")
 	}
 }
 $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-if ($mail_id = hasNewMail())
-{
-	$folder_id = getMailFolderId($mail_id);
 
-	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
+$mbox = new ilMailbox($_SESSION["AccountId"]);
+if ($mail_id = $mbox->hasNewMail())
+{
+	$folder_id = $mbox->getInboxFolder();
+
+	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".
+									htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
 									"img"	=> "icon_mail.gif"
 									);
