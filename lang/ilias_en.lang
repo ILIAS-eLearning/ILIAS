@@ -199,6 +199,8 @@ common#:#help#:#Help
 common#:#host#:#Host
 common#:#http_path#:#Http Path
 common#:#id#:#ID
+common#:#public_profile#:#Public Profile
+common#:#lm#:#Learning Module
 common#:#identifier#:#identifier
 common#:#ilias_version#:#ILIAS version
 common#:#import#:#Import

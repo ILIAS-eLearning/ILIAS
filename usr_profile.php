@@ -263,7 +263,7 @@ $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 
 $tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
 $tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
-$tpl->setVariable("TXT_PUBLIC_PROFILE", $lng->txt("Public Profile"));
+$tpl->setVariable("TXT_PUBLIC_PROFILE", $lng->txt("public_profile"));
 $tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
 $tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
 $tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));

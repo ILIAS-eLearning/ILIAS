@@ -199,6 +199,7 @@ common#:#help#:#Hilfe
 common#:#host#:#Host
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
+common#:#lm#:#Lernmodul
 common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
 common#:#import#:#Import
