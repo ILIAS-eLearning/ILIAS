@@ -8,5 +8,5 @@
 			image_directory = "blueshadow" />
 	<style 	name = "Grey"
 			id = "default"
-			image_directory = "default"/>
+			image_directory = ""/>
 </template>
