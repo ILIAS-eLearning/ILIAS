@@ -232,11 +232,6 @@ class Object
 	}
 	
 
-	function viewObject($a_order, $a_direction)		// deprecated
-	{
-		echo "<b>IN OBJECT.viewOBJECT</b><br>";
-	}
-
 	/**
 	* update an object
 	* @access	public
