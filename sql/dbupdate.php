@@ -3866,3 +3866,7 @@ $res = $this->db->query($query);
 
 <#229>
 ALTER TABLE `survey_questionblock` CHANGE `title` `title` TEXT DEFAULT NULL;
+
+<#230>
+REPLACE INTO settings (keyword, value) VALUES ('enable_tracking', 0);
+REPLACE INTO settings (keyword, value) VALUES ('save_user_related_data', 0);

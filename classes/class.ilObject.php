@@ -685,6 +685,37 @@ class ilObject
 	}
 
 	/**
+	* get all objects of a certain type
+	*
+	* @param	string		$a_type			desired object type
+	* @param	boolean		$a_omit_trash	omit objects, that are in trash only
+	*										(default: false)
+	*
+	* @return	array		array of object data arrays ("id", "title", "type",
+	*						"description")
+	*/
+	function _getObjectsDataForType($a_type, $a_omit_trash = false)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote($a_type);
+		$obj_set = $ilDB->query($q);
+
+		$objects = array();
+		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ((!$a_omit_trash) || ilObject::_hasUntrashedReference($obj_rec["obj_id"]))
+			{
+				$objects[$obj_rec["title"].".".$obj_rec["obj_id"]] = array("id" => $obj_rec["obj_id"],
+					"type" => $obj_rec["type"], "title" => $obj_rec["title"],
+					"description" => $obj_rec["description"]);
+			}
+		}
+		ksort($objects);
+		return $objects;
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff
