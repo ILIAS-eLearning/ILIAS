@@ -206,6 +206,27 @@ common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
+common#:#exc_ask_delete#:#Datei löschen?
+common#:#exc_assign_usr#:#Benutzer hinzufügen
+common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
+common#:#exc_deassign_members#:#Mitglied(er) löschen
+common#:#exc_edit#:#Eine neue Übung wurde angelegt
+common#:#exc_edit_exercise#:#Übung bearbeiten
+common#:#exc_edit_until#:#Zu bearbeiten bis
+common#:#exc_files#:#Dateien
+common#:#exc_header_members#:#Übung(Mitglieder)
+common#:#exc_instruction#:#Arbeitsanweisung
+common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet 
+common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
+common#:#exc_notices#:#Bemerkungen
+common#:#exc_obj#:#Übung
+common#:#exc_save_changes#:#Änderungen speichern
+common#:#exc_send_exercise#:#Übung verschicken
+common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
+common#:#exc_status_returned#:#Beantwortet
+common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
+common#:#exc_status_solved#:#Gelöst
+common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
@@ -278,8 +299,8 @@ common#:#group_objects#:#Gruppenobjekte
 common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
 common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
 common#:#group_registration_expiration_date#:#Anmeldezeitraum
-common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
+common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
@@ -1696,24 +1717,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#exc_obj#:#Übung
-common#:#exc_instruction#:#Arbeitsanweisung
-common#:#exc_edit_until#:#Zu bearbeiten bis
-common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
-common#:#exc_edit#:#Eine neue Übung wurde angelegt
-common#:#exc_edit_exercise#:#Übung bearbeiten
-common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
-common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
-common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
-common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
-common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet 
-common#:#exc_save_changes#:#Änderungen speichern
-common#:#exc_send_exercise#:#Übung verschicken
-common#:#exc_deassign_members#:#Mitglied(er) löschen
-common#:#exc_header_members#:#Übung(Mitglieder)
-common#:#exc_notices#:#Bemerkungen
-common#:#exc_status_returned#:#Beantwortet
-common#:#exc_status_solved#:#Gelöst
-common#:#exc_files#:#Dateien
-common#:#exc_ask_delete#:#Datei löschen?
-common#:#exc_assign_usr#:#Benutzer hinzufügen
