@@ -27,10 +27,10 @@ require_once "class.XmlWriter.php";
 /**
 * ILIAS 2 to ILIAS 3 content-converting class
 * 
-* Class to convert ILIAS 2 learningunits to ILIAS 3 LearningModules.
+* Class to convert ILIAS 2 Learning Units to ILIAS 3 Learning Modules.
 * Generates a valid (ILIAS 3) ilias_lm.dtd XML file 
-* out of database dataset of an ILIAS 2 learningunit.
-* The XML file and the raw data files belonging to the LearningModule 
+* out of database dataset of an ILIAS 2 Learning Unit.
+* The XML file and the raw data files belonging to the Learning Module 
 * are packaged into a sigle zip file.
 * 
 * @author	Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
@@ -1266,7 +1266,7 @@ class ILIAS2To3Converter
 			// Paragraph
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
-			$text = "Link could not be resolved - Target object is not a part of current learningunit. ";
+			$text = "Link could not be resolved - Target object is not a part of current Learning Unit. ";
 			$text .= "[".$vri["content"]." ";
 			$text .= "Target=".$vri["id"]." ";
 			$text .= "Type=".$vri["type"];
@@ -2177,12 +2177,12 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* Exports Learningunit 2 to ILIAS 3 LearningModule
-	* @param	integer	learningunit id
-	* @param	integer	learningunit installation id
+	* Exports Learning Unit 2 to ILIAS 3 Learning Module
+	* @param	integer	Learning Unit id
+	* @param	integer	Learning Unit installation id
 	* @access	private
 	*/
-	function exportLearningunit ($id, $inst)
+	function exportLearningUnit ($id, $inst)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -2198,7 +2198,7 @@ class ILIAS2To3Converter
 		// check row number
 		if ($result->numRows() == 0)
 		{
-			die ("ERROR: No Learningunit with the id ".$id." available.");
+			die ("ERROR: No Learning Unit with the id = ".$id." and inst = ".$inst." available.");
 		}
 		$result->free();
 		
@@ -2212,7 +2212,7 @@ class ILIAS2To3Converter
 		$this->exportMetadata($id, "le");
 		
 		// LearningModule..StructureObject
-		// = "startpage" of an ILIAS 2 Learningunit
+		// = "startpage" of an ILIAS 2 Learning Unit
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
 				"WHERE lerneinheit = ".$id." ".
@@ -2434,9 +2434,9 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..Bibliography --> unavailable for learningunits in ILIAS 2
+		// LearningModule..Bibliography --> unavailable for Learning Units in ILIAS 2
 		
-		// LearningModule..Layout --> unavailable in for learningunits ILIAS 2
+		// LearningModule..Layout --> unavailable in for Learning Units ILIAS 2
 		
 		// LearningModule (endtag)
 		$this->xml->xmlEndTag("LearningModule");
@@ -2444,13 +2444,13 @@ class ILIAS2To3Converter
 	
 	/**
 	* Outputs ILIAS 3 LearninigModule and corresponding raw data files into a zip file
-	* @param	integer	learningunit id
+	* @param	integer	Learning Unit id
 	* @param	boolean	indent text (TRUE) or not (FALSE)
 	* @access	public
 	*/
 	function dumpLearningModuleFile ($luId, $luInst, $format = TRUE)
 	{
-		// set member vars for Learningunit
+		// set member vars for Learning Unit
 		$this->luId = $luId;
 		$this->luInst = $luInst;
 		
@@ -2474,18 +2474,20 @@ class ILIAS2To3Converter
 		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_lm.dtd\">");
 		
 		// set generated comment
-		$this->xml->xmlSetGenCmt("Export of ILIAS 2 learningunit nr ".$this->luId." to ILIAS 3 LearningModule");
+		$this->xml->xmlSetGenCmt("Export of ILIAS 2 Learning Unit nr ".$this->luId." from installation ".$this->luInst." into an ILIAS 3 Learning Module");
 		
 		// set xml header
 		$this->xml->xmlHeader();
 		
-		// create ILIAS 3 LearningModule out of ILIAS 2 Learningunit
-		$this->exportLearningunit($this->luId, $this->luInst);
+		// create ILIAS 3 Learning Module out of ILIAS 2 Learning Unit
+		$this->exportLearningUnit($this->luId, $this->luInst);
 		
+		/*
 		// dump xml document to screen ***
 		echo "<PRE>";
 		echo htmlentities($this->xml->xmlDumpMem($format));
 		echo "</PRE>";
+		*/
 		
 		// dump xml document to file
 		$this->xml->xmlDumpFile($this->file, $format);
