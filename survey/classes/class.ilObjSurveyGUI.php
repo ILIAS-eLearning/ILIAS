@@ -1574,7 +1574,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		} else {
-	    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+	    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
@@ -1586,7 +1586,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
 			$query_result = $this->ilias->db->query($query);
@@ -1607,10 +1607,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("spl"));
 
-    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
+		}
+		if ($this->object->getStatus() == STATUS_ONLINE)
+		{
+			sendInfo($this->lng->txt("survey_online_warning"));
 		}
 		
 		$this->tpl->parseCurrentBlock();

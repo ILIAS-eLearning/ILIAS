@@ -207,7 +207,8 @@ class ilInternalLinkGUI
 			"Media" => $this->lng->txt("cont_lk_media_inline"),
 			"Media_Media" => $this->lng->txt("cont_lk_media_media"),
 			"Media_FAQ" => $this->lng->txt("cont_lk_media_faq"),
-			"Media_New" => $this->lng->txt("cont_lk_media_new"));
+			"Media_New" => $this->lng->txt("cont_lk_media_new")
+			);
 
 		// filter link types
 		foreach($this->filter_link_types as $link_type)
