@@ -103,7 +103,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			$this->getQuestionTemplate("qt_multiple_choice_sr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
-			$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 			// output of existing single response answers
 			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
 			{
@@ -192,7 +191,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		{
 			$this->getQuestionTemplate("qt_multiple_choice_mr");
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
-			$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
 			// output of existing multiple response answers
 			for ($i = 0; $i < $this->object->get_answer_count(); $i++)
