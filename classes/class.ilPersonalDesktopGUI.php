@@ -386,6 +386,7 @@ class ilPersonalDesktopGUI
 				ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;"."..");
 			$this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".
 				ilBookmarkFolder::getRootFolder());
+			$this->tpl->setVariable("BM_TARGET", "");
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -402,12 +403,14 @@ class ilPersonalDesktopGUI
 					$this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
 						ilUtil::getImagePath("icon_cat.gif")."\">&nbsp;".$bm_item["title"]);
 					$this->tpl->setVariable("BM_LINK", "usr_personaldesktop.php?curBMFolder=".$bm_item["obj_id"]);
+					$this->tpl->setVariable("BM_TARGET", "");
 					break;
 
 				case "bm":
 					$this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
 						ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
 					$this->tpl->setVariable("BM_LINK", $bm_item["target"]);
+					$this->tpl->setVariable("BM_TARGET", "_blank");
 					break;
 			}
 
