@@ -112,7 +112,6 @@ class ilObjExercise extends ilObject
 	function saveData()
 	{
 		
-
 		// SAVE ONLY EXERCISE SPECIFIC DATA
 		$query = "INSERT INTO exc_data SET ".
 			"obj_id = '".$this->getId()."', ".
