@@ -570,6 +570,14 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$data["enable_processing_time"] = "0";
 			}
+			if ($_POST["chb_random"])
+			{
+				$data["random_test"] = "1";
+			}
+			else
+			{
+				$data["random_test"] = "0";
+			}
 
 			if ($data["enable_processing_time"])
 			{
@@ -617,6 +625,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["nr_of_tries"] = $this->object->getNrOfTries();
 			$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
 			$data["processing_time"] = $this->object->getProcessingTime();
+			$data["random_test"] = $this->object->isRandomTest();
 			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
 			{
 				$proc_time = $this->object->getEstimatedWorkingTime();
@@ -643,6 +652,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setStartingTime($data["starting_time"]);
 		$this->object->setEndingTime($data["ending_time"]);
 		$this->object->setProcessingTime($data["processing_time"]);
+		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$add_parameter = $this->getAddParameter();
 		if ($_POST["cmd"]["save"])
@@ -787,6 +797,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
 		if ($data["enable_processing_time"]) {
 			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_test"));
+		$this->tpl->setVariable("TEXT_RANDOM_TEST_DESCRIPTION", $this->lng->txt("tst_random_test_description"));
+		if ($data["random_test"]) {
+			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
 		}
 
 
