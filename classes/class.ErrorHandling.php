@@ -30,7 +30,7 @@ class ErrorHandling
 	{
 		if ($a_error_obj->getCode() == $this->FATAL)
 		{
-			die ($a_error_obj->getMessage());
+			die (stripslashes($a_error_obj->getMessage()));
 		}
 		
 		if ($a_error_obj->getCode() == $this->WARNING)
@@ -49,7 +49,7 @@ class ErrorHandling
 		}
 		if ($a_error_obj->getCode() == $this->MESSAGE)
 		{
-			header("location: ".$_SESSION["referer"]."&message=".$a_error_obj->getMessage());
+			header("location: ".$_SESSION["referer"]."&message=".stripslashes($a_error_obj->getMessage()));
 			exit;
 		}
 	}

@@ -165,8 +165,9 @@ $tplContent->setVariable("TPOS",$_GET["parent"]);
 
 if ($_GET["message"])
 {
+	echo "dfsddfsd";
 	$tplContent->setCurrentBlock("sys_message");
-	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->setVariable("ERROR_MESSAGE",stripslashes($_GET["message"]));
 	$tplContent->parseCurrentBlock();
 }
 
