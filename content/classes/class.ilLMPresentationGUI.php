@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2004 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -162,12 +162,12 @@ class ilLMPresentationGUI
 					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] ))
                     {
 
-                        if ($showpage>0)
-                        {
-                            if($_POST["type"] == "pdf") $output .= "<hr BREAK >\n";
-                            if($_POST["type"] == "print") $output .= "<p style=\"page-break-after:always\" />";
-                            if($_POST["type"] == "html") $output .= "<br><br><br><br>";
-                        }
+						if ($showpage>0)
+						{
+							if($_POST["type"] == "pdf") $output .= "<hr BREAK >\n";
+							if($_POST["type"] == "print") $output .= "<p style=\"page-break-after:always\" />";
+							if($_POST["type"] == "html") $output .= "<br><br><br><br>";
+						}
 						$showpage++;
 
 						$_GET["obj_id"] = $row["obj_id"];
@@ -1160,6 +1160,7 @@ class ilLMPresentationGUI
 			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
 			$xml.="</dummy>";
 		}
+//echo htmlentities($xml); exit;
 
 		// todo: utf-header should be set globally
 		//header('Content-type: text/html; charset=UTF-8');
@@ -1176,7 +1177,9 @@ class ilLMPresentationGUI
 		$mode = ($_GET["cmd"] == "fullscreen")
 			? "fullscreen"
 			: "media";
-		$params = array ('mode' => $mode,
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
+			'link_params' => "ref_id=".$this->lm->getRefId(),
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);

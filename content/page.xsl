@@ -1334,7 +1334,7 @@
 		count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Fullscreen']) = 1 and
 		$mode != 'fullscreen'">
 		<a target="_new">
-		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 		<img border="0" align="right">
 		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 		</img>
