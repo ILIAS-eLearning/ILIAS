@@ -58,11 +58,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		require_once "classes/class.ilMetaDataGUI.php";
+		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		//$meta_gui->setObject($this->object);
+
+		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]."&cmd=save");
+			$this->getFormAction("save","adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$new_type."&cmd=save"));
 	}
 
 	/**
@@ -112,7 +117,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	function editMetaObject()
 	{
-		require_once "classes/class.ilMetaDataGUI.php";
+		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
@@ -121,7 +126,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	function saveMetaObject()
 	{
-		require_once "classes/class.ilMetaDataGUI.php";
+		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save();
@@ -256,7 +261,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		global $HTTP_POST_FILES, $rbacsystem;
 
-		require_once "content/classes/class.ilObjLearningModule.php";
+		include_once "content/classes/class.ilObjLearningModule.php";
 
 		// check if file was uploaded
 		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
@@ -314,7 +319,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
 //echo "xmlfile:".$xml_file;
 
-		require_once ("content/classes/class.ilLMParser.php");
+		include_once ("content/classes/class.ilLMParser.php");
 		$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
 		$lmParser->startParsing();
 
@@ -663,7 +668,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	function editMeta()
 	{
-		require_once("classes/class.ilMetaDataGUI.php");
+		include_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
@@ -672,7 +677,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	function saveMeta()
 	{
-		require_once("classes/class.ilMetaDataGUI.php");
+		include_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save();

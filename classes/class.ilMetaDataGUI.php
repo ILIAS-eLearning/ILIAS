@@ -104,6 +104,7 @@ class ilMetaDataGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -122,6 +123,41 @@ class ilMetaDataGUI
 		$this->meta_obj->setTitle($meta["title"]);
 
 		return $this->meta_obj;
+	}
+
+	/**
+	* get target frame for command (command is method name without "Object", e.g. "perm")
+	* @param	string		$a_cmd			command
+	* @param	string		$a_target_frame	default target frame (is returned, if no special
+	*										target frame was set)
+	* @access	public 
+	*/
+	function getTargetFrame($a_cmd, $a_target_frame = "")
+	{
+		if ($this->target_frame[$a_cmd] != "")
+		{
+			return $this->target_frame[$a_cmd];
+		}
+		elseif (!empty($a_target_frame))
+		{
+			return $a_target_frame;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	/**
+	* set specific target frame for command
+	* @param	string		$a_cmd			command
+	* @param	string		$a_target_frame	default target frame (is returned, if no special
+	*										target frame was set)
+	* @access	public 
+	*/
+	function setTargetFrame($a_cmd, $a_target_frame)
+	{
+		$this->target_frame[$a_cmd] = $a_target_frame;
 	}
 }
 ?>
