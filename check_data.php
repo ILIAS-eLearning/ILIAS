@@ -35,22 +35,14 @@
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilValidator.php";
 
-$validator = new ilValidator();
+$validator = new ilValidator(false);
 
-//$tree->insertNode(227,15);
-//$par_node = $tree->getParentNodeData(225);
-//vd("parent_node",$par_node);
 // check logical tree constistenx
 //$tree->checkTree();
 
 // check if every entry (child) has a corresponding entry in object_data or reference_data
 // if referenced, checks too if at least one corresponding object_data entry exists_
 //$tree->checkTreeChilds();
-
-//vd($rbac_obj_types);
-// check for missing reference entries
-//$objs_no_tree = $validator->getMissingTreeEntries();
-//vd("missing_in_tree",$objs_no_tree);
 
 
 // general clean up first
@@ -103,13 +95,18 @@ if ($childs_restored)
 	echo "Unbounded childs restored";
 }
 
+// close gaps in tree
+if ($validator->closeGapsInTree())
+{
+	echo "Closed gaps in tree (left/right values)";
+}
+
 // check RBAC starts here
 // ...
-
 
 // el fin
 $mode = ($validator->recover) ? "Recovered Objects!" : "Analyze only!";
 
-$tpl->setVariable("CONTENT", "Tree ok. (Mode: ".$mode.")");
+$tpl->setVariable("CONTENT", "<p>Tree ok. (Mode: ".$mode.")</p>");
 $tpl->show()
 ?>

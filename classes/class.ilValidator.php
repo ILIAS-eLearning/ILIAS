@@ -355,5 +355,18 @@ class ilValidator
 
 		return $objRecover;
 	}
+	
+	function closeGapsInTree()
+	{
+		global $tree;
+		
+		if (!$this->recover)
+		{
+			return false;
+		}
+
+		$tree->renumber(ROOT_FOLDER_ID);
+		return true;
+	}
 }
 ?>
