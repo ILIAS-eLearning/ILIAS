@@ -266,8 +266,18 @@ class Object
 
 			foreach ($parentRoles as $r)
 			{
+				// GET ALL LOCAL ROLE IDS
+				$role_folders = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
+				$local_roles = $rbacadmin->getRolesAssignedToFolder($role_folders["child"]);
 				$data["rolenames"][] = $r["title"];
-				$data["check_inherit"][] = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+				if(!in_array($r["obj_id"],$local_roles))
+				{
+					$data["check_inherit"][] = TUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+				}
+				else
+				{
+					$data["check_inherit"][] = '';
+				}
 			}
 			
 			$ope_list = getOperationList($obj["type"]);
