@@ -36,9 +36,6 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen###09 Aug 2003 content changed
 common#:#actions#:#Aktionen
-common#:#welcome#:#Willkommen
-common#:#not_logged_in#:#Sie sind nicht eingeloggt
-common#:#register#:#Anmelden
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -441,6 +438,7 @@ common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
+common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Systemverwaltung
 common#:#obj_cat#:#Kategorie
@@ -535,6 +533,7 @@ common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
+common#:#register#:#Anmelden
 common#:#registered_since#:#Eingetragen seit
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
@@ -660,6 +659,7 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
+common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben

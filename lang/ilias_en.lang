@@ -40,9 +40,6 @@ common#:#active_roles#:#Active Roles
 common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
-common#:#welcome#:#Welcome
-common#:#not_logged_in#:#Your are not logged in
-common#:#register#:#Register
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -441,6 +438,7 @@ common#:#no_title#:#No Title
 common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
+common#:#not_logged_in#:#Your are not logged in
 common#:#obj#:#Object
 common#:#obj_adm#:#System Settings
 common#:#obj_cat#:#Category
@@ -535,6 +533,7 @@ common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh Languages
 common#:#refresh_list#:#Refresh List
+common#:#register#:#Register
 common#:#registered_since#:#Registered since
 common#:#rename#:#Rename
 common#:#reply#:#Reply
@@ -660,6 +659,7 @@ common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
+common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
 common#:#write#:#Write
