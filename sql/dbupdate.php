@@ -438,3 +438,57 @@ ALTER TABLE usr_data CHANGE phone phone_office VARCHAR(40) NOT NULL DEFAULT '';
 ALTER TABLE usr_data ADD COLUMN phone_home VARCHAR(40) NOT NULL DEFAULT '';
 ALTER TABLE usr_data ADD COLUMN phone_mobile VARCHAR(40) NOT NULL DEFAULT '';
 ALTER TABLE usr_data ADD COLUMN fax VARCHAR(40) NOT NULL DEFAULT '';
+
+<#50>
+<?php
+// correct tree entry for LDAP object
+
+// fetch ref_id of ldap object entry
+$query = "SELECT ref_id FROM object_reference ".
+		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
+		 "WHERE object_data.type='ldap'";
+$res = $this->db->query($query);
+
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+}
+
+// remove false tree entry
+$query = "DELETE FROM tree WHERE child = '".$ref_id."'";
+$this->db->query($query);
+
+// INSERT LDAP OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
+$query = "SELECT * FROM tree ".
+     "WHERE child = '9' ".
+     "AND tree = '1'";
+$res = $this->db->query($query);
+
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$left = $row->lft;
+	$lft = $left + 1;
+	$rgt = $left + 2;
+}
+
+// SPREAD TREE
+$query = "UPDATE tree SET ".
+     "lft = CASE ".
+	 "WHEN lft > ".$left." ".
+	 "THEN lft + 2 ".
+	 "ELSE lft ".
+	 "END, ".
+	 "rgt = CASE ".
+	 "WHEN rgt > ".$left." ".
+	 "THEN rgt + 2 ".
+	 "ELSE rgt ".
+	 "END ".
+	 "WHERE tree = '1'";
+$this->db->query($query);
+
+// INSERT NODE
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
+     "VALUES ".
+	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
+$this->db->query($query);
+?>
