@@ -23,9 +23,8 @@
 
 
 /**
-* Class ilObjLanguageFolder
-* contains all function to manage language support for ILIAS3
-* install, uninstall, checkfiles ....
+* Class ilObjMail
+* contains all functions to manage mail settings of ILIAS3
 * 
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version	$Id$
@@ -48,10 +47,6 @@ class ilObjMail extends ilObject
 	{
 		$this->type = "mail";
 		$this->ilObject($a_id,$a_call_by_reference);
-
-		// init language support
-		global $lng;
 	}
-
-} // END class.LanguageFolderObject
+} // END class.ilObjMail
 ?>
