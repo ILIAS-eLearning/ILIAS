@@ -271,6 +271,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
 					$_GET["ref_id"]."&cmd=editTerm&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
