@@ -3128,8 +3128,8 @@ survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadz
 survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
 survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
 survey#:#preview#:#Podgląd
-survey#:#qpl_confirm_delete_phrases#:#Czy chcesz usunąć wybrane frazy?
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
+survey#:#qpl_confirm_delete_phrases#:#Czy chcesz usunąć wybrane frazy?
 survey#:#qpl_confirm_delete_questions#:#Chcesz usunąć wybrane pytania?
 survey#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania!
 survey#:#qpl_define_questionblock_select_missing#:#Wybierz conajmniej dwa pytania aby zdefiniować blok pytań!
