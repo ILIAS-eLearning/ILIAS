@@ -71,5 +71,5 @@ $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();
 
-$tpl->show();
+$tpl->show(false);
 ?>
