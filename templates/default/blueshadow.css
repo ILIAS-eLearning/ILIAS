@@ -16,10 +16,9 @@ td {
 	color:#ffffff;
 }
 
-a.menu:link, a.menu:visited {
+a.menu {
 	color:#f7f7f7;
 	text-decoration:underline;
-	font-size:9px;
 }
 
 a.menu:hover {

@@ -120,7 +120,7 @@ if (document.images)
     </table>
   </td>
 <!-- BEGIN userisanonymous -->
-  <td width="100%" align="right" nowrap="nowrap">{TXT_NOT_LOGGED_IN}!<br/><a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a>&nbsp;<a class="menu" href="register.php" target="bottom">{TXT_REGISTER}</a></td>
+  <td width="100%" align="right" nowrap="nowrap"><span class="il_menu">{TXT_NOT_LOGGED_IN}!</span><br/><a class="menu" href="index.php?cmd=login" target="_top">{TXT_LOGIN}</a><span class="il_menu">&nbsp;|&nbsp;</span><a class="menu" href="register.php" target="bottom">{TXT_REGISTER}</a></td>
 <!-- END userisanonymous -->
 <!-- BEGIN userisloggedin -->
   <td width="100%" align="right" nowrap="nowrap">{TXT_WELCOME}, {USERNAME}!<br/><a class="menu" href="logout.php" target="_top">{TXT_LOGOUT2}</a></td>
@@ -138,9 +138,11 @@ if (document.images)
       <td><a href="{SCRIPT_FEEDB}" target="{TARGET}" onmouseover="swtchon(20,feed,'{TXT_FEEDBACK}');return true;" onmouseout="swtch(9,feed)">
 	    <img  border="0" src="{IMG_FEEDB}" width="32" height="32" alt="{TXT_FEEDBACK}" title="{TXT_FEEDBACK}" name="feed" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
+	  <!--
       <td><a href="{SCRIPT_LOGOUT}" target="_top" onmouseover="swtchon(21,logout,'{TXT_LOGOUT}');return true;" onmouseout="swtch(10,logout)">
 	    <img  border="0" src="{IMG_LOGOUT}" width="32" height="32" alt="{TXT_LOGOUT}" title="{TXT_LOGOUT}" name="logout" /></a></td>
       <td><img class="spacer" border="0" src="{IMG_SPACE}" width="5" /></td>
+	  -->
       <td><a href="http://www.ilias.uni-koeln.de" target="_blank" onmouseover="window.status='ILIAS open source - Homepage';return true;" onmouseout="window.status='';">
 	    <img  border="0" src="{IMG_ILIAS}" width="32" height="32" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a></td>
       <td><small>&nbsp;</small></td>
