@@ -55,7 +55,7 @@ class ilObjSurvey extends ilObject
 	}
 
 	/**
-	* create question pool object
+	* create survey object
 	*/
 	function create($a_upload = false)
 	{
@@ -240,6 +240,78 @@ class ilObjSurvey extends ilObject
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
+
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*/
+	function setDescription($a_description)
+	{
+		parent::setDescription($a_description);
+		$this->meta_data->setDescription($a_description);
+	}
+
+	/**
+	* get title of glossary object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+		//return $this->title;
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of glossary object
+	*/
+	function setTitle($a_title)
+	{
+		parent::setTitle($a_title);
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* assign a meta data object to glossary object
+	*
+	* @param	object		$a_meta_data	meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	/**
+	* get meta data object of glossary object
+	*
+	* @return	object		meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		parent::update();
+	}
+	
 
 } // END class.ilSurveyObjQuestionPool
 ?>
