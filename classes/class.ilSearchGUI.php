@@ -76,7 +76,7 @@ class ilSearchGUI
 
 		// DEFINE SOME CONSTANTS
 		define("RESULT_LIMIT",10);
-		
+
 		// Initiate variables
 		$this->ilias	=& $ilias;
 		$this->tpl		=& $tpl;
@@ -154,12 +154,12 @@ class ilSearchGUI
 		{
 			case "flat":
 				$this->viewmode = "flat";
-				session_register("s_viewmode","flat");
+				$_SESSION["s_viewmode"] = "flat";
 				break;
 
 			case "tree":
 				$this->viewmode = "tree";
-				session_register("s_viewmode","tree");
+				$_SESSION["s_viewmode"] = "tree";
 				break;
 				
 			default:
@@ -274,7 +274,7 @@ class ilSearchGUI
 	{
 		// FOR ALL TYPES
 		$tbl = new ilTableGUI();
-
+		
 		$this->tpl->addBlockFile(strtoupper($a_type),$a_type,"tpl.table.html");
 
 		$this->__addAction($a_type,$a_search_in_type);
@@ -369,7 +369,9 @@ class ilSearchGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		#$this->tpl->setVariable(strtoupper($a_type),$tbl->render());
 
+		#$tbl->setTemplate($this->tpl);
 		$tbl->render();
+
 		unset($tbl);
 	}
 
