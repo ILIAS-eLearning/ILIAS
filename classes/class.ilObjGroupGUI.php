@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.53 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.54 2003/11/17 09:17:36 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -191,9 +191,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$roles = $groupObj->initDefaultRoles();
 
 		// ...finally assign groupadmin role to creator of group object
-		$groupObj->addMember($this->ilias->account->getId(),1);
-
-//		ilObjUser::updateActiveRoles($groupObj->getOwner());
+		$groupObj->addMember($this->ilias->account->getId(),$groupObj->getDefaultAdminRole());
 
 		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
 		$groupObj->setPassword($_POST["password"]);
@@ -573,7 +571,8 @@ class ilObjGroupGUI extends ilObjectGUI
 						//MEMBER LEAVES GROUP
 						if($this->object->isMember($mem_id) && !$this->object->isAdmin($mem_id))
 						{
-							if(!$newGrp->leave($mem_id))
+//							if(!$newGrp->leave($mem_id))
+							if(!$newGrp->removeMember($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 						else	//ADMIN LEAVES GROUP
@@ -583,7 +582,8 @@ class ilObjGroupGUI extends ilObjectGUI
 							{
 								$this->ilias->raiseError("At least one group administrator is required! Please entitle a new group administrator first ! ",$this->ilias->error_obj->WARNING);
 							}
-							else if(!$newGrp->leave($mem_id))
+//							else if(!$newGrp->leave($mem_id))
+							if(!$newGrp->removMember($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 					}
@@ -616,7 +616,13 @@ class ilObjGroupGUI extends ilObjectGUI
 			$member_ids[0] = $_GET["mem_id"];
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
+		$local_roles = $newGrp->getLocalGroupRoles();
+
+		$flipped_local_roles = array_flip($local_roles);
+		$stati = array();
+		$stati = $flipped_local_roles;
+
+//		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
 
 		//build data structure
 		foreach($member_ids as $member_id)
@@ -691,8 +697,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("username"));
 		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("member_status"));
 
-		$radio_member = ilUtil::formRadioButton($_POST["status"] ? 0:1,"status",0);
-		$radio_admin  = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
+		if($_POST["status"] == $this->object->getDefaultMemberRole() || !isset($_POST["status"]))
+			$checked = 0;
+		else
+			$checked = 1;
+		$radio_member = ilUtil::formRadioButton($checked ? 0:1,"status",$this->object->getDefaultMemberRole());
+		$radio_admin = ilUtil::formRadioButton($checked ? 1:0,"status",$this->object->getDefaultAdminRole());
+
 		$this->tpl->setVariable("RADIO_MEMBER", $radio_member);
 		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
@@ -890,7 +901,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	* displays form in which the member-status can be changed
 	* @access public
 	*/
-	function MemberStatusObject()
+	function updateMemberStatusObject()
 	{
 		global $rbacsystem;
 
