@@ -416,6 +416,7 @@ common#:#permission#:#permission
 common#:#permission_denied#:#permission denied
 common#:#personal_data#:#Personal information###25 Mar 2003 new variable
 common#:#personal_desktop#:#personal desktop
+common#:#personal_picture#:#Personal Picture###07 Jun 2003 new variable
 common#:#personal_profile#:#personal profile
 common#:#persons#:#Personen###28 Mar 2003 new variable
 common#:#phone#:#phone
@@ -562,6 +563,7 @@ content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_meta_data#:#Meta Data###14 May 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
+content#:#cont_preview#:#Preview###07 Jun 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
