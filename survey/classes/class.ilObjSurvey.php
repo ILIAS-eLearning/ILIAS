@@ -557,7 +557,7 @@ class ilObjSurvey extends ilObject
 * @access public
 */
 	function insertQuestionblock($questionblock_id) {
-		$query = sprintf("SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
 			$this->ilias->db->quote($questionblock_id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -607,8 +607,8 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, ref_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $this->ilias->db->quote($this->ref_id),
+      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $this->ilias->db->quote($this->getId()),
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->introduction),
         $this->ilias->db->quote($this->status),
@@ -827,8 +827,8 @@ class ilObjSurvey extends ilObject
 */
   function loadFromDb()
   {
-    $query = sprintf("SELECT * FROM survey_survey WHERE ref_fi = %s",
-      $this->ilias->db->quote($this->getRefId())
+    $query = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     if (strcmp(get_class($result), db_result) == 0) {
@@ -1568,8 +1568,8 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockTitles()
 	{
 		$titles = array();
-		$query = sprintf("SELECT survey_questionblock.* FROM survey_questionblock, survey_question, survey_questionblock_question WHERE survey_questionblock_question.question_fi = survey_question.question_id AND survey_question.ref_fi = %s",
-			$this->ilias->db->quote($this->getRefId())
+		$query = sprintf("SELECT survey_questionblock.* FROM survey_questionblock, survey_question, survey_questionblock_question WHERE survey_questionblock_question.question_fi = survey_question.question_id AND survey_question.obj_fi = %s",
+			$this->ilias->db->quote($this->getId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1590,8 +1590,8 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestions($questionblock_id)
 	{
 		$titles = array();
-		$query = sprintf("SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
-			$this->ilias->db->quote($this->getRefId()),
+		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
+			$this->ilias->db->quote($this->getId()),
 			$this->ilias->db->quote($questionblock_id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -2708,7 +2708,7 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblocks($questionblock_ids)
 	{
 		$result_array = array();
-    $query = "SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN (" . join($questionblock_ids, ",") . ") ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
+    $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN (" . join($questionblock_ids, ",") . ") ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -2779,7 +2779,7 @@ class ilObjSurvey extends ilObject
             $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
 					case "qpl":
-						$order = " ORDER BY ref_fi $value";
+						$order = " ORDER BY obj_fi $value";
             $images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
 						break;
         }
@@ -2798,7 +2798,7 @@ class ilObjSurvey extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-	  $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+	  $query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -2874,7 +2874,7 @@ class ilObjSurvey extends ilObject
 		{
 			$order = " ORDER BY survey_survey_question.sequence ASC";
 		}
-		$query = "SELECT survey_questionblock.questionblock_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
+		$query = "SELECT survey_questionblock.questionblock_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$questionblock_ids = array();
 		if ($query_result->numRows())
@@ -2895,7 +2895,7 @@ class ilObjSurvey extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_questionblock.*, object_data.title as surveytitle FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
+		$query = "SELECT survey_questionblock.*, object_data.title as surveytitle FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())

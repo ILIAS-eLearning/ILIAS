@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyQuestion.php";
 * The SurveyTextQuestion class defines and encapsulates basic methods and attributes
 * for text survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyTextQuestion.php
 * @modulegroup   Survey
@@ -77,7 +77,7 @@ class SurveyTextQuestion extends SurveyQuestion {
         $this->id = $data->question_id;
         $this->title = $data->title;
         $this->description = $data->description;
-        $this->ref_id = $data->ref_fi;
+        $this->obj_id = $data->obj_fi;
         $this->author = $data->author;
 				$this->obligatory = $data->obligatory;
         $this->owner = $data->owner_fi;
@@ -134,9 +134,9 @@ class SurveyTextQuestion extends SurveyQuestion {
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $this->ilias->db->quote("4"),
-        $this->ilias->db->quote($this->ref_id),
+        $this->ilias->db->quote($this->obj_id),
         $this->ilias->db->quote($this->owner),
         $this->ilias->db->quote($this->title),
         $this->ilias->db->quote($this->description),

@@ -666,7 +666,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			foreach ($table["rows"] as $data)
 			{
-				if ($rbacsystem->checkAccess("read", $data["ref_fi"])) {
+				if ($rbacsystem->checkAccess("read", $data["ref_id"])) {
 					$this->tpl->setCurrentBlock("QTab");
 					if ($data["complete"]) {
 						// make only complete questions selectable
@@ -680,7 +680,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
+					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_id"]]);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -840,7 +840,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_POOL", $titles[$data["ref_fi"]]);
+					$this->tpl->setVariable("QUESTION_POOL", $titles[$data["ref_id"]]);
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
