@@ -86,7 +86,7 @@ if (isset($_POST["cmd"]))
 }
 
 //echo "-------------";
-//var_dump($_GET);var_dump($_POST);
+//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 {
 	//echo " post";
@@ -96,7 +96,7 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 		{//echo "ddd";
 
 			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
-
+			
 			exit();
 		}
 		else
@@ -137,7 +137,7 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 				$obj = new $class_constr($data, $id, $call_by_reference);
 				$method= $cmd."Object";
 				//echo ("hit ".$class_constr.$method);
-				$obj->setReturnLocation("save","group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
+				$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 				$obj->$method();
 				
 				
