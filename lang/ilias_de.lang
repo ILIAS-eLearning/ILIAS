@@ -75,7 +75,7 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
-common#:#3rd_party_software#:#Drittanbieter-Software###09 Jan 2004 content changed
+common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
@@ -89,7 +89,7 @@ common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
-common#:#adm_read#:#Lesezugriff auf Systemeinstellungen###24 Jan 2004 content changed
+common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
@@ -150,13 +150,13 @@ common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
+common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
+common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
-common#:#cat_new#:#Neue Kategorie###13 Jan 2004 content changed
+common#:#cat_new#:#Neue Kategorie
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
@@ -360,7 +360,7 @@ common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
-common#:#folder#:#Ordner###13 Jan 2004 content changed
+common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
@@ -384,7 +384,7 @@ common#:#frm_edit_post#:#Forumbeiträge bearbeiten
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
 common#:#frm_visible#:#Forum ist sichtbar
-common#:#frm_write#:#Forum bearbeiten/Beitrag schreiben###21 Jan 2004 content changed
+common#:#frm_write#:#Forum bearbeiten/Beitrag schreiben
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
@@ -397,7 +397,7 @@ common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
-common#:#glo_added#:#Glossar hinzugefügt###13 Jan 2004 content changed
+common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_create#:#Neues Glossar anlegen
 common#:#glo_delete#:#Glossar löschen
 common#:#glo_edit_permission#:#Rechteeinstellungen ändern
@@ -434,7 +434,7 @@ common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
-common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen###11 Dec 2003 content changed
+common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_public#:#Öffentlich
@@ -589,9 +589,9 @@ common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
 common#:#lm#:#Lernmodul
-common#:#lm_a#:#ein Lernmodul###13 Jan 2004 content changed
+common#:#lm_a#:#ein Lernmodul
 common#:#lm_add#:#Lernmodul anlegen
-common#:#lm_added#:#Lernmodul angelegt###13 Jan 2004 content changed
+common#:#lm_added#:#Lernmodul angelegt
 common#:#lm_create#:#Neues Lernmodul anlegen
 common#:#lm_delete#:#Lernmodul löschen
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
@@ -602,7 +602,7 @@ common#:#lm_read#:#Lernmodul lesen
 common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
 common#:#lng#:#Sprache
-common#:#lngf#:#Sprachen###13 Jan 2004 content changed
+common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
 common#:#lngf_read#:#Lesezugriff auf Spracheinstellungen
 common#:#lngf_visible#:#Spracheinstellungen sind sichtbar
@@ -662,7 +662,7 @@ common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
-common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.###11 Dec 2003 content changed
+common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
@@ -808,17 +808,17 @@ common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_qpl#:#Fragen-Pool
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
-common#:#obj_root#:#ILIAS-System###13 Jan 2004 content changed
-common#:#obj_slm#:#SCORM Lernmodul###31 Jan 2004 content changed
+common#:#obj_root#:#ILIAS-System
+common#:#obj_slm#:#SCORM Lernmodul
 common#:#obj_st#:#Kapitel
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
@@ -854,7 +854,7 @@ common#:#objf_edit_permission#:#Rechteeinstellungen ändern
 common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
 common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
-common#:#objs_confirm#:#Bestätige Aktion###11 Dec 2003 content changed
+common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
@@ -919,7 +919,7 @@ common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#profile_changed#:#Ihr Profil wurde geändert
-common#:#profile_of#:#Profile of###08 Nov 2003 new variable
+common#:#profile_of#:#Profile of
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
 common#:#public_profile#:#Öffentliches Profil
@@ -927,16 +927,16 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#Fragen-Pool
+common#:#qpl_add#:#Fragen-Pool anfügen
+common#:#qpl_delete#:#Fragen-Pool löschen
+common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
+common#:#qpl_new#:#Neuer Fragen-Pool
+common#:#qpl_read#:#Lesezugriff auf Fragen-Pool
+common#:#qpl_visible#:#Fragen-Pool ist sichtbar
+common#:#qpl_write#:#Fragen-Pool bearbeiten
 common#:#question#:#Frage
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#Fragen-Pools
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
@@ -945,7 +945,7 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#register#:#Anmelden
-common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).###09 Feb 2004 content changed
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
@@ -972,16 +972,16 @@ common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
-common#:#rolf#:#Rollenordner###13 Jan 2004 content changed
+common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
 common#:#rolf_create_rolt#:#Neue Rollenvorlage anlegen
 common#:#rolf_delete#:#Rollen/Rollenvorlagen löschen
-common#:#rolf_edit_permission#:#Zugriff auf Rechteeinstellungen für Rollen/Rollenvorlagen###22 Jan 2004 content changed
+common#:#rolf_edit_permission#:#Zugriff auf Rechteeinstellungen für Rollen/Rollenvorlagen
 common#:#rolf_edit_userassignment#:#Benutzerzuweisung von Rollen ändern
 common#:#rolf_read#:#Lesezugriff auf Rollen/Rollenvorlagen
 common#:#rolf_visible#:#Rollen/Rollenvorlagen sind sichtbar
-common#:#rolf_write#:#Rechtevorlagen von Rollen/Rollenvorlagen bearbeiten###22 Jan 2004 content changed
+common#:#rolf_write#:#Rechtevorlagen von Rollen/Rollenvorlagen bearbeiten
 common#:#rolt#:#Rollenvorlage
 common#:#rolt_a#:#eine Rollenvorlage
 common#:#rolt_add#:#Rollenvorlage anlegen
@@ -989,11 +989,11 @@ common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
 common#:#root_create_cat#:#Benutzer kann Kategorien anlegen
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
+common#:#root_edit#:#Systemknoten bearbeiten
 common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_visible#:#ILIAS System ist sichtbar
-common#:#root_write#:#Daten des Systemknotens bearbeiten###29 Jan 2004 content changed
+common#:#root_write#:#Daten des Systemknotens bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -1036,8 +1036,8 @@ common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#signature#:#Signatur
-common#:#slm#:#SCORM Lernmodul###13 Jan 2004 content changed
-common#:#slm_added#:#SCORM Lernmodul angelegt###13 Jan 2004 content changed
+common#:#slm#:#SCORM Lernmodul
+common#:#slm_added#:#SCORM Lernmodul angelegt
 common#:#slm_create#:#Neues SCORM Lernmodul anlegen
 common#:#slm_delete#:#SCORM Lernmodul löschen
 common#:#slm_edit_permission#:#Rechteeinstellungen ändern
@@ -1074,7 +1074,7 @@ common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
 common#:#term#:#Begriff
 common#:#test_intern#:#Interner Test
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#Tests
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
@@ -1086,14 +1086,14 @@ common#:#tpl_path#:#Template-Pfad
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#Test
+common#:#tst_add#:#Test anfügen
+common#:#tst_delete#:#Test löschen
+common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
+common#:#tst_new#:#Neuer Test
+common#:#tst_read#:#Lesezugriff zu Test
+common#:#tst_visible#:#Test ist sichtbar
+common#:#tst_write#:#Testbearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
@@ -1132,10 +1132,10 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
-common#:#usrf#:#Benutzerkonten###13 Jan 2004 content changed
+common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
 common#:#usrf_delete#:#Benutzerkonten löschen
-common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern###22 Jan 2004 content changed
+common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
 common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
@@ -1162,7 +1162,7 @@ content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
@@ -1172,19 +1172,19 @@ content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:#Polygon
+content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
+content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
@@ -1205,16 +1205,16 @@ content#:#cont_choose_glossary#:#Wählen Sie das Glossar
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
+content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
+content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
+content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des Polygons oder speichern Sie den gewünschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
+content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
+content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
+content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
-content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
+content#:#cont_coords#:#Koordinaten
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
@@ -1235,17 +1235,17 @@ content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
-content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis
+content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#get link
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
+content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
@@ -1254,7 +1254,7 @@ content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_table#:#Tabelle einfügen
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
 content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
@@ -1262,9 +1262,9 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Schlagwort
-content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link#:#Link
+content#:#cont_link_ext#:#Link (extern)
+content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_type#:#Linktyp
 content#:#cont_list_properties#:#Listen-Eigenschaften
@@ -1281,7 +1281,7 @@ content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
-content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
+content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Objektdateien
@@ -1290,7 +1290,7 @@ content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
-content#:#cont_name#:#Name###14 Jan 2004 new variable
+content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
 content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_dir#:#Neues Verzeichnis
@@ -1346,7 +1346,7 @@ content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
-content#:#cont_shape#:#Shape###14 Jan 2004 new variable
+content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe
@@ -1369,7 +1369,7 @@ content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
-content#:#cont_update#:#Update###15 Jan 2004 new variable
+content#:#cont_update#:#Update
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
