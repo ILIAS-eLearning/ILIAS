@@ -4848,7 +4848,7 @@ class ilObjTest extends ilObject
 		else
 		{
 			$question_id = $this->ilias->db->quote($question_id . "");
-			$original_id = assQuestion::_getOriginalId($question_id);
+			$original_id = ASS_Question::_getOriginalId($question_id);
 		}
 		if (strcmp($original_id, "") == 0)
 		{
