@@ -89,6 +89,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
+			$this->tpl->setVariable("TXT_FORMATERROR",$this->lng->txt("cont_format_error"));
+			
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
@@ -184,6 +186,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
+			$this->tpl->setVariable("TXT_FORMATERROR",$this->lng->txt("cont_format_error"));
+			
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
