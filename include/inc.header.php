@@ -89,6 +89,7 @@ require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilCtrl.php";
 require_once "classes/class.ilConditionHandler.php";
 require_once "classes/class.ilBrowser.php";
+require_once "classes/class.ilFrameTargetInfo.php";
 require_once "include/inc.ilias_version.php";
 
 //include role based access control system

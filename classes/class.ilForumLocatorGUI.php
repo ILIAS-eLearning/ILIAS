@@ -131,7 +131,8 @@ class ilForumLocatorGUI
 			}
 			$this->tpl->setVariable("ITEM", $title);
 			$this->tpl->setVariable("LINK_ITEM", $link);
-			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+			$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+			$this->tpl->setVariable("LINK_TARGET", "target=\"$t_frame\"");
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -153,7 +154,8 @@ class ilForumLocatorGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $lng->txt("userdata"));
 			$this->tpl->setVariable("LINK_ITEM", "");
-			$this->tpl->setVariable("LINK_TARGET","target=\"bottom\"");
+			$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+			$this->tpl->setVariable("LINK_TARGET","target=\"$t_frame\"");
 			$this->tpl->parseCurrentBlock();
 		}
 

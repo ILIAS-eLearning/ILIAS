@@ -146,8 +146,7 @@ class ilRepositoryGUI
 		$this->ilinc_courses = array();
 		$this->ilinc_classrooms = array();
 	}
-
-
+	
 	/**
 	* execute command
 	*/
@@ -330,7 +329,7 @@ class ilRepositoryGUI
 				{
 					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
 				}
-				
+	
 				// get GUI of current object
 				$class_name = $this->objDefinition->getClassName($obj_type);
 				$module = $this->objDefinition->getModule($obj_type);
@@ -338,14 +337,13 @@ class ilRepositoryGUI
 				$class_constr = "ilObj".$class_name."GUI";
 				include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 				$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-								
+							
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or $
+					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or 
 					   $obj_type == 'frm' or $obj_type == 'crsg')
 					{
-//echo "<br>--grp";
 						$this->prepareOutput();
 						$this->ctrl->forwardCommand($this->gui_obj);
 						$this->tpl->show();
@@ -794,10 +792,10 @@ class ilRepositoryGUI
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
-			if($this->mode != "tree")
-			{
+			//if($this->mode != "tree")
+			//{
 				$this->showPossibleSubObjects("root");
-			}
+			//}
 		}
 		else
 		{
@@ -1799,7 +1797,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->groups);
 
@@ -1936,7 +1934,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->exercises);
 
@@ -1996,7 +1994,8 @@ class ilRepositoryGUI
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
-				$tpl->setVariable("LINK_TARGET", "bottom");
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+				$tpl->setVariable("LINK_TARGET", $t_frame);
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
@@ -2053,7 +2052,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->chats);
 
@@ -2815,7 +2814,7 @@ class ilRepositoryGUI
 		// possible deprecated
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->files);
 
@@ -2850,8 +2849,11 @@ class ilRepositoryGUI
 					
 					$tpl->setCurrentBlock("file_history");
 					$tpl->setVariable("TXT_HISTORY", $this->lng->txt("versions"));
-					$tpl->setVariable("HISTORY_LINK", "repository.php?cmd=versions&cmdClass=ilobjfilegui&cmdNode=32&ref_id=".$cont_data["ref_id"]);
-					$tpl->setVariable("HISTORY_TARGET", "bottom");
+					//$tpl->setVariable("HISTORY_LINK", "repository.php?cmd=versions&cmdClass=ilobjfilegui&cmdNode=32&ref_id=".$cont_data["ref_id"]);
+					$this->ctrl->setParameterByClass("ilobjfilegui", "ref_id", $cont_data["ref_id"]);
+					$tpl->setVariable("HISTORY_LINK", $this->ctrl->getLinkTargetByClass("ilobjfilegui", "versions"));
+					$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+					$tpl->setVariable("HISTORY_TARGET", $t_frame);
 					$tpl->parseCurrentBlock();
 
 				}
@@ -2878,7 +2880,8 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("file_edit");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->setVariable("EDIT_LINK", "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$cont_data["ref_id"]);
-					$tpl->setVariable("EDIT_TARGET", "bottom");
+					$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent");
+					$tpl->setVariable("EDIT_TARGET", $t_frame);
 					$tpl->parseCurrentBlock();
 				}
 				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
@@ -2963,7 +2966,7 @@ class ilRepositoryGUI
 		// poss. deprecated
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=grp&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->folders);
 
@@ -2993,7 +2996,7 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("fold_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
 					$tpl->setVariable("READ_LINK", $obj_link);
-					$tpl->setVariable("READ_TARGET", "bottom");
+//$tpl->setVariable("READ_TARGET", "bottom");
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -3018,7 +3021,7 @@ class ilRepositoryGUI
 				{
 					$tpl->setCurrentBlock("fold_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
-					$tpl->setVariable("DELETE_TARGET","bottom");
+//$tpl->setVariable("DELETE_TARGET","bottom");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 					
@@ -3298,7 +3301,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=icrs&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->ilinc_courses);
 
@@ -3428,7 +3431,7 @@ class ilRepositoryGUI
 
 		$tpl->setVariable("FORMACTION", "obj_location_new.php?new_type=icrs&from=grp_list.php");
 		$tpl->setVariable("FORM_ACTION_METHOD", "post");
-		$tpl->setVariable("ACTIONTARGET", "bottom");
+//$tpl->setVariable("ACTIONTARGET", "bottom");
 
 		$maxcount = count($this->ilinc_courses);
 
@@ -3814,7 +3817,7 @@ class ilRepositoryGUI
 					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
-				$obj->setTargetFrame("save", "bottom");
+//$obj->setTargetFrame("save", "bottom");
 				//$this->ctrl->setCmdClass(strtolower("Obj".$class_name."GUI"));
 				//$this->ctrl->setCmd($method);
 				//$this->ctrl->forwardCommand($obj);

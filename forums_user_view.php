@@ -70,21 +70,6 @@ if (!empty($_GET["thr_pk"]))
 $frm_loc->showUser(true);
 $frm_loc->display();
 
-// set locator
-/*
-$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
-$tpl->touchBlock("locator_separator");
-$tpl->setCurrentBlock("locator_item");
-$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-$tpl->setVariable("LINK_ITEM", "forums.php");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("locator_item");
-$tpl->setVariable("ITEM", $lng->txt("userdata"));
-$tpl->setVariable("LINK_ITEM", "");
-$tpl->setVariable("LINK_TARGET","target=\"bottom\"");
-$tpl->parseCurrentBlock();*/
-
 require_once ("classes/class.ilObjUserGUI.php");
 
 $_GET["obj_id"]=$_GET["user"];

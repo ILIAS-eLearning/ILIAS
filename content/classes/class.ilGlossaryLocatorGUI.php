@@ -119,7 +119,7 @@ class ilGlossaryLocatorGUI
 			if ($row["child"] == $this->tree->getRootId())
 			{
 				$title = $this->lng->txt("repository");
-				$link = $repository."?ref_id=".$row["child"];
+				$link = $repository."?cmd=frameset&ref_id=".$row["child"];
 			}
 			else if (($_GET["ref_id"] == $row["child"]))
 			{
@@ -136,11 +136,12 @@ class ilGlossaryLocatorGUI
 			else
 			{
 				$title = $row["title"];
-				$link = $repository."?ref_id=".$row["child"];
+				$link = $repository."?cmd=frameset&ref_id=".$row["child"];
 			}
 			$this->tpl->setVariable("ITEM", $title);
 			$this->tpl->setVariable("LINK_ITEM", $link);
-			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+			$t_frame = ilFrameTargetInfo::_getFrame("MainContent");
+			$this->tpl->setVariable("LINK_TARGET", " target=\"$t_frame\" ");
 			$this->tpl->parseCurrentBlock();
 		}
 

@@ -167,14 +167,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TYPE", $ttabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("answers"));
-	$tpl->setVariable("TAB_TARGET", "bottom");
+	$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+	$tpl->setVariable("TAB_TARGET", $t_frame);
 	$tpl->parseCurrentBlock();
 
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE", $ftabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("date"));
-	$tpl->setVariable("TAB_TARGET", "bottom");
+	$tpl->setVariable("TAB_TARGET", $t_frame);
 	$tpl->parseCurrentBlock();
 
 
@@ -185,7 +186,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 	{
 		$menutpl->setCurrentBlock("btn_cell");
 		$menutpl->setVariable("BTN_LINK","forums_frameset.php?mark_read=1&ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET['thr_pk']);
-		$menutpl->setVariable("BTN_TARGET",'target="bottom"');
+		$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+		$menutpl->setVariable("BTN_TARGET",'target="$t_frame"');
 		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_mark_read"));
 		$menutpl->parseCurrentBlock();
 	}
@@ -194,7 +196,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 	{
 		$menutpl->setCurrentBlock("btn_cell");
 		$menutpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);
-		$menutpl->setVariable("BTN_TARGET","target=\"bottom\"");
+		$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+		$menutpl->setVariable("BTN_TARGET","target=\"$t_frame\"");
 		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$menutpl->parseCurrentBlock();
 	}
@@ -457,6 +460,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setVariable("DEL_FORMACTION", "forums_frameset.php?cmd=ready_delete&ref_id=".
 											  $_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"].
 											  "&offset=".$Start."&orderby=".$_GET["orderby"]);
+							$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+							$tpl->setVariable("DEL_FORM_TARGET", $t_frame);
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel"));
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm"));
 							$tpl->parseCurrentBlock("kill_cell");
@@ -661,7 +666,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 									 "&thr_pk=".$_GET["thr_pk"].
 									 "&pos_pk=".$node["pos_pk"]."#".$node["pos_pk"]);
 
-				$tpl->setVariable("AUTHOR","<a target=\"bottom\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "frm");
+				$tpl->setVariable("AUTHOR","<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 								  $usr_data["usr_id"]."&backurl=".$backurl."\">".$usr_data["login"]."</a>");
 			}
 			else

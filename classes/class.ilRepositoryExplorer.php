@@ -253,10 +253,13 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		global $ilias;
 		
+		
+		
 		switch($a_type)
 		{
 			case "cat":
-				return "content";
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "cat");
+				return $t_frame;
 
 			case "lm":
 			case "dbk":
@@ -276,10 +279,12 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 
 			case "grp":
-				return "";
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grp");
+				return $t_frame;
 
 			case "crs":
-				return "content";
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "crs");
+				return $t_frame;
 
 			case "frm":
 				return "";
