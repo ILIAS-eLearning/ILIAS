@@ -682,6 +682,7 @@ common#:#approve_date#:#Approved On###05 Nov 2004 new variable
 common#:#approve_recipient#:#Login ID of approver###05 Nov 2004 new variable
 common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
+common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Przydziel
 common#:#assign_global_role#:#Przydziel do globalnej roli
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukryc
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
 forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
 forum#:#forums_last_post#:#Ostatni artykuł
+forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Moderatorzy
 forum#:#forums_new_entries#:#Nowe   pozycje forów
 forum#:#forums_new_thread#:#Nowy temat
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Temat
 forum#:#forums_thread_articles#:#Artykuły do tematu
 forum#:#forums_thread_create_date#:#Utworzone dnia
 forum#:#forums_thread_create_from#:#Utworzone przez
+forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Został zapisany nowy temat.
 forum#:#forums_threads#:#Wątki
 forum#:#forums_threads_not_available#:#Tematy nie są dostępne
 forum#:#forums_topics_overview#:#Przegląd tematów
 forum#:#forums_your_reply#:#Twoja odpowiedź
+forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
+forum#:#is_read#:#mark read###02 Dec 2004 new variable
 mail#:#also_as_email#:#rownież pocztą
 mail#:#bc#:#BC
 mail#:#forward#:#Prześlij dalej
@@ -4109,6 +4115,8 @@ survey#:#median_between#:#pomiędzy
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#Rozpocząłeś anonimową ankietę &quot;%s&quot;. Do powrotu do ankiety potrzebujesz następującego 32 cyfrowego kodu ankiety:<br><br><strong>%s</strong><br><br>Powrót do ankiety jest tylko możliwy gdy ją przerwiesz przed zakończeniem.
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Wprowadzona wartość nie jest pomiędzy minimalną a maksymalną wartością!
 survey#:#minimum#:#Minimalna wartość
 survey#:#missing_upper_or_lower_limit#:#Podaj dolny i górny limit!

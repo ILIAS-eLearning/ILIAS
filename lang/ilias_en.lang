@@ -682,6 +682,7 @@ common#:#approve_date#:#Approved On
 common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
+common#:#articels_unread#:#Unread articels:
 common#:#as_of#:#as of
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to global role
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_last_post#:#Last Article
+forum#:#forums_mark_read#:#Mark all read
 forum#:#forums_moderators#:#Moderators
 forum#:#forums_new_entries#:#New Forums Entries
 forum#:#forums_new_thread#:#New Topic
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Topic
 forum#:#forums_thread_articles#:#Articles of the topic
 forum#:#forums_thread_create_date#:#Created at
 forum#:#forums_thread_create_from#:#Created from
+forum#:#forums_thread_marked#:#The Thread has been marked as read.
 forum#:#forums_thread_new_entry#:#New topic has been created
 forum#:#forums_threads#:#Threads
 forum#:#forums_threads_not_available#:#Topics Not Available
 forum#:#forums_topics_overview#:#Topics Overview
 forum#:#forums_your_reply#:#Your Reply
+forum#:#frm_default_view#:#Default view
+forum#:#frm_title_required#:#Please insert a title.
+forum#:#is_read#:#mark read
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward
@@ -4268,9 +4274,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#articels_unread#:#Unread articels:
-forum#:#frm_title_required#:#Please insert a title.
-forum#:#frm_default_view#:#Default view
-forum#:#forums_mark_read#:#Mark all read
-forum#:#is_read#:#mark read
-forum#:#forums_thread_marked#:#The Thread has been marked as read.

@@ -682,6 +682,7 @@ common#:#approve_date#:#Approved On###05 Nov 2004 new variable
 common#:#approve_recipient#:#Login ID of approver###05 Nov 2004 new variable
 common#:#archive#:#Archív
 common#:#are_you_sure#:#Biztos?
+common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Hozzárendelés
 common#:#assign_global_role#:#Globális szerephez hozzárendelés
@@ -3076,6 +3077,7 @@ forum#:#forums_info_censor2_post#:#Cenzúrázás visszavonása?
 forum#:#forums_info_censor_post#:#Biztosan el akarja rejteni ezt a hozzászólást?
 forum#:#forums_info_delete_post#:#Biztosan törölni akarja ezt a hozzászólást a válaszokkal együtt?
 forum#:#forums_last_post#:#Utolsó hozzászólás
+forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Moderátorok
 forum#:#forums_new_entries#:#Új fórumbejegyzések
 forum#:#forums_new_thread#:#Új téma
@@ -3095,11 +3097,15 @@ forum#:#forums_thread#:#Téma
 forum#:#forums_thread_articles#:#Hozzászólások a témában
 forum#:#forums_thread_create_date#:#Készült
 forum#:#forums_thread_create_from#:#Létrehozta
+forum#:#forums_thread_marked#:#The Thread has been marked as read.###02 Dec 2004 new variable
 forum#:#forums_thread_new_entry#:#Új téma került beírásra
 forum#:#forums_threads#:#Témák
 forum#:#forums_threads_not_available#:#A témák nem elérhetők
 forum#:#forums_topics_overview#:#Témák áttekintése
 forum#:#forums_your_reply#:#Your Reply###05 Nov 2004 new variable
+forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
+forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
+forum#:#is_read#:#mark read###02 Dec 2004 new variable
 mail#:#also_as_email#:#Szintén e-mailként
 mail#:#bc#:#BC
 mail#:#forward#:#Továbbküld
@@ -4109,6 +4115,8 @@ survey#:#median_between#:#between###05 Nov 2004 new variable
 survey#:#menuback#:#Back###29 Nov 2004 new variable
 survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###05 Nov 2004 new variable
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
 survey#:#metric_question_out_of_bounds#:#A bevitt érték nincs a minimum és maximum érték között!
 survey#:#minimum#:#Minimális érték
 survey#:#missing_upper_or_lower_limit#:#Adjon meg egy alsó és egy felső határt!
