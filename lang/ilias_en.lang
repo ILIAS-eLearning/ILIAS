@@ -711,10 +711,6 @@ common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digibook
 common#:#dbk_visible#:#Digibook is visible
 common#:#dbk_write#:#Edit Digibook
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
-common#:#trac_edit_permission#:#Change permission settings
 common#:#default#:#Default
 common#:#default_language#:#Default Language
 common#:#default_perm_settings#:#Default permissions
@@ -1290,14 +1286,14 @@ common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
 common#:#msg_no_perm_create_user#:#You have no permission to add users
 common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
 common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.
 common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
 common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
-common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.
 common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
@@ -1743,6 +1739,10 @@ common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
+common#:#trac_delete#:#Delete Tracking Data
+common#:#trac_edit_permission#:#Change permission settings
+common#:#trac_read#:#Read Tracking Data
+common#:#trac_visible#:#User tracking is visible
 common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data#:#Tracking Data
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
@@ -1838,8 +1838,6 @@ content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
-content#:#cont_time#:#Time
-content#:#cont_score#:#Score
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -2063,6 +2061,7 @@ content#:#cont_sc_stat_passed#:#Passed
 content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
+content#:#cont_score#:#Score
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Select at least one item.
 content#:#cont_select_max_one_item#:#Please select one item only
@@ -2105,6 +2104,7 @@ content#:#cont_table_width#:#Table Width
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
+content#:#cont_time#:#Time
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table of Contents
 content#:#cont_toc_mode#:#TOC Mode
@@ -3151,6 +3151,7 @@ survey#:#invited_groups#:#Invited groups
 survey#:#invited_users#:#Invited users
 survey#:#last_update#:#Last update
 survey#:#lower_limit#:#Lower limit
+survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Manage phrases
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
@@ -3261,6 +3262,8 @@ survey#:#survey_skip_next#:#skip >>>
 survey#:#survey_skip_previous#:#<<< skip
 survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#save and go to start page
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
+survey#:#svy_delete_all_user_data#:#Delete all user data
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -3273,6 +3276,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
-survey#:#svy_delete_all_user_data#:#Delete all user data
-survey#:#maintenance#:#Maintenance

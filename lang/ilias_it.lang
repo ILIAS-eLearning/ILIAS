@@ -160,6 +160,7 @@ assessment#:#javaapplet#:#Applet Java
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
+assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Schema voti
 assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
 assessment#:#match_terms_and_pictures#:#Associa termini e figure
@@ -239,9 +240,11 @@ assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
+assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo
@@ -1283,12 +1286,14 @@ common#:#msg_no_perm_create_rolt#:#Non hai i diritti per aggiungere template di 
 common#:#msg_no_perm_create_user#:#Non hai i diritti per creare utenti
 common#:#msg_no_perm_cut#:#Non hai i diritti per tagliare i seguenti oggetti: 
 common#:#msg_no_perm_delete#:#Non hai i diritti per eliminare i seguenti oggetti: 
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
 common#:#msg_no_perm_link#:#Non hai i diritti per creare dei collegamenti dai seguenti oggetti: 
 common#:#msg_no_perm_modify_role#:#Non hai i diritti per modificare i ruoli
 common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template dei ruoli
 common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
 common#:#msg_no_rolf_allowed1#:#L&#039;oggetto
@@ -1734,6 +1739,10 @@ common#:#to_desktop#:#Invia sul desktop
 common#:#today#:#Oggi
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
+common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
+common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
+common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
@@ -2052,6 +2061,7 @@ content#:#cont_sc_stat_passed#:#Superato
 content#:#cont_sc_stat_running#:#In esecuzione
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
+content#:#cont_score#:#Score###10 Jul 2004 new variable
 content#:#cont_scorm_type#:#tipo di SCORM
 content#:#cont_select_item#:#Seleziona almeno un elemento.
 content#:#cont_select_max_one_item#:#Per favore, scegli solo un elemento
@@ -2094,6 +2104,7 @@ content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Termine
 content#:#cont_terms#:#Termini
+content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_toc#:#Tabella dei contenuti
 content#:#cont_toc_mode#:#Modalit&#224; menu
@@ -3034,6 +3045,9 @@ survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blo
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel questionario?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
 survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
@@ -3137,6 +3151,7 @@ survey#:#invited_groups#:#Gruppi invitati
 survey#:#invited_users#:#Utenti invitati
 survey#:#last_update#:#Data ultima modifica
 survey#:#lower_limit#:#Limite inferiore
+survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Gestione frasi
 survey#:#material_file#:#File materiale
 survey#:#maximum#:#Valore massimo
@@ -3247,6 +3262,8 @@ survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
 survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente
 survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
 survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
 survey#:#unfold#:#Apri blocco di domande
 survey#:#unlimited_users#:#Illimitato

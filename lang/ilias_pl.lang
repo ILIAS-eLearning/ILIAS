@@ -154,6 +154,7 @@ assessment#:#javaapplet#:#Java Aplet Javy
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
+assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
 assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
@@ -226,9 +227,11 @@ assessment#:#text_gap#:#Tekst odstępu
 assessment#:#time_format#:#GG MM SS
 assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
 assessment#:#true#:#Prawda
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
+assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
 assessment#:#tst_ending_time#:#Czas końca
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
@@ -1266,12 +1269,14 @@ common#:#msg_no_perm_create_rolt#:#Nie masz uprawnień do dodawania szablonu rol
 common#:#msg_no_perm_create_user#:#Nie masz uprawnień do dodawania uzytkowników.
 common#:#msg_no_perm_cut#:#Nie masz uprawnień do wycinania następujących obiektów:
 common#:#msg_no_perm_delete#:#Nie masz uprawnień do usuwania następujących obiektów:
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
 common#:#msg_no_perm_link#:#Nie masz uprawnień do tworzenia połączenia z następującymi obiektami:
 common#:#msg_no_perm_modify_role#:#Nie masz uprawnień do modyfikacji ról.
 common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów ról.
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następujących obiektów:
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
@@ -1709,6 +1714,10 @@ common#:#to_desktop#:#Subskrybuj
 common#:#today#:#Dzisiaj
 common#:#total#:#Razem
 common#:#tpl_path#:#Scieżka do szablonu
+common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
+common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
+common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
@@ -2026,6 +2035,7 @@ content#:#cont_sc_stat_passed#:#Wykonany
 content#:#cont_sc_stat_running#:#Uruchomiony
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
+content#:#cont_score#:#Score###10 Jul 2004 new variable
 content#:#cont_scorm_type#:#Typ SCORM
 content#:#cont_select_item#:#Wybierz conajmniej jedną pozycję.
 content#:#cont_select_max_one_item#:#Wybierz tylko jedną pozycję.
@@ -2068,6 +2078,7 @@ content#:#cont_table_width#:#Szerokość tablicy
 content#:#cont_target_within_source#:#Przeznaczenie nie może być wewnątrz obiektu źródłowego.
 content#:#cont_term#:#Termin
 content#:#cont_terms#:#Terminy
+content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#Limit czasu
 content#:#cont_toc#:#Spis treści
 content#:#cont_toc_mode#:#Tryb TOC
@@ -3008,6 +3019,9 @@ survey#:#ask_insert_questionblocks#:#Czy chcesz wstawić wybrany blok pytań do 
 survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
 survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
 survey#:#category#:#Kategoria
 survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?
 survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do usunięcia!
@@ -3111,6 +3125,7 @@ survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
 survey#:#last_update#:#Ostatnia aktualizacja
 survey#:#lower_limit#:#Limit dolny
+survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Zarządzaj frazami
 survey#:#material_file#:#Plik z materiałami
 survey#:#maximum#:#Maksymalna wartość
@@ -3221,6 +3236,8 @@ survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>
 survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony
 survey#:#survey_skip_start#:#<<< pomiń i skocz na pierwszą stronę
 survey#:#survey_start#:#<<< zapisz i skocz na pierwszą stronę
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 survey#:#text_question_not_filled_out#:#Wypełnij pole odpowiedzi!
 survey#:#unfold#:#Rozwiń
 survey#:#unlimited_users#:#Nielimitowany
