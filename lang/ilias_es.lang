@@ -126,6 +126,7 @@ assessment#:#available_points#:#Puntos disponibles
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!
 assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar el test!
 assessment#:#cannot_maintain_test#:#¡No tiene los permisos suficientes para mantener el test!
@@ -2358,6 +2359,9 @@ content#:#HTML export#:#Exportar a HTML
 content#:#PDF export#:#Exportar a PDF
 content#:#Pages#:#Páginas
 content#:#all#:#-Todo-
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#Adicional
 content#:#cont_Alphabetic#:#Alfabético A, B, ...
 content#:#cont_Circle#:#Círculo
@@ -2734,8 +2738,11 @@ content#:#copied_to_clipboard#:#Objeto(s) copiado(s) al portapapeles
 content#:#pages from#:#Páginas Desde
 content#:#par#:#Párrafo
 content#:#pg#:#Página
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Leer Offline
 content#:#select_a_file#:#Por favor seleccione un fichero
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
 crs#:#crs_accept_subscriber#:#Suscripción de Curso
@@ -3934,6 +3941,7 @@ survey#:#ask_insert_questions#:#Está seguro de que quiere insertar las siguient
 survey#:#back#:#<< Volver
 survey#:#before#:#antes
 survey#:#browse_for_questions#:#Seleccionar preguntas
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#No posee suficientes permisos para exportar el repositorio de preguntas!
 survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la encuesta!
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!

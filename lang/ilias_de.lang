@@ -125,6 +125,7 @@ assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
 assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu exportieren!
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
@@ -2357,6 +2358,9 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
+content#:#all_pages#:#für das gesamte Lernmodul 
+content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
+content#:#choose_public_pages#:#Öffentlich zugängliche Seiten auswählen
 content#:#cont_Additional#:#Zusatz
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
@@ -2735,16 +2739,13 @@ content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
 content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
+content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
+content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 
+content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
-content#:#public_section#:#Öffentlicher Bereich
-content#:#set_public_mode#:#Zugriffsmodus setzen
-content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
-content#:#choose_public_pages#:#Öffentlich zugängliche Seiten auswählen
-content#:#all_pages#:#für das gesamte Lernmodul 
-content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 
 crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_access_password#:#Passwort
@@ -4050,6 +4051,7 @@ survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#Sie besitzen nicht die passenden Zugriffsrecht, um den Fragenpool zu exportieren!
 survey#:#cannot_export_survey#:#Sie besitzen nicht die passenden Zugriffsrecht, um die Umfrage zu exportieren!
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!

@@ -125,6 +125,7 @@ assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
+assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
 assessment#:#cannot_export_test#:#Non hai i diritti per esportare il test!
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
@@ -2357,6 +2358,9 @@ content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
 content#:#all#:#Tutti
+content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
+content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
+content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
 content#:#cont_Additional#:#Aggiuntive
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
 content#:#cont_Circle#:#Cerchio
@@ -2734,8 +2738,11 @@ content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
+content#:#public_section#:#Public Section###19 Dec 2004 new variable
 content#:#read offline#:#Leggi offline
 content#:#select_a_file#:#Per favore seleziona un file.
+content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
+content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
 crs#:#crs_accept_subscriber#:#Iscrizione al corso
@@ -4043,6 +4050,7 @@ survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande
 survey#:#back#:#<< Indietro
 survey#:#before#:#prima
 survey#:#browse_for_questions#:#Scegli le domande
+survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#Non hai diritti sufficienti per esportare la raccolta di domande per sondaggi!
 survey#:#cannot_export_survey#:#Non hai diritti sufficienti per esportare il sondaggio!
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
