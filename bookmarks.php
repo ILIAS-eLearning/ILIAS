@@ -8,9 +8,9 @@
 * @package application
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilBookmark.php";
 
-$myBm = new ilBookmark($ilias->account->getId());
+
+//$myBm = new ilBookmark($ilias->account->getId());
 
 
 /**
@@ -116,9 +116,32 @@ function save_bookmark($mode, &$bookmarks)
 //
 
 // get bookmarks object of current user
-$bookmarks = new ilBookmark($ilias->account->Id);
+//$bookmarks = new ilBookmark($ilias->account->Id);
+
+$cmd = $_GET["cmd"];
+if(empty($cmd))
+{
+	$cmd = "display";
+}
+
+if (isset($_GET["bm_id"]))
+{
+	require_once "./classes/class.ilBookmarkGUI.php";
+	$bookmarkGUI = new ilBookmarkGUI($_GET["bm_id"]);
+	$bookmarkGUI->$cmd();
+}
+else
+{
+	require_once "./classes/class.ilBookmarkFolderGUI.php";
+	$bookmarkFolderGUI = new ilBookmarkFolderGUI($_GET["bmf_id"]);
+//echo "bookmarkFolderGUI->".$cmd."()<br>"; exit;
+	$bookmarkFolderGUI->$cmd();
+}
+
+$tpl->show();
 
 // command processing
+/*
 switch ($_GET["cmd"])
 {
 	// new bookmark form
@@ -138,12 +161,12 @@ switch ($_GET["cmd"])
 
 	case "edit":
 		break;
-	
+
 	// list bookmarks
 	default:
 		list_bookmarks($bookmarks);
 		break;
-}
+}*/
 
 
 ?>

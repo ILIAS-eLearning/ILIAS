@@ -617,49 +617,6 @@ class ilUser
 	}
 
 	/**
-	* get own bookmarks
-	* @access	public
-	* @return	array	bookmarks
-	* // TODO: query wird nicht abgeschickt!!!
-	*/
-	function getBookmarks()
-	{
-		//initialize array
-		$bookmarks = array();
-		//query
-		$sql = "SELECT * FROM fav_data";
-
-		$bookmarks[] = array(
-			"id" => 1,
-			"url" => "http://www.gutenberg.de",
-			"desc" => "project gutenberg",
-			);
-
-		return $bookmarks;
-	}
-
-	/**
-	* get own bookmarks
-	* @access	public
-	* @return	array	bookmarks
-	* // TODO: query wird nicht abgeschickt!!!
-	*/
-	function getBookmarkFolder()
-	{
-		//initialize array
-		$bookmarks = array();
-		//query
-		$sql = "SELECT * FROM fav_data";
-
-		$bookmarks[] = array(
-			"id" => 1,
-			"name" => "sonstiges",
-			);
-
-		return $bookmarks;
-	}
-
-	/**
 	* get literature bookmarks
 	* @access	public
 	* @return	array	lessons

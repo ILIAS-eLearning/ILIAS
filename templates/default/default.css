@@ -78,6 +78,15 @@ h2 {
 	color:#222222;
 }
 
+/* ----------------- invisible border ------------- */
+
+div.invisible_border {
+	margin-top:12px;
+	margin-bottom:12px;
+	margin-right:12px;
+	margin-left:12px;
+}
+
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;

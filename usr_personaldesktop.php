@@ -44,7 +44,7 @@ $tpl->parseCurrentBlock();
 
 /*
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","bookmarks.php");
+$tpl->setVariable("BTN_LINK","bookmark_frameset.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
 $tpl->parseCurrentBlock();*/
 
