@@ -169,6 +169,30 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$page_gui->$cmd();
 	}
 
+	function editMob()
+	{
+		$this->forwardToMediaObjGUI("edit");
+	}
+
+	function forwardToMediaObjGUI($cmd)
+	{
+		require_once("content/classes/class.ilContObjLocatorGUI.php");
+		$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
+		$contObjLocator->setObject($this->obj);
+		$contObjLocator->setContentObject($this->content_object);
+
+		require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
+		$media =& new ilMediaObject($_GET["mob_id"]);
+		$media_gui =& new ilMediaObjectGUI($this->obj->getPageObject(), $media);
+		//$page_gui->setLocator($contObjLocator);
+		//$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
+		//$page_gui->setTargetScript("lm_edit.php?ref_id=".
+		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		//$page_gui->setReturnLocation("lm_edit.php?ref_id=".
+		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
+		$media_gui->$cmd();
+	}
+
 	/*
 	* preview
 	*/

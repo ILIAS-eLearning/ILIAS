@@ -953,8 +953,11 @@ class ilPageObjectGUI
 			{
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TEXT_OBJECT", $obj["title"]);
+				$this->tpl->setVariable("TEXT_OBJECT", $obj["title"].
+					" [".$obj["id"]."]");
 				$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+				$this->tpl->setVariable("EDIT_LINK",
+					"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=editMob&mob_id=".$obj["id"]);
 
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();

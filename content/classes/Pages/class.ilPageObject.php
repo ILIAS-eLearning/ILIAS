@@ -90,7 +90,8 @@ class ilPageObject
 		$pg_set = $this->ilias->db->query($query);
 		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
 		{
-			echo "Error: Page ".$this->id." is not in database."; exit;
+			echo "Error: Page ".$this->id." is not in database".
+				" (parent type ".$this->getParentType().")."; exit;
 		}
 
 		// todo: make utf8 global (db content should be already utf8)

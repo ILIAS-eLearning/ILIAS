@@ -38,10 +38,22 @@ require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
 // Todo: extend ilObjMediaObjectGUI !?
 class ilMediaObjectGUI extends ilPageContentGUI
 {
+	var $header;
+
 
 	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+	}
+
+	function setHeader($a_title = "")
+	{
+		$this->header = $a_title;
+	}
+
+	function getHeader()
+	{
+		return $this->header;
 	}
 
 

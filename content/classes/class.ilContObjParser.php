@@ -139,9 +139,13 @@ class ilContObjParser extends ilSaxParser
 	function startParsing()
 	{
 		parent::startParsing();
+//echo "<b>storeTree</b><br>";
 		$this->storeTree();
+//echo "<b>processIntLinks</b><br>";
 		$this->processIntLinks();
+//echo "<b>copyMobFiles</b><br>";
 		$this->copyMobFiles();
+//echo "<b>copyFileItems</b><br>";
 		$this->copyFileItems();
 	}
 
