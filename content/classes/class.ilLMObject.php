@@ -223,6 +223,8 @@ class ilLMObject
 	{
 		global $ilDB;
 
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObject::updateMetaData(), start\n"); fclose($f);
+
 		//$this->meta_data->update();
 		if ($this->meta_data->section != "General")
 		{
@@ -242,6 +244,7 @@ class ilLMObject
 
 		$this->ilias->db->query($query);
 		$this->meta_data->update();
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObject::updateMetaData(), end\n"); fclose($f);
 	}
 
 	/**

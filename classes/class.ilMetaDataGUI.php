@@ -1340,6 +1340,7 @@ class ilMetaDataGUI
 
 	function save($a_section = "General")
 	{
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaGUI::save()\n"); fclose($f);
 		/* editing meta data with editor */
 		if (is_array($_POST["meta"]))
 		{

@@ -585,6 +585,7 @@ class ilMetaData
 	*/
 	function update()
 	{
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaData::update(), start\n"); fclose($f);
 		$query = "REPLACE INTO meta_data (obj_id, obj_type, title,".
 			"language, description) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".ilUtil::prepareDBString($this->getTitle())."',".
@@ -602,7 +603,9 @@ class ilMetaData
 			$p = "//MetaData";
 			if ($this->section != "")
 				$p .= "/" . $this->section;
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaData::update(), call updateDomNode\n"); fclose($f);
 			$this->nested->updateDomNode($p, $this->meta);
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaData::update(), call updateFromDom\n"); fclose($f);
 			$this->nested->updateFromDom();
 /*			if ($this->getType() == "lm" ||
 				$this->getType() == "glo" ||
@@ -642,6 +645,7 @@ class ilMetaData
 				}
 			}
 		}
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "MetaData::update(), end\n"); fclose($f);
 	}
 
 

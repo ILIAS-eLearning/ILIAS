@@ -167,10 +167,12 @@ class ilLMObjectGUI
 //echo "lmobjectgui_Savemeta1<br>";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-//echo "lmobjectgui_Savemeta2<br>"; exit;
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObjectGUI::saveMeta(), start\n"); fclose($f);
 		$meta_gui->save($_POST["meta_section"]);
 //echo "lmobjectgui_Savemeta3<br>";
-		$this->ctrl->returnToParent($this);
+//$f = fopen("/opt/iliasdata/bb.txt", "a"); fwrite($f, "LMObjectGUI::saveMeta(), end\n"); fclose($f);
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editMeta");
 	}
 
 
