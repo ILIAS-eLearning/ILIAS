@@ -116,9 +116,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin;
+		global $rbacsystem;
 
-		$return_loc = $_GET["ref_id"];
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
 		{
@@ -126,75 +125,66 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
 						 $not_deletable,$this->ilias->error_obj->WARNING);
 		}
-		else
+
+		$return_loc = $this->tree->getParentId($this->object->getRefId());
+		
+		$feedback["count"] = count($_SESSION["saved_post"]);
+		
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$feedback["count"] = count($_SESSION["saved_post"]);
-		
-			// FOR ALL SELECTED OBJECTS
-			foreach ($_SESSION["saved_post"] as $id)
-			{
-				// instatiate correct object class (role or rolt)
-				$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			// instatiate correct object class (role or rolt)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
-				if ($obj->getType() == "role")
+			if ($obj->getType() == "role")
+			{
+				$obj->setParent($this->object->getRefId());
+				$feedback["role"] = true;
+			}
+			else
+			{
+				$feedback["rolt"] = true;
+			}
+			$obj->delete();
+			unset($obj);
+		}
+
+		// set correct return location if rolefolder is removed
+		$return_loc = ilObject::_exists($this->object->getId()) ? $_GET["ref_id"] : $return_loc;
+	
+		// Compose correct feedback
+		if ($feedback["count"] > 1)
+		{
+			if ($feedback["role"] === true)
+			{
+				if ($feedback["rolt"] === true)
 				{
-					$obj->setParent($this->object->getRefId());
-					$feedback["role"] = true;
+					sendInfo($this->lng->txt("msg_deleted_roles_rolts"),true);					
 				}
 				else
 				{
-					$feedback["rolt"] = true;
-				}
-
-				$obj->delete();
-				unset($obj);
-			}
-
-			$local_roles = $rbacreview->getRolesOfRoleFolder($this->object->getRefId());
-			
-			// remove rolefolder if empty
-			if (count($local_roles) == 0)
-			{
-				$return_loc = $this->tree->getParentId($this->object->getRefId());
-				$rbacadmin->revokePermission($this->object->getRefId());
-				$this->tree->deleteTree($this->tree->getNodeData($this->object->getRefId()));
-				$this->object->delete();
-			}
-		
-			// Compose correct feedback
-			if ($feedback["count"] > 1)
-			{
-				if ($feedback["role"] === true)
-				{
-					if ($feedback["rolt"] === true)
-					{
-						sendInfo($this->lng->txt("msg_deleted_roles_rolts"),true);					
-					}
-					else
-					{
-						sendInfo($this->lng->txt("msg_deleted_roles"),true);						
-					}
-				}
-				else
-				{
-					sendInfo($this->lng->txt("msg_deleted_rolts"),true);						
+					sendInfo($this->lng->txt("msg_deleted_roles"),true);						
 				}
 			}
 			else
 			{
-				if ($feedback["role"] === true)
-				{
-					sendInfo($this->lng->txt("msg_deleted_role"),true);	
-				}
-				else
-				{
-					sendInfo($this->lng->txt("msg_deleted_rolt"),true);	
-				}	
+				sendInfo($this->lng->txt("msg_deleted_rolts"),true);						
 			}
-			
-			header("location: adm_object.php?ref_id=".$return_loc);
-			exit();
 		}
+		else
+		{
+			if ($feedback["role"] === true)
+			{
+				sendInfo($this->lng->txt("msg_deleted_role"),true);	
+			}
+			else
+			{
+			sendInfo($this->lng->txt("msg_deleted_rolt"),true);	
+			}	
+		}
+			
+		header("location: adm_object.php?ref_id=".$return_loc);
+		exit();
 	}
 	
 	/**

@@ -732,6 +732,23 @@ class ilObject
 	}
 
 	/**
+	* checks if an object exists in object_data
+	* @static
+	* @access	public
+	* @param	integer	object id
+	* @return	boolean	true if object exists
+	*/
+	function _exists($a_obj_id)
+	{
+		global $ilias;
+
+		$q = "SELECT * FROM object_data WHERE obj_id='".$a_obj_id."'";
+		$r = $ilias->db->query($q);
+
+		return $r->numRows() ? true : false;
+	}
+
+	/**
 	* notifys an object about an event occured
 	* Based on the event passed, each object may decide how it reacts.
 	* TODO: add optional array to pass parameters
