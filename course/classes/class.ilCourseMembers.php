@@ -577,6 +577,12 @@ class ilCourseMembers
 
 	function sendNotificationToAdmins($a_usr_id)
 	{
+		if(!$this->course_obj->getSubscriptionNotify())
+		{
+			return true;
+		}
+
+
 		include_once("./classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
