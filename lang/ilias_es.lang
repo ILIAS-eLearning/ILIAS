@@ -526,6 +526,7 @@ common#:#overview#:#overview
 common#:#owner#:#owner
 common#:#page#:#page
 common#:#page_edit#:#edit page
+common#:#pages#:#Pages###18 Sep 2003 new variable
 common#:#parameter#:#Parameter###10 Jul 2003 new variable
 common#:#parse#:#Parse###04 Mar 2003 new variable
 common#:#passwd#:#passwd
@@ -550,6 +551,11 @@ common#:#personal_desktop#:#personal desktop
 common#:#personal_picture#:#Personal Picture###07 Jun 2003 new variable
 common#:#personal_profile#:#personal profile
 common#:#persons#:#Personen###28 Mar 2003 new variable
+common#:#pg_a#:#a page###18 Sep 2003 new variable
+common#:#pg_add#:#Add page###18 Sep 2003 new variable
+common#:#pg_added#:#Page added###18 Sep 2003 new variable
+common#:#pg_edit#:#Edit page###18 Sep 2003 new variable
+common#:#pg_new#:#New page###18 Sep 2003 new variable
 common#:#phone#:#phone
 common#:#phrase#:#phrase
 common#:#please_enter_target#:#Please enter a target.###12 Apr 2003 new variable
@@ -641,6 +647,11 @@ common#:#slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#slm_added#:#SCORM LearningModule added###16 Jul 2003 new variable
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#sort_by_this_column#:#Sort by this column###30 May 2003 new variable
+common#:#st_a#:#a chapter###18 Sep 2003 new variable
+common#:#st_add#:#Add chapter###18 Sep 2003 new variable
+common#:#st_added#:#Chapter added###18 Sep 2003 new variable
+common#:#st_edit#:#Edit chapter###18 Sep 2003 new variable
+common#:#st_new#:#New chapter###18 Sep 2003 new variable
 common#:#startpage#:#startpage
 common#:#status#:#status
 common#:#step#:#step
@@ -944,6 +955,8 @@ mail#:#mail_to_search#:#To search###16 Apr 2003 new variable
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###16 Apr 2003 new variable
 mail#:#search_bc_recipient#:#Search BC Recipient###16 Apr 2003 new variable
 mail#:#search_cc_recipient#:#Search CC Recipient###16 Apr 2003 new variable
+meta#:#meta_add#:#Add###18 Sep 2003 new variable
+meta#:#meta_atomic#:#Atomic###18 Sep 2003 new variable
 meta#:#meta_c_AD#:#Andorra###14 May 2003 new variable
 meta#:#meta_c_AE#:#United Arab Emirates###14 May 2003 new variable
 meta#:#meta_c_AF#:#Afghanistan###14 May 2003 new variable
@@ -1182,8 +1195,18 @@ meta#:#meta_c_ZM#:#Zambia###14 May 2003 new variable
 meta#:#meta_c_ZR#:#Zaire###14 May 2003 new variable
 meta#:#meta_c_ZW#:#Zimbabwe###14 May 2003 new variable
 meta#:#meta_c_ZZ#:#Other Country###14 May 2003 new variable
+meta#:#meta_catalog#:#Catalog###18 Sep 2003 new variable
+meta#:#meta_choose_element#:#Please choose an element you want to add!###18 Sep 2003 new variable
+meta#:#meta_choose_language#:#Please choose a language###18 Sep 2003 new variable
+meta#:#meta_choose_section#:#Please choose a section###18 Sep 2003 new variable
+meta#:#meta_collection#:#Collection###18 Sep 2003 new variable
+meta#:#meta_delete#:#Delete###18 Sep 2003 new variable
+meta#:#meta_description#:#Description###18 Sep 2003 new variable
+meta#:#meta_entry#:#Entry###18 Sep 2003 new variable
 meta#:#meta_general#:#General###14 May 2003 new variable
+meta#:#meta_hierarchical#:#Hierarchical###18 Sep 2003 new variable
 meta#:#meta_identifier#:#Identifier###14 May 2003 new variable
+meta#:#meta_keyword#:#Keyword###18 Sep 2003 new variable
 meta#:#meta_l_aa#:#afar###28 May 2003 new variable
 meta#:#meta_l_ab#:#abkhazian###28 May 2003 new variable
 meta#:#meta_l_af#:#afrikaans###28 May 2003 new variable
@@ -1324,7 +1347,13 @@ meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
 meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
+meta#:#meta_linear#:#Linear###18 Sep 2003 new variable
+meta#:#meta_networked#:#Networked###18 Sep 2003 new variable
+meta#:#meta_new_element#:#New Element###18 Sep 2003 new variable
+meta#:#meta_please_select#:#Please select###18 Sep 2003 new variable
+meta#:#meta_structure#:#Structure###18 Sep 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+meta#:#meta_value#:#Value###18 Sep 2003 new variable
 search#:#search_all_results#:#All results###10 Sep 2003 new variable
 search#:#search_concatenation#:#Concatenation###10 Sep 2003 new variable
 search#:#search_content#:#Page Content###10 Sep 2003 new variable
