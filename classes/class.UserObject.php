@@ -137,7 +137,7 @@ class UserObject extends Object
 			// role selection
 			$rol = TUtil::getRoles();
 			$def_role = $rbacadmin->getDefaultRole($_GET["obj_id"]);
-			$role = TUtil::formSelectWoTranslation(3,"Fuserdata[Role]",$rol);
+			$role = TUtil::formSelectWoTranslation($def_role,"Fuserdata[Role]",$rol);
 
 			$data = array();
 			$data["fields"] = array();

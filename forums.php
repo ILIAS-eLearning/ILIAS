@@ -45,11 +45,15 @@ if (count($frm_obj) > 0)
 				
 		if ($rbacsystem->checkAccess("read", $data["obj_id"], $data["parent"])) 
 		{			
-			$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$data["title"]."</a>");
+			$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".
+							  $data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$data["title"]."</a>");
 			
 			if (is_array($lastPost)) {				
-				$lpCont = "<a href=\"forums_posts_reply.php?pos_pk=".$lastPost["pos_pk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-				$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums\">".$lastPost["SurName"]."</a><br>";
+				$lpCont = "<a href=\"forums_posts_reply.php?pos_pk=".
+					$lastPost["pos_pk"]."&obj_id=".$data["obj_id"]."&parent=".
+					$data["parent"]."&backurl=forums\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
+				$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".
+					$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums\">".$lastPost["SurName"]."</a><br>";
 				$lpCont .= $lastPost["pos_date"];				
 			}
 			$tpl->setVariable("LAST_POST", $lpCont);
@@ -62,7 +66,8 @@ if (count($frm_obj) > 0)
 					unset($modData);
 					$modData = $frm->getModerator($MODS[$i]);	
 					if ($moderators != "") $moderators .= ", ";
-					$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums\">".$modData["SurName"]."</a>";
+					$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"].
+						"&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums\">".$modData["SurName"]."</a>";
 				}
 			}
 						
