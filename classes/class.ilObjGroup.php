@@ -807,9 +807,8 @@ class ilObjGroup extends ilObject
 		$query = "DELETE FROM grp_tree WHERE tree=".$this->getRefId();
 		$this->ilias->db->query($query);
 		
-		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getRefId();
+		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getId();
 		$this->ilias->db->query($query);
-		
 		
 		return true;
 	}
