@@ -3,7 +3,7 @@ Installation of the chat server:
 
 Required:
 
-- Java runtime environment ( 1.3 or later)
+- Java runtime environment ( 1.4 or later)
 	http://java.sun.com
 
 Instructions:
