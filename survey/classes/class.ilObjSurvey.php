@@ -399,15 +399,11 @@ class ilObjSurvey extends ilObject
 */
 	function insertQuestion($question_id) {
     // get maximum sequence index in test
-    $query = sprintf("SELECT MAX(sequence) AS seq FROM survey_survey_question WHERE survey_fi = %s",
+    $query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
       $this->ilias->db->quote($this->getSurveyId())
     );
     $result = $this->ilias->db->query($query);
-    $sequence = 0;
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $sequence = $data->seq;
-    }
+    $sequence = $result->numRows();
     $query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
       $this->ilias->db->quote($this->getSurveyId()),
       $this->ilias->db->quote($question_id),
@@ -1078,18 +1074,17 @@ class ilObjSurvey extends ilObject
 		}
 		foreach ($move_questions as $question_id)
 		{
-			if (array_search($question_id, $part1))
+			if (!(array_search($question_id, $part1) === FALSE))
 			{
 				unset($part1[array_search($question_id, $part1)]);
 			}
-			if (array_search($question_id, $part2))
+			if (!(array_search($question_id, $part2) === FALSE))
 			{
 				unset($part2[array_search($question_id, $part2)]);
 			}
 		}
 		$part1 = array_values($part1);
 		$part2 = array_values($part2);
-
 		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
 		$this->saveQuestionsToDb();
 	}
@@ -1100,13 +1095,29 @@ class ilObjSurvey extends ilObject
 * Remove questions from the survey
 *
 * @param array $remove_questions An array with the question id's of the questions to remove
+* @param array $remove_questionblocks An array with the questionblock id's of the questions blocks to remove
 * @access public
 */
-	function removeQuestions($remove_questions)
+	function removeQuestions($remove_questions, $remove_questionblocks)
 	{
-		foreach ($remove_questions as $question_id)
+		$questions =& $this->getSurveyQuestions();
+		foreach ($questions as $question_id => $data)
 		{
-			unset($this->questions[array_search($question_id, $this->questions)]);
+			if (in_array($question_id, $remove_questions) or in_array($data["questionblock_id"], $remove_questionblocks))
+			{
+				unset($this->questions[array_search($question_id, $this->questions)]);
+			}
+		}
+		foreach ($remove_questionblocks as $questionblock_id)
+		{
+			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
+				$this->ilias->db->quote($questionblock_id)
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s",
+				$this->ilias->db->quote($questionblock_id)
+			);
+			$result = $this->ilias->db->query($query);
 		}
 		$this->questions = array_values($this->questions);
 		$this->saveQuestionsToDb();

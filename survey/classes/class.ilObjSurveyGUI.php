@@ -435,43 +435,43 @@ class ilObjSurveyGUI extends ilObjectGUI
 *
 * Creates a confirmation form to remove questions from the survey
 *
+* @param array $checked_questions An array containing the id's of the questions to be removed
+* @param array $checked_questionblocks An array containing the id's of the question blocks to be removed
 * @access public
 */
-	function removeQuestionsForm($checked_questions)
+	function removeQuestionsForm($checked_questions, $checked_questionblocks)
 	{
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", true);
-		$where = "";
-		foreach ($checked_questions as $id) {
-			$where .= sprintf(" OR survey_question.question_id = %s", $this->ilias->db->quote($id));
-		}
-		$where = preg_replace("/^ OR /", "", $where);
-		$where = "($where)";
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND $where";
-		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
-		if ($query_result->numRows() > 0)
+		$surveyquestions =& $this->object->getSurveyQuestions();
+		foreach ($surveyquestions as $question_id => $data)
 		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			if (in_array($data["question_id"], $checked_questions) or (in_array($data["questionblock_id"], $checked_questionblocks)))
 			{
-				if (in_array($data->question_id, $checked_questions))
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TEXT_TITLE", $data->title);
-					$this->tpl->setVariable("TEXT_DESCRIPTION", $data->description);
-					$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setVariable("TEXT_TITLE", $data["title"]);
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $data["description"]);
+				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $data["questionblock_title"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
 			}
 		}
 		foreach ($checked_questions as $id)
 		{
 			$this->tpl->setCurrentBlock("hidden");
 			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->setVariable("HIDDEN_VALUE", "$id");
+			$this->tpl->parseCurrentBlock();
+		}
+		foreach ($checked_questionblocks as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_qb_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "$id");
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -479,6 +479,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
@@ -624,49 +625,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		
-/*		if ($_GET["up"] > 0) {
-			$this->object->question_move_up($_GET["up"]);
-		}
-		if ($_GET["down"] > 0) {
-			$this->object->question_move_down($_GET["down"]);
-		}
-		if ($_POST["cmd"]["create_question"])
-		{
-			$this->questionpoolSelect();
-			return;
-		}
-
-		if ($_POST["cmd"]["randomselect"])
-		{
-			$this->randomSelect();
-			return;
-		}
-
-		if ($_POST["cmd"]["random_select_questions"])
-		{
-			$this->randomQuestionOffer();
-			return;
-		}
-
-		if ($_POST["cmd"]["random_select_yes"])
-		{
-			$selected_array = split(",", $_POST["chosen_questions"]);
-			if (!count($selected_array)) {
-				sendInfo($this->lng->txt("tst_insert_missing_question"));
-			} else {
-				$total = $this->object->evalTotalPersons();
-				if ($total) {
-					// the test was executed previously
-					sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-				} else {
-					sendInfo($this->lng->txt("tst_insert_questions"));
-				}
-				$this->insertQuestions($selected_array);
-				return;
-			}
-		}
-
-		if ($_POST["cmd"]["create_question_execute"])
+/*		if ($_POST["cmd"]["create_question_execute"])
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
 			header("Location:questionpool.php?ref_id=" . $_POST["sel_qpl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
@@ -742,23 +701,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// remove questions from test after confirmation
 			sendInfo($this->lng->txt("questions_removed"));
 			$checked_questions = array();
+			$checked_questionblocks = array();
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/id_(\d+)/", $key, $matches)) {
 					array_push($checked_questions, $matches[1]);
 				}
+				if (preg_match("/id_qb_(\d+)/", $key, $matches)) {
+					array_push($checked_questionblocks, $matches[1]);
+				}
 			}
-			$this->object->removeQuestions($checked_questions);
+			$this->object->removeQuestions($checked_questions, $checked_questionblocks);
 			$this->object->saveCompletionStatus();
 		}
 
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
 			$checked_questions = array();
+			$checked_questionblocks = array();
 			foreach ($_POST as $key => $value) {
 				if (preg_match("/cb_(\d+)/", $key, $matches)) {
 					array_push($checked_questions, $matches[1]);
 				}
+				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					array_push($checked_questionblocks, $matches[1]);
+				}
 			}
-			if (count($checked_questions) > 0) {
+			if (count($checked_questions) + count($checked_questionblocks) > 0) {
 //				$total = $this->object->evalTotalPersons();
 //				if ($total) {
 					// the test was executed previously
@@ -766,9 +734,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 //				} else {
 					sendInfo($this->lng->txt("remove_questions"));
 //				}
-				$this->removeQuestionsForm($checked_questions);
+				$this->removeQuestionsForm($checked_questions, $checked_questionblocks);
 				return;
-			} elseif (count($checked_questions) == 0) {
+			} else {
 				sendInfo($this->lng->txt("no_question_selected_for_removal"));
 			}
 		}
