@@ -53,8 +53,8 @@ class ilParagraphGUI extends ilPageContentGUI
 		//$cnt = 1;
 
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
 		// content is in utf-8, todo: set globally
@@ -97,8 +97,8 @@ class ilParagraphGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
 		// content is in utf-8, todo: set globally
@@ -126,7 +126,7 @@ class ilParagraphGUI extends ilPageContentGUI
 //echo "PARupdate:".$this->content_obj->input2xml($_POST["par_content"]).":<br>";
 		$this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
 		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 		exit;
 
@@ -139,7 +139,7 @@ class ilParagraphGUI extends ilPageContentGUI
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_AFTER);
 		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 		exit;
 	}
@@ -155,7 +155,7 @@ class ilParagraphGUI extends ilPageContentGUI
 		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);
 		//$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}*/
 

@@ -98,6 +98,7 @@ class ilPageObject extends ilLMObject
 
 	function buildDom()
 	{
+//echo ":xml:".htmlentities($this->xml).":";
 		$this->dom =& domxml_open_mem($this->xml);
 
 		$xpc = xpath_new_context($this->dom);
@@ -366,6 +367,17 @@ class ilPageObject extends ilLMObject
 			"WHERE page_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
+	}
+
+	function create()
+	{
+		parent::create();
+		$this->setXMLContent("<PageObject></PageObject>");
+		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
+			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
+		$this->ilias->db->query($query);
+//echo "created page:".htmlentities($this->getXMLContent())."<br>";
+
 	}
 
 	/**

@@ -67,8 +67,8 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// setting to utf-8 here
 		$this->obj->buildDom();
@@ -103,8 +103,8 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 
 		$this->obj->buildDom();
@@ -149,8 +149,8 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// output
 		$content = $this->obj->getXMLContent();
@@ -223,19 +223,19 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->obj =& new ilPageObject();
 		$this->obj->assignMetaData($meta_data);
 		$this->obj->setType($_GET["new_type"]);
-		$this->obj->setLMId($_GET["lm_id"]);
+		$this->obj->setLMId($this->lm_obj->getId());
 		$this->obj->create();
 
 		// obj_id is empty, if page is created from "all pages" screen
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=pages&lm_id=".$this->lm_obj->getId());
+			header("location: lm_edit.php?cmd=pages&ref_id=".$this->lm_obj->getRefId());
 		}
 		else
 		{
 			$this->putInTree();
-			header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}
