@@ -399,6 +399,11 @@ class ilContObjParser extends ilSaxParser
 				$this->current_object =& $this->glossary_definition;
 				break;
 
+			case "FileItem":
+				$this->in_file_item = true;
+				$this->file_item =& new ilObjFile();
+				break;
+
 			////////////////////////////////////////////////
 			/// Meta Data Section
 			////////////////////////////////////////////////
@@ -427,6 +432,10 @@ class ilContObjParser extends ilSaxParser
 				{
 					$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
 					$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
+				}
+				if ($this->in_file_item)
+				{
+					$this->file_item->setImportId($a_attribs["Entry"]);
 				}
 				break;
 
@@ -754,6 +763,11 @@ class ilContObjParser extends ilSaxParser
 				}
 				break;
 
+			case "FileItem":
+				$this->in_file_item = false;
+				$this->file_item->update();
+				break;
+
 			case "Bibliography":
 
 				$this->in_bib_item = false;
@@ -876,13 +890,17 @@ class ilContObjParser extends ilSaxParser
 
 				// TECHNICAL: Format
 				case "Format":
-					if($this->in_media_item)
+					if ($this->in_media_item)
 					{
 						$this->media_item->setFormat($a_data);
 					}
-					if($this->in_meta_data)
+					if ($this->in_meta_data)
 					{
 						$this->meta_technical->addFormat($a_data);
+					}
+					if ($this->in_file_item)
+					{
+						$this->file_item->setFileType($a_data);
 					}
 					break;
 
@@ -895,14 +913,19 @@ class ilContObjParser extends ilSaxParser
 				case "Location":
 //echo "Adding a location:".$this->loc_type.":".$a_data.":<br>";
 					// TODO: adapt for files in "real" subdirectories
-					if($this->in_media_item)
+					if ($this->in_media_item)
 					{
 						$this->media_item->setLocationType($this->loc_type);
 						$this->media_item->setLocation($a_data);
 					}
-					if($this->in_meta_data)
+					if ($this->in_meta_data)
 					{
 						$this->meta_technical->addLocation($this->loc_type, $a_data);
+					}
+					if ($this->in_file_item)
+					{
+						$this->file_item->setFileName($a_data);
+						$this->file_item->setTitle($a_data);
 					}
 					break;
 

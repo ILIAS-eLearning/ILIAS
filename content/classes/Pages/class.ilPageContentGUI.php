@@ -56,9 +56,10 @@ class ilPageContentGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->pg_obj =& $a_pg_obj;
+
 		$this->content_obj =& $a_content_obj;
 
-		if($a_hier_id != 0)
+		if($a_hier_id !== 0)
 		{
 			$this->hier_id = $a_hier_id;
 			$this->dom =& $a_pg_obj->getDom();
