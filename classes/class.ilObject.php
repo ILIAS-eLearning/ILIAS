@@ -417,9 +417,22 @@ class ilObject
 	*/
 	function getOwnerName()
 	{
-		if ($this->getOwner() != -1)
+		return ilObject::_lookupOwnerName($this->getOwner());
+	}
+	
+	/**
+	* lookup owner name for owner id
+	*/
+	function _lookupOwnerName($a_owner_id)
+	{
+		global $lng;
+		
+		if ($a_owner_id != -1)
 		{
-			$owner = new ilObjUser($this->getOwner());
+			if (ilObject::_exists($a_owner_id))
+			{
+				$owner = new ilObjUser($a_owner_id);
+			}
 		}
 
 		if (is_object($owner))
@@ -428,7 +441,7 @@ class ilObject
 		}
 		else
 		{
-			$own_name = $this->lng->txt("unknown");
+			$own_name = $lng->txt("unknown");
 		}
 
 		return $own_name;

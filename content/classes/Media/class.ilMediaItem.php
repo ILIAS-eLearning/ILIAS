@@ -728,7 +728,7 @@ class ilMediaItem
 			}
 			else
 			{
-				$xml .= "<ExtLink Href=\"".$area->getHref()."\" Title=\"".
+				$xml .= "<ExtLink Href=\"".str_replace("&", "&amp;",$area->getHref())."\" Title=\"".
 					$area->getExtTitle()."\">";
 				$xml .= $area->getTitle();
 				$xml .="</ExtLink>";

@@ -542,7 +542,6 @@ class ilRepositoryGUI
 
 		$this->prepareOutput();
 
-
 		// get all objects of current node
 		$ilBench->start("Repository", "FlatList_01getChilds");
 		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
@@ -827,7 +826,6 @@ class ilRepositoryGUI
 		{
 			$this->showSurveys();
 		}
-
 
 		$this->tpl->show();
 
@@ -1605,7 +1603,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
 				}
 				// create-dates of forum
-				if ($topicData["top_usr_id"] > 0)
+				if ($topicData["top_usr_id"] > 0 && ilObject::_exists($topicData["top_usr_id"]))
 				{
 					$moderator = $frm->getUser($topicData["top_usr_id"]);
 
@@ -1613,7 +1611,7 @@ class ilRepositoryGUI
 				}
 
 				// when forum was changed ...
-				if ($topicData["update_user"] > 0)
+				if ($topicData["update_user"] > 0 && ilObject::_exists($topicData["update_user"]))
 				{
 					$moderator = $frm->getUser($topicData["update_user"]);
 
@@ -1660,6 +1658,7 @@ class ilRepositoryGUI
 				for ($i = 0; $i < count($MODS); $i++)
 				{
 					unset($moderator);
+
 					$moderator = $frm->getUser($MODS[$i]);
 
 					if ($moderators != "")
@@ -1784,7 +1783,7 @@ class ilRepositoryGUI
 			foreach ($cont_arr as $cont_data)
 			{
 				$tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -1844,7 +1843,7 @@ class ilRepositoryGUI
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				//$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->setCurrentBlock("tbl_content");
@@ -1940,7 +1939,7 @@ class ilRepositoryGUI
 				}
 
 				$tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -1953,7 +1952,7 @@ class ilRepositoryGUI
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
@@ -2047,7 +2046,7 @@ class ilRepositoryGUI
 				}
 
 				$tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -2061,7 +2060,7 @@ class ilRepositoryGUI
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				//$tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$tpl->parseCurrentBlock();
@@ -2731,7 +2730,7 @@ class ilRepositoryGUI
 			foreach ($cont_arr as $cont_data)
 			{
 				$tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -2787,7 +2786,7 @@ class ilRepositoryGUI
 
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				$tpl->parseCurrentBlock();
 			}
@@ -2852,7 +2851,7 @@ class ilRepositoryGUI
 			foreach ($cont_arr as $cont_data)
 			{
 				$tpl->setCurrentBlock("tbl_content");
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -2910,7 +2909,7 @@ class ilRepositoryGUI
 
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				$tpl->parseCurrentBlock();
 			}
@@ -2973,7 +2972,7 @@ class ilRepositoryGUI
 
 				$tpl->setCurrentBlock("tbl_content");
 
-				$newuser = new ilObjUser($cont_data["owner"]);
+				//$newuser = new ilObjUser($cont_data["owner"]);
 
 				$tmp_course =& ilObjectFactory::getInstanceByRefId($cont_data["ref_id"]);
 				$tmp_course->initCourseMemberObject();
@@ -3089,7 +3088,7 @@ class ilRepositoryGUI
 				}
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
 				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				$tpl->parseCurrentBlock();
 			}
