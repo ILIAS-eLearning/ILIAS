@@ -93,7 +93,7 @@ VALUES (
 );
 
 # new operation link in `rbac_ta`
-INSERT INTO `rbac_ta` ( `typ_id` , `ops_id` ) 
+INSERT INTO `rbac_ta` ( `typ_id` , `ops_id` )
 VALUES (
 '14', '9'
 );
@@ -895,7 +895,7 @@ $query = "DELETE FROM rbac_pa WHERE obj_id = '".$ref_id."'";
 $res = $this->db->query($query);
 
 // INSERT PERMISSIONS FOR MAIL OBJECT
-$query = "INSERT INTO rbac_pa ". 
+$query = "INSERT INTO rbac_pa ".
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
 $res = $this->db->query($query);
 ?>
@@ -913,7 +913,7 @@ $query = "DELETE FROM rbac_pa WHERE obj_id = '".$ref_id."'";
 $res = $this->db->query($query);
 
 // INSERT PERMISSIONS FOR MAIL OBJECT
-$query = "INSERT INTO rbac_pa ". 
+$query = "INSERT INTO rbac_pa ".
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
 $res = $this->db->query($query);
 
@@ -940,3 +940,40 @@ UPDATE object_data SET type='lm' WHERE type='le';
 <#40>
 INSERT INTO object_data (type, title, description, owner, create_date, last_update) VALUES
 	('typ', 'slm', 'SCORM Learning Module', -1, now(), now());
+
+<#41>
+<?php
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='slm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$slm_id = $row->obj_id;
+
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='lm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$lm_id = $row->obj_id;
+
+$query = "SELECT * FROM rbac_ta WHERE typ_id='$lm_id'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('$slm_id','".$row->ops_id."')";
+	$this->db->query($query);
+}
+?>
+
+<#42>
+UPDATE rbac_templates SET type='lm' WHERE type='le';
+
+<#43>
+<?php
+
+$query = "SELECT * FROM rbac_templates WHERE type='lm'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) ".
+		"VALUES ('".$row->rol_id."','slm','".$row->ops_id."','".$row->parent."')";
+	$this->db->query($query);
+}
+?>
