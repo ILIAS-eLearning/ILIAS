@@ -524,3 +524,4 @@ objf	object folder	Objektordner	objf	objf
 role	role	Rolle	role	role
 passwd	password	Passwort	passwd	passwd
 desc	description	Beschreibung	descrizione	description
+default_role	default role	Standardrolle	def_role	def_role
