@@ -29,6 +29,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseGroupingGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1943,7 +1944,14 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_objectives",
-								 $this->ctrl->getLinkTarget($this, "listObjectives"), "objectives", get_class($this));
+								 $this->ctrl->getLinkTarget($this,"listObjectives"), 
+								 "objectives", 
+								 get_class($this));
+		}
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget("crs_groupings",
+								 $this->ctrl->getLinkTarget($this, "listGroupings"), "groupings", get_class($this));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
@@ -2092,6 +2100,159 @@ class ilObjCourseGUI extends ilObjectGUI
 		exit;
 	}
 
+	// GROUPING METHODS
+	function listGroupingsObject()
+	{
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_groupings_list.html","course");
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->ctrl->setParameterByClass('ilcoursegroupinggui','ref_id',$this->object->getRefId());
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilcoursegroupinggui','create'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_grouping'));
+		$this->tpl->parseCurrentBlock();
+
+		if(!count($groupings = ilObjCourseGrouping::_getGroupings($this->object->getId())))
+		{
+			sendInfo($this->lng->txt('crs_no_groupings_assigned'));
+		
+			return true;
+		}
+		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_groupings'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_groupings'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("HEADER_UNAMBIGUOUSNESS",$this->lng->txt('unambiguousness'));
+		$this->tpl->setVariable("HEADER_OPTIONS",$this->lng->txt('crs_options'));
+		$this->tpl->setVariable("HEADER_ASSIGNED",$this->lng->txt('crs_grp_assigned_courses'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		
+		
+		$counter = 0;
+		foreach($groupings as $grouping_id)
+		{
+			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+
+			if(strlen($tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_GRP",$tmp_obj->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("grouping_row");
+			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("CHECK_GRP",ilUtil::formCheckbox(0,'grouping[]',$grouping_id));
+			$this->tpl->setVariable("AMB_GRP",$this->lng->txt($tmp_obj->getUniqueField()));
+			$this->tpl->setVariable("EDIT_IMG",ilUtil::getImagePath('edit.gif'));
+			$this->tpl->setVariable("EDIT_ALT",$this->lng->txt('edit'));
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+
+			$this->ctrl->setParameterByClass('ilobjcoursegroupinggui','obj_id',$grouping_id);
+			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','edit'));
+
+			if($num_courses = $tmp_obj->getCountAssignedCourses())
+			{
+				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_assigned_courses_info')."<b>$num_courses</b> ");
+			}
+			else
+			{
+				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_no_courses_assigned'));
+			}
+			$this->tpl->parseCurrentBlock();
+		}	
+
+	}
+
+	function askDeleteGroupingObject()
+	{
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_POST['grouping']))
+		{
+			sendInfo($this->lng->txt('crs_grouping_select_one'));
+			$this->listGroupingsObject();
+			
+			return false;
+		}
+
+		sendInfo($this->lng->txt('crs_grouping_delete_sure'));
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_ask_delete_goupings.html","course");
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_groupings'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_groupings_ask_delete'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
+		
+		
+		$counter = 0;
+		foreach($_POST['grouping'] as $grouping_id)
+		{
+			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+
+			if(strlen($tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_GRP",$tmp_obj->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("grouping_row");
+			$this->tpl->setVariable("GRP_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->parseCurrentBlock();
+		}
+		$_SESSION['crs_grouping_del'] = $_POST['grouping'];
+	}
+
+	function deleteGroupingObject()
+	{
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_SESSION['crs_grouping_del']))
+		{
+			sendInfo('No grouping selected');
+			$this->listGroupingsObject();
+
+			return false;
+		}
+		foreach($_SESSION['crs_grouping_del'] as $grouping_id)
+		{
+			$tmp_obj =& new ilObjCourseGrouping($this->course_obj,$grouping_id);
+			$tmp_obj->delete();
+		}
+		sendInfo($this->lng->txt('crs_grouping_deleted'));
+		$this->listGroupingsObject();
+		
+		unset($_SESSION['crs_grouping_del']);
+		return true;
+	}
 
 	
 	// META DATA METHODS
@@ -2175,9 +2336,6 @@ class ilObjCourseGUI extends ilObjectGUI
 	// END META DATA METHODS
 
 
-
-
-	// PRIVATE
 	function &__initTableGUI()
 	{
 		include_once "./classes/class.ilTableGUI.php";
@@ -2957,6 +3115,15 @@ class ilObjCourseGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this,"");
 				$reg_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				break;
+
+			case 'ilcoursegroupinggui':
+				include_once './course/classes/class.ilObjCourseGroupingGUI.php';
+
+				$this->ctrl->setReturn($this,'listGroupings');
+				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object);
+
+				$this->ctrl->forwardCommand($crs_grp_gui);
 				break;
 
 			case "ilconditionhandlerinterface":

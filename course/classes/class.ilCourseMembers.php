@@ -847,6 +847,45 @@ class ilCourseMembers
 		return $body;
 	}
 
+	/**
+	* check Membership by given field 
+	* @param int usr_id
+	* @param int obj_id
+	* @param string field (login,email or matriculation)
+	* @access	public
+	*/
+
+	function _isMember($a_usr_id,$a_course_id,$a_field)
+	{
+		global $ilUser,$ilDB;
+
+		// get specific user data
+		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id);
+		switch($a_field)
+		{
+			case 'login':
+				$and = "AND login = '".$tmp_user->getLogin()."' ";
+				break;
+			case 'email':
+				$and = "AND email = '".$tmp_user->getEmail()."' ";
+				break;
+			case 'matriculation':
+				$and = "AND matriculation = '".$tmp_user->getMatriculation()."' ";
+				break;
+		}
+
+		// check if entry exists
+		$query = "SELECT * FROM crs_members as cm, usr_data as ud ".
+			"WHERE cm.usr_id = ud.usr_id ".
+			"AND cm.obj_id = '".$a_course_id."' ".
+			"AND cm.usr_id = '".$a_usr_id."' ".
+			$and;
+
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
 
 }
 ?>

@@ -33,177 +33,243 @@
 
 require_once "./classes/class.ilObject.php";
 
-class ilObjCourseGrouping extends ilObject
+class ilObjCourseGrouping
 {
+	var $db;
+
 	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjCourseGrouping($a_id = 0,$a_call_by_reference = true)
+	function ilObjCourseGrouping(&$course_obj,$a_id = 0)
 	{
-		$this->type = "crsg";
-		$this->ilObject($a_id,$a_call_by_reference);
+		global $ilDB;
+
+		$this->setType('crsg');
+		$this->db =& $ilDB;
+
+		$this->course_obj =& $course_obj;
+		$this->setId($a_id);
+
+		if($a_id)
+		{
+			$this->read();
+		}
+	}
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+	function getId()
+	{
+		return $this->id;
+	}
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+	function getType()
+	{
+		return $this->type;
 	}
 
-	/**
-	* update object data
-	*
-	* @access	public
-	* @return	boolean
-	*/
+	function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+	function getTitle()
+	{
+		return $this->title;
+	}
+	function setDescription($a_desc)
+	{
+		$this->description = $a_desc;
+	}
+	function getDescription()
+	{
+		return $this->description;
+	}
+	function setUniqueField($a_uni)
+	{
+		$this->unique_field = $a_uni;
+	}
+	function getUniqueField()
+	{
+		return $this->unique_field;
+	}
+
+	function getCountAssignedCourses()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		return count(ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId()));
+	}
+
+	function getAssignedCourses()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		return ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
+	}
+
+
+	function delete()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		if($this->getId() and $this->getType() === 'crsg')
+		{
+			$query = "DELETE FROM object_data WHERE obj_id = '".$this->getId()."'";
+			$this->db->query($query);
+
+			$query = "DELETE FROM crs_groupings ".
+				"WHERE crs_grp_id = '".$this->getId()."'";
+			$this->db->query($query);
+
+			// Delete conditions
+			$condh =& new ilConditionHandler();
+			$condh->deleteByObjId($this->getId());
+
+			return true;
+		}
+		return false;
+	}
+
+	function create()
+	{
+		global $ilUser;
+
+		// INSERT IN object_data
+		$query = "INSERT INTO object_data ".
+			"(type,title,description,owner,create_date,last_update,import_id) ".
+			"VALUES ".
+			"('".$this->type."',".$this->db->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
+			"'".$ilUser->getId()."',now(),now(),'')";
+			
+		$this->db->query($query);
+
+		// READ this id
+		$query = "SELECT LAST_INSERT_ID() as last";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setId($row->last);
+		}
+
+
+		// INSERT in crs_groupings
+		$query = "INSERT INTO crs_groupings ".
+			"SET crs_id = '".$this->course_obj->getId()."',".
+			"crs_grp_id = '".$this->getId()."', ".
+			"unique_field = '".$this->getUniqueField()."'";
+
+		$this->db->query($query);
+
+		return $this->getId();
+	}
+
 	function update()
 	{
-		if (!parent::update())
-		{			
-			return false;
+		if($this->getId() and $this->getType() === 'crsg')
+		{
+			// UPDATe object_data
+			$query = "UPDATE object_data ".
+				"SET title = '".ilUtil::prepareDBString($this->getTitle())."', ".
+				"description = '".ilUtil::prepareDBString($this->getDescription())."' ".
+				"WHERE obj_id = '".$this->getId()."' ".
+				"AND type = '".$this->getType()."'";
+
+			$this->db->query($query);
+
+			// UPDATE crs_groupings
+			$query = "UPDATE crs_groupings ".
+				"SET unique_field = '".$this->getUniqueField()."' ".
+				"WHERE crs_grp_id = '".$this->getId()."'";
+
+			$this->db->query($query);
+
+			// UPDATE conditions
+			$query = "UPDATE conditions ".
+				"SET value = '".$this->getUniqueField()."' ".
+				"WHERE trigger_obj_id = '".$this->getId()."' ".
+				"AND trigger_type = 'crsg'";
+			$this->db->query($query);
+
+			return true;
+		}
+		return false;
+	}
+
+	function read()
+	{
+		$query = "SELECT * FROM object_data ".
+			"WHERE obj_id = '".$this->getId()."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setTitle($row->title);
+			$this->setDescription($row->description);
 		}
 
-		// put here object specific stuff
-		
+		$query = "SELECT * FROM crs_groupings ".
+			"WHERE crs_grp_id = '".$this->getId()."'";
+		$res = $this->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setUniqueField($row->unique_field);
+		}
+
 		return true;
 	}
+	// PRIVATE
 	
-	/**
-	* copy all entries of your object.
-	* 
-	* @access	public
-	* @param	integer	ref_id of parent object
-	* @return	integer	new ref id
-	*/
-	function ilClone($a_parent_ref)
-	{		
-		global $rbacadmin;
+	// STATIC
+	function _deleteAll($a_course_id)
+	{
+		global $ilDB;
 
-		// always call parent clone function first!!
-		$new_ref_id = parent::ilClone($a_parent_ref);
-		
-		// get object instance of cloned object
-		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-
-		// create a local role folder & default roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");		
-
-		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
-		//unset($newObj);
-
-		// ... and finally always return new reference ID!!
-		return $new_ref_id;
-	}
-
-	/**
-	* delete object and all related data	
-	*
-	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
-	*/
-	function delete()
-	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
+		// DELETE CONDITIONS
+		foreach($groupings = ilObjCourseGrouping::_getGroupings($a_course_id) as $grouping_id)
 		{
-			return false;
+			include_once './classes/class.ilConditionHandler.php';
+
+			$condh =& new ilConditionHandler();
+			$condh->deleteByObjId($grouping_id);
 		}
-		
-		//put here your module specific stuff
-		
+
+		$query = "DELETE FROM crs_groupings ".
+			"WHERE crs_id = '".$a_course_id."'";
+
+		$ilDB->query($query);
+
 		return true;
 	}
 
-	/**
-	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
-	* (For an example how this method is used, look at ilObjForum)
-	* 
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
+	function _getGroupings($a_course_id)
 	{
-		global $rbacadmin;
-		
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
+		global $ilDB;
 
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
+		$query = "SELECT * FROM crs_groupings ".
+			"WHERE crs_id = '".$a_course_id."'";
 
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			case "link":
-				
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "cut":
-				
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "new":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
+			$groupings[] = $row->crs_grp_id;
 		}
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
+		return $groupings ? $groupings : array();
 	}
+
+	function _checkCondition($trigger_obj_id,$operator,$value)
+	{
+		// in the moment i alway return true, there are some problems with presenting the condition if it fails,
+		// only course register class check manually if this condition is fullfilled
+		return true;
+	}
+
 } // END class.ilObjCourseGrouping
 ?>
