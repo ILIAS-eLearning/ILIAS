@@ -809,12 +809,6 @@ if ($migrate)
 		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
 		$this->db->query($query);
 	}
-
-	if (!isset($settings["nic_enabled"]))
-	{
-		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
-		$this->db->query($query);
-	}
 }
 ?>
 
