@@ -1909,8 +1909,6 @@ common#:#obj_root#:#Root
 common#:#obj_sahs#:#Modulo SCORM/AICC
 common#:#obj_spl#:#Raccolta di domande (per sondaggi)
 common#:#obj_st#:#Capitolo
-common#:#obj_styf#:#Cartella di stili
-common#:#obj_styf_desc#:#Amministra qui gli stili di sistema.
 common#:#obj_svy#:#Sondaggio
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
