@@ -374,7 +374,7 @@ class ASS_ClozeTest extends ASS_Question
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiCommentText = $this->domxml->create_text_node("<![CDATA[".$this->getComment()."]]>");
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 
@@ -391,7 +391,7 @@ class ASS_ClozeTest extends ASS_Question
 			// n-th text part
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($text_parts[$i]);
+			$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$text_parts[$i]."]]>");
 			$qtiMatText->append_child($qtiMatTextText);
 			$qtiMaterial->append_child($qtiMatText);
 			$qtiFlow->append_child($qtiMaterial);
@@ -431,7 +431,8 @@ class ASS_ClozeTest extends ASS_Question
 						$qtiResponseLabel->set_attribute("ident", $key);
 						$qtiMaterial = $this->domxml->create_element("material");
 						$qtiMatText = $this->domxml->create_element("mattext");
-						$qtiMatTextText = $this->domxml->create_text_node($value->get_answertext());
+						$tmpvalue = $value->get_answertext();
+						$qtiMatTextText = $this->domxml->create_text_node("TEST".$tmpvalue."TEST");
 						$qtiMatText->append_child($qtiMatTextText);
 						$qtiMaterial->append_child($qtiMatText);
 						$qtiResponseLabel->append_child($qtiMaterial);
@@ -563,7 +564,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiMaterial = $this->domxml->create_element("material");
 					$qtiMattext = $this->domxml->create_element("mattext");
 					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node("");
+					$qtiMattextText = $this->domxml->create_text_node("<![CDATA[".""."]]>");
 					$qtiMattext->append_child($qtiMattextText);
 					$qtiMaterial->append_child($qtiMattext);
 					$qtiFlowmat->append_child($qtiMaterial);
@@ -592,7 +593,7 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiMaterial = $this->domxml->create_element("material");
 					$qtiMattext = $this->domxml->create_element("mattext");
 					// Insert response text for right/wrong answers here!!!
-					$qtiMattextText = $this->domxml->create_text_node("");
+					$qtiMattextText = $this->domxml->create_text_node("<![CDATA[".""."]]>");
 					$qtiMattext->append_child($qtiMattextText);
 					$qtiMaterial->append_child($qtiMattext);
 					$qtiFlowmat->append_child($qtiMaterial);
