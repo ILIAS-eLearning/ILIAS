@@ -1243,17 +1243,18 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			//$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
 			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"], $this->lm->getPageHeader());
+			$prev_img = "<img src=\"".ilUtil::getImagePath("nav_arr_L.gif")."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
 				$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-					"\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+					"\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			else
 			{
 				$output = "<a href=\"lm_presentation.php?cmd=layout&obj_id=".
 					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-					"\" target=\"_top\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+					"\" target=\"_top\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
@@ -1279,17 +1280,18 @@ class ilLMPresentationGUI
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			//$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"], $this->lm->getPageHeader());
+			$succ_img = "<img src=\"".ilUtil::getImagePath("nav_arr_R.gif")."\" border=\"0\"/>";
 			if (!$this->lm->cleanFrames())
 			{
 				$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-					"\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+					"\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			else
 			{
 				$output = " <a href=\"lm_presentation.php?cmd=layout&obj_id=".
 					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
