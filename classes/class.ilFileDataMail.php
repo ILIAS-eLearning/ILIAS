@@ -48,6 +48,8 @@ class ilFileDataMail extends ilFileData
 	*/
 	var $mail_path;
 
+	var $mail_maxsize_attach;
+
 	/**
 	* Constructor
 	* call base constructors
@@ -62,6 +64,12 @@ class ilFileDataMail extends ilFileData
 		$this->mail_path = parent::getPath()."/".MAILPATH;
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;
+
+		if(($size = $this->ilias->getSetting("mail_maxsize_attach")) >= 0)
+		{
+			$this->mail_maxsize_attach = (int) $size;
+		}
+
 	}
 
 	/**
@@ -212,13 +220,15 @@ class ilFileDataMail extends ilFileData
 	* store uploaded file in filesystem
 	* @param array HTTP_POST_FILES
 	* @access	public
-	* @return bool
+	* @return integer 0 on success
+
 	*/
 	function storeUploadedFile($a_http_post_file)
 	{
-		// TODO: 
-		// CHECK UPLOAD LIMIT
-		// 
+		if($a_http_post_file["size"] >= $this->mail_maxsize_attach)
+		{
+			return 1;
+		}
 
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
@@ -227,7 +237,7 @@ class ilFileDataMail extends ilFileData
 			move_uploaded_file($a_http_post_file['tmp_name'],$this->getMailPath().'/'.$this->user_id.'_'.
 							   $a_http_post_file['name']);
 		}
-		return true;
+		return 0;
 	}
 	/**
 	* rotate files with same name
