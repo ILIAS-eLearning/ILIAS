@@ -1343,7 +1343,9 @@ After installing a new ILIAS 3 release you must run the setup script
 'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
 your clients. Select "Details" for every client in the client list and click on
 the "Database" button. Depending on the size of your database the update process
-may take a while.
+may take a while. Enter your clients and execute the "Refresh Languages" command
+in the language administration of the system settings ("Administration" ->
+"System Settings" -> "Languages" -> "Refresh Languages").
 
 
 3.3  Updating third-party software
