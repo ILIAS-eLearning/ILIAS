@@ -66,6 +66,27 @@ class ilPaymentPrices
 		return $this->prices[$a_price_id] ? $this->prices[$a_price_id] : array();
 	}
 
+	// STATIC
+	function _getPrice($a_price_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_prices ".
+			"WHERE price_id = '".$a_price_id."'";
+
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$price['duration'] = $row->duration;
+			$price['currency'] = $row->currency;
+			$price['unit_value'] = $row->unit_value;
+			$price['sub_unit_value'] = $row->sub_unit_value;
+		}
+		return count($price) ? $price : array();
+	}
+
+
 	function setUnitValue($a_value = 0)
 	{
 		// substitute leading zeros with ''

@@ -120,6 +120,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				case $this->pobject->PAY_METHOD_BILL:
 					$f_result[$counter][] = $this->lng->txt('paya_bill');
 					break;
+
+				case $this->pobject->PAY_METHOD_BMF:
+					$f_result[$counter][] = $this->lng->txt('paya_bmf');
+					break;
 			}
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
