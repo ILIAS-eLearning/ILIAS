@@ -258,7 +258,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}	
 		
 	}
-	function confirmedDeleteObject()
+	function confirmedDeleteRoomObject()
 	{
 		global $rbacsystem;
 

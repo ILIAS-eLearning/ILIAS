@@ -1320,6 +1320,21 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
+				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				{
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+				}
+				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "chat"))
+				{
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$cont_data["ref_id"].
+						"&type=chat&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
+					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+				}
+
 				$tpl->setCurrentBlock("tbl_content");
 				$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
@@ -1330,15 +1345,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
 				$tpl->setVariable("LINK_TARGET", "bottom");
-				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "chat"))
-				{
-					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-						"&item_ref_id=".$cont_data["ref_id"].
-						"&type=chat&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-						"&sort_by=".$_GET["sort_by"]);
 
-					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-				}
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
