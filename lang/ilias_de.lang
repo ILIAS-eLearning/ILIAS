@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -2857,4 +2857,4 @@ search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
-search#:#search_user#:#Benutze
+search#:#search_user#:#Benutzer
