@@ -608,6 +608,8 @@ components:
         - Auth
         - HTML_Template_IT
 
+		- HTTP_Request ( if cron-jobs are used)
+
     They can be obtained directly from the Web using the PEAR command line
     installer that comes with PHP:
 

@@ -5146,4 +5146,9 @@ CREATE TABLE `tst_test_random` (
 ) TYPE=MyISAM COMMENT='Questionpools taken for a random test';
 <#358>
 ALTER TABLE `survey_finished` ADD `anonymous_id` VARCHAR(32) AFTER  `user_fi` ;
-
+<#359>
+CREATE TABLE `link_check` (
+  `page_id` int(11) NOT NULL default '0',
+  `url` varchar(255) NOT NULL default '',
+  `parent_type` varchar(8) NOT NULL default ''
+) TYPE=MyISAM;

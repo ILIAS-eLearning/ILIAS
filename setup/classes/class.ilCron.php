@@ -39,6 +39,9 @@ class ilCron
 
 	function ilCron(&$db)
 	{
+		define('DEBUG',1);
+		define('SOCKET_TIMEOUT',5);
+
 		$this->db = $db;
 	}
 
@@ -71,6 +74,7 @@ class ilCron
 	{
 		// add here other checks
 		$this->__checkUserAccounts();
+		$this->__checkLinks();
 	}
 
 	function __checkUserAccounts()
@@ -123,10 +127,24 @@ class ilCron
 			
 			// Send log message
 			$this->log->write('Cron: (checkUserAccounts()) sent message to '.$data['login'].'.');
-			
 		}
 		
 	}
-		
+
+
+	function __checkLinks()
+	{
+		include_once'../classes/class.ilLinkChecker.php';
+
+		$link_checker =& new ilLinkChecker($this->db);
+
+		$invalid = $link_checker->checkLinks();
+		foreach($link_checker->getLogMessages() as $message)
+		{
+			$this->log->write($message);
+		}
+
+		return true;
+	}
 }
 ?>
