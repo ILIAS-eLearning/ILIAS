@@ -150,6 +150,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$parent = ($_GET["obj_id"] == "")
 							? $tree->getRootId()
 							: $_GET["obj_id"];
+echo "parent:$parent:tree_id:".$tree->getTreeId();
 						$folder_gui->setFolderTree($tree);
 						$folder_gui->saveObject($parent);
 						break;

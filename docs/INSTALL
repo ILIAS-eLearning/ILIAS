@@ -558,11 +558,11 @@ components:
     the MySQL root account.
 
     For MySQL 4.0 and higher you need to grant the permission LOCK TABLES to
-    the ILIAS db-user. E.g. if the ILIAS db-user 'root' accesses from host
+    the ILIAS db-user. E.g. if the ILIAS db-user 'dbuser' accesses from host
     'localhost':
 
         /opt/ilias/bin/mysql -u root password <password>
-        mysql> grant LOCK TABLES on *.* to root@localhost;
+        mysql> grant LOCK TABLES on *.* to dbuser@localhost;
 
 
 (b) Apache (preparation)
