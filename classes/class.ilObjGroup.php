@@ -121,9 +121,23 @@ class ilObjGroup extends ilObject
 	*/
 	function setGroupStatus($a_grpStatus)
 	{
-		$this->m_grpStatus = $a_grpStatus;
 		
-		$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->m_grpId.",".$a_grpStatus.")";
+		if(strcmp($a_grpStatus,"group_status_public") == 0)			//group status set public (=0)
+			{
+			$this->m_grpStatus = 0;			
+			}
+		
+		if(strcmp($a_grpStatus,"group_status_private") == 0)			//group status set private (=1)
+			{
+			$this->m_grpStatus = 1;				
+			}
+		
+		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
+			{
+			$this->m_grpStatus = 2;				
+			}
+		
+		$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->m_grpId.",".$this->m_grpStatus.")";
 		$res = $this->ilias->db->query($sql_query);
 
 	}
