@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Changer tyoe
 content#:#cont_chap_and_pages#:#Chapitres et pages
 content#:#cont_chap_select_target_now#:#Chapitre marqué pour déplacement.  Choisissez une cible maintenant.
 content#:#cont_chapters#:#Chapitres
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Caractéristique
 content#:#cont_choose_cont_obj#:#Choisir l'objet de contenu
 content#:#cont_choose_glossary#:#Choisir glossaire
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Terme
 content#:#cont_terms#:#Termes
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table des matières
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#En haut
 content#:#cont_translations#:#Traduction(s)
 content#:#cont_translations_assigned#:#Les traductions ont été assignées

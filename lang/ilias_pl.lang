@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Zmień typ
 content#:#cont_chap_and_pages#:#Rozdziały i strony
 content#:#cont_chap_select_target_now#:#Rozdział zaznaczony do przesunięcia. Teraz wybierz przeznaczenie.
 content#:#cont_chapters#:#Rozdziały
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Charakterystyka
 content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
 content#:#cont_choose_glossary#:#Wybierz słownik
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Termin
 content#:#cont_terms#:#Terminy
 content#:#cont_time_limit_action#:#Limit czasu
 content#:#cont_toc#:#Spis treści
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone

@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Change Type###09 Sep 2003 new variable
 content#:#cont_chap_and_pages#:#Chapters and Pages###04 Aug 2003 new variable
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.###19 Sep 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Term###15 Aug 2003 new variable
 content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
 content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable

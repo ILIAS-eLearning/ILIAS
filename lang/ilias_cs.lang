@@ -1665,6 +1665,8 @@ content#:#cont_change_type#:#Změnit typ
 content#:#cont_chap_and_pages#:#Kapitoly a stránky
 content#:#cont_chap_select_target_now#:#Kapitola označena pro přesun.  Nyní vyberte cíl.
 content#:#cont_chapters#:#Kapitoly
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#Charakteristika
 content#:#cont_choose_cont_obj#:#Vybrat obsahový objekt
 content#:#cont_choose_glossary#:#Vybrat glosář
@@ -1860,6 +1862,7 @@ content#:#cont_term#:#Pojem
 content#:#cont_terms#:#Pojmy
 content#:#cont_time_limit_action#:#adlcp:timelimitaction### identical translation
 content#:#cont_toc#:#Obsah
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Nahoru
 content#:#cont_translations#:#Překlad(y)
 content#:#cont_translations_assigned#:#Překlady byly přiřazeny

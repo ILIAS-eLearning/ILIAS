@@ -1682,6 +1682,8 @@ content#:#cont_change_type#:#更改类型
 content#:#cont_chap_and_pages#:#章与页
 content#:#cont_chap_select_target_now#:#章已标记为移出。现在选择目标。
 content#:#cont_chapters#:#章
+content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
+content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
 content#:#cont_characteristic#:#特性
 content#:#cont_choose_cont_obj#:#选择内容对象
 content#:#cont_choose_glossary#:#选择术语表
@@ -1877,6 +1879,7 @@ content#:#cont_term#:#术语
 content#:#cont_terms#:#术语
 content#:#cont_time_limit_action#:#adlcp时间限制操作
 content#:#cont_toc#:#目录
+content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#向上
 content#:#cont_translations#:#翻译
 content#:#cont_translations_assigned#:#已指定翻译
