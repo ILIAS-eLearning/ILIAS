@@ -353,8 +353,6 @@ switch($_GET["cmd"])
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setCurrentBlock("table_header_row");
-		$tpl->parseCurrentBlock();
 		
 		if (is_array($obj->objectList["data"][0]))
 		{
