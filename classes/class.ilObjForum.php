@@ -240,10 +240,6 @@ class ilObjForum extends ilObject
 		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 		
-		// delete forum-object in tree
-		$query = "DELETE FROM tree WHERE tree = '".$this->getId()."'";		
-		$this->ilias->db->query($query);
-		
 		return true;
 	}
 } // END class.ilObjForum
