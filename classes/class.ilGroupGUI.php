@@ -930,41 +930,7 @@ class ilGroupGUI extends ilObjectGUI
 		exit();
 	} // END PASTE
 
-	/**
-	* clone Object subtree
-	*
-	* @access	private
-	* @param	integer	reference id
-	*/
-	function cloneObject($a_ref_id)
-	{
-		global $rbacsystem;
-
-		if(!is_array($_SESSION["clipboard"]["ref_ids"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_error_copy"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		var_dump($_SESSION["clipboard"]["ref_ids"]);
-
-		// NOW CLONE ALL OBJECTS
-		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
-		{echo "iddddddddddd".$id;
-			$mapping = $this->cloneNodes($id,$this->ref_id);
-		}
-		var_dump($mapping);
-		// inform other objects in hierarchy about cut operation
-		$this->object->notify("copy",$_GET["ref_id"],$mapping);
-
-		$this->clearObject();
-
-		sendinfo($this->lng->txt("msg_cloned"),true);
-
-		header("location: group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
-		exit();
-	} // END CLONE
-
+	
 
 	/**
 	* cut object(s) out from a container and write the information to clipboard
