@@ -95,7 +95,7 @@ common#:#cat_edit#:#Edit Category
 common#:#cat_new#:#New category
 common#:#categories#:#Categories
 common#:#cc#:#CC
-common#:#censorship#:#censorship
+common#:#censorship#:#Censorship
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
@@ -1113,6 +1113,7 @@ forum#:#forums_quote#:#Quote
 forum#:#forums_respond#:#Post Reply
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Topic
+forum#:#forums_print_thread#:#Print Thread
 forum#:#forums_thread_articles#:#Articles to the topic
 forum#:#forums_thread_create_date#:#Created at
 forum#:#forums_thread_create_from#:#Created from

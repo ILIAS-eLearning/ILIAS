@@ -5,14 +5,13 @@ body { margin:0px; }
 <div class="invisible_border">
 <div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
 <div class="il_Tab">
-{TABS}	  
+{TABS}
 </div>
 </div>
 {NO_BTN}
-{BUTTONS}
 {MESSAGE}
-{COUNT_POST}
-<!-- 
+<!--{COUNT_POST}-->
+<!--
 <table class="fullwidth">
 <tr>
 	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>
@@ -28,6 +27,20 @@ body { margin:0px; }
 </tr>
 -->
 </table>
+<br />
+<div align="right">
+<table cellpadding="0" cellspacing="0" border="0">
+	<!-- BEGIN btn_row -->
+	<tr>
+	<!-- BEGIN btn_cell -->
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		<td class="btn" align="center" nowrap="nowrap" width="140"><a class="btn" href="{BTN_LINK}" {BTN_TARGET}>&nbsp;{BTN_TXT}&nbsp;</a></td>
+	<!-- END btn_cell -->
+	</tr>
+	<!-- END btn_row -->
+</table>
+</div>
+<br />
 <!-- BEGIN posttable -->
 <table class="fullwidth">
 <tr class="tblheader">

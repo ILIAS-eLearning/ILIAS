@@ -41,7 +41,7 @@ $frm =& $forumObj->Forum;
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -216,7 +216,7 @@ $tpl->setVariable("COUNT_THREAD", $lng->txt("forums_count_thr").": ".$thrNum);
 $tpl->setVariable("TXT_DATE", $lng->txt("date"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TXT_TOPIC", $lng->txt("forums_thread"));
-$tpl->setVariable("TXT_AUTHOR", $lng->txt("forums_thread_create_from"));
+$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
 $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));

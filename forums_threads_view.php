@@ -165,7 +165,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("date"));
 	$tpl->setVariable("TAB_TARGET", "bottom");
 	$tpl->parseCurrentBlock();
-		
+
 	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
@@ -176,10 +176,19 @@ if (is_array($topicData = $frm->getOneTopic()))
 	}
 	else
 	{
-		$tpl->setVariable("NO_BTN", "<br/><br/>"); 
+		//$tpl->setVariable("NO_BTN", "<br/><br/>");
 	}
+
+	// print thread
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","forums_export.php?print_thread=".$_GET["thr_pk"].
+		"&thr_top_fk=".$threadData["thr_top_fk"]);
+	$tpl->setVariable("BTN_TARGET","target=\"_new\"");
+	$tpl->setVariable("BTN_TXT", $lng->txt("forums_print_thread"));
+	$tpl->parseCurrentBlock();
+
 	// ********************************************************************************
-	
+
 	// form processing (edit & reply)
 	if ($_GET["cmd"] == "ready_showreply" || $_GET["cmd"] == "ready_showedit" || $_GET["cmd"] == "ready_censor")
 	{		
