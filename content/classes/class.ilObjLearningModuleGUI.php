@@ -21,299 +21,203 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilObjLearningModule.php");
+require_once("content/classes/class.ilObjContentObjectGUI.php");
 
 /**
-* Class ilObjLearningModuleGUI
+* Class ilLearningModuleGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.1 2003/07/15 20:06:16 akill Exp $
-* 
-* @extends ilObjectGUI
-* @package ilias-core
+* GUI class for ilLearningModule
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*
+* @package content
 */
-
-require_once "classes/class.ilObjectGUI.php";
-
-class ilObjLearningModuleGUI extends ilObjectGUI
+class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 {
+	var $lm_obj;
+	var $lm_tree;
+
 	/**
 	* Constructor
-	*
 	* @access	public
 	*/
-	function ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function ilObjLearningModuleGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
-
-		$lng->loadLanguageModule("content");
 		$this->type = "lm";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-
-	}
-
-	/**
-	* form for new lm creation
-	*/
-	function createObject()
-	{
-		require_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		//$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]."&cmd=save");
-	}
-
-	/**
-	* save new learning module to db
-	*/
-	function saveObject()
-	{
-		global $rbacadmin, $rbacsystem;
-
-		// always call parent method first to create an object_data entry & a reference
-		//$newObj = parent::saveObject();
-		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		parent::ilObjContentObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		if($a_id != 0)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$this->lm_tree =& $this->object->getLMTree();
 		}
-		else
-		{
-			// create and insert object in objecttree
-			include_once("content/classes/class.ilObjLearningModule.php");
-			$newObj = new ilObjLearningModule();
-			$newObj->setType("lm");
-			$newObj->setTitle("dummy");			// set by meta_gui->save
-			$newObj->setDescription("dummy");	// set by meta_gui->save
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-
-			// save meta data
-			include_once "classes/class.ilMetaDataGUI.php";
-			$meta_gui =& new ilMetaDataGUI();
-			$meta_gui->setObject($newObj);
-			$meta_gui->save();
-
-			// create learning module tree
-			$newObj->createLMTree();
-
-			unset($newObj);
-
-			// always send a message
-			sendInfo($this->lng->txt("lm_added"),true);
-
-			header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-			exit();
-		}
-	}
-
-	/**
-	* display dialogue for importing XML-LeaningObjects
-	*
-	* @access	public
-	*/
-	function importObject()
-	{
-		$this->getTemplateFile("import", "lm");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=lm");
-		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
 		/*
-		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
-		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
-		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));*/
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+		global $ilias, $tpl, $lng, $objDefinition;
 
+		$this->ilias =& $ilias;
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->objDefinition =& $objDefinition;
+		$this->lm_tree =& $a_tree;*/
+
+		//$this->read(); todo
 	}
-
-
-	function editMetaObject()
-	{
-		require_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
-	}
-
-	function saveMetaObject()
-	{
-		require_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save();
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit;
-	}
-
-
 
 	/**
-	* view object
 	*
-	* @access	public
 	*/
-	function viewObject()
+	function assignObject()
 	{
-		global $rbacsystem, $tree, $tpl;
+		$this->link_params = "ref_id=".$this->ref_id;
+		$this->object =& new ilObjLearningModule($this->id, true);
+	}
 
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+	/*
+	function setLearningModuleObject(&$a_lm_obj)
+	{
+		$this->lm_obj =& $a_lm_obj;
+		//$this->obj =& $this->lm_obj;
+	}*/
 
-		// edit button
+	function properties()
+	{
+		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		if (!defined("ILIAS_MODULE"))
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/lm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
+		// test purpose: create stylesheet
 		if ($this->object->getStyleSheetId() == 0)
 		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=createStyle&ref_id=".$this->object->getRefID());
+			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create_stylesheet"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else // test purpose: edit stylesheet
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=editStyle&ref_id=".$this->object->getRefID());
+			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit_stylesheet"));
+			$this->tpl->parseCurrentBlock();
 		}
 
+		// lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
-		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);
+		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
+		$layouts = ilObjLearningModule::getAvailableLayouts();
+		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
+			$layouts, false, true);
+		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
 
-		//prepare objectlist
-		$this->data = array();
-		$this->data["data"] = array();
-		$this->data["ctrl"] = array();
+		$this->tpl->setVariable("TXT_PAGE_HEADER", $this->lng->txt("cont_page_header"));
+		$pg_header = array ("st_title" => $this->lng->txt("cont_st_title"),
+			"pg_title" => $this->lng->txt("cont_pg_title"),
+			"none" => $this->lng->txt("cont_none"));
+		$select_pg_head = ilUtil::formSelect ($this->object->getPageHeader(), "lm_pg_header",
+			$pg_header, false, true);
+		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
 
-		$this->data["cols"] = array("", "view", "title", "description", "last_change");
-
-		$lo_childs = $lotree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
-
-		foreach ($lo_childs as $key => $val)
-		{
-			// visible
-			//if (!$rbacsystem->checkAccess("visible",$val["id"]))
-			//{
-			//	continue;
-			//}
-			//visible data part
-			$this->data["data"][] = array(
-					"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
-				);
-
-			//control information
-			$this->data["ctrl"][] = array(
-					"type" => $val["type"],
-					"ref_id" => $_GET["ref_id"],
-					"lm_id" => $_GET["obj_id"],
-					"lo_id" => $val["child"]
-				);
-	    } //foreach
-
-		parent::displayList();
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	* export object
-	*
-	* @access	public
-	*/
-	function exportObject()
+	function saveProperties()
 	{
-		return;
+		$this->object->setLayout($_POST["lm_layout"]);
+		$this->object->setPageHeader($_POST["lm_pg_header"]);
+		$this->object->updateProperties();
+		sendInfo($this->lng->txt("msg_obj_modified"));
+		$this->view();
 	}
 
-
-	/**
-	* display status information or report errors messages
-	* in case of error
-	*
-	* @access	public
-	*/
-	function uploadObject()
+	function createStyle()
 	{
-		global $HTTP_POST_FILES, $rbacsystem;
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
+		$style_gui->setFormAction("save", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=saveStyle");
+		$style_gui->createObject();
 
-		require_once "content/classes/class.ilObjLearningModule.php";
-
-		// check if file was uploaded
-		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
-		if (($source == 'none') || (!$source))
-		{
-			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
-		}
-		// check create permission
-		/*
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
-		}*/
-
-		// check correct file type
-		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip")
-		{
-			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
-		}
-
-		// create and insert object in objecttree
-		$newObj = new ilObjLearningModule();
-		$newObj->setType("lm");
-		$newObj->setTitle("dummy");			// set by meta_gui->save
-		$newObj->setDescription("dummy");	// set by meta_gui->save
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-
-		// create learning module tree
-		$newObj->createLMTree();
-
-		// create import directory
-		$newObj->createImportDirectory();
-
-		// copy uploaded file to import directory
-		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
-
-		// unzip file
-		$cdir = getcwd();
-		chdir($newObj->getImportDirectory());
-		$unzip = $this->ilias->getSetting("unzip_path");
-		$unzipcmd = $unzip." ".$file["basename"];
-//echo "unzipcmd :".$unzipcmd.":<br>";
-		exec($unzipcmd);
-		chdir($cdir);
-
-		// determine filename of xml file
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-//echo "xmlfile:".$xml_file;
-
-		require_once ("content/classes/class.ilLMParser.php");
-		$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
-		$lmParser->startParsing();
-
-		header("Location: adm_object.php?".$this->link_params);
-		exit();
-
-		//nada para mirar ahora :-)
 	}
-} // END class.ilObjLearningModuleGUI
+
+	function saveStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
+		$style_gui->setReturnLocation("save", "return");
+		$style_id = $style_gui->saveObject();
+		$this->object->setStyleSheetId($style_id);
+		$this->object->update();
+
+		header("Location: lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
+		exit;
+	}
+
+	function editStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_gui->editObject();
+	}
+
+	function updateStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setReturnLocation("update", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
+		$style_id = $style_gui->updateObject();
+	}
+
+	function newStyleParameter()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->newStyleParameterObject();
+	}
+
+	function refreshStyle()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->refreshObject();
+	}
+
+	function deleteStyleParameter()
+	{
+		require_once ("classes/class.ilObjStyleSheetGUI.php");
+		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+		$style_gui->setCmdUpdate("updateStyle");
+		$style_gui->setCmdRefresh("refreshStyle");
+		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
+		$style_id = $style_gui->deleteStyleParameterObject();
+	}
+
+}
 ?>

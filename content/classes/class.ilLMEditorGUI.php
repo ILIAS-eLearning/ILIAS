@@ -23,7 +23,7 @@
 
 require_once ("content/classes/class.ilLMObjectFactory.php");
 require_once ("content/classes/class.ilObjLearningModule.php");
-require_once ("content/classes/class.ilLearningModuleGUI.php");
+require_once ("content/classes/class.ilObjLearningModuleGUI.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("classes/class.ilObjStyleSheet.php");
@@ -235,10 +235,7 @@ class ilLMEditorGUI
 							break;
 
 						case "lm":
-							$lm_gui =& new ilLearningModuleGUI($_GET["ref_id"]);
-							//require_once ("content/classes/class.ilObjLearningModuleGUI.php");
-							//$lm_gui =& new ilObjLearningModuleGUI("", $_GET["lm_id"], false);
-							//$lm_gui->setLearningModuleObject($this->lm_obj);
+							$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 							$lm_gui->$cmd();
 							break;
 
