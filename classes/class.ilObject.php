@@ -617,6 +617,7 @@ class ilObject
 		$new_obj->setPermissions($a_parent_ref);
 		unset($new_obj);
 
+		// ... and finally always return new reference ID!!
 		return $new_ref_id;
 	}
 
@@ -625,15 +626,16 @@ class ilObject
 	* delete object or referenced object
 	* (in the case of a referenced object, object data is only deleted
 	* if last reference is deleted)
+	* This function removes an object entirely from system!!
 	*
  	* @access	public
-	* @return	boolean	true when successfully deleted
+	* @return	boolean	true if object was removed completely; false if only a references was removed
 	*/
 	function delete()
 	{
 		global $rbacadmin;
 
-		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
+		$remove = false;
 
 		// delete object_data entry
 		if ((!$this->referenced) || ($this->countReferences() == 1))
@@ -642,6 +644,8 @@ class ilObject
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = '".$this->getId()."'";
 			$this->ilias->db->query($q);
+			
+			$remove = true;
 		}
 		
 		// delete object_reference entry
@@ -659,7 +663,7 @@ class ilObject
 			$rbacadmin->revokePermission($this->getRefId());
 		}
 
-		return true;
+		return $remove;
 	}
 
 	/**

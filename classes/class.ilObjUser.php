@@ -1100,8 +1100,5 @@ class ilObjUser extends ilObject
 		}
 		return $ids ? $ids : array();
 	}
-
-
-
 } // END class ilObjUser
 ?>

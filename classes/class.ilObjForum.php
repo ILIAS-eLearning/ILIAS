@@ -95,56 +95,10 @@ class ilObjForum extends ilObject
 		
 			return true;
 		}
+
 		return false;
 	}
 	
-	/**
-	* delete forum and all its contents	
-	* @param	integer	a_obj_id
-	* @param	integer	a_parent_id
-	* @param	integer	a_tree_id (optional)
-	* @access	public
-	*/
-	function delete()
-	{		
-		global $tree;
-		
-		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		if ($this->countReferences() == 1)
-		{
-			return parent::delete();
-		}
-		
-		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
-		$topData = $this->Forum->getOneTopic();	
-		
-		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
-		
-		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			// delete tree
-			$query = "DELETE FROM frm_posts_tree WHERE thr_fk = '".$thrData["thr_pk"]."'";
-			$this->ilias->db->query($query);
-			
-			// delete posts
-			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = '".$thrData["thr_pk"]."'";
-			$this->ilias->db->query($query);
-			
-			// delete threads
-			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
-			$this->ilias->db->query($query);
-		}
-		// delete topic
-		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
-		$this->ilias->db->query($query);
-		
-		// delete forum-object in tree
-		$query = "DELETE FROM tree WHERE tree = '".$this->getId()."'";		
-		$this->ilias->db->query($query);
-		
-		return parent::delete();
-	}
-
 	/**
 	* copy all entries of a forum object.
 	* attention: frm_data is linked with ILIAS system (object_data) with the obj_id and NOT ref_id! 
@@ -245,7 +199,52 @@ class ilObjForum extends ilObject
 		unset($rfoldObj);
 		unset($roleObj);
 
+		// ... and finally always return new reference ID!!
 		return $new_ref_id;
 	}
-} // END class.ForumObject
+
+	/**
+	* delete forum and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
+		$topData = $this->Forum->getOneTopic();	
+		
+		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
+		
+		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// delete tree
+			$query = "DELETE FROM frm_posts_tree WHERE thr_fk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+			
+			// delete posts
+			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+			
+			// delete threads
+			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+		}
+		// delete topic
+		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+		
+		// delete forum-object in tree
+		$query = "DELETE FROM tree WHERE tree = '".$this->getId()."'";		
+		$this->ilias->db->query($query);
+		
+		return true;
+	}
+} // END class.ilObjForum
 ?>

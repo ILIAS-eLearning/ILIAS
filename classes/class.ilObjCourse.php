@@ -62,6 +62,28 @@ class ilObjCourse extends ilObject
 		$new_ref_id = parent::clone($a_parent_ref);
 		
 		// put here crs specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete course and all related data	
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{		
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+		
+		// put here course specific stuff
+		
+		return true;
 	}
 } //END class.ilObjCourse
 ?>
