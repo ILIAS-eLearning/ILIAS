@@ -841,7 +841,7 @@ class ilObjGroup extends ilObject
 		{
 			$groupname_copy = $groupObj->getTitle()."_(copy_".$n.")";
 
-			if (!$grp->groupNameExists($groupname_copy))
+			if (!ilGroup::_groupNameExists($groupname_copy))
 			{
 				$groupObj->setTitle($groupname_copy);
 				$groupObj->update();
