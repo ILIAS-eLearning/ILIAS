@@ -48,6 +48,7 @@ class ilPageEditorGUI
 	var $target_script;
 	var $return_location;
 	var $header;
+	var $tabs;
 
 	/**
 	* Constructor
@@ -99,6 +100,11 @@ class ilPageEditorGUI
 	function setLocator(&$a_locator)
 	{
 		$this->locator =& $a_locator;
+	}
+
+	function setTabs($a_tabs)
+	{
+		$this->tabs = $a_tabs;
 	}
 
 	function returnToContext()
@@ -291,7 +297,10 @@ class ilPageEditorGUI
 
 		//$cont_obj = ilObjContentObject$this->page->getParentId()
 		//$contObjLocator->setContentObject($this->page->getParentId());
-		$this->locator->display();
+		if(is_object($this->locator))
+		{
+			$this->locator->display();
+		}
 	}
 
 	/**
@@ -318,7 +327,17 @@ class ilPageEditorGUI
 			$_GET["obj_id"]);
 		if ($mode != "mob")
 		{
-			$tabs_gui->setObjectType($mode);
+			if(empty($this->tabs))
+			{
+				$tabs_gui->setObjectType($mode);
+			}
+			else
+			{
+				// glossary fix
+				$tabs_gui->setTargetScript($this->getTargetScript());
+				$tabs_gui->setTabs($this->tabs);
+				$tabs_gui->setTabs(array());
+			}
 		}
 		else
 		{

@@ -69,33 +69,43 @@ class ilTermDefinitionEditorGUI
 		//$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
 		//	$this->lng->txt("cont_definition")." ".$this->definition->getNr());
 
-
+		/*
 		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
-		$gloss_loc->setDefinition($this->definition);
+		$gloss_loc->setDefinition($this->definition);*/
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->setVariable("HEADER", $this->term->getTerm());
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page =& $this->definition->getPageObject();
 		$page->addUpdateListener($this, "saveShortText");
 		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setTemplateTargetVar("CONTENT");
+		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setOutputMode("edit");
-		$page_gui->setLocator($gloss_loc);
-		$page_gui->setHeader("bloblo");
+		//$page_gui->setLocator($gloss_loc);
+		$page_gui->setHeader($this->term->getTerm());
+		$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
+				array("edit", "view"),
+				array("cont_preview", "preview"),
+				array("meta_data", "editDefinitionMetaData")
+				));
 		$page_gui->setPresentationTitle($this->term->getTerm());
 		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
+
 		if($_GET["mode"] == "page_edit" || $cmd == "view")
 		{
 			$page_gui->showPageEditor();
 		}
 		else
 		{
-			$cmd = $_GET["cmd"];
+			$cmd = $_GET["cmd"]; // don't move to top
 			$this->setAdminTabs();
 
 			switch ($cmd)
