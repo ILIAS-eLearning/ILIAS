@@ -91,6 +91,15 @@ class ASS_JavaApplet extends ASS_Question
 	var $parameters;
 
 	/**
+	* The maximum number of points that can be reached working with the Java Applet
+	*
+	* The maximum number of points that can be reached working with the Java Applet
+	*
+	* @var double
+	*/
+	var $points;
+
+	/**
 	* ASS_JavaApplet constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_JavaApplet object.
@@ -382,7 +391,7 @@ class ASS_JavaApplet extends ASS_Question
 			$now = getdate();
 			$question_type = 7;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, image_file, params, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, complete, image_file, params, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type . ""),
 				$db->quote($this->obj_id . ""),
 				$db->quote($this->title . ""),
@@ -390,6 +399,7 @@ class ASS_JavaApplet extends ASS_Question
 				$db->quote($this->author . ""),
 				$db->quote($this->owner . ""),
 				$db->quote($this->question . ""),
+				$db->quote($this->points . ""),
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
@@ -417,11 +427,12 @@ class ASS_JavaApplet extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
 				$db->quote($this->title . ""),
 				$db->quote($this->comment . ""),
 				$db->quote($this->author . ""),
 				$db->quote($this->question . ""),
+				$db->quote($this->points . ""),
 				$db->quote($estw_time . ""),
 				$db->quote($this->shuffle . ""),
 				$db->quote($complete . ""),
@@ -462,6 +473,7 @@ class ASS_JavaApplet extends ASS_Question
 				$this->comment = $data->comment;
 				$this->obj_id = $data->obj_fi;
 				$this->author = $data->author;
+				$this->points = $data->points;
 				$this->owner = $data->owner;
 				$this->javaapplet_filename = $data->image_file;
 				$this->question = $data->question_text;
@@ -552,6 +564,20 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
+	* Gets the maximum number of available points for the java applet
+	*
+	* Gets the maximum number of available points for the java applet
+	*
+	* @return double 	The maximum number of available points for the java applet
+	* @access public
+	* @see $points
+	*/
+	function getPoints()
+	{
+		return $this->points;
+	}
+
+	/**
 	* Sets the question text
 	*
 	* Sets the question string of the ASS_JavaApplet object
@@ -575,20 +601,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function getMaximumPoints()
 	{
-		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s AND value1 = %s",
-			$this->ilias->db->quote($user_id),
-			$this->ilias->db->quote($test_id),
-			$this->ilias->db->quote($this->getId()),
-			$this->ilias->db->quote("_max_points_")
-		);
-		$result = $this->ilias->db->query($query);
-		$points = 0;
-		if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-				$points = $data->points;
-		}
-		return $points;
+		return $this->points;
 	}
 
 	/**
@@ -628,6 +641,19 @@ class ASS_JavaApplet extends ASS_Question
 	function getJavaWidth()
 	{
 		return $this->java_width;
+	}
+
+	/**
+	* Sets the maximum number of points for the java applet
+	*
+	* Sets the maximum number of points for the java applet
+	*
+	* @param double $points Maximum number of points for the java applet
+	* @access public
+	*/
+	function setPoints($points = 0.0)
+	{
+		$this->points = $points;
 	}
 
 	/**
