@@ -525,6 +525,11 @@ input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color:#000000;
 }
 
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
 
 .message {
 	color: #dd0000;
