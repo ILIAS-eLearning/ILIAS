@@ -23,12 +23,13 @@
 
 
 /**
-* Class ilObjLanguageGUI
+* Class ilObjMailGUI
+* for admin panel
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 * 
-* @extends ilObject
+* @extends ilObjectGUI
 * @package ilias-core
 */
 
@@ -56,6 +57,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("systemsettings");
 
 		$settings = $this->ilias->getAllSettings();
+
 		if (isset($_POST["save_settings"]))  // formular sent
 		{
 			//init checking var
@@ -80,7 +82,6 @@ class ilObjMailGUI extends ilObjectGUI
 
 		////////////////////////////////////////////////////////////
 		// write new settings
-
 
 				// mail server
 				$this->ilias->setSetting("mail_server",$_POST["mail_server"]);
@@ -107,7 +108,6 @@ class ilObjMailGUI extends ilObjectGUI
 		////////////////////////////////////////////////////////////
 		// setting language vars
 
-
 		// mail server
 		$this->tpl->setVariable("TXT_MAIL_SMTP", $this->lng->txt("mail")." (".$this->lng->txt("smtp").")");
 		$this->tpl->setVariable("TXT_MAIL_SERVER", $this->lng->txt("server"));
@@ -123,10 +123,8 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $this->lng->txt("mail_maxtime_attach"));
 		$this->tpl->setVariable("TXT_MAIL_SAVE", $this->lng->txt("save"));
 
-
 		///////////////////////////////////////////////////////////
 		// display formula data
-
 
 		// mail server
 		$this->tpl->setVariable("MAIL_SERVER",$settings["mail_server"]);
@@ -144,9 +142,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("MAIL_MAXTIME_MAIL", $settings["mail_maxtime_mail"]);
 		$this->tpl->setVariable("MAIL_MAXTIME_ATTACH", $settings["mail_maxtime_attach"]);
 
-	$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();
 	}
-		
-
-} // END class.LanguageObjectOut
+} // END class.ilObjMailGUI
 ?>
