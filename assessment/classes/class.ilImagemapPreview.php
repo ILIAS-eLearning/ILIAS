@@ -152,7 +152,6 @@ class ilImagemapPreview
 			}
 		}
 		$convert_cmd = $convert_prefix . $convert_cmd .  "$this->imagemap_filename $this->preview_filename";
-//echo "<br><br>convert:".$convert_cmd;
 		system($convert_cmd);
 	}
 
