@@ -289,15 +289,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						$location = ilObjMediaObject::_resizeImage($file, $_POST["full_width"],
 							$_POST["full_height"]);
 					}
-
-					$media_item->setFormat($format);
-					$media_item->setLocation($location);
-					$media_item->setLocationType("LocalFile");
-					$meta_technical->addFormat($format);
-					$meta_technical->setSize($meta_technical->getSize()
-					 + $_FILES['full_file']['size']);
-					$meta_technical->addLocation("LocalFile", $location);
 				}
+
+				$media_item->setFormat($format);
+				$media_item->setLocation($location);
+				$media_item->setLocationType("LocalFile");
+				$meta_technical->addFormat($format);
+				$meta_technical->setSize($meta_technical->getSize()
+				+ $_FILES['full_file']['size']);
+				$meta_technical->addLocation("LocalFile", $location);
+
 			}
 			else	// reference
 			{
@@ -403,6 +404,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
 		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_item->getHeight());
 
+		// output original size
+		if ($orig_size = $std_item->getOriginalSize())
+		{
+			$this->tpl->setCurrentBlock("orig_size");
+			$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
+			$this->tpl->setVariable("VAL_ORIG_WIDTH", $orig_size["width"]);
+			$this->tpl->setVariable("VAL_ORIG_HEIGHT", $orig_size["height"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// caption
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
@@ -463,6 +474,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
 			$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_item->getHeight());
 
+			// output original size
+			if ($orig_size = $full_item->getOriginalSize())
+			{
+				$this->tpl->setCurrentBlock("orig_full_size");
+				$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
+				$this->tpl->setVariable("VAL_ORIG_WIDTH", $orig_size["width"]);
+				$this->tpl->setVariable("VAL_ORIG_HEIGHT", $orig_size["height"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
 			// caption
 			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
 			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
@@ -491,11 +512,57 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ADD_FULL", $this->lng->txt("cont_add_fullscreen"));
 			$this->tpl->parseCurrentBlock();
 		}
-
 		$this->tpl->setCurrentBlock("commands");
+
+		$this->tpl->setVariable("BTN_RESIZE", "resizeImages");
+		$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image")." [*]");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("TXT_RESIZE_EXPLANATION",
+			$this->lng->txt("cont_resize_explanation2"));
+	}
+
+
+	/**
+	* resize images to specified size
+	*/
+	function resizeImagesObject()
+	{
+		// directory
+		$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
+
+		// standard item
+		$std_item =& $this->object->getMediaItem("Standard");
+		if ($std_item->getLocationType() == "LocalFile" &&
+			is_int(strpos($std_item->getFormat(), "image"))
+			)
+		{
+			$file = $mob_dir."/".$std_item->getLocation();
+			$location = ilObjMediaObject::_resizeImage($file, $std_item->getWidth(),
+				$std_item->getHeight());
+			$std_item->setLocation($location);
+			$std_item->update();
+		}
+
+		// fullscreen item
+		if($this->object->hasFullScreenItem())
+		{
+			$full_item =& $this->object->getMediaItem("Fullscreen");
+			if ($full_item->getLocationType() == "LocalFile" &&
+				is_int(strpos($full_item->getFormat(), "image"))
+				)
+			{
+				$file = $mob_dir."/".$full_item->getLocation();
+				$location = ilObjMediaObject::_resizeImage($file, $full_item->getWidth(),
+					$full_item->getHeight());
+				$full_item->setLocation($location);
+				$full_item->update();
+			}
+		}
+
+		$this->ctrl->redirect($this, "edit");
 	}
 
 

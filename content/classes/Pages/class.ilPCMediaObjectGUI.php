@@ -254,15 +254,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 						$location = ilObjMediaObject::_resizeImage($file, $_POST["full_width"],
 							$_POST["full_height"]);
 					}
-
-					$media_item->setFormat($format);
-					$media_item->setLocation($location);
-					$media_item->setLocationType("LocalFile");
-					$meta_technical->addFormat($format);
-					$meta_technical->setSize($meta_technical->getSize()
-					 + $_FILES['full_file']['size']);
-					$meta_technical->addLocation("LocalFile", $location);
 				}
+
+				$media_item->setFormat($format);
+				$media_item->setLocation($location);
+				$media_item->setLocationType("LocalFile");
+				$meta_technical->addFormat($format);
+				$meta_technical->setSize($meta_technical->getSize()
+				+ $_FILES['full_file']['size']);
+				$meta_technical->addLocation("LocalFile", $location);
+
 			}
 			else	// reference
 			{

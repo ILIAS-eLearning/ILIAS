@@ -169,6 +169,43 @@ class ilMediaItem
 	}
 
 	/**
+	* update media item data (without map areas!)
+	*/
+	function update()
+	{
+		global $ilDB;
+
+		$query = "UPDATE media_item SET ".
+			" mob_id = ".$ilDB->quote($this->getMobId()).",".
+			" purpose = ".$ilDB->quote($this->getPurpose()).",".
+			" location = ".$ilDB->quote($this->getLocation()).",".
+			" location_type = ".$ilDB->quote($this->getLocationType()).",".
+			" format = ".$ilDB->quote($this->getFormat()).",".
+			" width = ".$ilDB->quote($this->getWidth()).",".
+			" height = ".$ilDB->quote($this->getHeight()).",".
+			" halign = ".$ilDB->quote($this->getHAlign()).",".
+			" caption = ".$ilDB->quote($this->getCaption()).",".
+			" nr = ".$ilDB->quote($this->getNr()).
+			" WHERE id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($query);
+
+		// delete mob parameters
+		$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
+			$ilDB->quote($this->getId());
+
+		// create mob parameters
+		$params = $this->getParameters();
+		foreach($params as $name => $value)
+		{
+			$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
+				"(".$ilDB->quote($this->getId()).",".
+				$ilDB->quote($name).",".
+				$ilDB->quote($value).")";
+			$this->ilias->db->query($query);
+		}
+	}
+
+	/**
 	* read media item data (item id or (mob_id and nr) must be set)
 	*/
 	function read()
@@ -425,6 +462,26 @@ class ilMediaItem
 	function setHeight($a_height)
 	{
 		$this->height = $a_height;
+	}
+
+	/**
+	* get original size
+	*/
+	function getOriginalSize()
+	{
+		$mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
+
+		if ($this->getLocationType() == "LocalFile" &&
+			ilUtil::deducibleSize($this->getFormat()))
+		{
+			$file = $mob_dir."/".$this->getLocation();
+			$size = getimagesize($file);
+			$size = array("width" => $size[0], "height" => $size[1]);
+			
+			return $size;
+		}
+
+		return false;
 	}
 
 	/**
