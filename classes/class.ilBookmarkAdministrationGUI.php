@@ -264,11 +264,14 @@ class ilBookmarkAdministrationGUI
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->parseCurrentBlock();
 		}
-
-		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("NUM_COLS", 4);
-		$this->showActions();
+		else
+		{
+			// SHOW VALID ACTIONS
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->showActions();
+		}
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("NUM_COLS", 4);
@@ -353,18 +356,14 @@ class ilBookmarkAdministrationGUI
 	/**
 	* display new bookmark folder form
 	*/
-	function newFormBookmarkFolder($a_output_header = true)
+	function newFormBookmarkFolder()
 	{
 		global $tpl, $lng;
 
-		if($a_output_header)
-		{
-			$this->main_header();
-		}
+		$this->main_header();
 
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
-		$title = (isset($_POST["title"])) ? $_POST["title"] : "";
-		$tpl->setVariable("TITLE", $title);
+		$tpl->setVariable("TITLE", $this->get_last("title", ""));
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_new"));
@@ -375,22 +374,18 @@ class ilBookmarkAdministrationGUI
 	/**
 	* display edit bookmark folder form
 	*/
-	function editFormBookmarkFolder($a_output_header = true)
+	function editFormBookmarkFolder()
 	{
 		global $tpl, $lng;
 
-		if($a_output_header)
-		{
-			$this->main_header();
-		}
+		$this->main_header();
 
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
 
 		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-		$title = (isset($_POST["title"])) ? $_POST["title"] : $bmf->getTitle();
-		$tpl->setVariable("TITLE", $title);
+		$tpl->setVariable("TITLE", $this->get_last("title", $bmf->getTitle()));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_edit"));
 		$tpl->setVariable("FORMACTION", "usr_bookmarks.php?obj_id=".$_GET["obj_id"].
@@ -401,25 +396,19 @@ class ilBookmarkAdministrationGUI
 	/**
 	* display new bookmark form
 	*/
-	function newFormBookmark($a_output_header = true)
+	function newFormBookmark()
 	{
 		global $tpl, $lng;
 
-		if($a_output_header)
-		{
-			$this->main_header();
-		}
+		$this->main_header();
 
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
-
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_new"));
 		$tpl->setVariable("TXT_TARGET", $lng->txt("bookmark_target"));
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 
-		$title = (isset($_POST["title"])) ? $_POST["title"] : "";
-		$tpl->setVariable("TITLE", $title);
-		$target = (isset($_POST["target"])) ? $_POST["target"] : "http://";
-		$tpl->setVariable("TARGET", $target);
+		$tpl->setVariable("TITLE", $this->get_last("title", ""));
+		$tpl->setVariable("TARGET", $this->get_last("target", "http://"));
 
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
@@ -427,17 +416,25 @@ class ilBookmarkAdministrationGUI
 		$tpl->parseCurrentBlock();
 	}
 
+
+	/**
+	* get stored post var in case of an error/warning otherwise return passed value
+	*/
+	function get_last($a_var, $a_value)
+	{
+		return 	(!empty($_SESSION["message"])) ?
+				($_SESSION["error_post_vars"][$a_var]) :
+				$a_value;
+	}
+
 	/**
 	* display edit bookmark form
 	*/
-	function editFormBookmark($a_output_header = true)
+	function editFormBookmark()
 	{
 		global $tpl, $lng;
 
-		if($a_output_header)
-		{
-			$this->main_header();
-		}
+		$this->main_header();
 
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
 
@@ -446,10 +443,8 @@ class ilBookmarkAdministrationGUI
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 
 		$Bookmark = new ilBookmark($_GET["obj_id"]);
-		$title = (isset($_POST["title"])) ? $_POST["title"] : $Bookmark->getTitle();
-		$tpl->setVariable("TITLE", $title);
-		$target = (isset($_POST["target"])) ? $_POST["target"] : $Bookmark->getTarget();
-		$tpl->setVariable("TARGET", $target);
+		$tpl->setVariable("TITLE", $this->get_last("title", $Bookmark->getTitle()));
+		$tpl->setVariable("TARGET", $this->get_last("target", $Bookmark->getTarget()));
 
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
@@ -467,11 +462,7 @@ class ilBookmarkAdministrationGUI
 		// check title
 		if (empty($_POST["title"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt("please_enter_title"));
-			$this->newFormBookmarkFolder(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create bookmark folder
@@ -493,13 +484,9 @@ class ilBookmarkAdministrationGUI
 		// check title
 		if (empty($_POST["title"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt("please_enter_title"));
-			$this->editFormBookmarkFolder(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// update bookmark folder
 		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 		$bmf->setTitle($_POST["title"]);
@@ -517,19 +504,11 @@ class ilBookmarkAdministrationGUI
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt("please_enter_title"));
-			$this->newFormBookmark(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
 		}
 		if (empty($_POST["target"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt($this->lng->txt("please_enter_target")));
-			$this->newFormBookmark(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// create bookmark
@@ -550,19 +529,11 @@ class ilBookmarkAdministrationGUI
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt("please_enter_title"));
-			$this->editFormBookmark(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
 		}
 		if (empty($_POST["target"]))
 		{
-			$this->main_header();
-			sendInfo($this->lng->txt("please_enter_target"));
-			$this->editFormBookmark(false);
-			return;
-			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// update bookmark
