@@ -21,93 +21,73 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMTableData.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilLMTableDataGUI
+* Class ilPCListItem
 *
-* Handles user commands on table data elements (table cells)
+* List Item content object (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilLMTableDataGUI extends ilPageContentGUI
+class ilPCListItem extends ilPageContent
 {
+	var $dom;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTableDataGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCListItem(&$a_dom)
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContent();
+		$this->setType("li");
+
+		$this->dom =& $a_dom;
 	}
 
 
 	/**
-	* insert new row after cell
+	* insert new list item after current one
 	*/
-	function newRowAfter()
+	function newItemAfter()
 	{
-		$this->content_obj->newRowAfter();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
-
-	/**
-	* insert new row before cell
-	*/
-	function newRowBefore()
-	{
-		$this->content_obj->newRowBefore();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
-
-	/**
-	* delete a row
-	*/
-	function deleteRow()
-	{
-		$this->content_obj->deleteRow();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$li =& $this->getNode();
+		$new_li =& $this->dom->create_element("ListItem");
+		if ($next_li =& $li->next_sibling())
+		{
+			$new_li =& $next_li->insert_before($new_li, $next_li);
+		}
+		else
+		{
+			$parent_list =& $li->parent_node();
+			$new_li =& $parent_list->append_child($new_li);
+		}
 	}
 
 
 	/**
-	* insert new col after cell
+	* insert new list item before current one
 	*/
-	function newColAfter()
+	function newItemBefore()
 	{
-		$this->content_obj->newColAfter();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$li =& $this->getNode();
+		$new_li =& $this->dom->create_element("ListItem");
+		$new_li =& $li->insert_before($new_li, $li);
 	}
+
 
 	/**
-	* insert new col before cell
+	* delete row of cell
 	*/
-	function newColBefore()
+	function deleteItem()
 	{
-		$this->content_obj->newColBefore();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		$li =& $this->getNode();
+		$li->unlink($li);
 	}
-
-	/**
-	* delete column
-	*/
-	function deleteCol()
-	{
-		$this->content_obj->deleteCol();
-		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
-	}
-
 
 }
 ?>

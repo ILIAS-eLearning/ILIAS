@@ -21,9 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/class.ilPageContentGUI.php");
-require_once ("content/classes/class.ilMediaObject.php");
-require_once ("content/classes/class.ilMediaAliasItem.php");
+require_once ("content/classes/Pages/class.ilPageContentGUI.php");
+require_once ("content/classes/Pages/class.ilMediaObject.php");
+require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
 
 /**
 * Class ilMediaObjectGUI

@@ -21,8 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilLMObject.php");
-require_once("content/classes/class.ilPageContent.php");
+//require_once("content/classes/class.ilLMObject.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
@@ -167,21 +167,21 @@ class ilPageObject
 				switch($child_node->node_name())
 				{
 					case "Paragraph":
-						require_once("content/classes/class.ilParagraph.php");
-						$par =& new ilParagraph($this->dom);
+						require_once("content/classes/Pages/class.ilPCParagraph.php");
+						$par =& new ilPCParagraph($this->dom);
 						$par->setNode($cont_node);
 						$par->setHierId($a_hier_id);
 						return $par;
 
 					case "Table":
-						require_once("content/classes/class.ilLMTable.php");
-						$tab =& new ilLMTable($this->dom);
+						require_once("content/classes/Pages/class.ilPCTable.php");
+						$tab =& new ilPCTable($this->dom);
 						$tab->setNode($cont_node);
 						$tab->setHierId($a_hier_id);
 						return $tab;
 
 					case "MediaObject":
-						require_once("content/classes/class.ilMediaObject.php");
+						require_once("content/classes/Pages/class.ilMediaObject.php");
 						$mal_node =& $child_node->first_child();
 						$mob =& new ilMediaObject($mal_node->get_attribute("OriginId"));
 						$mob->setDom($this->dom);
@@ -190,8 +190,8 @@ class ilPageObject
 						return $mob;
 
 					case "List":
-						require_once("content/classes/class.ilLMList.php");
-						$list =& new ilLMList($this->dom);
+						require_once("content/classes/Pages/class.ilPCList.php");
+						$list =& new ilPCList($this->dom);
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
 						return $list;
@@ -199,15 +199,15 @@ class ilPageObject
 				break;
 
 			case "TableData":
-				require_once("content/classes/class.ilLMTableData.php");
-				$td =& new ilLMTableData($this->dom);
+				require_once("content/classes/Pages/class.ilPCTableData.php");
+				$td =& new ilPCTableData($this->dom);
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
 
 			case "ListItem":
-				require_once("content/classes/class.ilLMListItem.php");
-				$td =& new ilLMListItem($this->dom);
+				require_once("content/classes/Pages/class.ilPCListItem.php");
+				$td =& new ilPCListItem($this->dom);
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
@@ -416,7 +416,7 @@ class ilPageObject
 
 		// get xml of corresponding media objects
 		$mobs_xml = "";
-		require_once("content/classes/class.ilMediaObject.php");
+		require_once("content/classes/Pages/class.ilMediaObject.php");
 		foreach($mob_ids as $mob_id => $dummy)
 		{
 			$mob_obj =& new ilMediaObject($mob_id);

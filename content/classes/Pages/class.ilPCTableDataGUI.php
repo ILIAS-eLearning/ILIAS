@@ -21,73 +21,93 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageContent.php");
+require_once("./content/classes/Pages/class.ilPCTableData.php");
+require_once("./content/classes/Pages/class.ilPageContentGUI.php");
 
 /**
-* Class ilLMListItem
+* Class ilPCTableDataGUI
 *
-* List Item content object (see ILIAS DTD)
+* Handles user commands on table data elements (table cells)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilLMListItem extends ilPageContent
+class ilPCTableDataGUI extends ilPageContentGUI
 {
-	var $dom;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMListItem(&$a_dom)
+	function ilPCTableDataGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContent();
-		$this->setType("li");
-
-		$this->dom =& $a_dom;
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 
 	/**
-	* insert new list item after current one
+	* insert new row after cell
 	*/
-	function newItemAfter()
+	function newRowAfter()
 	{
-		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("ListItem");
-		if ($next_li =& $li->next_sibling())
-		{
-			$new_li =& $next_li->insert_before($new_li, $next_li);
-		}
-		else
-		{
-			$parent_list =& $li->parent_node();
-			$new_li =& $parent_list->append_child($new_li);
-		}
+		$this->content_obj->newRowAfter();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
+	}
+
+	/**
+	* insert new row before cell
+	*/
+	function newRowBefore()
+	{
+		$this->content_obj->newRowBefore();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
+	}
+
+	/**
+	* delete a row
+	*/
+	function deleteRow()
+	{
+		$this->content_obj->deleteRow();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
 	}
 
 
 	/**
-	* insert new list item before current one
+	* insert new col after cell
 	*/
-	function newItemBefore()
+	function newColAfter()
 	{
-		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("ListItem");
-		$new_li =& $li->insert_before($new_li, $li);
+		$this->content_obj->newColAfter();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
 	}
-
 
 	/**
-	* delete row of cell
+	* insert new col before cell
 	*/
-	function deleteItem()
+	function newColBefore()
 	{
-		$li =& $this->getNode();
-		$li->unlink($li);
+		$this->content_obj->newColBefore();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
 	}
+
+	/**
+	* delete column
+	*/
+	function deleteCol()
+	{
+		$this->content_obj->deleteCol();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		header("Location: ".$this->getReturnLocation());
+	}
+
 
 }
 ?>

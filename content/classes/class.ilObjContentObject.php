@@ -36,7 +36,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
-require_once("content/classes/class.ilPageObject.php");
+//require_once("content/classes/class.ilPageObject.php");
 
 class ilObjContentObject extends ilObject
 {

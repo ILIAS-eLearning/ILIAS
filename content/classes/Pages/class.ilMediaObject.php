@@ -26,7 +26,7 @@ define ("IL_MODE_OUTPUT", 2);
 define ("IL_MODE_FULL", 3);
 
 require_once("classes/class.ilObjMediaObject.php");
-require_once("content/classes/class.ilMediaItem.php");
+require_once("content/classes/Pages/class.ilMediaItem.php");
 
 /**
 * Class ilMediaObject

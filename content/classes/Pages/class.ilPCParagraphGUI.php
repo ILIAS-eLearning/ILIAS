@@ -21,11 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilParagraph.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
+require_once("./content/classes/Pages/class.ilPCParagraph.php");
+require_once("./content/classes/Pages/class.ilPageContentGUI.php");
 
 /**
-* Class ilParagraphGUI
+* Class ilPCParagraphGUI
 *
 * User Interface for Paragraph Editing
 *
@@ -34,14 +34,14 @@ require_once("./content/classes/class.ilPageContentGUI.php");
 *
 * @package content
 */
-class ilParagraphGUI extends ilPageContentGUI
+class ilPCParagraphGUI extends ilPageContentGUI
 {
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
@@ -230,7 +230,7 @@ class ilParagraphGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj =& new ilParagraph($this->dom);
+		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);

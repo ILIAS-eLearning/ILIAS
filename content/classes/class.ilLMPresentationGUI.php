@@ -405,7 +405,7 @@ class ilLMPresentationGUI
 
 		$page_id = $this->getCurrentPageId();
 
-		require_once("content/classes/class.ilPageObject.php");
+		require_once("content/classes/Pages/class.ilPageObject.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		$pg_obj =& new ilPageObject("lm", $page_id);
 		$lm_pg_obj =& new ilLMPageObject($page_id);
@@ -457,10 +457,10 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilMedia");
 
-		require_once("content/classes/class.ilMediaObject.php");
+		require_once("content/classes/Pages/class.ilMediaObject.php");
 		$media_obj =& new ilMediaObject($_GET["mob_id"]);
 
-		require_once("content/classes/class.ilPageObject.php");
+		require_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($_GET["pg_id"]);
 		$pg_obj->buildDom();
 

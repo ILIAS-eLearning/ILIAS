@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageContent.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilLMTable
+* Class ilPCTable
 *
 * Table content object (see ILIAS DTD)
 *
@@ -33,7 +33,7 @@ require_once("content/classes/class.ilPageContent.php");
 *
 * @package content
 */
-class ilLMTable extends ilPageContent
+class ilPCTable extends ilPageContent
 {
 	var $dom;
 	var $tab_node;
@@ -43,7 +43,7 @@ class ilLMTable extends ilPageContent
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTable(&$a_dom)
+	function ilPCTable(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("tab");
