@@ -131,6 +131,51 @@ class ilPersonalDesktopGUI
 
 	}
 
+	function displaySystemMessages()
+	{
+		// SYSTEM MAILS
+		$umail = new ilMail($_SESSION["AccountId"]);
+		$smails = $umail->getMailsOfFolder(0);
+
+		if(count($smails))
+		{
+			// output mails
+			$counter = 1;
+			foreach ($smails as $mail)
+			{
+				// GET INBOX FOLDER FOR LINK_READ
+				require_once "classes/class.ilMailbox.php";
+
+				$mbox = new ilMailbox($_SESSION["AccountId"]);
+				$inbox = $mbox->getInboxFolder();
+
+				$this->tpl->setCurrentBlock("tbl_system_msg_row");
+				$this->tpl->setVariable("ROWCOL",++$counter%2 ? 'tblrow1' : 'tblrow2');
+
+				// GET SENDER NAME
+				$user = new ilObjUser($mail["sender_id"]);
+
+				//new mail or read mail?
+				$this->tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
+				$this->tpl->setVariable("MAIL_FROM", $user->getFullname());
+				$this->tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
+				$this->tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
+				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
+				$this->tpl->setVariable("MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("tbl_system_msg");
+			//headline
+			$this->tpl->setVariable("SYSTEM_MAILS",$this->lng->txt("mail_system"));
+			//columns headlines
+			$this->tpl->setVariable("TXT_SENDER", $this->lng->txt("sender"));
+			$this->tpl->setVariable("TXT_SUBJECT", $this->lng->txt("subject"));
+			$this->tpl->setVariable("TXT_DATETIME",$this->lng->txt("date")."/".$this->lng->txt("time"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+		
+
 	/**
 	* display users online
 	*/

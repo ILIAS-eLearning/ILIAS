@@ -57,7 +57,23 @@ body { margin:0px; }
 <!-- END tbl_no_frm -->
 </table>
 <!-- END tbl_frm -->
-
+<!-- BEGIN tbl_system_msg -->
+<h2>{SYSTEM_MAILS}</h2>
+    <table class="fullwidth">
+    <tr class="tblheader">
+      <td class="std"><b>{TXT_SENDER}</b></td>
+      <td class="std"><b>{TXT_SUBJECT}</b></td>
+      <td class="std"><b>{TXT_DATETIME}</b></td>
+    </tr>
+<!-- BEGIN tbl_system_msg_row -->
+<tr class="{ROWCOL}">
+  <td class="std" valign="middle">{MAIL_FROM}</td>
+  <td class="std" valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}" target="bottom">{MAIL_SUBJ}</a></td>
+  <td class="std" valign="middle">{MAIL_DATE}</td>
+</tr>
+<!-- END tbl_system_msg_row -->
+    </table>
+<!-- END tbl_system_msg -->
 <!-- BEGIN tbl_users -->
 <h2>{TXT_USERS_ONLINE}</h2>
     <table class="fullwidth">
