@@ -565,7 +565,7 @@ class ilObjSurveyQuestionPool extends ilObject
             $images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
-            $order = " ORDER BY question_type_id $value";
+            $order = " ORDER BY questiontype_id $value";
             $images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
