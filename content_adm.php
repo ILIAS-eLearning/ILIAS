@@ -1,19 +1,14 @@
 <?php
 include_once "include/ilias_header.inc";
 
-// on first start obj_id is set to 1
-$obj_id = $obj_id ?  $obj_id : 1;
-
 // Template-Engine anschmeissen
 $tplContent = new Template("content_adm.html",true,true);
-// create tree object: if $pos is not set use root id
-$tree =& new Tree($obj_id,1,1);
 
 // display path
 $path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
-$tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 
 $tplContent->setCurrentBlock("row",true);
 
@@ -33,7 +28,6 @@ if (empty($_GET["order"]))
 	$_GET["order"] = "title";
 }
 
-$rbacsystem = new RbacSystemH($ilias->db);
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
 	$zaehler = 0;
@@ -78,20 +72,22 @@ else
 
 // display category options
 $type = $obj["type"];
+
 if (!empty($ilias->typedefinition[$type]))
 {
 	$tplContent->setCurrentBlock("type");
 	$opts = TUtil::formSelect(12,"type",TUtil::getModules($ilias->typedefinition[$type]));
 	$tplContent->setVariable("SELECT_OBJTYPE",$opts);
-	$tplContent->setVariable("OBJ_ID",$obj_id);
-	$tplContent->setVariable("TPOS",$parent);
+	$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+	$tplContent->setVariable("TPOS",$_GET["parent"]);
 	$tplContent->parseCurrentBlock("opt_type","type",true);
 }
-$tplContent->setVariable("OBJ_EDIT","object.php?parent=$parent&obj_id=$obj_id&type=admin");
-$tplContent->setVariable("OBJ_ID",$obj_id);
-$tplContent->setVariable("TPOS",$parent);
 
-if($_GET["message"])
+$tplContent->setVariable("OBJ_EDIT","object.php?obj_id=".$_GET["obj_id"]."&parent".$_GET["parent"]."&type=admin");
+$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tplContent->setVariable("TPOS",$_GET["parent"]);
+
+if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
 	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);

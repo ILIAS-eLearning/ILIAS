@@ -18,7 +18,7 @@ class ILIAS extends PEAR
 	* ini file
 	* @var string
 	*/
- 	var $INI_FILE = "./ilias.ini";
+ 	var $INI_FILE = "./ilias.ini.php";
 
 	/**
 	* database connector

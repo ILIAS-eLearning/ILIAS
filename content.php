@@ -6,33 +6,34 @@ $obj = getObject($_GET["obj_id"]);
 //  Type = usrf => Verzweige nach content_user.php
 if($obj["type"] == 'usrf')
 {
-	header("Location: content_user.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
-	exit();
+	header("Location: content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
 }
 // Type = rolf => Verzweige nach content_role.php
 if($obj["type"] == 'rolf')
 {
-	header("Location: content_role.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
-	exit();
+	header("Location: content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
 }
 // Type = objf => Verzweige nach content_type.php
 if($obj["type"] == 'objf')
 {
-	header("Location: content_type.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
-	exit();
+	header("Location: content_type.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
 }
 // Type = adm => Verzweige nach content_adm.php
 if($obj["type"] == 'adm')
 {
-	header("Location: content_adm.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
-	exit();
+	header("Location: content_adm.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
 }
 //  Type = type => Verzweige nach content_type.php
 if($obj["type"] == 'type')
 {
-	header("Location: content_operations.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
-	exit();
+	header("Location: content_operations.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&order=".$_GET["order"]."&direction=".$_GET["direction"]);
+	exit;
 }
+
 // Template-Engine anschmeissen
 $tplContent = new Template("content_main.html",true,true);
 
@@ -53,11 +54,12 @@ if (!empty($clipboard))
 }
 
 // determine sort direction
-if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+if (!$_GET["direction"] || $_GET["direction"] == 'ASC')
 {
 	$tplContent->setVariable("DIR",'DESC');
 }
-if($_GET["direction"] == 'DESC')
+
+if ($_GET["direction"] == 'DESC')
 {
 	$tplContent->setVariable("DIR",'ASC');
 }
@@ -69,21 +71,22 @@ if (empty($_GET["order"]))
 }
 
 // display path
-//$path = $tree->showPath($tree->getPathFull(),"content.php");
+$path = $tree->showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
+
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
-$tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."parent=".$_GET["parent"]);
 
 $tplContent->setCurrentBlock("row",true);
 
-$rbacsystem = new RbacSystemH($ilias->db);
 if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
 	$zaehler = 0;
+	
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?
-		if(!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+		if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
 		{
 			continue;
 		}
@@ -99,6 +102,7 @@ if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 		{
 			$css_row = "row_low";
 		}
+		
 		if ($val["type"] == "adm")
 		{
 			$checkbox = "&nbsp;";
@@ -130,34 +134,36 @@ else
 
 // display category options
 $type = $obj["type"];
+
 if (!empty($ilias->typedefinition[$type]))
 {
 	// Show only objects with permission 'create'
 	$objects = TUtil::getModules($ilias->typedefinition[$type]);
 	
-	foreach($objects as $key => $object)
+	foreach ($objects as $key => $object)
 	{
-		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$key))
+		if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$key))
 		{
 			$createable[$key] = $object;
 		}
 	}
 
-	if(count($createable))
+	if (count($createable))
 	{
 		$opts = TUtil::formSelect(12,"type",$createable);
 		$tplContent->setCurrentBlock("type");
 		$tplContent->setVariable("SELECT_OBJTYPE",$opts);
-		$tplContent->setVariable("OBJ_ID",$obj_id);
-		$tplContent->setVariable("TPOS",$parent);
+		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+		$tplContent->setVariable("TPOS",$_GET["parent"]);
 		$tplContent->parseCurrentBlock("opt_type","type",true);
 	}
 }
 
-$tplContent->setVariable("OBJ_ID",$obj_id);
-$tplContent->setVariable("TPOS",$parent);
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tplContent->setVariable("TPOS",$_GET["parent"]);
 
-if($_GET["message"])
+if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
 	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
@@ -165,9 +171,7 @@ if($_GET["message"])
 }
 
 //testing
-
 $flat = $tree->calculateFlatTree(1);
-
 $flat_tree = "<table>\n<tr>\n<th>\nno.</th>\n<th>\nname</th>\n<th>\nnode_id</th>\n<th>\nsucc</th>\n<th>\ndepth</th>\n<th>\nbrother</th>\n<th>\nlft</th>\n<th>\nrgt</th>\n</tr>\n";
 
 foreach ($flat as $key => $node)
@@ -177,7 +181,7 @@ foreach ($flat as $key => $node)
 
 $flat_tree .= "</table>\n";
 
-	$tplContent->setVariable("TESTING",$flat_tree);
+$tplContent->setVariable("TESTING",$flat_tree);
 	
 include_once "include/ilias_footer.inc";
 ?>

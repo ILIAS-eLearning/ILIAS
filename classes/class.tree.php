@@ -88,7 +88,7 @@ class Tree extends PEAR
 	* @param	integer	$a_root_id		root_id (optional)
 	* @param	integer	$a_tree_id		tree_id (optional)
 	*/
-	function Tree($a_node_id, $a_parent_id, $a_root_id = "", $a_tree_id = 1)
+	function Tree($a_node_id, $a_parent_id, $a_root_id = ROOT_FOLDER_ID, $a_tree_id = 1)
 	{
 		global $ilias;
 
@@ -101,12 +101,7 @@ class Tree extends PEAR
 		//init variables
 		$this->node_id		= $a_node_id;
 		$this->parent_id	= $a_parent_id;
-		
-		if (empty($a_root_id))
-		{
-			$this->root_id = ROOT_FOLDER_ID;
-		}
-		
+		$this->root_id		= $a_root_id;		
 		$this->tree_id		= $a_tree_id;
 	}
 
@@ -534,9 +529,9 @@ class Tree extends PEAR
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
 				 "WHERE T1.child = '".$a_startnode." '".
-				 "AND T1.parent = '0' ".
+				 //"AND T1.parent = '0' ".
 				 "AND T3.child = '".$a_endnode." '".
-				 "AND T3.parent = '".$this->parent_id." '".
+				 //"AND T3.parent = '".$this->parent_id." '".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
 				 "AND T2.tree = '".$this->tree_id." '".
