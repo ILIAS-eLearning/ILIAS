@@ -59,9 +59,10 @@ class ilRbacReview
 	* Checks if a role already exists. Role title should be unique
 	* @access	public
 	* @param	string	role title
+	* @param	integer	obj_id of role to exclude in the check. Commonly this is the current role you want to edit
 	* @return	boolean	true if exists
 	*/
-	function roleExists($a_title)
+	function roleExists($a_title,$a_id = 0)
 	{
 		global $log;
 		
@@ -71,14 +72,18 @@ class ilRbacReview
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
+		
+		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
+		
 		$q = "SELECT DISTINCT obj_id FROM object_data ".
 			 "WHERE title ='".$a_title."' ".
-			 "AND type IN('role','rolt')";
+			 "AND type IN('role','rolt')".
+			 $clause;
 		$r = $this->ilias->db->query($q);
 
 		if ($r->numRows() == 1)
 		{
+			
 			return true;
 		}
 		else

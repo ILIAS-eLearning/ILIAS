@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.14 2003/07/07 14:28:01 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.15 2003/07/07 17:46:57 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -291,22 +291,26 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+		}
+		elseif ($_GET["obj_id"] == $_POST["adopt"])
+		{
+			sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
+		}
+		else
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
 			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
-										   $_GET["ref_id"],$_GET["obj_id"]);
+										   $_GET["ref_id"],$_GET["obj_id"]);		
+			// send info
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
-		}
-		
-		$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-		sendInfo($this->lng->txt("msg_perm_adopted_from")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 
@@ -327,10 +331,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		else
 		{
 			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
 			// update
