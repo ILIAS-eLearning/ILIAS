@@ -104,8 +104,8 @@ INSERT INTO object_data (obj_id, type, title, description, owner, create_date, l
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (7, 'usrf', 'Users', 'Folder contains all users', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (8, 'rolf', 'Roles', 'Folder contains all roles', -1, '2002-06-27 09:24:06', '2002-06-27 09:24:06');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (1, 'cat', 'ILIAS open source', 'This is the root node of the system!!!', -1, '2002-06-24 15:15:03', '2002-06-24 15:15:03');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (10, 'objf', 'Objects', 'Folder contains list of known object types', -1, '2002-07-15 12:36:56', '2002-07-15 12:36:56');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (9, 'adm', 'System Settings', 'Folder contains the systems settings', -1, '2002-07-15 12:37:33', '2002-07-15 12:37:33');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (10, 'objf', 'Objects', 'Folder contains list of known object types', -1, '2002-07-15 12:36:56', '2002-07-15 12:36:56');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (11, 'lngf', 'Languages', 'Folder contains all available languages', -1, '2002-07-15 15:52:51', '2002-07-15 15:52:51');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (12, 'typ', 'usr', 'User object', -1, '2002-07-15 15:53:37', '2002-07-15 15:53:37');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (13, 'typ', 'le', 'Learning module Object', -1, '2002-07-15 15:54:04', '2002-07-15 15:54:04');
@@ -119,15 +119,16 @@ INSERT INTO object_data (obj_id, type, title, description, owner, create_date, l
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (22, 'typ', 'usrf', 'User Folder object', -1, '2002-07-15 15:56:52', '2002-07-15 15:56:52');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (23, 'typ', 'rolf', 'Role Folder object', -1, '2002-07-15 15:57:06', '2002-07-15 15:57:06');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (24, 'typ', 'objf', 'Object-Type Folder object', -1, '2002-07-15 15:57:17', '2002-07-15 15:57:17');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (26, 'typ', 'typ', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (27, 'typ', 'rolt', 'Role template object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (28, 'typ', 'lngf', 'Language Folder object', -1, '2002-08-28 14:22:01', '2002-08-28 14:22:01');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (29, 'typ', 'lng', 'Language object', -1, '2002-08-30 10:18:29', '2002-08-30 10:18:29');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (31, 'typ', 'lo', 'Learning Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
+INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (32, 'typ', 'uset', 'User Setting Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (156, 'usr', 'T. Eacher', 'teacher@yourserver.com', 6, '2002-08-30 14:04:26', '2002-08-30 14:04:26');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (158, 'usr', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
 INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (157, 'usr', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (28, 'typ', 'lngf', 'Language Folder object', -1, '2002-08-28 14:22:01', '2002-08-28 14:22:01');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (31, 'typ', 'lo', 'Learning Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
-INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) VALUES (29, 'typ', 'lng', 'Language object', -1, '2002-08-30 10:18:29', '2002-08-30 10:18:29');
 # --------------------------------------------------------
 
 #
@@ -320,6 +321,13 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 3);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 4);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 5);
 INSERT INTO rbac_ta (typ_id, ops_id) VALUES (30, 6);
+# Insert rigth for typ "User setting Object"
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 1);	
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 2);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 3);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 4);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 5);
+INSERT INTO rbac_ta (typ_id, ops_id) VALUES (32, 6);
 # --------------------------------------------------------
 
 #
