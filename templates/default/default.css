@@ -2,7 +2,7 @@ body {
 	color:#222222;
 	background-color:#dddddd;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
-	font-size:small;
+	font-size:13px;
 	margin:10px;
 }
 
@@ -47,20 +47,20 @@ td.std {
 	padding:3px;
 }
 
-td.option {
-	padding:3px;
-	border-bottom:1px solid #000000
-}
-
-td.option_value {
-	padding:3px;
-	border-bottom:1px solid #000000
-}
-
 .tblheader {
 	font-weight:bold;
 	color:#ffffff;
 	background-color:#666677;
+}
+
+td.option {
+	padding:3px;
+	border-bottom:1px solid #000000;
+}
+
+td.option_value {
+	padding:3px;
+	border-bottom:1px solid #000000;
 }
 
 /* ---------------- headlines ------------------ */
@@ -101,6 +101,7 @@ h2 {
 
 .asterisk {
 	color:red;
+	font-size:9px;
 }
 
 .default {
@@ -172,14 +173,14 @@ a:visited {
 /* ------------------- mail links ----------- */
 a.mailread
 {
-	font-weight: normal;
-	color: blue;
+	font-weight:normal;
+	color:blue;
 }
 
 a.mailunread
 {
-	color: blue;
-	font-weight: bold;
+	color:blue;
+	font-weight:bold;
 }
 
 /* ------------------ buttons -------------- */
@@ -219,9 +220,9 @@ a.btn:hover {
 
 /* ------------------ tabs -------------- */
 .tab {
-	font-size: x-small;
-	color: #000000;
-	font-weight: bold;
+	font-size:9px;
+	color:#000000;
+	font-weight:bold;
 	background-color:#000000;
 }
 
@@ -239,9 +240,9 @@ a.btn:hover {
 
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
-	display: block;
+	display:block;
 }
 
 sup {
-	color:ff0000;
+	color:#ff0000;
 }
