@@ -828,9 +828,9 @@ class ilTree
 		{
 			if ($data["type"] == "rolf" and $data["obj_id"] != ROLE_FOLDER_ID)
 			{
+				$data["description"] = $lng->txt("obj_".$data["type"]."_local_desc").$data["title"].$data["desc"];
+				$data["desc"] = $lng->txt("obj_".$data["type"]."_local_desc").$data["title"].$data["desc"];
 				$data["title"] = $lng->txt("obj_".$data["type"]."_local");
-				$data["description"] = $lng->txt("obj_".$data["type"]."_local_desc");
-				$data["desc"] = $lng->txt("obj_".$data["type"]."_local_desc");			
 			}
 			else
 			{			

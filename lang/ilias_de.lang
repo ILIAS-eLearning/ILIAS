@@ -54,6 +54,8 @@ common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
 common#:#archive#:#Archiv
+common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
+common#:#obj_rolf_local#:#Lokale Rollen
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen

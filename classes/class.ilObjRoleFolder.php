@@ -54,8 +54,9 @@ class ilObjRoleFolder extends ilObject
 		
 		if ($this->getId() != ROLE_FOLDER_ID)
 		{
+			$this->setDescription($this->lng->txt("obj_".$this->getType()."_local_desc").$this->getTitle().$this->getDescription());
 			$this->setTitle($this->lng->txt("obj_".$this->getType()."_local"));
-			$this->setDescription("obj_".$this->getType()."_local_desc");
+
 		}
 	}
 

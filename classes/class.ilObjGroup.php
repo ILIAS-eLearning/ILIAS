@@ -782,7 +782,7 @@ class ilObjGroup extends ilObject
 		global $rbacadmin;
 		
 		// create a local role folder
-		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of group obj_no.".$this->getId());
+		$rfoldObj = $this->createRoleFolder();
 
 		return $rfoldObj;
 	}

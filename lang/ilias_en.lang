@@ -61,6 +61,8 @@ common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
+common#:#obj_rolf_local_desc#:#Contains local roles of object no.
+common#:#obj_rolf_local#:#Local Roles
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
