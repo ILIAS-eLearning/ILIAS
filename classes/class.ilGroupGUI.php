@@ -769,8 +769,8 @@ class ilGroupGUI extends ilObjGroupGUI
 	function confirmedRemoveMember()
 	{
 		global $rbacsystem;
-
-		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') || $_SESSION["saved_post"]["user_id"])
+		
+		if (isset($_SESSION["saved_post"]["user_id"]) && ( ((in_array($this->ilias->account->getId(),$_SESSION["saved_post"]["user_id"]) && count ($_SESSION["saved_post"]["user_id"])== 1 &&  $rbacsystem->checkAccess('leave',$this->ref_id,'usr')) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') )) )
 		{
 			//User needs to have administrative rights to remove members...
 
@@ -785,7 +785,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			sendInfo($this->lng->txt("grp_err_no_permission"),true);
 		}
-		
+
 		if ($_SESSION["saved_post"]["user_id"][0] == $this->ilias->account->getId())
 		{
 			header("Location: repository.php?getlast=true");
@@ -1311,10 +1311,12 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->prepareOutput(true,99);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
+		
+		$this->newMembersObject("group.php?", "tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree", "CONTENT");
 
-		$this->tpl->addBlockFile("CONTENT", "newmember","tpl.grp_newmember.html");
+		//$this->tpl->addBlockFile("CONTENT", "newmember","tpl.grp_newmember.html");
 
-		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("username"));
+		/*$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("username"));
 		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("group_memstat"));
 
 		if($_POST["status"] == $this->object->getDefaultMemberRole() || !isset($_POST["status"]))
@@ -1405,7 +1407,7 @@ class ilGroupGUI extends ilObjGroupGUI
 					$this->tpl->setVariable("BTN_VALUE",$value);
 					$this->tpl->parseCurrentBlock();
 				}
-				
+
 				//sort data array
 
 				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
@@ -1450,7 +1452,7 @@ class ilGroupGUI extends ilObjGroupGUI
 				// render table
 				$tbl->render();
 			}
-		}
+		}*/
 
 
 		$this->tpl->show();
@@ -1781,6 +1783,26 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function removeMember()
 	{
+
+		if (isset($_GET["cancel_action"]))
+		{
+			$cancel_action=$_GET["cancel_action"];
+		}
+		else
+		{
+			$cancel_action="showgroupmembers";
+		}
+		
+		if (isset($_GET["header_location"]))
+		{
+			$header_location=$_GET["header_location"];
+		}
+		else
+		{
+			$header_location="location: group.php?cmd=showgroupmembers&ref_id=";
+		}
+
+
 		$user_ids = array();
 
 		if(isset($_POST["user_id"]))
@@ -1796,14 +1818,14 @@ class ilGroupGUI extends ilObjGroupGUI
 			else
 			{
 				sendInfo($this->lng->txt("user_not_chosen"),true);
-				header("location: group.php?cmd=showgroupmembers&ref_id=".$_GET["ref_id"]);
+				header($header_location.$_GET["ref_id"]);
 				exit;
 			}
 		}
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
-			$cancel  = "showgroupmembers";
+			$cancel  = $cancel_action;
 			$info	 = "info_delete_sure";
 			$status  = "";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
@@ -1812,7 +1834,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		else
 		{
 			sendInfo($this->lng->txt("user_not_chosen"),true);
-			header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+			header($header_loaction.$_GET["ref_id"]);
 		}
 	}
 

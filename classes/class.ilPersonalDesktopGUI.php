@@ -29,9 +29,12 @@ class ilPersonalDesktopGUI
 	var $lng;
 	var $ilias;
 
+
+
 	function ilPersonalDesktopGUI()
 	{
-		global $ilias, $tpl, $lng;
+		global $ilias, $tpl, $lng, $rbacsystem;
+
 
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
@@ -317,6 +320,7 @@ class ilPersonalDesktopGUI
 	*/
 	function displayGroups()
 	{
+		global $rbacsystem;
 		$grp_items = $this->ilias->account->getDesktopItems("grp");
 		$i = 0;
 
@@ -327,8 +331,11 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 			$this->tpl->setVariable("GRP_LINK", "group.php?ref_id=".$grp_item["id"]);
 			$this->tpl->setVariable("GRP_TITLE", $grp_item["title"]);
-			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=leaveGroup&id=".$grp_item["id"]);
-			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("unsubscribe"));
+			if ($rbacsystem->checkaccess('leave',$grp_item["id"],'usr'))
+			{
+				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=removeMember&ref_id=".$grp_item["id"]."&mem_id=".$this->ilias->account->getID()."&header_location=usr_personaldesktop.php");
+				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("unsubscribe")."]");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
