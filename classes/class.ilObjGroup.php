@@ -73,7 +73,7 @@ class ilObjGroup extends ilObject
 	* @param	integer	user id of new member
 	* @param	integer	member status [0=member|1=admin]
 	*/
-	function join($a_user_id, $a_memStatus)
+	function join($a_user_id, $a_memStatus=0)
 	{
 		global $rbacadmin, $rbacsystem;
 
@@ -82,7 +82,7 @@ class ilObjGroup extends ilObject
 
 		if(isset($a_user_id) && isset($a_memStatus) && !$this->isMember($a_user_id) )
 		{
-			if( $rbacsystem->checkAccess("join", $this->getRefId(),'grp') )
+//			if( $rbacsystem->checkAccess("join", $this->getRefId(),'grp') )
 			{
 				//assignUser needs to be renamed into assignObject
 				if( (strcmp($a_memStatus,"member") == 0) || $a_memStatus == 0)		//member
@@ -98,17 +98,39 @@ class ilObjGroup extends ilObject
 
 				return true;
 			}
+/*			
 			else
 			{
 				$this->ilias->raiseError("No permission to join this group",$this->ilias->error_obj->WARNING);
 
 			}
+*/			
 		}
+		else
 
 		return false;
 	}
 
 
+	function getApplicationList()
+	{
+		$appList = array();
+		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->getId();
+		$res = $this->ilias->db->query($q);
+		
+//		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))		
+		{
+			array_push($appList,$row);
+		}
+		return $appList;
+	}
+	
+	function deleteApplicationListEntry($a_userId)
+	{
+		$q = "DELETE FROM grp_registration WHERE user_id=".$a_userId." AND grp_id=".$this->getId();
+		$res = $this->ilias->db->query($q);		
+	}
 	/**
 	* leave Group
 	* @access	public
@@ -264,7 +286,44 @@ class ilObjGroup extends ilObject
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row["obj_id"];
 	}
-
+	
+	/**
+	* set Registration Flag 
+	* @access	public
+	* @param	integer [ 0 = no registration| 1 = registration]
+	*/
+	function setRegistrationFlag($a_regFlag)
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+	
+		if($a_regFlag != 1) 
+			$a_regFlag = 0;
+		
+		if($res->numRows() == 0)
+		{
+			$q = "INSERT INTO grp_data VALUES(".$this->getId().",".$a_regFlag.")";
+			$res = $this->ilias->db->query($q);			
+		}
+		else
+		{
+			$q = "UPDATE grp_data SET register=".$a_regFlag." WHERE grp_id=".$this->getId()."";
+			$res = $this->ilias->db->query($q);						
+		}
+	}
+	
+	/**
+	* get Registration Flag
+	* @access	public
+	* @param	return flag => [ 0 = no registration| 1 = registration]
+	*/
+	function getRegistrationFlag()
+	{
+		$q = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
+		return $row["register"];
+	}
 	
 	/**
 	* set group status
@@ -446,7 +505,6 @@ class ilObjGroup extends ilObject
 			}
 		}
 		return false;
-
 	}
 	/**
 	* is Admin
@@ -855,7 +913,6 @@ class ilObjGroup extends ilObject
 	
 	function copyGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
 	{	
-		//echo $a_ref_id."-".$a_parent_non_rbac_id; var_dump($a_params);
 		
 		$grp_tree = new ilGroupTree($this->getRefId());
 		
@@ -973,7 +1030,7 @@ class ilObjGroup extends ilObject
 	* @return	boolean
 	*/
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{  //echo " notify ref".$a_ref_id."node".$a_node_id;
+	{
 		// object specific event handling
 		global $tree;
 		//var_dump("<pre>",$a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params,"</pre>");exit;
@@ -982,8 +1039,6 @@ class ilObjGroup extends ilObject
 			case "undelete":
 				$this->undeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
 			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Group ".$this->getRefId()." triggered by undelete event. Objects are gotten back from trash at target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 			
@@ -991,7 +1046,7 @@ class ilObjGroup extends ilObject
 				$this->removeFromSystemGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
 			
 				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Group ".$this->getRefId()." triggered by removeFromSystem event. Objects are removed from System at target object ref_id: ".$a_ref_id;
+
 				//exit;
 				break;
 			
@@ -999,7 +1054,6 @@ class ilObjGroup extends ilObject
 				$this->confirmedDeleteGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
 			
 				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Group ".$this->getRefId()." triggered by confirmedDelete event. Objects put in trash at target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 			
