@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilSCORMObject");
+require_once("content/classes/SCORM/class.ilSCORMObject.php");
 
 /**
 * SCORM Resource File, DB accesses are done in ilSCORMResource

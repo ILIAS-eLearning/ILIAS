@@ -45,8 +45,12 @@ class ilSCORMResources extends ilSCORMObject
 	*/
 	function ilSCORMResources($a_id = 0)
 	{
+		global $lng;
+		
 		parent::ilSCORMObject($a_id);
 		$this->setType("srs");
+
+		$this->setTitle($lng->txt("cont_resources"));
 	}
 
 	function getXmlBase()

@@ -25,6 +25,10 @@ require_once("content/classes/SCORM/class.ilSCORMManifest.php");
 require_once("content/classes/SCORM/class.ilSCORMOrganizations.php");
 require_once("content/classes/SCORM/class.ilSCORMOrganization.php");
 require_once("content/classes/SCORM/class.ilSCORMItem.php");
+require_once("content/classes/SCORM/class.ilSCORMResources.php");
+require_once("content/classes/SCORM/class.ilSCORMResource.php");
+require_once("content/classes/SCORM/class.ilSCORMResourceFile.php");
+require_once("content/classes/SCORM/class.ilSCORMResourceDependency.php");
 require_once("content/classes/SCORM/class.ilSCORMTree.php");
 
 /**
@@ -45,6 +49,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	var $tree_created;		// flag that determines wether the scorm tree has been created
 	var $scorm_tree;		// manifest tree
 	var $current_organization;	// current organization object
+	var $current_resource;	// current resource object
 	var $item_stack;		// current open item objects
 
 
@@ -243,6 +248,41 @@ class ilSCORMPackageParser extends ilSaxParser
 				$this->item_stack[count($this->item_stack) - 1]->setPrereqType($a_attribs["type"]);
 				break;
 
+			case "resources":
+				$resources =& new ilSCORMResources();
+				$resources->setSLMId($this->slm_object->getId());
+				$resources->setXmlBase($a_attribs["xml:base"]);
+				$resources->create();
+				$this->sc_tree->insertNode($resources->getId(), $this->getCurrentParent());
+				array_push($this->parent_stack, $resources->getId());
+				break;
+
+			case "resource":
+				$resource =& new ilSCORMResource();
+				$resource->setSLMId($this->slm_object->getId());
+				$resource->setImportId($a_attribs["identifier"]);
+				$resource->setResourceType($a_attribs["type"]);
+				$resource->setScormType($a_attribs["adlcp:scormtype"]);
+				$resource->setXmlBase($a_attribs["xml:base"]);
+				$resource->setHRef($a_attribs["href"]);
+				$resource->create();
+				$this->current_resource =& $resource;
+				$this->sc_tree->insertNode($resource->getId(), $this->getCurrentParent());
+				array_push($this->parent_stack, $resource->getId());
+				break;
+
+			case "file":
+				$file =& new ilSCORMResourceFile();
+				$file->setHRef($a_attribs["href"]);
+				$this->current_resource->addFile($file);
+				break;
+
+			case "dependency":
+				$dependency =& new ilSCORMResourceDependency();
+				$dependency->setIdentifierRef($a_attribs["identifierref"]);
+				$this->current_resource->addDependency($dependency);
+				break;
+
 		}
 		$this->beginElement($a_name);
 	}
@@ -257,6 +297,7 @@ class ilSCORMPackageParser extends ilSaxParser
 		{
 			case "manifest":
 			case "organizations":
+			case "resources":
 				array_pop($this->parent_stack);
 				break;
 
@@ -268,6 +309,11 @@ class ilSCORMPackageParser extends ilSaxParser
 			case "item":
 				$this->item_stack[count($this->item_stack) - 1]->update();
 				unset($this->item_stack[count($this->item_stack) - 1]);
+				array_pop($this->parent_stack);
+				break;
+
+			case "resource":
+				$this->current_resource->update();
 				array_pop($this->parent_stack);
 				break;
 

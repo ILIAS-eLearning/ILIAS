@@ -56,7 +56,7 @@ class ilSCORMExplorer extends ilExplorer
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
 		$this->checkPermissions(false);
-		//$this->order_column = "";
+		$this->setOrderColumn("");
 	}
 
 

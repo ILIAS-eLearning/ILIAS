@@ -642,6 +642,8 @@ common#:#learning_objects#:#Learning Objects
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_std_view#:#Standard View
 common#:#subobjects#:#Subobjects
+content#:#cont_organizations#:#Organizations
+content#:#cont_resources#:#Resources
 content#:#cont_reference#:#Reference
 content#:#cont_orig_size#:#Original Size
 content#:#cont_fullscreen#:#Fullscreen

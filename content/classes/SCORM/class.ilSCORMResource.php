@@ -98,6 +98,7 @@ class ilSCORMResource extends ilSCORMObject
 	function setHRef($a_href)
 	{
 		$this->href = $a_href;
+		$this->setTitle($a_href);
 	}
 
 	function getXmlBase()
@@ -175,7 +176,8 @@ class ilSCORMResource extends ilSCORMObject
 		$q = "INSERT INTO sc_resource (obj_id, import_id, resourcetype, scormtype, href, ".
 			"xml_base) VALUES ".
 			"('".$this->getId()."', '".$this->getImportId()."',".
-			"'".$this->getResourceType()."','".$this->getScormType()."','".$this->getHref()."')";
+			"'".$this->getResourceType()."','".$this->getScormType()."','".$this->getHref()."'".
+			",'".$this->getXmlBase()."')";
 		$this->ilias->db->query($q);
 
 		// save files
@@ -204,6 +206,7 @@ class ilSCORMResource extends ilSCORMObject
 			"import_id = '".$this->getImportId()."', ".
 			"resourcetype = '".$this->getResourceType()."', ".
 			"scormtype = '".$this->getScormType()."', ".
+			"href = '".$this->getHRef()."', ".
 			"xml_base = '".$this->getXmlBase()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
