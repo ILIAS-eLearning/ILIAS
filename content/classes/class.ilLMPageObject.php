@@ -58,11 +58,11 @@ class ilLMPageObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilLMPageObject($a_id = 0)
+	function ilLMPageObject(&$a_content_obj, $a_id = 0)
 	{
 		global $ilias;
 
-		parent::ilLMObject();
+		parent::ilLMObject($a_content_obj, $a_id);
 		$this->setType("pg");
 		$this->id = $a_id;
 		$this->ilias =& $ilias;
@@ -93,6 +93,15 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($this->getLMId());
 		$this->page_object->create();
+	}
+
+
+	/**
+	*
+	*/
+	function assignPageObject(&$a_page_obj)
+	{
+		$this->page_object =& $a_page_obj;
 	}
 
 	/**

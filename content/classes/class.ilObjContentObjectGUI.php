@@ -65,7 +65,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->getFormAction("save","adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$new_type."&cmd=save"));
 	}
@@ -318,23 +318,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// unzip file
 		ilUtil::unzip($full_path);
-		/*
-		$cdir = getcwd();
-		chdir($newObj->getImportDirectory());
-		$unzip = $this->ilias->getSetting("unzip_path");
-		$unzipcmd = $unzip." ".$file["basename"];
-//echo "unzipcmd :".$unzipcmd.":<br>";
-		exec($unzipcmd);
-		chdir($cdir);*/
 
 		// determine filename of xml file
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
 //echo "xmlfile:".$xml_file;
 
-		include_once ("content/classes/class.ilLMParser.php");
-		$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
-		$lmParser->startParsing();
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+		$contParser->startParsing();
 
 		header("Location: adm_object.php?".$this->link_params);
 		exit();
@@ -532,7 +524,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($_POST["id"] as $id)
 		{
-			$obj =& new ilLMObject($id);
+			$obj =& new ilLMObject($this->object, $id);
 			switch($obj->getType())		// ok that's not so nice, could be done better
 			{
 				case "pg":
@@ -585,7 +577,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// delete all selected objects
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$obj =& ilLMObjectFactory::getInstance($id);
+			$obj =& ilLMObjectFactory::getInstance($this->object, $id);
 			$obj->setLMId($this->object->getId());
 			$node_data = $tree->getNodeData($id);
 			$obj->delete();

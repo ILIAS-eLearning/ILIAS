@@ -36,14 +36,14 @@ require_once("classes/class.ilMetaDataGUI.php");
 */
 class ilLMObjectGUI
 {
-	var $lm_obj;	// learning module object
 	var $ilias;
 	var $tpl;
 	var $lng;
 	var $obj;
 	var $objDefinition;
+	var $content_object;
 
-	function ilLMObjectGUI()
+	function ilLMObjectGUI(&$a_content_obj)
 	{
 		global $ilias, $tpl, $lng, $objDefinition;
 
@@ -51,6 +51,7 @@ class ilLMObjectGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
+		$this->content_object =& $a_content_obj;
 	}
 
 	function edit_meta()
@@ -58,7 +59,7 @@ class ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=save_meta");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=save_meta");
 	}
 
 	function save_meta()
@@ -66,7 +67,7 @@ class ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->save();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 	}
 
@@ -85,13 +86,13 @@ class ilLMObjectGUI
 			? "&obj_id=".$this->obj->getId()
 			: "";
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId().$obj_str."&new_type=".$_POST["new_type"].
+			$this->content_object->getRefId().$obj_str."&new_type=".$_POST["new_type"].
 			"&target=".$target."&cmd=save");
 	}
 
 	function putInTree()
 	{
-		$tree = new ilTree($this->lm_obj->getId());
+		$tree = new ilTree($this->content_object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
@@ -136,7 +137,7 @@ class ilLMObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
 		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
@@ -148,7 +149,7 @@ class ilLMObjectGUI
 		$counter = 0;
 		foreach($_POST["id"] as $id)
 		{
-			$obj =& new ilLMObject($id);
+			$obj =& new ilLMObject($this->content_object, $id);
 			switch($obj->getType())		// ok that's not so nice, could be done better
 			{
 				case "pg":
@@ -181,7 +182,7 @@ class ilLMObjectGUI
 	{
 		session_unregister("saved_post");
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 		exit();
 
@@ -189,7 +190,7 @@ class ilLMObjectGUI
 
 	function confirmedDelete()
 	{
-		$tree = new ilTree($this->lm_obj->getId());
+		$tree = new ilTree($this->content_object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
@@ -202,8 +203,8 @@ class ilLMObjectGUI
 		// delete all selected objects
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-			$obj =& ilLMObjectFactory::getInstance($id);
-			$obj->setLMId($this->lm_obj->getId());
+			$obj =& ilLMObjectFactory::getInstance($this->content_object, $id);
+			$obj->setLMId($this->content_object->getId());
 			$node_data = $tree->getNodeData($id);
 			$obj->delete();
 			if($tree->isInTree($id))
@@ -215,7 +216,7 @@ class ilLMObjectGUI
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 		exit();
 	}

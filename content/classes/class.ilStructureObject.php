@@ -43,16 +43,15 @@ class ilStructureObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject($a_id = 0)
+	function ilStructureObject(&$a_content_obj, $a_id = 0)
 	{
 		$this->setType("st");
-		parent::ilLMObject($a_id);
+		parent::ilLMObject($a_content_obj, $a_id);
 	}
 
 	function create()
 	{
 		parent::create();
-
 	}
 
 	/**
@@ -76,7 +75,7 @@ class ilStructureObject extends ilLMObject
 		$childs = $a_tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilLMObjectFactory::getInstance($child["obj_id"]);
+			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"]);
 			if($obj->getType() == "st")
 			{
 				$obj->delete_rec($a_tree);
@@ -85,5 +84,6 @@ class ilStructureObject extends ilLMObject
 		}
 		parent::delete();
 	}
+
 }
 ?>

@@ -41,14 +41,18 @@ class ilLMObject
 	var $id;
 	var $meta_data;
 	var $data_record;		// assoc array of lm_data record
+	var $content_object;
 
-	function ilLMObject($a_id = 0)
+	/**
+	* @param	object		$a_content_obj		content object (digi book or learning module)
+	*/
+	function ilLMObject(&$a_content_obj, $a_id = 0)
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
-
 		$this->id = $a_id;
+		$this->setContentObject($a_content_obj);
 
 		if($a_id != 0)
 		{
@@ -110,6 +114,16 @@ class ilLMObject
 	function getLMId()
 	{
 		return $this->lm_id;
+	}
+
+	function setContentObject(&$a_content_obj)
+	{
+		$this->content_object =& $a_content_obj;
+	}
+
+	function &getContentObject()
+	{
+		return $this->content_object;
 	}
 
 	function setId($a_id)
