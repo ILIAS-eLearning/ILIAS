@@ -931,7 +931,7 @@ class ilCourseObjectivesGUI
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required'));
 		$this->tpl->setVariable("CMD_SUBMIT",'updateObjective');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('update'));
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('save'));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
 
 		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
@@ -1092,7 +1092,6 @@ class ilCourseObjectivesGUI
 		foreach($_SESSION['crs_delete_objectives'] as $objective_id)
 		{
 			$objective_obj =& $this->__initObjectivesObject($objective_id);
-
 			$objective_obj->delete();
 		}
 
