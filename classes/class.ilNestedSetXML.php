@@ -719,9 +719,23 @@ class ilNestedSetXML
 	function initDom() 
 	{
 		$xml = $this->export($this->obj_id, $this->obj_type);
+		
+		$xml_test = '
+		<MetaData>
+			<General Structure="Atomic">
+				<Identifier Catalog="ILIAS" Entry="34">Identifier 34 in ILIAS</Identifier>
+				<Identifier Catalog="ILIAS" Entry="45">Identifier 45 in ILIAS</Identifier>
+				<Identifier Catalog="ILIAS" Entry="67">Identifier 67 in ILIAS</Identifier>
+			</General>
+		</MetaData>
+		';
+		
+//		$xml = $xml_test;
+		
 		if ($xml=="") {
 			return(false);
 		} else {
+		//echo "<pre>".htmlspecialchars($xml)."</pre>";
 			$this->dom = domxml_open_mem($xml);
 			return(true);
 		}
@@ -736,6 +750,74 @@ class ilNestedSetXML
 		$c = $node[0]->children();
 		$content = $c[0]->content;
 		return($content);
+	}	
+	
+	/**
+	*	deletes node
+	*/
+	function deleteDomNode($xPath, $index) 
+	{
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
+		if (count($nodes) > 0 &&
+			$index < count($nodes))
+		{
+			$nodes[$index]->unlink_node();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}	
+	
+	/**
+	*	adds node
+	*/
+	function addDomNode($xPath, $name, $attributes) 
+	{
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
+		if (count($nodes) > 0)
+		{
+			$node = $this->dom->create_element($name);
+			if (is_array($attributes))
+			{
+				for ($i = 0; $i < count($attributes); $i++)
+				{
+					$node->set_attribute($attributes[$i]["name"], $attributes[$i]["value"]);
+				}
+			}
+			$nodes[0]->append_child($node);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}	
+	
+	/**
+	*	returns all contents of this node
+	*/
+	function getDomContent($xPath) 
+	{
+		$nodes = $this->getXpathNodes($this->dom,$xPath);
+		if (count($nodes) > 0)
+		{
+			for ($i = 0; $i < count($nodes); $i++)
+			{
+				$content[$i]["value"] = $nodes[$i]->get_content();
+				$a = $nodes[$i]->attributes();
+				for ($j = 0; $j < count($a); $j++)
+				{
+					$content[$i][$a[$j]->name] = $a[$j]->value;
+				}
+			}
+			return($content);
+		}
+		else
+		{
+			return false;
+		}
 	}	
 	
 	function getFirstDomNode($xPath) 

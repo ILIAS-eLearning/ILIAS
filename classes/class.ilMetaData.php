@@ -39,17 +39,20 @@ class ilMetaData
 {
 	var $ilias;
 
-	// attributes of the "General" Section
-	var $import_id;			// +, array
-	var $title;				// 1
-	var $language;			// string
-	var $description;		// string
-	var $keyword;			// array
-	var $coverage;			// ?, optional
-	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 	var $id;
 	var $type;
 	var $technicals;
+
+	var $nested;
+
+	// attributes of the "General" Section
+	var $identifier;		// +, array
+	var $title;				// 1, array
+	var $language;			// +, array
+	var $description;		// +, array
+	var $keyword;			// +, array
+	var $coverage;			// ?, array
+	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 
 	/**
 	* Constructor
@@ -82,65 +85,97 @@ class ilMetaData
 	function read()
 	{
 //echo "<b>".$this->id."</b><br>";
-		$query = "SELECT * FROM meta_data ".
+/*		$query = "SELECT * FROM meta_data ".
 			"WHERE obj_id = '".$this->id."' AND obj_type='".$this->type."'";
 		$meta_set = $this->ilias->db->query($query);
-		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);*/
 
 		// Metadaten aus der Nested-Set-Struktur ermitteln.
-		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
-			|| $this->getType() == "glo" || $this->getType() == "gdf")
+		if ($this->getType() == "pg" ||
+			$this->getType() == "st" ||
+			$this->getType() == "lm" ||
+			$this->getType() == "glo" ||
+			$this->getType() == "gdf" ||
+			$this->getType() == "dbk") 
 		{
 			include_once("./classes/class.ilNestedSetXML.php");
-			$nested = new ilNestedSetXML();
-			$nested->init($this->id, $this->getType());
-			if ( $nested->initDom() ) {
-				$meta_rec["title"] = $nested->getFirstDomContent("//MetaData/General/Title");
+			$this->nested = new ilNestedSetXML();
+			$this->nested->init($this->id, $this->getType());
+			if ( !$this->nested->initDom() )
+			{
+				/* Init DOM failed */
 			}
+#			if ( $nested->initDom() ) {
+#				$meta_rec["title"] = $nested->getFirstDomContent("//MetaData/General/Title");
+#			}
 
 		} 
 		
-		$this->setTitle($meta_rec["title"]);
+/*		$this->setTitle($meta_rec["title"]);
 		$this->setDescription($meta_rec["description"]);
 		$this->setLanguage($meta_rec["language"]);
 		$this->readKeywords();
-		$this->readTechnicalSections();
+		$this->readTechnicalSections();*/
 	}
 
 	/**
 	* set identifier catalog value
-	* note: only one ID implemented currently
+	* note: only one value implemented currently
 	*/
-	function setImportIdentifierCatalog($a_cdata)
+	function setElement($a_name, $a_data)
 	{
-		$this->import_id[0]["catalog"] = $a_data;
-	}
-
-	/**
-	* set identifier entry ID
-	* note: only one ID implemented currently
-	*/
-	function setImportIdentifierEntryID($a_id)
-	{
-		$this->import_id[0]["entry_id"] = $a_id;
+		$this->$a_name = $a_data;
 	}
 
 	/**
 	* get identifier catalog value
-	* note: only one ID implemented currently
+	* note: only one value implemented currently
 	*/
-	function getImportIdentifierCatalog()
+	function getElement($a_name, $a_path = "")
 	{
-		return $this->import_id[0]["catalog"];
+		$p = "//MetaData/";
+		if ($a_path != "")
+		{
+			$p .= $a_path . "/";
+		}
+		$p .= $a_name;
+		$this->setElement($a_name, $this->nested->getDomContent($p));
+		return $this->$a_name;
 	}
 
 	/**
-	* get identifier entry ID
-	* note: only one ID implemented currently
+	* delete meta data node
 	*/
-	function getImportIdentifierEntryID()
+	function delete($a_name, $a_path, $a_index)
 	{
-		return $this->import_id[0]["entry_id"];
+		$p = "//MetaData/";
+		if ($a_path != "")
+		{
+			$p .= $a_path . "/";
+		}
+		$p .= $a_name;
+		$this->nested->deleteDomNode($p, $a_index);
+		$this->nested->updateFromDom();
+	}
+
+	/**
+	* add meta data node
+	*/
+	function add($a_name, $a_path)
+	{
+		$p = "//MetaData";
+		if ($a_path != "")
+		{
+			$p .= "/" . $a_path;
+		}
+		$attributes = array();
+		if ($a_name == "Identifier")
+		{
+			$attributes[0] = array("name" => "Catalog", "value" => "");
+			$attributes[1] = array("name" => "Entry", "value" => "");
+		}
+		$this->nested->addDomNode($p, $a_name, $attributes);
+		$this->nested->updateFromDom();
 	}
 
 	/**
@@ -354,7 +389,7 @@ class ilMetaData
 		}
 	}
 
-	function delete()
+/*	function delete()
 	{
 		$query = "DELETE FROM meta_data  WHERE obj_id = '".$this->getId()
 			."' AND obj_type = '".$this->getType()."'";
@@ -363,7 +398,7 @@ class ilMetaData
 		$query = "DELETE FROM meta_keyword  WHERE obj_id = '".$this->getId()
 			."' AND obj_type = '".$this->getType()."'";
 		$this->ilias->db->query($query);
-	}
+	}*/
 
 	function getCountries()
 	{
