@@ -3647,6 +3647,17 @@ class ilObjSurvey extends ilObject
 			$qtiMetadatafield->append_child($qtiFieldEntry);
 			$qtiMetadata->append_child($qtiMetadatafield);
 		}
+		// show question titles
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("display_question_titles");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getShowQuestionTitles());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// add questionblock descriptions
 		$pages =& $this->getSurveyPages();
 		foreach ($pages as $question_array)
@@ -3944,6 +3955,15 @@ class ilObjSurvey extends ilObject
 								case "status":
 									$this->setStatus($fieldentry->get_content());
 									break;
+								case "display_question_titles":
+									if ($fieldentry->get_content() == QUESTIONTITLES_HIDDEN)
+									{
+										$this->hideQuestionTitles();
+									}
+									else
+									{
+										$this->showQuestionTitles();
+									}
 							}
 							if (preg_match("/questionblock_\d+/", $fieldlabel->get_content()))
 							{
