@@ -2173,8 +2173,22 @@ class ilObjSurvey extends ilObject
 				{
 					$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
 				}
-				$result_array["GEOMETRIC_MEAN"] = sprintf("%.2f", (double)pow($p_i, 1/$total));
-				$result_array["HARMONIC_MEAN"] = sprintf("%.2f", (double)$total/$x_i_inv);
+				if (($questions[$question_id]["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
+				{
+					$result_array["GEOMETRIC_MEAN"] = sprintf("%.2f", (double)pow($p_i, 1/$total));
+				}
+				else
+				{
+					$result_array["GEOMETRIC_MEAN"] = "";
+				}
+				if ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
+				{
+					$result_array["HARMONIC_MEAN"] = sprintf("%.2f", (double)$total/$x_i_inv);
+				}
+				else
+				{
+					$result_array["HARMONIC_MEAN"] = "";
+				}
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["MODE"] = key($cumulated);
 				$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
