@@ -55,13 +55,6 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
-common#:#exc_roles#:#Roles
-common#:#grp_search_members#:#User search
-common#:#grp_no_roles_selected#:#No roles selected
-common#:#grp_no_groups_selected#:#No group selected
-common#:#grp_header_edit_members#:#Edit members
-common#:#grp_list_users#:#List users
-common#:#grp_count_members#:#Number of members
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
@@ -838,6 +831,7 @@ common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
 common#:#exc_read#:#Access exercise
+common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
 common#:#exc_select_one_file#:#Please select exactly one file.
@@ -994,6 +988,7 @@ common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 common#:#grp_back#:#Back
+common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
@@ -1020,8 +1015,10 @@ common#:#grp_err_last_member#:#Last member could not be removed, please delete g
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
+common#:#grp_header_edit_members#:#Edit members
 common#:#grp_join#:#User may join Group
 common#:#grp_leave#:#User may leave Group
+common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
@@ -1031,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
+common#:#grp_no_groups_selected#:#No group selected
+common#:#grp_no_roles_selected#:#No roles selected
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Register
 common#:#grp_registration_completed#:#Registration completed
+common#:#grp_search_members#:#User search
 common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
 common#:#guest#:#Guest

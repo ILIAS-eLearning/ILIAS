@@ -847,6 +847,7 @@ common#:#exc_no_members_assigned#:#无成员被指定
 common#:#exc_notices#:#通知
 common#:#exc_obj#:#练习
 common#:#exc_read#:#访问练习
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#保存
 common#:#exc_search_for#:#搜寻
 common#:#exc_select_one_file#:#请确实选择一个文件。
@@ -1003,6 +1004,7 @@ common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#创建组
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
@@ -1029,8 +1031,10 @@ common#:#grp_err_last_member#:#不能删除最后一名成员，请删除组代�
 common#:#grp_err_member_could_not_be_removed#:#不能删除成员。请验证此成员的全部从属关系。
 common#:#grp_err_no_permission#:#您没有进行此项操作的许可。
 common#:#grp_err_registration_data#:#请输入一个口令以及一个有效注册期间的截止日期和时间！
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#用户可以加入组
 common#:#grp_leave#:#用户可以离开组
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#更改组状态
 common#:#grp_mem_leave#:#从组中删除成员
 common#:#grp_mem_send_mail#:#给成员发消息
@@ -1040,9 +1044,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#成员资格已取消
 common#:#grp_name_exists#:#已有一个组使用这个名字！请选择另一名字！
 common#:#grp_new#:#新组
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#组设为读访问
 common#:#grp_register#:#注册
 common#:#grp_registration_completed#:#注册成功
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#组可视
 common#:#grp_write#:#编辑组
 common#:#guest#:#客人

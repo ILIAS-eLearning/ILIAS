@@ -831,6 +831,7 @@ common#:#exc_no_members_assigned#:#Жодного члену не признач
 common#:#exc_notices#:#Повідомлення
 common#:#exc_obj#:#Вправа
 common#:#exc_read#:#Вправа доступу
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Зберігти
 common#:#exc_search_for#:#Пошук
 common#:#exc_select_one_file#:#Будь ласка виберіть рівно один файл.
@@ -987,6 +988,7 @@ common#:#grp_add#:#Додати Групу
 common#:#grp_added#:#Група додана
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Створити Групу
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
@@ -1013,8 +1015,10 @@ common#:#grp_err_last_member#:#Останній член не може бути 
 common#:#grp_err_member_could_not_be_removed#:#Член не може бути видалений. Будь ласка перевірте усі залежності для цього користувача.
 common#:#grp_err_no_permission#:#Ви не володієте правами для цієї операції.
 common#:#grp_err_registration_data#:#Будь ласка введіть пароль, дату закінчення та час для дійсного періоду реєстрації !
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#Користувач може приєднатись до групи
 common#:#grp_leave#:#Користувач може залишити групу
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Змінити статус члена
 common#:#grp_mem_leave#:#Виключити члена з групи
 common#:#grp_mem_send_mail#:#Послати члену повідомлення
@@ -1024,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#Членство анульоване
 common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
 common#:#grp_new#:#Нова Група
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Доступ на читання до Групи
 common#:#grp_register#:#Зареєструватись
 common#:#grp_registration_completed#:#Реєстрація закінчена
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Група видима
 common#:#grp_write#:#Редагувати Групу
 common#:#guest#:#Гість

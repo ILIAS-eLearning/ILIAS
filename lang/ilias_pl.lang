@@ -816,6 +816,7 @@ common#:#exc_no_members_assigned#:#Brak przydzielonych członków
 common#:#exc_notices#:#Uwagi
 common#:#exc_obj#:#Ćwiczenie
 common#:#exc_read#:#Dostęp do ćwiczenia
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Zachowaj
 common#:#exc_search_for#:#Szukaj
 common#:#exc_select_one_file#:#Wybierz dokładnie jeden plik.
@@ -971,6 +972,7 @@ common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_already_applied#:#Już jesteś wybrany do tej grupy! Czekaj na potwierdzenie
 common#:#grp_back#:#Powrót
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Twórz czat
@@ -997,8 +999,10 @@ common#:#grp_err_last_member#:#Ostatni członek grupy nie może być usunięty, 
 common#:#grp_err_member_could_not_be_removed#:#Członek grupy nie może być usunięty. Sprawdź wszystkie zależności dotyczące tego użytkownika.
 common#:#grp_err_no_permission#:#Nie masz uprawnień do wykonania tej operacji.
 common#:#grp_err_registration_data#:#Podaj hasło, datę i czas ważności dla okresu rejestracji!
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#Użytkownik może wstąpić do grupy
 common#:#grp_leave#:#Użytkownik może opuścić grupę
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Zmień status członka
 common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
@@ -1008,9 +1012,12 @@ common#:#grp_msg_member_assigned#:#Użytkownicy przydzieleni jako członkowie gr
 common#:#grp_msg_membership_annulled#:#Członkostwo anulowane
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Prawo czytania Grupy
 common#:#grp_register#:#Zarejestruj się
 common#:#grp_registration_completed#:#Rejestracja dokonana
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#Grupa jest widoczna
 common#:#grp_write#:#Edycja Grupy
 common#:#guest#:#Gość

@@ -831,6 +831,7 @@ common#:#exc_no_members_assigned#:#Nenhuns membros atribuidos
 common#:#exc_notices#:#Nuances
 common#:#exc_obj#:#Exercício
 common#:#exc_read#:#Aceder ao exercício
+common#:#exc_roles#:#Roles###11 Aug 2004 new variable
 common#:#exc_save_changes#:#Guardar
 common#:#exc_search_for#:#Procurar por
 common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
@@ -987,6 +988,7 @@ common#:#grp_add#:#Adicionar Grupo
 common#:#grp_added#:#Grupo adicionado
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
 common#:#grp_create#:#Criar Grupo
 common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#grp_create_chat#:#Criar Chat
@@ -1013,8 +1015,10 @@ common#:#grp_err_last_member#:#O último membro no pôde ser removido, por favor
 common#:#grp_err_member_could_not_be_removed#:#O membro não pôde ser removido. Por favor verifique todas as dependências deste utilizador.
 common#:#grp_err_no_permission#:#Você não possui as permissões para esta operação.
 common#:#grp_err_registration_data#:#Por favor forneça uma palavra-passe, a data e hora de expiração para um período válido de inscrição !
+common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
 common#:#grp_join#:#O utilizador pode juntar-se ao Grupo
 common#:#grp_leave#:#O utilizador pode sair do Grupo
+common#:#grp_list_users#:#List users###11 Aug 2004 new variable
 common#:#grp_mem_change_status#:#Mudar estado do membro
 common#:#grp_mem_leave#:#Dispensar membro do grupo
 common#:#grp_mem_send_mail#:#Enviar mensagem a membro
@@ -1024,9 +1028,12 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#Inscrição anulada
 common#:#grp_name_exists#:#Já existe um grupo com este nome! Por favor escolha outro nome.
 common#:#grp_new#:#Novo Grupo
+common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
 common#:#grp_read#:#Acesso de Leitura ao Grupo
 common#:#grp_register#:#Inscrever
 common#:#grp_registration_completed#:#Inscrição completa
+common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#O Grupo é visível
 common#:#grp_write#:#Editar Grupo
 common#:#guest#:#Convidado
