@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.67 2004/01/15 15:48:30 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.69 2004/01/16 16:08:43 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -396,19 +396,19 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 			else
 			{
-				$node_id = $this->tree->getParentId($_GET["ref_id"]);
+				$node_id = $_GET["ref_id"];
 			}
 
 			// GET ALL SUBNODES
 			$node_data = $this->tree->getNodeData($node_id);
 			$subtree_nodes = $this->tree->getSubTree($node_data);
 
-			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
+			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 			$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 
 			// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 			$key = array_keys($all_rolf_obj,$node_id);
-			unset($all_rolf_obj["$key[0]"]);
+			unset($all_rolf_obj[$key[0]]);
 
 			$check = false;
 
@@ -439,7 +439,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 			}
-			
+
 			// prepare arrays for permission settings below
 			foreach ($valid_nodes as $key => $node)
 			{
