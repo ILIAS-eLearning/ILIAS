@@ -2914,6 +2914,8 @@ survey#:#add_category#:#Add category
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#apply#:#Apply
+survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
+survey#:#browse_for_questions#:#Browse for questions
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
@@ -2993,12 +2995,16 @@ survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
+survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_questions_available#:#There are no questions available!
+survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#non_ratio#:#Non-Ratio
+survey#:#obligatory#:#obligatory
 survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#online#:#online
+survey#:#or#:#or
 survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
@@ -3012,23 +3018,17 @@ survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Text question
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 survey#:#question_type#:#Question type
+survey#:#questions_inserted#:#Question(s) inserted!
 survey#:#questiontype#:#Question type
 survey#:#ratio_absolute#:#Ratio-Absolute
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
+survey#:#remove_question#:#Remove
 survey#:#reset_filter#:#Reset filter
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
+survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
 survey#:#survey_questions#:#Questions
 survey#:#unfold#:#Unfold
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#view_phrase#:#View phrase
-survey#:#browse_for_questions#:#Browse for questions
-survey#:#or#:#or
-survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
-survey#:#questions_inserted#:#Question(s) inserted!
-survey#:#remove_question#:#Remove
-survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
-survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
-survey#:#no_target_selected_for_move#:#You must select a target position!
-survey#:#obligatory#:#obligatory
