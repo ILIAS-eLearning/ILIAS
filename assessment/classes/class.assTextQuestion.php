@@ -676,6 +676,38 @@ class ASS_TextQuestion extends ASS_Question
 			return false;
 		}
 	}
+
+	/**
+	* Sets the points, a learner has reached answering the question
+	*
+	* Sets the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @param integer $points The points the user has reached answering the question
+	* @return boolean true on success, otherwise false
+	* @access public
+	*/
+	function _setReachedPoints($user_id, $test_id, $question_id, $points, $maxpoints)
+	{
+		global $ilDB;
+		
+		if (($points > 0) && ($points <= $maxpoints))
+		{
+			$query = sprintf("UPDATE tst_solutions SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$ilDB->quote($points . ""),
+				$ilDB->quote($user_id . ""),
+				$ilDB->quote($test_id . ""),
+				$ilDB->quote($question_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			return true;
+		}
+			else
+		{
+			return false;
+		}
+	}
 	
 	/**
 	* Returns the points, a learner has reached answering the question

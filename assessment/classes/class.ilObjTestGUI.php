@@ -3479,6 +3479,8 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
+		$savetextanswers = 0;
+		$textanswers = 0;
 		$print = 0;
 		$export = 0;
 		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("print")) == 0)
@@ -3489,7 +3491,19 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$export = 1;
 		}
-		if ((count($_POST) == 0) || ($print) || ($export))
+		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("save_text_answer_points")) == 0)
+		{
+			$savetextanswers = 1;
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/(\d+)_(\d+)_(\d+)/", $key, $matches))
+				{
+					ASS_TextQuestion::_setReachedPoints($matches[1], $this->object->getTestId(), $matches[2], $value, $matches[3]);
+				}
+			}
+			sendInfo($this->lng->txt("text_answers_saved"));
+		}
+		if ((count($_POST) == 0) || ($print) || ($export) || ($savetextanswers))
 		{
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
 			$eval_statistical_settings = array(
@@ -3918,7 +3932,8 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($stat_eval[$i-1]["type"] == 8)
 				{
 					// Text question
-					$htmloutput = $qshort . "<input type=\"text\" name=\"".$key."_".$stat_eval[$i-1]["qid"]."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
+					$htmloutput = $qshort . "<input type=\"text\" name=\"".$key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"]."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
+					$textanswers++;
 				}
 					else
 				{
@@ -4141,6 +4156,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$counter++;
 		}
 
+		if ($textanswers)
+		{
+			$this->tpl->setCurrentBlock("questions_output_button");
+			$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("save_text_answer_points"));
+			$this->tpl->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("questions_output");
 		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
 		$this->tpl->setVariable("FORM_ACTION_RESULTS", $this->ctrl->getFormAction($this));
