@@ -2120,8 +2120,8 @@ class ilSetupGUI extends ilSetup
 			
 			$email_subject = rawurlencode("NIC registration request");
 			$email_body = base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
-			$email_link = "<a href=\"mailto:ilias-info@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">".$this->lng->txt("email")."</a>";
-			
+			$email_link = "<a href=\"mailto:ilias-nic@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">".$this->lng->txt("email")."</a>";
+
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
 
 			// output
