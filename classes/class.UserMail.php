@@ -178,8 +178,52 @@ class UserMail extends PEAR
 		 $mails["count"] = $mails["read"] + $mails["unread"];
 		 return $mails;
 	 }
-	 	 
+
+	 /**
+	  * get one mail
+	  *
+	  * @param int
+	  * @return array mail
+	  * @access public
+	  */
+	 function getOneMail($id)
+	 {
+		 global $lng;
+
+		 //initialize array
+		 $mail = array();
+
+		 //query
+		 $sql = "SELECT * FROM mail
+                 WHERE rcp='".$this->id."'
+				 AND id='".$id."'";
+		 $r = $this->db->query($sql);
 		 
+		 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		 //if mail is marked as unread mark it as read now
+		 if ($row["rcp_flag"]==1)
+			 $this->setStatus($id, "rcp", "read");
+
+		 $mail = array(
+			 "id" => 1,
+			 "from" => $row["snd"],
+			 "email" => $row["email"],
+			 "subject" => $row["subject"],
+			 "body" => $row["body"],
+			 "datetime" => $lng->fmtDateTime($row["date_send"]),
+			 "new" => 0
+			 );
+		 return $mail;
+	 }
+	 	 
+	 /**
+	  * send mail to recipient
+	  *
+	  * @param int
+	  * @param string
+	  * @param string
+	  * @access public
+	  */
  	 function sendMail($rcp, $subject, $body)
 	 {
 		$sql = "INSERT INTO mail

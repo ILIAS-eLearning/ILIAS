@@ -12,10 +12,13 @@ include("./include/inc.main.php");
 
 $tpl = new Template("tpl.mail_read.html", false, false);
 
-//get mails from user
+if ($_GET["id"]=="")
+	header("location: mail.php");
+
+//get the mail from user
 $myMails = new UserMail($ilias->db, $ilias->account->Id);
 
-$mails = $myMails->getMail();
+$mail = $myMails->getOneMail($id);
 
 if ($_POST["func"] != "")
 {
@@ -29,56 +32,47 @@ if ($_POST["func"] != "")
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./mail.php?folder=inbox");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("inbox"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("compose"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_options.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("options"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("old"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("sent"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("saved"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("deleted"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+include("./include/inc.mail_buttons.php");
 
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
 $tpl->setVariable("TXT_TO", $lng->txt("to"));
 $tpl->setVariable("TXT_SUBJECT",$lng->txt("subject"));
 $tpl->setVariable("TXT_DATE", $lng->txt("date"));
-$tpl->setVariable("TXT_REPLY", $lng->txt("reply"));
-$tpl->setVariable("TXT_FORWARD",$lng->txt("forward"));
-$tpl->setVariable("TXT_PRINT", $lng->txt("print"));
-$tpl->setVariable("TXT_DELETE",$lng->txt("delete"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
 $tpl->setVariable("TXT_URL",$lng->txt("url"));
 
+//buttons
+$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK","./mail_new.php?func=reply&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_TXT", $lng->txt("reply"));
+
+$tplbtn->parseCurrentBlock();
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK", "mail_new.php?func=forward&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_TXT", $lng->txt("forward"));
+$tplbtn->parseCurrentBlock();
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK", "mail_print.php?id=".$mail["id"]);
+$tplbtn->setVariable("BTN_TXT", $lng->txt("print"));
+$tplbtn->parseCurrentBlock();
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK", "mail.php?func=del&amp;id=".$mail["id"]);
+$tplbtn->setVariable("BTN_TXT", $lng->txt("delete"));
+$tplbtn->parseCurrentBlock();
+
+$tplbtn->setCurrentBlock("btn_row");
+$tplbtn->parseCurrentBlock();
+
+$tpl->setVariable("BUTTONS2",$tplbtn->get());
+
+//maildata
+$tpl->setVariable("FROM", $mail["from"]);
+$tpl->setVariable("TO", $ilias->account->Id);
+$tpl->setVariable("SUBJECT", $mail["body"]);
+$tpl->setVariable("DATE", $mail["datetime"]);
+$tpl->setVariable("MESSAGE", $mail["body"]);
+$tpl->setVariable("URL", "".$mail["url"]);
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
