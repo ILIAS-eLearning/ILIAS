@@ -63,7 +63,7 @@ change_basic_settings#:#更改基本设置
 change_password#:#更改口令 
 change_sort_direction#:#更改排序方向 
 check_failed_convert#:#转换测试失败 
-check_failed_htmldoc#:#HTMLdoc测试失败de 
+check_failed_htmldoc#:#HTMLdoc测试失败de ###26 May 2004 content changed
 check_failed_java#:#Java测试失败 
 check_failed_unzip#:#unzip测试失败 
 check_failed_zip#:#zip测试失败 
@@ -151,6 +151,8 @@ finish#:#完成安装
 finish_initial_setup_first#:#请先完成初始安装 
 finish_setup#:#正在完成安装
 firstname#:#名 
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#隐藏客户选择
 host#:#主机 
 htmldoc_path#:#到HTMLdoc的路径 
@@ -271,6 +273,7 @@ no_db_update_file#:#未找到dbupdate.php！
 no_password#:#未给定口令 
 no_path_convert#:#未给定转换路径
 no_path_datadir#:#未给定数据目录 
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#未给定路径 
 no_path_htmldoc#:#未给定HTMLdoc路径 
 no_path_java#:#未给定java路径 
@@ -300,6 +303,7 @@ password_same#:#新旧口令相同！
 password_set#:#口令已存 
 path_not_set#:#未设定路径 
 path_to_convert#:#转换路径！ 
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#HTMLdoc路径 
 path_to_java#:#Java路径 
 path_to_unzip#:#Unzip路径 

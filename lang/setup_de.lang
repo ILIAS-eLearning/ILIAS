@@ -47,7 +47,7 @@ change_basic_settings#:#Grundeinstellungen ändern
 change_password#:#Passwort ändern
 change_sort_direction#:#Sortierrichtung ndern
 check_failed_convert#:#Convert-Test fehlgeschlagen
-check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
+check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen###26 May 2004 content changed
 check_failed_java#:#Java-Test fehlgeschlagen
 check_failed_unzip#:#Unzip-Test fehlgeschlagen
 check_failed_zip#:#Zip-Test fehlgeschlagen
@@ -135,6 +135,8 @@ finish#:#Installation abschliessen
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 finish_setup#:#Abschliessen der Installationen
 firstname#:#Vorname
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
 htmldoc_path#:#HTMLdoc-Befehlszeile
@@ -255,6 +257,7 @@ no_db_update_file#:#dbupdate.php nicht gefunden!
 no_password#:#Kein Passwort angegeben
 no_path_convert#:#Convert-Pfad nicht angegeben
 no_path_datadir#:#Kein Datenverzeichnis angegeben
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#Keinen Pfad angegeben
 no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
 no_path_java#:#Java-Pfad nicht angegeben
@@ -284,6 +287,7 @@ password_same#:#Altes und neues Passwort sind gleich
 password_set#:#Das Passwort wurde gespeichert
 path_not_set#:#nicht angegeben
 path_to_convert#:#Convert-Befehlszeile
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#HTMLdoc-Befehlszeile
 path_to_java#:#Java-Befehlszeile
 path_to_unzip#:#Unzip-Befehlszeile

@@ -47,7 +47,7 @@ change_basic_settings#:#Mudar definições básicas
 change_password#:#Mudar palavra-passe
 change_sort_direction#:#Mudar direcção de ordenação
 check_failed_convert#:#Teste do convert falhou
-check_failed_htmldoc#:#Teste do HTMLdoc falhou
+check_failed_htmldoc#:#Teste do HTMLdoc falhou###26 May 2004 content changed
 check_failed_java#:#Teste do java falhou
 check_failed_unzip#:#Teste do unzip falhou
 check_failed_zip#:#Teste zip falhou
@@ -135,6 +135,8 @@ finish#:#Finalizar o setup
 finish_initial_setup_first#:#Por favor acabe primeiro o setup inicial
 finish_setup#:#A acabar o setup
 firstname#:#Primeiro nome
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Esconder selecção de cliente
 host#:#Anfitrião
 htmldoc_path#:#Caminho para o HTMLdoc
@@ -255,6 +257,7 @@ no_db_update_file#:#dbupdate.php não encontrado!
 no_password#:#Nenhuma palavra-passe dada
 no_path_convert#:#Nenhum caminho para o convert dado
 no_path_datadir#:#Nenhuma directoria de dados dada
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#Nenhum caminho dado
 no_path_htmldoc#:#Nenhum caminho para o HTMLdoc dado
 no_path_java#:#Nenhum caminho para o java dado
@@ -284,6 +287,7 @@ password_same#:#A palavra-passe antiga e a nova são iguais!
 password_set#:#Palavra-passe guardada
 path_not_set#:#Caminho não definido
 path_to_convert#:#Caminho para o Convert
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#Caminho para o HTMLdoc
 path_to_java#:#Caminho para o Java
 path_to_unzip#:#Caminho para o Unzip

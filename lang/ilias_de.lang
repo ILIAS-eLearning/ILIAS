@@ -1629,7 +1629,9 @@ common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage anfügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
+common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
 common#:#svy_new#:#Neue Umfrage
+common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_write#:#Umfrage kann bearbeitet werden
@@ -1910,6 +1912,7 @@ content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
+content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
@@ -2917,10 +2920,13 @@ survey#:#add_phrase#:#Phrase anfügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#apply#:#Übernehmen
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
+survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
+survey#:#constraints#:#Constraints###26 May 2004 new variable
+survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
 survey#:#dc_agree#:#einverstanden
@@ -2981,7 +2987,9 @@ survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr
 survey#:#dp_standard_beliefs_true_false#:#Standard-Vorstellungen (wahr-falsch)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard-Vorstellungen (wahr-unentschlossen-falsch)
 survey#:#duplicate#:#Duplizieren
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#Enddatum
+survey#:#enter_value#:#Enter a value###26 May 2004 new variable
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
@@ -2989,14 +2997,17 @@ survey#:#filter#:#Filter
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#introduction#:#Einleitung
+survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#minimum#:#Minimalwert
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
+survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
+survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -3030,8 +3041,12 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
+survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
+survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
+survey#:#select_relation#:#Select a relation###26 May 2004 new variable
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
+survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
 survey#:#start_survey#:#Umfrage beginnen

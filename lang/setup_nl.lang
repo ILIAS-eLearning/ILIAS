@@ -47,7 +47,7 @@ change_basic_settings#:#Wijzig basis-instellingen
 change_password#:#Wijzig uw wachtwoord
 change_sort_direction#:#Sorteervolgorde wijzigen
 check_failed_convert#:#Testen van conversie mislukt
-check_failed_htmldoc#:#Tesetn van HTMLdoc mislukt
+check_failed_htmldoc#:#Tesetn van HTMLdoc mislukt###26 May 2004 content changed
 check_failed_java#:#Testen van java mislukt
 check_failed_unzip#:#Testen unzip mislukt
 check_failed_zip#:#Testen van zippen mislukt
@@ -135,6 +135,8 @@ finish#:#Beëindig setup
 finish_initial_setup_first#:#Beëindig initiële opzet eerst
 finish_setup#:#Beëindiging setup
 firstname#:#Voornaam
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Verberg cliënt-selectie
 host#:#Host
 htmldoc_path#:#Pad naar HTMLdoc
@@ -255,6 +257,7 @@ no_db_update_file#:#dbupdate.php niet gevonden!
 no_password#:#Er is geen wachtwoord gegeven 
 no_path_convert#:#Geen conversie-pad opgegeven
 no_path_datadir#:#Geen gegevens-map opgegeven
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#Geen pad opgegeven
 no_path_htmldoc#:#Geen HTMPdoc-pad opgegeven
 no_path_java#:#Geen java-pad opgegeven
@@ -284,6 +287,7 @@ password_same#:#Het oude en nieuwe wachtwoord zijn gelijk!
 password_set#:#Wachtwoord opgeslagen
 path_not_set#:#Pad niet ingesteld
 path_to_convert#:#Pad naar Converteer
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#Pad naar HTMLdoc
 path_to_java#:#Pad naar Java
 path_to_unzip#:#Pad naar Unzip

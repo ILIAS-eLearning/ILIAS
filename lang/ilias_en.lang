@@ -1629,12 +1629,12 @@ common#:#svy#:#Survey
 common#:#svy_add#:#Add survey
 common#:#svy_delete#:#Delete survey
 common#:#svy_edit_permission#:#Change permission settings
+common#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
+common#:#svy_participate#:#Participate in a survey
 common#:#svy_read#:#Read access to survey
 common#:#svy_visible#:#Survey is visible
 common#:#svy_write#:#Edit survey
-common#:#svy_invite#:#Invite users to a survey
-common#:#svy_participate#:#Participate in a survey
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -1751,7 +1751,6 @@ content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
-content#:#cont_offline#:#Offline Versions
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
@@ -1913,6 +1912,7 @@ content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_obj_removed#:#Objects removed.
+content#:#cont_offline#:#Offline Versions
 content#:#cont_online#:#Online
 content#:#cont_order#:#Order Type
 content#:#cont_organization#:#Organization
@@ -2920,10 +2920,13 @@ survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#apply#:#Apply
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
+survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
+survey#:#constraints#:#Constraints
+survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
 survey#:#dc_agree#:#agree
@@ -2984,7 +2987,9 @@ survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-unde
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
 survey#:#duplicate#:#Duplicate
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#end_date#:#End date
+survey#:#enter_value#:#Enter a value
 survey#:#evaluation_access#:#Evaluation access
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
@@ -2992,14 +2997,17 @@ survey#:#filter#:#Filter
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
 survey#:#introduction#:#Introduction
+survey#:#invite_participants#:#Invite participants
 survey#:#last_update#:#Last update
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
 survey#:#minimum#:#Minimum value
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
+survey#:#no_available_constraints#:#There are no constraints defined!
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
+survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
 survey#:#no_questions_available#:#There are no questions available!
@@ -3033,8 +3041,12 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?
 survey#:#reset_filter#:#Reset filter
+survey#:#select_prior_question#:#Select a prior question
+survey#:#select_questionpool#:#Please select a question pool to store the created question
+survey#:#select_relation#:#Select a relation
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
+survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
 survey#:#start_survey#:#Start survey
@@ -3042,15 +3054,3 @@ survey#:#survey_questions#:#Questions
 survey#:#unfold#:#Unfold
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#view_phrase#:#View phrase
-survey#:#select_questionpool#:#Please select a question pool to store the created question
-survey#:#invite_participants#:#Invite participants
-survey#:#constraints#:#Constraints
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
-survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
-survey#:#select_prior_question#:#Select a prior question
-survey#:#continue#:#Continue >>
-survey#:#back#:#<< Back
-survey#:#select_relation#:#Select a relation
-survey#:#select_value#:#Select a value
-survey#:#enter_value#:#Enter a value
-survey#:#no_available_constraints#:#There are no constraints defined!
