@@ -7,8 +7,17 @@
 *
 * @package ilias-core
 */
+$include_paths = ini_get("include_path");
 
-$include_paths = explode(";",ini_get("include_path"));
+// unix & windows use different characters to separate paths
+$separator = ";";
+
+if (!strstr(php_uname(), "Windows"))
+{
+	$separator = ":";
+}
+
+$include_paths = explode($separator,$include_paths);
 
 $pear = false;
 $auth = false;
