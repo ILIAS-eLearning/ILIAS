@@ -359,11 +359,11 @@ class ilExerciseMembers
 		{
 			$query = "INSERT INTO exc_members ".
 				"SET obj_id = '".$a_new_id."', ".
-				"usr_id = '".$row->usr_id."', ".
-				"notice = '".$row->notice."', ".
-				"returned = '".$row->returned."', ".
-				"solved = '".$row->solved."', ".
-				"sent = '".$row->sent."'";
+				"usr_id = '".$row["usr_id"]."', ".
+				"notice = '".addslashes($row["notice"])."', ".
+				"returned = '".$row["returned"]."', ".
+				"solved = '".$row["solved"]."', ".
+				"sent = '".$row["sent"]."'";
 
 			$res = $this->ilias->db->query($query);
 		}
