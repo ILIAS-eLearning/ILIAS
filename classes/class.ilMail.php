@@ -545,6 +545,12 @@ class ilMail
 		include_once "classes/class.ilMailbox.php";
 		include_once "./classes/class.ilObjUser.php";
 
+		// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
+		$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"resubstitute");
+		$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"resubstitute");
+		$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"resubstitute");
+
+
 		$as_email = array();
 
 		$mbox =& new ilMailbox();
@@ -904,6 +910,12 @@ class ilMail
 				return $lng->txt("mail_no_attach_allowed");
 			}
 		}
+
+		// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
+		$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
+		$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
+		$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
+
 		// COUNT EMAILS
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
@@ -1199,5 +1211,46 @@ class ilMail
 		return;
 	}
 
+	function __substituteRecipients($a_rcp,$direction)
+	{
+		$new_name = array();
+
+		$tmp_names = $this->explodeRecipients($a_rcp);
+
+
+		foreach($tmp_names as $name)
+		{
+			if(strpos($name,"#") === 0)
+			{
+				$new_name[] = $name;
+				continue;
+			}
+			switch($direction)
+			{
+				case "substitute":
+					if(strpos($name,"@") and loginExists($name))
+					{
+						$new_name[] = preg_replace("/@/","§#¢",$name);
+					}
+					else
+					{
+						$new_name[] = $name;
+					}
+					break;
+					
+				case "resubstitute":
+					if(stristr($name,"§#¢"))
+					{
+						$new_name[] = preg_replace("/§#¢/","@",$name);
+					}
+					else
+					{
+						$new_name[] = $name;
+					}
+					break;
+			}
+		}
+		return implode(",",$new_name);
+	}
 } // END class.ilMail
 ?>
