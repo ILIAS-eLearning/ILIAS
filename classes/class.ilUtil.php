@@ -903,6 +903,7 @@ class ilUtil
 		// get list
 		$unzipcmd = $unzip." -Z -1 ".$file;
 		exec($unzipcmd, $arr);
+		$zdirs = array();
 		foreach($arr as $line)
 		{
 			if(is_int(strpos($line, "/")))
