@@ -166,6 +166,14 @@
 	</tr>
 	
 	<tr>
+		<td>adoptPermSaveObject</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="RoleObject.html">RoleObject</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
 		<td>assignSaveObject</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RoleObject.html">RoleObject</a><br>
@@ -241,7 +249,7 @@
 		<td>addRole</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			Anlegen des Rolle in object_data, rbac_ua, rbac_pa
+			Creates a role, inserts data in object_data, rbac_ua, rbac_pa
 		</td>
 	</tr>
 	
@@ -249,7 +257,7 @@
 		<td>assignUser</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Assigns a user to a role
 		</td>
 	</tr>
 	
@@ -257,7 +265,7 @@
 		<td>assignRoleToFolder</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Assigns a role to an role folder
 		</td>
 	</tr>
 	
@@ -621,7 +629,7 @@
 		<td>copyRolePermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Copies template permissions
 		</td>
 	</tr>
 	
@@ -796,30 +804,6 @@
 	</tr>
 	
 	<tr>
-		<td>DB.php</td>
-		<td width="100%" align="left" valign="top">				
-			 Included file in class <a href="Language.html">Language</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>DB.php</td>
-		<td width="100%" align="left" valign="top">				
-			 Included file in class <a href="DBUpdate.html">DBUpdate</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>DB.php</td>
-		<td width="100%" align="left" valign="top">				
-			 Included file in class <a href="Setup.html">Setup</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
 		<td>DB_Sql</td>
 		<td width="100%" align="left" valign="top">				
 			 Class <a href="DB_Sql.html">DB_Sql</a>.<br>
@@ -872,6 +856,22 @@
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="DBUpdate.html">DBUpdate</a><br>
 			db update file
+		</td>
+	</tr>
+	
+	<tr>
+		<td>DB.php</td>
+		<td width="100%" align="left" valign="top">				
+			 Included file in class <a href="DBUpdate.html">DBUpdate</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td>DB.php</td>
+		<td width="100%" align="left" valign="top">				
+			 Included file in class <a href="Setup.html">Setup</a><br>
+			
 		</td>
 	</tr>
 	
@@ -1027,6 +1027,14 @@
 	<tr>
 		<td>$db</td>
 		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="Search.html">Search</a><br>
+			database handler
+		</td>
+	</tr>
+	
+	<tr>
+		<td>$db</td>
+		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="TResource.html">TResource</a><br>
 			
 		</td>
@@ -1172,7 +1180,7 @@
 		<td>deleteUser</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Deletes a user from object_data, rbac_pa, rbac_ua and user_data
 		</td>
 	</tr>
 	
@@ -1180,7 +1188,7 @@
 		<td>deleteRole</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
 		</td>
 	</tr>
 	
@@ -1188,7 +1196,7 @@
 		<td>deleteLocalRole</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Deletes a local role and entries in rbac_fa and rbac_templates
 		</td>
 	</tr>
 	
@@ -1196,7 +1204,7 @@
 		<td>deassignUser</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Deassigns a user from a role
 		</td>
 	</tr>
 	
@@ -1204,7 +1212,7 @@
 		<td>deleteRolePermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Deletes a template
 		</td>
 	</tr>
 	
@@ -1265,7 +1273,7 @@
 		<td>ErrorHandling</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="ErrorHandling.html">ErrorHandling</a><br>
-			
+			Constructor
 		</td>
 	</tr>
 	
@@ -1278,57 +1286,9 @@
 	</tr>
 	
 	<tr>
-		<td>$Errno</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacReview.html">RbacReview</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>$Errno</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>$Errno</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacSystem.html">RbacSystem</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
 		<td>$Error</td>
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="DB_Sql.html">DB_Sql</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>$Error</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacReview.html">RbacReview</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>$Error</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>$Error</td>
-		<td width="100%" align="left" valign="top">				
-			 Variable in Class <a href="RbacSystem.html">RbacSystem</a><br>
 			
 		</td>
 	</tr>
@@ -1403,6 +1363,38 @@
 	</tr>
 	
 	<tr>
+		<td>$error_class</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="ILIAS.html">ILIAS</a><br>
+			Error Handling
+		</td>
+	</tr>
+	
+	<tr>
+		<td>$error_class</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="RbacReview.html">RbacReview</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td>$error_class</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="RbacAdmin.html">RbacAdmin</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td>$error_class</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="RbacSystem.html">RbacSystem</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
 		<td>error</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="IniFile.html">IniFile</a><br>
@@ -1431,6 +1423,14 @@
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="ElementList.html">ElementList</a><br>
 			list element
+		</td>
+	</tr>
+	
+	<tr>
+		<td>execute</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Search.html">Search</a><br>
+			search database with given values
 		</td>
 	</tr>
 	
@@ -1762,30 +1762,6 @@
 	</tr>
 	
 	<tr>
-		<td>getErrorMessage</td>
-		<td width="100%" align="left" valign="top">				
-			 Function in class <a href="RbacReview.html">RbacReview</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>getErrorMessage</td>
-		<td width="100%" align="left" valign="top">				
-			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
-		<td>getErrorMessage</td>
-		<td width="100%" align="left" valign="top">				
-			 Function in class <a href="RbacSystem.html">RbacSystem</a><br>
-			
-		</td>
-	</tr>
-	
-	<tr>
 		<td>getOperations</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacReview.html">RbacReview</a><br>
@@ -1965,7 +1941,7 @@
 		<td>getParentRoles</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Get parent roles in a path
 		</td>
 	</tr>
 	
@@ -1973,7 +1949,7 @@
 		<td>grantPermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Grants permissions to an object
 		</td>
 	</tr>
 	
@@ -1981,7 +1957,7 @@
 		<td>getRolePermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Return template permissions of an role
 		</td>
 	</tr>
 	
@@ -1989,7 +1965,7 @@
 		<td>getSetIdByObject</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Returns parent id of an object (obsolete)
 		</td>
 	</tr>
 	
@@ -1997,7 +1973,7 @@
 		<td>getRoleListByObject</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Returns a list of roles in an container
 		</td>
 	</tr>
 	
@@ -2005,7 +1981,7 @@
 		<td>getRoleData</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			gets data of an role
 		</td>
 	</tr>
 	
@@ -2013,7 +1989,7 @@
 		<td>getFoldersAssignedToRole</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			returns an array with role ids assigned to a role folder
 		</td>
 	</tr>
 	
@@ -2021,7 +1997,7 @@
 		<td>getRolesAssignedToFolder</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			return an array with role ids
 		</td>
 	</tr>
 	
@@ -2029,7 +2005,7 @@
 		<td>getRoleFolder</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			all role folder ids
 		</td>
 	</tr>
 	
@@ -2037,7 +2013,7 @@
 		<td>getRoleFolderOfObject</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			returns the data of a role folder assigned to an object
 		</td>
 	</tr>
 	
@@ -2045,7 +2021,7 @@
 		<td>getParentObject</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			return id of parent object
 		</td>
 	</tr>
 	
@@ -2053,7 +2029,7 @@
 		<td>getOperationsOnType</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			all possible operations of a type
 		</td>
 	</tr>
 	
@@ -2173,6 +2149,14 @@
 		<td>$groupList</td>
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="TRole.html">TRole</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td>getErrorMessage</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="RbacSystem.html">RbacSystem</a><br>
 			
 		</td>
 	</tr>
@@ -2398,6 +2382,14 @@
 	</tr>
 	
 	<tr>
+		<td>$ilias</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="Object.html">Object</a><br>
+			Constructor
+		</td>
+	</tr>
+	
+	<tr>
 		<td>$ini</td>
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="ILIAS.html">ILIAS</a><br>
@@ -2542,7 +2534,7 @@
 		<td>ILIAS</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="ILIAS.html">ILIAS</a><br>
-			constructor
+			setup ILIAS global object
 		</td>
 	</tr>
 	
@@ -2646,6 +2638,30 @@
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="Language.html">Language</a><br>
 			languages directory
+		</td>
+	</tr>
+	
+	<tr>
+		<td>Log</td>
+		<td width="100%" align="left" valign="top">				
+			 Class <a href="Log.html">Log</a>.<br>
+			logging
+		</td>
+	</tr>
+	
+	<tr>
+		<td>Log</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Log.html">Log</a><br>
+			constructor
+		</td>
+	</tr>
+	
+	<tr>
+		<td>$LOGFILE</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="Log.html">Log</a><br>
+			logfile
 		</td>
 	</tr>
 	
@@ -2907,7 +2923,7 @@
 		<td>Object</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="Object.html">Object</a><br>
-			Constructor
+			
 		</td>
 	</tr>
 	
@@ -3252,7 +3268,7 @@
 		<td>roleExists</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Checks if a role exists
 		</td>
 	</tr>
 	
@@ -3260,7 +3276,7 @@
 		<td>revokePermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Revokes permissions of object
 		</td>
 	</tr>
 	
@@ -3382,6 +3398,14 @@
 	</tr>
 	
 	<tr>
+		<td>$ROOT_FOLDER_ID</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="Object.html">Object</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
 		<td>$RootId</td>
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="Tree.html">Tree</a><br>
@@ -3417,7 +3441,7 @@
 		<td>RbacAdmin</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Constructor
 		</td>
 	</tr>
 	
@@ -3782,7 +3806,31 @@
 		<td>setRolePermission</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			Inserts template permissions in rbac_templates
+		</td>
+	</tr>
+	
+	<tr>
+		<td>setOptions</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Search.html">Search</a><br>
+			set options
+		</td>
+	</tr>
+	
+	<tr>
+		<td>setArea</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Search.html">Search</a><br>
+			set area
+		</td>
+	</tr>
+	
+	<tr>
+		<td>setText</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Search.html">Search</a><br>
+			set searchtext
 		</td>
 	</tr>
 	
@@ -3912,6 +3960,14 @@
 	</tr>
 	
 	<tr>
+		<td>$SYSTEM_FOLDER_ID</td>
+		<td width="100%" align="left" valign="top">				
+			 Variable in Class <a href="Object.html">Object</a><br>
+			
+		</td>
+	</tr>
+	
+	<tr>
 		<td>Setup</td>
 		<td width="100%" align="left" valign="top">				
 			 Class <a href="Setup.html">Setup</a>.<br>
@@ -3932,6 +3988,22 @@
 		<td width="100%" align="left" valign="top">				
 			 Variable in Class <a href="Setup.html">Setup</a><br>
 			sql-template-file
+		</td>
+	</tr>
+	
+	<tr>
+		<td>Search</td>
+		<td width="100%" align="left" valign="top">				
+			 Class <a href="Search.html">Search</a>.<br>
+			search
+		</td>
+	</tr>
+	
+	<tr>
+		<td>Search</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Search.html">Search</a><br>
+			Constructor
 		</td>
 	</tr>
 	
@@ -4266,7 +4338,7 @@
 		<td>updateUser</td>
 		<td width="100%" align="left" valign="top">				
 			 Function in class <a href="RbacAdmin.html">RbacAdmin</a><br>
-			
+			updates user data in table user_data
 		</td>
 	</tr>
 	
@@ -4368,6 +4440,22 @@
 	
 	<tr>
 		<td colspan="2" align="left" valign="top"><h4><a name="w">w</a></h4></td>
+	</tr>
+	
+	<tr>
+		<td>writeLanguageLog</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Log.html">Log</a><br>
+			special language checking routine
+		</td>
+	</tr>
+	
+	<tr>
+		<td>write</td>
+		<td width="100%" align="left" valign="top">				
+			 Function in class <a href="Log.html">Log</a><br>
+			logging
+		</td>
 	</tr>
 	
 	<tr>
