@@ -586,6 +586,26 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiResponseStr = $this->domxml->create_element("response_str");
 					$qtiResponseStr->set_attribute("ident", "gap_$i");
 					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$solution = $this->object->getSuggestedSolution($i);
+					if (count($solution))
+					{
+						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+						{
+							$qtiMaterial = $this->domxml->create_element("material");
+							$qtiMaterial->set_attribute("label", "suggested_solution");
+							$qtiMatText = $this->domxml->create_element("mattext");
+							$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+							if (strcmp($matches[1], "") != 0)
+							{
+								$intlink = $solution["internal_link"];
+							}
+							$qtiMatTextText = $this->domxml->create_text_node($intlink);
+							$qtiMatText->append_child($qtiMatTextText);
+							$qtiMaterial->append_child($qtiMatText);
+							$qtiResponseStr->append_child($qtiMaterial);
+						}
+					}
+					
 					$qtiRenderChoice = $this->domxml->create_element("render_choice");
 					// shuffle output
 					if ($gap[0]->get_shuffle())
@@ -627,6 +647,25 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiResponseStr = $this->domxml->create_element("response_str");
 					$qtiResponseStr->set_attribute("ident", "gap_$i");
 					$qtiResponseStr->set_attribute("rcardinality", "Single");
+					$solution = $this->object->getSuggestedSolution($i);
+					if (count($solution))
+					{
+						if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+						{
+							$qtiMaterial = $this->domxml->create_element("material");
+							$qtiMaterial->set_attribute("label", "suggested_solution");
+							$qtiMatText = $this->domxml->create_element("mattext");
+							$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+							if (strcmp($matches[1], "") != 0)
+							{
+								$intlink = $solution["internal_link"];
+							}
+							$qtiMatTextText = $this->domxml->create_text_node($intlink);
+							$qtiMatText->append_child($qtiMatTextText);
+							$qtiMaterial->append_child($qtiMatText);
+							$qtiResponseStr->append_child($qtiMaterial);
+						}
+					}
 					$qtiRenderFib = $this->domxml->create_element("render_fib");
 					$qtiRenderFib->set_attribute("fibtype", "String");
 					$qtiRenderFib->set_attribute("prompt", "Box");

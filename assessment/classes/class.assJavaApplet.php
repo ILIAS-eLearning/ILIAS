@@ -193,6 +193,26 @@ class ASS_JavaApplet extends ASS_Question
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
 
+		$solution = $this->object->getSuggestedSolution(0);
+		if (count($solution))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", "suggested_solution");
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $solution["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiFlow->append_child($qtiMaterial);
+			}
+		}
+		
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatApplet = $this->domxml->create_element("matapplet");
 		$qtiMatApplet->set_attribute("label", "applet data");
@@ -368,7 +388,10 @@ class ASS_JavaApplet extends ASS_Question
 								$childnodes = $flownode->child_nodes();
 								foreach ($childnodes as $childnodeindex => $childnode)
 								{
-									if (strcmp($childnode->node_name(), "mattext") == 0)
+									if (strcmp($childnode->get_attribute("label"), "suggested_solution") == 0)
+									{
+									}
+									elseif (strcmp($childnode->node_name(), "mattext") == 0)
 									{
 										if (!$childnode->has_attribute("label"))
 										{

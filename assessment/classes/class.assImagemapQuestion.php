@@ -589,6 +589,25 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiResponseXy = $this->domxml->create_element("response_xy");
 		$qtiResponseXy->set_attribute("ident", "IM");
 		$qtiResponseXy->set_attribute("rcardinality", "Single");
+		$solution = $this->object->getSuggestedSolution(0);
+		if (count($solution))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", "suggested_solution");
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $solution["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseXy->append_child($qtiMaterial);
+			}
+		}
 		$qtiRenderHotspot = $this->domxml->create_element("render_hotspot");
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatImage = $this->domxml->create_element("matimage");
