@@ -156,6 +156,20 @@ class ilPersonalDesktopGUI
 					}
 				}
 
+				// continue link
+				if ($item["continue_link"] != "" &&
+					$rbacsystem->checkAccess("read", $item["id"]))
+				{
+					$tpl->setCurrentBlock("continue_link");
+					$tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
+					$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
+					$tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setVariable("CONTINUE", "&nbsp;");
+				}
 
 				// edit link
 				if ($item["edit_link"] != "" &&

@@ -34,21 +34,21 @@ input, textarea {
 	background-color:#f7f7f7;
 	color:#222222;
 	font-size:13px;
-	padding:4px;
+	padding:3px;
 }
 
 .tblrow1 {
 	background-color:#eeeeee;
 	color:#222222;
 	font-size:13px;
-	padding:4px;
+	padding:3px;
 }
 
 .tblrowmarked {
 	background-color:#ffe0e0;
 	color:#222222;
 	font-size:13px;
-	padding:4px;
+	padding:3px;
 }
 
 /* -------------------- table formatting ------------------ */
@@ -92,7 +92,7 @@ table.fullwidth_invisible {
 }
 
 td.std {
-	padding:3px;
+	padding:2px;
 }
 
 th.il_invisible, td.il_invisible {
@@ -102,7 +102,7 @@ th.il_invisible, td.il_invisible {
 
 .tbltitle {
 	color:#222222;
-	font-size:16px;
+	font-size:14px;
 	font-weight:bold;
 	background-color: #C0C0C0;
 	background-image: url(blueshadow/images/cellpic5.gif);
@@ -141,13 +141,13 @@ tr.tblfooter {
 tr.std {
 	background-color:#eeeeee;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 }
 
 td.option {
 	background-color:#e2e2e2;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 	font-size:13px;
 	font-weight : bold;
 	vertical-align:top;
@@ -157,7 +157,7 @@ td.option {
 td.sub_option {
 	background-color:#eeeeee;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 	font-size:13px;
 	font-weight : bold;
 	vertical-align:top;
@@ -168,7 +168,7 @@ td.option_value {
 	background-color:#f7f7f7;
 	background-image: none;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 	font-size:13px;
 	vertical-align:top;
 	text-align:left;
@@ -178,7 +178,7 @@ td.option_desc, p.option_desc {
 	background-color:#f7f7f7;
 	background-image: none;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 	font-style:italic;
 	font-weight:normal;
 	font-size:11px;
@@ -189,7 +189,7 @@ td.option_desc, p.option_desc {
 td.submit {
 	background-color:#dddddd;
 	color:#222222;
-	padding:4px;
+	padding:3px;
 	font-size:13px;
 	vertical-align:top;
 }
@@ -475,17 +475,17 @@ div.il_Footer
 h1 {
 	margin-top:2px;
 	margin-bottom:5px;
-	font-size:16px;
+	font-size:14px;
 }
 
 h2 {
-	font-size:16px;
+	font-size:14px;
 	color:#222222;
 	background-color: #CCCCCC;
 	border-width:1px;
 	border-color:#909090;
 	border-style:solid;
-	padding:4px;
+	padding:3px;
 	margin-top:25px;
 	margin-bottom:0px;
 	background-image: url(blueshadow/images/cellpic5.gif);
@@ -660,7 +660,7 @@ a.ilEditSubmit, input.ilEditSubmit {
 input.ilEditHelpline {
 	background-color:#eeeeee;
 	border-style:none;
-	padding:4px;
+	padding:3px;
 	background-image: none;
 	text-decoration:none;
 	font-size:10px;
@@ -953,16 +953,17 @@ td.ilc_FileItem
 
 a.ilc_LMMenu
 {
-	padding-top:0px;
+	padding-top:1px;
 	padding-left:5px;
 	padding-right:5px;
-	padding-bottom:0px;
-	margin-top: 3px;
-	margin-bottom: 3px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
 	border-width: 1px;
-	border-style: inset;
+	border-style: solid;
 	border-color: #DDDDDD;
-	background-color: #DDDDDD;
+	border-color: #909090;
+	background-color: #EBEBEB;
 }
 
 div.ilc_TableOfContents

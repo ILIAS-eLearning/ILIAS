@@ -1612,6 +1612,7 @@ class ilObjUser extends ilObject
 					{
 						// check wether objects are online
 						$skip = false;
+						$continue_link = "";
 						switch($a_type)
 						{
 							case "lm":
@@ -1703,10 +1704,13 @@ class ilObjUser extends ilObject
 						}
 						else
 						{
-							$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
-								"&obj_id=".$item_rec["parameters"];
-							$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"].
-								"&obj_id=".$item_rec["parameters"];
+							if ($item_rec["parameters"] != "")
+							{
+								$continue_link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
+									"&obj_id=".$item_rec["parameters"];
+							}
+							$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"];
+							$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"];
 							$target = "ilContObj".$item_rec["obj_id"];
 						}
 
@@ -1715,7 +1719,8 @@ class ilObjUser extends ilObject
 							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 								array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 								"parameters" => $item_rec["parameters"], "description" => $item_rec["description"],
-								"link" => $link, "target" => $target, "edit_link" => $edit_link);
+								"link" => $link, "target" => $target, "edit_link" => $edit_link,
+								"continue_link" => $continue_link);
 						}
 					}
 					break;
