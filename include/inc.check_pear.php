@@ -33,6 +33,16 @@
 include_once("PEAR.php");
 include_once("Auth/Auth.php");
 
+// wrapper for php 4.3.2 & higher
+@include_once "HTML/IT.php";
+$tpl_class_name = "IntegratedTemplate";
+
+if (!class_exists(IntegratedTemplate))
+{
+	include_once "HTML/Template/IT.php";
+	$tpl_class_name = "HTML_Template_IT";
+}
+
 $include_paths = ini_get("include_path");
 
 // unix & windows use different characters to separate paths
@@ -44,8 +54,6 @@ if (!strstr(php_uname(), "Windows"))
 }
 
 $include_paths = explode($separator,$include_paths);
-
-// WE HAVE TO MAKE ANOTHER CHECK SINCE file_exists IS NOT ALLOWED IN SAFE_MODE
 
 $pear = class_exists("PEAR");
 $auth = class_exists("Auth");

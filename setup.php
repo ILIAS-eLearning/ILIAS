@@ -39,7 +39,7 @@ require_once "include/inc.check_pear.php";
 require_once "classes/class.ilSetup.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
-require_once "HTML/IT.php";
+
 
 $OK = "<font color=\"green\"><strong>OK</strong></font>";
 $FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
@@ -49,7 +49,7 @@ $REVISION = "$Revision$";
 $VERSION = substr(substr($REVISION,2),0,-2);
 
 //instantiate template - later in the program please use own Templateclass
-$tpl = new IntegratedTemplate("./templates/default");
+$tpl = new $tpl_class_name ("./templates/default");
 $tpl->loadTemplatefile("tpl.setup.html", true, true);
 
 // prepare file access to work with safe mode
