@@ -705,13 +705,13 @@ $this->db->query($query2);
 // check if setup migration is required
 $ini = new ilIniFile("./ilias.ini.php");
 
-$migrate = false;
+$migrate = true;
 
 if ($ini->read())
 {
-	if ($ini->readVariable("clients","path"))
+	if ($ini->readVariable("clients","path") !== false)
 	{
-		$migrate = true;
+		$migrate = false;
 	}
 }
 
