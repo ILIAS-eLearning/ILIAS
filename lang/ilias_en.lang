@@ -489,7 +489,6 @@ common#:#mail_z_local#:#User Folders
 common#:#mail_mark_unread#:#Mark mails unread
 common#:#mail_mark_read#:#Mark mails read
 common#:#mail_move_to#:#Move mails to
-common#:#no_date#:#No date
 common#:#internal_system#:#Internal system
 common#:#mail_intern_enable#:#Enable
 common#:#mail_allow_smtp#:#Allow SMTP
