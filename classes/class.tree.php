@@ -274,7 +274,7 @@ class Tree
 		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 				 "VALUES ".
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
 	}
 
 	/**
@@ -328,7 +328,7 @@ class Tree
 		$query = "DELETE FROM tree ".
 				 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
 				 "AND tree = '".$a_node["tree"]."'";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
 
 		// close gaps
 		$query = "UPDATE tree SET ".
@@ -343,7 +343,7 @@ class Tree
 				 "ELSE rgt ".
 				 "END ".
 				 "WHERE tree = '".$a_node["tree"]."'";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
 
 		$this->parent_id = $a_node["parent"];
 	}
@@ -760,7 +760,7 @@ class Tree
 		$query = "INSERT INTO tree (tree, child, parent, lft, rgt, depth) ".
 				 "VALUES ".
 				 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
 		
 		return true;
 	}
@@ -780,7 +780,7 @@ class Tree
 		}
 		
 		$query = "DELETE FROM tree WHERE tree = '".$a_tree_id."'";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($query);
 		
 		return true;
 	}
