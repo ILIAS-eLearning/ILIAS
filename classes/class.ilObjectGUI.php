@@ -1631,6 +1631,11 @@ class ilObjectGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
+
+			// SHOW VALID ACTIONS
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->showActions();
+
 		} //if is_array
 		else
 		{
@@ -1639,10 +1644,6 @@ class ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("NUM_COLS", $num);
-		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("NUM_COLS", $num);
