@@ -1807,10 +1807,14 @@ content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_mob#:#Crea un oggetto multimediale
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_credits#:#Ringraziamenti
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#Organizzazione predefinita
 content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
@@ -1885,6 +1889,7 @@ content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriet&#224; del Modulo
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
@@ -1939,8 +1944,12 @@ content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Visto
 content#:#cont_sc_stat_completed#:#Completato
 content#:#cont_sc_stat_failed#:#Fallito

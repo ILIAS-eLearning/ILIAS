@@ -1809,10 +1809,14 @@ content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Export-Datei anlegen
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_mob#:#Medienobjekt anlegen
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
@@ -1887,6 +1891,7 @@ content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1941,8 +1946,12 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Besucht
 content#:#cont_sc_stat_completed#:#Abgeschlossen
 content#:#cont_sc_stat_failed#:#Nicht bestanden

@@ -1697,9 +1697,13 @@ content#:#cont_create_dir#:#Crear Directorio
 content#:#cont_create_export_file#:#-Crear Fichero Exportado-
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_mob#:#Crear Objeto Media
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_cross_reference#:#Referencia Cruzada
 content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Presentación por defecto
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#default###04 Aug 2003 new variable
 content#:#cont_definition#:#Definición
 content#:#cont_definitions#:#Definiciones
@@ -1774,6 +1778,7 @@ content#:#cont_lk_term#:#Término de Glosario
 content#:#cont_lk_term_new#:#Término de Glosario (Nuevo Frame)
 content#:#cont_lm_menu#:#Menú
 content#:#cont_lm_properties#:#Propiedades del Módulo de Aprendizaje
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifiesto
 content#:#cont_map_areas#:#Áreas de Enlace
 content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
@@ -1827,8 +1832,12 @@ content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
 content#:#cont_roman#:#Números Romanos i, ii, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Map Area Grabada
 content#:#cont_saved_map_data#:#Grabados Datos de Mapa
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_title#:#-título-
 content#:#cont_school#:#Escuela
 content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
