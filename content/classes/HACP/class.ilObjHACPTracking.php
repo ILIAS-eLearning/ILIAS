@@ -15,21 +15,7 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		global $ilias, $HTTP_POST_VARS;
 		global $ilDB, $ilUser;
 		
-/*
-		if (is_object($ilUser))
-		{
-			$user_id = $ilUser->getId();
-		
-		}
-		
-		$fp=fopen("./content/hacp.log", "a+");
-		fputs($fp, "test 17\n");	
-		fputs($fp, "ilDB=$ilDB\n");	
-		fputs($fp, "user_id=$user_id\n");	
-		fputs($fp, "user_class=".get_class($ilUser)."\n");	
-		fclose($fp);	
-*/		
-		
+	
 		//just to make sure to extract only this parameter 
 		$mainKeys=array("command", "version", "session_id", "aicc_data");
 		$postVars=array_change_key_case($HTTP_POST_VARS, CASE_LOWER);
@@ -38,15 +24,16 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		}
 		
 		//only allowed commands
+		$command=strtolower($command);
 		$allowedCommands=array("getparam", "putparam", "exitau");
 		if (!in_array($command, $allowedCommands)) {
 			exit;
 		}
-			
+/*			
 		$fp=fopen("./content/hacp.log", "a+");
 		fputs($fp, "$command ref_id=$ref_id, obj_id=$obj_id\n");	
 		fclose($fp);			
-		
+*/		
 		$this->$command($ref_id, $obj_id, $version, $aicc_data);
 		
 	}

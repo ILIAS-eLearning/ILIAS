@@ -208,7 +208,11 @@ class ilHACPExplorer extends ilAICCExplorer
 						//$url.="?aicc_url=$hacpURL&aicc_sid=".$this->slm_obj->ref_id;
 						//$aicc_sid=$this->slm_obj->ref_id."%20".session_id();
 						$aicc_sid=implode("_", array(session_id(), $this->slm_obj->ref_id, $a_node_id));
-						$url.="?aicc_url=$hacpURL&aicc_sid=$aicc_sid";
+						if (strlen($unit->getWebLaunch())>0)
+							$url.="&";
+						else
+							$url.="?";
+						$url.="aicc_url=$hacpURL&aicc_sid=$aicc_sid";
 
 /*					
 						foreach ($this->slm_obj as $key=>$value)
