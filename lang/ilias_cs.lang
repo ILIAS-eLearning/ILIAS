@@ -613,6 +613,7 @@ common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktní informace
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Kontext
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Kopírovat
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Kopie
@@ -1837,6 +1838,7 @@ content#:#cont_derive_from_obj#:#Derive from Object###16 Mar 2004 new variable
 content#:#cont_details#:#Podrobnosti
 content#:#cont_dir_file#:#Adresář/soubor
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Edit Area###16 Mar 2004 new variable
 content#:#cont_edit_file_list_properties#:#Upravit vlastnosti seznamu souborů
 content#:#cont_edit_mob#:#Upravit mediální objekt
@@ -1844,6 +1846,7 @@ content#:#cont_edit_mob_alias_prop#:#Upravit vlastnosti instance mediálního ob
 content#:#cont_edit_mob_files#:#Soubory mediálního objektu 
 content#:#cont_edit_mob_properties#:#Upravit vlastnosti mediálního objektu
 content#:#cont_edit_par#:#Editovat ostavec
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Vlastnosti tabulky
 content#:#cont_edit_term#:#Upravit pojem
 content#:#cont_edition#:#Vydání
@@ -1871,6 +1874,7 @@ content#:#cont_insert_list#:#Vložit seznam
 content#:#cont_insert_mob#:#Vložit mediální objekt
 content#:#cont_insert_par#:#Vložit odstavec
 content#:#cont_insert_search#:#Vložte prosím výraz k vyhledání
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Vložit tabulku
 content#:#cont_internal#:#internal###16 Mar 2004 new variable
 content#:#cont_internal_link#:#interní odkaz
@@ -1993,8 +1997,10 @@ content#:#cont_set_width#:#Nastav šířku
 content#:#cont_shape#:#Shape###16 Mar 2004 new variable
 content#:#cont_show#:#Zobrazit
 content#:#cont_show_citation#:#Zobrazit s citací
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Velikost (Bajty)
 content#:#cont_source#:#Zdroj###01 Apr 2004 content changed
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Název kapitoly
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable

@@ -612,6 +612,7 @@ common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
 common#:#context#:#Contesto
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copia
 common#:#copyPage#:#Copia
 common#:#copy_of#:#Copia di
@@ -1835,6 +1836,7 @@ content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_disable_media#:#Disabilita Multimedia
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -1842,6 +1844,7 @@ content#:#cont_edit_mob_alias_prop#:#Modifica propriet&#224; dell&#039;istanza d
 content#:#cont_edit_mob_files#:#File oggetto
 content#:#cont_edit_mob_properties#:#Modifica propriet&#224; dell&#039;oggetto multimediale
 content#:#cont_edit_par#:#Modifica paragrafo
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
@@ -1869,6 +1872,7 @@ content#:#cont_insert_list#:#Inserisci lista
 content#:#cont_insert_mob#:#Inserisci oggetto multimediale
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Inserisci tabella
 content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#Collegamento interno
@@ -1991,8 +1995,10 @@ content#:#cont_set_width#:#Imposta larghezza
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
 content#:#cont_status#:#Stato

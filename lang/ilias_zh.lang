@@ -630,6 +630,7 @@ common#:#cont_object#:#对象
 common#:#contact_data#:#联系信息
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#上下文
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#拷贝
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#的拷贝
@@ -1854,6 +1855,7 @@ content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#详细情况
 content#:#cont_dir_file#:#目录/文件
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#编辑文件列表属性
 content#:#cont_edit_mob#:#编辑媒体对象
@@ -1861,6 +1863,7 @@ content#:#cont_edit_mob_alias_prop#:#编辑媒体对象即时属性
 content#:#cont_edit_mob_files#:#对象文件
 content#:#cont_edit_mob_properties#:#编辑媒体对象属性
 content#:#cont_edit_par#:#编辑段落
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#表格属性
 content#:#cont_edit_term#:#编辑术语
 content#:#cont_edition#:#版本
@@ -1888,6 +1891,7 @@ content#:#cont_insert_list#:#插入列表
 content#:#cont_insert_mob#:#插入媒体对象
 content#:#cont_insert_par#:#插入段落
 content#:#cont_insert_search#:#请插入一个搜索术语
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#插入表格
 content#:#cont_internal#:#内部的
 content#:#cont_internal_link#:#内部链接
@@ -2010,8 +2014,10 @@ content#:#cont_set_width#:#设置宽度
 content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
 content#:#cont_show_citation#:#具有引用的显示
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#大小（字节）
 content#:#cont_source#:#原始资料###01 Apr 2004 content changed
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#章标题
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable

@@ -613,6 +613,7 @@ common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
 common#:#context#:#Kontext
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
@@ -1872,8 +1873,8 @@ content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
-content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
+content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link

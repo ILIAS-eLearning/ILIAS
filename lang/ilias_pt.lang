@@ -613,6 +613,7 @@ common#:#cont_object#:#Objecto
 common#:#contact_data#:#Informação de Contacto
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Contexto
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copiar
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copia de
@@ -1837,6 +1838,7 @@ content#:#cont_derive_from_obj#:#Derivar do Objecto
 content#:#cont_details#:#Detalhes
 content#:#cont_dir_file#:#Directoria/Ficheiro
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Editar Área
 content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros
 content#:#cont_edit_mob#:#Editar Objecto de Média
@@ -1844,6 +1846,7 @@ content#:#cont_edit_mob_alias_prop#:#Editar Propriedades da Instância de Object
 content#:#cont_edit_mob_files#:#Ficheiros de Objecto
 content#:#cont_edit_mob_properties#:#Editar Propriedades do Objecto Média
 content#:#cont_edit_par#:#Editar Parágrafo
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
@@ -1871,6 +1874,7 @@ content#:#cont_insert_list#:#Inserir Lista
 content#:#cont_insert_mob#:#Inserir Objecto Média
 content#:#cont_insert_par#:#Inserir Parágrafo
 content#:#cont_insert_search#:#Por favor insira um termo a procurar
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Inserir Tabela
 content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#ligação interna
@@ -1993,8 +1997,10 @@ content#:#cont_set_width#:#Definir Largura
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
 content#:#cont_show_citation#:#Mostar com citação
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Tamanho (Bytes)
 content#:#cont_source#:#Fonte
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Título do Capítulo
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable

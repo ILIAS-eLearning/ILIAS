@@ -613,6 +613,7 @@ common#:#cont_object#:#Object
 common#:#contact_data#:#Contact-informatie
 common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Context
+common#:#continue_work#:#Continue###16 Jun 2004 new variable
 common#:#copy#:#Copie
 common#:#copyPage#:#Copy###10 May 2004 new variable
 common#:#copy_of#:#Copie van
@@ -1837,6 +1838,7 @@ content#:#cont_derive_from_obj#:#Leid van Object af
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/Bestand
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
 content#:#cont_edit_area#:#Wijzig gebied
 content#:#cont_edit_file_list_properties#:#Wijzigen bestandslijst-eigenschappen
 content#:#cont_edit_mob#:#Wijzigen media-object
@@ -1844,6 +1846,7 @@ content#:#cont_edit_mob_alias_prop#:#Wijzigen media-object-instance eigenschappe
 content#:#cont_edit_mob_files#:#Object-bestanden
 content#:#cont_edit_mob_properties#:#Wijzigen media-object-eigenschappen
 content#:#cont_edit_par#:#Wijzigen paragrafen
+content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
 content#:#cont_edit_tab_properties#:#Tabel-eigenschappen
 content#:#cont_edit_term#:#Wijzigen begrip
 content#:#cont_edition#:#Editie
@@ -1871,6 +1874,7 @@ content#:#cont_insert_list#:#Invoegen lijst
 content#:#cont_insert_mob#:#Invoegen media-object
 content#:#cont_insert_par#:#Invoegen paragraaf
 content#:#cont_insert_search#:#Invoegen van een zoeksleutel
+content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
 content#:#cont_insert_table#:#Invoegen tabel
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interne link
@@ -1993,8 +1997,10 @@ content#:#cont_set_width#:#Instellen breedte
 content#:#cont_shape#:#Vorm
 content#:#cont_show#:#laat zien
 content#:#cont_show_citation#:#Laat zien met citaat
+content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Grootte (Bytes)
 content#:#cont_source#:#Bron
+content#:#cont_src#:#Source code###16 Jun 2004 new variable
 content#:#cont_st_title#:#Hoofdstuk-titel
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable
