@@ -2320,12 +2320,15 @@ $tree = new ilTree(ROOT_FOLDER_ID);
 
 while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
-	$query = "SELECT * FROM tree WHERE child='".$row->child."' AND tree='1'";
-	$res2 = $this->db->query($query);
-	
-	if ($res2->numRows() > 0)
+	if ($row->tree > 0)
 	{
-		$tree->insertNode($row->child,$row->tree);
+		$query = "SELECT * FROM tree WHERE child='".$row->tree."' AND tree='1'";
+		$res2 = $this->db->query($query);
+
+		if ($res2->numRows() > 0)
+		{
+			$tree->insertNode($row->child,$row->tree);
+		}
 	}
 }
 
