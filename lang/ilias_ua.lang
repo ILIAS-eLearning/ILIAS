@@ -34,6 +34,7 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Dec 2003
+common#:#DD.MM.YYYY#:#DD.MM.YYYY###27 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###13 Jan 2004 new variable
 common#:#absolute_path#:#Абсолютний Шлях
 common#:#accept_usr_agreement#:#Прийняти угоду користувача?
