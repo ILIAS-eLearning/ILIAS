@@ -69,12 +69,11 @@ class ilTermDefinitionEditorGUI
 		//$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
 		//	$this->lng->txt("cont_definition")." ".$this->definition->getNr());
 
-		/*
 		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
-		$gloss_loc->setDefinition($this->definition);*/
+		$gloss_loc->setDefinition($this->definition);
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -86,7 +85,7 @@ class ilTermDefinitionEditorGUI
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setOutputMode("edit");
-		//$page_gui->setLocator($gloss_loc);
+		$page_gui->setLocator($gloss_loc);
 		$page_gui->setHeader($this->term->getTerm());
 		$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
 				array("edit", "view"),
@@ -111,6 +110,7 @@ class ilTermDefinitionEditorGUI
 			switch ($cmd)
 			{
 				case "editDefinitionMetaData":
+					$gloss_loc->display();
 					$this->editMeta();
 					break;
 
@@ -119,6 +119,10 @@ class ilTermDefinitionEditorGUI
 					break;
 
 				case "confirmDefinitionDeletion":
+					$gloss_loc->display();
+					$this->$cmd();
+					break;
+
 				case "cancelDefinitionDeletion":
 				case "deleteDefinition":
 				case "moveDown":
@@ -127,6 +131,7 @@ class ilTermDefinitionEditorGUI
 					break;
 
 				default:
+					$gloss_loc->display();
 					$page_gui->$cmd();
 					break;
 			}
@@ -277,7 +282,7 @@ class ilTermDefinitionEditorGUI
 
 	}
 
-	/*
+
 	function displayLocator()
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -308,7 +313,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setCurrentBlock("locator");
 		$this->tpl->setVariable("TXT_LOCATOR", $debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
-	}*/
+	}
 
 	function saveShortText()
 	{

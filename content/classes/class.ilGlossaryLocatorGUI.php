@@ -42,12 +42,13 @@ class ilGlossaryLocatorGUI
 
 	function ilGlossaryLocatorGUI()
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $tree;
 
-		$this->mode = "std";
+		$this->mode = "edit";
 		$this->temp_var = "LOCATOR";
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
+		$this->tree =& $tree;
 	}
 
 	function setTemplateVariable($a_temp_var)
@@ -70,6 +71,11 @@ class ilGlossaryLocatorGUI
 		$this->definition =& $a_def;
 	}
 
+	function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+
 	/**
 	* display locator
 	*/
@@ -79,26 +85,83 @@ class ilGlossaryLocatorGUI
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$this->tpl->touchBlock("locator_separator");
+		$path = $this->tree->getPathFull($_GET["ref_id"]);
 
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->glossary->getTitle());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
-		$this->tpl->parseCurrentBlock();
+		if (is_object($this->term))
+		{
+			$modifier = 0;
+		}
+		else
+		{
+			$modifier = 1;
+		}
 
-		$this->tpl->touchBlock("locator_separator");
+		switch($this->mode)
+		{
+			case "edit":
+				$script = "glossary_edit.php";
+				$repository = "repository.php";
+				break;
 
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->term->getTerm());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=listDefinitions&term_id=".$this->term->getId());
-		$this->tpl->parseCurrentBlock();
+			case "presentation":
+				$script = "glossary_presentation.php";
+				$repository = "../repository.php";
+				break;
+		}
 
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=".$_GET["cmd"]."&def=".$_GET["def"]);
-		$this->tpl->parseCurrentBlock();
+		foreach ($path as $key => $row)
+		{
+			if (($key < count($path)-$modifier))
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			if ($row["child"] == $this->tree->getRootId())
+			{
+				$title = $this->lng->txt("repository");
+				$link = $repository."?ref_id=".$row["child"];
+			}
+			else if (($_GET["ref_id"] == $row["child"]))
+			{
+				$title = $this->glossary->getTitle();
+				$link = $script."?ref_id=".$_GET["ref_id"];
+			}
+			else
+			{
+				$title = $row["title"];
+				$link = $repository."?ref_id=".$row["child"];
+			}
+			$this->tpl->setVariable("ITEM", $title);
+			$this->tpl->setVariable("LINK_ITEM", $link);
+			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if (is_object($this->definition))
+		{
+			$this->tpl->touchBlock("locator_separator");
+		}
+
+		if (is_object($this->term))
+		{
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->term->getTerm());
+			$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+				"&cmd=listDefinitions&term_id=".$this->term->getId());
+			$this->tpl->parseCurrentBlock();
+		}
+
+		//$this->tpl->touchBlock("locator_separator");
+
+		if (is_object($this->definition))
+		{
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
+			$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+				"&cmd=view&def=".$_GET["def"]);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		//$this->tpl->touchBlock("locator_separator");
 

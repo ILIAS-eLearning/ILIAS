@@ -135,13 +135,13 @@ class ilGlossaryPresentationGUI
 		$tbl->setTitle($this->lng->txt("cont_terms"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_term"),
+		$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
 			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
 
-		$cols = array("", "term", "language", "definitions", "id");
+		$cols = array("term", "language", "definitions", "id");
 		$header_params = array("ref_id" => $this->ref_id, "cmd" => "listTerms");
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%","24%","15%","60%"));
+		$tbl->setColumnWidth(array("25%","15%","60%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -150,7 +150,7 @@ class ilGlossaryPresentationGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+		//$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -176,9 +176,9 @@ class ilGlossaryPresentationGUI
 				for($j=0; $j<count($defs); $j++)
 				{
 					$def = $defs[$j];
-					$this->tpl->setCurrentBlock("definition");
-					$this->tpl->setVariable("DEF_LINK",
-						"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+					$this->tpl->setCurrentBlock("definition_no_link");
+					//$this->tpl->setVariable("DEF_LINK",
+					//	"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
 					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
 					$short_str = str_replace("<", "&lt;", $short_str);
@@ -189,8 +189,8 @@ class ilGlossaryPresentationGUI
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
-				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
+				//$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
+				$this->tpl->setVariable("TARGET_TERM", "glossary_presentation.php?ref_id=".
 					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
@@ -206,6 +206,9 @@ class ilGlossaryPresentationGUI
 		}
 	}
 
+	/**
+	* list definitions of a term
+	*/
 	function listDefinitions()
 	{
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -229,9 +232,10 @@ class ilGlossaryPresentationGUI
 
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 			"&cmd=post&term_id=".$_GET["term_id"]);
+		/*
 		$this->tpl->setVariable("TXT_ADD_DEFINITION",
 			$this->lng->txt("cont_add_definition"));
-		$this->tpl->setVariable("BTN_ADD", "addDefinition");
+		$this->tpl->setVariable("BTN_ADD", "addDefinition");*/
 
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
@@ -255,6 +259,7 @@ class ilGlossaryPresentationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			/*
 			if ($j > 0)
 			{
 				$this->tpl->setCurrentBlock("up");
@@ -271,16 +276,17 @@ class ilGlossaryPresentationGUI
 				$this->tpl->setVariable("LINK_DOWN",
 					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
 				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 
 			$this->tpl->setCurrentBlock("definition");
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
-			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			/*$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$this->tpl->setVariable("LINK_EDIT",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
+				*/
 			$this->tpl->parseCurrentBlock();
 		}
 		//$this->tpl->setCurrentBlock("def_list");
@@ -301,10 +307,25 @@ class ilGlossaryPresentationGUI
 	{
 		global $ilias_locator;
 
+		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		require_once ("content/classes/class.ilGlossaryLocatorGUI.php");
+		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc->setMode("presentation");
+		if (!empty($_GET["term_id"]))
+		{
+			$term =& new ilGlossaryTerm($_GET["term_id"]);
+			$gloss_loc->setTerm($term);
+		}
+		$gloss_loc->setGlossary($this->glossary);
+		//$gloss_loc->setDefinition($this->definition);
+		$gloss_loc->display();
+		return;
+
+
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		if (!empty($_GET["term_id"]))
 		{
