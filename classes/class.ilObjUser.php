@@ -1575,6 +1575,12 @@ class ilObjUser extends ilObject
 							"&obj_id=".$item_rec["parameters"];
 						$target = "bottom";
 					}
+					elseif ($a_type == "tst")
+					{
+						$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
+						$target = "bottom";
+						$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
+					}
 					else
 					{
 						$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
@@ -1583,7 +1589,6 @@ class ilObjUser extends ilObject
 							"&obj_id=".$item_rec["parameters"];
 						$target = "_top";
 					}
-
 					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
 						"parameters" => $item_rec["parameters"],
 						"link" => $link, "target" => $target, "edit_link" => $edit_link);
@@ -1638,6 +1643,31 @@ class ilObjUser extends ilObject
 				}
 				break;
 			default:
+				break;
+		}
+
+		switch ($a_type)
+		{
+			case "tst":
+				// get the users test status from the database
+				global $ilUser;
+				
+				$whereclause = preg_replace("/ OR $/", "", $whereclause);
+				if ($whereclause) {
+					$status_array = array();
+					$whereclause = "WHERE ($whereclause) AND ";
+					$q = sprintf("SELECT tst_tests.ref_fi as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active $whereclause tst_tests.test_id = tst_active.test_fi AND tst_active.user_fi = %s",
+						$this->ilias->db->quote($ilUser->id)
+					);
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_OBJECT)) {
+						$status_array[$item_rec->id] = $item_rec;
+					}
+					foreach ($items as $key => $value) {
+						$items[$key]["nr_of_tries"] = $status_array[$value["id"]]->nr_of_tries;
+						$items[$key]["used_tries"] = $status_array[$value["id"]]->tries;
+					}
+				}
 				break;
 		}
 
