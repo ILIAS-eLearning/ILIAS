@@ -1,0 +1,25 @@
+<form name="formHeading" action="{FORM_ACTION}" method="post">
+<table class="std">
+<tr>
+  <td class="tblheader" colspan="2">{TEXT_ADD_HEADING}</td>
+</tr>
+<tr>
+  <td class="option"><label for="heading">{TEXT_HEADING}</label><span class="asterisk">*</span>:</td>
+  <td class="option_value"><input name="heading" id="heading" type="text" value="{VALUE_HEADING}" size="60" /></td>
+</tr>
+<tr>
+  <td class="option"><label for="insertbefore">{TEXT_INSERT}:</label></td>
+  <td class="option_value"><select name="insertbefore" id="insertbefore"{SELECT_DISABLED}>
+<!-- BEGIN insertbefore_row -->
+		<option value="{VALUE_OPTION}"{SELECTED_OPTION}>{TEXT_OPTION}</option>
+<!-- END insertbefore_row -->
+	</td>
+</tr>
+<tr><td colspan="2" class="submit">
+<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<div align="right">
+<input name="cmd[saveHeading]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancelHeading]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+</td></tr>
+</table>
+</form>

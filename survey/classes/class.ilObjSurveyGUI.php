@@ -453,12 +453,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if (count($page) > 1)
 				{
 					$this->tpl->setCurrentBlock("questionblock_title");
-					$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
+					$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $this->lng->txt("questionblock") . ": " . $page[0]["questionblock_title"]);
 					$this->tpl->parseCurrentBlock();
 				}
 				foreach ($page as $data)
 				{
-					$this->tpl->setCurrentBlock("survey_content");					
+					$this->tpl->setCurrentBlock("survey_content");
+					if ($data["heading"])
+					{
+						$this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
+					}
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
 					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
@@ -1833,6 +1837,59 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Creates a form to add a heading to a survey
+*
+* Creates a form to add a heading to a survey
+*
+* @param integer $question_id The id of the question directly after the heading. If the id is given, an existing heading will be edited
+* @access public
+*/
+	function addHeadingObject($question_id = "")
+	{
+    $add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_heading.html", true);
+		$survey_questions =& $this->object->getSurveyQuestions();
+		if ($question_id)
+		{
+			$_POST["insertbefore"] = $question_id;
+			$_POST["heading"] = $survey_questions[$question_id]["heading"];
+		}
+		foreach ($survey_questions as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("insertbefore_row");
+			$this->tpl->setVariable("VALUE_OPTION", $key);
+			$option = $this->lng->txt("before") . ": \"" . $value["title"] . "\"";
+			if (strlen($option) > 80)
+			{
+				$option = preg_replace("/^(.{40}).*(.{40})$/", "\\1 [...] \\2", $option);
+			}
+			$this->tpl->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($option));
+			if ($key == $_POST["insertbefore"])
+			{
+				$this->tpl->setVariable("SELECTED_OPTION", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		if ($question_id)
+		{
+			$this->tpl->setVariable("TEXT_ADD_HEADING", $this->lng->txt("edit_heading"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TEXT_ADD_HEADING", $this->lng->txt("add_heading"));
+		}
+		$this->tpl->setVariable("TEXT_HEADING", $this->lng->txt("heading"));
+		$this->tpl->setVariable("VALUE_HEADING", $_POST["heading"]);
+		$this->tpl->setVariable("TEXT_INSERT", $this->lng->txt("insert"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
@@ -1843,6 +1900,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $rbacsystem;
     $add_parameter = $this->getAddParameter();
 
+		if ($_GET["editheading"])
+		{
+			$this->addHeadingObject($_GET["editheading"]);
+			return;
+		}
+		
 		if ($_GET["up"] > 0)
 		{
 			$this->object->moveUpQuestion($_GET["up"]);
@@ -1858,6 +1921,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_GET["qbdown"] > 0)
 		{
 			$this->object->moveDownQuestionblock($_GET["qbdown"]);
+		}
+		
+		if ($_POST["cmd"]["saveHeading"])
+		{
+			if ($_POST["heading"])
+			{
+				$this->object->saveHeading($_POST["heading"], $_POST["insertbefore"]);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("error_add_heading"));
+				$this->addHeadingObject();
+				return;
+			}
+		}
+		
+		if ($_POST["cmd"]["addHeading"])
+		{
+			$this->addHeadingObject();
+			return;
 		}
 		
 		if ($_POST["cmd"]["saveObligatory"])
@@ -1929,6 +2012,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
+		if ($_GET["removeheading"])
+		{
+			$this->object->saveHeading("", $_GET["removeheading"]);
+		}
+		
 		if ($_GET["editblock"])
 		{
 			$this->defineQuestionblock($_GET["editblock"]);
@@ -2230,6 +2318,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
+				if ($data["heading"])
+				{
+					$this->tpl->setCurrentBlock("heading");
+					$this->tpl->setVariable("TEXT_HEADING", $data["heading"]);
+					$this->tpl->setVariable("COLOR_CLASS", "std");
+					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
+						$this->tpl->setVariable("TEXT_EDIT", "<img src=\"" . ilUtil::getImagePath("icon_pencil.gif") . "\" alt=\"" . $this->lng->txt("edit") . "\" title=\"" . $this->lng->txt("edit") . "\" border=\"0\" />");
+						$this->tpl->setVariable("HREF_EDIT", $_SERVER['PHP_SELF'] . "$add_parameter&editheading=" . $data["question_id"]);
+						$this->tpl->setVariable("TEXT_DELETE", "<img src=\"" . ilUtil::getImagePath("delete.gif") . "\" alt=\"" . $this->lng->txt("remove") . "\" title=\"" . $this->lng->txt("remove") . "\" border=\"0\" />");
+						$this->tpl->setVariable("HREF_DELETE", $_SERVER['PHP_SELF'] . "$add_parameter&removeheading=" . $data["question_id"]);
+					}
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("QTab");
+//					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
+					$this->tpl->setVariable("COLOR_CLASS", "std");
+					$this->tpl->parseCurrentBlock();
+				}
 				if (!$data["questionblock_id"])
 				{
 					$this->tpl->setCurrentBlock("checkable");
@@ -2341,6 +2446,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
 				$this->tpl->setVariable("CONSTRAINTS", $this->lng->txt("constraints"));
+				$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
