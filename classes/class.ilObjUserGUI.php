@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.5 2003/03/31 09:38:20 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.6 2003/03/31 09:53:05 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -112,7 +112,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
 		{
 			// Userobjekt erzeugen
-			$user = new User($this->obj_id);
+			$user = new ilUser($this->obj_id);
 
 			// gender selection
 			$gender = ilUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
@@ -280,10 +280,10 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 		
 		// checks passed. save user		
-		$user = new User();
+		$user = new ilUser();
 		$user->assignData($_POST["Fobject"]);
 		
-		//create new UserObject
+		//create new ilUserObject
 		$userObj = new ilObjUser();
 		$userObj->setTitle($user->getFullname());
 		$userObj->setDescription($user->getEmail());
@@ -382,7 +382,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
-		$user = new User($this->object->getId());
+		$user = new ilUser($this->object->getId());
 		$user->assignData($_POST["Fobject"]);
 		$user->update();
 

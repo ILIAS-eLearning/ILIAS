@@ -168,9 +168,9 @@ class ilFormatMail extends ilMail
 			return false;
 		}
 
-		require_once "classes/class.User.php";
+		require_once "classes/class.ilUser.php";
 
-		$user = new User($this->mail_data["sender_id"]);
+		$user = new ilUser($this->mail_data["sender_id"]);
 		return $this->mail_data["rcp_to"] = $user->getLogin();
 	}
 	/**

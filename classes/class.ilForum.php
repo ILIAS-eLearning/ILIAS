@@ -621,7 +621,7 @@ class ilForum
    	*/
 	function getUser($a_user_id)
 	{
-		$userObj = new User($a_user_id);
+		$userObj = new ilUser($a_user_id);
 		
 		return $userObj;
 	}

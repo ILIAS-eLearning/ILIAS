@@ -26,7 +26,7 @@ require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
 require_once "classes/class.ilTemplate.php";
 require_once "classes/class.ilias.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilFormat.php";
 require_once "classes/class.ilObjectDefinition.php";
 require_once "classes/class.perm.php";
@@ -73,7 +73,7 @@ $objDefinition->startParsing();
 //var_dump("<pre>",$objDefinition->obj_data,"</pre");
 //instantiate user object
 
-$ilias->account = new User();
+$ilias->account = new ilUser();
 
 //but in login.php and index.php don't check for authentication 
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);

@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
-require_once "classes/class.User.php";
+require_once "classes/class.ilUser.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilMail.php";
 
@@ -214,7 +214,7 @@ foreach ($mail_data as $mail)
 	}
 
 	// GET FULLNAME OF SENDER
-	$tmp_user = new User($mail["sender_id"]); 
+	$tmp_user = new ilUser($mail["sender_id"]); 
 	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
 
 	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
