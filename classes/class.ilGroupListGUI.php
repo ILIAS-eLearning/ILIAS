@@ -147,7 +147,7 @@ class ilGroupListGUI
 	{
 
 		global  $tree, $rbacsystem;
-		
+
 		require_once "./include/inc.header.php";
 		require_once "./classes/class.ilExplorer.php";
 		require_once "./classes/class.ilTableGUI.php";
@@ -160,7 +160,7 @@ class ilGroupListGUI
 		sendInfo();
 		$this->setAdminTabs(true, "");
 		$this->setLocator();
-		
+
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
 
 		// set offset & limit
@@ -539,17 +539,19 @@ class ilGroupListGUI
 				$this->tpl->touchBlock("locator_separator");
 			}
 
-			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setCurrentBlock("locator_item");			
 			if ($row["child"] != $a_tree->getRootId())
 			{
 				$this->tpl->setVariable("ITEM", $row["title"]);
 			}
+
 			else
 			{
 				$this->tpl->setVariable("ITEM", $this->lng->txt("groups_overview"));
 			}
-			$this->tpl->setVariable("LINK_ITEM", "grp_list.php");
-			//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
+
+			$this->tpl->setVariable("LINK_ITEM", "grp_list.php?ref_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
 
 			$this->tpl->parseCurrentBlock();
 		}
