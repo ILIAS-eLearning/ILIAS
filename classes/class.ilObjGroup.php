@@ -531,6 +531,24 @@ class ilObjGroup extends ilObject
 		// get object instance of cloned group
 		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		
+		// first changed groupname to keep groupnames unique
+		include_once "./classes/class.ilGroup.php";
+		
+		$grp = new ilGroup();
+		
+		// find a free number
+		for ($n = 1;$n < 99;$n++)
+		{
+			$groupname_copy = $groupObj->getTitle()."_(copy_".$n.")";
+
+			if (!$grp->groupNameExists($groupname_copy))
+			{
+				$groupObj->setTitle($groupname_copy);
+				$groupObj->update();
+				break;
+			}
+		}
+
 		// setup rolefolder & default local roles (admin & member)
 		$roles = $groupObj->initDefaultRoles();
 
@@ -543,7 +561,7 @@ class ilObjGroup extends ilObject
 		// shofmann@databay.de	4.7.03
 		// copy group status
 		// 0=public,1=private,2=closed
-		//$groupObj->setGroupStatus($this->getGroupStatus());
+		$groupObj->setGroupStatus($this->getGroupStatus());
 		
 		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
