@@ -350,10 +350,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($_GET["lmmovecopy"] == "1")
 		{
-			$mtree = new ilTree($this->object->getId());
-			$mtree->setTableNames('lm_tree','lm_data');
-			$mtree->setTreeTablePK("lm_id");
-			$mtree->proceedDragDrop();
+			$this->proceedDragDrop();
 		}
 	
 		
@@ -401,6 +398,85 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		//$this->tpl->show(false);
 
 	}
+	
+	
+	/**
+	* proceed drag and drop operations on pages/chapters
+	*/
+	function proceedDragDrop()
+	{
+		$lmtree = new ilTree($this->object->getId());
+		$lmtree->setTableNames('lm_tree','lm_data');
+		$lmtree->setTreeTablePK("lm_id");
+
+		
+		// node-id of dragged object
+		$source_id = $_GET["dragdropSource"];
+		
+		// node-id of object under dragged obj at drop
+		$target_id = $_GET["dragdropTarget"];
+		
+		// "move" | "copy"
+		$movecopy = $_GET["dragdropCopymove"];
+		
+		// "after" | "before" : copy or move the source-object before or after the selected target-object.
+		$position = $_GET["dragdropPosition"];
+		
+		//echo "sourceId: $sourceId<br>";
+		//echo "targetId: $targetId<br>";
+		//echo "move or copy: $movecopy<br>";
+		//echo "position: $position<br>";
+		
+		$source_obj = ilLMObjectFactory::getInstance($this->object, $source_id, true);
+		$source_obj->setLMId($this->object->getId());
+		$target_obj = ilLMObjectFactory::getInstance($this->object, $target_id, true);
+		$target_obj->setLMId($this->object->getId());
+		$target_parent = $lmtree->getParentId($target_id);
+		
+		switch($movecopy)
+		{
+			// move pages / chapters
+			case "move":
+
+			if ($p_id < 0 || $t_id < 0) return;
+				// (1) page after page
+				if ($source_obj->getType() == "pg" &&
+					$target_obj->getType() == "pg")
+				{
+					//return;
+					
+					// cut page
+					if ($lmtree->isInTree($source_obj->getId()))
+					{
+						$node_data = $lmtree->getNodeData($source_obj->getId());
+						$lmtree->deleteTree($node_data);
+						// paste page
+						if(!$lmtree->isInTree($source_obj->getId()))
+						{
+							$target_pos = $target_id;
+							if ($position == "before")
+							{
+								$target_pos = IL_FIRST_NODE;
+								if ($pred = $lmtree->fetchPredecessorNode($target_id))
+								{
+									if ($lmtree->getParentId($pred["child"]) == $target_parent)
+									{
+										$target_pos = $pred["child"];
+									}
+								}
+							}
+							//$target = IL_FIRST_NODE;
+							$lmtree->insertNode($source_obj->getId(),
+								$target_parent, $target_pos);
+						}
+					}
+				}
+				break;
+		}
+		
+		$this->object->checkTree();
+	}
+
 
 
 	/**

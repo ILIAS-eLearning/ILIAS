@@ -411,30 +411,6 @@ class ilTree
 
 		return $childs;
 	}
-
-	
-	function proceedDragDrop() {
-		// node-id of dragged object
-		$sourceId = $_GET["dragdropSource"];
-		
-		// node-id of object under dragged obj at drop
-		$targetId = $_GET["dragdropTarget"];
-		
-		// "move" | "copy"
-		$movecopy = $_GET["dragdropCopymove"];
-		
-		// "after" | "before" : copy or move the source-object before or after the selected target-object.
-		$position = $_GET["dragdropPosition"];
-		
-		
-		echo "sourceId: $sourceId<br>";
-		echo "targetId: $targetId<br>";
-		echo "move or copy: $movecopy<br>";
-		echo "position: $position<br>";
-		
-		// call the right functions.
-		
-	}
 	
 	
 	/**
@@ -446,6 +422,7 @@ class ilTree
 	*/
 	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE)
 	{
+//echo "+$a_node_id+$a_parent_id+";
 		// CHECK node_id and parent_id > 0 if in main tree
 		if($this->__isMainTree())
 		{
