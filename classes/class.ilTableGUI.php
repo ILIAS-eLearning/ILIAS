@@ -86,7 +86,7 @@ class ilTableGUI
 	
 	/**
 	* Constructor
-	* 
+	*
 	* @param	array	content data (optional)
 	* @param	boolean	use global template (default)
 	* @access	public
@@ -94,7 +94,7 @@ class ilTableGUI
 	function ilTableGUI($a_data = 0,$a_global_tpl = true)
 	{
 		global $ilias, $tpl, $lng;
-		
+
 		$this->global_tpl = $a_global_tpl;
 		$this->ilias =& $ilias;
 
@@ -108,13 +108,24 @@ class ilTableGUI
 		}
 
 		$this->lng =& $lng;
-		
+
 		if (!$this->lng)
 		{
 			$this->lang_support = false;
 		}
-		
+
 		$this->setData($a_data);
+	}
+
+
+	/**
+	* set template
+	* @access	public
+	* @param	object	template object
+	*/
+	function setTemplate(&$a_tpl)
+	{
+		$this->tpl =& $a_tpl;
 	}
 
 	/**
@@ -127,7 +138,7 @@ class ilTableGUI
 		if (is_array($a_data))
 		{
 			$this->data = $a_data;
-		}	
+		}
 	}
 
 	/**
@@ -146,7 +157,7 @@ class ilTableGUI
 		if (!$this->icon)
 		{
 			$this->enabled["icon"] = false;
-			
+
 			return;
 		}
 
@@ -264,7 +275,7 @@ class ilTableGUI
 			$this->max_limit = true;
 		}
 	}
-	
+
 	/**
 	* set dataset offset
 	* @access	public
@@ -379,7 +390,7 @@ class ilTableGUI
 	function render()
 	{
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
-		
+
 		// table title icon
 		if ($this->enabled["icon"] && $this->enabled["title"])
 		{
@@ -463,7 +474,7 @@ class ilTableGUI
 					$this->tpl->setVariable("TBL_CONTENT_CELL",$tbl_content_cell);
 					$this->tpl->parseCurrentBlock();
 				}
-			
+
 				$this->tpl->setCurrentBlock("tbl_content_row");
 				$rowcolor = ilUtil::switchColor($count,"tblrow2","tblrow1");
 				$this->tpl->setVariable("ROWCOLOR", $rowcolor);
