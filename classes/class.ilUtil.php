@@ -388,12 +388,14 @@ class ilUtil
 	* 
 	* @access	public
 	* @param	string	type or 'all' to get all objects
-	* @param	string	permissions to check e.g. 'visible','read' 
+	* @param	string	permissions to check e.g. 'visible','read'
+	* @param	integer	node_id from where to start search (optional)
+	* @param	array	returned objects (internal use only for recursion)
+	* @return	array	returned objects
 	*/
-	function getObjectsByOperations($a_type,$a_operation,$a_node_id = ROOT_FOLDER_ID)
+	function getObjectsByOperations($a_type,$a_operation,$a_node_id = ROOT_FOLDER_ID, $objects = array())
 	{
 		global $tree, $rbacsystem;
-		static $objects = array();
 
 		$all = $a_type == 'all' ? true : false;
 
@@ -415,7 +417,7 @@ class ilUtil
 						}
 					}
 
-					ilUtil::getObjectsByOperations($a_type,$a_operation,$child["child"]);
+					$objects = ilUtil::getObjectsByOperations($a_type,$a_operation,$child["child"],$objects);
 				}
 			}
 		}
