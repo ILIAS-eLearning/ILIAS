@@ -897,7 +897,6 @@ $res = $this->db->query($query);
 // INSERT PERMISSIONS FOR MAIL OBJECT
 $query = "INSERT INTO rbac_pa ". 
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
-var_dump("<pre>",$query,"</pre");
 $res = $this->db->query($query);
 ?>
 
