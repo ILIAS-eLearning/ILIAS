@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.13 2003/07/07 08:47:19 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.14 2003/07/07 10:43:23 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -184,12 +184,13 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		foreach ($childs as $key => $val)
 	    {
+			//nur für Objecte mit Rechten	
 			// visible
-			if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
+			/*if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
 			{
 				continue;
-			}
-
+			}*/
+		
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
@@ -218,7 +219,7 @@ class ilObjGroupGUI extends ilObjectGUI
 											"tree_id" => $_GET["ref_id"],
 											"tree_table" => $this->grp_tree->table_tree
 											);
-
+			
 			unset($this->data["data"][$key]["ref_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}

@@ -27,7 +27,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.5 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.1 2003/07/07 08:48:34 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -57,9 +57,19 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->type = "fold";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 		
+
+		if($_GET["tree_id"])
+		{
+			$this->tree_id = $_GET["tree_id"];
+			$this->tree_table = $_GET["tree_table"];
+		}
+		else
+		{
+		 	$this->tree_id = $_GET["ref_id"];
+			$this->tree_table = $_GET["type"]."_table";
+		}
 		
-		$this->tree_id = $_GET["tree_id"];
-		$this->tree_table = $_GET["tree_table"];
+		
 		
 		$this->local_tree = new ilTree($this->tree_id);
 		$this->local_tree->setTableNames($this->tree_table,"object_data","object_reference");
@@ -68,6 +78,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		//$this->grp_tree = new ilTree($this->object->getRefId());
 		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
+	
 	
 	
 	/**
@@ -118,10 +129,10 @@ class ilObjFolderGUI extends ilObjectGUI
 		
 		global $rbacsystem,$lng;
 
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		/*if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+		}*/
 
 		//prepare objectlist
 		$this->objectList = array();
