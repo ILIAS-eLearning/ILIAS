@@ -1685,6 +1685,15 @@ content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_content#:#Content
+content#:#cont_status#:#Status
+content#:#cont_total_time#:#Total Time
+content#:#cont_credits#:#Credits
+content#:#cont_sc_stat_not_attempted#:#Not attempted
+content#:#cont_sc_stat_passed#:#Passed
+content#:#cont_sc_stat_completed#:#Completed
+content#:#cont_sc_stat_failed#:#Failed
+content#:#cont_sc_stat_incomplete#:#Incomplete
+content#:#cont_sc_stat_browsed#:#Browsed
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
