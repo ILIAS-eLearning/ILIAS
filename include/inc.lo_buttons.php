@@ -30,7 +30,7 @@ $tplbtn->setVariable("BTN_LINK", "lo_edit.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("list_of_questions"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "lo_edit.php");
+$tplbtn->setVariable("BTN_LINK", "lo_edit_multimedia.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("multimedia"));
 $tplbtn->parseCurrentBlock();
 
