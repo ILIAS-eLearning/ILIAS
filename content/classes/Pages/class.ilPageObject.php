@@ -95,6 +95,7 @@ class ilPageObject
 
 		// todo: make utf8 global (db content should be already utf8)
 		$this->xml = $this->page_record["content"];
+		$this->setParentId($this->page_record["parent_id"]);
 
 	}
 
@@ -784,7 +785,7 @@ class ilPageObject
 		ilMediaObject::_deleteAllUsages("pg", $this->getId());
 		foreach($usages as $mob_id => $val)
 		{
-			ilMediaObject::_saveUsage($mob_id, "pg", $this->getId());
+			ilMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
 		}
 	}
 

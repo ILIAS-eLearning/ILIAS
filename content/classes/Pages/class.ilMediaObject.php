@@ -517,6 +517,24 @@ class ilMediaObject extends ilObjMediaObject
 	}
 
 	/**
+	* get all usages of current media object
+	*/
+	function getUsages()
+	{
+		$q = "SELECT * FROM mob_usage WHERE id = '".$this->getId()."'";
+		$us_set = $this->ilias->db->query($q);
+
+		$ret = array();
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ret[] = array("type" => $us_rec["usage_type"],
+				"id" => $us_rec["usage_id"]);
+		}
+
+		return $ret;
+	}
+
+	/**
 	* get mime type for file
 	*
 	* @param	string		$a_file		file name
