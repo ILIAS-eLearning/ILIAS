@@ -1,0 +1,1802 @@
+/**
+* ILIAS language file
+*
+* @module		language file portuguese
+* @modulegroup	language
+* @author 		Noel Santos <noel.santos@iscte.pt>
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+common#:#3rd_party_software#:#3rd party software
+common#:#absolute_path#:#Caminho absoluto
+common#:#accept_usr_agreement#:#Aceitar acordo de utilização?
+common#:#access#:#Acesso
+common#:#action_aborted#:#Acção abortada
+common#:#actions#:#Acções
+common#:#active_roles#:#Papéis activos
+common#:#add#:#Adicionar
+common#:#add_author#:#Adicionar Autor
+common#:#add_member#:#Adicionar Membro
+common#:#add_translation#:#Adicionar tradução
+common#:#administrate#:#Administrar
+common#:#administration#:#Administração
+common#:#administrator#:#Administrador
+common#:#adopt#:#adoptar
+common#:#adopt_perm_from_template#:#Adoptar definições de permissões de Papel Modelo
+common#:#all_objects#:#Todos os Objectos
+common#:#allow_register#:#Disponível no registo de novos utilizadores
+common#:#and#:#e
+common#:#announce#:#Anunciar
+common#:#announce_changes#:#Anunciar alterações
+common#:#answers#:#Respostas
+common#:#application_completed#:#Aplicação completa
+common#:#application_date#:#Data da aplicação
+common#:#appointment#:#Marcação
+common#:#appointment_list#:#Lista de marcações
+common#:#archive#:#Arquivo
+common#:#are_you_sure#:#Tem a certeza?
+common#:#assign#:#Atribuir
+common#:#assign_lo_forum#:#Atribuir a Fórum LO
+common#:#assign_user_to_role#:#Atribuir utilizador ao papel
+common#:#at_location#:#na localização
+common#:#attachment#:#Anexo
+common#:#attachments#:#Anexos
+common#:#author#:#Autor
+common#:#authors#:#Autores
+common#:#available_languages#:#Linguagens disponíveis
+common#:#back#:#Anterior
+common#:#basedn#:#BaseDN
+common#:#basic_data#:#Dados Básicos
+common#:#bm#:#Marcador
+common#:#bmf#:#Pasta de marcadores
+common#:#bookmark_edit#:#Editar marcador
+common#:#bookmark_folder_edit#:#Editar pasta de marcadores
+common#:#bookmark_folder_new#:#Nova pasta de marcadores
+common#:#bookmark_new#:#Novo marcador
+common#:#bookmark_target#:#Alvo
+common#:#bookmarks#:#Marcadores
+common#:#bookmarks_of#:#Marcadores de
+common#:#btn_remove_system#:#Remover do sistema
+common#:#btn_undelete#:#Repor
+common#:#by#:#Por
+common#:#calendar#:#Calendario
+common#:#cancel#:#Cancelar
+common#:#cannot_uninstall_language_in_use#:#Não pode desinstalar a linguagem actualmente em utilizacão!
+common#:#cannot_uninstall_systemlanguage#:#Não pode desinstalar a linguagem de sistema!
+common#:#cat#:#Categoria
+common#:#cat_a#:#uma categoria
+common#:#cat_add#:#Adicionar Categoria
+common#:#cat_added#:#Categoria adicionada
+common#:#cat_edit#:#Editar Categoria
+common#:#cat_new#:#Nova categoria
+common#:#categories#:#Categorias
+common#:#cc#:#CC
+common#:#censorship#:#Censorship
+common#:#change#:#Mudar
+common#:#change_active_assignment#:#Mudar atribuição activa
+common#:#change_assignment#:#Mudar atribuição
+common#:#change_existing_objects#:#Mudar os Objectos existentes
+common#:#change_lo_info#:#Mudar informações LO
+common#:#change_metadata#:#Mudar metadados
+common#:#change_sort_direction#:#Mudar direcção de ordenação
+common#:#changed_to#:#mudado para
+common#:#chapter#:#Capítulo
+common#:#chapter_number#:#Número do Capítulo
+common#:#chapter_title#:#Título do Capítulo
+common#:#check#:#Verificar
+common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
+common#:#check_languages#:#Verifica linguagens
+common#:#chg_language#:#Mudar linguagem
+common#:#chg_password#:#Mudar palavra passe
+common#:#choose_language#:#Escolha a sua linguagem
+common#:#choose_location#:#Escolha a localização
+common#:#choose_only_one_language#:#Por favor escolha apenas uma linguagem
+common#:#city#:#Cidade
+common#:#clear#:#Limpar
+common#:#client_id#:#ID de cliente
+common#:#clipboard#:#Clipboard
+common#:#close#:#Fechar
+common#:#comma_separated#:#Separado por vírgulas
+common#:#comment#:#comentário
+common#:#compose#:#Compor
+common#:#confirm#:#Confirmar
+common#:#cont_object#:#Objecto
+common#:#contact_data#:#Informação de contacto
+common#:#context#:#Contexto
+common#:#copy#:#Copiar
+common#:#copy_of#:#Copia de
+common#:#country#:#País
+common#:#course#:#Curso
+common#:#courses#:#Cursos
+common#:#create#:#Criar
+common#:#create_in#:#Criar em
+common#:#create_stylesheet#:#Criar estilo
+common#:#crs#:#Curso
+common#:#crs_a#:#um Curso
+common#:#crs_add#:#Adicionar Curso
+common#:#crs_added#:#Curso adicionado
+common#:#crs_available#:#Cursos disponíveis
+common#:#crs_edit#:#Editar Curso
+common#:#crs_management_system#:#Sistema de Gestão de Cursos
+common#:#crs_new#:#Novo Curso
+common#:#current_password#:#Palavra passe actual
+common#:#cut#:#Cortar
+common#:#cutPage#:#Cortar
+common#:#database#:#Base de dados
+common#:#database_version#:#Actual versão da base de dados
+common#:#dataset#:#Item
+common#:#date#:#Data
+common#:#dateplaner#:#Dateplaner
+common#:#day#:#Dia
+common#:#days#:#Dias
+common#:#db_host#:#Anfitrião da base de dados
+common#:#db_name#:#Nome da base de dados
+common#:#db_need_update#:#A base de dados necessita de uma actualização!
+common#:#db_pass#:#Palavra passe da base de dados
+common#:#db_type#:#Tipo da base de dados
+common#:#db_user#:#Utilizador da base de dados
+common#:#db_version#:#Versão da base de dados
+common#:#dbk#:#Livro Digilib
+common#:#dbk_a#:#um Livro Digilib
+common#:#dbk_add#:#Adicionar Livro Digilib
+common#:#dbk_added#:#Livro Digilib Book adicionado
+common#:#dbk_new#:#Novo Livro Digilib
+common#:#default#:#Defeito
+common#:#default_language#:#Languagem defeito
+common#:#default_role#:#Papel Defeito
+common#:#default_roles#:#Papeis Defeito
+common#:#default_skin#:#Pele defeito
+common#:#default_skin_style#:#Pele defeito / estilo
+common#:#default_style#:#Estilo defeito
+common#:#delete#:#Apagar
+common#:#delete_all#:#Apagar todos
+common#:#delete_object#:#Apagar Objecto(s)
+common#:#delete_selected#:#Apagar Seleccionados
+common#:#deleted#:#Apagados
+common#:#department#:#Departmento
+common#:#desc#:#Descrição
+common#:#description#:#Descrição
+common#:#desired_password#:#Palavra passe desejada
+common#:#disabled#:#Desligado
+common#:#down#:#Baixo
+common#:#download#:#Descarregar
+common#:#drafts#:#Rascunhos
+common#:#drop#:#Desistir
+common#:#edit#:#Editar
+common#:#edit_data#:#editar dados
+common#:#edit_operations#:#Editar Operações
+common#:#edit_properties#:#Editar Propriedades
+common#:#edit_stylesheet#:#Editar estilo
+common#:#edited_at#:#Editado em
+common#:#editor#:#Editor
+common#:#email#:#E-mail
+common#:#email_not_valid#:#O endereço de email que pôs é inválido!
+common#:#enable#:#Ligar
+common#:#enable_registration#:#Permitir o registo de novos utilizadores
+common#:#enabled#:#Ligado
+common#:#enumerate#:#Enumerar
+common#:#err_1_param#:#Apenas 1 parâmetro!
+common#:#err_2_param#:#Apenas 2 parâmetros!
+common#:#err_count_param#:#Razão: Contagem de parâmetros errada
+common#:#err_in_line#:#Erro na linha
+common#:#err_no_langfile_found#:#Nenhum ficheiro de linguagem encontrado!
+common#:#err_no_param#:#Nenhum parâmetro!
+common#:#err_over_3_param#:#Mais de 3 parâmetros!
+common#:#err_session_expired#:#A sua sessão expirou!
+common#:#err_wrong_header#:#Razão: Header errado.
+common#:#err_wrong_login#:#Login errado
+common#:#error_recipient#:#Recipiente errado
+common#:#exc#:#Exercício
+common#:#exc_add#:#Adicionar exercício
+common#:#exc_added#:#Exercício adicionado
+common#:#exc_ask_delete#:#Apagar ficheiro?
+common#:#exc_assign_usr#:#Atribuir utilizador
+common#:#exc_date_not_valid#:#A data não é válida
+common#:#exc_deassign_members#:#Apagar membro(s)
+common#:#exc_edit#:#Novo exercício creado
+common#:#exc_edit_exercise#:#Editar exercício
+common#:#exc_edit_until#:#Editar até
+common#:#exc_files#:#Ficheiros
+common#:#exc_groups#:#Grupos
+common#:#exc_header_members#:#Exercício(membros)
+common#:#exc_instruction#:#Instruções de trabalho
+common#:#exc_members_already_assigned#:#Este utilizador já está atribuido a este exercício
+common#:#exc_members_assigned#:#Membros atribuidos
+common#:#exc_new#:#Novo exercício
+common#:#exc_no_members_assigned#:#Nenhuns membros atribuidos
+common#:#exc_notices#:#Notices
+common#:#exc_obj#:#Exercício
+common#:#exc_save_changes#:#Salvar
+common#:#exc_search_for#:#Procurar por
+common#:#exc_send_exercise#:#Enviar exercício
+common#:#exc_sent#:#O exercício foi enviado aos utilizadores seleccionados
+common#:#exc_status_returned#:#Returnou
+common#:#exc_status_saved#:#Exercício actualizado
+common#:#exc_status_solved#:#Resolvido
+common#:#exc_upload_error#:#Erro a enviar ficheiro
+common#:#exc_users#:#Utilizadores
+common#:#excs#:#Exercícios
+common#:#execute#:#Executar
+common#:#export_html#:#exportar como ficheiro html
+common#:#export_xml#:#exportar como ficheiro xml
+common#:#faq_exercise#:#Exercício FAQ
+common#:#fax#:#Fax
+common#:#feedback#:#Feedback
+common#:#feedback_recipient#:#Feedback Recipient
+common#:#file#:#Ficheiro
+common#:#file_a#:#a Ficheiro
+common#:#file_add#:#Enviar ficheiro
+common#:#file_added#:#Ficheiro enviado
+common#:#file_new#:#Novo ficheiro
+common#:#file_not_found#:#Ficheiro não encontrado
+common#:#file_not_valid#:#Ficheiro inválido!
+common#:#file_valid#:#Ficheiro válido!
+common#:#file_version#:#Versão fornecida no ficheiro
+common#:#files_location#:#Localização dos ficheiros
+common#:#fill_out_all_required_fields#:#Por favor preencha todos os campos necessários
+common#:#firstname#:#Primeiro nome
+common#:#flatview#:#Vista plana
+common#:#fold#:#Pasta
+common#:#fold_a#:#uma Pasta
+common#:#fold_add#:#Adicionar Pasta
+common#:#fold_added#:#Pasta adicionada
+common#:#fold_new#:#Nova Pasta
+common#:#folder#:#pasta
+common#:#folders#:#Pastas
+common#:#force_accept_usr_agreement#:#Você tem de aceitar o acordo de utilização!
+common#:#forename#:#Apelido
+common#:#form_empty_fields#:#Por favor complete estes campos:
+common#:#forum#:#Fórum
+common#:#forums#:#Fóruns
+common#:#forums_overview#:#Vista de Fóruns
+common#:#frm#:#Fórum
+common#:#frm_a#:#um Fórum
+common#:#frm_add#:#Adicionar Fórum
+common#:#frm_added#:#Fórum adicionado
+common#:#frm_edit#:#Editar Fórum
+common#:#frm_new#:#Novo Fórum
+common#:#from#:#De
+common#:#fullname#:#Nome completo
+common#:#functions#:#Funções
+common#:#gdf_add#:#Adicionar Definição
+common#:#gdf_new#:#Nova Definição
+common#:#gender#:#Género
+common#:#gender_f#:#Feminino
+common#:#gender_m#:#Masculino
+common#:#generate#:#Gerar
+common#:#glo#:#Glossario
+common#:#glo_a#:#a Glossario
+common#:#glo_add#:#Add Glossario
+common#:#glo_added#:#Glossario adicionado
+common#:#glo_new#:#Novo Glossario
+common#:#glossaries#:#Glossarios
+common#:#glossary#:#Glossario
+common#:#glossary_added#:#Glossario adicionado
+common#:#group_access_denied#:#Acesso negado
+common#:#group_any_objects#:#Nenhuns Subobjectos disponíveis
+common#:#group_desc#:#Descrição do Grupo
+common#:#group_details#:#Detalhes do Grupo
+common#:#group_filesharing#:#Partilha de ficheiros de grupo
+common#:#group_members#:#Membros do grupo
+common#:#group_memstat#:#Estado do Membro
+common#:#group_memstat_admin#:#Administrador
+common#:#group_memstat_member#:#Membro
+common#:#group_name#:#Nome do Grupo
+common#:#group_new_registrations#:#Novas inscrições
+common#:#group_no_registration#:#registo não requerido
+common#:#group_no_registration_msg#:#Você não é um membro deste grupo até agora. Devido a razões de administração é necessário subscrever o grupo requerido.<br> Como membro você tem as seguintes vantagens:<br>- Você é informado de notícias e actualizações<br>- Você pode aceder a objectos como fóruns, módulos de aprendizagem, etc.<br><br>Você pode anular a sua inscrição a qualquer momento.
+common#:#group_not_available#:#Nenhum grupo disponível
+common#:#group_objects#:#Objectos de grupo
+common#:#group_password_registration_expired_msg#:#O período de registo deste grupo expirou, um anuncio já não é possível. Por favor contacte o repectivo dono do grupo ou administrador.
+common#:#group_password_registration_msg#:#Para se inscrever neste grupo você tem de fornecer a palavra passe fornecida pelo administrador deste grupo.<br>Você é automáticamente atribuido ao grupo se a sua palavra passe for correcta.
+common#:#group_registration_expiration_date#:#Data de expiração
+common#:#group_registration_expiration_time#:#Tempo de expiração
+common#:#group_registration_expired#:#Período de registo expirou
+common#:#group_registration_mode#:#Modo de Registo
+common#:#group_req_password#:#Palavra de registo necessária
+common#:#group_req_registration#:#Registo necessário
+common#:#group_req_registration_msg#:#Para se inscrever neste grupo você tem de se registar. O respectivo administrador de grupo atribuilo-á ao grupo. Por favor forneça um assunto para dar razões à sua aplicação.<br>Você receberá uma mensagem quando for atribuido ao grupo.
+common#:#group_reset#:#Redefinir permissões do Grupo
+common#:#group_status#:#Estado do Grupo
+common#:#group_status_closed#:#Fechado
+common#:#group_status_public#:#Público
+common#:#groups#:#Grupos
+common#:#groups_overview#:#Vista dos Groups
+common#:#grp#:#Grupo
+common#:#grp_a#:#um Grupo
+common#:#grp_add#:#Adicionar Grupo
+common#:#grp_added#:#Grupo adicionado
+common#:#grp_edit#:#Editar Grupo
+common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necessita de pelo menos um administrador de grupo
+common#:#grp_err_error#:#Ocorreu um erro
+common#:#grp_err_last_member#:#O último membro no pôde ser removido, por favor apague antes o grupo.
+common#:#grp_err_member_could_not_be_removed#:#O membro não pôde ser removido. Por favor verifique todas as dependências deste utilizador.
+common#:#grp_err_no_permission#:#Você não possui as permissões para esta operação.
+common#:#grp_err_registration_data#:#Por favor forneça a palavra passe, a data e hora de expiração para um período válido de registo !
+common#:#grp_mem_change_status#:#Mudar estado do membro
+common#:#grp_mem_leave#:#Dispensar membro do grupo
+common#:#grp_mem_send_mail#:#Enviar mensagem a membro
+common#:#grp_msg_membership_annulled#:#Inscrição anulada
+common#:#grp_name_exists#:#Já existe um grupo com este nome! Por favor escolha outro nome.
+common#:#grp_new#:#Novo Grupo
+common#:#grp_register#:#Inscrever
+common#:#grp_registration_completed#:#Inscrição completa
+common#:#guest#:#Convidado
+common#:#guests#:#Convidados
+common#:#help#:#Ajuda
+common#:#hide_details#:#esconder detalhes
+common#:#hide_structure#:#Desligar vista-estruturada
+common#:#hobby#:#Interesses/Passatempos
+common#:#home#:#Casa
+common#:#host#:#Anfitrião
+common#:#http_path#:#Caminho Http
+common#:#id#:#ID
+common#:#identifier#:#identificador
+common#:#ilias_version#:#Versão do ILIAS
+common#:#image#:#Imagem
+common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a administração do sistema e verifique o caminho para o convert.
+common#:#import#:#Importar
+common#:#import_lm#:#Importar Módulo de aprendizagem
+common#:#import_slm#:#Importar pacote SCORM
+common#:#in#:#em
+common#:#in_use#:#Linguagem de utilizador
+common#:#inbox#:#Caixa de entrada
+common#:#info_assign_sure#:#Tem a certeza que quer atribuir os seguintes utilizadore(s)?
+common#:#info_delete_sure#:#Tem a certeza que deseja apagar os seguintes objecto(s)?
+common#:#info_deleted#:#Objecto(s) apagados
+common#:#info_trash#:#Objectos apagados
+common#:#inform_user_mail#:#Enviar email para imformar o utilizador das alterações
+common#:#information_abbr#:#Informação
+common#:#ingmedia_all_offers#:#Todos LE
+common#:#ingmedia_back_to_le#:#Voltar para LE
+common#:#ingmedia_good_afternoon#:#Boa tarde
+common#:#ingmedia_good_evening#:#Boa noite
+common#:#ingmedia_good_morning#:#Bom dia
+common#:#ingmedia_good_night#:#Boa noite
+common#:#ingmedia_hello#:#Olá
+common#:#ingmedia_info_about_work1#:#Lidado
+common#:#ingmedia_info_about_work2#:#, você trabalhou aqui a última vez. Você pode continuar ali carregando aqui:
+common#:#ingmedia_level_zero#:#Subir nível
+common#:#ingmedia_pers_dates#:#Dados pessoais
+common#:#ingmedia_reg_fo#:#Fóruns registados
+common#:#ingmedia_reg_le#:#LE registados
+common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
+common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you have to accept the user agreement.
+common#:#ingmedia_use_info3#:#Por favor seleccione uma das ligações na barra do lado.
+common#:#ingmedia_use_title#:#Mudar os seus dados de utilizador.
+common#:#ingmedia_user_agree#:#Acordo
+common#:#ingmedia_vis_le#:#LE visitados
+common#:#ingmedia_visited_le#:#Todos os LE que visitou até agora.
+common#:#ingmedia_welcome#:#, benvindo à sua área pessoal!!
+common#:#inifile#:#Ficheiro-Ini
+common#:#input_error#:#Erro de entrada
+common#:#insert#:#Inserir
+common#:#inst_id#:#ID de instalação
+common#:#inst_info#:#Informações da instalação
+common#:#inst_name#:#Nome da instalação
+common#:#install#:#Instalar
+common#:#installed#:#Instalado
+common#:#institution#:#Instituição
+common#:#internal_system#:#Sistema interno
+common#:#ip_address#:#Endereço IP
+common#:#is_already_your#:#já é o seu
+common#:#item#:#Item
+common#:#kb#:#KByte
+common#:#keywords#:#Palavras chave
+common#:#lang_cz#:#Czech
+common#:#lang_dateformat#:#Y-m-d
+common#:#lang_de#:#German
+common#:#lang_dk#:#Danish
+common#:#lang_en#:#English
+common#:#lang_es#:#Spanish
+common#:#lang_fi#:#Finnish
+common#:#lang_fr#:#French
+common#:#lang_gr#:#Greek
+common#:#lang_id#:#Indonesian
+common#:#lang_it#:#Italian
+common#:#lang_ja#:#Japanese
+common#:#lang_lt#:#Lithuanian
+common#:#lang_nl#:#Dutch
+common#:#lang_no#:#Norwegian
+common#:#lang_path#:#Language Path
+common#:#lang_pl#:#Polish
+common#:#lang_pt#:#Portuguese
+common#:#lang_se#:#Swedish
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_timeformat#:#H:i:s
+common#:#lang_ua#:#Ukrainian
+common#:#lang_version#:#1
+common#:#lang_xx#:#Custom
+common#:#lang_zh#:#Simplified Chinese
+common#:#langfile_found#:#Ficheiro de linguagem não encontrdo
+common#:#language#:#Linguagem
+common#:#language_not_installed#:#não está intalada. Por favor instale esta linguagem promeiro
+common#:#languages#:#Linguagens
+common#:#languages_already_installed#:#Linguagens escolhidas já estão instaladas
+common#:#languages_already_uninstalled#:#Linguagens escolhidas já estão desinstaladas
+common#:#languages_updated#:#Todas as linguagens instaladas foram actualizadas
+common#:#last_change#:#Última mudança
+common#:#last_visit#:#Última visita
+common#:#lastname#:#Apelido
+common#:#launch#:#Lançar
+common#:#ldap#:#LDAP
+common#:#learning_objects#:#Módulos de aprendizagem
+common#:#learning_resources#:#Recursos de aprendizagem
+common#:#level#:#Nível
+common#:#link#:#Ligação
+common#:#linked_pages#:#Páginas ligadas
+common#:#list_of_pages#:#Lista de páginas
+common#:#list_of_questions#:#Lista de questões
+common#:#literature#:#Literatura
+common#:#literature_bookmarks#:#Marcadores de literatura
+common#:#lm#:#Módulo de aprendizagem
+common#:#lm_a#:#um Módulo de aprendizagem
+common#:#lm_add#:#Adicionar módulo de aprendizagem
+common#:#lm_added#:#Módulo de aprendizagem adicionado
+common#:#lm_new#:#Novo módulo de aprendizagem
+common#:#lng#:#Linguagem
+common#:#lngf#:#Pasta de linguagem
+common#:#lo#:#Objecto de aprendizagem
+common#:#lo_available#:#Vista dos Módulos de aprendizagem e Cursos
+common#:#lo_categories#:#Categorias LO
+common#:#lo_edit#:#Editar Módulo de aprendizagem
+common#:#lo_new#:#Novo módulo de aprendizagem
+common#:#lo_no_content#:#Nenhuns recursos de aprendizagem disponíveis
+common#:#lo_other_langs#:#LO's em outras linguagens
+common#:#lo_overview#:#Vista LO
+common#:#locator#:#Localização:
+common#:#login#:#Entar
+common#:#login_as#:#Entrou como
+common#:#login_data#:#Dados da entrada
+common#:#login_exists#:#Já existe um utilizador com este nome de entrada! Por favor escolha outro nome de entrada.
+common#:#login_time#:#Tempo que esteve ligado
+common#:#login_to_ilias#:#Entrada no ILIAS
+common#:#logout#:#Sair
+common#:#logout_text#:#Você saiu do ILIAS. A sua sessão foi fechada.
+common#:#los#:#Objectos de aprendizagem
+common#:#los_last_visited#:#Últimos objectos de aprendizagem visitados
+common#:#mail#:#Correio
+common#:#mail_a_root#:#Caixa de correio
+common#:#mail_addressbook#:#Livro de endereços
+common#:#mail_allow_smtp#:#Permitir SMTP
+common#:#mail_b_inbox#:#Caixa de entrada
+common#:#mail_c_trash#:#Lixo
+common#:#mail_d_drafts#:#Rascunhos
+common#:#mail_delete_error#:#Erro a apagar
+common#:#mail_delete_error_file#:#Error a apagar ficheiro
+common#:#mail_e_sent#:#Enviado
+common#:#mail_folders#:#Pastas de correio
+common#:#mail_intern_enable#:#Ligar
+common#:#mail_mails_of#:#Mensagens
+common#:#mail_maxsize_attach#:#Max. tamanho anexo
+common#:#mail_maxsize_box#:#Max. tamanho das caixas de correio
+common#:#mail_maxsize_mail#:#Max. tamanho mensagem
+common#:#mail_maxtime_attach#:#Max. dias para manter anexos
+common#:#mail_maxtime_mail#:#Max. dias para manter mensagens
+common#:#mail_not_sent#:#Mensagen não enviada!
+common#:#mail_search_no#:#Nenhuma entrada encontrada
+common#:#mail_search_word#:#Procurar palavra
+common#:#mail_select_one#:#Você tem de seleccionar uma mensagem
+common#:#mail_send_error#:#Erro a enviar mensagem
+common#:#mail_sent#:#Mensagem enviada!
+common#:#mail_system#:#Mensagem de sistema
+common#:#mail_z_local#:#Pastas de utilizador
+common#:#mails#:#Mensagens
+common#:#mark_all_read#:#Marcar todas como lidas
+common#:#mark_all_unread#:#Marcar todas como não lidas
+common#:#member#:#Membro
+common#:#members#:#Membros
+common#:#membership_annulled#:#A sua inscrição foi cancelada
+common#:#message#:#Mensagem
+common#:#message_content#:#Conteúdo da mensagem
+common#:#message_to#:#Mensagem para:
+common#:#meta_data#:#Meta Dados
+common#:#migrate#:#Migrar
+common#:#mob#:#Objecto de média
+common#:#module#:#módulo
+common#:#modules#:#Módulos
+common#:#month#:#Mês
+common#:#moveChapter#:#Mover
+common#:#movePage#:#Mover
+common#:#move_to#:#Mover para
+common#:#msg_cancel#:#Acção cancelada
+common#:#msg_changes_ok#:#As mudanças foram bem sucedidas
+common#:#msg_clear_clipboard#:#Clipboard limpo
+common#:#msg_cloned#:#Objecto(s) seleccionados copiados
+common#:#msg_copy_clipboard#:#Objecto(s) seleccionados guardados no clipboard (Acção: copiar)
+common#:#msg_cut_clipboard#:#Objecto(s) seleccionados guardados no clipboard (Acção: cortar)
+common#:#msg_cut_copied#:#Objecto(s) seleccionados movidos.
+common#:#msg_deleted_role#:#Papel apagado
+common#:#msg_deleted_roles#:#Papeis apagados
+common#:#msg_deleted_roles_rolts#:#Papeis e Modelos de papeis apagados
+common#:#msg_deleted_rolt#:#Modelo de papel apagado
+common#:#msg_deleted_rolts#:#Modelo de papel apagado
+common#:#msg_error_copy#:#Erro a copiar
+common#:#msg_failed#:#Lamentamos, a acção falhou
+common#:#msg_is_last_role#:#You deassigned the following users from their last global role
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link)
+common#:#msg_linked#:#Selected object(s) linked.
+common#:#msg_may_not_contain#:#This object may not contain objects of type:
+common#:#msg_min_one_active_role#:#Cada utilizador tem de ter pelo menos um papel global activo!
+common#:#msg_min_one_role#:#Cada utilizador tem de ter pelo menos um papel global!
+common#:#msg_multi_language_selected#:#You selected the same language for different translations!
+common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
+common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
+common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
+common#:#msg_no_perm_create_object1#:#You have no permission to create
+common#:#msg_no_perm_create_object2#:#nesta localização!
+common#:#msg_no_perm_create_role#:#Não tem permissão para adicionar papeis
+common#:#msg_no_perm_create_rolf#:#Não tem permissão para criar uma pasta de papeis. Therefore you may not stop inheritance of roles or add local roles here.
+common#:#msg_no_perm_create_rolt#:#Não tem permissão para adicionar modelos de papeis
+common#:#msg_no_perm_create_user#:#Não tem permissão para adicionar utilizadores
+common#:#msg_no_perm_cut#:#Não tem permissão para cortar os seguintes objecto(s):
+common#:#msg_no_perm_delete#:#Não tem permissão para apagar os seguintes objecto(s):
+common#:#msg_no_perm_link#:#Não tem permissão para criar uma ligação a partir dos seguintes objecto(s):
+common#:#msg_no_perm_modify_role#:#Não tem permissão para modificar papeis
+common#:#msg_no_perm_modify_rolt#:#Não tem permissão para modificar modelos de papeis
+common#:#msg_no_perm_modify_user#:#Não tem permissão para modificar dados de utilizadores
+common#:#msg_no_perm_paste#:#Não tem permissão para colar os seguintes objecto(s):
+common#:#msg_no_perm_perm#:#Não tem permissão para editar definições de permissões
+common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
+common#:#msg_no_perm_write#:#Não tem permissão para escrever
+common#:#msg_no_rolf_allowed1#:#O objecto
+common#:#msg_no_rolf_allowed2#:#não é permitido conter uma pasta de papeis
+common#:#msg_no_search_result#:#Nenhumas entradas encontradas
+common#:#msg_no_search_string#:#Por favor insira a sua consulta
+common#:#msg_not_available_for_anon#:#A página que escolheu apenas é acessível por utilizadores registados
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
+common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
+common#:#msg_nothing_found#:#msg_nada_encontrado
+common#:#msg_obj_created#:#Objecto criado.
+common#:#msg_obj_exists#:#Este objecto já existe nesta pasta
+common#:#msg_obj_modified#:#Modificações salvas.
+common#:#msg_perm_adopted_from1#:#Definições de permissões adoptadas de
+common#:#msg_perm_adopted_from2#:#(As definições foram salvas!)
+common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
+common#:#msg_removed#:#Objecto(s) removidos do sistema.
+common#:#msg_role_exists1#:#Um papel/modelo de papel com o nome
+common#:#msg_role_exists2#:#já existe! Por favor escolha outro nome
+common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for autogenerated roles. Please choose another name
+common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed
+common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again.
+common#:#msg_roleassignment_changed#:#Roleassigment changed
+common#:#msg_sysrole_not_deletable#:#O papelsistema não pode ser apagado
+common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
+common#:#msg_trash_empty#:#Não existem objectos apagados
+common#:#msg_undeleted#:#Object(s) undeleted.
+common#:#msg_user_last_role1#:#Os seguintes utilizadores estão atribuidos apenas a este papel:
+common#:#msg_user_last_role2#:#Por favor apague os utilizadores ou atribua-os a outro papel para apagar este papel.
+common#:#msg_userassignment_changed#:#Userassigment changed
+common#:#multimedia#:#Multimédia
+common#:#my_bms#:#Os Meus Marcadores
+common#:#my_frms#:#Os Meus Fóruns
+common#:#my_grps#:#Os Meus Grupos
+common#:#my_los#:#Os Meus Objectos de Aprendizagem
+common#:#name#:#Nome
+common#:#new#:#Novo
+common#:#new_appointment#:#Nova marcação
+common#:#new_folder#:#Nova pasta
+common#:#new_group#:#Novo Grupo
+common#:#new_language#:#Nova Linguagem
+common#:#new_mail#:#Nova mensagem!
+common#:#news#:#Notícias
+common#:#next#:#próximo
+common#:#nickname#:#Alcunha
+common#:#no#:#Não
+common#:#no_bm_in_personal_list#:#Nenhums marcadores definidos.
+common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
+common#:#no_date#:#Nenhuma data
+common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
+common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
+common#:#no_import_available#:#Import not available for type
+common#:#no_lo_in_personal_list#:#Não existem objectos de aprendizagem na sua lista pessoal.
+common#:#no_objects#:#Nenhuns objectos
+common#:#no_permission_to_join#:#You are not allowed to join this group!
+common#:#no_title#:#Nenhum título
+common#:#none#:#Nenhum
+common#:#normal#:#Normal
+common#:#not_installed#:#Não Instalado
+common#:#not_logged_in#:#Your are not logged in
+common#:#obj#:#Objecto
+common#:#obj_adm#:#Definições de sistema
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_cat#:#Categoria
+common#:#obj_crs#:#Curso
+common#:#obj_dbk#:#Digilib Book
+common#:#obj_file#:#Ficheiro
+common#:#obj_fold#:#Pasta
+common#:#obj_frm#:#Fórum
+common#:#obj_glo#:#Glossario
+common#:#obj_grp#:#Grupo
+common#:#obj_ldap#:#Definições LDAP
+common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
+common#:#obj_le#:#Learning Module
+common#:#obj_lm#:#Learning Module
+common#:#obj_lng#:#Linguagem
+common#:#obj_lngf#:#Linguagens
+common#:#obj_lngf_desc#:#Manage your system languages here.
+common#:#obj_lo#:#LearningObject
+common#:#obj_mail#:#Mail Settings
+common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_not_found#:#Objecto não encontrado
+common#:#obj_note#:#Nota
+common#:#obj_notf#:#Administração de notas
+common#:#obj_objf#:#Definições de objecto
+common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
+common#:#obj_owner#:#Este objecto de
+common#:#obj_pg#:#Página
+common#:#obj_role#:#Papel
+common#:#obj_rolf#:#Papeis
+common#:#obj_rolf_desc#:#Manage your roles here.
+common#:#obj_rolf_local#:#Local Roles
+common#:#obj_rolf_local_desc#:#Contains local roles of object no.
+common#:#obj_rolt#:#Modelo de papel
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM LM
+common#:#obj_st#:#Capítulo
+common#:#obj_typ#:#Objecttype Definition
+common#:#obj_type#:#Tipo de objecto
+common#:#obj_uset#:#Definições de utilizador
+common#:#obj_usr#:#Utilizador
+common#:#obj_usrf#:#Contas de utilizadores
+common#:#obj_usrf_desc#:#Gira aqui as contas de utilizadores.
+common#:#objects#:#Objectos
+common#:#objf#:#Objectdefinitions
+common#:#objs_confirm#:#Confirmar acção
+common#:#objs_delete#:#Apagar objectos
+common#:#of#:#De
+common#:#offline_version#:#Offline Version
+common#:#ok#:#OK
+common#:#old#:#Antigo
+common#:#online_chapter#:#Online Chapter
+common#:#online_version#:#Online Version
+common#:#operation#:#Operação
+common#:#optimize#:#Optimize
+common#:#options#:#Opções
+common#:#order_by#:#Order by
+common#:#other#:#Outros
+common#:#overview#:#Vista
+common#:#owner#:#Dono
+common#:#page#:#Página
+common#:#page_edit#:#Editar Página
+common#:#pages#:#Páginas
+common#:#parameter#:#Parâmetro
+common#:#parse#:#Parse
+common#:#passwd#:#Palavra passe
+common#:#passwd_invalid#:#A nova palavra passe é inválida! Apenas os seguintes caracteres são permitidos(mínimo 6 caracteres): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_not_match#:#As suas entradas para a nova palavra passe não são iguais! Por favor reinsira a sua nova palavra passe.
+common#:#passwd_wrong#:#A palavra passe que forneceu está errada!
+common#:#password#:#Palavra passe
+common#:#paste#:#Colar
+common#:#pasteChapter#:#Colar
+common#:#pastePage#:#Colar
+common#:#path#:#Caminho
+common#:#path_not_set#:#Caminho não definido
+common#:#path_to_babylon#:#Caminho para o Babylon
+common#:#path_to_convert#:#Caminho para o Convert
+common#:#path_to_htmldoc#:#Caminho para o HTMLdoc
+common#:#path_to_java#:#Caminho para o Java
+common#:#path_to_unzip#:#Caminho para o Unzip
+common#:#path_to_zip#:#Caminho para o Zip
+common#:#pathes#:#Caminhos
+common#:#payment_system#:#Sistema de pagamento
+common#:#perm_settings#:#Permissões
+common#:#permission#:#Permissão
+common#:#permission_denied#:#Permissão negada
+common#:#personal_data#:#Informação pessoal
+common#:#personal_desktop#:#Área pessoal
+common#:#personal_picture#:#Fotografia pessoal
+common#:#personal_profile#:#Perfil pessoal
+common#:#persons#:#Pessoas
+common#:#pg_a#:#uma página
+common#:#pg_add#:#Adicionar página
+common#:#pg_added#:#Página adicionada
+common#:#pg_edit#:#Editar página
+common#:#pg_new#:#Nova página
+common#:#phone#:#Telefone
+common#:#phone_home#:#Telefone, Casa
+common#:#phone_mobile#:#Telefone, Móvel
+common#:#phone_office#:#Telefone, Escritório
+common#:#phrase#:#Frase
+common#:#please_enter_target#:#Por favor insira um destino
+common#:#please_enter_title#:#Por favor insira um título
+common#:#port#:#Port
+common#:#position#:#Posição
+common#:#presentation_options#:#Presentation Options
+common#:#previous#:#anterior
+common#:#print#:#Imprimir
+common#:#profile_changed#:#O seu perfil mudou
+common#:#profile_of#:#Perfil de
+common#:#properties#:#Propriedades
+common#:#pub_section#:#Secção pública
+common#:#public_profile#:#Perfil público
+common#:#publication#:#Publicação
+common#:#publication_date#:#Data da publicação
+common#:#published#:#Publicado
+common#:#publishing_organisation#:#Organização públicadora
+common#:#question#:#Questão
+common#:#quit#:#Desistir
+common#:#quote#:#Quote
+common#:#read#:#Ler
+common#:#recipient#:#Recipiente
+common#:#refresh#:#Actualizar
+common#:#refresh_languages#:#Actualizar linguagens
+common#:#refresh_list#:#Actualizar lista
+common#:#register#:#Registar
+common#:#register_info#:#Por favor preencha o formulário para se registar (Campos marcados com um asterisco são informação requerida).
+common#:#registered_since#:#Registado desde
+common#:#registered_user#:#Utilizador registado
+common#:#registered_users#:#Utilizadores registados
+common#:#registration#:#Registo de nova conta
+common#:#registration_expired#:#Período de registo expirado...
+common#:#remove#:#Dismiss
+common#:#remove_translation#:#Remover tradução
+common#:#rename#:#Renomear
+common#:#reply#:#Responder
+common#:#repository#:#Repositorio
+common#:#required_field#:#Campo requerido
+common#:#reset#:#Reset
+common#:#resources#:#Recursos
+common#:#retype_password#:#Repetir palavra passe
+common#:#right#:#Direita
+common#:#rights#:#Direitos
+common#:#role#:#Papel
+common#:#role_a#:#um Papel
+common#:#role_add#:#Adicionar Papel
+common#:#role_add_local#:#Adicionar papel local
+common#:#role_added#:#Papel adicionado
+common#:#role_assignment#:#Atribuição de papel
+common#:#role_deleted#:#Papel apagado
+common#:#role_edit#:#Editar papel
+common#:#role_new#:#Novo papel
+common#:#roles#:#Papeis
+common#:#rolf#:#Pasta de papeis
+common#:#rolf_added#:#Pasta de papeis adicionada
+common#:#rolt#:#Modelo de papel
+common#:#rolt_a#:#um Modelo de papel
+common#:#rolt_add#:#Adicionar modelo de papel
+common#:#rolt_added#:#Modelo de papel adicionado
+common#:#rolt_edit#:#Editar modelo de papel
+common#:#rolt_new#:#Novo modelo de papel
+common#:#salutation#:#Saudação
+common#:#salutation_f#:#Sr./Sra.
+common#:#salutation_m#:#Sr.
+common#:#save#:#Salvar
+common#:#save_and_back#:#Salvar e Voltar
+common#:#save_message#:#Salvar Mensagem
+common#:#save_refresh#:#Salvar e Actualizar
+common#:#save_return#:#Salvar e Retornar
+common#:#saved#:#Salvo
+common#:#saved_successfully#:#Salvo com sucesso
+common#:#search#:#Procurar
+common#:#search_in#:#Procurar em
+common#:#search_new#:#Nova Procura
+common#:#search_recipient#:#Procurar recipiente
+common#:#search_result#:#Resultado da procura
+common#:#search_user#:#Procurar utilizador
+common#:#sections#:#Secções
+common#:#select#:#Seleccionar
+common#:#select_all#:#Seleccionar todos
+common#:#select_file#:#Seleccionar ficheiro
+common#:#select_mode#:#Seleccionar modo
+common#:#selected#:#Seleccionado
+common#:#send#:#Enviar
+common#:#sender#:#Remetente
+common#:#sent#:#Enviado
+common#:#sequence#:#Sequencia
+common#:#sequences#:#Sequencias
+common#:#server#:#Servidor
+common#:#server_data#:#Dadoa do servidor
+common#:#server_software#:#Software servidor
+common#:#set#:#Definir
+common#:#setSystemLanguage#:#Definir linguagem de sistema
+common#:#setUserLanguage#:#Definir linguagem de utilizador
+common#:#set_offline#:#Set Offline
+common#:#set_online#:#Set Online
+common#:#settings#:#Definições
+common#:#show_details#:#mostrar detalhes
+common#:#show_list#:#Mostrar lista
+common#:#show_members#:#Mostar membros
+common#:#show_owner#:#Mostrar dono
+common#:#show_structure#:#Ligar Vista-Estruturada
+common#:#signature#:#Signature
+common#:#slm#:#SCORM LM
+common#:#slm_added#:#SCORM LearningModule added
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Sort by this column
+common#:#st_a#:#um capítulo
+common#:#st_add#:#Adicionar capítulo
+common#:#st_added#:#Capítulo adicionado
+common#:#st_edit#:#Editar capítulo
+common#:#st_new#:#Novo capítulo
+common#:#startpage#:#Página inicial
+common#:#status#:#Estado
+common#:#step#:#Step
+common#:#stop_inheritance#:#Stop inheritance
+common#:#street#:#Rua
+common#:#structure#:#Estrutura
+common#:#subcat_name#:#Nome da subcategoria
+common#:#subchapter_new#:#Novo subcapítulo
+common#:#subject#:#Assunto
+common#:#submit#:#Submeter
+common#:#subobjects#:#Subobjectos
+common#:#subscription#:#Subscrição
+common#:#summary#:#Sumario
+common#:#system#:#Sistema
+common#:#system_choose_language#:#System Choose Language
+common#:#system_groups#:#Grupos do sistema
+common#:#system_grp#:#Grupo de sistema
+common#:#system_language#:#Linguagem de sistema
+common#:#system_message#:#Mensagem de sistema
+common#:#term#:#Termo
+common#:#test_intern#:#Test Intern
+common#:#time#:#Tempo
+common#:#title#:#Título
+common#:#to#:#Para
+common#:#to_client_list#:#To Client selection
+common#:#to_desktop#:#Subscrever
+common#:#today#:#Hoje
+common#:#total#:#Total
+common#:#tpl_path#:#Caminho modelo
+common#:#translation#:#Tradução
+common#:#trash#:#Lixo
+common#:#treeview#:#Vista em árvore
+common#:#txt_add_object_instruction1#:#Indique a localização onde quer adicionar
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#Registou-se com sucesso no sistema ILIAS. Por favor carregue no botão abaixo para entrar no sistema ILIAS com a sua conta de utilizador.
+common#:#typ#:#Definição de tipo de objecto
+common#:#type#:#Tipo
+common#:#type_your_message_here#:#Insira a sua mensagem aqui
+common#:#uid#:#UID
+common#:#uninstall#:#Desinstalar
+common#:#uninstalled#:#Desinstalado.
+common#:#unknown#:#DESCONHECIDO
+common#:#unread#:#Não lido
+common#:#unsubscribe#:#unsubscribe
+common#:#up#:#Cima
+common#:#update_applied#:#Actualização aplicada
+common#:#update_language#:#Actualizar linguagem
+common#:#upload#:#Mandar
+common#:#url#:#URL
+common#:#url_description#:#Descrição do URL
+common#:#user#:#Utilizador
+common#:#user_added#:#Utilizador adicionado
+common#:#user_assignment#:#Atribuição de utilizador
+common#:#user_deleted#:#Utilizador apagado
+common#:#user_language#:#Linguagem de utilizador
+common#:#user_not_chosen#:#Não escolheu um membro do grupo!
+common#:#userdata#:#Dados do utilizador
+common#:#username#:#Nome do utilizador
+common#:#users#:#Utilizadores
+common#:#users_online#:#Utilizadores ligados
+common#:#usr#:#Utilizador
+common#:#usr_a#:#um Utilizador
+common#:#usr_add#:#Adicionar utilizador
+common#:#usr_added#:#Utilizador adicionado
+common#:#usr_agreement#:#Acordo do utilizador
+common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
+common#:#usr_edit#:#Editar utilizador
+common#:#usr_new#:#Novo utilizador
+common#:#usr_skin_style#:#Pele / Estilo
+common#:#usr_style#:#Estilo do utilizador
+common#:#usrf#:#Pasta do utilizador
+common#:#validate#:#Validar
+common#:#value#:#Valor
+common#:#version#:#Versão
+common#:#view#:#Vista
+common#:#view_content#:#Ver Conteúdo
+common#:#visible_layers#:#Camadas vísiveis
+common#:#visits#:#Visitas
+common#:#week#:#Semana
+common#:#who_is_online#:#Quem está ligado?
+common#:#with#:#com
+common#:#write#:#Escrever
+common#:#yes#:#Sim
+common#:#you_may_add_local_roles#:#Pode adicionar papeis locais
+common#:#your_message#:#Sua mensagem
+common#:#zip#:#Código Postal
+common#:#zipcode#:#Código Postal
+content#:#HTML export#:#Exportar HTML
+content#:#PDF export#:#Exportar PDF
+content#:#Pages#:#Páginas
+content#:#all#:#Todos
+content#:#cont_Alphabetic#:#Alfabético A, B, ...
+content#:#cont_Citation#:#Citação
+content#:#cont_Example#:#Exemplo
+content#:#cont_Headline1#:#Headline 1
+content#:#cont_Headline2#:#Headline 2
+content#:#cont_Headline3#:#Headline 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Ficheiro local
+content#:#cont_Mnemonic#:#Mnemonica
+content#:#cont_Number#:#Número
+content#:#cont_Reference#:#Referencia
+content#:#cont_Remark#:#Remark
+content#:#cont_Roman#:#Romano I, II, ...
+content#:#cont_Unordered#:#Desordenado
+content#:#cont_add_definition#:#Adicionar definição
+content#:#cont_added_term#:#Termo adicionado
+content#:#cont_all_definitions#:#Todas as definições
+content#:#cont_all_pages#:#Todas as páginas
+content#:#cont_alphabetic#:#Alfabético a, b, ...
+content#:#cont_assign_full#:#Atribuir ecrã inteiro
+content#:#cont_assign_std#:#Assign Standard
+content#:#cont_assign_translation#:#Atribuir tradução
+content#:#cont_assignments_deleted#:#The assignments have been deleted
+content#:#cont_back#:#Voltar
+content#:#cont_booktitle#:#Título do livro
+content#:#cont_bottom#:#Fundo
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
+content#:#cont_caption#:#Caption
+content#:#cont_change_type#:#Mudar tipo
+content#:#cont_chap_and_pages#:#Capítulos e páginas
+content#:#cont_chap_select_target_now#:#Capítulo marcado para mover. Seleccione linha destino.
+content#:#cont_chapters#:#Capítulos
+content#:#cont_characteristic#:#Característica
+content#:#cont_choose_cont_obj#:#Choose Content Object
+content#:#cont_choose_glossary#:#Escolha glossario
+content#:#cont_citation_err_one#:#You have to select exactly one edition
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid
+content#:#cont_citations#:#Citações
+content#:#cont_content#:#Conteúdo
+content#:#cont_content_obj#:#Objecto de conteúdo
+content#:#cont_create_dir#:#Criar directoria
+content#:#cont_cross_reference#:#Cross reference
+content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_def_layout#:#Default Layout
+content#:#cont_def_organization#:#default
+content#:#cont_definition#:#Definição
+content#:#cont_definitions#:#Definições
+content#:#cont_del_assignment#:#Apagar atribuição
+content#:#cont_dependencies#:#Dependencias
+content#:#cont_details#:#Detalhes
+content#:#cont_dir_file#:#Directoria/Ficheiro
+content#:#cont_edit_file_list_properties#:#Edit File List Properties
+content#:#cont_edit_mob#:#Editar objecto de média
+content#:#cont_edit_mob_alias_prop#:#Editar propriedades da instância de objecto média
+content#:#cont_edit_mob_files#:#Ficheiros de objecto
+content#:#cont_edit_mob_properties#:#Editar propriedades do objecto média
+content#:#cont_edit_par#:#Editar Parágrafo
+content#:#cont_edit_tab_properties#:#Propriedades da tabela
+content#:#cont_edit_term#:#Editar Termo
+content#:#cont_edition#:#Edição
+content#:#cont_file#:#Ficheiro
+content#:#cont_files#:#Ficheiros
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
+content#:#cont_fullscreen#:#Ecrã inteiro
+content#:#cont_height#:#Altura
+content#:#cont_how_published#:#How published
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#identifier
+content#:#cont_insert_file_item#:#Insert File Item
+content#:#cont_insert_file_list#:#Insert File List
+content#:#cont_insert_list#:#Inserir lista
+content#:#cont_insert_mob#:#Inserir objecto média
+content#:#cont_insert_par#:#Inserir parágrafo
+content#:#cont_insert_search#:#Por favor insira um termo a procurar
+content#:#cont_insert_table#:#Inserir Tabela
+content#:#cont_internal_link#:#ligação interna
+content#:#cont_is_visible#:#évisivel
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
+content#:#cont_item#:#Item
+content#:#cont_journal#:#Jornal
+content#:#cont_keyword#:#Palavra chave
+content#:#cont_link_select#:#Ligação interna
+content#:#cont_link_type#:#Tipo de ligação
+content#:#cont_list_properties#:#Propriedades da lista
+content#:#cont_lk_chapter#:#Capítulo
+content#:#cont_lk_chapter_new#:#Capítulo (Nova janela)
+content#:#cont_lk_media_faq#:#Média (janela FAQ)
+content#:#cont_lk_media_inline#:#Média (Inline)
+content#:#cont_lk_media_media#:#Média (Media Frame)
+content#:#cont_lk_media_new#:#Média (New Frame)
+content#:#cont_lk_page#:#Página
+content#:#cont_lk_page_faq#:#Página (FAQ Frame)
+content#:#cont_lk_page_new#:#Página (New Frame)
+content#:#cont_lk_term#:#Termo do glossario
+content#:#cont_lk_term_new#:#Termo do glossario (Nova janela)
+content#:#cont_lm_properties#:#Propriedades do módulo de aprendizagem
+content#:#cont_manifest#:#Manifest
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mob_files#:#Ficheiros de objecto
+content#:#cont_mob_inst_prop#:#Propriedades de instância
+content#:#cont_mob_prop#:#Propriedades de objecto
+content#:#cont_mob_usages#:#Uso
+content#:#cont_month#:#Mês
+content#:#cont_msg_multiple_editions#:#Não é possível mostrar detalhes de múltiplas edições
+content#:#cont_new_assignment#:#Nova atribuição
+content#:#cont_new_dir#:#Nova directoria
+content#:#cont_new_file#:#Novo ficheiro
+content#:#cont_new_media_obj#:#Novo objecto média
+content#:#cont_new_term#:#Novo termo
+content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
+content#:#cont_no_object_found#:#Could not find any object with this title
+content#:#cont_no_page#:#Nenhuma página encontrada.
+content#:#cont_none#:#Nenhum
+content#:#cont_nr_cols#:#Número de colunas
+content#:#cont_nr_items#:#Número de itens
+content#:#cont_nr_rows#:#Número de linhas
+content#:#cont_online#:#Ligado
+content#:#cont_order#:#Order Type
+content#:#cont_organization#:#Organização
+content#:#cont_organizations#:#Organizações
+content#:#cont_orig_size#:#Tamanho original
+content#:#cont_page_header#:#Cabeçalho de página
+content#:#cont_page_select_target_now#:#Página marcada para mover. Seleccionar destino.
+content#:#cont_pages#:#Páginas
+content#:#cont_parameter#:#Parâmetro
+content#:#cont_parameters#:#parâmetros
+content#:#cont_personal_clipboard#:#Clipboard pessoal
+content#:#cont_pg_content#:#Conteúdo da página
+content#:#cont_pg_title#:#Título da página
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_preview#:#Previsão
+content#:#cont_publisher#:#Publicador
+content#:#cont_purpose#:#Purpose
+content#:#cont_ref_helptext#:#(e.g. http://www.servidor.pt/minhaimagem.jpg)
+content#:#cont_reference#:#Referencia
+content#:#cont_resource#:#Recurso
+content#:#cont_resource_type#:#tipo
+content#:#cont_resources#:#Recursos
+content#:#cont_roman#:#Romano i, ii, ...
+content#:#cont_sc_title#:#título
+content#:#cont_school#:#Escola
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_item#:#Please select one item only
+content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_one_edition#:#Please select at least one edition.
+content#:#cont_select_one_translation#:#Please select one translation
+content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.
+content#:#cont_select_term#:#Seleccione um termo
+content#:#cont_select_translation#:#Por favor seleccione uma atribuição na lista acima
+content#:#cont_series#:#Séries
+content#:#cont_series_editor#:#Editor de séries
+content#:#cont_series_title#:#Series title
+content#:#cont_series_volume#:#Series volume
+content#:#cont_set_class#:#Definir classe
+content#:#cont_set_width#:#Definir largura
+content#:#cont_show#:#Mostrar
+content#:#cont_show_citation#:#Mostar com citação
+content#:#cont_size#:#Tamanho (Bytes)
+content#:#cont_source#:#Quelle
+content#:#cont_st_title#:#Título do capítulo
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
+content#:#cont_std_view#:#Standard View
+content#:#cont_structure#:#estrutura
+content#:#cont_subchapters#:#Subcapítulos
+content#:#cont_table#:#Tabela
+content#:#cont_table_border#:#Borda da tabela
+content#:#cont_table_cellpadding#:#Table Cell Padding
+content#:#cont_table_cellspacing#:#Table Cell Spacing
+content#:#cont_table_width#:#Largura de tabela
+content#:#cont_target_within_source#:#Target must not be within source object.
+content#:#cont_term#:#Termo
+content#:#cont_terms#:#Termos
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Tabela de conteúdos
+content#:#cont_top#:#Topo
+content#:#cont_translations#:#Tradução(ões)
+content#:#cont_translations_assigned#:#A tradução(ões) foi atribuida
+content#:#cont_upload_file#:#Mandar ficheiro
+content#:#cont_url#:#URL
+content#:#cont_version#:#versão
+content#:#cont_where_published#:#Foram publicadas
+content#:#cont_width#:#Largura
+content#:#cont_wysiwyg#:#Content Wysiwyg
+content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Ano
+content#:#pages from#:#Páginas de
+content#:#par#:#Parágrafo
+content#:#pg#:#Página
+content#:#read offline#:#Read Offline
+content#:#st#:#Capítulo
+content#:#start export#:#Start Export
+forum#:#forums#:#Fóruns
+forum#:#forums_articles#:#Artigos
+forum#:#forums_attachments#:#Anexos
+forum#:#forums_attachments_add#:#Adicionar anexo
+forum#:#forums_attachments_edit#:#Editar anexo
+forum#:#forums_available#:#Fóruns disponíveis
+forum#:#forums_censor_comment#:#Comment of Censor
+forum#:#forums_count#:#Número de fóruns
+forum#:#forums_count_art#:#Número ode artigos
+forum#:#forums_count_thr#:#Number of Threads
+forum#:#forums_delete_file#:#Apagar anexo
+forum#:#forums_download_attachment#:#Descarregar ficheiro
+forum#:#forums_edit_post#:#Editar artigo
+forum#:#forums_info_censor2_post#:#Revoke Censorship?
+forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
+forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
+forum#:#forums_last_post#:#Último artigo
+forum#:#forums_moderators#:#Moderators
+forum#:#forums_new_entries#:#Novas entradas de fóruns
+forum#:#forums_new_thread#:#Novo tópico
+forum#:#forums_not_available#:#Fóruns não disponíveis
+forum#:#forums_overview#:#Vista de fóruns
+forum#:#forums_post_deleted#:#O artigo foi apagado
+forum#:#forums_post_modified#:#O artigo foi modificado
+forum#:#forums_post_new_entry#:#New article has been inscribed
+forum#:#forums_posts#:#Todos os artigos
+forum#:#forums_posts_not_available#:#Artigos não disponíveis
+forum#:#forums_print_thread#:#Print Thread
+forum#:#forums_quote#:#Quote
+forum#:#forums_respond#:#Post Reply
+forum#:#forums_the_post#:#Artigo
+forum#:#forums_thread#:#Tópico
+forum#:#forums_thread_articles#:#Artigos para o tópico
+forum#:#forums_thread_create_date#:#Criado em
+forum#:#forums_thread_create_from#:#Criado de
+forum#:#forums_thread_new_entry#:#New topic has been inscribed
+forum#:#forums_threads#:#Threads
+forum#:#forums_threads_not_available#:#Tópicos não disponíveis
+forum#:#forums_topics_overview#:#Vista dos tópicos
+forum#:#forums_your_reply#:#Your Reply
+mail#:#also_as_email#:#Também como email
+mail#:#bc#:#BC
+mail#:#forward#:#Frente
+mail#:#linebreak#:#Linebreak
+mail#:#mail_add_recipient#:#Please enter a recipient
+mail#:#mail_add_subfolder#:#Adicionar subpasta
+mail#:#mail_add_subject#:#Por favor ponha um assunto
+mail#:#mail_add_to_addressbook#:#Adicionar ao livro de endereços
+mail#:#mail_add_type#:#Por favor adicione o tipo de mendagem que quer enviar
+mail#:#mail_addr_entries#:#Entradas
+mail#:#mail_attachments#:#Anexos
+mail#:#mail_bc_not_valid#:#O recipiente Bc não é válido
+mail#:#mail_bc_search#:#Procura BC
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#O recipiente Cc não é válido
+mail#:#mail_cc_search#:#Procura CC
+mail#:#mail_change_to_folder#:#Mudar para pasta:
+mail#:#mail_check_your_email_addr#:#O seu endereço email não é válido
+mail#:#mail_compose#:#Compor mensagem
+mail#:#mail_deleted#:#A mensagem(s) está apagada
+mail#:#mail_deleted_entry#:#As entradas estão apagadas
+mail#:#mail_email_forbidden#:#Não lhe é permitido enviar mensagens
+mail#:#mail_entry_added#:#Adicionada nova entrada
+mail#:#mail_entry_changed#:#The entry is changed
+mail#:#mail_file_name#:#Nome de ficheiro
+mail#:#mail_file_size#:#Tamanho de ficheiro
+mail#:#mail_files_deleted#:#Os ficheiro(s) estão apagados
+mail#:#mail_folder_created#:#Uma nova página foi criada
+mail#:#mail_folder_deleted#:#A pasta foi apagada
+mail#:#mail_folder_exists#:#Já existe uma pasta com este nome
+mail#:#mail_folder_name#:#Nome da pasta
+mail#:#mail_folder_name_changed#:#A pasta foi renomeada
+mail#:#mail_folder_options#:#Opções de pasta
+mail#:#mail_following_rcp_not_valid#:#Os seguintes recipientes não são válidos:
+mail#:#mail_global_options#:#Opções globais
+mail#:#mail_insert_folder_name#:#Por favor insira um nome de pasta
+mail#:#mail_insert_query#:#Por favor insira uma consulta
+mail#:#mail_intern#:#Interno
+mail#:#mail_mark_read#:#Marcar mensagens como lidas
+mail#:#mail_mark_unread#:#Marcar mensagens como não lidas
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:
+mail#:#mail_message_send#:#Mensagem enviada
+mail#:#mail_move_error#:#Erro a mover mensagem(s)
+mail#:#mail_move_to#:#Mover para:
+mail#:#mail_moved#:#As mensagem(s) foram movidas
+mail#:#mail_moved_to_trash#:#As mensagens foram movidas para o lixo
+mail#:#mail_new_file#:#Adicionar novo ficheiro:
+mail#:#mail_no_attach_allowed#:#Não é permitido a mensagens de sistema conter anexos
+mail#:#mail_no_attachments_found#:#Nenhuns anexos encontrados
+mail#:#mail_options_of#:#Opções
+mail#:#mail_options_saved#:#Opções salvas
+mail#:#mail_recipient_not_valid#:#O recipiente não é válido
+mail#:#mail_s#:#Mensagem(s)
+mail#:#mail_s_unread#:#Mensagem(s) não lidas
+mail#:#mail_saved#:#A mensagem foi salva
+mail#:#mail_search_addressbook#:#procurar no livro de endereços
+mail#:#mail_search_system#:#procurar no sistema
+mail#:#mail_select_one_entry#:#Tem de seleccionar uma entrada
+mail#:#mail_select_one_file#:#Tem de seleccionar um ficheiro
+mail#:#mail_sure_delete#:#Tem a certeza que deseja apagar as mensagens marcadas?
+mail#:#mail_sure_delete_entry#:#Tem a certeza que deseja apagar as seguintes entradas?
+mail#:#mail_sure_delete_file#:#O ficheiro será removido permanentemente
+mail#:#mail_sure_delete_folder#:#A pasta e os seus conteúdos serão removidos permanentemente
+mail#:#mail_to_search#:#Para procurar
+mail#:#mail_user_addr_n_valid#:#Os seguintes utilizadores não têm endereço de email válido
+mail#:#search_bc_recipient#:#Search BC Recipient
+mail#:#search_cc_recipient#:#Search CC Recipient
+meta#:#meta_accessibility_restrictions#:#Restrições de acessibilidade
+meta#:#meta_active#:#Activo
+meta#:#meta_add#:#Adicionar
+meta#:#meta_annotation#:#Anotação
+meta#:#meta_atomic#:#Atómico
+meta#:#meta_author#:#Autor
+meta#:#meta_browser#:#Browser
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#Emirados Árabes Unidos
+meta#:#meta_c_AF#:#Afeganistão
+meta#:#meta_c_AG#:#Antigua And Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albânia
+meta#:#meta_c_AM#:#Arménia
+meta#:#meta_c_AN#:#Netherlands Antilles
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antárctida
+meta#:#meta_c_AR#:#Argentina
+meta#:#meta_c_AS#:#American Samoa
+meta#:#meta_c_AT#:#Áustria
+meta#:#meta_c_AU#:#Austrália
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbeijão
+meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BE#:#Bélgica
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgária
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BO#:#Bolívia
+meta#:#meta_c_BR#:#Brazil
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Canadá
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands
+meta#:#meta_c_CF#:#Central African Republic
+meta#:#meta_c_CG#:#Congo
+meta#:#meta_c_CH#:#Suiça
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Camarões
+meta#:#meta_c_CN#:#China
+meta#:#meta_c_CO#:#Colômbia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CV#:#Cabo Verde
+meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CY#:#Chipre
+meta#:#meta_c_CZ#:#Republica Checa
+meta#:#meta_c_DE#:#Alemanha
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Dinamarca
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Republica Dominicana
+meta#:#meta_c_DZ#:#Algéria
+meta#:#meta_c_EC#:#Equador
+meta#:#meta_c_EE#:#Estónia
+meta#:#meta_c_EG#:#Egipto
+meta#:#meta_c_EH#:#Western Sahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Espanha
+meta#:#meta_c_ET#:#Etiópia
+meta#:#meta_c_FI#:#Finlândia
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FK#:#Falkland Islands
+meta#:#meta_c_FM#:#Micronesia
+meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FR#:#França
+meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_GA#:#Gabão
+meta#:#meta_c_GB#:#Reino Unido
+meta#:#meta_c_GD#:#Granada
+meta#:#meta_c_GE#:#Giorgia
+meta#:#meta_c_GF#:#French Guiana
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Equatorial Guinea
+meta#:#meta_c_GR#:#Grecia
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Croacia
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Hungria
+meta#:#meta_c_ID#:#Indonésia
+meta#:#meta_c_IE#:#Irelanda
+meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IQ#:#Iraque
+meta#:#meta_c_IR#:#Irão
+meta#:#meta_c_IS#:#Islândia
+meta#:#meta_c_IT#:#Italia
+meta#:#meta_c_JM#:#Jamaica
+meta#:#meta_c_JO#:#Jordan
+meta#:#meta_c_JP#:#Japão
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KH#:#Cambodja
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KY#:#Cayman Islands
+meta#:#meta_c_KZ#:#Kazakhstan
+meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LB#:#Lebanon
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Libéria
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Lituania
+meta#:#meta_c_LU#:#Luxemburgo
+meta#:#meta_c_LV#:#Latvia
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
+meta#:#meta_c_MA#:#Morocco
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Moldova
+meta#:#meta_c_MG#:#Madagascar
+meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_MK#:#Macedónia
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongólia
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritânia
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Maldivas
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexico
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MZ#:#Moçambique
+meta#:#meta_c_NA#:#Namíbia
+meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Norfolk Island
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Holanda
+meta#:#meta_c_NO#:#Noruega
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#New Zealand
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#French Polynesia
+meta#:#meta_c_PG#:#Papua New Guinea
+meta#:#meta_c_PH#:#Philippines
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Poland
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Qatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Romania
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Rwanda
+meta#:#meta_c_SA#:#Saudi Arabia
+meta#:#meta_c_SB#:#Solomon Islands
+meta#:#meta_c_SC#:#Seychelles
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Sweden
+meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SI#:#Slovenia
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
+meta#:#meta_c_SK#:#Slovakia
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SY#:#Syrian Arab Republic
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TD#:#Chad
+meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TJ#:#Tajikistan
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#East Timor
+meta#:#meta_c_TR#:#Turkey
+meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VA#:#Vatican City State
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin Islands (British)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Yemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#South Africa
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Other Country
+meta#:#meta_catalog#:#Catalog
+meta#:#meta_choose_element#:#Please choose an element you want to add!
+meta#:#meta_choose_language#:#Please choose a language
+meta#:#meta_choose_section#:#Please choose a section
+meta#:#meta_classification#:#Classification
+meta#:#meta_collection#:#Collection
+meta#:#meta_competency#:#Competency
+meta#:#meta_context#:#Contexto
+meta#:#meta_contribute#:#Contribute
+meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
+meta#:#meta_cost#:#Cost
+meta#:#meta_coverage#:#Coverage
+meta#:#meta_date#:#Data
+meta#:#meta_delete#:#Apagar
+meta#:#meta_description#:#Description
+meta#:#meta_diagramm#:#Diagrama
+meta#:#meta_difficulty#:#Dificuldade
+meta#:#meta_dificult#:#Dificil
+meta#:#meta_draft#:#Rascunho
+meta#:#meta_duration#:#Duração
+meta#:#meta_easy#:#Fácil
+meta#:#meta_education#:#Educação
+meta#:#meta_educational_level#:#Nível Educacional
+meta#:#meta_educational_objective#:#Objectivo Educational
+meta#:#meta_entity#:#Entidade
+meta#:#meta_entry#:#Entry
+meta#:#meta_exam#:#Exame
+meta#:#meta_exercise#:#Exercício
+meta#:#meta_experiment#:#Experiência
+meta#:#meta_expositive#:#Expositive
+meta#:#meta_figure#:#Figure
+meta#:#meta_final#:#Final
+meta#:#meta_format#:#Format
+meta#:#meta_general#:#General
+meta#:#meta_graph#:#Grafico
+meta#:#meta_has_format#:#Has Format
+meta#:#meta_has_part#:#Has Part
+meta#:#meta_has_version#:#Has Version
+meta#:#meta_hierarchical#:#Hierarchical
+meta#:#meta_high#:#High
+meta#:#meta_higher_education#:#Higher Education
+meta#:#meta_id#:#Id
+meta#:#meta_idea#:#Idea
+meta#:#meta_identifier#:#Identifier
+meta#:#meta_index#:#Indice
+meta#:#meta_installation_remarks#:#Installation Remarks
+meta#:#meta_intended_end_user_role#:#Intended End User Role
+meta#:#meta_interactivity_level#:#Interactivity Level
+meta#:#meta_interactivity_type#:#Interactivity Type
+meta#:#meta_is_based_on#:#Is Based On
+meta#:#meta_is_basis_for#:#Is Basis For
+meta#:#meta_is_format_of#:#Is Format Of
+meta#:#meta_is_part_of#:#Is Part Of
+meta#:#meta_is_referenced_by#:#Is Referenced By
+meta#:#meta_is_required_by#:#Is Required By
+meta#:#meta_is_version_of#:#Is Version Of
+meta#:#meta_keyword#:#Keyword
+meta#:#meta_kind#:#Kind
+meta#:#meta_l_aa#:#afar
+meta#:#meta_l_ab#:#abkhazian
+meta#:#meta_l_af#:#afrikaans
+meta#:#meta_l_am#:#amharic
+meta#:#meta_l_ar#:#arabic
+meta#:#meta_l_as#:#assamese
+meta#:#meta_l_ay#:#aymara
+meta#:#meta_l_az#:#azerbaijani
+meta#:#meta_l_ba#:#bashkir
+meta#:#meta_l_be#:#byelorussian
+meta#:#meta_l_bg#:#bulgarian
+meta#:#meta_l_bh#:#bihari
+meta#:#meta_l_bi#:#bislama
+meta#:#meta_l_bn#:#bengali;bangla
+meta#:#meta_l_bo#:#tibetan
+meta#:#meta_l_br#:#breton
+meta#:#meta_l_ca#:#catalan
+meta#:#meta_l_co#:#corsican
+meta#:#meta_l_cs#:#czech
+meta#:#meta_l_cy#:#welsh
+meta#:#meta_l_da#:#danish
+meta#:#meta_l_de#:#german
+meta#:#meta_l_dz#:#bhutani
+meta#:#meta_l_el#:#greek
+meta#:#meta_l_en#:#english
+meta#:#meta_l_eo#:#esperanto
+meta#:#meta_l_es#:#spanish
+meta#:#meta_l_et#:#estonian
+meta#:#meta_l_eu#:#basque
+meta#:#meta_l_fa#:#persian (farsi)
+meta#:#meta_l_fi#:#finnish
+meta#:#meta_l_fj#:#fiji
+meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fr#:#french
+meta#:#meta_l_fy#:#frisian
+meta#:#meta_l_ga#:#irish
+meta#:#meta_l_gd#:#scots gaelic
+meta#:#meta_l_gl#:#galician
+meta#:#meta_l_gn#:#guarani
+meta#:#meta_l_gu#:#gujarati
+meta#:#meta_l_ha#:#hausa
+meta#:#meta_l_he#:#hebrew
+meta#:#meta_l_hi#:#hindi
+meta#:#meta_l_hr#:#croatian
+meta#:#meta_l_hu#:#hungarian
+meta#:#meta_l_hy#:#armenian
+meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonesian
+meta#:#meta_l_ie#:#interlingue
+meta#:#meta_l_ik#:#inupiak
+meta#:#meta_l_is#:#icelandic
+meta#:#meta_l_it#:#italian
+meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_ja#:#japanese
+meta#:#meta_l_jv#:#javanese
+meta#:#meta_l_ka#:#georgian
+meta#:#meta_l_kk#:#kazakh
+meta#:#meta_l_kl#:#greenlandic
+meta#:#meta_l_km#:#cambodian
+meta#:#meta_l_kn#:#kannada
+meta#:#meta_l_ko#:#korean
+meta#:#meta_l_ks#:#kashmiri
+meta#:#meta_l_ku#:#kurdish
+meta#:#meta_l_ky#:#kirghiz
+meta#:#meta_l_la#:#latin
+meta#:#meta_l_ln#:#lingala
+meta#:#meta_l_lo#:#laothian
+meta#:#meta_l_lt#:#lithuanian
+meta#:#meta_l_lv#:#latvian;lettish
+meta#:#meta_l_mg#:#malagasy
+meta#:#meta_l_mi#:#maori
+meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_ml#:#malayalam
+meta#:#meta_l_mn#:#mongolian
+meta#:#meta_l_mo#:#moldavian
+meta#:#meta_l_mr#:#marathi
+meta#:#meta_l_ms#:#malay
+meta#:#meta_l_mt#:#maltese
+meta#:#meta_l_my#:#burmese
+meta#:#meta_l_na#:#nauru
+meta#:#meta_l_ne#:#nepali
+meta#:#meta_l_nl#:#dutch
+meta#:#meta_l_no#:#norwegian
+meta#:#meta_l_oc#:#occitan
+meta#:#meta_l_om#:#afan (oromo)
+meta#:#meta_l_or#:#oriya
+meta#:#meta_l_pa#:#punjabi
+meta#:#meta_l_pl#:#polish
+meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_pt#:#portuguese
+meta#:#meta_l_qu#:#quechua
+meta#:#meta_l_rm#:#rhaeto-romance
+meta#:#meta_l_rn#:#kurundi
+meta#:#meta_l_ro#:#romanian
+meta#:#meta_l_ru#:#russian
+meta#:#meta_l_rw#:#kinyarwanda
+meta#:#meta_l_sa#:#sanskrit
+meta#:#meta_l_sd#:#sindhi
+meta#:#meta_l_sg#:#sangho
+meta#:#meta_l_sh#:#serbo-croatian
+meta#:#meta_l_si#:#singhalese
+meta#:#meta_l_sk#:#slovak
+meta#:#meta_l_sl#:#slovenian
+meta#:#meta_l_sm#:#samoan
+meta#:#meta_l_sn#:#shona
+meta#:#meta_l_so#:#somali
+meta#:#meta_l_sq#:#albanian
+meta#:#meta_l_sr#:#serbian
+meta#:#meta_l_ss#:#siswati
+meta#:#meta_l_st#:#sesotho
+meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_sv#:#swedish
+meta#:#meta_l_sw#:#swahili
+meta#:#meta_l_ta#:#tamil
+meta#:#meta_l_te#:#telugu
+meta#:#meta_l_tg#:#tajik
+meta#:#meta_l_th#:#thai
+meta#:#meta_l_ti#:#tigrinya
+meta#:#meta_l_tk#:#turkmen
+meta#:#meta_l_tl#:#tagalog
+meta#:#meta_l_tn#:#setswana
+meta#:#meta_l_to#:#tonga
+meta#:#meta_l_tr#:#turkish
+meta#:#meta_l_ts#:#tsonga
+meta#:#meta_l_tt#:#tatar
+meta#:#meta_l_tw#:#twi
+meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_uk#:#ukrainian
+meta#:#meta_l_ur#:#urdu
+meta#:#meta_l_uz#:#uzbek
+meta#:#meta_l_vi#:#vietnamese
+meta#:#meta_l_vo#:#volapuk
+meta#:#meta_l_wo#:#wolof
+meta#:#meta_l_xh#:#xhosa
+meta#:#meta_l_yi#:#yiddish
+meta#:#meta_l_yo#:#yoruba
+meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_zh#:#chinese
+meta#:#meta_l_zu#:#zulu
+meta#:#meta_language#:#Language
+meta#:#meta_learner#:#Learner
+meta#:#meta_learning_resource_type#:#Learning Resource Type
+meta#:#meta_lecture#:#Lecture
+meta#:#meta_lifecycle#:#Lifecycle
+meta#:#meta_linear#:#Linear
+meta#:#meta_local_file#:#Local File
+meta#:#meta_location#:#Location
+meta#:#meta_low#:#Low
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Manager
+meta#:#meta_maximum_version#:#Maximum Version
+meta#:#meta_medium#:#Medium
+meta#:#meta_meta_metadata#:#Meta-Metadata
+meta#:#meta_metadatascheme#:#Metadata Scheme
+meta#:#meta_minimum_version#:#Minimum Version
+meta#:#meta_mixed#:#Mixed
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Name
+meta#:#meta_narrative_text#:#Narrative Text
+meta#:#meta_networked#:#Networked
+meta#:#meta_new_element#:#New Element
+meta#:#meta_no#:#No
+meta#:#meta_no_annotation#:#No meta data available for the Annotation section.
+meta#:#meta_no_classification#:#No meta data available for the Classification section.
+meta#:#meta_no_educational#:#No meta data available for Educational section.
+meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.
+meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.
+meta#:#meta_no_relation#:#No meta data available for the Relation section.
+meta#:#meta_no_rights#:#No meta data available for the Rights section.
+meta#:#meta_no_technical#:#No meta data available for Technical section.
+meta#:#meta_none#:#None
+meta#:#meta_operating_system#:#Operating System
+meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_other#:#Other
+meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_please_select#:#Please select
+meta#:#meta_prerequisite#:#Prerequisite
+meta#:#meta_problem_statement#:#Problem Statement
+meta#:#meta_publisher#:#Publisher
+meta#:#meta_purpose#:#Purpose
+meta#:#meta_questionnaire#:#Questionnaire
+meta#:#meta_reference#:#Reference
+meta#:#meta_references#:#References
+meta#:#meta_relation#:#Relation
+meta#:#meta_requirement#:#Requirement
+meta#:#meta_requires#:#Requires
+meta#:#meta_resource#:#Resource
+meta#:#meta_revised#:#Revised
+meta#:#meta_rights#:#Rights
+meta#:#meta_role#:#Role
+meta#:#meta_school#:#School
+meta#:#meta_security_level#:#Security Level
+meta#:#meta_self_assessment#:#Self Assessment
+meta#:#meta_semantic_density#:#Semantic Density
+meta#:#meta_simulation#:#Simulation
+meta#:#meta_size#:#Size
+meta#:#meta_skill_level#:#Skill Level
+meta#:#meta_slide#:#Slide
+meta#:#meta_source#:#Source
+meta#:#meta_status#:#Status
+meta#:#meta_structure#:#Structure
+meta#:#meta_table#:#Table
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_teacher#:#Teacher
+meta#:#meta_technical#:#Technical
+meta#:#meta_title#:#Title
+meta#:#meta_training#:#Training
+meta#:#meta_type#:#Type
+meta#:#meta_typical_age_range#:#Typical Age Range
+meta#:#meta_typical_learning_time#:#Typical Learning Time
+meta#:#meta_unavailable#:#Unavailable
+meta#:#meta_unix#:#Unix
+meta#:#meta_value#:#Value
+meta#:#meta_version#:#Version
+meta#:#meta_very_difficult#:#Very Difficult
+meta#:#meta_very_easy#:#Very Easy
+meta#:#meta_very_high#:#Very High
+meta#:#meta_very_low#:#Very Low
+meta#:#meta_yes#:#Yes
+search#:#search_all_results#:#All results
+search#:#search_concatenation#:#Concatenation
+search#:#search_content#:#Page Content
+search#:#search_dbk_content#:#Digital Library (content)
+search#:#search_dbk_meta#:#Digital Library (meta data)
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly
+search#:#search_group#:#Groups
+search#:#search_in_result#:#Search within results
+search#:#search_lm_content#:#Learning materials (content)
+search#:#search_lm_meta#:#Learning materials (meta data)
+search#:#search_meta#:#Meta data
+search#:#search_minimum_three#:#Your search has to be at least three characters long
+search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
+search#:#search_move_to#:#Move to:
+search#:#search_my_search_results#:#My search results
+search#:#search_new_folder#:#New folder
+search#:#search_no_category#:#You haven't selected any search category
+search#:#search_no_match#:#Your search didn't match any results
+search#:#search_no_results_saved#:#Nenhuns resultados guardados.
+search#:#search_no_search_term#:#Você não seleccionou nenhum termo de procura
+search#:#search_no_selection#:#Você não fez nenhuma selecção.
+search#:#search_object_renamed#:#Objecto renomeado.
+search#:#search_objects_deleted#:#Objecto(s) apagados.
+search#:#search_objects_moved#:#Objectos movidos.
+search#:#search_one_action#:#Seleccione uma acção.
+search#:#search_rename_title#:#Renomear título
+search#:#search_results_saved#:#Resultados da procura guardados
+search#:#search_save_as_select#:#Guardar como:
+search#:#search_search_for#:#Procurar por
+search#:#search_search_no_results_saved#:#Não existem resultados de procura guardados
+search#:#search_search_results#:#Resultados da procura
+search#:#search_search_term#:#Termo de procura
+search#:#search_select_exactly_one_object#:#Você tem de seleccionar exactamente um objecto.
+search#:#search_select_one#:#Seleccione uma pasta
+search#:#search_select_one_action#:#--Seleccione uma acção--
+search#:#search_select_one_folder_select#:#--Seleccione uma pasta--
+search#:#search_select_one_result#:#Seleccione pelo menos um resultado da procura
+search#:#search_select_one_select#:#--Seleccione uma pasta--
+search#:#search_show_result#:#Mostra
+search#:#search_user#:#Utilizadores
+common#:#exc_select_one_file#:#Por favor seleccione exactamente um ficheiro.
+
