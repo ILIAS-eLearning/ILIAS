@@ -3,8 +3,7 @@
 *
 * @module		language file polish
 * @modulegroup	language
-* @author 		Mathias Kunkel <m.kunkel@uni-koeln.de>
-		        Wojciech Stasiak <wstasiak@am.gdynia.pl>
+* @author 		Wojciech Stasiak <wstasiak@am.gdynia.pl>
 * @version		$Id$
 */
 
@@ -55,7 +54,7 @@ common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
 common#:#answers#:#Odpowiedzi
-common#:#application_date#:#Application date###14 Nov 2003 new variable
+common#:#application_date#:#Data utworzenia aplikacji
 common#:#appointment#:#Umówiony termin
 common#:#appointment_list#:#Lista umówionych spotkań
 common#:#archive#:#Archiwuj
@@ -128,7 +127,7 @@ common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
 common#:#context#:#Kontekst
 common#:#copy#:#Kopiuj
-common#:#copy_of#:#Copy of###14 Nov 2003 new variable
+common#:#copy_of#:#Kopia
 common#:#country#:#Kraj
 common#:#course#:#Kurs
 common#:#courses#:#Kursy
@@ -158,15 +157,15 @@ common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#Użytkownik bazy danych
 common#:#db_version#:#Wersja bazy danych
-common#:#dbk#:#Digilib Book###14 Nov 2003 new variable
-common#:#dbk_a#:#a Digilib Book###14 Nov 2003 new variable
-common#:#dbk_add#:#Add Digilib Book###14 Nov 2003 new variable
-common#:#dbk_added#:#Digilib Book added###14 Nov 2003 new variable
-common#:#dbk_new#:#New Digilib Book###14 Nov 2003 new variable
+common#:#dbk#:#Książka Digilib
+common#:#dbk_a#:#Książka Digilib
+common#:#dbk_add#:#Dodaj Książkę Digilib
+common#:#dbk_added#:#Książka Digilib została dodana
+common#:#dbk_new#:#Nowa książka Digilib
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
 common#:#default_role#:#Domyślne stanowisko
-common#:#default_roles#:#Default Roles###14 Nov 2003 new variable
+common#:#default_roles#:#Domyślne stanowiska
 common#:#default_skin#:#Domyślna skórka
 common#:#default_style#:#Domyślny styl
 common#:#delete#:#Usuń
@@ -174,7 +173,7 @@ common#:#delete_all#:#Usuń wszystko
 common#:#delete_object#:#Usuń obiekt(y)
 common#:#delete_selected#:#Usuń wybrane
 common#:#deleted#:#Usunięte
-common#:#department#:#Department###14 Nov 2003 new variable
+common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
@@ -207,46 +206,46 @@ common#:#err_session_expired#:#YTwoja sesja się zakończyła!
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
 common#:#error_recipient#:#Odbiorca błędu
-common#:#exc#:#Exercise###14 Nov 2003 new variable
-common#:#exc_add#:#Add Exercise###14 Nov 2003 new variable
-common#:#exc_added#:#Exercise added###14 Nov 2003 new variable
-common#:#exc_ask_delete#:#Delete file?###14 Nov 2003 new variable
-common#:#exc_assign_usr#:#Assign User###14 Nov 2003 new variable
-common#:#exc_date_not_valid#:#The date is not valid###14 Nov 2003 new variable
-common#:#exc_deassign_members#:#Delete member(s)###14 Nov 2003 new variable
-common#:#exc_edit#:#New exercise created###14 Nov 2003 new variable
-common#:#exc_edit_exercise#:#Edit exercise###14 Nov 2003 new variable
-common#:#exc_edit_until#:#Edit until###14 Nov 2003 new variable
-common#:#exc_files#:#Files###14 Nov 2003 new variable
-common#:#exc_groups#:#Groups###14 Nov 2003 new variable
-common#:#exc_header_members#:#Exercise(members)###14 Nov 2003 new variable
-common#:#exc_instruction#:#Work instructions###14 Nov 2003 new variable
-common#:#exc_members_already_assigned#:#These user are already assigned to this exercise###14 Nov 2003 new variable
-common#:#exc_members_assigned#:#Members assigned###14 Nov 2003 new variable
-common#:#exc_new#:#New exercise###14 Nov 2003 new variable
-common#:#exc_no_members_assigned#:#No members assigned###14 Nov 2003 new variable
-common#:#exc_notices#:#Notices###14 Nov 2003 new variable
-common#:#exc_obj#:#Exercise###14 Nov 2003 new variable
-common#:#exc_save_changes#:#Save###14 Nov 2003 new variable
-common#:#exc_search_for#:#Search for###14 Nov 2003 new variable
-common#:#exc_send_exercise#:#Send exercise###14 Nov 2003 new variable
-common#:#exc_sent#:#The exercise has been sent to the selected users###14 Nov 2003 new variable
-common#:#exc_status_returned#:#Returned###14 Nov 2003 new variable
-common#:#exc_status_saved#:#Exercise updated###14 Nov 2003 new variable
-common#:#exc_status_solved#:#Solved###14 Nov 2003 new variable
-common#:#exc_upload_error#:#Error uploading file###14 Nov 2003 new variable
-common#:#exc_users#:#Users###14 Nov 2003 new variable
+common#:#exc#:#Ćwiczenie
+common#:#exc_add#:#Dodaj ćwiczenie
+common#:#exc_added#:#Ćwiczenie zostało dodane
+common#:#exc_ask_delete#:#Usunąć plik?
+common#:#exc_assign_usr#:#Przydziel użytkownika
+common#:#exc_date_not_valid#:#Data jest nieprawidłowa
+common#:#exc_deassign_members#:#Usuń członka(ów)
+common#:#exc_edit#:#Nowe ćwiczenie zostało utworzone
+common#:#exc_edit_exercise#:#Edytuj ćwiczenie
+common#:#exc_edit_until#:#Edytuj aż do
+common#:#exc_files#:#Pliki
+common#:#exc_groups#:#Grupy
+common#:#exc_header_members#:#Ćwiczenie(członkowie)
+common#:#exc_instruction#:#Instrukcja obsługi
+common#:#exc_members_already_assigned#:#Ten użytkownik jest już przydzielony do tego ćwiczenia
+common#:#exc_members_assigned#:#Przydzieleni członkowie
+common#:#exc_new#:#Nowe ćwiczenie
+common#:#exc_no_members_assigned#:#Brak przydzielonych członków
+common#:#exc_notices#:#Uwagi
+common#:#exc_obj#:#Ćwiczenie
+common#:#exc_save_changes#:#Zachowaj
+common#:#exc_search_for#:#Szukaj
+common#:#exc_send_exercise#:#Wyślij ćwiczenie
+common#:#exc_sent#:#Ćwiczenie zostało wysłane do wybranego użytkownika.
+common#:#exc_status_returned#:#Zwrócone
+common#:#exc_status_saved#:#Ćwiczenie zostało uaktualnione
+common#:#exc_status_solved#:#Rozwiązane
+common#:#exc_upload_error#:#Błąd podczas wysyłania ćwiczenia.
+common#:#exc_users#:#Użytkownicy
 common#:#execute#:#Wykonaj
 common#:#export_html#:#eksportuj jako plik html
 common#:#export_xml#:#eksportuj jako plik xml
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
-common#:#fax#:#Fax###14 Nov 2003 new variable
+common#:#fax#:#Faks
 common#:#feedback#:#Informacja systemowa
 common#:#feedback_recipient#:#Odbiorca
 common#:#file#:#Plik
 common#:#file_a#:#Plik
-common#:#file_add#:#Wyślij plik
 common#:#file_added#:#Plik załadowany
+common#:#file_add#:#Wyślij plik
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
@@ -258,11 +257,11 @@ common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
 common#:#fold#:#Folder
 common#:#fold_a#:#Folder
-common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
+common#:#fold_add#:#Dodaj Folder
 common#:#fold_new#:#Nowy Folder
 common#:#folders#:#Foldery
-common#:#force_accept_usr_agreement#:#You have to accept user agreement!###14 Nov 2003 new variable
+common#:#force_accept_usr_agreement#:#Musisz zaakceptować zgodę użytkownika.
 common#:#forename#:#Nazwisko
 common#:#form_empty_fields#:#Wypełnij te pola:
 common#:#forum#:#Forum
@@ -279,41 +278,41 @@ common#:#fullname#:#Pełna nazwa
 common#:#functions#:#Funkcje
 common#:#gdf_add#:#dodaj Definicję
 common#:#gdf_new#:#Nowa Definicja
-common#:#gender#:#Płe�
-common#:#gender_f#:#Female###14 Nov 2003 new variable
-common#:#gender_m#:#Male###14 Nov 2003 new variable
+common#:#gender#:#Płeć
+common#:#gender_f#:#Kobieta
+common#:#gender_m#:#Mężczyzna
 common#:#generate#:#Generuj
 common#:#glo#:#Słownik
 common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownia
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_new#:#Nowy słownik
-common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
+common#:#glossaries#:#Słowniki
 common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
-common#:#group_access_denied#:#Access Denied###14 Nov 2003 new variable
+common#:#group_access_denied#:#Dostęp zabroniony
 common#:#group_any_objects#:#Obiekty podrzędne niedostępne
-common#:#group_desc#:#Group Description###14 Nov 2003 new variable
+common#:#group_desc#:#Opis grupy
 common#:#group_details#:#Szczegóły grupy
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Członkowie grupy
-common#:#group_memstat#:#Member Status###14 Nov 2003 new variable
-common#:#group_memstat_admin#:#Administrator###14 Nov 2003 new variable
-common#:#group_memstat_member#:#Member###14 Nov 2003 new variable
+common#:#group_memstat#:#Status członka
+common#:#group_memstat_admin#:#Administrator
+common#:#group_memstat_member#:#Członek
 common#:#group_name#:#Nazwa grupy
-common#:#group_new_registrations#:#New Registrations###14 Nov 2003 new variable
-common#:#group_no_registration#:#no registration required###14 Nov 2003 new variable
-common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.###14 Nov 2003 new variable
+common#:#group_new_registrations#:#Nowe rejestracje
+common#:#group_no_registration#:#Rejestracja nie jest konieczna
+common#:#group_no_registration_msg#:#Nie jesteś członkiem tej grupy. Jest pożądane aby należeć do grupy.<br> Jako członek masz przywileje:<br>- Dostaniesz informację o nowych uaktualnieniach.<br>- Masz dostęp np do forum, modułów nauczania, itp.<br><br>Możesz zrezygnować z członkostwa w każdej chwili.
 common#:#group_not_available#:#Żadna grupa nie jest dostępna
 common#:#group_objects#:#Obiekty grupy
-common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###14 Nov 2003 new variable
-common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###14 Nov 2003 new variable
-common#:#group_registration_expiration_date#:#Expiration Date###14 Nov 2003 new variable
-common#:#group_registration_expired#:#Period of registraton expired###14 Nov 2003 new variable
-common#:#group_registration_mode#:#Registration Mode###14 Nov 2003 new variable
-common#:#group_req_password#:#Registration password required###14 Nov 2003 new variable
-common#:#group_req_registration#:#Registration required###14 Nov 2003 new variable
-common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###14 Nov 2003 new variable
+common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minął.  Skontakuj się z właścicielem grupy lub administratorem
+common#:#group_password_registration_msg#:#Aby przystąpić do tej grupy musisz podać hasło dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeśli hasło będzie poprawne.
+common#:#group_registration_expiration_date#:#Rejestracja do
+common#:#group_registration_expired#:#Okres rejestracji minął.
+common#:#group_registration_mode#:#Tryb rejestracji
+common#:#group_req_password#:#Wymagane hasło rejestracji
+common#:#group_req_registration#:#Wymagana rejestracja
+common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
 common#:#group_status#:#Status grupy
 common#:#group_status_closed#:#Zamknięta
 common#:#group_status_public#:#Publiczna
@@ -323,17 +322,17 @@ common#:#grp#:#Grupa
 common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
-common#:#grp_edit#:#Edytuj Grup�
-common#:#grp_mem_change_status#:#Change member status###14 Nov 2003 new variable
-common#:#grp_mem_leave#:#Dismiss member from group###14 Nov 2003 new variable
-common#:#grp_mem_send_mail#:#Send member a message###14 Nov 2003 new variable
-common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.###14 Nov 2003 new variable
+common#:#grp_edit#:#Edytuj Grupę
+common#:#grp_mem_change_status#:#Zmień status członka
+common#:#grp_mem_leave#:#Wyklucz członka grupy
+common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
+common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
 common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#help#:#Pomoc
 common#:#hide_details#:#ukryj szczegóły
-common#:#hide_structure#:#Disable Structured-View###14 Nov 2003 new variable
+common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
@@ -341,15 +340,15 @@ common#:#http_path#:#Ścieżka http
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#ilias_version#:#Wersja ILIAS
-common#:#image#:#Image###14 Nov 2003 new variable
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###14 Nov 2003 new variable
+common#:#image#:#Obrazek
+common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
 common#:#import#:#Import
-common#:#import_lm#:#Importuj moduł nauczania 
+common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_slm#:#Importuj pakiet SCORM
-common#:#in#:#in###14 Nov 2003 new variable
+common#:#in#:#w
 common#:#in_use#:#język użytkownika
 common#:#inbox#:#Skrzynka odbiorcza
-common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?###14 Nov 2003 new variable
+common#:#info_assign_sure#:#Jesteś pewien, że chcesz przydzielić następujących użytkowników?
 common#:#info_delete_sure#:#Jesteś pewien, że chcesz usunąć  następujące obiekty?
 common#:#info_deleted#:#Obiekty zostały usunięte
 common#:#info_trash#:#Usunięte obiekty
@@ -357,9 +356,9 @@ common#:#inform_user_mail#:#Wyślij email aby poinformować użytkownika o zmian
 common#:#information_abbr#:#Informacje
 common#:#ingmedia_all_offers#:#Wszystkie LE
 common#:#ingmedia_back_to_le#:#Powrót do LE
+common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_afternoon#:#Dzień dobry
 common#:#ingmedia_good_evening#:#Dobry wieczór
-common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_night#:#Dobranoc
 common#:#ingmedia_hello#:#Cześć
 common#:#ingmedia_info_about_work1#:#Na
@@ -372,7 +371,7 @@ common#:#ingmedia_use_info1#:#Tu możesz zmienić swoje dane osobowe. Oprócz na
 common#:#ingmedia_use_info2#:#Nie można stosować znaków specjalnych (takich jak , ; . = - * + #) w twojej nazwie użytkownika INGMEDIA i haśle. Aby móc używać platformy INGMEDIA musisz zaakceptować zgodę użytkownika.
 common#:#ingmedia_use_info3#:#Wybierz jedno z połączeń z listy.
 common#:#ingmedia_use_title#:#Zmień dane użytkownika.
-common#:#ingmedia_user_agree#:#Agreement###14 Nov 2003 new variable
+common#:#ingmedia_user_agree#:#Zgoda
 common#:#ingmedia_vis_le#:#Odwiedzane LE
 common#:#ingmedia_visited_le#:#Wszystkie LE które odwiedzałeś ostatnio.
 common#:#ingmedia_welcome#:#, witaj na swoim pulpicie!!
@@ -421,7 +420,7 @@ common#:#lastname#:#Nazwisko
 common#:#launch#:#Uruchom
 common#:#ldap#:#LDAP
 common#:#learning_objects#:#Przedmioty Nauczania (PN)
-common#:#learning_resources#:#Learning Resources###14 Nov 2003 new variable
+common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
 common#:#link#:#Łącznik
 common#:#linked_pages#:#Strony połaczone
@@ -446,7 +445,7 @@ common#:#lo_other_langs#:#PN w innym języku
 common#:#lo_overview#:#Przegląd PN
 common#:#locator#:#Wybrana czynność:
 common#:#login#:#Loguj
-common#:#login_as#:#Logged in as###14 Nov 2003 new variable
+common#:#login_as#:#Zalogowany jako
 common#:#login_data#:#Data zalogowania
 common#:#login_exists#:#Już jest użytkownik z taką nazwą (pseudonim)! Wybierz inną.
 common#:#login_time#:#Biezący czas pracy
@@ -484,7 +483,7 @@ common#:#mail_z_local#:#Foldery użytkownika
 common#:#mails#:#Wiadomości
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
-common#:#member#:#Member###14 Nov 2003 new variable
+common#:#member#:#Członek
 common#:#members#:#Członkowie
 common#:#message#:#Wiadomość
 common#:#message_content#:#Zawartość wiadomości
@@ -557,8 +556,8 @@ common#:#msg_removed#:#Obiekty zostały usunięte z systemu.
 common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwą
 common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
 common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz inną nazwę.
-common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed###14 Nov 2003 new variable
-common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again.###14 Nov 2003 new variable
+common#:#msg_roleassignment_active_changed#:#Zmieniono przydział aktywnych stanowisk.
+common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.
 common#:#msg_roleassignment_changed#:#Przydział stanowisk został zmieniony.
 common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie może być usunięte.
 common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień stanowiska systemowego nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do stanowiska systemowego posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
@@ -568,9 +567,9 @@ common#:#msg_user_last_role1#:#Nastepującym użytkownikom przydzielono tylko to
 common#:#msg_user_last_role2#:#Aby usunąć to stanowisko usuń tych użytkowników lub przydziel im inne stanowisko.
 common#:#msg_userassignment_changed#:#Przydział użytkowników został zmieniony.
 common#:#multimedia#:#Multimedia
-common#:#my_bms#:#My Bookmarks###14 Nov 2003 new variable
+common#:#my_bms#:#Moje zakładki
 common#:#my_frms#:#Moje Fora
-common#:#my_grps#:#My Groups###14 Nov 2003 new variable
+common#:#my_grps#:#Moje grupy
 common#:#my_los#:#Moje Przedmioty Nauczania
 common#:#name#:#Nazwa
 common#:#new#:#Nowy
@@ -583,11 +582,11 @@ common#:#news#:#Wieści
 common#:#next#:#następny
 common#:#nickname#:#Pseudonim
 common#:#no#:#Nie
-common#:#no_bm_in_personal_list#:#No bookmarks defined.###14 Nov 2003 new variable
+common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
 common#:#no_checkbox#:#Nie wybrano opcji!
 common#:#no_date#:#Brak daty.
 common#:#no_frm_in_personal_list#:#Brak forów na liście osobistej.
-common#:#no_grp_in_personal_list#:#No groups in personal list.###14 Nov 2003 new variable
+common#:#no_grp_in_personal_list#:#Brah grup w liście prywatnej.
 common#:#no_import_available#:#Import nie jest dostepny dla typu
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na liście osobistej.
 common#:#no_objects#:#Brak obiektów
@@ -598,37 +597,37 @@ common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
-common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###14 Nov 2003 new variable
+common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_crs#:#Kurs
-common#:#obj_dbk#:#Digilib Book###14 Nov 2003 new variable
+common#:#obj_dbk#:#Książka Digilib
 common#:#obj_file#:#plik
-common#:#obj_fold#:#Folder###14 Nov 2003 new variable
+common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
-common#:#obj_ldap#:#LDAP Settings###14 Nov 2003 new variable
-common#:#obj_ldap_desc#:#Configure global LDAP Settings here.###14 Nov 2003 new variable
+common#:#obj_ldap#:#Ustawienia LDAP
+common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
 common#:#obj_le#:#Moduł Nauczania (MN)
 common#:#obj_lm#:#Moduł Nauczania (MN)
 common#:#obj_lng#:#Język
 common#:#obj_lngf#:#Języki
-common#:#obj_lngf_desc#:#Manage your system languages here.###14 Nov 2003 new variable
+common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
 common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
-common#:#obj_mail_desc#:#Configure global mail settings here.###14 Nov 2003 new variable
+common#:#obj_mail_desc#:#Konfiguracja globalnych ustawień poczty elektronicznej.
 common#:#obj_not_found#:#Obiekt nie został odnaleziony.
 common#:#obj_note#:#Notatka
 common#:#obj_notf#:#Notatka administracyjna
 common#:#obj_objf#:#Definicja obiektu
-common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)###14 Nov 2003 new variable
+common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
 common#:#obj_role#:#Stanowisko
 common#:#obj_rolf#:#Stanowiska
-common#:#obj_rolf_desc#:#Manage your roles here.###14 Nov 2003 new variable
+common#:#obj_rolf_desc#:#Zarządzanie stanowiskami.
 common#:#obj_rolf_local#:#Lokalne stanowiska
-common#:#obj_rolf_local_desc#:#Contains local roles of object no.###14 Nov 2003 new variable
+common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych stanowisk.
 common#:#obj_rolt#:#Szablon stanowiska
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM (MN)
@@ -638,10 +637,10 @@ common#:#obj_type#:#Typ obiektu
 common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
-common#:#obj_usrf_desc#:#Manage user accounts here.###14 Nov 2003 new variable
+common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
-common#:#objs_delete#:#Delete objects###14 Nov 2003 new variable
+common#:#objs_delete#:#Usuń obiekty
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
 common#:#ok#:#OK
@@ -690,9 +689,9 @@ common#:#pg_added#:#Strona dodana
 common#:#pg_edit#:#Edytuj stronę
 common#:#pg_new#:#Nowa strona
 common#:#phone#:#Telefon
-common#:#phone_home#:#Phone, Home###14 Nov 2003 new variable
-common#:#phone_mobile#:#Phone, Mobile###14 Nov 2003 new variable
-common#:#phone_office#:#Phone, Office###14 Nov 2003 new variable
+common#:#phone_home#:#Telefon domowy
+common#:#phone_mobile#:#Telefon komórkowy
+common#:#phone_office#:#Telefon w pracy
 common#:#phrase#:#Fraza
 common#:#please_enter_target#:#Podaj przeznaczenie
 common#:#please_enter_title#:#Podaj tytuł
@@ -702,7 +701,7 @@ common#:#presentation_options#:#Opcje prezentacji
 common#:#previous#:#poprzedni
 common#:#print#:#Drukuj
 common#:#profile_changed#:#Twój profil został zmieniony.
-common#:#profile_of#:#Profile of###14 Nov 2003 new variable
+common#:#profile_of#:#Profil
 common#:#properties#:#Właściwości
 common#:#pub_section#:#Sekcja publiczna
 common#:#public_profile#:#Profil publiczny
@@ -715,51 +714,51 @@ common#:#quit#:#Wyjście
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
 common#:#recipient#:#Odbiorca
-common#:#refresh#:#Odświerz
-common#:#refresh_languages#:#Odświerz języki
-common#:#refresh_list#:#Lista odświerzona
+common#:#refresh#:#Odśwież
+common#:#refresh_languages#:#Odśwież języki
+common#:#refresh_list#:#Lista odświeżona
 common#:#register#:#Rejestruj
 common#:#register_info#:#Wypełnij formularz do rejestracji (Pola zaznaczone gwiazdką są niezbędne).
 common#:#registered_since#:#Zarejestrowany od
-common#:#registered_user#:#registered User###14 Nov 2003 new variable
-common#:#registered_users#:#registered Users###14 Nov 2003 new variable
+common#:#registered_user#:#zarejestrowany użytkownik
+common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
-common#:#remove#:#Dismiss###14 Nov 2003 new variable
+common#:#remove#:#Wyklucz
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
 common#:#reply#:#Odpowiedz
-common#:#repository#:#Repository###14 Nov 2003 new variable
+common#:#repository#:#Repozytorium
 common#:#required_field#:#Pole niezbędne
 common#:#reset#:#Przywróć
-common#:#resources#:#Resources###14 Nov 2003 new variable
+common#:#resources#:#Źródła
 common#:#retype_password#:#Powtórz hasło
 common#:#right#:#Prawo
 common#:#rights#:#Prawa
 common#:#role#:#Stanowisko
-common#:#role_a#:#a Role###14 Nov 2003 new variable
-common#:#role_add#:#Add Role###14 Nov 2003 new variable
+common#:#role_a#:#stanowisko
+common#:#role_add#:#Dodaj stanowisko
 common#:#role_add_local#:#Dodaj lokalne stanowisko
 common#:#role_added#:#Stanowisko dodane
 common#:#role_assignment#:#Przydział stanowiska
 common#:#role_deleted#:#Stanowisko usunięte
-common#:#role_edit#:#Edit Role###14 Nov 2003 new variable
-common#:#role_new#:#New Role###14 Nov 2003 new variable
+common#:#role_edit#:#Edytuj stanowisko
+common#:#role_new#:#Nowe stanowisko
 common#:#roles#:#Stanowiska
 common#:#rolf#:#Folder stanowiska
 common#:#rolf_added#:#Folder stanowiska został dodany
 common#:#rolt#:#Szablon stanowiska
-common#:#rolt_a#:#a Role Template###14 Nov 2003 new variable
-common#:#rolt_add#:#Add Role Template###14 Nov 2003 new variable
+common#:#rolt_a#:#Szablon stanowiska
+common#:#rolt_add#:#dodaj szablon stanowiska
 common#:#rolt_added#:#Szablon stanowiska został dodany
-common#:#rolt_edit#:#Edit Role Template
-common#:#rolt_new#:#New Role Template
+common#:#rolt_edit#:#Edytuj szablon stanowiska
+common#:#rolt_new#:#Nowy szablon stanowiska
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
 common#:#save#:#Zapisz
 common#:#save_and_back#:#Zapisz i Wróć
 common#:#save_message#:#Zapisz wiadomość
-common#:#save_refresh#:#Zapisz i Odświerz
+common#:#save_refresh#:#Zapisz i Odśwież
 common#:#save_return#:#Zapisz i Powróć
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
@@ -792,7 +791,7 @@ common#:#show_details#:#Pokaż szczegóły
 common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_owner#:#Pokaż właściciela
-common#:#show_structure#:#Enable Structured-View###14 Nov 2003 new variable
+common#:#show_structure#:#Włącz widok strukturalny
 common#:#signature#:#Podpis
 common#:#slm#:#SCORM (MN)
 common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
@@ -845,7 +844,7 @@ common#:#uninstall#:#Odinstaluj
 common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
 common#:#unread#:#Nie czytany
-common#:#unsubscribe#:#unsubscribe###14 Nov 2003 new variable
+common#:#unsubscribe#:#przerwij subskrybcję
 common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
@@ -862,13 +861,14 @@ common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy
 common#:#users_online#:#Użytkownicy zalogowani
 common#:#usr#:#Użytkownik
-common#:#usr_a#:#a User###14 Nov 2003 new variable
-common#:#usr_add#:#Add User###14 Nov 2003 new variable
-common#:#usr_added#:#User added###14 Nov 2003 new variable
+common#:#usr_a#:#Użytkownik
+common#:#usr_add#:#dodaj użytkownika
+common#:#usr_added#:#Użytkownik został dodany
 common#:#usr_agreement#:#Zgoda użytkownika
 common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
-common#:#usr_edit#:#Edit User###14 Nov 2003 new variable
-common#:#usr_new#:#New User###14 Nov 2003 new variable
+common#:#usr_edit#:#Edytuj użytkownika
+common#:#usr_new#:#Nowy użytkownik
+common#:#usr_skin#:#Skórka użytkownika
 common#:#usr_style#:#Styl użytkownika
 common#:#usrf#:#Folder użytkownika
 common#:#validate#:#Zatwierdź
@@ -879,6 +879,7 @@ common#:#view_content#:#Zawartość widoku
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
 common#:#week#:#Tydzień
+common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
@@ -909,15 +910,15 @@ content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
 content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
-content#:#cont_assign_full#:#Assign Fullscreen###14 Nov 2003 new variable
-content#:#cont_assign_std#:#Assign Standard###14 Nov 2003 new variable
+content#:#cont_assign_full#:#Przydziel pełny widok
+content#:#cont_assign_std#:#Przydziel standardowy widok
 content#:#cont_assign_translation#:#Wyznacz tłumaczenie
 content#:#cont_assignments_deleted#:#Przydziały zostały usunięte
-content#:#cont_back#:#Back###14 Nov 2003 new variable
+content#:#cont_back#:#Powrót
 content#:#cont_booktitle#:#Tytuł książki
 content#:#cont_bottom#:#Spód
-content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###14 Nov 2003 new variable
-content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###14 Nov 2003 new variable
+content#:#cont_cant_del_full#:#Usunięcie pliku pełnoekranowego widoku nie jest możliwe.
+content#:#cont_cant_del_std#:#Usunięcie pliku standardowego widoku nie jest możliwe
 content#:#cont_caption#:#Nagłówek
 content#:#cont_change_type#:#Zmień typ
 content#:#cont_chap_and_pages#:#Rozdziały i strony
@@ -926,12 +927,12 @@ content#:#cont_chapters#:#Rozdziały
 content#:#cont_characteristic#:#Charakterystyka
 content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
 content#:#cont_choose_glossary#:#Wybierz słownik
-content#:#cont_citation_err_one#:#You have to select exactly one edition###14 Nov 2003 new variable
-content#:#cont_citation_selection_not_valid#:#You're selection is not valid###14 Nov 2003 new variable
-content#:#cont_citations#:#Citations###14 Nov 2003 new variable
+content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
+content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
+content#:#cont_citations#:#Cytaty
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
-content#:#cont_create_dir#:#Create Directory###14 Nov 2003 new variable
+content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
 content#:#cont_def_layout#:#Domyślny wygląd
@@ -941,11 +942,11 @@ content#:#cont_definitions#:#Definicje
 content#:#cont_del_assignment#:#Usuń przydział
 content#:#cont_dependencies#:#Zależności
 content#:#cont_details#:#Szczegóły
-content#:#cont_dir_file#:#Directory/File###14 Nov 2003 new variable
-content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Nov 2003 new variable
+content#:#cont_dir_file#:#Katalog/Plik
+content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
 content#:#cont_edit_mob_alias_prop#:#Edytuj właściwości instancji obiektu multimedialnego
-content#:#cont_edit_mob_files#:#Object Files###14 Nov 2003 new variable
+content#:#cont_edit_mob_files#:#Pliki obiektowe
 content#:#cont_edit_mob_properties#:#Edytuj właściwości obiektu multimedialnego
 content#:#cont_edit_par#:#Edytuj Paragraf
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
@@ -953,14 +954,15 @@ content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
-content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###14 Nov 2003 new variable
+content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
-content#:#cont_insert_file_list#:#Insert File List###14 Nov 2003 new variable
+ontent#:#cont_insert_file_item#:#Wstaw plik
+content#:#cont_insert_file_list#:#Wstaw listę plików
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
 content#:#cont_insert_par#:#Wstaw paragraf
@@ -991,14 +993,14 @@ content#:#cont_lm_properties#:#Właściwiści modułu nauczania
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
-content#:#cont_mob_files#:#Object Files###14 Nov 2003 new variable
-content#:#cont_mob_inst_prop#:#Instance Properties###14 Nov 2003 new variable
-content#:#cont_mob_prop#:#Object Properties###14 Nov 2003 new variable
+content#:#cont_mob_files#:#Pliki obiektowe
+content#:#cont_mob_inst_prop#:#Właściwości instancji
+content#:#cont_mob_prop#:#Właściwości obiektu
 content#:#cont_month#:#Miesiąc
 content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu 
 content#:#cont_new_assignment#:#Nowy przydział
-content#:#cont_new_dir#:#New Directory###14 Nov 2003 new variable
-content#:#cont_new_file#:#New File###14 Nov 2003 new variable
+content#:#cont_new_dir#:#Nowy katalog
+content#:#cont_new_file#:#Nowy plik
 content#:#cont_new_media_obj#:#Nowy obiekt multimedialny
 content#:#cont_new_term#:#Nowy termin
 content#:#cont_no_assign_itself#:#Obiekt nie może być przydzielony do samego siebie.
@@ -1008,7 +1010,7 @@ content#:#cont_none#:#Brak
 content#:#cont_nr_cols#:#Liczba kolumn
 content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
-content#:#cont_online#:#Online###14 Nov 2003 new variable
+content#:#cont_online#:#Online
 content#:#cont_order#:#Typ porządkowy
 content#:#cont_organization#:#Organizacja
 content#:#cont_organizations#:#Organizacje
@@ -1025,7 +1027,7 @@ content#:#cont_prereq_type#:#Typ warunków wstępnych
 content#:#cont_prerequisites#:#Warunki wstępne
 content#:#cont_preview#:#Podgląd
 content#:#cont_publisher#:#Wydawca
-content#:#cont_purpose#:#Purpose###14 Nov 2003 new variable
+content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/myimage.jpg)
 content#:#cont_reference#:#Referencja
 content#:#cont_resource#:#Zasób
@@ -1047,11 +1049,11 @@ content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_show#:#Pokaż
-content#:#cont_show_citation#:#Show with citation###14 Nov 2003 new variable
-content#:#cont_size#:#Size (Bytes)###14 Nov 2003 new variable
+content#:#cont_show_citation#:#Pokaż z cytatem
+content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_source#:#Źródło
 content#:#cont_st_title#:#Tytuł rozdziału 
-content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###14 Nov 2003 new variable
+content#:#cont_std_is_in_dir#:#Usunięcie nie jest możliwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
 content#:#cont_subchapters#:#Podrozdziały
@@ -1068,7 +1070,7 @@ content#:#cont_toc#:#Spis treści
 content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
-content#:#cont_upload_file#:#Upload File###14 Nov 2003 new variable
+content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja
 content#:#cont_where_published#:#Gdzie opublikowane
@@ -1084,15 +1086,15 @@ content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
 forum#:#forums#:#Fora
 forum#:#forums_articles#:#Artykuły
-forum#:#forums_attachments#:#Attachments###14 Nov 2003 new variable
-forum#:#forums_attachments_add#:#Add attachment###14 Nov 2003 new variable
-forum#:#forums_attachments_edit#:#Edit attachment###14 Nov 2003 new variable
+forum#:#forums_attachments#:#Załączniki
+forum#:#forums_attachments_add#:#Dodaj załączniki
+forum#:#forums_attachments_edit#:#Edytuj załącznik
 forum#:#forums_available#:#Dostepne Fora
 forum#:#forums_count#:#Ilość Forów
 forum#:#forums_count_art#:#Ilość artykułów
 forum#:#forums_count_thr#:#Ilość wątków
-forum#:#forums_delete_file#:#Delete attachment###14 Nov 2003 new variable
-forum#:#forums_download_attachment#:#Download file###14 Nov 2003 new variable
+forum#:#forums_delete_file#:#Usuń załącznik
+forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
 forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
@@ -1108,7 +1110,7 @@ forum#:#forums_post_modified#:#Artykuł został zmodyfikowany.
 forum#:#forums_post_new_entry#:#Nowy artykuł został napisany.
 forum#:#forums_posts#:#Wszystkie artykuły
 forum#:#forums_posts_not_available#:#Artykuły nie są dostępne
-forum#:#forums_print_thread#:#Print Thread###14 Nov 2003 new variable
+forum#:#forums_print_thread#:#Drukuj wątek
 forum#:#forums_quote#:#Kwota
 forum#:#forums_respond#:#Wyślij odpowiedź
 forum#:#forums_the_post#:#Artykuł
@@ -1134,7 +1136,7 @@ mail#:#mail_addr_entries#:#Pozycje
 mail#:#mail_attachments#:#Załączniki
 mail#:#mail_bc_not_valid#:#Odbiorca BC nie jest prawidłowy
 mail#:#mail_bc_search#:#Szukaj BC
-mail#:#mail_byte#:#Byte###14 Nov 2003 new variable
+mail#:#mail_byte#:#Bajtów
 mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidłowy
 mail#:#mail_cc_search#:#Szukaj CC
 mail#:#mail_change_to_folder#:#Przejdź do folderu:
@@ -1160,8 +1162,8 @@ mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
 mail#:#mail_intern#:#Wewnętrzny
 mail#:#mail_mark_read#:#Zaznacz wiadomości jako przeczytane
-mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane
-mail#:#mail_maxsize_attachment_error#:#The upload limit is:###14 Nov 2003 new variable
+mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane 
+mail#:#mail_maxsize_attachment_error#:#Limit wysyłania to:
 mail#:#mail_message_send#:#Wiadomość została wysłana.
 mail#:#mail_move_error#:#Błąd podczas przesuwania wiadomości
 mail#:#mail_move_to#:#Przesuń do:
@@ -1187,13 +1189,13 @@ mail#:#mail_to_search#:#Szukanie odbiorcy
 mail#:#mail_user_addr_n_valid#:#Następujący użytkownicy nie mają prawidłowych adresów poczty elektronicznej.
 mail#:#search_bc_recipient#:#Szukaj odbiorcy BC
 mail#:#search_cc_recipient#:#Szukaj odbiorcy CC
-meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions###14 Nov 2003 new variable
-meta#:#meta_active#:#Active###14 Nov 2003 new variable
+meta#:#meta_accessibility_restrictions#:#Restrykcje dostępu
+meta#:#meta_active#:#Aktywuj
 meta#:#meta_add#:#Dodaj
-meta#:#meta_annotation#:#Annotation###14 Nov 2003 new variable
+meta#:#meta_annotation#:#Annotacja
 meta#:#meta_atomic#:#Atomowy
-meta#:#meta_author#:#Author###14 Nov 2003 new variable
-meta#:#meta_browser#:#Browser###14 Nov 2003 new variable
+meta#:#meta_author#:#Autor
+meta#:#meta_browser#:#Przeglądarka
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Zjednoczone Emiraty Arabskie
 meta#:#meta_c_AF#:#Afganistan
@@ -1436,60 +1438,60 @@ meta#:#meta_catalog#:#Katalog
 meta#:#meta_choose_element#:#Wybierz element, który chcesz dodać!
 meta#:#meta_choose_language#:#Wybierz język
 meta#:#meta_choose_section#:#Wybierz sekcję
-meta#:#meta_classification#:#Classification###14 Nov 2003 new variable
+meta#:#meta_classification#:#Klasyfikacja
 meta#:#meta_collection#:#Kolekcja
-meta#:#meta_competency#:#Competency###14 Nov 2003 new variable
-meta#:#meta_context#:#Context###14 Nov 2003 new variable
-meta#:#meta_contribute#:#Contribute###14 Nov 2003 new variable
-meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions###14 Nov 2003 new variable
-meta#:#meta_cost#:#Cost###14 Nov 2003 new variable
-meta#:#meta_coverage#:#Coverage###14 Nov 2003 new variable
-meta#:#meta_date#:#Date###14 Nov 2003 new variable
+meta#:#meta_competency#:#Kompetecje
+meta#:#meta_context#:#Contekst
+meta#:#meta_contribute#:#Weź udział
+meta#:#meta_copyright_and_other_restrictions#:#Prawa autorskie i inne restrykcje
+meta#:#meta_cost#:#Koszt
+meta#:#meta_coverage#:#Obsługa sprawozdawcza
+meta#:#meta_date#:#Data
 meta#:#meta_delete#:#Usuń
 meta#:#meta_description#:#Opis
-meta#:#meta_diagramm#:#Diagramm###14 Nov 2003 new variable
-meta#:#meta_difficulty#:#Difficulty###14 Nov 2003 new variable
-meta#:#meta_dificult#:#Difficult###14 Nov 2003 new variable
-meta#:#meta_draft#:#Draft###14 Nov 2003 new variable
-meta#:#meta_duration#:#Duration###14 Nov 2003 new variable
-meta#:#meta_easy#:#Easy###14 Nov 2003 new variable
-meta#:#meta_education#:#Education###14 Nov 2003 new variable
-meta#:#meta_educational_level#:#Educational Level###14 Nov 2003 new variable
-meta#:#meta_educational_objective#:#Educational Objective###14 Nov 2003 new variable
-meta#:#meta_entity#:#Entity###14 Nov 2003 new variable
+meta#:#meta_diagramm#:#Diagram
+meta#:#meta_difficulty#:#Trudność
+meta#:#meta_dificult#:#Trudny
+meta#:#meta_draft#:#Szkic
+meta#:#meta_duration#:#Czas trwania
+meta#:#meta_easy#:#Łatwy
+meta#:#meta_education#:#Edukacja
+meta#:#meta_educational_level#:#Poziom edukacyjny
+meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_entity#:#Istnienie
 meta#:#meta_entry#:#Pozycja
-meta#:#meta_exam#:#Exam###14 Nov 2003 new variable
-meta#:#meta_exercise#:#Exercise###14 Nov 2003 new variable
-meta#:#meta_experiment#:#Experiment###14 Nov 2003 new variable
-meta#:#meta_expositive#:#Expositive###14 Nov 2003 new variable
-meta#:#meta_figure#:#Figure###14 Nov 2003 new variable
-meta#:#meta_final#:#Final###14 Nov 2003 new variable
-meta#:#meta_format#:#Format###14 Nov 2003 new variable
+meta#:#meta_exam#:#Egzamin
+meta#:#meta_exercise#:#Ćwiczenie
+meta#:#meta_experiment#:#Eksperyment
+meta#:#meta_expositive#:#Ekspozycja
+meta#:#meta_figure#:#Figura
+meta#:#meta_final#:#Ostateczny
+meta#:#meta_format#:#Format
 meta#:#meta_general#:#Ogólne
-meta#:#meta_graph#:#Graph###14 Nov 2003 new variable
-meta#:#meta_has_format#:#Has Format###14 Nov 2003 new variable
-meta#:#meta_has_part#:#Has Part###14 Nov 2003 new variable
-meta#:#meta_has_version#:#Has Version###14 Nov 2003 new variable
+meta#:#meta_graph#:#Wykres
+meta#:#meta_has_format#:#Ma Format
+meta#:#meta_has_part#:#Ma część
+meta#:#meta_has_version#:#MA wersję
 meta#:#meta_hierarchical#:#Hierarchicznie
-meta#:#meta_high#:#High###14 Nov 2003 new variable
-meta#:#meta_higher_education#:#Higher Education###14 Nov 2003 new variable
-meta#:#meta_id#:#Id###14 Nov 2003 new variable
-meta#:#meta_idea#:#Idea###14 Nov 2003 new variable
+meta#:#meta_high#:#Wysokość
+meta#:#meta_higher_education#:#Nauczanie wyższe
+meta#:#meta_id#:#Id
+meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identyfikator
-meta#:#meta_index#:#Index###14 Nov 2003 new variable
-meta#:#meta_installation_remarks#:#Installation Remarks###14 Nov 2003 new variable
-meta#:#meta_intended_end_user_role#:#Intended End User Role###14 Nov 2003 new variable
-meta#:#meta_interactivity_level#:#Interactivity Level###14 Nov 2003 new variable
-meta#:#meta_interactivity_type#:#Interactivity Type###14 Nov 2003 new variable
-meta#:#meta_is_based_on#:#Is Based On###14 Nov 2003 new variable
-meta#:#meta_is_basis_for#:#Is Basis For###14 Nov 2003 new variable
-meta#:#meta_is_format_of#:#Is Format Of###14 Nov 2003 new variable
-meta#:#meta_is_part_of#:#Is Part Of###14 Nov 2003 new variable
-meta#:#meta_is_referenced_by#:#Is Referenced By###14 Nov 2003 new variable
-meta#:#meta_is_required_by#:#Is Required By###14 Nov 2003 new variable
-meta#:#meta_is_version_of#:#Is Version Of###14 Nov 2003 new variable
+meta#:#meta_index#:#Indeks
+meta#:#meta_installation_remarks#:#Uwagi instalacyjne
+meta#:#meta_intended_end_user_role#:#Stanowisko użytkownika końcowego
+meta#:#meta_interactivity_level#:#Poziom interaktywności
+meta#:#meta_interactivity_type#:#Typ interaktywności
+meta#:#meta_is_based_on#:#Jest oparty na
+meta#:#meta_is_basis_for#:#Jest bazą dla
+meta#:#meta_is_format_of#:#Jest formatem
+meta#:#meta_is_part_of#:#Jest częścią
+meta#:#meta_is_referenced_by#:#Jest rekomendowany przez
+meta#:#meta_is_required_by#:#Jest wymagany przez
+meta#:#meta_is_version_of#:#Jest wersją
 meta#:#meta_keyword#:#Słowo kluczowe
-meta#:#meta_kind#:#Kind###14 Nov 2003 new variable
+meta#:#meta_kind#:#Rodzaj
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abhaski
 meta#:#meta_l_af#:#afrikaans
@@ -1630,88 +1632,88 @@ meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chiński
 meta#:#meta_l_zu#:#zuluski
 meta#:#meta_language#:#Język
-meta#:#meta_learner#:#Learner###14 Nov 2003 new variable
-meta#:#meta_learning_resource_type#:#Learning Resource Type###14 Nov 2003 new variable
-meta#:#meta_lecture#:#Lecture###14 Nov 2003 new variable
-meta#:#meta_lifecycle#:#Lifecycle###14 Nov 2003 new variable
+meta#:#meta_learner#:#Uczeń
+meta#:#meta_learning_resource_type#:#Typ zasobu nauczania
+meta#:#meta_lecture#:#Lektura
+meta#:#meta_lifecycle#:#Okres Działania
 meta#:#meta_linear#:#Liniowy
-meta#:#meta_local_file#:#Local File###14 Nov 2003 new variable
-meta#:#meta_location#:#Location###14 Nov 2003 new variable
-meta#:#meta_low#:#Low###14 Nov 2003 new variable
-meta#:#meta_mac_os#:#MacOS###14 Nov 2003 new variable
-meta#:#meta_manager#:#Manager###14 Nov 2003 new variable
-meta#:#meta_maximum_version#:#Maximum Version###14 Nov 2003 new variable
-meta#:#meta_medium#:#Medium###14 Nov 2003 new variable
-meta#:#meta_meta_metadata#:#Meta-Metadata###14 Nov 2003 new variable
-meta#:#meta_metadatascheme#:#Metadata Scheme###14 Nov 2003 new variable
-meta#:#meta_minimum_version#:#Minimum Version###14 Nov 2003 new variable
-meta#:#meta_mixed#:#Mixed###14 Nov 2003 new variable
-meta#:#meta_ms_windows#:#MS-Windows###14 Nov 2003 new variable
-meta#:#meta_multi_os#:#Multi-OS###14 Nov 2003 new variable
-meta#:#meta_name#:#Name###14 Nov 2003 new variable
-meta#:#meta_narrative_text#:#Narrative Text###14 Nov 2003 new variable
+meta#:#meta_local_file#:#Plik lokalny
+meta#:#meta_location#:#Miejsce
+meta#:#meta_low#:#Niski
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Menedżer
+meta#:#meta_maximum_version#:#Maksymalna wersja
+meta#:#meta_medium#:#Średni
+meta#:#meta_meta_metadata#:#Meta-Metadane
+meta#:#meta_metadatascheme#:#Metadane-schemat
+meta#:#meta_minimum_version#:#Minimalna wersja
+meta#:#meta_mixed#:#Mieszany
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Nazwa
+meta#:#meta_narrative_text#:#Tekst narracyjny
 meta#:#meta_networked#:#Sieciowy
 meta#:#meta_new_element#:#Nowy element
-meta#:#meta_no#:#No###14 Nov 2003 new variable
-meta#:#meta_no_annotation#:#No meta data available for the Annotation section.###14 Nov 2003 new variable
-meta#:#meta_no_classification#:#No meta data available for the Classification section.###14 Nov 2003 new variable
-meta#:#meta_no_educational#:#No meta data available for Educational section.###14 Nov 2003 new variable
-meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.###14 Nov 2003 new variable
-meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.###14 Nov 2003 new variable
-meta#:#meta_no_relation#:#No meta data available for the Relation section.###14 Nov 2003 new variable
-meta#:#meta_no_rights#:#No meta data available for the Rights section.###14 Nov 2003 new variable
-meta#:#meta_no_technical#:#No meta data available for Technical section.###14 Nov 2003 new variable
-meta#:#meta_none#:#None###14 Nov 2003 new variable
-meta#:#meta_operating_system#:#Operating System###14 Nov 2003 new variable
-meta#:#meta_or_composite#:#Or Composite###14 Nov 2003 new variable
-meta#:#meta_other#:#Other###14 Nov 2003 new variable
-meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements###14 Nov 2003 new variable
-meta#:#meta_pc_dos#:#PC-DOS###14 Nov 2003 new variable
+meta#:#meta_no#:#Nie
+meta#:#meta_no_annotation#:#Dla sekcji Przypisów meta dane nie są dostępne.
+meta#:#meta_no_classification#:#Dla sekcji Klasyfikacji meta dane nie są dostępne.
+meta#:#meta_no_educational#:#Meta dane dla sekcji edukacyjnej nie są dostepne.
+meta#:#meta_no_lifecycle#:#Meta dane dla sekcji Okres Działania nie są dostępne.
+meta#:#meta_no_meta_metadata#:#Meta dane dla sekcji Meta-Metadane nie są dostępne.
+meta#:#meta_no_relation#:#Meta dane dla sekcji Relacji nie są dostępne.
+meta#:#meta_no_rights#:#Meta dane dla sekcji Uprawnień nie są dostępne.
+meta#:#meta_no_technical#:#Meta dane dla sekcji Technicznej nie są dostępne.
+meta#:#meta_none#:#Brak
+meta#:#meta_operating_system#:#System operacyjny
+meta#:#meta_or_composite#:#Lub zespolony
+meta#:#meta_other#:#Inny
+meta#:#meta_other_plattform_requirements#:#Wymagania na inne platformy
+meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Wybierz
-meta#:#meta_prerequisite#:#Prerequisite###14 Nov 2003 new variable
-meta#:#meta_problem_statement#:#Problem Statement###14 Nov 2003 new variable
-meta#:#meta_publisher#:#Publisher###14 Nov 2003 new variable
-meta#:#meta_purpose#:#Purpose###14 Nov 2003 new variable
-meta#:#meta_questionnaire#:#Questionnaire###14 Nov 2003 new variable
-meta#:#meta_reference#:#Reference###14 Nov 2003 new variable
-meta#:#meta_references#:#References###14 Nov 2003 new variable
-meta#:#meta_relation#:#Relation###14 Nov 2003 new variable
-meta#:#meta_requirement#:#Requirement###14 Nov 2003 new variable
-meta#:#meta_requires#:#Requires###14 Nov 2003 new variable
-meta#:#meta_resource#:#Resource###14 Nov 2003 new variable
-meta#:#meta_revised#:#Revised###14 Nov 2003 new variable
-meta#:#meta_rights#:#Rights###14 Nov 2003 new variable
-meta#:#meta_role#:#Role###14 Nov 2003 new variable
-meta#:#meta_school#:#School###14 Nov 2003 new variable
-meta#:#meta_security_level#:#Security Level###14 Nov 2003 new variable
-meta#:#meta_self_assessment#:#Self Assessment###14 Nov 2003 new variable
-meta#:#meta_semantic_density#:#Semantic Density###14 Nov 2003 new variable
-meta#:#meta_simulation#:#Simulation###14 Nov 2003 new variable
-meta#:#meta_size#:#Size###14 Nov 2003 new variable
-meta#:#meta_skill_level#:#Skill Level###14 Nov 2003 new variable
-meta#:#meta_slide#:#Slide###14 Nov 2003 new variable
-meta#:#meta_source#:#Source###14 Nov 2003 new variable
-meta#:#meta_status#:#Status###14 Nov 2003 new variable
+meta#:#meta_prerequisite#:#Warunki wstępne
+meta#:#meta_problem_statement#:#Przedstawienie problemu
+meta#:#meta_publisher#:#Wydawca
+meta#:#meta_purpose#:#Cel
+meta#:#meta_questionnaire#:#Kwestionariusz
+meta#:#meta_reference#:#Rekomendacja
+meta#:#meta_references#:#Rekomendacje
+meta#:#meta_relation#:#Relacja
+meta#:#meta_requirement#:#Wymagania
+meta#:#meta_requires#:#Wymaga
+meta#:#meta_resource#:#Źródło
+meta#:#meta_revised#:#Zrewidowany
+meta#:#meta_rights#:#Prawa
+meta#:#meta_role#:#stanowisko
+meta#:#meta_school#:#Szkoła
+meta#:#meta_security_level#:#Poziom bezpieczeństwa
+meta#:#meta_self_assessment#:#Samo oszacowanie
+meta#:#meta_semantic_density#:#Gęstość Semantyczna
+meta#:#meta_simulation#:#Symulacja
+meta#:#meta_size#:#Rozmiar
+meta#:#meta_skill_level#:#Poziom wprawy
+meta#:#meta_slide#:#Slajd
+meta#:#meta_source#:#Źródło
+meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktura
-meta#:#meta_table#:#Table###14 Nov 2003 new variable
-meta#:#meta_taxon#:#Taxon###14 Nov 2003 new variable
-meta#:#meta_taxon_path#:#Taxon Path###14 Nov 2003 new variable
-meta#:#meta_teacher#:#Teacher###14 Nov 2003 new variable
-meta#:#meta_technical#:#Technical###14 Nov 2003 new variable
+meta#:#meta_table#:#Tabela
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_taxon_path#:#Ścieżka do Taxon
+meta#:#meta_teacher#:#Nauczyciel
+meta#:#meta_technical#:#Techniczny
 meta#:#meta_title#:#Tytuł
-meta#:#meta_training#:#Training###14 Nov 2003 new variable
-meta#:#meta_type#:#Type###14 Nov 2003 new variable
-meta#:#meta_typical_age_range#:#Typical Age Range###14 Nov 2003 new variable
-meta#:#meta_typical_learning_time#:#Typical Learning Time###14 Nov 2003 new variable
-meta#:#meta_unavailable#:#Unavailable###14 Nov 2003 new variable
-meta#:#meta_unix#:#Unix###14 Nov 2003 new variable
+meta#:#meta_training#:#Trening
+meta#:#meta_type#:#Typ
+meta#:#meta_typical_age_range#:#Typowy zakres wieku
+meta#:#meta_typical_learning_time#:#Typowy czas uczenia
+meta#:#meta_unavailable#:#niedostępny
+meta#:#meta_unix#:#Unix
 meta#:#meta_value#:#Wartość
-meta#:#meta_version#:#Version###14 Nov 2003 new variable
-meta#:#meta_very_difficult#:#Very Difficult###14 Nov 2003 new variable
-meta#:#meta_very_easy#:#Very Easy###14 Nov 2003 new variable
-meta#:#meta_very_high#:#Very High###14 Nov 2003 new variable
-meta#:#meta_very_low#:#Very Low###14 Nov 2003 new variable
-meta#:#meta_yes#:#Yes###14 Nov 2003 new variable
+meta#:#meta_version#:#Wersja
+meta#:#meta_very_difficult#:#Bardzo trudny
+meta#:#meta_very_easy#:#Bardzo łatwy
+meta#:#meta_very_high#:#Bardzo wysoki
+meta#:#meta_very_low#:#Bardzo niski
+meta#:#meta_yes#:#Tak
 search#:#search_all_results#:#Wszystkie wyniki
 search#:#search_concatenation#:#Powiązanie
 search#:#search_content#:#Zawartość strony
