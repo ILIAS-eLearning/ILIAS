@@ -1484,8 +1484,8 @@
 <xsl:template match="matimage"/>
 
 <!-- t&a: text -->
-<xsl:template match="mattext">
-	<xsl:apply-templates/>
+<xsl:template match="material">
+	<xsl:value-of select="mattext"/>
 </xsl:template>
 
 
@@ -1530,7 +1530,7 @@
 			<tr>
 			<td class="nobackground">
 				<xsl:if test = "material/mattext">
-					<xsl:value-of select="material/mattext"/>
+					<b><xsl:value-of select="material/mattext"/></b>
 				</xsl:if>
 				<xsl:if test = "material/matimage">
 					<a target="_new">
@@ -1569,6 +1569,10 @@
 	</xsl:for-each>
 	</table>
 </xsl:template>
+
+<!-- dump language variable data -->
+<xsl:template match="LV"/>
+<xsl:template match="LVs"/>
 
 <!--
 <xsl:template match="Item/Paragraph">
