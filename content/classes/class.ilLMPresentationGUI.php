@@ -22,6 +22,7 @@
 */
 
 require_once("./content/classes/class.ilLearningModule.php");
+require_once("./classes/class.ilMainMenuGUI.php");
 
 /**
 * Class ilLMPresentationGUI
@@ -116,13 +117,16 @@ class ilLMPresentationGUI
 						break;
 				}
 			}
-			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->show();
 	}
 
 	function ilMainMenu()
 	{
+		$menu = new ilMainMenuGUI("_top", true);
+		$menu->setTemplate($this->tpl);
+		$menu->setTemplateVars();
+		/*
 		$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 		$this->tpl->setVariable("IMG_COURSE", ilUtil::getImagePath("navbar/course.gif", false));
@@ -138,6 +142,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("IMG_ILIAS", ilUtil::getImagePath("navbar/ilias.gif", false));
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("JS_BUTTONS", ilUtil::getJSPath("buttons.js"));
+		*/
 	}
 
 	function processNodes(&$a_content, &$a_node)
