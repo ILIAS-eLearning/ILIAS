@@ -2648,3 +2648,14 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#mail_import#:#Import
+common#:#table_mail_import#:#Import from ILIAS 2 Mails
+common#:#import_file_not_valid#:#The import file is not valid.
+common#:#cannot_unzip_file#:#Cannot unpack file.
+common#:#cannot_find_xml#:#Cannot find any XML-file.
+common#:#error_parser#:#Error starting the parser.
+common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
+common#:#checked_files#:#Importable files
+common#:#mail_import_file#:#ILIAS 2 export file
+common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
+common#:#import_finished#:#Number of imported messages.

@@ -25,7 +25,7 @@
 /**
 * mail
 *
-* @author Peter Gabriel <pgabriel@databay.de>
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @package ilias
@@ -296,7 +296,11 @@ foreach ($mail_data as $mail)
 	// GET FULLNAME OF SENDER
 	$tmp_user = new ilObjUser($mail["sender_id"]);
 	$tpl->setVariable("MAIL_FROM", $tmp_user->getFullname());
-	$tpl->setVariable("MAIL_LOGIN",$tmp_user->getLogin());
+	if(!($login = $tmp_user->getLogin()))
+	{
+		$login = $lng->txt("unknown");
+	}
+	$tpl->setVariable("MAIL_LOGIN",$login);
 
 	$tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
 	// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE

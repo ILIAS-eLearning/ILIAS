@@ -158,9 +158,14 @@ class ilPersonalDesktopGUI
 				// GET SENDER NAME
 				$user = new ilObjUser($mail["sender_id"]);
 
+				if(!($fullname = $user->getFullname()))
+				{
+					$fullname = $this->lng->txt("unknown");
+				}
+
 				//new mail or read mail?
 				$this->tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
-				$this->tpl->setVariable("MAIL_FROM", $user->getFullname());
+				$this->tpl->setVariable("MAIL_FROM", $fullname);
 				$this->tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
 				$this->tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 				$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));

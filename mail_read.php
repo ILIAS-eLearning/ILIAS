@@ -81,10 +81,13 @@ include "./include/inc.mail_buttons.php";
 
 //buttons
 $tplbtn = new ilTemplate("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./mail_new.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=reply");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("reply"));
-$tplbtn->parseCurrentBlock();
+if($mail_data["sender_id"])
+{
+	$tplbtn->setCurrentBlock("btn_cell");
+	$tplbtn->setVariable("BTN_LINK","./mail_new.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=reply");
+	$tplbtn->setVariable("BTN_TXT", $lng->txt("reply"));
+	$tplbtn->parseCurrentBlock();
+}
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail_new.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=forward");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("forward"));
@@ -94,10 +97,13 @@ $tplbtn->setVariable("BTN_LINK", "mail_print.php?mail_id=".$_GET["mail_id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("print"));
 $tplbtn->setVariable("BTN_TARGET","target=\"_blank\"");
 $tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=add");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("mail_add_to_addressbook"));
-$tplbtn->parseCurrentBlock();
+if($mail_data["sender_id"])
+{
+	$tplbtn->setCurrentBlock("btn_cell");
+	$tplbtn->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=add");
+	$tplbtn->setVariable("BTN_TXT", $lng->txt("mail_add_to_addressbook"));
+	$tplbtn->parseCurrentBlock();
+}
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("delete"));
@@ -115,7 +121,12 @@ $counter = 1;
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
 $tmp_user = new ilObjUser($mail_data["sender_id"]);
 $tpl->setVariable("FROM", $tmp_user->getFullname());
-$tpl->setVariable("MAIL_LOGIN",$tmp_user->getLogin());
+
+if(!($login = $tmp_user->getLogin()))
+{
+	$login = $lng->txt("unknown");
+}
+$tpl->setVariable("MAIL_LOGIN",$login);
 $tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
 // TO
 $tpl->setVariable("TXT_TO", $lng->txt("to"));
