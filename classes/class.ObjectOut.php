@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.4 2002/12/11 17:43:31 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.5 2002/12/12 14:30:07 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -150,7 +150,7 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("locator");
-		$this->tpl->setVariable("TXT_PATH", "DEBUG: <font color=\"red\">".$_GET["type"]."::".$methode."</font><br>".$lng->txt("path"));
+		$this->tpl->setVariable("TXT_PATH", "DEBUG: <font color=\"red\">".$_GET["type"]."::".$_GET["obj_id"]."::".$_GET["cmd"]."</font><br>".$lng->txt("path"));
 		$this->tpl->parseCurrentBlock();
 
 	}
