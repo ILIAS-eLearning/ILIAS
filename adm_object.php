@@ -63,7 +63,7 @@ if (($cmd = $_GET["cmd"]) == "gateway")
 }
 if (empty($cmd)) // if no cmd is given default to first property
 {
-	$cmd = $objDefinition->getFirstProperty($_GET["type"]);
+	$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
 }
 
 // determine object type

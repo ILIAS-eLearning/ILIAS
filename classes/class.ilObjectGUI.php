@@ -1556,10 +1556,6 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			} //for
 
-			// SHOW VALID ACTIONS
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->showActions();
-
 		} //if is_array
 		else
 		{
@@ -1568,6 +1564,11 @@ class ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("NUM_COLS", $num);
+		$this->showActions();
+
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("NUM_COLS", $num);
@@ -1844,7 +1845,6 @@ class ilObjectGUI
 	function showPossibleSubObjects()
 	{
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
-
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
