@@ -177,7 +177,10 @@ class ILIAS extends PEAR
 		{
 			if ($row->Name == "SUBOBJ")
 			{
-			    $data["subobjects"][] = $row->Data;
+			    $data["subobjects"][] = array(
+					"attrs" => $row->getAttrs(),
+					"name" => $row->Data
+				);
 			}
 			if ($row->Name == "PROPERTY")
 			{
