@@ -2079,3 +2079,7 @@ REPLACE INTO settings (keyword, value) VALUES ('bench_max_records', 10000);
 REPLACE INTO settings (keyword, value) VALUES ('enable_bench', 0);
 <#133>
 ALTER  TABLE  `tst_tests`  ADD  `reporting_date` VARCHAR( 14  )  AFTER  `processing_time` ;
+<#134>
+ALTER  TABLE  `qpl_questions`  ADD  `complete` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `image_file` ;
+<#135>
+ALTER  TABLE  `tst_tests`  ADD  `complete` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `starting_time` ;

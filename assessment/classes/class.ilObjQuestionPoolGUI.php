@@ -444,7 +444,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
           $this->tpl->setVariable("PREVIEW", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=$data->question_id" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"\" boder=\"0\" /></a>");
+					$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=$data->question_id" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" boder=\"0\" /></a>");
           $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
           $this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
           $this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
