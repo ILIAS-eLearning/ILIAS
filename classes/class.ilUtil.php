@@ -1136,14 +1136,75 @@ class ilUtil
 		{
 			$users[] = $row->user_id;
 		} // while
-		
+
 		if (count($users) > 0)
 		{
 			$q = "DELETE FROM desktop_item WHERE item_id = '".$a_id."'";
 			$ilias->db->query($q);
 		}
-		
+
 		return $users;
 	}
+
+
+	/**
+	* extracts parameter value pairs from a string into an array
+	*
+	* @param	string		$a_parstr		parameter string (format: par1="value1", par2="value2", ...)
+	*
+	* @return	array		array of parameter value pairs
+	*/
+	function extractParameterString($a_parstr)
+	{
+		// parse parameters in array
+		$par = array();
+		$ok=true;
+		while(($spos=strpos($a_parstr,"=")) && $ok)
+		{
+			// extract parameter
+			$cpar = substr($a_parstr,0,$spos);
+			$a_parstr = substr($a_parstr,$spos,strlen($a_parstr)-$spos);
+			while(substr($cpar,0,1)=="," ||substr($cpar,0,1)==" " || substr($cpar,0,1)==chr(13) || substr($cpar,0,1)==chr(10))
+				$cpar = substr($cpar,1,strlen($cpar)-1);
+			while(substr($cpar,strlen($cpar)-1,1)==" " || substr($cpar,strlen($cpar)-1,1)==chr(13) || substr($cpar,strlen($cpar)-1,1)==chr(10))
+				$cpar = substr($cpar,0,strlen($cpar)-1);
+
+			// extract value
+			if($spos=strpos($a_parstr,"\""))
+			{
+				$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos);
+				$spos=strpos($a_parstr,"\"");
+				if(is_int($spos))
+				{
+					$cval = substr($a_parstr,0,$spos);
+					$par[$cpar]=$cval;
+					$a_parstr = substr($a_parstr,$spos+1,strlen($a_parstr)-$spos-1);
+				}
+				else
+					$ok=false;
+			}
+			else
+				$ok=false;
+		}
+
+		if($ok) return $par; else return false;
+	}
+
+	function assembleParameterString($a_par_arr)
+	{
+		if (is_array($a_par_arr))
+		{
+			$target_arr = array();
+			foreach ($a_par_arr as $par => $val)
+			{
+				$target_arr[] = "$par = \"$val\"";
+			}
+			$target_str = implode(", ", $target_arr);
+		}
+		
+		return $target_str;
+	}
+
+
 } // END class.ilUtil
 ?>
