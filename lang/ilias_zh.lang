@@ -1067,6 +1067,7 @@ common#:#department#:#系
 common#:#desc#:#描述
 common#:#description#:#描述
 common#:#desired_password#:#期望的口令
+common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#禁止
 common#:#domain#:#Domain###03 Apr 2004 new variable
@@ -2156,10 +2157,15 @@ common#:#role_add#:#增加角色
 common#:#role_add_local#:#增加局部角色
 common#:#role_add_user#:#Add User(s) to role###15 Sep 2004 new variable
 common#:#role_added#:#已增加角色
+common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
+common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#角色指派
 common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_count_users#:#Number of users###15 Sep 2004 new variable
 common#:#role_deleted#:#已删除角色
+common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
+common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
+common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#编辑角色
 common#:#role_header_edit_users#:#Change userassignment###15 Sep 2004 new variable
 common#:#role_list_users#:#List users###15 Sep 2004 new variable
@@ -2168,8 +2174,12 @@ common#:#role_new_search#:#New search###15 Sep 2004 new variable
 common#:#role_no_groups_selected#:#Please select a group###15 Sep 2004 new variable
 common#:#role_no_results_found#:#No results found###15 Sep 2004 new variable
 common#:#role_no_roles_selected#:#Please select a role###15 Sep 2004 new variable
+common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#Please enter a search string###15 Sep 2004 new variable
 common#:#role_search_users#:#User search###15 Sep 2004 new variable
+common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
+common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
+common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Role templates only###16 Sep 2004 new variable
 common#:#role_user_deassign#:#Deassign user from role###15 Sep 2004 new variable
 common#:#role_user_edit#:#Edit account data###15 Sep 2004 new variable
@@ -2467,6 +2477,7 @@ common#:#usrf_create_user#:#创建新用户账号
 common#:#usrf_delete#:#删除用户账号
 common#:#usrf_edit_permission#:#更改许可设置
 common#:#usrf_edit_roleassignment#:#更改用户账号角色分配###14 Sep 2004 content changed
+common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#用户账号设为读访问
 common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#用户账号可视

@@ -1049,6 +1049,7 @@ common#:#department#:#Katedra
 common#:#desc#:#Opis
 common#:#description#:#Opis
 common#:#desired_password#:#Nowe hasło
+common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disable#:#Wyłącz
 common#:#disabled#:#Wyłączony
 common#:#domain#:#Domena
@@ -2138,10 +2139,15 @@ common#:#role_add#:#Dodaj rolę
 common#:#role_add_local#:#Dodaj lokalną rolę
 common#:#role_add_user#:#dodaj użytkowników do roli
 common#:#role_added#:#Rola dodana
+common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
+common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#Przydział ról
 common#:#role_assignment_updated#:#Przydział ról został uaktualniony.
 common#:#role_count_users#:#Liczba użytkowników
 common#:#role_deleted#:#Rola usunięta
+common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
+common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
+common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#Edytuj rolę
 common#:#role_header_edit_users#:#Zmień przydział użytkowników
 common#:#role_list_users#:#Lista użytkowników
@@ -2150,8 +2156,12 @@ common#:#role_new_search#:#Nowe wyszukanie
 common#:#role_no_groups_selected#:#Wybierz grupę
 common#:#role_no_results_found#:#Brak rezultatów
 common#:#role_no_roles_selected#:#Wybierz rolę
+common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#Podaj wyszukiwaną frazę
 common#:#role_search_users#:#Szukanie użytkownika
+common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
+common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
+common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Tylko szablon roli
 common#:#role_user_deassign#:#Odbierz użytkownikow rolę
 common#:#role_user_edit#:#Edytuj dane konta
@@ -2449,6 +2459,7 @@ common#:#usrf_create_user#:#Twórz nowe konto użytkownika
 common#:#usrf_delete#:#Usuń konta użytkowników
 common#:#usrf_edit_permission#:#Zmień ustawienia uprawnień
 common#:#usrf_edit_roleassignment#:#Zmień przydział ról do kont użytkowników
+common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#Prawo czytania kont użytkowników
 common#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
 common#:#usrf_visible#:#Konta użytkowników są widoczne

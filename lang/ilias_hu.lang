@@ -1049,6 +1049,7 @@ common#:#department#:#Tagozat / Szak / Évfolyam
 common#:#desc#:#Leírás
 common#:#description#:#Leírás
 common#:#desired_password#:#Kívánt jelszó
+common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#Tiltott
 common#:#domain#:#Domain###05 Nov 2004 new variable
@@ -2138,10 +2139,15 @@ common#:#role_add#:#Szerep hozzáadása
 common#:#role_add_local#:#Helyi szerep hozzáadása
 common#:#role_add_user#:#Add User(s) to role###05 Nov 2004 new variable
 common#:#role_added#:#Szerep hozzáadva
+common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
+common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#Szerepösszerendelés
 common#:#role_assignment_updated#:#Role assignment has been updated.###05 Nov 2004 new variable
 common#:#role_count_users#:#Number of users###05 Nov 2004 new variable
 common#:#role_deleted#:#Szerep törölve
+common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
+common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
+common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#Szerep szerkesztése
 common#:#role_header_edit_users#:#Change userassignment###05 Nov 2004 new variable
 common#:#role_list_users#:#List users###05 Nov 2004 new variable
@@ -2150,8 +2156,12 @@ common#:#role_new_search#:#New search###05 Nov 2004 new variable
 common#:#role_no_groups_selected#:#Please select a group###05 Nov 2004 new variable
 common#:#role_no_results_found#:#No results found###05 Nov 2004 new variable
 common#:#role_no_roles_selected#:#Please select a role###05 Nov 2004 new variable
+common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#Please enter a search string###05 Nov 2004 new variable
 common#:#role_search_users#:#User search###05 Nov 2004 new variable
+common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
+common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
+common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Role templates only###05 Nov 2004 new variable
 common#:#role_user_deassign#:#Deassign user from role###05 Nov 2004 new variable
 common#:#role_user_edit#:#Edit account data###05 Nov 2004 new variable
@@ -2449,6 +2459,7 @@ common#:#usrf_create_user#:#Új felhasználói fiók létrehozása
 common#:#usrf_delete#:#Felhasználói fiókok törlése
 common#:#usrf_edit_permission#:#Felhasználói fiókokhoz való hozzáférés változtatása
 common#:#usrf_edit_roleassignment#:#Felhasználói fiókokhoz való szerephozzáférés változtatása
+common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#Olvasási elérés a felhasználói fiókokhoz
 common#:#usrf_read_users#:#Role assignment for local administrators###05 Nov 2004 new variable
 common#:#usrf_visible#:#A felhasználói fiókok láthatók

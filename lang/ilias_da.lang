@@ -963,6 +963,7 @@ common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
 common#:#description#:#Beskrivelse
 common#:#desired_password#:#&oslash;nsket Password
+common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disabled#:#Ikke Tilsluttet
 common#:#domain#:#Dom&aelig;ne
 common#:#down#:#Nede
@@ -1956,10 +1957,15 @@ common#:#role_add#:#Tilf&oslash;j Rolle
 common#:#role_add_local#:#Tilf&oslash;j lokal Rolle
 common#:#role_add_user#:#Tilf&oslash;j Brug(ere) til en rolle
 common#:#role_added#:#Roll Tilf&oslash;jet
+common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
+common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#Rolle tildeling
 common#:#role_assignment_updated#:#Rolle tildeling er blevet opdateret
 common#:#role_count_users#:#Antal brugere
 common#:#role_deleted#:#Rolle slettet
+common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
+common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
+common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#Rediger Rolle
 common#:#role_header_edit_users#:#&aelig;ndrer bruger tildeling
 common#:#role_list_users#:#Liste af brugere
@@ -1968,8 +1974,12 @@ common#:#role_new_search#:#Ny s&oslash;gning
 common#:#role_no_groups_selected#:#V&aelig;lg venligst en gruppe
 common#:#role_no_results_found#:#Ingen reultater fundet
 common#:#role_no_roles_selected#:#V&aelig;lg en rolle
+common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#indtast et s&oslash;geord
 common#:#role_search_users#:#Bruger s&oslash;gning
+common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
+common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
+common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Kun Rolle templates 
 common#:#role_user_deassign#:#Deassign user from role
 common#:#role_user_edit#:#Rediger konto data
@@ -2237,6 +2247,7 @@ common#:#usrf_create_user#:#Opret ny brugerkonto
 common#:#usrf_delete#:#Slet bruger konti
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
+common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#Skrive adgang til bruger konti
 common#:#usrf_read_users#:#Rolle tildeling for lokale administratorer
 common#:#usrf_visible#:#Bruger konti er synlige

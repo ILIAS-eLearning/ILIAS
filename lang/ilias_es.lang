@@ -1050,6 +1050,7 @@ common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
 common#:#desired_password#:#contraseña deseada
+common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disable#:#disable###26 Jan 2005 new variable
 common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
@@ -2139,10 +2140,15 @@ common#:#role_add#:#Añadir Rol
 common#:#role_add_local#:#Añadir rol local
 common#:#role_add_user#:#Añadir Usuario(s) al rol
 common#:#role_added#:#Rol añadido
+common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
+common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#Asignación de Rol
 common#:#role_assignment_updated#:#Asignación de roles actualizada.
 common#:#role_count_users#:#Número de usuarios
 common#:#role_deleted#:#Rol eliminado
+common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
+common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
+common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#Editar Rol
 common#:#role_header_edit_users#:#Modificar asignación de usuarios
 common#:#role_list_users#:#Listar usuarios
@@ -2151,8 +2157,12 @@ common#:#role_new_search#:#Nueva búsqueda
 common#:#role_no_groups_selected#:#Por favor seleccione un grupo
 common#:#role_no_results_found#:#No se encontraron resultados
 common#:#role_no_roles_selected#:#Por favor seleccione un rol
+common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
 common#:#role_search_users#:#Búsqueda de usuarios
+common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
+common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
+common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Sólo plantillas de rol
 common#:#role_user_deassign#:#Desasignar usuario del rol
 common#:#role_user_edit#:#Editar datos de la cuenta
@@ -2450,6 +2460,7 @@ common#:#usrf_create_user#:#Crear nueva cuenta de usuario
 common#:#usrf_delete#:#Eliminar cuentas de usuario
 common#:#usrf_edit_permission#:#Modificar configuración de permisos
 common#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario
+common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario
 common#:#usrf_read_users#:#Asignación de rol para administradores locales
 common#:#usrf_visible#:#Cuentas de usuario visibles
