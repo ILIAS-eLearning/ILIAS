@@ -575,8 +575,6 @@ class ilObjectGUI
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
 				
-				$this->object->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
-				
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -585,6 +583,9 @@ class ilObjectGUI
 			
 				// delete old tree entries
 				$this->tree->deleteTree($top_node);
+				
+				// inform other objects in hierarchy about cut operation
+				$this->object->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
 			}
 
 			// now move all subtrees to new location
