@@ -434,132 +434,132 @@ assessment#:#tst_random_test#:#Випадковий тест
 assessment#:#tst_random_test_description#:#Якщо вибрано, питання тесту будуть сгенеровані випадко
 assessment#:#tst_reached_points#:#Досягнуті бали
 assessment#:#tst_remove_questions#:#Ви впевнені, що ви бажаєте видалити наступні питання з тесту?
-assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
-assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
-assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
-assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
-assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
-assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
-assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
-assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
-assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
-assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
-assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
-assessment#:#tst_select_random_questions#:#Select the questionpool(s) and the amount of questions for the random test###06 Dec 2004 new variable
-assessment#:#tst_select_tsts#:#Please select a test for duplication###05 Nov 2004 new variable
-assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
-assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
-assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
-assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
-assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
-assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
-assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
-assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
-assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###14 Sep 2004 new variable
-assessment#:#tst_stat_result_distancemedian#:#Distance to median###28 Aug 2004 new variable
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###14 Sep 2004 new variable
-assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_mark_median#:#Mark of median###28 Aug 2004 new variable
-assessment#:#tst_stat_result_median#:#Median of test result in points###28 Aug 2004 new variable
-assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_rank_median#:#Rank of median###28 Aug 2004 new variable
-assessment#:#tst_stat_result_rank_participant#:#Rank of participant###28 Aug 2004 new variable
-assessment#:#tst_stat_result_resultsmarks#:#Test results in marks###20 Mar 2004 new variable
-assessment#:#tst_stat_result_resultspoints#:#Test results in points###20 Mar 2004 new variable
-assessment#:#tst_stat_result_specification#:#Specification of evaluation data###20 Mar 2004 new variable
-assessment#:#tst_stat_result_timeofwork#:#Time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_result_total_participants#:#Total number of participants###28 Aug 2004 new variable
-assessment#:#tst_stat_selected_users#:#Selected users###20 Mar 2004 new variable
-assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 2004 new variable
-assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
-assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
-assessment#:#tst_status_missing#:#There are required elements missing in this test!###13 Sep 2004 new variable
-assessment#:#tst_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
-assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
-assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.###13 Sep 2004 new variable
-assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
-assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
-assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
-assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
-assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
-assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
-assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
-assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions###17 Sep 2004 new variable
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
-assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
-assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
-assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
-assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
-assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
-assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
-assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
-assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
-assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
-assessment#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
-assessment#:#warning_test_not_complete#:#The test is not complete!###13 Sep 2004 new variable
-assessment#:#when#:#when###17 Aug 2004 new variable
-assessment#:#width#:#Width###19 May 2004 new variable
-assessment#:#with_order#:#with order###30 Aug 2004 new variable
-assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points###30 Aug 2004 new variable
-bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
-bibitem#:#bibitem_author#:#Author###06 May 2004 new variable
-bibitem#:#bibitem_av#:#AV###06 May 2004 new variable
-bibitem#:#bibitem_bibitem#:#Bibliographical information###06 May 2004 new variable
-bibitem#:#bibitem_book#:#Book###06 May 2004 new variable
-bibitem#:#bibitem_booktitle#:#Booktitle###06 May 2004 new variable
-bibitem#:#bibitem_catalog#:#Catalog###06 May 2004 new variable
-bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:###06 May 2004 new variable
-bibitem#:#bibitem_cross_reference#:#Cross reference###06 May 2004 new variable
-bibitem#:#bibitem_delete#:#Delete###06 May 2004 new variable
-bibitem#:#bibitem_dissertation#:#Dissertation###06 May 2004 new variable
-bibitem#:#bibitem_edition#:#Edition###06 May 2004 new variable
-bibitem#:#bibitem_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_entry#:#Entry###06 May 2004 new variable
-bibitem#:#bibitem_first_name#:#First name###06 May 2004 new variable
-bibitem#:#bibitem_grey_literature#:#Grey literature###06 May 2004 new variable
-bibitem#:#bibitem_how_published#:#How published###06 May 2004 new variable
-bibitem#:#bibitem_identifier#:#Identifier###06 May 2004 new variable
-bibitem#:#bibitem_inbook#:#Inbook###06 May 2004 new variable
-bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
-bibitem#:#bibitem_institution#:#Institution###06 May 2004 new variable
-bibitem#:#bibitem_internet#:#Internet###06 May 2004 new variable
-bibitem#:#bibitem_isbn#:#ISBN###06 May 2004 new variable
-bibitem#:#bibitem_issn#:#ISSN###06 May 2004 new variable
-bibitem#:#bibitem_journal#:#Journal###06 May 2004 new variable
-bibitem#:#bibitem_journal_article#:#Journal article###06 May 2004 new variable
-bibitem#:#bibitem_keyword#:#Keyword###06 May 2004 new variable
-bibitem#:#bibitem_label#:#Label###06 May 2004 new variable
-bibitem#:#bibitem_language#:#Language###06 May 2004 new variable
-bibitem#:#bibitem_last_name#:#Last name###06 May 2004 new variable
-bibitem#:#bibitem_manual#:#Manual###06 May 2004 new variable
-bibitem#:#bibitem_master_thesis#:#Master thesis###06 May 2004 new variable
-bibitem#:#bibitem_middle_name#:#Middle name###06 May 2004 new variable
-bibitem#:#bibitem_month#:#Month###06 May 2004 new variable
-bibitem#:#bibitem_new_element#:#New element###06 May 2004 new variable
-bibitem#:#bibitem_newspaper_article#:#Newspaper article###06 May 2004 new variable
-bibitem#:#bibitem_not_found#:#No bibliographical information available.###06 May 2004 new variable
-bibitem#:#bibitem_note#:#Note###06 May 2004 new variable
-bibitem#:#bibitem_number#:#Number###06 May 2004 new variable
-bibitem#:#bibitem_organization#:#Organization###06 May 2004 new variable
-bibitem#:#bibitem_pages#:#Pages###06 May 2004 new variable
-bibitem#:#bibitem_phd_thesis#:#PhD thesis###06 May 2004 new variable
-bibitem#:#bibitem_please_select#:#Please select###06 May 2004 new variable
-bibitem#:#bibitem_print#:#Print###06 May 2004 new variable
-bibitem#:#bibitem_proceedings#:#Proceedings###06 May 2004 new variable
-bibitem#:#bibitem_publisher#:#Publisher###06 May 2004 new variable
-bibitem#:#bibitem_save#:#Save###06 May 2004 new variable
-bibitem#:#bibitem_school#:#School###06 May 2004 new variable
-bibitem#:#bibitem_series#:#Series###06 May 2004 new variable
+assessment#:#tst_remove_questions_and_results#:#Цей тест вже виконали %s осіб. Видалення питань з цього тесту видалить усі результати по тесту цих користувачів. Ви впевнені що ви бажаєте видалити наступні питання з тесту?
+assessment#:#tst_report_after_question#:#Звіт про результат після відповіді на кожне питання
+assessment#:#tst_report_after_test#:#Звіт про результат після закінчення всього тесту
+assessment#:#tst_result_congratulations#:#Поздоровляємо! Ви сдали цей тест.
+assessment#:#tst_result_sorry#:#Пробачте, але ви не сдали цей тест.
+assessment#:#tst_results#:#Результати тесту
+assessment#:#tst_resume_test#:#Відновити тест
+assessment#:#tst_score_reporting#:#Звіт про результат
+assessment#:#tst_score_reporting_date#:#Дата звіту про результат
+assessment#:#tst_score_type#:#Тип звіту про результат
+assessment#:#tst_select_file_for_import#:#Ви маєте вказати файл для імпорту!
+assessment#:#tst_select_questionpool#:#Будь ласка вкажіть пул питань для зберігання створених питань
+assessment#:#tst_select_questionpools#:#Будь ласка виберіть пул питань для зберігання імпортованих питань
+assessment#:#tst_select_random_questions#:#Виберіть пул(и) питань та кількість питань для випадкового тесту
+assessment#:#tst_select_tsts#:#Будь ласка виберіть тест для дублювання
+assessment#:#tst_sequence#:#Послідовність
+assessment#:#tst_sequence_fixed#:#Послідовність питань зафіксовано
+assessment#:#tst_sequence_postpone#:#Учень може відкласти питання у кінець тесту
+assessment#:#tst_sequence_properties#:#Властивості послідовності
+assessment#:#tst_session_settings#:#Настройки сесії
+assessment#:#tst_show_results#:#Показати результати тесту
+assessment#:#tst_start_test#:#Почати тест
+assessment#:#tst_starting_time#:#Початковий час
+assessment#:#tst_stat_all_users#:#Усі користувачі
+assessment#:#tst_stat_choose_users#:#(виберіть одного або більше користувачів зі списку)
+assessment#:#tst_stat_result_atimeofwork#:#Середній час роботи
+assessment#:#tst_stat_result_distancemean#:#Відстань до арифметики означає
+assessment#:#tst_stat_result_distancemedian#:#Відстань до середнього
+assessment#:#tst_stat_result_distancequintile#:#Відстань до арифметичного квентиля
+assessment#:#tst_stat_result_firstvisit#:#Перше відвідування
+assessment#:#tst_stat_result_lastvisit#:#Останнє відвідування
+assessment#:#tst_stat_result_mark_median#:#Оцінка середнього
+assessment#:#tst_stat_result_median#:#Середні результати тесту в балах
+assessment#:#tst_stat_result_pworkedthrough#:#Відсоток загального об'єму роботи, що вже зроблена
+assessment#:#tst_stat_result_qworkedthrough#:#Вже зроблені питання
+assessment#:#tst_stat_result_rank_median#:#Ранг середнього
+assessment#:#tst_stat_result_rank_participant#:#Ранг учасника
+assessment#:#tst_stat_result_resultsmarks#:#Результати тесту в оцінках
+assessment#:#tst_stat_result_resultspoints#:#Результати тесту в балах
+assessment#:#tst_stat_result_specification#:#Специфікіція оцінювання даних
+assessment#:#tst_stat_result_timeofwork#:#Час роботи
+assessment#:#tst_stat_result_total_participants#:#Загальна кількість учасників
+assessment#:#tst_stat_selected_users#:#Вибрані користувачі
+assessment#:#tst_stat_users_intro#:#Показати статистичні оцінки для
+assessment#:#tst_statistical_evaluation#:#Засіб статистичного аналізу
+assessment#:#tst_status_completed#:#завершено
+assessment#:#tst_status_completed_more_tries_possible#:#(завершено)
+assessment#:#tst_status_missing#:#Існуєть потрібні елементи, що відсутні в цьому тесті!
+assessment#:#tst_status_missing_elements#:#Наступні елементи відсутні:
+assessment#:#tst_status_not_entered#:#не введено
+assessment#:#tst_status_ok#:#Статус тесту - OK. Немає відстуніх елементів.
+assessment#:#tst_status_progress#:#в процессі
+assessment#:#tst_time_already_spent#:#Час вже витрачений на роботу
+assessment#:#tst_total_questions#:#Загальна кількість питань
+assessment#:#tst_total_questions_description#:#Якщо ви встановите це значення, кількість питань, введених в пулі питань, буде проігноровано. Якщо ви не встановите це значення, ви маєте ввести кількість для кожного вибраного пулу питань!
+assessment#:#tst_type#:#Тип тесту
+assessment#:#tst_type_changed#:#Ви змінили тип тесту. Усі попередньо оброблені тест буде видалено!
+assessment#:#tst_type_comment#:#Увага: Зміна типа тесту для запущеного тесту видалить усі попередньо оброблені тести!
+assessment#:#tst_types#:#Типи тесту
+assessment#:#tst_use_javascript#:#Використовуйте Javascript для drag and drop дій
+assessment#:#tst_your_ects_mark_is#:#Ваш ECTS рівень
+assessment#:#tst_your_mark_is#:#Ваша оцінка
+assessment#:#tt_assessment#:#Оцінка тесту
+assessment#:#tt_navigation_controlling#:#Контролювання учбового навігаційоного тесту
+assessment#:#tt_self_assessment#:#Само оціночний тест
+assessment#:#unlimited#:#нескінченний
+assessment#:#unlock#:#Розблокувати
+assessment#:#unlock_question#:#Це питання використовується принаймні в одному тесті та має %s заповнених результатів. Якщо ви виберете розблокувати питання, завершені результати тесту торкнувшихся користувачів будуть видалені після збереження цього питання. Якщо ви бажаєте використовувати змінену версію цього питання, але не бажаєте видаляти результати тестів користувачів, ви можете продублювати питання в пулі питань та змінити ту версію.
+assessment#:#upload_imagemap#:#Завантажити карту зображення
+assessment#:#uploaded_material#:#Завантажений матеріал
+assessment#:#warning_question_not_complete#:#Питання не завершене!
+assessment#:#warning_test_not_complete#:#Тест не завершений!
+assessment#:#when#:#коли
+assessment#:#width#:#Ширина
+assessment#:#with_order#:#в порядку
+assessment#:#working_time#:#Час Роботи
+assessment#:#you_received_a_of_b_points#:#Ви оримали %d з %d можливих балів
+bibitem#:#bibitem_add#:#Додати
+bibitem#:#bibitem_author#:#Автор
+bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_bibitem#:#Бібліографічна інформація
+bibitem#:#bibitem_book#:#Книга
+bibitem#:#bibitem_booktitle#:#Назва книги
+bibitem#:#bibitem_catalog#:#Каталог
+bibitem#:#bibitem_choose_index#:#Будь ласка виберіть бібліографічну інформацію:
+bibitem#:#bibitem_cross_reference#:#Перехресне посилання
+bibitem#:#bibitem_delete#:#Видалити
+bibitem#:#bibitem_dissertation#:#Дисертація
+bibitem#:#bibitem_edition#:#Версія
+bibitem#:#bibitem_editor#:#Редактор
+bibitem#:#bibitem_entry#:#Запис
+bibitem#:#bibitem_first_name#:#Ім'я
+bibitem#:#bibitem_grey_literature#:#Сіра література
+bibitem#:#bibitem_how_published#:#Як опублікований
+bibitem#:#bibitem_identifier#:#Ідентифікатор
+bibitem#:#bibitem_inbook#:#Inbook
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_institution#:#Інститут
+bibitem#:#bibitem_internet#:#Інтернет
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Журнал
+bibitem#:#bibitem_journal_article#:#Журнальна стаття
+bibitem#:#bibitem_keyword#:#Ключове слово
+bibitem#:#bibitem_label#:#Позначка
+bibitem#:#bibitem_language#:#Мова
+bibitem#:#bibitem_last_name#:#Прізвище
+bibitem#:#bibitem_manual#:#Посібник
+bibitem#:#bibitem_master_thesis#:#Головне положення
+bibitem#:#bibitem_middle_name#:#Друге ім'я
+bibitem#:#bibitem_month#:#Місяць
+bibitem#:#bibitem_new_element#:#Новий елемент
+bibitem#:#bibitem_newspaper_article#:#Газетна стаття
+bibitem#:#bibitem_not_found#:#Немає доступної бібліографічної інформації.
+bibitem#:#bibitem_note#:#Замітка
+bibitem#:#bibitem_number#:#Число
+bibitem#:#bibitem_organization#:#Організація
+bibitem#:#bibitem_pages#:#Сторінки
+bibitem#:#bibitem_phd_thesis#:#PhD положення
+bibitem#:#bibitem_please_select#:#Будь ласка виберіть
+bibitem#:#bibitem_print#:#Друкувати
+bibitem#:#bibitem_proceedings#:#Справи
+bibitem#:#bibitem_publisher#:#Видавець
+bibitem#:#bibitem_save#:#Зберегти
+bibitem#:#bibitem_school#:#Школа
+bibitem#:#bibitem_series#:#Серії
 bibitem#:#bibitem_series_editor#:#Editor###06 May 2004 new variable
 bibitem#:#bibitem_series_title#:#Series title###06 May 2004 new variable
 bibitem#:#bibitem_series_volume#:#Volume###06 May 2004 new variable
