@@ -1391,5 +1391,37 @@ class ilObjGroup extends ilObject
 			$this->ilias->db->query($q);
 		}
 	}
+
+
+	/**
+	 * STATIC METHOD
+	 * search for group data. This method is called from class.ilSearch
+	 * @param	object object of search class
+	 * @static
+	 * @access	public
+	 */
+	function _search(&$a_search_obj)
+	{
+		// NO CLASS VARIABLES IN STATIC METHODS
+
+		$where_condition = $a_search_obj->getWhereCondition("like",array("title","description"));
+		$in = $a_search_obj->getInStatement("ore.ref_id");
+
+		$query = "SELECT ore.ref_id AS ref_id FROM object_data AS od, object_reference AS ore ".
+			$where_condition." ".
+			$in." ".
+			"AND od.obj_id = ore.obj_id";
+
+		$res = $a_search_obj->ilias->db->query($query);
+		
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result_data[$counter]["id"]				=  $row->ref_id;
+			$result_data[$counter]["link"]				=  "group.php?cmd=view&ref_id=".$row->ref_id;
+			$result_data[$counter++]["target"]			=  "";
+		}
+		return $result_data ? $result_data : array();
+	}
 } //END class.ilObjGroup
 ?>
