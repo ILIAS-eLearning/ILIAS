@@ -134,6 +134,11 @@ class ilMetaData
 	*/
 	function setTitle($a_title)
 	{
+		if ($a_title == "")
+		{
+			$a_title = "NO TITLE";
+		}
+
 		$this->title = $a_title;
 	}
 

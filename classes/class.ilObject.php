@@ -311,6 +311,11 @@ class ilObject
 	*/
 	function setTitle($a_title)
 	{
+		if ($a_title == "")
+		{
+			$a_title = "NO TITLE";
+		}
+
 		$this->title = addslashes(ilUtil::shortenText($a_title, $this->max_title, $this->add_dots));
 	}
 
@@ -439,15 +444,6 @@ class ilObject
 		if (!isset($this->type))
 		{
 			$message = get_class($this)."::create(): No object type given!";
-			$log->writeWarning($message);
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-
-		// we must use getTitle(), because the title may be stored in a
-		// assigned meta object, not in $this->title
-		if ($this->getTitle() == "")
-		{
-			$message = get_class($this)."::create(): No title given! A title is required!";
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
