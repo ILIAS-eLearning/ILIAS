@@ -127,6 +127,8 @@ class ilConditionHandlerInterface
 
 
 		// create table
+		include_once './classes/class.ilTableGUI.php';
+
 		$tbl =& new ilTableGUI();
 
 		// title & header columns
