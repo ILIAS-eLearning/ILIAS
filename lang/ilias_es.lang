@@ -151,11 +151,13 @@ common#:#forums_count#:#number of forums
 common#:#forums_count_art#:#number of articles
 common#:#forums_count_thr#:#number of threads
 common#:#forums_edit_post#:#edit article
+common#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 common#:#forums_last_post#:#last article
 common#:#forums_moderators#:#moderators
 common#:#forums_new_thread#:#new topic
 common#:#forums_not_available#:#forums not available
 common#:#forums_overview#:#forums overview
+common#:#forums_post_deleted#:#article has been deleted
 common#:#forums_post_modified#:#article has been modified
 common#:#forums_post_new_entry#:#new article has been inscribed
 common#:#forums_posts#:#all articles
@@ -437,117 +439,3 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
-common#:#obj_not_found#:#object_not_found
-common#:#cut#:#cut
-common#:#copy#:#copy
-common#:#paste#:#paste
-common#:#clear#:#clear
-common#:#required_field#:#required
-common#:#you_may_add_local_roles#:#you_may_add_local_roles
-common#:#obj_owner#:#This Object is owned by
-common#:#permission#:#permission
-common#:#roles#:#roles
-common#:#uninstall#:#uninstall
-common#:#frm#:#frm
-common#:#obj#:#obj
-common#:#cat#:#cat
-common#:#le#:#le
-common#:#grp#:#grp
-common#:#crs#:#crs
-common#:#file#:#file
-common#:#rolf#:#rolf
-common#:#rolt#:#rolt
-common#:#lngf#:#idiomaf
-common#:#lng#:#idioma
-common#:#usr#:#user
-common#:#user#:#user
-common#:#usrf#:#usrf
-common#:#objf#:#objf
-common#:#role#:#role
-common#:#passwd#:#passwd
-common#:#desc#:#description
-common#:#default_role#:#def_role
-common#:#enabled#:#enabled
-common#:#disabled#:#disabled
-common#:#import#:#import
-common#:#in_use#:#user language
-common#:#system_language#:#system language
-common#:#change_language#:#set user language
-common#:#update_language#:#update language
-common#:#check_language#:#check language
-common#:#set_system_language#:#set system language
-common#:#lang_de#:#Aleman
-common#:#lang_dk#:#Dinamarqu&eacute;s
-common#:#lang_en#:#Inglés
-common#:#lang_es#:#Espa&ntilde;ol
-common#:#lang_fr#:#Franc&eacute;s
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italiano
-common#:#lang_no#:#Noruego
-common#:#lang_pl#:#Polaco
-common#:#lang_se#:#Sueco
-common#:#lang_xx#:#Custom
-common#:#forums_not_available#:#forums not available
-common#:#forums_last_post#:#last article
-common#:#forums_moderators#:#moderators
-common#:#forums_new_thread#:#new topic
-common#:#permission_denied#:#permission denied
-common#:#forums_thread_new_entry#:#new topic has been inscribed
-common#:#forums_post_new_entry#:#new article has been inscribed
-common#:#form_empty_fields#:#please complete these fields:
-common#:#today#:#today
-common#:#forums_thread#:#thread
-common#:#forums_threads#:#threads
-common#:#forums_topics_overview#:#topics overview
-common#:#forums_posts#:#all articles
-common#:#forums_the_post#:#article
-common#:#forums_articles#:#articles
-common#:#forums_thread_create#:#created from
-common#:#operation#:#Operation
-common#:#edit_operations#:#edit operations
-common#:#file_not_found#:#File not found
-common#:#new_language#:#New language
-common#:#forums_threads_not_available#:#topics not available
-common#:#forums_posts_not_available#:#articles not available
-common#:#author#:#author
-common#:#registered_since#:#registered since
-common#:#context#:#context
-common#:#forums_respond#:#respond to an article
-common#:#forums_your_reply#:#your reply
-common#:#of#:#de
-common#:#edited_at#:#edited at
-common#:#order_by#:#order by
-common#:#answers#:#answers
-common#:#mandatory_fields#:#mandatory fields
-common#:#visits#:#visits
-common#:#delete_object#:#delete object(s)
-common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
-common#:#cancel#:#cancel
-common#:#confirm#:#confirm
-common#:#no_checkbox#:#No checkbox checked!
-common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.
-common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.
-common#:#msg_obj_exists#:#This object already exists in this folder
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_may_not_contain#:#This object may not contain objects of type: 
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
-common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
-common#:#info_deleted#:#Object(s) deleted
-common#:#forums_thread_articles#:#articles to the thread
-common#:#forums_count#:#number of forums
-common#:#forums_count_thr#:#number of threads
-common#:#forums_count_art#:#number of articles
-common#:#by#:#by
-common#:#launch#:#launch
-common#:#info_trash#:#Deleted Objects
-common#:#btn_undelete#:#undelete
-common#:#btn_remove_system#:#remove from system
-common#:#msg_trash_empty#:#There are no deleted objects
-common#:#forums_edit_post#:#edit article
-common#:#forums_post_modified#:#article has been modified
-common#:#forums_post_deleted#:#article has been deleted
-common#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
-
