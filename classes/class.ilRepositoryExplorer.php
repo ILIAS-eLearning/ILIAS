@@ -64,24 +64,27 @@ class ilRepositoryExplorer extends ilExplorer
 		// please do not uncomment this
 		$this->addFilter("root");
 		$this->addFilter("cat");
-		$this->addFilter("exc");
-		$this->addFilter("sahs");
+		//$this->addFilter("exc");
+		//$this->addFilter("sahs");
 		$this->addFilter("grp");
-		$this->addFilter("lm");
-		$this->addFilter("htlm");
-		$this->addFilter("mep");
-		$this->addFilter("frm");
-		$this->addFilter("dbk");
-		$this->addFilter("chat");
-		$this->addFilter("glo");
-		$this->addFilter("file");
-		$this->addFilter("fold");
+		//$this->addFilter("lm");
+		//$this->addFilter("htlm");
+		//$this->addFilter("mep");
+		//$this->addFilter("frm");
+		//$this->addFilter("dbk");
+		//$this->addFilter("chat");
+		//$this->addFilter("glo");
+		//$this->addFilter("file");
+		//$this->addFilter("fold");
 		$this->addFilter("crs");
-		$this->addFilter('tst');
+		//$this->addFilter('tst');
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 	}
 
+	/**
+	* note: most of this stuff is used by ilCourseContentInterface too
+	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
 		global $ilCtrl;
@@ -89,7 +92,7 @@ class ilRepositoryExplorer extends ilExplorer
 		switch($a_type)
 		{
 			case "cat":
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat";
+				return "repository.php?ref_id=".$a_node_id;
 
 			case "lm":
 			case "dbk":
@@ -105,10 +108,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "";
 
 			case "grp":
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjcoursegui";
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui";
 				// seems not to work in some cases
 				#$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
 				#$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
@@ -117,7 +120,7 @@ class ilRepositoryExplorer extends ilExplorer
 			case "frm":
 				#return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
 				$ilCtrl->setParameterByClass('ilObjForumGUI','ref_id',$a_node_id);
-				$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
+				//$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
 				
 				return $ilCtrl->getLinkTargetByClass('ilObjForumGUI','showThreads');
 
@@ -133,26 +136,30 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "fold":
 				$ilCtrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
-				$ilCtrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
+				//$ilCtrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
 				return $ilCtrl->getLinkTargetByClass("ilObjFolderGUI");
 				
 			case "file":
-				return "repository.php?cmd=sendfile&ref_id=".$a_node_id."&set_mode=flat";
+				return "repository.php?cmd=sendfile&ref_id=".$a_node_id;
 
 			case 'tst':
-				return "assessment/test.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
+				return "assessment/test.php?cmd=run&ref_id=".$a_node_id;
 
 			case 'svy':
-				return "survey/survey.php?cmd=run&ref_id=".$a_node_id."&set_mode=flat";
+				return "survey/survey.php?cmd=run&ref_id=".$a_node_id;
 
 			case 'spl':
-				return "survey/questionpool.php?cmd=questions&ref_id=".$a_node_id."&set_mode=flat";
+				return "survey/questionpool.php?cmd=questions&ref_id=".$a_node_id;
 
 			case 'qpl':
-				return "assessment/questionpool.php?cmd=questions&ref_id=".$a_node_id."&set_mode=flat";
+				return "assessment/questionpool.php?cmd=questions&ref_id=".$a_node_id;
 		}
 	}
-
+	
+	/**
+	* note: this method is not used by repository explorer any more
+	* but still by ilCourseContentInterface (should be redesigned)
+	*/
 	function buildEditLinkTarget($a_node_id, $a_type)
 	{
 		global $ilCtrl;
@@ -160,7 +167,7 @@ class ilRepositoryExplorer extends ilExplorer
 		switch($a_type)
 		{
 			case "cat":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id."&set_mode=flat";
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
 			case "lm":
 			case "dbk":
@@ -177,17 +184,17 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "grp":
 				return; // following link is the same as "read" link
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
+				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat";
+				return "repository.php?ref_id=".$a_node_id;
 				#$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
 				#$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
 				#return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
 				
 			case "frm":
 				$ilCtrl->setParameterByClass('ilObjForumGUI','ref_id',$a_node_id);
-				$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
+				//$ilCtrl->setParameterByClass("ilObjForumGUI","set_mode","flat");
 				
 				return $ilCtrl->getLinkTargetByClass('ilObjForumGUI','edit');
 				
@@ -210,7 +217,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$a_node_id;
 
 			case 'tst':
-				return "assessment/test.php?ref_id=".$a_node_id."&set_mode=flat";
+				return "assessment/test.php?ref_id=".$a_node_id;
 				
 			case 'svy':
 				return "survey/survey.php?ref_id=".$a_node_id;
@@ -224,13 +231,15 @@ class ilRepositoryExplorer extends ilExplorer
 					."&cmd=questions";
 
 			case 'svy':
-				return "survey/survey.php?ref_id=".$a_node_id."&set_mode=flat";
+				return "survey/survey.php?ref_id=".$a_node_id;
 		}
 	}		
 
 	/**
 	*
 	* STATIC, do not use $this inside!
+	*
+	* Note: this is used by course interface !?
 	*/
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{
@@ -239,7 +248,7 @@ class ilRepositoryExplorer extends ilExplorer
 		switch($a_type)
 		{
 			case "cat":
-				return "";
+				return "content";
 
 			case "lm":
 			case "dbk":
@@ -259,7 +268,10 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 
 			case "grp":
-				return "";
+				return "content";
+
+			case "crs":
+				return "content";
 
 			case "frm":
 				return "";
@@ -493,7 +505,8 @@ class ilRepositoryExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $lng->txt("repository"));
-		$tpl->setVariable("LINK_TARGET", "repository.php?set_mode=flat");
+		$tpl->setVariable("LINK_TARGET", "repository.php");
+		$tpl->setVariable("TARGET", " target=\"content\"");
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("row");
