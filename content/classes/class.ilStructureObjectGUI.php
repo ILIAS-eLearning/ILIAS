@@ -461,5 +461,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->subchap();
 	}
 
+	function cancel()
+	{
+		if ($_GET["new_type"] == "pg")
+		{
+			header("Location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
+				$_GET["obj_id"]);
+		}
+		else
+		{
+			header("Location: lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
+				$_GET["obj_id"]);
+		}
+	}
 }
 ?>
