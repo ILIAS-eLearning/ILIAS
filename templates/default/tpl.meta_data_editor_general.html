@@ -15,7 +15,7 @@
 			<option value="Description"{META_NAME_VAL_DESCRIPTION}>{TXT_DESCRIPTION} (Description)</option>
 			<option value="Keyword"{META_NAME_VAL_KEYWORD}>{TXT_KEYWORD} (Keyword)</option>
 <!-- BEGIN coverage -->
-			<option value="Coverage"{COVERAGE_META_NAME_VAL_COVERAGE}>{COVERAGE_TXT_COVERAGE} (Coverage)</option>
+			<option value="Coverage"{COVERAGE_META_NAME_VAL_COVERAGE}>{TXT_COVERAGE} (Coverage)</option>
 <!-- END coverage -->
 		</select>
 	</td>
@@ -26,7 +26,7 @@
 <tr>
 	<td class="option" colspan="2">{TXT_STRUCTURE} (Structure)</td>
 	<td class="option_value">
-		<select name="meta[structure]" size="1">
+		<select name="meta[Structure]" size="1">
 			<option value="">{TXT_PLEASE_SELECT}</option>
 			<option value="Atomic"{STRUCTURE_VAL_ATOMIC}>{TXT_ATOMIC} (Atomic)</option>
 			<option value="Collection"{STRUCTURE_VAL_COLLECTION}>{TXT_COLLECTION} (Collection)</option>
@@ -41,22 +41,24 @@
 <tr>
 	<td class="option" colspan="3">
 		<div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER} (Identifier)
+<!-- BEGIN identifier_delete -->
 		( <a href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a> )
+<!-- END identifier_delete -->
 		( <a href="{IDENTIFIER_LOOP_ACTION_ADD}">{IDENTIFIER_LOOP_TXT_ADD}</a> )</div>
 	</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
 	<td class="sub_option">{IDENTIFIER_LOOP_TXT_VALUE} (Value)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[identifier_value][]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][{IDENTIFIER_LOOP_NO}][Value]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER}"></td>
 </tr>
 <tr>
 	<td class="sub_option">{IDENTIFIER_LOOP_TXT_CATALOG} (Catalog)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[identifier_catalog][]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][{IDENTIFIER_LOOP_NO}][Catalog]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG}"></td>
 </tr>
 <tr>
 	<td class="sub_option">{IDENTIFIER_LOOP_TXT_ENTRY} (Entry)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[identifier_entry][]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Identifier][{IDENTIFIER_LOOP_NO}][Entry]" value="{IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY}"></td>
 </tr>
 <!-- END identifier_loop -->
 
@@ -66,7 +68,7 @@
 <tr>
 	<td class="option"width="10" rowspan="2">&nbsp;</td>
 	<td class="sub_option">{TXT_VALUE} (Value)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[title_value]" value="{VAL_TITLE}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Title][Value]" value="{VAL_TITLE}"></td>
 </tr>
 <tr>
 	<td class="sub_option">{TXT_LANGUAGE} (Language)</td>
@@ -77,7 +79,9 @@
 <tr>
 	<td class="option" colspan="3">
 		<div align="left">{LANGUAGE_LOOP_TXT_LANGUAGE} (Language)
+<!-- BEGIN language_delete -->
 		( <a href="{LANGUAGE_LOOP_ACTION_DELETE}">{LANGUAGE_LOOP_TXT_DELETE}</a> )
+<!-- END language_delete -->
 		( <a href="{LANGUAGE_LOOP_ACTION_ADD}">{LANGUAGE_LOOP_TXT_ADD}</a> )</div>
 	</td>
 </tr>
@@ -96,14 +100,16 @@
 <tr>
 	<td class="option" colspan="3">
 		<div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION} (Description)
+<!-- BEGIN description_delete -->
 		( <a href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a> )
+<!-- END description_delete -->
 		( <a href="{DESCRIPTION_LOOP_ACTION_ADD}">{DESCRIPTION_LOOP_TXT_ADD}</a> )</div>
 	</td>
 </tr>
 <tr>
 	<td class="option"width="10" rowspan="2">&nbsp;</td>
 	<td class="sub_option">{DESCRIPTION_LOOP_TXT_VALUE} (Value)</td>
-	<td class="option_value"><textarea name="meta[description_value][]">{DESCRIPTION_LOOP_VAL}</textarea></td>
+	<td class="option_value"><textarea name="meta[Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea></td>
 </tr>
 <tr>
 	<td class="sub_option">{DESCRIPTION_LOOP_TXT_LANGUAGE} (Language)</td>
@@ -115,20 +121,40 @@
 <tr>
 	<td class="option" colspan="3">
 		<div align="left">{KEYWORD_LOOP_TXT_KEYWORD} (Keyword)
+<!-- BEGIN keyword_delete -->
 		( <a href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a> )
+<!-- END keyword_delete -->
 		( <a href="{KEYWORD_LOOP_ACTION_ADD}">{KEYWORD_LOOP_TXT_ADD}</a> )</div>
 	</td>
 </tr>
 <tr>
 	<td class="option"width="10" rowspan="2">&nbsp;</td>
 	<td class="sub_option">{KEYWORD_LOOP_TXT_VALUE} (Value)</td>
-	<td class="option_value"><input type="text" maxlength="200" name="meta[keyword_value][]" value="{KEYWORD_LOOP_VAL}"></td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}"></td>
 </tr>
 <tr>
 	<td class="sub_option">{KEYWORD_LOOP_TXT_LANGUAGE} (Language)</td>
 	<td class="option_value">{KEYWORD_LOOP_VAL_LANGUAGE}</td>
 </tr>
 <!-- END keyword_loop -->
+
+<!-- BEGIN coverage_loop -->
+<tr>
+	<td class="option" colspan="3">
+		<div align="left">{COVERAGE_LOOP_TXT_COVERAGE} (Coverage)
+		( <a href="{COVERAGE_LOOP_ACTION_DELETE}">{COVERAGE_LOOP_TXT_DELETE}</a> )</div>
+	</td>
+</tr>
+<tr>
+	<td class="option"width="10" rowspan="2">&nbsp;</td>
+	<td class="sub_option">{COVERAGE_LOOP_TXT_VALUE} (Value)</td>
+	<td class="option_value"><input type="text" maxlength="200" name="meta[Coverage][Value]" value="{COVERAGE_LOOP_VAL}"></td>
+</tr>
+<tr>
+	<td class="sub_option">{COVERAGE_LOOP_TXT_LANGUAGE} (Language)</td>
+	<td class="option_value">{COVERAGE_LOOP_VAL_LANGUAGE}</td>
+</tr>
+<!-- END coverage_loop -->
 
 <tr>
 	<td class="submit" colspan="3"><div align="right"><input class="submit" type="submit" name="cmd[saveMeta]" value="{TXT_SAVE}"/></div></td>

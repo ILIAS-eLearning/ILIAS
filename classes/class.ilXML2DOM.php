@@ -100,7 +100,7 @@ class XMLStruct
 		{
 			$this->childs[$j]->insert($dom, $node);
 		}
-		$node->parent_node();
+		$node = $node->parent_node();
 	}
 }
 
@@ -128,7 +128,7 @@ class XML2DOM
 	{
 		if (!is_object($this->xmlStruct))
 		{
-			vd($a_attrs);
+#			vd($a_attrs);
 			$this->xmlStruct = new XMLStruct($a_name, $a_attrs);
 			$GLOBALS["lastObj"] =& $this->xmlStruct;
 		}

@@ -1433,3 +1433,129 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+meta#:#meta_coverage#:#Coverage
+meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.
+meta#:#meta_lifecycle#:#Lifecycle
+meta#:#meta_contribute#:#Contribute
+meta#:#meta_status#:#Status
+meta#:#meta_draft#:#Draft
+meta#:#meta_final#:#Final
+meta#:#meta_revised#:#Revised
+meta#:#meta_unavailable#:#Unavailable
+meta#:#meta_version#:#Version
+meta#:#meta_role#:#Role
+meta#:#meta_publisher#:#Publisher
+meta#:#meta_entity#:#Entity
+meta#:#meta_date#:#Date
+meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.
+meta#:#meta_meta_metadata#:#Meta-Metadata
+meta#:#meta_metadatascheme#:#Metadata Scheme
+meta#:#meta_no_technical#:#No meta data available for Technical section.
+meta#:#meta_technical#:#Technical
+meta#:#meta_format#:#Format
+meta#:#meta_size#:#Size
+meta#:#meta_location#:#Location
+meta#:#meta_requirement#:#Requirement
+meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_installation_remarks#:#Installation Remarks
+meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
+meta#:#meta_duration#:#Duration
+meta#:#meta_type#:#Type
+meta#:#meta_local_file#:#Local File
+meta#:#meta_reference#:#Reference
+meta#:#meta_operating_system#:#Operating System
+meta#:#meta_name#:#Name
+meta#:#meta_minimum_version#:#Minimum Version
+meta#:#meta_maximum_version#:#Maximum Version
+meta#:#meta_browser#:#Browser
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_unix#:#Unix
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_none#:#None
+meta#:#meta_no_educational#:#No meta data available for Educational section.
+meta#:#meta_education#:#Education
+meta#:#meta_interactivity_type#:#Interactivity Type
+meta#:#meta_learning_resource_type#:#Learning Resource Type
+meta#:#meta_interactivity_level#:#Interactivity Level
+meta#:#meta_semantic_density#:#Semantic Density
+meta#:#meta_intended_end_user_role#:#Intended End User Role
+meta#:#meta_context#:#Context
+meta#:#meta_difficulty#:#Difficulty
+meta#:#meta_typical_age_range#:#Typical Age Range
+meta#:#meta_typical_learning_time#:#Typical Learning Time
+meta#:#meta_active#:#Active
+meta#:#meta_expositive#:#Expositive
+meta#:#meta_mixed#:#Mixed
+meta#:#meta_exercise#:#Exercise
+meta#:#meta_simulation#:#Simulation
+meta#:#meta_questionnaire#:#Questionnaire
+meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_figure#:#Figure
+meta#:#meta_graph#:#Graph
+meta#:#meta_index#:#Index
+meta#:#meta_slide#:#Slide
+meta#:#meta_table#:#Table
+meta#:#meta_narrative_text#:#Narrative Text
+meta#:#meta_exam#:#Exam
+meta#:#meta_experiment#:#Experiment
+meta#:#meta_problem_statement#:#Problem Statement
+meta#:#meta_self_assessment#:#Self Assessment
+meta#:#meta_lecture#:#Lecture
+meta#:#meta_very_low#:#Very Low
+meta#:#meta_low#:#Low
+meta#:#meta_medium#:#Medium
+meta#:#meta_high#:#High
+meta#:#meta_very_high#:#Very High
+meta#:#meta_teacher#:#Teacher
+meta#:#meta_author#:#Author
+meta#:#meta_learner#:#Learner
+meta#:#meta_manager#:#Manager
+meta#:#meta_school#:#School
+meta#:#meta_higher_education#:#Higher Education
+meta#:#meta_training#:#Training
+meta#:#meta_other#:#Other
+meta#:#meta_very_easy#:#Very Easy
+meta#:#meta_easy#:#Easy
+meta#:#meta_dificult#:#Difficult
+meta#:#meta_very_difficult#:#Very Difficult
+meta#:#meta_no_rights#:#No meta data available for the Rights section.
+meta#:#meta_rights#:#Rights
+meta#:#meta_cost#:#Cost
+meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
+meta#:#meta_no_relation#:#No meta data available for the Relation section.
+meta#:#meta_relation#:#Relation
+meta#:#meta_kind#:#Kind
+meta#:#meta_is_part_of#:#Is Part Of
+meta#:#meta_has_part#:#Has Part
+meta#:#meta_is_version_of#:#Is Version Of
+meta#:#meta_has_version#:#Has Version
+meta#:#meta_is_format_of#:#Is Format Of
+meta#:#meta_has_format#:#Has Format
+meta#:#meta_references#:#References
+meta#:#meta_is_referenced_by#:#Is Referenced By
+meta#:#meta_is_based_on#:#Is Based On
+meta#:#meta_is_basis_for#:#Is Basis For
+meta#:#meta_requires#:#Requires
+meta#:#meta_is_required_by#:#Is Required By
+meta#:#meta_resource#:#Resource
+meta#:#meta_no_annotation#:#No meta data available for the Annotation section.
+meta#:#meta_annotation#:#Annotation
+meta#:#meta_no_classification#:#No meta data available for the Classification section.
+meta#:#meta_classification#:#Classification
+meta#:#meta_purpose#:#Purpose
+meta#:#meta_idea#:#Idea
+meta#:#meta_prerequisite#:#Prerequisite
+meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
+meta#:#meta_educational_level#:#Educational Level
+meta#:#meta_skill_level#:#Skill Level
+meta#:#meta_security_level#:#Security Level
+meta#:#meta_competency#:#Competency
+meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_source#:#Source
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_id#:#Id
+meta#:#meta_no#:#No
+meta#:#meta_yes#:#Yes

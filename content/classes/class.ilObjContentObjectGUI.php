@@ -291,11 +291,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
 		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
 		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
 		if ($meta_name != "")
 		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path);
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
 		}
 		else
 		{
@@ -310,11 +313,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
 		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
 		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
 		if ($meta_name != "")
 		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path);
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
 		}
 		else
 		{
@@ -329,7 +335,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $_GET["meta_section"]);
 	}
 
@@ -338,7 +345,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->object->getRefId(), $_GET["meta_section"]);
 	}
@@ -910,7 +918,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->save();
+		$meta_gui->save($_POST["meta_section"]);
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->object->getRefId());
 	}
 

@@ -196,9 +196,19 @@ class ilObjContentObject extends ilObject
 	*/
 	function updateMetaData()
 	{
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
 		$this->meta_data->update();
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
 		parent::update();
 	}
 

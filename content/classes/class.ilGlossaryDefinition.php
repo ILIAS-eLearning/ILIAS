@@ -371,6 +371,8 @@ class ilGlossaryDefinition
 	function updateMetaData()
 	{
 		$this->meta_data->update();
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
 	}
 
 	/**
