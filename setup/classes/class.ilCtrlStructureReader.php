@@ -78,7 +78,7 @@ class ilCtrlStructureReader
 				// files
 				if (@is_file($a_cdir."/".$file))
 				{
-					if (eregi("^class.*php[^~]", $file))
+					if (eregi("^class.*php$", $file))
 					{
 						$handle = fopen($a_cdir."/".$file, "r");
 						while (!feof($handle)) {
