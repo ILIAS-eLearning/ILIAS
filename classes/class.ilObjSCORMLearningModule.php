@@ -135,11 +135,12 @@ class ilObjSCORMLearningModule extends ilObject
         * Validate all XML-Files in a SCOM-Directory 
         *
         * @access       public
-        * @return       boolean true if all object data were removed; false if only a references were removed
+        * @return       boolean true if all XML-Files are wellfomred and valid
         */
 	function validate($directory)
 	{
-		return true;
+		$ref = new ilObjSCORMValidator($directory);
+		return $ref->validate();
 	}
 
 } // END class.ilObjSCORMLearningModule
