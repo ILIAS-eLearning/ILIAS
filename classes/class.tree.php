@@ -817,7 +817,24 @@ class Tree
 	   }
 	   return true;
 	}
-	   
+	/**
+	* get data saved/deleted nodes
+	* @return	array data
+	* @access	public
+	*/
+	function getSavedNodeData()
+	{
+		$query = "SELECT * FROM tree,object_data ".
+			"WHERE tree.tree < 0 ".
+			"AND tree.child = object_data.obj_id";
+		
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$saved[] = $this->fetchNodeData($row);
+		}
+		return $saved;
+	}
 		  
 } // END class.tree
 ?>

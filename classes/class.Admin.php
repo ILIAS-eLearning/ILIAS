@@ -460,5 +460,4 @@ class Admin
 		$obj = new $class_constr();
 		return $obj->cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
 	}
-
 } // END class.Admin
