@@ -1813,7 +1813,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			if(isset($_GET["mem_id"]))
 			{
-				$user_ids = $_GET["mem_id"];
+				$user_ids[] = $_GET["mem_id"];
 			}
 			else
 			{
@@ -1822,11 +1822,15 @@ class ilGroupGUI extends ilObjGroupGUI
 				exit;
 			}
 		}
+		
+		//bool value: says if $users_ids contains current user id
+		$is_dismiss_me = array_search($this->ilias->account->getId(),$user_ids);
+		
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
 			$cancel  = $cancel_action;
-			$info	 = "info_delete_sure";
+			$info	 = ($is_dismiss_me !== false) ? "grp_dismiss_myself" : "grp_dismiss_member";
 			$status  = "";
 			$this->confirmation($user_ids, $confirm, $cancel, $info, $status,"n");
 			$this->tpl->show();
