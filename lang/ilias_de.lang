@@ -129,6 +129,10 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
+assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!

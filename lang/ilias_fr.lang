@@ -129,6 +129,10 @@ assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
+assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
+assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
