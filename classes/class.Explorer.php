@@ -44,14 +44,15 @@ class Explorer extends PEAR
 	* Constructor
 	* @access public
 	*/
-	function Explorer()
+	function Explorer($a_target)
 	{
 		global $ilias;
 		
 		$this->PEAR();
 		$this->ilias = $ilias;
 		$this->output = "";
-		
+		$this->expanded = array();
+		$this->target = $a_target;		
 		$this->tree = new Tree(1,0);
 	}
 	
@@ -65,7 +66,7 @@ class Explorer extends PEAR
 	*/
 	function setOutput($a_parent,$a_depth = "")
 	{
-		global $rbacadmin, $rbacsystem,$expanded;
+		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
 
 		if (empty($a_depth))
@@ -79,49 +80,55 @@ class Explorer extends PEAR
 			// Maybe call a lexical sort function for the child objects
 			foreach($objects as $key => $object)
 			{
-				if($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+				//ask for FILTER
+				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
-					if($object["id"] != 1)
+					if($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 					{
-						$data = $this->tree->getParentNodeData($object["id"],$object["parent"]);
-						$parent_index = $this->getIndex($data);
-					}
-					$this->format_options["$counter"]["parent"] = $object["parent"];
-					$this->format_options["$counter"]["obj_id"] = $object["id"];
-					$this->format_options["$counter"]["title"] = $object["title"];
-					$this->format_options["$counter"]["type"] = $object["type"];
-					$this->format_options["$counter"]["depth"] = $tab;
-					$this->format_options["$counter"]["container"] = false;
-					$this->format_options["$counter"]["visible"]	  = true;
-
-					// Create prefix array
-					for($i=0;$i<$tab;++$i)
-					{
-						 $this->format_options["$counter"]["tab"][] = 'blank';
-					}
-
-					// only if parent is expanded and visible, object is visible
-					if($object["id"] != 1 and (!in_array($object["parent"],$expanded) 
-					   or !$this->format_options["$parent_index"]["visible"]))
-					{
-						$this->format_options["$counter"]["visible"] = false;
-					}
-						
-					// if object exists parent is container
-					if($object["id"] != 1)
-					{
-						$this->format_options["$parent_index"]["container"] = true;
-						if(in_array($object["parent"],$expanded))
+						if($object["id"] != 1)
 						{
-							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							$data = $this->tree->getParentNodeData($object["id"],$object["parent"]);
+							$parent_index = $this->getIndex($data);
 						}
-						else
-							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
-					}
-					++$counter;
-					// Recursive
-					$this->setOutput($object["id"],$a_depth);
-				} //if
+						$this->format_options["$counter"]["parent"] = $object["parent"];
+						$this->format_options["$counter"]["obj_id"] = $object["id"];
+						$this->format_options["$counter"]["title"] = $object["title"];
+						$this->format_options["$counter"]["type"] = $object["type"];
+						$this->format_options["$counter"]["depth"] = $tab;
+						$this->format_options["$counter"]["container"] = false;
+						$this->format_options["$counter"]["visible"]	  = true;
+	
+						// Create prefix array
+						for($i=0;$i<$tab;++$i)
+						{
+							 $this->format_options["$counter"]["tab"][] = 'blank';
+						}
+
+						// only if parent is expanded and visible, object is visible
+						if($object["id"] != 1 and (!in_array($object["parent"],$this->expanded) 
+						   or !$this->format_options["$parent_index"]["visible"]))
+						{
+							$this->format_options["$counter"]["visible"] = false;
+						}
+						
+						// if object exists parent is container
+						if($object["id"] != 1)
+						{
+							$this->format_options["$parent_index"]["container"] = true;
+							if(in_array($object["parent"],$this->expanded))
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							}
+							else
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+						}
+						++$counter;
+						// Recursive
+						$this->setOutput($object["id"],$a_depth);
+					} //if
+
+				} //if FILTER
+
 			} //foreach
 		} //if
 	} //function
@@ -193,7 +200,7 @@ class Explorer extends PEAR
 			}
 		}
 		$tmp  .= "<td nowrap align=\"left\"><img src=\"./images/icon_".$a_option["type"].".gif\" border=\"0\"></td>\n";
-		$tmp  .= "<td nowrap align=\"left\"><a href=\"content.php?obj_id=".$a_obj_id.
+		$tmp  .= "<td nowrap align=\"left\"><a href=\"".$this->target."?obj_id=".$a_obj_id.
 			"&parent=".$a_option["parent"]."\" target=\"content\">".$a_option["title"]."</a></td>\n";
 		$tmp  .= "</tr>\n";
 		$tmp  .= "</table>\n";
@@ -209,9 +216,7 @@ class Explorer extends PEAR
  */
 	function createTarget($a_type,$a_obj_id)
 	{
-		global $expanded;
-
-		$tmp_expanded = $expanded;
+		$tmp_expanded = $this->expanded;
 
 		if($a_type == '+')
 		{
@@ -304,5 +309,107 @@ class Explorer extends PEAR
 		$this->ilias->raiseError("Error in tree",$this->ilias->error_object->FATAL);
 	}
 		
+		
+		
+	/**
+	* adds item to the filter 
+	* @param string object type to add
+	* @return boolean
+	*/
+	function addFilter($a_item)
+	{
+		$ispresent = 0;
+		
+		if (is_array($this->filter))
+		{
+			//run through filter
+		    foreach ($this->filter as $item)
+			{
+				if ($item == $a_item)
+				{
+				    $is_present = 1;
+					return false;
+				}
+			}
+		}
+		else
+		{
+			$this->filter = array();
+		}
+		
+		if ($is_present == 0)
+		{
+			$this->filter[] = $a_item;
+			
+		}
+		return true;
+	}
+	
+	/**
+	* adds item to the filter 
+	* @param string object type to delete
+	* @return boolean
+	*/
+	function delFilter($a_item)
+	{
+		//check if a filter exists
+		if (is_array($this->filter))
+		{
+			//build copy of the existing filter without the given item
+			$tmp = array();
+			foreach ($this->filter as $item)
+		    {
+				if ($item != $a_item)
+				{
+				    $tmp[] = $item;
+				}
+				else
+					$deleted = 1;
+			}
+			$this->filter = $tmp;
+		}
+		else
+			return false;
+			
+		if ($deleted == 1)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	/**
+	* set the expand option
+	* @param string pipe-separated integer
+	*/
+	function setExpand($str)
+	{
+		$this->expanded = explode('|',$str);
+	}
+	
+	/**
+	* active/deactivate the filter
+	* @param boolean
+	*/
+	function setFiltered($a_bool)
+	{
+		$this->filtered = $a_bool;
+		return true;
+	}
+	
+	/**
+	* check if item is in filter
+	* @param string
+	*/
+	function checkFilter($a_item)
+	{
+		if (is_array($this->filter))
+		{
+			return in_array($a_item, $this->filter);
+		}
+		else
+			return false;
+	}
 }
 ?>
