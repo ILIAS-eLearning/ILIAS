@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_link#:#Verweis ändern
 content#:#cont_set_shape#:#Form ändern
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle###01 Apr 2004 content changed
 content#:#cont_st_title#:#Kapitel-Titel
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
 content#:#read offline#:#Offline lesen
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 dateplaner#:#DateText#:#Nachricht

@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Band van de serie
 content#:#cont_set_class#:#Instellen class
 content#:#cont_set_link#:#Wijzig Link
 content#:#cont_set_shape#:#Wijzig Vorm
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Instellen breedte
 content#:#cont_shape#:#Vorm
 content#:#cont_show#:#laat zien
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Laat zien met citaat
 content#:#cont_size#:#Grootte (Bytes)
 content#:#cont_source#:#Bron
 content#:#cont_st_title#:#Hoofdstuk-titel
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Verwijderen niet mogelijk. Standaard view-bestand is in de directory.
 content#:#cont_std_view#:#Standaard view
 content#:#cont_structure#:#structuur
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Pagina's van
 content#:#par#:#Paragrafen
 content#:#pg#:#Bladzijde
 content#:#read offline#:#Lezen offline
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Hoofdstuk
 content#:#start export#:#Start exporteren
 dateplaner#:#DateText#:#Bericht

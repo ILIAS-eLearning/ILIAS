@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
 content#:#cont_set_link#:#Imposta il collegamento
 content#:#cont_set_shape#:#Modifica la forma
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Imposta larghezza
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_st_title#:#Titolo capitolo
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
 content#:#read offline#:#Leggi offline
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
 dateplaner#:#DateText#:#Messaggi

@@ -1804,6 +1804,7 @@ content#:#cont_series_volume#:#系列卷
 content#:#cont_set_class#:#设置班级
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#设置宽度
 content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
@@ -1811,6 +1812,7 @@ content#:#cont_show_citation#:#具有引用的显示
 content#:#cont_size#:#大小（字节）
 content#:#cont_source#:#原始资料###01 Apr 2004 content changed
 content#:#cont_st_title#:#章标题
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#不能删除。标准视图文件在目录中。
 content#:#cont_std_view#:#标准视图
 content#:#cont_structure#:#结构
@@ -1846,6 +1848,7 @@ content#:#pages from#:#页源于
 content#:#par#:#段落
 content#:#pg#:#页源于
 content#:#read offline#:#在线读
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#章标题
 content#:#start export#:#开始导出
 dateplaner#:#DateText#:#Message###16 Mar 2004 new variable

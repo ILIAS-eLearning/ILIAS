@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
 content#:#cont_set_link#:#Ustaw Łącznik
 content#:#cont_set_shape#:#Edytuj kształt
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_source#:#Źródło
 content#:#cont_st_title#:#Tytuł rozdziału
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Usunięcie nie jest możliwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#pg#:#Strona
 content#:#read offline#:#Czytaj Offline
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
 dateplaner#:#DateText#:#Wiadomość

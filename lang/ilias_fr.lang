@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Volume de collection
 content#:#cont_set_class#:#Fixer la classe
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Fixer la largeur
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Afficher
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Afficher avec citation
 content#:#cont_size#:#Taille (octets)
 content#:#cont_source#:#Source###01 Apr 2004 content changed
 content#:#cont_st_title#:#Titre de chapitre
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le répertoire.
 content#:#cont_std_view#:#Vue standard
 content#:#cont_structure#:#structure
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Pages depuis
 content#:#par#:#Paragraphe
 content#:#pg#:#Page
 content#:#read offline#:#Lire hors ligne
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
 dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
