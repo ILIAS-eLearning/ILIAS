@@ -160,6 +160,7 @@ assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
+assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
@@ -239,9 +240,11 @@ assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
+assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
@@ -1283,12 +1286,14 @@ common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
 common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
 common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
 common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu ändern!
 common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu ändern!
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
@@ -1734,6 +1739,10 @@ common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
+common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
+common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
+common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
@@ -2052,6 +2061,7 @@ content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
+content#:#cont_score#:#Score###10 Jul 2004 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
@@ -2094,6 +2104,7 @@ content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
+content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_toc_mode#:#Inhaltsverzeichnis bei toc2win-Modus
@@ -3034,6 +3045,9 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
@@ -3137,6 +3151,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#lower_limit#:#Untere Schranke
+survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
@@ -3247,6 +3262,8 @@ survey#:#survey_skip_next#:#Überpringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt

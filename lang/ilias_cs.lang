@@ -160,6 +160,7 @@ assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Last update###16 Mar 2004 new variable
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###27 Apr 2004 new variable
+assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Mark schema###16 Mar 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###16 Mar 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###16 Mar 2004 new variable
@@ -239,9 +240,11 @@ assessment#:#text_gap#:#Text gap###16 Mar 2004 new variable
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#True###16 Mar 2004 new variable
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
 assessment#:#tst_already_taken#:#Tests already taken###16 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###16 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###16 Mar 2004 new variable
+assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###16 Mar 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###16 Mar 2004 new variable
@@ -1283,12 +1286,14 @@ common#:#msg_no_perm_create_rolt#:#Nemáte oprávnění přidávat šablony rol�
 common#:#msg_no_perm_create_user#:#Nemáte oprávnění přidávat uživatele
 common#:#msg_no_perm_cut#:#Nemáte oprávnění vyjmout následující objekty:
 common#:#msg_no_perm_delete#:#Nemáte oprávnění odstranit následující objekty:
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
 common#:#msg_no_perm_link#:#Nemáte oprávnění vytvořit odkaz na následující objekty:
 common#:#msg_no_perm_modify_role#:#Nemáte oprávnění modifikovat role
 common#:#msg_no_perm_modify_rolt#:#Nemáte oprávnění modifikovat šablony rolí
 common#:#msg_no_perm_modify_user#:#Nemáte oprávnění modifikovat uživatelská data
 common#:#msg_no_perm_paste#:#Nemáte oprávnění vložit následující objekty:
 common#:#msg_no_perm_perm#:#Nemáte oprávnění měnit nastavení přístupových práv
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Nemáte oprávnění obnovit následující objekty:
 common#:#msg_no_perm_write#:#Nemáte oprávnění k zápisu
 common#:#msg_no_rolf_allowed1#:#Objekt
@@ -1734,6 +1739,10 @@ common#:#to_desktop#:#Přihlásit
 common#:#today#:#Dnes
 common#:#total#:#Celkem
 common#:#tpl_path#:#Cesta k šablonám
+common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
+common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
+common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
@@ -2052,6 +2061,7 @@ content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#název
 content#:#cont_school#:#Škola
+content#:#cont_score#:#Score###10 Jul 2004 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype### identical translation
 content#:#cont_select_item#:#Select at least one item.###16 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Vyberte prosím pouze jednu položku
@@ -2094,6 +2104,7 @@ content#:#cont_table_width#:#Šířka tabulky
 content#:#cont_target_within_source#:#Cíl nesmí být obsažen ve zdrojovém objektu.
 content#:#cont_term#:#Pojem
 content#:#cont_terms#:#Pojmy
+content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction### identical translation
 content#:#cont_toc#:#Obsah
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
@@ -3034,6 +3045,9 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3137,6 +3151,7 @@ survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
 survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
+survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
@@ -3247,6 +3262,8 @@ survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
 survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

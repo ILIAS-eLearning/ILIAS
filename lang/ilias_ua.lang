@@ -160,6 +160,7 @@ assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###27 Apr 2004 new variable
+assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -239,9 +240,11 @@ assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#Правда
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
+assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
@@ -1283,12 +1286,14 @@ common#:#msg_no_perm_create_rolt#:#Ви не маєте прав додават�
 common#:#msg_no_perm_create_user#:#Ви не маєте прав додавати користувачів
 common#:#msg_no_perm_cut#:#Ви не маєте прав вирізати наступний об'єкт(и):
 common#:#msg_no_perm_delete#:#Ви не маєте прав видалити наступний об'єкт(и):
+common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
 common#:#msg_no_perm_link#:#Ви не маєте права стоврити посилання з наступниого об'єкту(ів):
 common#:#msg_no_perm_modify_role#:#Ви не маєте права змінювати ролі
 common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінювати шаблони ролей
 common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів
 common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
 common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
+common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
 common#:#msg_no_perm_undelete#:#Ви не маєте права відмінити видалення наступного об'єкту(ів):
 common#:#msg_no_perm_write#:#Ви не маєте права записувати
 common#:#msg_no_rolf_allowed1#:#Об'єкт
@@ -1734,6 +1739,10 @@ common#:#to_desktop#:#Підписатися
 common#:#today#:#Сьогодні
 common#:#total#:#Загалом
 common#:#tpl_path#:#Шлях до Шаблона
+common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
+common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
+common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
+common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
@@ -2052,6 +2061,7 @@ content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
+content#:#cont_score#:#Score###10 Jul 2004 new variable
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
@@ -2094,6 +2104,7 @@ content#:#cont_table_width#:#Ширина Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
 content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
+content#:#cont_time#:#Time###10 Jul 2004 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Зміст
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
@@ -3034,6 +3045,9 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3137,6 +3151,7 @@ survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
 survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
+survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
@@ -3247,6 +3262,8 @@ survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
 survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
+survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
