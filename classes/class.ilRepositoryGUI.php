@@ -1382,8 +1382,7 @@ class ilRepositoryGUI
 				if ($this->rbacsystem->checkAccess('write',$qpl_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("qpl_edit");
-					$tpl->setVariable("EDIT_LINK","#");
-					//$tpl->setVariable("EDIT_LINK","assessment/#?ref_id=".$qpl_data["ref_id"]);
+					$tpl->setVariable("EDIT_LINK","assessment/adm_object.php?ref_id=".$qpl_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
