@@ -5,7 +5,7 @@
 * via DOMXML.
 * For basic tasks when building xml-documents please use
 * the standard functions from the domxml extension of PHP
-*  
+*
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
@@ -35,7 +35,7 @@ class domxml
 	* @access	public 
 	*/
 	var $error;
-	
+
 	/**
 	* Constructor
 	* init domxml handler
@@ -57,19 +57,17 @@ class domxml
 		$num = func_num_args();
 		$args = func_get_args();
 		
-		if (($num == 1) && is_object($args[0]))
-		{
+		if (($num == 1) && is_object($args[0])) {
 			$this->doc = $args[0];
 		}
-		else
-		{
+		else {
 			$this->initNewDocument($args[0],$args[1],$args[2]);
 		}
 	}
-	
+
 	/**
 	* init new domDocument
-	* private method. Please use constructor to init new Document
+	* private method. Please use constructor to init a new domDocument
 	* 
 	* @param	string	xml version (default: 1.0)
 	* @param	string	encoding charset (default: UTF-8)
@@ -78,18 +76,15 @@ class domxml
 	*/
 	function initNewDocument ($a_version = "", $a_encoding = "", $a_charset = "")
 	{
-		if (!$a_version)
-		{
+		if (!$a_version) {
 			$a_version = "1.0";
 		}
 
-		if (!$a_encoding)
-		{
+		if (!$a_encoding) {
 			$a_encoding = "UTF-8";
 		}
 
-		if (!$a_charset)
-		{
+		if (!$a_charset) {
 			$a_charset = "UTF-8";
 		}
 		
@@ -146,25 +141,19 @@ class domxml
 				$error_msg .= $error["errormessage"]." in line: ".$error["line"]."<br>";
 			}
 			
+			// error handling with ilias object?
 			echo $error_msg;
 			exit();
 		}
 		
 		// set encoding to UTF-8 if empty
-		if (empty($this->doc->encoding))
-		{
-			$this->doc->encoding = "UTF-8";
-		}
-
-		// set charset to encoding
-		if (is_integer($this->doc->charset))
-		{
-			$this->doc->charset = $this->doc->encoding;
-		}		
+		$this->setEncoding("UTF-8");
+		// set charset to UTF-8
+		$this->setCharset("UTF-8");
 
 		return $this->doc; 
 	}
-	
+
 	/**
 	* traverse domDocument and removes all useless nodes
 	* that are created due to whitespaces in the source file
@@ -188,7 +177,7 @@ class domxml
 			} 
 		} 
 	}
-	
+
 	/**
 	* wrapper for $this->trim
 	* defaults to $this->doc if no node given
@@ -235,7 +224,7 @@ class domxml
 		
 		// set depth
 		$lvl++;
- 
+
 		// start value given from outside?
 		if ($left2 > 0) {
 			$left = $left2;
@@ -320,7 +309,7 @@ class domxml
 		$this->transform($a_node);
 		return $this->tree;
 	}
-	
+
 	/**
 	* wrapper for dump_mem() and dump_file()
 	* converts the entire DOM tree in $this->doc to a string
@@ -332,7 +321,7 @@ class domxml
 	* @param	boolean	format XML content with whitespaces
 	* @return	string	XML content in a string
 	* @access	public
-	*/	
+	*/
 	function dumpDocument ($a_stdout = -1, $a_compress = false, $a_format = false)
 	{
 		if ($a_stdout != -1) {
@@ -341,7 +330,7 @@ class domxml
 		
 		return $this->doc->dump_mem();
 	}
-	
+
 	/**
 	* fetch all text parts from an element even when
 	* the text is interupted by another element
@@ -356,14 +345,11 @@ class domxml
 	*/
 	function getTextFromElement ($a_element)
 	{
-		if ($a_element->node_type() == XML_ELEMENT_NODE)
-		{
+		if ($a_element->node_type() == XML_ELEMENT_NODE) {
 			$value = "";
 		
-			foreach ($a_element->child_nodes() as $child)
-			{
-				if ($child->node_type() == XML_TEXT_NODE)
-				{
+			foreach ($a_element->child_nodes() as $child) {
+				if ($child->node_type() == XML_TEXT_NODE) {
 					$value .= $child->content;
 				}
 			}
@@ -422,14 +408,13 @@ class domxml
 			$a_node = $this->doc;
 		}
 		
-		if (count($node = $a_node->get_elements_by_tagname($a_elementname)) > 0)
-		{
+		if (count($node = $a_node->get_elements_by_tagname($a_elementname)) > 0) {
 			return $node;
 		}
 		
 		return false;
 	}
-	
+
 	/**
 	* creates an element entry for the removed LearningObject:
 	* <LO id=[obj_id of child LO] />
@@ -446,7 +431,7 @@ class domxml
 		$node = $a_node->append_child($newnode);
 		$node->set_attribute("id",$a_lo_id);
 	}
-	
+
 	/**
 	* wrapper for append_child
 	* Main purpose of this method is to simplify access
@@ -471,7 +456,7 @@ class domxml
 	{
 		return $this->doc->document_element();
 	}
-	
+
 	/**
 	* wrapper for create_element
 	* Main purpose of this method is to simplify access
@@ -484,7 +469,7 @@ class domxml
 	{
 		return $this->doc->create_element($a_node);
 	}
-	
+
 	/**
 	* creates a complete node of type element
 	* with a text_node within the element and attributes
@@ -503,17 +488,14 @@ class domxml
 		$node = $this->createElement($a_elementname);
 		
 		// set attributes
-		if (is_array($a_attr_list))
-		{
-			foreach ($a_attr_list as $attr => $value)
-			{
+		if (is_array($a_attr_list)) {
+			foreach ($a_attr_list as $attr => $value) {
 				$node->set_attribute($attr, $value);
 			}
 		}
 		
 		// create and add a text node to the new element node
-		if (is_string($a_text))
-		{
+		if (is_string($a_text)) {
 			$node_text = $this->doc->create_text_node($a_text);
 			$node_text = $node->append_child($node_text);
 		}
@@ -523,7 +505,7 @@ class domxml
 		
 		return $node;
 	}
-	
+
 	/**
 	* get internal reference id of a domNode
 	* 
@@ -536,7 +518,7 @@ class domxml
 		$node = (array) $a_node;
 		return $node[0];
 	}
-	
+
 	/**
 	* get node_name
 	* 
@@ -548,7 +530,6 @@ class domxml
 	{
 		return $a_node->node_name();
 	}
-	
 
 	/**
 	* set encoding of domDocument
@@ -560,8 +541,7 @@ class domxml
 	*/
 	function setEncoding ($a_encode,$a_overwrite = false)
 	{
-		if (empty($this->doc->encoding) or ($a_overwrite))
-		{
+		if (empty($this->doc->encoding) or ($a_overwrite)) {
 			$this->doc->encoding = $a_encode;
 			return true;
 		}
@@ -579,7 +559,7 @@ class domxml
 	{
 		return $this->doc->encoding;
 	}
-	
+
 	/**
 	* set charset of domDocument
 	* 
@@ -590,8 +570,7 @@ class domxml
 	*/
 	function setCharset ($a_charset,$a_overwrite = false)
 	{
-		if (is_integer($this->doc->charset) or ($a_overwrite))
-		{
+		if (is_integer($this->doc->charset) or ($a_overwrite)) {
 			$this->doc->charset = $a_charset;
 			return true;
 		}
