@@ -53,14 +53,14 @@ class ilSetup
 	* @access	private
 	*/
 	var $DEFAULT_INI_FILE = "./ilias.master.ini.php";
-	
+
 	/**
 	* sql-template-file
 	* @var		string
 	* @access	private
 	*/
 	var $SQL_FILE = "./sql/ilias3.sql";
-	
+
 	/**
 	*  database connector
 	*  @var		string
@@ -74,20 +74,26 @@ class ilSetup
 	*  @access	public
 	*/
 	var $db;
-	
+
 	/**
 	*  ini-object
 	*  @var		object IniFile
 	*  @access	private
 	*/
 	var $ini;
-	
+
 	/**
 	*  path to directory out of webspace
 	*  @var		string
 	*  @access	private
 	*/
 	var $data_path;
+	/**
+	*  path to directory out of image
+	*  @var		string
+	*  @access	private added by ratana ty
+	*/
+	var $image_path;
 
 	/**
 	* default array for ini-file
@@ -95,7 +101,7 @@ class ilSetup
 	* @access	private
 	*/
 	var $default;
-	
+
 	/**
 	* constructor
 	* @return	boolean
@@ -106,7 +112,7 @@ class ilSetup
 	//default values are in $DEFAULTINIFILE
 	//NOTE: please don't use any brackets
 	$this->default = parse_ini_file($this->DEFAULT_INI_FILE, true);
-	
+
 	//build list of databasetypes
 		$this->dbTypes = array();
 		$this->dbTypes["mysql"] = "MySQL";
@@ -135,6 +141,7 @@ class ilSetup
 	function readIniFile()
 	{
 		// get settings from ini file
+
 		$this->ini = new ilIniFile($this->INI_FILE);
 		$this->ini->read();
 		//check for error
@@ -143,7 +150,7 @@ class ilSetup
 			$this->error = $this->ini->ERROR;
 			return false;
 		}
-		
+
 		//here only dbsetting are interesting
 		$this->setDbType($this->ini->readVariable("db","type"));
 		$this->setDbHost($this->ini->readVariable("db","host"));
@@ -151,9 +158,11 @@ class ilSetup
 		$this->setDbUser($this->ini->readVariable("db","user"));
 		$this->setDbPass($this->ini->readVariable("db","pass"));
 		$this->setDataPath($this->ini->readVariable("server","data_dir"));
-
+		// added by ratana ty
+	$this->setImagePath($this->ini->readVariable("server","webspace_dir"));
+	
 		$this->setDSN();
-		
+
 		// set tplPath
 		// $this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
@@ -164,31 +173,32 @@ class ilSetup
 	* write the ini file
 	*/
 	function writeIniFile()
-	{		
+	{
 		//write inifile
 		//overwrite with defaults
 		$this->getDefaults();
 		$this->ini->GROUPS = $this->default;
-		
+
 		//no overwrite the defaults with submitted values
 		$this->ini->setVariable("db", "host", $this->dbHost);
 		$this->ini->setVariable("db", "name", $this->dbName);
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
 		$this->ini->setVariable("server", "data_dir", $this->data_path);
-		
+		//added by ratana ty
+		$this->ini->setVariable("server", "webspace_dir", $this->image_path);
 		//try to write the file
 		if ($this->ini->write()==false)
 		{
 			$this->error_msg = "cannot_write";
 			return false;
 		}
-		
+
 		//everything went okay
 		return true;
-		
+
 	} //function
-	
+
 	/**
 	* set the dsns
 	*/
@@ -197,7 +207,7 @@ class ilSetup
 		$this->dsn_host = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
 		$this->dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost."/".$this->dbName;
 	}
-	
+
 	/**
 	 * connect
 	 */
@@ -209,7 +219,7 @@ class ilSetup
 			$this->error = "empty_fields";
 			return false;
 		}
-		
+
 		$this->setDSN();
 
 		$this->db = DB::connect($this->dsn,true);
@@ -232,7 +242,7 @@ class ilSetup
 		$this->dbType = $str;
 		$this->setDSN();
 	}
-	
+
 	/**
 	* set the host
 	* @param	string
@@ -286,6 +296,15 @@ class ilSetup
 		$this->data_path = $a_path;
 	}
 
+	// function added by ratana ty
+	function setImagePath($a_ipath)
+	{
+		if(substr($a_ipath,-1) == '/')
+		{
+			$a_ipath = substr($a_ipath,-1);
+		}
+		$this->image_path = $a_ipath;
+	}
 	/**
 	* get the path to data directory
 	* @param	string
@@ -295,9 +314,15 @@ class ilSetup
 		return $this->data_path;
 	}
 
+	// function added by ratana ty
+	function getImagePath()
+	{
+		return $this->image_path;
+	}
+
 	/**
 	* execute a query
-	* @param	string 
+	* @param	string
 	* @param	string
 	* @return	boolean	true
 	*/
@@ -339,15 +364,15 @@ class ilSetup
 			$this->error = "empty_fields";
 			return false;
 		}
-		
+
 		if (!$this->checkDatabaseHost())
 		{
 			$this->error = "no_connection_to_host";
-			return false;		
+			return false;
 		}
 
 		$db_status = $this->checkDatabaseExists();
-		if ($db_status["status"] == true)		
+		if ($db_status["status"] == true)
 		{
 			$this->error = "database_exists";
 			return false;
@@ -371,19 +396,19 @@ class ilSetup
 			$this->error_msg = $r->getMessage();
 			return false;
 		}
-		
+
 		//database is created, now disconnect and reconnect
 		$db->disconnect();
-		
+
 		$db = DB::connect($this->dsn);
-		
+
 		if (DB::isError($db))
 		{
 			$this->error = "connection_failed";
 			$db->disconnect();
 			return false;
 		}
-		
+
 		//take sql dump an put it in
 		$q = file($this->SQL_FILE);
 		$q = implode("\n",$q);
@@ -410,10 +435,10 @@ class ilSetup
 			$this->error = "data_invalid";
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	* check database connection
 	* @return	array
@@ -435,7 +460,7 @@ class ilSetup
 
 		return $arr;
 	}
-	
+
 	/**
 	* check if inifile exists
 	* @return	boolean
@@ -443,36 +468,36 @@ class ilSetup
 	function checkIniFileExists()
 	{
 		$a = file_exists($this->INI_FILE);
-		return $a;		
+		return $a;
 	}
-	
+
 	function checkPasswordExists()
 	{
 		$password = $this->getPassword();
-		
+
 		if ($password)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	function checkPassword ($a_password)
 	{
 		$query = "SELECT value FROM settings ".
 				 "WHERE keyword = 'setup_passwd' ".
 				 "AND value = '".$a_password."'";
 		$res = $this->db->query($query);
-		
+
 		if ($res->numRows() == 1)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	* check for writable directory
 	* @param	string	directory
@@ -507,7 +532,7 @@ class ilSetup
 		{
 			$arr["status"] = true;
 			$arr["comment"] = "";
-			
+
 			rmdir($a_dir."/crtst");
 		}
 		else
@@ -528,7 +553,7 @@ class ilSetup
 		$version =  phpversion();
 		$arr["version"] = $version;
 		$first = (integer) substr($version,0,1);
-		
+
 		switch ($first)
 		{
 			case 2:
@@ -536,31 +561,31 @@ class ilSetup
 				$arr["status"] = false;
 				$arr["comment"] = "Your PHP version is much too old for using ILIAS 3! Please upgrade your PHP.";
 				break;
-			
+
 			case 4:
 				$second = (integer) substr($version,2,1);
 				if ($second >= 3)
 				{
 					$arr["status"] = true;
-					$arr["comment"] = "";	
+					$arr["comment"] = "";
 				}
 				elseif ($second == 2)
 				{
 					$arr["status"] = false;
-					$arr["comment"] = "DOMXML and XSLT support won't work properly with this version!";	
+					$arr["comment"] = "DOMXML and XSLT support won't work properly with this version!";
 				}
 				else
 				{
 					$arr["status"] = false;
-					$arr["comment"] = "PEAR classes won't work properly with this version! Please upgrade your PHP.";		
+					$arr["comment"] = "PEAR classes won't work properly with this version! Please upgrade your PHP.";
 				}
 				break;
-				
+
 			case 5:
 				$arr["status"] = true;
-				$arr["comment"] = "";	
+				$arr["comment"] = "";
 				break;
-				
+
 			default:
 				$arr["status"] = true;
 				$arr["comment"] = "ILIAS setup don't know this version. Use with own risk!";
@@ -569,10 +594,10 @@ class ilSetup
 
 		return $arr;
 	}
-	
+
 	/**
 	* preliminaries
-	* 
+	*
 	* check if different things are ok for setting up ilias
 	* @return boolean
 	*/
@@ -583,14 +608,14 @@ class ilSetup
 		$a["root"] = $this->checkWritable();
 		$a["create"] = $this->checkCreatable();
 		$a["db"] = $this->checkDatabaseExists();
-		
+
 		//return value
 		return $a;
 	}
-	
+
 	/**
 	* get all setup languages in the system
-	* 
+	*
 	* the functions looks for setup*.lang-files in the languagedirectory
 	* @access	public
 	* @return	array	langs
@@ -600,7 +625,7 @@ class ilSetup
 		$d = dir($a_lang_path);
 		$tmpPath = getcwd();
 		chdir ($a_lang_path);
-	
+
 		// get available lang-files
 		while ($entry = $d->read())
 		{
@@ -614,58 +639,58 @@ class ilSetup
 		chdir($tmpPath);
 		return $languages;
 	}
-	
+
 	function installLanguages()
 	{
 		$action = false;
-		
+
 		if (empty($_POST["id"]))
 		{
 			$_POST["id"] = array();
 		}
-		
+
 		$this->flushLanguages();
 		$query = "DELETE FROM object_data ".
 				 "WHERE type = 'lng' ".
 				 "AND title != 'en'";
 		$this->db->query($query);
-			
+
 		foreach ($_POST["id"] as $lang_key => $lang_data)
 		{
 			if ($this->checkLanguage($lang_key))
 			{
 				// ...re-insert data from lang-file
 				$this->insertLanguage($lang_key);
-	
+
 				$query = "INSERT INTO object_data ".
 						 "(type,title,description,owner,create_date,last_update) ".
 						 "VALUES ".
 						 "('lng','".$lang_key."','installed',".
 						 "'-1',now(),now())";
 				$res = $this->db->query($query);
-				
+
 				$action = true;
 			}
 		}
-		
+
 		return $action;
 	}
-	
+
 	// get already installed languages
 	function getInstalledLanguages()
 	{
 		$arr = array();
-		
+
 		$query = "SELECT * FROM object_data ".
 				 "WHERE type = 'lng' ".
 				 "AND description = 'installed'";
 		$res = $this->db->query($query);
-		
+
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$arr[] = $row->title;
 		}
-		
+
 		return $arr;
 	}
 
@@ -683,30 +708,30 @@ class ilSetup
 	function checkLanguage ($a_lang_key)
 	{
 		global $lng;
-		
+
 		$tmpPath = getcwd();
 		chdir ($lng->lang_path);
-	
+
 		// compute lang-file name format
 		$lang_file = "ilias_".$a_lang_key.".lang";
-	
+
 		// file check
 		if (!is_file($lang_file))
 		{
-			return false;		
+			return false;
 		}
-	
+
 		// header check
 		if (!$content = $this->cut_header(file($lang_file))) {
 			return false;
 		}
-	
+
 		// check (counting) elements of each lang-entry
 		foreach ($content as $key => $val)
 		{
 			$separated = explode ($lng->separator,trim($val));
 			$num = count($separated);
-	
+
 			if ($num != 3) {
 				return false;
 			}
@@ -717,7 +742,7 @@ class ilSetup
 		// no error occured
 		return true;
 	}
-	
+
 	/**
 	* remove lang-file haeder information from '$content'
 	*
@@ -734,16 +759,16 @@ class ilSetup
 				return array_slice($content,$key +1);
 			}
 	 	}
-	 	
+
 	 	return false;
 	}
 
 	/**
-	* remove one or all languagee from database 
+	* remove one or all languagee from database
 	*
 	* sub-function: to uninstall a language use function uninstallLanguage()
 	* if $lang_key ist not given all installed languages are removed from database
-	* 
+	*
 	* @param	string	$lang_key	international language key (2 digits)
 	*
 	* @return	void
@@ -770,25 +795,25 @@ class ilSetup
 		chdir($lng->lang_path);
 
 		$lang_file = "ilias_".$lang_key.".lang";
-		
+
 		if ($lang_file)
 		{
 			// remove header first
 			if ($content = $this->cut_header(file($lang_file))) {
 				foreach ($content as $key => $val) {
 					$separated = explode ($lng->separator,trim($val));
-					
+
 					//get position of the comment_separator
 					$pos = strpos($separated[2], $lng->comment_separator);
-				
+
                 	if ($pos !== false)
-					{ 
+					{
                    		//cut comment of
 				   		$separated[2] = substr($separated[2] , 0 , $pos);
 					}
-					
+
 					$num = count($separated);
-	
+
 					$query = "INSERT INTO lng_data ".
 						 	 "(module,identifier,lang_key,value) ".
 						 	 "VALUES ".
@@ -806,9 +831,9 @@ class ilSetup
 		$query = "SELECT value FROM settings ".
 				 "WHERE keyword = 'setup_passwd'";
 		$res = $this->db->query($query);
-		
+
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
+
 		return $row->value;
 	}
 
@@ -829,13 +854,13 @@ class ilSetup
 		}
 
 		$this->db->query($query);
-		
+
 		return true;
 	}
-	
+
 	/**
 	* destructor
-	* 
+	*
 	* @return boolean
 	*/
 	function _ilSetup()
