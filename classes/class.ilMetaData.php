@@ -100,6 +100,8 @@ class ilMetaData
 			$this->getType() == "st" ||
 			$this->getType() == "lm" ||
 			$this->getType() == "glo" ||
+			$this->getType() == "tst" ||
+			$this->getType() == "qpl" ||
 			$this->getType() == "gdf" ||
 			$this->getType() == "dbk") 
 		{
@@ -582,7 +584,8 @@ class ilMetaData
 		$this->updateTechnicalSections();
 
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
-			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk")
+			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk"
+			|| $this->getType() == "tst" || $this->getType() == "qpl")
 		{
 #			echo "Section: " . $this->section . "<br>\n";
 			$p = "//MetaData";
