@@ -30,6 +30,51 @@
 * @package core
 */
 
+/**
+* Address values for the ADR type
+*
+* @type	integer
+*/
+define ("ADR_TYPE_NONE",   0);
+define ("ADR_TYPE_DOM",    1);
+define ("ADR_TYPE_INTL",   2);
+define ("ADR_TYPE_POSTAL", 4);
+define ("ADR_TYPE_PARCEL", 8);
+define ("ADR_TYPE_HOME",  16);
+define ("ADR_TYPE_WORK",  32);
+define ("ADR_TYPE_PREF",  64);
+
+/**
+* Communication values for the TEL type
+*
+* @type	integer
+*/
+define ("TEL_TYPE_NONE",     0);
+define ("TEL_TYPE_HOME",     1);
+define ("TEL_TYPE_MSG",      2);
+define ("TEL_TYPE_WORK",     4);
+define ("TEL_TYPE_PREF",     8);
+define ("TEL_TYPE_VOICE",   16);
+define ("TEL_TYPE_FAX",     32);
+define ("TEL_TYPE_CELL",    64);
+define ("TEL_TYPE_VIDEO",  128);
+define ("TEL_TYPE_PAGER",  256);
+define ("TEL_TYPE_BBS",    512);
+define ("TEL_TYPE_MODEM", 1024);
+define ("TEL_TYPE_CAR",   2048);
+define ("TEL_TYPE_ISDN",  4096);
+define ("TEL_TYPE_PCS",   8192);
+
+/**
+* Communication values for the EMAIL type
+*
+* @type	integer
+*/
+define ("EMAIL_TYPE_NONE",     0);
+define ("EMAIL_TYPE_INTERNET", 1);
+define ("EMAIL_TYPE_x400",     2);
+define ("EMAIL_TYPE_PREF",     4);
+
 class ilvCard 
 {
 /**
@@ -351,4 +396,315 @@ class ilvCard
 	
 }
 
+// Delivery Addressing Types
+//
+// These types are concerned with information related to the delivery
+// addressing or label for the vCard object.
+
+/**
+* Sets the value for the vCard ADR type.
+*
+* Sets the value for the vCard ADR type to specify
+* the components of the delivery address for the vCard object.
+*
+* Type example:
+*
+* ADR;TYPE=dom,home,postal,parcel:;;123 Main
+*   Street;Any Town;CA;91921-1234
+*
+* Type special notes: The structured type value consists of a sequence
+* of address components. The component values MUST be specified in
+* their corresponding position. The structured type value corresponds,
+* in sequence, to the post office box; the extended address; the street
+* address; the locality (e.g., city); the region (e.g., state or
+* province); the postal code; the country name. When a component value
+* is missing, the associated component separator MUST still be
+* specified.
+* 
+* The text components are separated by the SEMI-COLON character (ASCII
+* decimal 59). Where it makes semantic sense, individual text
+* components can include multiple text values (e.g., a "street"
+* component with multiple lines) separated by the COMMA character
+* (ASCII decimal 44).
+* 
+* The type can include the type parameter "TYPE" to specify the
+* delivery address type. The TYPE parameter values can include "dom" to
+* indicate a domestic delivery address; "intl" to indicate an
+* international delivery address; "postal" to indicate a postal
+* delivery address; "parcel" to indicate a parcel delivery address;
+* "home" to indicate a delivery address for a residence; "work" to
+* indicate delivery address for a place of work; and "pref" to indicate
+* the preferred delivery address when more than one address is
+* specified. These type parameter values can be specified as a
+* parameter list (i.e., "TYPE=dom;TYPE=postal") or as a value list
+* (i.e., "TYPE=dom,postal"). This type is based on semantics of the
+* X.520 geographical and postal addressing attributes. The default is
+* "TYPE=intl,postal,parcel,work". The default can be overridden to some
+* other set of values by specifying one or more alternate values. For
+* example, the default can be reset to "TYPE=dom,postal,work,home" to
+* specify a domestic delivery address for postal delivery to a
+* residence that is also used for work.
+*
+* @param string $po_box Post office box
+* @param string $extended_address Extended address
+* @param string $street_address Street address
+* @param string $locality Locality (e.g. city)
+* @param string $region Region (e.g. state or province)
+* @param string $postal_code Postal code
+* @param string $country Country
+* @param	integer $type The address type (can be combined with the + operator)
+* @access	public
+*/
+	function setAddress(
+		$po_box = "",
+		$extended_address = "",
+		$street_address = "",
+		$locality = "",
+		$region = "",
+		$postal_code = "",
+		$country = "",
+		$type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK
+	)
+	{
+	}
+	
+/**
+* Sets the value for the vCard LABEL type.
+*
+* Sets the value for the vCard LABEL type to specify
+* the formatted text corresponding to delivery
+* address of the object the vCard represents
+*
+* Type example: A multi-line address label.
+*
+* LABEL;TYPE=dom,home,postal,parcel:Mr.John Q. Public\, Esq.\n
+*   Mail Drop: TNE QB\n123 Main Street\nAny Town\, CA  91921-1234
+*   \nU.S.A.
+*
+* Type special notes: The type value is formatted text that can be used
+* to present a delivery address label for the vCard object. The type
+* can include the type parameter "TYPE" to specify delivery label type.
+* The TYPE parameter values can include "dom" to indicate a domestic
+* delivery label; "intl" to indicate an international delivery label;
+* "postal" to indicate a postal delivery label; "parcel" to indicate a
+* parcel delivery label; "home" to indicate a delivery label for a
+* residence; "work" to indicate delivery label for a place of work; and
+* "pref" to indicate the preferred delivery label when more than one
+* label is specified. These type parameter values can be specified as a
+* parameter list (i.e., "TYPE=dom;TYPE=postal") or as a value list
+* (i.e., "TYPE=dom,postal"). This type is based on semantics of the
+* X.520 geographical and postal addressing attributes. The default is
+* "TYPE=intl,postal,parcel,work". The default can be overridden to some
+* other set of values by specifying one or more alternate values. For
+* example, the default can be reset to "TYPE=intl,post,parcel,home" to
+* specify an international delivery label for both postal and parcel
+* delivery to a residential location.
+*
+* @param string $label The address label
+* @param	integer $type The address type (can be combined with the + operator)
+* @access	public
+*/
+	function setLabel($label = "", $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK)
+	{
+	}
+
+// Telecommunications Addressing Types
+//
+// These types are concerned with information associated with the
+// telecommunications addressing of the object the vCard represents.
+	
+/**
+* Sets the value for the vCard TEL type.
+*
+* Sets the value for the vCard TEL type to specify
+* the telephone number for telephony communication 
+* with the object the vCard represents.
+*
+* Type example:
+*
+* TEL;TYPE=work,voice,pref,msg:+1-213-555-1234
+*
+* Type special notes: The value of this type is specified in a
+* canonical form in order to specify an unambiguous representation of
+* the globally unique telephone endpoint. This type is based on the
+* X.500 Telephone Number attribute.
+* 
+* The type can include the type parameter "TYPE" to specify intended
+* use for the telephone number. The TYPE parameter values can include:
+* "home" to indicate a telephone number associated with a residence,
+* "msg" to indicate the telephone number has voice messaging support,
+* "work" to indicate a telephone number associated with a place of
+* vwork, "pref" to indicate a preferred-use telephone number, "voice" to
+* indicate a voice telephone number, "fax" to indicate a facsimile
+* telephone number, "cell" to indicate a cellular telephone number,
+* "video" to indicate a video conferencing telephone number, "pager" to
+* indicate a paging device telephone number, "bbs" to indicate a
+* bulletin board system telephone number, "modem" to indicate a MODEM
+* connected telephone number, "car" to indicate a car-phone telephone
+* number, "isdn" to indicate an ISDN service telephone number, "pcs" to
+* indicate a personal communication services telephone number. The
+* default type is "voice". These type parameter values can be specified
+* as a parameter list (i.e., "TYPE=work;TYPE=voice") or as a value list
+* (i.e., "TYPE=work,voice"). The default can be overridden to another
+* set of values by specifying one or more alternate values. For
+* example, the default TYPE of "voice" can be reset to a WORK and HOME,
+* VOICE and FAX telephone number by the value list
+* "TYPE=work,home,voice,fax".
+*
+* @param string $number The phone number
+* @param	integer $type The address type (can be combined with the + operator)
+* @access	public
+*/
+	function setPhone($number = "", $type = TEL_TYPE_VOICE)
+	{
+	}
+	
+/**
+* Sets the value for the vCard EMAIL type.
+*
+* Sets the value for the vCard EMAIL type to specify
+* the electronic mail address for communication with 
+* the object the vCard represents.
+*
+* Type example:
+*
+* EMAIL;TYPE=internet:jqpublic@xyz.dom1.com
+* EMAIL;TYPE=internet:jdoe@isp.net
+* EMAIL;TYPE=internet,pref:jane_doe@abc.com
+*
+* Type special notes: The type can include the type parameter "TYPE" to
+* specify the format or preference of the electronic mail address. The
+* TYPE parameter values can include: "internet" to indicate an Internet
+* addressing type, "x400" to indicate a X.400 addressing type or "pref"
+* to indicate a preferred-use email address when more than one is
+* specified. Another IANA registered address type can also be
+* specified. The default email type is "internet". A non-standard value
+* can also be specified.
+*
+* @param string $address The email address
+* @param	integer $type The address type (can be combined with the + operator)
+* @access	public
+*/
+	function setEmail($address = "", $type = EMAIL_TYPE_INTERNET)
+	{
+	}
+	
+/**
+* Sets the value for the vCard MAILER type.
+*
+* Sets the value for the vCard MAILER type to specify
+* the type of electronic mail software that is used by 
+* the individual associated with the vCard.
+*
+* Type example:
+*
+* MAILER:PigeonMail 2.1
+*
+* Type special notes: This information can provide assistance to a
+* correspondent regarding the type of data representation which can be
+* used, and how they can be packaged. This property is based on the
+* private MIME type X-Mailer that is generally implemented by MIME user
+* agent products.
+*
+* @param string $name The mailer name
+* @access	public
+*/
+	function setMailer($name = "")
+	{
+	}
+	
+// Geographical Types
+//
+// These types are concerned with information associated with
+// geographical positions or regions associated with the object the
+// vCard represents.
+
+	function setTimezone()
+	{
+	}
+	
+	function setPosition()
+	{
+	}
+	
+// Organizational Types
+//
+// These types are concerned with information associated with
+// characteristics of the organization or organizational units of the
+// object the vCard represents.
+
+	function setTitle()
+	{
+	}
+	
+	function setRole()
+	{
+	}
+	
+	function setLogo()
+	{
+	}
+	
+	function setAgent()
+	{
+	}
+	
+	function setOrganization()
+	{
+	}
+	
+// Explanatory Types
+//
+// These types are concerned with additional explanations, such as that
+// related to informational notes or revisions specific to the vCard.
+
+	function setCategories()
+	{
+	}
+	
+	function setNote()
+	{
+	}
+	
+	function setProductId()
+	{
+	}
+	
+	function setRevision()
+	{
+	}
+	
+	function setSortString()
+	{
+	}
+	
+	function setSound()
+	{
+	}
+	
+	function setUID()
+	{
+	}
+	
+	function setURL()
+	{
+	}
+	
+	function setVersion()
+	{
+	}
+	
+// Security Types
+//
+// These types are concerned with the security of communication pathways
+// or access to the vCard.
+
+	function setClassification()
+	{
+	}
+	
+	function setKey()
+	{
+	}
+	
 ?>
