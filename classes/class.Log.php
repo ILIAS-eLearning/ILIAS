@@ -60,14 +60,25 @@ class Log extends PEAR
 	* only add a log entry to the logfile
 	* if there isn't a logentry for the topic
 	* 
-	* @param string
-	* @access public
+	* @param	string
+	* @access	public
 	*/
 	function writeLanguageLog($topic)
 	{
 		//TODO: go through logfile and search for the topic
 		//only write the log if the error wasn't reported yet
 		$this->write("Language: "."topic -".$topic."- not present");
+	}
+
+	/**
+	* special warning message
+	* 
+	* @param	string
+	* @access	public
+	*/
+	function writeWarning($a_message)
+	{
+		$this->write("WARNING: ".$a_message);
 	}
 	
 	/**
