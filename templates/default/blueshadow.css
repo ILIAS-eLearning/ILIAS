@@ -292,7 +292,7 @@ input.ilEditSubmit {
 }
 
 input.ilEditHelpline {
-	background-color:#dddddd;;
+	background-color:#eeeeee;
 	border-style:none;
 	padding:4px;
 	background-image: none;
@@ -364,4 +364,21 @@ select.ilEditSelect {
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
 	display: block;
+}
+
+/* ------------------ styles for lm content, should be separated
+	in a distinct css sometime -------------- */
+span.ilStrong
+{
+	font-weight: bold;
+}
+
+span.ilEmph
+{
+	font-style: italic;
+}
+
+span.ilComment
+{
+	color: blue;
 }

@@ -140,6 +140,11 @@ class ilLMObject
 		$this->meta_data =& $a_meta_data;
 	}
 
+	function getMetaData()
+	{
+		return $this->meta_data;
+	}
+
 
 }
 ?>

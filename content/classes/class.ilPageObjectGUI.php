@@ -150,6 +150,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
 		$num = 0;
 
+		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=edpost");
 
