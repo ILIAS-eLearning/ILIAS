@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.57 2003/10/29 19:45:54 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.58 2003/10/31 12:33:22 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -556,14 +556,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			else
 			{
 				$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-			
+				
+				$global_roles = $rbacreview->getGlobalRoles();
 				$online_users_all = ilUtil::getUsersOnline();
 				$assigned_users_all = $rbacreview->assignedUsers($this->object->getId());
 				$assigned_users = array_intersect($assigned_users_all,$_SESSION["user_list"]);
 				$online_users_keys = array_intersect(array_keys($online_users_all),$_SESSION["user_list"]);
 				$affected_users = array();
 				
-				// check for each user if the current role is his last role before deassigning him
+				// check for each user if the current role is his last global role before deassigning him
 				$last_role = array();
 				
 				foreach ($assigned_users as $user_id)
@@ -572,7 +573,9 @@ class ilObjRoleGUI extends ilObjectGUI
 					{
 						$assigned_roles = $rbacreview->assignedRoles($user_id);
 						
-						if (count($assigned_roles) == 1)
+						$assigned_global_roles = array_intersect($assigned_roles,$global_roles);
+				
+						if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array($this->object->getId(),$assigned_global_roles)))
 						{
 							$userObj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
 							$last_role[$user_id] = $userObj->getFullName();
@@ -587,7 +590,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$user_list = implode(", ",$last_role);
 					$this->ilias->raiseError($this->lng->txt("msg_is_last_role").": ".$user_list."<br/>".$this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
 				}
-
+				
 				// ...otherwise continue assignment
 				foreach ($online_users_all as $user_id => $user_data)
 				{
