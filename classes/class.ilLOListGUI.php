@@ -272,7 +272,6 @@ class ilLOListGUI
 		$this->tpl->setVariable("FORMACTION", "lo_list.php?cmd=post&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("ACTIONTARGET", "bottom");
 
-
 		$lr_num = count($lr_arr);
 
 		// render table content data
@@ -409,7 +408,7 @@ class ilLOListGUI
 
 	function export()
 	{
-		
+
 		//  select min one element
 		if(!is_array($_POST["items"]) || count($_POST["items"])==0 )
 		{
@@ -568,7 +567,7 @@ class ilLOListGUI
 				$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("submit"));
 				$this->tpl->parseCurrentBlock();
 			}
-				
+
 		}
 	}
 
