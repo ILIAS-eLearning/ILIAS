@@ -48,13 +48,13 @@ change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
 check_failed_convert#:#Test di conversione fallito
 check_failed_htmldoc#:#Test HTMLdoc fallito
-check_failed_java#:#Test per java fallito###14 Sep 2004 content changed
+check_failed_java#:#Test Java fallito
 check_failed_unzip#:#Test di decompressione fallito
 check_failed_zip#:#Test di compressione fallito
 choose_language#:#Scegli la Tua lingua
 choose_languages#:#Per favore, scegli alcune lingue ulteriori e/o remuovi le lingue selezionate.
 choose_password#:#Per favore, scegli una password
-city#:#Citt&#224;###14 Sep 2004 content changed
+city#:#Citt&#224;
 client#:#Client
 client_access_mode_changed#:#Tipo di accesso del client cambiato
 client_data#:#Dati del client
@@ -68,7 +68,7 @@ contact#:#Informazioni utente
 contact_data#:#Dati dell'amministratore
 convert_path#:#Percorso del programma di conversione di immagini
 convert_path_comment#:#Richiesto per poter mostrare le immagini in formato piccolo
-could_not_create_logfile#:#Impossibile creare il file di log###14 Sep 2004 content changed
+could_not_create_logfile#:#Impossibile creare il file di log.
 country#:#Nazione
 create#:#Crea
 create_datadir_failed#:#Creazione della cartella data fallita
@@ -82,14 +82,14 @@ database_install#:#Installa il database
 database_installed#:#Database installato
 database_is_uptodate#:#Database aggiornato
 database_needs_update#:#Il database deve essere aggiornato
-database_not_exists_create_first#:#Il database non esiste. Prima devi creare il database.###15 Sep 2004 content changed
+database_not_exists_create_first#:#Il database non esiste. Prima devi creare il database.
 database_ready#:#Database pronto.
 database_update#:#Aggiorna il database
 database_version#:#Versione attuale del database
 datadir_path#:#Percorso della cartella data
 datadir_path_comment1#:#Obbligatorio. Deve essere esterna al webspace.
 datadir_path_comment2#:#non pu&#242; essere cambiato in questa versione dell&#039;installazione
-datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la cartella creata all&#039;interno del webspace. Per favore, scegli per i dati una cartella all&#039;esterno del webspace.###14 Sep 2004 content changed
+datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la cartella creata all&#039;interno del webspace. Per favore, scegli per i dati una cartella all&#039;esterno del webspace.
 date#:#Data
 db_conn#:#Connessione al Database
 db_host#:#Macchina con il database
@@ -120,8 +120,8 @@ enabled#:#abilitato
 enter_dir_and_filename#:#Per favore, specifica il percorso completo (assoluto) ed il nome del file ! 
 enter_password#:#Per favore, inserisci la password
 env_ok#:#Ok. Sembra corretto.
-env_using#:#ILIAS3 girer&#224; su
-env_warning#:#ILIAS3 &#232; stato testato solo utilizzando Apache come web server su piattaforme Linux e Windows!<br/>Comunque, ILIAS3 potrebbe funzionare anche con la tua configurazione.
+env_using#:#ILIAS 3 girer&#224; su
+env_warning#:#ILIAS 3 &#232; stato testato solo utilizzando Apache come web server su piattaforme Linux e Windows!<br/>Comunque, ILIAS 3 potrebbe funzionare anche con la tua configurazione.
 environment#:#Ambiente
 err_create_database_failed#:#Creazione database fallita
 err_wrong_login#:#Login errata
@@ -133,9 +133,9 @@ fill_both_fields#:#Per favore, riempi entambi i campi!
 fill_out_required_fields#:#Mancano alcuni campi obbligatori
 filled_out#:#riempito correttamente
 finish#:#Termina
-finish_initial_setup_first#:#Per favore, termina l&#installazione; prima###14 Sep 2004 content changed
+finish_initial_setup_first#:#Per favore, prima devi terminare l'installazione
 finish_setup#:#Installazione terminata
-firstname#:#Nome###14 Sep 2004 content changed
+firstname#:#Nome
 fop_path#:#Percorso di FOP
 fop_path_comment#:#richiesto per generare documenti PDF
 hide_clientlist#:#Nascondi la lista dei client
@@ -144,31 +144,31 @@ htmldoc_path#:#Percorso della cartella con i doc HTML
 htmldoc_path_comment#:#Richiesto per generare le fatturazioni in formato PDF (nei sistemi a pagamento)
 http_path#:#percorso HTTP 
 id#:#ID
-ilias_homepage#:#Homepage ILIAS3
+ilias_homepage#:#Homepage ILIAS 3
 ilias_nic#:#Registrazione NIC
 ilias_nic_id#:#NIC ID
-ilias_setup#:#Installazione di ILIAS3###14 Sep 2004 content changed
-ilias_version#:#Versione di ILIAS3
-info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi indicati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.###14 Sep 2004 content changed
-info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione 'crea il database'. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire(per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.###14 Sep 2004 content changed
+ilias_setup#:#Installazione di ILIAS 3
+ilias_version#:#Versione di ILIAS 3
+info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi indicati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
+info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione 'crea il database'. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire(per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.
 info_text_delete#:#Puoi cancellare questo client agendo cliccando sul pulsante qui sotto. Comunque, solamente il tuo file client.ini verr&#224; cancellato, tutti i file contenuti nelle cartelle di dati ed il contenuto del database saranno mantenuti. I file ed il database potranno essere rimossi successivamente manualmente dall&#039;amministratore di sistema.
-info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232; stata eseguita con successo. <br/>Clicca su 'Login' per entrare in ILIAS3.
+info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232; stata eseguita con successo. <br/>Clicca su 'Login' per entrare in ILIAS 3.
 info_text_finish2#:#Alcune impostazioni sono ancora mancanti o non corrette. Per favore, verifica nella sequenza dei passi della procedura cosa deve essere fatto!
 info_text_first_client#:#Le tue impostazioni di base sono state salvate.<br/> Adesso puoi creare il primo client. La procedura di installazione ti guider&#224; nel resto del processo. <br/>Sul pannello a destra puoi vedere in ogni istante lo stato attuale del processo di installazione.
-info_text_first_install#:#Sembra che questa sia la prima volta che installi ILIAS3, visto che non &#232; presente il file ilias.ini.<br/> In ilias.ini viene messa la password di amministratore in modo da proteggere l'accesso alla procedura di installazione di ILIAS3 da parte di utenti non autorizzati.###14 Sep 2004 content changed
-info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve essere costituito da un&#039;unica parola (sono consentiti solo caratteri alfanumerici).<br/>Successivamente dovrai indicare le informazioni relative alla connessione al database. <br/>La procedura di installazione effettuer&#224; dei test sulla connessione per verificare le impostazioni e controllare se il database gi&#224; esiste. Nel caso non esista, puoi procedere con l&#039;installazione, il passo successivo creer&#224; il database per te.###14 Sep 2004 content changed
-info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.###14 Sep 2004 content changed
-info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.###14 Sep 2004 content changed
+info_text_first_install#:#Sembra che questa sia la prima volta che installi ILIAS 3, visto che non &#232; presente il file ilias.ini.<br/> In ilias.ini viene messa la password di amministratore in modo da proteggere l'accesso alla procedura di installazione di ILIAS3 da parte di utenti non autorizzati.
+info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve essere costituito da un&#039;unica parola (sono consentiti solo caratteri alfanumerici).<br/>Successivamente dovrai indicare le informazioni relative alla connessione al database. <br/>La procedura di installazione effettuer&#224; dei test sulla connessione per verificare le impostazioni e controllare se il database gi&#224; esiste. Nel caso non esista, puoi procedere con l&#039;installazione, nel passo successivo verr&#224; creato il database.
+info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
+info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS 3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
-info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3.<br/>Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca su###14 Sep 2004 content changed
-info_text_nic2#:#ed invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inserisci i dati nei campi appropriati.###14 Sep 2004 content changed
+info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS 3.<br/>Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS 3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca su
+info_text_nic2#:#ed invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inserisci i dati nei campi appropriati.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo nic-id &#232;
-info_text_password#:#Indica la vecchia password e poi digita due volte la nuova###14 Sep 2004 content changed
-info_text_pathes#:#ILIAS 3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.###14 Sep 2004 content changed
+info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
+info_text_pathes#:#ILIAS 3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
 ini_client_id_exists#:#Un client con questo ID esiste gi&#224;! Per favore, scegline un altro.
-ini_client_id_invalid#:#Il client ID che hai specificato contiene caratteri non validi###14 Sep 2004 content changed
-ini_client_id_no_change#:#L&#039;Id del client non pu&#242; essere cambiato (in questa versione) dopo che sono state create con successo le cartelle del client.###14 Sep 2004 content changed
-ini_client_id_too_long#:#Client ID troppo lungo.###14 Sep 2004 content changed
+ini_client_id_invalid#:#Il client ID che hai specificato contiene caratteri non validi
+ini_client_id_no_change#:#L&#039;Id del client non pu&#242; essere cambiato (in questa versione) dopo che sono state create con successo le cartelle del client.
+ini_client_id_too_long#:#Client ID troppo lungo.
 ini_client_id_too_short#:#Client ID troppo corto.
 ini_db_name_exists#:#gi&#224; esistente! Per favore, scegli un altro nome per il database
 ini_no_client_id#:#Non &#232; stato specificato l&#039;Id del client.
@@ -208,7 +208,7 @@ lang_min_one_language#:#Devi installare almeno una lingua!
 lang_nl#:#Olandese
 lang_no#:#Norvegese
 lang_none_installed#:#Nessuna lingua installata
-lang_not_installed_default#:#La lingua che hai selezionato come predefinita non &#232; stata installata !###14 Sep 2004 content changed
+lang_not_installed_default#:#La lingua che hai selezionato come predefinita non &#232; stata installata !
 lang_pl#:#Polacco
 lang_pt#:#Portoghese
 lang_se#:#Svedese
@@ -219,19 +219,19 @@ langs_not_valid_not_installed#:#Le seguenti lingue non sono state installate per
 language#:#Lingua
 languages#:#Lingue
 languages_installed#:#Lingue installate.
-lastname#:#Cognome###14 Sep 2004 content changed
+lastname#:#Cognome
 list#:#Lista_dei_client
 list_disabled#:#La selezione dei client &#232; disabilitata
 list_enabled#:#La selezione dei client &#232; abilitata
-log_path#:#Percorso del file di Log###14 Sep 2004 content changed
-log_path_comment#:#Indica il nome del file. Il file verr&#224; creato.###14 Sep 2004 content changed
+log_path#:#Percorso del file di Log
+log_path_comment#:#Indica il nome del file. Il file verr&#224; creato.
 logged_out#:#Sei uscito dalla procedura di installazione.
 logging#:#Logging
 login#:#Login
 login_invalid#:#Login non valido
 login_to_ilias#:#Entra in ILIAS 3
 logout#:#Esci
-main_datadir_outside_webspace#:#Cartella principale dei dati###14 Sep 2004 content changed
+main_datadir_outside_webspace#:#Cartella principale dei dati (esterna al webspace)
 missing_data#:#Dati non trovati
 name#:#Nome
 new#:#nuovo
@@ -261,7 +261,7 @@ no_path_datadir#:#Non &#232; stata specificata la cartella data
 no_path_fop#:#Non &#232; stato specificato il percorso per FOP
 no_path_given#:#Non &#232; stato specificato il percorso
 no_path_htmldoc#:#Non &#232; stato specificato il percorso per HTMLdoc
-no_path_java#:#Non &#232; stato specificato il percordo di java###14 Sep 2004 content changed
+no_path_java#:#Non &#232; stato specificato il percordo per java
 no_path_log#:#Non &#232; stato specificato il percorso del log
 no_path_unzip#:#Non &#232; stato specificato il percorso per l'unzip
 no_path_zip#:#Non &#232; stato specificato il percorso per lo zip
@@ -271,7 +271,7 @@ no_valid_client_id#:#Nessun client valido
 not_connected_to_db#:#Non sei connesso al Database.
 online#:#online
 or#:#or
-out_of_webspace#:#(esaurito lo spazio nella cartella webdata)###14 Sep 2004 content changed
+out_of_webspace#:#(esaurito lo spazio nella cartella webdata)
 overall_status#:#Stato complessivo
 overview#:#Descrizione
 pass_does_not_match#:#La password psecificata non &#232; corretta
@@ -279,7 +279,7 @@ password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
 password_enter_old#:#You must enter your old password first!
-password_info#:#Per proteggere i dati della configurazione, in futuro dovrai specificare questa password per poter accedere all'installazione di ILIAS 3.
+password_info#:#Per proteggere i dati della configurazione, in futuro dovrai specificare questa password per poter accedere alla procedurea di installazione di ILIAS 3.
 password_new_master#:#Specifica la nuova password
 password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
@@ -293,7 +293,7 @@ path_to_htmldoc#:#Percorso della cartella con i doc HTML
 path_to_java#:#Percorso a Java
 path_to_unzip#:#Percorso del programma di unzip
 path_to_zip#:#Percorso del programma di Zip
-pathes#:#Configurazione###14 Sep 2004 content changed
+pathes#:#Configurazione
 phone#:#Telefono
 port#:#porta
 position#:#Posizione
@@ -304,9 +304,9 @@ pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS 3
 pre_folder_create_error#:#Non riesco a creare delle cartelle! Verifica le impostazioni dei permessi nel filesystem!
 pre_folder_write#:#Cartella di ILIAS 3 scrivibile
 pre_folder_write_error#:#Non riesco a scrivere nella cartella di ILIAS 3! Verifica le impostazioni dei permessi nel filesystem!
-pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.###14 Sep 2004 content changed
-pre_javascript_comment#:#Puoi utilizzare ILIAS 3 senza Javascript ma perdereai alcune funzionalit&#224; dell&#039;interfccia.###14 Sep 2004 content changed
-pre_javascript_enabled#:#Javascript abilitati###14 Sep 2004 content changed
+pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.
+pre_javascript_comment#:#Puoi utilizzare ILIAS 3 senza Javascript ma non avrai disponibili alcune funzionalit&#224; dell&#039;interfccia.
+pre_javascript_enabled#:#Javascript abilitati
 pre_php_version#:#Versione di PHP
 pre_php_version_3#:#La tua versione di PHP &#232; troppo vecchia per ILIAS 3! Per favore, aggiorna la versione di PHP.
 pre_php_version_4.1#:#Le classi PEAR non funzionano correttamente con questa versione! Per favore, aggiorna la versione di PHP.
@@ -337,14 +337,14 @@ setup_database#:#Installazione del database
 setup_database_desc#:#installare il database
 setup_db_first#:#Per favore, crea prima il database!
 setup_finished#:#Installazione completata
-setup_first_client#:#Definisci il tuo primo client###14 Sep 2004 content changed
+setup_first_client#:#Definisci il tuo primo client
 setup_ini_first#:#Per favore, crea prima il file ilias.ini!
 setup_inifile#:#Creazione del file ilias.ini
 setup_inifile_desc#:#creare il file ilias.ini con i dati dell&#039;installazione
 setup_languages#:#Installa le lingue
 setup_languages_desc#:#installare ulteriori lingue 
 setup_login#:#Login per l&#039;installazione
-setup_mainmenu#:#Menu principale dell&#039;installazione###14 Sep 2004 content changed
+setup_mainmenu#:#Menu principale dell&#039;installazione
 setup_menu#:#Menu dell&#039;installazione
 setup_nic_desc#:#registrare l&#039;installazione al server NIC
 setup_not_finished#:#Installazione non completata
@@ -359,7 +359,7 @@ setup_process_step_db#:#crea e aggiorna il database
 setup_process_step_finish#:#termina l&#039;installazione
 setup_process_step_ini#:#imposta i dati di base
 setup_process_step_lang#:#installa le lingue di sistema
-setup_process_step_nic#:#registrati a ILIAS-NIC
+setup_process_step_nic#:#procurati un ILIAS-NIC
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
 sort_by_this_column#:#Ordina secondo questa colonna
@@ -378,9 +378,9 @@ update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
 username#:#utente
 version#:#Versione
-webspace_dir#:#Percorso della cartella webdata###14 Sep 2004 content changed
+webspace_dir#:#Percorso della cartella webdata
 with#:#con
 wrong_password#:#Password errata!
 zip_path#:#Percorso dello Zip
 zip_path_comment#:#Richiesto per l&#039;importazione dei Moduli esterni
-zipcode#:#Codice Postale###14 Sep 2004 content changed
+zipcode#:#Codice Postale
