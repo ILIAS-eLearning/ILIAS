@@ -202,11 +202,13 @@ class ilForumExplorer extends ilExplorer
 
 		foreach ($a_option["tab"] as $picture)
 		{
+			
+
 			if ($picture == 'plus')
 			{
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
 			}
@@ -215,7 +217,7 @@ class ilForumExplorer extends ilExplorer
 			{
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 			}
@@ -223,7 +225,9 @@ class ilForumExplorer extends ilExplorer
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
+				$target = $_SERVER["REQUEST_URI"];
 				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
 				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 				$tpl->parseCurrentBlock();
