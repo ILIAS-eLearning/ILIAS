@@ -275,6 +275,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->object->setQuestion(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
 		$this->object->setPoints($_POST["applet_points"]);
+		// adding estimated working time
+		$saved = $saved | $this->writeOtherPostData($result);
 
 		if ($_POST["id"] > 0)
 		{
