@@ -571,11 +571,9 @@ class ilObjectGUI
 		{
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-				$parent_id = $this->tree->getParentId($ref_id);
-				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
-				$tmpObj->notify("cut", $tmpObj->getRefId());
-				unset($tmpObj);
-
+				
+				$this->notify->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
+				
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -611,7 +609,7 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("paste", $_GET["ref_id"]);
+			$this->object->notify("paste", $_GET["ref_id"],$_GET["ref_id"]);
 		} // END CUT
 
 		// process LINK command
@@ -685,7 +683,7 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			$this->object->notify("link",$_GET["ref_id"],$mapping);
+			$this->object->notify("link",$_GET["ref_id"],$_GET["ref_id"],$mapping);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -858,10 +856,11 @@ class ilObjectGUI
 			$this->cloneNodes($id,$this->ref_id,$mapping);
 			
 		}
-
+		
 		// inform other objects in hierarchy about cut operation
-		$this->object->notify("copy",$_GET["ref_id"],$mapping);			
-
+		$this->object->notify("copy",$_GET["ref_id"],$_GET["ref_id"],$mapping);			
+ 		
+ 
 		$this->clearObject();
 
 		sendinfo($this->lng->txt("msg_cloned"),true);
@@ -1266,7 +1265,8 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-
+			$newObj->notify("new",$_GET["ref_id"],$_GET["ref_id"]);
+			
 //			$location = $this->getReturnLocation("save","adm_object.php");
 //			$newObj->setReturnLocation("save",$location);
 

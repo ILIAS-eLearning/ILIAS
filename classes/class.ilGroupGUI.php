@@ -779,7 +779,7 @@ class ilGroupGUI extends ilObjectGUI
 				// delete old tree entries
 				$this->tree->deleteTree($top_node);
 				
-				$this->object->notify("cut", $tmpObj->getRefId(),$tmpObj->getRefId());
+				$this->object->notify("cut", $_GET["ref_id"],$_GET["ref_id"]);
 
 				unset($tmpObj);
 			}
