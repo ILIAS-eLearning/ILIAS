@@ -182,7 +182,7 @@ assessment#:#tst_eval_total_passed#:#Test totali passati
 assessment#:#tst_eval_total_passed_average_points#:#Punteggio medio dei test passati
 assessment#:#tst_eval_total_persons#:#Numero totale delle persone che hanno inserito il test
 assessment#:#tst_general_properties#:#Propriet&#224; generali
-assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
+assessment#:#tst_generate_xls#:#Genera un Foglio elettronico
 assessment#:#tst_insert_missing_question#:#Per favore, inserisci almeno una domanda da inserire nel test!
 assessment#:#tst_insert_questions#:#Sei sicuro che vuoi inserire la(e) seguente(i) domanda(e) nel test?
 assessment#:#tst_insert_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da  %s utente(i). Inserire domande nel test causer&#224 la cancellazione di tutti i risultati per questo utente. Sei sicuro che vuoi inserire le seguenti domande nel test?
@@ -213,13 +213,13 @@ assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stat
 assessment#:#tst_report_after_question#:#Esegui un resoconto del punteggio dopo la risposta ad ogni domanda
 assessment#:#tst_report_after_test#:#Esegui un resoconto del punteggio dopo aver completato il test
 assessment#:#tst_result_congratulations#:#Congratulazioni! Hai superato il test
-assessment#:#tst_result_sorry#:#Mi dispiace! NOn hai superato il test
+assessment#:#tst_result_sorry#:#Mi dispiace! Non hai superato il test
 assessment#:#tst_results#:#Risultati del test
 assessment#:#tst_resume_test#:#Riprendi il test
 assessment#:#tst_score_reporting#:#Rapporto del punteggio
 assessment#:#tst_score_reporting_date#:#Data del rapporto del punteggio
 assessment#:#tst_score_type#:#Tipo del rapporto del punteggio
-assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
+assessment#:#tst_select_questionpool#:#Per favore, seleziona una esercitazione alla quale aggiungere la domanda creata
 assessment#:#tst_sequence#:#Sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
 assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; posporre la domanda alla fine del test
@@ -385,7 +385,7 @@ common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo
 common#:#at_location#:#alla locazione
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachment
-common#:#attend#:#Attend###03 Apr 2004 new variable
+common#:#attend#:#Frequenta
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
@@ -410,10 +410,10 @@ common#:#btn_undelete#:#annulla la cancellazione
 common#:#by#:#da
 common#:#calendar#:#Calendario
 common#:#cancel#:#Cancella
-common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
+common#:#cannot_find_xml#:#Non ho trovato nessun file XML.
 common#:#cannot_uninstall_language_in_use#:#Non &egrave; possibile rimuovere la lingua che &#232; correntemente in uso!
 common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lingua di sistema!
-common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
+common#:#cannot_unzip_file#:#Non posso decomprimere il file.
 common#:#cat#:#Categoria
 common#:#cat_a#:#Una categoria
 common#:#cat_add#:#Aggiungi categoria
@@ -442,17 +442,17 @@ common#:#cat_write#:#Modifica categoria
 common#:#categories#:#Categorie
 common#:#categories_imported#:#Imporazione categorie completata.
 common#:#cc#:#cc
-common#:#cen#:#Centra Event###03 Apr 2004 new variable
-common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
-common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
-common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
-common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
-common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
-common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
+common#:#cen#:#Evento principale
+common#:#cen_add#:#Aggiungi l'evento principale
+common#:#cen_added#:#Aggiunto l'evento principale
+common#:#cen_delete#:#Cancella l'evento principale
+common#:#cen_edit#:#Modifica l'evento principale
+common#:#cen_new#:#Nuovo evento principale
+common#:#cen_save#:#Salva l'evento principale
 common#:#censorship#:#Moderatore
-common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
-common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
-common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
+common#:#centra_account#:#Amministratore principale
+common#:#centra_rooms#:#Stanze principali
+common#:#centra_server#:#Server principale
 common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chac_read#:#Accedere in lettura alle impostazioni delle chat
 common#:#chac_visible#:#Vedere le impostazioni delle chat
@@ -480,7 +480,7 @@ common#:#check#:#Controlla
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
-common#:#checked_files#:#Importable files###31 Mar 2004 new variable
+common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
 common#:#choose_language#:#Scegli la lingua
@@ -574,7 +574,7 @@ common#:#desc#:#Descrivi
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
 common#:#disabled#:#Disabilitato
-common#:#domain#:#Domain###03 Apr 2004 new variable
+common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
 common#:#drafts#:#Bozze
@@ -604,7 +604,7 @@ common#:#err_role_not_assignable#:#Non puoi assegnare utenti a questo ruolo in q
 common#:#err_session_expired#:#La sessione &#232; scaduta!
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
-common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
+common#:#error_parser#:#Errore nell'esecuzione del parser
 common#:#error_recipient#:#Destinatario per gli errori
 common#:#exc#:#Esercizio
 common#:#exc_add#:#Aggiungi esercizio
@@ -686,14 +686,14 @@ common#:#frm_add#:#Aggiungi forum
 common#:#frm_added#:#Forum aggiunto
 common#:#frm_create#:#Crea un forum
 common#:#frm_delete#:#Cancella il forum
-common#:#frm_delete_post#:#Cancella un post###30 Mar 2004 content changed
+common#:#frm_delete_post#:#Cancella un post
 common#:#frm_edit#:#Modifica forum
 common#:#frm_edit_permission#:#Modifica le impostazioni dei permessi
-common#:#frm_edit_post#:#Modifica un post###30 Mar 2004 content changed
+common#:#frm_edit_post#:#Modifica un post
 common#:#frm_new#:#Nuovo forum
 common#:#frm_read#:#Accedere in lettura ai forum
 common#:#frm_visible#:#Vedere i forum
-common#:#frm_write#:#Modificare i forum###30 Mar 2004 content changed
+common#:#frm_write#:#Modificare i forum
 common#:#from#:#da:
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funzioni
@@ -755,7 +755,7 @@ common#:#grp_a#:#Un gruppo
 common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_create#:#Crea un gruppo
-common#:#grp_create_chat#:#Create Chat
+common#:#grp_create_chat#:#Creare Chat
 common#:#grp_create_file#:#Eseguire upload di file
 common#:#grp_create_fold#:#Creare cartelle
 common#:#grp_create_frm#:#Creare forum
@@ -803,8 +803,8 @@ common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#
 common#:#import#:#Importa
 common#:#import_categories#:#Importa categorie
 common#:#import_file#:#Importa file
-common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
-common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_file_not_valid#:#Il file di import non &#232; valido.
+common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa SCORM Package
@@ -954,8 +954,8 @@ common#:#mail_delete_error_file#:#Errore nella cancellazione del file
 common#:#mail_e_sent#:#Inviate
 common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi della posta
 common#:#mail_folders#:#Cartelle di posta
-common#:#mail_import#:#Import###31 Mar 2004 new variable
-common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
+common#:#mail_import#:#Importazione
+common#:#mail_import_file#:#File di eportazione di ILIAS 2
 common#:#mail_intern_enable#:#Abilita
 common#:#mail_mail_visible#:#L'utente pu&#242; usare la posta di sistema
 common#:#mail_mails_of#:#La tua posta
@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Lezioni
 common#:#obj_mail#:#Impostazioni posta
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
 common#:#obj_mep#:#Media Pool
-common#:#obj_mob#:#Oggetto multimediale###06 Apr 2004 content changed
+common#:#obj_mob#:#Oggetto multimediale
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
@@ -1193,7 +1193,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Configura gli utenti qui.
-common#:#object_added#:#Object added###03 Apr 2004 new variable
+common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
 common#:#objf#:#Oggetti
 common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi degli oggetti
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Gruppi
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Risorse
-common#:#objs_mob#:#Oggetti multimediali###06 Apr 2004 content changed
+common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
 common#:#objs_qpl#:#Esercitazioni
@@ -1445,7 +1445,7 @@ common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
-common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#term#:#Termine
 common#:#test_intern#:#Test interno
 common#:#tests#:#Test
@@ -1484,7 +1484,7 @@ common#:#up#:#Su
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
 common#:#upload#:#Upload
-common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
+common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
 common#:#url#:#URL
 common#:#url_description#:#Descrizione URL
 common#:#user#:#Utente
@@ -1497,7 +1497,7 @@ common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#userdata#:#Dati utente
 common#:#username#:#Nome utente
 common#:#users#:#Utenti
-common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
+common#:#users_not_imported#:#I seguenti utenti non esistono, i loro messaggi non possono essere importati
 common#:#users_online#:#Utenti connessi
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
@@ -1582,7 +1582,7 @@ content#:#cont_chapters#:#Capitoli
 content#:#cont_characteristic#:#Caratteristica
 content#:#cont_choose_cont_obj#:#Scegli l&#039;oggetto contenuto
 content#:#cont_choose_glossary#:#Scegli il glossario
-content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
+content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
@@ -1599,7 +1599,7 @@ content#:#cont_coords#:#Coordinate
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
-content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_create_mob#:#Crea un oggetto multimediale
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
@@ -1608,7 +1608,7 @@ content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
 content#:#cont_del_assignment#:#Assegnamento cancellato
 content#:#cont_dependencies#:#Dipendenze
-content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
+content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_edit_area#:#Modifica area
@@ -1673,7 +1673,7 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_max_time_allowed#:#tempo massimo consentito
-content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
+content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
@@ -1745,7 +1745,7 @@ content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
 content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_size#:#Dimensioni
-content#:#cont_source#:#Sorgente###01 Apr 2004 content changed
+content#:#cont_source#:#Sorgente
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
@@ -1788,7 +1788,7 @@ dateplaner#:#ERROR_DB_CONNECT#:#Il database non &#232; connesso.
 dateplaner#:#ERROR_DEL_MSG#:#Questo &#232; un appuntamento ricorrente. Vuoi cancellare solo questo o tutte le ricorrenze
 dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
-dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere posteriore alla data iniziale.
+dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy
@@ -1813,25 +1813,25 @@ dateplaner#:#Th_long#:#Giovedi
 dateplaner#:#Th_short#:#Gi
 dateplaner#:#Tu_long#:#Martedi
 dateplaner#:#Tu_short#:#Ma
-dateplaner#:#View#:#Vedi:###16 Mar 2004 new variable
+dateplaner#:#View#:#Vedi:
 dateplaner#:#We_long#:#Mercoledi
 dateplaner#:#We_short#:#Me
 dateplaner#:#Week_long#:#Vista settimanale
 dateplaner#:#add_data#:#Dati addizionali
-dateplaner#:#app_#:#group dates inbox###16 Mar 2004 new variable
-dateplaner#:#app_date#:#inserisci appuntamento
-dateplaner#:#app_day#:#Vosta giornaliera
-dateplaner#:#app_freetime#:#freetime of other group members (catch a time)###16 Mar 2004 new variable
-dateplaner#:#app_inbox#:#group dates inbox###16 Mar 2004 new variable
+dateplaner#:#app_#:#Appuntamenti del gruppo in ingresso
+dateplaner#:#app_date#:#Inserisci appuntamento
+dateplaner#:#app_day#:#Vista giornaliera
+dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
+dateplaner#:#app_inbox#:#Appuntamenti dei gruppi in ingresso
 dateplaner#:#app_list#:#Lista appuntamenti
 dateplaner#:#app_month#:#Vista mensile
 dateplaner#:#app_properties#:#propriet&#224;
 dateplaner#:#app_week#:#Vista settimanale
 dateplaner#:#application#:#Agenda
-dateplaner#:#apply#:#salva
-dateplaner#:#back#:#indietro
+dateplaner#:#apply#:#Salva
+dateplaner#:#back#:#Indietro
 dateplaner#:#begin_date#:#Inizio appuntamento
-dateplaner#:#busytime#:#busy time in group###16 Mar 2004 new variable
+dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
 dateplaner#:#changeTo#:#Modifica a:
 dateplaner#:#changedDates#:#Appuntamenti modificati:
@@ -1840,19 +1840,19 @@ dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
 dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
 dateplaner#:#date_format_middle#:#m/d/y//month/day/Year
-dateplaner#:#del_all#:#cancella tutti gli appuntamenti
-dateplaner#:#del_one#:#cancella un appuntamento
-dateplaner#:#delete#:#cancella
+dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
+dateplaner#:#del_one#:#Cancella un appuntamento
+dateplaner#:#delete#:#Cancella
 dateplaner#:#deletedDates#:#Appuntamenti cancellati
-dateplaner#:#discard#:#scartato
-dateplaner#:#dv_Grouptime#:#tempo libero
+dateplaner#:#discard#:#Scartato
+dateplaner#:#dv_Grouptime#:#Tempo libero
 dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
-dateplaner#:#dv_button_update#:#aggiorna
+dateplaner#:#dv_button_update#:#Modifica
 dateplaner#:#dv_date_begin#:#Inizio appuntamento
 dateplaner#:#dv_date_end#:#Fine appuntamento
-dateplaner#:#dv_date_hm#:#Hour:Minute###16 Mar 2004 new variable
+dateplaner#:#dv_date_hm#:#Ore:Minuti
 dateplaner#:#dv_enddate#:#Fine appuntamento
 dateplaner#:#dv_groupselect#:#Gruppi scelti:
 dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
@@ -1877,7 +1877,7 @@ dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
 dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
-dateplaner#:#group#:#gruppo
+dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
 dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
 dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]
@@ -1892,7 +1892,7 @@ dateplaner#:#help_further#:#<br> <b>clicca qui per ulteriori informazioni.</b>
 dateplaner#:#help_group#:#Seleziona gli appuntamenti del gruppo
 dateplaner#:#help_group_l#:#Contiene i gruppi per i quali l'utente loggato ha diritti di amministratore e per i quali pu&#242; creare un appuntamento. <br> Dopo aver scelto questo &#232; possibile vedere i momenti non scedulati del gruppo.
 dateplaner#:#help_inbox#:#Agenda in ingresso
-dateplaner#:#help_inbox_l#:#Qui sono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
+dateplaner#:#help_inbox_l#:#Qui vengono mostrati tutti gli appuntamenti (nuovi, modificati o cancellati) del gruppo.
 dateplaner#:#help_keyword#:#Scelta chiave
 dateplaner#:#help_keywordUse#:#Scelta chiave
 dateplaner#:#help_keywordUse_l#:#Scegli una o pi&#249; chiavi dalla finestra di dialogo. <br>Suggerimento: usa il tasto CTRL per selezionare pi&#249; di una voce.
@@ -1905,30 +1905,30 @@ dateplaner#:#help_properties_alt#:#Cambia la chiave
 dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br>Cambia la chiave nel campo testo. Importante: max. 20 caratteri.
 dateplaner#:#help_properties_del#:#Cancella la chiave
 dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per cancellare la chiave.
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files###16 Mar 2004 new variable
+dateplaner#:#help_properties_import#:#Importazione dei file CSV di Outlook
 dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
-dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters###16 Mar 2004 new variable
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.###16 Mar 2004 new variable
+dateplaner#:#help_properties_new#:#Aggiungi una chiave, max. 20 caratteri
+dateplaner#:#help_properties_new_l#:#Aggiungi una nuova chiave nel campo 'Nuova'. Importante: max. 20 caratteri
 dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
 dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
-dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.###16 Mar 2004 new variable
-dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters###16 Mar 2004 new variable
-dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
-dateplaner#:#help_text_l#:#Here one can enter the text for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_week#:#Dateplaner weekview###16 Mar 2004 new variable
-dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.###16 Mar 2004 new variable
-dateplaner#:#hour#:#hour###16 Mar 2004 new variable
-dateplaner#:#importDates#:#Import of Outlook Dates###16 Mar 2004 new variable
-dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
-dateplaner#:#insertImportDates#:#These dates were successfully registered:###16 Mar 2004 new variable
+dateplaner#:#help_rotation#:#Ripetizione
+dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
+dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
+dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
+dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]
+dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
+dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
+dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
+dateplaner#:#help_text#:#Testo
+dateplaner#:#help_text_l#:#Qui puoi inserire il testo per l'appuntamento specificato.
+dateplaner#:#help_week#:#Vista settimanale appuntamenti.
+dateplaner#:#help_week_l#:#Nella vista settimanale tutti gli appuntamenti di una data settimana vengono mostrati.
+dateplaner#:#hour#:#ora
+dateplaner#:#importDates#:#Importa gli appuntamenti di Outlook
+dateplaner#:#inbox#:#In arrivo
+dateplaner#:#insertImportDates#:#Questi appuntamenti sono stati registrati con successo:
 dateplaner#:#k_alldates#:#tutti gli appuntamenti
-dateplaner#:#keep#:#tieni
+dateplaner#:#keep#:#Tieni
 dateplaner#:#keyword#:#Chiave
 dateplaner#:#keywords#:#Chiavi
 dateplaner#:#last_change#:#Ultima modifica
@@ -1946,32 +1946,32 @@ dateplaner#:#long_11#:#Novembre
 dateplaner#:#long_12#:#Dicembre
 dateplaner#:#main_dates#:#Appuntamenti principali
 dateplaner#:#menue#:#Menu
-dateplaner#:#mmonth#:#mese precedente
-dateplaner#:#month#:#mese
+dateplaner#:#mmonth#:#Mese precedente
+dateplaner#:#month#:#Mese
 dateplaner#:#more#:#ancora
-dateplaner#:#mweek#:#settimana precedente
-dateplaner#:#myeahr#:#anno precedente
+dateplaner#:#mweek#:#Settimana precedente
+dateplaner#:#myeahr#:#Anno precedente
 dateplaner#:#newDates#:#Nuovo appuntamento
 dateplaner#:#newKeyword#:#Nuovo:
-dateplaner#:#new_doc#:#crea un nuovo appuntamento
-dateplaner#:#no_entry#:#nessun appuntamento disponibile
-dateplaner#:#o_day_date#:#appuntamento di 24h
-dateplaner#:#of#:#di
+dateplaner#:#new_doc#:#Crea un nuovo appuntamento
+dateplaner#:#no_entry#:#Nessun appuntamento disponibile
+dateplaner#:#o_day_date#:#Appuntamento di 24h
+dateplaner#:#of#:#:
 dateplaner#:#open_day#:#Vista giornaliera
-dateplaner#:#pmonth#:#mese successivo
-dateplaner#:#printlist#:#stampa
+dateplaner#:#pmonth#:#Mese successivo
+dateplaner#:#printlist#:#Stampa
 dateplaner#:#properties#:#Propriet&#224;
-dateplaner#:#pweek#:#settimana successiva
-dateplaner#:#pyear#:#anno successivo
-dateplaner#:#r_14#:#ogni 14 giorni
-dateplaner#:#r_4_weeks#:#ogni 4 settimane
-dateplaner#:#r_day#:#tutti i giorni
-dateplaner#:#r_halfyear#:#ogni 6 mesi
-dateplaner#:#r_month#:#tutti i mesi
+dateplaner#:#pweek#:#Settimana successiva
+dateplaner#:#pyear#:#Anno successivo
+dateplaner#:#r_14#:#Ogni 14 giorni
+dateplaner#:#r_4_weeks#:#Ogni 4 settimane
+dateplaner#:#r_day#:#Tutti i giorni
+dateplaner#:#r_halfyear#:#Ogni 6 mesi
+dateplaner#:#r_month#:#Tutti i mesi
 dateplaner#:#r_nonrecurring#:#Una volta
-dateplaner#:#r_week#:#tutte le settimane
-dateplaner#:#r_year#:#tutti gli anni
-dateplaner#:#readimportfile#:#inserisci
+dateplaner#:#r_week#:#Tutte le settimane
+dateplaner#:#r_year#:#Tutti gli anni
+dateplaner#:#readimportfile#:#Inserisci
 dateplaner#:#rotation#:#Ripeti
 dateplaner#:#rotation_dates#:#Ripeti appuntamenti
 dateplaner#:#semester_name#:#Nome semestre
@@ -1988,16 +1988,16 @@ dateplaner#:#short_10#:#Ott
 dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dic
 dateplaner#:#shorttext#:#Testo breve
-dateplaner#:#singleDate#:#appuntamento singolo
+dateplaner#:#singleDate#:#Appuntamento singolo
 dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
 dateplaner#:#timedate#:#Ora / Giorno
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda Ilias
 dateplaner#:#to#:#a
-dateplaner#:#today#:#oggi
-dateplaner#:#viewlist#:#vista
-dateplaner#:#week#:#settimana
-dateplaner#:#year#:#anno
+dateplaner#:#today#:#Oggi
+dateplaner#:#viewlist#:#Vedi
+dateplaner#:#week#:#Settimana
+dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
 forum#:#forums_articles#:#Articoli nel forum
 forum#:#forums_attachments#:#Allegati

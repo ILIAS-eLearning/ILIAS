@@ -153,7 +153,7 @@ info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232;
 info_text_finish2#:#Alcune impostazioni sono ancora mancanti o non corrette. Per favore, verifica nella sequenza dei passi della procedura cosa deve essere fatto!
 info_text_first_client#:#Le tue impostazioni di base sono state salvate.<br/> Adesso puoi creare il primo client. La procedura di installazione ti guider&#224; nel resto del processo. <br/>Sul pannello a destra puoi vedere in ogni istante lo stato attuale del processo di installazione.
 info_text_first_install#:#Sembra che questa sia la prima volta che installi ILIAS3, visto che non &#232; presente il file ilias.ini.<br/> In ilias.ini viene messa la password di amministratore in modo da proteggere l'accesso alla procedura di installazione di ILIAS3 da parte di utenti non autorizzati.
-info_text_ini#:#Per favore, definisci un client ID. Il client ID deve essere costituito da un&#039;unica parola (sono consentiti solo caratteri alfanumerici).<br/>Successivamente dovrai indicare le informazioni relative alla connessione al database. <br/>La procedura di installazione effettuer&#224; dei test sulla connessione per verificare le impostazioni e controllare se il database gi&#224; esiste. Nel caso non esista, puoi procedere con l&#039;installazione, il passo successivo creer&#224; il database per te.
+info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve essere costituito da un&#039;unica parola (sono consentiti solo caratteri alfanumerici).<br/>Successivamente dovrai indicare le informazioni relative alla connessione al database. <br/>La procedura di installazione effettuer&#224; dei test sulla connessione per verificare le impostazioni e controllare se il database gi&#224; esiste. Nel caso non esista, puoi procedere con l&#039;installazione, il passo successivo creer&#224; il database per te.
 info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
 info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
@@ -203,7 +203,6 @@ lang_it#:#Italiano
 lang_lt#:#Lituano
 lang_min_one_language#:#Devi installare almeno una lingua!
 lang_nl#:#Olandese
-lang_no#:#Norvegese
 lang_no#:#Norvegese
 lang_none_installed#:#Nessuna lingua installata
 lang_pl#:#Polacco
@@ -335,7 +334,7 @@ setup_finished#:#Installazione completata
 setup_first_client#:#Definisci il tuoi primo client
 setup_ini_first#:#Per favore, crea prima il file ilias.ini!
 setup_inifile#:#Creazione del file ilias.ini
-setup_inifile_desc#:#creare il file ilias.ini per l&#039;installazione
+setup_inifile_desc#:#creare il file ilias.ini con i dati dell&#039;installazione
 setup_languages#:#Installa le lingue
 setup_languages_desc#:#installare ulteriori lingue 
 setup_login#:#Login per l&#039;installazione
@@ -347,7 +346,7 @@ setup_pass#:#Imposta password
 setup_pass2#:#Ridigita la password
 setup_pass_title#:#Imposta la password di Amministratore
 setup_password#:#Creazione password
-setup_password_desc#:#creare una password per poter accedere alla procedura di installazione in futuro (per l&#039;aggiornamento del database)
+setup_password_desc#:#creare una password per poter accedere in futuro alla procedura di installazione (per eventuali aggiornamenti)
 setup_process_status#:#Stato del processo di installazione
 setup_process_step_contact#:#inserisci le informazioni personali
 setup_process_step_db#:#crea e aggiorna il database
