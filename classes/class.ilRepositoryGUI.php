@@ -783,8 +783,6 @@ class ilRepositoryGUI
 
 		$maxcount = count($this->groups);
 
-		//include_once "./include/inc.sort.php";
-		//$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($this->groups, $offset, $limit);
 
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_grp_row.html");

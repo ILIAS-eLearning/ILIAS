@@ -203,10 +203,6 @@ class ilObjLanguageFolder extends ilObject
 			$languages[$lang_key]["name"] = $lng->txt("lang_".$lang_key);
 		}
 
-		// sort array
-		require_once("../include/inc.sort.php");
-		uasort($languages,"sortLanguagesbyName");
-
 		chdir($tmpPath);
 
 		$this->languages = $languages;

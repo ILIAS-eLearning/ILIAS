@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.15 2003/10/29 21:56:13 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.16 2003/10/31 12:33:22 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -88,8 +88,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		include_once "./include/inc.sort.php";
-		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
 		foreach ($this->data["data"] as $key => $val)

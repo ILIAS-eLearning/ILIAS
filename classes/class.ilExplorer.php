@@ -32,8 +32,6 @@
 * @package ilias-core
 */
 
-require_once "./include/inc.sort.php";
-
 class ilExplorer
 {
 	/**
@@ -843,7 +841,7 @@ class ilExplorer
 		// cut off adm node
 		isset($match) ? array_splice($a_nodes,$match,1) : "";
 		
-		$a_nodes = sortArray($a_nodes,$this->order_column,$this->order_direction);
+		$a_nodes = ilUtil::sortArray($a_nodes,$this->order_column,$this->order_direction);
 		
 		// append adm node to end of list
 		isset ($match) ? array_push($a_nodes,$adm_node) : "";

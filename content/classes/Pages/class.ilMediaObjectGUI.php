@@ -641,7 +641,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$entries = ilUtil::getDir($cur_dir);
 
-		//$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 		$tbl->setMaxCount(count($entries));
 		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 

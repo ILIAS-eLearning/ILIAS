@@ -1398,5 +1398,57 @@ class ilUtil
 		}
 	}
 
+	/**
+	* sub-function to sort an array
+	*
+	* @param	array	$a	
+	* @param	array	$b
+	*
+	* @return	boolean	true on success / false on error
+	*/
+	function sort_func ($a, $b)
+	{
+		global $array_sortby,$array_sortorder;
+		
+		if ($array_sortorder == "asc")
+		{
+			return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
+		}
+	
+		if ($array_sortorder == "desc")
+		{
+			return strcasecmp($b[$array_sortby], $a[$array_sortby]);	
+		}		
+	}
+	
+	/**
+	* sortArray
+	*
+	* @param	array	array to sort
+	* @param	string	sort_column
+	* @param	string	sort_order (ASC or DESC)
+	*
+	* @return	array	sorted array
+	*/
+	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0)
+	{
+		global $array_sortby,$array_sortorder;
+	
+		$array_sortby = $a_array_sortby;
+		
+		if ($a_array_sortorder == "desc")
+		{
+			$array_sortorder = "desc";
+		}
+		else
+		{
+			$array_sortorder = "asc";	
+		}
+	
+		usort($array, array("ilUtil", "sort_func"));
+		//usort($array,"ilUtil::sort_func");
+		
+		return $array;
+	}
 } // END class.ilUtil
 ?>
