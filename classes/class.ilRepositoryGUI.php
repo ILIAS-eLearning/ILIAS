@@ -1233,7 +1233,7 @@ class ilRepositoryGUI
 			{
 
 				// forum title
-				if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("write", $data["ref_id"])))
+				if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("edit_post", $data["ref_id"])))
 				{
 					$tpl->setVariable("TITLE","<b>".$topicData["top_name"]."</b>");
 				}
