@@ -2,7 +2,6 @@
 <!DOCTYPE objects SYSTEM "http://127.0.0.1/ilias3/objects.dtd">
 <objects xmlns="http://www.w3.org">
 <object name="lng">
-	<property cmd="view">view_content</property>
 	<property cmd="edit">edit_properties</property>
 	<property cmd="owner">show_owner</property>
 	<action cmd="refresh">refresh</action>

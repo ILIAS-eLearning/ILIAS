@@ -18,5 +18,26 @@ class LanguageObject extends Object
 	{
 		$this->Object();
 	}
+	
+	function editObject()
+	{
+		global $rbacsystem, $rbacreview;
+
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		{
+			$data = array();
+			$lng2 = new Language($this->id);
+
+			$data["fields"] = array();
+			$data["fields"]["name"] = $lng2->name;
+			
+			return $data;
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to edit language",$this->ilias->error_obj->WARNING);
+		}
+	}
+
 } // END class.LanguageObject
 ?>

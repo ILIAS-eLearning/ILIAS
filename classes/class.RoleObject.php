@@ -30,19 +30,16 @@ class RoleObject extends Object
 	function createObject()
 	{
 		// Creates a child object
-		global $tplContent, $rbacsystem;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("write",$_GET["obj_id"],$_GET["parent"]))
 		{
-			$tplContent = new Template("object_form.html",true,true);
-			$tplContent->setVariable($this->ilias->ini["layout"]);
-
-			// Zur Ausgabe des 'Path' wird die Private-Methode getPath() aufgerufen 
-			$tplContent->setVariable("TREEPATH",$this->getPath());
-			$tplContent->setVariable("CMD","save");
-			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("TPOS",$_GET["parent"]);
-			$tplContent->setVariable("TYPE",$_POST["type"]);
+			$data = array();
+			$data["fields"] = array();
+			
+			$data["fields"]["title"] = "";
+			$data["fields"]["desc"] = "";
+			return $data;
 		}
 		else
 		{
@@ -66,7 +63,7 @@ class RoleObject extends Object
 				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
 			}
 
-			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
+			$new_obj_id = createNewObject($_GET["type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'y');
 		}
 		else
@@ -74,8 +71,7 @@ class RoleObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -143,8 +139,7 @@ class RoleObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->MESSAGE);
 		}
 
-		header("Location: content_role.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+		return true;
 	}
 
 	/**
@@ -163,9 +158,8 @@ class RoleObject extends Object
 			$data = array();
 			$data["fields"] = array();
 			
-			$data["cmd"] = "update";
-			$data["title"] = $obj["title"];
-			$data["desc"] = $obj["desc"];
+			$data["fields"]["title"] = $obj["title"];
+			$data["fields"]["desc"] = $obj["desc"];
 			return $data;
 		}
 		else
@@ -185,8 +179,7 @@ class RoleObject extends Object
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$_GET["parent_parent"]);
-			exit;
+			return true;
 		}
 		else
 		{
@@ -279,10 +272,7 @@ class RoleObject extends Object
 				
 				$tpl->setCurrentBlock("ASSIGN");
 				$tpl->setVariable("MESSAGE_BOTTOM","Assign User To Role");
-				$tpl->setVariable("ASSIGN_PAR",$_GET["parent_parent"]);
-
-				$tpl->setVariable("ASSIGN_OBJ_ID",$_GET["obj_id"]);
-				$tpl->setVariable("ASSIGN_TPOS",$_GET["parent"]);
+				$tpl->setVariable("FORMACTION_ASSIGN", "adm_object.php?cmd=assignSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 				$tpl->parseCurrentBlock();
 			}
 			// ADOPT PERMISSIONS
@@ -304,12 +294,11 @@ class RoleObject extends Object
 				$tpl->setVariable("ROLE_NAME",$par["title"]);
 				$tpl->parseCurrentBlock();
 			}
+			$tpl->setVariable("FORMACTION_ADOPT", "adm_object.php?cmd=adoptPermSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 			// END ADOPT_PERMISSIONS
-			
 			$tpl->setCurrentBlock("adm_content");
-			$tpl->setVariable("TPOS",$_GET["parent"]);
-			$tpl->setVariable("OBJ_ID",$_GET["obj_id"]);
-			$tpl->setVariable("PAR",$_GET["parent_parent"]);
+			
+			$tpl->setVariable("FORMACTION", "adm_object.php?cmd=permSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 
 			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tpl->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
@@ -393,9 +382,8 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		
-		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
-		exit;
+
+		return true;
 	}
 
 	/**

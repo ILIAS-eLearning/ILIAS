@@ -129,6 +129,8 @@ class Language
 		
 		$this->text = array();
 		
+		$this->id = $a_lng;
+		$this->name = $txt[0];
 		if (is_array($txt))
 		{
 			foreach ($txt as $row)
@@ -142,12 +144,14 @@ class Language
 			
 			// set language
 			$this->lng = $a_lng;
-			return true;
 		}
 		else
 		{
 			return false;
 		}
+		
+		$this->version = $this->txt("lang_version");
+		return true;
 	}
 	
 	/**
