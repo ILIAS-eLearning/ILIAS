@@ -949,6 +949,7 @@ common#:#disabled#:#Відключений
 common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Вниз
 common#:#download#:#Зпвантажити
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Чернетки
 common#:#drop#:#Викинути
 common#:#edit#:#Редагувати
@@ -1919,6 +1920,7 @@ common#:#require_institution#:#Require institution###14 Sep 2004 new variable
 common#:#require_lastname#:#Require last name###14 Sep 2004 new variable
 common#:#require_login#:#Require login###14 Sep 2004 new variable
 common#:#require_mandatory#:#mandatory###14 Sep 2004 new variable
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#require_passwd#:#Require password###14 Sep 2004 new variable
 common#:#require_passwd2#:#Require retype password###14 Sep 2004 new variable
 common#:#require_phone_home#:#Require home phone###14 Sep 2004 new variable
@@ -3981,6 +3983,7 @@ survey#:#remove_question#:#Remove###24 May 2004 new variable
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
 survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
 survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable

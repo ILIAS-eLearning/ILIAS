@@ -942,6 +942,7 @@ common#:#disabled#:#Uitgeschakeld
 common#:#domain#:#Domein
 common#:#down#:#Naar beneden
 common#:#download#:#Download
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Klad
 common#:#drop#:#Erop laten vallen
 common#:#edit#:#Wijzigen
@@ -1911,6 +1912,7 @@ common#:#require_institution#:#Instituut vereist
 common#:#require_lastname#:#Achternaam vereist
 common#:#require_login#:#Inloggen vereist 
 common#:#require_mandatory#:#verplicht
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#require_passwd#:#Wachtwoord vereist
 common#:#require_passwd2#:#Type wachtwoord opnieuw
 common#:#require_phone_home#:#Startscherm telefoon vereist
@@ -3969,6 +3971,7 @@ survey#:#remove_question#:#Absolute ratio
 survey#:#remove_questions#:#Niet absolute ratio
 survey#:#reset_filter#:#Verwijder
 survey#:#resume_survey#:#Weet u zeker, dat u de volgende vraag(vragen) en/of blok(ken) met vragen uit de test wilt verwijderen?
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Terugzetten filter
 survey#:#save_phrase_categories_not_checked#:#Zet de enquête voort
 survey#:#save_phrase_introduction#:#Opslaan als gezegde

@@ -749,6 +749,7 @@ common#:#disabled#:#Tiltott
 common#:#domain#:#Domain
 common#:#down#:#Le
 common#:#download#:#Letöltés
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Vázlatok
 common#:#drop#:#Munkaasztalról levétel
 common#:#edit#:#Szerkesztés
@@ -1594,6 +1595,7 @@ common#:#rename#:#Átnevezés
 common#:#rename_file#:#Fájl átnevezése
 common#:#reply#:#Válasz
 common#:#repository#:#Taneszköz tároló
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#required_field#:#Kötelező mezők
 common#:#reset#:#Alaphelyzetbe állítás (reset)
 common#:#resources#:#Források
@@ -3260,6 +3262,7 @@ survey#:#remove_question#:#Eltávolítás
 survey#:#remove_questions#:#Biztosan el akarja távolítani az alábbi kérdés(eke)t és/vagy kérdésblokk(ok)at a tesztből?
 survey#:#reset_filter#:#Szűrő alapállapotba állítása
 survey#:#resume_survey#:#Felmérés folytatása
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Mentés mondatként
 survey#:#save_phrase_categories_not_checked#:#Legalább két kategóriát ellenőrizzen a kategóriák új mondatban való elmentéséhez!
 survey#:#save_phrase_introduction#:#Ha el akarja menteni az alábbi kategóriákat alapértelmezett mondatokként, adjon meg mondatcímet. Alapértelmezett mondatot bárhol elérhet, ahol mondatot akar hozzáadni egy sorozathoz.

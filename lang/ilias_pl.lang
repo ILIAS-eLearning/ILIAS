@@ -893,6 +893,7 @@ common#:#disabled#:#Wyłączony
 common#:#domain#:#Domena
 common#:#down#:#Down
 common#:#download#:#Pobierz
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Szkice
 common#:#drop#:#Drop
 common#:#edit#:#Edytuj
@@ -1821,6 +1822,7 @@ common#:#rename#:#Zmień nazwę
 common#:#rename_file#:#Zmień nazwę pliku
 common#:#reply#:#Odpowiedz
 common#:#repository#:#Dostępne zasoby
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#required_field#:#Pole niezbędne
 common#:#reset#:#Przywróć
 common#:#resources#:#Źródła
@@ -3821,6 +3823,7 @@ survey#:#remove_question#:#Usuń
 survey#:#remove_questions#:#Chcesz usunąć wybrane pytania i/lub bloki pytań z testu?
 survey#:#reset_filter#:#Czyść filtr
 survey#:#resume_survey#:#Streszczenie ankiety
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Zapisz jako frazę
 survey#:#save_phrase_categories_not_checked#:#Wybierz conajmniej dwie kategorie dla zachowania nowej frazy!
 survey#:#save_phrase_introduction#:#Jeśli chcesz zachować poniższą kategorię jako domyślną frazę, podaj tytuł frazy. Możesz mieć dostęp do domyślnej frazy kiedy będziesz chciał dodać frazę do pytania porządkowego.

@@ -948,6 +948,7 @@ common#:#disabled#:#Ausgeschaltet
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -1915,6 +1916,7 @@ common#:#require_institution#:#Pflichteingabe Institution
 common#:#require_lastname#:#Pflichteingabe Nachname
 common#:#require_login#:#Pflichteingabe Login
 common#:#require_mandatory#:#erforderlich
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#require_passwd#:#Pflichteingabe Passwort
 common#:#require_passwd2#:#Pflichteingabe Passwort wiederholen
 common#:#require_phone_home#:#Pflichteingabe Telefon privat
@@ -3977,6 +3979,7 @@ survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Kategorien aus, um diese in einer neuen Phrase speichern zu können!
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Kategorien für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.

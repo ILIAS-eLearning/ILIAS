@@ -947,6 +947,7 @@ common#:#disabled#:#Disabilitata
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Bozze
 common#:#drop#:#Togli
 common#:#edit#:#Modifica
@@ -1917,6 +1918,7 @@ common#:#require_institution#:#Istituzione obbligatoria
 common#:#require_lastname#:#Cognome obbligatorio
 common#:#require_login#:#Login obbligatorio
 common#:#require_mandatory#:#obbligatorio
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#require_passwd#:#Password obbligatoria
 common#:#require_passwd2#:#Conferma password obbligatorio
 common#:#require_phone_home#:#Telefono obbligatorio
@@ -3978,6 +3980,7 @@ survey#:#remove_question#:#Cancella
 survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
 survey#:#reset_filter#:#Azzera il filtro
 survey#:#resume_survey#:#Annulla il filtro
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Salva come frase
 survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!
 survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, devi specificare il titolo. Verr&#224; mostrata la frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.

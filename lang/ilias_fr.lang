@@ -930,6 +930,7 @@ common#:#disabled#:#Désactivé
 common#:#domain#:#Domaine
 common#:#down#:#Bas
 common#:#download#:#Télécharger
+common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
 common#:#drafts#:#Brouillons
 common#:#drop#:#Supprimer
 common#:#edit#:#Modifier
@@ -1896,6 +1897,7 @@ common#:#require_institution#:#Exiger institution
 common#:#require_lastname#:#Exiger nom
 common#:#require_login#:#Exiger login
 common#:#require_mandatory#:#obligatoire
+common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
 common#:#require_passwd#:#Exiger mot de passe
 common#:#require_passwd2#:#Exiger confirmation du mot de passe
 common#:#require_phone_home#:#Exiger numéro de téléphone (domicile)
@@ -3957,6 +3959,7 @@ survey#:#remove_question#:#Supprimer
 survey#:#remove_questions#:#Etes-vous sûr(e) de vouloir supprimer les questions et/ou blocs de questions suivants du test ?
 survey#:#reset_filter#:#Remettre le filtre à zéro
 survey#:#resume_survey#:#Reprendre le sondage
+survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
 survey#:#save_phrase#:#Enregistrer comme expression
 survey#:#save_phrase_categories_not_checked#:#Veuillez cocher au moins deux catégories pour enregistrer des catégories dans une nouvelle expression.
 survey#:#save_phrase_introduction#:#Si vous voulez enregistrer les catégories ci-dessous comme expression par défaut, veuillez saisir un titre d'expression. Vous pouvez accéder à l'expression par défaut pour ajouter une expression à une question ordinale.
