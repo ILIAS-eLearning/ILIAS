@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.9 2003/04/01 14:36:07 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.10 2003/04/01 14:49:34 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -355,12 +355,12 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["parent"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
-										   $_GET["parent"],$_GET["obj_id"]);
+										   $_GET["ref_id"],$_GET["obj_id"]);
 		}
 		else
 		{
