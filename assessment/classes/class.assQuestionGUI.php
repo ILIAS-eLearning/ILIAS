@@ -608,8 +608,10 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setVariable("IMAGE_FILENAME", $img);
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
 				$this->tpl->setCurrentBlock("imageupload");
-				$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+				//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
 				$this->tpl->parse("imageupload");
+				$imagepath = $this->question->get_image_path() . $img;
+				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
 			} else {
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 			}
