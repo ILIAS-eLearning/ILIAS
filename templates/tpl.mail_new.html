@@ -1,0 +1,52 @@
+<h1>{TXT_PAGEHEADLINE}</h1>
+{BUTTONS}
+
+    <table CELLPADDING=4 CELLSPACING=0 BORDER=0>
+    <FORM ACTION="/projekte/uni-koeln/ilias/mail.php" METHOD="post">
+    <input type="hidden" name="back" value="">
+    <input type="hidden" name="msg_mod" value="0">
+    <input type="hidden" name="mt_id" value="0">
+    <input type="hidden" name="list_mod" value="list_unread">
+    <input type="hidden" name="act" value="proc_msg_send">
+
+    <TR>
+      <TD ALIGN=right>{TXT_RECIPIENT}</TD>
+      <TD><INPUT name="msg_to" value="{RECIPIENT}" SIZE=30><input type="submit" name="search_msg_to" value="{TXT_SEARCH_RECIPIENT}"></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_CC}</TD>
+      <td><INPUT name="msg_to_cc" value="{CC}" SIZE=30><input type="submit" name="search_msg_cc" value="{TXT_SEARCH_CC_RECIPIENT}"></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_BC}</TD>
+      <TD><INPUT name="msg_bc" value="{BC}" SIZE=30><input type="submit" name="search_msg_bc" value="{TXT_SEARCH_BC_RECIPIENT}"></TD>
+    </TR>
+    <TR>
+      <td align="right">{TXT_SUBJECT}</TD>
+      <td><INPUT name="msg_subject" value="{SUBJECT}" SIZE=50></TD>
+    </TR>
+    <TR>
+      <td align="right">{TXT_TYPE}</TD>
+      <td><input type="radio" name="msg_status" CHECKED value="0">{TXT_NORMAL}<input type="radio" name="msg_status" value="5">{TXT_SYSTEM_MSG}</td>
+    </TR>
+    <TR>
+      <td align="right">{TXT_ALSO_AS_EMAIL}</TD>
+      <td><input type="checkbox" name="msg_internet" value="1"></TD>
+    </tr>
+    <tr>
+      <TD ALIGN=right>{TXT_URL}</TD>
+      <TD><INPUT name="msg_url" value="{URL}" SIZE=50></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=right>{TXT_URL_DESC}</TD>
+      <TD><INPUT name="msg_urltext" value="{URLTEXT}" SIZE=50></TD>
+    </TR>
+    <TR>
+      <td align="right" valign="top">{TXT_MSG_CONTENT}</td>
+      <TD><TEXTAREA name="msg_content" value="{CONTENT}"ROWS=10 COLS=60 WRAP="physical"></TEXTAREA></TD>
+    </TR>
+    <TR>
+      <td>&nbsp;</td>
+      <TD><input type="submit" name="msg_send" value="{SEND}"><input type="submit" name="msg_save" value="{MSG_SAVE}"></TD>
+    </TR>
+    </table>
