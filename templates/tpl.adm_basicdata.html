@@ -23,8 +23,8 @@
       <td>{HOSTNAME}</td>
     </tr>
     <tr class="tblrow2">
-      <td>{TXT_IP_ADRESS}</td>
-      <td>{IP_ADRESS}</td>
+      <td>{TXT_IP_ADDRESS}</td>
+      <td>{IP_ADDRESS}</td>
     </tr>
     <tr class="tblrow1">
       <td>{TXT_SERVER_PORT}</td>
@@ -35,24 +35,20 @@
       <td>{SERVER_SOFTWARE}</td>
     </tr>
     <tr class="tblrow1">
+      <td>{TXT_HTTP_PATH}</td>
+      <td>{HTTP_PATH}</td>
+    </tr>
+    <tr class="tblrow2">
+      <td>{TXT_ABSOLUTE_PATH}</td>
+      <td >{ABSOLUTE_PATH}</td>
+    </tr>
+    <tr class="tblrow1">
       <td>{TXT_INST_NAME}</td>
       <td><input type="text" SIZE=40 maxlength=40 name="inst_name" value="{INST_NAME}"></td>
     </tr>
     <tr class="tblrow2">
       <td>{TXT_INST_INFO}</td>
       <td><input type="text" SIZE=40 maxlength=128 name="inst_info" value="{INST_INFO}"></td>
-    </tr>
-    <tr class="tblrow1">
-      <td>{TXT_INSTITUTION}</td>
-      <td><input type="text" SIZE=40 maxlength=128 name="institution" value="{INSTITUTION}"></td>
-    </tr>
-    <tr class="tblrow2">
-      <td>{TXT_HTTP_PATH}</td>
-      <td><input type="text" SIZE=40 maxlength=200 name="http_path" value="{HTTP_PATH}"></td>
-    </tr>
-    <tr class="tblrow1">
-      <td>{TXT_ABSOLUTE_PATH}</td>
-      <td ><input type="text" SIZE=40 maxlength=200 name="absolute_path" value="{ABSOLUTE_PATH}"></td>
     </tr>
     <tr class="tblrow2">
       <td>{TXT_CONVERT_PATH}</td>
@@ -112,23 +108,23 @@
     </tr>
     </table>
 
-    <h3>{TXT_LDAP_SETTINGS}</h3>
+    <h3>{TXT_LDAP}</h3>
 
 	<table cellpadding=2 cellspacing=0 border=0>
     <tr class="tblrow2">
-      <td>{TXT_LDAP_ENABLE}</td>
+      <td>{TXT_ENABLE}</td>
       <td><input type="checkbox" name="ldap_enable"  value="y"></td>
     </tr>
     <tr class="tblrow1">
-      <td>{TXT_LDAP_SEVER}</td>
+      <td>{TXT_SERVER}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="ldap_server" value="{LDAP_SERVER}"></td>
     </tr>
     <tr class="tblrow2">
-      <td>{TXT_LDAP_PORT}</td>
+      <td>{TXT_PORT}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="ldap_port" value="{LDAP_PORT}"></td>
     </tr>
     <tr class="tblrow1">
-      <td>{TXT_LDAP_BASEDN}</td>
+      <td>{TXT_BASEDN}</td>
       <td><input type="text" SIZE=40 maxlength=200 name="ldap_basedn" value="{LDAP_BASEDN}"></td>
     </tr>
 
@@ -144,19 +140,19 @@
       <td></td>
     </tr>
     <tr class="tblrow2">
-      <td>{TXT_ADMIN_FIRSTNAME}*</td>
+      <td>{TXT_FIRSTNAME}*</td>
       <td><input type="text" SIZE=40 maxlength=64 name="admin_firstname" value="{ADMIN_FIRSTNAME}"></td>
     </tr>
     <tr class="tblrow1">
-      <td>{TXT_ADMIN_LASTNAME}*</td>
+      <td>{TXT_LASTNAME}*</td>
       <td><input type="text" SIZE=40 maxlength=64 name="admin_lastname" value="{ADMIN_LASTNAME}"></td>
     </tr>
     <tr class="tblrow2">
-      <td>{TXT_ADMIN_TITLE}</td>
+      <td>{TXT_TITLE}</td>
       <td><input type="text" SIZE=40 maxlength=64 name="admin_title" value="{ADMIN_TITLE}"></td>
     </tr>
     <tr class="tblrow1">
-      <td>{TXT_ADMIN_POSITION}</td>
+      <td>{TXT_POSITION}</td>
       <td><input type="text" SIZE=40 maxlength=64 name="admin_position" value="{ADMIN_POSITION}"></td>
     </tr>
     <tr class="tblrow2">
@@ -190,6 +186,6 @@
     </table>
 
     <br>
-    <input type="submit" name="save" value="{SAVE}">
+    <input type="submit" name="save" value="{TXT_SAVE}">
 
     </form>
