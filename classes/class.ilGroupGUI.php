@@ -468,7 +468,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tab = array();
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
+		$tab[0]["tab_cmd"] = 'cmd=showgroupmembers&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
 		$tab[0]["tab_text"] = 'group_members';
@@ -668,7 +668,7 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					$this->object->deleteApplicationListEntry($new_member);
 					$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$this->object->getTitle(),"You have been assigned to the group as a member. You can now access all according objects like forums, learningmodules,etc..",array(),array('normal'));
-					ilObjUser::updateActiveRoles($new_member);		
+//					ilObjUser::updateActiveRoles($new_member);		
 				}
 			}
 
@@ -690,8 +690,8 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 				}
-				else
-					ilObjUser::updateActiveRoles($new_member);		
+//				else
+//					ilObjUser::updateActiveRoles($new_member);
 			}
 
 			unset($_SESSION["status"]);
@@ -757,7 +757,7 @@ class ilGroupGUI extends ilObjectGUI
 				{
 					$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
 				}
-				ilObjUser::updateActiveRoles($mem_id);
+//				ilObjUser::updateActiveRoles($mem_id);
 			}
 		}
 
@@ -1526,7 +1526,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_text"] ='resources';
 
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id."&active=1";			//link for tab
+		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id."&active=1";			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
@@ -1579,11 +1579,10 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["active"] = $active;
 		}
-		
-		if (! empty ($_GET["active"]) || $_GET["active"]== 0)
+
+		if ( !empty ($_GET["active"]) || $_GET["active"]== 0)
 		{
 			$tab[$_GET["active"]]["ftabtype"] = "tabactive";
-
 		}
 
 		$this->setAdminTabs($tabs, $tab);
@@ -1685,7 +1684,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_text"] ='resources';
 
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
@@ -1947,7 +1946,7 @@ class ilGroupGUI extends ilObjectGUI
 		include_once "./include/inc.sort.php";
 		
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
@@ -2174,21 +2173,22 @@ class ilGroupGUI extends ilObjectGUI
 		else if(!isset($_SESSION["viewmode"]))
 			$_SESSION["viewmode"] = "flat";	//default viewmode
 
-		if ($obj_grp->isMember()==false && $obj_grp->getRegistrationFlag() != 0)
+		//any suggestions to check SystemSuperUser-Permissions ?
+		if($obj_grp->isMember() == true || $rbacsystem->checkAccess("create,delete,read,write,join,leave,visible",$this->grp_id,$this->object->getType()))
 		{
-			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
+			$this->show_content();
 		}
 		else if ($obj_grp->isMember()==false && $rbacsystem->checkAccess("join", $this->ref_id))
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
-//			header("location: group.php?cmd=joinGroup&ref_id=".$_GET["ref_id"]);
 		}
-		else if($obj_grp->isMember()==true)
+		else
 		{
-			$this->show_content();			
+			sendInfo($this->lng->txt("no_permission_to_join"),true);
+			header("Location: repository.php?ref_id=".$_SESSION["il_rep_ref_id"]);
 		}
 
-/*			
+/*
 		// tree frame
 		if ($_SESSION["viewmode"] == "tree")
 		{
@@ -2339,7 +2339,6 @@ class ilGroupGUI extends ilObjectGUI
 				foreach ($_POST["member_status_select"] as $key=>$value)
 				{
 					$grp->setMemberStatus($key,$value);
-					ilObjUser::updateActiveRoles($key);
 				}
 			}
 		}
@@ -2388,7 +2387,7 @@ class ilGroupGUI extends ilObjectGUI
 	* displays form with all members of group
 	* @access public
 	*/
-	function groupmembers()
+	function showGroupmembers()
 	{
 		global $rbacsystem;
 
@@ -2398,7 +2397,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->prepareOutput(false, 1);
+		$this->prepareOutput(false);
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$admin_ids = $newGrp->getGroupAdminIds();
@@ -2430,16 +2429,19 @@ class ilGroupGUI extends ilObjectGUI
 			$link_leave = "group.php?type=grp&cmd=removeMemberObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 
 			//build function
-			if (in_array($_SESSION["AccountId"], $admin_ids))
+//			if (in_array($_SESSION["AccountId"], $admin_ids))
+			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
+				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
-
-			if (in_array($_SESSION["AccountId"], $admin_ids) || $member->getId() == $_SESSION["AccountId"])
+/*
+//			if (in_array($_SESSION["AccountId"], $admin_ids) || $member->getId() == $_SESSION["AccountId"])
+			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
 			{
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 			}
-
+*/
 			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
 			$newObj	     = new ilObject($grp_role_id,false);
 
