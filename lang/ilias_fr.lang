@@ -1298,6 +1298,8 @@ common#:#lang_en#:#Anglais
 common#:#lang_es#:#Espagnol
 common#:#lang_fi#:#Finlandais
 common#:#lang_fr#:#Français
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonésien
 common#:#lang_it#:#Italien
 common#:#lang_ja#:#Japonais
@@ -1607,6 +1609,8 @@ common#:#no_title#:#Pas de titre
 common#:#no_tst_in_personal_list#:#Pas de tests dans la liste personnelle
 common#:#no_users_applied#:#Veuillez sélectionner un utilisateur
 common#:#no_users_selected#:#Veuillez sélectionner un utilisateur
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Rôles locaux (seulement définis par l'utilisateur)
 common#:#none#:#Aucun
 common#:#normal#:#Normal

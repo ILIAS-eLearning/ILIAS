@@ -898,8 +898,8 @@ common#:#delete_object#:#eliminar objetos
 common#:#delete_selected#:#eliminar seleccionados
 common#:#delete_tr_data#:#Eliminar datos de seguimiento
 common#:#deleted#:#borrados
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
 common#:#deleted_user#:#El usuario ha sido eliminado
+common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
 common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
@@ -1299,6 +1299,8 @@ common#:#lang_en#:#Inglés
 common#:#lang_es#:#Español
 common#:#lang_fi#:#Finlandés
 common#:#lang_fr#:#Francés
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonesio
 common#:#lang_it#:#Italiano
 common#:#lang_ja#:#Japonés
@@ -1607,6 +1609,8 @@ common#:#no_title#:#sin título
 common#:#no_tst_in_personal_list#:#No hay tests en la lista personal.
 common#:#no_users_applied#:#Por favor seleccione un usuario
 common#:#no_users_selected#:#Por favor seleccione un usuario.
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Roles locales (sólo definidos por el usuario)
 common#:#none#:#none
 common#:#normal#:#normal

@@ -1300,6 +1300,8 @@ common#:#lang_en#:#Engels
 common#:#lang_es#:#Spaans
 common#:#lang_fi#:#Fins
 common#:#lang_fr#:#Frans
+common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
+common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italiaans
 common#:#lang_ja#:#Japans
@@ -1609,6 +1611,8 @@ common#:#no_title#:#Geen titel
 common#:#no_tst_in_personal_list#:#Geen testen in persoonlijke lijst.
 common#:#no_users_applied#:#Selecteer a.u.b een gebruiker.
 common#:#no_users_selected#:#Selecteer a.u.b. één gebruiker
+common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
+common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Lokale rollen(alleen zelf aangelegde)
 common#:#none#:#Geen enkele
 common#:#normal#:#Normaal
