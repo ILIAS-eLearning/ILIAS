@@ -8,7 +8,7 @@
 <frame src="adm_menu.php" name="tree" marginwidth="0" marginheight="0" scrolling="auto"/>
 <frame src="content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto"/>
 <noframes>
-Administration interfaces require the use of a <b>frames-capable</b> web browser.
+The administration interface requires a <b>frames-capable</b> web browser.
 </noframes>
 </frameset>
 
