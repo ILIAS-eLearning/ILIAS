@@ -86,10 +86,12 @@
 <object name="le">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="file" max="1">file</subobj>
+	<subobj name="lo">lo</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<property name="import">import</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
