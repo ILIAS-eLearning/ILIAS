@@ -711,26 +711,22 @@ class ilRepositoryGUI
 		}
 		$ilBench->stop("Repository", "FlatList_04showCategories");
 
-		// test&assessment
-		if (count($this->questionpools))
+		// folders
+		if (count($this->folders))
 		{
-			$this->showQuestionPools();
+			$this->showFolders();
 		}
 
-		if (count($this->tests))
+		// courses
+		if(count($this->courses))
 		{
-			$this->showTests();
+			$this->showCourses();
 		}
 
-		// survey tool
-		if (count($this->surveys))
+		// groups
+		if (count($this->groups))
 		{
-			$this->showSurveys();
-		}
-
-		if (count($this->surveyquestionpools))
-		{
-			$this->showSurveyquestionpools();
+			$this->showGroups();
 		}
 
 		// learning resources
@@ -745,16 +741,16 @@ class ilRepositoryGUI
 			$this->showGlossaries();
 		}
 
+		// chat
+		if (count($this->chats))
+		{
+			$this->showChats();
+		}
+
 		// forums
 		if (count($this->forums))
 		{
 			$this->showForums();
-		}
-
-		// groups
-		if (count($this->groups))
-		{
-			$this->showGroups();
 		}
 
 		// exercises
@@ -769,27 +765,33 @@ class ilRepositoryGUI
 			$this->showFiles();
 		}
 
-		// folders
-		if (count($this->folders))
-		{
-			$this->showFolders();
-		}
-
-		// chat
-		if (count($this->chats))
-		{
-			$this->showChats();
-		}
-
 		// media pools
 		if (count($this->media_pools))
 		{
 			$this->showMediaPools();
 		}
-		if(count($this->courses))
+
+		// test&assessment
+		if (count($this->questionpools))
 		{
-			$this->showCourses();
+			$this->showQuestionPools();
 		}
+
+		if (count($this->tests))
+		{
+			$this->showTests();
+		}
+
+		// survey tool
+		if (count($this->surveyquestionpools))
+		{
+			$this->showSurveyquestionpools();
+		}
+		if (count($this->surveys))
+		{
+			$this->showSurveys();
+		}
+
 
 		$this->tpl->show();
 
@@ -1095,7 +1097,8 @@ class ilRepositoryGUI
 					{
 						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $read_link);
-						$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
+						//$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
+						$tpl->setVariable("VIEW_TARGET", "bottom");
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
 						$tpl->parseCurrentBlock();
@@ -3188,6 +3191,34 @@ class ilRepositoryGUI
 
 			$this->showList();
 		}
+	}
+	function addToDeskCourse()
+	{
+		if ($_GET["item_ref_id"] and $_GET["type"])
+		{
+			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+			//$this->showList();
+		}
+		else
+		{
+			if ($_POST["items"])
+			{
+				foreach ($_POST["items"] as $item)
+				{
+					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
+					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
+					unset($tmp_obj);
+				}
+			}
+			//$this->showList();
+		}
+		include_once("./course/classes/class.ilObjCourseGUI.php");
+
+		$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
+
+		$this->prepareOutput();
+		$ret =& $this->gui_obj->viewObject();
+		$this->tpl->show();
 	}
 
 	function executeAdminCommand()
