@@ -126,13 +126,13 @@
 >
 
 <!-- List -->
-<!ELEMENT List (Title?, Item+)>
+<!ELEMENT List (Title?, ListItem+)>
 <!ATTLIST List
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
 	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 >
-<!ELEMENT Item (PageContent*)>
+<!ELEMENT ListItem (PageContent*)>
 
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->

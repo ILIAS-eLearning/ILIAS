@@ -56,7 +56,7 @@ class ilLMListItem extends ilPageContent
 	function newItemAfter()
 	{
 		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("Item");
+		$new_li =& $this->dom->create_element("ListItem");
 		if ($next_li =& $li->next_sibling())
 		{
 			$new_li =& $next_li->insert_before($new_li, $next_li);
@@ -75,7 +75,7 @@ class ilLMListItem extends ilPageContent
 	function newItemBefore()
 	{
 		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("Item");
+		$new_li =& $this->dom->create_element("ListItem");
 		$new_li =& $li->insert_before($new_li, $li);
 	}
 

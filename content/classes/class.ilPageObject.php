@@ -234,7 +234,7 @@ class ilPageObject extends ilLMObject
 				$td->setHierId($a_hier_id);
 				return $td;
 
-			case "Item":
+			case "ListItem":
 				require_once("content/classes/class.ilLMListItem.php");
 				$td =& new ilLMListItem($this->dom);
 				$td->setNode($cont_node);
@@ -490,7 +490,7 @@ class ilPageObject extends ilLMObject
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
-		$path = "//PageContent | //TableRow | //TableData | //Item";
+		$path = "//PageContent | //TableRow | //TableData | //ListItem";
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -685,7 +685,7 @@ class ilPageObject extends ilLMObject
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-			($curr_name == "Item"))
+			($curr_name == "ListItem"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
