@@ -33,6 +33,56 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
+administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###09 Mar 2004 new variable
+administration#:#analyzing#:#Analyzing...###09 Mar 2004 new variable
+administration#:#clean#:#Clean up###09 Mar 2004 new variable
+administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###09 Mar 2004 new variable
+administration#:#cleaning#:#Cleaning...###09 Mar 2004 new variable
+administration#:#cleaning_final#:#Final cleaning...###09 Mar 2004 new variable
+administration#:#closing_gaps#:#Closing gaps in tree...###09 Mar 2004 new variable
+administration#:#disabled#:#disabled###09 Mar 2004 new variable
+administration#:#done#:#Done###09 Mar 2004 new variable
+administration#:#found#:#found.###09 Mar 2004 new variable
+administration#:#found_none#:#none found.###09 Mar 2004 new variable
+administration#:#log_scan#:#Log scan results###09 Mar 2004 new variable
+administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###09 Mar 2004 new variable
+administration#:#nothing_to_purge#:#Nothing to purge...###09 Mar 2004 new variable
+administration#:#nothing_to_remove#:#Nothing to remove...###09 Mar 2004 new variable
+administration#:#nothing_to_restore#:#Nothing to restore...###09 Mar 2004 new variable
+administration#:#options#:#Options###09 Mar 2004 new variable
+administration#:#purge_missing#:#Purge missing objects###09 Mar 2004 new variable
+administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###09 Mar 2004 new variable
+administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
+administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
+administration#:#purging#:#Purging...###09 Mar 2004 new variable
+administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
+administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
+administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
+administration#:#removing_invalid_refs#:#Removing invalid references...###09 Mar 2004 new variable
+administration#:#restore_missing#:#Restore missing objects###09 Mar 2004 new variable
+administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###09 Mar 2004 new variable
+administration#:#restore_trash#:#Restore deleted objects###09 Mar 2004 new variable
+administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###09 Mar 2004 new variable
+administration#:#restoring#:#Restoring...###09 Mar 2004 new variable
+administration#:#restoring_missing_objs#:#Restoring missing objects...###09 Mar 2004 new variable
+administration#:#restoring_trash#:#Restoring trash...###09 Mar 2004 new variable
+administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###09 Mar 2004 new variable
+administration#:#scan_completed#:#Scan completed###09 Mar 2004 new variable
+administration#:#scan_details#:#Scan details###09 Mar 2004 new variable
+administration#:#scan_modes#:#Scan modes used###09 Mar 2004 new variable
+administration#:#scan_only#:#Scan only###09 Mar 2004 new variable
+administration#:#scanning_system#:#Scanning system...###09 Mar 2004 new variable
+administration#:#searching_deleted_objs#:#Searching for deleted objects...###09 Mar 2004 new variable
+administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###09 Mar 2004 new variable
+administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
+administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
+administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
+administration#:#skippede#:#skipped###09 Mar 2004 new variable
+administration#:#start_scan#:#Start!###09 Mar 2004 new variable
+administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
+administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
+administration#:#view_log#:#View details###09 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_matching_pair#:#dodaj pasującą parę
@@ -955,6 +1005,7 @@ common#:#obj_adm#:#Ustawienia systemowe###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_chac#:#Ustawienia czatu
+common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Czat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
@@ -982,6 +1033,8 @@ common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do 
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
 common#:#obj_qpl#:#Pula pytań
+common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
+common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
 common#:#obj_role#:#Rola
 common#:#obj_rolf#:#Role
 common#:#obj_rolf_desc#:#Zarządzanie rolami.
