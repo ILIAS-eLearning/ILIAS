@@ -93,13 +93,21 @@ class ilMapArea
 	*/
 	function create()
 	{
+		global $ilDB;
+
 		$q = "INSERT INTO map_area (item_id, nr, shape, ".
 			"coords, link_type, title, href, target, type, target_frame) ".
 			" VALUES (".
-			"'".$this->getItemId()."','".$this->getNr()."','".$this->getShape()."',".
-			"'".$this->getCoords()."','".$this->getLinkType()."','".$this->getTitle()."',".
-			"'".$this->getHref()."','".$this->getTarget()."','".$this->getType()."',".
-			"'".$this->getTargetFrame()."')";
+			$ilDB->quote($this->getItemId()).",".
+			$ilDB->quote($this->getNr()).",".
+			$ilDB->quote($this->getShape()).",".
+			$ilDB->quote($this->getCoords()).",".
+			$ilDB->quote($this->getLinkType()).",".
+			$ilDB->quote($this->getTitle()).",".
+			$ilDB->quote($this->getHref()).",".
+			$ilDB->quote($this->getTarget()).",".
+			$ilDB->quote($this->getType()).",".
+			$ilDB->quote($this->getTargetFrame()).")";
 		$this->ilias->db->query($q);
 	}
 
@@ -146,16 +154,18 @@ class ilMapArea
 	*/
 	function update()
 	{
-		$q = "UPDATE map_area SET shape = '".$this->getShape()."'".
-			", coords = '".$this->getCoords()."'".
-			", link_type = '".$this->getLinkType()."'".
-			", title = '".addslashes($this->getTitle())."'".
-			", href = '".addslashes($this->getHref())."'".
-			", target = '".$this->getTarget()."'".
-			", type = '".$this->getType()."'".
-			", target_frame = '".$this->getTargetFrame()."'".
-			" WHERE item_id = '".$this->getItemId()."' AND nr = ".
-				"'".$this->getNr()."'";
+		global $ilDB;
+
+		$q = "UPDATE map_area SET shape = ".$ilDB->quote($this->getShape()).
+			", coords = ".$ilDB->quote($this->getCoords()).
+			", link_type = ".$ilDB->quote($this->getLinkType()).
+			", title = ".$ilDB->quote($this->getTitle()).
+			", href = ".$ilDB->quote($this->getHref()).
+			", target = ".$ilDB->quote($this->getTarget()).
+			", type = ".$ilDB->quote($this->getType()).
+			", target_frame = ".$ilDB->quote($this->getTargetFrame()).
+			" WHERE item_id = ".$ilDB->quote($this->getItemId())." AND nr = ".
+				$ilDB->quote($this->getNr());
 		$this->ilias->db->query($q);
 //echo "<br>$q<br>";
 	}
@@ -165,6 +175,8 @@ class ilMapArea
 	*/
 	function _resolveIntLinks($a_item_id)
 	{
+		global $ilDB;
+
 //echo "maparea::resolve<br>";
 		$q = "SELECT * FROM map_area WHERE item_id='".$a_item_id."'";
 		$area_set = $this->ilias->db->query($q);
@@ -180,8 +192,8 @@ class ilMapArea
 				$new_target = ilInternalLink::_getIdForImportId($type, $target);
 				if ($new_target !== false)
 				{
-					$query = "UPDATE map_area SET target='".$new_target."' ".
-						"WHERE item_id='".$item_id."' AND nr='".$nr."'";
+					$query = "UPDATE map_area SET target= ".$ilDB->quote($new_target)." ".
+						"WHERE item_id= ".$ilDB->quote($item_id)." AND nr=".$ilDB->quote($nr);
 					$this->ilias->db->query($query);
 				}
 			}
