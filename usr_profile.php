@@ -42,6 +42,9 @@ if ($_POST["u_id"]!="")
 	$ilias->account->setEmail($_POST["usr_email"]);
 	$ilias->account->setLanguage($_POST["usr_language"]);
 
+	//set user skin
+	$ilias->account->writePref("skin", $_POST["usr_skin"]);
+	
 	if ($ilias->account->update() == false)
 	{
 		$tpl->setCurrentBlock("message");
@@ -102,9 +105,20 @@ $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 
 
+
 //what gui's are available for ilias?
 $ilias->getSkins();
-vd($this->skins);
+foreach ($ilias->skins as $row)
+{
+	$tpl->setCurrentBlock("selectskin");
+	if ($ilias->account->prefs["skin"] == $row["name"])
+	{
+		$tpl->setVariable("SKINSELECTED", "selected");
+	}
+	$tpl->setVariable("SKINVALUE", $row["name"]);
+	$tpl->setVariable("SKINOPTION", $row["name"]);
+	$tpl->parseCurrentBlock();
+}
 
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->data["login"]);

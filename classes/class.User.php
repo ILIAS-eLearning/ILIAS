@@ -114,6 +114,11 @@ class User extends PEAR
 			//set language to default if not set
 			if ($this->prefs["language"] == "")
 				$this->prefs["language"] = $ilias->ini->readVariable("language","default");
+			//set template to default if not set
+//			if ($this->prefs["skin"] == "")
+//			{
+//			 	$this->prefs["skin"] = $ilias->ini->readVariable("")
+//			}
 		}
 		else
 		{
