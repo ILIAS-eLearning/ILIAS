@@ -292,7 +292,7 @@ class ilGlossaryTerm
 		$a_xml_writer->xmlStartTag("GlossaryItem", $attrs);
 
 		$attrs = array();
-		$a_xml_writer->xmlElement("GlossaryTerm", $this->getTerm());
+		$a_xml_writer->xmlElement("GlossaryTerm", $attrs, $this->getTerm());
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
 

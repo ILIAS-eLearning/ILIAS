@@ -588,6 +588,7 @@ common#:#contact_data#:#Contact Information
 common#:#container#:#Container
 common#:#context#:#Context
 common#:#copy#:#Copy
+common#:#bib_data#:#Bibliographical Data
 common#:#copy_of#:#Copy of
 common#:#country#:#Country
 common#:#course#:#Course
@@ -1715,6 +1716,8 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+common#:#import_glossary#:#Import Glossary
+common#:#glo_upload_file#:#File
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number

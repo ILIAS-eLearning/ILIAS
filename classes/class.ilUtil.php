@@ -1015,13 +1015,14 @@ class ilUtil
 		$unzipcmd = $unzip." -Z -1 ".ilUtil::escapeShellArg($file);
 		exec($unzipcmd, $arr);
 		$zdirs = array();
+
 		foreach($arr as $line)
 		{
 			if(is_int(strpos($line, "/")))
 			{
 				$zdir = substr($line, 0, strrpos($line, "/"));
 				$nr = substr_count($zdir, "/");
-				//echo $dir." ".$nr."<br>";
+				//echo $zdir." ".$nr."<br>";
 				while ($zdir != "")
 				{
 					$nr = substr_count($zdir, "/");
@@ -1040,7 +1041,7 @@ class ilUtil
 		}
 
 		// real unzip
-		$unzipcmd = $unzip." ".addslashes(ilUtil::escapeShellArg($file));
+		$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
 		exec($unzipcmd);
 
 		chdir($cdir);

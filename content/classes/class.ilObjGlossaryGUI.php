@@ -122,8 +122,48 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		parent::createObject();
-		return;
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			$this->getTemplateFile("create", $new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->tpl->setVariable("TXT_IMPORT_GLO", $this->lng->txt("import_glossary"));
+			$this->tpl->setVariable("TXT_GLO_FILE", $this->lng->txt("glo_upload_file"));
+			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		}
 	}
 
 	/**
@@ -167,6 +207,76 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		}
 	}
+
+	/**
+	* display status information or report errors messages
+	* in case of error
+	*
+	* @access	public
+	*/
+	function importObject()
+	{
+		global $HTTP_POST_FILES, $rbacsystem;
+
+		// check if file was uploaded
+		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
+		if (($source == 'none') || (!$source))
+		{
+			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+		}
+		// check create permission
+		/*
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
+		}*/
+
+		// check correct file type
+		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip" && $HTTP_POST_FILES["xmldoc"]["type"] != "application/x-zip-compressed")
+		{
+			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+		}
+
+		// create and insert object in objecttree
+		include_once("content/classes/class.ilObjGlossary.php");
+		$newObj = new ilObjGlossary();
+		$newObj->setType($_GET["new_type"]);
+		$newObj->setTitle("dummy");
+		$newObj->setDescription("dummy");
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		// create import directory
+		$newObj->createImportDirectory();
+
+		// copy uploaded file to import directory
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filename of xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+//echo "xmlfile:".$xml_file;
+
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+		$contParser->startParsing();
+
+		// not allowed here: move to glossary class!
+		$q = "UPDATE object_data SET title = '" . $newObj->getTitle() . "', description = '" . $newObj->getDescription() . "' WHERE obj_id = '" . $newObj->getID() . "'";
+		$this->ilias->db->query($q);
+
+		sendInfo($this->lng->txt("glo_added"),true);
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+	}
+
 
 	/**
 	* choose meta data section

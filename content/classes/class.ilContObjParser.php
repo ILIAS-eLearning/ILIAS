@@ -411,11 +411,15 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BEGIN_TAG:".$a_name.": <br>";
 		switch($a_name)
 		{
 			case "ContentObject":
 				$this->current_object =& $this->content_object;
+//echo "<br>Parser:CObjType:".$a_attribs["Type"];
+				if ($a_attribs["Type"] == "Glossary")
+				{
+					$this->glossary_object =& $this->content_object;
+				}
 				break;
 
 			case "StructureObject":
@@ -484,14 +488,18 @@ class ilContObjParser extends ilSaxParser
 
 			case "Glossary":
 				$this->in_glossary = true;
-				$this->glossary_object =& new ilObjGlossary();
-				$this->glossary_object->setDescription("");
-				$this->glossary_object->create();
-				$this->glossary_object->createReference();
-				$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
-				$this->glossary_object->putInTree($parent["child"]);
-				$this->glossary_object->setPermissions($parent["child"]);
-				$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
+				if ($this->content_object->getType() != "glo")
+				{
+//echo "<br>Glossary inside LM";
+					$this->glossary_object =& new ilObjGlossary();
+					$this->glossary_object->setDescription("");
+					$this->glossary_object->create();
+					$this->glossary_object->createReference();
+					$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
+					$this->glossary_object->putInTree($parent["child"]);
+					$this->glossary_object->setPermissions($parent["child"]);
+					$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
+				}
 				$this->current_object =& $this->glossary_object;
 				break;
 
@@ -927,7 +935,9 @@ class ilContObjParser extends ilSaxParser
 					$xml = $nested->dom->dump_mem(0);
 					$nested->import($xml,$this->current_object->getId(),"st");
 				}
-				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjcontentobject")
+				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule" ||
+					get_class($this->current_object) == "ilobjcontentobject" ||
+					(get_class($this->current_object) == "ilobjglossary" && $this->in_glossary))
 				{
 					// Metadaten eines ContentObjects sichern in NestedSet
 					include_once("./classes/class.ilNestedSetXML.php");
@@ -941,12 +951,16 @@ class ilContObjParser extends ilSaxParser
 						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 					}
 					$xml = $nested->dom->dump_mem(0);
+//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($xml).":<br>";
+//echo "<br>ID:".$this->current_object->getId().":Type:".$this->current_object->getType();
+//echo $this->in_glossary;
 					$nested->import($xml,$this->current_object->getId(),$this->current_object->getType());
 				}
 				else if(get_class($this->current_object) == "ilglossarydefinition" && !$this->in_media_object)
 				{
-//echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
+//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($this->meta_data->getXMLContent()).":<br>";
 					$this->glossary_definition->create();
+//echo "<br>ID:".$this->current_object->getId().":Type:".$this->current_object->getType();
 					$this->page_object->setId($this->glossary_definition->getId());
 					$this->page_object->updateFromXML();
 //echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
@@ -962,6 +976,8 @@ class ilContObjParser extends ilSaxParser
 						$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 					}
 					$xml = $nested->dom->dump_mem(0);
+//echo "<br><br>class:".get_class($this->current_object).":".htmlentities($xml).":<br>";
+//echo "<br>ID:".$this->glossary_definition->getId().":Type:gdf";
 					$nested->import($xml,$this->glossary_definition->getId(),"gdf");
                 }
 
@@ -970,7 +986,8 @@ class ilContObjParser extends ilSaxParser
 					get_class($this->current_object) == "ilobjdlbook" ||
 					get_class($this->current_object) == "ilobjglossary")
 				{
-					if (get_class($this->current_object) == "ilobjglossary")
+					if (get_class($this->current_object) == "ilobjglossary" &&
+						$this->content_object->getType() != "glo")
 					{
 						$this->current_object->setTitle($this->content_object->getTitle()." - ".
 							$this->lng->txt("glossary"));
@@ -1003,6 +1020,7 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "GlossaryTerm":
+				$this->glossary_term->setTerm($this->chr_data);
 				$this->glossary_term->create();
 				break;
 
@@ -1020,17 +1038,72 @@ class ilContObjParser extends ilSaxParser
 				}
 				break;
 
+			case "Format":
+				if ($this->in_media_item)
+				{
+					$this->media_item->setFormat($this->chr_data);
+				}
+				if ($this->in_meta_data)
+				{
+					$this->meta_technical->addFormat($this->chr_data);
+				}
+				if ($this->in_file_item)
+				{
+					$this->file_item->setFileType($this->chr_data);
+				}
+				break;
+
+			case "Title":
+				$this->meta_data->setTitle($this->chr_data);
+				break;
+
+			case "Language":
+				$this->meta_data->setLanguage($this->chr_data);
+				break;
+
+			case "Description":
+				$this->meta_data->setDescription($this->chr_data);
+				break;
+
+			case "Caption":
+				if ($this->in_media_object)
+				{
+					$this->media_item->setCaption($this->chr_data);
+				}
+				break;
+
+			// TECHNICAL: Location
+			case "Location":
+				// TODO: adapt for files in "real" subdirectories
+				if ($this->in_media_item)
+				{
+					$this->media_item->setLocationType($this->loc_type);
+					$this->media_item->setLocation($this->chr_data);
+				}
+				if ($this->in_meta_data)
+				{
+					//$this->meta_technical->addLocation($this->loc_type, $a_data);
+				}
+				if ($this->in_file_item)
+				{
+					$this->file_item->setFileName($this->chr_data);
+					$this->file_item->setTitle($this->chr_data);
+				}
+				break;
+
 			//////////////////////////////////
 			/// MetaData Section
 			//////////////////////////////////
 			// TECHNICAL: Requirement
+			/*
 			case "Requirement":
 				$this->requirement_set->addRequirement($this->requirement);
-				break;
+				break;*/
+
 
 		}
 		$this->endElement($a_name);
-
+		$this->chr_data = "";
 	}
 
 	/**
@@ -1038,6 +1111,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+
 		// i don't know why this is necessary, but
 		// the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
 		// in character data, but we don't want that, because it's the
@@ -1048,6 +1122,9 @@ class ilContObjParser extends ilSaxParser
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
+
+		$this->chr_data .= $a_data;
+
 		if(!empty($a_data))
 		{
 			// append all data to page, if we are within PageObject,
@@ -1076,16 +1153,18 @@ class ilContObjParser extends ilSaxParser
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
 
+				/*
 				case "Caption":
 					if ($this->in_media_object)
 					{
 						$this->media_item->setCaption($a_data);
 					}
-					break;
+					break;*/
 
+				/*
 				case "GlossaryTerm":
 					$this->glossary_term->setTerm($a_data);
-					break;
+					break;*/
 
 				case "IntLink":
 				case "ExtLink":
@@ -1098,6 +1177,7 @@ class ilContObjParser extends ilSaxParser
 				///////////////////////////
 				/// MetaData Section
 				///////////////////////////
+				/*
 				case "Title":
 					$this->meta_data->setTitle(addslashes($a_data));
 					break;
@@ -1108,7 +1188,7 @@ class ilContObjParser extends ilSaxParser
 
 				case "Description":
 					$this->meta_data->setDescription($a_data);
-					break;
+					break;*/
 
 				case "Keyword":
 //					$this->meta_data->addKeyword($this->keyword_language, $a_data);
@@ -1116,6 +1196,7 @@ class ilContObjParser extends ilSaxParser
 					break;
 
 				// TECHNICAL: Format
+				/*
 				case "Format":
 					if ($this->in_media_item)
 					{
@@ -1129,17 +1210,18 @@ class ilContObjParser extends ilSaxParser
 					{
 						$this->file_item->setFileType($a_data);
 					}
-					break;
+					break;*/
 
 				// TECHNICAL: Size
 				case "Size":
-					$this->meta_technical->setSize($a_data);
+					//$this->meta_technical->setSize($a_data);
 					break;
 
 				// TECHNICAL: Location
 				case "Location":
 //echo "Adding a location:".$this->loc_type.":".$a_data.":<br>";
 					// TODO: adapt for files in "real" subdirectories
+				/*
 					if ($this->in_media_item)
 					{
 						$this->media_item->setLocationType($this->loc_type);
@@ -1154,9 +1236,10 @@ class ilContObjParser extends ilSaxParser
 						$this->file_item->setFileName($a_data);
 						$this->file_item->setTitle($a_data);
 					}
-					break;
+					break;*/
 
 				// TECHNICAL: InstallationRemarks
+				/*
 				case "InstallationRemarks":
 					$this->meta_technical->setInstallationRemarks($a_data);
 					break;
@@ -1169,7 +1252,7 @@ class ilContObjParser extends ilSaxParser
 				// TECHNICAL: Duration
 				case "Duration":
 					$this->meta_technical->setDuration($a_data);
-					break;
+					break;*/
 
 			}
 		}
