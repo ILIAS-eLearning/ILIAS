@@ -168,9 +168,13 @@ class ilObjGroup extends ilObject
 	function getGroupMemberIds($a_grpId="")
 	{
 		global $rbacadmin, $rbacreview;
+		//echo ($a_grpId);
+		$this->m_grpId = $a_grpId;
+		
 		$usr_arr= array();
-
+		//echo ($this->m_grpId);
 		$rolf = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		//var_dump ($rolf);
 		$rol  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
 
 		foreach ($rol as $value) 
@@ -181,6 +185,7 @@ class ilObjGroup extends ilObject
 			}
 		}
 		$mem_arr = array_unique($usr_arr);
+		//var_dump ($mem_arr);
 		return $mem_arr;
 	}
 
@@ -364,12 +369,38 @@ class ilObjGroup extends ilObject
 		return NULL;		
 	}
 
+	
+	function getContextPath2($a_endnode_id, $a_startnode_id = 0)
+	{
+		global $tree;		
+
+		$path = "";		
+	
+		$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);		
+
+		// count -1, to exclude the forum itself
+		for ($i = 0; $i < (count($tmpPath) - 1); $i++)
+		{
+			if ($path != "")
+			{
+				$path .= " > ";
+			}
+		
+			$path .= $tmpPath[$i]["title"];
+		}
+
+		return $path;
+	}
+
+
+
+
 	/**
 	* get Member status
 	* @access	public
 	* @param	integer	user id
 	*/
-	function getMemberStatus($a_userId="")
+	function getContextPath($a_userId="")
 	{
 	}
 
