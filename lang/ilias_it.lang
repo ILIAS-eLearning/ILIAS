@@ -136,7 +136,7 @@ assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
 assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area desiderata.
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
+assessment#:#close_text_hint#:#Puoi definire uno spazio vuoto inserendo i tag <gap></gap> nella posizione che desideri. Premi il pulsante 'Crea uno spazio vuoto' se vuoi aggiungere una maschera editabile per ogni spazio vuoto.
 assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#code#:#Codice
 assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
@@ -145,11 +145,11 @@ assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
 assessment#:#counter#:#Contatore
 assessment#:#create_date#:#Data creazione
-assessment#:#create_gaps#:#Crea un vuoto
-assessment#:#create_imagemap#:#Crea una immaggine con mappa
+assessment#:#create_gaps#:#Crea uno spazio vuoto
+assessment#:#create_imagemap#:#Crea una immagine con mappa
 assessment#:#create_new#:#Nuova domanda
 assessment#:#delete_area#:#Elimina area
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
+assessment#:#description_maxchars#:#Se non viene inserito un valore, in questo campo testo non c'&#232; limite alle dimensioni della risposta.
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l'esecuzione del test!
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
@@ -247,15 +247,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#Si &#232; verificato un errore nel 
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
-assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
-assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
-assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
-assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
-assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
-assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
+assessment#:#log_create_new_test#:#Creato nuovo test
+assessment#:#log_mark_added#:#Aggiunto marcatore
+assessment#:#log_mark_changed#:#Modificato marcatore
+assessment#:#log_mark_removed#:#Eliminato marcatore
+assessment#:#log_modified_test#:#Il test &#232; stato modificato
+assessment#:#log_no_test_fields_changed#:#Salvato, ma non modificato
+assessment#:#log_question_added#:#Domanda aggiunta nella posizione
+assessment#:#log_question_position_changed#:#Modificata posizione della domanda
+assessment#:#log_question_removed#:#Eliminata domanda
 assessment#:#maintenance#:#Manutenzione
 assessment#:#mark_schema#:#Schema voti
 assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
@@ -265,7 +265,7 @@ assessment#:#matching_pair#:#Coppia -> termine
 assessment#:#material#:#Materiale
 assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
-assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
+assessment#:#maxchars#:#Numero massimo di caratteri
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
 assessment#:#min_percentage_ne_0#:#Devi definire la percentuale minima dello 0 percento! Lo schema voti non &#232; stato salvato.
@@ -316,7 +316,7 @@ assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
+assessment#:#qt_text#:#Domanda con risposta breve (testo)
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_title#:#Titolo della domanda
@@ -344,7 +344,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
-assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
+assessment#:#save_text_answer_points#:#Salva i punti della domanda
 assessment#:#search_found_groups#:#Gruppi trovati
 assessment#:#search_found_users#:#Utenti trovati
 assessment#:#see_details_for_further_information#:#Vedi dettagli per la risposta suggerita
@@ -365,9 +365,9 @@ assessment#:#statistical_data#:#Dati statistici
 assessment#:#suggested_solution_added_successfully#:#Hai messo con successo una delle risposte suggerite!
 assessment#:#symbol#:#Simbolo
 assessment#:#test_cancelled#:#Il test &#232; stato cancellato
-assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
+assessment#:#text_answers_saved#:#Punti della domanda con testo modificati!
 assessment#:#text_gap#:#Spazio vuoto
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
+assessment#:#text_maximum_chars_allowed#:#Il numero massimo di caratteri consentiti &#232; %s. Ogni carattere in pi&#249; verr&#224; tolto.
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
@@ -664,7 +664,7 @@ common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action#:#Azione
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
+common#:#activate_assessment_logging#:#Attiva il log per Test&Valutazioni
 common#:#activate_https#:#HTTPS attivato (Pagamento, Login)
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
@@ -728,14 +728,14 @@ common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
 common#:#articels_unread#:#Articoli da leggere:
 common#:#as_of#:#di
-common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
-common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
-common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
-common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
-common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
-common#:#assign#:#Assegna
+common#:#assessment_settings#:#Impostazioni Test&Valutazioni
+common#:#assf_edit_permission#:#Modificare i permessi
+common#:#assf_read#:#Accedere in lettura a Test&Valutazioni
+common#:#assf_visible#:#Vedere Test&Valutazioni
+common#:#assf_write#:#Modificare Test&Valutazioni
+common#:#assign#:#Accetta
 common#:#assign_global_role#:#Assegnato ad un ruolo globale
-common#:#assign_lo_forum#:#Assegna il forum
+common#:#assign_lo_forum#:#Assegna al forum
 common#:#assign_local_role#:#Assegna al ruolo locale
 common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo
 common#:#assigned_roles#:#Ruoli assegnati
@@ -766,7 +766,7 @@ common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#auto_registration#:#Registrazione approvata automaticamente
-common#:#available#:#Disponibile
+common#:#available#:#Presente
 common#:#available_languages#:#Lingue disponibili
 common#:#average_time#:#Tempo medio
 common#:#back#:#Indietro
@@ -866,8 +866,8 @@ common#:#chat_new#:#Nuova chat
 common#:#chat_read#:#Accedere in lettura/scrittura ad una chat
 common#:#chat_visible#:#Vedere una chat
 common#:#chat_write#:#Modificare una chat
-common#:#check#:#Controlla
-common#:#check_all#:#Controlla tutto
+common#:#check#:#Seleziona
+common#:#check_all#:#Seleziona tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
 common#:#check_link#:#Verifica il link
@@ -882,8 +882,8 @@ common#:#choose_language#:#Scegli la lingua
 common#:#choose_location#:#Scegli la cartella
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.
 common#:#city#:#Citt&#224;
-common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
-common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
+common#:#cleaned_file#:#Il file &#232; stato svuotato.
+common#:#cleaning_failed#:#Svuotamento del file fallito.
 common#:#clear#:#Annulla
 common#:#clear_clipboard#:#Appunti vuoto
 common#:#client ip#:#Client Ip
@@ -950,7 +950,7 @@ common#:#crs_create_lm#:#Creare un modulo ILIAS
 common#:#crs_create_mep#:#Creare una raccolta multimediale
 common#:#crs_create_qpl#:#Creare una raccolta di domande per test
 common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#crs_create_spl#:#Creare Una raccolta di domande per sondaggi
+common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
 common#:#crs_delete#:#Cancellare un corso
@@ -1021,7 +1021,7 @@ common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
 common#:#desired_password#:#Nuova password
-common#:#disabled#:#Disabilitata
+common#:#disabled#:#Disabilitato
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
@@ -1037,9 +1037,9 @@ common#:#edit_roleassignment#:#Modifica assegnamento ruoli
 common#:#edit_stylesheet#:#Modifica stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editore
-common#:#email#:#Email
+common#:#email#:#eMail
 common#:#email_footer#:#<br />powered by ILIAS
-common#:#email_not_valid#:#L&#039;indirizzo email non &#232; valido!
+common#:#email_not_valid#:#L&#039;indirizzo eMail non &#232; valido!
 common#:#enable#:#Abilita
 common#:#enable_hist_user_comments#:#Abilita i commenti nella storia delle pagine
 common#:#enable_hist_user_comments_desc#:#Con questa opzione gli autori possono aggiungere commenti nella storia delle pagine.
@@ -1047,7 +1047,7 @@ common#:#enable_js_edit#:#Abilita la modifica di JavaScript
 common#:#enable_js_edit_info#:#Questa opzione abilita la modifica dei JavaScript per tutti gli oggetti contenuti (Moduli ILIAS, Glossari, Domande, Librerie digitali) 
 common#:#enable_password_assistance#:#Abilita il servizio di assistenza per la password
 common#:#enable_registration#:#Abilita la registrazione di nuovi utenti.
-common#:#enabled#:#Abilitata
+common#:#enabled#:#Abilitato
 common#:#enter_filename_deliver#:#Indica l'esercitazione da inviare
 common#:#enumerate#:#Elenca
 common#:#err_1_param#:#Solo 1 parametro!
@@ -1129,7 +1129,7 @@ common#:#file_added#:#Upload del file eseguito
 common#:#file_delete#:#Cancellare un file
 common#:#file_edit#:#Modificare un file
 common#:#file_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
+common#:#file_is_infected#:#Il file &#232; stato infettato da un virus.
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
@@ -1244,20 +1244,20 @@ common#:#group_memstat#:#Stato del membro
 common#:#group_memstat_admin#:#Amministratore
 common#:#group_memstat_member#:#Membro
 common#:#group_name#:#Nome del gruppo
-common#:#group_new_registrations#:#Nuove registrazioni
-common#:#group_no_registration#:#nessuna registrazione richiesta
+common#:#group_new_registrations#:#Nuove iscrizioni
+common#:#group_no_registration#:#nessuna iscrizione richiesta
 common#:#group_no_registration_msg#:#Non sei pi&#249; membro di questo gruppo. Per motivi amministrativi &#232; necessario appartenere al gruppo richiesto.<br> Come membro del gruppo hai i seguenti vantaggi:<br>- Sei informato sulle novit&#224; e sugli aggiornamenti<br>- Puoi accedere ad oggetti come forum, moduli, etc.<br><br>Potrai annullare la tua appartenenza in qualsiasi momento.
 common#:#group_not_available#:#Nessun gruppo disponibile
 common#:#group_objects#:#Gruppo di oggetti
 common#:#group_password_registration_expired_msg#:#Il periodo di appartenenza a questo gruppo &#232; terminato, questo &#232; l&#039;ultimo avviso. Puoi contattare il proprietario o l&#039;amministratore del gruppo.
 common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.
-common#:#group_registration_expiration_date#:#Data di scadenza del periodo di registrazione
-common#:#group_registration_expiration_time#:#Ora di scadenza del periodo di registrazione
-common#:#group_registration_expired#:#Periodo di registrazione terminato
-common#:#group_registration_mode#:#Tipo di registrazione
-common#:#group_req_password#:#E&#039; richiesta la password di registrazione
-common#:#group_req_registration#:#E&#039; richiesta la registrazione
-common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.
+common#:#group_registration_expiration_date#:#Data di scadenza del periodo di iscrizione
+common#:#group_registration_expiration_time#:#Ora di scadenza del periodo di iscrizione
+common#:#group_registration_expired#:#Periodo di iscrizione terminato
+common#:#group_registration_mode#:#Autoiscrizione
+common#:#group_req_password#:#E&#039; richiesta la password per l'iscrizione
+common#:#group_req_registration#:#E&#039; richiesta l'iscrizione
+common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere iscritto. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai iscritto al gruppo riceverai una eMail.
 common#:#group_reset#:#Azzeramento del gruppo
 common#:#group_status#:#Stato del gruppo
 common#:#group_status_closed#:#Chiuso
@@ -1295,7 +1295,7 @@ common#:#grp_create_tst#:#Creare un test
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
-common#:#grp_edit#:#Modificare il gruppo
+common#:#grp_edit#:#Propriet&#224; del gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Per ogni gruppo &#232; obbligatorio almeno un amministratore
@@ -1303,7 +1303,7 @@ common#:#grp_err_error#:#Si &#232; verificato un errore
 common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminato, puoi invece  eliminare il gruppo.
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
-common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
+common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di iscrizione valido!
 common#:#grp_header_edit_members#:#Modifica membri
 common#:#grp_join#:#Iscrivere ad un gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione ad un gruppo
@@ -1323,8 +1323,8 @@ common#:#grp_no_results_found#:#Non &#232; stato trovato nessun risultato
 common#:#grp_no_roles_selected#:#Non &#232; stato selezionato nessun ruolo
 common#:#grp_options#:#Opzioni
 common#:#grp_read#:#Accedere in lettura ad un gruppo
-common#:#grp_register#:#Registra
-common#:#grp_registration_completed#:#Registrazione completata
+common#:#grp_register#:#Iscrivi
+common#:#grp_registration_completed#:#Iscrizione completata
 common#:#grp_search_enter_search_string#:#Per favore indica cosa vuoi ricercare
 common#:#grp_search_members#:#Ricerca utenti
 common#:#grp_visible#:#Vedere un gruppo
@@ -1410,7 +1410,7 @@ common#:#info_assign_sure#:#Sei sicuro di voler assegnare i seguenti utenti?
 common#:#info_delete_sure#:#Sei sicuro di voler eliminare i seguenti oggetti?
 common#:#info_deleted#:#Eliminazione eseguita
 common#:#info_trash#:#Oggetti eliminati
-common#:#inform_user_mail#:#Invia una email per informare gli utenti dei cambiamenti
+common#:#inform_user_mail#:#Invia una eMail per informare gli utenti dei cambiamenti
 common#:#information_abbr#:#Informazioni
 common#:#ingmedia_all_offers#:#Tutti i LE
 common#:#ingmedia_back_to_le#:#Torna ai LE
@@ -1425,7 +1425,7 @@ common#:#ingmedia_level_zero#:#Livello superiore
 common#:#ingmedia_pers_dates#:#Dati personali
 common#:#ingmedia_reg_fo#:#Forum registrati
 common#:#ingmedia_reg_le#:#LE registrati
-common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite email (!).
+common#:#ingmedia_use_info1#:#Puoi cambiare i tuoi dati personali. Ad eccezione dell&#039;utente e della password INGMEDIA, non devi riempire altri campi. Ricorda che le password dimenticate verranno comunicate solo tramite eMail (!).
 common#:#ingmedia_use_info2#:#Non &#232; consentito l&#039;uso di caratteri speciali (come , ; . = - * + #) nella definizione dell&#039;utente e della password INGMEDIA. Per poter accedere alla piattaforma INGMEDIA, devi accettare l&acute;autorizzazione utente.
 common#:#ingmedia_use_info3#:#Per favore, seleziona uno dei link nella barra laterale.
 common#:#ingmedia_use_title#:#Cambia i dati utente.
@@ -1568,7 +1568,7 @@ common#:#login_time#:#Tempo di accesso
 common#:#login_to_ilias#:#Entra in ILIAS 3
 common#:#logout#:#Logout
 common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
-common#:#logs#:#Log data###07 Jan 2005 new variable
+common#:#logs#:#Log con i dati
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
 common#:#mail#:#Posta
@@ -1627,13 +1627,13 @@ common#:#mep_read#:#Accedere il lettura ad una libreria multimediale
 common#:#mep_visible#:#Vedere una libreria multimediale
 common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
 common#:#message#:#Messaggio
-common#:#message_content#:#Contenuto del messaggio
+common#:#message_content#:#Contenuto
 common#:#message_no_delivered_files#:#Non hai ancora inviato il file!
 common#:#message_to#:#Messaggio a:
-common#:#meta_data#:#Meta Dati
+common#:#meta_data#:#MetaDati
 common#:#migrate#:#migrare
 common#:#min_time#:#Tempo minimo
-common#:#missing#:#Mancante
+common#:#missing#:#Assente
 common#:#mob#:#Oggetto multimediale
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
@@ -1759,7 +1759,7 @@ common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
 common#:#new_list_password#:#Password suggerite
-common#:#new_mail#:#Nuova email!
+common#:#new_mail#:#Nuova eMail!
 common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
@@ -1798,15 +1798,15 @@ common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
-common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutte le schede per poter amministrare la tua installazione di ILIAS 3.
+common#:#obj_adm_desc#:#La sezione con le impostazioni di sistema contiene tutte le schede per poter amministrare la tua installazione di ILIAS 3.
 common#:#obj_alm#:#Modulo AICC
-common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
+common#:#obj_assf#:#Test&Valutazioni
 common#:#obj_auth#:#Autenticazione
-common#:#obj_auth_desc#:#Configura la modalit&#224; di autenticazione (locale, LDAP, ...)
+common#:#obj_auth_desc#:#Per configurare la modalit&#224; di autenticazione (locale o tramite LDAP)
 common#:#obj_cat#:#Contesto
 common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
-common#:#obj_chac_desc#:#Configura il server di chat. Abilita/Disabilita chat.
+common#:#obj_chac_desc#:#Per configurare il server di chat, abilitare/disabilitare la chat.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
@@ -1819,31 +1819,31 @@ common#:#obj_grp#:#Gruppo
 common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
 common#:#obj_ldap#:#Impostazioni LDAP
-common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP.
+common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
 common#:#obj_lm#:#Modulo ILIAS
 common#:#obj_lng#:#Lingua
 common#:#obj_lngf#:#Impostazioni lingue
-common#:#obj_lngf_desc#:#Configura e installa le lingue di sistema.
+common#:#obj_lngf_desc#:#Per configurare e installare le lingue di sistema.
 common#:#obj_lo#:#Unit&#224; didattica
 common#:#obj_mail#:#Impostazioni posta
-common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail.
+common#:#obj_mail_desc#:#Per configurare le impostazioni globali della posta.
 common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
 common#:#obj_objf#:#Gestione oggetti
-common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS 3. (solo per utenti esperti!)
+common#:#obj_objf_desc#:#Per configurare i tipi di oggetti ed i permessi sugli stessi in ILIAS 3 (solo per utenti esperti!).
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pays#:#Impostazioni pagamenti
-common#:#obj_pays_desc#:#Configura le impostazioni dei pagamenti e dei venditori.
+common#:#obj_pays_desc#:#Per configurare le impostazioni dei pagamenti e dei venditori.
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande (per test)
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
 common#:#obj_rolf#:#Gestione ruoli
-common#:#obj_rolf_desc#:#Configura i ruoli.
+common#:#obj_rolf_desc#:#Per configurare i ruoli.
 common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
@@ -1856,7 +1856,7 @@ common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
 common#:#obj_trac#:#Tracciamento utenti
-common#:#obj_trac_desc#:#Configura la modalit&#224; di tracciamento degli utenti.
+common#:#obj_trac_desc#:#Per configurare la modalit&#224; di tracciamento degli utenti.
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1864,7 +1864,7 @@ common#:#obj_url#:#URL
 common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
-common#:#obj_usrf_desc#:#Configura gli utenti.
+common#:#obj_usrf_desc#:#Per amministrare gli utenti.
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
@@ -2016,13 +2016,13 @@ common#:#referral_comment#:#Come hai sentito parlare di ILIAS?
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
-common#:#refuse#:#Rifiutato
+common#:#refuse#:#Rifiuta
 common#:#reg_mail_body_salutation#:#Ciao
 common#:#reg_mail_body_text1#:#Benvenuto in ILIAS!
 common#:#reg_mail_body_text2#:#Per accedere ad ILIAS utilizza i seguenti dati:
 common#:#reg_mail_body_text3#:#Ulteriori informazioni personali:
 common#:#reg_mail_subject#:#ILIAS - I tuoi dati di accesso
-common#:#reg_passwd_via_mail#:#La password verr&#232; inviata all'indirizzo di email indicato qui sotto.variable
+common#:#reg_passwd_via_mail#:#La password verr&#232; inviata all'indirizzo di eMail indicato qui sotto.variable
 common#:#register#:#Registra
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).
 common#:#registered_since#:#Registrato dal
@@ -2036,9 +2036,9 @@ common#:#remove_personal_picture#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
 common#:#rename#:#Rinomina
 common#:#rename_file#:#Rinomina il file
-common#:#repeat_scan#:#Repeating virus scan...###07 Jan 2005 new variable
-common#:#repeat_scan_failed#:#Repeat scan failed.###07 Jan 2005 new variable
-common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
+common#:#repeat_scan#:#Ripetizione ricerca virus ...
+common#:#repeat_scan_failed#:#Ripetizione ricerca virus fallita.
+common#:#repeat_scan_succeded#:#Ripetizione ricerca virus eseguita.
 common#:#replace_file#:#Sosituisci il file
 common#:#reply#:#Rispondi
 common#:#repository#:#Risorse
@@ -2046,7 +2046,7 @@ common#:#require_city#:#Citt&#224; obbligatoria
 common#:#require_country#:#Nazione obbligatoria
 common#:#require_default_role#:#Ruolo obbligatorio
 common#:#require_department#:#Dipartimento obbligatorio
-common#:#require_email#:#EMail obbligatoria
+common#:#require_email#:#eMail obbligatoria
 common#:#require_fax#:#Fax obbligatorio
 common#:#require_firstname#:#Nome obbligatorio
 common#:#require_gender#:#Sesso obbligatorio
@@ -2134,7 +2134,7 @@ common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
 common#:#save#:#Salva
 common#:#save_and_back#:#Salva e indietro
-common#:#save_message#:#Salva messaggio
+common#:#save_message#:#Salva
 common#:#save_refresh#:#Salva e aggiorna
 common#:#save_return#:#Salva e invia
 common#:#save_settings#:#Salva le impostazioni
@@ -2143,11 +2143,11 @@ common#:#saved#:#Salvato
 common#:#saved_successfully#:#Modifiche effettuate con successo
 common#:#search#:#Ricerca
 common#:#search_active#:#Includi utenti attivi
-common#:#search_for#:#Ricerca per
+common#:#search_for#:#Ricerca
 common#:#search_in#:#Ricerca in
-common#:#search_inactive#:#Includ utenti inattivi
+common#:#search_inactive#:#Includi utenti inattivi
 common#:#search_new#:#Nuova ricerca
-common#:#search_note#:#Se il campo 'ricerca in' viene lasciato vuoto, verranno ricercati tutti gli utenti. Questo ti consentir&#224; di trovare sia gli utenti attivi che quelli inattivi.
+common#:#search_note#:#Se il campo 'Ricerca in' viene lasciato vuoto, verranno ricercati tutti gli utenti. Questo ti consentir&#224; di trovare sia gli utenti attivi che quelli inattivi.
 common#:#search_recipient#:#Ricerca destinario
 common#:#search_result#:#Risultati ricerca
 common#:#search_user#:#Ricerca utente
@@ -2317,7 +2317,7 @@ common#:#up#:#Su
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
 common#:#upload#:#Upload
-common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
+common#:#upload_error_file_not_found#:#Errore nell'upload: file non trovato.
 common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
 common#:#url#:#URL
 common#:#url_a#:#una URL
@@ -2347,7 +2347,7 @@ common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#user_profile_other#:#Ulteriori informazioni
 common#:#user_statistics#:#Dati statistici
 common#:#userdata#:#Dati utente
-common#:#username#:#Nome utente
+common#:#username#:#Login
 common#:#users#:#Utenti
 common#:#users_not_imported#:#I seguenti utenti non esistono, i loro messaggi non possono essere importati
 common#:#users_online#:#Utenti online
@@ -2368,8 +2368,8 @@ common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Eliminare un utente
 common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
 common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
-common#:#usrf_read#:#Accedere in lettura alla registrazione utente
-common#:#usrf_read_users#:#Ruolo assegnato per amministratori locali
+common#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
+common#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
 common#:#validate#:#Valida
@@ -2479,7 +2479,7 @@ content#:#cont_coords#:#Coordinate
 content#:#cont_copy_object#:#copia oggetto
 content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
-content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
+content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_export_file_html#:#Crea file di export (HTML)
 content#:#cont_create_export_file_xml#:#Crea file di export (XML)
 content#:#cont_create_folder#:#Crea cartella
@@ -2582,7 +2582,7 @@ content#:#cont_insert_file_item#:#Inserisci il file.
 content#:#cont_insert_file_list#:#Inserisci l'elenco di file.
 content#:#cont_insert_list#:#Inserisci lista
 content#:#cont_insert_mob#:#Inserisci oggetto multimediale
-content#:#cont_insert_new_footnote#:#inserisci una nuova nota in fondo alla pagina###07 Jan 2005 content changed
+content#:#cont_insert_new_footnote#:#inserisci una nuova nota in fondo alla pagina
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
 content#:#cont_insert_src#:#Inserisci codice sorgente
@@ -2681,7 +2681,7 @@ content#:#cont_purpose#:#Scopo
 content#:#cont_ref_helptext#:#(cio&#232; http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Riferimento
 content#:#cont_remove_fullscreen#:#Rimuovi a tutto schermo
-content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
+content#:#cont_removeiln#:#veramente rimuovere il collegamento interno?
 content#:#cont_reset_definitions#:#Annulla le posizioni definite
 content#:#cont_reset_pictures#:#Annulla le posizioni delle immagini
 content#:#cont_resource#:#Risorsa
@@ -2926,7 +2926,7 @@ crs#:#crs_search_members#:#Ricerca utente
 crs#:#crs_search_str#:#Ricerca termine
 crs#:#crs_select_archive_language#:#Per favore scegli una lingua per l'archivio
 crs#:#crs_select_one_archive#:#Per favore scegli un archivio
-crs#:#crs_settings#:#Impostazione del corso
+crs#:#crs_settings#:#Propriet&#224; del corso
 crs#:#crs_settings_saved#:#Impostazioni salvate
 crs#:#crs_size#:#Dimensioni file
 crs#:#crs_sort_activation#:#Ordine per attivazione
@@ -2944,7 +2944,7 @@ crs#:#crs_subscription#:#Iscrizione
 crs#:#crs_subscription_max_members#:#Numero massimo di iscritti
 crs#:#crs_subscription_notify#:#Notifica in caso di iscrizioni
 crs#:#crs_subscription_options_confirmation#:#Iscrizioni con conferma
-crs#:#crs_subscription_options_deactivated#:#Disabilitata
+crs#:#crs_subscription_options_deactivated#:#Disabilitato
 crs#:#crs_subscription_options_direct#:#Iscrizione diretta
 crs#:#crs_subscription_options_password#:#Iscrizione con password
 crs#:#crs_subscription_successful#:#Sei stato iscritto a questo corso
@@ -3005,7 +3005,7 @@ dateplaner#:#We_long#:#Mercoledi
 dateplaner#:#We_short#:#Me
 dateplaner#:#Week_long#:#Vista settimanale
 dateplaner#:#add_data#:#Dati addizionali
-dateplaner#:#app_#:#Appuntamenti del gruppo in ingresso
+dateplaner#:#app_#:#Appuntamenti del gruppo
 dateplaner#:#app_date#:#Inserisci appuntamento
 dateplaner#:#app_day#:#Vista giornaliera
 dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
@@ -3145,7 +3145,7 @@ dateplaner#:#newKeyword#:#Nuova:
 dateplaner#:#new_doc#:#Crea un nuovo appuntamento
 dateplaner#:#no_entry#:#Nessun appuntamento disponibile
 dateplaner#:#o_day_date#:#Appuntamento di 24h
-dateplaner#:#of#:#:
+dateplaner#:#of#:#da:
 dateplaner#:#open_day#:#Vista giornaliera
 dateplaner#:#pmonth#:#Mese successivo
 dateplaner#:#printlist#:#Stampa
@@ -3182,7 +3182,7 @@ dateplaner#:#starttime_for_view#:#Ora di inizio della vista:
 dateplaner#:#timedate#:#Ora / Giorno
 dateplaner#:#timeslice#:#Ora:
 dateplaner#:#title#:#Agenda ILIAS
-dateplaner#:#to#:#a
+dateplaner#:#to#:#a:
 dateplaner#:#today#:#Oggi
 dateplaner#:#viewlist#:#Vista
 dateplaner#:#week#:#Settimana
@@ -3234,64 +3234,64 @@ forum#:#forums_your_reply#:#tua risposta
 forum#:#frm_default_view#:#Vista predefinita
 forum#:#frm_title_required#:#Per favore, inserisci un titolo.
 forum#:#is_read#:#segna come letto
-jscalendar#:#about_calendar#:#About the calendar###07 Jan 2005 new variable
+jscalendar#:#about_calendar#:#A proposito dell'Agenda
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
 jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable
-jscalendar#:#close#:#Close###07 Jan 2005 new variable
-jscalendar#:#day_first#:#Display %s first###07 Jan 2005 new variable
-jscalendar#:#def_date_format#:#%Y-%m-%d###07 Jan 2005 new variable
-jscalendar#:#drag_to_move#:#Drag to move###07 Jan 2005 new variable
-jscalendar#:#go_today#:#Go Today###07 Jan 2005 new variable
-jscalendar#:#l_01#:#January###07 Jan 2005 new variable
-jscalendar#:#l_02#:#Feburary###07 Jan 2005 new variable
-jscalendar#:#l_03#:#March###07 Jan 2005 new variable
-jscalendar#:#l_04#:#April###07 Jan 2005 new variable
-jscalendar#:#l_05#:#May###07 Jan 2005 new variable
-jscalendar#:#l_06#:#June###07 Jan 2005 new variable
-jscalendar#:#l_07#:#July###07 Jan 2005 new variable
-jscalendar#:#l_08#:#August###07 Jan 2005 new variable
-jscalendar#:#l_09#:#September###07 Jan 2005 new variable
-jscalendar#:#l_10#:#October###07 Jan 2005 new variable
-jscalendar#:#l_11#:#November###07 Jan 2005 new variable
-jscalendar#:#l_12#:#December###07 Jan 2005 new variable
-jscalendar#:#l_fr#:#Friday###07 Jan 2005 new variable
-jscalendar#:#l_mo#:#Monday###07 Jan 2005 new variable
-jscalendar#:#l_sa#:#Saturday###07 Jan 2005 new variable
-jscalendar#:#l_su#:#Sunday###07 Jan 2005 new variable
-jscalendar#:#l_th#:#Thursday###07 Jan 2005 new variable
-jscalendar#:#l_tu#:#Tuesday###07 Jan 2005 new variable
-jscalendar#:#l_we#:#Wednesday###07 Jan 2005 new variable
-jscalendar#:#next_month#:#Next month (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#next_year#:#Next year (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###07 Jan 2005 new variable
-jscalendar#:#part_today#:# (today)###07 Jan 2005 new variable
-jscalendar#:#prev_month#:#Prev. month (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#prev_year#:#Prev. year (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#s_01#:#Jan###07 Jan 2005 new variable
-jscalendar#:#s_02#:#Feb###07 Jan 2005 new variable
-jscalendar#:#s_03#:#Mar###07 Jan 2005 new variable
-jscalendar#:#s_04#:#Apr###07 Jan 2005 new variable
-jscalendar#:#s_05#:#May###07 Jan 2005 new variable
-jscalendar#:#s_06#:#Jun###07 Jan 2005 new variable
-jscalendar#:#s_07#:#Jul###07 Jan 2005 new variable
-jscalendar#:#s_08#:#Aug###07 Jan 2005 new variable
-jscalendar#:#s_09#:#Sep###07 Jan 2005 new variable
-jscalendar#:#s_10#:#Oct###07 Jan 2005 new variable
-jscalendar#:#s_11#:#Nov###07 Jan 2005 new variable
-jscalendar#:#s_12#:#Dec###07 Jan 2005 new variable
-jscalendar#:#s_fr#:#Fr###07 Jan 2005 new variable
-jscalendar#:#s_mo#:#Mo###07 Jan 2005 new variable
-jscalendar#:#s_sa#:#Sa###07 Jan 2005 new variable
-jscalendar#:#s_su#:#Su###07 Jan 2005 new variable
-jscalendar#:#s_th#:#Th###07 Jan 2005 new variable
-jscalendar#:#s_tu#:#Tu###07 Jan 2005 new variable
-jscalendar#:#s_we#:#We###07 Jan 2005 new variable
-jscalendar#:#select_date#:#Select date###07 Jan 2005 new variable
-jscalendar#:#time#:#Time###07 Jan 2005 new variable
-jscalendar#:#time_part#:#(Shift-)Click or drag to change value###07 Jan 2005 new variable
-jscalendar#:#today#:#Today###07 Jan 2005 new variable
-jscalendar#:#tt_date_format#:#%a, %b %e###07 Jan 2005 new variable
-jscalendar#:#wk#:#wk###07 Jan 2005 new variable
+jscalendar#:#close#:#Chiudi
+jscalendar#:#day_first#:#Mostra prima %s 
+jscalendar#:#def_date_format#:#%Y-%m-%d
+jscalendar#:#drag_to_move#:#Trascina per spostare
+jscalendar#:#go_today#:#Vai a Oggi
+jscalendar#:#l_01#:#Gennaio
+jscalendar#:#l_02#:#Febbraio
+jscalendar#:#l_03#:#Marzo
+jscalendar#:#l_04#:#Aprile
+jscalendar#:#l_05#:#Maggio
+jscalendar#:#l_06#:#Giugno
+jscalendar#:#l_07#:#Luglio
+jscalendar#:#l_08#:#Agosto
+jscalendar#:#l_09#:#Settembre
+jscalendar#:#l_10#:#Ottobre
+jscalendar#:#l_11#:#Novembre
+jscalendar#:#l_12#:#Dicembre
+jscalendar#:#l_fr#:#Venerdi
+jscalendar#:#l_mo#:#Lunedi
+jscalendar#:#l_sa#:#Sabato
+jscalendar#:#l_su#:#Domenica
+jscalendar#:#l_th#:#giovedi
+jscalendar#:#l_tu#:#Martedi
+jscalendar#:#l_we#:#Mercoledi
+jscalendar#:#next_month#:#Mese successivo (tieni premuto per il menu)
+jscalendar#:#next_year#:#Anno successivo (tieni premuto per il menu)
+jscalendar#:#open_calendar#:#Clicca qui se vuoi aprire il calendario e selezionare un giorno (devono essere abilitati i JavaScript!)
+jscalendar#:#part_today#:# (oggi)
+jscalendar#:#prev_month#:#Mese prededente (tieni premuto per il menu)
+jscalendar#:#prev_year#:#Anno precedente (tieni premuto per il menu)
+jscalendar#:#s_01#:#Gen
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mar
+jscalendar#:#s_04#:#Apr
+jscalendar#:#s_05#:#Mag
+jscalendar#:#s_06#:#Giu
+jscalendar#:#s_07#:#Lug
+jscalendar#:#s_08#:#Ago
+jscalendar#:#s_09#:#Set
+jscalendar#:#s_10#:#Ott
+jscalendar#:#s_11#:#Nov
+jscalendar#:#s_12#:#Dic
+jscalendar#:#s_fr#:#Ve
+jscalendar#:#s_mo#:#Lu
+jscalendar#:#s_sa#:#Sa
+jscalendar#:#s_su#:#Do
+jscalendar#:#s_th#:#Gi
+jscalendar#:#s_tu#:#Ma
+jscalendar#:#s_we#:#Me
+jscalendar#:#select_date#:#Seleziona un giorno
+jscalendar#:#time#:#Ora
+jscalendar#:#time_part#:#(Shift-)Clicca o trascina per cambiare il valore
+jscalendar#:#today#:#Oggi
+jscalendar#:#tt_date_format#:#%a, %b %e
+jscalendar#:#wk#:#wk
 mail#:#also_as_email#:#Anche tramite eMail
 mail#:#bc#:#BC
 mail#:#forward#:#Inoltra
@@ -3352,8 +3352,8 @@ mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
 mail#:#mail_s#:#eMail
 mail#:#mail_s_unread#:#eMail non lette
 mail#:#mail_saved#:#La eMail &#232; stata salvata
-mail#:#mail_search_addressbook#:#Cerca nella rubrica
-mail#:#mail_search_system#:#Cerca nel sistema
+mail#:#mail_search_addressbook#:#nella rubrica
+mail#:#mail_search_system#:#nel sistema
 mail#:#mail_select_one_entry#:#Devi selezionare almeno una voce
 mail#:#mail_select_one_file#:#Devi selezionare almeno un file
 mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate
@@ -3964,8 +3964,8 @@ payment#:#pay_message_subject#:#Il vostro ordine in ILIAS 3.
 payment#:#pay_message_thanks#:#Grazie per aver ordinato con ILIAS 3.
 payment#:#pay_no_vendors_created#:#Non sono stati creati venditori
 payment#:#pay_not_buyed_any_object#:#Non hai comprato nessun oggetto.
-payment#:#pay_order_date_from#:#Ordini a partire da
-payment#:#pay_order_date_til#:#Ordini fino a 
+payment#:#pay_order_date_from#:#Ordini a partire dal
+payment#:#pay_order_date_til#:#Ordini fino al 
 payment#:#pay_payed_credit_card#:#L'ordine &#232; stato acquistato con carta di credito.
 payment#:#pay_payed_debit_entry#:#L'ordine &#232; stato acquistato con una voce a debito.
 payment#:#pay_reset_filter#:#Azzera il filtro
@@ -4062,8 +4062,8 @@ payment#:#pays_bill#:#Conto
 payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Centro di pagamento
 payment#:#pays_cost_center_not_valid#:#Per favore, indica un centro di costo valido.
-payment#:#pays_currency_subunit#:#Monetazione (1/100) (cio&#232; Centesimi)
-payment#:#pays_currency_unit#:#Monetazione (cio&#232; EURO)
+payment#:#pays_currency_subunit#:#Valuta (1/100) (cio&#232; Centesimi)
+payment#:#pays_currency_unit#:#Valuta (cio&#232; EURO)
 payment#:#pays_delete_vendor#:#Annulla assegnamento utenti
 payment#:#pays_deleted_number_vendors#:#I seguenti numeri di venditori sono stati eliminati:
 payment#:#pays_edit_vendor#:#Modifica l'utente
@@ -4173,7 +4173,7 @@ survey#:#cannot_export_survey#:#Non hai sufficienti diritti per esportare il son
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il sondaggio!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al sondaggio!
-survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i meta dati!
+survey#:#cannot_save_metaobject#:#Non hai diriti sufficienti per salvare i metadati!
 survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non pu&#242; essere messo  &quot;online&quot; perch&#232; non ci sono domande!
 survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
