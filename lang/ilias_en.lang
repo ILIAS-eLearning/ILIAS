@@ -146,6 +146,10 @@ assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
+assessment#:#failed_short#:#failed
+assessment#:#failed_official#:#failed
+assessment#:#passed_short#:#passed
+assessment#:#passed_official#:#passed
 assessment#:#false#:#False
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
