@@ -151,7 +151,7 @@ type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	
 edit_data	edit data	Daten bearbeiten	edit data	edit data
 uid	uid	UID	uid	uid
 publishing_organisation	publishing organisation	veröffentlichende Organisation	publishing organisation	publishing organisation
-summary	summary	Zusammenfasung	summary	summary
+summary	summary	Zusammenfassung	summary	summary
 authors	authors	Autoren	autori	authors
 firstname	firstname	Vorname	nome	firstname
 add_author	add author	Autor hinzufügen	aggiungi autore	add author
