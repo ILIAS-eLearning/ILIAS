@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.16 2003/05/13 12:19:07 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.17 2003/05/13 14:46:48 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -87,10 +87,10 @@ class ilObjRoleGUI extends ilObjectGUI
 				// get allowed subobject of object
 				$obj_data2 = $objDefinition->getSubObjects($parent_data["type"]);
 			
-				// remove not allowed object types from array 
+				// remove not allowed object types from array but keep the type definition of object itself
 				foreach ($obj_data as $key => $type)
 				{
-					if (!$obj_data2[$type["title"]])
+					if (!$obj_data2[$type["title"]] and $parent_data["type"] != $type["title"])
 					{
 						unset($obj_data[$key]);
 					}
