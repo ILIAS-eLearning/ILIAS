@@ -136,11 +136,11 @@ class ilMail
 	function ilMail($a_user_id)
 	{
 		require_once "classes/class.ilFileDataMail.php";
-		require_once "classes/class.ilMailOptions.php";
+		//require_once "classes/class.ilMailOptions.php";
 
 		global $ilias, $lng;
 		$lng->loadLanguageModule("mail");
-		
+
 		// Initiate variables
 		$this->ilias = &$ilias;
 		$this->lng   = &$lng;
@@ -148,11 +148,11 @@ class ilMail
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
 		$this->mfile =& new ilFileDataMail($this->user_id);
-		$this->mail_options =& new ilMailOptions($a_user_id);
+		//$this->mail_options =& new ilMailOptions($a_user_id);
 
 		// DEFAULT: sent mail aren't stored insentbox of user.
 		$this->setSaveInSentbox(false);
-		
+
 		// GET REFERENCE ID OF MAIL OBJECT
 		$this->readMailObjectReferenceId();
 

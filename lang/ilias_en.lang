@@ -136,6 +136,9 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
+common#:#import_users#:#Import Users
+common#:#import_file#:#Import File
+common#:#import_root_user#:#Import Root User
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
@@ -159,6 +162,8 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
+common#:#roles_of_import#:#Roles of Import File
+common#:#assign_global_role#:#Assign to global role
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
 common#:#bm#:#Bookmark

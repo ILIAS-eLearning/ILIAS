@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.20 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.21 2004/01/31 17:05:52 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -70,7 +70,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{
 			//var_dump("<pre>",$usr_data,"</pre>");exit;
-			
+
 			foreach ($usr_data as $key => $val)
 			{
 				if ($key != ANONYMOUS_USER_ID)
@@ -100,25 +100,30 @@ class ilObjUserFolderGUI extends ilObjectGUI
 											"ref_id"	=> $this->id,
 											"obj_id"	=> $val["obj_id"],
 											"type"		=> $val["type"]
-											);		
+											);
 
 			unset($this->data["data"][$key]["obj_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
-		
+
 		//add template for buttons
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
+
 		// display button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=searchUserForm");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
+		$this->tpl->parseCurrentBlock();
+
 		$this->displayList();
 	} //function
-	
-	
+
+
 	/**
 	* display object list
 	*
@@ -542,8 +547,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 	
 	/**
-	* displays user search form 
-	* 
+	* displays user search form
+	*
 	*
 	*/
 	function searchUserFormObject ()
@@ -558,9 +563,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SEARCH_LASTNAME",$this->lng->txt("lastname"));
 		$this->tpl->setVariable("TXT_SEARCH_EMAIL",$this->lng->txt("email"));
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));	
+		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 	}
-	
+
 	function searchCancelledObject ()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
@@ -568,7 +573,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		exit();
 	}
-	
+
 	function searchUserObject ()
 	{
 		global $rbacreview;
@@ -702,7 +707,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
-		
+
 				$this->tpl->setCurrentBlock("checkbox");
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
 				//$this->tpl->setVariable("CHECKED", $checked);
@@ -712,7 +717,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
 				$this->tpl->parseCurrentBlock();
-	
+
 				foreach ($data as $key => $val)
 				{
 					//build link
@@ -727,17 +732,145 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}
 
 					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
 				} //foreach
-		
+
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
 		}
 	}
+
+
+	/**
+	* display form for user import
+	*/
+	function importUserFormObject ()
+	{
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+
+		$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
+		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
+		$this->tpl->setVariable("TXT_IMPORT_ROOT_USER", $this->lng->txt("import_root_user"));
+
+		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+	}
+
+
+	/**
+	* import cancelled
+	*
+	* @access private
+	*/
+	function importCancelledObject()
+	{
+		sendInfo($this->lng->txt("action_aborted"),true);
+
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		exit();
+	}
+
+	function getImportDir()
+	{
+		return ilUtil::getDataDir()."/user_import";
+	}
+
+	/**
+	* display form for user import
+	*/
+	function importUserRoleAssignmentObject ()
+	{
+		global $rbacreview;
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
+		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import"));
+		$this->tpl->setVariable("TXT_ROLES_GLOBAL", $this->lng->txt("assign_global_role"));
+		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
+		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+
+		$import_dir = $this->getImportDir();
+
+		// create user import directory if necessary
+		if (!@is_dir($import_dir))
+		{
+			ilUtil::createDirectory($import_dir);
+		}
+
+		// move uploaded file to user import directory
+		$file_name = $_FILES["importFile"]["name"];
+		$parts = pathinfo($file_name);
+		$full_path = $import_dir."/".$file_name;
+		move_uploaded_file($_FILES["importFile"]["tmp_name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		$subdir = basename($parts["basename"],".".$parts["extension"]);
+		$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+
+		require_once("classes/class.ilUserImportParser.php");
+		$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
+		$importParser->startParsing();
+		$roles = $importParser->getCollectedRoles();
+
+		// get global roles
+		$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
+		$gl_roles = array();
+		foreach ($all_gl_roles as $obj_data)
+		{
+			// exclude anonymous role from list
+			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
+			{
+				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+				{
+					$gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
+				}
+			}
+		}
+
+		foreach($roles as $role_id => $role_name)
+		{
+			// pre selection for "known" roles
+			switch($role_name)
+			{
+				case "Administrator":	// ILIAS 2/3 Administrator
+					$pre_select = array_search("Administrator", $gl_roles);
+					break;
+
+				case "Autor":			// ILIAS 2 Author
+					$pre_select = array_search("User", $gl_roles);
+					break;
+
+				case "Lerner":			// ILIAS 2 Learner
+					$pre_select = array_search("User", $gl_roles);
+					break;
+
+				case "Gast":			// ILIAS 2 Guest
+					$pre_select = array_search("Guest", $gl_roles);
+					break;
+
+				default:
+					$pre_select = array_search("User", $gl_roles);
+					break;
+			}
+			$role_select = ilUtil::formSelect($pre_select, "assign_".$role_id, $gl_roles, false, true);
+			$this->tpl->setCurrentBlock("role");
+			$this->tpl->setVariable("TXT_IMPORT_ROLE", $role_name." [".$role_id."]");
+			$this->tpl->setVariable("SELECT_ROLE", $role_select);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 } // END class.ilObjUserFolderGUI
 ?>
