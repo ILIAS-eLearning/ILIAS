@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.15 2003/07/29 14:02:40 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.16 2003/08/14 15:23:15 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -131,26 +131,27 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
 		{
-			$perform_delete = false;
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-						 $not_deletable,$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete"),$this->ilias->error_obj->WARNING);
 		}
-		else
+		
+		if (in_array($_SESSION["AccountId"],$_SESSION["saved_post"]))
 		{
-			// FOR ALL SELECTED OBJECTS
-			foreach ($_SESSION["saved_post"] as $id)
-			{
-				// instatiate correct object class (usr)
-				$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-				$obj->delete();
-			}
-			
-			// Feedback
-			sendInfo($this->lng->txt("user_deleted"),true);	
-
-			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-			exit();			
+			$this->ilias->raiseError($this->lng->txt("msg_no_delete_yourself"),$this->ilias->error_obj->WARNING);		
 		}
+
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			// instatiate correct object class (usr)
+			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj->delete();
+		}
+			
+		// Feedback
+		sendInfo($this->lng->txt("user_deleted"),true);	
+
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();			
 	}
 
 	/**
