@@ -226,9 +226,11 @@ class ilMetaData
 		}
 	}
 
-	function getLanguageCodes()
+	function getCountries()
 	{
-		return array ("DE","ES","FR","GB","AT","CH","AF","AL","DZ","AS","AD","AO",
+		global $lng;
+		
+		$cntcodes = array ("DE","ES","FR","GB","AT","CH","AF","AL","DZ","AS","AD","AO",
 			"AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY",
 			"BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","IO","BN","BG","BF",
 			"BI","KH","CM","CA","CV","KY","CF","TD","CL","CN","CX","CC","CO","KM",
@@ -246,6 +248,40 @@ class ilMetaData
 			"SE","SY","TW","TJ","TZ","TH","TG","TK","TO","TT","TN","TR","TM","TC",
 			"TV","UG","UA","AE","GB","UY","US","UM","UZ","VU","VA","VE","VN","VG",
 			"VI","WF","EH","YE","ZR","ZM","ZW");
+		$cntrs = array();
+		foreach($cntcodes as $cntcode)
+		{
+			$cntrs[$cntcode] = $lng->txt("meta_c_".$cntcode);
+		}
+		asort($cntrs);
+		return $cntrs;
+
+	}
+
+	/**
+	* get iso conform languages
+	* see http://www.oasis-open.org/cover/iso639a.html
+	*/
+	function getLanguages()
+	{
+		global $lng;
+
+		$lngcodes = array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
+			"bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
+			"es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
+			"ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
+			"jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln","ru","rw",
+			"sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
+			"su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
+			"tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
+			"zu");
+		$langs = array();
+		foreach($lngcodes as $lngcode)
+		{
+			$langs[$lngcode] = $lng->txt("meta_l_".$lngcode);
+		}
+		asort($langs);
+		return $langs;
 	}
 
 }
