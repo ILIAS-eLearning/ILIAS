@@ -1,4 +1,15 @@
 <?php
+/**
+* adm_object
+* main script for administration console
+*
+* @author Stefan Meyer <smeyer@databay.de> 
+* @author Sascha Hofmann <shofmann@databay.de> 
+* @version $Id$
+* 
+* @package ilias-core
+*/
+
 require_once "include/inc.header.php";
 require_once "classes/class.Object.php";	// base class for all Object Types
 require_once "classes/class.ObjectOut.php";
@@ -95,10 +106,9 @@ require_once("./classes/class.".$class_name."ObjectOut.php");
 $obj = new $class_constr($data);
 $obj->$method();
 
-
 // display basicdata formular
 // TODO: must be changed for clientel processing
-if ($_GET["cmd"] == "view" && $obj->type == "adm")
+if ($_GET["cmd"] == "view" && $type == "adm")
 {
 	$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 	$tpl->setCurrentBlock("systemsettings");
