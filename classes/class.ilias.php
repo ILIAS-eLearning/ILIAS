@@ -91,16 +91,21 @@ class ILIAS extends PEAR
     *  @access public
     */
 	var $ini = array();
-
-	/**
-	* constructor
-	* 
-	* setup ILIAS global object
-	* 
-	* @return boolean
-	*/
-    function ILIAS()
+    /**
+     * Error Handling
+     * @var object
+     * @access public
+     */
+	var $error_class;
+	/** 
+	 * setup ILIAS global object
+	 * 
+	 * @return boolean
+	 */
+	function ILIAS()
     {
+		$this->PEAR();
+
 		// get settings from ini file
 		$this->ini = new IniFile($this->INI_FILE);
 		$this->ini->read();
@@ -137,7 +142,10 @@ class ILIAS extends PEAR
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB",$this->auth_params,"",false);
 		
-		return true;
+
+		// Error Handling
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
 	}
 
     /**

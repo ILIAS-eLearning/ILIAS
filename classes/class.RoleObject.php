@@ -39,10 +39,7 @@ class RoleObject extends Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to write to role folder" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
-			exit();
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 	}
 	function saveObject()
@@ -52,15 +49,16 @@ class RoleObject extends Object
 		// CHECK ACCESS 'write' to role folder
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
+			if($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError("Role Exists",$this->ilias->error_class->WARNING);
+			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
 		}
 		else
 		{
-			// No Access to write to role folder
-			$_SESSION["Error_Message"] = "No permission to write to role folder";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
-			exit();
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
@@ -117,10 +115,7 @@ class RoleObject extends Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to write to role folder";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
-			exit();
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 		header("Location: content_role.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
@@ -194,7 +189,7 @@ class RoleObject extends Object
 			$users = getUserList();
 			$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 
-			$tplContent->setVariable("MESSAGE_MIDDLE","Assign User To Role");
+			$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
 			$tplContent->setCurrentBLock("TABLE_USER");
 			foreach($users as $key => $user)
 			{
@@ -205,13 +200,25 @@ class RoleObject extends Object
 				$tplContent->setVariable("USERNAME",$user["title"]);
 				$tplContent->parseCurrentBlock();
 			}
+			// ADOPT PERMISSIONS
+			$tplContent->setVariable("MESSAGE_MIDDLE","Adopt Permissions from Role Template");
+			
+			// BEGIN ADOPT_PERMISSIONS
+			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
+			$parent_role_ids = $this->getParentRoleIds();
+			foreach($parent_role_ids as $key => $par)
+			{
+				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+				$tplContent->setVariable("CSS_ROW_ADOPT",$key % 2 ? "row_low" : "row_high");
+				$tplContent->setVariable("CHECK_ADOPT",$radio);
+				$tplContent->setVariable("ROLE_NAME",$par["title"]);
+				$tplContent->parseCurrentBlock();
+			}
+			// END ADOPT_PERMISSIONS
 		}
 		else
 		{
-			// NO ACCESS TO READ ROLE FOLDER
-			$_SESSION["Error_Message"] = "No permission to write to role folder" ;
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
-			exit();
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 		}
 	}
 	function permSaveObject()
@@ -239,6 +246,22 @@ class RoleObject extends Object
 				$parent_obj = $rbacadmin->getParentObject($_GET["parent"]);
 				// Liegt der RoleFolder im SystemFolder wird der RootFolder genommen
 				$parent_obj = ($parent_obj == $this->SYSTEM_FOLDER_ID ? $this->ROOT_FOLDER_ID : $parent_obj);
+				
+				
+				// revoke all permissions where no permissions are set 
+				$types = getTypeList();
+				foreach($types as $type)
+				{
+					$typ = $type["type"];
+					if(!is_array($_POST["template_perm"][$typ]))
+					{
+						$objects = $tree->getAllChildsByType($parent_obj,$typ);
+						foreach($objects as $object)
+						{
+							$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
+						}
+					}
+				}
 				foreach($_POST["template_perm"] as $key => $ops_array)
 				{
 					$objects = $tree->getAllChildsByType($parent_obj,$key);
@@ -252,13 +275,30 @@ class RoleObject extends Object
 		}
 		else
 		{
-			// NO ACCESS TO EDIT PERMISSIONS
-			$_SESSION["Error_Message"] = "No permission to edit permissions" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
-			exit();
+			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
 		}
 		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 
+	}
+	function adoptPermSaveObject()
+	{
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+		$rbacsystem = new RbacSystemH($this->ilias->db);
+
+		$parent_obj_id = $this->getParentObjectId();
+
+		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		{
+			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+			$parentRoles = $this->getParentRoleIds();
+			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
+		}
+		else
+		{
+			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_class->WARNING);
+		}
+		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
+		exit();
 	}
 	function assignSaveObject()
 	{
@@ -288,19 +328,13 @@ class RoleObject extends Object
 				}
 				else
 				{
-					// NO Assignment to parent roles
-					$_SESSION["Error_Message"] = "It's only possible to assign users to local roles" ;
-					header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
-					exit();
+					$this->ilias->raiseError("It's only possible to assign users to local roles",$this->ilias->error_class->WARNING);
 				}
 			}
 		}
 		else
 		{
-			// NO ACCESS TO EDIT PERMISSIONS
-			$_SESSION["Error_Message"] = "No permission to edit permissions" ;
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
-			exit();
+			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
 		}
 		header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}

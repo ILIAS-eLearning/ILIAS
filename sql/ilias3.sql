@@ -72,7 +72,7 @@ INSERT INTO object_data VALUES (152, 'rolf', 'Role Folder', 'Automatisch geniert
 CREATE TABLE object_types (
   typ_id tinyint(4) unsigned NOT NULL auto_increment,
   type char(4) NOT NULL default '',
-  class enum('y','n') NOT NULL default 'n',
+  container enum('y','n') NOT NULL default 'n',
   title char(30) NOT NULL default '',
   description char(128) NOT NULL default '',
   PRIMARY KEY  (typ_id)

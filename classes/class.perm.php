@@ -71,42 +71,6 @@
 
         return false;
     }
-
-    /**
-    * get all modules
-    *
-    * @param  none
-    *
-    * @return array/boolean  returns array of modules or false if no modules found
-    */
-    function getModuleList ()
-    {
-        global $ilias;
-        $db = $ilias->db;
-
-        $query = "SELECT * FROM obj_types
-                  WHERE type = 'modul'
-                  ORDER BY title ASC";
-        $db->query($query);
-
-        if ($db->num_rows())
-        {
-            while ($db->next_record())
-            {
-                $arr[] = array(
-                                    "id"     => $db->f("typ_id"),
-                                    "stype"  => $db->f("stype"),
-                                    "title"  => $db->f("title"),
-                                    "desc"   => $db->f("description")
-                                    );
-            }
-
-            return $arr;
-        }
-
-        return false;
-    }
-
     /**
     * get all groups
     *
@@ -147,31 +111,6 @@
             return $arr;
         }
 
-        return false;
-    }
-
-    /**
-    * get module Id
-    *
-    * @param  string    module type (forum,le,grp,abo,...)
-    *
-    * @return int       returns typ_id or false if module not found
-    */
-    function getModuleId ($AModuleType)
-    {
-        global $ilias;
-        $db = $ilias->db;
-
-        $query = "SELECT * FROM obj_types
-                  WHERE stype = '$AModuleType'";
-        $db->query($query);
-        
-        if ($db->num_rows())
-        {
-            $db->next_record();
-            return $db->f("typ_id");
-        }
-        
         return false;
     }
 

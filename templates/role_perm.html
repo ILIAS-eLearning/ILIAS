@@ -171,6 +171,43 @@
   </strong>
 <br><br>
 </span>
+	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=adoptPermSave" name="objectItems" method="post">
+	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
+		  <tr class="header">
+			<td width="20%" align="left">
+			  <div class="list-item">
+			  </div>
+			</td>
+			<td width="80%" align="left"><div class="list-item"> 
+				<strong>Role:</strong></div>
+			</td>
+		  </tr>
+			<!-- BEGIN ADOPT_PERMISSIONS -->
+			<tr class={CSS_ROW_ADOPT}>
+			  <td>
+				{CHECK_ADOPT}
+			  </td>
+			  <td>
+				{ROLE_NAME}
+			  </td>
+			</tr>
+			<!-- END ADOPT_PERMISSIONS -->
+			<tr class="header">
+			  <td>
+				<img src="images/pfeil_rechts.gif">
+			  </td>
+			  <td>
+				<input type="SUBMIT" value="adopt">
+			  </td>
+			</tr>
+	  </table>
+	  </form>
+<br><br>
+<span style="color: #000000;">
+  <strong>
+	{MESSAGE_BOTTOM}
+  </strong>
+<br><br>
 	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=assignSave" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">

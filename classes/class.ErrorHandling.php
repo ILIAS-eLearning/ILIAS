@@ -10,12 +10,15 @@ class ErrorHandling
 	var $DEBUG_ENV;
 	var $FATAL = 1;
 	var $WARNING = 2;
-
+/**
+ * Constructor
+ * @access public
+ * 
+ */
 	function ErrorHandling()
 	{
 		$this->DEBUG_ENV = 1;
 	}
-	
 	/**
 	* defines what has to happen in case of error
 	* @param object Error
@@ -35,11 +38,6 @@ class ErrorHandling
 			else
 			{
 				$message = "Under Construction";
-			}
-			$_SESSION["redirect"] = $_SESSION["referer"];
-			if($_SESSION["cmd"])
-			{
-				$_SESSION["redirect"] .= "&cmd=".$_POST["cmd"];
 			}
 			header("location: error.php?message=$message");
 			exit();

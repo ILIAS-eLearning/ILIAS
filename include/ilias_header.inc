@@ -41,11 +41,23 @@ include_once "classes/class.rbacAdminH.php";
 include_once "classes/class.rbacSystemH.php";
 include_once "classes/class.rbacReviewH.php";
 
+// include error_handling
+include_once "classes/class.ErrorHandling.php";
+
 session_start();
+
+// set uri for error handling
+if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
+{
+	$_SESSION["referer"] = $_SERVER["HTTP_REFERER"];
+	if($_POST["cmd"])
+	{
+		$_SESSION["referer"] .= "&cmd=".$_POST["cmd"];
+	}
+}
 
 // load main class
 $ilias =& new ILIAS;
-
 //authenticate
 $ilias->auth->start();
 
@@ -56,34 +68,35 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	if (!$ilias->auth->getAuth())
 	{
 		header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
+		exit();
 	}
-}
 
 //get user id
-if (empty($AccountId))
-{
-	$res = $ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$auth["username"]."'");
-	
-	//check for error
-	if (DB::isError($res))
+	if (empty($AccountId))
 	{
-		die("<b>".$res->getMessage()."</b><br>Script: ".__FILE__."<br>Line: ".__LINE__);
-	}
+		$res = $ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$ilias->auth->getUsername()."'");
 	
-	//query has got a result
-	if ($res->numRows() > 0)
-	{
-		$data = $res->fetchRow();
-		$AccountId = $data[0];
-		$_SESSION["AccountId"] = $AccountId;
+		//check for error
+		if (DB::isError($res))
+		{
+			die("<b>".$res->getMessage()."</b><br>Script: ".__FILE__."<br>Line: ".__LINE__);
+		}
+	
+		//query has got a result
+		if ($res->numRows() > 0)
+		{
+			$data = $res->fetchRow();
+			$AccountId = $data[0];
+			$_SESSION["AccountId"] = $AccountId;
+		}
 	}
-}
-
 // assigned roles are stored in $_SESSION["RoleId"]
-$rbacreview = new RbacReviewH($ilias->db);
-$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
-$rbacsystem = new RbacSystemH($ilias->db);
+	$rbacreview = new RbacReviewH($ilias->db);
+	$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
+
+	$rbacsystem = new RbacSystemH($ilias->db);
 
 // instantiate and init user
-$ilias->account =& new User($ilias->db,$AccountId);
+	$ilias->account =& new User($ilias->db,$AccountId);
+}
 ?>
