@@ -80,7 +80,6 @@ class ilLocalUser
 	function _getAllUserIds($a_filter = 0)
 	{
 		global $ilDB;
-
 		switch($a_filter)
 		{
 			case 0:
@@ -90,6 +89,7 @@ class ilLocalUser
 					$where .= '(';
 					$where .= implode(",",ilLocalUser::_getFolderIds());
 					$where .= ')';
+
 				}
 				else
 				{

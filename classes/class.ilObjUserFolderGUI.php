@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.34.2.1 2004/10/11 19:56:29 akill Exp $
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -839,7 +839,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		foreach ($all_gl_roles as $obj_data)
 		{
 			// check assignmetn permission if called from lokal admin
-			if($this->object->getRefId() != USER_FOLDER_ID)
+			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 			{
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{

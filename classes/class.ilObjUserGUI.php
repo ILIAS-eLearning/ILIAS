@@ -141,12 +141,11 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		// role selection
 		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-		
 		$rol = array();
 		foreach ($obj_list as $obj_data)
 		{
 			// allow only 'assign_users' marked roles if called from category
-			if($this->object->getRefId() != USER_FOLDER_ID)
+			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 			{
 				include_once './classes/class.ilObjRole.php';
 		
