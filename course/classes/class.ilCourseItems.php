@@ -176,6 +176,25 @@ class ilCourseItems
 		return true;
 	}
 
+	function deleteAllEntries()
+	{
+		$all_items = $this->tree->getChilds($this->parent);
+
+		foreach($all_items as $item)
+		{
+			$query = "DELETE FROM crs_items ".
+				"WHERE parent_id = '".$item["child"]."'";
+
+			$this->ilDB->query($query);
+		}
+		$query = "DELETE FROM crs_items ".
+			"WHERE parent_id = '".$this->course_obj->getRefId()."'";
+		
+		$this->ilDB->query($query);
+
+		return true;
+	}
+
 	// PRIVATE
 	function __read()
 	{
