@@ -552,7 +552,7 @@ class Tree
 			
 		if (count($all) != count($uni))
 		{
-			return $this->ilias->raiseError("Error: Tree is corrupted!!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("Error: Tree is corrupted!!",$this->ilias->error_obj->WARNING);
 		}
 		
 		return true;
@@ -826,17 +826,45 @@ class Tree
 	}
 
 	/**
-	* builds a new user's tree in table tree,
+	* create a new tree
 	* to do: ???
- 	* @param	integer		treeID is userID
-	* @param	integer		nodeID of root node ->usersetting object
+	* @param	integer		a_tree_id: obj_id of object where tree belongs to
+	* @param	integer		a_node_id: root node of tree (optional; default is tree_id itself)
+	* @return	boolean		true on success
+	* @access	public
 	*/
-	function addTree($treeID,$nodeID)
+	function addTree($a_tree_id,$a_node_id = -1)
 	{
-		$sqlQuery = "INSERT INTO tree (tree, child, parent, lft, rgt,depth) ".
-					"VALUES ($treeID, $nodeID, 0, 1, 2, 1)";
-		$res = $this->ilias->db->query($sqlQuery);			
+		if ($a_node_id <= 0)
+		{
+			$a_node_id = $a_tree_id;
+		}
+		
+		$query = "INSERT INTO tree (tree, child, parent, lft, rgt, depth) ".
+				 "VALUES ".
+				 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
+		$res = $this->ilias->db->query($query);
+		
+		return true;
 	}
 
+	/**
+	* remove an existing tree
+	* @param	integer		a_tree_id: tree to be removed
+	* @return	boolean		true on success
+	* @access	public
+ 	*/
+	function removeTree($a_tree_id)
+	{
+		if (!$a_tree_id)
+		{
+			$this->ilias->raiseError("No tree_id given! Action aborted",$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$query = "DELETE FROM tree WHERE tree = '".$a_tree_id."'";
+		$res = $this->ilias->db->query($query);
+		
+		return true;
+	}
 } // END class.tree
 ?>
