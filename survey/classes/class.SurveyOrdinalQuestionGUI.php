@@ -341,7 +341,7 @@ class SurveyOrdinalQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm($working_data = "", $question_title = 1)
+	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
 		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
 			$category = $this->object->getCategory($i);
@@ -366,6 +366,10 @@ class SurveyOrdinalQuestionGUI {
 			$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
 		$this->tpl->setCurrentBlock("question_data_ordinal");
+		if (strcmp($error_message, "") != 0)
+		{
+			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+		}
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
 		$this->tpl->parseCurrentBlock();
 	}

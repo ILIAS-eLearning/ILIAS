@@ -233,7 +233,7 @@ class SurveyMetricQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm($working_data = "", $question_title = 1)
+	function outWorkingForm($working_data = "", $question_title = 1, $error_message = "")
 	{
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
@@ -260,6 +260,10 @@ class SurveyMetricQuestionGUI {
 			$this->tpl->setVariable("INPUT_SIZE", 10);
 		}
 
+		if (strcmp($error_message, "") != 0)
+		{
+			$this->tpl->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
