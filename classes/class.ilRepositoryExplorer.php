@@ -157,6 +157,8 @@ class ilRepositoryExplorer extends ilExplorer
 			case 'crsg':
 				return "repository.php?ref_id=".$a_node_id;
 
+			case 'webr':
+				return "./link/link_resources.php?ref_id=".$a_node_id;
 		}
 	}
 	
@@ -240,6 +242,8 @@ class ilRepositoryExplorer extends ilExplorer
 			case 'crsg':
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
+			case 'webr':
+				return "./link/link_resources.php?cmd=editItems&ref_id=".$a_node_id;
 		}
 	}		
 

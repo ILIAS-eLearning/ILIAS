@@ -50,9 +50,10 @@ class ilHistoryGUI
 		{
 			$this->obj_type = $a_obj_type;
 		}
-		
+
 		$this->lng =& $lng;
 	}
+
 
 	/**
 	* get history table

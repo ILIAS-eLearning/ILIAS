@@ -61,8 +61,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
 		$this->SEARCH_COURSE = 3;
-
-		
 	}
 
 	function gatewayObject()

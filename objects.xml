@@ -45,6 +45,7 @@
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="webr">webr</subobj>
 	<subobj name="file" module="1">file</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
@@ -90,6 +91,7 @@
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
@@ -122,6 +124,7 @@
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
@@ -158,6 +161,7 @@
 	<subobj name="sahs" import="1">sahs</subobj>
 	<subobj name="dbk">dbk</subobj>
 	<subobj name="glo">glo</subobj>
+	<subobj name="webr">webr</subobj>
 	<subobj name="file">file</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="tst">tst</subobj>
@@ -510,5 +514,17 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<action name="delete">delete</action>
+</object>
+<object name="webr" class_name="LinkResource" module="link" checkbox="1" inherit="0" translate="0" rbac="1" devmode="0">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
 </objects>
