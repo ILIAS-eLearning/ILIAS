@@ -39,7 +39,7 @@ class ilObjRole extends ilObject
 			$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
 			
 			// delete object_data entry
-			deleteObject($this->getId());
+			parent::delete();
 		}
 		else
 		{

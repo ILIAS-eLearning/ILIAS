@@ -55,7 +55,7 @@ class ilObjUser extends ilObject
 		$rbacadmin->removeUser($this->getId());
 
 		// delete object_data entry
-		deleteObject($this->getId());
+		parent::delete();
 	}
 
 } //end class.UserObject
