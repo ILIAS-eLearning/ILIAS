@@ -234,6 +234,7 @@ common#:#exc_notices#:#Notices###06 Nov 2003 new variable
 common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
 common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
 common#:#exc_search_for#:#Search for###07 Nov 2003 new variable
+common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
 common#:#exc_send_exercise#:#Send exercise###06 Nov 2003 new variable
 common#:#exc_sent#:#The exercise has been sent to the selected users###06 Nov 2003 new variable
 common#:#exc_status_returned#:#Returned###06 Nov 2003 new variable

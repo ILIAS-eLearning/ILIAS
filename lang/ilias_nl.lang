@@ -234,6 +234,7 @@ common#:#exc_notices#:#Notities
 common#:#exc_obj#:#Oefening
 common#:#exc_save_changes#:#Opslaan
 common#:#exc_search_for#:#Zoeken naar
+common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
 common#:#exc_send_exercise#:#Zend oefening
 common#:#exc_sent#:#De oefening is naar de geselecteerde gebruikers gezonden
 common#:#exc_status_returned#:#Teruggekeerd
@@ -410,8 +411,8 @@ common#:#is_already_your#:#is reeds uw
 common#:#item#:#Item
 common#:#kb#:#KByte
 common#:#keywords#:#Sleutelwoorden
-common#:#lang_dateformat#:#Y-m-d
 common#:#lang_cz#:#Tsjechisch
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Duits
 common#:#lang_dk#:#Deens
 common#:#lang_en#:#Engels
@@ -432,7 +433,7 @@ common#:#lang_se#:#Zweeds
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
-commom#:#lang_ua#:#Oekrainsch
+common#:#lang_ua#:#Ukrainian###05 Jan 2004 new variable
 common#:#lang_version#:#1
 common#:#lang_xx#:#Door gebruiker gedefinieerd
 common#:#lang_zh#:#Vereenvoudigd Chinees

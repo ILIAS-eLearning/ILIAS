@@ -234,6 +234,7 @@ common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
 common#:#exc_save_changes#:#Save
 common#:#exc_search_for#:#Search for
+common#:#exc_select_one_file#:#Please select exactly one file.
 common#:#exc_send_exercise#:#Send exercise
 common#:#exc_sent#:#The exercise has been sent to the selected users
 common#:#exc_status_returned#:#Returned
@@ -1798,4 +1799,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#exc_select_one_file#:#Please select exactly one file.
