@@ -13,6 +13,11 @@ require_once "classes/class.ilDOMXML.php";
 
 ob_start(); 
 
+if (!$rbacsystem->checkAccess("read",$_GET["lm_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
+
 //$T1 = ilUtil::StopWatch();
 
 $sql2xml = new ilSQL2XML($_GET["lm_id"],$_GET["lo_id"]);

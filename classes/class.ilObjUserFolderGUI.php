@@ -3,7 +3,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.5 2003/04/01 12:47:13 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.6 2003/04/01 18:29:21 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -25,10 +25,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	/**
 	* list users
+	*
+	* @access	public
 	*/
 	function viewObject()
 	{
 		global $rbacsystem, $tpl, $ilias;
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		//prepare objectlist
 		$this->data = array();
@@ -36,36 +43,29 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
-		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
+
+		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{
-			if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
+			foreach ($usr_data as $key => $val)
 			{
-				foreach ($usr_data as $key => $val)
-				{
-					//visible data part
-					$this->data["data"][] = array(
+				//visible data part
+				$this->data["data"][] = array(
 						"type" => ilUtil::getImageTagByType("usr",$this->tpl->tplPath),
 						"name" => $val["title"],
 						"description" => $val["desc"],
 						"last_change" => ilFormat::formatDate($val["last_update"])
 					);
 
-					//control information
-					$this->data["ctrl"][] = array(
+				//control information
+				$this->data["ctrl"][] = array(
 						"ref_id"	=> $this->id,
 						"obj_id"	=> $val["obj_id"],
 						"type"		=> "usr"
 					);
-				}
-			} //if userdata
+			}
+		} //if userdata
 
-			parent::displayList();
-
-		} //if rbac
-		else
-		{
-			$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
-		}
+		parent::displayList();
 	} //function
 	
 	/**

@@ -1598,6 +1598,11 @@ class ilObjectGUI
 	{
 		global $tree,$rbacsystem,$lng;
 		
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		//prepare objectlist
 		$this->objectList = array();
 		$this->data["data"] = array();
@@ -1613,23 +1618,22 @@ class ilObjectGUI
 			{
 				continue;
 			}
-			
+				
 			//visible data part
 			$this->data["data"][] = array(
-				"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
-				"title" => $val["title"],
-				"description" => $val["desc"],
-				"last_change" => ilFormat::formatDate($val["last_update"])
+					"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => ilFormat::formatDate($val["last_update"])
 			);
-			
+				
 			//control information
 			$this->data["ctrl"][] = array(
-				"type" => $val["type"],
-				"ref_id" => $val["ref_id"]
+					"type" => $val["type"],
+					"ref_id" => $val["ref_id"]
 			);
 	    } //foreach
 
-				//var_dump ("<pre>",$this->data["data"],"</pre>");		
 		$this->displayList();
 	}
 

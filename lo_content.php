@@ -177,6 +177,7 @@ switch ($_SESSION["viewmode"])
 
 				$tpl->setVariable("TITLE", $lr_data["title"]);
 				$tpl->setVariable("LO_LINK", $obj_link);
+
 				if($lr_data["type"] == "le")		// Test
 				{
 					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);

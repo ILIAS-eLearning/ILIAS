@@ -15,7 +15,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
 	*/
 	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
@@ -23,9 +23,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
 
+	/**
+	* view object
+	* @access	public
+	*/
 	function viewObject()
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		//prepare objectlist
 		$this->data = array();
@@ -33,43 +42,37 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
-		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
+
+		if ($list = $rbacadmin->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
 		{
-			if ($list = $rbacadmin->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
+			foreach ($list as $key => $val)
 			{
-				foreach ($list as $key => $val)
-				{
-					//visible data part
-					$this->data["data"][] = array(
+				//visible data part
+				$this->data["data"][] = array(
 						"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
 						"name" => $val["title"],
 						"description" => $val["desc"],
 						"last_change" => ilFormat::formatDate($val["last_update"])
 					);
-					//control information
-					$this->data["ctrl"][] = array(
+
+				//control information
+				$this->data["ctrl"][] = array(
 						"ref_id"	=> $this->id,
 						"obj_id"	=> $val["obj_id"],
 						"type"		=> $val["type"],
 						// DEFAULT ACTION IS 'permObject()'
 						"cmd"		=> "perm"
 					);
-				}
-			} //if userdata
+			}
+		} //if userdata
 
-			parent::displayList();
-
-		} //if rbac
-		else
-		{
-			$this->ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
-		}
+		parent::displayList();
 	} //function
 
 	/**
 	* confirmObject
 	* 
-	* 
+	* @access	public
 	*/
 	function confirmObject()
 	{
@@ -100,6 +103,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 	/**
 	* display deletion confirmation screen
+	*
+	* @access	public
 	*/
 	function deleteObject()
 	{
@@ -170,7 +175,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		// END TABLE DATA
 
 		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $name => $value)
+		foreach ($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
 			$this->tpl->setVariable("BTN_NAME",$name);
@@ -179,11 +184,14 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* ???
+	* @access	public
+	*/
 	function adoptPermSaveObject()
 	{
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
-
 } // END class.RoleFolderObjectOut
 ?>

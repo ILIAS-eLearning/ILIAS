@@ -35,6 +35,11 @@ chdir("..");
 require_once "./include/inc.header.php";
 $lng->loadLanguageModule("content");
 
+if (!$rbacsystem->checkAccess("write",$_GET["lm_id"]))
+{
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
+
 // editor GUI class does the rest
 require_once "./content/classes/class.ilLMEditorGUI.php";
 $lm_editor_gui = new ilLMEditorGUI();

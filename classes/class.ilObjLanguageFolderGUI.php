@@ -32,19 +32,28 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 	/**
 	* show installed languages
+	*
+	* @access	public
 	*/
 	function viewObject()
 	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->getTemplateFile("view");
 		$num = 0;
-
+	
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
-
+	
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
-
+	
 		$cols = array("", "type", "language", "status", "", "last_change");
-
+	
 		foreach ($cols as $key)
 		{
 			if ($key != "")
@@ -55,25 +64,24 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				$out = "&nbsp;";
 			}
-
+	
 			$this->tpl->setVariable("HEADER_TEXT", $out);
 			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?ref_id=".$_GET["ref_id"]."&order=type&direction=".$_GET["dir"]);
 			$this->tpl->parseCurrentBlock();
 		}
-
+	
 		$languages = $this->object->getLanguages();
-		//$languages = $this->LangFolderObject->getLanguages();
-
+	
 		foreach ($languages as $lang_key => $lang_data)
 		{
 			$status = "";
-
+	
 			// set status info (in use oder systemlanguage)
 			if ($lang_data["status"])
 			{
 				$status = "<span class=\"small\"> (".$this->lng->txt($lang_data["status"]).")</span>";
 			}
-				// set remark color
+			// set remark color
 			switch ($lang_data["info"])
 			{
 				case "file_not_found":
@@ -86,27 +94,27 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 					$remark = "";
 					break;
 			}
-
+	
 			$data = $this->data["data"][$i];
 			$ctrl = $this->data["ctrl"][$i];
 			$num++;
 			// color changing
 			$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
 			$this->tpl->setCurrentBlock("checkbox");
-
+	
 			$this->tpl->setVariable("CHECKBOX_ID", $lang_data["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
-
+	
 			$this->tpl->setCurrentBlock("table_cell");
 			$this->tpl->parseCurrentBlock();
 			//data
 			$data = array(
-						"type" => ilUtil::getImageTagByType("lng",$this->tpl->tplPath),
-						"name" => $lang_data["name"].$status,
-						"status" => $this->lng->txt($lang_data["desc"]),
-						"remark" => $remark,
-						"last_change" => ilFormat::formatDate($lang_data["last_update"])
+							"type" => ilUtil::getImageTagByType("lng",$this->tpl->tplPath),
+							"name" => $lang_data["name"].$status,
+							"status" => $this->lng->txt($lang_data["desc"]),
+							"remark" => $remark,
+							"last_change" => ilFormat::formatDate($lang_data["last_update"])
 						);
 
 			foreach ($data as $key => $val)
@@ -117,17 +125,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
 			} //foreach
-
+	
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		} //for
-
+	
 		// SHOW VALID ACTIONS
 		$this->tpl->setVariable("NUM_COLS", 6);
 		$this->showActions();
 	}
-
 
 	/**
 	* install languages
