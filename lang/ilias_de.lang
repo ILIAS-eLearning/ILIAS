@@ -192,7 +192,7 @@ assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen
 assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
-assessment#:#error_open_java_file#:#Feher beim Öffnen eines Java-Applets!
+assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
 assessment#:#eval_all_users#:#Evaluation für alle Nutzerinnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -498,7 +498,7 @@ assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden
+assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
 assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
@@ -742,7 +742,7 @@ common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimm
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_for_test#:#Für den Test
 common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
-common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScipt!)
+common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScript!)
 common#:#assessment_log_question#:#Frage
 common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
@@ -1073,7 +1073,7 @@ common#:#enable#:#Aktivieren
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript Editor
-common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaSkript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
+common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
 common#:#enable_password_assistance#:#Passwort Unterstützung aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
@@ -2594,7 +2594,7 @@ content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
-content#:#cont_disable_js#:#JavaScript deaktivieren
+content#:#cont_disable_js#:#JavaScript inaktiv
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner
 content#:#cont_downloads#:#Downloads
@@ -2648,7 +2648,7 @@ content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_enable_js#:#JavaScript aktivieren
+content#:#cont_enable_js#:#JavaScript aktiv
 content#:#cont_enable_media#:#Medienobjekte aktiv
 content#:#cont_example#:#Beispiel
 content#:#cont_export_files#:#Datei exportieren
@@ -3198,7 +3198,7 @@ dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein JavaScript. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
@@ -3484,7 +3484,7 @@ jscalendar#:#l_tu#:#Dienstag
 jscalendar#:#l_we#:#Mittwoch
 jscalendar#:#next_month#:#Nächster Monat (Festhalten für Schnellauswahl)
 jscalendar#:#next_year#:#Nächstes Jahr (Festhalten für Schnellauswahl)
-jscalendar#:#open_calendar#:#Klicken Sie hier, um einen Kalender zur Datumsauswahl anzuzeigen (Javascript benötigt!)
+jscalendar#:#open_calendar#:#Klicken Sie hier, um einen Kalender zur Datumsauswahl anzuzeigen (JavaScript benötigt!)
 jscalendar#:#part_today#:# (heute)
 jscalendar#:#prev_month#:#Voriger Monate (Festhalten für Schnellauswahl)
 jscalendar#:#prev_year#:#Voriges Jahr (Festhalten für Schnellauswahl)
