@@ -146,7 +146,7 @@ class ILIAS extends PEAR
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
 
 		// Error Handling
-		$this->error_obj = new ErrorHandling();
+		$this->error_obj = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 		
 		// create instance of object factory
