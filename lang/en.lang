@@ -19,6 +19,8 @@ create#:#create
 current_password#:#current password
 database#:#database
 date#:#date
+db_host#:#database host
+db_type#:#database type
 delete#:#delete
 description#:#description
 desired_password#:#desired password
@@ -71,6 +73,8 @@ salutation_f#:#Ms./Mrs.
 salutation_m#:#Mr.
 save#:#save
 sender#:#sender
+setup#:#setup
+setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
 status#:#status
 street#:#street
 student#:#student
