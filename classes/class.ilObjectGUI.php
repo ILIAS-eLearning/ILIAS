@@ -1308,10 +1308,15 @@ class ilObjectGUI
 	}
 
 
+	/*
+	* display object owner
+	*/
 	function ownerObject()
 	{
+		global $lng;
+
 		$this->getTemplateFile("owner");
-		$this->tpl->setVariable("OWNER_NAME", $this->data);
+		$this->tpl->setVariable("OWNER_NAME", $this->object->getOwnerName());
 		$this->tpl->setVariable("TXT_OBJ_OWNER", $this->lng->txt("obj_owner"));
 		$this->tpl->setVariable("CMD","update");
 		$this->tpl->parseCurrentBlock();

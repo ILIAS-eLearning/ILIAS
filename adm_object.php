@@ -130,6 +130,10 @@ switch ($_GET["cmd"])
 	case "addRole":
 		break;
 
+	// no more owner() here! all calls moved to "out" class
+	case "owner":
+		break;
+
 	default:
 		$data = $obj->$method();
 		break;
