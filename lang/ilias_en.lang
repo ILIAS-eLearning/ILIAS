@@ -44,6 +44,10 @@ common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
+common#:#adm_visible#:#Systemsettings are visible
+common#:#adm_read#:#Read access to Basic system settings
+common#:#adm_write#:#Edit Basic system settings
+common#:#adm_edit_permission#:#Change permission settings
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -96,6 +100,12 @@ common#:#cat_added#:#Category added
 common#:#cat_edit#:#Edit Category
 common#:#cat_new#:#New category
 common#:#categories#:#Categories
+common#:#cat_edit_permission#:#Change permission settings
+common#:#cat_visible#:#Category is visible
+common#:#cat_read#:#Read access to category
+common#:#cat_write#:#Edit category
+common#:#cat_create#:#Create category
+common#:#cat_delete#:#Delete category
 common#:#cc#:#CC
 common#:#censorship#:#Censorship
 common#:#change#:#Change
@@ -146,6 +156,14 @@ common#:#crs_available#:#Available Courses
 common#:#crs_edit#:#Edit Course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_new#:#New Course
+common#:#crs_visible#:#Course is visible
+common#:#crs_read#:#Read access to Course
+common#:#crs_create#:#Create Course
+common#:#crs_write#:#Edit Course
+common#:#crs_delete#:#Delete Course
+common#:#crs_edit_permission#:#Change permission settings
+common#:#crs_join#:#Subscribe to Course
+common#:#crs_leave#:#Unsubscribe from Course
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
@@ -165,6 +183,12 @@ common#:#db_user#:#Database User
 common#:#db_version#:#Database Version
 common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#a Digilib Book
+common#:#dbk_edit_permission#:#Change permission settings
+common#:#dbk_visible#:#Digibook is visible
+common#:#dbk_read#:#Read access to Digibook
+common#:#dbk_write#:#Edit Digibook
+common#:#dbk_delete#:#Delete Digibook
+common#:#dbk_create#:#Create Digibook
 common#:#dbk_add#:#Add Digilib Book
 common#:#dbk_added#:#Digilib Book added
 common#:#dbk_new#:#New Digilib Book
@@ -243,6 +267,12 @@ common#:#exc_status_saved#:#Exercise updated
 common#:#exc_status_solved#:#Solved
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
+common#:#exc_edit_permission#:#Change permission settings
+common#:#exc_visible#:#Exercise is visible
+common#:#exc_read#:#Access exercise
+common#:#exc_write#:#Edit exercise
+common#:#exc_create#:#Create exercise
+common#:#exc_delete#:#Delete exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
 common#:#export_html#:#export as html file
@@ -283,6 +313,14 @@ common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
 common#:#frm_new#:#New Forum
+common#:#frm_edit_permission#:#Change permission settings
+common#:#frm_visible#:#Forum is visible
+common#:#frm_read#:#Read access to forum
+common#:#frm_write#:#Edit forum
+common#:#frm_delete#:#Delete forum
+common#:#frm_create#:#Create forum
+common#:#frm_delete_post#:#Delete a post
+common#:#frm_edit_post#:#Edit a post
 common#:#from#:#From
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
@@ -295,8 +333,16 @@ common#:#generate#:#Generate
 common#:#glo#:#Glossary
 common#:#glo_a#:#a Glossary
 common#:#glo_add#:#Add Glossary
-common#:#glo_added#:#Added glossary
+common#:#glo_added#:#Glossary added
 common#:#glo_new#:#New Glossary
+common#:#glo_visible#:#Glossary is visible
+common#:#glo_read#:#Read access to Glossary
+common#:#glo_create#:#Create Glossary
+common#:#glo_write#:#Edit Glossary
+common#:#glo_delete#:#Delete Glossary
+common#:#glo_edit_permission#:#Change permission settings
+common#:#glo_join#:#Subscribe to Glossary
+common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
@@ -335,6 +381,14 @@ common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
+common#:#grp_visible#:#Group is visible
+common#:#grp_read#:#Read access to group
+common#:#grp_create#:#Create group
+common#:#grp_write#:#Edit group
+common#:#grp_delete#:#Delete Group
+common#:#grp_edit_permission#:#Change permission settings
+common#:#grp_join#:#User may join group
+common#:#grp_leave#:#User may leave group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
 common#:#grp_err_error#:#An error occured
@@ -450,6 +504,10 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last name
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
+common#:#ldap_visible#:#LDAP settings are visible
+common#:#ldap_read#:#Read access to LDAP settings
+common#:#ldap_write#:#Edit LDAP settings
+common#:#ldap_edit_permission#:#Change permission settings
 common#:#learning_objects#:#Learning Objects
 common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
@@ -460,12 +518,23 @@ common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
 common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#lm#:#Learning Module
-common#:#lm_a#:#a Learning module
+common#:#lm_a#:#a Learning Module
 common#:#lm_add#:#Add Learning Module
-common#:#lm_added#:#LearningModule added
+common#:#lm_added#:#Learning Module added
 common#:#lm_new#:#New Learning Module
+common#:#lm_visible#:#Learning Module is visible
+common#:#lm_read#:#Read access to Learning Module
+common#:#lm_create#:#Create Learning Module
+common#:#lm_write#:#Edit Learning Module
+common#:#lm_delete#:#Delete Learning Module
+common#:#lm_edit_permission#:#Change permission settings
+common#:#lm_join#:#Subscribe to Learning Module
+common#:#lm_leave#:#Unsubscribe from Learning Module
 common#:#lng#:#Language
-common#:#lngf#:#Language Folder
+common#:#lngf#:#Languages
+common#:#lngf_visible#:#Language settings are visible
+common#:#lngf_read#:#Read access to Language settings
+common#:#lngf_edit_permission#:#Change permission settings
 common#:#lo#:#Learning Object
 common#:#lo_available#:#Overview Learning Modules & Courses
 common#:#lo_categories#:#LO Categories
@@ -511,6 +580,12 @@ common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_system#:#System Message
 common#:#mail_z_local#:#User Folders
+common#:#mail_visible#:#Mail settings are visible
+common#:#mail_read#:#Read access to Mail settings
+common#:#mail_write#:#Edit Mail settings
+common#:#mail_edit_permission#:#Change permission settings
+common#:#mail_smtp_mail#:#User may send mail via SMTP
+common#:#mail_system_message#:#User may send internal system messages
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
@@ -633,6 +708,8 @@ common#:#obj#:#Object
 common#:#obj_adm#:#System Settings
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
+common#:#obj_mob#:#Multimedia Object
+common#:#obj_exc#:#Exercise
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_file#:#File
@@ -663,7 +740,7 @@ common#:#obj_rolf_desc#:#Manage your roles here.
 common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
-common#:#obj_root#:#root
+common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM LM
 common#:#obj_st#:#Chapter
 common#:#obj_typ#:#Objecttype Definition
@@ -674,6 +751,10 @@ common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
+common#:#objf_visible#:#Objectdefinitions are visible
+common#:#objf_read#:#Read access to Objectdefinitions
+common#:#objf_write#:#Edit Objectdefinitions
+common#:#objf_edit_permission#:#Change permission settings
 common#:#objs_confirm#:#Confirm Action
 common#:#objs_delete#:#Delete objects
 common#:#of#:#Of
@@ -782,14 +863,25 @@ common#:#role_deleted#:#Role deleted
 common#:#role_edit#:#Edit Role
 common#:#role_new#:#New Role
 common#:#roles#:#Roles
-common#:#rolf#:#Role Folder
+common#:#rolf#:#Roles
 common#:#rolf_added#:#Role Folder added
+common#:#rolf_visible#:#Roles/Role templates are visible
+common#:#rolf_read#:#Read access to Roles/Role templates
+common#:#rolf_write#:#Edit Roles/Role templates
+common#:#rolf_delete#:#Delete Roles/Role templates
+common#:#rolf_edit_permission#:#Change permission settings
+common#:#rolf_create_role#:#Create new Role definition
+common#:#rolf_create_rolt#:#Create new Role definition template
 common#:#rolt#:#Role Template
 common#:#rolt_a#:#a Role Template
 common#:#rolt_add#:#Add Role Template
 common#:#rolt_added#:#Role template added
 common#:#rolt_edit#:#Edit Role Template
 common#:#rolt_new#:#New Role Template
+common#:#root_visible#:#ILIAS system is visible
+common#:#root_read#:#Read access to ILIAS system
+common#:#root_write#:#Edit ILIAS root node data 
+common#:#root_edit_permission#:#Change permission settings
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -832,8 +924,16 @@ common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#show_structure#:#Enable Structured-View
 common#:#signature#:#Signature
-common#:#slm#:#SCORM LM
-common#:#slm_added#:#SCORM LearningModule added
+common#:#slm#:#SCORM Learning Module
+common#:#slm_added#:#SCORM Learning Module added
+common#:#slm_visible#:#SCORM Learning Module is visible
+common#:#slm_read#:#Read access to SCORM Learning Module
+common#:#slm_create#:#Create SCORM Learning Module
+common#:#slm_write#:#Edit SCORM Learning Module
+common#:#slm_delete#:#Delete SCORM Learning Module
+common#:#slm_edit_permission#:#Change permission settings
+common#:#slm_join#:#Subscribe to SCORM Learning Module
+common#:#slm_leave#:#Unsubscribe from SCORM Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#st_a#:#a chapter
@@ -911,7 +1011,13 @@ common#:#usr_edit#:#Edit User
 common#:#usr_new#:#New User
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
-common#:#usrf#:#User Folder
+common#:#usrf#:#User accounts
+common#:#usrf_visible#:#User accounts are visible
+common#:#usrf_read#:#Read access to user accounts
+common#:#usrf_write#:#Edit user accounts
+common#:#usrf_delete#:#Delete user accounts
+common#:#usrf_edit_permission#:#Change permission settings
+common#:#usrf_create_user#:#Create new user account
 common#:#validate#:#Validate
 common#:#value#:#Value
 common#:#version#:#Version

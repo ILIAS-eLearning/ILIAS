@@ -1040,3 +1040,31 @@ ALTER TABLE lm_data ADD COLUMN
 
 ALTER TABLE lm_data ADD COLUMN
   last_update DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
+<#82>
+UPDATE rbac_operations SET operation='edit_permission' WHERE ops_id='1';
+UPDATE rbac_operations SET operation='edit_post' WHERE ops_id='9';
+UPDATE rbac_operations SET operation='delete_post' WHERE ops_id='10';
+UPDATE rbac_operations SET operation='smtp_mail' WHERE ops_id='11';
+UPDATE rbac_operations SET operation='system_message' WHERE ops_id='12';
+
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('13', 'create_user', 'create new user account');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('22', '13');
+DELETE FROM rbac_ta WHERE typ_id='25' AND ops_id='5';
+
+# remove useless write-operation for lngf-object
+DELETE FROM rbac_ta WHERE typ_id='28' AND ops_id='4';
+
+# remove mob-object completely from RBAC system
+DELETE FROM rbac_ta WHERE typ_id='18';
+
+# remove useless create-operation for adm-object
+DELETE FROM rbac_ta WHERE typ_id='21' AND ops_id='5';
+
+# add operations 'create_role' and 'create_rolt'
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('14', 'create_role', 'create new role definition');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('15', 'create_rolt', 'create new role definition template');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('23', '14');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('23', '15');
+DELETE FROM rbac_ta WHERE typ_id='27';
+DELETE FROM rbac_ta WHERE typ_id='30';
+DELETE FROM rbac_ta WHERE typ_id='23' AND ops_id='5';

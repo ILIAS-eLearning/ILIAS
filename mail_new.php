@@ -259,7 +259,7 @@ if(!is_array($mail_data["m_type"]) or (is_array($mail_data["m_type"]) and in_arr
 }
 
 // ONLY IF SYSTEM MAILS ARE ALLOWED
-if($rbacsystem->checkAccess("system message",$umail->getMailObjectReferenceId()))
+if($rbacsystem->checkAccess("system_message",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("system_message");
 	$tpl->setVariable("TXT_SYSTEM", $lng->txt("system_message"));
@@ -271,7 +271,7 @@ if($rbacsystem->checkAccess("system message",$umail->getMailObjectReferenceId())
 }
 	
 // ONLY IF SMTP MAILS ARE ALLOWED
-if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
+if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
 {
 	$tpl->setCurrentBlock("allow_smtp");
 	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));

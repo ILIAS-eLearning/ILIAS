@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.25 2003/10/29 19:09:14 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.26 2003/10/31 12:33:22 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -45,6 +45,53 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		$this->type = "rolt";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+	}
+	
+	/**
+	* create new role definition template
+	*
+	* @access	public
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create_rolt", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			$this->getTemplateFile("edit",$new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
 	}
 
 
@@ -106,7 +153,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
@@ -280,7 +327,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
@@ -314,7 +361,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}

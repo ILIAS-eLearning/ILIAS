@@ -267,7 +267,7 @@ class ilObjectGUI
 					  break;
 
 				  case 'perm':
-					  if (!$rbacsystem->checkAccess('edit permission',$this->ref_id))
+					  if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
 					  {
 						  $show = false;
 					  }
@@ -1454,82 +1454,81 @@ class ilObjectGUI
 
 		static $num = 0;
 
-		if (!$rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			exit();
 		}
-		else
+
+		// only display superordinate roles; local roles with other scope are not displayed
+		$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+
+		$data = array();
+
+		// GET ALL LOCAL ROLE IDS
+		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+
+		$local_roles = array();
+
+		if ($role_folder)
 		{
-			// only display superordinate roles; local roles with other scope are not displayed
-			$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+		}
 
-			$data = array();
+		foreach ($parentRoles as $r)
+		{
+			$data["rolenames"][] = $r["title"];
 
-			// GET ALL LOCAL ROLE IDS
-			$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-
-			$local_roles = array();
-
-			if ($role_folder)
+			if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
 			{
-				$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+				$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 			}
-
-			foreach ($parentRoles as $r)
+			else
 			{
-				$data["rolenames"][] = $r["title"];
-
-				if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
+				// don't display a checkbox for local roles AND system role
+				if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
 				{
-					$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
+					$data["check_inherit"][] = "&nbsp;";
 				}
 				else
 				{
-					// don't display a checkbox for local roles AND system role
-					if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
+					// linked local roles with stopped inheritance
+					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
+				}
+			}
+		}
+
+		$ope_list = getOperationList($this->object->getType());
+
+		// BEGIN TABLE_DATA_OUTER
+		foreach ($ope_list as $key => $operation)
+		{
+			$opdata = array();
+
+			// skip 'create' permission because an object permission 'create' makes no sense
+			if ($operation["operation"] != "create")
+			{
+				$opdata["name"] = $operation["operation"];
+
+				foreach ($parentRoles as $role)
+				{
+					if ($role["obj_id"] == SYSTEM_ROLE_ID)
 					{
-						$data["check_inherit"][] = "&nbsp;";
+						$checked = true;
+						$disabled = true;
 					}
 					else
 					{
-						// linked local roles with stopped inheritance
-						$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
-					}
-				}
-			}
-
-			$ope_list = getOperationList($this->object->getType());
-
-			// BEGIN TABLE_DATA_OUTER
-			foreach ($ope_list as $key => $operation)
-			{
-				$opdata = array();
-
-				// skip 'create' permission because an object permission 'create' makes no sense
-				if ($operation["operation"] != "create")
-				{
-					$opdata["name"] = $operation["operation"];
-
-					foreach ($parentRoles as $role)
-					{
-						if ($role["obj_id"] == SYSTEM_ROLE_ID)
-						{
-							$checked = true;
-							$disabled = true;
-						}
-						else
-						{
-							$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-							$disabled = false;
-						}
-
-						// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
-						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
-						$opdata["values"][] = $box;
+						$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+						$disabled = false;
 					}
 
-					$data["permission"][] = $opdata;
+					// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
+					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
+					$opdata["values"][] = $box;
 				}
+
+				$data["permission"][] = $opdata;
 			}
 		}
 
@@ -1590,7 +1589,7 @@ class ilObjectGUI
 			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
 			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
 			$this->tpl->setVariable("CSS_ROW",$css_row);
-			$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
+			$this->tpl->setVariable("PERMISSION", $this->lng->txt($this->object->getType()."_".$ar_perm["name"]));
 			$this->tpl->parseCurrentBlock();
 			// END TABLE DATA OUTER
 		}

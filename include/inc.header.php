@@ -105,10 +105,10 @@ if ($_SESSION["message"])
 }
 
 // put debugging functions here
-if (DEBUG)
-{
+//if (DEBUG)
+//{
 	include_once "include/inc.debug.php";
-}
+//}
 
 //authenticate & start session
 $ilias->auth->start();

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.61 2003/11/03 16:00:22 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.62 2003/11/07 11:11:17 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -52,10 +52,10 @@ class ilObjRoleGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem;
-
+		
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		
-		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $new_type))
+		if (!$rbacsystem->checkAccess('create_role', $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -141,193 +141,171 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			exit();
+		}
+
+		// build array with all rbac object types
+		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
+			 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
+			 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+		$r = $this->ilias->db->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
+											    "type"		=> $row->title
+												);
+
+			$rbac_operations[$row->typ_id][$row->ops_id] = array(
+									   							"ops_id"	=> $row->ops_id,
+									  							"title"		=> $row->operation,
+																"name"		=> $this->lng->txt($row->title."_".$row->operation)
+															   );
+		}
+			
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
+		}
+
+		sort($rbac_objects);
+		//unset($rbac_operations);
+			
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			sort($rbac_objects[$key]["ops"]);
+		}
+		
+		// sort by (translated) name of object type
+		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
+
+		// for local roles display only the permissions settings for allowed subobjects 
+		if ($_GET["ref_id"] != ROLE_FOLDER_ID)
+		{
+			// first get object in question (parent of role folder object)
+			$parent_data = $this->tree->getParentNodeData($_GET["ref_id"]);
+			// get allowed subobject of object
+			$subobj_data = $this->objDefinition->getSubObjects($parent_data["type"]);
+			
+			// remove not allowed object types from array but keep the type definition of object itself
+			foreach ($rbac_objects as $key => $obj_data)
+			{
+				if (!$subobj_data[$obj_data["type"]] and $parent_data["type"] != $obj_data["type"])
+				{
+					unset($rbac_objects[$key]);
+				}
+			}
+		} // end if local roles
+
+		// BEGIN CHECK_PERM
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $_GET["ref_id"]);
+			$arr_checked = array_intersect($arr_selected,array_keys($rbac_operations[$obj_data["obj_id"]]));
+
+			foreach ($rbac_operations[$obj_data["obj_id"]] as $operation)
+			{
+				// check all boxes for system role
+				if ($this->object->getId() == SYSTEM_ROLE_ID)
+				{
+					$checked = true;
+					$disabled = true;
+				}
+				else
+				{
+					$checked = in_array($operation["ops_id"],$arr_checked);
+					$disabled = false;
+				}
+
+				// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+				$box = ilUtil::formCheckBox($checked,"template_perm[".$obj_data["type"]."][]",$operation["ops_id"],$disabled);
+				$output["perm"][$obj_data["obj_id"]][$operation["ops_id"]] = $box;
+			}
+		}
+		// END CHECK_PERM
+
+		$output["col_anz"] = count($rbac_objects);
+		$output["txt_save"] = $this->lng->txt("save");
+		$output["txt_permission"] = $this->lng->txt("permission");
+		$output["txt_obj_type"] = $this->lng->txt("obj_type");
+		$output["txt_stop_inheritance"] = $this->lng->txt("stop_inheritance");
+		$output["check_bottom"] = ilUtil::formCheckBox(0,"recursive",1);
+		$output["message_table"] = $this->lng->txt("change_existing_objects");
+
+
+/************************************/
+/*		adopt permissions form		*/
+/************************************/
+
+		$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
+
+		// send message for system role
+		if ($this->object->getId() == SYSTEM_ROLE_ID)
+		{
+			$output["adopt"] = array();
+			sendinfo($this->lng->txt("msg_sysrole_not_editable"));
 		}
 		else
 		{
-			// BEGIN OBJECT_TYPES
-			// get all object type definitions
-			$obj_data = getObjectList("typ","title","ASC");
+			// BEGIN ADOPT_PERMISSIONS
+			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 
-			// remove object types that are 'deactivated' (have no operation enabled)
-			foreach ($obj_data as $key => $type)
+			// sort output for correct color changing
+			ksort($parent_role_ids);
+
+			foreach ($parent_role_ids as $key => $par)
 			{
-				$ops_arr = $rbacreview->getOperationsOnType($type["obj_id"]);
-
-				if (empty($ops_arr))
+				if ($par["obj_id"] != SYSTEM_ROLE_ID)
 				{
-					unset($obj_data[$key]);				
+					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+					$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+					$output["adopt"][$key]["check_adopt"] = $radio;
+					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+					$output["adopt"][$key]["role_name"] = $par["title"];
 				}
 			}
-			
-			// for local roles display only the permissions settings for allowed subobjects 
-			if ($_GET["ref_id"] != ROLE_FOLDER_ID)
-			{
-				// first get object in question (parent of role folder object)
-				$parent_data = $this->tree->getParentNodeData($_GET["ref_id"]);
-				// get allowed subobject of object
-				$obj_data2 = $this->objDefinition->getSubObjects($parent_data["type"]);
-			
-				// remove not allowed object types from array but keep the type definition of object itself
-				foreach ($obj_data as $key => $type)
-				{
-					if (!$obj_data2[$type["title"]] and $parent_data["type"] != $type["title"])
-					{
-						unset($obj_data[$key]);
-					}
-				}
-			} // end if local roles
-
-			// normal processing
-			foreach ($obj_data as $data)
-			{
-				$output["obj_types"][] = $data["title"];
-			}
-			// END OBJECT TYPES
-
-			$all_ops = getOperationList();
-
-			// BEGIN TABLE_DATA_OUTER
-			foreach ($all_ops as $key => $operations)
-			{
-				$operation_name = $operations["operation"];
-
-				$num = 0;
-				
-				// BEGIN CHECK_PERM
-				foreach ($obj_data as $data)
-				{
-					if (in_array($operations["ops_id"],$rbacreview->getOperationsOnType($data["obj_id"])))
-					{
-						$selected = $rbacreview->getOperationsOfRole($this->object->getId(), $data["title"], $_GET["ref_id"]);
-
-						// check all boxes for system role
-						if ($this->object->getId() == SYSTEM_ROLE_ID)
-						{
-							$checked = true;
-							$disabled = true;
-						}
-						else
-						{
-							$checked = in_array($operations["ops_id"],$selected);
-							$disabled = false;
-						}
-
-						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"],$disabled);
-						$output["perm"]["$operation_name"][$num] = $box;
-					}
-					else
-					{
-						$output["perm"]["$operation_name"][$num] = "";
-					}
-					
-					$num++;
-				}
-				// END CHECK_PERM
-
-				// color changing
-				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
-				$output["perm"]["$operation_name"]["color"] = $css_row;
-			}
-
-			// END TABLE DATA OUTER
-			$box = ilUtil::formCheckBox(0,"recursive",1);
-
-			$output["col_anz"] = count($obj_data);
-			$output["txt_save"] = $this->lng->txt("save");
-			$output["txt_permission"] = $this->lng->txt("permission");
-			$output["txt_obj_type"] = $this->lng->txt("obj_type");
-			$output["txt_stop_inheritance"] = $this->lng->txt("stop_inheritance");
-			$output["check_bottom"] = $box;
-			$output["message_table"] = $this->lng->txt("change_existing_objects");
-
-			// ADOPT PERMISSIONS
-			$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
-
-			// send message for system role
-			if ($this->object->getId() == SYSTEM_ROLE_ID)
-			{
-				$output["adopt"] = array();
-				sendinfo($this->lng->txt("msg_sysrole_not_editable"));
-			}
-			else
-			{
-				// BEGIN ADOPT_PERMISSIONS
-				$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 	
-				// sort output for correct color changing
-				ksort($parent_role_ids);
-	
-				foreach ($parent_role_ids as $key => $par)
-				{
-					if ($par["obj_id"] != SYSTEM_ROLE_ID)
-					{
-						$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-						$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
-						$output["adopt"][$key]["check_adopt"] = $radio;
-						$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
-						$output["adopt"][$key]["role_name"] = $par["title"];
-					}
-				}
-	
-				$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
-				// END ADOPT_PERMISSIONS
-			}
-
-			$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
+			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
+			// END ADOPT_PERMISSIONS
 		}
+
+		$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 
 		$this->data = $output;
 
-		// generate output
+
+/************************************/
+/*			generate output			*/
+/************************************/
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role_new.html");
 
-		// BEGIN BLOCK OBJECT TYPES
-		$this->tpl->setCurrentBlock("OBJECT_TYPES");
-
-		foreach ($this->data["obj_types"] as $type)
+		foreach ($rbac_objects as $obj_data)
 		{
-			$this->tpl->setVariable("OBJ_TYPES",$type);
-			$this->tpl->parseCurrentBlock();
-		}
-		// END BLOCK OBJECT TYPES
-
-		// BEGIN TABLE DATA OUTER
-		foreach ($this->data["perm"] as $name => $operations)
-		{
-			$display_row = false;
-						
-			// BEGIN CHECK PERMISSION
-			$this->tpl->setCurrentBlock("CHECK_PERM");
-
-			for ($i = 0;$i < count($operations)-1;++$i)
+			// BEGIN object_operations
+			$this->tpl->setCurrentBlock("object_operations");
+	
+			foreach ($obj_data["ops"] as $operation)
 			{
-				if (!empty($operations[$i]))
-				{
-					$display_row = true;
-				}
-			}
-			
-			if ($display_row)
-			{
-				for ($i = 0;$i < count($operations)-1;++$i)
-				{
-					$this->tpl->setVariable("CHECK_PERMISSION",$operations[$i]);
-					$this->tpl->parseCurrentBlock();
-				}
-				// END CHECK PERMISSION
-
-				$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
-				$this->tpl->setVariable("CSS_ROW",$operations["color"]);
-				$this->tpl->setVariable("PERMISSION",$name);
+				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW",$css_row);
+				$this->tpl->setVariable("PERMISSION",$operation["name"]);
+				$this->tpl->setVariable("CHECK_PERMISSION",$this->data["perm"][$obj_data["obj_id"]][$operation["ops_id"]]);
 				$this->tpl->parseCurrentBlock();
-			}
-		} // END TABLE DATA OUTER
+			} // END object_operations
+			
+			// BEGIN object_type
+			$this->tpl->setCurrentBlock("object_type");
+			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
+			$this->tpl->parseCurrentBlock();
+			// END object_type
+		}
 
 		// don't display adopt permissions form for system role
 		if ($this->object->getId() != SYSTEM_ROLE_ID)
@@ -350,8 +328,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			// END ADOPT PERMISSIONS
 		
 			$this->tpl->setCurrentBlock("tblfooter_standard");
-			$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
-			$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
+			$this->tpl->setVariable("COL_ANZ",3);
+			$this->tpl->setVariable("COL_ANZ_PLUS",4);
 			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 			$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
 			$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
@@ -359,10 +337,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-
-			// hide form buttons for system role
+			// display form buttons not for system role
 			$this->tpl->setCurrentBlock("tblfooter_sysrole");
-			$this->tpl->setVariable("COL_ANZ_SYS",$this->data["col_anz"]);
+			$this->tpl->setVariable("COL_ANZ_SYS",3);
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -390,7 +367,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// SET TEMPLATE PERMISSIONS
-		if (!$rbacsystem->checkAccess('edit permission', $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission', $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
@@ -506,7 +483,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
@@ -549,7 +526,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+			if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 			}

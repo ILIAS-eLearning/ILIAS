@@ -1391,7 +1391,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		static $num = 0;
 
-		if (!$rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
