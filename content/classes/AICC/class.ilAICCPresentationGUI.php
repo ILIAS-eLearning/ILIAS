@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./classes/class.ilObjAICCLearningModule.php");
+require_once("content/classes/class.ilObjAICCLearningModule.php");
 require_once("content/classes/AICC/class.ilAICCObjectGUI.php");
 require_once("content/classes/SCORM/class.ilSCORMPresentationGUI.php");
 

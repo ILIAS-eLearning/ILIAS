@@ -65,7 +65,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->addFilter("root");
 		$this->addFilter("cat");
 		$this->addFilter("exc");
-		$this->addFilter("slm");
+		$this->addFilter("sahs");
 		$this->addFilter("grp");
 		$this->addFilter("lm");
 		$this->addFilter("htlm");
@@ -98,7 +98,7 @@ class ilRepositoryExplorer extends ilExplorer
 			case "htlm":
 				return "content/fblm_presentation.php?ref_id=".$a_node_id;
 
-			case "slm":
+			case "sahs":
 				return "content/sahs_presentation.php?ref_id=".$a_node_id;
 
 			case "mep":
@@ -155,7 +155,7 @@ class ilRepositoryExplorer extends ilExplorer
 			case "htlm":
 				return "content/fblm_edit.php?ref_id=".$a_node_id;
 
-			case "slm":
+			case "sahs":
 				return "content/sahs_edit.php?ref_id=".$a_node_id;
 
 			case "mep":
@@ -202,7 +202,7 @@ class ilRepositoryExplorer extends ilExplorer
 			case "lm":
 			case "dbk":
 			case "htlm":
-			case "slm":
+			case "sahs":
 				return "ilContObj".$a_obj_id;
 
 			case "grp":
@@ -308,10 +308,10 @@ class ilRepositoryExplorer extends ilExplorer
 						}
 					}
 					// check if fblm is online
-					if ($a_type == "slm")
+					if ($a_type == "sahs")
 					{
-						include_once("classes/class.ilObjSCORMLearningModule.php");
-						$lm_obj =& new ilObjSCORMLearningModule($a_ref_id);
+						include_once("content/classes/class.ilObjSAHSLearningModule.php");
+						$lm_obj =& new ilObjSAHSLearningModule($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
 							return false;

@@ -113,7 +113,7 @@ class ilMetaData
 			$this->getType() == "glo" ||
 			$this->getType() == "mob" ||
 			$this->getType() == "crs" ||
-			$this->getType() == "slm" ||
+			$this->getType() == "sahs" ||
 			$this->getType() == "htlm" ||
 			$this->getType() == "tst" ||
 			$this->getType() == "qpl" ||
@@ -203,7 +203,7 @@ class ilMetaData
 			$this->getType() == "spl" ||
 			$this->getType() == "mob" ||
 			$this->getType() == "htlm" ||
-			$this->getType() == "slm")
+			$this->getType() == "sahs")
 		{
 #			echo "Section: " . $this->section . "<br>\n";
 			if ( $this->__initNestedSet() )

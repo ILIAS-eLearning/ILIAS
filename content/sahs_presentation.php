@@ -34,43 +34,44 @@ define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjectGUI.php";
+require_once "./content/classes/class.ilObjSAHSLearningModule.php";
 
 $lng->loadLanguageModule("content");
 
-	$ref_id=$_GET["ref_id"];
+$ref_id=$_GET["ref_id"];
 
-	if (!$rbacsystem->checkAccess("read", $_GET["ref_id"])) {
-		$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-	}
-	
-	//read type of cbt
-	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
-	$lm_set = $ilias->db->query($q);
-	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-	$type=$lm_rec["type"];	
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"])) {
+	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+}
 
-	switch ($type) {
-		case "slm":
-					//SCORM
-					require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
-					$scorm_presentation = new ilSCORMPresentationGUI();
-					break;
-		case "alm":
-					//AICC
-					require_once "./content/classes/AICC/class.ilAICCPresentationGUI.php";
-					$aicc_presentation = new ilAICCPresentationGUI();
-					break;
-		case "hlm":
-					//HACP
-					require_once "./content/classes/HACP/class.ilHACPPresentationGUI.php";
-					$hacp_presentation = new ilHACPPresentationGUI();
-					break;
-		default:
-					//unknown type
-					require_once "./content/classes/class.ilLMPresentationGUI.php";
-					$lm_presentation = new ilLMPresentationGUI();
+$obj_id = ilObject::_lookupObjectId($ref_id);
+$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-	}
+switch ($type)
+{
+	case "scorm":
+				//SCORM
+				require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
+				$scorm_presentation = new ilSCORMPresentationGUI();
+				break;
+
+	case "aicc":
+				//AICC
+				require_once "./content/classes/AICC/class.ilAICCPresentationGUI.php";
+				$aicc_presentation = new ilAICCPresentationGUI();
+				break;
+
+	case "hacp":
+				//HACP
+				require_once "./content/classes/HACP/class.ilHACPPresentationGUI.php";
+				$hacp_presentation = new ilHACPPresentationGUI();
+				break;
+	default:
+				//unknown type
+				require_once "./content/classes/class.ilLMPresentationGUI.php";
+				$lm_presentation = new ilLMPresentationGUI();
+
+}
 
 
 ?>

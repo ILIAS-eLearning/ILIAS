@@ -629,7 +629,7 @@ components:
 
     The parameter 'memory_limit' defines the maximum amount of memory a php
     script may consume. The default value of 8M maybe to low for some ILIAS
-    scripts. We recommend to set this parameter to 20M.
+    scripts. We recommend to set this parameter to 40M.
 
     There are a few more settings in php.ini that might require modification:
 

@@ -214,11 +214,11 @@ class ilLOListGUI
 			case "flat":
 				$lr_lm = ilUtil::getObjectsByOperations('lm','visible');
 				$lr_dbk = ilUtil::getObjectsByOperations('dbk','visible');
-				$lr_slm = ilUtil::getObjectsByOperations('slm','visible');
+				$lr_sahs = ilUtil::getObjectsByOperations('sahs','visible');
 				$lr_crs = ilUtil::getObjectsByOperations('crs','visible');
 
-				$lr_arr = array_merge($lr_lm,$lr_dbk,$lr_slm,$lr_crs);
-				unset($lr_lm,$lr_dbk,$lr_slm,$lr_crs);
+				$lr_arr = array_merge($lr_lm,$lr_dbk,$lr_sahs,$lr_crs);
+				unset($lr_lm,$lr_dbk,$lr_sahs,$lr_crs);
 				break;
 
 			case "tree":
@@ -231,7 +231,7 @@ class ilLOListGUI
 					foreach ($objects as $key => $object)
 					{
 						if ((($object["type"] == "lm") || $object["type"] == "dbk" ||
-							($object["type"] == "slm") ||
+							($object["type"] == "sahs") ||
 							($object["type"] == "crs"))
 							&& $this->rbacsystem->checkAccess('visible',$object["child"]))
 						{
@@ -310,8 +310,8 @@ class ilLOListGUI
 					}
 				}
 
-				// scorm learning modules
-				if ($lr_data["type"] == "slm")
+				// scorm/aicc learning modules
+				if ($lr_data["type"] == "sahs")
 				{
 					$obj_link = "content/sahs_presentation.php?ref_id=".$lr_data["ref_id"];
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);

@@ -1764,7 +1764,7 @@ class ilObjUser extends ilObject
 				case "tst":
 				case "svy":
 				case "dbk":
-				case "slm":
+				case "sahs":
 				case "htlm":
 				case "mep":
 					$q = "SELECT obj.description, oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
@@ -1805,9 +1805,9 @@ class ilObjUser extends ilObject
 								}
 								break;
 
-							case "slm":
-								include_once("classes/class.ilObjSCORMLearningModule.php");
-								if (!ilObjSCORMLearningModule::_lookupOnline($item_rec["obj_id"]))
+							case "sahs":
+								include_once("content/classes/class.ilObjSAHSLearningModule.php");
+								if (!ilObjSAHSLearningModule::_lookupOnline($item_rec["obj_id"]))
 								{
 									if (!$rbacsystem->checkAccess("write", $item_rec["ref_id"]))
 									{
@@ -1836,7 +1836,7 @@ class ilObjUser extends ilObject
 								"&obj_id=".$item_rec["parameters"];
 							$target = "bottom";
 						}
-						elseif ($a_type == "slm")
+						elseif ($a_type == "sahs")
 						{
 							$link = "content/sahs_presentation.php?ref_id=".$item_rec["ref_id"].
 								"&obj_id=".$item_rec["parameters"];

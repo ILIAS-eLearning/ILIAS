@@ -31,6 +31,7 @@
 */
 
 chdir("..");
+require_once "./content/classes/class.ilObjSAHSLearningModule.php";
 
 // debug
 /*
@@ -39,77 +40,78 @@ foreach ($HTTP_POST_VARS as $key=>$value)
 	fputs($fp, "HTTP_POST_VARS[$key] = $value \n");
 foreach ($HTTP_GET_VARS as $key=>$value)
 	fputs($fp, "HTTP_GET_VARS[$key] = $value \n");
-fclose($fp);	
+fclose($fp);
 */
-		
+
 $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
 
-	$ref_id=$_GET["ref_id"];
-	
-	//get type of cbt
-	if (!empty($ref_id)) {
+$ref_id=$_GET["ref_id"];
 
-		require_once "./include/inc.header.php";
-			
-		//read by ref_id
-		$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
-		$lm_set = $ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$type=$lm_rec["type"];	
+//get type of cbt
+if (!empty($ref_id))
+{
+	require_once "./include/inc.header.php";
 
-	} else {	
+	$obj_id = ilObject::_lookupObjectId($ref_id);
+	$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-		//ensure HACP
-		$requiredKeys=array("command", "version", "session_id");
-		if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($HTTP_POST_VARS, CASE_LOWER))))==0) {
-			
-			//now we need to get a connection to the database and global params
-			//but that doesnt work because of missing logindata of the contentserver
-			//require_once "./include/inc.header.php";
-			
-			//highly insecure
-			$param=urldecode($HTTP_POST_VARS["session_id"]);
-			if (!empty($param) && substr_count($param, "_")==2) {
-				list($session_id, $ref_id, $obj_id)=explode("_",$param);
-	
-				session_id($session_id);
-				require_once "./include/inc.header.php";
-				
-				$type="hlm";
+}
+else
+{
 
-			}
+	//ensure HACP
+	$requiredKeys=array("command", "version", "session_id");
+	if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($HTTP_POST_VARS, CASE_LOWER))))==0)
+	{
+		//now we need to get a connection to the database and global params
+		//but that doesnt work because of missing logindata of the contentserver
+		//require_once "./include/inc.header.php";
+
+		//highly insecure
+		$param=urldecode($HTTP_POST_VARS["session_id"]);
+		if (!empty($param) && substr_count($param, "_")==2)
+		{
+			list($session_id, $ref_id, $obj_id)=explode("_",$param);
+
+			session_id($session_id);
+			require_once "./include/inc.header.php";
+
+			$type="hlm";
+
 		}
 	}
-	
-	switch ($type) {
-		case "slm":
-					//SCORM
-					require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
-					$track = new ilObjSCORMTracking();
-					$track->$cmd();
-					break;
-		case "alm":
-					//AICC
-					require_once "./content/classes/AICC/class.ilObjAICCTracking.php";
-					$track = new ilObjAICCTracking();
-					$track->$cmd();
-					break;
-		case "hlm":
-					//HACP
-					require_once "./content/classes/HACP/class.ilObjHACPTracking.php";
-					$track = new ilObjHACPTracking($ref_id, $obj_id);
-					//$track->$cmd();
-					break;
-		default:
-					//unknown type
-					$fp=fopen("./content/scorm.log", "a+");
-					fputs($fp, "unknown type >$type< in sahs_server\n");	
-					foreach ($HTTP_POST_VARS as $k=>$v)
-						fputs($fp, "HTTP_POST_VARS[$k]=$v \n");	
-					fclose($fp);	
-	}
+}
+
+switch ($type)
+{
+	case "scorm":
+				//SCORM
+				require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+				$track = new ilObjSCORMTracking();
+				$track->$cmd();
+				break;
+	case "aicc":
+				//AICC
+				require_once "./content/classes/AICC/class.ilObjAICCTracking.php";
+				$track = new ilObjAICCTracking();
+				$track->$cmd();
+				break;
+	case "hacp":
+				//HACP
+				require_once "./content/classes/HACP/class.ilObjHACPTracking.php";
+				$track = new ilObjHACPTracking($ref_id, $obj_id);
+				//$track->$cmd();
+				break;
+	default:
+				//unknown type
+				$fp=fopen("./content/scorm.log", "a+");
+				fputs($fp, "unknown type >$type< in sahs_server\n");
+				foreach ($HTTP_POST_VARS as $k=>$v)
+					fputs($fp, "HTTP_POST_VARS[$k]=$v \n");
+				fclose($fp);
+}
 
 exit;
 
