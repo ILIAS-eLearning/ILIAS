@@ -104,8 +104,10 @@ if (DEBUG)
 }
 
 //authenticate & start session
+$ilias->auth->setExpire($ilias->ini->readVariable("session","expire"));
 $ilias->auth->setExpire($ilias->ini->readVariable("session","expire"),true);
 $ilias->auth->start();
+
 
 // start logging
 $log = new ilLog("ilias.log");
