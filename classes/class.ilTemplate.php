@@ -380,7 +380,7 @@ class ilTemplate extends IntegratedTemplateExtension
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
 		}
 
-		$tplfile = $this->getTemplatePath($tplname, $module);
+		$tplfile = $this->getTemplatePath($tplname, $in_module);
 
 		if (file_exists($tplfile) == false)
 		{
