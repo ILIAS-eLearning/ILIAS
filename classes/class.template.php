@@ -118,7 +118,9 @@ class Template extends IntegratedTemplateExtension
 	*/
 	function fillVars()
 	{
-        reset($this->vars);
+        $count = 0;
+		
+		reset($this->vars);
 
         while(list($key, $val) = each($this->vars))
 		{
@@ -129,11 +131,15 @@ class Template extends IntegratedTemplateExtension
 //				vd($this->blockvariables[$this->activeBlock]);
 				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
 				{
+					$count++;
+					
 					$this->setVariable($key, $val);
 				}
 			}
 //			}
         }
+		
+		return $count;
 	}
 	
     /**
@@ -153,8 +159,14 @@ class Template extends IntegratedTemplateExtension
 	function touchBlock($block)
 	{
 		$this->setCurrentBlock($block);
-		$this->fillVars();
+		$count = $this->fillVars();
 		$this->parseCurrentBlock();
+		
+		if ($count == 0 )
+		{
+			parent::touchBlock($block);
+		}
+		
 	}
 	
     /**
