@@ -24,10 +24,14 @@
 
 require_once "include/inc.header.php";
 require_once "classes/class.ilExplorer.php";
+require_once "classes/class.ilGroupExplorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-$exp = new ilExplorer("group_content.php");
+$exp = new ilGroupExplorer("group_content.php");
+
+//new ilGroupExplorer("group_content.php");
+
 
 if ($_GET["expand"] == "")
 {
@@ -49,7 +53,7 @@ $output = $exp->getOutput();
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("EXPLORER",$output);
-$tpl->setVariable("ACTION", "group_menu.php?expand=".$_GET["expand"]);
+//$tpl->setVariable("ACTION", "group_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
