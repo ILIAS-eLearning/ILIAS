@@ -253,6 +253,12 @@ class ilObjSCORMTracking
         }
     }
 
+	function insert()
+	{
+		fwrite($this->debug, "\ninsert:".$dataModelElement.":".$elemValue);
+
+	}
+
     /**
 	* sets value of named element and updates database
 	* return true or false if error occurs
