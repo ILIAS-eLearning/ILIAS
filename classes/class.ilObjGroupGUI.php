@@ -748,6 +748,7 @@ class ilObjGroupGUI extends ilObjectGUI
 					"login"		=> $member->getLogin(),
 					"firstname"	=> $member->getFirstname(),
 					"lastname"	=> $member->getLastname(),
+					"last_visit"=> ilFormat::formatDate($member->getLastLogin()),
 					"grp_role"	=> ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3)
 				);
 		}
@@ -765,7 +766,7 @@ class ilObjGroupGUI extends ilObjectGUI
 										"updateMemberStatus"  => $this->lng->txt("confirm"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->setVariable("COLUMN_COUNTS",4);
+		$this->tpl->setVariable("COLUMN_COUNTS",5);
 		//$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
@@ -789,8 +790,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("grp_mem_change_status"),"icon_usr_b.gif",$this->lng->txt("grp_mem_change_status"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role")));
-		$tbl->setHeaderVars(array("login","firstname","lastname","role"),$this->ctrl->getParameterArray($this,"",false));
+		$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role")));
+		$tbl->setHeaderVars(array("login","firstname","lastname","last_visit","role"),$this->ctrl->getParameterArray($this,"",false));
 
 		$tbl->setColumnWidth(array("20%","20%","20%","40%"));
 
@@ -893,6 +894,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$result_set[$counter][] = $mem["login"];
 			$result_set[$counter][] = $mem["firstname"];
 			$result_set[$counter][] = $mem["lastname"];
+			$result_set[$counter][] = ilFormat::formatDate($mem["last_login"]);
 			$result_set[$counter][] = $str_member_roles;
 			$result_set[$counter][] = "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions;
 
@@ -1525,11 +1527,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
-								   $this->lng->txt("lastname")));
+								   $this->lng->txt("lastname"),
+								   $this->lng->txt("last_visit")));
 		$tbl->setHeaderVars(array("",
 								  "login",
 								  "firstname",
-								  "lastname"),
+								  "lastname",
+								  "last_visit"),
 							array("ref_id" => $this->object->getRefId(),
 								  "cmd" => $a_cmd,
 								  "cmdClass" => "ilobjgroupgui",
@@ -1666,7 +1670,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		    $tpl->setCurrentBlock("plain_buttons");
 		    $tpl->parseCurrentBlock();
 		
-			$tpl->setVariable("COLUMN_COUNTS",6);
+			$tpl->setVariable("COLUMN_COUNTS",7);
 			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
             foreach ($actions as $name => $value)
@@ -1690,14 +1694,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("delete,write",$this->object->getRefId()))
 		{
 			//user must be administrator
-			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+			$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
 			$tbl->setHeaderVars(array("","login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
 			$tbl->setColumnWidth(array("","22%","22%","22%","22%","10%"));
 		}
 		else
 		{
 			//user must be member
-			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
+			$tbl->setHeaderNames(array($this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("last_visit"),$this->lng->txt("role"),$this->lng->txt("grp_options")));
 			$tbl->setHeaderVars(array("login","firstname","lastname","role","functions"),$this->ctrl->getParameterArray($this,"",false));
 			$tbl->setColumnWidth(array("22%","22%","22%","22%","10%"));
 		}
