@@ -36,7 +36,6 @@
 
 include_once "classes/class.ilObjectGUI.php";
 include_once "content/classes/class.ilObjContentObject.php";
-include_once ("classes/class.ilObjStyleSheetGUI.php");
 include_once ("content/classes/class.ilLMPageObjectGUI.php");
 include_once ("content/classes/class.ilStructureObjectGUI.php");
 
@@ -86,8 +85,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilobjstylesheetgui":
+				include_once ("classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "properties");
-				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$ret =& $this->ctrl->forwardCommand($style_gui);
 				//$ret =& $style_gui->executeCommand();
 

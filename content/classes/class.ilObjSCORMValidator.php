@@ -35,6 +35,7 @@ class ilObjSCORMValidator {
 
 		function validateXML($file)
 		{
+//echo "<br>".ilUtil::getJavaPath()." -jar ".ILIAS_ABSOLUTE_PATH."/java/vali.jar ".$file." 2>&1";
 			exec(ilUtil::getJavaPath()." -jar ".ILIAS_ABSOLUTE_PATH."/java/vali.jar ".$file." 2>&1", $error);
 			if (count($error) != 0)
 			{
@@ -43,6 +44,7 @@ class ilObjSCORMValidator {
 				foreach($error as $line)
 				{
 					$this->summary[] = $line;
+//echo "<br><b>".$line."</b>";
 				}
 			}
 		}

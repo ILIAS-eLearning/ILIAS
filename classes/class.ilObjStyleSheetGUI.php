@@ -45,7 +45,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjStyleSheetGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjStyleSheetGUI($a_data,$a_id,$a_call_by_reference, $a_prep = true)
 	{
 		global $ilCtrl, $lng, $tpl;
 
@@ -53,7 +53,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->lng =& $lng;
 
 		$this->type = "sty";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prep);
 	}
 
 	/**
@@ -73,6 +73,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		return $ret;
+	}
+	
+	function viewObject()
+	{
+		$this->editObject();
 	}
 
 	/*
@@ -106,17 +111,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->setTabs();
 
 		$this->lng =& $lng;
-
+		//$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->getTemplateFile("create", "sty");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("create_stylesheet"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
 		$this->tpl->parseCurrentBlock();
+		$this->ctrl->setParameter($this, "new_type", "sty");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
+		//$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -275,6 +281,19 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$newObj->setDescription($_POST["style_description"]);
 		$newObj->create();
 
+		// assign style to style sheet folder,
+		// if parent is style sheet folder
+		if ($_GET["ref_id"] > 0)
+		{
+
+			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			if ($fold->getType() == "styf")
+			{
+				$fold->addStyle($newObj->getId());
+				$fold->update();
+			}
+		}
+
 		return $newObj->getId();
 	}
 
@@ -320,7 +339,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($tabs_gui);
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-		if (get_class($this->object) == "ilobjstylesheet")
+		if (strtolower(get_class($this->object)) == "ilobjstylesheet")
 		{
 			$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		}

@@ -1875,6 +1875,7 @@ common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
+common#:#sty#:#Style
 common#:#obj_notf#:#Note Administration
 common#:#obj_objf#:#Object definitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
