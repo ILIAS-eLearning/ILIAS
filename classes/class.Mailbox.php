@@ -249,7 +249,6 @@ class Mailbox
 	function getLastInsertId()
 	{
 		$query = "SELECT MAX(obj_id) FROM $this->table_mail_obj_data ";
-		var_dump("<pre>",$ilias,"</pre");
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
