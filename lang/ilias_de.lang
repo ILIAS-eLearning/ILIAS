@@ -121,7 +121,7 @@ common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_properties#:#Eigenschaften
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
-common#:#email#:#eMail
+common#:#email#:#Email
 common#:#employee#:#Angestellter
 common#:#enable#:#Aktivieren
 common#:#enabled#:#Eingeschaltet
@@ -131,7 +131,7 @@ common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#Ausführen
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Feedback-Empfänger
+common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_version#:#Verfügbare Version
@@ -456,3 +456,10 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#default_skin#:#Standard-Benutzeroberfläche
+common#:#default_style#:#Standard-Stylesheet
+common#:#default_language#:#Standard-Sprache
+common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
+common#:#pathes#:#Pfade
+common#:#modules#:#Module
+common#:#input_error#:#Eingabefehler
