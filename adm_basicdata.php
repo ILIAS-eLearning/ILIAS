@@ -8,7 +8,7 @@
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
-
+echo $message;
 $tpl = new Template("tpl.adm_basicdata.html", true, true);
 
 if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt
@@ -48,14 +48,17 @@ if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt
 		
 		$ilias->ini->setVariable("server","tpl_path",$tpl_path);
 		$ilias->ini->setVariable("server","lang_path",$lang_path);
-		
-		header ("Location: admin.php?message=".urlencode("Your settings have been saved sucessfully."));
-		exit;
+
+		$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
+		$tpl->setVariable("MESSAGE", $lng->txt("saved_successfully"));
+		$settings = $ilias->getAllSettings();
+//		header ("Location: ".$_SERVER["REQUEST_URI"]."?message=saved_successfully");
+//		exit;
 	}
 	else //benötigte Felder nicht ausgefüllt -> Felder werden mit Eingaben belegt
 	{
 		$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
-		$tpl->setVariable("MESSAGE","Please fill out all required fields!");
+		$tpl->setVariable("MESSAGE", $lng->txt("fill_out_all_required_fields"));
 		$settings[inst_name]=$inst_name;
 		$settings[inst_info] = $inst_info;
 		$settings[institution] = $institution;

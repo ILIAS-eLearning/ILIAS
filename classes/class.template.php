@@ -241,6 +241,25 @@ class Template extends IntegratedTemplateExtension {
 	    $this->replace($this->vars);
     }
 
+	/**
+	* checks for a topic in the template
+	* @param	string
+	* @param	string
+	* @access	private
+	*/
+	function checkTopic($a_block, $a_topic)
+	{
+		return array_key_exists($a_topic, $this->blockvariables[$a_block]);
+	}
+	
+	/**
+	* check if there is a topic in global block
+	* @access public
+	*/
+	function includeNavigation()
+	{
+		return $this->checkTopic("__global__", "NAVIGATION");
+	}
 }
 
 ?>

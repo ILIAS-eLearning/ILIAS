@@ -95,6 +95,13 @@ class User
 				$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
 			}
 			
+			//check skin-setting
+			if ($this->prefs["skin"] != "" && 
+			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]) == false)
+			{
+				$this->prefs["skin"] == "";
+				$this->writePref("skin", "");
+			}
 			//set template to default if not set
 			if ($this->prefs["skin"] == "")
 			{
@@ -188,16 +195,17 @@ class User
 		$sql = "DELETE FROM user_pref 
 				WHERE usr_id='".$this->Id."'
 				AND keyword='".$a_keyword."'";
-//				echo $sql;
 		$r = $this->ilias->db->query($sql);
-//		return true;
+
 		//INSERT
-		$sql = "INSERT INTO user_pref 
+		if ($a_value != "")
+		{
+			$sql = "INSERT INTO user_pref 
 				(usr_id, keyword, value)
 				VALUES
 				('".$this->Id."', '".$a_keyword."', '".$a_value."')";
-				echo $sql;
-		$r = $this->ilias->db->query($sql);
+			$r = $this->ilias->db->query($sql);
+		}
 	}
 
 	/**
