@@ -219,15 +219,13 @@ class Forum
 			
 		// Thread aktualisieren		
 		$q = "UPDATE frm_threads SET thr_num_posts = thr_num_posts + 1, ";
-        $q .= "thr_last_post = '".$lastPost. "', ";        
-		$q .= "thr_last_modified = '" . date("Y-m-d H:i:s") . "' ";
-        $q .= "WHERE thr_pk = '" . $thread . "'";
+        $q .= "thr_last_post = '".$lastPost. "' ";        
+		$q .= "WHERE thr_pk = '" . $thread . "'";
         $result = $this->ilias->db->query($q);
 		
 		// Topic aktualisieren		
         $q = "UPDATE frm_data SET top_num_posts = top_num_posts + 1, ";
-        $q .= "top_last_post = '" .$lastPost. "', ";
-        $q .= "top_last_modified = '" . date("Y-m-d H:i:s") . "' ";
+        $q .= "top_last_post = '" .$lastPost. "' ";
         $q .= "WHERE top_pk = '" . $topic . "'";
         $result = $this->ilias->db->query($q);
 		

@@ -8,8 +8,18 @@
 * @extends Object
 * @package ilias-core
 */
+
+require_once "class.Forum.php";
+
 class ForumObject extends Object
 {
+	/**
+	* Forum object
+	* @var		object Forum
+	* @access	private
+	*/
+	var $Forum;
+	
 	/**
 	* Constructor
 	* @access public
@@ -17,7 +27,7 @@ class ForumObject extends Object
 	function ForumObject()
 	{
 		$this->Object();
-		require_once "class.Forum.php";
+		$this->Forum = new Forum();
 	}
 	
 	
@@ -78,7 +88,7 @@ class ForumObject extends Object
 		
 		if (parent::updateObject())
 		{
-			$userData = Forum::getModerator($_SESSION["AccountId"]);			
+			$userData = $this->Forum->getModerator($_SESSION["AccountId"]);			
 			$a_obj_data = $_POST["Fobject"];
 			
 			$query = "UPDATE frm_data ".
@@ -104,10 +114,10 @@ class ForumObject extends Object
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{		
 		
-		Forum::setWhereCondition("top_frm_fk = ".$a_obj_id);			
-		$topData = Forum::getOneTopic();	
+		$this->Forum->setWhereCondition("top_frm_fk = ".$a_obj_id);			
+		$topData = $this->Forum->getOneTopic();	
 		
-		$resThreads = Forum::getThreadList($topData["top_pk"]);	
+		$resThreads = $this->Forum->getThreadList($topData["top_pk"]);	
 		
 		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		{
