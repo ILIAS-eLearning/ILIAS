@@ -427,3 +427,7 @@ $this->db->query($query);
 
 <#47>
 INSERT INTO settings (keyword, value) VALUES ('anonymous_role_id','14');
+
+<#48>
+ALTER TABLE grp_data ADD COLUMN password VARCHAR(255) DEFAULT NULL;
+ALTER TABLE grp_data ADD COLUMN expiration DATETIME DEFAULT '0000-00-00 00:00:00';
