@@ -648,10 +648,9 @@ class ilObjSurvey extends ilObject
 		{
 			array_push($questions, $row["question_id"]);
 			$title = $row["title"];
-			$obligatory = $row["obligatory"];
 			$this->insertQuestion($row["question_id"]);
 		}
-		$this->createQuestionblock($title, $obligatory, $questions);
+		$this->createQuestionblock($title, $questions);
 	}
 	
 /**
@@ -2085,29 +2084,19 @@ class ilObjSurvey extends ilObject
 * Creates a question block for the survey
 *
 * @param string $title The title of the question block
-* @param boolean $obligatory True, if the question block is obligatory, otherwise false
 * @param array $questions An array with the database id's of the question block questions
 * @access public
 */
-	function createQuestionblock($title, $obligatory, $questions)
+	function createQuestionblock($title, $questions)
 	{
 		// if the selected questions are not in a continous selection, move all questions of the
 		// questionblock at the position of the first selected question
 		$this->moveQuestions($questions, $questions[0], 0);
-		if ($obligatory)
-		{
-			$obligatory = 1;
-		}
-		else
-		{
-			$obligatory = 0;
-		}
 		
 		// now save the question block
 		global $ilUser;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, obligatory, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($title),
-			$this->ilias->db->quote("$obligatory"),
 			$this->ilias->db->quote($ilUser->id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -2133,22 +2122,12 @@ class ilObjSurvey extends ilObject
 *
 * @param integer $questionblock_id The database id of the question block
 * @param string $title The title of the question block
-* @param boolean $obligatory True, if the question block is obligatory, otherwise false
 * @access public
 */
-	function modifyQuestionblock($questionblock_id, $title, $obligatory)
+	function modifyQuestionblock($questionblock_id, $title)
 	{
-		if ($obligatory)
-		{
-			$obligatory = 1;
-		}
-		else
-		{
-			$obligatory = 0;
-		}
-		$query = sprintf("UPDATE survey_questionblock SET title = %s, obligatory = %s WHERE questionblock_id = %s",
+		$query = sprintf("UPDATE survey_questionblock SET title = %s WHERE questionblock_id = %s",
 			$this->ilias->db->quote($title),
-			$this->ilias->db->quote("$obligatory"),
 			$this->ilias->db->quote($questionblock_id)
 		);
 		$result = $this->ilias->db->query($query);
@@ -2247,9 +2226,7 @@ class ilObjSurvey extends ilObject
 			{
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
-				// overwrite obligatory flag for single questions with obligatory flag of the block
 				$all_questions[$question_id]["constraints"] = $constraints;
-				$all_questions[$question_id]["obligatory"] = $questionblocks[$question_id]->obligatory;
 			}
 			else
 			{
@@ -2329,8 +2306,6 @@ class ilObjSurvey extends ilObject
 				}
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
-				// overwrite obligatory flag for single questions with obligatory flag of the block
-				$all_questions[$question_id]["obligatory"] = $questionblocks[$question_id]->obligatory;
 				$currentblock = $questionblocks[$question_id]->questionblock_id;
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
@@ -3674,7 +3649,7 @@ class ilObjSurvey extends ilObject
 				$qtiFieldLabelText = $domxml->create_text_node("questionblock_" . $question_array[0]["questionblock_id"]);
 				$qtiFieldLabel->append_child($qtiFieldLabelText);
 				$qtiFieldEntry = $domxml->create_element("fieldentry");
-				$qtiFieldEntryText = $domxml->create_text_node("<title>" . $question["questionblock_title"]. "</title><obligatory>" . $question_array[0]["obligatory"] . "</obligatory><questions>" . join($question_ids, ",") . "</questions>");
+				$qtiFieldEntryText = $domxml->create_text_node("<title>" . $question["questionblock_title"]. "</title><questions>" . join($question_ids, ",") . "</questions>");
 				$qtiFieldEntry->append_child($qtiFieldEntryText);
 				$qtiMetadatafield->append_child($qtiFieldLabel);
 				$qtiMetadatafield->append_child($qtiFieldEntry);
@@ -3861,7 +3836,7 @@ class ilObjSurvey extends ilObject
 				{
 					$questionblock["questions"][$key] = $new_question_ids[$value];
 				}
-				$this->createQuestionblock($questionblock["title"], $questionblock["obligatory"], $questionblock["questions"]);
+				$this->createQuestionblock($questionblock["title"], $questionblock["questions"]);
 			}
 			// add constraints
 			$relations = $this->getAllRelations(true);
@@ -3958,14 +3933,11 @@ class ilObjSurvey extends ilObject
 								$qb = $fieldentry->get_content();
 								preg_match("/<title>(.*?)<\/title>/", $qb, $matches);
 								$qb_title = $matches[1];
-								preg_match("/<obligatory>(.*?)<\/obligatory>/", $qb, $matches);
-								$qb_obligatory = $matches[1];
 								preg_match("/<questions>(.*?)<\/questions>/", $qb, $matches);
 								$qb_questions = $matches[1];
 								$qb_questions_array = explode(",", $qb_questions);
 								array_push($questionblocks, array(
 									"title" => $qb_title,
-									"obligatory" => $qb_obligatory,
 									"questions" => $qb_questions_array
 								));
 							}
