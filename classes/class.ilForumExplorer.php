@@ -53,22 +53,6 @@ class ilForumExplorer extends ilExplorer
 	}
 
 	/**
-	* set the varname in Get-string
-	* recursive method
-	* @access	public
-	* @param	string		varname containing Ids to be used in GET-string
-	*/
-	function setTargetGet($a_target_get)
-	{
-		if (!isset($a_target_get) or !is_string($a_target_get))
-		{
-			$this->ilias->raiseError(get_class($this)."::setTargetGet(): No target given!",$this->ilias->error_obj->WARNING);
-		}
-
-		$this->target_get = $a_target_get;
-	}
-
-	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
 	* @access	public
@@ -288,10 +272,19 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function setExpand($a_node_id)
 	{
+		$first_node = $this->forum->getFirstPostNode($this->thread_id);
+		$first_node_id = $first_node["id"];
+		$_SESSION["fexpand"] = $_SESSION["fexpand"] ? $_SESSION["fexpand"] : array();
+
 		// IF ISN'T SET CREATE SESSION VARIABLE
-		if(!is_array($_SESSION["fexpand"]))
+		if(empty($_SESSION["fexpand"]) or !in_array($first_node_id,$_SESSION["fexpand"]))
 		{
-			$_SESSION["fexpand"] = array();
+			$all_nodes = $this->forum->getPostTree($first_node);
+			foreach($all_nodes as $node)
+			{
+				$tmp_array[] = $node["id"];
+			}
+			$_SESSION["fexpand"] = array_merge($tmp_array,$_SESSION["fexpand"]);
 		}
 		// IF $_GET["expand"] is positive => expand this node
 		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["fexpand"]))
@@ -306,5 +299,6 @@ class ilForumExplorer extends ilExplorer
 		}
 		$this->expanded = $_SESSION["fexpand"];
 	}
+
 } // END class.ilExplorer
 ?>
