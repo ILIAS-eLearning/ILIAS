@@ -554,13 +554,15 @@ class ilMail
 
 		foreach($rcp_ids as $id)
 		{
+			$tmp_mail_options =& new ilMailOptions($id);
+
 			// CONTINUE IF USER WNATS HIS MAIL SEND TO EMAIL
-			if($this->mail_options->getIncomingType() == $this->mail_options->EMAIL)
+			if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 			{
 				$as_email[] = $id;
 				continue;
 			}
-			if($this->mail_options->getIncomingType() == $this->mail_options->BOTH)
+			if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 			{
 				$as_email[] = $id;
 			}
