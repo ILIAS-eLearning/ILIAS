@@ -207,6 +207,7 @@ common#:#dbk_visible#:#Il libro digitale &#232; visibile
 common#:#dbk_write#:#Modifica il libro digitale
 common#:#default#:#Predefinito
 common#:#default_language#:#Lingua predefinita
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#Ruolo predefinito
 common#:#default_roles#:#Ruoli predefiniti
 common#:#default_skin#:#Tema predefinito
@@ -246,6 +247,7 @@ common#:#err_in_line#:#Errore nella linea
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#La sessione &#232; scaduta!
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
@@ -810,6 +812,7 @@ common#:#payment_system#:#Sistema a pagamento
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Informazioni Personali
 common#:#personal_desktop#:#Desktop personale
 common#:#personal_picture#:#Immagine Personale
@@ -1054,6 +1057,7 @@ content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
 content#:#all#:#Tutti
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Citazione
 content#:#cont_Example#:#Esempio
 content#:#cont_Headline1#:#Intestazione 1
@@ -1063,6 +1067,8 @@ content#:#cont_List#:#Lista
 content#:#cont_LocalFile#:#File locale
 content#:#cont_Mnemonic#:#Mnemonico
 content#:#cont_Number#:#Numero
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...

@@ -224,6 +224,7 @@ common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#缺省
 common#:#default_language#:#缺省语言
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#缺省角色
 common#:#default_roles#:#缺省角色
 common#:#default_skin#:#缺省外观
@@ -263,6 +264,7 @@ common#:#err_in_line#:#行内出错
 common#:#err_no_langfile_found#:#未找到语言文件！
 common#:#err_no_param#:#无参数！
 common#:#err_over_3_param#:#多于三个参数！
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#您的对话已过期！
 common#:#err_wrong_header#:#原因错误文件头！
 common#:#err_wrong_login#:#错误登录。
@@ -830,6 +832,7 @@ common#:#payment_system#:#付费系统
 common#:#perm_settings#:#权限
 common#:#permission#:#权限
 common#:#permission_denied#:#权限被拒绝
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#个人信息
 common#:#personal_desktop#:#个人桌面
 common#:#personal_picture#:#个人图片
@@ -1074,6 +1077,7 @@ content#:#PDF export#:#PDF导出
 content#:#Pages#:#页
 content#:#all#:#全部
 content#:#cont_Alphabetic#:#按照字母次序 A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#引用
 content#:#cont_Example#:#例子
 content#:#cont_Headline1#:#标题　１
@@ -1083,6 +1087,8 @@ content#:#cont_List#:#列表
 content#:#cont_LocalFile#:#局部文件
 content#:#cont_Mnemonic#:#记忆的
 content#:#cont_Number#:#数字
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#参考
 content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...

@@ -207,6 +207,7 @@ common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#Domyślne stanowisko
 common#:#default_roles#:#Domyślne stanowiska
 common#:#default_skin#:#Domyślna skórka
@@ -246,6 +247,7 @@ common#:#err_in_line#:#Bląd w linii
 common#:#err_no_langfile_found#:#Nie znaleziono pliku językowego!
 common#:#err_no_param#:#Brak parametru!
 common#:#err_over_3_param#:#Więcej niż 3 parametry!
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#YTwoja sesja się zakończyła!
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
@@ -813,6 +815,7 @@ common#:#payment_system#:#System płatności
 common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
 common#:#permission_denied#:#Dostęp zabroniony
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Dane osobowe
 common#:#personal_desktop#:#Pulpit osobisty
 common#:#personal_picture#:#Osobista fotografia
@@ -1057,6 +1060,7 @@ content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#all#:#Wszystko
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Cytat
 content#:#cont_Example#:#Przykład
 content#:#cont_Headline1#:#Nagłówek 1
@@ -1066,6 +1070,8 @@ content#:#cont_List#:#Lista
 content#:#cont_LocalFile#:#Plik lokalny
 content#:#cont_Mnemonic#:#Pamięciowy
 content#:#cont_Number#:#Liczba
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
