@@ -126,7 +126,7 @@ assessment#:#available_points#:#Доступні пункти
 assessment#:#average_reached_points#:#Середньо досяжні пунктиe
 assessment#:#backtocallingtest#:#Назад до визоваючого тесту
 assessment#:#by#:#
-assessment#:#cancel_test#:#Відмінити тест###30 Mar 2005 content changed
+assessment#:#cancel_test#:#Призупинити тест
 assessment#:#cannot_edit_test#:#Ви не володієте достатніми правами для редагування теста!
 assessment#:#cannot_execute_test#:#Ви не володієте достатніми правами щоб запустити тест!
 assessment#:#cannot_export_qpl#:#Ви не володієте достатніми правами для експорту пулу питань!
@@ -4227,7 +4227,7 @@ payment#:#pay_bmf_back#:#назад
 payment#:#pay_bmf_bank_code#:#Банківський код
 payment#:#pay_bmf_card_holder#:#Власник картки
 payment#:#pay_bmf_card_number#:#Номер картки
-payment#:#pay_bmf_check_number#:#Check number###29 Nov 2004 new variable
+payment#:#pay_bmf_check_number#:#Перевірити номер
 payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
 payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
 payment#:#pay_bmf_credit_card_data#:#Credit card###29 Nov 2004 new variable
