@@ -648,6 +648,36 @@ class ASS_TextQuestion extends ASS_Question
 	}
 
 	/**
+	* Sets the points, a learner has reached answering the question
+	*
+	* Sets the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @param integer $points The points the user has reached answering the question
+	* @return boolean true on success, otherwise false
+	* @access public
+	*/
+	function setReachedPoints($user_id, $test_id, $points)
+	{
+		if (($points > 0) && ($points <= $this->getPoints()))
+		{
+			$query = sprintf("UPDATE tst_solutions SET points = %s WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$this->ilias->db->quote($points . ""),
+				$this->ilias->db->quote($user_id . ""),
+				$this->ilias->db->quote($test_id . ""),
+				$this->ilias->db->quote($this->getId() . "")
+			);
+			$result = $this->ilias->db->query($query);
+			return true;
+		}
+			else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -658,6 +688,20 @@ class ASS_TextQuestion extends ASS_Question
 	*/
 	function getReachedPoints($user_id, $test_id)
 	{
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$this->ilias->db->quote($user_id),
+			$this->ilias->db->quote($test_id),
+			$this->ilias->db->quote($this->getId())
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["points"])
+			{
+				return $row["points"];
+			}
+		}
 		return 0;
 	}
 
