@@ -1,4 +1,3 @@
-
 <?php
 /*
 	+-----------------------------------------------------------------------------+
@@ -27,7 +26,7 @@
 * Class ilObjCourseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjCourseGUI.php,v 1.6 2003/08/05 16:45:22 shofmann Exp $
+* $Id$Id: class.ilObjCourseGUI.php,v 1.7 2004/08/24 12:02:08 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
