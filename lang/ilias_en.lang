@@ -49,6 +49,7 @@ common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
+common#:#msg_no_delete_yourself#:#Do you feel depressed? weary of life? You cannot delete your own user account.
 common#:#answers#:#Answers
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
@@ -324,6 +325,7 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
+common#:#logout_text#:#You logged out. Your session has been closed.
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
