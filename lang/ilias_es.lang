@@ -103,9 +103,7 @@ assessment#:#all_available_question_pools#:#Todos los depósitos de preguntas di
 assessment#:#answer#:#Respuesta
 assessment#:#answer_is_right#:#Su solución es correcta
 assessment#:#answer_is_wrong#:#Su solución es errónea
-assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_picture#:#Imagen respuesta
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
 assessment#:#answer_text#:#Texto respuesta
 assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Atributos del applet
