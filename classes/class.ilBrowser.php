@@ -281,6 +281,8 @@
 		* @param string
 		* @param string
 		*/
+		/*
+		// use ilUtil::deliverFile instead
 		function content_header($fn='',$mime='',$length='',$nocache=True)
 		{
 			if (!$mime)
@@ -313,6 +315,6 @@
 					header('Expires: 0');
 				}
 			}
-		}
+		}*/
 	}
 ?>
