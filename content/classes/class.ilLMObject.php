@@ -180,7 +180,7 @@ class ilLMObject
 			"VALUES ('".ilUtil::prepareDBString($this->getTitle())."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId().
 			"', now())";
 		$this->ilias->db->query($query);
-		$this->setId(getLastInsertId());
+		$this->setId($this->ilias->db->getLastInsertId());
 
 		if (!$a_upload)
 		{

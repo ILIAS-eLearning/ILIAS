@@ -138,7 +138,7 @@ class ilMediaItem
 			"','".$this->getCaption()."','".$this->getNr()."')";
 		$this->ilias->db->query($query);
 //echo "create_mob:$query:<br>";
-		$item_id = getLastInsertId();
+		$item_id = $this->ilias->db->getLastInsertId();
 		$this->setId($item_id);
 
 		// create mob parameters
