@@ -54,7 +54,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		$this->setTabTargetScript("survey.php");
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setTabTargetScript("adm_object.php");
+		}
+		else
+		{
+			$this->setTabTargetScript("survey.php");
+		}
 		if ($a_prepare_output) {
 			$this->prepareOutput();
 		}
