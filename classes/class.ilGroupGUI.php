@@ -165,6 +165,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 	$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 	infoPanel();
+	$this->setLocator();
 	$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 	$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
@@ -274,8 +275,9 @@ class ilGroupGUI extends ilObjGroupGUI
 
 			$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 			$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
+
 			$this->tpl->setVariable("TITLE", $cont_data["title"]);
-			$this->tpl->setVariable("LINK", $obj_link);
+			$this->tpl->setVariable("LO_LINK", $obj_link);
 			//$this->tpl->setVariable("LINK_TARGET", "_parent");
 			$this->tpl->setVariable("IMG", $obj_icon);
 			$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
@@ -301,7 +303,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 	// title & header columns
 
-	$tbl->setTitle($this->lng->txt("groups_overview"),"icon_crs_b.gif",$this->lng->txt("groups_overview"));
+	$tbl->setTitle($this->lng->txt("groups_overview"),"icon_grp_b.gif",$this->lng->txt("groups_overview"));
 	$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 	$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
 	$tbl->setHeaderVars(array("checkbox", "title","description","owner","last_visit","last_change","context"));
@@ -404,10 +406,16 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$_GET["sort_by"] = "title";
 		}
-		//$this->setLocator();
+		$this->setLocator();
+
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","group.php?cmd=groupmembers&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_members"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","group.php?cmd=newmembersobject&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("new_member"));
 		$this->tpl->parseCurrentBlock();
 
 		$cont_arr = array();
@@ -450,6 +458,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
+
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LO_LINK", $obj_link);
 
@@ -475,7 +484,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		//$tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
+		$tbl->setTitle($lng->txt("group_details"),"icon_grp_b.gif",$lng->txt("group_details"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
 		$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
@@ -1017,7 +1026,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		// output data
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_members.html");
-		
+
 		infoPanel();
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
@@ -1556,8 +1565,8 @@ class ilGroupGUI extends ilObjGroupGUI
 	* @access	public
  	*/
 	
-	/*
-	function setLocator($a_tree = "", $a_id = "")
+
+	/*function setLocator($a_tree = "", $a_id = "")
 	{
 		if (!is_object($a_tree))
 		{
@@ -1637,7 +1646,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		//$this->tpl->setVariable("TXT_PATH",$debug.$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
-		//$this->tpl->show();
+
 	}*/
 
 	/**
@@ -2057,47 +2066,110 @@ class ilGroupGUI extends ilObjGroupGUI
 		sendInfo($this->lng->txt("grp_added"),true);
 		header("location: group.php?cmd=DisplayList");
 		exit();
-
-
-//<<<<<<< class.ilGroupGUI.php
-
-
-		/*global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
-
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		{
-			// create and insert object in objecttree
-			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
-			echo $class_name;
-
-			require_once("classes/class.".$class_name.".php");
-			$newObj = new $class_name();
-			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_POST["Fobject"]["title"]);
-			$newObj->setDescription($_POST["Fobject"]["desc"]);
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-
-			insert object in grp_tree
-			$newObj->id.
-
-			unset($newObj);
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}
-=======
-
-
->>>>>>> 1.9*/
-
-
-
 	}
 
+	
+	/**
+	* displays search form for new users
+	* @access public
+	*/
+	function newMembersObject()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content","tpl.grp_newmember.html");
+
+		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("Username"));
+		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("Member Status"));
+
+		$radio_member = ilUtil::formRadioButton($_POST["status"] ? 0:1,"status",0);
+		$radio_admin = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
+		$this->tpl->setVariable("RADIO_MEMBER", $radio_member);
+		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
+		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
+		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
+		$this->tpl->setVariable("TXT_SEARCH", "Search");
+		if(isset($_POST["search_user"]) )
+			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		else if(isset($_GET["search_user"]) )
+			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
+
+		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "adm_object.php?type=grp&cmd=newMembers&ref_id=".$_GET["ref_id"]);//"&search_user=".$_POST["search_user"]
+		$this->tpl->parseCurrentBlock();
+
+		//query already started ?
+		$this->tpl->show();
+		if( (isset($_POST["search_user"]) && isset($_POST["status"]) ) || ( isset($_GET["search_user"]) && isset($_GET["status"]) ) )//&& isset($_GET["ref_id"]) )
+		{
+			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
+
+			//INTERIMS SOLUTION
+			$_SESSION["status"] = $_POST["status"];
+
+			foreach($member_ids as $member)
+			{
+				$this->data["data"][$member["usr_id"]]= array(
+					"check"		=> ilUtil::formCheckBox(0,"user_id[]",$member["usr_id"]),
+					"login"        => $member["login"],
+					"firstname"       => $member["firstname"],
+					"lastname"        => $member["lastname"]
+					);
+
+			}
+
+			//display search results
+			infoPanel();
+
+			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+			// load template for table content data
+
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+			$this->data["buttons"] = array( "assignMember"  => $this->lng->txt("assign"),
+							"canceled"  => $this->lng->txt("cancel"));
+
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("COLUMN_COUNTS",4);
+			$this->tpl->setVariable("TPLPATH",$this->tplPath);
+
+			foreach ($this->data["buttons"] as $name => $value)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME",$name);
+				$this->tpl->setVariable("BTN_VALUE",$value);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			//sort data array
+			include_once "./include/inc.sort.php";
+			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+			// create table
+			include_once "./classes/class.ilTableGUI.php";
+			$tbl = new ilTableGUI($output);
+			// title & header columns
+			$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
+			$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname")));
+			$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"],"search_user"=>$_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"],"status"=>$_POST["status"] ? $_POST["status"] : $_GET["status"]));
+
+			$tbl->setColumnWidth(array("5%","25%","35%","35%"));
+
+			// control
+			$tbl->setOrderColumn($_GET["sort_by"]);
+			$tbl->setOrderDirection($_GET["sort_order"]);
+			$tbl->setLimit($_GET["limit"]);
+			$tbl->setOffset($_GET["offset"]);
+			$tbl->setMaxCount(count($this->data["data"]));
+
+			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+			// render table
+			$tbl->render();
+			$this->tpl->show();
+
+
+		}
+	}
 
 
 }
