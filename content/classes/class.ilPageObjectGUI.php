@@ -97,7 +97,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 		header('Content-type: text/html; charset=UTF-8');
 
-		$pg_title = $this->obj->getPresentationTitle();
+		$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
@@ -145,7 +145,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
 
-		$pg_title = $this->obj->getPresentationTitle();
+		$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
