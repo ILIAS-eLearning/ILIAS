@@ -163,20 +163,16 @@ class ilGroupGUI extends ilObjectGUI
 		switch($grpObj->getRegistrationFlag())
 		{
 			case 0:
-				$stat = "keine Registrierung erforderlich";
-				$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten.
-					<br>Als Gruppenmitglied haben Sie folgende Vorteile:
-					<br>- Sie werden über Aktualisierungen informiert
-					<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.
-					<br><br>Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.";
+				$stat = $this->lng->txt("group_no_registration");
+				$msg  = $this->lng->txt("group_no_registratoin_msg");
+				
 				$readonly ="readonly";
 				$subject ="";
 				$cmd_submit = "joinGroup";
 				break;
 			case 1:
-				$stat = "Registrierung erforderlich";
-				$msg =  "Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>".
-					"Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.";
+				$stat = $this->lng->txt("group_req_registration");
+				$msg  = $this->lng->txt("group_req_registration_msg");
 				$cmd_submit = "applyForMembership";
 				$txt_subject =$this->lng->txt("subject").":";
 				$textfield = "<textarea name=\"subject\" value=\"{SUBJECT}\" cols=\"50\" rows=\"5\" size=\"255\"></textarea>";
@@ -184,20 +180,18 @@ class ilGroupGUI extends ilObjectGUI
 			case 2:
 				if($this->object->registrationPossible() == true)
 				{
-					$msg =  "Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Registrierungspasswortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>".
-						"Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.";
+					$stat = $this->lng->txt("group_req_password");//"Registrierungpasswort erforderlich";				
+					$msg = $this->lng->txt("group_password_registration_msg");
 					$txt_subject =$this->lng->txt("password").":";
 					$textfield = "<input name=\"subject\" value=\"{SUBJECT}\" type=\"password\" size=\"40\" maxlength=\"70\" style=\"width:300px;\"/>";
 					$cmd_submit = "applyForMembership";
-					$stat = "Registrierungpasswort erforderlich";
 				}
 				else
 				{
-					$msg = "Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.".
-						"<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.";
+					$msg = $this->lng->txt("group_password_registration_expired_msg");
 					$cmd_submit = "groupList";
 					$readonly ="readonly";
-					$stat = "Registrierungszeitraum abgelaufen";
+					$stat = $this->lng->txt("group_registration_expired");
 					sendInfo($this->lng->txt("registration_expired"),true);
 				}
 				break;
@@ -352,7 +346,7 @@ class ilGroupGUI extends ilObjectGUI
 				sendInfo($this->lng->txt("registration_not_possible"),true);
 			
 		}
-		header("location: grp_list.php");
+		header("location: repository.php");
 	}
 	
 	function assignApplicantsObject()
@@ -1181,7 +1175,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function groupListObject()
 	{
-		header("location: grp_list.php");
+		header("location: repository.php");
 	}
 	
 	function joinGroupObject()
@@ -1559,7 +1553,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id."&active=5";			//link for tab
 			$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
 			$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
-			$tab[5]["tab_text"] = 'group_applicants';						//tab -text
+			$tab[5]["tab_text"] = 'group_new_registrations';						//tab -text
 		}
 
 		//check if trash is filled
