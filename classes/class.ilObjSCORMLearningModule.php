@@ -140,7 +140,9 @@ class ilObjSCORMLearningModule extends ilObject
 	function validate($directory)
 	{
 		$ref = new ilObjSCORMValidator($directory);
-		return $ref->validate();
+		$returnValue = $ref->validate();
+		echo $ref->getSummary();
+		return $returnValue;
 	}
 
 } // END class.ilObjSCORMLearningModule
