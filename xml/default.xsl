@@ -180,7 +180,7 @@
 
 <xsl:template match="LO">
 	<a>
-		<xsl:attribute name="href">lo_view.php?id=<xsl:value-of select="@id"/></xsl:attribute>	
+		<xsl:attribute name="href">lo_view.php?lm_id=<xsl:value-of select="@lm"/>&amp;lo_id=<xsl:value-of select="@id"/></xsl:attribute>	
 		<xsl:value-of select="@title"/>
 	</a>
 	<br/>

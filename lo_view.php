@@ -7,10 +7,7 @@
 *
 * @package ilias-core
 */
-
 require_once "include/inc.header.php";
-require_once "classes/class.Object.php";
-require_once "classes/class.LearningObjectObject.php";
 require_once "classes/class.sql2xml.php";
 require_once "classes/class.domxml.php";
 

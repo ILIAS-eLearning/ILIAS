@@ -86,6 +86,10 @@ class sql2xml
 			$this->lo_id = $a_lo_id;
 		}
 		
+		//get parent lo_id
+		$this->lo_parent = $this->lm_tree->getParent($this->lo_id);
+		
+		/*
 		if (empty($_GET["lo_parent"]))
 		{
 			$this->lo_parent = $this->lm_id;
@@ -94,6 +98,7 @@ class sql2xml
 		{
 			$this->lo_parent = $_GET["lo_parent"];
 		}
+		*/
 		
 		// get level
 		$this->level = $this->getAttributeValue($this->lo_id,"General","AggregationLevel");
@@ -552,7 +557,7 @@ class sql2xml
 	function setNavigation()
 	{
 		// chapter up
-		
+	
 		// todo: i need the parent parent at this place!
 		if ($this->lo_parent != $this->lm_id)
 		{

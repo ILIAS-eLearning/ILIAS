@@ -903,8 +903,8 @@ class Tree
 
 	/**
 	* get data saved/deleted nodes
-	* @return	array data
-	* @param id of parent object of saved object
+	* @return	array	data
+	* @param	integer	id of parent object of saved object
 	* @access	public
 	*/
 	function getSavedNodeData($a_parent)
@@ -921,6 +921,22 @@ class Tree
 		}
 		return $saved;
 	}
-		  
+	
+	/**
+	* get parent id of given node
+	* @access	public
+	* @param	integer	node id
+	* @return	integer	parent id
+	*/
+	function getParent($a_node_id)
+	{
+		$q = "SELECT parent FROM tree ".
+			 "WHERE child='".$a_node_id."' ".
+			 "AND tree='".$this->tree_id."'";
+		$r = $this->ilias->db->query($q);
+		
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->parent;
+	}
 } // END class.tree
 ?>
