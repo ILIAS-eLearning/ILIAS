@@ -14,7 +14,7 @@ class SystemFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function SystemFolderObject($a_id,$a_call_by_reference = "")
+	function SystemFolderObject($a_id,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 	}

@@ -12,17 +12,18 @@ require_once "classes/class.Forum.php";
 require_once "classes/class.Object.php";
 require_once "classes/class.ForumObject.php";
 
+$forumObj = new ForumObject($_GET["ref_id"]);
 $frm = new Forum();
-$forumObj = new ForumObject($_GET["obj_id"]);
+$frm->setForumId($forumObj->getId());
 
-$frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
+$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 $topicData = $frm->getOneTopic();
 
 $tpl->setVariable("HEADER", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("write", $_GET["obj_id"]))
+if (!$rbacsystem->checkAccess("write",$forumObj->getRefId()))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
@@ -32,7 +33,7 @@ if (!$rbacsystem->checkAccess("write", $_GET["obj_id"]))
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-$tpl->setVariable("LINK_ITEM", "forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$forumObj->getRefId());
 $tpl->parseCurrentBlock();
 
 if (!$_GET["backurl"])
@@ -40,14 +41,22 @@ if (!$_GET["backurl"])
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$forumObj->getRefId());
 	$tpl->parseCurrentBlock();
 }
 
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $topicData["top_name"].": ".$lng->txt("forums_new_thread"));
-if (!$_GET["backurl"]) $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-else $tpl->setVariable("LINK_ITEM", "forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
+
+if (!$_GET["backurl"])
+{
+	$tpl->setVariable("LINK_ITEM", "forums_threads_new.php?ref_id=".$forumObj->getRefId());
+}
+else
+{
+	$tpl->setVariable("LINK_ITEM", "forums_threads_new.php?ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
+}
+
 $tpl->parseCurrentBlock();
 
 // ********************************************************************************
@@ -67,7 +76,7 @@ if ($_GET["cmd"] == "newthread")
 	
 	if ($errors != "")
 	{
-		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br>".$errors);
+		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
 	}
 	else
 	{		
@@ -80,8 +89,10 @@ if ($_GET["cmd"] == "newthread")
 		$frm->updateVisits($topicData["top_pk"]);
 		// on success: change location
 		$frm->setWhereCondition("thr_top_fk = '".$topicData["top_pk"]."' AND thr_subject = '".$formData["subject"]."' AND thr_num_posts = 1");		
-		if (is_array($thrData = $frm->getOneThread())) {
-			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&feedback=".urlencode($lng->txt("forums_thread_new_entry")));
+
+		if (is_array($thrData = $frm->getOneThread()))
+		{
+			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId()."&feedback=".urlencode($lng->txt("forums_thread_new_entry")));
 			exit();
 		} 
 	}
@@ -93,9 +104,8 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("forums_thread"));
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("forums_the_post"));
 $tpl->setVariable("SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("RESET", $lng->txt("reset"));
-$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&backurl=".$_GET["backurl"]);
+$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=newthread&ref_id=".$forumObj->getRefId()."&backurl=".$_GET["backurl"]);
 $tpl->parseCurrentBlock("new_thread");
-
 
 if ($_GET["message"])
 {
@@ -105,7 +115,5 @@ if ($_GET["message"])
 	$tpl->parseCurrentBlock();
 }
 
-
 $tpl->show();
-
 ?>

@@ -86,7 +86,7 @@ class Object
 		global $ilias, $lng;
 		
 		$this->ilias =& $ilias;
-		$this->lng = &$lng;
+		$this->lng =& $lng;
 
 		$this->max_title = MAXLENGTH_OBJ_TITLE;
 		$this->max_desc = MAXLENGTH_OBJ_DESC;
@@ -301,8 +301,10 @@ class Object
 	function create()
 	{
 		global $ilias;
-
+		
 		// cut length of text
+		// TODO: why not using createNewObject() ??
+		/*
 		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
 		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
 
@@ -314,7 +316,12 @@ class Object
 		$ilias->db->query($q);
 
 		$this->id = getLastInsertId();
-		$this->read();						// to get all data (incl. dates!)
+		* */
+		
+		$this->id = createNewObject($this->type,$this->title,$this->desc);		
+		
+		//$this->read();						// to get all data (incl. dates!)
+												// does not work because ref_id isn't known at this point
 
 		return $this->id;
 	}

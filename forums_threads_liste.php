@@ -12,15 +12,16 @@ require_once "classes/class.Forum.php";
 require_once "classes/class.Object.php";
 require_once "classes/class.ForumObject.php";
 
+$forumObj = new ForumObject($_GET["ref_id"]);
 $frm = new Forum();
-$forumObj = new ForumObject($_GET["obj_id"]);
+$frm->setForumId($forumObj->getId());
 
 $tpl->setVariable("HEADER", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
@@ -30,25 +31,29 @@ if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
 $tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-$tpl->setVariable("LINK_ITEM", "forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$_GET["ref_id"]);
 $tpl->parseCurrentBlock();
 
-$frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
-if (is_array($topicData = $frm->getOneTopic())) {
+$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
+if (is_array($topicData = $frm->getOneTopic()))
+{
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
 
-	if ($rbacsystem->checkAccess("write", $_GET["obj_id"]))
+	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK","forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		$tpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);
 		$tpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$tpl->parseCurrentBlock();
 	}
-	else $tpl->setVariable("NO_BTN", "<br><br>");
+	else
+	{
+		$tpl->setVariable("NO_BTN", "<br/><br/>");
+	}
 
 	// ********************************************************************************
 
@@ -71,36 +76,43 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		if ($thrNum > $pageHits)
 		{
 			$params = array(
-				"obj_id"		=> $_GET["obj_id"],	
-				"parent"		=> $_GET["parent"]		
+				"ref_id"		=> $_GET["ref_id"]	
 			);
 			
-			if (!$_GET["offset"]) $Start = 0;
-			else $Start = $_GET["offset"];
+			if (!$_GET["offset"])
+			{
+				$Start = 0;
+			}
+			else
+			{
+				$Start = $_GET["offset"];
+			}
 			
 			$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$thrNum,$pageHits,$Start,$params);
 			
 			if ($linkbar != "")
+			{
 				$tpl->setVariable("LINKBAR", $linkbar);
+			}
 		}
 		
 		// get threads dates
 		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			
 			if ($thrNum > $pageHits && $z >= ($Start+$pageHits))
-			break;
+			{
+				break;
+			}
 		
 			if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 			{
-			
 				$tpl->setCurrentBlock("threads_row");
 				$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
 				$tpl->setVariable("ROWCOL", $rowCol);
 				
 				$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
 				$tpl->setVariable("DATE",$thrData["thr_date"]);
-				$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."\">".$thrData["thr_subject"]."</a>");
+				$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$thrData["thr_subject"]."</a>");
 				
 				$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
 				
@@ -109,21 +121,26 @@ if (is_array($topicData = $frm->getOneTopic())) {
 				// get author data
 				unset($author);
 				$author = $frm->getUser($thrData["thr_usr_id"]);	
-				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author->getLastName()."</a>"); 
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author->getLastName()."</a>"); 
 								
 				// get last-post data
 				$lpCont = "";				
-				if ($thrData["thr_last_post"] != "") $lastPost = $frm->getLastPost($thrData["thr_last_post"]);	
-				if (is_array($lastPost)) {				
+				if ($thrData["thr_last_post"] != "")
+				{
+					$lastPost = $frm->getLastPost($thrData["thr_last_post"]);
+				}
+
+				if (is_array($lastPost))
+				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
-					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-					$lpCont .= "<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$lastPost["lastname"]."</a><br>";
+					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".$lng->txt("from")."&nbsp;";			
+					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$lastPost["lastname"]."</a><br/>";
 					$lpCont .= $lastPost["pos_date"];				
 				}
+
 				$tpl->setVariable("LAST_POST", $lpCont);			
 				
 				$tpl->parseCurrentBlock("threads_row");
-			
 			}
 			
 			$z ++;
@@ -147,7 +164,6 @@ $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->parseCurrentBlock("threadtable");
 
-
 if ($_GET["message"])
 {
     $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
@@ -155,7 +171,6 @@ if ($_GET["message"])
 	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
 	$tpl->parseCurrentBlock();
 }
-
 
 $tpl->show();
 ?>

@@ -21,7 +21,7 @@ class UserObject extends Object
 	* Contructor
 	* @access	public
 	*/
-	function UserObject($a_id = 0,$a_call_by_reference = "")
+	function UserObject($a_id = 0,$a_call_by_reference = false)
 	{
 		global $lng;
 

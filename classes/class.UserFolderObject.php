@@ -14,7 +14,7 @@ class UserFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function UserFolderObject($a_id,$a_call_by_reference = "")
+	function UserFolderObject($a_id,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 	}

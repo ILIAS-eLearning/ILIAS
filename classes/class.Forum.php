@@ -49,6 +49,9 @@ class Forum
 	
 	// max. datasets per page
 	var $pageHits = 20;
+	
+	// object id
+	var $id;
 
 	/**
 	* Constructor
@@ -60,7 +63,32 @@ class Forum
 
 		$this->ilias =& $ilias;
 	}
+
+	/**
+	* set object id which refers to ILIAS obj_id
+	* @param	integer	object id
+	* @access	public
+	*/
+	function setForumId($a_obj_id)
+	{
+		if (!isset($a_obj_id))
+		{
+			$message = get_class($this)."::setForumId(): No obj_id given!";
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);	
+		}
+		
+		$this->id = $a_obj_id;
+	}
 	
+	/**
+	* get forum id
+	* @access	public
+	* @return	integer	object id of forum
+	*/
+	function getForumId()
+	{
+		return $this->id;
+	}
 	
 	/**
 	* set database field for sorting results
@@ -202,7 +230,6 @@ class Forum
 	*/
 	function getOneTopic()
 	{	
-		
 		$query = "SELECT * FROM frm_data WHERE ( ".$this->whereCondition." )";
 		
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
@@ -222,7 +249,6 @@ class Forum
 	*/
 	function getOneThread()
 	{	
-		
 		$query = "SELECT * FROM frm_threads WHERE ( ".$this->whereCondition." )";
 		
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
@@ -357,13 +383,13 @@ class Forum
 	*/
 	function updatePost($message, $pos_pk)
 	{		
-		$query = "UPDATE frm_posts ".
+		$q = "UPDATE frm_posts ".
 				 "SET ".
 				 "pos_message = '".addslashes($message)."',".
 				 "pos_update = '".date("Y-m-d H:i:s")."',".
 				 "update_user = '".$_SESSION["AccountId"]."' ".				 
 				 "WHERE pos_pk = '".$pos_pk."'";
-		$res = $this->ilias->db->query($query);
+		$this->ilias->db->query($q);
 	
 		return true;		
 	}
@@ -396,7 +422,7 @@ class Forum
 			$query2 = "UPDATE frm_data ".
 					 "SET ".
 					 "top_num_threads = top_num_threads - 1 ".					
-					 "WHERE top_frm_fk = '".$_GET["ref_id"]."'";
+					 "WHERE top_frm_fk = '".$this->id."'";
 			$this->ilias->db->query($query2);
 			
 			// delete all posts of this thread
@@ -459,13 +485,13 @@ class Forum
 		$qu = "UPDATE frm_data ".
 			"SET ".
 			"top_num_posts = top_num_posts - $dead_pos ".					
-			"WHERE top_frm_fk = '".$_GET["ref_id"]."'";
+			"WHERE top_frm_fk = '".$this->id."'";
 		$this->ilias->db->query($qu);
 		
 		// get latest post of forum and update last_post
 		$q = "SELECT * FROM frm_posts, frm_data WHERE ";
 		$q .= "pos_top_fk = top_pk AND ";
-		$q .= "top_frm_fk ='".$_GET["ref_id"]."' ";
+		$q .= "top_frm_fk ='".$this->id."' ";
 		$q .= "ORDER BY pos_date DESC";
 		
 		$res2 = $this->ilias->db->query($q);
@@ -493,7 +519,7 @@ class Forum
 		$query5 = "UPDATE frm_data ".
 				 "SET ".
 				 "top_last_post = '".$lastPost_top."' ".					
-				 "WHERE top_frm_fk = '".$_GET["ref_id"]."'";
+				 "WHERE top_frm_fk = '".$this->id."'";
 		$this->ilias->db->query($query5);		
 
 		return $dead_thr;		
@@ -621,7 +647,7 @@ class Forum
 		{
 			return true;
 		}
-		elseif ($rbacsystem->checkAccess("edit post", $_GET["ref_id"]))
+		elseif ($rbacsystem->checkAccess("edit post", $this->id))
 		{
 			return true;		
 		}

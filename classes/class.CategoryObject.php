@@ -15,7 +15,7 @@ class CategoryObject extends Object
 	* @param	integer		$a_id		reference_id
 	* @access	public
 	*/
-	function CategoryObject($a_id,$a_call_by_reference = "")
+	function CategoryObject($a_id,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 	}
