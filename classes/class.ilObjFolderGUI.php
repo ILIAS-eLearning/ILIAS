@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.24 2004/07/05 16:22:59 akill Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.25 2004/07/13 13:51:01 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -79,7 +79,6 @@ class ilObjFolderGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch ($next_class)
 		{
-			
 			default:
 				if (empty($cmd))
 				{

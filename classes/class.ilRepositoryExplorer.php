@@ -83,6 +83,8 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function buildLinkTarget($a_node_id, $a_type)
 	{
+		global $ilCtrl;
+
 		switch($a_type)
 		{
 			case "cat":
@@ -105,12 +107,10 @@ class ilRepositoryExplorer extends ilExplorer
 				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjgroupgui";
 
 			case "crs":
-				$this->ctrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
-				$this->ctrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
-				return $this->ctrl->getLinkTargetByClass("ilObjCourseGUI");
+				$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$a_node_id);
+				$ilCtrl->setParameterByClass("ilObjCourseGUI","set_mode","flat");
+				return $ilCtrl->getLinkTargetByClass("ilObjCourseGUI");
 				
-				#return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjcoursegui";
-
 			case "frm":
 				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
 
@@ -124,10 +124,9 @@ class ilRepositoryExplorer extends ilExplorer
 				return "chat/chat_rep.php?cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
-				$this->ctrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
-				$this->ctrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
-				return $this->ctrl->getLinkTargetByClass("ilObjFolderGUI");
-				return "repository.php?ref_id=".$a_node_id."&set_mode=flat&cmdClass=ilobjfoldergui";
+				$ilCtrl->setParameterByClass("ilObjFolderGUI","ref_id",$a_node_id);
+				$ilCtrl->setParameterByClass("ilObjFolderGUI","set_mode","flat");
+				return $ilCtrl->getLinkTargetByClass("ilObjFolderGUI");
 				
 			case "file":
 				return "repository.php?cmd=sendfile&ref_id=".$a_node_id."&set_mode=flat";
