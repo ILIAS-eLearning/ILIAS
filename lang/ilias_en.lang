@@ -2491,6 +2491,8 @@ common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
+common#:#usr_active_only#:#Active Users only
+common#:#usr_inactive_only#:#Inactive Users only
 common#:#usrf#:#User accounts
 common#:#usrf_create_user#:#Create new user account
 common#:#usrf_delete#:#Delete user accounts
