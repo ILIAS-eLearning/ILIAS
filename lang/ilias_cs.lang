@@ -2151,6 +2151,7 @@ common#:#tst_delete#:#Delete Test###16 Mar 2004 new variable
 common#:#tst_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#tst_new#:#New test###16 Mar 2004 new variable
 common#:#tst_read#:#Read access to Test###16 Mar 2004 new variable
+common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
 common#:#tst_visible#:#Test is visible###16 Mar 2004 new variable
 common#:#tst_write#:#Edit Test###16 Mar 2004 new variable
 common#:#txt_add_object_instruction1#:#Přemístěte se do místa kam chcete přidat
