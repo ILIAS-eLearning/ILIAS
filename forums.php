@@ -15,6 +15,9 @@ $frm = new Forum();
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
+// catch stored message
+sendInfo();
+
 // get all forums
 $frm_obj = TUtil::getObjectsByOperations('frm','visible');
 $frmNum = count($frm_obj);
@@ -213,11 +216,6 @@ else
 
 $tpl->setCurrentBlock("forum");
 
-if ($_GET["feedback"] != "")
-{
-	$tpl->setVariable("TXT_FEEDBACK", $_GET["feedback"]);
-}
-
 $tpl->setVariable("COUNT_FORUM", $lng->txt("forums_count").": ".$frmNum);
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_overview"));
 $tpl->setVariable("TXT_FORUM", $lng->txt("forum"));
@@ -229,14 +227,6 @@ $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
 $tpl->parseCurrentBlock("forum");
-
-if ($_GET["message"])
-{
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-	$tpl->parseCurrentBlock();
-}
 
 $tpl->show();
 ?>
