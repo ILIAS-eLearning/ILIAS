@@ -105,7 +105,16 @@ common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#cat_create#:#Neue Kategorie anlegen
-common#:#cat_delete#:#Kategorie löschen 
+common#:#cat_delete#:#Kategorie löschen
+common#:#cat_create_cat#:#Neue Kategorie anlegen
+common#:#cat_create_grp#:#Neue Gruppe anlegen
+common#:#cat_create_frm#:#Neues Forum anlegen
+common#:#cat_create_crs#:#Neuen Kurs anlegen
+common#:#cat_create_lm#:#Neues Lernmodul anlegen
+common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#cat_create_glo#:#Neues Glossar anlegen
+common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#cat_create_exc#:#Neue Übung anlegen
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 common#:#change#:#Ändern
@@ -164,6 +173,10 @@ common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_join#:#Kurs abonnieren
 common#:#crs_leave#:#Kursabonnement aufheben
+common#:#crs_create_frm#:#Neues Forum anlegen
+common#:#crs_create_lm#:#Neues Lernmodul anlegen
+common#:#crs_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -389,6 +402,11 @@ common#:#grp_delete#:#Gruppe löschen
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
+common#:#grp_create_frm#:#Neues Forum anlegen
+common#:#grp_create_lm#:#Neues Lernmodul anlegen
+common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#grp_create_fold#:#Benutzer kann Ordner anlegen
+common#:#grp_create_file#:#Benutzer kann Dateien hochladen
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
 common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
@@ -719,7 +737,6 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
-common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
@@ -882,6 +899,7 @@ common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_write#:#Daten des Systemknotens bearbeiten
 common#:#root_edit_permission#:#Rechteeinstellungen ändern
+common#:#root_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr

@@ -94,18 +94,27 @@ common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
-common#:#cat_a#:#a category
+common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_edit#:#Edit Category
-common#:#cat_new#:#New category
+common#:#cat_new#:#New Category
 common#:#categories#:#Categories
 common#:#cat_edit_permission#:#Change permission settings
 common#:#cat_visible#:#Category is visible
-common#:#cat_read#:#Read access to category
-common#:#cat_write#:#Edit category
-common#:#cat_create#:#Create category
-common#:#cat_delete#:#Delete category
+common#:#cat_read#:#Read access to Category
+common#:#cat_write#:#Edit Category
+common#:#cat_create#:#Create Category
+common#:#cat_delete#:#Delete Category
+common#:#cat_create_cat#:#Create Category
+common#:#cat_create_grp#:#Create Group
+common#:#cat_create_frm#:#Create Forum
+common#:#cat_create_crs#:#Create Course
+common#:#cat_create_lm#:#Create Learning Module
+common#:#cat_create_slm#:#Create SCORM Learning Module
+common#:#cat_create_glo#:#Create Glossary
+common#:#cat_create_dbk#:#Create Digibook
+common#:#cat_create_exc#:#Create Exercise
 common#:#cc#:#CC
 common#:#censorship#:#Censorship
 common#:#change#:#Change
@@ -164,6 +173,10 @@ common#:#crs_delete#:#Delete Course
 common#:#crs_edit_permission#:#Change permission settings
 common#:#crs_join#:#Subscribe to Course
 common#:#crs_leave#:#Unsubscribe from Course
+common#:#crs_create_frm#:#Create Forum
+common#:#crs_create_lm#:#Create Learning Module
+common#:#crs_create_slm#:#Create SCORM Learning Module
+common#:#crs_create_glo#:#Create Glossary
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
@@ -299,7 +312,7 @@ common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
-common#:#folder#:#folder
+common#:#folder#:#Folder
 common#:#folders#:#Folders
 common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
@@ -315,10 +328,10 @@ common#:#frm_edit#:#Edit Forum
 common#:#frm_new#:#New Forum
 common#:#frm_edit_permission#:#Change permission settings
 common#:#frm_visible#:#Forum is visible
-common#:#frm_read#:#Read access to forum
+common#:#frm_read#:#Read access to Forum
 common#:#frm_write#:#Edit forum
-common#:#frm_delete#:#Delete forum
-common#:#frm_create#:#Create forum
+common#:#frm_delete#:#Delete Forum
+common#:#frm_create#:#Create Forum
 common#:#frm_delete_post#:#Delete a post
 common#:#frm_edit_post#:#Edit a post
 common#:#from#:#From
@@ -382,13 +395,18 @@ common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
 common#:#grp_visible#:#Group is visible
-common#:#grp_read#:#Read access to group
-common#:#grp_create#:#Create group
-common#:#grp_write#:#Edit group
+common#:#grp_read#:#Read access to Group
+common#:#grp_create#:#Create Group
+common#:#grp_write#:#Edit Group
 common#:#grp_delete#:#Delete Group
 common#:#grp_edit_permission#:#Change permission settings
-common#:#grp_join#:#User may join group
-common#:#grp_leave#:#User may leave group
+common#:#grp_join#:#User may join Group
+common#:#grp_leave#:#User may leave Group
+common#:#grp_create_frm#:#Create Forum
+common#:#grp_create_lm#:#Create Learning Module
+common#:#grp_create_slm#:#Create SCORM Learning Module
+common#:#grp_create_fold#:#User may create Folders
+common#:#grp_create_file#:#User may upload Files
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
 common#:#grp_err_error#:#An error occured
@@ -719,7 +737,6 @@ common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
@@ -882,6 +899,7 @@ common#:#root_visible#:#ILIAS system is visible
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_write#:#Edit ILIAS root node data 
 common#:#root_edit_permission#:#Change permission settings
+common#:#root_create_cat#:#User may create Categories
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
