@@ -775,6 +775,40 @@ class ilPageObject
 		}
 	}
 
+	/**
+	* save internal links of page
+	*
+	* @param	string		xml page code
+	*/
+	function saveInternalLinks($a_xml)
+	{
+		$doc = domxml_open_mem($a_xml);
+
+
+		include_once("content/classes/Pages/class.ilInternalLink.php");
+		ilInternalLink::_deleteAllLinksOfSource("pg", $this->getId());
+
+		// get allinternal links
+		$xpc = xpath_new_context($doc);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$link_type = $res->nodeset[$i]->get_attribute("Type");
+
+			/*
+			switch ($link_type)
+			$mob_target = $res->nodeset[$i]->get_attribute("Target");
+			$mob_arr = explode("_", $mob_target);
+			$mob_id = $mob_arr[count($mob_arr) - 1];
+			if ($mob_id > 0)
+			{
+				$usages[$mob_id] = true;
+			}*/
+		}
+
+	}
+
 	function create()
 	{
 		$this->createFromXML();

@@ -721,37 +721,37 @@ if ($migrate)
 {
 	$query = "SELECT * FROM settings";
 	$res = $this->db->query($query);
-	
+
 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$settings[$row->keyword] = $row->value;
 	}
-	
+
 	mt_srand ((double)microtime()*1000000);
 	$client_id = md5(uniqid(mt_rand()));
-	
+
 	rename("./ilias.ini.php","./ilias.ini_copied.php");
-	
+
 	$ini_old = new ilIniFile("./ilias.ini_copied.php");
 	$ini_old->read();
-	
+
 	$datadir = $ini_old->readVariable("server","data_dir");
 	$datadir_client = $datadir."/".$client_id;
 	$webdir = $ini_old->readVariable("server","absolute_path")."/data";
 	$webdir_client = $webdir."/".$client_id;
-	
+
 	ilUtil::makeDir($datadir_client);
 	ilUtil::makeDir($datadir_client."/forum");
 	ilUtil::makeDir($datadir_client."/files");
 	ilUtil::makeDir($datadir_client."/lm_data");
 	ilUtil::makeDir($datadir_client."/mail");
-	
+
 	ilUtil::makeDir($webdir_client);
 	ilUtil::makeDir($webdir_client."/css");
 	ilUtil::makeDir($webdir_client."/mobs");
 	ilUtil::makeDir($webdir_client."/lm_data");
 	ilUtil::makeDir($webdir_client."/usr_images");
-	
+
 	//copy data dir
 	ilUtil::rcopy($datadir."/forum",$datadir_client."/forum");
 	ilUtil::rcopy($datadir."/files",$datadir_client."/files");
@@ -762,11 +762,11 @@ if ($migrate)
 	ilUtil::rcopy($webdir."/mobs",$webdir_client."/mobs");
 	ilUtil::rcopy($webdir."/lm_data",$webdir_client."/lm_data");
 	ilUtil::rcopy($webdir."/usr_images",$webdir_client."/usr_images");
-	
+
 	$client_master = "./setup/client.master.ini.php";
 	$ini_new = new ilIniFile($webdir_client."/client.ini.php");
 	$ini_new->GROUPS = parse_ini_file($client_master,true);
-	
+
 	$ini_new->setVariable("client","name",$settings["inst_name"]);
 	$ini_new->setVariable("client","description",$settings["inst_info"]);
 	$ini_new->setVariable("client","access",1);
@@ -777,11 +777,11 @@ if ($migrate)
 	$ini_new->setVariable("language","default",$ini_old->readVariable("language","default"));
 	$ini_new->setVariable("layout","skin",$ini_old->readVariable("layout","skin"));
 	$ini_new->setVariable("layout","style",$ini_old->readVariable("layout","style"));
-	
+
 	$ilias_master = "./setup/ilias.master.ini.php";
 	$ini_il = new ilIniFile($ini_old->readVariable("server","absolute_path")."/ilias.ini.php");
 	$ini_il->GROUPS = parse_ini_file($ilias_master,true);
-	
+
 	$ini_il->setVariable("server","http_path",$ini_old->readVariable("server","http_path"));
 	$ini_il->setVariable("server","absolute_path",$ini_old->readVariable("server","absolute_path"));
 	$ini_il->setVariable("clients","datadir",$ini_old->readVariable("server","data_dir"));
@@ -790,25 +790,42 @@ if ($migrate)
 	$ini_il->setVariable("tools", "unzip", $settings["unzip_path"]);
 	$ini_il->setVariable("tools", "java", $settings["java_path"]);
 	$ini_il->setVariable("tools", "htmldoc", $settings["htmldoc"]);
-	
+
 	$setup_pass = ($settings["setup_passwd"]) ? $settings["setup_passwd"] : md5("homer");
 	$ini_il->setVariable("setup", "pass", $setup_pass);
 	$ini_il->setVariable("clients","default",$client_id);
-	
+
 	$ini_new->write();
 	$ini_il->write();
-	
+
 	if (!$settings["setup_ok"])
 	{
 		$query = "INSERT INTO settings VALUES ('setup_ok','1')";
 		$this->db->query($query);
 	}
-	
+
 	if (!isset($settings["nic_enabled"]))
 	{
 		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
 		$this->db->query($query);
 	}
 }
+
+if (!isset($settings["nic_enabled"]))
+{
+	$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
+	$this->db->query($query);
+}
 ?>
 
+<#62>
+
+CREATE TABLE int_link
+(
+	source_type CHAR(4) NOT NULL DEFAULT '',
+	source_id INT NOT NULL,
+	target_type CHAR(4) NOT NULL DEFAULT '',
+	target_id INT NOT NULL,
+	target_inst INT NOT NULL DEFAULT '0',
+	PRIMARY KEY (source_type, source_id, target_type, target_id, target_inst)
+);
