@@ -39,8 +39,13 @@ common#:#access#:#Access
 common#:#db_need_update#:#Database needs an update!
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
+common#:#server_data#:#Server data 
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#path_not_set#:#Path not set
+common#:#client_id#:#Client ID
+common#:#path_to_htmldoc#:#Path to HTMLdoc
+common#:#3rd_party_software#:#3rd party software
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
