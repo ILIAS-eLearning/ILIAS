@@ -4220,3 +4220,44 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `chat_user` CHANGE `last_conn_timestamp` `last_conn_timestamp` INT( 14 ) DEFAULT NULL;
 <#255>
 DELETE FROM chat_user;
+<#256>
+<?php
+// add operation create_file to categories
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'create_file'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ops_id = $row->ops_id;
+}
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$obj_id = $row->obj_id;
+}
+if($obj_id and $ops_id)
+{
+	$query = "INSERT INTO rbac_ta VALUES('".$obj_id."','".$ops_id."')";
+	$res = $this->db->query($query);
+}
+// assign operation to global author template
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type = 'rolt' AND title = 'Author'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$role_id = $row->obj_id;
+}
+if($role_id and $ops_id)
+{
+	$query = "INSERT INTO rbac_templates ".
+		"VALUES('".$role_id."','cat','".$ops_id."','".ROLE_FOLDER_ID."')";
+
+	$res = $this->db->query($query);
+}
+?>
+
+
+ 
+
+
