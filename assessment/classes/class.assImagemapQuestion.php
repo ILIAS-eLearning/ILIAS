@@ -248,12 +248,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				//print "id:".$this->id." answer tex:".$answer_obj->get_answertext()." answer_obj->get_order():".$answer_obj->get_order()." answer_obj->get_coords():".$answer_obj->get_coords()." answer_obj->get_area():".$answer_obj->get_area();
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($answer_obj->get_answertext()),
-					$db->quote($answer_obj->get_points()),
-					$db->quote($answer_obj->get_order()),
-					$db->quote($answer_obj->get_correctness()),
-					$db->quote($answer_obj->get_coords()),
-					$db->quote($answer_obj->get_area())
+					$db->quote($answer_obj->get_answertext() . ""),
+					$db->quote($answer_obj->get_points() . ""),
+					$db->quote($answer_obj->get_order() . ""),
+					$db->quote($answer_obj->getState() . ""),
+					$db->quote($answer_obj->get_coords() . ""),
+					$db->quote($answer_obj->get_area() . "")
 					);
 				$answer_result = $db->query($query);
 				}
@@ -487,12 +487,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		foreach ($this->answers as $index => $answer)
 		{
 			$qtiRespcondition = $this->domxml->create_element("respcondition");
-			if ($this->response == RESPONSE_MULTIPLE)
-			{
-				$qtiRespcondition->set_attribute("continue", "Yes");
-			}
+			$qtiRespcondition->set_attribute("continue", "Yes");
 			// qti conditionvar
 			$qtiConditionvar = $this->domxml->create_element("conditionvar");
+			if (!$answer->isStateSet())
+			{
+				$qtinot = $this->domxml->create_element("not");
+			}
 			$qtiVarinside = $this->domxml->create_element("varinside");
 			$qtiVarinside->set_attribute("respident", "IM");
 			switch ($answer->get_area())
@@ -509,17 +510,25 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			}
 			$qtiVarinsideText = $this->domxml->create_text_node($answer->get_coords());
 			$qtiVarinside->append_child($qtiVarinsideText);
-			$qtiConditionvar->append_child($qtiVarinside);
+			if (!$answer->isStateSet())
+			{
+				$qtiConditionvar->append_child($qtinot);
+				$qtinot->append_child($qtiVarinside);
+			}
+			else
+			{
+				$qtiConditionvar->append_child($qtiVarinside);
+			}
 			// qti setvar
 			$qtiSetvar = $this->domxml->create_element("setvar");
-			$qtiSetvar->set_attribute("action", "Set");
+			$qtiSetvar->set_attribute("action", "Add");
 			$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
 			$qtiSetvar->append_child($qtiSetvarText);
 			// qti displayfeedback
 			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
 			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
 			$linkrefid = "";
-			if ($answer->is_true())
+			if ($answer->isStateSet())
 			{
 				$linkrefid = "True";
 			}
@@ -540,7 +549,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		{
 			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
 			$linkrefid = "";
-			if ($answer->is_true())
+			if ($answer->isStateSet())
 			{
 				$linkrefid = "True";
 			}
@@ -740,7 +749,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 *
 * @param string $answertext The answer text
 * @param double $points The points for selecting the answer (even negative points can be used)
-* @param boolean $correctness Defines the answer as correct (TRUE) or incorrect (FALSE)
+* @param integer $status The state of the answer (set = 1 or unset = 0)
 * @param integer $order A possible display order of the answer
 * @access public
 * @see $answers
@@ -749,7 +758,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
   function add_answer(
     $answertext = "",
     $points = 0.0,
-    $correctness = FALSE,
+    $status = 0,
     $order = 0,
     $coords="",
     $area=""
@@ -757,7 +766,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
   {
     if (array_key_exists($order, $this->answers)) {
       // Antwort einf�gen
-      $answer = new ASS_AnswerImagemap($answertext, $points, $found, $correctness, $coords, $area);
+      $answer = new ASS_AnswerImagemap($answertext, $points, $found, $status, $coords, $area);
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) {
 				$this->answers[$i+1] = $this->answers[$i];
 				$this->answers[$i+1]->set_order($i+1);
@@ -765,7 +774,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$this->answers[$order] = $answer;
     } else {
       // Anwort anh�ngen
-      $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $correctness, $coords, $area);
+      $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $status, $coords, $area);
       array_push($this->answers, $answer);
     }
   }
@@ -847,9 +856,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
   function getMaximumPoints() {
 		$points = 0;
 		foreach ($this->answers as $key => $value) {
-			if ($value->is_true()) {
-				$points += $value->get_points();
-			}
+			$points += $value->get_points();
 		}
 		return $points;
   }
@@ -871,19 +878,49 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-      array_push($found_values, $data->value1);
-    }
-    $points = 0;
-    foreach ($found_values as $key => $value) {
-      if (strlen($value) > 0) {
-        if ($this->answers[$value]->is_true()) {
-          $points += $this->answers[$value]->get_points();
-        }
-      }
-    }
-    return $points;
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if (strcmp($data->value1, "") != 0)
+			{
+				array_push($found_values, $data->value1);
+			}
+		}
+		$points = 0;
+		foreach ($this->answers as $key => $answer)
+		{
+			if ($answer->isStateChecked())
+			{
+				if (in_array($key, $found_values))
+				{
+					$points += $answer->get_points();
+				}
+			}
+			else
+			{
+				if (!in_array($key, $found_values))
+				{
+					$points += $answer->get_points();
+				}
+			}
+		}
+		return $points;
   }
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	* Note: This method should be able to be invoked static - do not
+	* use $this inside this class
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function _getReachedPoints($user_id, $test_id)
+	{
+		return 0;
+	}
 
 /**
 * Returns the evaluation data, a learner has entered to answer the question
@@ -902,29 +939,33 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
-    while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-      array_push($found_values, $data->value1);
-    }
-    $counter = 1;
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_values, $data->value1);
+		}
+		$counter = 1;
 		$user_result = array();
-    foreach ($found_values as $key => $value) {
+		foreach ($found_values as $key => $value)
+		{
 			$solution = array(
 				"order" => "$counter",
 				"points" => 0,
 				"true" => 0,
-				"value" => ""
-			);
-      if (strlen($value) > 0) {
-				$solution["value"] = $this->answers[$value]->get_answertext();
-        if ($this->answers[$value]->is_true()) {
-					$solution["points"] = $this->answers[$value]->get_points();
+				"value" => "",
+				);
+			if (strlen($value) > 0)
+			{
+				$solution["value"] = $value;
+				$solution["points"] = $this->answers[$value]->get_points();
+				if ($this->answers[$value]->isStateChecked())
+				{
 					$solution["true"] = 1;
-        }
-      }
+				}
+			}
 			$counter++;
-			array_push($user_result, $solution);
-    }
-    return $user_result;
+			$user_result[$value] = $solution;
+		}
+		return $user_result;
   }
 
 /**

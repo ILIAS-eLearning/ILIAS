@@ -21,21 +21,21 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerTrueFalse.php";
+require_once "./assessment/classes/class.assAnswerBinaryState.php";
 
 /**
 * Class for true/false or yes/no answers
 * 
 * ASS_AnswerImagemap is a class for true/false or yes/no answers used for example in multiple choice tests.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerImagemap.php
 * @modulegroup   Assessment
 * @see ASS_AnswerSimple
 * @see ASS_AnswerTrueFalse
 */
-class ASS_AnswerImagemap extends ASS_AnswerTrueFalse {
+class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 /**
 * Coordinates of an area in image mape
 *
@@ -69,12 +69,12 @@ class ASS_AnswerImagemap extends ASS_AnswerTrueFalse {
     $answertext = "",
     $points = 0.0,
     $order = 0,
-    $correctness = FALSE,
+    $state = 0,
     $coords = "",
     $area = ""
   )
   {
-    $this->ASS_AnswerTrueFalse($answertext, $points, $order, $correctness);
+    $this->ASS_AnswerBinaryState($answertext, $points, $order, $state);
     $this->coords = $coords;
 		$this->area = $area;
   }
@@ -90,6 +90,7 @@ class ASS_AnswerImagemap extends ASS_AnswerTrueFalse {
 * @see $coords
 */
   function get_coords() {
+		$this->coords = preg_replace("/\s/", "", $this->coords);
     return $this->coords;
   }
 
@@ -104,6 +105,7 @@ class ASS_AnswerImagemap extends ASS_AnswerTrueFalse {
 * @see $coords
 */
   function set_coords($coords="") {
+		$coords = preg_replace("/\s/", "", $coords);
     $this->coords=$coords;
   }
 
