@@ -452,7 +452,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm"));
 
 							if ($node["pos_cens"] == 1)
+							{
 								$tpl->setVariable("TXT_CENS", $lng->txt("forums_info_censor2_post"));
+								$tpl->setVariable("CANCEL_BUTTON", $lng->txt("yes"));
+								$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("no"));
+							}
 							else
 								$tpl->setVariable("TXT_CENS", $lng->txt("forums_info_censor_post"));
 
