@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#answer#:#Answer
@@ -77,6 +78,8 @@ assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
+assessment#:#save_previous#:#Save and goto previous question
+assessment#:#save_next#:#Save and goto next question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
@@ -112,10 +115,12 @@ assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
+assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
+assessment#:#unlimited#:#unlimited
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_ip#:#Please add the server ip.

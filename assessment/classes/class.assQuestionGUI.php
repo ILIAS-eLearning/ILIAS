@@ -1343,9 +1343,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
     }
     $this->tpl->setCurrentBlock("adm_content");
-    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence&tab=1");
-    $this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("previous"));
-    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("next") . " &gt;&gt;");
+    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sequence=$sequence");
+    $this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
+    $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
     $this->tpl->parseCurrentBlock();
   }
 }

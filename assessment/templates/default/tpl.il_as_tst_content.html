@@ -3,14 +3,30 @@ body { margin:0px; }
 </style>
 {STATUSLINE}
 <div class="invisible_border">
-<div class="il_Header"><h1>{HEADER}</h1>
-<div class="il_Tab">
-{TABS}
-</div>
+<form name="test_output" method="post" action="{FORMACTION}">
+<div class="il_Header">
+<table width="100%">
+<tr>
+<td><h1>{HEADER}</h1></td>
+<td align="right">
+<!-- BEGIN postpone -->
+<input type="submit" class="submit" name="cmd[postpone]" value="{BTN_POSTPONE}" />
+&nbsp;&nbsp;
+<!-- END postpone -->
+<!-- BEGIN prev -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END prev -->
+<!-- BEGIN next -->
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<!-- END next -->
+</td>
+</tr>
+</table>
 </div>
 <br/>
 {BUTTONS}
 {MESSAGE}
 {ADM_CONTENT}
 {SYSTEMSETTINGS}
+</form>
 </div>
