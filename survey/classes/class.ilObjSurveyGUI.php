@@ -338,6 +338,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else
 			{
+			/*
 				$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
 				$this->tpl->setCurrentBlock("prev");
 				if ($prevpage === 0)
@@ -384,6 +385,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					$this->tpl->parseCurrentBlock();
 				}
+				*/
+				$this->outNavigationButtons("top", $page);
 				$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
 				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
 				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
@@ -409,6 +412,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$qid = "&qid=" . $data["question_id"];
 					$this->tpl->parse("survey_content");
 				}
+				$this->outNavigationButtons("bottom", $page);
 			}
 			$this->tpl->setCurrentBlock("content");
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . "$add_parameter$qid");
@@ -417,6 +421,65 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{
 			$this->runShowIntroductionPage();
+		}
+	}
+
+/**
+* Creates the navigation buttons for a survey
+*
+* Creates the navigation buttons for a survey.
+* Runs twice to generate a top and a bottom navigation to
+* ease the use of long forms.
+*
+* @access public
+*/
+	function outNavigationButtons($navigationblock = "top", $page)
+	{
+		$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
+		$this->tpl->setCurrentBlock($navigationblock . "_prev");
+		if ($prevpage === 0)
+		{
+			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+		}
+		$this->tpl->parseCurrentBlock();
+		$nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
+		$this->tpl->setCurrentBlock($navigationblock . "_next");
+		if ($nextpage === 1)
+		{
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
+		}
+		else
+		{
+			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
+		}
+		$this->tpl->parseCurrentBlock();
+		if ($page[0]["obligatory"] == 0)
+		{
+			// The question is not obligatory. Display skip buttons
+			$this->tpl->setCurrentBlock($navigationblock . "_skipprev");
+			if ($prevpage === 0)
+			{
+				$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_start"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_previous"));
+			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock($navigationblock . "_skipnext");
+			if ($nextpage === 1)
+			{
+				$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_finish"));
+			}
+			else
+			{
+				$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_next"));
+			}
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 
