@@ -1379,12 +1379,17 @@ class ilObjTest extends ilObject
       $total_max_points += $max_points;
       $reached_points = $question->get_reached_points($user_id, $this->get_test_id());
       $total_reached_points += $reached_points;
+			if ($max_points > 0) {
+				$percentvalue = $reached_points / $max_points;
+			} else {
+				$percentvalue = 0;
+			}
 			$row = array(
 				"nr" => "$key",
 				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->get_id() . "\">" . $question->get_title() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
-				"percent" => sprintf("%2.2f ", ($reached_points / $max_points) * 100) . "%"
+				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%"
 			);
 			array_push($result_array, $row);
 			$key++;
