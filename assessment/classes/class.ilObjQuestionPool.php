@@ -547,6 +547,10 @@ class ilObjQuestionPool extends ilObject
 			case "qt_javaapplet":
 				$question =& new ASS_JavaAppletGUI();
 				break;
+
+			case "qt_text":
+				$question =& new ASS_TextQuestionGUI();
+				break;
 		}
 
 		if ($question_id > 0)

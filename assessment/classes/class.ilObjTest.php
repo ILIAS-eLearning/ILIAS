@@ -3492,6 +3492,9 @@ class ilObjTest extends ilObject
 			case "qt_javaapplet":
 				$question =& new ASS_JavaAppletGUI();
 				break;
+			case "qt_text":
+				$question =& new ASS_TextQuestionGUI();
+				break;
     }
 		if ($question_id > 0)
 		{
@@ -3533,6 +3536,9 @@ class ilObjTest extends ilObject
 					break;
 				case "qt_javaapplet":
 					$question = new ASS_JavaApplet();
+					break;
+				case "qt_text":
+					$question = new ASS_TextQuestion();
 					break;
 			}
 			$question->loadFromDb($question_id);

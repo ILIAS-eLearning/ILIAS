@@ -27,6 +27,7 @@ require_once "./assessment/classes/class.assJavaAppletGUI.php";
 require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
 require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
+require_once "./assessment/classes/class.assTextQuestionGUI.php";
 require_once "./content/classes/Pages/class.ilPageObject.php";
 
 define("LIMIT_NO_LIMIT", 0);

@@ -270,6 +270,9 @@ class ASS_QuestionGUI
 			case "qt_javaapplet":
 				$question =& new ASS_JavaAppletGUI();
 				break;
+			case "qt_text":
+				$question =& new ASS_TextQuestionGUI();
+				break;
 		}
 		if ($question_id > 0)
 		{
@@ -316,6 +319,10 @@ class ASS_QuestionGUI
 
 			case "qt_javaapplet":
 				return "ASS_JavaAppletGUI";
+				break;
+
+			case "qt_text":
+				return "ASS_TextQuestionGUI";
 				break;
 		}
 
