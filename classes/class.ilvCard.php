@@ -937,7 +937,7 @@ class ilvCard
 		}
 		else
 		{
-			$encoding = "BASE64";
+			$encoding = "b";
 			$photo = base64_encode($photo);
 		}
 		$this->types["PHOTO"] = array(
@@ -1400,7 +1400,7 @@ class ilvCard
 		}
 		else
 		{
-			$encoding = "BASE64";
+			$encoding = "b";
 			$logo = base64_encode($logo);
 		}
 		$this->types["LOGO"] = array(
@@ -1665,7 +1665,7 @@ class ilvCard
 		}
 		else
 		{
-			$encoding = "BASE64";
+			$encoding = "b";
 			$sound = base64_encode($sound);
 		}
 		$this->types["SOUND"] = array(
@@ -1831,7 +1831,7 @@ class ilvCard
 */
 	function setKey($key = "", $type = "")
 	{
-		$encoding = "BASE64";
+		$encoding = "b";
 		$key = base64_encode($key);
 		$this->types["KEY"] = array(
 			"KEY" => $key,
