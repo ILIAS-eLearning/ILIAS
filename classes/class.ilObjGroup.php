@@ -119,13 +119,7 @@ class ilObjGroup extends ilObject
 		global $rbacadmin;
 		if(isset($a_user_id) && isset($a_mem_role) )
 		{
-			if(!$this->isMember($a_user_id))
-			{
-				$member = new ilObjUser($a_user_id);
-				$member->addDesktopItem($this->getRefId(), "grp");
-			}
 			$this->join($a_user_id,$a_mem_role);
-
 			return true;
 		}
 		else
