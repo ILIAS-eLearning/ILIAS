@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.40 2003/08/08 11:53:19 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.41 2003/08/12 08:53:43 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -272,10 +272,15 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
-				$this->tpl->parseCurrentBlock();
-			}
 
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
@@ -562,7 +567,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("user_added"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->ref_id);
+		header("Location:".$this->getReturnLocation("save","adm_object.php?ref_id=".$this->ref_id));
 		exit();
 	}
 
