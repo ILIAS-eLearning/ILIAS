@@ -181,6 +181,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(
+					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+
 			$this->tpl->setVariable("LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
