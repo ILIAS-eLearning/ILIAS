@@ -3784,6 +3784,7 @@ search#:#search_select_one_select#:#--Scegli una cartella--
 search#:#search_show_result#:#Mostra
 search#:#search_user#:#Utenti
 survey#:#add_category#:#Aggiungi categoria
+survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
 survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
@@ -3809,6 +3810,7 @@ survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti cat
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
 survey#:#concatenation#:#Concatenazione
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
@@ -3880,10 +3882,12 @@ survey#:#duplicate#:#Duplica
 survey#:#duplicate_svy#:#Duplica il sondaggio
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
 survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
+survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del sondaggio
 survey#:#enter_value#:#Inserisci un valore
+survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
 survey#:#error_retrieving_anonymous_survey#:#Il sistema non riesce a reperire i dati del sondaggio associati al codice %s. Per favore verifica il codice del sondaggio che hai inserito!
 survey#:#evaluation#:#Di prova
@@ -3903,6 +3907,7 @@ survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
 survey#:#given_answers#:#Risposte fornite
 survey#:#harmonic_mean#:#Significato armonico
+survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#import_question#:#Importa domande
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima

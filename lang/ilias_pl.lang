@@ -3785,6 +3785,7 @@ search#:#search_select_one_select#:#--Wybierz jeden folder--
 search#:#search_show_result#:#Pokaż
 search#:#search_user#:#Użytkownicy
 survey#:#add_category#:#Dodaj kategorię
+survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numeracji kategorii.
 survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
@@ -3810,6 +3811,7 @@ survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?
 survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do usunięcia!
 survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kategorię
 survey#:#concatenation#:#Połączenie
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Ograniczenia wyboru
 survey#:#contains#:#Zawiera
 survey#:#continue#:#Kontynuuj >>
@@ -3881,10 +3883,12 @@ survey#:#duplicate#:#Powiel
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Chcesz kontynuować edycję pytania?
 survey#:#edit_constraints_introduction#:#Wybrałeś następujące pytania/bloki pytań do edycji ograniczeń
+survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
 survey#:#enter_value#:#Podaj wartość
+survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!
 survey#:#evaluation#:#Wyniki
@@ -3904,6 +3908,7 @@ survey#:#found_questions#:#Znalezione pytania
 survey#:#geometric_mean#:#Średnia geometryczna
 survey#:#given_answers#:#Podane odpowiedzi
 survey#:#harmonic_mean#:#Średnia harmoniczna
+survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Wstaw po
 survey#:#insert_before#:#Wstaw przed

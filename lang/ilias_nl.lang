@@ -3785,6 +3785,7 @@ search#:#search_select_one_select#:#--Selecteer een map--
 search#:#search_show_result#:#Selecteren op zijn minst één zoekresultat
 search#:#search_user#:#--Selecteer een map--
 survey#:#add_category#:#laat zien
+survey#:#add_heading#:#Add heading###10 Nov 2004 new variable
 survey#:#add_limits_for_standard_numbers#:#Gebruikers
 survey#:#add_phrase#:#Kategorie toevoegen
 survey#:#add_phrase_introduction#:#Voer een onder- en een boven-grens in voor de standaard aantallen die u wilt toevoegen als toevoegen als kategoriën.
@@ -3810,6 +3811,7 @@ survey#:#category_delete_confirm#:#De status kan niet gewijzigd worden in &quot;
 survey#:#category_delete_select_none#:#Kategorie
 survey#:#category_nr_selected#:#Weet u zeker dat u de volgende kategoriën wilt verwijderen?
 survey#:#concatenation#:#Kies tenminste één kategorie om te verwijderen!
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Aantal gebruikers dat deze kategorie selecteerde
 survey#:#contains#:#Aaneenschakeling
 survey#:#continue#:#Beperkingen
@@ -3881,10 +3883,12 @@ survey#:#duplicate#:#Standaard geloof (waar-onbepaald-niet waar)
 survey#:#duplicate_svy#:#Duplicate survey###05 Nov 2004 new variable
 survey#:#edit_ask_continue#:#Standaard nummers
 survey#:#edit_constraints_introduction#:#Duplikaat
+survey#:#edit_heading#:#Edit heading###10 Nov 2004 new variable
 survey#:#end_date#:#Wilt u doorgaan en deze vraag wijzigen?
 survey#:#end_date_reached#:#U heeft de volgende vraag(vragen)/vraag-block(en) geselecteerd om de constraint te wijzigen
 survey#:#enter_phrase_title#:#Einddatum
 survey#:#enter_value#:#U kunt de enquête niet starten. De einddatum is bereikt!
+survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
 survey#:#evaluation#:#Voer een gezegde-titel in
@@ -3904,6 +3908,7 @@ survey#:#found_questions#:#Filter
 survey#:#geometric_mean#:#gereed
 survey#:#given_answers#:#Gevonden vragen
 survey#:#harmonic_mean#:#Geometrisch gemiddeld
+survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#import_question#:#Import question(s)###15 Oct 2004 new variable
 survey#:#insert_after#:#Gegeven antwoorden
 survey#:#insert_before#:#Harmonisch gemiddeld
