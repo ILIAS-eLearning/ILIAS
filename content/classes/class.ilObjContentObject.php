@@ -962,7 +962,7 @@ class ilObjContentObject extends ilObject
 		if (!@is_dir($dir) or
 			!is_writeable($dir))
 		{
-			$this->ilias->raiseError("Export directory is not writeable.",$this->ilias->error_obj->FATAL);
+			return array();
 		}
 
 		// open directory
