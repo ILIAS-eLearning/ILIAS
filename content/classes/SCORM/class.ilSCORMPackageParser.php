@@ -340,11 +340,15 @@ class ilSCORMPackageParser extends ilSaxParser
 					switch ($this->getAncestorElement(1))
 					{
 						case "organization":
-							$this->current_organization->setTitle($a_data);
+							$this->current_organization->setTitle(
+								$this->current_organization->getTitle() . $a_data
+							);
 							break;
 
 						case "item":
-							$this->item_stack[count($this->item_stack) - 1]->setTitle($a_data);
+							$this->item_stack[count($this->item_stack) - 1]->setTitle(
+								$this->item_stack[count($this->item_stack) - 1]->getTitle() . $a_data
+							);
 							break;
 					}
 					break;
@@ -369,11 +373,8 @@ class ilSCORMPackageParser extends ilSaxParser
 					$this->item_stack[count($this->item_stack) - 1]->setMasteryScore($a_data);
 					break;
 
-
 			}
 		}
-
 	}
-
 }
 ?>
