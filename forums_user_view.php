@@ -46,18 +46,15 @@ $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 require_once ("classes/class.ilObjUserGUI.php");
 //$user_gui = new ilObjUserGUI("",$_GET["user"], false);
 //echo "user:".$_GET["user"].":";
+
 $_GET["obj_id"]=$_GET["user"];
 $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-$user_gui->insertPublicProfile("USR_PROFILE","usr_profile");
-
-
-
+//$user_gui->insertPublicProfile("USR_PROFILE","usr_profile");
 
 
 // display infopanel if something happened
 infoPanel();
-
-
+//$tpl->setCurrentBlock("usertable");
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET["thr_pk"]."&pos_pk=".$_GET["pos_pk"]."&offset=".$_GET["offset"]."&orderby=".$_GET["orderby"]);
 $tpl->setVariable("BTN_TXT", $lng->txt("back"));

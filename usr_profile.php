@@ -36,12 +36,13 @@ require_once "./classes/class.ilObjUser.php";
 // for upload file
 require_once "./classes/class.ilSetup.php";
 //$webspace_dir = "./docss";
-$webspace_dir = "docss";
+$webspace_dir = "/htdocs/ilias3wbdata";
 //$image_dir = $webspace_dir."/usr_images";
 
 // purpose is to upload file of user
 // function added by ratana ty
-function upload_file() {
+function upload_file()
+{
 // TODO
 // Check the type of file and then check the size
 // of the file whether we allow people to upload or not
@@ -65,14 +66,14 @@ function upload_file() {
 	$ilias->account->setPref("profile_image", $store_file);
 	$ilias->account->update();
 	move_uploaded_file($_FILES["userfile"]["tmp_name"],$target_file);
-
+//echo "from:".$_FILES["userfile"]["tmp_name"]."to:".$target_file."<br>";
 	// by default after copy it will loss
 	// some permission so set it to readable
 	chmod($target_file, 0770);
- return $target_file;
-   }
+	return $target_file;
+}
 // End of function upload file
-//
+
 
 
 
@@ -368,7 +369,7 @@ $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
-$tpl->setVariable("TXT_UPLOAD",$lng->txt("upload_picture"));
+$tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
 $tpl->setVariable("UPLOAD",$lng->txt("upload"));
 $tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
 $tpl->setVariable("USER_FILE", $lng->txt("user_file"));
