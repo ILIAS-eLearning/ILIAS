@@ -146,40 +146,37 @@ class Tree extends PEAR
 	
 	/**
 	* get subnodes of given node
-	* @param	integer	$a_node_id		node_id (optional)
+	* @param	integer	$a_node_id		node_id
+	* @param	string	$a_order		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
+	* @param	string	$a_direction	sort direction, optional (passible values: 'DESC' or 'ASC'; defalut is 'ASC')
 	* @access	public
-	* @return	boolean	true when node has childs, otherwise false
+	* @return	boolean					true when node has childs, otherwise false
 	*/
-	function getChilds($a_node_id = "",$a_order = '',$a_direction = '')
+	function getChilds($a_node_id,$a_order = "",$a_direction = "ASC")
 	{
 		// number of childs
 		$count = 0;
 		
+		// init order_clause
+		$order_clause = "";
+		
 		// init childs
 		$this->Childs = array();
 		
-		if(!$a_order)
+		// set order_clause if sort order parameter is given
+		if(!empty($a_order))
 		{
-			$a_order = 'type';
-		}
-		if (empty($a_node_id))
-		{
-			$a_node_id = $this->node_id;
-		}
-
-		$query = "SELECT * FROM tree ".
-			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-			"WHERE parent = '".$a_node_id."' ".
-			"AND tree = '".$this->tree_id."' ".
-			"ORDER BY '".$a_order."'".$a_direction;
-				 
-		$res = $this->db->query($query);
-
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			$order_clause = "ORDER BY '".$a_order."'".$a_direction;
 		}
 		
+		$query = "SELECT * FROM tree ".
+				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+				 "WHERE parent = '".$a_node_id."' ".
+				 "AND tree = '".$this->tree_id."' ".
+				 $order_clause;
+
+		$res = $this->db->query($query);
+
 		$count = $res->numRows();
 		
 		if ($count > 0)
@@ -1024,5 +1021,52 @@ class Tree extends PEAR
 		}
 	}
 
+	/**
+	* Calculates additional information for each node in tree-structure:
+	* no. of successors:	How many successors does the node have?
+	* 						Every node under the concerned node in the tree counts as a successor. 
+	* depth			   :	The depth-level in tree the concerned node has. (the root node has a depth of 1!)
+	* brother		   :	The no. of node which are on the same depth-level with the concerned node
+	*
+	* @access	public
+	* @param	integer		tree_id (optional)
+	* @return	array		array of new tree information (to be specified.... :-)
+	*/
+	function calculateFlatTree($a_tree_id = "")
+	{
+		if (empty($a_tree_id))
+		{
+		    $a_tree_id = $this->tree_id;
+		}
+		
+		$query = "SELECT s.child,s.lft,s.rgt,title,s.depth,".
+				 "(s.rgt-s.lft-1)/2 AS successor,".
+				 "((min(v.rgt)-s.rgt-(s.lft>1))/2) > 0 AS brother ".
+				 "FROM tree v, tree s ".
+				 "LEFT JOIN object_data ON s.child=object_data.obj_id ".
+				 "WHERE s.lft BETWEEN v.lft AND v.rgt ".
+				 "AND (v.child != s.child OR s.lft = '1') ".
+				 "AND s.tree = '".$a_tree_id."' ".
+//				 "AND type  = 'cat' ".
+				 "GROUP BY s.child ".
+				 "ORDER BY s.lft";
+
+		$res = $this->db->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$arr[] = array(
+							"title"		=> $row->title,
+							"child"		=> $row->child,
+							"successor" => $row->successor,
+							"depth"		=> $row->depth,
+							"brother"	=> $row->brother,
+							"lft"		=> $row->lft,
+							"rgt"		=> $row->rgt
+						   );
+		}
+		
+		return $arr;
+	}	
 } // END class.tree.php
 ?>
