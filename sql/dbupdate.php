@@ -2698,3 +2698,80 @@ $this->db->query($query);
 
 <#172>
 ALTER TABLE mail ADD import_name TEXT;
+
+<#173>
+# add operations 'create_svy' and 'create_spl' for survey objects and survey question pools
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('42', 'create_svy', 'create new survey');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('43', 'create_spl', 'create new question pool (Survey)');
+
+<#174>
+<?php
+
+// insert survey definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'svy', 'Survey object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to survey object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#175>
+<?php
+
+// insert survey question pool definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'spl', 'Question pool object (Survey)', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operation assignment to survey question pool object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#176>
+<?php
+
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add create_tst and create_qpl operations to category type
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','42')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','43')";
+$this->db->query($query);
+?>
