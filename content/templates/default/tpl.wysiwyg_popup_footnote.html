@@ -36,6 +36,7 @@
 			<input 	type='button' 
 					value='{BTN_SUBMIT}' 
 					onClick="opener.addFussnote(document.form.fn.value);
+							 opener.refreshFootnotelist();
 							 opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');
 							 window.close();">
 		</td>
@@ -64,6 +65,7 @@ function refreshFootnotes() {
 		
 	}
 	opener.editor.setHTML(TX);
+	opener.refreshFootnotelist();
 	window.close();
 
 }

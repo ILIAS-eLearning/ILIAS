@@ -315,6 +315,7 @@ function storeCaret(textEl) {
 
 <p>----------------------------------------------------------------------------------------------------------------</p>
 
+<div id="footnotelist"></div>
 
 <!-- Configure the path to the editor.  We make it relative now, so that the
     example ZIP file will work anywhere, but please NOTE THAT it's better to
@@ -507,6 +508,19 @@ function addFussnote(Tb)
 	fnCount++;
 }
 
+function refreshFootnotelist() {
+	fhtml = "<ul>";
+	for (i=0;i<fussnoten.length;i++) {
+		j=i+1;
+		fhtml += "["+j+"]&nbsp;"+fussnoten[i];
+		fhtml += "<br>";
+		fhtml += "";
+	}
+	fhtml += "<ul>";
+	
+	document.getElementById("footnotelist").innerHTML = fhtml;
+}
+
 function addInternalLink(Link,title) {
 	//Link = Link.replace("&quot;","\"",Link);
 	//Link = Link.replace("&quot;","\"",Link);
@@ -590,6 +604,7 @@ function buttonInternalLink()
 			
 			T = T.replace("[fn]"+Tb+"[/fn]","<span class=\"footnote\" value=\""+Tb+"\">["+fnCount+"]</span>");
 		}
+		refreshFootnotelist();
 		
 
 		/**
