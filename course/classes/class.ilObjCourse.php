@@ -533,6 +533,10 @@ class ilObjCourse extends ilObject
 		$this->initCourseArchiveObject();
 		$this->archives_obj->deleteAll();
 
+		include_once './course/classes/class.ilCourseObjective.php';
+
+		ilCourseObjective::_deleteAll($this->getId());
+
 		return true;
 	}
 

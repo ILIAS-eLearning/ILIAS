@@ -3007,6 +3007,44 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->cci_obj =& new ilCourseContentInterface($this,$this->object->getRefId());
 	}
 
+	function cciObjectivesObject()
+	{
+		$_SESSION['crs_viewmode'] = 'objectives';
+		$this->initCourseContentInterface();
+		$this->cci_obj->cci_objectives();
+
+		return true;;
+	}
+	function cciObjectivesEditObject()
+	{
+		$_SESSION['crs_viewmode'] = 'objectives_edit';
+		$this->initCourseContentInterface();
+		$this->cci_obj->cci_view();
+
+		return true;
+	}
+	function cciObjectivesAskResetObject()
+	{
+		$this->initCourseContentInterface();
+		$this->cci_obj->cci_objectives_ask_reset();
+
+		return true;;
+	}
+	function cciResetObject()
+	{
+		global $ilUser;
+
+		include_once './course/classes/class.ilCourseObjectiveResult.php';
+
+		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
+		$tmp_obj_res->reset($this->object->getId());
+
+		sendInfo($this->lng->txt('crs_objectives_reseted'));
+
+		$this->initCourseContentInterface();
+		$this->cci_obj->cci_objectives();
+	}
+
 	function cciEditObject()
 	{
 		global $rbacsystem;

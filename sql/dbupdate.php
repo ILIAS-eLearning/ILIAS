@@ -5572,3 +5572,11 @@ ALTER TABLE `usr_data` ADD `ilinc_id` INT UNSIGNED;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#396>
+CREATE TABLE IF NOT EXISTS `crs_objective_results` (
+  `res_id` int(11) NOT NULL auto_increment,
+  `usr_id` int(11) NOT NULL default '0',
+  `question_id` int(11) NOT NULL default '0',
+  `points` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`res_id`)
+) TYPE=MyISAM;

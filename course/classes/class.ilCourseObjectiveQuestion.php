@@ -91,21 +91,19 @@ class ilCourseObjectiveQuestion
 		return true;
 	}
 
-	function __deleteTest()
+	function __deleteTest($a_test_ref_id)
 	{
-		// Check if there are other entries belonging to this test
-		$query = "SELECT * FROM crs_objective_qst ".
+		// Delete questions
+		$query = "DELETE FROM crs_objective_qst ".
 			"WHERE objective_id = '".$this->getObjectiveId()."' ".
-			"AND ref_id = '".$this->getTestRefId()."'";
+			"AND ref_id = '".$a_test_ref_id."'";
 
-		$res = $this->db->query($query);
-		if($res->numRows())
-		{
-			return false;
-		}
+		$this->db->query($query);
+
+		// delete tst entries
 		$query = "DELETE FROM crs_objective_tst ".
 			"WHERE objective_id = '".$this->getObjectiveId()."' ".
-			"AND ref_id = '".$this->getTestRefId()."'";
+			"AND ref_id = '".$a_test_ref_id."'";
 
 		$this->db->query($query);
 
@@ -263,6 +261,18 @@ class ilCourseObjectiveQuestion
 		return $counter;
 	}
 
+	function getQuestionsByTest($a_test_ref_id)
+	{
+		foreach($this->getQuestions() as $question)
+		{
+			if($question['ref_id'] == $a_test_ref_id)
+			{
+				$qst[] = $question['question_id'];
+			}
+		}
+		return $qst ? $qst : array();
+	}
+
 
 	function add()
 	{
@@ -284,11 +294,32 @@ class ilCourseObjectiveQuestion
 		{
 			return false;
 		}
+		
+		$query = "SELECT * FROM crs_objective_qst ".
+			"WHERE qst_ass_id = '".$qst_id."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$test_rid = $row->ref_id;
+			$test_oid = $row->obj_id;
+		}
 
 		$query = "DELETE FROM crs_objective_qst ".
 			"WHERE qst_ass_id = '".$qst_id."'";
 
 		$this->db->query($query);
+
+		// delete test if it was the last question
+		$query = "SELECT * FROM crs_objective_qst ".
+			"WHERE ref_id = '".$test_rid."' ".
+			"AND obj_id = '".$test_oid."'";
+
+		$res = $this->db->query($query);
+		if(!$res->numRows())
+		{
+			$this->__deleteTest($test_rid);
+		}
 
 		return true;
 	}
@@ -312,6 +343,8 @@ class ilCourseObjectiveQuestion
 	// PRIVATE
 	function __read()
 	{
+		global $tree;
+
 		$this->questions = array();
 		$query = "SELECT * FROM crs_objective_qst ".
 			"WHERE objective_id = '".$this->getObjectiveId()."'";
@@ -319,6 +352,12 @@ class ilCourseObjectiveQuestion
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if(!$tree->isInTree($row->ref_id))
+			{
+				$this->__deleteTest($row->ref_id);
+				continue;
+			}
+
 			$qst['ref_id'] = $row->ref_id;
 			$qst['obj_id'] = $row->obj_id;
 			$qst['question_id'] = $row->question_id;

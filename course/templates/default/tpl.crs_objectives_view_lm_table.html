@@ -1,0 +1,47 @@
+	<table class="fullwidth_invisible">
+		<tr>
+		  <td>
+			<table class="fullwidth">
+				<tr class="tbltitle">
+				  <td colspan="2">
+					<table class="fullwidth_invisible" cellspacing="0">
+						<tr class="tbltitle">
+						  <td class="tbltitle" align="left">&nbsp;{TBL_TITLE_LMS}</td>
+						</tr>
+					</table>
+				  </td>
+				</tr>
+				<tr class="tblheader">
+				  <!-- BEGIN tbl_header_columns_lms -->
+				  <td class="std" nowrap="nowrap" align="center" width="{TBL_HEADER_WIDTH_LMS}" >{TBL_HEADER_NAME_LMS}</td>
+				  <!-- END tbl_header_columns_lms -->
+				</tr>
+				<!-- BEGIN lm_row -->
+				<tr class="std">
+				  <td class="{OBJ_CLASS_CENTER_LMS}"><b>{OBJ_NR_LMS}</b></td>
+				  <td class="{OBJ_CLASS_LMS}">
+					<!-- BEGIN lm_visible -->
+					<b>{VISIBLE_LINK_LMS}</b>
+					<!-- END lm_visible -->
+					<!-- BEGIN lm_read -->
+					<a href="{READ_LINK_LMS}" target="{READ_TARGET_LMS}">{READ_TITLE_LMS}</a>
+					<!-- END lm_read -->
+					<!-- BEGIN lm_desklink -->
+					[<a href="{DESK_LINK_LMS}">{TXT_DESK_LMS}</a>]
+					<!-- END lm_desklink -->
+					<!-- BEGIN chapters -->
+					<br />&nbsp;&nbsp;{TXT_CHAPTER} -> <a href="{CHAPTER_LINK_LMS}" target="{CHAPTER_LINK_TARGET_LMS}">{CHAPTER_TITLE}</a>
+					<!-- END chapters -->
+				  </td>
+				</tr>
+				<!-- END lm_row -->
+			</table>
+		  </td>
+		</tr>
+		<tr>
+		  <td colspan="2" align="right">{TXT_HIDE_SHOW_LMS}
+			<a href="{LINK_HIDE_SHOW_LMS}">
+			  <img src="{HIDE_SHOW_IMG_LMS}" alt="{TXT_HIDE_SHOW_LMS}" title="{TXT_HIDE_SHOW_LMS}" border="0" />
+			</a>
+		</tr>
+	</table>

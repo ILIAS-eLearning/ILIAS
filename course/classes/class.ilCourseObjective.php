@@ -273,5 +273,31 @@ class ilCourseObjective
 
 		return $ids ? $ids : array();
 	}
+
+	function _deleteAll($course_id)
+	{
+		global $ilDB;
+
+		$ids = ilCourseObjective::_getObjectiveIds($course_id);
+		
+		if(!count($ids))
+		{
+			return true;
+		}
+		$in = "IN ('";
+		$in .= implode("','",$ids);
+		$in .= "')";
+
+		$query = "DELETE FROM crs_objective_lm WHERE objective_id ".$in;
+		$ilDB->query($query);
+
+		$query = "DELETE FROM crs_objective_tst WHERE objective_id ".$in;
+		$ilDB->query($query);
+		
+		$query = "DELETE FROM crs_objective_qst WHERE objective_id ".$in;
+		$ilDB->query($query);
+
+		return true;
+	}
 }
 ?>

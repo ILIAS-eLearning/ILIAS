@@ -1917,7 +1917,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function deleteResults($user_id = "") 
+	function deleteResults($user_id = "",$a_delete_active = false) 
 	{
 		if ($user_id) {
 			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
@@ -1934,6 +1934,15 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($user_id)
 			);
 			$result = $this->ilias->db->query($query);
+
+			if($a_delete_active)
+			{
+				$query = "DELETE FROM tst_active ".
+					"WHERE user_fi = '".$user_id."' ".
+					"AND test_fi = '".$this->getTestId()."'";
+
+				$this->ilias->db->query($query);
+			}
 		}
 	}
 	
@@ -2687,12 +2696,40 @@ class ilObjTest extends ilObject
 					return false;
 				}
 				break;
+
+			case 'finished':
+				return ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
+			case 'not_finished':
+				return !ilObjTest::_hasFinished($ilias->account->getId(),$a_exc_id);
 			default:
 				return true;
 		}
 		return true;
-	}	
-				
+	}
+	
+/**
+* Returns information if a specific user has finished a test
+* 
+* @param integer $user_id Database id of the user
+* @param integer test obj_id
+* @return bool 
+* @access public
+* @static
+*/
+	function _hasFinished($a_user_id,$a_test_id)
+	{
+		global $ilDB;
+
+		$tmp_test =& new ilObjTest($a_test_id,false);
+
+		$query = "SELECT * FROM tst_active ".
+			"WHERE user_fi = '".$a_user_id."' ".
+			"AND test_fi = '".$tmp_test->getTestId()."' ".
+			"AND tries > '0'";
+		$res = $ilDB->query($query);
+
+		return $res->numRows() ? true : false;
+	}
 	
 /**
 * Returns the resulting mark of a test for a given user
@@ -3535,6 +3572,7 @@ class ilObjTest extends ilObject
 		if (strcmp($question_id, "") != 0)
 		{
 			$question_type = ASS_Question::_getQuestionType($question_id);
+
 			switch ($question_type) {
 				case "qt_cloze":
 					$question = new ASS_ClozeTest();
