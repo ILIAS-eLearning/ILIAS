@@ -415,23 +415,39 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		global $ilUser;
 		
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
+		$output = preg_replace("/&#123;/", "{", $output);
+		$output = preg_replace("/&#125;/", "}", $output);
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
 		$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
 
 		// set solutions
-
+		$solution_script = "";
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
-//echo "<br>".$repl_str;
-				$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
+				if ($this->object->getOutputType() == OUTPUT_HTML)
+				{
+					$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
+					$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
+				}
+				else
+				{
+					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
+					if ($solution_value->value2 > 1)
+					{
+						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".x + 250, dd.elements.term_" . $solution_value->value1 . ".y);\n";
+					}
+				}
 			}
 		}
-
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			$output = str_replace("// solution_script", $solution_script, $output);
+		}
+		
 		foreach ($this->object->matchingpairs as $idx => $answer)
 		{
 			$id = $answer->getDefinitionId()."_".$answer->getTermId();
@@ -449,6 +465,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$solutionoutput = "";
 			$received_points = "";
+		}
+		if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+		{
+			$this->tpl->setCurrentBlock("styleheight");
+			$this->tpl->setVariable("STYLE_HEIGHT", "80");
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");
 		}
 		$this->tpl->setVariable("MATCHING_QUESTION", $output.$solutionoutput.$received_points);
 	}

@@ -32,6 +32,9 @@ require_once "./content/classes/Pages/class.ilPageObject.php";
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
 
+define("OUTPUT_HTML", 0);
+define("OUTPUT_JAVASCRIPT", 1);
+
 /**
 * Basic class for all assessment question types
 *
@@ -165,6 +168,15 @@ class ASS_Question
 	var $domxml;
 
 	/**
+	* Contains the output type of a question
+	*
+	* Contains the output type of a question
+	*
+	* @var integer
+	*/
+	var $outputType;
+
+	/**
 	* ASS_Question constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the ASS_Question object.
@@ -205,6 +217,7 @@ class ASS_Question
 		$this->id = -1;
 		$this->test_id = -1;
 		$this->shuffle = 1;
+		$this->outputType = OUTPUT_HTML;
 		register_shutdown_function(array(&$this, '_ASS_Question'));
 	}
 
@@ -322,6 +335,20 @@ class ASS_Question
 	function setComment($comment = "")
 	{
 		$this->comment = $comment;
+	}
+
+	/**
+	* Sets the output type
+	*
+	* Sets the output type
+	*
+	* @param integer $outputType The output type of the question
+	* @access public
+	* @see $outputType
+	*/
+	function setOutputType($outputType = OUTPUT_HTML)
+	{
+		$this->outputType = $outputType;
 	}
 
 
@@ -486,6 +513,20 @@ class ASS_Question
 	function getComment()
 	{
 		return $this->comment;
+	}
+
+	/**
+	* Gets the output type
+	*
+	* Gets the output type
+	*
+	* @return integer The output type of the question
+	* @access public
+	* @see $outputType
+	*/
+	function getOutputType()
+	{
+		return $this->outputType;
 	}
 
 	/**

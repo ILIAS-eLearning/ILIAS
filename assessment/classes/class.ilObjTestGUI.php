@@ -1654,16 +1654,17 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+		ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
+		ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($sequence));
+//		$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
@@ -1679,7 +1680,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
+//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $_SERVER["PHP_SELF"] . $this->getAddParameter() . "&sequence=$sequence";
 
 		// output question
