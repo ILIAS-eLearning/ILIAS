@@ -42,6 +42,7 @@ common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
+common#:#adopt#:#adopt
 common#:#also_as_email#:#Also as Email
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
@@ -49,6 +50,8 @@ common#:#answers#:#Answers
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign_lo_forum#:#Assign LO Forum
+common#:#attachment#:#Attachment
+common#:#attachments#:#Attachments
 common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
@@ -124,6 +127,7 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
+common#:#download#:#Download
 common#:#drafts#:#Drafts
 common#:#edit#:#Edit
 common#:#edit_data#:#edit data
@@ -292,16 +296,31 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
+common#:#mail_add_to_addressbook#:#Add to addressbook
+common#:#mail_addr_entries#:#Entries
+common#:#mail_addressbook#:#Addressbook
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_attachments#:#Attachments
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_bc_search#:#BC search
 common#:#mail_c_trash#:#Trash
 common#:#mail_cc_search#:#CC search
+common#:#mail_compose#:#Compose Message
 common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
 common#:#mail_deleted#:#The mail(s) have been deleted
+common#:#mail_deleted_entry#:#The entries are deleted
 common#:#mail_e_sent#:#Sent
+common#:#mail_entry_added#:#Added new Entry
+common#:#mail_entry_changed#:#The entry is changed
+common#:#mail_folder_created#:#A new folder is created
+common#:#mail_folder_exists#:#A folder already exists with this name
+common#:#mail_folder_name#:#Folder name
+common#:#mail_folder_name_changed#:#The folder is renamed
+common#:#mail_folder_options#:#Folder Options
+common#:#mail_global_options#:#Global options
+common#:#mail_insert_folder_name#:#Please insert a folder name
+common#:#mail_insert_query#:#Please insert a query
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mails_of#:#Mails:
 common#:#mail_mark_read#:#Mark mails read
@@ -317,14 +336,20 @@ common#:#mail_move_to#:#Move mails to
 common#:#mail_moved#:#The mail(s) have been moved
 common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
 common#:#mail_not_sent#:#Mail not sent!
+common#:#mail_options_of#:#Options:
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
 common#:#mail_saved#:#The message is saved
+common#:#mail_search_no#:#No entries found
 common#:#mail_search_word#:#Search word
 common#:#mail_select_one#:#You have to select one mail.
+common#:#mail_select_one_entry#:#You have to select one entry
+common#:#mail_select_one_file#:#You have to select one file
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
+common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
+common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 common#:#mail_to_search#:#To search
 common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
@@ -358,6 +383,7 @@ common#:#new#:#New
 common#:#new_folder#:#New Folder
 common#:#new_group#:#New Group
 common#:#new_language#:#New Language
+common#:#new_mail#:#New mail!
 common#:#news#:#News
 common#:#nickname#:#Nickname
 common#:#no#:#No
@@ -409,6 +435,7 @@ common#:#permission_denied#:#Permission Denied
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_profile#:#Personal Profile
+common#:#persons#:#Personen
 common#:#phone#:#Phone
 common#:#phrase#:#Phrase
 common#:#port#:#Port
@@ -429,6 +456,7 @@ common#:#recipient#:#Recipient
 common#:#refresh#:#Refresh
 common#:#refresh_list#:#Refresh List
 common#:#registered_since#:#Registered since
+common#:#rename#:#Rename
 common#:#reply#:#Reply
 common#:#required_field#:#Required Field
 common#:#reset#:#Reset
@@ -448,10 +476,12 @@ common#:#save_message#:#Save Message
 common#:#saved#:#Saved
 common#:#saved_successfully#:#Saved Successfully
 common#:#search#:#Search
+common#:#search_addressbook#:#Addressbook search
 common#:#search_bc_recipient#:#Search BC Recipient
 common#:#search_cc_recipient#:#Search CC Recipient
 common#:#search_in#:#Search in
 common#:#search_recipient#:#Search Recipient
+common#:#search_system#:#System search
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
 common#:#select_file#:#Select file
@@ -535,33 +565,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#download#:#Download
-common#:#attachments#:#Attachments
-common#:#attachment#:#Attachment
-common#:#mail_insert_query#:#Please insert a query
-common#:#mail_addressbook#:#Addressbook
-common#:#persons#:#Personen
-common#:#mail_search_no#:#No entries found
-common#:#search_system#:#System search
-common#:#search_addressbook#:#Addressbook search
-common#:#mail_add_to_addressbook#:#Add to addressbook
-common#:#mail_addr_entries#:#Entries
-common#:#mail_select_one_entry#:#You have to select one entry
-common#:#mail_select_one_file#:#You have to select one file
-common#:#mail_deleted_entry#:#The entries are deleted
-common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
-common#:#new_mail#:#New mail!
-common#:#mail_entry_changed#:#The entry is changed
-common#:#mail_entry_added#:#Added new Entry
-common#:#mail_options_of#:#Options:
-common#:#mail_compose#:#Compose Message
-common#:#mail_folder_name_changed#:#The folder is renamed
-common#:#mail_folder_exists#:#A folder already exists with this name
-common#:#mail_insert_folder_name#:#Please insert a folder name
-common#:#mail_folder_created#:#A new folder is created
-common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
-common#:#mail_folder_options#:#Folder Options
-common#:#mail_folder_name#:#Folder name
-common#:#mail_global_options#:#Global options
-common#:#rename#:#Rename
-common#:#adopt#:#adopt
