@@ -421,6 +421,7 @@ class ilCtrl
 			$a_prepend_transits)
 		{
 			$transits = $this->getTransitArray();
+//echo "<br>:"; var_dump($transits);
 		}
 
 		if(is_array($a_transits))
@@ -567,6 +568,11 @@ class ilCtrl
 			}
 		}
 		return $trans_arr;
+	}
+
+	function addTransit($a_class)
+	{
+		$_GET["cmdTransit"][] = $a_class;
 	}
 
 	function getParameterArray(&$a_gui_obj, $a_cmd = "", $a_incl_transit = true)

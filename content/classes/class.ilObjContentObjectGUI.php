@@ -136,12 +136,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					{
 						case "pg":
 							$this->setTabs();
+							$this->ctrl->addTransit(get_class($this));
 							$this->ctrl->setCmdClass("ilLMPageObjectGUI");
 							$ret =& $this->executeCommand();
 							break;
 
 						case "st":
 							$this->setTabs();
+							$this->ctrl->addTransit(get_class($this));
 							$this->ctrl->setCmdClass("ilStructureObjectGUI");
 							$ret =& $this->executeCommand();
 							break;
@@ -893,6 +895,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
+			$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		}
 		// BEGIN TABLE HEADER
