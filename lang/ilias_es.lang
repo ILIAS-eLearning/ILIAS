@@ -61,8 +61,15 @@ common#:#back#:#back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#basic data
 common#:#bc#:#bc
+common#:#bm#:#Bookmark###09 Apr 2003 new variable
+common#:#bmf#:#Bookmark Folder###09 Apr 2003 new variable
+common#:#bookmark_edit#:#Edit Bookmark###09 Apr 2003 new variable
+common#:#bookmark_folder_edit#:#Edit Bookmark Folder###09 Apr 2003 new variable
+common#:#bookmark_folder_new#:#New Bookmark Folder###09 Apr 2003 new variable
 common#:#bookmark_new#:#new bookmark
+common#:#bookmark_target#:#Target###09 Apr 2003 new variable
 common#:#bookmarks#:#bookmarks
+common#:#bookmarks_of#:#Bookmarks of###09 Apr 2003 new variable
 common#:#btn_remove_system#:#remove from system
 common#:#btn_undelete#:#undelete
 common#:#by#:#by
