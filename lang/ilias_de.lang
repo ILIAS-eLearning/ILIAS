@@ -2510,6 +2510,7 @@ common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzer
 common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist).
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
+common#:#usrimport_ignore_role#:#Rolle ignorieren
 common#:#usrimport_login_is_not_unique#:#Login ist nicht eindeutig.
 common#:#usrimport_with_specified_role_not_permitted#:#Sie haben keine Berechtigung zum Importieren von Benutzern mit der angegebenen Rolle.
 common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s".
