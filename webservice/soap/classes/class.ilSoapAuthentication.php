@@ -344,7 +344,7 @@ class ilSoapAuthentication
 			case AUTH_WRONG_LOGIN:
 			default:
 				$this->__setMessageCode('Client');
-				$this->__setMessage('Session idled');
+				$this->__setMessage('Wrong login');
 
 				return false;
 				

@@ -165,7 +165,7 @@ class ilSoapUserAdministration
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
-			return $this->__raiseError('Check access failed.','Server');
+			return $this->__raiseError('Check access failed.'.USER_FOLDER_ID,'Server');
 		}
 
 		return (int) ilObjUser::getUserIdByLogin($user_name);
@@ -502,6 +502,16 @@ class ilSoapUserAdministration
 					}
 					break;
 
+				case 'time_limit_owner':
+					$type = ilObject::_lookupType($user_data['time_limit_owner'],true);
+					if($type != 'cat' and $type != 'usrf')
+					{
+						$this->__appendMessage('time_limit_owner must be ref_id of category or user folder'.$type);
+					}
+					break;
+
+					
+
 				default:
 					continue;
 			}
@@ -518,6 +528,11 @@ class ilSoapUserAdministration
 		{
 			$user_data['time_limit_unlimited'] = 1;
 		}
+		if(!$user_data['time_limit_owner'])
+		{
+			$user_data['time_limit_owner'] = USER_FOLDER_ID;
+		}
+
 		$user_obj->assignData($user_data,IL_NO_PASSWD);
 
 		if(isset($user_data['user_language']))
