@@ -1395,37 +1395,33 @@ class ilPageObject
 			}
 		}
 		asort($copy_ids);
-//echo "-1";
+
 		$parent_node =& $a_target_page->getContentNode("pg");
 		$target_dom =& $a_target_page->getDom();
 		$parent_childs =& $parent_node->child_nodes();
 		$first_child =& $parent_childs[0];
 		$cnt_parent_childs = count($parent_childs);
-//echo "-2";
+
 		foreach($copy_ids as $copy_id)
 		{
-//echo "-3";
 			$source_node =& $a_source_page->getContentNode($copy_id);
-//echo "-4";
+
 			$new_node =& $source_node->clone_node(true);
 			$new_node->unlink_node($new_node);
-//echo "-5";
+
 			$source_node->unlink_node($source_node);
 
 			if($cnt_parent_childs == 0)
 			{
-//echo "-6";
 				$new_node =& $parent_node->append_child($new_node);
 			}
 			else
 			{
-//echo "-7";
 				//$target_dom->import_node($new_node);
 				$new_node =& $first_child->insert_before($new_node, $first_child);
 			}
-//echo "-8";
 			$parent_childs =& $parent_node->child_nodes();
-//echo "-9";
+
 			$cnt_parent_childs++;
 		}
 

@@ -386,6 +386,10 @@ class php4DOMNode
 	// ## changed
 	function insert_before($newnode,$refnode)
 	{
+		//echo "BH";
+		$doc =& $this->myDOMNode->ownerDocument;
+		$newnode->myDOMNode =& $doc->importNode($newnode->myDOMNode, true);
+		
 		$mydomnode =& $this->myDOMNode;
 		$mynewnode =& $newnode->myDOMNode;
 		$myrefnode =& $refnode->myDOMNode;
