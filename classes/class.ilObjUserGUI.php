@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.69 2003/12/09 15:00:31 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.70 2004/01/12 12:21:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,8 +67,6 @@ class ilObjUserGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem, $rbacreview, $styleDefinition;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		if (!$rbacsystem->checkAccess('create_user', $_GET["ref_id"]))
 		{
@@ -134,10 +132,10 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+																	   $_GET["ref_id"]."&new_type=".$this->type));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -514,14 +512,8 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacadmin;
+		global $rbacadmin;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"],$new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_user"),$this->ilias->error_obj->WARNING);
-		}
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])

@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.11 2003/10/31 12:33:22 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.12 2003/11/03 09:58:20 mrus Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,45 +67,37 @@ class ilObjFolderGUI extends ilObjectGUI
 	{
 		// creates a child object
 		global $rbacsystem;
-	
-		// TODO: get rid of $_GET variable
-		/*if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
+		
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			exit();
 		}
-		else
-		{*/
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-			$this->getTemplateFile("edit");
-			
-			//$this->tpl->addBlockFile("CONTENT", "content", "tpl.folder_new.html");
-			//$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-			//$this->tpl->addBlockFile("CONTENT", "content", "tpl.main.html");
-			//$this->tpl = new ilTemplate("tpl.obj_edit.html", true, true);
-			//$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");	
-			
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-				$this->tpl->parseCurrentBlock();
-			}
+		// fill in saved values in case of error
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]."&parent_non_rbac_id=".$_GET["obj_id"]));
-			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->getTemplateFile("edit");
+		
+		foreach ($data["fields"] as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->parseCurrentBlock();
+		}
 
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-			$this->tpl->show();
-		//}
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$this->type."&parent_non_rbac_id=".$_GET["obj_id"]));
+		//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->show();
 	}
 
 	/**
@@ -115,17 +107,6 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		//var_dump($_GET["ref_id"]);exit;
-		global $rbacsystem, $objDefinition;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-//		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-//		{
-//			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-//		}
-		
 		// create and insert Folder in grp_tree
 		include_once("classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder();

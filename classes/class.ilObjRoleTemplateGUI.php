@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.27 2004/01/12 12:21:17 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.29 2004/01/12 15:51:42 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -56,9 +56,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		if (!$rbacsystem->checkAccess("create_rolt", $_GET["ref_id"], $new_type))
+		if (!$rbacsystem->checkAccess("create_rolt", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -70,7 +68,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-			$this->getTemplateFile("edit",$new_type);
+			$this->getTemplateFile("edit",$this->type);
 
 			foreach ($data["fields"] as $key => $val)
 			{
@@ -84,10 +82,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+																	   $_GET["ref_id"]."&new_type=".$this->type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
