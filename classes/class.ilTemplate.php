@@ -158,7 +158,8 @@ class ilTemplate extends ilTemplateX
 		}
 
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
-			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
+			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
+			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "chat.php")))
 		{
 			$_SESSION["post_vars"] = $_POST;
 

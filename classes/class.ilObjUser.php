@@ -1544,6 +1544,21 @@ class ilObjUser extends ilObject
 				}
 				break;
 
+			case "chat":
+				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj WHERE ".
+					"it.item_id = oref.ref_id AND ".
+					"oref.obj_id = obj.obj_id AND ".
+					"it.type = 'chat' AND ".
+					"it.user_id = '".$this->getId()."' ".
+					"ORDER BY title";
+				$item_set = $this->ilias->db->query($q);
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+						"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+				}
+				break;
 			default:
 				break;
 		}

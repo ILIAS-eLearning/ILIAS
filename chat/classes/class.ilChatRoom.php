@@ -301,7 +301,6 @@ class ilChatRoom
 		// DELETE ROOM
 		$query = "DELETE FROM chat_rooms WHERE ".
 			"room_id = '".$a_id."' ".
-			"AND owner = '".$this->getOwnerId()."' ".
 			"AND chat_id = '".$this->getRefId()."'";
 		$res = $this->ilias->db->query($query);
 
@@ -393,6 +392,19 @@ class ilChatRoom
 		}
 		return $data ? $data : array();
 	}
+	function getAllRoomsOfObject()
+	{
+		$query = "SELECT * FROM chat_rooms ".
+			"WHERE chat_id = '".$this->getRefId()."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[] = $row->room_id;
+		}
+		return $data ? $data : array();
+	}		
+
 			
 
 	function getAllRooms()

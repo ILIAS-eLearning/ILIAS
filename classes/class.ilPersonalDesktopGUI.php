@@ -353,6 +353,43 @@ class ilPersonalDesktopGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* display groups
+	*/
+	function displayChats()
+	{
+		global $rbacsystem;
+		$chat_items = $this->ilias->account->getDesktopItems("chat");
+
+		$i = 0;
+		foreach ($chat_items as $chat_item)
+		{
+			$i++;
+			$this->tpl->setCurrentBlock("tbl_chat_row");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("CHAT_LINK", "chat/chat_rep.php?ref_id=".$chat_item["id"]);
+			$this->tpl->setVariable("CHAT_TITLE", $chat_item["title"]);
+			if ($rbacsystem->checkaccess('leave',$chat_item["id"],'usr'))
+			{
+				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=chat&id=".$chat_item["id"]);
+				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($i == 0)
+		{
+			$this->tpl->setCurrentBlock("tbl_no_chat");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TXT_NO_CHAT", $this->lng->txt("no_chat_in_personal_list"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("tbl_chat");
+		$this->tpl->setVariable("TXT_CHAT_HEADER",$this->lng->txt("my_chats"));
+		$this->tpl->setVariable("TXT_CHAT_TITLE",$this->lng->txt("title"));
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* display bookmarks
