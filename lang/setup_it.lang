@@ -1,0 +1,43 @@
+italiano
+available_languages#:#lingue disponibili
+choose_language#:#scegli la Tua lingua
+database#:#banca-dati
+database_exists#:#banca-dati già esistente
+database_is_uptodate#:#banca-dati uptodate
+database_needs_update#:#banca-dati ha bisogno di un update
+database_update#:#update banca-dati
+database_version#:#vesione attuale della banca-dati
+date#:#data
+db_host#:#host banca-dati
+db_name#:#nome banca-dati
+db_pass#:#password banca-dati
+db_type#:#tipo banca-dati
+db_user#:#utente banca-dati
+db_version#:#versione banca dati
+default#:##default
+delete#:#eliminare
+err_create_database_failed#:#creazione banca-dati fallita
+err_wrong_login#:#wrong login
+ilias_version#:#versione ILIAS
+inifile#:#inifile
+inst_name#:#nome per l´istallazione
+install#:#istallare
+installed#:#istallato
+language#:#lingua
+languages#:#lingue
+login_to_ilias#:#login a ILIAS
+password#:#password
+setup#:#setup
+setup_ready#:#setup finito
+setup_welcome#:#Benvenuti
+lang_de#:#Tedesco
+lang_dk#:#Danish
+lang_en#:#English
+lang_es#:#Spanish
+lang_fr#:#French
+lang_id#:#Indonesian
+lang_it#:#Italian
+lang_no#:#Norwegish
+lang_pl#:#Polish
+lang_se#:#Swedish
+lang_xx#:#Custom
