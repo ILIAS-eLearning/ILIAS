@@ -1311,8 +1311,6 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		
-		
 		//TODO: check the
 		// creates a child object
 		global $rbacsystem;
@@ -1327,6 +1325,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		// temp. switch for file upload
 		if ($new_type == "file")
 		{
 			// fill in saved values in case of error
@@ -1634,6 +1633,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$limit = 10;	// TODO: move to user settings
 		}
+
 		if ($offset == "")
 		{
 			$offset = 0;	// TODO: move to user settings
@@ -1695,7 +1695,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function newMembersObject()
 	{
-			
+
 		$tab = array();
 
 		//create additional tabs for tab-bar
@@ -1771,7 +1771,6 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
 
 				// load template for table content data
-
 				$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 				$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
@@ -1832,7 +1831,6 @@ class ilGroupGUI extends ilObjectGUI
 				// render table
 				$tbl->render();
 			}
-
 		}
 
 		$this->tpl->show();
@@ -1851,9 +1849,7 @@ class ilGroupGUI extends ilObjectGUI
 				if (!$newGrp->join($new_member, $_SESSION["status"]))
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
-
 				}
-
 			}
 
 			unset($_SESSION["status"]);
@@ -1921,17 +1917,6 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		/*if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-			//$this->tpl->setVariable("LINK_TARGET", $target);
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$this->tpl->parseCurrentBlock();
-		}*/
-
 		$this->tpl->setCurrentBlock("locator");
 
 		if (DEBUG)
@@ -1950,143 +1935,23 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	* DEPRECATED??? (shofmann)
-	* displays groups
-	* @access public
-	*/
-	function listGroups()
+	function get_file()
 	{
-		$this->getTemplateFile("overview", "grp");
+		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+		$file_name = $fileObj->getFilePath()."/".$fileObj->getFileName();
 
-		//$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		//$this->tpl->addBlockfile("CONTENT", "content", "tpl.grp_overview.html");
-
-		$this->tpl->setCurrentBlock("content");
-
-		$this->tpl->setVariable("TXT_GROUPS",  $this->lng->txt("groups"));
-		$this->tpl->setCurrentBlock("tblheader");
-		$this->tpl->setVariable("TXT_NAME",  $this->lng->txt("name"));
-		$this->tpl->setVariable("TXT_DESC",  $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_ROLE_IN_GROUP",  $this->lng->txt("role"));
-		$this->tpl->setVariable("TXT_OWNER",  $this->lng->txt("owner"));
-		$this->tpl->setVariable("TXT_CONTEXT",  $this->lng->txt("context"));
-
-		$lr_arr = ilUtil::getObjectsByOperations('grp','visible');
-
-		usort($lr_arr,"sortObjectsByTitle");
-
-		$lr_num = count($lr_arr);
-
-		if ($lr_num > 0)
-		{
-			// counter for rowcolor change
-
-			$num = 0;
-			//var_dump ($lr_arr);
-			foreach ($lr_arr as $grp_data)
-			{
-				$this->tpl->setCurrentBlock("tblcontent");
-
-				// change row color
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-				$newuser = new ilObjUser($grp_data["owner"]);
-				$obj_link = "grp_details.php?ref_id=".$grp_data["ref_id"];
-				$obj_icon = "icon_".$grp_data["type"]."_b.gif";
-
-				$this->tpl->setVariable("GRP_NAME", $grp_data["title"]);
-				$this->tpl->setVariable("GRP_LINK", $obj_link);
-				/*if($lgrp_data["type"] == "grp")		// Test
-				{
-					//$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
-					$this->tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$grp_data["obj_id"]);
-					$this->tpl->setVariable("TXT_VIEW", "(".$this->lng->txt("view").")");
-				}*/
-				//$this->tpl->setVariable("IMG", $obj_icon);
-				//$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
-				$this->tpl->setVariable("GRP_DESC", $grp_data["desc"]);
-				$this->tpl->setVariable("GRP_OWNER", $newuser->getFullname() );
-				//$this->tpl->setVariable("STATUS", "N/A");
-				//$this->tpl->setVariable("LAST_VISIT", "N/A");
-				//$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$this->tpl->setVariable("GRP_CONTEXT", $this->getContextPath ($grp_data["child"]));
-
-				$this->tpl->parseCurrentBlock("tblcontent");
-			}
-		}
-	}
-	
-	/**
-	* show details -> HOW NEEDS THIS METHOD
-	* DEPRECATED??? (shofmann)
-	* @access public
-	*/
-	function showDetails()
-	{
-		$this->getTemplateFile("details", "grp");
-		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_details.html");
-		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setVariable("TXT_GRP_TITLE", $this->lng->txt("group_members"));
-		$this->tpl->setCurrentBlock("groupheader");
-
-		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_OWNER", $this->lng->txt("owner"));
-		$this->tpl->setVariable("TXT_ROLE_IN_GROUP", $this->lng->txt("role"));
-		$this->tpl->parseCurrentBlock("grouphesder");
-		$lr_arr = array();
-		$objects = $this->tree->getChilds($this->object->getId(),"title");
-		//var_dump ($objects);
-		if (count($objects) > 0)
-		{
-			foreach ($objects as $key => $object)
-			{
-				//var_dump ($object);
-				if ($object["type"] == "le")// && $rbacsystem->checkAccess('visible',$objects["child"]))
-				{
-
-					$lr_arr[$key] = $object;
-					//var_dump ($lr_arr);
-				}
-			}
-		}
-		//var_dump ($lr_arr);
-		$maxcount = count($lr_arr);
-		include_once "./include/inc.sort.php";
-		$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		//$lr_arr = array_slice($lr_arr,$offset,$limit);
-
-
-			$this->tpl->setCurrentBlock("loheader");
-			$this->tpl->setVariable("TXT_LO_TITLE", $this->lng->txt("lo"));
-			$this->tpl->setVariable("TXT_LO_NAME", $this->lng->txt("name"));
-			$this->tpl->setVariable("TXT_LO_DESC", $this->lng->txt("description"));
-			$this->tpl->setVariable("TXT_LO_OWNER", $this->lng->txt("owner"));
-			$this->tpl->setVariable("TXT_LO_LAST_CHANGE", $this->lng->txt("last_change"));
-
-		//var_dump ($lr_arr);
-		$num = 0;
-
-		foreach ($lr_arr as $lr_data)
-		{
-			$this->tpl->setCurrentBlock("locontent");
-			//var_dump ($lr_data);
-			// change row color
-			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-			$num++;
-
-			//$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
-			$obj_icon = "icon_".$lr_data["type"]."_b.gif";
-
-			$this->tpl->setVariable("LO_DESC", $lr_data["description"]);
-			$this->tpl->setVariable("LO_NAME", $lr_data["title"]);
-			$this->tpl->setVariable("LO_LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-			$this->tpl->setVariable("LO_CONTEXTPATH", $this->getContextPath($lr_data["child"]));
-			$this->tpl->parseCurrentBlock("locontent");
-		}
+	    // Create download file name to be displayed to user
+	    $save_as_name = basename($file_name);
+	    // Send binary filetype HTTP header
+	    header("Content-Type: ".$fileObj->getFileType());
+	    // Send content-length HTTP header
+	    header('Content-Length: '.filesize($file_name));
+	    // Send content-disposition with save file name HTTP header
+	    header('Content-Disposition: attachment; filename="'.$save_as_name.'"');
+	    // Output file
+	    readfile($file_name);
+	    // Done
+	    return true;
 	}
 }
 ?>

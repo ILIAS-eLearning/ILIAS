@@ -43,11 +43,58 @@ class ilObjFile extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjFile($a_id = 0,$a_call_by_reference = false)
+	function ilObjFile($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "file";
 		$this->ilObject($a_id,$a_call_by_reference);
+		
+		if ($a_id != 0)
+		{
+			$this->read();
+		}
 	}
+	
+	function read()
+	{
+		$q = "SELECT * FROM file_data WHERE file_id = '".$this->getId()."'";
+		$r = $this->ilias->db->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		$this->setFileName($row->file_name);
+		$this->setFileType($row->file_type);
+		$this->setFilePath(ilUtil::getWebspaceDir()."/files/file_".$this->getId());
+	}
+
+	function setFileName($a_name)
+	{
+		$this->filename = $a_name;
+	}
+	
+	function getFileName()
+	{
+		return $this->filename;
+	}
+	
+	function setFilePath($a_path)
+	{
+		$this->filepath = $a_path;
+	}
+	
+	function getFilePath()
+	{
+		return $this->filepath;
+	}
+	
+	function setFileType($a_type)
+	{
+		$this->filetype = $a_type;
+	}
+	
+	function getFileType()
+	{
+		return $this->filetype;
+	}
+
 	/**
 	* insert folder into grp_tree
 	*

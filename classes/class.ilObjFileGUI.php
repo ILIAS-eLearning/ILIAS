@@ -98,11 +98,24 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-//		var_dump("<pre>",$_FILES,$_FILES["Fobject"]["name"],"</pre>");exit;
-
 		global $rbacsystem, $objDefinition;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$data = $_POST["Fobject"];
+
+		if (empty($data["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if (empty($data["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if (empty($_FILES["Fobject"]["name"]["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_file_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 //		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
@@ -129,7 +142,7 @@ class ilObjFileGUI extends ilObjectGUI
 		move_uploaded_file($_FILES["Fobject"]["tmp_name"]["file"], $file);
 		
 		// insert file in db
-		$q = "INSERT INTO file_data (file_id,file_type) VALUES ('".$fileObj->getId()."','".$_FILES["Fobject"]["type"]["file"]."')";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$fileObj->getId()."','".$_FILES["Fobject"]["name"]["file"]."','".$_FILES["Fobject"]["type"]["file"]."')";
 		$this->ilias->db->query($q);
 		
 		sendInfo($this->lng->txt("file_added"),true);	
