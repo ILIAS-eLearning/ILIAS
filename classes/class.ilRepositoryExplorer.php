@@ -162,11 +162,19 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$tree;
+
 
 		switch ($a_type)
 		{
 			case "crs":
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id,false);
+				if(!$tmp_obj->isActivated())
+				{
+					unset($tmp_obj);
+					return false;
+				}
+
 				if($rbacsystem->checkAccess('join',$a_ref_id) or
 				   $rbacsystem->checkAccess('read',$a_ref_id))
 				{
@@ -249,13 +257,13 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function showChilds($a_ref_id)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$tree;
 //vd($a_ref_id);
+
 		if ($a_ref_id == 0)
 		{
 			return true;
 		}
-
 		if ($rbacsystem->checkAccess("read", $a_ref_id))
 		{
 			return true;
@@ -265,6 +273,35 @@ class ilRepositoryExplorer extends ilExplorer
 			return false;
 		}
 	}
+
+	function isVisible($a_ref_id,$a_type)
+	{
+		global $rbacsystem,$tree;
+
+		if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
+		{
+			if(!$rbacsystem->checkAccess('write',$crs_id))
+			{
+				// Show only activated courses
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
+				if(!$tmp_obj->isActivated())
+				{
+					unset($tmp_obj);
+					return false;
+				}
+
+				// Show only activated course items
+				include_once "./course/classes/class.ilCourseItems.php";
+
+				if(($crs_id != $a_ref_id) and (!ilCourseItems::_isActivated($a_ref_id)))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 
 
 	/**

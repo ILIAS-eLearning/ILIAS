@@ -435,5 +435,29 @@ class ilCourseItems
 		}
 		return true;
 	}
+	// STATIC
+	function _isActivated($a_item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_items ".
+			"WHERE obj_id = '".$a_item_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->activation_unlimited)
+			{
+				return true;
+			}
+			if(time() > $row->activation_start and time() < $row->activation_end)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+		
+
 }
 ?>

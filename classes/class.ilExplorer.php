@@ -330,7 +330,13 @@ class ilExplorer
 			$this->is_clickable[$a_type] = "n";
 		}
 	}
+	
+	function isVisible($a_ref_id,$a_type)
+	{
+		global $rbacsystem;
 
+		return $rbacsystem->checkAccess('visible',$a_ref_id);
+	}
 
 	/**
 	* check if links for certain object type are activated
@@ -425,7 +431,8 @@ class ilExplorer
 				//ask for FILTER
 				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
 				{
-					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
+					#if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
+					if($this->isVisible($object['child'],$object['type']) or !$this->rbac_check)
 					{
 						if ($object["child"] != $this->tree->getRootId())
 						{

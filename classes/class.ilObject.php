@@ -626,9 +626,13 @@ class ilObject
 
 		if ($a_reference === true)
 		{
-			$q = "SELECT type FROM object_data as obj ".
-				 "LEFT JOIN object_reference as ref ON ref.obj_id=obj.obj_id ".
-				 "WHERE ref.ref_id = '".$a_id."'";
+			$q = "SELECT type FROM object_reference as obr, object_data as obd ".
+				"WHERE obr.ref_id = '".$a_id."' ".
+				"AND obr.obj_id = obd.obj_id ";
+			
+			#$q = "SELECT type FROM object_data as obj ".
+			#	 "LEFT JOIN object_reference as ref ON ref.obj_id=obj.obj_id ".
+			#	 "WHERE ref.ref_id = '".$a_id."'";
 		}
 		else
 		{
