@@ -25,7 +25,7 @@
 <!-- Alias for an already existing StructureObject; this allows an easy reuse of existing StructureObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT StructureAlias EMPTY>
 <!ATTLIST StructureAlias
-	OriginID CDATA #REQUIRED
+	OriginId CDATA #REQUIRED
 >
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
@@ -35,7 +35,7 @@
 <!-- Alias for an already existing PageObject; this allows an easy reuse of existing PageObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT PageAlias EMPTY>
 <!ATTLIST PageAlias
-	OriginID CDATA #REQUIRED
+	OriginId CDATA #REQUIRED
 >
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
@@ -45,7 +45,7 @@
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
-	OriginID CDATA #REQUIRED
+	OriginId CDATA #REQUIRED
 >
 <!-- Metadata -->
 <!-- MetaData referring to LOM/SCORM standard, see http://ltsc.ieee.org/doc/wg12/LOM_1484_12_1_v1_Final_Draft.pdf for details -->
@@ -286,7 +286,7 @@
 <!ELEMENT ImageMap (MapArea+)>
 <!ATTLIST ImageMap
 	Id ID #REQUIRED
-	ImageID IDREF #REQUIRED
+	ImageId IDREF #REQUIRED
 >
 <!ELEMENT MapArea EMPTY>
 <!ATTLIST MapArea
