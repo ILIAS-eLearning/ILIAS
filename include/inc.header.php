@@ -180,7 +180,7 @@ $ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 
 // create references for subobjects in ilias object
 $ilUser =& $ilias->account;
-$GLOBALS['ilUser'] =& $ilUser;
+$GLOBALS['ilUser'] =& $ilias->account;
 $ilCtrl = new ilCtrl();
 $GLOBALS['ilCtrl'] =& $ilCtrl;
 $ilLog =& $log;
@@ -300,7 +300,6 @@ $lng = new ilLanguage($lang_key);
 $GLOBALS['lng'] =& $lng;
 $ilBench->stop("Core", "HeaderInclude_initLanguage");
 
-
 // init rbac
 $ilBench->start("Core", "HeaderInclude_initRBAC");
 $rbacsystem = new ilRbacSystem();
@@ -402,4 +401,5 @@ $GLOBALS['ilBrowser'] =& $ilBrowser;
 
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();
+
 ?>
