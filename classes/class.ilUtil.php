@@ -946,7 +946,9 @@ class ilUtil
 				}
 			}
 		}
+
 		asort($zdirs);
+
 		foreach($zdirs as $zdir => $nr)				// create directories
 		{
 			ilUtil::createDirectory($zdir);
@@ -962,7 +964,8 @@ class ilUtil
 	/**
 	*	zips given directory into given zip.file
 	*/
-	function zip($a_dir, $a_file) {
+	function zip($a_dir, $a_file)
+	{
 		global $ilias;
 
 		$cdir = getcwd();
@@ -996,7 +999,6 @@ class ilUtil
 
 		return $ilias->getSetting("java_path");
 	}
-
 
 	/**
 	* append URL parameter string ("par1=value1&par2=value2...")
@@ -1071,6 +1073,23 @@ class ilUtil
 		
 		closedir($current_dir);
 		rmdir(${a_dir});
+	}
+	
+	/**
+	* get the tree_id of a group where an object with the passed ref_id belongs to.
+	* @param	string	ref_id of an object that is in a group
+	* @access	public
+	* @return	integer	the ref_id of the group or boolean false if no group was found
+	*/
+	function getGroupId($a_parent_ref)
+	{
+		global $ilias;
+
+		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
+		$r = $ilias->db->query($q);
+		$row = $r->fetchRow();
+		
+		return $row[0] ? $row[0] : false;
 	}
 } // END class.ilUtil
 ?>

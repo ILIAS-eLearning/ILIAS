@@ -110,6 +110,12 @@ class ilObjFileGUI extends ilObjectGUI
 		global $rbacsystem, $objDefinition;
 
 		$data = $_POST["Fobject"];
+		
+		// delete trailing '/' in filename
+		if (substr($data["file"],-1) == '/')
+		{
+			$data["file"] = substr($data["file"],0,-1);
+		}
 
 		if (empty($data["file"]))
 		{

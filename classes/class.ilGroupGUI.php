@@ -77,7 +77,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$this->lng =& $this->object->lng;
 		
-		$this->grp_id = $this->getGroupId($_GET["ref_id"]);
+		$this->grp_id = ilUtil::getGroupId($_GET["ref_id"]);
 
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
@@ -111,15 +111,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		
 		$this->$cmd();
-	}
-
-	function getGroupId($a_parent_ref)
-	{
-		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow();
-		
-		return $row[0];
 	}
 
 	/**
@@ -649,7 +640,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$num =0;
 		$this->prepareOutput(false);
-		$this->tpl->setVariable("HEADER", $this->lng->txt("confirm_action"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("objs_delete"));
 		sendInfo ($this->lng->txt($info));
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&parent_on_rbac_id=".$_GET["parent_non_rbac_id"]."&gateway=true");
@@ -735,7 +726,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setMaxcount($maxcount);
 		$tbl->setOffset($offset);
 		$tbl->setLimit($limit);
-		$tbl->setTitle($this->lng->txt("confirm_action"),"icon_grp_b.gif",$this->lng->txt("group_details"));
+		$tbl->setTitle($this->lng->txt("objs_delete"),"icon_grp_b.gif",$this->lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->render();
@@ -792,6 +783,9 @@ class ilGroupGUI extends ilObjectGUI
 		$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
 		$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
 
+//"<img src=\"".$ilUtil::getImagePath($img_contact)."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt("icon_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		
+		
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
 		
@@ -1081,6 +1075,8 @@ class ilGroupGUI extends ilObjectGUI
 	function canceldeleteObject()
 	{
 		session_unregister("saved_post");
+		
+		sendInfo($this->lng->txt("action_aborted"),true);
 
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		exit();
