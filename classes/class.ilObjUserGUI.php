@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.81 2004/05/07 19:50:08 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.82 2004/05/14 10:27:49 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -408,9 +408,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
-		if (!$rbacsystem->checkAccess('write',$this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$data = array();
@@ -690,6 +690,11 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 
+		if (!$rbacsystem->checkAccess('create_user',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
@@ -793,7 +798,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $this->usrf_ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		foreach ($_POST["Fobject"] as $key => $val)
