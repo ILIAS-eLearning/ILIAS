@@ -116,6 +116,7 @@ class ilRepositoryGUI
 
 		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit"
 		//	&& ($this->object->getType() == "cat" || $this->object->getType() == "root" || $this->object->getType() == "grp"))
+		if ($rbacsystem->checkAccess("read", $this->cur_ref_id))
 		{
 			$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 		}
