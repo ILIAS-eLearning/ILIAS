@@ -35,7 +35,7 @@ require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 
 //include role based access control system
-require_once "classes/class.rbacAdmin.php";
+require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.rbacSystem.php";
 require_once "classes/class.rbacReview.php";
 require_once "classes/class.ilRbacAdminH.php";
