@@ -234,6 +234,96 @@ class ilPCTableData extends ilPageContent
 		}
 	}
 
+	/**
+	* move row down
+	*/
+	function moveRowDown()
+	{
+		$td =& $this->getNode();
+		$tr =& $td->parent_node();
+		$next =& $tr->next_sibling();
+		$next_copy = $next->clone_node(true);
+		$next_copy =& $tr->insert_before($next_copy, $tr);
+		$next->unlink($next);
+	}
+
+	/**
+	* move row up
+	*/
+	function moveRowUp()
+	{
+		$td =& $this->getNode();
+		$tr =& $td->parent_node();
+		$prev =& $tr->previous_sibling();
+		$tr_copy = $tr->clone_node(true);
+		$tr_copy =& $prev->insert_before($tr_copy, $prev);
+		$tr->unlink($tr);
+	}
+
+	/**
+	* move column right
+	*/
+	function moveColRight()
+	{
+		$td =& $this->getNode();
+
+		// determine current column nr
+		$hier_id = $this->getHierId();
+		$parts = explode("_", $hier_id);
+		$col_nr = array_pop($parts);
+		$col_nr--;
+
+		$parent_tr =& $td->parent_node();
+		$parent_table =& $parent_tr->parent_node();
+
+		// iterate all table rows
+		$rows =& $parent_table->child_nodes();
+		for($i=0; $i<count($rows); $i++)
+		{
+			if($rows[$i]->node_name() == "TableRow")
+			{
+				$tds =& $rows[$i]->child_nodes();
+				$td =& $tds[$col_nr];
+				//$td =& $this->getNode();
+				$next =& $td->next_sibling();
+				$next_copy = $next->clone_node(true);
+				$next_copy =& $td->insert_before($next_copy, $td);
+				$next->unlink($next);
+			}
+		}
+	}
+
+	/**
+	* move column left
+	*/
+	function moveColLeft()
+	{
+		$td =& $this->getNode();
+
+		// determine current column nr
+		$hier_id = $this->getHierId();
+		$parts = explode("_", $hier_id);
+		$col_nr = array_pop($parts);
+		$col_nr--;
+
+		$parent_tr =& $td->parent_node();
+		$parent_table =& $parent_tr->parent_node();
+
+		// iterate all table rows
+		$rows =& $parent_table->child_nodes();
+		for($i=0; $i<count($rows); $i++)
+		{
+			if($rows[$i]->node_name() == "TableRow")
+			{
+				$tds =& $rows[$i]->child_nodes();
+				$td =& $tds[$col_nr];
+				$prev =& $td->previous_sibling();
+				$td_copy = $td->clone_node(true);
+				$td_copy =& $prev->insert_before($td_copy, $prev);
+				$td->unlink($td);
+			}
+		}
+	}
 
 }
 ?>

@@ -206,6 +206,7 @@ class ilPageContentGUI
 			ilLMPageObject::_splitPage($this->pg_obj->getId(),
 				$this->pg_obj->getParentType(), $this->hier_id);
 		}
+		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
 	}
 
 

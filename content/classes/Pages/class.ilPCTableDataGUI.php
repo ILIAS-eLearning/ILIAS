@@ -129,6 +129,45 @@ class ilPCTableDataGUI extends ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
+	/**
+	* move row down
+	*/
+	function moveRowDown()
+	{
+		$this->content_obj->moveRowDown();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* move list item up
+	*/
+	function moveRowUp()
+	{
+		$this->content_obj->moveRowUp();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* move column right
+	*/
+	function moveColRight()
+	{
+		$this->content_obj->moveColRight();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* move list item up
+	*/
+	function moveColLeft()
+	{
+		$this->content_obj->moveColLeft();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 
 }
 ?>

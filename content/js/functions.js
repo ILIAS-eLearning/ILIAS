@@ -14,10 +14,17 @@ function doMouseOver(id) {
 /**
 *   On mouse out turn highligh of current border off
 */
-function doMouseOut(id) {
+function doMouseOut(id, dotted) {
     if (document.getElementById) {
         obj = document.getElementById(id);
-        obj.style.border="dotted gray 1px";
+		if(dotted == true)
+		{
+			obj.style.border="dotted gray 1px";
+		}
+		else
+		{
+			obj.style.border="0px";
+		}
     } else if(document.layers){
         obj = eval("document."+id); 
         obj.border="solid gray 1px";
@@ -76,8 +83,8 @@ function nextMenuClick() {
 var openedMenu="";
 function doMouseClick(e,id,ctype) 
 {
-	// dies ist nötig, weil wenn zwei Layer übereinander liegen von beiden ein Event ausgelöst wird.
-	// Jetzt wird aber bei einem Klick das Menü geblockt für einen halbe sekunde.
+	// dies ist nï¿½tig, weil wenn zwei Layer ï¿½bereinander liegen von beiden ein Event ausgelï¿½st wird.
+	// Jetzt wird aber bei einem Klick das Menï¿½ geblockt fï¿½r einen halbe sekunde.
 	if(menuBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",500);

@@ -2376,9 +2376,15 @@ content#:#cont_ed_delete_col#:#delete column
 content#:#cont_ed_delete_item#:#delete item
 content#:#cont_ed_delete_row#:#delete row
 content#:#cont_ed_edit#:#edit
+content#:#cont_ed_row_up#:#move row up
+content#:#cont_ed_row_down#:#move row down
+content#:#cont_ed_col_left#:#move column left
+content#:#cont_ed_col_right#:#move column right
 content#:#cont_ed_edit_prop#:#edit properties
 content#:#cont_ed_go#:#Go
 content#:#cont_ed_insert_code#:#insert Code
+content#:#cont_ed_item_up#:#move item up
+content#:#cont_ed_item_down#:#move item down
 content#:#cont_ed_insert_filelist#:#insert File List
 content#:#cont_ed_insert_list#:#insert List
 content#:#cont_ed_insert_media#:#insert Media

@@ -192,6 +192,7 @@ class php4DOMDocument
 	{
 		return $this->myDOMDocument->saveHTML();
 	}
+	
 }
 
 /**
@@ -266,6 +267,12 @@ class php4DOMElement extends php4DOMNode
 		{
 			return "";
 		}
+	}
+	
+	// ## added
+	function unlink($aDomNode)
+	{
+		parent::unlink_node($aDomNode);
 	}
 
 }

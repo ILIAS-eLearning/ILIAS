@@ -122,6 +122,31 @@ class ilPCFileItem extends ilPageContent
 		$li =& $this->getNode();
 		$li->unlink($li);
 	}
+	
+	/**
+	* move list item down
+	*/
+	function moveItemDown()
+	{
+		$li =& $this->getNode();
+		$next =& $li->next_sibling();
+		$next_copy = $next->clone_node(true);
+		$next_copy =& $li->insert_before($next_copy, $li);
+		$next->unlink($next);
+	}
+
+	/**
+	* move list item up
+	*/
+	function moveItemUp()
+	{
+		$li =& $this->getNode();
+		$prev =& $li->previous_sibling();
+		$li_copy = $li->clone_node(true);
+		$li_copy =& $prev->insert_before($li_copy, $prev);
+		$li->unlink($li);
+	}
+
 
 }
 ?>
