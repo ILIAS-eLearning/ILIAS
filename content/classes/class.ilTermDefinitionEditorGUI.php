@@ -66,8 +66,8 @@ class ilTermDefinitionEditorGUI
 
 		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 
-		$this->main_header($this->lng->txt("cont_definition").
-			", ".$this->lng->txt("cont_term").": ".$this->term->getTerm()." ");
+		$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
+			$this->lng->txt("cont_definition")." ".$this->definition->getNr());
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page =& $this->definition->getPageObject();
@@ -90,11 +90,49 @@ class ilTermDefinitionEditorGUI
 			$cmd = $_GET["cmd"];
 			$this->setAdminTabs();
 //echo "cmd:".$_GET["cmd"].":<br>";
-			$page_gui->$cmd();
+			switch ($cmd)
+			{
+				case "editDefinitionMetaData":
+					$this->editMeta();
+					break;
+
+				case "saveDefinitionMetaData":
+					$this->saveMeta();
+					break;
+
+				default:
+					$page_gui->$cmd();
+			}
 		}
 
 	}
 
+
+	/**
+	* edit meta data of glossary term definition
+	*/
+	function editMeta()
+	{
+		include_once("classes/class.ilMetaDataGUI.php");
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->definition);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".
+			$_GET["ref_id"]."&def=".$_GET["def"]."&cmd=saveDefinitionMetaData");
+	}
+
+
+	/**
+	* save meta data of glossary term definition
+	*/
+	function saveMeta()
+	{
+		include_once("classes/class.ilMetaDataGUI.php");
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->definition);
+		$meta_gui->save();
+		header("Location: glossary_edit.php?cmd=view&ref_id=".$_GET["ref_id"].
+			"&def=".$_GET["def"]);
+	}
 
 	/**
 	* output main header (title and locator)
@@ -118,6 +156,7 @@ class ilTermDefinitionEditorGUI
 
 		$tabs[] = array("edit", "view");
 		$tabs[] = array("cont_preview", "preview");
+		$tabs[] = array("meta_data", "editDefinitionMetaData");
 
 		foreach ($tabs as $row)
 		{
@@ -172,7 +211,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition"));
+		$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
 		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 			"&cmd=".$_GET["cmd"]."&def=".$_GET["def"]);
 		$this->tpl->parseCurrentBlock();

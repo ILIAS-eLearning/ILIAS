@@ -152,7 +152,7 @@ class ilGlossaryTerm
 	function getTermList($a_glo_id)
 	{
 		$terms = array();
-		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."'";
+		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."' ORDER BY term";
 		$term_set = $this->ilias->db->query($q);
 		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{

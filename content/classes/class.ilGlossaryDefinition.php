@@ -43,6 +43,7 @@ class ilGlossaryDefinition
 	var $meta_data;
 	var $page_object;
 	var $short_text;
+	var $nr;
 
 	/**
 	* Constructor
@@ -74,8 +75,10 @@ class ilGlossaryDefinition
 
 		$this->setTermId($def_rec["term_id"]);
 		$this->setShortText($def_rec["short_text"]);
+		$this->setNr($def_rec["nr"]);
 
 		$this->page_object =& new ilPageObject("gdf", $this->id);
+		$this->meta_data =& new ilMetaData("gdf", $this->id);
 	}
 
 	function setId($a_id)
@@ -123,6 +126,16 @@ class ilGlossaryDefinition
 		return $this->short_text;
 	}
 
+	function setNr($a_nr)
+	{
+		$this->nr = $a_nr;
+	}
+
+	function getNr()
+	{
+		return $this->nr;
+	}
+
 	function &getPageObject()
 	{
 		return $this->page_object;
@@ -132,10 +145,25 @@ class ilGlossaryDefinition
 	{
 		$term =& new ilGlossaryTerm($this->getTermId());
 
-		$q = "INSERT INTO glossary_definition (term_id, short_text)".
-			" VALUES ('".$this->getTermId()."','".$this->getShortText()."')";
-
+		// lock glossary_definition table
+		$q = "LOCK TABLES glossary_definition WRITE";
 		$this->ilias->db->query($q);
+
+		// get maximum definition number
+		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = '".$this->getTermId()."'";
+		$max_set = $this->ilias->db->query($q);
+		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$max = (int) $max_rec["max_nr"];
+
+		// insert new definition record
+		$q = "INSERT INTO glossary_definition (term_id, short_text, nr)".
+			" VALUES ('".$this->getTermId()."','".$this->getShortText()."', '".($max + 1)."')";
+		$this->ilias->db->query($q);
+
+		// unlock glossary definition table
+		$q = "UNLOCK TABLES";
+		$this->ilias->db->query($q);
+
 		$this->setId($this->ilias->db->getLastInsertId());
 
 		$this->meta_data->setId($this->getId());
@@ -151,9 +179,15 @@ class ilGlossaryDefinition
 	{
 		$q = "UPDATE glossary_definition SET ".
 			" term_id = '".$this->getTermId()."', ".
+			" nr = '".$this->getNr()."', ".
 			" short_text = '".$this->getShortText()."' ".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
+	}
+
+	function updateMetaData()
+	{
+		$this->meta_data->update();
 	}
 
 	/**
@@ -162,13 +196,13 @@ class ilGlossaryDefinition
 	function getDefinitionList($a_term_id)
 	{
 		$defs = array();
-		$q = "SELECT * FROM glossary_definition WHERE term_id ='".$a_term_id."'";
+		$q = "SELECT * FROM glossary_definition WHERE term_id ='".$a_term_id."' ORDER BY nr";
 		$def_set = $this->ilias->db->query($q);
 		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
 				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
-				"short_text" => $def_rec["short_text"]);
+				"short_text" => $def_rec["short_text"], "nr" => $def_rec["nr"]);
 		}
 		return $defs;
 	}
