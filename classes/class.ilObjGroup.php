@@ -458,7 +458,7 @@ class ilObjGroup extends ilObject
 			{
 				// create MEMBER role
 				$roleObj = new ilObjRole();
-				$roleObj->setTitle("grp_Member");
+				$roleObj->setTitle("grp_member_ref_id_".$this->getRefId());
 				$roleObj->setDescription("automatic generated Group-Memberrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
 
@@ -490,7 +490,7 @@ class ilObjGroup extends ilObject
 			{
 				// create ADMIN role
 				$roleObj = new ilObjRole();
-				$roleObj->setTitle("grp_Administrator");
+				$roleObj->setTitle("grp_admin_ref_id_".$this->getRefId());
 				$roleObj->setDescription("automatic generated Group-Adminrole of group ref_no.".$this->getRefId());
 				$roleObj->create();
 
@@ -509,7 +509,7 @@ class ilObjGroup extends ilObject
 			{
 				$this->ilias->raiseError("Error! Could not find the needed role template to set role permissions for group administrator!");
 			}
-			//$ops = array(1,2,3,4,6,8);
+			//$ops = array(1,2,3,4,6,8);$this->getRefId()
 			//$rbacadmin->setRolePermission($roleObj->getId(),"grp",$ops,$rolfId);
 
 
