@@ -476,9 +476,11 @@ common#:#retype_password#:#retype password
 common#:#right#:#right
 common#:#rights#:#rights
 common#:#role#:#role
+common#:#role_added#:#Role added###02 Apr 2003 new variable
 common#:#roles#:#roles
 common#:#rolf#:#rolf
 common#:#rolt#:#rolt
+common#:#rolt_added#:#Role template added###02 Apr 2003 new variable
 common#:#salutation#:#salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -557,6 +559,7 @@ common#:#upload#:#Upload###04 Mar 2003 new variable
 common#:#url#:#url
 common#:#url_description#:#url description
 common#:#user#:#user
+common#:#user_added#:#User added###02 Apr 2003 new variable
 common#:#user_language#:#User Language###20 Mar 2003 new variable
 common#:#userdata#:#userdata
 common#:#username#:#username
