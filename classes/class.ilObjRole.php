@@ -43,6 +43,9 @@ class ilObjRole extends ilObject
 	* @var		integer
 	* @access	private
 	*/
+	var $parent;
+	
+	var $allow_register;
 
 	/**
 	* Constructor
@@ -55,7 +58,109 @@ class ilObjRole extends ilObject
 		$this->type = "role";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+
+	/**
+	* loads "role" from database
+	* @access private
+	*/
+	function read ()
+	{
+		$q = "SELECT * FROM role_data WHERE role_id='".$this->id."'";
+		$r = $this->ilias->db->query($q);
+
+		if ($r->numRows() > 0)
+		{
+			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+			// fill member vars in one shot
+			$this->assignData($data);
+		}
+		else
+		{
+			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
+		}
+
+		parent::read();
+	}
+
+	/**
+	* loads a record "role" from array
+	* @access	public
+	* @param	array		roledata
+	*/
+	function assignData($a_data)
+	{
+		$this->setTitle($a_data["title"]);
+		$this->setDescription($a_data["desc"]);
+		$this->setAllowRegister($a_data["allow_register"]);
+	}
+
+	/**
+	* updates a record "role" and write it into database
+	* @access	public
+	*/
+	function update ()
+	{
+		$q = "UPDATE role_data SET ".
+			 "allow_register='".$this->allow_register."' ".
+			 "WHERE role_id='".$this->id."'";
+
+		$this->ilias->db->query($q);
+
+		parent::update();
+
+		$this->read();
+
+		return true;
+	}
 	
+	/**
+	* create
+	*
+	*
+	* @access	public
+	* @return	integer		object id
+	*/
+	function create()
+	{
+		$this->id = parent::create();
+
+		$q = "INSERT INTO role_data ".
+			 "(role_id,allow_register) ".
+			 "VALUES ".
+			 "('".$this->id."','".$this->getAllowRegister()."')";
+		$this->ilias->db->query($q);
+
+		return $this->id;
+	}
+
+	/**
+	* set allow_register of role
+	* 
+	* @access	public
+	* @param	integer
+	*/
+	function setAllowRegister($a_allow_register)
+	{
+		if (empty($a_allow_register))
+		{
+			$a_allow_register == 0;
+		}
+		
+		$this->allow_register = (int) $a_allow_register;
+	}
+	
+	/**
+	* get allow_register
+	* 
+	* @access	public
+	* @return	integer
+	*/
+	function getAllowRegister()
+	{
+		return $this->allow_register;
+	}
+
 	/**
 	* set reference id of parent object
 	* this is neccessary for non RBAC protected objects!!!
@@ -163,6 +268,11 @@ class ilObjRole extends ilObject
 				{
 					// delete object_data entry
 					parent::delete();
+					
+					// delete role_data entry
+					$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
+					$this->ilias->db->query($q);
+
 					return true;
 				}
 				
@@ -173,13 +283,18 @@ class ilObjRole extends ilObject
 		{
 			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
 
-			// but first check if role is assigned to other rolefolders
+			// but first check if role is assigned to other rolefolders...
 			if (count($rbacreview->getFoldersAssignedToRole($this->getId())) == 1)
 			{
 				$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
 				
-				// if not delete object_data entry
+				// ...if not delete object_data entry
 				parent::delete();
+				
+				// delete role_data entry
+				$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
+				$this->ilias->db->query($q);
+
 				return true;
 			}
 			else

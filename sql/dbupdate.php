@@ -1540,3 +1540,18 @@ ALTER TABLE media_item ADD COLUMN format VARCHAR(200);
 <#88>
 ALTER TABLE lm_page_object CHANGE lm_id parent_id int;
 ALTER TABLE lm_page_object ADD COLUMN parent_type CHAR(4) DEFAULT 'lm';
+
+<#89>
+DROP TABLE IF EXISTS role_data;
+CREATE TABLE role_data (role_id int(11) NOT NULL default '0',
+allow_register tinyint(1) unsigned NOT NULL default '0',
+PRIMARY KEY  (role_id)) TYPE=MyISAM;
+<?php
+$query = "SELECT DISTINCT rol_id FROM rbac_fa WHERE assign='y'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO role_data (role_id,allow_register) VALUES ('".$row->rol_id."','0')";
+	$this->db->query($query);
+}
+?>
