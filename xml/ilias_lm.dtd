@@ -271,8 +271,10 @@
 	CellSpacing CDATA #IMPLIED
 	Class CDATA #IMPLIED
 >
-<!ELEMENT HeaderCaption (%titletext;)*>
-<!ELEMENT FooterCaption (%titletext;)*>
+<!ELEMENT Caption (%titletext;)*>
+<!ATTLIST Caption
+	Align (top | bottom) #REQUIRED
+>
 <!ELEMENT Summary (%simpletext;)*>
 <!ELEMENT TableRow (TableData+)>
 <!ELEMENT TableData (Paragraph | MediaObject | Table)*>
