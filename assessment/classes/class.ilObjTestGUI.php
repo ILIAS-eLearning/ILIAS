@@ -693,8 +693,8 @@ class ilObjTestGUI extends ilObjectGUI
 			else
 		{
 			$this->tpl->setCurrentBlock("Selectionbuttons");
-			$this->tpl->setVariable("BTN_YES", $this->lng->txt("yes"));
-			$this->tpl->setVariable("BTN_NO", $this->lng->txt("no"));
+			$this->tpl->setVariable("BTN_YES", $this->lng->txt("random_accept_sample"));
+			$this->tpl->setVariable("BTN_NO", $this->lng->txt("random_another_sample"));
 			$this->tpl->parseCurrentBlock();
 		}
 		$chosen_questions = join($question_array, ",");
