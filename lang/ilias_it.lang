@@ -123,7 +123,7 @@ common#:#clipboard#:#Appunti###15 Sep 2003 new variable
 common#:#close#:#Chiudi###28 Sep 2003 new variable
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento###13 May 2003 new variable
-common#:#compose#:#Componi
+common#:#compose#:#Scrivi
 common#:#confirm#:#Conferma
 common#:#cont_object#:#Oggetto###15 Sep 2003 new variable
 common#:#contact_data#:#Dati personali###25 Mar 2003 new variable
@@ -259,7 +259,7 @@ common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#firstname#:#Nome###29 Oct 2003 content changed
 common#:#flatview#:#Indirizzo###07 Feb 2003 new variable
-common#:#fold#:#Chiudi###23 Jun 2003 new variable
+common#:#fold#:#Cartella###23 Jun 2003 new variable
 common#:#fold_a#:#una cartella###01 Oct 2003 new variable
 common#:#fold_add#:#Aggiungi una cartella###01 Oct 2003 new variable
 common#:#fold_added#:#Cartella aggiunta###01 Oct 2003 new variable
@@ -273,7 +273,7 @@ common#:#forums#:#Forum###15 May 2003 new variable
 common#:#forums_overview#:#Forums Overview###09 Aug 2003 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#Un forum###06 Aug 2003 new variable
-common#:#frm_add#:#Agiungi forum###06 Aug 2003 new variable
+common#:#frm_add#:#Aggiungi forum###06 Aug 2003 new variable
 common#:#frm_added#:#Aggiunto forum###06 Aug 2003 new variable
 common#:#frm_edit#:#Modifica forum###01 Sep 2003 new variable
 common#:#frm_new#:#Nuovo forum###06 Aug 2003 new variable
@@ -399,7 +399,7 @@ common#:#installed#:#Installato
 common#:#institution#:#Istituzione
 common#:#internal_system#:#Internal system###25 Mar 2003 new variable
 common#:#ip_address#:#Indirizzo IP
-common#:#is_already_your#:#&#232; gi&#224; tuo###20 Mar 2003 new variable
+common#:#is_already_your#:#&#232; gi&#224;###20 Mar 2003 new variable
 common#:#item#:#item
 common#:#kb#:#KByte###25 Mar 2003 new variable
 common#:#keywords#:#Parole chiave
@@ -482,7 +482,7 @@ common#:#mail_intern_enable#:#Abilita###25 Mar 2003 new variable
 common#:#mail_mails_of#:#La tua posta###25 Mar 2003 new variable
 common#:#mail_maxsize_attach#:#Dimensione massima degli attachment###25 Mar 2003 new variable
 common#:#mail_maxsize_box#:#Dimensione massima della mailbox###25 Mar 2003 new variable
-common#:#mail_maxsize_mail#:#Dimensione massima della mail###25 Mar 2003 new variable
+common#:#mail_maxsize_mail#:#Dimensione massima delle mail###25 Mar 2003 new variable
 common#:#mail_maxtime_attach#:#Numero di giorni massimo di permanenza di un attachment###25 Mar 2003 new variable
 common#:#mail_maxtime_mail#:#Numero di giorni massimo di permanenza di una mail###25 Mar 2003 new variable
 common#:#mail_not_sent#:#Mail non inviata!###20 Mar 2003 new variable
@@ -502,7 +502,7 @@ common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata###25 No
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
-common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
+common#:#meta_data#:#Meta Dati###14 Jun 2003 new variable
 common#:#migrate#:#migrare
 common#:#mob#:#Media Object###28 Sep 2003 new variable
 common#:#module#:#Modulo###26 Mar 2003 new variable
@@ -612,7 +612,7 @@ common#:#not_installed#:#Non installato
 common#:#not_logged_in#:#Your are not logged in###12 Aug 2003 new variable
 common#:#obj#:#obj
 common#:#obj_adm#:#Impostazioni di sistema###15 May 2003 new variable
-common#:#obj_adm_desc#:#La cartella delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS.###01 Oct 2003 new variable
+common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS.###01 Oct 2003 new variable
 common#:#obj_cat#:#Categoria###15 May 2003 new variable
 common#:#obj_crs#:#Corso###15 May 2003 new variable
 common#:#obj_dbk#:#Libro digitale###02 Oct 2003 new variable
@@ -693,7 +693,7 @@ common#:#path_to_unzip#:#Percorso a UNZIP
 common#:#path_to_zip#:#Percorso a ZIP
 common#:#pathes#:#Percorsi###20 Mar 2003 new variable
 common#:#payment_system#:#Sistema a pagamento
-common#:#perm_settings#:#Diritti
+common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
 common#:#personal_data#:#Informazioni Personali###25 Mar 2003 new variable
@@ -874,7 +874,7 @@ common#:#user#:#Utente
 common#:#user_added#:#Utente aggiunto###02 Apr 2003 new variable
 common#:#user_assignment#:#Utente assegnato###04 Aug 2003 new variable
 common#:#user_deleted#:#Utente cancellato###10 Jul 2003 new variable
-common#:#user_language#:#Lingua utente###20 Mar 2003 new variable
+common#:#user_language#:#la tua lingua utente###20 Mar 2003 new variable
 common#:#userdata#:#Dati utente###29 Oct 2003 content changed
 common#:#username#:#Nome utente###29 Oct 2003 content changed
 common#:#users#:#Utenti
@@ -1162,7 +1162,7 @@ mail#:#mail_cc_not_valid#:#Il campo Cc non &#232; valido###16 Apr 2003 new varia
 mail#:#mail_cc_search#:#Cerca Cc###16 Apr 2003 new variable
 mail#:#mail_change_to_folder#:#Spostare nella cartella:###24 Apr 2003 new variable
 mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &#232; valido###16 Apr 2003 new variable
-mail#:#mail_compose#:#Componi Messaggio###16 Apr 2003 new variable
+mail#:#mail_compose#:#Scrivi Messaggio###16 Apr 2003 new variable
 mail#:#mail_deleted#:#Le mail sono state cancellate###16 Apr 2003 new variable
 mail#:#mail_deleted_entry#:#Le voci sono state cancellate###16 Apr 2003 new variable
 mail#:#mail_email_forbidden#:#Non hai permessi per inviare email###16 Apr 2003 new variable
@@ -1535,7 +1535,7 @@ meta#:#meta_l_co#:#corsican###28 May 2003 new variable
 meta#:#meta_l_cs#:#czech###28 May 2003 new variable
 meta#:#meta_l_cy#:#welsh###28 May 2003 new variable
 meta#:#meta_l_da#:#danish###28 May 2003 new variable
-meta#:#meta_l_de#:#german###28 May 2003 new variable
+meta#:#meta_l_de#:#tedesco###28 May 2003 new variable
 meta#:#meta_l_dz#:#bhutani###28 May 2003 new variable
 meta#:#meta_l_el#:#greek###28 May 2003 new variable
 meta#:#meta_l_en#:#english###28 May 2003 new variable
@@ -1565,7 +1565,7 @@ meta#:#meta_l_id#:#indonesian###28 May 2003 new variable
 meta#:#meta_l_ie#:#interlingue###28 May 2003 new variable
 meta#:#meta_l_ik#:#inupiak###28 May 2003 new variable
 meta#:#meta_l_is#:#icelandic###28 May 2003 new variable
-meta#:#meta_l_it#:#italian###28 May 2003 new variable
+meta#:#meta_l_it#:#italiano###28 May 2003 new variable
 meta#:#meta_l_iu#:#inuktitut###28 May 2003 new variable
 meta#:#meta_l_ja#:#japanese###28 May 2003 new variable
 meta#:#meta_l_jv#:#javanese###28 May 2003 new variable
@@ -1687,7 +1687,7 @@ meta#:#meta_no_rights#:#Non ci sono metadati disponibili per la sezione Diritti.
 meta#:#meta_no_technical#:#Non ci sono metadati disponibili per la sezione Tecnica.###01 Oct 2003 new variable
 meta#:#meta_none#:#Nessuno###01 Oct 2003 new variable
 meta#:#meta_operating_system#:#Sistema Operativo###01 Oct 2003 new variable
-meta#:#meta_or_composite#:#oppure componi###01 Oct 2003 new variable
+meta#:#meta_or_composite#:#oppure scrivi###01 Oct 2003 new variable
 meta#:#meta_other#:#Oltro###01 Oct 2003 new variable
 meta#:#meta_other_plattform_requirements#:#altri requisiti della piattaforma###01 Oct 2003 new variable
 meta#:#meta_pc_dos#:#PC-DOS###01 Oct 2003 new variable
@@ -1740,11 +1740,11 @@ search#:#search_all_results#:#Tutti i resultati###10 Sep 2003 new variable
 search#:#search_concatenation#:#Concatenazione###10 Sep 2003 new variable
 search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable
 search#:#search_dbk_content#:#Libraria digitale (contenuto)###10 Sep 2003 new variable
-search#:#search_dbk_meta#:#Libraria digitale (metadata)###10 Sep 2003 new variable
+search#:#search_dbk_meta#:#Libraria digitale (metadati)###10 Sep 2003 new variable
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati###10 Sep 2003 new variable
 search#:#search_lm_content#:#Materiale di elearning (contenuto)###10 Sep 2003 new variable
-search#:#search_lm_meta#:#Materiale di elearning  (metadata)###10 Sep 2003 new variable
-search#:#search_meta#:#Metadata###10 Sep 2003 new variable
+search#:#search_lm_meta#:#Materiale di elearning  (metadati)###10 Sep 2003 new variable
+search#:#search_meta#:#Metadati###10 Sep 2003 new variable
 search#:#search_minimum_three#:#Devi specificare almeno tre caratteri###10 Sep 2003 new variable
 search#:#search_no_category#:#Non hai selezionato il criterio di ricerca###10 Sep 2003 new variable
 search#:#search_no_match#:#La ricerca non ha prodotto risultati###10 Sep 2003 new variable
