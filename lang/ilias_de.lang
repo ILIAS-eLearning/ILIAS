@@ -171,7 +171,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#deleted#:#Gelöscht
-common#:#department#:#Department###28 Oct 2003 new variable
+common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
@@ -208,7 +208,7 @@ common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/übungskapitel
-common#:#fax#:#Fax###28 Oct 2003 new variable
+common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
@@ -388,7 +388,7 @@ common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
 common#:#lo_edit#:#Lernmodule editieren
 common#:#lo_new#:#neues Lernmodul
-common#:#lo_no_content#:#Keine Lernmaterialien vorhanden###25 Oct 2003 content changed
+common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
@@ -424,7 +424,7 @@ common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
 common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
-common#:#mail_sent#:#Ihre Nachricht wurde versandt###28 Oct 2003 content changed
+common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
@@ -629,9 +629,9 @@ common#:#pg_added#:#Seite angelegt
 common#:#pg_edit#:#Seite bearbeiten
 common#:#pg_new#:#Neue Seite
 common#:#phone#:#Telefon
-common#:#phone_home#:#Phone, Home###28 Oct 2003 new variable
-common#:#phone_mobile#:#Phone, Mobile###28 Oct 2003 new variable
-common#:#phone_office#:#Phone, Office###28 Oct 2003 new variable
+common#:#phone_home#:#Telefon Privat
+common#:#phone_mobile#:#Telefon Mobil
+common#:#phone_office#:#Telefon Arbeit
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
@@ -837,11 +837,11 @@ content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
-content#:#cont_back#:#Back###27 Oct 2003 new variable
+content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
-content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###27 Oct 2003 new variable
-content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###27 Oct 2003 new variable
+content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
+content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
@@ -877,7 +877,7 @@ content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
-content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###27 Oct 2003 new variable
+content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
@@ -916,9 +916,9 @@ content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_mob_files#:#Object Files###27 Oct 2003 new variable
-content#:#cont_mob_inst_prop#:#Instance Properties###27 Oct 2003 new variable
-content#:#cont_mob_prop#:#Object Properties###27 Oct 2003 new variable
+content#:#cont_mob_files#:#Objektdateien
+content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
+content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_new_assignment#:#Neue Zuordnung
@@ -933,7 +933,7 @@ content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
-content#:#cont_online#:#Online###27 Oct 2003 new variable
+content#:#cont_online#:#Online
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
@@ -950,7 +950,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_publisher#:#Herausgeber
-content#:#cont_purpose#:#Purpose###22 Oct 2003 new variable
+content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
 content#:#cont_resource#:#Ressource
@@ -960,23 +960,23 @@ content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_max_one_item#:#Please select one item only###19 Sep 2003 new variable
-content#:#cont_select_max_one_term#:#Select one term only###01 Sep 2003 new variable
+content#:#cont_select_max_one_item#:#Bitte wählen Sie nur einen Punkt aus.
+content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
-content#:#cont_select_term#:#Select a term###01 Sep 2003 new variable
+content#:#cont_select_term#:#Wählen Sie einen Zeitraum aus.
 content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_series#:#Serie
-content#:#cont_series_editor#:#Series editor###19 Sep 2003 new variable
+content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
-content#:#cont_size#:#Size###22 Oct 2003 new variable
-content#:#cont_source#:#Quelle###13 Sep 2003 new variable
+content#:#cont_size#:#Größe
+content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Kapitel-Titel
-content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###27 Oct 2003 new variable
+content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
 content#:#cont_subchapters#:#Unterkapitel
@@ -994,7 +994,7 @@ content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_url#:#URL###19 Sep 2003 new variable
+content#:#cont_url#:#URL
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
@@ -1058,13 +1058,13 @@ mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
 mail#:#mail_bc_search#:#BC-Empfänger suchen
-mail#:#mail_byte#:#Byte###28 Oct 2003 new variable
+mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre E-Mail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht###28 Oct 2003 content changed
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
 mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
 mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
@@ -1072,11 +1072,11 @@ mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_file_name#:#Dateiname
 mail#:#mail_file_size#:#Dateigrösse
 mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
-mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt###28 Oct 2003 content changed
+mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
-mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt###28 Oct 2003 content changed
+mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_folder_options#:#Ordner Einstellungen
 mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
@@ -1086,7 +1086,7 @@ mail#:#mail_intern#:#Intern
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
-mail#:#mail_message_send#:#Ihre Nachricht wurde versandt###28 Oct 2003 content changed
+mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
@@ -1098,12 +1098,12 @@ mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
-mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert###28 Oct 2003 content changed
+mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?###28 Oct 2003 content changed
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
@@ -1367,7 +1367,7 @@ meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_cost#:#Kosten
-meta#:#meta_coverage#:#Coverage###01 Oct 2003 new variable
+meta#:#meta_coverage#:#Anwendungsbereich
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
@@ -1558,9 +1558,9 @@ meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art der Lernhilfsmittel
 meta#:#meta_lecture#:#Lektüre
 meta#:#meta_lifecycle#:#Lebenszyklus
-meta#:#meta_linear#:#Linear###18 Sep 2003 new variable
+meta#:#meta_linear#:#Linear
 meta#:#meta_local_file#:#Lokale Datei
-meta#:#meta_location#:#Location###01 Oct 2003 new variable
+meta#:#meta_location#:#Standort
 meta#:#meta_low#:#niedrig
 meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#Manager
