@@ -23,8 +23,8 @@
 
 
 /**
-* adm_object
-* main script for administration console
+* group.php
+* main script for group management
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
@@ -44,7 +44,6 @@ unset($id);
 $call_by_reference = true;
 $id = $_GET["ref_id"];
 
-
 // exit if no valid ID was given
 if (!isset($_GET["ref_id"]))
 {
@@ -58,30 +57,11 @@ if (!isset($_GET["type"]))
 	$_GET["type"] = $obj->getType();
 }
 
-//var_dump ($_GET);
-//echo "---------------------------";
-if (isset($_POST["cmd"]))
-{
-//	echo "post ";
-
-//	var_dump($_POST);
-}
-//var_dump($_GET);echo "---";	var_dump($_POST);
-//echo "-------------";
-//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
-
 if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 {
-	//var_dump($_GET);echo "---";	var_dump($_POST);exit;
-
-	//echo " post";
-
-		//echo " post new type";
 		if ($_GET["gateway"]== "true")
 		{
-
 			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
-			
 			exit();
 		}
 		else
@@ -125,6 +105,7 @@ switch ($obj->getType())
 
 	case "fold":
 	case "file":
+		if ($obj_type != "fold")
 		$_GET["ref_id"] = $obj->getGroupId();
 		break;
 }
@@ -144,7 +125,6 @@ switch ($obj->getType())
 else
 {
 	$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
-
 	exit();
 }
 ?>
