@@ -100,7 +100,10 @@ class ilTermDefinitionEditorGUI
 		{
 
 			case "ilpageobjectgui":
-				$gloss_loc->display();
+				if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
+				{
+					$gloss_loc->display();
+				}
 				$this->setTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 //echo "MK";

@@ -480,10 +480,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					$def = $defs[$j];
 					$this->tpl->setCurrentBlock("definition");
-					$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "term_id", $term["id"]);
-					$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
+					$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
+					$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
 					$this->tpl->setVariable("DEF_LINK",
-						$this->ctrl->getLinkTargetByClass("ilTermDefinitionEditorGUI", "view"));
+						$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
 					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
 					$short_str = str_replace("<", "&lt;", $short_str);

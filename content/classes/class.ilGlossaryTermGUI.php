@@ -425,7 +425,9 @@ class ilGlossaryTermGUI
 	*/
 	function addDefinition()
 	{
+
 		$this->getTemplate();
+		$this->displayLocator();
 		$this->setTabs();
 		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
 

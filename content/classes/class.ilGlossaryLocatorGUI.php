@@ -81,7 +81,7 @@ class ilGlossaryLocatorGUI
 	*/
 	function display()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
@@ -124,7 +124,14 @@ class ilGlossaryLocatorGUI
 			else if (($_GET["ref_id"] == $row["child"]))
 			{
 				$title = $this->glossary->getTitle();
-				$link = $script."?ref_id=".$_GET["ref_id"];
+				if ($this->mode == "edit")
+				{
+					$link = $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "listTerms");
+				}
+				else
+				{
+					$link = $script."?ref_id=".$_GET["ref_id"];
+				}
 			}
 			else if ($row["type"] == "grp")
 			{
@@ -151,8 +158,16 @@ class ilGlossaryLocatorGUI
 		{
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $this->term->getTerm());
-			$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
-				"&cmd=listDefinitions&term_id=".$this->term->getId());
+			if ($this->mode == "edit")
+			{
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+					"&cmd=listDefinitions&term_id=".$this->term->getId());
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -162,8 +177,16 @@ class ilGlossaryLocatorGUI
 		{
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
-			$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
-				"&cmd=view&def=".$_GET["def"]);
+			if ($this->mode == "edit")
+			{
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+			}
+			else
+			{
+				$this->tpl->setVariable("LINK_ITEM", $script."?ref_id=".$_GET["ref_id"].
+					"&cmd=view&def=".$_GET["def"]);
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
