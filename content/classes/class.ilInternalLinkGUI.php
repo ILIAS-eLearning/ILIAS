@@ -37,18 +37,18 @@ class ilInternalLinkGUI
 	var $default_obj;
 	var $link_type;
 	var $link_target;
-	var $target_script;
 	var $lng;
 	var $mode;			// "text" | "link"
 	var $set_link_script;
+	var $ctrl;
 
-	function ilInternalLinkGUI($a_target_script, $a_default_type, $a_default_obj)
+	function ilInternalLinkGUI($a_default_type, $a_default_obj)
 	{
-		global $lng, $ilias;
+		global $lng, $ilias, $ilCtrl;
 
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
-		$this->target_script = $a_target_script;
+		$this->ctrl =& $ilCtrl;
 		$this->default_type = $a_default_type;
 		$this->default_obj = $a_default_obj;
 		$this->filter_link_types = array();
@@ -89,11 +89,6 @@ class ilInternalLinkGUI
 		return $this->set_link_script;
 	}
 
-	function getTargetScript()
-	{
-		return $this->target_script;
-	}
-
 	function filterLinkType($a_link_type)
 	{
 		$this->filter_link_types[] = $a_link_type;
@@ -120,20 +115,15 @@ class ilInternalLinkGUI
 		switch($this->link_type)
 		{
 			case "GlossaryItem":
-				$typestr = "&target_type=glossary";
+				$this->ctrl->setParameter($this, "target_type", "glossary");
 				break;
 
 			default:
-				$typestr = "";
 				break;
 		}
 
-		$tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-				"cmdClass=ilInternalLinkGUI&cmd=post".$typestr));
-		$tpl->setVariable("FORMACTION2",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-				"cmdClass=ilInternalLinkGUI&cmd=post".$typestr));
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),

@@ -80,6 +80,7 @@ require_once "classes/class.ilTree.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 require_once "classes/class.ilMailbox.php";
+require_once "classes/class.ilCtrl.php";
 
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
@@ -150,6 +151,7 @@ $ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 // create references for subobjects in ilias object
 $ilDB =& $ilias->db;
 $ilUser =& $ilias->account;
+$ilCtrl = new ilCtrl();
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
