@@ -2940,6 +2940,7 @@ survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
+survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
 survey#:#dc_definitelyfalse#:#definitely false
@@ -3008,7 +3009,9 @@ survey#:#enter_phrase_title#:#Please enter a phrase title
 survey#:#enter_value#:#Enter a value
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluation access
+survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Exit
+survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
@@ -3036,8 +3039,8 @@ survey#:#metric_question_out_of_bounds#:#The value you entered is not between th
 survey#:#minimum#:#Minimum value
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
 survey#:#mode#:#Most selected value
-survey#:#mode_text#:#Most selected value (Text)
 survey#:#mode_nr_of_selections#:#Nr of selections
+survey#:#mode_text#:#Most selected value (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#no_available_constraints#:#There are no constraints defined!
@@ -3054,6 +3057,7 @@ survey#:#no_user_or_group_selected#:#Please check an option what are you searchi
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#not_finished#:#not completed
+survey#:#not_started#:#not started
 survey#:#obligatory#:#obligatory
 survey#:#off#:#off
 survey#:#offline#:#offline
@@ -3143,7 +3147,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#export_data_as#:#Export data as
-survey#:#excel#:#Microsoft Excel
-survey#:#csv#:#Comma separated value (CSV)
-survey#:#not_started#:#not started
