@@ -303,6 +303,9 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
       $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
       $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
+			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
