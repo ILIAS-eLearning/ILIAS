@@ -9,7 +9,7 @@
 <br>
 <img src="./images/ilias_logo_big.jpg" border="0">
 <br><br>
-<form method="post" action="{PHP_SELF}">
+<form method="post" action="{PHP_SELF}" name="formlogin">
 <table border="0" cellpadding="2" cellspacing="0">
 	<tr>
 	<td colspan="2" bgcolor="#eeeeee" align="center"><b>{TXT_ILIAS_LOGIN}</b></td>
@@ -34,5 +34,12 @@
 <br>
 <font color="red"><i>{TXT_MSG_LOGIN_FAILED}</i></font>
 </center>
+
+<script language="JavaScript">
+<!--
+	document.formlogin.username.focus();
+//-->
+</script>
+
 </body>
 </html>
