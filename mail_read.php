@@ -108,6 +108,7 @@ $counter = 1;
 $tpl->setVariable("TXT_FROM", $lng->txt("from"));
 $tmp_user = new ilObjUser($mail_data["sender_id"]);
 $tpl->setVariable("FROM", $tmp_user->getFullname());
+$tpl->setVariable("MAIL_LOGIN",$tmp_user->getLogin());
 $tpl->setVariable("CSSROW_FROM",++$counter%2 ? 'tblrow1' : 'tblrow2');
 // TO
 $tpl->setVariable("TXT_TO", $lng->txt("to"));

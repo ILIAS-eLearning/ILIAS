@@ -279,10 +279,13 @@ $tpl->setVariable("TXT_SEND", $lng->txt("send"));
 $tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
 
 // MAIL DATA
-$tpl->setVariable("RCP_TO", $mail_data["rcp_to"]);
-$tpl->setVariable("RCP_CC", $mail_data["rcp_cc"]);
-$tpl->setVariable("RCP_BCC", $mail_data["rcp_bcc"]);
-$tpl->setVariable("M_SUBJECT",$mail_data["m_subject"]);
+$tpl->setVariable("RCP_TO", htmlentities(ilUtil::stripSlashes($mail_data["rcp_to"])));
+$tpl->setVariable("RCP_CC", htmlentities(ilUtil::stripSlashes($mail_data["rcp_cc"])));
+$tpl->setVariable("RCP_BCC", htmlentities(ilUtil::stripSlashes($mail_data["rcp_bcc"])));
+
+
+
+$tpl->setVariable("M_SUBJECT",htmlentities(ilUtil::stripSlashes($mail_data["m_subject"])));
 
 if(count($mail_data["attachments"]))
 {
@@ -297,7 +300,7 @@ if(count($mail_data["attachments"]))
 	$tpl->setVariable("FILES",implode("\n",$mail_data["attachments"]));
 	$tpl->parseCurrentBlock();
 }
-$tpl->setVariable("M_MESSAGE",$mail_data["m_message"]);
+$tpl->setVariable("M_MESSAGE",ilUtil::stripSlashes($mail_data["m_message"]));
 $tpl->parseCurrentBlock();
 
 $tpl->show();
