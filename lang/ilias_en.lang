@@ -186,6 +186,15 @@ assessment#:#error_importing_question#:#There was an error importing the questio
 assessment#:#error_open_image_file#:#Error opening an image file!
 assessment#:#error_open_java_file#:#Error opening an java applet!
 assessment#:#error_save_image_file#:#Error saving an image file!
+assessment#:#eval_all_users#:#Evaluation for all users
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation
+assessment#:#eval_search_term#:#Search term
+assessment#:#eval_concatenation#:#Concatenation
+assessment#:#eval_search_users#:#Users
+assessment#:#eval_search_groups#:#Groups
+assessment#:#eval_found_selected_users#:#Selected users
+assessment#:#eval_found_selected_groups#:#Selected groups
+assessment#:#eval_selected_users#:#Evaluation for selected users
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_data#:#Evaluation Data
@@ -317,6 +326,8 @@ assessment#:#save_finish#:#Save and finish the test
 assessment#:#save_introduction#:#Save and go to introduction
 assessment#:#save_next#:#Save and go to next question
 assessment#:#save_previous#:#Save and go to previous question
+assessment#:#search_found_users#:#Found users
+assessment#:#search_found_groups#:#Found groups
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
@@ -403,6 +414,7 @@ assessment#:#tst_report_after_question#:#Report the score after every question i
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
@@ -432,6 +444,7 @@ assessment#:#tst_stat_result_lastvisit#:#Last visit
 assessment#:#tst_stat_result_mark_median#:#Mark of median
 assessment#:#tst_stat_result_median#:#Median of test result in points
 assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through
+assessment#:#statistical_data#:#Statistical data
 assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through
 assessment#:#tst_stat_result_rank_median#:#Rank of median
 assessment#:#tst_stat_result_rank_participant#:#Rank of participant
@@ -440,7 +453,7 @@ assessment#:#tst_stat_result_resultspoints#:#Test results in points
 assessment#:#tst_stat_result_specification#:#Specification of evaluation data
 assessment#:#tst_stat_result_timeofwork#:#Time of work
 assessment#:#tst_stat_result_total_participants#:#Total number of participants
-assessment#:#tst_stat_selected_users#:#Selected users
+assessment#:#tst_stat_selected_users#:#Selected participants
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool
 assessment#:#tst_status_completed#:#completed

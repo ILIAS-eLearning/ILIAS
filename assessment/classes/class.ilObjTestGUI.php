@@ -84,9 +84,22 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			default:
-				if (($cmd != "run") and ($cmd != "eval_a") and ($cmd != "eval_stat"))
+				switch ($cmd)
 				{
-					$this->setAdminTabs();
+					case "run":
+					case "eval_a":
+					case "eval_stat":
+					case "evalStatSelected":
+					case "searchForEvaluation":
+					case "addFoundGroupsToEval":
+					case "removeSelectedGroup":
+					case "removeSelectedUser":
+					case "addFoundUsersToEval":
+					case "evalSelectedUsers":
+					case "evalAllUsers":
+						break;
+					default:
+						$this->setAdminTabs();
 				}
 				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
 				{
@@ -2870,7 +2883,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-
 	function outEvaluationForm()
 	{
 		global $ilUser;
@@ -2984,8 +2996,929 @@ class ilObjTestGUI extends ilObjectGUI
 		exit();
 	}
 	
+	/**
+	* Creates the output for the search results when trying to add users/groups to a test evaluation
+	*
+	* Creates the output for the search results when trying to add users/groups to a test evaluation
+	*
+	* @access public
+	*/
+	function outStatSelectedSearchResults()
+	{
+		require_once ("./classes/class.ilSearch.php");
+		global $ilUser;
+		
+		if (is_array($_POST["search_for"]))
+		{
+			if (in_array("usr", $_POST["search_for"]) or in_array("grp", $_POST["search_for"]))
+			{
+				$search =& new ilSearch($ilUser->id);
+				$search->setSearchString($_POST["search_term"]);
+				$search->setCombination($_POST["concatenation"]);
+				$search->setSearchFor($_POST["search_for"]);
+				$search->setSearchType("new");
+				if($search->validate($message))
+				{
+					$search->performSearch();
+				}
+				if ($message)
+				{
+					//sendInfo($message);
+				}
+				if(!$search->getNumberOfResults() && $search->getSearchFor())
+				{
+					sendInfo($this->lng->txt("search_no_match"));
+					return;
+				}
+				$buttons = array("add");
+				$participants =& $this->object->evalTotalPersonsArray();
+				$eval_users = $this->object->getEvaluationUsers($ilUser->id);
+				if ($searchresult = $search->getResultByType("usr"))
+				{
+					$users = array();
+					foreach ($searchresult as $result_array)
+					{
+						if (!array_key_exists($result_array["id"], $eval_users))
+						{
+							if (array_key_exists($result_array["id"], $participants))
+							{
+								array_push($users, $result_array["id"]);
+							}
+						}
+					}
+					$this->outEvalSearchResultTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_found_users"), $buttons);
+				}
+				$searchresult = array();
+				$eval_groups = $this->object->getEvaluationGroups($ilUser->id);
+				if ($searchresult = $search->getResultByType("grp"))
+				{
+					$groups = array();
+					foreach ($searchresult as $result_array)
+					{
+						if (!in_array($result_array["id"], $eval_groups))
+						{
+							require_once("./classes/class.ilObjGroup.php");
+							$grp = new ilObjGroup($result_array["id"], true);
+							$members = $grp->getGroupMemberIds();
+							$found_member = 0;
+							foreach ($members as $member_id)
+							{
+								if (array_key_exists($member_id, $participants))
+								{
+									$found_member = 1;
+								}
+							}
+							if ($found_member)
+							{
+								array_push($groups, $result_array["id"]);
+							}
+						}
+					}
+					$this->outEvalSearchResultTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_found_groups"), $buttons);
+				}
+			}
+		}
+		else
+		{
+			sendInfo($this->lng->txt("no_user_or_group_selected"));
+		}
+	}
+	
+	/**
+	* Adds found users to the selected users table
+	*
+	* Adds found users to the selected users table
+	*
+	* @access public
+	*/
+	function addFoundUsersToEvalObject()
+	{
+		global $ilUser;
+		if (is_array($_POST["user_select"]))
+		{
+			foreach ($_POST["user_select"] as $user_id)
+			{
+				$this->object->addSelectedUser($user_id, $ilUser->id);
+			}
+		}
+		$this->evalStatSelectedObject();
+	}
+	
+	/**
+	* Removes selected users from the selected users table
+	*
+	* Removes selected users from the selected users table
+	*
+	* @access public
+	*/
+	function removeSelectedUserObject()
+	{
+		global $ilUser;
+		if (is_array($_POST["selected_users"]))
+		{
+			foreach ($_POST["selected_users"] as $user_id)
+			{
+				$this->object->removeSelectedUser($user_id, $ilUser->id);
+			}
+		}
+		$this->evalStatSelectedObject();
+	}
+	
+	/**
+	* Removes selected users from the selected users table
+	*
+	* Removes selected users from the selected users table
+	*
+	* @access public
+	*/
+	function removeSelectedGroupObject()
+	{
+		global $ilUser;
+		if (is_array($_POST["selected_groups"]))
+		{
+			foreach ($_POST["selected_groups"] as $group_id)
+			{
+				$this->object->removeSelectedGroup($group_id, $ilUser->id);
+			}
+		}
+		$this->evalStatSelectedObject();
+	}
+	
+	/**
+	* Removes selected groups from the selected groups table
+	*
+	* Removes selected groups from the selected groups table
+	*
+	* @access public
+	*/
+	function addFoundGroupsToEvalObject()
+	{
+		global $ilUser;
+		if (is_array($_POST["group_select"]))
+		{
+			foreach ($_POST["group_select"] as $group_id)
+			{
+				$this->object->addSelectedGroup($group_id, $ilUser->id);
+			}
+		}
+		$this->evalStatSelectedObject();
+	}
+	
+	/**
+	* Called when the search button is pressed in the evaluation user selection
+	*
+	* Called when the search button is pressed in the evaluation user selection
+	*
+	* @access public
+	*/
+	function searchForEvaluationObject()
+	{
+		$this->evalStatSelectedObject(1);
+	}
+	
+	/**
+	* Creates the ouput of the selected users/groups for the test evaluation
+	*
+	* Creates the ouput of the selected users/groups for the test evaluation
+	*
+	* @access public
+	*/
+	function evalStatSelectedObject($search = 0)
+	{
+		global $ilUser;
+		
+		$this->ctrl->setCmd("evalStatSelected");
+		$this->setEvaluationSettingsTabs();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
+		if ($search)
+		{
+			$this->outStatSelectedSearchResults();
+		}
+		$this->tpl->setCurrentBlock("userselection");
+		$this->tpl->setVariable("SEARCH_USERSELECTION", $this->lng->txt("eval_search_userselection"));
+		$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("eval_search_term"));
+		$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
+		$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("eval_search_users"));
+		$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("eval_search_groups"));
+		$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("eval_concatenation"));
+		$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+		$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+		$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+		if (is_array($_POST["search_for"]))
+		{
+			if (in_array("usr", $_POST["search_for"]))
+			{
+				$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
+			}
+			if (in_array("grp", $_POST["search_for"]))
+			{
+				$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
+			}
+		}
+		if (strcmp($_POST["concatenation"], "and") == 0)
+		{
+			$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+		}
+		else if (strcmp($_POST["concatenation"], "or") == 0)
+		{
+			$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
+		$this->tpl->parseCurrentBlock();
+
+		// output of alread found users and groups
+		$eval_users = $this->object->getEvaluationUsers($ilUser->id);
+		$eval_groups = $this->object->getEvaluationGroups($ilUser->id);
+		$buttons = array("remove");
+		if (count($eval_users))
+		{
+			$this->outEvalSearchResultTable("usr", $eval_users, "selected_user_result", "selected_user_row", $this->lng->txt("eval_found_selected_users"), $buttons);
+		}
+		if (count($eval_groups))
+		{
+			$this->outEvalSearchResultTable("grp", $eval_groups, "selected_group_result", "selected_group_row", $this->lng->txt("eval_found_selected_groups"), $buttons);
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("CMD_EVAL", "evalSelectedUsers");
+		$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
+		$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_selected_users"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
+		$this->tpl->setVariable("TXT_PWORKEDTHROUGH", $this->lng->txt("tst_stat_result_pworkedthrough"));
+		$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
+		$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
+		$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
+		$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
+		$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
+		$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
+		$this->tpl->setVariable("TXT_DISTANCEMEDIAN", $this->lng->txt("tst_stat_result_distancemedian"));
+		$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
+		$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+		foreach ($user_settings as $key => $value) {
+			if ($value == 1) {
+				$user_settings[$key] = " checked=\"checked\"";
+			} else {
+				$user_settings[$key] = "";
+			}
+		}
+		$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", $user_settings["qworkedthrough"]);
+		$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", $user_settings["pworkedthrough"]);
+		$this->tpl->setVariable("CHECKED_TIMEOFWORK", $user_settings["timeofwork"]);
+		$this->tpl->setVariable("CHECKED_ATIMEOFWORK", $user_settings["atimeofwork"]);
+		$this->tpl->setVariable("CHECKED_FIRSTVISIT", $user_settings["firstvisit"]);
+		$this->tpl->setVariable("CHECKED_LASTVISIT", $user_settings["lastvisit"]);
+		$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
+		$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
+		$this->tpl->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
+		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Creates the search output for the user/group search form
+	*
+	* Creates the search output for the user/group search form
+	*
+	* @access	public
+	*/
+	function outEvalSearchResultTable($a_type, $id_array, $block_result, $block_row, $title_text, $buttons)
+	{
+		require_once("./classes/class.ilObjGroup.php");
+		global $rbacsystem;
+		
+		$rowclass = array("tblrow1", "tblrow2");
+		switch($a_type)
+		{
+			case "usr":
+				foreach ($id_array as $user_id => $username)
+				{
+					$counter = 0;
+					$user = new ilObjUser($user_id);
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $user->getId());
+					$this->tpl->setVariable("VALUE_LOGIN", $user->getLogin());
+					$this->tpl->setVariable("VALUE_FIRSTNAME", $user->getFirstname());
+					$this->tpl->setVariable("VALUE_LASTNAME", $user->getLastname());
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_USER_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
+				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
+				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
+				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "grp":
+				foreach ($id_array as $group_id)
+				{
+					$counter = 0;
+					$group = new ilObjGroup($group_id);
+					$this->tpl->setCurrentBlock($block_row);
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->setVariable("COUNTER", $group->getRefId());
+					$this->tpl->setVariable("VALUE_TITLE", $group->getTitle());
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $group->getDescription());
+					$counter++;
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock($block_result);
+				$this->tpl->setVariable("TEXT_GROUP_TITLE", "<img src=\"" . ilUtil::getImagePath("icon_grp_b.gif") . "\" alt=\"\" /> " . $title_text);
+				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
+				if ($rbacsystem->checkAccess('invite', $this->object->getRefId()))
+				{
+					foreach ($buttons as $cat)
+					{
+						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
+					}
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				}
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+	}
+
+	function neweval_statObject()
+	{
+		$this->ctrl->setCmdClass(get_class($this));
+		$this->ctrl->setCmd("eval_stat");
+		$this->setEvaluationSettingsTabs();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation_selection.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_EVAL", "evalAllUsers");
+		$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
+		$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_all_users"));
+		$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
+		$this->tpl->setVariable("TXT_PWORKEDTHROUGH", $this->lng->txt("tst_stat_result_pworkedthrough"));
+		$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
+		$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
+		$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
+		$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
+		$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
+		$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
+		$this->tpl->setVariable("TXT_DISTANCEMEDIAN", $this->lng->txt("tst_stat_result_distancemedian"));
+		$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
+		$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+		foreach ($user_settings as $key => $value) {
+			if ($value == 1) {
+				$user_settings[$key] = " checked=\"checked\"";
+			} else {
+				$user_settings[$key] = "";
+			}
+		}
+		$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", $user_settings["qworkedthrough"]);
+		$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", $user_settings["pworkedthrough"]);
+		$this->tpl->setVariable("CHECKED_TIMEOFWORK", $user_settings["timeofwork"]);
+		$this->tpl->setVariable("CHECKED_ATIMEOFWORK", $user_settings["atimeofwork"]);
+		$this->tpl->setVariable("CHECKED_FIRSTVISIT", $user_settings["firstvisit"]);
+		$this->tpl->setVariable("CHECKED_LASTVISIT", $user_settings["lastvisit"]);
+		$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
+		$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
+		$this->tpl->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
+		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function saveEvaluationSettings()
+	{
+		$eval_statistical_settings = array(
+			"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
+			"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
+			"timeofwork" => $_POST["chb_result_timeofwork"],
+			"atimeofwork" => $_POST["chb_result_atimeofwork"],
+			"firstvisit" => $_POST["chb_result_firstvisit"],
+			"lastvisit" => $_POST["chb_result_lastvisit"],
+			"resultspoints" => $_POST["chb_result_resultspoints"],
+			"resultsmarks" => $_POST["chb_result_resultsmarks"],
+			"distancemedian" => $_POST["chb_result_distancemedian"]
+		);
+		$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
+		return $eval_statistical_settings;
+	}
+	
+	function evalSelectedUsersObject($all_users = 0)
+	{
+		global $ilUser;
+		if (count($_POST) == 0)
+		{
+			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+			$eval_statistical_settings = array(
+				"qworkedthrough" => $user_settings["qworkedthrough"],
+				"pworkedthrough" => $user_settings["pworkedthrough"],
+				"timeofwork" => $user_settings["timeofwork"],
+				"atimeofwork" => $user_settings["atimeofwork"],
+				"firstvisit" => $user_settings["firstvisit"],
+				"lastvisit" => $user_settings["lastvisit"],
+				"resultspoints" => $user_settings["resultspoints"],
+				"resultsmarks" => $user_settings["resultsmarks"],
+				"distancemedian" => $user_settings["distancemedian"]
+			);
+		}
+		else
+		{
+			$eval_statistical_settings = $this->saveEvaluationSettings();
+		}
+//		$this->ctrl->setCmd("evalSelectedUsers");
+		$this->setEvaluationTabs($all_users);
+		$legend = array();
+		$titlerow = array();
+		// build title columns
+		$name_column = $this->lng->txt("name");
+		if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
+		{
+			$name_column = $this->lng->txt("counter");
+		}
+		array_push($titlerow, $name_column);
+		
+		$char = "A";
+		if ($eval_statistical_settings["qworkedthrough"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_qworkedthrough");
+			$char++;
+		}
+		if ($eval_statistical_settings["pworkedthrough"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_pworkedthrough");
+			$char++;
+		}
+		if ($eval_statistical_settings["timeofwork"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_timeofwork");
+			$char++;
+		}
+		if ($eval_statistical_settings["atimeofwork"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_atimeofwork");
+			$char++;
+		}
+		if ($eval_statistical_settings["firstvisit"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_firstvisit");
+			$char++;
+		}
+		if ($eval_statistical_settings["lastvisit"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_lastvisit");
+			$char++;
+		}
+		if ($eval_statistical_settings["resultspoints"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_resultspoints");
+			$char++;
+		}
+		if ($eval_statistical_settings["resultsmarks"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_resultsmarks");
+			$char++;
+			
+			if ($this->object->ects_output)
+			{
+				array_push($titlerow, $char);
+				$legend[$char] = $this->lng->txt("ects_grade");
+				$char++;
+			}
+		}
+		if ($eval_statistical_settings["distancemedian"]) {
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_mark_median");
+			$char++;
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_rank_participant");
+			$char++;
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_rank_median");
+			$char++;
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_total_participants");
+			$char++;
+			array_push($titlerow, $char);
+			$legend[$char] = $this->lng->txt("tst_stat_result_median");
+			$char++;
+		}
+		
+		$titlerow_without_questions = $titlerow;
+		if (!$this->object->isRandomTest())
+		{
+			for ($i = 1; $i <= count($this->object->questions); $i++)
+			{
+				array_push($titlerow, $this->lng->txt("question_short") . " " . $i);
+				$legend[$this->lng->txt("question_short") . " " . $i] = $this->object->getQuestionTitle($i);
+			}
+		}
+		else
+		{
+			for ($i = 1; $i <= count($this->object->questions); $i++)
+			{
+				array_push($titlerow, "&nbsp;");
+			}
+		}
+		$total_users =& $this->object->evalTotalPersonsArray();
+		$selected_users = array();
+		if ($all_users == 1) {
+			$selected_users = $total_users;
+		} else {
+			$selected_users =& $this->object->getEvaluationUsers($ilUser->id);
+			$selected_groups =& $this->object->getEvaluationGroups($ilUser->id);
+			require_once("./classes/class.ilObjGroup.php");
+			foreach ($selected_groups as $group_id)
+			{
+				$grp = new ilObjGroup($group_id, true);
+				$members = $grp->getGroupMemberIds();
+				foreach ($members as $member_id)
+				{
+					if (array_key_exists($member_id, $total_users))
+					{
+						$usr = new ilObjUser($member_id); 
+						$selected_users[$member_id] = trim($usr->firstname . " " . $usr->lastname);
+					}
+				}
+			}
+		}
+//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
+		$row = 0;
+		$question_legend = false;
+		$evaluation_array = array();
+		foreach ($total_users as $key => $value) {
+			// receive array with statistical information on the test for a specific user
+//				$ilBench->start("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
+			$stat_eval =& $this->object->evalStatistical($key);
+//				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
+			$evaluation_array[$key] = $stat_eval;
+		}
+
+		require_once "./classes/class.ilStatistics.php";
+		// calculate the median
+		$median_array = array();
+		foreach ($evaluation_array as $key => $value)
+		{
+			array_push($median_array, $value["resultspoints"]);
+		}
+		//$median_array =& $this->object->getTotalPointsArray();
+		$statistics = new ilStatistics();
+		$statistics->setData($median_array);
+		$median = $statistics->median();
+		$passed_statistics = new ilStatistics();
+		//$passed_array =& $this->object->getTotalPointsPassedArray();
+		$passed_array = array();
+		foreach ($evaluation_array as $key => $value)
+		{
+			if ($value["passed"] == 1)
+			{
+				array_push($passed_array, $value["resultspoints"]);
+			}
+		}
+//			$ilBench->stop("Test_Statistical_evaluation", "calculate all statistical data");
+//			$ilBench->save();
+		$passed_statistics->setData($passed_array);
+		$ects_percentiles = array
+			(
+				"A" => $passed_statistics->quantile($this->object->ects_grades["A"]),
+				"B" => $passed_statistics->quantile($this->object->ects_grades["B"]),
+				"C" => $passed_statistics->quantile($this->object->ects_grades["C"]),
+				"D" => $passed_statistics->quantile($this->object->ects_grades["D"]),
+				"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
+			);
+		$evalcounter = 1;
+		$question_titles = array();
+		$question_title_counter = 1;
+		$eval_complete = array();
+		foreach ($selected_users as $key => $name)
+		{
+			$stat_eval = $evaluation_array[$key];
+			
+			$titlerow_user = array();
+			if ($this->object->isRandomTest())
+			{
+				$titlerow_user = $titlerow_without_questions;
+				$i = 1;
+				foreach ($stat_eval as $key1 => $value1)
+				{
+					if (preg_match("/\d+/", $key1))
+					{
+						$arraykey = array_search($this->object->getQuestionTitle($value1["nr"]), $legend);
+						if (!$arraykey)
+						{
+							array_push($titlerow_user, $this->lng->txt("question_short") . " " . $question_title_counter);
+							$legend[$this->lng->txt("question_short") . " " . $question_title_counter] = $this->object->getQuestionTitle($value1["nr"]);
+							$question_title_counter++;
+						}
+						else
+						{
+							array_push($titlerow_user, $arraykey);
+						}
+					}
+				}
+			}
+
+			$evalrow = array();
+			$username = $evalcounter++; 
+			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
+			{
+				$username = $selected_users[$key];
+			}
+			array_push($evalrow, array(
+				"html" => $username,
+				"xls"  => $username,
+				"csv"  => $username
+			));
+			if ($eval_statistical_settings["qworkedthrough"]) {
+				array_push($evalrow, array(
+					"html" => $stat_eval["qworkedthrough"],
+					"xls"  => $stat_eval["qworkedthrough"],
+					"csv"  => $stat_eval["qworkedthrough"]
+				));
+			}
+			if ($eval_statistical_settings["pworkedthrough"]) {
+				array_push($evalrow, array(
+					"html" => sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %",
+					"xls"  => $stat_eval["pworkedthrough"],
+					"csv"  => $stat_eval["pworkedthrough"]
+				));
+			}
+			if ($eval_statistical_settings["timeofwork"]) {
+				$time = $stat_eval["timeofwork"];
+				$time_seconds = $time;
+				$time_hours    = floor($time_seconds/3600);
+				$time_seconds -= $time_hours   * 3600;
+				$time_minutes  = floor($time_seconds/60);
+				$time_seconds -= $time_minutes * 60;
+				array_push($evalrow, array(
+					"html" => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
+					"xls"  => $stat_eval["timeofwork"],
+					"csv"  => $stat_eval["timeofwork"]
+				));
+			}
+			if ($eval_statistical_settings["atimeofwork"]) {
+				$time = $stat_eval["atimeofwork"];
+				$time_seconds = $time;
+				$time_hours    = floor($time_seconds/3600);
+				$time_seconds -= $time_hours   * 3600;
+				$time_minutes  = floor($time_seconds/60);
+				$time_seconds -= $time_minutes * 60;
+				array_push($evalrow, array(
+					"html" => sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds),
+					"xls"  => $stat_eval["atimeofwork"],
+					"csv"  => $stat_eval["atimeofwork"]
+				));
+			}
+			if ($eval_statistical_settings["firstvisit"]) {
+				array_push($evalrow, array(
+					"html" => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])),
+					"xls"  => ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]),
+					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"]))
+				));
+			}
+			if ($eval_statistical_settings["lastvisit"]) {
+				array_push($evalrow, array(
+					"html" => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])),
+					"xls"  => ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]),
+					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"]))
+				));
+			}
+			if ($eval_statistical_settings["resultspoints"]) {
+				array_push($evalrow, array(
+					"html" => $stat_eval["resultspoints"]." ".strtolower($this->lng->txt("of"))." ". $stat_eval["maxpoints"],
+					"xls"  => $stat_eval["resultspoints"],
+					"csv"  => $stat_eval["resultspoints"]
+				));
+			}
+			if ($eval_statistical_settings["resultsmarks"]) {
+				array_push($evalrow, array(
+					"html" => $stat_eval["resultsmarks"],
+					"xls"  => $stat_eval["resultsmarks"],
+					"csv"  => $stat_eval["resultsmarks"]
+				));
+
+				if ($this->object->ects_output)
+				{
+					if ($stat_eval["resultspoints"] >= $ects_percentiles["A"])
+					{
+						$mark_ects = "A";
+					}
+					else if ($stat_eval["resultspoints"] >= $ects_percentiles["B"])
+					{
+						$mark_ects = "B";
+					}
+					else if ($stat_eval["resultspoints"] >= $ects_percentiles["C"])
+					{
+						$mark_ects = "C";
+					}
+					else if ($stat_eval["resultspoints"] >= $ects_percentiles["D"])
+					{
+						$mark_ects = "D";
+					}
+					else if ($stat_eval["resultspoints"] >= $ects_percentiles["E"])
+					{
+						$mark_ects = "E";
+					}
+					else if (strcmp($this->object->ects_fx, "") != 0)
+					{
+						if ($stat_eval["maxpoints"] > 0)
+						{
+							$percentage = ($stat_eval["resultspoints"] / $stat_eval["maxpoints"]) * 100.0;
+						}
+						else
+						{
+							$percentage = 0.0;
+						}
+						if ($percentage >= $this->object->ects_fx)
+						{
+							$mark_ects = "FX";
+						}
+						else
+						{
+							$mark_ects = "F";
+						}
+					}
+					else
+					{
+						$mark_ects = "F";
+					}
+					array_push($evalrow, array(
+						"html" => $mark_ects,
+						"xls"  => $mark_ects,
+						"csv"  => $mark_ects
+					));
+				}
+			}
+			
+			if ($eval_statistical_settings["distancemedian"]) {
+				if ($stat_eval["maxpoints"] == 0)
+				{
+					$pct = 0;
+				}
+				else
+				{
+					$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
+				}
+				$mark = $this->object->mark_schema->get_matching_mark($pct);
+				$mark_short_name = "";
+				if ($mark)
+				{
+					$mark_short_name = $mark->get_short_name();
+				}
+				array_push($evalrow, array(
+					"html" => $mark_short_name,
+					"xls"  => $mark_short_name,
+					"csv"  => $mark_short_name
+				));
+				$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
+				array_push($evalrow, array(
+					"html" => $rank_participant,
+					"xls"  => $rank_participant,
+					"csv"  => $rank_participant
+				));
+				$rank_median = $statistics->rank_median();
+				array_push($evalrow, array(
+					"html" => $rank_median,
+					"xls"  => $rank_median,
+					"csv"  => $rank_median
+				));
+				$total_participants = count($median_array);
+				array_push($evalrow, array(
+					"html" => $total_participants,
+					"xls"  => $total_participants,
+					"csv"  => $total_participants
+				));
+				array_push($evalrow, array(
+					"html" => $median,
+					"xls"  => $median,
+					"csv"  => $median
+				));
+			}
+			
+			for ($i = 1; $i <= count($this->object->questions); $i++)
+			{
+				$qshort = "";
+				$qt = "";
+				if ($this->object->isRandomTest())
+				{
+					$qt = $stat_eval[$i-1]["title"];
+					$qt = preg_replace("/<.*?>/", "", $qt);
+					$arrkey = array_search($qt, $legend);
+					if ($arrkey)
+					{
+						$qshort = $arrkey . ": ";
+					}
+				}
+				array_push($evalrow, array(
+					"html" => $qshort . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"],
+					"xls"  => $stat_eval[$i-1]["reached"],
+					"csv"  => $stat_eval[$i-1]["reached"]
+				));
+			}
+			array_push($eval_complete, array("title" => $titlerow_user, "data" => $evalrow));
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
+		$color_class = array("tblrow1", "tblrow2");
+		$noqcount = count($titlerow_without_questions);
+		foreach ($legend as $short => $long)
+		{
+			$this->tpl->setCurrentBlock("legendrow");
+			$this->tpl->setVariable("TXT_SYMBOL", $short);
+			$this->tpl->setVariable("TXT_MEANING", $long);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("legend");
+		$this->tpl->setVariable("TXT_LEGEND", $this->lng->txt("legend"));
+		$this->tpl->setVariable("TXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
+		$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("symbol"));
+		$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
+		$this->tpl->parseCurrentBlock();
+
+		$noq = $noqcount;		
+		foreach ($titlerow as $title)
+		{
+			if ($noq > 0)
+			{
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $title);
+				$this->tpl->parseCurrentBlock();
+				if ($noq == $noqcount)
+				{
+					$this->tpl->setCurrentBlock("questions_titlecol");
+					$this->tpl->setVariable("TXT_TITLE", $title);
+					$this->tpl->parseCurrentBlock();
+				}
+				$noq--;
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("questions_titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $title);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$counter = 0;
+		foreach ($eval_complete as $row)
+		{
+			$noq = $noqcount;
+			foreach ($row["data"] as $key => $value)
+			{
+				if ($noq > 0)
+				{
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $value["html"]);
+					$this->tpl->parseCurrentBlock();
+					if ($noq == $noqcount)
+					{
+						$this->tpl->setCurrentBlock("questions_datacol");
+						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						$this->tpl->setVariable("TXT_DATA", $value["html"]);
+						$this->tpl->parseCurrentBlock();
+					}
+					$noq--;
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("questions_datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $value["html"]);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("questions_row");
+			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+
+		$this->tpl->setCurrentBlock("questions_output");
+		$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_STATISTICAL_DATA",  $this->lng->txt("statistical_data"));
+//		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+//		print_r($eval_complete);		
+	}
+	
+	function evalAllUsersObject()
+	{
+		$this->evalSelectedUsersObject(1);
+	}
+	
 	function eval_statObject()
 	{
+		$this->neweval_statObject();
+		return;
 		global $ilUser;
 		global $ilBench;
 //		$ilBench->enable(true);
@@ -4997,6 +5930,36 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$path = $this->tree->getPathFull($this->object->getRefID());
 		$tabs_gui->addTarget("back", $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]), "",	"");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+	
+	function setEvaluationSettingsTabs()
+	{
+		global $rbacsystem;
+
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		$tabs_gui->addTarget("eval_all_users", $this->ctrl->getLinkTargetByClass(get_class($this), "eval_stat"), "eval_stat",	"ilobjtestgui");
+		$tabs_gui->addTarget("eval_selected_users", $this->ctrl->getLinkTargetByClass(get_class($this), "evalStatSelected"), "evalStatSelected",	"ilobjtestgui");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+	
+	function setEvaluationTabs($all_users = 0)
+	{
+		global $rbacsystem;
+
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		
+		$cmd = "evalAllUsers";
+		if ($all_users == 0)
+		{
+			$cmd = "evalSelectedUsers";
+		}
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		$tabs_gui->addTarget("tst_statistical_evaluation", $this->ctrl->getLinkTargetByClass(get_class($this), "$cmd"), "$cmd",	"ilobjtestgui");
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
