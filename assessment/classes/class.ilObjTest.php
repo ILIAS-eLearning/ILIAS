@@ -2526,24 +2526,24 @@ class ilObjTest extends ilObject
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
-
+		
 		// retrieve the active test dataset for the user containing
-		// questions sequence and other information
-		$active = $this->getActiveTestUser($user_id);
-		$sequence_array = split(",", $active->sequence);
-		sort($sequence_array, SORT_NUMERIC);
-
+		// questions sequence and other information 
+		//$active = $this->getActiveTestUser($user_id);
+		//$sequence_array = array();
+		//if (strlen($active->sequence))
+		//{
+		//	$sequence_array = split(",", $active->sequence);
+		//	sort($sequence_array, SORT_NUMERIC);
+		//}
 		$key = 1;
 		$result_array = array();
-		foreach ($sequence_array as $idx => $seq)
+		foreach ($this->questions as $value)
 		{
-			$value = $this->questions[$seq];
-//			$ilBench->start("getTestResult","instanciate question");
+			//$value = $this->questions[$seq];
+//			$ilBench->start("getTestResult","instanciate question"); 
 			$question =& ilObjTest::_instanciateQuestion($value);
-//			$ilBench->stop("getTestResult","instanciate question");
-
-			// sometimes we do not have an object here
-			// i don't know why (alex, 1.2.2005)
+//			$ilBench->stop("getTestResult","instanciate question"); 
 			if (is_object($question))
 			{
 				$max_points = $question->getMaximumPoints();
