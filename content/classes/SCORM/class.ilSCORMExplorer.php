@@ -334,7 +334,7 @@ class ilSCORMExplorer extends ilExplorer
 					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
 					$tpl->parseCurrentBlock();
 				}
-	
+
 				if ($picture == 'minus')
 				{
 					$target = $this->createTarget('-',$a_node_id);
@@ -367,7 +367,7 @@ class ilSCORMExplorer extends ilExplorer
 				$status = ($trdata["cmi.core.lesson_status"] == "")
 					? "not attempted"
 					: $trdata["cmi.core.lesson_status"];
-				$alt = $a_option["type"] . "-" . $lng->txt("cont_status").": ".
+				$alt = $lng->txt("cont_status").": ".
 					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
 
 				// score

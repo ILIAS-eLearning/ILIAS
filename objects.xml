@@ -164,7 +164,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" devmode="1">
+<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="editMeta">meta_data</property>
