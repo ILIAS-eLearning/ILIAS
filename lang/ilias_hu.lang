@@ -2473,6 +2473,7 @@ content#:#cont_files#:#Fájlok
 content#:#cont_fix_tree#:#Fix structure###05 Nov 2004 new variable
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###05 Nov 2004 new variable
 content#:#cont_format#:#Formázás
+content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
 content#:#cont_free_pages#:#Szabad lapok
 content#:#cont_full_is_in_dir#:#A törlés nem lehetséges. Teljesképernyős fájl van a könyvtárban.
 content#:#cont_fullscreen#:#Teljesképernyő

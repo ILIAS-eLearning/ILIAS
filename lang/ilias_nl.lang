@@ -2473,6 +2473,7 @@ content#:#cont_files#:#extern
 content#:#cont_fix_tree#:#Bestand
 content#:#cont_fix_tree_confirm#:#Bestanden
 content#:#cont_format#:#Structuur repareren
+content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
 content#:#cont_free_pages#:#Voer deze opdracht alleen maar als de boom-struktuur van deze lesmodule corrupt is, bijv. als lege ingaven in de hoofstuk-struktuur voorkomen.
 content#:#cont_full_is_in_dir#:#Formaat
 content#:#cont_fullscreen#:#Vrije pagina's
