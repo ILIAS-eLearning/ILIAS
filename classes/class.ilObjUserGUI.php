@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.30 2003/07/07 13:03:06 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.31 2003/07/09 09:50:02 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -230,7 +230,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $_POST["new_type"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
