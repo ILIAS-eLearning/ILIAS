@@ -368,9 +368,11 @@ class ilLMObject
 	*/
 	function _getIdForImportId($a_import_id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM lm_data WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
-		$obj_set = $this->ilias->db->query($q);
+		$obj_set = $ilDB->query($q);
 		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
@@ -383,6 +385,36 @@ class ilLMObject
 		}
 
 		return 0;
+	}
+	
+	/**
+	* checks wether a lm content object with specified id exists or not
+	*
+	* @param	int		$id		id
+	*
+	* @return	boolean		true, if lm content object exists
+	*/
+	function _exists($a_id)
+	{
+		global $ilDB;
+		
+		include_once("content/classes/Pages/class.ilInternalLink.php");
+		if (is_int(strpos($a_id, "_")))
+		{
+			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
+		}
+		
+		$q = "SELECT * FROM lm_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
 	}
 
 	/**

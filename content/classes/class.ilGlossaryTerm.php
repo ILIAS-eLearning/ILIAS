@@ -88,9 +88,11 @@ class ilGlossaryTerm
 	*/
 	function _getIdForImportId($a_import_id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT * FROM glossary_term WHERE import_id = '".$a_import_id."'".
 			" ORDER BY create_date DESC LIMIT 1";
-		$term_set = $this->ilias->db->query($q);
+		$term_set = $ilDB->query($q);
 		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
@@ -103,6 +105,38 @@ class ilGlossaryTerm
 
 		return 0;
 	}
+	
+	
+	/**
+	* checks wether a glossary term with specified id exists or not
+	*
+	* @param	int		$id		id
+	*
+	* @return	boolean		true, if glossary term exists
+	*/
+	function _exists($a_id)
+	{
+		global $ilDB;
+		
+		include_once("content/classes/Pages/class.ilInternalLink.php");
+		if (is_int(strpos($a_id, "_")))
+		{
+			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
+		}
+
+		$q = "SELECT * FROM glossary_term WHERE id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
 
 	/**
 	* set glossary term id (= glossary item id)

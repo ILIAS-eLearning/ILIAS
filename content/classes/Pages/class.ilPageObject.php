@@ -971,13 +971,25 @@ class ilPageObject
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
-//echo "<br>getIdforImportId:".$type.":".$target.":";
+			
 			$new_target = ilInternalLink::_getIdForImportId($type, $target);
-//echo $new_target.":";
 			if ($new_target !== false)
 			{
 				$res->nodeset[$i]->set_attribute("Target", $new_target);
 			}
+			else		// check wether link target is same installation
+			{
+				if (ilInternalLink::_extractInstOfTarget($target) == IL_INST_ID &&
+					IL_INST_ID > 0)
+				{
+					$new_target = ilInternalLink::_removeInstFromTarget($target);
+					if (ilInternalLink::_exists($type, $new_target))
+					{
+						$res->nodeset[$i]->set_attribute("Target", $new_target);	
+					}
+				}
+			}
+
 		}
 		unset($xpc);
 

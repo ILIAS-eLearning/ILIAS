@@ -109,6 +109,25 @@ class ilObjMediaObject extends ilObject
 		}
 	}
 
+	/**
+	* checks wether a lm content object with specified id exists or not
+	*
+	* @param	int		$id		id
+	*
+	* @return	boolean		true, if lm content object exists
+	*/
+	function _exists($a_id)
+	{
+		global $ilDB;
+		
+		include_once("content/classes/Pages/class.ilInternalLink.php");
+		if (is_int(strpos($a_id, "_")))
+		{
+			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
+		}
+		
+		return parent::_exists($a_id, false);
+	}
 
 	/**
 	* delete media object
