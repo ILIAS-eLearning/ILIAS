@@ -554,6 +554,7 @@ class ilUserImportParser extends ilSaxParser
 		{
 			case "Role":
 				$this->roles[$this->current_role_id]["name"] = $this->cdata;
+				$this->roles[$this->current_role_id]["type"] = $this->current_role_type;
 				break;
 
 			case "User":
@@ -588,8 +589,11 @@ class ilUserImportParser extends ilSaxParser
 									break;
 								}
 							}
+							if (! $has_global_role)
+							{
 							$this->log($this->userObj->getLogin(),"At least one global Role must be specified for Action 'insert'.");
 							$this->success = false;
+							}
 						}
 						break;
 					case "update" :
