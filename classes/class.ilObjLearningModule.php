@@ -60,7 +60,7 @@ class ilObjLearningModule extends ilObject
 	*/
 	function upload($a_parse_mode, $a_file, $a_name)
 	{
-		require_once "classes/class.xml2sql.php";
+		require_once "classes/class.ilXML2SQL.php";
 		require_once "classes/class.ilDOMXML.php";
 
 		$source = $a_file;
@@ -129,7 +129,7 @@ class ilObjLearningModule extends ilObject
 					//echo "<pre>".htmlentities($lo->domxml->dumpDocument())."</pre>";
 
 					// insert LO into lo_database
-					$xml2sql = new xml2sql($lotree,$lo_id);
+					$xml2sql = new ilXML2SQL($lotree,$lo_id);
 					$xml2sql->insertDocument();
 
 					//fetch internal element id, parent_id and save them to reconstruct tree later on
@@ -158,7 +158,7 @@ class ilObjLearningModule extends ilObject
 		unset($loObj);
 
 		$lotree = $lo->buildTree();
-		$xml2sql = new xml2sql($lotree,$lo_id);
+		$xml2sql = new ilXML2SQL($lotree,$lo_id);
 		$xml2sql->insertDocument();
 
 		// copying file to server if document is valid (soon...)
