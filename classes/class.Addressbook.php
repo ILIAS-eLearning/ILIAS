@@ -80,13 +80,61 @@ class Addressbook
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$entries[] = array(
-				"login"      => $row->login,
-				"firstname"  => $row->firstname,
-				"lastname"   => $row->lastname,
-				"email"      => $row->email);
+				"login"      => stripslashes($row->login),
+				"firstname"  => stripslashes($row->firstname),
+				"lastname"   => stripslashes($row->lastname),
+				"email"      => stripslashes($row->email));
 		}
 		return $entries ? $entries : array();
 	}
+	/**
+	* add entry
+	* @param login
+	* @param string firstname
+	* @param string lastname
+	* @param string email 
+	* @return boolean
+	* @access	public
+	*/
+	function addEntry($a_login,$a_firstname,$a_lastname,$a_email)
+	{
+		$query = "INSERT INTO $this->table_addr ".
+			"SET user_id = '".$this->user_id."',".
+			"login = '".addslashes($a_login)."',".
+			"firstname = '".addslashes($a_firstname)."',".
+			"lastname = '".addslashes($a_lastname)."',".
+			"email = '".addslashes($a_email)."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return true;
+	}
+
+	/**
+	* update entry
+	* @param login
+	* @param integer addr_id
+	* @param string firstname
+	* @param string lastname
+	* @param string email 
+	* @return boolean
+	* @access	public
+	*/
+	function updateEntry($a_addr_id,$a_login,$a_firstname,$a_lastname,$a_email)
+	{
+		$query = "UPDATE $this->table_addr ".
+			"SET login = '".addslashes($a_login)."',".
+			"firstname = '".addslashes($a_firstname)."',".
+			"lastname = '".addslashes($a_lastname)."',".
+			"email = '".addslashes($a_email)."' ".
+			"WHERE user_id = '".$this->user_id."' ".
+			"AND addr_id = '".$a_addr_id."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return true;
+	}
+
 	/**
 	* get all entries the user
 	* @return array array of entries found in addressbook
@@ -95,20 +143,42 @@ class Addressbook
 	function getEntries()
 	{
 		$query = "SELECT * FROM $this->table_addr ".
-			"WHERE user_id = '".$this->user_id."'";
+			"WHERE user_id = '".$this->user_id."' ".
+			"ORDER BY login,lastname";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$entries[] = array(
 				"addr_id"    => $row->addr_id,
-				"login"      => $row->login,
-				"firstname"  => $row->firstname,
-				"lastname"   => $row->lastname,
-				"email"      => $row->email);
+				"login"      => stripslashes($row->login),
+				"firstname"  => stripslashes($row->firstname),
+				"lastname"   => stripslashes($row->lastname),
+				"email"      => stripslashes($row->email));
 		}
 		return $entries ? $entries : array();
 	}
+	/**
+	* get all entries the user
+	* @return array array of entry data
+	* @access	public
+	*/
+	function getEntry($a_addr_id)
+	{
+		$query = "SELECT * FROM $this->table_addr ".
+			"WHERE user_id = '".$this->user_id."' ".
+			"AND addr_id = '".$a_addr_id."'";
+
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+		return array(
+			"addr_id"    => $row->addr_id,
+			"login"      => stripslashes($row->login),
+			"firstname"  => stripslashes($row->firstname),
+			"lastname"   => stripslashes($row->lastname),
+			"email"      => stripslashes($row->email));
+	}
+
 	/**
 	* delete some entries of user
 	* @param array array of entry ids
@@ -128,15 +198,15 @@ class Addressbook
 	}
 	/**
 	* delete one entry
-	* @param integer entry id
+	* @param integer addr id
 	* @return boolean
 	* @access	public
 	*/
-	function deleteEntry($a_entry_id)
+	function deleteEntry($a_addr_id)
 	{
 		$query = "DELETE FROM $this->table_addr ".
 			"WHERE user_id = '".$this->user_id."' ".
-			"AND entry_id = '".$a_entry_id."'";
+			"AND addr_id = '".$a_addr_id."'";
 		$res = $this->ilias->db->query($query);
 
 		return true;

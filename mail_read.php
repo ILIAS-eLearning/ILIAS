@@ -65,7 +65,7 @@ $tplbtn->setVariable("BTN_TXT", $lng->txt("print"));
 $tplbtn->setVariable("BTN_TARGET","target=\"_blank\"");
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]");
+$tplbtn->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=add");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("mail_add_to_addressbook"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
