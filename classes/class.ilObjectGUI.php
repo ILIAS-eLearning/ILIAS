@@ -1635,8 +1635,9 @@ class ilObjectGUI
 		else
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			//$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
 		}
 
 		// SHOW VALID ACTIONS
