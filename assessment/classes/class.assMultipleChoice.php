@@ -474,7 +474,7 @@ class ASS_MultipleChoice extends ASS_Question {
 * @access public
 * @see $answers
 */
-  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
+  function save_working_data($test_id, $postponed = 0, $limit_to = LIMIT_NO_LIMIT) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
@@ -489,16 +489,18 @@ class ASS_MultipleChoice extends ASS_Question {
 			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			$update = $row->solution_id;
 			if ($update) {
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s, postponed = %s WHERE solution_id = %s",
 					$db->quote($_POST["multiple_choice_result"]),
+					$db->quote(sprintf("%d", $postponed)),
 					$db->quote($update)
 				);
 			} else {
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, postponed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
 					$db->quote($this->get_id()),
-					$db->quote($_POST["multiple_choice_result"])
+					$db->quote($_POST["multiple_choice_result"]),
+					$db->quote(sprintf("%d", $postponed))
 				);
 			}
       $result = $db->query($query);
@@ -511,11 +513,12 @@ class ASS_MultipleChoice extends ASS_Question {
 			$result = $db->query($query);
       foreach ($_POST as $key => $value) {
         if (preg_match("/multiple_choice_result_(\d+)/", $key, $matches)) {
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, postponed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
 						$db->quote($ilUser->id),
 						$db->quote($test_id),
 						$db->quote($this->get_id()),
-						$db->quote($value)
+						$db->quote($value),
+						$db->quote(sprintf("%d", $postponed))
 					);
           $result = $db->query($query);
         }

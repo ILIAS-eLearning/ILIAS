@@ -1146,6 +1146,12 @@ class ilObjTest extends ilObject
 		return count($this->questions);
 	}
 	
+	function get_question_id_from_active_user_sequence($sequence) {
+		$active = $this->get_active_test_user();
+		$sequence_array = split(",", $active->sequence);
+		return $this->questions[$sequence_array[$sequence-1]];
+	}
+	
 	function get_active_test_user() {
 		global $ilDB;
 		global $ilUser;
@@ -1169,17 +1175,14 @@ class ilObjTest extends ilObject
 		global $ilUser;
 		
 		$db =& $ilDB->db;
-		$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$db->quote($ilUser->id),
-			$db->quote($this->test_id)
-		);
-		
-		$result = $db->query($query);
-		if ($result->numRows()) {
-			$old_active = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$old_active = $this->get_active_test_user();
+		if ($old_active) {
 			$sequence = $old_active->sequence;
 			if ($postpone) {
+				$sequence_array = split(",", $sequence);
+				$postpone = $sequence_array[$postpone-1];
 				$sequence = preg_replace("/\D*$postpone/", "", $sequence) . ",$postpone";
+				$sequence = preg_replace("/^,/", "", $sequence);
 			}
 			$tries = $old_active->tries;
 			if ($addTries) {

@@ -591,11 +591,15 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 		
-		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"]) {
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["postpone"]) {
 			// save question solution
 			$question_gui = new ASS_QuestionGui();
-			$question_gui->create_question("", $this->object->questions[$_GET["sequence"]]);
-			$question_gui->question->save_working_data($this->object->get_test_id());
+			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
+			$postponed = 0;
+			if ($_POST["cmd"]["postpone"]) {
+				$postponed = 1;
+			}
+			$question_gui->question->save_working_data($this->object->get_test_id(), $postponed);
 		}
 
 		$this->sequence = $_GET["sequence"];
@@ -666,15 +670,23 @@ class ilObjTestGUI extends ilObjectGUI
 		} else {
 			if ($this->sequence <= $this->object->get_question_count()) {
 				// show next/previous question
-				$this->object->set_active_test_user($this->sequence);
+				$postpone = "";
+				if ($_POST["cmd"]["postpone"]) {
+					$postpone = $this->sequence;
+				}
+				$this->object->set_active_test_user($this->sequence, $postpone);
 				$question_gui = new ASS_QuestionGui();
-				$question_gui->create_question("", $this->object->questions[$this->sequence]);
+				$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($this->sequence));
 				if ($this->sequence == $this->object->get_question_count()) {
 					$finish = true;
 				} else {
 					$finish = false;
 				}
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id());
+				$postpone = false;
+				if ($this->object->get_sequence_settings() == TEST_POSTPONE) {
+					$postpone = true;
+				}
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $postpone);
 			} else {
 				// finish test
 				$this->object->set_active_test_user($this->sequence, "", true);
