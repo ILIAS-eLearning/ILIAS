@@ -38,6 +38,7 @@ absolute_path#:#Absolute pad
 access#:#Toegang
 access_status#:#Toegangs-status
 admin_login#:#Inloggen als administrateur
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Beschikbare cliënten
 available_languages#:#Beschikbare talen
 back#:#terug
@@ -269,6 +270,7 @@ no_path_zip#:#Geen zip-pad opgegevens
 no_setup_pass_given#:#Geen Opzet-wachtwoord gegeven
 no_username#:#Geen gebruikers-naam opgegeven
 no_valid_client_id#:#Geen correct Cliënt-ID
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#U bent niet met een databank verbonden
 online#:#online
 or#:#of
@@ -323,6 +325,7 @@ safe_mode_enabled#:#Veilige modus is ingeschakeld!
 save#:#Opslaan
 save_error#:#Sla fout op!
 saved_successfully#:#Succesvol opgeslagen
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Selecteer een cliënt
 server_info#:#Server-informatie
 server_software#:#Server-software
@@ -363,6 +366,7 @@ setup_process_step_lang#:#Installeren systeem-talen
 setup_process_step_nic#:#Registreer op ILIAS-NIC
 setup_ready#:#Setup is klaar. U kunt doorgaan met inloggen en verder controles van de systeem-instellingen.
 setup_welcome#:#Welkom bij de setup van ILIAS 3. De setup-routine helpt u met 
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sorteer op deze kolom
 status#:#Status
 step#:#Het ILIAS-systeem is zichtbaar
@@ -379,6 +383,7 @@ update_error#:#Fout tijdens het bijwerken
 update_not_found#:#Wijziging niet gevonden!
 username#:#Gebruikersnaam
 version#:#Versie
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#datapad web-ruimte
 with#:#met
 wrong_password#:#Fout wachtwoord!

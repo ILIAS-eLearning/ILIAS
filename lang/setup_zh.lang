@@ -54,6 +54,7 @@ absolute_path#:#绝对路径
 access#:#访问 
 access_status#:#访问状态 
 admin_login#:#管理员登录e 
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#可用客户 
 available_languages#:#可用语言 
 back#:#返回 
@@ -284,6 +285,7 @@ no_path_zip#:#未给定zip路径
 no_setup_pass_given#:#未给定安装程序口令 
 no_username#:#未给定用户名 
 no_valid_client_id#:#无有效客户身份
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#未连接到数据库 
 online#:#在线e 
 or#:#或 
@@ -338,6 +340,7 @@ safe_mode_enabled#:#激活安全模式！
 save#:#保存 
 save_error#:#存错误 
 saved_successfully#:#成功保存！ 
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#选择一个客户
 server_info#:#服务器信息！ 
 server_software#:#服务器软件
@@ -378,6 +381,7 @@ setup_process_step_lang#:#安装系统语言
 setup_process_step_nic#:#在ILIAS-NIC上注册 
 setup_ready#:#安装完成。可以登录进一步检查系统设置。
 setup_welcome#:#欢迎使用ILIAS 3安装程序。此安装程序将帮助您
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#根据此列排序 
 status#:#状态 
 step#:#步骤
@@ -394,6 +398,7 @@ update_error#:#更新错误
 update_not_found#:#未发现更新 
 username#:#用户名 
 version#:#版本 
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#web空间数据路径 ###14 Sep 2004 content changed
 with#:#同 
 wrong_password#:#错误口令！ 

@@ -38,6 +38,7 @@ absolute_path#:#Percorso assoluto
 access#:#Accedi
 access_status#:#Stato dell&#039; accesso
 admin_login#:#Entra come Amministratore
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Client disponibili
 available_languages#:#Lingue disponibili
 back#:#Indietro
@@ -268,6 +269,7 @@ no_path_zip#:#Non &#232; stato specificato il percorso per lo zip
 no_setup_pass_given#:#Non &#232; stata indicata la password di installazione
 no_username#:#Non &#232; stato indicato lo username
 no_valid_client_id#:#Nessun client valido
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Non sei connesso al Database.
 online#:#online
 or#:#or
@@ -322,6 +324,7 @@ safe_mode_enabled#:#La modalit&#224; "sicura" &#232; stata abilitata!
 save#:#Salva
 save_error#:#Errore nel salvataggio!
 saved_successfully#:#Salvataggio eseguito con successo
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Seleziona un client
 server_info#:#Informazioni del server
 server_software#:#Software del server
@@ -362,6 +365,7 @@ setup_process_step_lang#:#installa le lingue di sistema
 setup_process_step_nic#:#procurati un ILIAS-NIC
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Ordina secondo questa colonna
 status#:#Stato
 step#:#Passo
@@ -378,6 +382,7 @@ update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
 username#:#utente
 version#:#Versione
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#Percorso della cartella webdata
 with#:#con
 wrong_password#:#Password errata!

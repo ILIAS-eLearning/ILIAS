@@ -38,6 +38,7 @@ absolute_path#:#Abszolúlt útvonal
 access#:#Elérés
 access_status#:#Elérési állapot
 admin_login#:#Bejelentkezés adminisztrátorként
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#A kliens elérhető
 available_languages#:#elérhető nyelvek
 back#:#vissza
@@ -200,7 +201,6 @@ lang_en#:#Angol
 lang_error_occurred#:#Hiba. Tevékenység megszakítva.
 lang_es#:#Spanyol
 lang_fr#:#Francia
-lang_hu#:#Magyar
 lang_id#:#Indonéz
 lang_it#:#Olasz
 lang_lt#:#Litván
@@ -268,6 +268,7 @@ no_path_zip#:#Nincs megadva Zip elérési útvonal
 no_setup_pass_given#:#Nincs megadva setup-jelszó
 no_username#:#Nincs megadva felhasználónév
 no_valid_client_id#:#Nincs érvényes kliens-azonosító (ID)
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Nem kapcsolódott az adatbázishoz
 online#:#on-line
 or#:#vagy
@@ -322,6 +323,7 @@ safe_mode_enabled#:#A biztonságos mód engedélyezett
 save#:#Mentés
 save_error#:#Mentési hiba!
 saved_successfully#:#A mentés sikeres volt
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Kliens kiválasztása
 server_info#:#Szerver-információk
 server_software#:#Szerver-szoftver
@@ -362,6 +364,7 @@ setup_process_step_lang#:#Rendszernyelvek installálása
 setup_process_step_nic#:#ILIAS-NIC-nél regisztrálás
 setup_ready#:#A setup befejeződött. Folytathatja a munkát a bejelentkezéssel és a további rendszerbeállítások ellenőrzésével.
 setup_welcome#:#Üdvözli az ILIAS3 setup. Ez a setup-rutin segít Önnek, hogy
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Rendezés oszlopok szerint
 status#:#Állapot
 step#:#Lépés
@@ -378,6 +381,7 @@ update_error#:#Hiba frissítés közben
 update_not_found#:#A frissítés nem található
 username#:#felhasználónév
 version#:#Verzió
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#webhely adatútvonal
 with#:#with
 wrong_password#:#Hibás jelszó!

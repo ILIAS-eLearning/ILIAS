@@ -38,6 +38,7 @@ absolute_path#:#Ścieżka absolutna
 access#:#Dostęp
 access_status#:#Status dostępu
 admin_login#:#Logowanie jako Administrator
+antivir#:#AntiVir###18 Nov 2004 new variable
 available_clients#:#Dostępni klienci
 available_languages#:#Dostępne języki
 back#:#Powrót
@@ -268,6 +269,7 @@ no_path_zip#:#Nie podano ścieżki do zip
 no_setup_pass_given#:#Nie podano hasła instalatora
 no_username#:#Nie podano nazwy użytkownika
 no_valid_client_id#:#Brak poprawnego ID klienta
+none#:#None###18 Nov 2004 new variable
 not_connected_to_db#:#Nie jesteś podłączony do bazy danych.
 online#:#online
 or#:#lub
@@ -322,6 +324,7 @@ safe_mode_enabled#:#Tryb 'Safe mode' wybrany!
 save#:#Zapisz
 save_error#:#Błąd zapisu!
 saved_successfully#:#Zapis udany
+scan_command#:#Scan Command###18 Nov 2004 new variable
 select_client#:#Wybierz klienta
 server_info#:#Informacje o Serwerze
 server_software#:#Oprogramowanie Serwera
@@ -362,6 +365,7 @@ setup_process_step_lang#:#Instaluj języki systemowe
 setup_process_step_nic#:#Zarejestruj się w ILIAS-NIC
 setup_ready#:#Instalacja jest gotowa. Możesz się zalogować i sprawdzić pozostałe ustawienia.
 setup_welcome#:#Witamy w instalatorze ILIAS. Instalator pomoże ci wykonać poniższe czynności.
+sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sortuj wg tej kolumny
 status#:#Status
 step#:#Krok
@@ -378,6 +382,7 @@ update_error#:#błąd podczas aktualizacji
 update_not_found#:#Aktualizacja nie została odnaleziona!
 username#:#Nazwa użytkownika
 version#:#Wersja
+virus_scanner#:#Virus Scanner###18 Nov 2004 new variable
 webspace_dir#:#Ścieżka do danych WWW
 with#:#z
 wrong_password#:#Złe hasło!
