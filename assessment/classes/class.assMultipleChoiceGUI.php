@@ -724,24 +724,35 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
 
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION"));
-		return;
+		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION");
 
-		$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
-
-		$solutions = array();
-		$postponed = "";
-
+		// set solutions
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
+//echo "<br>".htmlentities($repl_str);
+				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+			}
 		}
+
+		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output);
+		return;
+
+		//$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
+
+		$postponed = "";
+
+
 
 		if ($is_postponed)
 		{
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
 
+		/*
 		if (!empty($this->object->materials))
 		{
 			$i = 1;
@@ -756,7 +767,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("material_download");
 			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		if ($this->object->response == RESPONSE_SINGLE)
 		{
@@ -785,32 +796,20 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("multiple");
+			//$this->tpl->setCurrentBlock("multiple");
 			$akeys = array_keys($this->object->answers);
+			/*
 			if ($this->object->shuffle)
 			{
 				$akeys = $this->object->pcArrayShuffle($akeys);
-			}
-			foreach ($akeys as $key)
-			{
-				$value = $this->object->answers[$key];
-				$this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
-				$this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
-				foreach ($solutions as $idx => $solution_value)
-				{
-					if ($solution_value->value1 == $key)
-					{
-						$this->tpl->setVariable("VALUE_CHECKED", " checked=\"checked\"");
-					}
-				}
-				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 		}
 
+		/*
 		$this->tpl->setCurrentBlock("multiple_choice");
 		$this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->object->getTitle() . $postponed);
 		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->object->get_question());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 	}
 
 	/**

@@ -1407,19 +1407,14 @@
 					<tr>
 						<td class="nobackground" width="15">
 							<input type="radio" name="multiple_choice_result">
-							<xsl:attribute name="value">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
-							<xsl:attribute name="id">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="dummy">mc<xsl:value-of select="@ident"/></xsl:attribute>
 							</input>
 						</td>
 						<td class="nobackground" width="left">
 							<label>
-							<xsl:attribute name="for">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
+							<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
 							<xsl:value-of select="material/mattext"/>
 							</label>
 						</td>
@@ -1435,22 +1430,15 @@
 					<tr>
 						<td class="nobackground" width="15">
 							<input type="checkbox">
-							<xsl:attribute name="name">
-							multiple_choice_result_<xsl:value-of select="@ident"/>
-							</xsl:attribute>
-							<xsl:attribute name="value">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
-							<xsl:attribute name="id">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
+							<xsl:attribute name="name">multiple_choice_result_<xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="dummy">mc<xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+							<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
 							</input>
 						</td>
 						<td class="nobackground" width="left">
 							<label>
-							<xsl:attribute name="for">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
+							<xsl:attribute name="for"><xsl:value-of select="@ident"/></xsl:attribute>
 							<xsl:value-of select="material/mattext"/>
 							</label>
 						</td>
