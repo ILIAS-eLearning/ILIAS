@@ -7,11 +7,18 @@
 		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
 			<ilTOC target_frame="maincontent" />
 		</ilFrame>
-		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
-			<ilLocator />
-			<ilLMMenu />
-			<ilPage />
-			<ilLMNavigation />
+		<ilFrame name="maincontent">
+			<PageObject template="tpl.page.html" template_location="module">
+				<ilPage>
+					<LinkTarget Type="New" Frame="_new" />
+					<LinkTarget Type="FAQ" Frame="_new" />
+					<LinkTarget Type="Glossary" Frame="_new" />
+					<LinkTarget Type="Media" Frame="_new" />
+				</ilPage>
+				<ilLMNavigation />
+				<ilLocator />
+				<ilLMMenu />
+			</PageObject>
 		</ilFrame>
 	</ilFrame>
 </ilFrame>
