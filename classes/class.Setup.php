@@ -120,12 +120,23 @@ class Setup
 		$this->setDbUser($this->ini->readVariable("db","user"));
 		$this->setDbPass($this->ini->readVariable("db","pass"));
 
+		$this->setDSN();
+		
 		// set tplPath
 		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server","tpl_path"));
 
 		return true;
     }
 
+	/**
+	* set the dsns
+	*/
+	function setDSN()
+	{
+		$this->dsn_host = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
+		$this->dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost."/".$this->dbName;
+	}
+	
     /**
 	 * connect
 	 */
@@ -169,6 +180,7 @@ class Setup
 	function setDbType($str)
 	{
 		$this->dbType = $str;
+		$this->setDSN();
 	}
 	
 	/**
@@ -178,6 +190,7 @@ class Setup
 	function setDbHost($str)
 	{
 		$this->dbHost = $str;
+		$this->setDSN();
 	}
 
 	/**
@@ -187,6 +200,7 @@ class Setup
 	function setDbName($str)
 	{
 		$this->dbName = $str;
+		$this->setDSN();
 	}
 
 	/**
@@ -196,6 +210,7 @@ class Setup
 	function setDbUser($str)
 	{
 		$this->dbUser = $str;
+		$this->setDSN();
 	}
 
 	/**
@@ -205,6 +220,7 @@ class Setup
 	function setDbPass($str)
 	{
 		$this->dbPass = $str;
+		$this->setDSN();
 	}
 
     /**
@@ -239,6 +255,40 @@ class Setup
 		} //for
 		return true;
 	}
+
+
+	/**
+	* check database connection
+	*/
+	function checkDatabaseHost()
+	{
+        //connect to databasehost
+		$db = DB::connect($this->dsn_host);
+
+		if (DB::isError($db))
+		{
+			$this->error_msg = $db->getMessage();
+			$this->error = "data_invalid";
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	* check database connection
+	*/
+	function checkDatabaseExists()
+	{
+		//try to connect to database
+		$db = DB::connect($this->dsn);
+		if (DB::isError($db))
+		{
+			return false;
+		}
+		else
+			return true;
+	}
 	
 	/**
 	 * set the database data
@@ -251,37 +301,28 @@ class Setup
 			$this->error = "empty_fields";
 			return false;
 		}
-		
-        //connect to databasehost
-		$dsn = $this->dbType."://".$this->dbUser.":".$this->dbPass."@".$this->dbHost;
-		
-		$db = DB::connect($dsn);
 
+		if ($this->checkDatabaseHost() == false)
+		{
+			$this->error = "no_connection_to_host";
+			return false;		
+		}
+
+		if ($this->checkDatabaseExists() == true)
+		{
+			$this->error = "database_exists";
+			return false;
+		}
+
+		//create database
+		$db = DB::connect($this->dsn_host);
 		if (DB::isError($db))
 		{
 			$this->error_msg = $db->getMessage();
-			$this->error = "data_invalid";
-			return false;
-		}
-		$db->disconnect();
-
-		//try to connect to database
-		$db = DB::connect($dsn."/".$this->dbName);
-		if (DB::isError($db)==false)
-		{
-			$this->error = "database_exists";
-			$db->disconnect();
-			return false;
-		}
-		
-		//create database
-		$db = DB::connect($dsn);
-		if (DB::isError($db))
-		{
-			$this->error_msg = $this->db->getMessage();
 			$this->error = "connection_failed";
 			return false;
 		}
+
 		$sql = "CREATE DATABASE ".$this->dbName;
 		$r = $db->query($sql);
 
@@ -294,7 +335,7 @@ class Setup
 		
 		//database is created, now disconnect and reconnect
 		$db->disconnect();
-		$db = DB::connect($dsn."/".$this->dbName);
+		$db = DB::connect($this->dsn);
 		if (DB::isError($db))
 		{
 			$this->error = "creation_of_database_failed";
@@ -313,6 +354,25 @@ class Setup
 	    return true;
     }
 
+	/**
+	* check if inifile exists
+	*/
+    function checkIniFileExists()
+    {
+		$a = file_exists($this->INI_FILE);
+		return $a;		
+    }
+    
+	/**
+	* check for writable rootdirectory
+	* @return boolean
+	*/
+    function checkRootWritable()
+    {
+		clearstatcache();
+		return is_writable(".");
+    }	
+	
 	/**
 	* write the ini file
 	*/
@@ -341,22 +401,33 @@ class Setup
 		
 	} //function
 
+
 	/**
-	* check if inifile exists
+	* check for writable langdirectory
+	* @return boolean
 	*/
-    function checkIniFileExists()
-    {
-		return false;
-    }
-    
-	/**
-	* check if main directory is writable for webserver
-	*/
-    function checkIniFileWritable()
-    {
+	function checkLangWritable()
+	{
 		clearstatcache();
-		return is_writable(".");
-    }
+		return is_writable("./lang");
+	}
+	
+	/**
+	* preliminaries
+	* 
+	* check if different things are ok for setting up ilias
+	* @return boolean
+	*/
+	function preliminaries()
+	{
+		$a = array();
+		$a["root"] = $this->checkRootWritable();
+		$a["lang"] = $this->checkLangWritable();
+		$a["db"] = $this->checkDatabaseExists();
+		
+		//return value
+		return $a;
+	}
 	
 } //class Setup
 ?>

@@ -15,24 +15,28 @@
 //include classes - later in the program it will be done by ilias.header.inc
 include_once("./classes/class.Setup.php");
 include_once("./classes/class.Language.php");
+include_once("./classes/class.Log.php");
 include_once("HTML/IT.php");
 
-$VERSION = "0.9";
+$OK = "<font color=\"green\"><strong>OK</strong></font>";
+$FAILED = "<strong><font color=red>FAILED</font></strong>";
 
 //CVS - REVISION - DO NOT MODIFY
 $REVISION = "$Revision$";
-$VERSION = $VERSION.".".substr(substr($REVISION,2),0,-2);
+$VERSION = substr(substr($REVISION,2),0,-2);
 
 //instantiate template - later in the program please use own Templateclass
 $tpl = new IntegratedTemplate("./templates");
 $tpl->loadTemplatefile("tpl.setup.html", false, true);
+
+$log = new Log("ilias.log");
 
 //instantiate setup-class
 $mySetup = new Setup();
 
 //reload setupscript if $step is empty
 if ($_GET["step"] == "")
-    $step == 0;
+    $step = "preliminaries";
 
 //instantiate language class
 if ($_GET[$lang] == "")
@@ -56,9 +60,15 @@ $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
 $tpl->setVariable("VERSION", $VERSION);
 
 
+//languages
+if ($step == 4)
+{
+
+}
+
 //third step of installation process
 //install database
-if ($step == 4)
+if ($step == 3)
 {
 		
 		$mySetup->readIniFile();
@@ -69,33 +79,29 @@ if ($step == 4)
 		if ($mySetup->installDatabase()==true)
 		{
 			//user may now login
-			$tpl->setCurrentBlock("step4");
-			$tpl->setVariable("TXT_DATABASE4", $lng->txt("database"));
-			$tpl->setVariable("TXT_STEP4", $lng->txt("login"));
-			$tpl->setVariable("LINK_STEP4", "login.php?lang=".$lang);
-			$tpl->setVariable("MSG4", $lng->txt("setup_ready"));
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_ERR", $lng->txt("setup_ready"));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("step3");
+			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
+			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
+			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$lang);
 			$tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$tpl->setCurrentBlock("step4");
-			$tpl->setVariable("TXT_DATABASE4", $lng->txt("database"));
-			$tpl->setVariable("TXT_STEP4", $lng->txt("step")." 1: ".$lng->txt("setup")." ".$lng->txt("inifile"));
-			$tpl->setVariable("LINK_STEP4", "setup.php?step=1&amp;lang=".$lang);
-			$tpl->setVariable("MSG4", $lng->txt($mySetup->error));
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("step3");
+			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
+			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
+			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$lang);
 			$tpl->parseCurrentBlock();
 		}
 
-}
-
-
-if ($step == 3)
-{
-		$tpl->setCurrentBlock("step3");
-		$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
-		$tpl->setVariable("TXT_STEP3", $lng->txt("setup")." ".$lng->txt("database"));
-		$tpl->setVariable("LINK_STEP3", "setup.php?step=4&lang=".$lang);
-		$tpl->parseCurrentBlock();
 }
 
 //second step of installation process
@@ -111,7 +117,8 @@ if ($step == 2)
 	//write the inifile if all things are okay
 	if ($mySetup->writeIniFile() == false)
 	{
-		$tpl->setCurrentBlock("step2_error");
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", "ERROR");
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("step2");
@@ -128,8 +135,8 @@ if ($step == 2)
 
 		$tpl->setCurrentBlock("step2");
 		$tpl->setVariable("TXT_INIFILE2", $lng->txt("inifile"));
-		$tpl->setVariable("TXT_STEP2", $lng->txt("step")." 3: ".$lng->txt("setup")." ".$lng->txt("database"));
-		$tpl->setVariable("LINK_STEP2", "setup.php?step=3&lang=".$lang);
+		$tpl->setVariable("TXT_STEP2", $lng->txt("setup"));
+		$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$lang);
 		$tpl->parseCurrentBlock();
 	}
 
@@ -169,13 +176,13 @@ if ($step == 1)
 	}
 	
 	//check if ini-file is writable and build msg
-	if ($mySetup->checkIniFileWritable()==false)
+	if ($mySetup->checkRootWritable()==false)
 	{
 		$msg .= "<br>ILIAS Setup cannot write the ini-file. Please set the write-permissions first.";
 	}
 	else
 	{
-	    $msg .= "<br>ILIAS setup may write your Ini-File.";
+	    $msg .= "<br>ILIAS setup can write your Ini-File.";
 	}
 	
 	//output message
@@ -220,12 +227,111 @@ if ($step == 1)
 
 
 
-if ($step == 0)
+if ($step == "begin")
 {
-	$tpl->setCurrentBlock("step0");
-	$tpl->setVariable("TXT_STEP0", $lng->txt("step")." 1: ".$lng->txt("setup")." ".$lng->txt("inifile"));
-	$tpl->setVariable("LINK_STEP0", "setup.php?step=1&lang=".$lang);
+	$ok = true;
+	
+	//inifile
+	if ($mySetup->checkIniFileExists() == true)
+		$msg = $OK;
+	else
+	{
+		$msg = "";
+		$ok = false;
+	}
+
+	$tpl->setCurrentBlock("link");
+	$tpl->setVariable("NR", "1");
+	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("inifile"));
+	$tpl->setVariable("LINK", "setup.php?step=1&lang=".$lang);
+	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
+	
+	//database
+	$mySetup->readIniFile();
+	if ($mySetup->checkDatabaseExists() == true)
+		$msg = $OK;
+	else
+	{
+		$msg = "";
+		$ok = false;
+	}
+
+	$tpl->setCurrentBlock("link");
+	$tpl->setVariable("NR", "2");
+	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("database"));
+	$tpl->setVariable("LINK", "setup.php?step=3&lang=".$lang);
+	$tpl->setVariable("STATUS", $msg);
+	$tpl->parseCurrentBlock();
+
+	//languages
+	$check = $lng->getAllLanguages();
+	if (count($check) > 0)
+		$msg = $OK.", ".count($check). " ".$lng->txt("languages");
+	else
+	{
+		$msg = "";
+		$ok = false;
+	}
+
+	$tpl->setCurrentBlock("link");
+	$tpl->setVariable("NR", "3");
+	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("languages"));
+	$tpl->setVariable("LINK", "setup.php?step=4&lang=".$lang);
+	$tpl->setVariable("STATUS", $msg);
+	$tpl->parseCurrentBlock();
+	
+	//login
+	if ($ok == true)
+	{
+		$tpl->setCurrentBlock("ready");
+		$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
+		$tpl->setVariable("LINK_LOGIN", "login.php?lang=".$lang);
+		
+		$tpl->parseCurrentBlock();
+	}	
+	
+	$tpl->setCurrentBlock("begininstallation");
+	$tpl->parseCurrentBlock();
+}
+
+
+if ($step == "preliminaries")
+{
+	//get preliminaries	
+	$arCheck = $mySetup->preliminaries();
+	
+	//writable folder
+	$tpl->setCurrentBlock("preliminary");
+	$tpl->setVariable("TXT_PRE", "Writable ILIAS3 folder");
+	if ($arCheck["root"] == true)
+		$tpl->setVariable("STATUS_PRE", $OK);
+	else
+		$tpl->setVariable("STATUS_PRE", $FAILED);
+	$tpl->parseCurrentBlock();
+
+	//languages
+	$tpl->setCurrentBlock("preliminary");
+	$tpl->setVariable("TXT_PRE", "Writable language folder");
+	if ($arCheck["lang"] == true)
+		$tpl->setVariable("STATUS_PRE", $OK);
+	else
+		$tpl->setVariable("STATUS_PRE", $FAILED);
+	$tpl->parseCurrentBlock();
+
+	//summary
+	if ($arCheck["root"] == true && $arCheck["lang"] == true)
+	{
+		$tpl->setCurrentBlock("all_ok");
+		$tpl->setVariable("LINK_OVERVIEW", "setup.php?step=begin&lang=".$lang);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$tpl->setCurrentBlock("premessage");
+		$tpl->setVariable("TXT_PREERR", "One or two things failed. Please correct the problems first or you cannot setup ILIAS.");
+		$tpl->parseCurrentBlock();
+	}
 }
 
 //display output
