@@ -272,6 +272,8 @@ class ilObjectDefinition extends ilSaxParser
 
 		if ($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
 		{
+			// Filter some objects e.g chat object are creatable if chat is active
+			$this->__filterObjects($subobjects);
 
 			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
 			if ((preg_match("/adm_object.php/",$_SERVER["REQUEST_URI"]) and $a_obj_type == "grp"))
@@ -313,8 +315,8 @@ class ilObjectDefinition extends ilSaxParser
 	function getCreatableSubObjects($a_obj_type)
 	{
 		$subobjects = $this->getSubObjects($a_obj_type);
-		
-		// remove role folder object from list
+
+		// remove role folder object from list 
 		unset($subobjects["rolf"]);
 		
 		$sub_types = array_keys($subobjects);
@@ -540,6 +542,25 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		$this->current_tag = '';
 		$this->current_tag_name = '';
+	}
+
+	function __filterObjects(&$subobjects)
+	{
+		foreach($subobjects as $type => $data)
+		{
+			switch($type)
+			{
+				case "chat":
+					if(!$this->ilias->getSetting("chat_active"))
+					{
+						unset($subobjects[$type]);
+					}
+					break;
+
+				default:
+					// DO NOTHING
+			}
+		}
 	}
 }
 ?>

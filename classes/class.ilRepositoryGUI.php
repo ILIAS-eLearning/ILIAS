@@ -1739,7 +1739,7 @@ class ilRepositoryGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc", "qpl", "tst")))
+					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc", "qpl", "tst", "chat")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{

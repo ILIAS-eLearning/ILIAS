@@ -2622,8 +2622,8 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template,$a_in_module);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 
 	/**
