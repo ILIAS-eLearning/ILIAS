@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.8 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.9 2003/06/05 15:18:18 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -76,7 +76,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						"type"			=> $val["type"],
 						"name"			=> $val["title"],
 						"description"	=> $val["desc"],
-						"last_change"	=> ilFormat::formatDate($val["last_update"]),
+						"last_change"	=> $val["last_update"],
 						"obj_id"		=> $val["obj_id"]
 					);
 			}
@@ -99,6 +99,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 											);		
 
 			unset($this->data["data"][$key]["obj_id"]);
+						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		parent::displayList();

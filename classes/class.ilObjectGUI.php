@@ -155,15 +155,22 @@ class ilObjectGUI
 		{
 			// TODO: init sort_by better in obj class?
 			if ($this->object->getType() == "usrf" 
-				or $this->object->getType() == "rolf"
-				or $this->object->getType() == "objf")
+				or $this->object->getType() == "rolf")
 			{
 				$_GET["sort_by"] = "name";
+			}
+			elseif ($this->object->getType() == "typ")
+			{
+				$_GET["sort_by"] = "operation";			
+			}
+			elseif ($this->object->getType() == "lngf")
+			{
+				$_GET["sort_by"] = "language";			
 			}
 			else
 			{
 				$_GET["sort_by"] = "title";			
-			}
+			}			
 		}
 	}
 
@@ -1562,18 +1569,26 @@ class ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
-		
-		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-		$this->showActions();
-		//$this->tpl->setVariable("NUM_COLS",count($this->data["cols"]));
-		//$this->showPossibleSubObjects();
+
+		// display action buttons only if at least 1 object in the list can be manipulated
+		if (is_array($this->data["data"][0]))
+		{
+			foreach ($this->data["ctrl"] as $val)
+			{
+				if ($this->objDefinition->hasCheckbox($val["type"]))
+				{
+					// SHOW VALID ACTIONS
+					$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+					$this->showActions(true);
+					break;
+				}				
+			}
+		}
 		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("content");
 		//$tbl->disable("footer");
-		
+
 		// render table
 		$tbl->render();
 
@@ -1707,15 +1722,6 @@ class ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		// SHOW VALID ACTIONS
-//		$this->tpl->setVariable("NUM_COLS", $num);
-//		$this->showActions();
-
-
-		// SHOW POSSIBLE SUB OBJECTS
-//		$this->tpl->setVariable("NUM_COLS", $num);
-//		$this->showPossibleSubObjects();
 	}
 
 	/**
@@ -1753,7 +1759,7 @@ class ilObjectGUI
 										"type" => $val["type"],
 										"title" => $val["title"],
 										"description" => $val["desc"],
-										"last_change" => ilFormat::formatDate($val["last_update"]),
+										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
 				
@@ -1776,6 +1782,7 @@ class ilObjectGUI
 											);		
 
 			unset($this->data["data"][$key]["ref_id"]);
+						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 		
 		$this->displayList();
@@ -2046,7 +2053,7 @@ class ilObjectGUI
 	*
 	* @access	public
  	*/
-	function showActions()
+	function showActions($with_subobjects = false)
 	{
 		$notoperations = array();
 		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
@@ -2075,7 +2082,7 @@ class ilObjectGUI
 			}
 		}
 
-		if (count($operations)>0)
+		if (count($operations) > 0)
 		{
 			foreach ($operations as $val)
 			{
@@ -2085,9 +2092,25 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+		
+		if ($with_subobjects === true)
+		{
+			$this->showPossibleSubObjects();
+		}
 
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->parseCurrentBlock();
+	}
 
+	/**
+	* show possible subobjects (pulldown menu)
+	*
+	* @access	public
+ 	*/
+	function showPossibleSubObjects()
+	{
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
+
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
@@ -2115,27 +2138,12 @@ class ilObjectGUI
 		{
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("BTN_NAME", "create");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
-			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->parseCurrentBlock();
-
-	}
-
-	/**
-	* show possible subobjects (pulldown menu)
-	*
-	* @access	public
- 	*/
-	function showPossibleSubObjects()
-	{
-
 	}
 
 	/**

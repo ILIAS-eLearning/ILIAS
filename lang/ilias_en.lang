@@ -88,7 +88,7 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
-common#:#checkLanguage#:#Check Language
+common#:#check_languages#:#Check Languages
 common#:#check_langfile#:#Please check your language file.
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -1060,3 +1060,4 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
+common#:#refresh_languages#:#Refresh Languages

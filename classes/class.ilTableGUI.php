@@ -282,11 +282,6 @@ class ilTableGUI
 	*/
 	function setFooter($a_style,$a_previous,$a_next)
 	{
-		if (!is_bool($a_numinfo))
-		{
-			$a_numinfo = true;
-		}
-		
 		$this->footer_style = $a_style;
 		$this->footer_previous = $a_previous;
 		$this->footer_next = $a_next;
@@ -415,13 +410,6 @@ class ilTableGUI
 			}
 		}
 
-		// table action row
-		if ($this->enabled["action"] && is_array($this->data))
-		{
-		
-		
-		}
-
 		// table footer numinfo
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
@@ -429,7 +417,7 @@ class ilTableGUI
 			$start = $this->offset + 1;				// compute num info
 			$end = $this->offset + $this->limit;
 			
-			if ($end > $this->max_count)
+			if ($end > $this->max_count or $this->limit == 0)
 			{
 				$end = $this->max_count;
 			}
@@ -442,7 +430,7 @@ class ilTableGUI
 		}
 
 		// table footer linkbar
-		if ($this->enabled["linkbar"] && $this->enabled["footer"])
+		if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0)
 		{
 			$params = array(
 							"sort_by"		=> $this->header_vars[$this->order_column],
@@ -470,6 +458,8 @@ class ilTableGUI
 			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$this->tpl->touchBlock("tbl_form_footer");
 	}
 }
 ?>

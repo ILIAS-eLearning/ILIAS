@@ -47,11 +47,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		$this->type = "lngf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
-
-		// TODO: was soll der quatsch??
-		//$this->LangFolderObject =& new ilObjLanguageFolder($_GET["obj_id"]);
 	}
-
 
 	/**
 	* show installed languages
@@ -67,32 +63,25 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->getTemplateFile("view");
-		$num = 0;
-	
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
-	
-		//table header
-		$this->tpl->setCurrentBlock("table_header_cell");
-	
-		$cols = array("", "type", "language", "status", "", "last_change");
-	
-		foreach ($cols as $key)
-		{
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-	
-			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?ref_id=".$_GET["ref_id"]."&order=type&direction=".$_GET["dir"]);
-			$this->tpl->parseCurrentBlock();
-		}
-	
+		//add template for buttons
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id."&cmd=refresh");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","adm_object.php?ref_id=".$this->ref_id."&cmd=checkLanguage");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("check_languages"));
+		$this->tpl->parseCurrentBlock();
+
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+		$this->data["cols"] = array("","type","language","status","last_change");
+
 		$languages = $this->object->getLanguages();
 	
 		foreach ($languages as $lang_key => $lang_data)
@@ -104,6 +93,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				$status = "<span class=\"small\"> (".$this->lng->txt($lang_data["status"]).")</span>";
 			}
+
 			// set remark color
 			switch ($lang_data["info"])
 			{
@@ -116,47 +106,139 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 				default:
 					$remark = "";
 					break;
-			}
-	
-			$data = $this->data["data"][$i];
-			$ctrl = $this->data["ctrl"][$i];
-			$num++;
-			// color changing
-			$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
-			$this->tpl->setCurrentBlock("checkbox");
-	
-			$this->tpl->setVariable("CHECKBOX_ID", $lang_data["obj_id"]);
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->parseCurrentBlock();
-			//data
-			$data = array(
-							"type" => ilUtil::getImageTagByType("lng",$this->tpl->tplPath),
-							"name" => $lang_data["name"].$status,
-							"status" => $this->lng->txt($lang_data["desc"]),
-							"remark" => $remark,
-							"last_change" => ilFormat::formatDate($lang_data["last_update"])
-						);
+			}	
 
-			foreach ($data as $key => $val)
-			{
-				$this->tpl->setCurrentBlock("text");
-				$this->tpl->setVariable("TEXT_CONTENT", $val);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->parseCurrentBlock();
-			} //foreach
+			//visible data part
+			$this->data["data"][] = array(
+									"type" 			=> "lng",
+									"language"		=> $lang_data["name"].$status,
+									"status"		=> $this->lng->txt($lang_data["desc"]).$remark,
+									"last_change"	=> $lang_data["last_update"],
+									"obj_id"		=> $lang_data["obj_id"]
+										);
+
+		}
 	
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-		} //for
-	
+		$this->maxcount = count($this->data["data"]);
+
+		// sorting array
+		require_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$this->data["ctrl"][$key] = array(
+											"obj_id"	=> $val["obj_id"],
+											"type"		=> $val["type"]
+											);		
+
+			unset($this->data["data"][$key]["obj_id"]);
+			$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+		}
+
+		$this->displayList();
+	}
+
+	/**
+	* display object list
+	*
+	* @access	public
+ 	*/
+	function displayList()
+	{
+		global $tree, $rbacsystem;
+
+		require_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		$num = 0;
+
+		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+
+		// create table
+		$tbl = new ilTableGUI();
+		
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType()),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+		
+		$tbl->setHeaderNames($header_names);
+
+		$header_params = array("ref_id" => $this->ref_id);
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit(0);
+		$tbl->setOffset(0);
+		$tbl->setMaxCount($this->maxcount);
+		
 		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("COLUMN_COUNTS", 6);
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		$this->showActions();
+		
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		
+		// render table
+		$tbl->render();
+
+		if (is_array($this->data["data"][0]))
+		{
+			//table cell
+			for ($i=0; $i < count($this->data["data"]); $i++)
+			{
+				$data = $this->data["data"][$i];
+				$ctrl = $this->data["ctrl"][$i];
+
+				// color changing
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+
+				$this->tpl->setCurrentBlock("checkbox");
+				$this->tpl->setVariable("CHECKBOX_ID",$ctrl["obj_id"]);
+				$this->tpl->setVariable("CSS_ROW",$css_row);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+				$this->tpl->parseCurrentBlock();
+
+				foreach ($data as $key => $val)
+				{
+
+					$this->tpl->setCurrentBlock("text");
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+					}
+
+					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+
+				} //foreach
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+		} //if is_array
 	}
 
 	/**

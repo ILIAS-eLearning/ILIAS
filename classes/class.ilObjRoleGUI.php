@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.23 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.24 2003/06/04 14:07:06 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -300,6 +300,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		} // END USER_ASSIGNMENT
 
 		$this->tpl->setCurrentBlock("adm_content");
+
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
+		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
+		$this->tpl->setVariable("TBL_HELP_LINK","tbl_help.php");
+		$this->tpl->setVariable("TBL_HELP_IMG_ALT",$this->lng->txt("help"));
+		$this->tpl->setVariable("TBL_TITLE",$this->object->getTitle());
+			
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
 		$this->tpl->setVariable("COL_ANZ_PLUS",$this->data["col_anz"]+1);
 		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);

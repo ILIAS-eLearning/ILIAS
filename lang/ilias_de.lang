@@ -88,7 +88,7 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
-common#:#checkLanguage#:#Sprache checken
+common#:#check_languages#:#Sprachen checken
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -1060,3 +1060,4 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+common#:#refresh_languages#:#Sprachen aktualisieren
