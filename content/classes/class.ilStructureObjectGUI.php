@@ -352,9 +352,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		if($cutted > 0)
 		{
-			sendInfo($this->lng->txt("msg_cut_clipboard"));
+			sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		}
-		$this->view();
+		//$this->view();
+		header("Location: lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
+			"&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -390,7 +392,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// check the tree
 		$this->checkTree();
 
-		$this->view();
+		header("Location: lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
+			"&ref_id=".$_GET["ref_id"]);
+
+		//$this->view();
 	}
 
 
@@ -402,7 +407,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->moveChapter($this->obj->getId());
-		$this->subchap();
+		header("Location: lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
+			"&ref_id=".$_GET["ref_id"]);
+		//$this->subchap();
 	}
 
 
@@ -459,7 +466,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// check the tree
 		$this->checkTree();*/
 
-		$this->subchap();
+		//$this->subchap();
+		header("Location: lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
+			"&ref_id=".$_GET["ref_id"]);
 	}
 
 	function cancel()
