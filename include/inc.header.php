@@ -44,10 +44,22 @@ require_once "PEAR.php";
 require_once "DB.php";
 require_once "Auth/Auth.php";
 
+// wrapper for php 4.3.2 & higher
+@include_once "HTML/ITX.php";
+
+if (!class_exists(IntegratedTemplateExtension))
+{
+	include_once "HTML/Template/ITX.php";
+	include_once "classes/class.ilTemplate2.php";
+}
+else
+{
+	include_once "classes/class.ilTemplate.php";
+}
+
 //include classes and function libraries
 require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
-require_once "classes/class.ilTemplate.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilFormat.php";

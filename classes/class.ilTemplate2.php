@@ -31,7 +31,7 @@
 */
 
 
-class ilTemplate extends IntegratedTemplateExtension
+class ilTemplate extends HTML_Template_ITX
 {
 	/**
 	* variablen die immer in jedem block ersetzt werden sollen
@@ -95,7 +95,7 @@ class ilTemplate extends IntegratedTemplateExtension
 		}
 
 		//$this->IntegratedTemplateExtension(dirname($fname));
-		$this->IntegratedTemplateExtension();
+		$this->HTML_Template_ITX();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 
