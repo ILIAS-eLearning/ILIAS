@@ -185,6 +185,7 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
+assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -290,6 +291,10 @@ assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
+assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.###13 Sep 2004 new variable
+assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.###13 Sep 2004 new variable
+assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.###13 Sep 2004 new variable
+assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
@@ -350,7 +355,10 @@ assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
+assessment#:#tst_status_missing#:#There are required elements missing in this test!###13 Sep 2004 new variable
+assessment#:#tst_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
 assessment#:#tst_status_not_entered#:#unbearbeitet
+assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.###13 Sep 2004 new variable
 assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
@@ -364,6 +372,8 @@ assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
+assessment#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
+assessment#:#warning_test_not_complete#:#The test is not complete!###13 Sep 2004 new variable
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
@@ -3691,7 +3701,13 @@ survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
+survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
+survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
+survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
+survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
+survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
+survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
@@ -3704,3 +3720,5 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
+survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
+survey#:#warning_survey_not_complete#:#The survey is not complete!###13 Sep 2004 new variable
