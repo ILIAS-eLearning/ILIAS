@@ -196,12 +196,12 @@ class ilCourseRegisterGUI
 		}
 		else if($this->course_obj->getSubscriptionStart() < time())
 		{
-			$this->tpl->setVariable("FROM",$this->lng->txt("until"));
+			$this->tpl->setVariable("FROM",$this->lng->txt("crs_to"));
 			$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionEnd()));
 		}
 		else if($this->course_obj->getSubscriptionStart() > time())
 		{
-			$this->tpl->setVariable("FROM",$this->lng->txt("from"));
+			$this->tpl->setVariable("FROM",$this->lng->txt("crs_from"));
 			$this->tpl->setVariable("REG_UNTIL",strftime("%c",$this->course_obj->getSubscriptionStart()));
 		}
 		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_PASSWORD and
@@ -246,34 +246,34 @@ class ilCourseRegisterGUI
 
 		if($this->course_obj->members_obj->isBlocked($this->user_id))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_user_blocked"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_blocked"));
 		}
 		if($this->course_obj->members_obj->isAssigned($this->user_id))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_user_already_assigned"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_assigned"));
 		}
 		if($this->course_obj->members_obj->isSubscriber($this->user_id))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_user_already_subscribed"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_user_already_subscribed"));
 		}
 		if($this->course_obj->getSubscriptionType() == $this->course_obj->SUBSCRIPTION_DEACTIVATED)
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_subscription_deactivated"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_deactivated"));
 		}
 		if(!$this->course_obj->getSubscriptionUnlimitedStatus() and
 		   ( time() < $this->course_obj->getSubscriptionStart()))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_subscription_start_later"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_start_later"));
 		}
 		if(!$this->course_obj->getSubscriptionUnlimitedStatus() and
 		   ( time() > $this->course_obj->getSubscriptionEnd()))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_subscription_end_earlier"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_end_earlier"));
 		}
 		if($this->course_obj->getSubscriptionMaxMembers() and 
 		   ($this->course_obj->members_obj->getCountMembers() >= $this->course_obj->getSubscriptionMaxMembers()))
 		{
-			$this->course_obj->appendMessage($this->lng->txt("crs_subscription_max_members_reached"));
+			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
 		}
 
 		return $this->course_obj->getMessage() ? false : true;
