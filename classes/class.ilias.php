@@ -262,16 +262,17 @@ class ILIAS extends PEAR
 	*/
 	function getStyles($skin)
 	{
-		if (is_array($this->styles))
-		{
-			return true;
-		}
+//		if (is_array($this->styles))
+//		{
+//			return true;
+//		}
 		$styles = array();
-		
+
 		//open directory for reading and search for subdirectories
 		$tplpath = $this->ini->readVariable("server", "tpl_path")."/".$skin;
 		if ($dp = @opendir($tplpath))
 		{
+
 			while (($file = readdir($dp)) != false)
 			{
 				//is the file a stylesheet?

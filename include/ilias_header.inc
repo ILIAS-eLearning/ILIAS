@@ -127,6 +127,12 @@ if ($script != "login.php" && $script != "index.php")
 	}
 }
 
+//pda support
+if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
+{
+	$ilias->account->setSkin = "pda";
+}
+
 //user stylehandling
 if (is_object($ilias->account) && $ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
 {

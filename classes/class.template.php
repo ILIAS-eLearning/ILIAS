@@ -39,27 +39,21 @@ class Template extends IntegratedTemplateExtension {
 
         global $ilias;
 
-/*        if ($vars == "DEFAULT" ) {
-            $vars = $template_vars;
-        }
-        $this->vars = $vars;
-*/
 		$this->vars = array();
-		
+
         if (strpos($file,"/")===false)
 		{
             $fname = $ilias->tplPath;
-			
-			//pda support
+
 			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
 			{
 				$fname .= "pda/";
 			}
 			else
 			{
-				if (is_object($ilias->account) && $ilias->account->getPref("skin") != "")
+				if (is_object($ilias->account) && $ilias->account->skin != "")
 				{
-				    $fname .= $ilias->account->getPref("skin")."/";
+				    $fname .= $ilias->account->skin."/";
 				}
 				else
 				{
@@ -67,7 +61,6 @@ class Template extends IntegratedTemplateExtension {
 				    $fname .= $ilias->ini->readVariable("layout","defaultskin")."/";
 				}
 			}
-			
 			$fname .= basename($file);
         }
 		else
