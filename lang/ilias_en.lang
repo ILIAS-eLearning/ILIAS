@@ -3830,6 +3830,7 @@ survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
+survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!
@@ -4118,4 +4119,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-survey#:#before#:#before

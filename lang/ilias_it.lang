@@ -3829,6 +3829,7 @@ survey#:#arithmetic_mean#:#Valore aritmetico
 survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel sondaggio?
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel sondaggio?
 survey#:#back#:#<< Indietro
+survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Scegli le domande
 survey#:#cannot_export_questionpool#:#Non hai diritti sufficienti per esportare la raccolta di domande per sondaggi!
 survey#:#cannot_export_survey#:#Non hai diritti sufficienti per esportare il sondaggio!

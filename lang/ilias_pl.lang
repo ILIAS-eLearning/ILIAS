@@ -3830,6 +3830,7 @@ survey#:#arithmetic_mean#:#Średnia arytmetyczna
 survey#:#ask_insert_questionblocks#:#Czy chcesz wstawić wybrany blok pytań do ankiety?
 survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
+survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Szukanie pytań
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
