@@ -3,7 +3,6 @@ require_once "include/ilias_header.inc";
 require_once "classes/class.Object.php";	// base class for all Object Types
 
 
-
 if ($_POST["type"])
 {
 	$_GET["type"] = $_POST["type"];
