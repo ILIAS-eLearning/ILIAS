@@ -3546,7 +3546,7 @@ $user_set = $this->db->query($q);
 
 while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 {
-	$q = "INSERT INTO usr_pref (usr_id, keyword, value) VALUES ".
+	$q = "REPLACE INTO usr_pref (usr_id, keyword, value) VALUES ".
 		" ('".$user_rec["usr_id"]."','show_users_online','y')";
 	$this->db->query($q);
 }
