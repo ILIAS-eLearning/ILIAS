@@ -276,15 +276,76 @@ class ilObjSurvey extends ilObject
 	*/
 	function delete()
 	{		
+		$remove = parent::delete();
 		// always call parent delete function first!!
-		if (!parent::delete())
+		if (!$remove)
 		{
 			return false;
 		}
 		
-		//put here your module specific stuff
+		// Delete all survey questions, constraints and materials
+		foreach ($this->questions as $question_id)
+		{
+			$this->removeQuestion($question_id);
+		}
+		$this->deleteSurveyRecord();
 		
 		return true;
+	}
+	
+	function deleteSurveyRecord()
+	{
+		$query = sprintf("DELETE FROM survey_survey WHERE survey_id = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("SELECT questionblock_fi FROM survey_questionblock_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		$questionblocks = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questionblocks, $row["questionblock_fi"]);
+		}
+		if (count($questionblocks))
+		{
+			$query = "DELETE FROM survey_questionblock WHERE questionblock_id IN (" . join($questionblocks, ",") . ")";
+			$result = $this->ilias->db->query($query);
+		}
+		$query = sprintf("DELETE FROM survey_questionblock_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->disinviteUser($row["user_fi"]);
+		}
+
+		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->disinviteGroup($row["group_fi"]);
+		}
+
+		$query = sprintf("DELETE FROM survey_finished WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_answer WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
 	}
 
 	/**
@@ -2643,7 +2704,7 @@ class ilObjSurvey extends ilObject
 
 		if ($browse_for)
 		{
-		  $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id" . " $where$order";
+		  $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi > 0" . " $where$order";
 		}
 		else
 		{
