@@ -115,10 +115,13 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			{
 				foreach($translations as $tr_id)
 				{
+					$tmp_obj = ilObjectFactory::getInstanceByRefId($tr_id);
+
 					$tmp_tpl->setCurrentBlock("TRANSLATION_ROW");
-					$tmp_tpl->setVariable("ROW_TITLE",$this->lng->txt("cont_booktitle"));
+					$tmp_tpl->setVariable("ROW_TITLE",$tmp_obj->getTitle());
 					$tmp_tpl->setVariable("ROW_ID",$tr_id);
 					$tmp_tpl->parseCurrentBlock();
+					unset($tmp_obj);
 				}
 				$tmp_tpl->setCurrentBlock("TRANSLATION");
 				$tmp_tpl->setVariable("TRANSLATION_HEADER",$this->lng->txt("cont_translations"));
