@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.82 2004/05/05 21:26:04 akill Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.83 2004/05/07 18:15:07 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -746,8 +746,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$_GET["sort_by"] = "login";
 		}
-		// TODO: search order is incorrect
-
+		
 		//if current user is admin he is able to add new members to group
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
@@ -872,7 +871,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		include_once "./classes/class.ilTableGUI.php";
 
 		$tbl = new ilTableGUI($output);
-		
+		$tbl->disable("sort");
 		$this->ctrl->setParameter($this,"cmd","members");
 
 		// title & header columns
