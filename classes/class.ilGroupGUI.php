@@ -77,7 +77,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		// get the object
 		$this->assignObject();
-		//$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$this->lng =& $this->object->lng;
 
 		if (isset($_GET["tree_id"]))
@@ -353,7 +353,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$this->tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
 				$this->tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
-				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["child"]));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -499,6 +499,8 @@ class ilGroupGUI extends ilObjectGUI
 			$_GET["sort_by"] = "title";
 		}
 
+//		var_dump($this->object);exit;
+		
 		$cont_arr = array();
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
@@ -509,10 +511,11 @@ class ilGroupGUI extends ilObjectGUI
 				if ($rbacsystem->checkAccess('visible',$object["ref_id"]) or $object["type"] == "fold" )
 				{
 					$cont_arr[$key] = $object;
-
+					//var_dump($cont_arr[$key]);
 				}
 			}
 		}
+
 		$maxcount = count($cont_arr);
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($cont_arr,$offset,$limit);
@@ -544,7 +547,7 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($cont_arr as $cont_data)
 			{
 				//temporary solution later rolf should be viewablle for grp admin
-				if ($cont_data["type"]!="rolf")
+				if ($cont_data["type"] != "rolf")
 				{
 					$this->tpl->setCurrentBlock("tbl_content");
 					$newuser = new ilObjUser($cont_data["owner"]);
@@ -576,7 +579,7 @@ class ilGroupGUI extends ilObjectGUI
 					//TODO
 					if($cont_data["ref_id"] != -1)
 					{
-						$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+						$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["child"]));
 					}
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1900,7 +1903,7 @@ echo "asdf";
 
 
 			$this->prepareOutput();
-			$this->tpl->addBlockFile("CONTENT", "newgroup", "tpl.group_new.html");
+			$this->tpl->addBlockFile("CONTENT", "newgroup", "tpl.grp_edit.html");
 			$this->tpl->setVariable("HEADER", $this->lng->txt("grp_new"));
 			$this->tpl->setVariable("TARGET","target=\"bottom\"");
 			
@@ -2411,7 +2414,7 @@ echo "asdf";
 		{
 			$a_id = $_GET["ref_id"];
 		}
-
+		
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 		$path = $a_tree->getPathFull($a_id);
@@ -2543,7 +2546,7 @@ echo "asdf";
 				//$this->tpl->setVariable("STATUS", "N/A");
 				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				//$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$this->tpl->setVariable("GRP_CONTEXT", $this->getContextPath ($grp_data["ref_id"]));
+				$this->tpl->setVariable("GRP_CONTEXT", $this->getContextPath ($grp_data["child"]));
 
 				$this->tpl->parseCurrentBlock("tblcontent");
 			}
@@ -2616,7 +2619,7 @@ echo "asdf";
 			$this->tpl->setVariable("LO_DESC", $lr_data["description"]);
 			$this->tpl->setVariable("LO_NAME", $lr_data["title"]);
 			$this->tpl->setVariable("LO_LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-			$this->tpl->setVariable("LO_CONTEXTPATH", $this->getContextPath($lr_data["ref_id"]));
+			$this->tpl->setVariable("LO_CONTEXTPATH", $this->getContextPath($lr_data["child"]));
 			$this->tpl->parseCurrentBlock("locontent");
 		}
 	}
