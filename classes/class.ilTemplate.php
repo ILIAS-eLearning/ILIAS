@@ -150,6 +150,14 @@ class ilTemplate extends ilTemplateX
 #			$this->parseCurrentBlock();
 			}
 		}
+		
+		// display ILIAS footer
+		if ($part !== false)
+		{
+			$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
+			$this->setVariable("ILIAS_VERSION",$ilias->getSetting("ilias_version"));
+		}
+
 		if ($part == "DEFAULT" or is_bool($part))
 		{
 			parent::show();
@@ -189,17 +197,6 @@ class ilTemplate extends ilTemplateX
 			}
 
 			unset($_SESSION["error_post_vars"]);
-			
-			// display ILIAS footer
-			if ($part !== false)
-			{
-				$footer = "<div class=\"il_Footer\">powered by ".
-						  "<a href=\"http://www.ilias.uni-koeln.de\" target=\"_blank\" ".
-						  "onmouseover=\"window.status='ILIAS open source - Homepage';return true;\" ".
-						  "onmouseout=\"window.status='';\">ILIAS</a> (v".$ilias->getSetting("ilias_version").")</div>";
-			
-				echo $footer;
-			}
 		}
 	}
 
