@@ -1,3 +1,4 @@
+
 /**
 * ILIAS language file
 *
@@ -1759,10 +1760,22 @@ search#:#search_my_search_results#:#My search results
 search#:#search_search_results#:#Search results
 search#:#search_select_one_result#:#Select at least one search result
 search#:#search_results_saved#:#Search results saved
-search#:#search_delete_sure#:#The folder and its content will be deleted permanantly
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly
 search#:#search_new_folder#:#New folder
 search#:#search_search_no_results_saved#:#There are no search results saved
 search#:#search_group#:#Groups
 common#:#folder#:#folder
+search#:#search_select_one_folder_select#:#--Select one folder--
+search#:#search_save_as_select#:#Save as:
+search#:#search_select_one_action#:#--Select one action--
+search#:#search_objects_deleted#:#Object(s) deleted.
+search#:#search_select_exactly_one_object#:#You have to select exactly one object.
+search#:#search_object_renamed#:#Object renamed.
+search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
+search#:#search_objects_moved#:#Objects moved.
+search#:#search_no_selection#:#You did no selection.
+search#:#search_rename_title#:#Rename title
+search#:#search_one_action#:#Select one action.
+search#:#search_move_to#:#Move to:
 search#:#search_select_one_select#:#--Select one folder--
 common#:#to_client_list#:#To Client selection

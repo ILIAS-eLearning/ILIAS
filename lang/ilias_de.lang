@@ -1759,10 +1759,22 @@ search#:#search_my_search_results#:#Meine Suchergebnisse
 search#:#search_search_results#:#Suchergebnisse
 search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
 search#:#search_results_saved#:#Die Suchergebnisse wurden gespeichert
-search#:#search_delete_sure#:#Sind Sie, daß dieser Ordner und sein Inhalt gelöscht werden sollen
+search#:#search_delete_sure#:#Sind Sie, daß dieses Objekt und sein Inhalt gelöscht werden sollen
 search#:#search_new_folder#:#Neuer Ordner
 search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
 search#:#search_group#:#Gruppen
 common#:#folder#:#Ordner
+search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
+search#:#search_save_as_select#:#Speichern unter:
+search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
+search#:#search_objects_deleted#:#Das Objekt wurde gelöscht.
+search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
+search#:#search_object_renamed#:#Das Objekt wurde umbenannt.
+search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
+search#:#search_objects_moved#:#Die Objekte wurden verschoben.
+search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
+search#:#search_rename_title#:#Titel umbenennen
+search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
+search#:#search_move_to#:#Verschieben nach:
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 common#:#to_client_list#:#Zur Mandantenauswahl

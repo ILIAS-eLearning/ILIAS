@@ -37,13 +37,14 @@ class ilSearchResult
 
 	var $title;
 	var $obj_id;
+	var $user_id;
 	var $target;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilSearchResult($a_obj_id = 0)
+	function ilSearchResult($a_user_id,$a_obj_id = 0)
 	{
 		global $ilias;
 
@@ -52,11 +53,21 @@ class ilSearchResult
 		$this->ilias =& $ilias;
 
 		$this->obj_id = $a_obj_id;
+		$this->user_id = $a_user_id;
 
 		$this->__init();
 	}
 
 	// SET/GET
+	function getUserId()
+	{
+		return $this->user_id;
+	}
+
+	function getType()
+	{
+		return "sea";
+	}
 	function setObjId($a_obj_id)
 	{
 		$this->obj_id = $a_obj_id;
@@ -131,7 +142,17 @@ class ilSearchResult
 		}
 	}
 
-		
+	function updateTitle($a_title)
+	{
+		$query = "UPDATE ".TABLE_SEARCH_DATA." ".
+			"SET title = '".addslashes($a_title)."' ".
+			"WHERE obj_id = '".$this->getObjId()."' ".
+			"AND user_id = '".$this->getUserId()."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return true;
+	}
 		
 		
 	// PRIVATE METHODS
@@ -140,7 +161,8 @@ class ilSearchResult
 		if($this->getObjId())
 		{
 			$query = "SELECT * FROM ".TABLE_SEARCH_DATA." ".
-				"WHERE obj_id = '".$this->getObjId()."'";
+				"WHERE obj_id = '".$this->getObjId()."' ".
+				"AND user_id = '".$this->getUserId()."'";
 
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
