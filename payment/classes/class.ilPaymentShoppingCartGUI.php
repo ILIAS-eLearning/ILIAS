@@ -78,14 +78,24 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 	function showItems()
 	{
-		$this->__initShoppingCartObject();
 
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html',true);
+
+		$this->__initShoppingCartObject();
 		if(!count($items = $this->psc_obj->getEntries()))
 		{
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 		}
-
+		else
+		{
+			$this->tpl->setCurrentBlock("buy_link");
+			$this->tpl->setVariable("LINK_SCRIPT",'./start_bmf.php');
+			$this->tpl->setVariable("TXT_BUY",$this->lng->txt('pay_click_to_buy'));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html',true);
+
+		
 
 		$counter = 0;
 		foreach($items as $item)
@@ -183,8 +193,5 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 	{
 		$this->psc_obj =& new ilPaymentShoppingCart($this->user_obj);
 	}
-
-	
-
 }
 ?>
