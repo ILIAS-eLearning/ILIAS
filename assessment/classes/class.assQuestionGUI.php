@@ -487,7 +487,7 @@ class ASS_QuestionGUI
 		$this->editQuestion();
 	}
 	
-	function addSuggestedSolution()
+	function addSuggestedSolution($subquestion_index = 0)
 	{
 		global $tree;
 
@@ -497,7 +497,7 @@ class ASS_QuestionGUI
 
 		sendInfo($this->lng->txt("select_object_to_link"));
 		
-		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this));
+		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this), $subquestion_index);
 
 		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addSuggestedSolution'));

@@ -1142,13 +1142,12 @@ class ASS_Question
 	*/
 	function saveToDb($original_id = "")
 	{
+		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
-			$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
-				$this->ilias->db->quote($this->getId() . ""),
-				$this->ilias->db->quote($index . "")
-			);
-			$result = $this->ilias->db->query($query);
 			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote($this->getId() . ""),
 				$this->ilias->db->quote($solution["internal_link"] . ""),
