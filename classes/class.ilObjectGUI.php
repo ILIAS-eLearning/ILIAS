@@ -1143,20 +1143,26 @@ class ilObjectGUI
 			}
 
 			$ope_list = getOperationList($this->object->getType());
+
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($ope_list as $key => $operation)
 			{
 				$opdata = array();
-				$opdata["name"] = $operation["operation"];
-
-				foreach ($parentRoles as $role)
+				
+				// skip 'create' permission because an object permission 'create' makes no sense
+				if ($operation["operation"] != "create")
 				{
-					$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-					// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
-					$opdata["values"][] = $box;
+					$opdata["name"] = $operation["operation"];
+
+					foreach ($parentRoles as $role)
+					{
+						$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"]);
+						$opdata["values"][] = $box;
+					}
+					$data["permission"][] = $opdata;
 				}
-				$data["permission"][] = $opdata;
 			}
 		}
 		else
