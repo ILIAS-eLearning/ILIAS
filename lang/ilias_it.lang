@@ -110,6 +110,7 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 20
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
 assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
@@ -1400,6 +1401,7 @@ content#:#cont_saved_map_data#:#Dati salvati
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
+content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#Per favore, scegli solo un elemento
 content#:#cont_select_max_one_term#:#Seleziona solo un elemento
 content#:#cont_select_one_edition#:#Per favore, scegli almeno una edizione.

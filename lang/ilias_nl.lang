@@ -110,6 +110,7 @@ assessment#:#tst_sequence_fixed#:#De volgorde van de vragen is vast
 assessment#:#tst_sequence_postpone#:#De leerling mag een vraag tot het einde van de test uitstellen
 assessment#:#tst_sequence_properties#:#Volgorde eigenschappen
 assessment#:#tst_session_settings#:#Instellingen sessies
+assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
 assessment#:#tst_types#:#Test types
 assessment#:#tt_assessment#:#Assessment test
@@ -1400,6 +1401,7 @@ content#:#cont_saved_map_data#:#Opgeslagen map gebied
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
 content#:#cont_select_max_one_item#:#selecteer slechts één item
 content#:#cont_select_max_one_term#:#Selecteer slechts één begrip
 content#:#cont_select_one_edition#:#Selecteer a.u.b op zijn minst één editie.
