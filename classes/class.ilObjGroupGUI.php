@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.75 2004/04/16 18:03:29 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.76 2004/04/17 00:51:13 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1337,5 +1337,92 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 		}
 	}
+
+
+	// IMPORT FUNCTIONS
+
+	function importObject()
+	{
+		global $rbacsystem;
+
+		parent::importObject();
+		return true;
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"],"grp"))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->getTemplateFile("import","grp");
+
+		$this->tpl->setVariable("FORMACTION","adm_object.php?ref_id=".$this->ref_id."&cmd=gateway&new_type=grp");
+		$this->tpl->setVariable("TXT_IMPORT_GROUP",$this->lng->txt("group_import"));
+		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("group_import_file"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
+
+		return true;
+	}
+
+	function performImportObject()
+	{
+
+		$this->__initFileObject();
+
+		if(!$this->file_obj->storeUploadedFile($_FILES["importFile"]))	// STEP 1 save file in ...import/mail
+		{
+			$this->message = $this->lng->txt("import_file_not_valid"); 
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->unzip())
+		{
+			$this->message = $this->lng->txt("cannot_unzip_file");			// STEP 2 unzip uplaoded file
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->findXMLFile())						// STEP 3 getXMLFile
+		{
+			$this->message = $this->lng->txt("cannot_find_xml");
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->__initParserObject($this->file_obj->getXMLFile()) or !$this->parser_obj->startParsing())
+		{
+			$this->message = $this->lng->txt("import_parse_error").":<br/>"; // STEP 5 start parsing
+		}
+
+		// FINALLY CHECK ERROR
+		if(!$this->message)
+		{
+			sendInfo($this->lng->txt("import_forum_finished"),true);
+			ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+		}
+		else
+		{
+			sendInfo($this->message);
+			$this->importObject();
+		}
+	}
+
+
+	// PRIVATE IMPORT METHODS
+	function __initFileObject()
+	{
+		include_once "classes/class.ilFileDataImportGroup.php";
+
+		$this->file_obj =& new ilFileDataImportGroup();
+
+		return true;
+	}
+
+	function __initParserObject($a_xml_file)
+	{
+		include_once "classes/class.ilGroupImportParser.php";
+
+		$this->parser_obj =& new ilGroupImportParser($a_xml_file,$this->ref_id);
+
+		return true;
+	}
+	
+
+
 } // END class.ilObjGroupGUI
 ?>

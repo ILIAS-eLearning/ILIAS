@@ -28,18 +28,18 @@
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	ilias-mail
+* @package	ilias-group
 */
 require_once("./classes/class.ilFileDataImport.php");
 				
-class ilFileDataImportForum extends ilFileDataImport
+class ilFileDataImportGroup extends ilFileDataImport
 {
 	/**
 	* path of exercise directory
 	* @var string path
 	* @access private
 	*/
-	var $forum_path;
+	var $group_path;
 
 	var $files;
 	var $xml_file;
@@ -52,15 +52,15 @@ class ilFileDataImportForum extends ilFileDataImport
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataImportForum()
+	function ilFileDataImportGroup()
 	{
-		define('FORUM_IMPORT_PATH','forum');
+		define('GROUP_IMPORT_PATH','group');
 		parent::ilFileDataImport();
-		$this->mail_path = parent::getPath()."/".FORUM_IMPORT_PATH;
+		$this->group_path = parent::getPath()."/".GROUP_IMPORT_PATH;
 
 		// IF DIRECTORY ISN'T CREATED CREATE IT
-		// CALL STTIC TO AVOID OVERWRITE PROBLEMS
-		ilFileDataImportForum::_initDirectory();
+		// CALL STATIC TO AVOID OVERWRITE PROBLEMS
+		ilFileDataImportGroup::_initDirectory();
 		$this->__readFiles();
 	}
 
@@ -72,6 +72,11 @@ class ilFileDataImportForum extends ilFileDataImport
 	function getXMLFile()
 	{
 		return $this->xml_file;
+	}
+
+	function getObjectFile()
+	{
+		return $this->object_file;
 	}
 
 	/**
@@ -126,6 +131,28 @@ class ilFileDataImportForum extends ilFileDataImport
 		return $this->xml_file;
 	}
 
+	function findObjectFile($a_file,$a_dir = '')
+	{
+		$a_dir = $a_dir ? $a_dir : $this->getPath();
+
+		$this->__readFiles($a_dir);
+
+		foreach($this->getFiles() as $file_data)
+		{
+			if(is_dir($file_data["abs_path"]))
+			{
+				$this->findObjectFile($a_file,$file_data["abs_path"]);
+			}
+			if($file_data["name"] == $a_file)
+			{
+				return $this->object_file = $file_data["abs_path"];
+			}
+		}
+		return $this->object_file;
+	}
+			
+
+
 	function unzip()
 	{
 		foreach($this->getFiles() as $file_data)
@@ -144,7 +171,7 @@ class ilFileDataImportForum extends ilFileDataImport
 	*/
 	function getPath()
 	{
-		return $this->mail_path;
+		return $this->group_path;
 	}
 
 	function unlinkLast()
@@ -195,13 +222,13 @@ class ilFileDataImportForum extends ilFileDataImport
 	*/
 	function __checkReadWrite()
 	{
-		if(is_writable($this->mail_path) && is_readable($this->mail_path))
+		if(is_writable($this->group_path) && is_readable($this->group_path))
 		{
 			return true;
 		}
 		else
 		{
-			$this->ilias->raiseError("Mail import directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Group import directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
 		}
 	}
 	/**
@@ -213,9 +240,9 @@ class ilFileDataImportForum extends ilFileDataImport
 	*/
 	function _initDirectory()
 	{
-		if(!@file_exists($this->mail_path))
+		if(!@file_exists($this->group_path))
 		{
-			ilUtil::makeDir($this->mail_path);
+			ilUtil::makeDir($this->group_path);
 		}
 		return true;
 	}
