@@ -1225,6 +1225,50 @@ class ASS_Question
 			"import_id" => $import_id
 		);
 	}
-}
 	
+	function getInternalLinkHref($target = "")
+	{
+		$linktypes = array(
+			"lm" => "LearningModule",
+			"pg" => "PageObject",
+			"st" => "StructureObject",
+			"git" => "GlossaryItem",
+			"mob" => "MediaObject"
+		);
+		$href = "";
+		if (preg_match("/il__(\w+)_(\d+)/", $target, $matches))
+		{
+			$type = $matches[1];
+			$target_id = $matches[2];
+			switch($linktypes[$matches[1]])
+			{
+				case "LearningModule":
+					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $target_id;
+					break;
+				case "PageObject":
+				case "StructureObject":
+					require_once "./content/classes/class.ilLMObject.php";
+					$lm_id = ilLMObject::_lookupContObjID($target_id);
+					$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id = %s",
+						$this->ilias->db->quote($lm_id . "")
+					);
+					$result = $this->ilias->db->query($query);
+					if ($result->numRows())
+					{
+						$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+						$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=layout&ref_id=".$row["ref_id"]."&obj_id=".$target_id;
+					}
+					break;
+				case "GlossaryItem":
+					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=glossary&ref_id=".$_GET["ref_id"]."&obj_id=".$target_id;
+					break;
+				case "MediaObject":
+					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
+					break;
+			}
+		}
+		return $href;
+	}
+}
+
 ?>
