@@ -56,7 +56,9 @@ if ($_POST["u_id"]!="")
 //	commented out by pgabriel 2002-08-06: 
 // better use header location for eventual language change (then languages change
 // have direct effect)
-		header("location: ./usr_profile.php");
+		//header("location: ./start.php");
+     $tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
+ 
 //		$tpl->setCurrentBlock("message");
 //		$tpl->setVariable("MSG", $lng->txt("msg_changes_ok"));
 //		$tpl->parseCurrentBlock();		
