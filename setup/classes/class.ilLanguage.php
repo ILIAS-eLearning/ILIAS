@@ -141,7 +141,17 @@ class ilLanguage
 		{
 			return "";
 		}
+
 		$translation = $this->text[$a_topic];
+		
+		//get position of the comment_separator
+		$pos = strpos($translation, $this->comment_separator);
+
+       	if ($pos !== false)
+		{
+       		// remove comment
+	   		$translation = substr($translation,0,$pos);
+		}
 
 		if ($translation == "")
 		{
