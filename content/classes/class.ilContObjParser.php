@@ -203,23 +203,43 @@ class ilContObjParser extends ilSaxParser
 		{
 			$pg_mapping[$key] = "il__pg_".$value;
 		}*/
-//echo "<br><b>processIntLinks</b>";
+//echo "<br><b>processIntLinks</b>"; flush();
 		// outgoin internal links
 		foreach($this->pages_to_parse as $page_id)
 		{
-			$page_obj =& new ilPageObject($this->content_object->getType(), $page_id);
+			$page_arr = explode(":", $page_id);
+//echo "<br>resolve:".$this->content_object->getType().":".$page_id; flush();
+			switch($page_arr[0])
+			{
+				case "lm":
+					$page_obj =& new ilPageObject($this->content_object->getType(), $page_arr[1]);
+					break;
+
+				case "gdf":
+					$page_obj =& new ilPageObject("gdf", $page_arr[1]);
+					break;
+			}
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
 			$page_obj->update(false);
+
+			if ($page_arr[0] == "gdf")
+			{
+				$def =& new ilGlossaryDefinition($page_arr[1]);
+				$def->updateShortText();
+			}
+
 			unset($page_obj);
 		}
 
+//echo "<br><b>map area internal links</b>"; flush();
 		// outgoins map area (mob) internal links
 		foreach($this->mobs_with_int_links as $mob_id)
 		{
 			ilMediaItem::_resolveMapAreaLinks($mob_id);
 		}
 
+//echo "<br><b>incoming interna links</b>"; flush();
 		// incoming internal links
 		$done = array();
 		foreach ($this->link_targets as $link_target)
@@ -412,7 +432,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BEGIN TAG: $a_name <br>";
+//echo "BEGIN TAG: $a_name <br>"; flush();
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -732,7 +752,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-//echo "END TAG: $a_name <br>";
+//echo "END TAG: $a_name <br>"; flush();
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)
@@ -790,11 +810,13 @@ class ilContObjParser extends ilSaxParser
 					// collect pages with internal links
 					if ($this->page_object->containsIntLink())
 					{
-						$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
+//echo "<br>Page contains Int Link:".$this->page_object->getId();
+						$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 					}
 					if ($this->page_object->needsImportParsing())
 					{
-						$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
+//echo "<br>Page needs import parsing:".$this->page_object->getId();
+						$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
 					}
 				}
 
@@ -1083,7 +1105,8 @@ class ilContObjParser extends ilSaxParser
 				//	= $this->lm_page_object->getId();
 				if ($this->page_object->containsIntLink())
 				{
-					$this->pages_to_parse[$this->page_object->getId()] = $this->page_object->getId();
+//echo "<br>Definition contains Int Link:".$this->page_object->getId();
+					$this->pages_to_parse["gdf:".$this->page_object->getId()] = "gdf:".$this->page_object->getId();
 				}
 				break;
 

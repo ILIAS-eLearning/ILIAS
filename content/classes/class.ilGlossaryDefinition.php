@@ -379,6 +379,14 @@ class ilGlossaryDefinition
 		$this->setDescription($this->meta_data->getDescription());
 	}
 
+	function updateShortText()
+	{
+		$this->page_object->buildDom();
+		$text = $this->page_object->getFirstParagraphText();
+		$this->setShortText(ilUtil::shortenText($text, 190, true));
+		$this->update();
+	}
+
 	/**
 	* static
 	*/

@@ -259,6 +259,13 @@ class ilGlossaryPresentationGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
+
+			// internal links
+			$page->buildDom();
+			$int_links = $page->getInternalLinks();
+			$link_xml = $this->getLinkXML($int_links);
+			$page_gui->setLinkXML($link_xml);
+
 			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
@@ -407,6 +414,67 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 	}
+
+	/**
+	* get link targets
+	*/
+	function getLinkXML($a_int_links)
+	{
+		if ($a_layoutframes == "")
+		{
+			$a_layoutframes = array();
+		}
+		$link_info = "<IntLinkInfos>";
+		foreach ($a_int_links as $int_link)
+		{
+			$target = $int_link["Target"];
+			if (substr($target, 0, 4) == "il__")
+			{
+				$target_arr = explode("_", $target);
+				$target_id = $target_arr[count($target_arr) - 1];
+				$type = $int_link["Type"];
+				$targetframe = ($int_link["TargetFrame"] != "")
+					? $int_link["TargetFrame"]
+					: "None";
+
+				switch($type)
+				{
+					case "PageObject":
+					case "StructureObject":
+						$lm_id = ilLMObject::_lookupContObjID($target_id);
+						$cont_obj =& $this->content_object;
+						if ($type == "PageObject")
+						{
+							$href = "../goto.php?target=pg_".$target_id;
+						}
+						else
+						{
+							$href = "../goto.php?target=st_".$target_id;
+						}
+						$ltarget = "ilContObj".$lm_id;
+						break;
+
+					case "GlossaryItem":
+						//$ltarget = $nframe = "_new";
+						$href = "glossary_presentation.php?cmd=listDefinitions&amp;ref_id=".$_GET["ref_id"].
+							"&amp;term_id=".$target_id;
+						break;
+
+					case "MediaObject":
+						$ltarget = $nframe = "_new";
+						$href = "glossary_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+							"&amp;mob_id=".$target_id;
+						break;
+				}
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+			}
+		}
+		$link_info.= "</IntLinkInfos>";
+
+		return $link_info;
+	}
+
 
 
 	/**
