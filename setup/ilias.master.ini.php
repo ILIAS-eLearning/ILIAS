@@ -3,6 +3,7 @@
 [server]
 http_path =
 absolute_path =
+presetting = 
 
 [clients]
 path = data
@@ -26,4 +27,31 @@ path =
 file = 
 enabled = 1
 level = WARNING
+
+[debian]
+data_dir = /var/opt/ilias3
+log = /var/log/ilias3/ilias3.log
+convert = /usr/bin/convert
+zip = /usr/bin/zip
+unzip = /usr/bin/unzip
+java = 
+htmldoc = /usr/bin/htmldoc
+
+[redhat]
+data_dir = 
+log = 
+convert = 
+zip = 
+unzip = 
+java = 
+htmldoc = 
+
+[suse]
+data_dir = 
+log = 
+convert = 
+zip = 
+unzip = 
+java = 
+htmldoc = 
 */ ?>
