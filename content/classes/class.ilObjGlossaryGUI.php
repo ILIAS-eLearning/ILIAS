@@ -210,7 +210,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array("", $this->lng->txt("cont_term"),
 			 $this->lng->txt("language"), $this->lng->txt("last_change")));
 
-		$cols = array("", "term", "language", "last_change");
+		$cols = array("", "term", "language", "last_change", "id");
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("15","45%","30%","25%"));
@@ -231,13 +231,30 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
+		$term_list = $this->object->getTermList();
+		$tbl->setMaxCount(count($term_list));
+
+		// sorting array
+		include_once "./include/inc.sort.php";
+		$term_list = sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
+		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
+
 		// render table
 		$tbl->render();
 
-		if (true)
+		if (count($term_list) > 0)
 		{
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
+			$i=1;
+			foreach($term_list as $key => $term)
+			{
+				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
+				$this->tpl->setVariable("TEXT_LANGUAGE", $term["language"]);
+				$this->tpl->setVariable("TEXT_LASTCHANGE", $term["last_change"]);
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->parseCurrentBlock();
+			}
 		} //if is_array
 		else
 		{

@@ -105,6 +105,22 @@ class ilGlossaryTerm
 		$this->setId($this->ilias->db->getLastInsertId());
 	}
 
+	/**
+	* static
+	*/
+	function getTermList($a_glo_id)
+	{
+		$terms = array();
+		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."'";
+		$term_set = $this->ilias->db->query($q);
+		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$terms[] = array("term" => $term_rec["term"],
+				"language" => $term_rec["language"], "id" => $term_rec["id"]);
+		}
+		return $terms;
+	}
+
 } // END class ilGlossaryTerm
 
 ?>
