@@ -532,6 +532,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/**
