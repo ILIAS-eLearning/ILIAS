@@ -1639,7 +1639,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$question_gui->outWorkingForm($test_id, "");
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$eval_result = $question_gui->object->getReachedInformation($ilUser->id, $test_id);
+/*		$eval_result = $question_gui->object->getReachedInformation($ilUser->id, $test_id);
 		$bool = array("false", "true");
 		switch($question_gui->getQuestionType())
 		{
@@ -1684,7 +1684,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				break;
 		}
-		$this->tpl->setVariable("EVALUATION_RESULTS", "<ul>\n$out_eval_results\n</ul>");
+		$this->tpl->setVariable("EVALUATION_RESULTS", "<ul>\n$out_eval_results\n</ul>");*/
 		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();

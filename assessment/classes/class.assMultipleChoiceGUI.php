@@ -704,7 +704,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
 		$output = $this->outQuestionPage("MULTIPLE_CHOICE_QUESTION", $is_postponed);
-
 		// set solutions
 		if ($test_id)
 		{
@@ -713,11 +712,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
 //echo "<br>".htmlentities($repl_str);
-				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
 			}
 		}
 
-		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output);
+		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output.$solutionoutput);
 
 		//$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 
