@@ -345,7 +345,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		$matchingtext_orders = array();
 		foreach ($this->matchingpairs as $index => $matchingpair)
 		{
-			array_push($matchingtext_orders, $matchingpair->get_order());
+			array_push($matchingtext_orders, $matchingpair->getTermId());
 		}
 
 		// shuffle it
@@ -361,7 +361,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$matchingpair = $this->matchingpairs[$index];
 
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
+			$qtiResponseLabel->set_attribute("ident", $matchingpair->getDefinitionId());
 			$qtiResponseLabel->set_attribute("match_max", "1");
 			$qtiResponseLabel->set_attribute("match_group", join($matchingtext_orders, ","));
 			$qtiMaterial = $this->domxml->create_element("material");
@@ -369,9 +369,9 @@ class ASS_MatchingQuestion extends ASS_Question
 			{
 				$qtiMatImage = $this->domxml->create_element("matimage");
 				$qtiMatImage->set_attribute("imagtype", "image/jpeg");
-				$qtiMatImage->set_attribute("label", $matchingpair->get_matchingtext());
+				$qtiMatImage->set_attribute("label", $matchingpair->getPicture());
 				$qtiMatImage->set_attribute("embedded", "base64");
-				$imagepath = $this->getImagePath() . $matchingpair->get_matchingtext();
+				$imagepath = $this->getImagePath() . $matchingpair->getPicture();
 				$fh = @fopen($imagepath, "rb");
 				if ($fh == false)
 				{
@@ -389,7 +389,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			else
 			{
 				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_matchingtext());
+				$qtiMatTextText = $this->domxml->create_text_node($matchingpair->getDefinition());
 				$qtiMatText->append_child($qtiMatTextText);
 				$qtiMaterial->append_child($qtiMatText);
 			}
@@ -402,10 +402,10 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$matchingpair = $this->matchingpairs[$index];
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_order());
+			$qtiResponseLabel->set_attribute("ident", $matchingpair->getTermId());
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_answertext());
+			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->getTerm());
 			$qtiMatText->append_child($qtiMatTextText);
 			$qtiMaterial->append_child($qtiMatText);
 			$qtiResponseLabel->append_child($qtiMaterial);
@@ -439,18 +439,18 @@ class ASS_MatchingQuestion extends ASS_Question
 			{
 				$qtiVarsubset->set_attribute("respident", "MQT");
 			}
-			$qtiVarsubsetText = $this->domxml->create_text_node($matchingpair->get_order() . "," . $matchingpair->get_matchingtext_order());
+			$qtiVarsubsetText = $this->domxml->create_text_node($matchingpair->getTermId() . "," . $matchingpair->getDefinitionId());
 			$qtiVarsubset->append_child($qtiVarsubsetText);
 			$qtiConditionvar->append_child($qtiVarsubset);
 			// qti setvar
 			$qtiSetvar = $this->domxml->create_element("setvar");
 			$qtiSetvar->set_attribute("action", "Add");
-			$qtiSetvarText = $this->domxml->create_text_node($matchingpair->get_points());
+			$qtiSetvarText = $this->domxml->create_text_node($matchingpair->getPoints());
 			$qtiSetvar->append_child($qtiSetvarText);
 			// qti displayfeedback
 			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
 			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
-			$qtiDisplayfeedback->set_attribute("linkrefid", "correct_" . $matchingpair->get_order() . "_" . $matchingpair->get_matchingtext_order());
+			$qtiDisplayfeedback->set_attribute("linkrefid", "correct_" . $matchingpair->getTermId() . "_" . $matchingpair->getDefinitionId());
 			$qtiRespcondition->append_child($qtiConditionvar);
 			$qtiRespcondition->append_child($qtiSetvar);
 			$qtiRespcondition->append_child($qtiDisplayfeedback);
@@ -462,7 +462,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		foreach ($this->matchingpairs as $index => $matchingpair)
 		{
 			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
-			$qtiItemfeedback->set_attribute("ident", "correct_" . $matchingpair->get_order() . "_" . $matchingpair->get_matchingtext_order());
+			$qtiItemfeedback->set_attribute("ident", "correct_" . $matchingpair->getTermId() . "_" . $matchingpair->getDefinitionId());
 			$qtiItemfeedback->set_attribute("view", "All");
 			// qti flow_mat
 			$qtiFlowmat = $this->domxml->create_element("flow_mat");
@@ -590,11 +590,11 @@ class ASS_MatchingQuestion extends ASS_Question
 				$matching_obj = $this->matchingpairs[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($matching_obj->get_answertext() . ""),
-					$db->quote($matching_obj->get_points() . ""),
-					$db->quote($matching_obj->get_order() . ""),
-					$db->quote($matching_obj->get_matchingtext() . ""),
-					$db->quote($matching_obj->get_matchingtext_order() . "")
+					$db->quote($matching_obj->getTerm() . ""),
+					$db->quote($matching_obj->getPoints() . ""),
+					$db->quote($matching_obj->getTermId() . ""),
+					$db->quote($matching_obj->getDefinition() . ""),
+					$db->quote($matching_obj->getDefinitionId() . "")
 				);
 				$matching_result = $db->query($query);
 			}
@@ -719,7 +719,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 			foreach ($this->matchingpairs as $answer)
 			{
-				$filename = $answer->get_answertext();
+				$filename = $answer->getPicture();
 				if (!copy($imagepath_original . $filename, $imagepath . $filename))
 				{
 					print "image could not be duplicated!!!! ";
@@ -803,73 +803,25 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @see ASS_AnswerMatching
 	*/
 	function add_matchingpair(
-		$answertext = "",
-		$matchingtext = "",
+		$term = "",
+		$picture_or_definition = "",
 		$points = 0.0,
-		$order = 0,
-		$matching_order = 0
+		$term_id = 0,
+		$picture_or_definition_id = 0
 	)
 	{
-		if ($order > 0)
-		{
-			$random_number_answertext = $order;
-		}
-		else
-		{
-			$random_number_answertext = $this->get_random_id("answer");
-		}
-
-		if ($matching_order > 0)
-		{
-			$random_number_matchingtext = $matching_order;
-		}
-		else
-		{
-			$random_number_matchingtext = $this->get_random_id("matching");
-		}
 		// append answer
-		$matchingpair = new ASS_AnswerMatching($answertext, $points, $random_number_answertext, $matchingtext, $random_number_matchingtext);
-		array_push($this->matchingpairs, $matchingpair);
-	}
+		if ($term_id == 0)
+		{
+			$term_id = $this->get_random_id();
+		}
 
-	function get_random_id($type = "answer")
-	{
-		if (strcmp($type, "answer") == 0)
+		if ($picture_or_definition_id == 0)
 		{
-			$random_number_answertext = mt_rand(1, 100000);
-			$found = FALSE;
-			while ($found)
-			{
-				$found = FALSE;
-				foreach ($this->matchingpairs as $key => $value)
-				{
-					if ($value->get_order() == $random_number_answertext)
-					{
-						$found = TRUE;
-						$random_number_answertext++;
-					}
-				}
-			}
-			return $random_number_answertext;
+			$picture_or_definition_id = $this->get_random_id();
 		}
-		else
-		{
-			$random_number_matchingtext = mt_rand(1, 100000);
-			$found = FALSE;
-			while ($found)
-			{
-				$found = FALSE;
-				foreach ($this->matchingpairs as $key => $value)
-				{
-					if ($value->get_order() == $random_number_matchingtext)
-					{
-						$found = TRUE;
-						$random_number_matchingtext++;
-					}
-				}
-			}
-			return $random_number_matchingtext;
-		}
+		$matchingpair = new ASS_AnswerMatching($term, $points, $term_id, $picture_or_definition, $picture_or_definition_id);
+		array_push($this->matchingpairs, $matchingpair);
 	}
 
 	/**
@@ -1012,9 +964,9 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->get_order() == $value) and ($answer_value->get_matchingtext_order() == $found_value1[$key]))
+				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value1[$key]))
 				{
-					$points += $answer_value->get_points();
+					$points += $answer_value->getPoints();
 				}
 			}
 		}
@@ -1058,12 +1010,12 @@ class ASS_MatchingQuestion extends ASS_Question
 			);
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->get_order() == $value) and ($answer_value->get_matchingtext_order() == $found_value2[$key]))
+				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value2[$key]))
 				{
-					$points += $answer_value->get_points();
-					$solution["points"] = $answer_value->get_points();
-					$solution["value1"] = $answer_value->get_answertext();
-					$solution["value2"] = $answer_value->get_matchingtext();
+					$points += $answer_value->getPoints();
+					$solution["points"] = $answer_value->getPoints();
+					$solution["value1"] = $answer_value->getTerm();
+					$solution["value2"] = $answer_value->getDefinition();
 					$solution["true"] = 1;
 				}
 			}
@@ -1086,9 +1038,9 @@ class ASS_MatchingQuestion extends ASS_Question
 		$points = 0;
 		foreach ($this->matchingpairs as $key => $value)
 		{
-			if ($value->get_points() > 0)
+			if ($value->getPoints() > 0)
 			{
-				$points += $value->get_points();
+				$points += $value->getPoints();
 			}
 		}
 		return $points;
@@ -1163,6 +1115,25 @@ class ASS_MatchingQuestion extends ASS_Question
 			}
 		}
 		//    parent::saveWorkingData($limit_to);
+	}
+
+	function get_random_id()
+	{
+		$random_number = mt_rand(1, 100000);
+		$found = FALSE;
+		while ($found)
+		{
+			$found = FALSE;
+			foreach ($this->matchingpairs as $key => $value)
+			{
+				if (($value->getTermId() == $random_number) || ($value->getDefinitionId() == $random_number))
+				{
+					$found = TRUE;
+					$random_number++;
+				}
+			}
+		}
+		return $random_number;
 	}
 
 }

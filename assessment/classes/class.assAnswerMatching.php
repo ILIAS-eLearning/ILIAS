@@ -21,36 +21,62 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "./assessment/classes/class.assAnswerSimple.php";
-
 /**
-* Class for simple answers
+* Class for matching question answers
 * 
-* ASS_AnswerMatching is a class for matching answers used for example in matching questions.
+* ASS_AnswerSimple is a class for matching question answers
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assAnswerMatching.php
 * @modulegroup   Assessment
 */
-class ASS_AnswerMatching extends ASS_AnswerSimple {
-/**
-* Matching text
-* 
-* The matching text string of the ASS_AnswerMatching object
-*
-* @var string
-*/
-  var $matchingtext;
+class ASS_AnswerMatching
+{
+	/**
+	* Term
+	*
+	* A term which has to be matched with a picture or a definition
+	*
+	* @var string
+	*/
+	var $term;
+
+	/**
+	* Points for selected matching pair
+	*
+	* The number of points given for the selected matching pair
+	*
+	* @var double
+	*/
+	var $points;
+
+	/**
+	* Picture or definition
+	*
+	* A picture (filename) or  definition which matches a term
+	*
+	* @var string
+	*/
+	var $picture_or_definition;
+
+	/**
+	* Term index
+	* 
+	* A nonnegative integer defining an unique id for the term
+	*
+	* @var integer
+	*/
+  var $term_id;
   
-/**
-* Unique identifier for the matching text
-* 
-* Unique identifier for the matching text
-*
-* @var integer
-*/
-  var $matchingtext_order;
+	/**
+	* Term index
+	* 
+	* A nonnegative integer defining an unique id for the picture or definition
+	*
+	* @var integer
+	*/
+  var $picture_or_definition_id;
   
 /**
 * ASS_AnswerMatching constructor
@@ -64,69 +90,221 @@ class ASS_AnswerMatching extends ASS_AnswerSimple {
 * @access public
 */
   function ASS_AnswerMatching (
-    $answertext = "",
+    $term = "",
     $points = 0.0,
-    $order = 0,
-    $matchingtext = "",
-    $matchingtext_order = 0
+    $term_id = 0,
+    $picture_or_definition = "",
+    $picture_or_definition_id = 0
   )
   {
-    $this->ASS_AnswerSimple($answertext, $points, $order);
-    $this->matchingtext = $matchingtext;
-    $this->matchingtext_order = $matchingtext_order;
+    $this->term = $term;
+    $this->term_id = $term_id;
+		$this->picture_or_definition = $picture_or_definition;
+		$this->picture_or_definition_id = $picture_or_definition_id;
+		$this->points = $points;
+	}
+
+	/**
+	* Gets the term
+	*
+	* Returns the term
+
+	* @return string term
+	* @access public
+	* @see $term
+	*/
+	function getTerm()
+	{
+		return $this->term;
+	}
+
+	/**
+	* Gets the points
+	*
+	* Returns the points
+
+	* @return double points
+	* @access public
+	* @see $points
+	*/
+	function getPoints()
+	{
+		return $this->points;
+	}
+
+	/**
+	* Gets the term id
+	*
+	* Returns a nonnegative identifier for the term
+
+	* @return integer order
+	* @access public
+	* @see $term_id
+	*/
+	function getTermId()
+	{
+		return $this->term_id;
+	}
+
+	/**
+	* Gets the picture
+	* 
+	* Returns the picture
+	
+	* @return string picture
+	* @access public
+	* @see $picture_or_definition
+	*/
+  function getPicture() {
+    return $this->picture_or_definition;
+  }
+
+	/**
+	* Gets the definition
+	* 
+	* Returns the definition
+	
+	* @return string definition
+	* @access public
+	* @see $picture_or_definition
+	*/
+  function getDefinition() {
+    return $this->picture_or_definition;
   }
   
-/**
-* Gets the matching text
-* 
-* Returns the matching text
+	/**
+	* Gets the picture identifier
+	* 
+	* Returns the picture identifier
+	
+	* @return integer picture identifier
+	* @access public
+	* @see $picture_or_definition_id
+	*/
+  function getPictureId() {
+    return $this->picture_or_definition_id;
+  }
 
-* @return string matching text
-* @access public
-* @see $matchingtext
-*/
-  function get_matchingtext() {
-    return $this->matchingtext;
+	/**
+	* Gets the definition identifier
+	* 
+	* Returns the definition identifier
+	
+	* @return integer definition identifier
+	* @access public
+	* @see $picture_or_definition_id
+	*/
+  function getDefinitionId() {
+    return $this->picture_or_definition_id;
   }
   
-/**
-* Gets the matching text identifier
-* 
-* Returns the matching text identifier
+	/**
+	* Sets the term id
+	*
+	* Sets the nonnegative term identifier which can be used for sorting or displaying matching pairs
+	*
+	* @param integer $term_id A nonnegative integer
+	* @access public
+	* @see $term_id
+	*/
+	function setTermId($term_id = 0)
+	{
+		if ($term_id >= 0)
+		{
+			$this->term_id = $term_id;
+		}
+	}
 
-* @return integer matching text identifier
-* @access public
-* @see $matchingtext_order
-*/
-  function get_matchingtext_order() {
-    return $this->matchingtext_order;
-  }
-  
-/**
-* Sets the matching text
-* 
-* Sets the matching text
-*
-* @param string $matchingtext The matching text
-* @access public
-* @see $matchingtext
-*/
-  function set_matchingtext($matchingtext = "") {
-    $this->matchingtext = $matchingtext;
-  }
+	/**
+	* Sets the picture id
+	*
+	* Sets the nonnegative picture identifier which can be used for sorting or displaying matching pairs
+	*
+	* @param integer $picture_id A nonnegative integer
+	* @access public
+	* @see $picture_or_definition_id
+	*/
+	function setPictureId($picture_id = 0)
+	{
+		if ($picture_id >= 0)
+		{
+			$this->picture_or_definition_id = $picture_id;
+		}
+	}
 
-/**
-* Sets the matching text identifier
-* 
-* Sets the matching text identifier
-*
-* @param integer $matchingtext_order The matching text identifier
-* @access public
-* @see $matchingtext_order
-*/
-  function set_matchingtext_order($matchingtext_order = 0) {
-    $this->matchingtext_order = $matchingtext_order;
-  }
+	/**
+	* Sets the definition id
+	*
+	* Sets the nonnegative definition identifier which can be used for sorting or displaying matching pairs
+	*
+	* @param integer $definition_id A nonnegative integer
+	* @access public
+	* @see $picture_or_definition_id
+	*/
+	function setDefinitionId($definition_id = 0)
+	{
+		if ($definition_id >= 0)
+		{
+			$this->picture_or_definition_id = $definition_id;
+		}
+	}
+
+	/**
+	* Sets the term
+	*
+	* Sets the term
+	*
+	* @param string $term Term
+	* @access public
+	* @see $term
+	*/
+	function setTerm($term = "")
+	{
+		$this->term = $term;
+	}
+
+	/**
+	* Sets the picture
+	*
+	* Sets the picture
+	*
+	* @param string $picture Picture
+	* @access public
+	* @see $picture_or_definition
+	*/
+	function setPicture($picture = "")
+	{
+		$this->picture_or_definition = $picture;
+	}
+
+	/**
+	* Sets the definition
+	*
+	* Sets the definition
+	*
+	* @param string $definition Definition
+	* @access public
+	* @see $picture_or_definition
+	*/
+	function setDefinition($definition = "")
+	{
+		$this->picture_or_definition = $definition;
+	}
+
+
+	/**
+	* Sets the points
+	*
+	* Sets the points given for selecting the answer.
+	*
+	* @param double $points The points given for the answer
+	* @access public
+	* @see $points
+	*/
+	function setPoints($points = 0.0)
+	{
+		$this->points = $points;
+	}
 
 }
 
