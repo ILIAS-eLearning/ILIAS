@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Czyszczenie się nie powiodło.
 common#:#clear#:#Wyczyść
 common#:#clear_clipboard#:#Opróżnij schowek
 common#:#client ip#:#IP klienta
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID Klienta
 common#:#client_ip#:#IP Klienta
 common#:#clipboard#:#Schowek

@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
 common#:#clear_clipboard#:#Empty Clipboard
 common#:#client ip#:#Client IP
+common#:#client#:#Client
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
@@ -2354,7 +2355,6 @@ common#:#time_limits#:#Access
 common#:#time_segment#:#Period of time
 common#:#title#:#Title
 common#:#to#:#To
-common#:#client#:#Client
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe
 common#:#today#:#Today

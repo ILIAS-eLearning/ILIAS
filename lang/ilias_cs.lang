@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#Vymazat
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID klienta
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Schránka

@@ -911,6 +911,7 @@ common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#-clear-
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Ip Cliente
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#ID de Cliente
 common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles

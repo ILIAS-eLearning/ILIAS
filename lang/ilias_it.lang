@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Svuotamento del file fallito.
 common#:#clear#:#Annulla
 common#:#clear_clipboard#:#Appunti vuoto
 common#:#client ip#:#Client Ip
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
 common#:#clipboard#:#Appunti

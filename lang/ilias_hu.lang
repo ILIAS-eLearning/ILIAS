@@ -910,6 +910,7 @@ common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#Törlés
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Kliens IP
+common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#Kliensazonosító
 common#:#client_ip#:#Client IP###05 Nov 2004 new variable
 common#:#clipboard#:#Vágólap
