@@ -33,9 +33,6 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
-common#:#lm_new#:#New Learning Module
-common#:#at_location#:#at location
-common#:#crs_new#:#New Course
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
@@ -56,6 +53,7 @@ common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_user_to_role#:#Assign User to Role
+common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
@@ -80,7 +78,10 @@ common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
+common#:#cat_a#:#a category
+common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
+common#:#cat_new#:#New Category
 common#:#categories#:#Categories
 common#:#cc#:#CC
 common#:#censorship#:#censorship
@@ -100,6 +101,7 @@ common#:#check_languages#:#Check Languages
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
+common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language.
 common#:#city#:#City
 common#:#clear#:#Clear
@@ -117,9 +119,12 @@ common#:#create#:#Create
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
+common#:#crs_a#:#a Course
+common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_available#:#Available Courses
 common#:#crs_management_system#:#Course Management System
+common#:#crs_new#:#New Course
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
 common#:#database#:#Database
@@ -194,16 +199,12 @@ common#:#folders#:#Folders
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
-common#:#frm_added#:#Forum added
-common#:#frm_add#:#Add Forum
-common#:#grp_add#:#Add Group
-common#:#lm_add#:#Add Learning Module
-common#:#crs_add#:#Add Course
-common#:#cat_add#:#Add Category
-common#:#cat_new#:#New Category
-common#:#frm_new#:#New Forum
 common#:#forums#:#Forums
 common#:#frm#:#Forum
+common#:#frm_a#:#a Forum
+common#:#frm_add#:#Add Forum
+common#:#frm_added#:#Forum added
+common#:#frm_new#:#New Forum
 common#:#from#:#From
 common#:#functions#:#Functions
 common#:#gender#:#Gender
@@ -214,7 +215,6 @@ common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
 common#:#group_name#:#Groupname
-common#:#grp_new#:#New Group
 common#:#group_not_available#:#any group available
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
@@ -223,7 +223,10 @@ common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
+common#:#grp_a#:#a Group
+common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
+common#:#grp_new#:#New Group
 common#:#help#:#Help
 common#:#hobby#:#Interests/Hobbies
 common#:#host#:#Host
@@ -294,7 +297,10 @@ common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
 common#:#literature_bookmarks#:#Literature Bookmarks
 common#:#lm#:#Learning Module
+common#:#lm_a#:#a Learning module
+common#:#lm_add#:#Add Learning Module
 common#:#lm_added#:#LearningModule added
+common#:#lm_new#:#New Learning Module
 common#:#lng#:#Language
 common#:#lngf#:#Language Folder
 common#:#lo#:#Learning Object
@@ -312,7 +318,6 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
-common#:#choose_location#:#Choose Location
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
@@ -368,20 +373,13 @@ common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
-common#:#grp_a#:#a Group
-common#:#frm_a#:#a Forum
-common#:#crs_a#:#a Course
-common#:#lm_a#:#a Learning module
-common#:#cat_a#:#a category
-common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
-common#:#txt_add_object_instruction2#:#.
 common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
 common#:#msg_no_perm_create_object2#:#at this location!
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
 common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
@@ -618,6 +616,8 @@ common#:#total#:#Total
 common#:#tpl_path#:#Template Path
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
+common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
+common#:#txt_add_object_instruction2#:#.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
@@ -660,16 +660,16 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_LocalFile#:#Local File
-content#:#cont_Reference#:#Reference
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline#:#Headline
 content#:#cont_List#:#List
+content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
+content#:#cont_Reference#:#Reference
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_all_pages#:#All Pages
