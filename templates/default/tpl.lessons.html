@@ -1,13 +1,14 @@
 <h1>{TXT_PAGEHEADLINE}</h1>
+
 {BUTTONS}
 
 <form method="post" action="{ACTION}">
-<table cellpadding=0 cellspacing=0 border=0>
+<table cellpadding="0" cellspacing="0" border="0">
 <tr class="tblrow2">
 
         <td>
         <b>&nbsp;{COURSE_LNG_TXT}&nbsp;</b><select name="set_co_lang">
-        <option value="all">All</select>&nbsp;<input type="submit" name="go" value="List">
+        <option value="all">All</select>&nbsp;<input type="submit" name="go" value="List" />
 <!-- BEGIN sellang -->
         <option value="{LNG_VAL}" {LNG_SEL}>{LNG_TITLE}</option>
 <!-- END sellang -->
@@ -17,22 +18,22 @@
 </table>
 <br>
 <!-- BEGIN category -->
-<table cellpadding=0 cellspacing=0 border=0>
-<tr class="tblheader" VALIGN="bottom">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr class="tblheader" valign="bottom">
         <td><b>{TXT_TITLE}</b></td>
-        <td ALIGN="right"><b>{TXT_SUBSCRIPTION}</b><img BORDER=0 SRC="./images/spacer.gif" WIDTH=5 HEIGHT=1 alt=""></td>
+        <td ALIGN="right"><b>{TXT_SUBSCRIPTION}</b><img src="./images/spacer.gif" width="5" height="1" border="0" alt="" /></td>
 </tr>
 <!-- BEGIN subcategory -->
 <tr class="{ROWCOL}" VALIGN="bottom">
         <td><a href="{LINK_LO}">{TITLE}</a></td>
-        <td ALIGN="right">{IMG_AND_LINK}<img BORDER=0 SRC="./images/spacer.gif" WIDTH=5 HEIGHT=1 alt=""></td>
+        <td align="right">{IMG_AND_LINK}<img src="./images/spacer.gif" width="5" height="1" border="0" alt="" /></td>
 </tr>
 <!-- END subcategory -->
 <!-- BEGIN subcategory_others -->
 <tr>
         <td>{TXT_LO_OTHER_LANGS}
 <!-- BEGIN crs_other_langs -->
- <a href="{LINK_OTHER_LANG}" CLASS="navigation"><img border=0 src="./languages/{LANG_SHORT}.gif" alt=""> {LESSONCOUNT} {LANG_DESC}</a>&nbsp;
+ <a href="{LINK_OTHER_LANG}" class="navigation"><img src="./languages/{LANG_SHORT}.gif" border="0" alt="" /> {LESSONCOUNT} {LANG_DESC}</a>&nbsp;
 <!-- END crs_other_langs -->
 </td>
         <td>&nbsp;</td>

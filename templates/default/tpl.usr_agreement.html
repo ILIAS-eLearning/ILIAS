@@ -1,11 +1,13 @@
 <h1>{TXT_PAGEHEADLINE}</h1>
-{BUTTONS}
-<form action="usr_agreement.php" method="post" name="form">
-<input type="hidden" name="back" value="index.php">
-<input type="hidden" name="act" value="modify_u_agreement">
-<input type="hidden" name="u_id" value="2">
 
-<table cellpadding=3 border=0>
+{BUTTONS}
+
+<form action="usr_agreement.php" method="post" name="form">
+<input type="hidden" name="back" value="index.php" />
+<input type="hidden" name="act" value="modify_u_agreement" />
+<input type="hidden" name="u_id" value="2" />
+
+<table cellpadding="3" border="0">
 <tr class="tblheader">
  <td><b>{TXT_AGREEMENT}</b></td>
 </tr>
@@ -16,9 +18,9 @@
  <td align=center><b>{TXT_ACCEPT}</b></td>
 </tr>
 <tr class="tblrow2">
- <td align=center><input type="radio" name="agreement" checked value="y"><b>{TXT_YES}</b><input type="radio" name="agreement" value="n"><b>{TXT_NO}</b<</td>
+ <td align="center"><input type="radio" name="agreement" checked="checked" value="y" /><b>{TXT_YES}</b><input type="radio" name="agreement" value="n" /><b>{TXT_NO}</b></td>
 </tr>
 </table>
-  <br>
+  <br />
   <input type="submit" name="butSubmit" value="{TXT_SUBMIT}">
 </form>

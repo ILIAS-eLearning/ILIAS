@@ -1,13 +1,17 @@
-<html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>ILIAS Login Screen</title>
-	<link rel="stylesheet" type="text/css" href="ilias.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link rel="stylesheet" type="text/css" href="ilias.css" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-
 <center>
-<br>
-<img src="./images/ilias_logo_big.gif" border="0">
+<br />
+<img src="./images/ilias_logo_big.gif" border="0" />
 
 <form method="post" action="{PHP_SELF}" name="formlogin">
 <table border="0" cellpadding="2" cellspacing="0">
@@ -29,7 +33,7 @@
   <td><input type="password" name="password"></td>
 </tr>
 <tr>
-  <td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></td>
+  <td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}" /></td>
 </tr>
 </table>
 
@@ -38,16 +42,17 @@
 <a href="./login.php?lang={LANG_ID}">[ {LANG_DESC} ]</a>
 <!-- END languages -->
 </p>
-<br>
+<br />
 
 <font color="red"><i>{TXT_MSG_LOGIN_FAILED}</i></font>
 </center>
 
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
+<![CDATA[
 <!--
 	document.formlogin.username.focus();
 //-->
+]]>
 </script>
-
 </body>
 </html>
