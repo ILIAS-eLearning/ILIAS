@@ -1112,7 +1112,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("VAR_NAME", "name_".$i);
 			$this->tpl->setVariable("VAL_NAME", $area->getTitle());
 			$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
-			$this->tpl->setVariable("VAL_COORDS", $area->getCoords());
+			$this->tpl->setVariable("VAL_COORDS",
+				implode(explode(",", $area->getCoords()), ", "));
 			switch ($area->getLinkType())
 			{
 				case "ext":
@@ -1146,7 +1147,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		{
 			$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
 		}
-echo "AT:".$_SESSION["il_map_edit_area_type"].":";
+//echo "AT:".$_SESSION["il_map_edit_area_type"].":";
 		if($_GET["areatype"] != "")
 		{
 			$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
@@ -1225,86 +1226,59 @@ echo "AT:".$_SESSION["il_map_edit_area_type"].":";
 			case "Rect" :
 				if ($cnt_coords < 2)
 				{
-					$this->getNextCoordinate();
+					$this->editMapArea(true, false, false);
 				}
 				else if ($cnt_coords == 2)
 				{
-					$this->showMapAreaPropertiesForm();
-					// create/update imagemap work copy
-					$st_item =& $this->content_obj->getMediaItem("Standard");
-					$st_item->addAreaToMapWorkCopy("Rect", $coords);
+					$this->editMapArea(false, true, true);
+				}
+				break;
+
+			// Circle
+			case "Circle":
+				if ($cnt_coords < 2)
+				{
+					$this->editMapArea(true, false, false);
+				}
+				else if ($cnt_coords == 2)
+				{
+					$c = explode(",",$coords);
+					$coords = $c[0].",".$c[1].",";	// determine radius
+					$coords .= round(sqrt(pow(abs($c[3]-$c[1]),2)+pow(abs($c[2]-$c[0]),2)));
+					$_SESSION["il_map_edit_coords"] = $coords;
+
+					$this->editMapArea(false, true, true);
+				}
+				break;
+
+			// Polygon
+			case "Poly":
+				if ($cnt_coords < 1)
+				{
+					$this->editMapArea(true, false, false);
+				}
+				else if ($cnt_coords < 3)
+				{
+					$this->editMapArea(true, true, false);
+				}
+				else
+				{
+					$this->editMapArea(true, true, true);
 				}
 				break;
 		}
 	}
 
-	/**
-	* show map area properties form
-	*/
-	function showMapAreaPropertiesForm()
-	{
-		$area_type = $_SESSION["il_map_edit_area_type"];
-		$coords = $_SESSION["il_map_edit_coords"];
-		$cnt_coords = ilMapArea::countCoords($coords);
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
-
-echo "coords:".$coords.":<br>";
-
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
-
-		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
-
-		// map properties input fields (name and link)
-		$this->tpl->setCurrentBlock("new_area");
-		$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
-		$this->tpl->setVariable("TXT_LINK2", $this->lng->txt("cont_link"));
-		$this->tpl->setVariable("VAR_NAME2", "area_name");
-		$this->tpl->setVariable("VAR_LINK2", "area_link");
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
-		$this->tpl->setVariable("BTN_SAVE", "saveArea");
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-
-		// create/update imagemap work copy
-		$st_item =& $this->content_obj->getMediaItem("Standard");
-		$st_item->makeMapWorkCopy();
-		$st_item->addAreaToMapWorkCopy($area_type, $coords);
-
-		// output image map
-		$xml = "<dummy>";
-		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
-		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
-		$xml.="</dummy>";
-//echo "xml:".htmlentities($xml).":<br>";
-		$xsl = file_get_contents("./content/page.xsl");
-		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-		$xh = xslt_create();
-		$wb_path = ilUtil::getWebspaceDir("output");
-		$mode = "media";
-		$map_edit_mode = "";
-		$params = array ('map_edit_mode' => $map_edit_mode,
-			'map_item' => $st_item->getId(), 'mode' => $mode,
-			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
-			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-//echo "<br>html:".htmlentities($output).":<br>";
-		echo xslt_error($xh);
-		xslt_free($xh);
-		$this->tpl->setVariable("IMAGE_MAP", $output);
-
-
-		$this->tpl->parseCurrentBlock();
-	}
 
 	/**
-	* get next coordinate
+	* get a single map area
+	*
+	* @param	boolean		$a_get_next_coordinate		enable next coordinate input
+	* @param	boolean		$a_output_new_area			output the new area
+	* @param	boolean		$a_save_from				output save form
 	*/
-	function getNextCoordinate()
+	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
+		$a_save_form = false)
 	{
 		$area_type = $_SESSION["il_map_edit_area_type"];
 		$coords = $_SESSION["il_map_edit_coords"];
@@ -1320,12 +1294,12 @@ echo "coords:".$coords.":<br>";
 
 		// output instruction text
 		$this->tpl->setCurrentBlock("instruction");
-echo "at:$area_type:<br>";
-echo "cntcoords:".$cnt_coords.":<br>";
-echo "coords:".$coords.":<br>";
+//echo "at:$area_type:<br>";
+//echo "cntcoords:".$cnt_coords.":<br>";
+//echo "coords:".$coords.":<br>";
 		switch ($area_type)
 		{
-			// Rectangle
+			// rectangle
 			case "Rect" :
 				if ($cnt_coords == 0)
 				{
@@ -1348,13 +1322,51 @@ echo "coords:".$coords.":<br>";
 					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_circle"));
 				}
 				break;
+
+			// polygon
+			case "Poly" :
+				if ($cnt_coords == 0)
+				{
+					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_starting_point"));
+				}
+				else if ($cnt_coords < 3)
+				{
+					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_point"));
+				}
+				else
+				{
+					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_or_save"));
+				}
+				break;
 		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 
+
+		// map properties input fields (name and link)
+		if ($a_save_form)
+		{
+			$this->tpl->setCurrentBlock("new_area");
+			$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
+			$this->tpl->setVariable("TXT_LINK2", $this->lng->txt("cont_link"));
+			$this->tpl->setVariable("VAR_NAME2", "area_name");
+			$this->tpl->setVariable("VAR_LINK2", "area_link");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+			$this->tpl->setVariable("BTN_SAVE", "saveArea");
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("adm_content");
+		}
+
 		// create/update imagemap work copy
 		$st_item =& $this->content_obj->getMediaItem("Standard");
 		$st_item->makeMapWorkCopy();
+
+		if ($a_output_new_area)
+		{
+			$st_item->addAreaToMapWorkCopy($area_type, $coords);
+		}
 
 		// output image map
 		$xml = "<dummy>";
@@ -1367,7 +1379,15 @@ echo "coords:".$coords.":<br>";
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
-		$params = array ('map_edit_mode' => "get_coords",
+		if ($a_get_next_coordinate)
+		{
+			$map_edit_mode = "get_coords";
+		}
+		else
+		{
+			$map_edit_mode = "";
+		}
+		$params = array ('map_edit_mode' => $map_edit_mode,
 			'map_item' => $st_item->getId(), 'mode' => $mode,
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
