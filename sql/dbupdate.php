@@ -5421,3 +5421,59 @@ CREATE TABLE `crs_objective_lm` (
   PRIMARY KEY  (`lm_ass_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=14 ;
 
+<#387>
+DROP TABLE IF EXISTS `style_folder_styles`;
+CREATE TABLE `style_folder_styles` (
+  `folder_id` int(11) NOT NULL default '0',
+  `style_id` int(11) NOT NULL default '0',
+  INDEX f_id (`folder_id`)
+) TYPE=MyISAM;
+
+<#388>
+<?php
+
+// insert style folder type to object data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'styf', 'Style Folder', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// insert operations for style folder type
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$this->db->query($query);
+
+// CREATE SYSTEM STYLE FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('styf', 'System Style Folder', 'System Style Templates', -1, now(), now())";
+$this->db->query($query);
+
+// get style folder number
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$sty_folder_id = $row->id;
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+?>
+
