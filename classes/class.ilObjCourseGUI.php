@@ -1,3 +1,4 @@
+
 <?php
 /*
 	+-----------------------------------------------------------------------------+
@@ -26,7 +27,7 @@
 * Class ilObjCourseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjCourseGUI.php,v 1.5 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjCourseGUI.php,v 1.6 2003/08/05 16:45:22 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -44,6 +45,8 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		$this->type = "crs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		$this->lng->loadLanguageModule('crs');
 	}
 
 	/**
