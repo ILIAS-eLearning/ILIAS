@@ -130,11 +130,7 @@ class UserObject extends Object
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TYPE","user");
 
-			// display path
-			$tree = new Tree($_GET["parent"],1,1);
-			$tree->getPath();
-			$path = showPath($tree->Path,"content.php");
-			$tplContent->setVariable("TREEPATH",$path);
+			$tplContent->setVariable("TREEPATH",$this->getPath());
 
 			// gender selection
 			$tplContent->setCurrentBlock("gender");

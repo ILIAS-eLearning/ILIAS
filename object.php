@@ -2,11 +2,11 @@
 
 include_once "include/ilias_header.inc";
 // create tree object: if $pos is not set use root id
-$tree =& new Tree($obj_id,1,1);
+//$tree =& new Tree($obj_id,1,1);
 // display path
-$tree->getPath();
+//$tree->getPath();
 
-$path = showPath($tree->Path,"content.php");
+//$path = showPath($tree->Path,"content.php");
 
 if(!isset($_POST["type"]))
 {

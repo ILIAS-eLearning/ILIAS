@@ -365,11 +365,7 @@ class Object
 		$tplContent = new Template("object_owner.html",true,true);
 		$tplContent->setVariable($ilias->ini["layout"]);
 	
-		// Show path
-		$tree = new Tree($_GET["obj_id"],1,1);
-		$tree->getPath();
-		$path = showPath($tree->Path,"content.php");
-		$tplContent->setVariable("TREEPATH",$path);
+		$tplContent->setVariable("TREEPATH",$this->getPath());
         $tplContent->setVariable("CMD","update");
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
         $tplContent->setVariable("TPOS",$_GET["parent"]);
@@ -421,7 +417,7 @@ class Object
 			$a_id = $_GET["obj_id"];
 		}
 		$tree = new Tree($a_id,1,1);
-		$tree->getPath();
+		$tree->getPathFull();
 		return showPath($tree->Path,"content.php");
 	}
 	function getParentRoleIds()
