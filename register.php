@@ -148,9 +148,9 @@ function saveForm()
 	$mbox = new ilMailbox($userObj->getId());
 	$mbox->createDefaultFolder();
 
-	include_once "classes/class.ilFormatMail.php";
-	$fmail = new ilFormatMail($userObj->getId());
-	$fmail->createMailOptionsEntry();
+	include_once "classes/class.ilMailOptions.php";
+	$mail_options = new ilMailOptions($userObj->getId());
+	$mail_options->createMailOptionsEntry();
 
 	// create personal bookmark folder tree
 	include_once "classes/class.ilBookmarkFolder.php";
