@@ -1380,7 +1380,7 @@ class ASS_Question
 					}
 					break;
 				case "GlossaryItem":
-					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=glossary&ref_id=".$_GET["ref_id"]."&obj_id=".$target_id;
+					$href = ILIAS_HTTP_PATH . "/content/glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$target_id . "&offset=0";
 					break;
 				case "MediaObject":
 					$href = ILIAS_HTTP_PATH . "/content/lm_presentation.php?obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=".$_GET["ref_id"]."&mob_id=".$target_id;
