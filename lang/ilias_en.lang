@@ -2538,6 +2538,8 @@ common#:#webr_active#:#Active
 common#:#webr_add#:#Add Web Resource
 common#:#webr_add_item#:#Add Web Resource
 common#:#webr_delete#:#Delete Web Resource
+common#:#webr_delete_items#:#Delete Web Resource(s)
+common#:#webr_deleted_items#:#Deleted Web Resource(s).
 common#:#webr_disable_check#:#Disable check 
 common#:#webr_edit#:#Edit Web Resource
 common#:#webr_edit_item#:#Edit Web Resource
@@ -2553,6 +2555,7 @@ common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Add new Web Resource
 common#:#webr_no_items_created#:#No Web Resources created
 common#:#webr_read#:#Read access to Web Resource
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
 common#:#webr_visible#:#Web Resource is visible
 common#:#webr_write#:#Edit Web Resource
 common#:#webservices#:#Webservices
@@ -4809,6 +4812,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#webr_delete_items#:#Delete Web Resource(s)
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_deleted_items#:#Deleted Web Resource(s).

@@ -2416,6 +2416,9 @@ common#:#view#:#-Ver-
 common#:#view_content#:#ver contenido
 common#:#visible_layers#:#capas visibles
 common#:#visits#:#visitas
+common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
+common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
 common#:#webservices#:#Servicios Web (SOAP)
 common#:#week#:#Semana
 common#:#welcome#:#Bienvenido

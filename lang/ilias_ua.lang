@@ -846,7 +846,7 @@ common#:#cat_create_spl#:#Створити Пул Питань (Опитуван
 common#:#cat_create_svy#:#Створити Опитування
 common#:#cat_create_tst#:#Створити Тест
 common#:#cat_create_url#:#Створити URL
-common#:#cat_create_webr#:#Створити новий веб ресурс
+common#:#cat_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
@@ -902,8 +902,8 @@ common#:#check_link_desc#:#Якщо включено, усі зовнішні п
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
 common#:#check_user_accounts#:#Перевірити акаунти користувачів
 common#:#check_user_accounts_desc#:#Якщо cron роботи активовані та ця опція включена, усі користувачі, у яких скінчився термін дії акаунтів, будуть проінформавані через email.
-common#:#check_web_resources#:#Перевірити веб ресурси
-common#:#check_web_resources_desc#:#Якщо включено, усі веб ресури будуть перевірені якщо вони активні.
+common#:#check_web_resources#:#Перевірити веб ресурси###16 Mar 2005 content changed
+common#:#check_web_resources_desc#:#Якщо включено, усі веб ресури будуть перевірені якщо вони активні.###16 Mar 2005 content changed
 common#:#checked_files#:#Імпортовані файли
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
@@ -989,7 +989,7 @@ common#:#crs_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#crs_create_spl#:#Створити Пул Питань для Опитування
 common#:#crs_create_svy#:#Створити Опитування
 common#:#crs_create_tst#:#Створити Тест
-common#:#crs_create_webr#:#Створити новий веб ресурс
+common#:#crs_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
@@ -1339,7 +1339,7 @@ common#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#grp_create_spl#:#Створити Пул Питань для Опитування
 common#:#grp_create_svy#:#Створити Опитування
 common#:#grp_create_tst#:#Створити Тест
-common#:#grp_create_webr#:#Створити новий веб ресурс
+common#:#grp_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити наступних користувачів з групи?
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи?
@@ -1395,9 +1395,9 @@ common#:#hist_lm:pg_cut#:#Сторінка вирізана з глави "%1" [
 common#:#hist_lm:pg_paste#:#Сторінка вставлена в главу "%1" [%2]
 common#:#hist_lm:pg_update#:#Сторінка змінена
 common#:#hist_no_entries#:#Немає записів в історії.
-common#:#hist_webr_add#:#Доданий новий веб ресурс з назвою: "%1"
-common#:#hist_webr_delete#:#Видалений веб ресурс. Назва: "%1"
-common#:#hist_webr_update#:#Оновити веб ресурс. Назва: "%1"
+common#:#hist_webr_add#:#Доданий новий веб ресурс з назвою: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_delete#:#Видалений веб ресурс. Назва: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_update#:#Оновити веб ресурс. Назва: "%1"###16 Mar 2005 content changed
 common#:#history#:#Історія
 common#:#hits_per_page#:#Хіти/Сторінка
 common#:#hlm#:#HACP Учбовий Модуль
@@ -1953,7 +1953,7 @@ common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
-common#:#obj_webr#:#Веб ресурс
+common#:#obj_webr#:#Веб ресурс###16 Mar 2005 content changed
 common#:#object#:#Об'єкт
 common#:#object_added#:#Об'єкт доданий
 common#:#objects#:#Об'єкти
@@ -1997,7 +1997,7 @@ common#:#objs_tst#:#Тести
 common#:#objs_type#:#Типи об'єктів
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Користувачі
-common#:#objs_webr#:#Веб русурси
+common#:#objs_webr#:#Веб русурси###16 Mar 2005 content changed
 common#:#of#:#Of
 common#:#offline#:#оффлайн
 common#:#offline_version#:#Оффлайн Версія
@@ -2532,29 +2532,32 @@ common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
-common#:#web_resources#:#Веб ресурси
-common#:#webr#:#Веб ресурс
+common#:#web_resources#:#Веб ресурси###16 Mar 2005 content changed
+common#:#webr#:#Веб ресурс###16 Mar 2005 content changed
 common#:#webr_active#:#Активний
-common#:#webr_add#:#Додати веб ресурс
-common#:#webr_add_item#:#Додати веб ресурс
-common#:#webr_delete#:#Видалити веб ресурс
+common#:#webr_add#:#Додати веб ресурс###16 Mar 2005 content changed
+common#:#webr_add_item#:#Додати веб ресурс###16 Mar 2005 content changed
+common#:#webr_delete#:#Видалити веб ресурс###16 Mar 2005 content changed
+common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
+common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
 common#:#webr_disable_check#:#Відключити перевірку 
-common#:#webr_edit#:#Редагувати веб ресурс
-common#:#webr_edit_item#:#Редагувати веб ресурс
+common#:#webr_edit#:#Редагувати веб ресурс###16 Mar 2005 content changed
+common#:#webr_edit_item#:#Редагувати веб ресурс###16 Mar 2005 content changed
 common#:#webr_edit_permission#:#Змінити настройки прав
 common#:#webr_fillout_all#:#Будь ласка заповніть усі необхідні поля.
 common#:#webr_item_updated#:#Збережені модифікації
-common#:#webr_join#:#Підписатись на веб ресурс
+common#:#webr_join#:#Підписатись на веб ресурс###16 Mar 2005 content changed
 common#:#webr_last_check#:#Остання перевірка
 common#:#webr_last_check_table#:#Остання перевірка:
-common#:#webr_leave#:#Відписатись від веб ресурсу
+common#:#webr_leave#:#Відписатись від веб ресурсу###16 Mar 2005 content changed
 common#:#webr_modified_items#:#Збережені модифікації.
 common#:#webr_never_checked#:#Ніколи не перевірявся
-common#:#webr_new#:#Додати новий веб ресурс
-common#:#webr_no_items_created#:#Немає створених веб ресурсів
-common#:#webr_read#:#Доступ на читання до веб ресурсу
-common#:#webr_visible#:#веб ресурс є видимим
-common#:#webr_write#:#Редагувати веб ресурс
+common#:#webr_new#:#Додати новий веб ресурс###16 Mar 2005 content changed
+common#:#webr_no_items_created#:#Немає створених веб ресурсів###16 Mar 2005 content changed
+common#:#webr_read#:#Доступ на читання до веб ресурсу###16 Mar 2005 content changed
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
+common#:#webr_visible#:#веб ресурс є видимим###16 Mar 2005 content changed
+common#:#webr_write#:#Редагувати веб ресурс###16 Mar 2005 content changed
 common#:#webservices#:#Вебсервіси
 common#:#week#:#Тиждень
 common#:#weekly#:#тижневий
