@@ -2005,7 +2005,7 @@ class ilObjectGUI
 		// render table
 		$tbl->render();
 
-		if (is_array($this->data["data"][0]))
+		if (!empty($this->data["data"][0]))
 		{
 			//table cell
 			for ($i=0; $i < count($this->data["data"]); $i++)
@@ -2075,34 +2075,28 @@ class ilObjectGUI
 						$this->tpl->touchBlock("end_link");
 					}
 
-					// process clipboard information"
-					if (isset($_SESSION["clipboard"]))
+					// process clipboard information
+					if (($key == "title" || $key == "name") and isset($_SESSION["clipboard"]))
 					{
-						$cmd = $_SESSION["clipboard"]["cmd"];
-						$parent = $_SESSION["clipboard"]["parent"];
-
 						// TODO: broken! fix me
-						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
+						if (in_array($ctrl["ref_id"],$_SESSION["clipboard"]["ref_ids"]))
 						{
-							if ($ctrl["ref_id"] == $clip_id)
+                            switch($_SESSION["clipboard"]["cmd"])
 							{
-								if ($cmd == "cut" and $key == "title")
-								{
-									$val = "<del>".$val."</del>";
-								}
+                                case "cut":
+                                    $name_field[0] = "<del>".$name_field[0]."</del>";
+                                    break;
 
-								if ($cmd == "copy" and $key == "title")
-								{
-									$val = "<font color=\"green\">+</font>  ".$val;
-								}
-
-								if ($cmd == "link" and $key == "title")
-								{
-									$val = "<font color=\"black\"><</font> ".$val;
-								}
-							}
-						}
-					}
+                                case "copy":
+                                    $name_field[0] = "<font color=\"green\">+</font>  ".$name_field[0];
+                                    break;
+                                        
+                                case "link":
+                                    $name_field[0] = "<font color=\"black\"><</font> ".$name_field[0];
+                                    break;
+                            }
+         				}
+         			}
 
 					$this->tpl->setCurrentBlock("text");
 
@@ -2139,10 +2133,11 @@ class ilObjectGUI
 		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
+// fix this!
+            //$this->tpl->setCurrentBlock("notfound");
+			//$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			//$this->tpl->setVariable("NUM_COLS", $num);
+			//$this->tpl->parseCurrentBlock();
 		}
 	}
 
