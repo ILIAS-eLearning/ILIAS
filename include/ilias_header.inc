@@ -51,7 +51,7 @@ $ilias = new ILIAS;
 
 // set constants
 define ("ROOT_FOLDER_ID",settype($ilias->ini->readVariable('system','ROOT_FOLDER_ID'),"int")); 
-define ("SYSTEM_FOLDER_ID",settypee($ilias->ini->readVariable('system','SYSTEM_FOLDER_ID'),"int"));
+define ("SYSTEM_FOLDER_ID",settype($ilias->ini->readVariable('system','SYSTEM_FOLDER_ID'),"int"));
 
 //authenticate
 $ilias->auth->start();
