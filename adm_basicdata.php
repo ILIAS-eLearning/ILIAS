@@ -48,6 +48,7 @@ if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt
 		
 		$ilias->ini->setVariable("server","tpl_path",$tpl_path);
 		$ilias->ini->setVariable("server","lang_path",$lang_path);
+		$ilias->ini->write();
 
 		$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
 		$tpl->setVariable("MESSAGE", $lng->txt("saved_successfully"));
