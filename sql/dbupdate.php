@@ -2941,3 +2941,6 @@ foreach($perms as $perm)
 }
 
 ?>
+
+<#189>
+UPDATE settings SET value = '3.0.0 2004/05/15' WHERE keyword = 'ilias_version' LIMIT 1;
