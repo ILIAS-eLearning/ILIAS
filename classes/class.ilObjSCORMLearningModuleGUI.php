@@ -46,7 +46,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		$this->type = "slm";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-
 	}
 
 	/**
@@ -96,7 +95,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		}
 
 		// create and insert object in objecttree
-		require_once("classes/class.ilObjSCORMLearningModule.php");
+		include_once("classes/class.ilObjSCORMLearningModule.php");
 		$newObj = new ilObjSCORMLearningModule();
 		$newObj->setType("slm");
 		$newObj->setTitle("temp title");				// should be set by
@@ -123,7 +122,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		chdir($cdir);
 
 		// start SCORM package parser
-		require_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
+		include_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
 		// todo determine imsmanifest.xml path here...
 		//$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
 		//$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
@@ -171,5 +170,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
+	}
 } // END class.ilObjSCORMLearningModule
 ?>
