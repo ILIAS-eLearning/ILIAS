@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.9 2003/04/01 12:39:47 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.10 2003/04/01 12:47:13 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -341,9 +341,9 @@ class ilObjUserGUI extends ilObjectGUI
 		exit();
 	}
 
-	
 	/**
-	* update object in db
+	
+	* updates user object
 	*/
 	function updateObject()
 	{

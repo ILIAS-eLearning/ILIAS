@@ -3,7 +3,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.5 2003/04/01 12:39:47 akill Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.6 2003/04/01 14:36:07 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -30,7 +30,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	**/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin, $tree;
+		global $rbacsystem,$rbacadmin;
 
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
@@ -53,7 +53,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$roltObj->setTitle($_POST["Fobject"]["title"]);
 			$roltObj->setDescription($_POST["Fobject"]["desc"]);
 			$roltObj->create();
-			$parent_id = $tree->getParentId($_GET["ref_id"]);
+			$parent_id = $this->tree->getParentId($_GET["ref_id"]);
 			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],$parent_id,'y');
 		}
 		
@@ -252,6 +252,38 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			   $_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
+	/**
+	* update role template object
+	*/
+	function updateObject()
+	{
+		global $rbacsystem, $rbacadmin;
 
+		// check write access
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		{
+			$this->ilias->raiseError("No permission to modify role template",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// check if role title is unique
+			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+			}
+
+			// create new role object
+			require_once("./classes/class.ilObjRoleTemplate.php");
+			$roleObj = new ilObjRoleTemplate($this->object->getId());
+			$roleObj->setTitle($_POST["Fobject"]["title"]);
+			$roleObj->setDescription($_POST["Fobject"]["desc"]);
+			$roleObj->update();
+		}
+		
+		sendInfo($this->lng->txt("saved_successfully"),true);
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+	}
 } // END class.RoleTemplateObjectOut
 ?>

@@ -980,7 +980,7 @@ class ilObjectGUI
 
 
 	/**
-	* update object in db
+	* updates object entry in object_data
 	*/
 	function updateObject()
 	{
