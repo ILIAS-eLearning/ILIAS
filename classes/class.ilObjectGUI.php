@@ -802,9 +802,8 @@ class ilObjectGUI
 	* clone Object subtree
 	*
 	* @access	private
-	* @param	integer	reference id
 	*/
-	function cloneObject($a_ref_id)
+	function cloneObject()
 	{
 		global $rbacsystem;
 
