@@ -1499,6 +1499,12 @@
 				<xsl:attribute name="coords">
 				<xsl:value-of select="."/>
 				</xsl:attribute>
+			    <xsl:attribute name="alt">
+			        <xsl:value-of select="material/mattext"/>
+			    </xsl:attribute>
+			    <xsl:attribute name="title">
+			        <xsl:value-of select="material/mattext"/>
+			    </xsl:attribute>
 			</area>
 			</xsl:for-each>
 			</map>

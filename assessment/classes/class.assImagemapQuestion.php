@@ -369,6 +369,163 @@ class ASS_ImagemapQuestion extends ASS_Question {
   }
 
 	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		if (!empty($this->domxml))
+		{
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$comment = $item->first_child();
+			if (strcmp($comment->node_name(), "qticomment") == 0)
+			{
+				$this->setComment($comment->get_content());
+			}
+			$itemnodes = $item->child_nodes();
+			$materials = array();
+			$filename = "";
+			$image = "";
+			$shuffle = "";
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+						{
+							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
+						}
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
+						{
+							if (strcmp($flownode->node_name(), "material") == 0)
+							{
+								$mattext = $flownode->first_child();
+								$this->set_question($mattext->get_content());
+							}
+							elseif (strcmp($flownode->node_name(), "response_xy") == 0)
+							{
+								$ident = $flownode->get_attribute("ident");
+								$render_hotspot = $flownode->first_child();
+								if (strcmp($render_hotspot->node_name(), "render_hotspot") == 0)
+								{
+									$labels = $render_hotspot->child_nodes();
+									foreach ($labels as $lidx => $response_label)
+									{
+										if (strcmp($response_label->node_name(), "material") == 0)
+										{
+											// image map image
+											$mattype = $response_label->first_child();
+											if (strcmp($mattype->node_name(), "matimage") == 0)
+											{
+												$filename = $mattype->get_attribute("label");
+												$image = base64_decode($mattype->get_content());
+											}
+										}
+										else
+										{
+											$material_children = $response_label->child_nodes();
+											switch ($response_label->get_attribute("rarea"))
+											{
+												case "Ellipse":
+													$materials[$response_label->get_attribute("ident")]["area"] = "circle";
+													break;
+												case "Bounded":
+													$materials[$response_label->get_attribute("ident")]["area"] = "poly";
+													break;
+												case "Rectangle":
+													$materials[$response_label->get_attribute("ident")]["area"] = "rect";
+													break;
+											}
+											foreach ($material_children as $midx => $childnode)
+											{
+												if (strcmp($childnode->node_name(), "#text") == 0)
+												{
+													$materials[$response_label->get_attribute("ident")]["coords"] = $childnode->get_content();
+												}
+												elseif (strcmp($childnode->node_name(), "material") == 0)
+												{
+													$materials[$response_label->get_attribute("ident")]["answertext"] = $childnode->get_content();
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						break;
+					case "resprocessing":
+						$resproc_nodes = $node->child_nodes();
+						foreach ($resproc_nodes as $index => $respcondition)
+						{
+							if (strcmp($respcondition->node_name(), "respcondition") == 0)
+							{
+								$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+								foreach ($materials as $index => $material)
+								{
+									if (strcmp($material["coords"], $respcondition_array["conditionvar"]["value"]) == 0)
+									{
+										$this->add_answer(
+											$material["answertext"], 
+											$respcondition_array["setvar"]["points"],
+											$respcondition_array["conditionvar"]["selected"],
+											$index,
+											$material["coords"],
+											$material["area"]
+										);
+									}
+								}
+							}
+						}
+						break;
+				}
+			}
+			if ($filename)
+			{
+				$this->saveToDb();
+				$imagepath = $this->getImagePath();
+				if (!file_exists($imagepath))
+				{
+					ilUtil::makeDirParents($imagepath);
+				}
+				$imagepath .=  $filename;
+				$fh = fopen($imagepath, "wb");
+				if ($fh == false)
+				{
+					global $ilErr;
+					$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
+					return;
+				}
+				$imagefile = fwrite($fh, $image);
+				fclose($fh);
+				$this->image_filename = $filename;
+			}
+			$result = true;
+		}
+		return $result;
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -469,7 +626,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
 					break;
 			}
 			$qtiResponseLabelCoords = $this->domxml->create_text_node($answer->get_coords());
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMatText = $this->domxml->create_element("mattext");
+			$qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
+			$qtiMatText->append_child($qtiMatTextText);
+			$qtiMaterial->append_child($qtiMatText);
 			$qtiResponseLabel->append_child($qtiResponseLabelCoords);
+			$qtiResponseLabel->append_child($qtiMaterial);
 			$qtiRenderHotspot->append_child($qtiResponseLabel);
 		}
 		$qtiResponseXy->append_child($qtiRenderHotspot);

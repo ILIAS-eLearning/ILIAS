@@ -69,8 +69,15 @@ class ilQTIUtils
 						$respident = $operation->get_attribute("respident");
 						$value = $operation->get_content();
 					}
+					elseif (strcmp($operation->node_name(), "varinside") == 0)
+					{
+						$respident = $operation->get_attribute("respident");
+						$areatype = $operation->get_attribute("areatype");
+						$value = $operation->get_content();
+					}
 					$result["conditionvar"]["selected"] = $selected;
 					$result["conditionvar"]["respident"] = $respident;
+					$result["conditionvar"]["areatype"] = $areatype;
 					$result["conditionvar"]["index"] = $idx;					
 					$result["conditionvar"]["value"] = $value;					
 					break;
