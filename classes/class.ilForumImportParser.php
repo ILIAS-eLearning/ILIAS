@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilForumImportParser.php,v 1.2 2004/04/19 16:04:39 smeyer Exp $
+* @version $Id$Id: class.ilForumImportParser.php,v 1.3 2004/04/29 11:35:27 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -335,8 +335,8 @@ class ilForumImportParser extends ilSaxParser
 
 		$query = "INSERT INTO frm_data VALUES('0','".
 			$this->forum->getId()."','".
-			$this->forum->getTitle()."','".
-			$this->forum->getDescription()."','".
+			ilUtil::prepareDBString($this->forum->getTitle())."','".
+			ilUtil::prepareDBString($this->forum->getDescription())."','".
 			"0','0','".
 			"','".$this->roles[0]."','".
 			date("Y:m:d H:i:s")."','".
