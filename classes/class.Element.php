@@ -14,7 +14,7 @@ class Element {
 
     /**
     * database handle
-    * @var object
+    * @var object DB
     * @access private
     */
     var $dbHandle;
