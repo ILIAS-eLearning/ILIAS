@@ -438,13 +438,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// move pages / chapters
 			case "move":
 
-			if ($p_id < 0 || $t_id < 0) return;
-				// (1) page after page
-				if ($source_obj->getType() == "pg" &&
-					$target_obj->getType() == "pg")
+				// move pages
+				if ($source_obj->getType() == "pg")
 				{
-					//return;
-					
 					// cut page
 					if ($lmtree->isInTree($source_obj->getId()))
 					{
@@ -453,24 +449,56 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						// paste page
 						if(!$lmtree->isInTree($source_obj->getId()))
 						{
-							$target_pos = $target_id;
-							if ($position == "before")
+							// move page after/before other page
+							if ($target_obj->getType() == "pg")
 							{
-								$target_pos = IL_FIRST_NODE;
-								if ($pred = $lmtree->fetchPredecessorNode($target_id))
+								$target_pos = $target_id;
+								if ($position == "before")
 								{
-									if ($lmtree->getParentId($pred["child"]) == $target_parent)
+									$target_pos = IL_FIRST_NODE;
+									if ($pred = $lmtree->fetchPredecessorNode($target_id))
 									{
-										$target_pos = $pred["child"];
+										if ($lmtree->getParentId($pred["child"]) == $target_parent)
+										{
+											$target_pos = $pred["child"];
+										}
 									}
 								}
+								$parent = $target_parent;
 							}
-							//$target = IL_FIRST_NODE;
+							else // move page into chapter
+							{
+								$target_pos = IL_FIRST_NODE;
+								$parent = $target_id;
+							}
+							
+							// insert page into tree
 							$lmtree->insertNode($source_obj->getId(),
-								$target_parent, $target_pos);
+								$parent, $target_pos);
 						}
 					}
 				}
+				
+				// move pages
+				if ($source_obj->getType() == "st")
+				{
+					/*
+					$source_node = $lmtree->getNodeData($source_id);
+					$subnodes = $lmtree->getSubtree($source_node);					
+
+					// check, if target is within subtree
+					foreach ($subnodes as $subnode)
+					{
+						if($subnode["obj_id"] == $target_id)
+						{
+							return;
+						}
+					}
+					
+					// delete 
+					$lmtree->delete($node);*/
+				}
+
 				break;
 		}
 		
