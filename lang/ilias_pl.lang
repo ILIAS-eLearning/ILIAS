@@ -94,17 +94,17 @@ assessment#:#by#:#przez
 assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
-assessment#:#create_new#:#Twórz nowy
+assessment#:#create_new#:#Twórz nowe
 assessment#:#duplicate#:#Kopiuj
-assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
+assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
 assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
-assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
+assessment#:#fill_out_all_answer_fields#:#Wypełnij wszystkie pola odpowiedzi przed dodaniem nowego!
+assessment#:#fill_out_all_matching_pairs#:#Wypełnij wszystkie pary przed dodaniem nowej!
 assessment#:#fill_out_all_required_fields_add_answer#:#Wypełnij wszystkie niezbędne pola przed dodaniem odpowiedzi!
 assessment#:#fill_out_all_required_fields_add_matching#:#Wypełnij wszystkie niezbędne pola przed dodaniem pasującej pary!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Wypełnij wszystkie niezbędne pola przed utworzeniem odstępu!
@@ -117,8 +117,8 @@ assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
 assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
 assessment#:#matches#:#zgodne
 assessment#:#matching_pair#:#Pasujące pary
-assessment#:#material#:#Material###11 Mar 2004 new variable
-assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
+assessment#:#material#:#Materiał
+assessment#:#material_download#:#Materiał do pobrania
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#points#:#Punkty
@@ -126,10 +126,10 @@ assessment#:#possible_gap_text#:#Możliwy tekst odstępu
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
+assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego pytania. Pytanie nigdy nie było użyte w teście.
+assessment#:#qpl_assessment_of_questions#:#Ocena pytań
+assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
+assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
 assessment#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania
@@ -137,18 +137,18 @@ assessment#:#qpl_edit_rbac_error#:#Nie masz uprawnień do edycji tego pytania!
 assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
 assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
-assessment#:#qt_cloze#:#Uzupełnij pytanie
-assessment#:#qt_imagemap#:#Pytanie - Mapa BitowaImage
-assessment#:#qt_matching#:#Pasujące pytanie
+assessment#:#qt_cloze#:#Pytanie na uzupełnianie
+assessment#:#qt_imagemap#:#Pytanie - Mapa Bitowa
+assessment#:#qt_matching#:#Pytanie na dopasowanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
-assessment#:#qt_ordering#:#Pytanie porządkowe
+assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_type#:#Typ pytania
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
 assessment#:#reset_filter#:#Resetuj filtr
-assessment#:#result#:#Result###17 Mar 2004 new variable
+assessment#:#result#:#Wynik
 assessment#:#save_finish#:#Zapisz i zakończ test
 assessment#:#save_introduction#:#Zapisz i skocz do wstępu
 assessment#:#save_next#:#Zapisz i skocz do następnego pytania
@@ -158,48 +158,48 @@ assessment#:#set_filter#:#Ustaw filtr
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#true#:#Prawda
-assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
-assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
+assessment#:#tst_already_taken#:#Testy już pobrane
+assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
-assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
+assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
+assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
+assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
+assessment#:#tst_eval_total_passed#:#Ogółem zaliczonych testów
+assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych testów
+assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
 assessment#:#tst_general_properties#:#Cechy ogólne
 assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
 assessment#:#tst_introduction#:#Wstęp
-assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
+assessment#:#tst_mark#:#Wybór
 assessment#:#tst_mark_create_new_mark_step#:#Twórz nową pozycję wyboru
 assessment#:#tst_mark_create_simple_mark_schema#:#Twórz prosty schemat wyboru
 assessment#:#tst_mark_minimum_level#:#Minimalny poziom (w %)
 assessment#:#tst_mark_official_form#:#Oficjalna forma
 assessment#:#tst_mark_passed#:#Wykonany
 assessment#:#tst_mark_short_form#:#Krótka forma
-assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
+assessment#:#tst_maximum_points#:#Maksimum punktów
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
 assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do susunięcia!
 assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
-assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
+assessment#:#tst_no_taken_tests#:#Brak pobranych testów!
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
-assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
+assessment#:#tst_percent_solved#:#Procent rozwiązanych
 assessment#:#tst_processing_time#:#Maks. czas wykonania
-assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
+assessment#:#tst_question_no#:#Porządek
 assessment#:#tst_question_title#:#Tytuł
 assessment#:#tst_question_type#:#Typ pytania
 assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
 assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
-assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
+assessment#:#tst_reached_points#:#Osiągnięte punkty
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
+assessment#:#tst_result_congratulations#:#Gratulacje! Zaliczyłeś test.
+assessment#:#tst_result_sorry#:#Niestety nie zaliczyłeś testu.
 assessment#:#tst_results#:#Rezultaty testu
 assessment#:#tst_resume_test#:#Podsumowanie testu
 assessment#:#tst_score_reporting#:#Raport punktacji
@@ -213,18 +213,18 @@ assessment#:#tst_session_settings#:#Ustawienia sesji
 assessment#:#tst_show_results#:#Pokaż rezultaty testu
 assessment#:#tst_start_test#:#Start testu
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
-assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
-assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
-assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
+assessment#:#tst_status_completed#:#ukończony
+assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
+assessment#:#tst_status_not_entered#:#nie wprowadzony
+assessment#:#tst_status_progress#:#wykonywany
 assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_types#:#Typy testów
-assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
+assessment#:#tst_your_mark_is#:#Twój wybór to
 assessment#:#tt_assessment#:#Ocena testu
 assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczniów
 assessment#:#tt_self_assessment#:#Test samooceny
 assessment#:#unlimited#:#nielimitowany
-assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
+assessment#:#uploaded_material#:#Załadowany Materiał
 chat#:#chat_active#:#Aktywny
 chat#:#chat_active_users#:#Użytkownik (aktywny)
 chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
@@ -320,7 +320,7 @@ common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Dostęp
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
-common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#activation#:#Aktywacja
 common#:#active_roles#:#Aktywnne role
 common#:#add#:#Dodaj
 common#:#add_author#:#Dodaj autora
@@ -357,13 +357,13 @@ common#:#attachments#:#Załączniki
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
 common#:#available_languages#:#Dostępne języki
-common#:#average_time#:#Average time###16 Mar 2004 new variable
+common#:#average_time#:#Średni czas
 common#:#back#:#Powrót
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dane podstawowe
-common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
-common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
-common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#benchmark#:#Test wydajności
+common#:#benchmark_settings#:#Ustawienia testu wydajności
+common#:#benchmarks#:#Testy wydajności
 common#:#bm#:#Zakładka
 common#:#bmf#:#Folder zakładek
 common#:#bookmark_edit#:#Edytuj zakładkę
@@ -480,7 +480,7 @@ common#:#crs_new#:#Nowy kurs
 common#:#crs_read#:#Prawo czytania Kursu
 common#:#crs_visible#:#Kurs jest widoczny
 common#:#crs_write#:#Edycja Kursu
-common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#cur_number_rec#:#Bieżąca liczba rekordów
 common#:#current_password#:#Aktualne hasło
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
@@ -519,7 +519,7 @@ common#:#default_skin_style#:#Domyślna Skórka / Styl
 common#:#default_style#:#Domyślny styl
 common#:#delete#:#Usuń
 common#:#delete_all#:#Usuń wszystko
-common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
+common#:#delete_all_rec#:#Usuń wszystkie rekordy
 common#:#delete_object#:#Usuń obiekt(y)
 common#:#delete_selected#:#Usuń wybrane
 common#:#deleted#:#Usunięte
@@ -926,7 +926,7 @@ common#:#mail_z_local#:#Foldery użytkownika
 common#:#mails#:#Wiadomości
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
-common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_number_rec#:#Maksymalna liczba rekordów
 common#:#member#:#Członek
 common#:#members#:#Członkowie
 common#:#membership_annulled#:#Twoje członkostwo zostało anulowane.
@@ -939,30 +939,30 @@ common#:#mob#:#Obiekt multimedialny
 common#:#module#:#moduł
 common#:#modules#:#Moduły
 common#:#month#:#Miesiąc
-common#:#month_01_long#:#January###17 Mar 2004 new variable
-common#:#month_01_short#:#Jan###17 Mar 2004 new variable
-common#:#month_02_long#:#February###17 Mar 2004 new variable
-common#:#month_02_short#:#Feb###17 Mar 2004 new variable
-common#:#month_03_long#:#March###17 Mar 2004 new variable
-common#:#month_03_short#:#Mar###17 Mar 2004 new variable
-common#:#month_04_long#:#April###17 Mar 2004 new variable
-common#:#month_04_short#:#Apr###17 Mar 2004 new variable
-common#:#month_05_long#:#May###17 Mar 2004 new variable
-common#:#month_05_short#:#May###17 Mar 2004 new variable
-common#:#month_06_long#:#June###17 Mar 2004 new variable
-common#:#month_06_short#:#Jun###17 Mar 2004 new variable
-common#:#month_07_long#:#July###17 Mar 2004 new variable
-common#:#month_07_short#:#Jul###17 Mar 2004 new variable
-common#:#month_08_long#:#August###17 Mar 2004 new variable
-common#:#month_08_short#:#Aug###17 Mar 2004 new variable
-common#:#month_09_long#:#September###17 Mar 2004 new variable
-common#:#month_09_short#:#Sep###17 Mar 2004 new variable
-common#:#month_10_long#:#October###17 Mar 2004 new variable
-common#:#month_10_short#:#Oct###17 Mar 2004 new variable
-common#:#month_11_long#:#November###17 Mar 2004 new variable
-common#:#month_11_short#:#Nov###17 Mar 2004 new variable
-common#:#month_12_long#:#December###17 Mar 2004 new variable
-common#:#month_12_short#:#Dec###17 Mar 2004 new variable
+common#:#month_01_long#:#Styczeń
+common#:#month_01_short#:#Sty
+common#:#month_02_long#:#Luty
+common#:#month_02_short#:#Lut
+common#:#month_03_long#:#Marzec
+common#:#month_03_short#:#Mar
+common#:#month_04_long#:#Kwiecień
+common#:#month_04_short#:#Kwi
+common#:#month_05_long#:#Maj
+common#:#month_05_short#:#Maj
+common#:#month_06_long#:#Czerwiec
+common#:#month_06_short#:#Cze
+common#:#month_07_long#:#Lipiec
+common#:#month_07_short#:#Lip
+common#:#month_08_long#:#Sierpień
+common#:#month_08_short#:#Sie
+common#:#month_09_long#:#Wrzesień
+common#:#month_09_short#:#Wrz
+common#:#month_10_long#:#Październik
+common#:#month_10_short#:#Paź
+common#:#month_11_long#:#Listopad
+common#:#month_11_short#:#Lis
+common#:#month_12_long#:#Grudzień
+common#:#month_12_short#:#Gru
 common#:#move#:#Przesuń
 common#:#moveChapter#:#Przesuń rozdział
 common#:#movePage#:#Przesuń stronę
@@ -1074,7 +1074,7 @@ common#:#none#:#Brak
 common#:#normal#:#Normalny
 common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
-common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
+common#:#number_of_records#:#Liczba rekordów
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
@@ -1166,7 +1166,7 @@ common#:#online_version#:#Wersja Online
 common#:#operation#:#Operacja
 common#:#optimize#:#Optymalizuj
 common#:#options#:#Opcje
-common#:#order_by#:#Uporządkowany przez
+common#:#order_by#:#Kolejność wg
 common#:#other#:#Inne
 common#:#overview#:#Przegląd
 common#:#owner#:#Właściciel
@@ -1256,7 +1256,7 @@ common#:#remove#:#Wyklucz
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
 common#:#reply#:#Odpowiedz
-common#:#repository#:#Repozytorium
+common#:#repository#:#Dostępne zasoby
 common#:#required_field#:#Pole niezbędne
 common#:#reset#:#Przywróć
 common#:#resources#:#Źródła
@@ -1304,7 +1304,7 @@ common#:#save_and_back#:#Zapisz i Wróć
 common#:#save_message#:#Zapisz wiadomość
 common#:#save_refresh#:#Zapisz i Odśwież
 common#:#save_return#:#Zapisz i Powróć
-common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
+common#:#save_settings#:#Zapisz ustawienia
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
 common#:#search#:#Szukaj
@@ -1333,7 +1333,7 @@ common#:#setUserLanguage#:#Ustaw język użytkownika
 common#:#set_offline#:#Ustaw Offline
 common#:#set_online#:#Ustaw Online
 common#:#settings#:#Ustawienia
-common#:#show#:#Show###16 Mar 2004 new variable
+common#:#show#:#Pokaż
 common#:#show_details#:#Pokaż szczegóły
 common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
@@ -1701,230 +1701,230 @@ content#:#pg#:#Strona
 content#:#read offline#:#Czytaj Offline
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
-dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
-dateplaner#:#Day_long#:#Day View###16 Mar 2004 new variable
-dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.###16 Mar 2004 new variable
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_TS#:#Incorrect date format###16 Mar 2004 new variable
-dateplaner#:#Fr_long#:#Friday###16 Mar 2004 new variable
-dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
-dateplaner#:#Language_file#:#english###16 Mar 2004 new variable
-dateplaner#:#Listbox_long#:#List of Dates###16 Mar 2004 new variable
-dateplaner#:#Mo_long#:#Monday###16 Mar 2004 new variable
-dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
-dateplaner#:#Month_long#:#Month View###16 Mar 2004 new variable
-dateplaner#:#Sa_long#:#Saturday###16 Mar 2004 new variable
-dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
-dateplaner#:#Su_long#:#Sunday###16 Mar 2004 new variable
-dateplaner#:#Su_short#:#Su###16 Mar 2004 new variable
-dateplaner#:#Text#:#Text###16 Mar 2004 new variable
-dateplaner#:#Th_long#:#Thursday###16 Mar 2004 new variable
-dateplaner#:#Th_short#:#Th###16 Mar 2004 new variable
-dateplaner#:#Tu_long#:#Tuesday###16 Mar 2004 new variable
-dateplaner#:#Tu_short#:#Tu###16 Mar 2004 new variable
-dateplaner#:#View#:#View:###16 Mar 2004 new variable
-dateplaner#:#We_long#:#Wednesday###16 Mar 2004 new variable
-dateplaner#:#We_short#:#We###16 Mar 2004 new variable
-dateplaner#:#Week_long#:#Week View###16 Mar 2004 new variable
-dateplaner#:#add_data#:#Additional data###16 Mar 2004 new variable
-dateplaner#:#app_#:#group dates inbox###16 Mar 2004 new variable
-dateplaner#:#app_date#:#insert date###16 Mar 2004 new variable
-dateplaner#:#app_day#:#dayview###16 Mar 2004 new variable
-dateplaner#:#app_freetime#:#freetime of other group members (catch a time)###16 Mar 2004 new variable
-dateplaner#:#app_inbox#:#group dates inbox###16 Mar 2004 new variable
-dateplaner#:#app_list#:#date list###16 Mar 2004 new variable
-dateplaner#:#app_month#:#monthview###16 Mar 2004 new variable
-dateplaner#:#app_properties#:#properties###16 Mar 2004 new variable
-dateplaner#:#app_week#:#weekview###16 Mar 2004 new variable
-dateplaner#:#application#:#Dateplaner###16 Mar 2004 new variable
-dateplaner#:#apply#:#apply###16 Mar 2004 new variable
-dateplaner#:#back#:#back###16 Mar 2004 new variable
-dateplaner#:#begin_date#:#Begin of Date###16 Mar 2004 new variable
-dateplaner#:#busytime#:#busy time in group###16 Mar 2004 new variable
-dateplaner#:#c_date#:#Create Date###16 Mar 2004 new variable
-dateplaner#:#changeTo#:#Change to:###16 Mar 2004 new variable
-dateplaner#:#changedDates#:#Changed dates###16 Mar 2004 new variable
-dateplaner#:#checkforfreetime#:#Check for free time###16 Mar 2004 new variable
-dateplaner#:#created#:#Created###16 Mar 2004 new variable
-dateplaner#:#date#:#Date###16 Mar 2004 new variable
-dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###16 Mar 2004 new variable
-dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###16 Mar 2004 new variable
-dateplaner#:#del_all#:#delete all dates###16 Mar 2004 new variable
-dateplaner#:#del_one#:#delete one date###16 Mar 2004 new variable
-dateplaner#:#delete#:#delete###16 Mar 2004 new variable
-dateplaner#:#deletedDates#:#Deleted dates###16 Mar 2004 new variable
-dateplaner#:#discard#:#discard###16 Mar 2004 new variable
-dateplaner#:#dv_Grouptime#:#free time###16 Mar 2004 new variable
-dateplaner#:#dv_button_cancel#:#Cancel###16 Mar 2004 new variable
-dateplaner#:#dv_button_delete#:#Delete###16 Mar 2004 new variable
-dateplaner#:#dv_button_insert#:#Insert###16 Mar 2004 new variable
-dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
-dateplaner#:#dv_date_begin#:#Date Start:###16 Mar 2004 new variable
-dateplaner#:#dv_date_end#:#Date End:###16 Mar 2004 new variable
-dateplaner#:#dv_date_hm#:#Hour:Minute###16 Mar 2004 new variable
-dateplaner#:#dv_enddate#:#Enddate:###16 Mar 2004 new variable
-dateplaner#:#dv_groupselect#:#Groupselect:###16 Mar 2004 new variable
-dateplaner#:#dv_groupview#:#Groupdate:###16 Mar 2004 new variable
-dateplaner#:#dv_groupview_text#:#Group:<br>###16 Mar 2004 new variable
-dateplaner#:#dv_keywords#:#Keywords:###16 Mar 2004 new variable
-dateplaner#:#dv_keywordselect#:#Keywordselect:###16 Mar 2004 new variable
-dateplaner#:#dv_message#:#Message:###16 Mar 2004 new variable
-dateplaner#:#dv_noGroup#:#no Group###16 Mar 2004 new variable
-dateplaner#:#dv_noKey#:#no Keyword###16 Mar 2004 new variable
-dateplaner#:#dv_preview#:#      <b>! Preview !</b>###16 Mar 2004 new variable
-dateplaner#:#dv_rotation#:#Rotation:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_date#:#Rotation date:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_end#:#Rotation end:###16 Mar 2004 new variable
-dateplaner#:#dv_shorttext#:#Shorttext:###16 Mar 2004 new variable
-dateplaner#:#dv_startdate#:#Startdate:###16 Mar 2004 new variable
-dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
-dateplaner#:#dv_whole_day#:#Whole day:###16 Mar 2004 new variable
-dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)###16 Mar 2004 new variable
-dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
-dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
-dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
-dateplaner#:#free#:#free###16 Mar 2004 new variable
-dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable
-dateplaner#:#group#:#group###16 Mar 2004 new variable
-dateplaner#:#help_day#:#Dateplaner dayview###16 Mar 2004 new variable
-dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
-dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
-dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
-dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
-dateplaner#:#help_group#:#Groupdates selection###16 Mar 2004 new variable
-dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.###16 Mar 2004 new variable
-dateplaner#:#help_inbox#:#Dateplaner Inbox###16 Mar 2004 new variable
-dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_keyword#:#Keyword selection###16 Mar 2004 new variable
-dateplaner#:#help_keywordUse#:#Keyword  selection###16 Mar 2004 new variable
-dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.###16 Mar 2004 new variable
-dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
-dateplaner#:#help_list#:#Dateplaner datelist###16 Mar 2004 new variable
-dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_month#:#Dateplaner monthview###16 Mar 2004 new variable
-dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt#:#Changes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_del#:#Deletes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.###16 Mar 2004 new variable
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files###16 Mar 2004 new variable
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
-dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters###16 Mar 2004 new variable
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
-dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.###16 Mar 2004 new variable
-dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters###16 Mar 2004 new variable
-dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
-dateplaner#:#help_text_l#:#Here one can enter the text for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_week#:#Dateplaner weekview###16 Mar 2004 new variable
-dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.###16 Mar 2004 new variable
-dateplaner#:#hour#:#hour###16 Mar 2004 new variable
-dateplaner#:#importDates#:#Import of Outlook Dates###16 Mar 2004 new variable
-dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
-dateplaner#:#insertImportDates#:#These dates were successfully registered:###16 Mar 2004 new variable
-dateplaner#:#k_alldates#:#all dates###16 Mar 2004 new variable
-dateplaner#:#keep#:#keep###16 Mar 2004 new variable
-dateplaner#:#keyword#:#Keyword###16 Mar 2004 new variable
-dateplaner#:#keywords#:#Keywords###16 Mar 2004 new variable
-dateplaner#:#last_change#:#Last changed###16 Mar 2004 new variable
-dateplaner#:#long_01#:#January###16 Mar 2004 new variable
-dateplaner#:#long_02#:#February###16 Mar 2004 new variable
-dateplaner#:#long_03#:#March###16 Mar 2004 new variable
-dateplaner#:#long_04#:#April###16 Mar 2004 new variable
-dateplaner#:#long_05#:#May###16 Mar 2004 new variable
-dateplaner#:#long_06#:#June###16 Mar 2004 new variable
-dateplaner#:#long_07#:#July###16 Mar 2004 new variable
-dateplaner#:#long_08#:#August###16 Mar 2004 new variable
-dateplaner#:#long_09#:#September###16 Mar 2004 new variable
-dateplaner#:#long_10#:#October###16 Mar 2004 new variable
-dateplaner#:#long_11#:#November###16 Mar 2004 new variable
-dateplaner#:#long_12#:#December###16 Mar 2004 new variable
-dateplaner#:#main_dates#:#Main Dates###16 Mar 2004 new variable
-dateplaner#:#menue#:#Menu###16 Mar 2004 new variable
-dateplaner#:#mmonth#:#last month###16 Mar 2004 new variable
-dateplaner#:#month#:#month###16 Mar 2004 new variable
-dateplaner#:#more#:#more###16 Mar 2004 new variable
-dateplaner#:#mweek#:#last week###16 Mar 2004 new variable
-dateplaner#:#myeahr#:#last year###16 Mar 2004 new variable
-dateplaner#:#newDates#:#New dates###16 Mar 2004 new variable
-dateplaner#:#newKeyword#:#New:###16 Mar 2004 new variable
-dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
-dateplaner#:#no_entry#:#no dates available###16 Mar 2004 new variable
-dateplaner#:#o_day_date#:#24h date###16 Mar 2004 new variable
-dateplaner#:#of#:#of###16 Mar 2004 new variable
-dateplaner#:#open_day#:#dayview###16 Mar 2004 new variable
-dateplaner#:#pmonth#:#next month###16 Mar 2004 new variable
-dateplaner#:#printlist#:#print###16 Mar 2004 new variable
-dateplaner#:#properties#:#Properties###16 Mar 2004 new variable
-dateplaner#:#pweek#:#next week###16 Mar 2004 new variable
-dateplaner#:#pyear#:#next year###16 Mar 2004 new variable
-dateplaner#:#r_14#:#every 14 days###16 Mar 2004 new variable
-dateplaner#:#r_4_weeks#:#every 4 weeks###16 Mar 2004 new variable
-dateplaner#:#r_day#:#every day###16 Mar 2004 new variable
-dateplaner#:#r_halfyear#:#every half year###16 Mar 2004 new variable
-dateplaner#:#r_month#:#every month###16 Mar 2004 new variable
-dateplaner#:#r_nonrecurring#:#Once###16 Mar 2004 new variable
-dateplaner#:#r_week#:#every week###16 Mar 2004 new variable
-dateplaner#:#r_year#:#every year###16 Mar 2004 new variable
-dateplaner#:#readimportfile#:#insert###16 Mar 2004 new variable
-dateplaner#:#rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#rotation_dates#:#Rotation Dates###16 Mar 2004 new variable
-dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
-dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
-dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
-dateplaner#:#short_03#:#Mar###16 Mar 2004 new variable
-dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
-dateplaner#:#short_05#:#May###16 Mar 2004 new variable
-dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
-dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
-dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
-dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
-dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
-dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
-dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
-dateplaner#:#shorttext#:#Short Text###16 Mar 2004 new variable
-dateplaner#:#singleDate#:#single date###16 Mar 2004 new variable
-dateplaner#:#starttime_for_view#:#Starttime for view:###16 Mar 2004 new variable
-dateplaner#:#timedate#:#Time / Date###16 Mar 2004 new variable
-dateplaner#:#timeslice#:#Time:###16 Mar 2004 new variable
-dateplaner#:#title#:#Ilias dateplaner###16 Mar 2004 new variable
-dateplaner#:#to#:#to###16 Mar 2004 new variable
-dateplaner#:#today#:#today###16 Mar 2004 new variable
-dateplaner#:#viewlist#:#view###16 Mar 2004 new variable
-dateplaner#:#week#:#week###16 Mar 2004 new variable
-dateplaner#:#year#:#year###16 Mar 2004 new variable
+dateplaner#:#DateText#:#Wiadomość
+dateplaner#:#Day_long#:#Widok dnia
+dateplaner#:#ERROR_DATE_EXISTS#:#Taki termin już istnieje.
+dateplaner#:#ERROR_DB#:#Błąd zapisu do bazy danych!
+dateplaner#:#ERROR_DB_CONNECT#:#Baza danych jest rozłączona.
+dateplaner#:#ERROR_DEL_MSG#:#To jest termin cykliczny. Chcesz usunąć jedną lub wszystkie daty?
+dateplaner#:#ERROR_ENDDATE#:#Źle podano datę końcową. Format: dd/mm/rrrr
+dateplaner#:#ERROR_ENDTIME#:#Zły czas końcowy. Format: gg:mm
+dateplaner#:#ERROR_END_START#:#Źle podano datę końcową. Data końcowa wcześniejsza niż data początkowa.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Podaj prawidłowy plik csv.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>twoja przeglądarka nie obsługuje prawidłowo JavaScript. <BR> Zamknij to okno ręcznie. <BR> Dziękujemy</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Źle podano datę końcową cyklu. Format: dd/mm/rrrr
+dateplaner#:#ERROR_ROT_END_START#:#Źle podano datę końcową cyklu. Data końcowa cyklu wcześniejsza niż data początkowa.
+dateplaner#:#ERROR_SHORTTEXT#:#Źle podano opis skrócony. Opis skrócony jest konieczny.
+dateplaner#:#ERROR_STARTDATE#:#Źle podano datę początkowa. Format: dd/mm/rrrr
+dateplaner#:#ERROR_STARTTIME#:#Zły czas początkowy. Format: gg:mm
+dateplaner#:#ERROR_TS#:#Błędny format daty
+dateplaner#:#Fr_long#:#Piątek
+dateplaner#:#Fr_short#:#Pt
+dateplaner#:#Language_file#:#polski
+dateplaner#:#Listbox_long#:#Lista terminów
+dateplaner#:#Mo_long#:#Poniedziałek
+dateplaner#:#Mo_short#:#Pn
+dateplaner#:#Month_long#:#Widok miesiąca
+dateplaner#:#Sa_long#:#Sobota
+dateplaner#:#Sa_short#:#So
+dateplaner#:#Su_long#:#Niedziela
+dateplaner#:#Su_short#:#Ni
+dateplaner#:#Text#:#Tekst
+dateplaner#:#Th_long#:#Czwartek
+dateplaner#:#Th_short#:#Cz
+dateplaner#:#Tu_long#:#Wtorek
+dateplaner#:#Tu_short#:#Wt
+dateplaner#:#View#:#Widok:
+dateplaner#:#We_long#:#Środa
+dateplaner#:#We_short#:#Śr
+dateplaner#:#Week_long#:#Widok tygodnia
+dateplaner#:#add_data#:#Dodatkowy termin
+dateplaner#:#app_#:#Wprowadzenie terminu grupowego
+dateplaner#:#app_date#:#wstaw termin
+dateplaner#:#app_day#:#widok dnia
+dateplaner#:#app_freetime#:#czas wolny członków innych grup (przechwyć czas)
+dateplaner#:#app_inbox#:#wprowadzenie terminów grupowych
+dateplaner#:#app_list#:#lista terminów
+dateplaner#:#app_month#:#widok miesiąca
+dateplaner#:#app_properties#:#właściwości
+dateplaner#:#app_week#:#widok tygodnia
+dateplaner#:#application#:#Terminarz
+dateplaner#:#apply#:#zastosuj
+dateplaner#:#back#:#powrót
+dateplaner#:#begin_date#:#Początek terminu
+dateplaner#:#busytime#:#czas zajęty grupy
+dateplaner#:#c_date#:#Twórz termin
+dateplaner#:#changeTo#:#Zmień na:
+dateplaner#:#changedDates#:#Terminy zmienione
+dateplaner#:#checkforfreetime#:#Sprawdź czy czas jest wolny
+dateplaner#:#created#:#Utworzony
+dateplaner#:#date#:#Termin
+dateplaner#:#date_format#:#m/d/R G:m
+dateplaner#:#date_format_middle#:#m/d/r
+dateplaner#:#del_all#:#usuń wszystkie terminy
+dateplaner#:#del_one#:#usuń jeden termin
+dateplaner#:#delete#:#usuń
+dateplaner#:#deletedDates#:#Terminy usunięte
+dateplaner#:#discard#:#anuluj
+dateplaner#:#dv_Grouptime#:#czas wolny
+dateplaner#:#dv_button_cancel#:#Anuluj
+dateplaner#:#dv_button_delete#:#Usuń
+dateplaner#:#dv_button_insert#:#Wstaw
+dateplaner#:#dv_button_update#:#Uaktualnij
+dateplaner#:#dv_date_begin#:#Data Start:
+dateplaner#:#dv_date_end#:#Data Koniec:
+dateplaner#:#dv_date_hm#:#Godz:Min
+dateplaner#:#dv_enddate#:#DataKon:
+dateplaner#:#dv_groupselect#:#Grupa wybrana:
+dateplaner#:#dv_groupview#:#Termin Grupowy:
+dateplaner#:#dv_groupview_text#:#Grupa:<br>
+dateplaner#:#dv_keywords#:#Klucze:
+dateplaner#:#dv_keywordselect#:#Klucz wybrany:
+dateplaner#:#dv_message#:#Wiadomość:
+dateplaner#:#dv_noGroup#:#brak grup
+dateplaner#:#dv_noKey#:#brak kluczy
+dateplaner#:#dv_preview#:#      <b>! Podgląd !</b>
+dateplaner#:#dv_rotation#:#Cykl:
+dateplaner#:#dv_rotation_date#:#Termin cykliczny:
+dateplaner#:#dv_rotation_end#:#Koniec cyklu:
+dateplaner#:#dv_shorttext#:#Opis skrócony
+dateplaner#:#dv_startdate#:#DataPocz:
+dateplaner#:#dv_text#:#Tekst:
+dateplaner#:#dv_whole_day#:#Cały dzień:
+dateplaner#:#dv_whole_rotation#:#Chcesz usunąć cały termin cykliczny? (kliknij pole wyboru)
+dateplaner#:#end_date#:#DataKon:
+dateplaner#:#endtime_for_view#:#Czas końca widoku:
+dateplaner#:#error_minical_img#:#Nie mona utworzyć strumienia obrazu GD
+dateplaner#:#extra_dates#:#Terminy jednodniowe
+dateplaner#:#free#:#wolny
+dateplaner#:#freetime#:#Czas wolny grupy
+dateplaner#:#group#:#Grupa
+dateplaner#:#help_day#:#Terminarz - widok dnia
+dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.
+dateplaner#:#help_enddate#:#Data końcowa - format[dd//mm/rrrr]
+dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_endrotation#:#Czas końca format[dd//mm/rrrr]
+dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_endtime#:#Czas końca - format[gg/mm] 24g
+dateplaner#:#help_endtime_l#:#Zawiera punkt końcowy spotkania w formacie 24 godzinnym.
+dateplaner#:#help_fullday#:#Termnin całodniowy - format[on/off]
+dateplaner#:#help_fullday_l#:#Jeśli termin obejmuje cały dzień, wybierz tę  opcję<br> Wtedy czas startu, końca i data końcowa są ukryte.
+dateplaner#:#help_further#:#<br> <b>kliknij tu dla uzyskania więcej informacji.</b>
+dateplaner#:#help_group#:#Wybór terminów grupowych
+dateplaner#:#help_group_l#:#Zawiera grupy do których zalogowany  użytkownik ma prawa administratorskie i dla których może być utworzony termin. <br> Po wyborze jest możliwy podgląd nieprzydzielonego czasu dla grupy.
+dateplaner#:#help_inbox#:#Pole wejściowe terminarza
+dateplaner#:#help_inbox_l#:#Wszystkie nowe, zmienione i usunięte terminy grupowe są wyświetlone.
+dateplaner#:#help_keyword#:#Wybór klucza
+dateplaner#:#help_keywordUse#:#Wybór klucza
+dateplaner#:#help_keywordUse_l#:#Wybierz jeden lub więcej kluczy z okna dialogowego. <br> Użyj klawisza Control do wyboru wielu pozycji.
+dateplaner#:#help_keyword_l#:#Zawiera klucze które użytkownik może skojarzyć z terminami.
+dateplaner#:#help_list#:#Terminarz - lista terminów
+dateplaner#:#help_list_l#:#Na liście są wyświetlone wszystkie terminy wybranego okresu.
+dateplaner#:#help_month#:#Terminarz - widok miesiąca
+dateplaner#:#help_month_l#:#W widoku miesięcznym są wyświetlone wszystkie terminy wybranego miesiąca.
+dateplaner#:#help_properties_alt#:#Zmiana klucza
+dateplaner#:#help_properties_alt_l#:#Wybierz klucz w oknie dialogowym.<br>Zmień  klucz w polu tekstowym. (maks. długość 20 znaków).
+dateplaner#:#help_properties_del#:#Usunięcie klucza
+dateplaner#:#help_properties_del_l#:#Wybierz klucz w oknie dialogowym. Kliknij przycisk aby usunąć klucz.
+dateplaner#:#help_properties_import#:#Import pliku CSV z Outlooka
+dateplaner#:#help_properties_import_l#:#Tu może być wybrany plik CSV, który zawiera terminy z Outlooka. Te terminy zostaną zaimportowane do terminarza.
+dateplaner#:#help_properties_new#:#Dodaje, klucz maks. 20 znaków
+dateplaner#:#help_properties_new_l#:#Dodaj klucz do pola \"nowy\". maks. 20 znaków.
+dateplaner#:#help_properties_time#:#Czas wyświetlania dla widoku dnia/tygodnia
+dateplaner#:#help_properties_time_l#:#Standardowy czas wyświetlania widoku dnia i tygodnia może być zmieniony. Jeśli daty są poza czasem wyświetlania, czas wyświetlania zostanie wydłużony. Standard to 8:00 -18:00.
+dateplaner#:#help_rotation#:#Cykl
+dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
+dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
+dateplaner#:#help_shorttext_l#:#Tu można podać krótki opis terminu.
+dateplaner#:#help_startdate#:#Data początkowaa - format[dd//mm/rrrr]
+dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
+dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
+dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.
+dateplaner#:#help_text#:#Tekst
+dateplaner#:#help_text_l#:#Tu można podać tekst opisujący termin.
+dateplaner#:#help_week#:#Terminarz - widok tygodnia
+dateplaner#:#help_week_l#:#W widoku tygodnia są wyświetlone wszystkie terminy wybranego tygodnia
+dateplaner#:#hour#:#godzina
+dateplaner#:#importDates#:#Import Terminów z Outlooka
+dateplaner#:#inbox#:#Pole wejściowe
+dateplaner#:#insertImportDates#:#Te terminy zostały poprawnie zarejestrowane:
+dateplaner#:#k_alldates#:#wszystkie terminy
+dateplaner#:#keep#:#trzymaj
+dateplaner#:#keyword#:#Klucz
+dateplaner#:#keywords#:#Klucze
+dateplaner#:#last_change#:#Ostatnia zmiana
+dateplaner#:#long_01#:#Styczeń
+dateplaner#:#long_02#:#Luty
+dateplaner#:#long_03#:#Marzec
+dateplaner#:#long_04#:#Kwiecień
+dateplaner#:#long_05#:#Maj
+dateplaner#:#long_06#:#Czerwiec
+dateplaner#:#long_07#:#Lipiec
+dateplaner#:#long_08#:#Sierpień
+dateplaner#:#long_09#:#Wrzesień
+dateplaner#:#long_10#:#Październik
+dateplaner#:#long_11#:#Listopad
+dateplaner#:#long_12#:#Grudzień
+dateplaner#:#main_dates#:#Główne terminy
+dateplaner#:#menue#:#Menu
+dateplaner#:#mmonth#:#poprzedni miesiąc
+dateplaner#:#month#:#miesiąc
+dateplaner#:#more#:#więcej
+dateplaner#:#mweek#:#poprzedni tydzień
+dateplaner#:#myeahr#:#poprzedni rok
+dateplaner#:#newDates#:#Nowe terminy
+dateplaner#:#newKeyword#:#Nowy:
+dateplaner#:#new_doc#:#twórz nowty termin
+dateplaner#:#no_entry#:#brak dostępnych terminów
+dateplaner#:#o_day_date#:#termin 24g
+dateplaner#:#of#:#
+dateplaner#:#open_day#:#widok dnia
+dateplaner#:#pmonth#:#następny miesiąc
+dateplaner#:#printlist#:#drukuj
+dateplaner#:#properties#:#Właściwości
+dateplaner#:#pweek#:#następny tydzień
+dateplaner#:#pyear#:#następny rok
+dateplaner#:#r_14#:#co 14 dni
+dateplaner#:#r_4_weeks#:#co 4 tygodnie
+dateplaner#:#r_day#:#codziennie
+dateplaner#:#r_halfyear#:#co pół roku
+dateplaner#:#r_month#:#co miesiąc
+dateplaner#:#r_nonrecurring#:#Raz
+dateplaner#:#r_week#:#co tydzień
+dateplaner#:#r_year#:#co rok
+dateplaner#:#readimportfile#:#wstaw
+dateplaner#:#rotation#:#Cykl
+dateplaner#:#rotation_dates#:#Terminy cykliczne
+dateplaner#:#semester_name#:#Nazwa Semestru
+dateplaner#:#short_01#:#Sty
+dateplaner#:#short_02#:#Lut
+dateplaner#:#short_03#:#Mar
+dateplaner#:#short_04#:#Kwi
+dateplaner#:#short_05#:#Maj
+dateplaner#:#short_06#:#Cze
+dateplaner#:#short_07#:#Lip
+dateplaner#:#short_08#:#Sie
+dateplaner#:#short_09#:#Wrz
+dateplaner#:#short_10#:#Paź
+dateplaner#:#short_11#:#Lis
+dateplaner#:#short_12#:#Gru
+dateplaner#:#shorttext#:#Opis skrócony
+dateplaner#:#singleDate#:#pojedyńczy termin
+dateplaner#:#starttime_for_view#:#Czas początkowy widoku:
+dateplaner#:#timedate#:#Czas / Data
+dateplaner#:#timeslice#:#Czas:
+dateplaner#:#title#:#Terminarz Ilias
+dateplaner#:#to#:#do
+dateplaner#:#today#:#dziś
+dateplaner#:#viewlist#:#widok
+dateplaner#:#week#:#tydzień
+dateplaner#:#year#:#rok
 forum#:#forums#:#Fora
 forum#:#forums_articles#:#Artykuły
 forum#:#forums_attachments#:#Załączniki
 forum#:#forums_attachments_add#:#Dodaj załączniki
 forum#:#forums_attachments_edit#:#Edytuj załącznik
-forum#:#forums_available#:#Dostepne Fora
+forum#:#forums_available#:#Dostępne Fora
 forum#:#forums_censor_comment#:#Komentarz cenzora
 forum#:#forums_count#:#Ilość Forów
 forum#:#forums_count_art#:#Ilość artykułów
