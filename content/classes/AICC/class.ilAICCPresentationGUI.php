@@ -59,6 +59,19 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 		$this->$cmd();
 	}
 	
+	function view()
+	{
+		$sc_gui_object =& ilAICCObjectGUI::getInstance($_GET["obj_id"]);
+
+		if(is_object($sc_gui_object))
+		{
+			$sc_gui_object->view();
+		}
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->show();
+	}
+	
 	/**
 	* output table of content
 	*/
