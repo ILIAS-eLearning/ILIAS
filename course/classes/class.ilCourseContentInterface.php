@@ -114,7 +114,10 @@ class ilCourseContentInterface
 
 		$maxcount = count($items);
 
-		$cont_arr = array_slice($items, $_GET["offset"], $_GET["limit"]);
+		#$cont_arr = array_slice($items, $_GET["offset"], $_GET["limit"]);
+		// no limit
+		$cont_arr = $items;
+
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
 		$cont_num = count($cont_arr);
 
