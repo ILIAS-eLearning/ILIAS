@@ -1030,7 +1030,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$tbl->setTitle($this->lng->txt("cont_mob_usages"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array($this->lng->txt("cont_object"),
+		$tbl->setHeaderNames(array($this->lng->txt("container"),
 			$this->lng->txt("context")));
 
 		$cols = array("object", "context");
@@ -1067,8 +1067,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if(count($usages) > 0)
 		{
 			$i=0;
+			$clip_cnt = 0;
 			foreach($usages as $usage)
 			{
+				if ($usage["type"] == "clip")
+				{
+					$clip_cnt++;
+					continue;
+				}
 
 				$this->tpl->setCurrentBlock("tbl_content");
 
@@ -1096,8 +1102,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 							case "lm":
 							case "dbk":
 								require_once("content/classes/class.ilObjContentObject.php");
+								require_once("content/classes/class.ilLMObject.php");
 								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
-								$this->tpl->setVariable("TXT_OBJECT", $lm_obj->getTitle());
+								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
+									": ".$lm_obj->getTitle().", ".$this->lng->txt("page").": ".
+									ilLMObject::_lookupTitle($page_obj->getId()));
 								break;
 						}
 						break;
@@ -1107,6 +1116,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 							": ".ilObject::_lookupTitle($usage["id"]));
 						break;
 
+					case "map":
+						$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_mob").
+							" (".$this->lng->txt("cont_link_area")."): ".
+							ilObject::_lookupTitle($usage["id"]));
+						break;
+
 				}
 				// set usage link / text
 				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
@@ -1114,6 +1129,24 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 				$this->tpl->parseCurrentBlock();
 			}
+
+			// usages in clipboards
+			if ($clip_cnt > 0)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+
+				// set color
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("cont_users_have_mob_in_clip1").
+					" ".$clip_cnt." ".$this->lng->txt("cont_users_have_mob_in_clip2"));
+				$this->tpl->setVariable("TXT_CONTEXT", "-");
+
+				$this->tpl->parseCurrentBlock();
+
+			}
+
+
 		} //if is_array
 		else
 		{

@@ -358,9 +358,10 @@ chat#:#chat_user_invited#:#Invited user to chat.
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
-common#:#3rd_party_software#:#3rd party software 
+common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
+common#:#container#:#Container
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -1606,6 +1607,8 @@ content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
 content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_back#:#Back
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of
+content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
@@ -1723,6 +1726,7 @@ content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area
+content#:#cont_link_area#:#Link Area
 content#:#cont_new_assignment#:#New assignment
 content#:#cont_new_dir#:#New Directory
 content#:#cont_new_file#:#New File
