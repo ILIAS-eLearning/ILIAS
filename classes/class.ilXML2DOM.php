@@ -110,7 +110,7 @@ class XML2DOM
 
 	function XML2DOM($a_xml)
 	{
-		$xml_parser = xml_parser_create();
+		$xml_parser = xml_parser_create("UTF-8");
 		xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
 		xml_set_object($xml_parser, $this);
 		xml_set_element_handler($xml_parser, "startElement", "endElement");
@@ -165,6 +165,7 @@ class XML2DOM
 	function characterData($a_parser, $a_data)
 	{
 		$a_data = preg_replace("/&/","&amp;",$a_data);
+
 		$GLOBALS["lastObj"]->setContent($a_data);
 	}
 

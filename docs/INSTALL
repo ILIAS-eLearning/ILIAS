@@ -899,14 +899,14 @@ in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
 
-4. Migration from MySQL 4.0.x to MySQL 4.1.x
+4. Migrating from MySQL 4.0.x to MySQL 4.1.x
 
     If you want to migrate an existing ILIAS from MySQL 4.0.x to 4.1.x you
     need to do the following steps:
 	
-	1. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
-	2. Backup your database
-	3. Dump your ILIAS 3 MySQL 4.0.x database
+    1. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
+    2. Backup your database
+    3. Dump your ILIAS 3 MySQL 4.0.x database
        /opt/ilias/bin/mysqldump > ilias3.dump
     4. Update to MySQL 4.1.x
     5. Create a new ILIAS database, set the default character set to utf-8
