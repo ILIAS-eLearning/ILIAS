@@ -551,9 +551,9 @@ common#:#zipcode#:#Zip Code
 content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_insert_par#:#Insert Paragraph
-content#:#cont_wysiwyg#:#Content Wysiwyg
-content#:#cont_pg_content#:#Page Content
 content#:#cont_meta_data#:#Meta Data
+content#:#cont_pg_content#:#Page Content
+content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#st#:#Chapter
