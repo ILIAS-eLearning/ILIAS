@@ -136,7 +136,7 @@ class ilMainMenuGUI
 		else
 		{
 			$this->tpl->setCurrentBlock("userisloggedin");
-			$this->tpl->setVariable("TXT_WELCOME",$lng->txt("welcome"));
+			$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 			$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
 			$this->tpl->setVariable("LINK_LOGOUT2", $link_dir."logout.php");
 			$this->tpl->setVariable("USERNAME",$ilias->account->getFullname());
