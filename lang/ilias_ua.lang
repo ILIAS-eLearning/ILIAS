@@ -2921,285 +2921,285 @@ content#:#cont_skip_chapter#:#Пропустити цю главу
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Вихідний код
 content#:#cont_src_other#:#інший
-content#:#cont_st_on_pg#:#this function is not allowed.###29 Nov 2004 new variable
+content#:#cont_st_on_pg#:#ця функція не дозволена.
 content#:#cont_st_title#:#Назва Глави
-content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
-content#:#cont_status#:#Status###03 May 2004 new variable
+content#:#cont_startfile#:#Початковий Файл
+content#:#cont_status#:#Статус
 content#:#cont_std_is_in_dir#:#Видалення неможливе. Стандартний файл огляду є в директорії.
 content#:#cont_std_view#:#Стандартний Вид
 content#:#cont_structure#:#структура
-content#:#cont_style#:#Style###01 Mar 2005 new variable
+content#:#cont_style#:#Стиль
 content#:#cont_subchapters#:#Підглави
 content#:#cont_table#:#Таблиця
 content#:#cont_table_border#:#Рамка Таблиці
 content#:#cont_table_cellpadding#:#Клітинний Відступ у Таблиці
 content#:#cont_table_cellspacing#:#Міжклітинний Відступ у Таблиці
-content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
-content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
+content#:#cont_table_html_import#:#Імпортувати HTML Таблицю
+content#:#cont_table_html_import_info#:#Імпорт працює тільки з XHTML погодженими таблицями. Таблиця повинна бути головним тегом!
 content#:#cont_table_width#:#Ширина Таблиці
 content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
 content#:#cont_term#:#Термін
 content#:#cont_terms#:#Терміни
-content#:#cont_time#:#Time###10 Jul 2004 new variable
-content#:#cont_time_limit_action#:#adlcp:timelimitaction###05 Nov 2004 new variable
-content#:#cont_title#:#title###29 Nov 2004 new variable
-content#:#cont_title_footnotes#:#Footnotes###29 Nov 2004 new variable
+content#:#cont_time#:#Час
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_title#:#назва
+content#:#cont_title_footnotes#:#Виноски
 content#:#cont_toc#:#Зміст
-content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
+content#:#cont_toc_mode#:#TOC Режим
 content#:#cont_top#:#Вершина
-content#:#cont_total_time#:#Total Time###03 May 2004 new variable
-content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
-content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
+content#:#cont_total_time#:#Загальний Час
+content#:#cont_tracking_data#:#Дані Спостереження
+content#:#cont_tracking_items#:#Об'єкти Спостереження
 content#:#cont_translations#:#Переклад(и)
 content#:#cont_translations_assigned#:#Переклад(и) були призначені
-content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
+content#:#cont_tree_fixed#:#Деревоподібна структура була виправлена.
 content#:#cont_update#:#Обновити
-content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
+content#:#cont_update_names#:#Оновити Імена
 content#:#cont_upload_file#:#Завантажити Файл
-content#:#cont_url#:#URL###05 Nov 2004 new variable
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
-content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
-content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
+content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#Цей медіа об'єкт знаходиться в буфері обміну
+content#:#cont_users_have_mob_in_clip2#:#користувач(і).
+content#:#cont_validate_file#:#Перевірити Файл
 content#:#cont_version#:#версія
-content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
+content#:#cont_view_last_export_log#:#Останній Експортований Лог
 content#:#cont_where_published#:#Де опублікований
 content#:#cont_width#:#Ширина
-content#:#cont_wysiwyg#:#Вміст Wysiwyg###14 Sep 2004 content changed
-content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
+content#:#cont_wysiwyg#:#Вміст Wysiwyg
+content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
-content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
-content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
-content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
-content#:#lm_menu_new_entry#:#Create a new menu entry###23 Dec 2004 new variable
-content#:#lm_menu_select_internal_object#:#Select internal object >>###23 Dec 2004 new variable
-content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###23 Dec 2004 new variable
-content#:#msg_entry_added#:#Menu entry added###23 Dec 2004 new variable
-content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
-content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
+content#:#copied_to_clipboard#:#Об'єкти, скопійовані в буфер обміну.
+content#:#lm_menu_edit_entry#:#Редагувати пункт меню
+content#:#lm_menu_entry_target#:#Ціль
+content#:#lm_menu_entry_title#:#Назва
+content#:#lm_menu_new_entry#:#Створити новий пункт меню
+content#:#lm_menu_select_internal_object#:#Вибрати внутрішній об'єкт >>
+content#:#lm_menu_select_object_to_add#:#Будь ласка виберіть об'єкт який ви бажаєте додати в меню
+content#:#msg_entry_added#:#Пункт меню доданий
+content#:#msg_entry_removed#:#Пункт меню видалений
+content#:#msg_entry_updated#:#Пункт меню оновлений
 content#:#pages from#:#Сторінки З
 content#:#par#:#Параграф
 content#:#pg#:#Сторінка
-content#:#public_section#:#Public Section###19 Dec 2004 new variable
+content#:#public_section#:#Публічна Секція
 content#:#read offline#:#Прочитати Оффлайн
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
-content#:#selected_pages_only#:#only that pages selected below ###19 Dec 2004 new variable
-content#:#set_public_mode#:#Set public access mode###19 Dec 2004 new variable
+content#:#select_a_file#:#Будь ласка виберіть файл.
+content#:#selected_pages_only#:#тільки ті сторінки вибрані нижче 
+content#:#set_public_mode#:#Встановити публічний режим доступу
 content#:#st#:#Глава
 content#:#start export#:#Почати Експорт
-crs#:#assigned#:#Assigned###01 Mar 2005 new variable
-crs#:#crs_accept_subscriber#:#Course subscription###07 Aug 2004 new variable
-crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.###07 Aug 2004 new variable
-crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
-crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
-crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
-crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
-crs#:#crs_add_grouping#:#Add course grouping###01 Mar 2005 new variable
-crs#:#crs_add_grp_assignment#:#Assign course(s)###01 Mar 2005 new variable
-crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
-crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
-crs#:#crs_add_objective#:#Add objective###01 Mar 2005 new variable
-crs#:#crs_add_starter#:#Add start object###01 Mar 2005 new variable
-crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
-crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
-crs#:#crs_added_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_added_member_body#:#You have been accepted to this course.###07 Aug 2004 new variable
-crs#:#crs_added_new_archive#:#A new archive has been added###07 Aug 2004 new variable
-crs#:#crs_added_objective#:#A new learning objective has been created.###01 Mar 2005 new variable
-crs#:#crs_added_starters#:#Assigned start object(s).###01 Mar 2005 new variable
-crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
-crs#:#crs_admin_no_notify#:#Administrator (no notification)###07 Aug 2004 new variable
-crs#:#crs_admin_notify#:#Administrator (notification)###07 Aug 2004 new variable
-crs#:#crs_allow_abo#:#Allow subscription of course items###01 Mar 2005 new variable
-crs#:#crs_archive#:#Archives###07 Aug 2004 new variable
-crs#:#crs_archive_disabled#:#Disabled###07 Aug 2004 new variable
-crs#:#crs_archive_download#:#Download###07 Aug 2004 new variable
-crs#:#crs_archive_lang#:#Language###07 Aug 2004 new variable
-crs#:#crs_archive_read#:#Read access###07 Aug 2004 new variable
-crs#:#crs_archive_select_type#:#Archive access type###07 Aug 2004 new variable
-crs#:#crs_archive_type#:#Archive type###07 Aug 2004 new variable
-crs#:#crs_archive_type_disabled#:#No access###07 Aug 2004 new variable
-crs#:#crs_archives_deleted#:#The archive(s) have been deleted###07 Aug 2004 new variable
-crs#:#crs_auto_fill#:#Auto fill###07 Aug 2004 new variable
-crs#:#crs_blocked#:#Access refused###07 Aug 2004 new variable
-crs#:#crs_blocked_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_blocked_member_body#:#Your membership has been terminated.###07 Aug 2004 new variable
-crs#:#crs_cancel_subscription#:#Course deregistration###18 Aug 2004 new variable
-crs#:#crs_cancel_subscription_body#:#A user has unsubscribed from the course.###18 Aug 2004 new variable
-crs#:#crs_change_status#:#Changes status of objective:###01 Mar 2005 new variable
-crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###01 Mar 2005 new variable
-crs#:#crs_contact#:#Contact###07 Aug 2004 new variable
-crs#:#crs_contact_consultation#:#Consultation###07 Aug 2004 new variable
-crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
-crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
-crs#:#crs_contact_phone#:#Telephone###07 Aug 2004 new variable
-crs#:#crs_contact_responsibility#:#Responsibility###07 Aug 2004 new variable
-crs#:#crs_content#:#Course content###07 Aug 2004 new variable
-crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories###25 Aug 2004 new variable
-crs#:#crs_count_members#:#Number of members###07 Aug 2004 new variable
-crs#:#crs_count_questions#:#Number of questions###01 Mar 2005 new variable
-crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
-crs#:#crs_crs_structure#:#Course structure###01 Mar 2005 new variable
-crs#:#crs_dates#:#Dates###07 Aug 2004 new variable
-crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###01 Mar 2005 new variable
-crs#:#crs_delete_member#:#Delete members###07 Aug 2004 new variable
-crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course###07 Aug 2004 new variable
-crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###01 Mar 2005 new variable
-crs#:#crs_delete_subscribers#:#Delete subscriber###07 Aug 2004 new variable
-crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users###07 Aug 2004 new variable
-crs#:#crs_details#:#Course details###07 Aug 2004 new variable
-crs#:#crs_dismiss_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_dismiss_member_body#:#You membership has been terminated###07 Aug 2004 new variable
-crs#:#crs_edit_archive#:#Edit Archives###07 Aug 2004 new variable
-crs#:#crs_edit_content#:#Edit items###01 Mar 2005 new variable
-crs#:#crs_end#:#End###07 Aug 2004 new variable
-crs#:#crs_export#:#Course export###07 Aug 2004 new variable
-crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
-crs#:#crs_from#:#From:###07 Aug 2004 new variable
-crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
-crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
-crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
-crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
-crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
-crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
-crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.###01 Mar 2005 new variable
-crs#:#crs_grp_assign_crs#:#Assign course###01 Mar 2005 new variable
-crs#:#crs_grp_assigned_courses#:#Assigned courses.###01 Mar 2005 new variable
-crs#:#crs_grp_assigned_courses_info#:#Assigned courses:###01 Mar 2005 new variable
-crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.###01 Mar 2005 new variable
-crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
-crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
-crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
-crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
-crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
-crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable
-crs#:#crs_grp_table_assigned_courses#:#Assigned courses###01 Mar 2005 new variable
-crs#:#crs_header_archives#:#Course archives###07 Aug 2004 new variable
-crs#:#crs_header_delete_members#:#Delete members###07 Aug 2004 new variable
-crs#:#crs_header_edit_members#:#Edit members###07 Aug 2004 new variable
-crs#:#crs_header_members#:#Course members###07 Aug 2004 new variable
-crs#:#crs_hide_link_lms#:#Hide learning materials###01 Mar 2005 new variable
-crs#:#crs_hide_link_objectives#:#Hide objectives###01 Mar 2005 new variable
-crs#:#crs_hide_link_or#:#Hide other resources###01 Mar 2005 new variable
-crs#:#crs_hide_link_tst#:#Hide tests###01 Mar 2005 new variable
-crs#:#crs_html#:#HTML###07 Aug 2004 new variable
-crs#:#crs_info_reg#:#Information for registration###07 Aug 2004 new variable
-crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.###07 Aug 2004 new variable
-crs#:#crs_info_reg_deactivated#:#There is no registration possible###07 Aug 2004 new variable
-crs#:#crs_info_reg_direct#:#It is necessary to register to this course###07 Aug 2004 new variable
-crs#:#crs_info_reg_password#:#Registration needs a valid password.###07 Aug 2004 new variable
-crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.###01 Mar 2005 new variable
-crs#:#crs_learning_materials#:#Learning materials###01 Mar 2005 new variable
-crs#:#crs_list_users#:#List users###07 Aug 2004 new variable
-crs#:#crs_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
-crs#:#crs_lm_assignment_deleted#:#Deleted assignment.###01 Mar 2005 new variable
-crs#:#crs_lm_deassign#:#Delete assignment.###01 Mar 2005 new variable
-crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###01 Mar 2005 new variable
-crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.###01 Mar 2005 new variable
-crs#:#crs_max_members_reached#:#The maximum number of members has been reached###07 Aug 2004 new variable
-crs#:#crs_mem_change_status#:#Change status###07 Aug 2004 new variable
-crs#:#crs_mem_send_mail#:#Send mail###07 Aug 2004 new variable
-crs#:#crs_member#:#Member###07 Aug 2004 new variable
-crs#:#crs_member_blocked#:#Mitglied (unblocked)###07 Aug 2004 new variable
-crs#:#crs_member_unblocked#:#Member (blocked)###07 Aug 2004 new variable
-crs#:#crs_member_updated#:#The member has been updated###07 Aug 2004 new variable
-crs#:#crs_members_deleted#:#Deleted members###07 Aug 2004 new variable
-crs#:#crs_members_print_title#:#Course members###07 Aug 2004 new variable
-crs#:#crs_members_title#:#Course members###07 Aug 2004 new variable
-crs#:#crs_move_down#:#Move down###07 Aug 2004 new variable
-crs#:#crs_move_up#:#Move up###07 Aug 2004 new variable
-crs#:#crs_moved_item#:#Moved course item###07 Aug 2004 new variable
-crs#:#crs_moved_objective#:#Moved learing objective.###01 Mar 2005 new variable
-crs#:#crs_new_search#:#New search###07 Aug 2004 new variable
-crs#:#crs_new_subscription#:#New course subscription###07 Aug 2004 new variable
-crs#:#crs_new_subscription_body#:#A new user has been subscribed###07 Aug 2004 new variable
-crs#:#crs_no_archive_selected#:#No archives selected###07 Aug 2004 new variable
-crs#:#crs_no_archives_available#:#There are no archives available###07 Aug 2004 new variable
-crs#:#crs_no_archives_selected#:#Please select an archive###07 Aug 2004 new variable
-crs#:#crs_no_chapter_selected#:#Please select a chapter.###01 Mar 2005 new variable
-crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.###01 Mar 2005 new variable
-crs#:#crs_no_groups_selected#:#Please select a group###07 Aug 2004 new variable
-crs#:#crs_no_items_found#:#There are no course items###07 Aug 2004 new variable
-crs#:#crs_no_language#:#No language###07 Aug 2004 new variable
-crs#:#crs_no_lm_selected#:#Please select one learning material.###01 Mar 2005 new variable
-crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.###01 Mar 2005 new variable
-crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
-crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variable
-crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
-crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
-crs#:#crs_no_objective_selected#:#Please select one objective.###01 Mar 2005 new variable
-crs#:#crs_no_objectives_created#:#There are no objectives assigned.###01 Mar 2005 new variable
-crs#:#crs_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
-crs#:#crs_no_questions_assigned#:#There are no questions assigned.###01 Mar 2005 new variable
-crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
-crs#:#crs_no_roles_selected#:#Please select a role###04 Sep 2004 new variable
-crs#:#crs_no_starter_created#:#No start objects assigned to this course.###01 Mar 2005 new variable
-crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
-crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###01 Mar 2005 new variable
-crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
-crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable
-crs#:#crs_no_valid_member_id_given#:#No valid member Id###07 Aug 2004 new variable
-crs#:#crs_not_available#:#-Not available-###07 Aug 2004 new variable
-crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
-crs#:#crs_nr#:#Nr.###01 Mar 2005 new variable
-crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
-crs#:#crs_objective_accomplished#:#Accomplished###01 Mar 2005 new variable
-crs#:#crs_objective_assign_chapter#:#Assign chapters###01 Mar 2005 new variable
-crs#:#crs_objective_assign_lm#:#Assign learning material###01 Mar 2005 new variable
-crs#:#crs_objective_assign_question#:#Assign question###01 Mar 2005 new variable
-crs#:#crs_objective_deassign_question#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_objective_delete_lm_assignment#:#Delete assignment###01 Mar 2005 new variable
-crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.###01 Mar 2005 new variable
-crs#:#crs_objective_modified#:#Updated learning objective.###01 Mar 2005 new variable
-crs#:#crs_objective_no_title_given#:#Please enter a title.###01 Mar 2005 new variable
-crs#:#crs_objective_not_accomplished#:#Not accomplished###01 Mar 2005 new variable
-crs#:#crs_objective_overview_objectives#:#Overview objectives###01 Mar 2005 new variable
-crs#:#crs_objective_overview_question_assignment#:#Overview question assignment###01 Mar 2005 new variable
-crs#:#crs_objective_pretest#:#Self assessment###01 Mar 2005 new variable
-crs#:#crs_objective_question_assignment#:#Question assignment###01 Mar 2005 new variable
-crs#:#crs_objective_result#:#After test###01 Mar 2005 new variable
-crs#:#crs_objective_updated_test#:#Updated modifications.###01 Mar 2005 new variable
-crs#:#crs_objective_view#:#Objective oriented view###01 Mar 2005 new variable
-crs#:#crs_objectives#:#Learning objectives###01 Mar 2005 new variable
-crs#:#crs_objectives_assign_chapter#:#Assign chapter###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_lms#:#Assigned learning materials###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.###01 Mar 2005 new variable
-crs#:#crs_objectives_assigned_questions#:#Assigned questions###01 Mar 2005 new variable
-crs#:#crs_objectives_chapter_assignment#:#Chapter assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?###01 Mar 2005 new variable
-crs#:#crs_objectives_deleted#:#Delete learning objectives###01 Mar 2005 new variable
-crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!###01 Mar 2005 new variable
-crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
-crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###01 Mar 2005 new variable
-crs#:#crs_objectives_lm_assignment#:#Learning material assignment###01 Mar 2005 new variable
-crs#:#crs_objectives_max_points#:#Maximum points###01 Mar 2005 new variable
-crs#:#crs_objectives_no_question_selected#:#Please select one question.###01 Mar 2005 new variable
-crs#:#crs_objectives_nr_questions#:#Number of questions###01 Mar 2005 new variable
-crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.###01 Mar 2005 new variable
-crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###01 Mar 2005 new variable
-crs#:#crs_objectives_reseted#:#Reseted results.###01 Mar 2005 new variable
-crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
-crs#:#crs_options#:#Options###07 Aug 2004 new variable
-crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
-crs#:#crs_other_resources#:#Other resources###01 Mar 2005 new variable
-crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
-crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
-crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
-crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable
-crs#:#crs_question_assignment#:#Question assignment###01 Mar 2005 new variable
-crs#:#crs_reg_subscription_deactivated#:#Registration is disabled###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_start_later#:#The registration time starts later###07 Aug 2004 new variable
-crs#:#crs_reg_until#:#Registration date###07 Aug 2004 new variable
+crs#:#assigned#:#Призначений
+crs#:#crs_accept_subscriber#:#Підписка на курс
+crs#:#crs_accept_subscriber_body#:#Ви були призначені на цей курс.
+crs#:#crs_access_password#:#Пароль
+crs#:#crs_activation#:#Активація
+crs#:#crs_add_archive_html#:#Додати HTML-Архів
+crs#:#crs_add_archive_xml#:#Додати XML-Архів
+crs#:#crs_add_grouping#:#Додати групування курсу
+crs#:#crs_add_grp_assignment#:#Призначити курс(и)
+crs#:#crs_add_html_archive#:#Додати HTML архів
+crs#:#crs_add_member#:#Додати членів
+crs#:#crs_add_objective#:#Додати ціль
+crs#:#crs_add_starter#:#Додати початковий об'єкт
+crs#:#crs_add_subscribers#:#Додати передплатник
+crs#:#crs_added#:#Доданий новий курс
+crs#:#crs_added_member#:#Членство в курсі
+crs#:#crs_added_member_body#:#Ви були прийняті в цей курс.
+crs#:#crs_added_new_archive#:#Новий архів доданий
+crs#:#crs_added_objective#:#Новий учбовий об'єкт створений.
+crs#:#crs_added_starters#:#Призначені почтакові об'єкти.
+crs#:#crs_admin#:#Адміністратор
+crs#:#crs_admin_no_notify#:#Адміністратор (без попередження)
+crs#:#crs_admin_notify#:#Адміністратор (попередження)
+crs#:#crs_allow_abo#:#Дозволити підписку на об'єкти курсу
+crs#:#crs_archive#:#Архіви
+crs#:#crs_archive_disabled#:#Заборонений
+crs#:#crs_archive_download#:#Завантажити
+crs#:#crs_archive_lang#:#Мова
+crs#:#crs_archive_read#:#Доступ на читання
+crs#:#crs_archive_select_type#:#Тип доступу к архіву
+crs#:#crs_archive_type#:#Тип архіву
+crs#:#crs_archive_type_disabled#:#Немає доступу
+crs#:#crs_archives_deleted#:#Архіви видалені
+crs#:#crs_auto_fill#:#Автоматичне заповнення
+crs#:#crs_blocked#:#Доступ відхилений
+crs#:#crs_blocked_member#:#Членство в курсі
+crs#:#crs_blocked_member_body#:#Ваше членство завершене.
+crs#:#crs_cancel_subscription#:#Відписка від курсу
+crs#:#crs_cancel_subscription_body#:#Користувач відписаний від курсу.
+crs#:#crs_change_status#:#Змінити статус цілі:
+crs#:#crs_chapter_already_assigned#:#Ці глави вже призначені.
+crs#:#crs_contact#:#Контакт
+crs#:#crs_contact_consultation#:#Консультація
+crs#:#crs_contact_email#:#Email
+crs#:#crs_contact_name#:#Ім'я
+crs#:#crs_contact_phone#:#Телефон
+crs#:#crs_contact_responsibility#:#Відповідальність
+crs#:#crs_content#:#Вміст курсу
+crs#:#crs_copy_cat_not_allowed#:#Не є можливим копіювати категорії
+crs#:#crs_count_members#:#Кількість членів
+crs#:#crs_count_questions#:#Кількість питань
+crs#:#crs_create_date#:#Створити дату
+crs#:#crs_crs_structure#:#Структура курсу
+crs#:#crs_dates#:#Дати
+crs#:#crs_deassign_lm_sure#:#Ви впевнені що бажаєте видалені це призначення?
+crs#:#crs_delete_member#:#Видалити членів
+crs#:#crs_delete_members_sure#:#Ви бажаєте видалити наступних членів з цього курсу
+crs#:#crs_delete_objectve_sure#:#Ви впевнені що бажаєте видалити вибрані цілі?
+crs#:#crs_delete_subscribers#:#Видалити передплатника
+crs#:#crs_delete_subscribers_sure#:#Ви бажаєте видалити наступних користувачів
+crs#:#crs_details#:#Деталі курсу
+crs#:#crs_dismiss_member#:#Підписка на курс
+crs#:#crs_dismiss_member_body#:#Ваше членство закінчене
+crs#:#crs_edit_archive#:#Редагувати Архіви
+crs#:#crs_edit_content#:#Редагувати об'єкти
+crs#:#crs_end#:#Кінець
+crs#:#crs_export#:#Експорт курсу
+crs#:#crs_file_name#:#Ім'я файлу
+crs#:#crs_from#:#Від:
+crs#:#crs_grouping#:#Групування курсу
+crs#:#crs_grouping_assign#:#Змінити призначення
+crs#:#crs_grouping_delete_sure#:#Ви дійсно бажаєте видалити наступні групування курсу?
+crs#:#crs_grouping_deleted#:#Видалити групування курсу.
+crs#:#crs_grouping_modified_assignment#:#Змінене призначення.
+crs#:#crs_grouping_select_one#:#Будь ласка виберіть групування курсу.
+crs#:#crs_groupings#:#Групування курсу
+crs#:#crs_groupings_ask_delete#:#Видалити групування курсу
+crs#:#crs_grp_already_assigned#:#Ви вже член цього групування курсу.
+crs#:#crs_grp_assign_crs#:#Призначити курсу
+crs#:#crs_grp_assigned_courses#:#Призначені курси.
+crs#:#crs_grp_assigned_courses_info#:#Призначені курси:
+crs#:#crs_grp_courses_already_assigned#:#Вибрані курси були призначені.
+crs#:#crs_grp_crs_assignment#:#Призначення курсу
+crs#:#crs_grp_deassigned_courses#:#Видалити призначення
+crs#:#crs_grp_enter_title#:#Будь ласка введіть назву.
+crs#:#crs_grp_info_reg#:#Ви можете тільки зареєструватись в один з цих курсів:
+crs#:#crs_grp_matriculation_required#:#Це групування курсу потребує потребує унікального matriculation числа. <br />Будь ласка вставте це значення в ваші настройки на особистому робочому столі.
+crs#:#crs_grp_modified_grouping#:#Збережені зміни.
+crs#:#crs_grp_no_course_selected#:#Будь ласка виберіть один курс.
+crs#:#crs_grp_no_courses_assigned#:#Немає призначених курсів.
+crs#:#crs_grp_table_assigned_courses#:#Призначені курси
+crs#:#crs_header_archives#:#Архіви курсу
+crs#:#crs_header_delete_members#:#Видалити членів
+crs#:#crs_header_edit_members#:#Редагувати членів
+crs#:#crs_header_members#:#Члени курсу
+crs#:#crs_hide_link_lms#:#Сховати учбові матеріали
+crs#:#crs_hide_link_objectives#:#Сховати цілі
+crs#:#crs_hide_link_or#:#Сховати інші ресурси
+crs#:#crs_hide_link_tst#:#Сховати тести
+crs#:#crs_html#:#HTML
+crs#:#crs_info_reg#:#Інформація для реєстрації
+crs#:#crs_info_reg_confirmation#:#Цей курс потребує підтвердження адміністратором курсу. Ви отримаєте повідомлення якщо ви буде призначені до курсу.
+crs#:#crs_info_reg_deactivated#:#Немає можливих реєстрацій
+crs#:#crs_info_reg_direct#:#Необхідно зареєструватись в цьому курсі
+crs#:#crs_info_reg_password#:#Реєстрація потребує дійсного паролю.
+crs#:#crs_info_start#:#Будь ласка працюйте з усіма наведеними вище об'єктами курсу.<br />Після того як ви обробите усі об'єкти помічені червоним нові об'єкти курсу будуть активовані.
+crs#:#crs_learning_materials#:#Учбові матеріали
+crs#:#crs_list_users#:#Список користувачів
+crs#:#crs_lm_assignment#:#Призначення учбових матеріалів
+crs#:#crs_lm_assignment_deleted#:#Видалене призначення.
+crs#:#crs_lm_deassign#:#Видалити призначення.
+crs#:#crs_lm_no_assignments_selected#:#Будь ласка виберіть одне призначення.
+crs#:#crs_lms_already_assigned#:#Ці учбові матеріали вже були призначені.
+crs#:#crs_max_members_reached#:#Досягнута максимальна кількість членів
+crs#:#crs_mem_change_status#:#Змінити статус
+crs#:#crs_mem_send_mail#:#Відіслати листа
+crs#:#crs_member#:#Член
+crs#:#crs_member_blocked#:#Mitglied (разблокований)
+crs#:#crs_member_unblocked#:#Член (блокований)
+crs#:#crs_member_updated#:#Член оновлений
+crs#:#crs_members_deleted#:#Видалені члени
+crs#:#crs_members_print_title#:#Члени курсу
+crs#:#crs_members_title#:#Члени курсу
+crs#:#crs_move_down#:#Перемістити вниз
+crs#:#crs_move_up#:#Перемістити вверх
+crs#:#crs_moved_item#:#Переміщені об'єкти курсу
+crs#:#crs_moved_objective#:#Переміщена учбова ціль.
+crs#:#crs_new_search#:#Новий пошук
+crs#:#crs_new_subscription#:#Нова підписка на курс
+crs#:#crs_new_subscription_body#:#Новий користувач підписаний
+crs#:#crs_no_archive_selected#:#Немає вибраних архівів
+crs#:#crs_no_archives_available#:#Немає доступних архівів
+crs#:#crs_no_archives_selected#:#Будь ласка виберіть архів
+crs#:#crs_no_chapter_selected#:#Будь ласка виберіть главу.
+crs#:#crs_no_groupings_assigned#:#Немає групувань призначених до цього курсу.
+crs#:#crs_no_groups_selected#:#Будь ласка виберіть групу
+crs#:#crs_no_items_found#:#Немає об'єктів курсу
+crs#:#crs_no_language#:#Немає мови
+crs#:#crs_no_lm_selected#:#Будь ласка виберіть один навчальний матеріал.
+crs#:#crs_no_lms_assigned#:#Немає призначених навчальних матеріалів.
+crs#:#crs_no_lms_inside_crs#:#Немає навчальних матеріалів всередині цього курсу, які можуть бути призначені до цієї учбової цілі.
+crs#:#crs_no_member_selected#:#Будь ласка виберіть одного члена
+crs#:#crs_no_members_assigned#:#Немає членів призначених до цього курсу
+crs#:#crs_no_notify#:#Немає повідомлень про нові реєстрації
+crs#:#crs_no_objective_selected#:#Будь ласка виберіть одну ціль.
+crs#:#crs_no_objectives_created#:#Немає призначених цілей.
+crs#:#crs_no_question_selected#:#Будь ласка виберіть одне питання.
+crs#:#crs_no_questions_assigned#:#Немає призначених питань.
+crs#:#crs_no_results_found#:#Не знайдено жодного результату
+crs#:#crs_no_roles_selected#:#Будь ласка виберіть роль
+crs#:#crs_no_starter_created#:#Немає почтакових об'єктів призначених до цього курсу.
+crs#:#crs_no_subscribers_selected#:#Будь ласка виберіть користувача
+crs#:#crs_no_tests_inside_crs#:#Немає тестів всередині цього курсу, які можуть бути призначені до цієї учбової цілі.
+crs#:#crs_no_users_added#:#Жодного члену не добавлено
+crs#:#crs_no_users_selected#:#Ви не вибрали жодного користувача
+crs#:#crs_no_valid_member_id_given#:#Немає дійсного Id члена
+crs#:#crs_not_available#:#-Не доступний-
+crs#:#crs_notify#:#Повідомляти про нові реєстрації
+crs#:#crs_nr#:#Nr.
+crs#:#crs_number_users_added#:#Наступна кількість користувачів призначена до курсу
+crs#:#crs_objective_accomplished#:#Закінчений
+crs#:#crs_objective_assign_chapter#:#Призначити глави
+crs#:#crs_objective_assign_lm#:#Призначити навчальні матеріали
+crs#:#crs_objective_assign_question#:#Призначити питання
+crs#:#crs_objective_deassign_question#:#Видалити призначення
+crs#:#crs_objective_delete_lm_assignment#:#Видалити призначення
+crs#:#crs_objective_insert_percent#:#Будь ласка введіть тільки цифри між 0 та 100.
+crs#:#crs_objective_modified#:#Оновлені навчальні цілі.
+crs#:#crs_objective_no_title_given#:#Будь ласка введіть назву.
+crs#:#crs_objective_not_accomplished#:#Не завершений
+crs#:#crs_objective_overview_objectives#:#Огляд цілей
+crs#:#crs_objective_overview_question_assignment#:#Огляд призначення питання
+crs#:#crs_objective_pretest#:#Самопризначення
+crs#:#crs_objective_question_assignment#:#Призначення питання
+crs#:#crs_objective_result#:#Після тесту
+crs#:#crs_objective_updated_test#:#Оновлені модифікації.
+crs#:#crs_objective_view#:#Об'єктно орієнтований вид
+crs#:#crs_objectives#:#Навчальні ціліe
+crs#:#crs_objectives_assign_chapter#:#Призначити главу
+crs#:#crs_objectives_assigned_lm#:#Вибрані навчальні матеріали були призначені.
+crs#:#crs_objectives_assigned_lms#:#Призначені навчальні матеріали
+crs#:#crs_objectives_assigned_new_questions#:#Додане нове призначення.
+crs#:#crs_objectives_assigned_questions#:#Призначені питання
+crs#:#crs_objectives_chapter_assignment#:#Призначення глави
+crs#:#crs_objectives_deassign_question_sure#:#Ви впевнені, що бажаєте видалити наступні питання?
+crs#:#crs_objectives_deleted#:#Видалити навчальні цілі
+crs#:#crs_objectives_edit_question_assignments#:#Редагувати призначення питання
+crs#:#crs_objectives_info_final#:#Ви не закінчили усі цілі курса в попередньому екзамені. <br />Будь ласка виберіть усі цілі відмічені червоним один за іншим та перегляньте відповідні навчальні матеріали. <br />Після перегляду усіх цілей відмічених червоним, ви можете пройти екзамен знову.
+crs#:#crs_objectives_info_finished#:#Поздоровляємо, ви закінчили усі цілі цього курсу!
+crs#:#crs_objectives_info_none#:#Далі це список цілей курсу.<br /> Будь ласка виберіть цілі один за іншим та попрацюйте з відповідними навчальними матеріалами.
+crs#:#crs_objectives_info_pretest#:#Дале це результати самооцінювання. <br />Будь ласка виберіть цілі відмічені червноим одна за іншою та попрацюйте з відповідними навчальними матеріалами. <br />Після обробки усіх цілей відмічених червноим, ви можете пройти фінальний екзамен цього курсу, який знаходиться в тестовій секції цієї строінки.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Наступне це результати вашого самооцінювання. <br />Відповідно до цього ви виконали усі навчальні цілі. Тепер ви можете пройти фінальний екзамен цього курсу, який знаходиться в тестовій секції цієї сторінки.
+crs#:#crs_objectives_lm_assignment#:#Призначення навчального матеріалу
+crs#:#crs_objectives_max_points#:#Максимальна кількіть балів
+crs#:#crs_objectives_no_question_selected#:#Будь ласка виберіть одне питання.
+crs#:#crs_objectives_nr_questions#:#Кількість питань
+crs#:#crs_objectives_qst_deassigned#:#Призначення питання видалене.
+crs#:#crs_objectives_reset_sure#:#Ви бажаєте видалити усі результати по цьому курсу. <br />Усі тестові результати будуть видалені.
+crs#:#crs_objectives_reseted#:#Скинуті результати.
+crs#:#crs_offline#:#Оффлайн
+crs#:#crs_options#:#Опції
+crs#:#crs_other_groupings#:#Групування інших курсів
+crs#:#crs_other_resources#:#Інші ресурси
+crs#:#crs_passed#:#Пройдений
+crs#:#crs_password_not_valid#:#Ваш пароль невірний
+crs#:#crs_pdf#:#PDF
+crs#:#crs_print_list#:#Список друку
+crs#:#crs_question_assignment#:#Призначення питання
+crs#:#crs_reg_subscription_deactivated#:#Реєстрація заблокована
+crs#:#crs_reg_subscription_end_earlier#:#Час реєстрації скінчився
+crs#:#crs_reg_subscription_max_members_reached#:#Перевищена максимальна кількість користувачів.
+crs#:#crs_reg_subscription_start_later#:#Час реєстрації почався пізніше
+crs#:#crs_reg_until#:#Дата реєстрації
 crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course###07 Aug 2004 new variable
 crs#:#crs_reg_user_already_subscribed#:#You have already subscribed to this course###07 Aug 2004 new variable
 crs#:#crs_reg_user_blocked#:#You are blocked from this course###07 Aug 2004 new variable
