@@ -923,7 +923,8 @@ class ilUtil
 		}
 
 		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login FROM usr_session ".
-			 "LEFT JOIN usr_data ON user_id=usr_id ".$where." GROUP BY user_id";
+			 "LEFT JOIN usr_data ON user_id=usr_id ".$where.
+			 " AND expires>UNIX_TIMESTAMP() GROUP BY user_id";
 		$r = $ilias->db->query($q);
 
 		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
