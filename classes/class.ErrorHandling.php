@@ -104,12 +104,11 @@ class ErrorHandling
 	* @access	public
     * @param string message
 	*/
-	function sentMessage($a_message)
+	function sendInfo($a_info)
 	{
-		// ONLY IF THERE IS NO ERROR MESSAGE
-		if(!$_GET["message"])
+		if(!$_SESSION["info"])
 		{
-			$_GET["message"] = $a_message;
+			$_SESSION["info"] = $a_info;
 		}
 	}
 		

@@ -83,7 +83,7 @@ class Template extends IntegratedTemplateExtension
     function show($part = "DEFAULT") {
 
 		$this->fillVars();
-	
+
         if ($part == "DEFAULT") {
             parent::show();
         } else {
@@ -95,6 +95,24 @@ class Template extends IntegratedTemplateExtension
 			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
 			$_SESSION["post_vars"] = $_POST;
 		}
+
+        // ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
+		if ($_GET["message"] || $_SESSION["info"])
+		{
+		   $this->addBlockFile("MESSAGE", "message", "tpl.message.html");
+		   $this->setCurrentBlock("message");
+   
+		   if($_GET["message"])
+		   {
+			  $this->setVariable("MSG", urldecode($_GET["message"]));
+		   }
+		   if($_SESSION["info"])
+		   {
+			  $this->setVariable("INFO",$_SESSION["info"]);
+			  session_unregister("info");
+		   }
+		   $this->parseCurrentBlock();
+}
     }
 
 	/**

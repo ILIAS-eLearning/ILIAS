@@ -29,7 +29,7 @@ class LanguageFolderObject extends Object
 
 		$this->objectList["cols"] = array("", "type", "name", "status", "last_change");
 		
-		$langs = $lng->getAvailableLanguages();
+//		$langs = $lng->getAvailableLanguages();
 		
 		
 		for ($i=0; $i<count($langs); $i++)
