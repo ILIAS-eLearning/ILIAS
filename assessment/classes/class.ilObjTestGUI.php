@@ -2922,80 +2922,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function printEvaluationObject()
-	{
-		$tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_statistical_evaluation_preview.html", true, true);
-		$row_classes = array("tblrow1", "tblrow2");
-		foreach ($_SESSION["print_eval"] as $key => $value)
-		{
-			if ($key == 0)
-			{
-				for ($i = 0; $i < count($value); $i++)
-				{
-					if ($i < count($value) - $_SESSION["print_eval"]["nr_of_questions"])
-					{
-						$tpl->setCurrentBlock("titlecol");
-						$tpl->setVariable("TXT_TITLE", $value[$i]);
-						$tpl->parseCurrentBlock();
-						if ($i == 0)
-						{
-							$tpl->setCurrentBlock("qtitlecol");
-							$tpl->setVariable("TXT_QTITLE", $value[$i]);
-							$tpl->parseCurrentBlock();
-						}
-					}
-					else
-					{
-						$tpl->setCurrentBlock("qtitlecol");
-						$tpl->setVariable("TXT_QTITLE", $value[$i]);
-						$tpl->parseCurrentBlock();
-					}
-				}
-			}
-			else if (preg_match("/\d+/", $key))
-			{
-				for ($i = 0; $i < count($value); $i++)
-				{
-					if ($i < count($value) - $_SESSION["print_eval"]["nr_of_questions"])
-					{
-						$tpl->setCurrentBlock("datacol");
-						$tpl->setVariable("TXT_DATA", $value[$i]);
-						$tpl->parseCurrentBlock();
-						if ($i == 0)
-						{
-							$tpl->setCurrentBlock("qdatacol");
-							$tpl->setVariable("TXT_QDATA", $value[$i]);
-							$tpl->parseCurrentBlock();
-						}
-					}
-					else
-					{
-						$tpl->setCurrentBlock("qdatacol");
-						$tpl->setVariable("TXT_QDATA", $value[$i]);
-						$tpl->parseCurrentBlock();
-					}
-				}
-				$tpl->setCurrentBlock("row");
-				$tpl->setVariable("ROW_CLASS", $row_classes[$key % 2]);
-				$tpl->parseCurrentBlock();
-				$tpl->setCurrentBlock("qrow");
-				$tpl->setVariable("ROW_CLASS", $row_classes[$key % 2]);
-				$tpl->parseCurrentBlock();
-			}
-		}
-		
-		$tpl->setCurrentBlock("question_block");
-		$tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("heading");
-		$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
-		$tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
-		$tpl->parseCurrentBlock();
-		$tpl->show();
-		exit();
-	}
-	
 	/**
 	* Creates the output for the search results when trying to add users/groups to a test evaluation
 	*
@@ -3349,7 +3275,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-	function neweval_statObject()
+	function eval_statObject()
 	{
 		$this->ctrl->setCmdClass(get_class($this));
 		$this->ctrl->setCmd("eval_stat");
@@ -3522,7 +3448,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$titlerow_without_questions = $titlerow;
 		if (!$this->object->isRandomTest())
 		{
-			for ($i = 1; $i <= count($this->object->questions); $i++)
+			for ($i = 1; $i <= $this->object->getQuestionCount(); $i++)
 			{
 				array_push($titlerow, $this->lng->txt("question_short") . " " . $i);
 				$legend[$this->lng->txt("question_short") . " " . $i] = $this->object->getQuestionTitle($i);
@@ -3530,7 +3456,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else
 		{
-			for ($i = 1; $i <= count($this->object->questions); $i++)
+			for ($i = 1; $i <= $this->object->getQuestionCount(); $i++)
 			{
 				array_push($titlerow, "&nbsp;");
 			}
@@ -3612,17 +3538,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$titlerow_user = array();
 			if ($this->object->isRandomTest())
 			{
+				$this->object->loadQuestions($key);
 				$titlerow_user = $titlerow_without_questions;
 				$i = 1;
 				foreach ($stat_eval as $key1 => $value1)
 				{
 					if (preg_match("/\d+/", $key1))
 					{
-						$arraykey = array_search($this->object->getQuestionTitle($value1["nr"]), $legend);
+						$qt = $value1["title"];
+						$qt = preg_replace("/<.*?>/", "", $qt);
+						$arraykey = array_search($qt, $legend);
 						if (!$arraykey)
 						{
 							array_push($titlerow_user, $this->lng->txt("question_short") . " " . $question_title_counter);
-							$legend[$this->lng->txt("question_short") . " " . $question_title_counter] = $this->object->getQuestionTitle($value1["nr"]);
+							$legend[$this->lng->txt("question_short") . " " . $question_title_counter] = $qt;
 							$question_title_counter++;
 						}
 						else
@@ -3655,7 +3584,8 @@ class ilObjTestGUI extends ilObjectGUI
 				array_push($evalrow, array(
 					"html" => sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %",
 					"xls"  => $stat_eval["pworkedthrough"],
-					"csv"  => $stat_eval["pworkedthrough"]
+					"csv"  => $stat_eval["pworkedthrough"],
+					"format" => "%"
 				));
 			}
 			if ($eval_statistical_settings["timeofwork"]) {
@@ -3688,14 +3618,16 @@ class ilObjTestGUI extends ilObjectGUI
 				array_push($evalrow, array(
 					"html" => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])),
 					"xls"  => ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]),
-					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"]))
+					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])),
+					"format" => "t"
 				));
 			}
 			if ($eval_statistical_settings["lastvisit"]) {
 				array_push($evalrow, array(
 					"html" => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])),
 					"xls"  => ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]),
-					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"]))
+					"csv"  => date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])),
+					"format" => "t"
 				));
 			}
 			if ($eval_statistical_settings["resultspoints"]) {
@@ -3810,7 +3742,7 @@ class ilObjTestGUI extends ilObjectGUI
 				));
 			}
 			
-			for ($i = 1; $i <= count($this->object->questions); $i++)
+			for ($i = 1; $i <= $this->object->getQuestionCount(); $i++)
 			{
 				$qshort = "";
 				$qt = "";
@@ -3833,6 +3765,108 @@ class ilObjTestGUI extends ilObjectGUI
 			array_push($eval_complete, array("title" => $titlerow_user, "data" => $evalrow));
 		}
 
+		$noqcount = count($titlerow_without_questions);
+
+		if ($export)
+		{
+			$testname = preg_replace("/\s/", "_", $this->object->getTitle());
+			switch ($_POST["export_type"])
+			{
+				case TYPE_XLS:
+					// Creating a workbook
+					$workbook = new Spreadsheet_Excel_Writer();
+	
+					// sending HTTP headers
+					$workbook->send("$testname.xls");
+	
+					// Creating a worksheet
+					$format_bold =& $workbook->addFormat();
+					$format_bold->setBold();
+					$format_percent =& $workbook->addFormat();
+					$format_percent->setNumFormat("0.00%");
+					$format_datetime =& $workbook->addFormat();
+					$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+					$format_title =& $workbook->addFormat();
+					$format_title->setBold();
+					$format_title->setColor('black');
+					$format_title->setPattern(1);
+					$format_title->setFgColor('silver');
+					$worksheet =& $workbook->addWorksheet();
+					$row = 0;
+					$col = 0;
+					if (!$this->object->isRandomTest())
+					{
+						foreach ($titlerow as $title)
+						{
+							$worksheet->write($row, $col, $legend[$title], $format_title);
+							$col++;
+						}
+						$row++;
+					}
+					foreach ($eval_complete as $evalrow)
+					{
+						$col = 0;
+						if ($this->object->isRandomTest())
+						{
+							foreach ($evalrow["title"] as $key => $value)
+							{
+								if ($key == 0)
+								{
+									$worksheet->write($row, $col, $value, $format_title);
+								}
+								else
+								{
+									$worksheet->write($row, $col, $legend[$value], $format_title);
+								}
+								$col++;
+							}
+							$row++;
+						}
+						$col = 0;
+						foreach ($evalrow["data"] as $key => $value)
+						{
+							switch ($value["format"])
+							{
+								case "%":
+									$worksheet->write($row, $col, $value["xls"], $format_percent);
+									break;
+								case "t":
+									$worksheet->write($row, $col, $value["xls"], $format_datetime);
+									break;
+								default:
+									$worksheet->write($row, $col, $value["xls"]);
+									break;
+							}
+							$col++;
+						}
+						$row++;
+					}
+					$workbook->close();
+					exit;
+				case TYPE_SPSS:
+					$csv = "";
+					if (!$this->object->isRandomTest())
+					{
+						$csv .= join($titlerow, ",") . "\n";
+					}
+					foreach ($eval_complete as $evalrow)
+					{
+						if ($this->object->isRandomTest())
+						{
+							$csv .= join($evalrow["title"], ",") . "\n";
+						}
+						$csvarr = array();
+						foreach ($evalrow["data"] as $key => $value)
+						{
+							array_push($csvarr, $value["csv"]);
+						}
+						$csv .= join($csvarr, ",") . "\n";
+					}
+					ilUtil::deliverData($csv, "$testname.csv");
+					break;
+			}
+			exit;
+		}
 		if ($print)
 		{
 			$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_statistical_evaluation_preview.html", true, true);
@@ -3842,7 +3876,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
 		}
 		$color_class = array("tblrow1", "tblrow2");
-		$noqcount = count($titlerow_without_questions);
 		foreach ($legend as $short => $long)
 		{
 			$this->tpl->setCurrentBlock("legendrow");
@@ -3935,8 +3968,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_STATISTICAL_DATA", $this->lng->txt("statistical_data"));
 		$this->tpl->parseCurrentBlock();
-//		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
-//		print_r($eval_complete);
 		if ($print)
 		{
 			$this->tpl->setCurrentBlock("__global__");
@@ -3953,1103 +3984,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->evalSelectedUsersObject(1);
 	}
 	
-	function eval_statObject()
-	{
-		$this->neweval_statObject();
-		return;
-		global $ilUser;
-		global $ilBench;
-//		$ilBench->enable(true);
-//		$ilBench->start("Test_Statistical_evaluation", "calculate all statistical data");
-		if (!$_POST["export_type"])
-		{
-			$_POST["export_type"] = TYPE_PRINT;
-		}
-
-		$testname = preg_replace("/\s/", "_", $this->object->getTitle());
-		switch ($_POST["export_type"])
-		{
-			case TYPE_XLS:
-				// Creating a workbook
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$testname.xls");
-
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				$worksheet =& $workbook->addWorksheet();
-				break;
-			case TYPE_SPSS:
-			case TYPE_PRINT:
-				$csvfile = array();
-				break;
-		}
-		$add_parameter = $this->getAddParameter();
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-//		$title = $this->object->getTitle();
-
-		// catch feedback message
-//		sendInfo();
-//		$this->setLocator();
-
-//		if (!empty($title))
-//		{
-//			$this->tpl->setVariable("HEADER", $title);
-//		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"] or $_POST["cmd"]["expEvalData"])
-		{
-			if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"])
-			{
-				$eval_statistical_settings = array(
-					"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
-					"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
-					"timeofwork" => $_POST["chb_result_timeofwork"],
-					"atimeofwork" => $_POST["chb_result_atimeofwork"],
-					"firstvisit" => $_POST["chb_result_firstvisit"],
-					"lastvisit" => $_POST["chb_result_lastvisit"],
-					"resultspoints" => $_POST["chb_result_resultspoints"],
-					"resultsmarks" => $_POST["chb_result_resultsmarks"],
-					"distancemedian" => $_POST["chb_result_distancemedian"]
-				);
-				$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
-			}
-			else
-			{
-				$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
-				$eval_statistical_settings = array(
-					"qworkedthrough" => $user_settings["qworkedthrough"],
-					"pworkedthrough" => $user_settings["pworkedthrough"],
-					"timeofwork" => $user_settings["timeofwork"],
-					"atimeofwork" => $user_settings["atimeofwork"],
-					"firstvisit" => $user_settings["firstvisit"],
-					"lastvisit" => $user_settings["lastvisit"],
-					"resultspoints" => $user_settings["resultspoints"],
-					"resultsmarks" => $user_settings["resultsmarks"],
-					"distancemedian" => $user_settings["distancemedian"]
-				);
-			}
-			// bild title columns
-			$this->tpl->setCurrentBlock("titlecol");
-			$name_column = $this->lng->txt("name");
-			if ($this->object->getTestType() == TYPE_SELF_ASSESSMENT)
-			{
-				$name_column = $this->lng->txt("counter");
-			}
-			$this->tpl->setVariable("TXT_TITLE", $name_column);
-			$this->tpl->parseCurrentBlock();
-			$column = 0;
-			$csvrow = array();
-			if (!$this->object->isRandomTest())
-			{
-				switch ($_POST["export_type"])
-				{
-					case TYPE_XLS:
-						$worksheet->write(0, $column++, $name_column, $format_title);
-						break;
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-						array_push($csvrow, $name_column);
-						break;
-				}
-			}
-			$char = "A";
-			if ($eval_statistical_settings["qworkedthrough"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_qworkedthrough") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_qworkedthrough"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_qworkedthrough"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_qworkedthrough"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["pworkedthrough"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_pworkedthrough") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_pworkedthrough"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_pworkedthrough"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_pworkedthrough"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["timeofwork"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_timeofwork") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_timeofwork"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_timeofwork"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_timeofwork"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["atimeofwork"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_atimeofwork") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_atimeofwork"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_atimeofwork"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_atimeofwork"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["firstvisit"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_firstvisit") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_firstvisit"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_firstvisit"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_firstvisit"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["lastvisit"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_lastvisit") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_lastvisit"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_lastvisit"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_lastvisit"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["resultspoints"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultspoints") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultspoints"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultspoints"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_resultspoints"));
-							break;
-					}
-				}
-				$char++;
-			}
-			if ($eval_statistical_settings["resultsmarks"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultsmarks") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultsmarks"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultsmarks"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_resultsmarks"));
-							break;
-					}
-				}
-				$char++;
-				
-				if ($this->object->ects_output)
-				{
-					$this->tpl->setCurrentBlock("titlecol");
-					$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("ects_grade") . "\">$char</div>");
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("legendrow");
-					$this->tpl->setVariable("TXT_SYMBOL", $char);
-					$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("ects_grade"));
-					$this->tpl->parseCurrentBlock();
-					if (!$this->object->isRandomTest())
-					{
-						switch ($_POST["export_type"])
-						{
-							case TYPE_XLS:
-								$worksheet->write(0, $column++, $this->lng->txt("ects_grade"), $format_title);
-								break;
-							case TYPE_SPSS:
-							case TYPE_PRINT:
-								array_push($csvrow, $this->lng->txt("ects_grade"));
-								break;
-						}
-					}
-					$char++;
-				}
-			}
-			if ($eval_statistical_settings["distancemedian"]) {
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_mark_median") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char++);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_mark_median"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_rank_participant") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char++);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_rank_participant"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_rank_median") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char++);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_rank_median"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_total_participants") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char++);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_total_participants"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_median") . "\">$char</div>");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char++);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_median"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_mark_median"), $format_title);
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_participant"), $format_title);
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_median"), $format_title);
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_total_participants"), $format_title);
-							$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_median"), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->lng->txt("tst_stat_result_mark_median"));
-							array_push($csvrow, $this->lng->txt("tst_stat_result_rank_participant"));
-							array_push($csvrow, $this->lng->txt("tst_stat_result_rank_median"));
-							array_push($csvrow, $this->lng->txt("tst_stat_result_total_participants"));
-							array_push($csvrow, $this->lng->txt("tst_stat_result_median"));
-							break;
-					}
-				}
-			}
-			for ($i = 1; $i <= count($this->object->questions); $i++)
-			{
-				if ($i == 1)
-				{
-					$this->tpl->setCurrentBlock("questions_titlecol");
-					$this->tpl->setVariable("TXT_TITLE", $name_column);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("questions_titlecol");
-				if ($this->object->isRandomTest())
-				{
-					$this->tpl->setVariable("TXT_TITLE", "&nbsp;");
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("question_short") . " " . $i);
-				}
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->isRandomTest())
-				{
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							$worksheet->write(0, $column++, $this->object->getQuestionTitle($i), $format_title);
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $this->object->getQuestionTitle($i));
-							break;
-					}
-				}
-			}
-			if (!$this->object->isRandomTest())
-			{
-				switch ($_POST["export_type"])
-				{
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-						array_push($csvfile, $csvrow);
-						break;
-				}
-			}
-
-//			$ilBench->start("Test_Statistical_evaluation", "getAllParticipants");
-			$total_users =& $this->object->evalTotalPersonsArray(); 
-			if ($_POST["cmd"]["stat_all_users"] or $_POST["stat_all_users"]) {
-				$selected_users = $total_users;
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("NAME_HIDDEN", "stat_all_users");
-				$this->tpl->setVariable("VALUE_HIDDEN", "1");
-				$this->tpl->parseCurrentBlock();
-			} else {
-				$selected_users = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/chb_user_(\d+)/", $key, $matches)) {
-						$selected_users[$matches[1]] = $total_users[$matches[1]];
-						$this->tpl->setCurrentBlock("hidden");
-						$this->tpl->setVariable("NAME_HIDDEN", "chb_user_$matches[1]");
-						$this->tpl->setVariable("VALUE_HIDDEN", "$matches[1]");
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-			}
-//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
-			$row = 0;
-			$question_legend = false;
-			$evaluation_array = array();
-			foreach ($total_users as $key => $value) {
-				// receive array with statistical information on the test for a specific user
-//				$ilBench->start("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
-				$stat_eval =& $this->object->evalStatistical($key);
-//				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
-				$evaluation_array[$key] = $stat_eval;
-			}
-
-			require_once "./classes/class.ilStatistics.php";
-			// calculate the median
-			$median_array = array();
-			foreach ($evaluation_array as $key => $value)
-			{
-				array_push($median_array, $value["resultspoints"]);
-			}
-			//$median_array =& $this->object->getTotalPointsArray();
-			$statistics = new ilStatistics();
-			$statistics->setData($median_array);
-			$median = $statistics->median();
-			$passed_statistics = new ilStatistics();
-			//$passed_array =& $this->object->getTotalPointsPassedArray();
-			$passed_array = array();
-			foreach ($evaluation_array as $key => $value)
-			{
-				if ($value["passed"] == 1)
-				{
-					array_push($passed_array, $value["resultspoints"]);
-				}
-			}
-//			$ilBench->stop("Test_Statistical_evaluation", "calculate all statistical data");
-//			$ilBench->save();
-			$passed_statistics->setData($passed_array);
-			$ects_percentiles = array
-				(
-					"A" => $passed_statistics->quantile($this->object->ects_grades["A"]),
-					"B" => $passed_statistics->quantile($this->object->ects_grades["B"]),
-					"C" => $passed_statistics->quantile($this->object->ects_grades["C"]),
-					"D" => $passed_statistics->quantile($this->object->ects_grades["D"]),
-					"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
-				);
-			$evalcounter = 1;
-			$question_titles = array();
-			$question_title_counter = 1;
-			foreach ($selected_users as $key => $stat_eval)
-			{
-				$stat_eval = $evaluation_array[$key];
-				$csvrow = array();
-				if (!$this->object->isRandomTest())
-				{
-					if (!$question_legend)
-					{
-						$i = 1;
-						foreach ($stat_eval as $key1 => $value1)
-						{
-							if (preg_match("/\d+/", $key1))
-							{
-								$this->tpl->setCurrentBlock("legendrow");
-								$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("question_short") . " " . $i);
-								$this->tpl->setVariable("TXT_MEANING", $this->object->getQuestionTitle($value1["nr"]));
-								$this->tpl->parseCurrentBlock();
-								$i++;
-							}
-						}
-						$question_legend = true;
-					}
-				}
-				$this->tpl->setCurrentBlock("datacol");
-				$username = $evalcounter++; 
-				if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
-				{
-					$username = $selected_users[$key];
-				}
-				$this->tpl->setVariable("TXT_DATA", $username);
-				$column = 0;
-				$row++;
-				switch ($_POST["export_type"])
-				{
-					case TYPE_XLS:
-						if ($this->object->isRandomTest())
-						{
-							$worksheet->write($row, $column, $this->lng->txt("name"), $format_title);
-							$worksheet->write($row+1, $column++, $username);
-						}
-						else
-						{
-							$worksheet->write($row, $column++, $username);
-						}
-						break;
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-						array_push($csvrow, $username);
-						break;
-				}
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				if ($eval_statistical_settings["qworkedthrough"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["qworkedthrough"]);
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_qworkedthrough"), $format_title);
-								$worksheet->write($row+1, $column++, $stat_eval["qworkedthrough"]);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $stat_eval["qworkedthrough"]);
-							}
-							break;
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-							array_push($csvrow, $stat_eval["qworkedthrough"]);
-							break;
-					}
-				}
-				if ($eval_statistical_settings["pworkedthrough"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %");
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_pworkedthrough"), $format_title);
-								$worksheet->write($row+1, $column++, $stat_eval["pworkedthrough"], $format_percent);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $stat_eval["pworkedthrough"], $format_percent);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, $stat_eval["pworkedthrough"]);
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %");
-							break;
-					}
-				}
-				if ($eval_statistical_settings["timeofwork"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$time = $stat_eval["timeofwork"];
-					$time_seconds = $time;
-					$time_hours    = floor($time_seconds/3600);
-					$time_seconds -= $time_hours   * 3600;
-					$time_minutes  = floor($time_seconds/60);
-					$time_seconds -= $time_minutes * 60;
-					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_timeofwork"), $format_title);
-								$worksheet->write($row+1, $column++, $time);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $time);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, $time);
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-							break;
-					}
-				}
-				if ($eval_statistical_settings["atimeofwork"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$time = $stat_eval["atimeofwork"];
-					$time_seconds = $time;
-					$time_hours    = floor($time_seconds/3600);
-					$time_seconds -= $time_hours   * 3600;
-					$time_minutes  = floor($time_seconds/60);
-					$time_seconds -= $time_minutes * 60;
-					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_atimeofwork"), $format_title);
-								$worksheet->write($row+1, $column++, $time);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $time);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, $time);
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-							break;
-					}
-				}
-				if ($eval_statistical_settings["firstvisit"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_firstvisit"), $format_title);
-								$worksheet->write($row+1, $column++, ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]), $format_datetime);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]), $format_datetime);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
-							break;
-					}
-				}
-				if ($eval_statistical_settings["lastvisit"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_lastvisit"), $format_title);
-								$worksheet->write($row+1, $column++, ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]), $format_datetime);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]), $format_datetime);
-							}
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
-							break;
-					}
-				}
-				if ($eval_statistical_settings["resultspoints"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultspoints"] . " " .
-						strtolower($this->lng->txt("of")) . " " . $stat_eval["maxpoints"]);
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_resultspoints"), $format_title);
-								$worksheet->write($row+1, $column++, $stat_eval["resultspoints"]);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $stat_eval["resultspoints"]);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, $stat_eval["resultspoints"]);
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, $stat_eval["resultspoints"]." ".strtolower($this->lng->txt("of"))." ". $stat_eval["maxpoints"]);
-							break;
-					}
-				}
-				if ($eval_statistical_settings["resultsmarks"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultsmarks"]);
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_resultsmarks"), $format_title);
-								$worksheet->write($row+1, $column++, $stat_eval["resultsmarks"]);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $stat_eval["resultsmarks"]);
-							}
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $stat_eval["resultsmarks"]);
-							break;
-					}
-
-					if ($this->object->ects_output)
-					{
-						$this->tpl->setCurrentBlock("datacol");
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						if ($stat_eval["resultspoints"] >= $ects_percentiles["A"])
-						{
-							$this->tpl->setVariable("TXT_DATA", "A");
-						}
-						else if ($stat_eval["resultspoints"] >= $ects_percentiles["B"])
-						{
-							$this->tpl->setVariable("TXT_DATA", "B");
-						}
-						else if ($stat_eval["resultspoints"] >= $ects_percentiles["C"])
-						{
-							$this->tpl->setVariable("TXT_DATA", "C");
-						}
-						else if ($stat_eval["resultspoints"] >= $ects_percentiles["D"])
-						{
-							$this->tpl->setVariable("TXT_DATA", "D");
-						}
-						else if ($stat_eval["resultspoints"] >= $ects_percentiles["E"])
-						{
-							$this->tpl->setVariable("TXT_DATA", "E");
-						}
-						else if (strcmp($this->object->ects_fx, "") != 0)
-						{
-							if ($stat_eval["maxpoints"] > 0)
-							{
-								$percentage = ($stat_eval["resultspoints"] / $stat_eval["maxpoints"]) * 100.0;
-							}
-							else
-							{
-								$percentage = 0.0;
-							}
-							if ($percentage >= $this->object->ects_fx)
-							{
-								$this->tpl->setVariable("TXT_DATA", "FX");
-							}
-							else
-							{
-								$this->tpl->setVariable("TXT_DATA", "F");
-							}
-						}
-						else
-						{
-							$this->tpl->setVariable("TXT_DATA", "F");
-						}
-						$this->tpl->parseCurrentBlock();
-						switch ($_POST["export_type"])
-						{
-							case TYPE_XLS:
-								if ($this->object->isRandomTest())
-								{
-									$worksheet->write($row, $column, $this->lng->txt("ects_grade"), $format_title);
-									$worksheet->write($row+1, $column++, "");
-								}
-								else
-								{
-									$worksheet->write($row, $column++, "");
-								}
-								break;
-							case TYPE_SPSS:
-							case TYPE_PRINT:
-								array_push($csvrow, "");
-								break;
-						}
-					}
-				}
-				
-				if ($eval_statistical_settings["distancemedian"]) {
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					if ($stat_eval["maxpoints"] == 0)
-					{
-						$pct = 0;
-					}
-					else
-					{
-						$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
-					}
-					$mark = $this->object->mark_schema->get_matching_mark($pct);
-					$mark_short_name = "";
-					if ($mark)
-					{
-						$mark_short_name = $mark->get_short_name();
-					}
-					$this->tpl->setVariable("TXT_DATA", $mark_short_name);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$rank_participant = $statistics->rank($stat_eval["resultspoints"]);
-					$this->tpl->setVariable("TXT_DATA", $rank_participant);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$rank_median = $statistics->rank_median();
-					$this->tpl->setVariable("TXT_DATA", $rank_median);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$total_participants = count($median_array);
-					$this->tpl->setVariable("TXT_DATA", $total_participants);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $median);
-					$this->tpl->parseCurrentBlock();
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_mark_median"), $format_title);
-								$worksheet->write($row+1, $column++, $mark_short_name);
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_rank_participant"), $format_title);
-								$worksheet->write($row+1, $column++, $rank_participant);
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_rank_median"), $format_title);
-								$worksheet->write($row+1, $column++, $rank_median);
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_total_participants"), $format_title);
-								$worksheet->write($row+1, $column++, $total_participants);
-								$worksheet->write($row, $column, $this->lng->txt("tst_stat_result_median"), $format_title);
-								$worksheet->write($row+1, $column++, $median);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $mark_short_name);
-								$worksheet->write($row, $column++, $rank_participant);
-								$worksheet->write($row, $column++, $rank_median);
-								$worksheet->write($row, $column++, $total_participants);
-								$worksheet->write($row, $column++, $median);
-							}
-							break;
-						case TYPE_SPSS:
-						case TYPE_PRINT:
-							array_push($csvrow, $mark_short_name);
-							array_push($csvrow, $rank_participant);
-							array_push($csvrow, $rank_median);
-							array_push($csvrow, $total_participants);
-							array_push($csvrow, $median);
-							break;
-					}
-				}
-				
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("USER_ID", $key);
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-
-				for ($i = 1; $i <= count($this->object->questions); $i++)
-				{
-					if ($i == 1)
-					{
-						$this->tpl->setCurrentBlock("questions_datacol");
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->setVariable("TXT_DATA", $username);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("questions_datacol");
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$qshort = "";
-					$qt = "";
-					if ($this->object->isRandomTest())
-					{
-						$qt = $stat_eval[$i-1]["title"];
-						$qt = preg_replace("/<.*?>/", "", $qt);
-						if (!array_key_exists($qt, $question_titles))
-						{
-							$question_titles[$qt] = $this->lng->txt("question_short") . " " . $question_title_counter++;
-						}
-						$qshort = $question_titles[$qt];
-						$this->tpl->setVariable("TXT_DATA", $qshort . ": " . $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_DATA", $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
-					}
-					switch ($_POST["export_type"])
-					{
-						case TYPE_XLS:
-							if ($this->object->isRandomTest())
-							{
-								$worksheet->write($row, $column, $qt, $format_title);
-								$worksheet->write($row+1, $column++, $stat_eval[$i-1]["reached"]);
-							}
-							else
-							{
-								$worksheet->write($row, $column++, $stat_eval[$i-1]["reached"]);
-							}
-							break;
-						case TYPE_SPSS:
-							array_push($csvrow, $stat_eval[$i-1]["reached"]);
-							break;
-						case TYPE_PRINT:
-							array_push($csvrow, $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
-							break;
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("questions_row");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-				switch ($_POST["export_type"])
-				{
-					case TYPE_SPSS:
-					case TYPE_PRINT:
-						array_push($csvfile, $csvrow);
-						break;
-				}
-				if ($this->object->isRandomTest())
-				{
-					$row++;
-				}					
-			}
-
-			$this->tpl->setCurrentBlock("questions_output");
-			$this->tpl->setVariable("TXT_QUESTIONS",  $this->lng->txt("ass_questions"));
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("export_btn");
-			$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
-			$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-			$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
-			$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-			$this->tpl->parseCurrentBlock();
-
-			if ($this->object->isRandomTest())
-			{
-				foreach ($question_titles as $qt => $qshort)
-				{
-					$this->tpl->setCurrentBlock("legendrow");
-					$this->tpl->setVariable("TXT_SYMBOL", $qshort);
-					$this->tpl->setVariable("TXT_MEANING", $qt);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			
-			$this->tpl->setCurrentBlock("legend");
-			$this->tpl->setVariable("TXT_LEGEND", $this->lng->txt("legend"));
-			$this->tpl->setVariable("TXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
-			$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("symbol"));
-			$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
-			$this->tpl->parseCurrentBlock();
-
-			if ($_POST["export_type"]==TYPE_PRINT)
-			{
-				$csvfile["nr_of_questions"] = count($this->object->questions);
-				$_SESSION["print_eval"] = $csvfile;
-				$this->tpl->setCurrentBlock("print_block");
-				$this->tpl->setVariable("PRINT_ACTION", $this->getCallingScript() . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation");
-				$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-				$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("output");
-			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
-			$this->tpl->parseCurrentBlock();
-
-		}
-			else
-		{
-			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
-			{
-				$total_persons =& $this->object->evalTotalPersonsArray();
-				foreach ($total_persons as $user_id => $user_name)
-				{
-					$this->tpl->setCurrentBlock("userrow");
-					$this->tpl->setVariable("ID_USER", $user_id);
-					$this->tpl->setVariable("TXT_USER_NAME", $user_name);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if ($this->object->getTestType() != TYPE_SELF_ASSESSMENT)
-			{
-				$this->tpl->setCurrentBlock("selected_users");
-				$this->tpl->setVariable("TXT_STAT_USERS_INTRO_SELECTED", $this->lng->txt("tst_stat_users_intro"));
-				$this->tpl->setVariable("TXT_STAT_SELECTED_USERS", $this->lng->txt("tst_stat_selected_users"));
-				$this->tpl->setVariable("TXT_STAT_CHOOSE_USERS", $this->lng->txt("tst_stat_choose_users"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("userselect");
-			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
-			$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
-			$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_all_users"));
-			$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
-			$this->tpl->setVariable("TXT_PWORKEDTHROUGH", $this->lng->txt("tst_stat_result_pworkedthrough"));
-			$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
-			$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
-			$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
-			$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
-			$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
-			$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
-			$this->tpl->setVariable("TXT_DISTANCEMEDIAN", $this->lng->txt("tst_stat_result_distancemedian"));
-			$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
-			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
-			foreach ($user_settings as $key => $value) {
-				if ($value == 1) {
-					$user_settings[$key] = " checked=\"checked\"";
-				} else {
-					$user_settings[$key] = "";
-				}
-			}
-			$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", $user_settings["qworkedthrough"]);
-			$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", $user_settings["pworkedthrough"]);
-			$this->tpl->setVariable("CHECKED_TIMEOFWORK", $user_settings["timeofwork"]);
-			$this->tpl->setVariable("CHECKED_ATIMEOFWORK", $user_settings["atimeofwork"]);
-			$this->tpl->setVariable("CHECKED_FIRSTVISIT", $user_settings["firstvisit"]);
-			$this->tpl->setVariable("CHECKED_LASTVISIT", $user_settings["lastvisit"]);
-			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
-			$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
-			$this->tpl->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
-		$this->tpl->parseCurrentBlock();
-
-
-		switch ($_POST["export_type"])
-		{
-			case TYPE_XLS:
-				$workbook->close();
-				exit;
-			case TYPE_SPSS:
-				$csv = "";
-				foreach ($csvfile as $csvrow)
-				{
-					$csv .= join($csvrow, ",") . "\n";
-				}
-				ilUtil::deliverData($csv, "$testname.csv");
-				exit();
-		}
-//		$ilBench->enable(false);
-	}
-
 	function eval_aObject()
 	{
 		$this->setAggregatedResultsTabs();

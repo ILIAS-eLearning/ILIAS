@@ -2059,11 +2059,6 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($q);
 	}
   
-	function getQuestionCount ()
-	{
-		return count($this->questions);
-	}
-	
 	function getQuestionIdFromActiveUserSequence($sequence) {
 		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
@@ -4570,6 +4565,31 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+	}
+	
+	function getQuestionCount()
+	{
+		$num = 0;
+		if ($this->isRandomTest())
+		{
+			if ($this->getRandomQuestionCount())
+			{
+				$num = $this->getRandomQuestionCount();
+			}
+			else
+			{
+				$qpls =& $this->getRandomQuestionpools();
+				foreach ($qpls as $data)
+				{
+					$num += $data["count"];
+				}
+			}
+		}
+		else
+		{
+			$num = count($this->questions);
+		}
+		return $num;
 	}
 	
 } // END class.ilObjTest
