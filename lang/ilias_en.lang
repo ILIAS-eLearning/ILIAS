@@ -189,7 +189,7 @@ common#:#edit_properties#:#Edit Properties
 common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
-common#:#email#:#Email
+common#:#email#:#E-mail
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_registration#:#Enable new user registration
@@ -224,7 +224,7 @@ common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
-common#:#firstname#:#Firstname
+common#:#firstname#:#First name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
@@ -367,7 +367,7 @@ common#:#languages_already_uninstalled#:#Chosen language(s) are already uninstal
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_change#:#Last Change
 common#:#last_visit#:#Last Visit
-common#:#lastname#:#Lastname
+common#:#lastname#:#Last name
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
 common#:#learning_objects#:#Learning Objects
@@ -784,8 +784,8 @@ common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_deleted#:#User deleted
 common#:#user_language#:#User Language
-common#:#userdata#:#Userdata
-common#:#username#:#Username
+common#:#userdata#:#User data
+common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_online#:#Users online
 common#:#usr#:#User
@@ -809,7 +809,7 @@ common#:#write#:#Write
 common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
-common#:#zipcode#:#Zip Code
+common#:#zipcode#:#Postal Code
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
