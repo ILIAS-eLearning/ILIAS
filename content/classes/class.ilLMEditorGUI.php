@@ -181,28 +181,39 @@ class ilLMEditorGUI
 				{
 					switch($ctype)
 					{
+						// Paragraph
 						case "par":
 							require_once ("content/classes/class.ilParagraphGUI.php");
 							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
 							$par_gui->$cmd();
 							break;
 
+						// Table
 						case "tab":
 							require_once ("content/classes/class.ilLMTableGUI.php");
 							$tab_gui =& new ilLMTableGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
 							$tab_gui->$cmd();
 							break;
 
+						// Table Cell
 						case "td":
 							require_once ("content/classes/class.ilLMTableDataGUI.php");
 							$td_gui =& new ilLMTableDataGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
 							$td_gui->$cmd();
 							break;
 
+						// Media Object
 						case "mob":
 							require_once ("content/classes/class.ilMediaObjectGUI.php");
 							$mob_gui =& new ilMediaObjectGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
 							$mob_gui->$cmd();
+							break;
+
+						// List
+						case "list":
+							require_once ("content/classes/class.ilLMListGUI.php");
+							$list_gui =& new ilLMListGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
+							$list_gui->$cmd();
 							break;
 
 					}
