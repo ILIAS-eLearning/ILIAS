@@ -1040,6 +1040,7 @@ ALTER TABLE lm_data ADD COLUMN
 
 ALTER TABLE lm_data ADD COLUMN
   last_update DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
+
 <#82>
 UPDATE rbac_operations SET operation='edit_permission' WHERE ops_id='1';
 UPDATE rbac_operations SET operation='edit_post' WHERE ops_id='9';
@@ -1114,3 +1115,19 @@ INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '24');
 INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '25');
 # create_fold
 INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '26');
+
+<#84>
+CREATE TABLE map_area (
+	item_id int(11) NOT NULL default '0',
+	nr int(11) NOT NULL default '0',
+	shape VARCHAR(20),
+	coords VARCHAR(200),
+	link_type CHAR(3),
+	title VARCHAR(200),
+	href VARCHAR(200),
+	target VARCHAR(50),
+	type VARCHAR(20),
+	target_frame VARCHAR(50),
+	PRIMARY KEY (item_id, nr)
+) TYPE=MyISAM;
+
