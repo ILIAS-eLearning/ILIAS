@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.10 2003/10/29 15:01:09 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.11 2003/10/31 12:33:22 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -79,7 +79,7 @@ class ilObjFolderGUI extends ilObjectGUI
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil:stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
 			$this->getTemplateFile("edit");
 			
