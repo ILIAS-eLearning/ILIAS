@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define("IL_FM_POSITIVE", 1);
+define("IL_FM_NEGATIVE", 2);
 
 /**
 * Class ilExplorer
@@ -155,6 +157,13 @@ class ilExplorer
 	var $filtered = false;
 
 	/**
+	* set filter mode
+	* @var boolean
+	* @access private
+	*/
+	var $filter_mode;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -167,10 +176,10 @@ class ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::Constructor(): No target given!",$this->ilias->error_obj->WARNING);
 		}
-		
+
 		// autofilter object types in devmode
 		$devtypes = $objDefinition->getDevModeAll();
-		
+
 		if (count($devtypes > 0))
 		{
 			// activate filter if objects found in devmode
@@ -196,6 +205,7 @@ class ilExplorer
 		$this->expand_variable = "expand";
 		$this->textwidth=50;
 		$this->post_sort=true;
+		$this->setFilterMode(IL_FM_NEGATIVE);
 	}
 
 	/**
@@ -352,6 +362,26 @@ class ilExplorer
 	function setPostSort($a_sort)
 	{
 		$this->post_sort = $a_sort;
+	}
+
+	/**
+	* set filter mode
+	*
+	* @param	int		$a_mode		filter mode IL_FM_NEGATIVE | IL_FM_NEGATIVE
+	*/
+	function setFilterMode($a_mode = IL_FM_NEGATIVE)
+	{
+		$this->filter_mode = $a_mode;
+	}
+
+	/**
+	* get filter mode
+	*
+	* @return	int		filter mode IL_FM_NEGATIVE | IL_FM_NEGATIVE
+	*/
+	function getFilterMode()
+	{
+		return $this->filter_mode;
 	}
 
 	/**
@@ -857,14 +887,30 @@ class ilExplorer
 	{
 		if (is_array($this->filter))
 		{
-			return in_array($a_item, $this->filter);
+			if (in_array($a_item, $this->filter))
+			{
+				$ret = true;
+			}
+			else
+			{
+				$ret = false;
+			}
 		}
 		else
 		{
-			return false;
+			$ret = false;
+		}
+
+		if ($this->getFilterMode() == IL_FM_NEGATIVE )
+		{
+			return $ret;
+		}
+		else
+		{
+			return !$ret;
 		}
 	}
-	
+
 	/**
 	* sort nodes and put adm object to the end of sorted array
 	* @access	private

@@ -1168,6 +1168,8 @@ content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_back#:#Back
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
+content#:#cont_internal#:#internal
+content#:#cont_external#:#external
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption

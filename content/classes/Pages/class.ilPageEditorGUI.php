@@ -361,7 +361,7 @@ class ilPageEditorGUI
 					$format = $st_item->getFormat();
 					if (substr($format, 0, 5) == "image")
 					{
-						$tabs[] = array("cont_map_areas", "editMapAreas");
+						//$tabs[] = array("cont_map_areas", "editMapAreas");
 					}
 				}
 			}

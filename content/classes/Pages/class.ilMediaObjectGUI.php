@@ -1117,18 +1117,15 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			switch ($area->getLinkType())
 			{
 				case "ext":
-					$this->tpl->setVariable("VAL_LINK", $area->getHRef());
+					$this->tpl->setVariable("VAL_LINK", $this->lng->txt("cont_external").
+						": ".$area->getHRef());
 					break;
 
 				case "int":
-					$target = $area->getTarget();
-					$tar_arr = explode("_", $target);
-					$tar_id = $tar_arr[count($tar_arr) - 1];
-					$frame_str = (($frame = $area->getTargetFrame()) == "")
-						? ""
-						: " ($frame)";
-					$this->tpl->setVariable("VAL_LINK", $area->getType()." ".$tar_id.
-						$frame_str);
+					$link_str = $this->getMapAreaLinkString($area->getTarget(),
+						$area->getType(), $area->getTargetFrame());
+					$this->tpl->setVariable("VAL_LINK", $this->lng->txt("cont_internal").
+						": ".$link_str);
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
@@ -1354,13 +1351,29 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("VAR_NAME2", "area_name");
 			$this->tpl->setVariable("VAR_LINK_EXT", "area_link_ext");
 			$this->tpl->setVariable("VAR_LINK_TYPE", "area_link_type");
-			$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
+			if ($_SESSION["il_map_il_ltype"] != "int")
+			{
+				$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("INT_CHECKED", "checked=\"1\"");
+			}
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+
+			$link_str = "";
+			if($_SESSION["il_map_il_target"] != "")
+			{
+				$link_str = $this->getMapAreaLinkString($_SESSION["il_map_il_target"],
+					$_SESSION["il_map_il_type"], $_SESSION["il_map_il_targetframe"]);
+				$this->tpl->setVariable("VAL_LINK_INT", $link_str);
+			}
+
 			$this->tpl->setVariable("BTN_SAVE", "saveArea");
 
 			// internal link list
-			$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&linkmode=map&mode=page_edit&obj_id=".$_GET["obj_id"]);
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 			$this->tpl->parseCurrentBlock();
@@ -1407,6 +1420,62 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("IMAGE_MAP", $output);
 
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	*
+	*
+	* @access	private
+	*/
+	function setInternalLink()
+	{
+		$_SESSION["il_map_il_type"] = $_GET["linktype"];
+		$_SESSION["il_map_il_ltype"] = "int";
+		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
+		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
+		$this->addArea();
+	}
+
+	/**
+	*
+	*
+	* @access	private
+	*/
+	function getMapAreaLinkString($a_target, $a_type, $a_frame)
+	{
+		$t_arr = explode("_", $a_target);
+		if ($a_frame != "")
+		{
+			$frame_str = " (".$a_frame." Frame)";
+		}
+		switch($a_type)
+		{
+			case "StructureObject":
+				$link_str = $this->lng->txt("chapter").
+					" ".$t_arr[count($t_arr) - 1].$frame_str;
+				break;
+
+			case "PageObject":
+				$link_str = $this->lng->txt("page").
+					" ".$t_arr[count($t_arr) - 1].$frame_str;
+				break;
+
+			case "GlossaryItem":
+				require_once("content/classes/class.ilGlossaryTerm.php");
+				$term =& new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("term").
+					": ".$term->getTerm().$frame_str;
+				break;
+
+			case "MediaObject":
+				require_once("content/classes/Pages/class.ilMediaObject.php");
+				$mob =& new ilMediaObject($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("mob").
+					" ".$t_arr[count($t_arr) - 1].", ".$mob->getTitle().$frame_str;
+				break;
+		}
+
+		return $link_str;
 	}
 
 	/**
@@ -1467,7 +1536,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$area->setCoords($coords);
 		$area->setNr($max + 1);
 		$area->setTitle($_POST["area_name"]);
-		switch($_POST["area_link_ext"])
+		switch($_POST["area_link_type"])
 		{
 			case "ext":
 				$area->setLinkType(IL_EXT_LINK);
@@ -1475,6 +1544,10 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				break;
 
 			case "int":
+				$area->setLinkType(IL_INT_LINK);
+				$area->setType($_SESSION["il_map_il_type"]);
+				$area->setTarget($_SESSION["il_map_il_target"]);
+				$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
 				break;
 		}
 
