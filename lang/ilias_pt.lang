@@ -88,7 +88,6 @@ assessment#:#add_answer#:#Adicionar resposta
 assessment#:#add_answer_tf#:#Adicionar respostas verdadeiro/falso
 assessment#:#add_answer_yn#:#Adicionar respostas sim/não
 assessment#:#add_matching_pair#:#Adicionar par correpondente
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Resposta
 assessment#:#answer_picture#:#Foto de resposta
 assessment#:#answer_text#:#Texto de resposta
@@ -100,16 +99,12 @@ assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_new#:#Criar novo
 assessment#:#duplicate#:#Duplicar
-assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_cloze_result#:#Número do espaço %s com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_imagemap_result#:#A selecção do mapa de imagem é %s. Você recebeu %s pontos.
 assessment#:#eval_legend_link#:#Por favor refira a legenda para o significado dos símbolos do cabeçalho da coluna.
 assessment#:#eval_matching_result#:#O par correspondente %s - %s é %s. Você recebeu %s pontos.
 assessment#:#eval_order_result#:#A ordem para o valor %s é %s. Você recebeu %s pontos.
-assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
-assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
-assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Exportar
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Por favor preencha todos os campos de texto de resposta antes de adicionar um novo!
@@ -118,7 +113,6 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Por favor preencha todos 
 assessment#:#fill_out_all_required_fields_add_matching#:#Por favor preencha todos os campos requeridos antes de adicionar um par correspondente!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Por favor preencha todos os campos requeridos antes de criar espaços!
 assessment#:#filter#:#Filtro
-assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
 assessment#:#imagemap#:#Mapa de imagem
 assessment#:#last_update#:#Last update
@@ -134,7 +128,6 @@ assessment#:#material_file#:#Ficheiro de material
 assessment#:#maximum_nr_of_tries_reached#:#Você chegou ao número máximo de tentativas para este teste. O teste não pode entrar!
 assessment#:#meaning#:#Significado
 assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
-assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Ordenar imagens
 assessment#:#order_terms#:#Ordenar termos
 assessment#:#points#:#Pontos
@@ -163,7 +156,6 @@ assessment#:#qt_ordering#:#Questão de ordenação
 assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de questão
-assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Região
 assessment#:#remove_question#:#Remover
 assessment#:#report_date_not_reached#:#Você não chegou à data de reportação. Você poderá ver os resultados do teste em %s
@@ -175,12 +167,9 @@ assessment#:#save_next#:#Guardar e ir para a próxima questão
 assessment#:#save_previous#:#Guardar e ir para para a questão anterior
 assessment#:#select_gap#:#Seleccionar espaço
 assessment#:#set_filter#:#Definir filtro
-assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordem solução
-assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Símbolo
 assessment#:#text_gap#:#Espaço de Texto
-assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Verdadeiro
 assessment#:#tst_already_taken#:#Testes já feitos
 assessment#:#tst_anon_eval#:#Resultados agregados anónimos
@@ -214,13 +203,10 @@ assessment#:#tst_nr_of_tries#:#Max. número de tentativas
 assessment#:#tst_percent_solved#:#Percentagem resolvido
 assessment#:#tst_processing_time#:#Max. tempo de processamento
 assessment#:#tst_question_no#:#Ordem
-assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Título
 assessment#:#tst_question_type#:#Tipo de Questão
 assessment#:#tst_questions_inserted#:#Questõe(s) inseridas!
 assessment#:#tst_questions_removed#:#Questõe(s) removidas!
-assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
-assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Pontos conseguidos
 assessment#:#tst_remove_questions#:#Tem a certeza que quer remover as seguintes questõe(s) do teste?
 assessment#:#tst_remove_questions_and_results#:#Este teste já foi feito pelos %s utilizadore(s). Remover questões deste teste fará remover todos os resultados destes utilizadores. Tem a certeza que quer remover as seguintes questões do teste?
@@ -270,7 +256,6 @@ assessment#:#tt_navigation_controlling#:#Teste de controle de navegação dos al
 assessment#:#tt_self_assessment#:#Teste de Auto-avaliação
 assessment#:#unlimited#:#ilimitado
 assessment#:#uploaded_material#:#Material enviado
-assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Activo
 chat#:#chat_active_users#:#Utilizador (activo)
 chat#:#chat_add_allowed_hosts#:#Por favor adicione os endereços dos anfitriões que são permitidos aceder ao servidor de chat.
@@ -442,7 +427,6 @@ common#:#cat_create_exc#:#Criar Exercício
 common#:#cat_create_frm#:#Criar Fórum
 common#:#cat_create_glo#:#Criar Glossário
 common#:#cat_create_grp#:#Criar Grupo
-common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
 common#:#cat_create_mep#:#Criar Banco de Média
 common#:#cat_create_qpl#:#Criar Banco de Questões
@@ -513,7 +497,6 @@ common#:#compose#:#Compor
 common#:#confirm#:#Confirmar
 common#:#cont_object#:#Objecto
 common#:#contact_data#:#Informação de Contacto
-common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Contexto
 common#:#copy#:#Copiar
 common#:#copy_of#:#Copia de
@@ -543,7 +526,6 @@ common#:#crs_new#:#Novo Curso
 common#:#crs_read#:#Acesso de Leitura ao Curso
 common#:#crs_visible#:#O Curso é visível
 common#:#crs_write#:#Editar- Curso
-common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Número actual de registos
 common#:#current_password#:#Palavra-passe Actual
 common#:#cut#:#Cortar
@@ -693,8 +675,6 @@ common#:#force_accept_usr_agreement#:#Você tem de aceitar o acordo de utilizaç
 common#:#forename#:#Nome próprio
 common#:#form_empty_fields#:#Por favor complete estes campos:
 common#:#forum#:#Fórum
-common#:#forum_import#:#Forum import###09 Apr 2004 new variable
-common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notificação
 common#:#forum_notify_me#:#Notifica-me quando uma resposta for enviada
 common#:#forum_post_replied#:#Responderam à sua mensagem para o no fórum
@@ -814,15 +794,6 @@ common#:#hide_structure#:#Desligar Vista-Estruturada
 common#:#hobby#:#Interesses/Passatempos
 common#:#home#:#Casa
 common#:#host#:#Anfitrião
-common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
-common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
-common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
-common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Caminho Http
 common#:#id#:#ID
 common#:#identifier#:#identificador
@@ -834,7 +805,6 @@ common#:#import_categories#:#Importar Categorias
 common#:#import_file#:#Importar Ficheiro
 common#:#import_file_not_valid#:#O ficheiro a importar não é válido.
 common#:#import_finished#:#Número de mensagens importadas.
-common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem
 common#:#import_root_user#:#Importar Utilizador Raiz
 common#:#import_slm#:#Importar Pacote SCORM
@@ -1011,7 +981,6 @@ common#:#mails#:#Mensagens
 common#:#mark_all_read#:#Marcar Todas como Lidas
 common#:#mark_all_unread#:#Marcar Todas como Não Lidas
 common#:#max_number_rec#:#Número máximo de registos
-common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Membro
 common#:#members#:#Membros
 common#:#membership_annulled#:#A sua inscrição foi cancelada
@@ -1030,7 +999,6 @@ common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados
 common#:#migrate#:#Migrar
-common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
@@ -1158,7 +1126,6 @@ common#:#no_bm_in_personal_list#:#Nenhuns marcadores definidos.
 common#:#no_chat_in_personal_list#:#Nenhuns chats na lista pessoal
 common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
 common#:#no_date#:#Nenhuma data
-common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
 common#:#no_import_available#:#Importação não disponível para o tipo
@@ -1189,7 +1156,6 @@ common#:#obj_fold#:#Pasta
 common#:#obj_frm#:#Fórum
 common#:#obj_glo#:#Glossário
 common#:#obj_grp#:#Grupo
-common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Definições LDAP
 common#:#obj_ldap_desc#:#Configure aqui as definições globais de LDAP.
 common#:#obj_lm#:#Módulo de Aprendizagem
@@ -1235,7 +1201,6 @@ common#:#objf_read#:#Acesso de Leitura às Definições de Objectos
 common#:#objf_visible#:#Definições de Objectos são visíveis
 common#:#objf_write#:#Editar Definições de Objectos
 common#:#objs_cat#:#Categorias
-common#:#objs_chat#:#Chats###12 Apr 2004 new variable
 common#:#objs_confirm#:#Confirmar Acção
 common#:#objs_crs#:#Cursos
 common#:#objs_dbk#:#Livros Digilib
@@ -1246,11 +1211,9 @@ common#:#objs_fold#:#Pastas
 common#:#objs_frm#:#Fóruns
 common#:#objs_glo#:#Glossários
 common#:#objs_grp#:#Grupos
-common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Módulos de Aprendizagem
 common#:#objs_lng#:#Linguagens
 common#:#objs_lo#:#Objectos de Aprendizagem
-common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Objectos Multimédia
 common#:#objs_note#:#Notas
 common#:#objs_pg#:#Páginas
@@ -1424,7 +1387,6 @@ common#:#select_all#:#Seleccionar Todos
 common#:#select_file#:#Seleccionar ficheiro
 common#:#select_mode#:#Seleccionar modo
 common#:#selected#:#Seleccionado
-common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Enviar
 common#:#sender#:#Remetente
 common#:#sent#:#Enviado
@@ -1518,7 +1480,6 @@ common#:#uninstalled#:#desinstalado.
 common#:#unknown#:#DESCONHECIDO
 common#:#unread#:#Não lido
 common#:#unsubscribe#:#desistir
-common#:#unzip#:#Unzip###07 Apr 2004 new variable
 common#:#up#:#Cima
 common#:#update_applied#:#Actualização Aplicada
 common#:#update_language#:#Actualizar Linguagem
@@ -1596,7 +1557,6 @@ content#:#cont_Reference#:#Referência
 content#:#cont_Remark#:#Observação
 content#:#cont_Roman#:#Romano I, II, ...
 content#:#cont_Unordered#:#Desordenado
-content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Adicionar Área
 content#:#cont_add_definition#:#Adicionar Definição
 content#:#cont_add_fullscreen#:#Adicionar Ecrã Inteiro
@@ -1612,7 +1572,6 @@ content#:#cont_assignments_deleted#:#As atribuições foram apagadas
 content#:#cont_back#:#Anterior
 content#:#cont_booktitle#:#Título do livro
 content#:#cont_bottom#:#Fundo
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#A eliminação do ficheiro de ecrã inteiro não é possível.
 content#:#cont_cant_del_std#:#A eliminação do ficheiro da vista padrão não é possível.
 content#:#cont_caption#:#Legenda
@@ -1636,9 +1595,7 @@ content#:#cont_click_starting_point#:#Por favor carregue no primeiro ponto do po
 content#:#cont_click_tl_corner#:#Por favor carregue no canto superior esquerdo da área desejada.
 content#:#cont_content#:#Conteúdo
 content#:#cont_content_obj#:#Objecto de Conteúdo
-content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordenadas
-content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Criar Directoria
 content#:#cont_create_export_file#:#Criar Ficheiro de Exportação
 content#:#cont_create_folder#:#Criar Pasta
@@ -1695,12 +1652,10 @@ content#:#cont_item#:#Item
 content#:#cont_journal#:#Jornal
 content#:#cont_keyword#:#Palavra-chave
 content#:#cont_link#:#Ligação
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Ligação (externa)
 content#:#cont_link_int#:#Ligação (interna)
 content#:#cont_link_select#:#Ligação Interna
 content#:#cont_link_type#:#Tipo de Ligação
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Propriedades da Lista
 content#:#cont_lk_chapter#:#Capítulo
 content#:#cont_lk_chapter_new#:#Capítulo (Nova janela)
@@ -1713,7 +1668,6 @@ content#:#cont_lk_page_faq#:#Página (janela FAQ)
 content#:#cont_lk_page_new#:#Página (Nova janela)
 content#:#cont_lk_term#:#Termo do Glossário
 content#:#cont_lk_term_new#:#Termo do Glossário (Nova janela)
-content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Propriedades do Módulo de Aprendizagem
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Ligar Áreas
@@ -1741,7 +1695,6 @@ content#:#cont_none#:#Nenhum
 content#:#cont_nr_cols#:#Número de Colunas
 content#:#cont_nr_items#:#Número de Itens
 content#:#cont_nr_rows#:#Número de Linhas
-content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Tipo de Ordem
 content#:#cont_organization#:#Organização
@@ -1815,16 +1768,12 @@ content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Actualizar Nomes
 content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
-content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#versão
-content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Foram publicados
 content#:#cont_width#:#Largura
 content#:#cont_wysiwyg#:#Conteúdo Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Ano
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Páginas De
 content#:#par#:#Parágrafo
 content#:#pg#:#Página
@@ -1925,16 +1874,15 @@ dateplaner#:#dv_whole_rotation#:#Gostaria de apagar toda a data de Rotação? (c
 dateplaner#:#end_date#:#Fim de Data
 dateplaner#:#endtime_for_view#:#Hora de fim para ver:
 dateplaner#:#error_minical_img#:#Não pode criar fluxo-imagem-GD
-dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#Datas de Um Dia
 dateplaner#:#free#:#livre
 dateplaner#:#freetime#:#Tempo livre no grupo
 dateplaner#:#group#:#grupo
 dateplaner#:#help_day#:#Vista de dias do Planeador de Datas
 dateplaner#:#help_day_l#:#Na vista de dia todas as datas de um dia são mostradas.
-dateplaner#:#help_enddate#:#Data de Fim - sintaxe[dd//mm/aaaa]###14 Apr 2004 content changed
+dateplaner#:#help_enddate#:#Data de Fim - sintaxe[dd//mm/aaaa]
 dateplaner#:#help_enddate_l#:#Contém o ponto de fim da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
-dateplaner#:#help_endrotation#:#Sintaxe da Data de Fim[dd//mm/aaaa]###14 Apr 2004 content changed
+dateplaner#:#help_endrotation#:#Sintaxe da Data de Fim[dd//mm/aaaa]
 dateplaner#:#help_endrotation_l#:#Neste dia a repetição acabará.<br> O símbolo abre um calendário para se escolher a data apropriada
 dateplaner#:#help_endtime#:#Hora de Fim - syntaxe[hh/mm] Formato 24h
 dateplaner#:#help_endtime_l#:#Contém a Hora de Fim da marcação usando o formato 24h.
@@ -1967,7 +1915,7 @@ dateplaner#:#help_rotation#:#Rotação
 dateplaner#:#help_rotation_l#:#Contém o tipo da rotação / repetição.
 dateplaner#:#help_shorttext#:#Pequeno texto com 50 characteres max.
 dateplaner#:#help_shorttext_l#:#Aqui pode-se inserir um pequeno texto para um dado compromisso.
-dateplaner#:#help_startdate#:#Data de ínicio - syntaxe[dd//mm/aaaa]###14 Apr 2004 content changed
+dateplaner#:#help_startdate#:#Data de ínicio - syntaxe[dd//mm/aaaa]
 dateplaner#:#help_startdate_l#:#Contém o ponto de ínicio da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
 dateplaner#:#help_starttime#:#Hora de ínicio - syntaxe[hh/mm] formato 24h
 dateplaner#:#help_starttime_l#:#Contém o ponto de ínicio da marcação usando o formato de 24h.
@@ -2727,3 +2675,4 @@ search#:#search_select_one_result#:#Seleccione pelo menos um resultado da procur
 search#:#search_select_one_select#:#--Seleccione uma pasta--
 search#:#search_show_result#:#Mostrar
 search#:#search_user#:#Utilizadores
+
