@@ -4790,3 +4790,10 @@ common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_last_check_table#:#Letzte Überprüfung:
+common#:#never#:#nie
+common#:#daily#:#täglich
+common#:#weekly#:#wöchentlich
+common#:#monthly#:#monatlich
+common#:#quarterly#:#vierteljährlich
+common#:#check_web_resources#:#Web-Resourcen überprüfen
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.

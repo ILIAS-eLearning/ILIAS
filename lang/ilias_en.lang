@@ -4796,3 +4796,10 @@ common#:#webr_last_check#:#Last check
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_never_checked#:#Never checked
 common#:#webr_last_check_table#:#Last check:
+common#:#never#:#never
+common#:#daily#:#daily
+common#:#weekly#:#weekly
+common#:#monthly#:#monthly
+common#:#quarterly#:#quarterly
+common#:#check_web_resources#:#Check web resources
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.
