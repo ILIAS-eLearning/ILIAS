@@ -49,7 +49,7 @@ class ilPersonalDesktopGUI
 		global $rbacsystem;
 
 		$i = 0;
-		$types = array("lm", "dbk", "glo", "slm");
+		$types = array("lm", "dbk", "glo", "slm", "htlm");
 
 		foreach ($types as $type)
 		{
