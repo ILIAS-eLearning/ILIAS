@@ -4984,4 +4984,9 @@ CREATE TABLE IF NOT EXISTS usr_pwassist (
 
 <#336>
 ALTER TABLE `survey_question`  ADD `orientation` ENUM('0','1') default '0' AFTER `obligatory`;
+<#337>
+ALTER TABLE `qpl_questions` ADD INDEX `question_type_fi` ( `question_type_fi` );
+ALTER TABLE `qpl_answers` ADD INDEX `question_fi` ( `question_fi` );
+ALTER TABLE `tst_solutions` ADD INDEX `user_fi` ( `user_fi` );
+ALTER TABLE `tst_solutions` ADD INDEX `test_fi` ( `test_fi` );
 
