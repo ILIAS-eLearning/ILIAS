@@ -196,10 +196,34 @@ class ASS_OrderingQuestion extends ASS_Question {
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $index);
 			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
-			$qtiMatText->append_child($qtiMatTextText);
-			$qtiMaterial->append_child($qtiMatText);
+			if ($this->get_ordering_type() == OQ_PICTURES)
+			{
+				$qtiMatImage = $this->domxml->create_element("matimage");
+				$qtiMatImage->set_attribute("imagtype", "image/jpeg");
+				$qtiMatImage->set_attribute("label", $answer->get_answertext());
+				$qtiMatImage->set_attribute("embedded", "base64");
+				$imagepath = $this->getImagePath() . $answer->get_answertext();
+				$fh = fopen($imagepath, "rb");
+				if ($fh == false)
+				{
+					global $ilErr;
+					$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
+					return;
+				}
+				$imagefile = fread($fh, filesize($imagepath));
+				fclose($fh);				
+				$base64 = base64_encode($imagefile);
+				$qtiBase64Data = $this->domxml->create_text_node($base64);
+				$qtiMatImage->append_child($qtiBase64Data);
+				$qtiMaterial->append_child($qtiMatImage);
+			}
+			else
+			{
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatTextText = $this->domxml->create_text_node($answer->get_answertext());
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+			}
 			$qtiResponseLabel->append_child($qtiMaterial);
 			$qtiRenderChoice->append_child($qtiResponseLabel);
 		}
@@ -231,7 +255,7 @@ class ASS_OrderingQuestion extends ASS_Question {
 				$qtiVarequal->set_attribute("respident", "OQT");
 			}
 			$qtiVarequal->set_attribute("index", $answer->get_solution_order());
-			$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
+			$qtiVarequalText = $this->domxml->create_text_node($index);
 			$qtiVarequal->append_child($qtiVarequalText);
 			$qtiConditionvar->append_child($qtiVarequal);
 			// qti setvar
