@@ -3548,3 +3548,14 @@ common#:#crs_member_passed#:#Passed
 common#:#crs_member_not_passed#:#Not passed
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 crs#:#crs_passed#:#Passed
+common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.
+common#:#time_limits#:#Access
+common#:#time_limit#:#Access
+common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.
+common#:#time_limit_reached#:#Your access period is expired.
+common#:#time_limit_not_valid#:#The period is not valid.
+common#:#no_users_applied#:#Please select an user.
+common#:#time_limit_applied_users#:#Applied users
+common#:#time_limit_no_users_selected#:#Please select an user.
+common#:#applied_users#:#Applied users
+common#:#time_limit_users_updated#:#User data updated

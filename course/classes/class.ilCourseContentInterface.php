@@ -265,7 +265,7 @@ class ilCourseContentInterface
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("crs_content"),"icon_crs_b.gif",$this->lng->txt("courses"));
+		$tbl->setTitle($this->lng->txt("crs_content"),"icon_crs.gif",$this->lng->txt("courses"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		if($write_perm)

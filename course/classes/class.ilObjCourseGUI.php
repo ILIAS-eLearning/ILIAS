@@ -135,7 +135,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 
 		$this->tpl->setVariable("TITLE",$this->lng->txt("crs_details"));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs_b.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("crs_details"));
 		
 		// SET TXT VARIABLES
@@ -2328,7 +2328,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 			$tpl->parseCurrentBlock();
 		}
-		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs_b.gif",$this->lng->txt("crs_header_archives"));
+		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs.gif",$this->lng->txt("crs_header_archives"));
 
 		if($a_download_perm)
 		{
@@ -2412,7 +2412,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs_b.gif",$this->lng->txt("crs_header_archives"));
+		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs.gif",$this->lng->txt("crs_header_archives"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("crs_file_name"),
 								   $this->lng->txt("crs_create_date"),

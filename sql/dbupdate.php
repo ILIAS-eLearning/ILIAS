@@ -4201,3 +4201,11 @@ PRIMARY KEY ( `id` )
 ALTER TABLE `crs_members` ADD `passed` TINYINT( 1 ) ;
 <#250>
 ALTER TABLE `conditions` CHANGE `operation` `operator` VARCHAR( 64 ) DEFAULT NULL;
+<#251>
+ALTER TABLE usr_data ADD COLUMN `time_limit_owner` int(10) default '0';
+ALTER TABLE usr_data ADD COLUMN `time_limit_unlimited` int(2) default '0';
+ALTER TABLE usr_data ADD COLUMN `time_limit_from` int(10) default '0';
+ALTER TABLE usr_data ADD COLUMN `time_limit_until` int(10) default '0';
+
+<#252>
+UPDATE usr_data SET time_limit_unlimited = '1';

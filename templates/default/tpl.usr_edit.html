@@ -135,6 +135,36 @@
     <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
   </tr>
 <!-- END inform_user -->
+<!-- BEGIN time_limit -->
+	  <tr>
+		<td class="option">{TXT_TIME_LIMIT}</td>
+		<td class="option_value">
+		  <table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+			  <td>{TIME_LIMIT_UNLIMITED}</td>
+			  <td>&nbsp;</td>
+			  <td>{TXT_TIME_LIMIT_UNLIMITED}</td>
+			</tr>
+		  </table>
+		  <table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+			  <td valign=top><b>{TXT_TIME_LIMIT_FROM}</b></td>
+			  <td>&nbsp;</td>
+			  <td valign=top nowrap>{SELECT_TIME_LIMIT_FROM_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_FROM_MONTH}&nbsp;{SELECT_TIME_LIMIT_FROM_YEAR}<br>{SELECT_TIME_LIMIT_FROM_HOUR}:&nbsp;{SELECT_TIME_LIMIT_FROM_MINUTE}</td>
+			  <td valign=top><b>{TXT_TIME_LIMIT_UNTIL}</b></td>
+			  <td>&nbsp;</td><td valign=top nowrap>{SELECT_TIME_LIMIT_UNTIL_DAY}&nbsp;&nbsp;{SELECT_TIME_LIMIT_UNTIL_MONTH}&nbsp;{SELECT_TIME_LIMIT_UNTIL_YEAR}<br>{SELECT_TIME_LIMIT_UNTIL_HOUR}:&nbsp;{SELECT_TIME_LIMIT_UNTIL_MINUTE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <!-- END time_limit -->
+	  <!-- BEGIN show_limit -->
+	  <tr>
+		<td class="option">{SHOW_TXT_TIME_LIMIT}</td>
+		<td class="option_value">{SHOW_TIME}</td>
+	  </tr>
+	  <!-- END show_limit -->
+<tr>
   <td class="submit" colspan="2">
   <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
   <div align="right">
@@ -142,6 +172,7 @@
 	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
   </div>
   </td>
+</tr>
 </form>
 <!-- BEGIN ACTIVE_ROLE -->
 <form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
@@ -164,8 +195,3 @@
 </form>
 <!-- END ACTIVE_ROLE -->
 </table>
-
-
-
-
-
