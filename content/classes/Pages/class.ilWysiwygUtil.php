@@ -161,6 +161,23 @@ class ilWysiwygUtil
         }
         xml_parser_free($xml_parser);
         
+		//echo htmlspecialchars($this->newXml);
+		//exit;
+		
+		$this->newXml = str_replace("[com][/com]","",$this->newXml);
+		$this->newXml = str_replace("[emp][/emp]","",$this->newXml);
+		$this->newXml = str_replace("[str][/str]","",$this->newXml);
+		$this->newXml = str_replace("[code][/code]","",$this->newXml);
+		$this->newXml = str_replace("[quot][/quot]","",$this->newXml);
+		
+		$this->newXml = str_replace("</p><p>","\n",$this->newXml);
+		$this->newXml = str_replace("<p>","",$this->newXml);
+		$this->newXml = str_replace("</p>","",$this->newXml);
+		
+		
+		$this->newXml = str_replace("<Strong/>","",$this->newXml);
+		$this->newXml = str_replace("<Emph/>","",$this->newXml);
+		
         $this->newXml = str_replace("<xml>","",$this->newXml);
         $this->newXml = str_replace("</xml>","",$this->newXml);
         
