@@ -41,7 +41,7 @@ require_once "./classes/class.ilValidator.php";
 
 $validator = new ilValidator();
 //$validator->setMode("analyze",false);
-//$validator->setMode("all",true);
+//$validator->setMode("clean",true);
 //$validator->setMode("purge_trash",true);
 
 // STEP 1: Analyzing: Get all incomplete entries

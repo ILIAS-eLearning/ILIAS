@@ -163,6 +163,18 @@ td.option_value {
 	text-align:left;
 }
 
+td.option_desc {
+	background-color:#f7f7f7;
+	background-image: none;
+	color:#222222;
+	padding:4px;
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+	vertical-align:top;
+	text-align:left;
+}
+
 td.submit {
 	background-color:#dddddd;
 	color:#222222;

@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.22 2004/02/12 16:55:14 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.23 2004/03/05 10:42:54 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -569,7 +569,261 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	function checkObject()
 	{
-		//
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($_POST["cmd"]["view_log"])
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_scan_log"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($_POST["mode"])
+		{
+			$this->startValidator($_POST["mode"]);
+		}
+		else
+		{
+			$this->getTemplateFile("check");
+			$this->tpl->setVariable("TXT_TITLE", "Systemcheck");
+			$this->tpl->setVariable("COLSPAN", 3);
+			$this->tpl->setVariable("TXT_OPTIONS", "Options");
+			$this->tpl->setVariable("TXT_ANALYZE_TITLE", "Analyze data integrity");
+			$this->tpl->setVariable("TXT_ANALYZE", "Scan only");
+			$this->tpl->setVariable("TXT_ANALYZE_DESC", "Scan system for corrupted/invalid/missing objects (object registry only!)");
+			$this->tpl->setVariable("TXT_CLEAN", "Clean");
+			$this->tpl->setVariable("TXT_CLEAN_DESC", "Remove invalid references & tree entries. Close gaps in tree structure.");
+			$this->tpl->setVariable("TXT_RESTORE", "Restore missing objects");
+			$this->tpl->setVariable("TXT_RESTORE_DESC", "Restore missing and unbound objects to RecoveryFolder.");
+			$this->tpl->setVariable("TXT_PURGE", "Purge missing objects");
+			$this->tpl->setVariable("TXT_PURGE_DESC", "Remove all missing and unbound objects found from system.");
+			$this->tpl->setVariable("TXT_RESTORE_TRASH", "Restore deleted objects");
+			$this->tpl->setVariable("TXT_RESTORE_TRASH_DESC", "Restore all objects in trash bin to RecoveryFolder.");
+			$this->tpl->setVariable("TXT_PURGE_TRASH", "Purge trash bin");
+			$this->tpl->setVariable("TXT_PURGE_TRASH_DESC", "Remove all objects in trash bin from system.");
+			$this->tpl->setVariable("TXT_SUBMIT", "Start!");
+		}
+	}
+	
+	function startValidator($a_mode)
+	{
+		global $rbacsystem; 
+
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once "classes/class.ilValidator.php";
+		
+		$validator = new ilValidator();
+		$validator->setMode("all",false);
+		foreach ($a_mode as $mode => $value)
+		{
+			$validator->setMode($mode,(bool) $value);
+		}
+		//$validator->setMode("purge_trash",true);
+		
+		// STEP 1: Analyzing: Get all incomplete entries
+		$scan_log .= "Analyzing...";
+		
+		if (!$validator->isModeEnabled("analyze"))
+		{
+			$scan_log .= "disabled.";
+		}
+		else
+		{
+			$scan_log .= "<br/>Searching for invalid references...";
+			if ($validator->findInvalidReferences())
+			{
+				$scan_log .= "done (".count($validator->getInvalidReferences())." found).";
+			}
+			else
+			{
+				$scan_log .= "nothing found.";
+			}
+			
+			$scan_log .= "<br/>Searching for invalid tree entries...";
+			if ($validator->findInvalidChilds())
+			{
+				$scan_log .= "done (".count($validator->getInvalidChilds())." found).";
+			}
+			else
+			{
+				$scan_log .= "nothing found.";
+			}
+			
+			$scan_log .= "<br/>Searching for missing objects...";
+			if ($validator->findMissingObjects())
+			{
+				$scan_log .= "done (".count($validator->getMissingObjects())." found).";
+			}
+			else
+			{
+				$scan_log .= "nothing found.";
+			}
+		
+			$scan_log .= "<br/>Searching for unbound objects...";
+			if ($validator->findUnboundObjects())
+			{
+				$scan_log .= "done (".count($validator->getUnboundObjects())." found).";
+			}
+			else
+			{
+				$scan_log .= "nothing found.";
+			}
+		
+			$scan_log .= "<br/>Searching for deleted objects...";
+			if ($validator->findDeletedObjects())
+			{
+				$scan_log .= "done (".count($validator->getDeletedObjects())." found).";
+			}
+			else
+			{
+				$scan_log .= "nothing found.";
+			}
+		}
+		
+		// STEP 2: Cleaning: Remove unbound references & tree entries
+		$scan_log .= "<br/><br/>Cleaning...";
+		
+		if (!$validator->isModeEnabled("clean"))
+		{
+			$scan_log .= "disabled.";
+		}
+		else
+		{
+			$scan_log .= "<br/>Removing invalid references...";
+			if ($validator->removeInvalidReferences())
+			{
+				$scan_log .= "done.";
+			}
+			else
+			{
+				$scan_log .= "nothing to remove. Skipped.";
+			}
+			
+			$scan_log .= "<br/>Removing invalid tree entries...";
+			if ($validator->removeInvalidChilds())
+			{
+				$scan_log .= "done.";
+			}
+			else
+			{
+				$scan_log .= "nothing to remove. Skipped.";
+			}
+		}
+		
+		// find unbound objects again AFTER cleaning process!
+		$validator->findUnboundObjects();
+		
+		// STEP 3: Restore objects
+		$scan_log .= "<br/><br/>Restoring...";
+		
+		if (!$validator->isModeEnabled("restore"))
+		{
+			$scan_log .= "disabled.";
+		}
+		else
+		{
+			$scan_log .= "<br/>Restoring missing Objects...";
+			if ($validator->restoreMissingObjects())
+			{
+				$scan_log .= "done.";
+			}
+			else
+			{
+				$scan_log .= "nothing to restore. Skipped.";
+			}
+			
+			$scan_log .= "<br/>Restoring unbound objects & subobjects...";
+			if ($validator->restoreUnboundObjects())
+			{
+				$scan_log .= "done.";
+			}
+			else
+			{
+				$scan_log .= "nothing to restore. Skipped.";
+			}
+		}
+		
+		// STEP 4: Restoring Trash
+		if ($validator->isModeEnabled("restore_trash"))
+		{
+			$scan_log .= "<br/><br/>Restoring trash...";
+			if ($validator->restoreTrash())
+			{
+				$scan_log .= "done";
+			}
+			else
+			{
+				$scan_log .= "nothing to restore. Skipped.";
+			}
+		}
+		
+		// STEP 5: Purging...
+		if ($validator->isModeEnabled("purge"))
+		{
+			$scan_log .= "<br/><br/>Purging unbound objects...";
+			if ($validator->purgeUnboundObjects())
+			{
+				$scan_log .= "done";
+			}
+			else
+			{
+				$scan_log .= "nothing to purge. Skipped.";
+			}
+		}
+		
+		// STEP 6: Purging...
+		if ($validator->isModeEnabled("purge_trash"))
+		{
+			$scan_log .= "<br/><br/>Purging trash...";
+			if ($validator->purgeTrash())
+			{
+				$scan_log .= "done";
+			}
+			else
+			{
+				$scan_log .= "nothing to purge. Skipped.";
+			}
+		}
+		
+		// STEP 6: Close gaps in tree
+		if ($validator->isModeEnabled("clean"))
+		{
+			$scan_log .= "<br/><br/>Final cleaning...";
+			if ($validator->closeGapsInTree())
+			{
+				$scan_log .= "<br/>Closing gaps in tree...done";
+			}
+		}
+		
+		// check RBAC starts here
+		// ...
+		
+		// el fin
+		foreach ($validator->mode as $mode => $value)
+		{
+			$arr[] = $mode."[".(int)$value."]";
+		}
+		
+		$scan_log .= "<p>Scan completed.</p>";
+
+	
+		$mode = "Mode used: ".implode(', ',$arr);
+		
+		// output
+		$this->getTemplateFile("scan");
+		$this->tpl->setVariable("TXT_TITLE", "Scanning system...");
+		$this->tpl->setVariable("COLSPAN", 3);
+		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);
+		$this->tpl->setVariable("TXT_MODE", $mode);
+		$this->tpl->setVariable("TXT_VIEW_LOG", "View Details");
+		$this->tpl->setVariable("TXT_DONE", "Done");
 	}
 } // END class.ilObjSystemFolderGUI
 ?>

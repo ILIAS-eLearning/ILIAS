@@ -24,6 +24,7 @@
 	<subobj name="mail" max="1">mail</subobj>
 	<subobj name="chac" max="1">chac</subobj>
 	<subobj name="ldap" max="1">ldap</subobj>
+	<subobj name="recf" max="1">recf</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -37,8 +38,8 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
-     <subobj name="qpl">qpl</subobj>
-     <subobj name="tst">tst</subobj>
+     	<subobj name="qpl">qpl</subobj>
+     	<subobj name="tst">tst</subobj>
 	<subobj name="exc">exc</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="dbk">dbk</subobj>
@@ -331,4 +332,24 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
   </object>
+<object name="recf" class_name="RecoveryFolder" checkbox="0" inherit="0" translate="0" rbac="1">
+	<subobj name="cat">cat</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm">frm</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="slm">slm</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="grp">grp</subobj>
+     	<subobj name="qpl">qpl</subobj>
+     	<subobj name="tst">tst</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="clear">clear</action>
+	<action name="removeFromSystem">btn_remove_system</action>
+</object>
 </objects>

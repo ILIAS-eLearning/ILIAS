@@ -1970,3 +1970,36 @@ CREATE TABLE `xml_tree` (
 <#121>
 ALTER TABLE chat_user DROP PRIMARY KEY;
 ALTER TABLE chat_user ADD PRIMARY KEY(usr_id,chat_id,room_id);
+<#122>
+<?php
+// register new object type 'recf' for RecoveryFolder
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'recf', 'RecoveryFolder object', -1, now(), now())";
+$this->db->query($query);
+
+// ADD NODE IN SYSTEM SETTINGS FOLDER
+// create object data entry
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('recf', '__Restored Objects', 'Contains objects restored by recovery tool', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// create object reference entry
+$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$res = $this->db->query($query);
+
+$query = "SELECT LAST_INSERT_ID() as id";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+// register RECOVERY_FOLDER_ID in table settings
+$query = "INSERT INTO settings (keyword,value) VALUES('recovery_folder_id','".$row->id."')";
+$res = $this->db->query($query);
+?>
