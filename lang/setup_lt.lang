@@ -32,11 +32,15 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 3rd_party_software#:#3rd party software###21 Nov 2003 new variable
+3rd_party_software#:#3rd party software###28 Nov 2003 new variable
+3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 absolute_path#:#Absolute path###21 Nov 2003 new variable
 access#:#Access###21 Nov 2003 new variable
 access_status#:#Access status###21 Nov 2003 new variable
+available_languages#:#available languages###28 Nov 2003 new variable
 available_languages#:#galimos kalbos
 back#:#atgal
+back#:#back###28 Nov 2003 new variable
 change#:#keisti
 change_basic_settings#:#Change basic settings###21 Nov 2003 new variable
 change_password#:#Keisti slaptažodį
@@ -50,8 +54,10 @@ client_info#:#Description###21 Nov 2003 new variable
 client_institution#:#Institution###21 Nov 2003 new variable
 client_name#:#Name###21 Nov 2003 new variable
 contact_data#:#Contact Information###21 Nov 2003 new variable
+contact_data#:#Contact Information###28 Nov 2003 new variable
 convert_path#:#Path to Convert###21 Nov 2003 new variable
 country#:#Country###21 Nov 2003 new variable
+create#:#create###28 Nov 2003 new variable
 create_new_client#:#Create new client###21 Nov 2003 new variable
 data_path#:#duomenys saugomi (kelias)
 database#:#duomenų bazė
@@ -64,6 +70,8 @@ database_update#:#atnaujinti duomenų bazės struktūrą
 database_version#:#dabartinė duomenų bazės struktūros versija
 datadir_path#:#Path to Data Directory###21 Nov 2003 new variable
 date#:#data
+date#:#date###28 Nov 2003 new variable
+db_conn#:#Database connection###28 Nov 2003 new variable
 db_host#:#duomenų bazės serveris
 db_name#:#duomenų bazės vardas
 db_pass#:#duomenų bazės slaptažodis
@@ -73,10 +81,14 @@ db_version#:#duomenų bazės struktūros versija
 default#:#standartinis
 delete#:#šalinti
 details#:#Details###21 Nov 2003 new variable
+disable_logging#:#disable logging###28 Nov 2003 new variable
+disabled#:#disabled###28 Nov 2003 new variable
 email#:#Email###21 Nov 2003 new variable
 email_not_valid#:#Email is not valid###21 Nov 2003 new variable
 en_by_default#:#(Anglų kalbos pašalinti negalima).
+enter_password#:#Please enter password###28 Nov 2003 new variable
 enter_password#:#Prašom įvesti slaptažodį
+env_ok#:#Ok. Sounds good.###28 Nov 2003 new variable
 env_ok#:#Taigi, viskas atrodo teisingai.
 env_using#:#ILIAS 3 veiks ant
 env_warning#:#ILIAS 3 veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS 3 sėkmingai veiks ir kitokiose aplinkose.
@@ -88,17 +100,30 @@ file_version#:#bylos versija
 fill_both_fields#:#Prašom užpildyti abu laukelius!
 finish#:#Finish setup###21 Nov 2003 new variable
 finish_setup#:#Finishing setup###21 Nov 2003 new variable
+finish_setup#:#Finishing setup###28 Nov 2003 new variable
 firstname#:#Firstname###21 Nov 2003 new variable
 host#:#Host###21 Nov 2003 new variable
 htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
 http_path#:#HTTP path###21 Nov 2003 new variable
 id#:#ID###21 Nov 2003 new variable
+id#:#ID###28 Nov 2003 new variable
 ilias_nic#:#NIC Registration###21 Nov 2003 new variable
 ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
+ilias_nic_id#:#NIC ID###28 Nov 2003 new variable
 ilias_setup#:#ILIAS3 setup###21 Nov 2003 new variable
 ilias_version#:#ILIAS versija
+info_text_lang#:#Please choose additional languages and/or remove selected languages.###28 Nov 2003 new variable
+info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this###28 Nov 2003 new variable
+info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas###28 Nov 2003 new variable
+info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.###28 Nov 2003 new variable
+ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.###28 Nov 2003 new variable
+ini_client_id_too_long#:#Client Id too long.###28 Nov 2003 new variable
+ini_no_client_id#:#No client ID given.###28 Nov 2003 new variable
+ini_no_db_host#:#No hostname###28 Nov 2003 new variable
+inifile#:#ini-file###28 Nov 2003 new variable
 inifile#:#nustatymų byla
 inifile_can_write#:#ILIAS 3 diegimo programa gali sukurti nustatymų bylą.
+inifile_can_write#:#ILIAS 3 setup can write your ini-file.###28 Nov 2003 new variable
 inifile_cannot_write#:#ILIAS 3 diegimo programa negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.
 inifile_content#:#Nustatymų bylos turinys:
 inifile_exists#:#Nustatymų byla jau egzistuoja. Atkreipkite dėmesį, kad nauji nustatymai sunaikins senus.
@@ -107,6 +132,7 @@ inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS 3 
 inifile_written#:#Nustatymų byla sėkmingai sukurta.
 input_error#:#Input error###21 Nov 2003 new variable
 inst_name#:#diegimo vardas
+install#:#install###28 Nov 2003 new variable
 install#:#įdiegti
 installation#:#Instaliacija
 installed#:#įdiegta
@@ -115,6 +141,7 @@ intro_install#:#Tai pagrindinis ILIAS 3 diegimo programos puslapis. Iš čia Jū
 ip_address#:#IP address###21 Nov 2003 new variable
 java_path#:#Path to Java###21 Nov 2003 new variable
 lang_de#:#Vokiečių
+lang_dk#:#Danish###28 Nov 2003 new variable
 lang_dk#:#Danų
 lang_en#:#Anglų
 lang_error_occurred#:#Įvyko klaida. Darbas nutraukiamas.
@@ -124,51 +151,77 @@ lang_id#:#Indoneziečių
 lang_it#:#Italų
 lang_lt#:#Lietuvių
 lang_no#:#Norvegų
+lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Lenkų
+lang_se#:#Swedish###28 Nov 2003 new variable
 lang_se#:#Švedų
 lang_xx#:#(kita)
 language#:#kalba
 languages#:#kalbos
-languages_installed#:#Įdiegtos kalbos.
+languages_installed#:#Įdiegtos kalbos.###28 Nov 2003 content changed
 lastname#:#Lastname###21 Nov 2003 new variable
 log_path#:#Path to Logfile###21 Nov 2003 new variable
+log_path_comment#:#enter with filename. File will be created.###28 Nov 2003 new variable
 logged_out#:#Jūsų autentifikuota sesija užbaigta.
 logging#:#Logging###21 Nov 2003 new variable
 login#:#autentifikacija
 login_to_ilias#:#prisijungti prie ILIAS
+logout#:#logout###28 Nov 2003 new variable
 logout#:#užbaigti autentifikuotą sesiją
 name#:#Name###21 Nov 2003 new variable
+new#:#new###28 Nov 2003 new variable
 next#:#Next###21 Nov 2003 new variable
+nic_reg_disabled#:#NIC registration disabled###28 Nov 2003 new variable
+nic_reg_email#:#register via Email###28 Nov 2003 new variable
+nic_reg_enter_id#:#please enter id sent by email###28 Nov 2003 new variable
+nic_reg_failed#:#NIC registration failed###28 Nov 2003 new variable
 nic_registration#:#NIC Registration###21 Nov 2003 new variable
+nic_registration#:#NIC Registration###28 Nov 2003 new variable
 no_changes#:#Jokių pakeitimų.
+no_database#:#No database###28 Nov 2003 new variable
+no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator###28 Nov 2003 new variable
 no_db_update_file#:#dbupdate.php byla nerasta!
+no_username#:#No username given###28 Nov 2003 new variable
 not_connected_to_db#:#Nėra ryšio su duomenų baze.
+not_connected_to_db#:#You are not connected to database.###28 Nov 2003 new variable
+out_of_webspace#:#(out of webspace)###28 Nov 2003 new variable
 out_of_webspace#:#(vietos stygius)
 overview#:#Overview###21 Nov 2003 new variable
+overview#:#Overview###28 Nov 2003 new variable
 password#:#slaptažodis
 password_changed#:#Slaptažodis pakeistas.
 password_empty#:#Tuščias slaptažodis!
-password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 3 diegimo programos.
+password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 3 diegimo programos.###28 Nov 2003 content changed
+password_new_master#:#Set new master password###28 Nov 2003 new variable
+password_retype#:#Retype new password###28 Nov 2003 new variable
+password_same#:#Old and new password are the same!###28 Nov 2003 new variable
 password_set#:#Slaptažodis išsaugotas.
+path_not_set#:#Path not set###28 Nov 2003 new variable
 path_to_convert#:#Path to Convert###21 Nov 2003 new variable
 path_to_htmldoc#:#Path to HTMLdoc###21 Nov 2003 new variable
 path_to_java#:#Path to Java###21 Nov 2003 new variable
 path_to_unzip#:#Path to Unzip###21 Nov 2003 new variable
 path_to_zip#:#Path to Zip###21 Nov 2003 new variable
+pathes#:#Pathes###28 Nov 2003 new variable
 phone#:#Phone###21 Nov 2003 new variable
 port#:#port###21 Nov 2003 new variable
 position#:#Position###21 Nov 2003 new variable
+pre_cookies_enabled#:#Cookies enabled###28 Nov 2003 new variable
 pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS 3 sistemos diegimo tęsti nepavyks.
 pre_folder_create#:#ILIAS 3 kataloge sukurti naujus pakatalogius galima
 pre_folder_write#:#ILIAS 3 kataloge rašyti galima
 pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 3 sistemos reikalavimai išpildyti.
+pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
 pre_php_version#:#PHP versija
 preliminaries#:#Preliminariai
 prev#:#Previous###21 Nov 2003 new variable
 required_field#:#required fields###21 Nov 2003 new variable
 reset#:#Atstatyti
+safe_mode_enabled#:#Safe mode is enabled!###28 Nov 2003 new variable
 save#:#Save###21 Nov 2003 new variable
+save_error#:#Save Error!###28 Nov 2003 new variable
 saved_successfully#:#Saved successfully###21 Nov 2003 new variable
+select_client#:#Select a Client###28 Nov 2003 new variable
 server_info#:#Server Information###21 Nov 2003 new variable
 server_software#:#Server software###21 Nov 2003 new variable
 set_default_client#:#Set Default Client###21 Nov 2003 new variable
@@ -182,31 +235,46 @@ setup_contact_data#:#Setup Contact Information###21 Nov 2003 new variable
 setup_database#:#įdiegti duomenų bazę
 setup_database_desc#:#įdiegti duomenų bazę
 setup_db_first#:#Pirmiau įdiekite duomenų bazę!
+setup_first_client#:#Setup your first Client###28 Nov 2003 new variable
 setup_ini_first#:#Pirmiau sukurkite nustatymų bylą!
 setup_inifile#:#sukurti nustatymų bylą
 setup_inifile_desc#:#sukurti nustatymų bylą
 setup_languages#:#įdiegti kalbas
 setup_languages_desc#:#įdiegti kalbas
+setup_login#:#Login to Setup###28 Nov 2003 new variable
 setup_mainmenu#:#Pagrindinis meniu
 setup_menu#:#diegimo menių
+setup_not_finished#:#Setup not finished###28 Nov 2003 new variable
 setup_pass#:#Setup password###21 Nov 2003 new variable
 setup_pass2#:#Retype setup Password###21 Nov 2003 new variable
 setup_password#:#sukurti slaptažodį
 setup_password_desc#:#sukurti slaptažodį
+setup_process_status#:#Setup Process Status###28 Nov 2003 new variable
+setup_process_step_contact#:#enter contact information###28 Nov 2003 new variable
+setup_process_step_db#:#create & update database###28 Nov 2003 new variable
+setup_process_step_finish#:#Finish installation###28 Nov 2003 new variable
+setup_process_step_ini#:#setup basic data###28 Nov 2003 new variable
+setup_process_step_lang#:#install system languages###28 Nov 2003 new variable
+setup_process_step_nic#:#register at ILIAS-NIC###28 Nov 2003 new variable
 setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 3 sistemos.
 setup_welcome#:#ILIAS 3 diegimo sistema. Čia Jūs galite
 status#:#Status###21 Nov 2003 new variable
 step#:#Step###21 Nov 2003 new variable
 street#:#Street###21 Nov 2003 new variable
 submit#:#Patvirtinti
+target#:#target###28 Nov 2003 new variable
 title#:#Title###21 Nov 2003 new variable
+unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unzip_path#:#Path to Unzip###21 Nov 2003 new variable
+unzip_path_comment#:#required for importing learning modules###28 Nov 2003 new variable
 update_applied#:#Atnaujinimas įvykdytas sėkmingai
 update_error#:#Atnaujinimas nesėkmingas
 update_not_found#:#Atnaujinimas nerastas!
+username#:#username###28 Nov 2003 new variable
 version#:#versija
 webspace_dir#:#Internetinis duomenų kelias
 with#:#su
 wrong_password#:#Klaidingas slaptažodis!
 zip_path#:#Path to Zip###21 Nov 2003 new variable
+zip_path_comment#:#required for exporting learning modules###28 Nov 2003 new variable
 zipcode#:#Zipcode###21 Nov 2003 new variable

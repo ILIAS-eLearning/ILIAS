@@ -31,12 +31,16 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+3rd_party_software#:#3rd party software###28 Nov 2003 new variable
+3rd_party_software#:#3rd party software###28 Nov 2003 new variable
 3rd_party_software#:#software di terze parti###21 Nov 2003 new variable
 absolute_path#:#Percorso assoluto###21 Nov 2003 new variable
 access#:#Accedi###21 Nov 2003 new variable
 access_status#:#Stato del accesso###21 Nov 2003 new variable
 available_languages#:#Lingue disponibili
+available_languages#:#available languages###28 Nov 2003 new variable
 back#:#Indietro
+back#:#back###28 Nov 2003 new variable
 change#:#Cambia
 change_basic_settings#:#Cambia le impostazioni base###21 Nov 2003 new variable
 change_password#:#Cambia la password
@@ -49,9 +53,11 @@ client_id#:#Client ID###21 Nov 2003 new variable
 client_info#:#Descrizione del client###21 Nov 2003 new variable
 client_institution#:#Istituto del client###21 Nov 2003 new variable
 client_name#:#Nome###21 Nov 2003 new variable
+contact_data#:#Contact Information###28 Nov 2003 new variable
 contact_data#:#Informazioni###21 Nov 2003 new variable
 convert_path#:#Percorso per la conversione###21 Nov 2003 new variable
 country#:#Nazione###21 Nov 2003 new variable
+create#:#create###28 Nov 2003 new variable
 create_new_client#:#Crea un nuovo client###21 Nov 2003 new variable
 data_path#:#Percorso della cartella data
 database#:#Database
@@ -64,6 +70,8 @@ database_update#:#Aggiorna il database
 database_version#:#Versione attuale del database
 datadir_path#:#Percorso della cartella Data###21 Nov 2003 new variable
 date#:#Data
+date#:#date###28 Nov 2003 new variable
+db_conn#:#Database connection###28 Nov 2003 new variable
 db_host#:#Macchina con il database
 db_name#:#Nome database
 db_pass#:#Password database
@@ -73,11 +81,15 @@ db_version#:#Versione database
 default#:#Predefinito
 delete#:#Elimina
 details#:#Dettagli###21 Nov 2003 new variable
+disable_logging#:#disable logging###28 Nov 2003 new variable
+disabled#:#disabled###28 Nov 2003 new variable
 email#:#Email###21 Nov 2003 new variable
 email_not_valid#:#Email non valida###21 Nov 2003 new variable
 en_by_default#:#(la lingua inglese &#232; installata come predefinita e non pu&#242; essere cancellata).
 enter_password#:#Per favore, inserisci la password
+enter_password#:#Please enter password###28 Nov 2003 new variable
 env_ok#:#Ok. Sembra corretto.
+env_ok#:#Ok. Sounds good.###28 Nov 2003 new variable
 env_using#:#ILIAS 3 girer&#224; su
 env_warning#:#ILIAS 3 &#232; stato testato solo utilizzando Apache come web server su piattaforme Linux e Windows!<br />Comunque, ILIAS 3 potrebbe funzionare anche con la tua configurazione.
 environment#:#Ambiente
@@ -87,17 +99,30 @@ file_does_not_exist#:#Il file non esiste.
 file_version#:#Versione del file
 fill_both_fields#:#Per favore, riempi entambi i campi!
 finish#:#terminato###21 Nov 2003 new variable
+finish_setup#:#Finishing setup###28 Nov 2003 new variable
 finish_setup#:#Installazione terminata###21 Nov 2003 new variable
 firstname#:#Nome###21 Nov 2003 new variable
 host#:#Host###21 Nov 2003 new variable
 htmldoc_path#:#Percorso della cartella HTMLdoc###21 Nov 2003 new variable
 http_path#:#HTTP path###21 Nov 2003 new variable
 id#:#ID###21 Nov 2003 new variable
+id#:#ID###28 Nov 2003 new variable
 ilias_nic#:#Registrazione NIC###21 Nov 2003 new variable
 ilias_nic_id#:#NIC ID###21 Nov 2003 new variable
+ilias_nic_id#:#NIC ID###28 Nov 2003 new variable
 ilias_setup#:#Installazione ILIAS3###21 Nov 2003 new variable
 ilias_version#:#Versione di ILIAS
+info_text_lang#:#Please choose additional languages and/or remove selected languages.###28 Nov 2003 new variable
+info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this###28 Nov 2003 new variable
+info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas###28 Nov 2003 new variable
+info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.###28 Nov 2003 new variable
+ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.###28 Nov 2003 new variable
+ini_client_id_too_long#:#Client Id too long.###28 Nov 2003 new variable
+ini_no_client_id#:#No client ID given.###28 Nov 2003 new variable
+ini_no_db_host#:#No hostname###28 Nov 2003 new variable
 inifile#:#File .ini
+inifile#:#ini-file###28 Nov 2003 new variable
+inifile_can_write#:#ILIAS 3 setup can write your ini-file.###28 Nov 2003 new variable
 inifile_can_write#:#Il processo di installazione di ILIAS 3 pu&ograve; scrivere il tuo file .ini.
 inifile_cannot_write#:#Il processo di installazione di ILIAS 3 non pu&ograve; scrivere il tuo file .ini. Per favore, verifica i diritti di accesso.
 inifile_content#:#Questo &#232; il contenuto del tuo file .ini:
@@ -108,6 +133,7 @@ inifile_written#:#Il file .ini &egrave, stato salvato con successo sulla macchin
 input_error#:#Errore di inserimento###21 Nov 2003 new variable
 inst_name#:#Nome dell&#039;installazione
 install#:#Installa
+install#:#install###28 Nov 2003 new variable
 installation#:#Installazione
 installed#:#installato
 institution#:#Istituzione###21 Nov 2003 new variable
@@ -116,6 +142,7 @@ ip_address#:#Indirizzo IP###21 Nov 2003 new variable
 java_path#:#Percorso a Java###21 Nov 2003 new variable
 lang_de#:#Tedesco
 lang_dk#:#Danese
+lang_dk#:#Danish###28 Nov 2003 new variable
 lang_en#:#Inglese
 lang_error_occurred#:#Si &#232; verificato un errore. Esecuzione interrotta.
 lang_es#:#Spagnolo
@@ -124,51 +151,77 @@ lang_id#:#Indonesiano
 lang_it#:#Italiano
 lang_lt#:#Lituano###11 Nov 2003 new variable
 lang_no#:#Norvegese
+lang_none_installed#:#No language installed###28 Nov 2003 new variable
 lang_pl#:#Polacco
 lang_se#:#Svedese
+lang_se#:#Swedish###28 Nov 2003 new variable
 lang_xx#:#Custom
 language#:#Lingua
 languages#:#Lingue
-languages_installed#:#Lingue installate.
+languages_installed#:#Lingue installate.###28 Nov 2003 content changed
 lastname#:#Cognome###21 Nov 2003 new variable
 log_path#:#Percorso del file di Log###21 Nov 2003 new variable
+log_path_comment#:#enter with filename. File will be created.###28 Nov 2003 new variable
 logged_out#:#Sei uscito dal sistema.
 logging#:#Logging###21 Nov 2003 new variable
 login#:#Login
 login_to_ilias#:#Entra in ILIAS
 logout#:#Esci
+logout#:#logout###28 Nov 2003 new variable
 name#:#Nome###21 Nov 2003 new variable
+new#:#new###28 Nov 2003 new variable
 next#:#Successivo###21 Nov 2003 new variable
+nic_reg_disabled#:#NIC registration disabled###28 Nov 2003 new variable
+nic_reg_email#:#register via Email###28 Nov 2003 new variable
+nic_reg_enter_id#:#please enter id sent by email###28 Nov 2003 new variable
+nic_reg_failed#:#NIC registration failed###28 Nov 2003 new variable
+nic_registration#:#NIC Registration###28 Nov 2003 new variable
 nic_registration#:#Registrazione NIC###21 Nov 2003 new variable
 no_changes#:#Nessun cambiamento.
+no_database#:#No database###28 Nov 2003 new variable
+no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator###28 Nov 2003 new variable
 no_db_update_file#:#Non trovato il file dbupdate.php!
+no_username#:#No username given###28 Nov 2003 new variable
 not_connected_to_db#:#Non sei connesso al Database.
+not_connected_to_db#:#You are not connected to database.###28 Nov 2003 new variable
 out_of_webspace#:#(esaurito lo spazio nella cartella webdata)
+out_of_webspace#:#(out of webspace)###28 Nov 2003 new variable
 overview#:#Descrizione###21 Nov 2003 new variable
+overview#:#Overview###28 Nov 2003 new variable
 password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
-password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&#249; tardi una password di accesso all'installazione di ILIAS 3.
+password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&#249; tardi una password di accesso all'installazione di ILIAS 3.###28 Nov 2003 content changed
+password_new_master#:#Set new master password###28 Nov 2003 new variable
+password_retype#:#Retype new password###28 Nov 2003 new variable
+password_same#:#Old and new password are the same!###28 Nov 2003 new variable
 password_set#:#Password salvata.
+path_not_set#:#Path not set###28 Nov 2003 new variable
 path_to_convert#:#Percorso della cartella Convert###21 Nov 2003 new variable
 path_to_htmldoc#:#Percorso della cartella HTMLdoc###21 Nov 2003 new variable
 path_to_java#:#Percorso di Java###21 Nov 2003 new variable
 path_to_unzip#:#Percorso di Unzip###21 Nov 2003 new variable
 path_to_zip#:#Percorso di Zip###21 Nov 2003 new variable
+pathes#:#Pathes###28 Nov 2003 new variable
 phone#:#Telefono###21 Nov 2003 new variable
 port#:#port###21 Nov 2003 new variable
 position#:#Posizione###21 Nov 2003 new variable
+pre_cookies_enabled#:#Cookies enabled###28 Nov 2003 new variable
 pre_error#:#Si sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&#039;installazione di ILIAS 3.
 pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS 3
 pre_folder_write#:#Cartella di ILIAS 3 scrivibile
 pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.
+pre_javascript_enabled#:#Javascript enabled###28 Nov 2003 new variable
 pre_php_version#:#Versione PHP
 preliminaries#:#Preliminari
 prev#:#Precedente###21 Nov 2003 new variable
 required_field#:#Campi richiesti###21 Nov 2003 new variable
 reset#:#Reset
+safe_mode_enabled#:#Safe mode is enabled!###28 Nov 2003 new variable
 save#:#Salva###21 Nov 2003 new variable
+save_error#:#Save Error!###28 Nov 2003 new variable
 saved_successfully#:#Salvataggio eseguito con successo###21 Nov 2003 new variable
+select_client#:#Select a Client###28 Nov 2003 new variable
 server_info#:#Informazioni del server###21 Nov 2003 new variable
 server_software#:#Software del server###21 Nov 2003 new variable
 set_default_client#:#Imposta il client predefinito###21 Nov 2003 new variable
@@ -182,31 +235,46 @@ setup_contact_data#:#Informazioni del contatto###21 Nov 2003 new variable
 setup_database#:#Installazione del database
 setup_database_desc#:#installare il database
 setup_db_first#:#Per favore, crea prima il database!
+setup_first_client#:#Setup your first Client###28 Nov 2003 new variable
 setup_ini_first#:#Per favore, crea prima il file .ini!
 setup_inifile#:#Creazione del file .ini
 setup_inifile_desc#:#creare il file .ini per l&#039;installazione
 setup_languages#:#Installa le lingue
 setup_languages_desc#:#installare le lingue aggiuntive
+setup_login#:#Login to Setup###28 Nov 2003 new variable
 setup_mainmenu#:#Menu principale dell&#039;installazione
 setup_menu#:#Menu dell&#039;installazione
+setup_not_finished#:#Setup not finished###28 Nov 2003 new variable
 setup_pass#:#Imposta password###21 Nov 2003 new variable
 setup_pass2#:#Ridigita la password###21 Nov 2003 new variable
 setup_password#:#Creazione password
 setup_password_desc#:#creare una password per accedere alla successiva procedura di installazione (per l&#039;aggiornamento del database)
+setup_process_status#:#Setup Process Status###28 Nov 2003 new variable
+setup_process_step_contact#:#enter contact information###28 Nov 2003 new variable
+setup_process_step_db#:#create & update database###28 Nov 2003 new variable
+setup_process_step_finish#:#Finish installation###28 Nov 2003 new variable
+setup_process_step_ini#:#setup basic data###28 Nov 2003 new variable
+setup_process_step_lang#:#install system languages###28 Nov 2003 new variable
+setup_process_step_nic#:#register at ILIAS-NIC###28 Nov 2003 new variable
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
 setup_welcome#:#Benvenuti nell&#039;installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
 status#:#Stato###21 Nov 2003 new variable
 step#:#Passo###21 Nov 2003 new variable
 street#:#Strada###21 Nov 2003 new variable
 submit#:#Accetta
+target#:#target###28 Nov 2003 new variable
 title#:#Titolo###21 Nov 2003 new variable
+unknown_client_id#:#Unknown Client###28 Nov 2003 new variable
 unzip_path#:#Percorso ad Unzip###21 Nov 2003 new variable
+unzip_path_comment#:#required for importing learning modules###28 Nov 2003 new variable
 update_applied#:#Modifiche effettuate
 update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
+username#:#username###28 Nov 2003 new variable
 version#:#Versione
 webspace_dir#:#Percorso della cartella webdata###24 Jun 2003 new variable
 with#:#con
 wrong_password#:#Password errata!
 zip_path#:#Percorso dello Zip###21 Nov 2003 new variable
+zip_path_comment#:#required for exporting learning modules###28 Nov 2003 new variable
 zipcode#:#Codice Postale###21 Nov 2003 new variable
