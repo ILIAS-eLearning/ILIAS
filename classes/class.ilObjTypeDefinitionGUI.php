@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.4 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.5 2003/06/04 14:07:06 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -282,7 +282,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("TEXT", $out);
-			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&order=type&direction=".
+									$_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
