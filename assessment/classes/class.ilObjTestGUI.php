@@ -172,7 +172,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->set_introduction($data["introduction"]);
 		$this->object->set_sequence_settings($data["sequence_settings"]);
 		$this->object->set_score_reporting($data["score_reporting"]);
-		//$this->object->set_reportin g_date($data["reporting_date"]);
+		$this->object->set_reporting_date($data["reporting_date"]);
 		$this->object->set_nr_of_tries($data["nr_of_tries"]);
 		$this->object->set_processing_time($data["processing_time"]);
 		$this->object->set_starting_time($data["starting_time"]);
@@ -1002,12 +1002,18 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("results");
-				if ($active->tries > 0) {
-				} else {
+				if (($active->tries < 1) or (!$this->object->canViewResults())) {
 					$this->tpl->setVariable("DISABLED", " disabled");
 				}
 				$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));
 				$this->tpl->parseCurrentBlock();
+				if (!$this->object->canViewResults()) {
+					$this->tpl->setCurrentBlock("report_date_not_reached");
+					preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->get_reporting_date(), $matches);
+					$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+					$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
+					$this->tpl->parseCurrentBlock();
+				}
 			} else {
 				$this->tpl->setCurrentBlock("start");
 				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));

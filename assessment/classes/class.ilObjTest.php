@@ -754,15 +754,15 @@ class ilObjTest extends ilObject
 * 
 * Sets the reporting date of the ilObjTest object
 *
-* @param integer $year The year of the reporting date
+* @param timestamp $reporting_date The date and time the score reporting is available
 * @access public
 * @see $reporting_date
 */
-  function set_reporting_date($year, $month, $day, $hour, $minute, $second) {
-    if (($year | $month | $day | $hour | $minute | $second) == 0) {
+  function set_reporting_date($reporting_date) {
+    if (!$reporting_date) {
       $this->reporting_date = "";
     } else {
-      $this->reporting_date = sprintf("%04d%02d%02d%02d%02d%02d", $year, $month, $day, $hour, $minute, $second);
+      $this->reporting_date = $reporting_date;
       $this->score_reporting = REPORT_AFTER_TEST;
     }
   }
@@ -1406,6 +1406,32 @@ class ilObjTest extends ilObject
 		return $row->total;
 	}
 	
+/**
+* Returns true, if the test results can be viewed
+* 
+* Returns true, if the test results can be viewed
+*
+* @return boolean True, if the test results can be viewed, else false
+* @access public
+*/
+	function canViewResults()
+	{
+		$result = true;
+		if ($this->get_test_type() == TYPE_ASSESSMENT)
+		{
+			if ($this->get_reporting_date())
+			{
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->get_reporting_date(), $matches);
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) {
+					$result = false;
+				}
+			}
+		}
+		return $result;
+	}
+
 /**
 * Retrieves the user settings for the statistical evaluation tool
 * 
