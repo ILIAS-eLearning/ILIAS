@@ -8,6 +8,13 @@
 * @package ilias-develop
 */
 
+
+/**
+* shortcut for formatted var_dump output
+* 
+* @access	public
+* @param	mixed
+*/
 function vd($mixed)
 {
 	echo "<pre>";
