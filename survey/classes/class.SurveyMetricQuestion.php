@@ -254,17 +254,25 @@ class SurveyMetricQuestion extends SurveyQuestion {
 *
 * @access public
 */
-  function saveToDb()
+  function saveToDb($original_id = "")
   {
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
+		if ($original_id)
+		{
+			$original_id = $this->ilias->db->quote($original_id);
+		}
+		else
+		{
+			$original_id = "NULL";
+		}
     if ($this->id == -1) {
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$this->subtype"),
         $this->ilias->db->quote("3"),
         $this->ilias->db->quote($this->ref_id),
@@ -275,7 +283,8 @@ class SurveyMetricQuestion extends SurveyQuestion {
         $this->ilias->db->quote($this->questiontext),
 				$this->ilias->db->quote(sprintf("%d", $this->obligatory)),
 				$this->ilias->db->quote("$complete"),
-        $this->ilias->db->quote($created)
+        $this->ilias->db->quote($created),
+				$original_id
       );
       $result = $this->ilias->db->query($query);
       if ($result == DB_OK) {

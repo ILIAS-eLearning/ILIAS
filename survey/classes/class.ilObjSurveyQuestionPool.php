@@ -38,6 +38,7 @@ require_once "class.SurveyNominalQuestion.php";
 require_once "class.SurveyTextQuestion.php";
 require_once "class.SurveyMetricQuestion.php";
 require_once "class.SurveyOrdinalQuestion.php";
+require_once "class.SurveyQuestion.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {
@@ -164,21 +165,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$found_questions = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			array_push($found_questions, $row["question_id"]);
-		}
-		
-		$query = sprintf("DELETE FROM survey_question WHERE ref_fi = %s",
-			$this->ilias->db->quote($this->getRefId())
-		);
-		$result = $this->ilias->db->query($query);
-
-		if (count($found_questions))
-		{		
-			$query = "DELETE FROM survey_question_material WHERE question_fi IN (" . join($found_questions, ",") . ")";
-			$result = $this->ilias->db->query($query);
-
-			$query = "DELETE FROM survey_variable WHERE question_fi IN (" . join($found_questions, ",") . ")";
-			$result = $this->ilias->db->query($query);
+			$this->removeQuestion($row["question_id"]);
 		}
 	}
 
@@ -337,76 +324,9 @@ class ilObjSurveyQuestionPool extends ilObject
   {
     if ($question_id < 1)
       return;
-      
-		$query = sprintf("DELETE FROM survey_answer WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("SELECT constraint_id FROM survey_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s",
-				$this->ilias->db->quote($row->constraint_id)
-			);
-			$delresult = $this->ilias->db->query($query);
-		}
 		
-		$query = sprintf("DELETE FROM survey_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
-				$this->ilias->db->quote($row->constraint_fi)
-			);
-			$delresult = $this->ilias->db->query($query);
-		}
-		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_questionblock_question WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_survey_question WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_question WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$directory = CLIENT_WEB_DIR . "/survey/" . $_GET["ref_id"] . "/$question_id";
-		if (is_dir($directory))
-		{
-			$directory = escapeshellarg($directory);
-			exec("rm -rf $directory");
-		}
+		$question = new SurveyQuestion();
+		$question->delete($question_id);
 	}
 
 /**
@@ -472,36 +392,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 	
 /**
-* Duplicates a question in the question pool
-* 
-* Duplicates a question in the question pool
-*
-* @param integer $question_id The database id of the question
-* @access public
-*/
-	function duplicate($question_id)
-	{
-		$questiontype = $this->getQuestiontype($question_id);
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				$question = new SurveyNominalQuestion();
-				break;
-			case "qt_ordinal":
-				$question = new SurveyOrdinalQuestion();
-				break;
-			case "qt_metric":
-				$question = new SurveyMetricQuestion();
-				break;
-			case "qt_text":
-				$question = new SurveyTextQuestion();
-				break;
-		}
-		$question->loadFromDb($question_id);
-		$question->duplicate();
-	}
-	
-/**
 * Pastes a question in the question pool
 * 
 * Pastes a question in the question pool
@@ -511,24 +401,7 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function paste($question_id)
 	{
-		$questiontype = $this->getQuestiontype($question_id);
-		switch ($questiontype)
-		{
-			case "qt_nominal":
-				$question = new SurveyNominalQuestion();
-				break;
-			case "qt_ordinal":
-				$question = new SurveyOrdinalQuestion();
-				break;
-			case "qt_metric":
-				$question = new SurveyMetricQuestion();
-				break;
-			case "qt_text":
-				$question = new SurveyTextQuestion();
-				break;
-		}
-		$question->loadFromDb($question_id);
-		$question->duplicate($this->getRefId());
+		$this->duplicateQuestion($question_id, $this->getRefId());
 	}
 	
 /**
@@ -567,5 +440,44 @@ class ilObjSurveyQuestionPool extends ilObject
 		return "";
 	}
 
+/**
+* Duplicates a question for a questionpool
+*
+* Duplicates a question for a questionpool
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+  function duplicateQuestion($question_id, $ref_id = "") {
+		global $ilUser;
+		
+		$questiontype = $this->getQuestiontype($question_id);
+		switch ($questiontype)
+		{
+			case "qt_nominal":
+				$question = new SurveyNominalQuestion();
+				break;
+			case "qt_ordinal":
+				$question = new SurveyOrdinalQuestion();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestion();
+				break;
+			case "qt_text":
+				$question = new SurveyTextQuestion();
+				break;
+		}
+		$question->loadFromDb($question_id);
+    $counter = 2;
+    while ($question->questionTitleExists($question->getTitle() . " ($counter)")) {
+      $counter++;
+    }
+		if ($ref_id)
+		{
+			$question->setRefId($ref_id);
+		}
+		$question->duplicate(false, $question->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
+  }
+	
 } // END class.ilSurveyObjQuestionPool
 ?>
