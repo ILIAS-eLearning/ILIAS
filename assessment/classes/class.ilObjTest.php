@@ -36,6 +36,7 @@
 require_once "classes/class.ilObject.php";
 require_once "class.assMarkSchema.php";
 require_once("classes/class.ilMetaData.php");
+require_once "class.assQuestion.php";
 require_once "class.assClozeTest.php";
 require_once "class.assImagemapQuestion.php";
 require_once "class.assJavaApplet.php";
@@ -1145,48 +1146,8 @@ class ilObjTest extends ilObject
 * @see $test_id
 */
 	function removeQuestion($question_id) {
-		if (!$question_id)
-			return;
-		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->quote($this->getTestId()),
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		
-		// renumber sequence of remaining questions
-		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi=%s ORDER BY sequence ASC",
-			$this->ilias->db->quote($this->getTestId())
-		);
-		$result = $this->ilias->db->query($query);
-		$test_question_id_arr = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			array_push($test_question_id_arr, $row->test_question_id);
-		}		
-		$counter = 1;
-		foreach ($test_question_id_arr as $key => $value) {
-			$query = sprintf("UPDATE tst_test_question SET sequence = %s WHERE test_question_id = %s",
-				$this->ilias->db->quote($counter),
-				$this->ilias->db->quote($value)
-			);
-			$result = $this->ilias->db->query($query);
-			$counter++;
-		}
-
-		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-		
-		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
+		$question = new ASS_Question();
+		$question->delete($question_id);
 		$this->removeAllTestEditings($question_id);
 		$this->loadQuestions();
 	}

@@ -890,8 +890,12 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function removeAllQuestionReferences() {
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
+	function removeAllQuestionReferences($question_id = "") {
+		if (!$question_id)
+		{
+			$question_id = $this->getId();
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$question_id"));
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			// Mark all tests containing this question as "not started"
@@ -902,7 +906,7 @@ class ASS_Question extends PEAR {
 			$changeresult = $this->ilias->db->query($querychange);
 		}
 		// delete all resultsets for this question
-		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
+		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$question_id"));
 		$deleteresult = $this->ilias->db->query($querydelete);
 	}
 
@@ -954,6 +958,61 @@ class ASS_Question extends PEAR {
 			}
 		}
 	}
+
+/**
+* Deletes a question from the database
+* 
+* Deletes a question and all materials from the database
+*
+* @param integer $question_id The database id of the question
+* @access private
+*/
+  function delete($question_id) 
+  {
+    if ($question_id < 1)
+      return;
+      
+		$query = sprintf("SELECT ref_fi FROM qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$ref_id = $row["ref_fi"];
+		}
+		else
+		{
+			return;
+		}
+
+		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$this->removeAllQuestionReferences($question_id);
+		
+		// delete the question in the tst_test_question table (list of test questions)
+		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
+		$deleteresult = $this->ilias->db->query($querydelete);
+		
+		$directory = CLIENT_WEB_DIR . "/assessment/" . $ref_id . "/$question_id";
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
+	}
+
 }
 
 ?>
