@@ -846,7 +846,7 @@ common#:#cat_create_spl#:#Створити Пул Питань (Опитуван
 common#:#cat_create_svy#:#Створити Опитування
 common#:#cat_create_tst#:#Створити Тест
 common#:#cat_create_url#:#Створити URL
-common#:#cat_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
+common#:#cat_create_webr#:#Створити новий Веб Ресурс
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
@@ -902,8 +902,8 @@ common#:#check_link_desc#:#Якщо включено, усі зовнішні п
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
 common#:#check_user_accounts#:#Перевірити акаунти користувачів
 common#:#check_user_accounts_desc#:#Якщо cron роботи активовані та ця опція включена, усі користувачі, у яких скінчився термін дії акаунтів, будуть проінформавані через email.
-common#:#check_web_resources#:#Перевірити веб ресурси###16 Mar 2005 content changed
-common#:#check_web_resources_desc#:#Якщо включено, усі веб ресури будуть перевірені якщо вони активні.###16 Mar 2005 content changed
+common#:#check_web_resources#:#Перевірити Веб Ресурси
+common#:#check_web_resources_desc#:#Якщо включено, усі Веб Ресури будуть перевірені якщо вони активні.
 common#:#checked_files#:#Імпортовані файли
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
@@ -989,7 +989,7 @@ common#:#crs_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#crs_create_spl#:#Створити Пул Питань для Опитування
 common#:#crs_create_svy#:#Створити Опитування
 common#:#crs_create_tst#:#Створити Тест
-common#:#crs_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
+common#:#crs_create_webr#:#Створити новий Веб Ресурс
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
@@ -1339,7 +1339,7 @@ common#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модул
 common#:#grp_create_spl#:#Створити Пул Питань для Опитування
 common#:#grp_create_svy#:#Створити Опитування
 common#:#grp_create_tst#:#Створити Тест
-common#:#grp_create_webr#:#Створити новий веб ресурс###16 Mar 2005 content changed
+common#:#grp_create_webr#:#Створити новий Веб Ресурс
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити наступних користувачів з групи?
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи?
@@ -1395,9 +1395,9 @@ common#:#hist_lm:pg_cut#:#Сторінка вирізана з глави "%1" [
 common#:#hist_lm:pg_paste#:#Сторінка вставлена в главу "%1" [%2]
 common#:#hist_lm:pg_update#:#Сторінка змінена
 common#:#hist_no_entries#:#Немає записів в історії.
-common#:#hist_webr_add#:#Доданий новий веб ресурс з назвою: "%1"###16 Mar 2005 content changed
-common#:#hist_webr_delete#:#Видалений веб ресурс. Назва: "%1"###16 Mar 2005 content changed
-common#:#hist_webr_update#:#Оновити веб ресурс. Назва: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_add#:#Доданий новий Веб Ресурс з назвою: "%1"
+common#:#hist_webr_delete#:#Видалений Веб Ресурс. Назва: "%1"
+common#:#hist_webr_update#:#Оновити Веб Ресурс. Назва: "%1"
 common#:#history#:#Історія
 common#:#hits_per_page#:#Хіти/Сторінка
 common#:#hlm#:#HACP Учбовий Модуль
@@ -1953,7 +1953,7 @@ common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
-common#:#obj_webr#:#Веб ресурс###16 Mar 2005 content changed
+common#:#obj_webr#:#Веб Ресурс
 common#:#object#:#Об'єкт
 common#:#object_added#:#Об'єкт доданий
 common#:#objects#:#Об'єкти
@@ -1997,7 +1997,7 @@ common#:#objs_tst#:#Тести
 common#:#objs_type#:#Типи об'єктів
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Користувачі
-common#:#objs_webr#:#Веб русурси###16 Mar 2005 content changed
+common#:#objs_webr#:#Веб Ресурси
 common#:#of#:#Of
 common#:#offline#:#оффлайн
 common#:#offline_version#:#Оффлайн Версія
@@ -2510,7 +2510,7 @@ common#:#usrimport_cant_update#:#Неможливо виконати дію "О�
 common#:#usrimport_conflict_handling_info#:#Коли вибрано "Ігнорувати при конфлікті", ILIAS ігнорує дію, якщо вона не може бути виконана (наприклад дія "Вставити" не буде виконана, якщо вже є користувач з таким логіном в базі даних.)\nКоли вибрано "Оновити при конфлікті", ILIAS оновлює базу даних якщо дія не може бути виконана. (наприклад дія "Вставити" замінюється на дію "Оновити", якщо користувач з таким самим логіном існує в базі даних). 
 common#:#usrimport_global_role_for_action_required#:#Принаймні одна глобальна роль повинна бути визначена для дії "%1$s".
 common#:#usrimport_login_is_not_unique#:#Логін не унікальний.
-common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
+common#:#usrimport_with_specified_role_not_permitted#:#Імпорт з вказаною роллю не довзолений.
 common#:#usrimport_xml_attribute_missing#:#Пропущений атрибут "%2$s" в елементі "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Значення "%3$s" атрибуту "%2$s" в елементі "%1$s" є неприпустимим.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Значення "%3$s" атрибуту "%2$s" в елементі "%1$s" є непридатним для дії "%4$s".
@@ -2533,32 +2533,32 @@ common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
-common#:#web_resources#:#Веб ресурси###16 Mar 2005 content changed
-common#:#webr#:#Веб ресурс###16 Mar 2005 content changed
+common#:#web_resources#:#Веб Ресурси
+common#:#webr#:#Веб Ресурс
 common#:#webr_active#:#Активний
-common#:#webr_add#:#Додати веб ресурс###16 Mar 2005 content changed
-common#:#webr_add_item#:#Додати веб ресурс###16 Mar 2005 content changed
-common#:#webr_delete#:#Видалити веб ресурс###16 Mar 2005 content changed
-common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
-common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
+common#:#webr_add#:#Додати Веб Ресурс
+common#:#webr_add_item#:#Додати Веб Ресурс
+common#:#webr_delete#:#Видалити Веб Ресурс
+common#:#webr_delete_items#:#Видалити Веб Ресурс(и)
+common#:#webr_deleted_items#:#Видалити Веб Ресурс(и).
 common#:#webr_disable_check#:#Відключити перевірку 
-common#:#webr_edit#:#Редагувати веб ресурс###16 Mar 2005 content changed
-common#:#webr_edit_item#:#Редагувати веб ресурс###16 Mar 2005 content changed
+common#:#webr_edit#:#Редагувати Веб Ресурс
+common#:#webr_edit_item#:#Редагувати Веб Ресурс
 common#:#webr_edit_permission#:#Змінити настройки прав
 common#:#webr_fillout_all#:#Будь ласка заповніть усі необхідні поля.
 common#:#webr_item_updated#:#Збережені модифікації
-common#:#webr_join#:#Підписатись на веб ресурс###16 Mar 2005 content changed
+common#:#webr_join#:#Підписатись на Веб Ресурс
 common#:#webr_last_check#:#Остання перевірка
 common#:#webr_last_check_table#:#Остання перевірка:
-common#:#webr_leave#:#Відписатись від веб ресурсу###16 Mar 2005 content changed
+common#:#webr_leave#:#Відписатись від Веб Ресурсу
 common#:#webr_modified_items#:#Збережені модифікації.
 common#:#webr_never_checked#:#Ніколи не перевірявся
-common#:#webr_new#:#Додати новий веб ресурс###16 Mar 2005 content changed
-common#:#webr_no_items_created#:#Немає створених веб ресурсів###16 Mar 2005 content changed
-common#:#webr_read#:#Доступ на читання до веб ресурсу###16 Mar 2005 content changed
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
-common#:#webr_visible#:#веб ресурс є видимим###16 Mar 2005 content changed
-common#:#webr_write#:#Редагувати веб ресурс###16 Mar 2005 content changed
+common#:#webr_new#:#Додати новий Веб Ресурс
+common#:#webr_no_items_created#:#Немає створених Веб Ресурсів
+common#:#webr_read#:#Доступ на читання до Веб Ресурсу
+common#:#webr_sure_delete_items#:#Ви дійсно бажаєье видалити наступні Веб Ресурси?
+common#:#webr_visible#:#Веб Ресурс є видимим
+common#:#webr_write#:#Редагувати Веб Ресурс
 common#:#webservices#:#Вебсервіси
 common#:#week#:#Тиждень
 common#:#weekly#:#тижневий
@@ -3099,7 +3099,7 @@ crs#:#crs_info_reg_confirmation#:#Цей курс потребує підтве�
 crs#:#crs_info_reg_deactivated#:#Немає можливих реєстрацій
 crs#:#crs_info_reg_direct#:#Необхідно зареєструватись в цьому курсі
 crs#:#crs_info_reg_password#:#Реєстрація потребує дійсного паролю.
-crs#:#crs_info_start#:#Будь ласка працюйте з усіма наведеними вище об'єктами курсу.<br />Після того як ви обробите усі об'єкти помічені червоним нові об'єкти курсу будуть активовані.###18 Mar 2005 content changed
+crs#:#crs_info_start#:#Будь ласка працюйте з усіма наведеними вище об'єктами курсу.<br />Після того як ви обробите усі об'єкти помічені червоним нові об'єкти курсу будуть активовані.
 crs#:#crs_learning_materials#:#Учбові матеріали
 crs#:#crs_list_users#:#Список користувачів
 crs#:#crs_lm_assignment#:#Призначення учбових матеріалів
@@ -3506,7 +3506,7 @@ dateplaner#:#viewlist#:#огляд
 dateplaner#:#week#:#тиждень
 dateplaner#:#year#:#рік
 forum#:#forums#:#Форуми
-forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
+forum#:#forums_all_threads_marked_read#:#Усі теми помічені як прочитані
 forum#:#forums_articles#:#Пост
 forum#:#forums_attachments#:#Прикріплення
 forum#:#forums_attachments_add#:#Додати прикріплення
@@ -3581,7 +3581,7 @@ jscalendar#:#l_th#:#Четвер
 jscalendar#:#l_tu#:#Вівторок
 jscalendar#:#l_we#:#Середа
 jscalendar#:#next_month#:#Наступний місяць (hold for menu)
-jscalendar#:#next_year#:#Наступний рік (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#next_year#:#Наступний рік (hold for menu)
 jscalendar#:#open_calendar#:#Клікніть тут для того щоб відкрити календар для вибору дати (потрібен JavaScript!)
 jscalendar#:#part_today#:# (сьогодні)
 jscalendar#:#prev_month#:#Попередній місяць (hold for menu)
@@ -3660,28 +3660,28 @@ mail#:#mail_message_send#:#Повідомлення відіслане
 mail#:#mail_move_error#:#Помилка переміщення пошти
 mail#:#mail_move_to#:#Перемістити в:
 mail#:#mail_moved#:#Пошта переміщена
-mail#:#mail_moved_to_trash#:#Пошта була переміщена в смітник###14 Sep 2004 content changed
+mail#:#mail_moved_to_trash#:#Пошта переміщена в смітник
 mail#:#mail_new_file#:#Додати новий файл:
 mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
 mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
-mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати зовнішні листи###15 May 2004 content changed
+mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати зовнішні листи
 mail#:#mail_options_of#:#Опції
 mail#:#mail_options_saved#:#Опції збережені
 mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
-mail#:#mail_s#:#Пошта###14 Sep 2004 content changed
-mail#:#mail_s_unread#:#Непрочитана пошта###14 Sep 2004 content changed
+mail#:#mail_s#:#Пошта
+mail#:#mail_s_unread#:#Непрочитана Пошта
 mail#:#mail_saved#:#Повідомлення було збережено
-mail#:#mail_search_addressbook#:#пошук в адресній книзі###14 Sep 2004 content changed
+mail#:#mail_search_addressbook#:#пошук в адресній книзі
 mail#:#mail_search_system#:#пошук в системі
-mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис###14 Sep 2004 content changed
-mail#:#mail_select_one_file#:#Ви маєте вибрати один файл###14 Sep 2004 content changed
-mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту###14 Sep 2004 content changed
+mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис
+mail#:#mail_select_one_file#:#Ви маєте вибрати один файл
+mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту
 mail#:#mail_sure_delete_entry#:#Ви впевнені що бажаєте видалити наступні входження
 mail#:#mail_sure_delete_file#:#Файл буде остаточно видалено
-mail#:#mail_sure_delete_folder#:#Папка та її вміст буде остаточно видалена###14 Sep 2004 content changed
+mail#:#mail_sure_delete_folder#:#Папка та її вміст будуть остаточно видалені
 mail#:#mail_to_search#:#Шукати
-mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси###14 Sep 2004 content changed
-mail#:#search_bc_recipient#:#Шукати BC Одержувача###14 Sep 2004 content changed
+mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси
+mail#:#search_bc_recipient#:#Шукати BC Одержувача
 mail#:#search_cc_recipient#:#Шукати CC Одержувача
 meta#:#meta_accessibility_restrictions#:#Доступність Обмежень
 meta#:#meta_active#:#Активний
@@ -3690,243 +3690,243 @@ meta#:#meta_annotation#:#Аннотація
 meta#:#meta_atomic#:#Атомарний
 meta#:#meta_author#:#Автор
 meta#:#meta_browser#:#Браузер
-meta#:#meta_c_AD#:#Andorra###05 Nov 2004 new variable
-meta#:#meta_c_AE#:#United Arab Emirates###05 Nov 2004 new variable
-meta#:#meta_c_AF#:#Afghanistan###05 Nov 2004 new variable
-meta#:#meta_c_AG#:#Antigua And Barbuda###05 Nov 2004 new variable
-meta#:#meta_c_AI#:#Anguilla###05 Nov 2004 new variable
-meta#:#meta_c_AL#:#Albania###05 Nov 2004 new variable
-meta#:#meta_c_AM#:#Armenia###05 Nov 2004 new variable
-meta#:#meta_c_AN#:#Netherlands Antilles###05 Nov 2004 new variable
-meta#:#meta_c_AO#:#Angola###05 Nov 2004 new variable
-meta#:#meta_c_AQ#:#Antarctica###05 Nov 2004 new variable
-meta#:#meta_c_AR#:#Argentina###05 Nov 2004 new variable
-meta#:#meta_c_AS#:#American Samoa###05 Nov 2004 new variable
-meta#:#meta_c_AT#:#Austria###05 Nov 2004 new variable
-meta#:#meta_c_AU#:#Australia###05 Nov 2004 new variable
-meta#:#meta_c_AW#:#Aruba###05 Nov 2004 new variable
-meta#:#meta_c_AZ#:#Azerbaijan###05 Nov 2004 new variable
-meta#:#meta_c_BA#:#Bosnia And Herzegowina###05 Nov 2004 new variable
-meta#:#meta_c_BB#:#Barbados###05 Nov 2004 new variable
-meta#:#meta_c_BD#:#Bangladesh###05 Nov 2004 new variable
-meta#:#meta_c_BE#:#Belgium###05 Nov 2004 new variable
-meta#:#meta_c_BF#:#Burkina Faso###05 Nov 2004 new variable
-meta#:#meta_c_BG#:#Bulgaria###05 Nov 2004 new variable
-meta#:#meta_c_BH#:#Bahrain###05 Nov 2004 new variable
-meta#:#meta_c_BI#:#Burundi###05 Nov 2004 new variable
-meta#:#meta_c_BJ#:#Benin###05 Nov 2004 new variable
-meta#:#meta_c_BM#:#Bermuda###05 Nov 2004 new variable
-meta#:#meta_c_BN#:#Brunei Darussalam###05 Nov 2004 new variable
-meta#:#meta_c_BO#:#Bolivia###05 Nov 2004 new variable
-meta#:#meta_c_BR#:#Brazil###05 Nov 2004 new variable
-meta#:#meta_c_BS#:#Bahamas###05 Nov 2004 new variable
-meta#:#meta_c_BT#:#Bhutan###05 Nov 2004 new variable
-meta#:#meta_c_BV#:#Bouvet Island###05 Nov 2004 new variable
-meta#:#meta_c_BW#:#Botswana###05 Nov 2004 new variable
-meta#:#meta_c_BY#:#Belarus###05 Nov 2004 new variable
-meta#:#meta_c_BZ#:#Belize###05 Nov 2004 new variable
-meta#:#meta_c_CA#:#Canada###05 Nov 2004 new variable
-meta#:#meta_c_CC#:#Cocos (Keeling) Islands###05 Nov 2004 new variable
-meta#:#meta_c_CF#:#Central African Republic###05 Nov 2004 new variable
-meta#:#meta_c_CG#:#Congo###05 Nov 2004 new variable
-meta#:#meta_c_CH#:#Switzerland###05 Nov 2004 new variable
-meta#:#meta_c_CI#:#Cote D' Ivoire###05 Nov 2004 new variable
-meta#:#meta_c_CK#:#Cook Islands###05 Nov 2004 new variable
-meta#:#meta_c_CL#:#Chile###05 Nov 2004 new variable
-meta#:#meta_c_CM#:#Cameroon###05 Nov 2004 new variable
-meta#:#meta_c_CN#:#China###05 Nov 2004 new variable
-meta#:#meta_c_CO#:#Colombia###05 Nov 2004 new variable
-meta#:#meta_c_CR#:#Costa Rica###05 Nov 2004 new variable
-meta#:#meta_c_CU#:#Cuba###05 Nov 2004 new variable
-meta#:#meta_c_CV#:#Cape Verde###05 Nov 2004 new variable
-meta#:#meta_c_CX#:#Christmas Island###05 Nov 2004 new variable
-meta#:#meta_c_CY#:#Cyprus###05 Nov 2004 new variable
-meta#:#meta_c_CZ#:#Czech Republic###05 Nov 2004 new variable
-meta#:#meta_c_DE#:#Germany###05 Nov 2004 new variable
-meta#:#meta_c_DJ#:#Djibouti###05 Nov 2004 new variable
-meta#:#meta_c_DK#:#Denmark###05 Nov 2004 new variable
-meta#:#meta_c_DM#:#Dominica###05 Nov 2004 new variable
-meta#:#meta_c_DO#:#Dominican Republic###05 Nov 2004 new variable
-meta#:#meta_c_DZ#:#Algeria###05 Nov 2004 new variable
-meta#:#meta_c_EC#:#Ecuador###05 Nov 2004 new variable
-meta#:#meta_c_EE#:#Estonia###05 Nov 2004 new variable
-meta#:#meta_c_EG#:#Egypt###05 Nov 2004 new variable
-meta#:#meta_c_EH#:#Western Sahara###05 Nov 2004 new variable
-meta#:#meta_c_ER#:#Eritrea###05 Nov 2004 new variable
-meta#:#meta_c_ES#:#Spain###05 Nov 2004 new variable
-meta#:#meta_c_ET#:#Ethiopia###05 Nov 2004 new variable
-meta#:#meta_c_FI#:#Finland###05 Nov 2004 new variable
-meta#:#meta_c_FJ#:#Fiji###05 Nov 2004 new variable
-meta#:#meta_c_FK#:#Falkland Islands###05 Nov 2004 new variable
-meta#:#meta_c_FM#:#Micronesia###05 Nov 2004 new variable
-meta#:#meta_c_FO#:#Faroe Islands###05 Nov 2004 new variable
-meta#:#meta_c_FR#:#France###05 Nov 2004 new variable
-meta#:#meta_c_FX#:#France, Metropolitan###05 Nov 2004 new variable
-meta#:#meta_c_GA#:#Gabon###05 Nov 2004 new variable
-meta#:#meta_c_GB#:#United Kingdom###05 Nov 2004 new variable
-meta#:#meta_c_GD#:#Grenada###05 Nov 2004 new variable
-meta#:#meta_c_GE#:#Giorgia###05 Nov 2004 new variable
-meta#:#meta_c_GF#:#French Guiana###05 Nov 2004 new variable
-meta#:#meta_c_GH#:#Ghana###05 Nov 2004 new variable
-meta#:#meta_c_GI#:#Gibraltar###05 Nov 2004 new variable
-meta#:#meta_c_GL#:#Greenland###05 Nov 2004 new variable
-meta#:#meta_c_GM#:#Gambia###05 Nov 2004 new variable
-meta#:#meta_c_GN#:#Guinea###05 Nov 2004 new variable
-meta#:#meta_c_GP#:#Guadeloupe###05 Nov 2004 new variable
-meta#:#meta_c_GQ#:#Equatorial Guinea###05 Nov 2004 new variable
-meta#:#meta_c_GR#:#Greece###05 Nov 2004 new variable
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###05 Nov 2004 new variable
-meta#:#meta_c_GT#:#Guatemala###05 Nov 2004 new variable
-meta#:#meta_c_GU#:#Guam###05 Nov 2004 new variable
-meta#:#meta_c_GW#:#Guinea-Bissau###05 Nov 2004 new variable
-meta#:#meta_c_GY#:#Guyana###05 Nov 2004 new variable
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands###05 Nov 2004 new variable
-meta#:#meta_c_HN#:#Honduras###05 Nov 2004 new variable
-meta#:#meta_c_HR#:#Croatia###05 Nov 2004 new variable
-meta#:#meta_c_HT#:#Haiti###05 Nov 2004 new variable
-meta#:#meta_c_HU#:#Hungary###05 Nov 2004 new variable
-meta#:#meta_c_ID#:#Indonesia###05 Nov 2004 new variable
-meta#:#meta_c_IE#:#Ireland###05 Nov 2004 new variable
-meta#:#meta_c_IL#:#Israel###05 Nov 2004 new variable
-meta#:#meta_c_IN#:#India###05 Nov 2004 new variable
-meta#:#meta_c_IO#:#British Indian Ocean Territory###05 Nov 2004 new variable
-meta#:#meta_c_IQ#:#Iraq###05 Nov 2004 new variable
-meta#:#meta_c_IR#:#Iran###05 Nov 2004 new variable
-meta#:#meta_c_IS#:#Iceland###05 Nov 2004 new variable
-meta#:#meta_c_IT#:#Italy###05 Nov 2004 new variable
-meta#:#meta_c_JM#:#Jamaica###05 Nov 2004 new variable
-meta#:#meta_c_JO#:#Jordan###05 Nov 2004 new variable
-meta#:#meta_c_JP#:#Japan###05 Nov 2004 new variable
-meta#:#meta_c_KE#:#Kenya###05 Nov 2004 new variable
-meta#:#meta_c_KG#:#Kyrgyzstan###05 Nov 2004 new variable
-meta#:#meta_c_KH#:#Cambodia###05 Nov 2004 new variable
-meta#:#meta_c_KI#:#Kiribati###05 Nov 2004 new variable
-meta#:#meta_c_KM#:#Comoros###05 Nov 2004 new variable
-meta#:#meta_c_KN#:#Saint Kitts And Nevis###05 Nov 2004 new variable
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)###05 Nov 2004 new variable
-meta#:#meta_c_KR#:#South Korea (Republic Of Korea)###05 Nov 2004 new variable
-meta#:#meta_c_KW#:#Kuwait###05 Nov 2004 new variable
-meta#:#meta_c_KY#:#Cayman Islands###05 Nov 2004 new variable
-meta#:#meta_c_KZ#:#Kazakhstan###05 Nov 2004 new variable
-meta#:#meta_c_LA#:#Lao People's Republic###05 Nov 2004 new variable
-meta#:#meta_c_LB#:#Lebanon###05 Nov 2004 new variable
-meta#:#meta_c_LC#:#Saint Lucia###05 Nov 2004 new variable
-meta#:#meta_c_LI#:#Liechtenstein###05 Nov 2004 new variable
-meta#:#meta_c_LK#:#Sri Lanka###05 Nov 2004 new variable
-meta#:#meta_c_LR#:#Liberia###05 Nov 2004 new variable
-meta#:#meta_c_LS#:#Lesotho###05 Nov 2004 new variable
-meta#:#meta_c_LT#:#Lithunia###05 Nov 2004 new variable
-meta#:#meta_c_LU#:#Luxembourg###05 Nov 2004 new variable
-meta#:#meta_c_LV#:#Latvia###05 Nov 2004 new variable
-meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###05 Nov 2004 new variable
-meta#:#meta_c_MA#:#Morocco###05 Nov 2004 new variable
-meta#:#meta_c_MC#:#Monaco###05 Nov 2004 new variable
-meta#:#meta_c_MD#:#Moldova###05 Nov 2004 new variable
-meta#:#meta_c_MG#:#Madagascar###05 Nov 2004 new variable
-meta#:#meta_c_MH#:#Marshall Islands###05 Nov 2004 new variable
-meta#:#meta_c_MK#:#Macedonia###05 Nov 2004 new variable
-meta#:#meta_c_ML#:#Mali###05 Nov 2004 new variable
-meta#:#meta_c_MM#:#Myanmar###05 Nov 2004 new variable
-meta#:#meta_c_MN#:#Mongolia###05 Nov 2004 new variable
-meta#:#meta_c_MO#:#Macau###05 Nov 2004 new variable
-meta#:#meta_c_MP#:#Northern Mariana Islands###05 Nov 2004 new variable
-meta#:#meta_c_MQ#:#Martinique###05 Nov 2004 new variable
-meta#:#meta_c_MR#:#Mauritania###05 Nov 2004 new variable
-meta#:#meta_c_MS#:#Montserrat###05 Nov 2004 new variable
-meta#:#meta_c_MT#:#Malta###05 Nov 2004 new variable
-meta#:#meta_c_MU#:#Mauritius###05 Nov 2004 new variable
-meta#:#meta_c_MV#:#Maldives###05 Nov 2004 new variable
-meta#:#meta_c_MW#:#Malawi###05 Nov 2004 new variable
-meta#:#meta_c_MX#:#Mexico###05 Nov 2004 new variable
-meta#:#meta_c_MY#:#Malaysia###05 Nov 2004 new variable
-meta#:#meta_c_MZ#:#Mozambique###05 Nov 2004 new variable
-meta#:#meta_c_NA#:#Namibia###05 Nov 2004 new variable
-meta#:#meta_c_NC#:#New Caledonia###05 Nov 2004 new variable
-meta#:#meta_c_NE#:#Niger###05 Nov 2004 new variable
-meta#:#meta_c_NF#:#Norfolk Island###05 Nov 2004 new variable
-meta#:#meta_c_NG#:#Nigeria###05 Nov 2004 new variable
-meta#:#meta_c_NI#:#Nicaragua###05 Nov 2004 new variable
-meta#:#meta_c_NL#:#Netherlands###05 Nov 2004 new variable
-meta#:#meta_c_NO#:#Norway###05 Nov 2004 new variable
-meta#:#meta_c_NP#:#Nepal###05 Nov 2004 new variable
-meta#:#meta_c_NR#:#Nauru###05 Nov 2004 new variable
-meta#:#meta_c_NU#:#Niue###05 Nov 2004 new variable
-meta#:#meta_c_NZ#:#New Zealand###05 Nov 2004 new variable
-meta#:#meta_c_OM#:#Oman###05 Nov 2004 new variable
-meta#:#meta_c_PA#:#Panama###05 Nov 2004 new variable
-meta#:#meta_c_PE#:#Peru###05 Nov 2004 new variable
-meta#:#meta_c_PF#:#French Polynesia###05 Nov 2004 new variable
-meta#:#meta_c_PG#:#Papua New Guinea###05 Nov 2004 new variable
-meta#:#meta_c_PH#:#Philippines###05 Nov 2004 new variable
-meta#:#meta_c_PK#:#Pakistan###05 Nov 2004 new variable
-meta#:#meta_c_PL#:#Poland###05 Nov 2004 new variable
-meta#:#meta_c_PM#:#St. Pierre And Miquelon###05 Nov 2004 new variable
-meta#:#meta_c_PN#:#Pitcairn###05 Nov 2004 new variable
-meta#:#meta_c_PR#:#Puerto Rico###05 Nov 2004 new variable
-meta#:#meta_c_PT#:#Portugal###05 Nov 2004 new variable
-meta#:#meta_c_PW#:#Palau###05 Nov 2004 new variable
-meta#:#meta_c_PY#:#Paraguay###05 Nov 2004 new variable
-meta#:#meta_c_QA#:#Qatar###05 Nov 2004 new variable
-meta#:#meta_c_RE#:#Reunion###05 Nov 2004 new variable
-meta#:#meta_c_RO#:#Romania###05 Nov 2004 new variable
-meta#:#meta_c_RU#:#Ran Federation###05 Nov 2004 new variable
-meta#:#meta_c_RW#:#Rwanda###05 Nov 2004 new variable
-meta#:#meta_c_SA#:#Saudi Arabia###05 Nov 2004 new variable
-meta#:#meta_c_SB#:#Solomon Islands###05 Nov 2004 new variable
-meta#:#meta_c_SC#:#Seychelles###05 Nov 2004 new variable
-meta#:#meta_c_SD#:#Sudan###05 Nov 2004 new variable
-meta#:#meta_c_SE#:#Sweden###05 Nov 2004 new variable
-meta#:#meta_c_SG#:#Singapore###05 Nov 2004 new variable
-meta#:#meta_c_SH#:#St. Helena###05 Nov 2004 new variable
-meta#:#meta_c_SI#:#Slovenia###05 Nov 2004 new variable
-meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands###05 Nov 2004 new variable
-meta#:#meta_c_SK#:#Slovakia###05 Nov 2004 new variable
-meta#:#meta_c_SL#:#Siearra Leone###05 Nov 2004 new variable
-meta#:#meta_c_SM#:#San Marino###05 Nov 2004 new variable
-meta#:#meta_c_SN#:#Senegal###05 Nov 2004 new variable
-meta#:#meta_c_SO#:#Somalia###05 Nov 2004 new variable
-meta#:#meta_c_SR#:#Suriname###05 Nov 2004 new variable
-meta#:#meta_c_ST#:#Sao Tome And Principe###05 Nov 2004 new variable
-meta#:#meta_c_SV#:#El Salvador###05 Nov 2004 new variable
-meta#:#meta_c_SY#:#Syrian Arab Republic###05 Nov 2004 new variable
-meta#:#meta_c_SZ#:#Swaziland###05 Nov 2004 new variable
-meta#:#meta_c_TC#:#Turks And Caicos Islands###05 Nov 2004 new variable
-meta#:#meta_c_TD#:#Chad###05 Nov 2004 new variable
-meta#:#meta_c_TF#:#French Southern Territories###05 Nov 2004 new variable
-meta#:#meta_c_TG#:#Togo###05 Nov 2004 new variable
-meta#:#meta_c_TH#:#Thailand###05 Nov 2004 new variable
-meta#:#meta_c_TJ#:#Tajikistan###05 Nov 2004 new variable
-meta#:#meta_c_TK#:#Tokelau###05 Nov 2004 new variable
-meta#:#meta_c_TM#:#Turkmenistan###05 Nov 2004 new variable
-meta#:#meta_c_TN#:#Tunisia###05 Nov 2004 new variable
-meta#:#meta_c_TO#:#Tonga###05 Nov 2004 new variable
-meta#:#meta_c_TP#:#East Timor###05 Nov 2004 new variable
-meta#:#meta_c_TR#:#Turkey###05 Nov 2004 new variable
-meta#:#meta_c_TT#:#Trinidad And Tobago###05 Nov 2004 new variable
-meta#:#meta_c_TV#:#Tuvalu###05 Nov 2004 new variable
-meta#:#meta_c_TW#:#Taiwan###05 Nov 2004 new variable
-meta#:#meta_c_TZ#:#Tanzania###05 Nov 2004 new variable
-meta#:#meta_c_UA#:#Ukraine###05 Nov 2004 new variable
-meta#:#meta_c_UG#:#Uganda###05 Nov 2004 new variable
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###05 Nov 2004 new variable
-meta#:#meta_c_US#:#U.S.A###05 Nov 2004 new variable
-meta#:#meta_c_UY#:#Uruguay###05 Nov 2004 new variable
-meta#:#meta_c_UZ#:#Uzbekistan###05 Nov 2004 new variable
-meta#:#meta_c_VA#:#Vatican City State###05 Nov 2004 new variable
-meta#:#meta_c_VC#:#Saint Vincent And The Grenadines###05 Nov 2004 new variable
-meta#:#meta_c_VE#:#Venezuela###05 Nov 2004 new variable
-meta#:#meta_c_VG#:#Virgin Islands (British)###05 Nov 2004 new variable
-meta#:#meta_c_VI#:#Virgin Islands (US)###05 Nov 2004 new variable
-meta#:#meta_c_VN#:#Viet Nam###05 Nov 2004 new variable
-meta#:#meta_c_VU#:#Vanuatu###05 Nov 2004 new variable
-meta#:#meta_c_WF#:#Wallis And Futuna Islands###05 Nov 2004 new variable
-meta#:#meta_c_WS#:#Samoa###05 Nov 2004 new variable
-meta#:#meta_c_YE#:#Yemen###05 Nov 2004 new variable
-meta#:#meta_c_YT#:#Mayotte###05 Nov 2004 new variable
-meta#:#meta_c_ZA#:#South Africa###05 Nov 2004 new variable
-meta#:#meta_c_ZM#:#Zambia###05 Nov 2004 new variable
-meta#:#meta_c_ZR#:#Zaire###05 Nov 2004 new variable
-meta#:#meta_c_ZW#:#Zimbabwe###05 Nov 2004 new variable
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#United Arab Emirates
+meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AG#:#Antigua And Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albania
+meta#:#meta_c_AM#:#Armenia
+meta#:#meta_c_AN#:#Netherlands Antilles
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarctica
+meta#:#meta_c_AR#:#Argentina
+meta#:#meta_c_AS#:#American Samoa
+meta#:#meta_c_AT#:#Austria
+meta#:#meta_c_AU#:#Australia
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbaijan
+meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BE#:#Belgium
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgaria
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BO#:#Bolivia
+meta#:#meta_c_BR#:#Brazil
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Canada
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands
+meta#:#meta_c_CF#:#Central African Republic
+meta#:#meta_c_CG#:#Congo
+meta#:#meta_c_CH#:#Switzerland
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Cameroon
+meta#:#meta_c_CN#:#China
+meta#:#meta_c_CO#:#Colombia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CV#:#Cape Verde
+meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CY#:#Cyprus
+meta#:#meta_c_CZ#:#Czech Republic
+meta#:#meta_c_DE#:#Germany
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Denmark
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Dominican Republic
+meta#:#meta_c_DZ#:#Algeria
+meta#:#meta_c_EC#:#Ecuador
+meta#:#meta_c_EE#:#Estonia
+meta#:#meta_c_EG#:#Egypt
+meta#:#meta_c_EH#:#Western Sahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Spain
+meta#:#meta_c_ET#:#Ethiopia
+meta#:#meta_c_FI#:#Finland
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FK#:#Falkland Islands
+meta#:#meta_c_FM#:#Micronesia
+meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FR#:#France
+meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#United Kingdom
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Giorgia
+meta#:#meta_c_GF#:#French Guiana
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Equatorial Guinea
+meta#:#meta_c_GR#:#Greece
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Croatia
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Hungary
+meta#:#meta_c_ID#:#Indonesia
+meta#:#meta_c_IE#:#Ireland
+meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IQ#:#Iraq
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IS#:#Iceland
+meta#:#meta_c_IT#:#Italy
+meta#:#meta_c_JM#:#Jamaica
+meta#:#meta_c_JO#:#Jordan
+meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KH#:#Cambodia
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KY#:#Cayman Islands
+meta#:#meta_c_KZ#:#Kazakhstan
+meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LB#:#Lebanon
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LU#:#Luxembourg
+meta#:#meta_c_LV#:#Latvia
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
+meta#:#meta_c_MA#:#Morocco
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Moldova
+meta#:#meta_c_MG#:#Madagascar
+meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_MK#:#Macedonia
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongolia
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritania
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Maldives
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexico
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MZ#:#Mozambique
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Norfolk Island
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Netherlands
+meta#:#meta_c_NO#:#Norway
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#New Zealand
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#French Polynesia
+meta#:#meta_c_PG#:#Papua New Guinea
+meta#:#meta_c_PH#:#Philippines
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Poland
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Qatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Romania
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Rwanda
+meta#:#meta_c_SA#:#Saudi Arabia
+meta#:#meta_c_SB#:#Solomon Islands
+meta#:#meta_c_SC#:#Seychelles
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Sweden
+meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SI#:#Slovenia
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
+meta#:#meta_c_SK#:#Slovakia
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SY#:#Syrian Arab Republic
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TD#:#Chad
+meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TJ#:#Tajikistan
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#East Timor
+meta#:#meta_c_TR#:#Turkey
+meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VA#:#Vatican City State
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin Islands (British)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Yemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#South Africa
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_c_ZZ#:#Інша Країна
 meta#:#meta_catalog#:#Каталог
 meta#:#meta_choose_element#:#Будь ласка виберіть елемент що ви бажаєте додати!
@@ -3943,7 +3943,7 @@ meta#:#meta_coverage#:#Покриття
 meta#:#meta_date#:#Дата
 meta#:#meta_delete#:#Видалити
 meta#:#meta_description#:#Опис
-meta#:#meta_diagramm#:#Діаграма###14 Sep 2004 content changed
+meta#:#meta_diagramm#:#Діаграма
 meta#:#meta_difficulty#:#Складність
 meta#:#meta_dificult#:#Складний
 meta#:#meta_draft#:#Чернетка
@@ -3963,13 +3963,13 @@ meta#:#meta_final#:#Фінал
 meta#:#meta_format#:#Формат
 meta#:#meta_general#:#Загальний
 meta#:#meta_graph#:#Графік
-meta#:#meta_has_format#:#Has Format###05 Nov 2004 new variable
-meta#:#meta_has_part#:#Has Part###05 Nov 2004 new variable
-meta#:#meta_has_version#:#Has Version###05 Nov 2004 new variable
+meta#:#meta_has_format#:#Має формат
+meta#:#meta_has_part#:#Має Частину
+meta#:#meta_has_version#:#Має Версію
 meta#:#meta_hierarchical#:#Ієрархічний
 meta#:#meta_high#:#Високий
 meta#:#meta_higher_education#:#Вища Освіта
-meta#:#meta_id#:#Id###05 Nov 2004 new variable
+meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Ідея
 meta#:#meta_identifier#:#Ідентифікатор
 meta#:#meta_index#:#Індекс
@@ -3986,145 +3986,145 @@ meta#:#meta_is_required_by#:#Потребується
 meta#:#meta_is_version_of#:#Є Версією
 meta#:#meta_keyword#:#Ключові слова
 meta#:#meta_kind#:#Тип
-meta#:#meta_l_aa#:#afar###14 Sep 2004 content changed
-meta#:#meta_l_ab#:#abkhazian###14 Sep 2004 content changed
-meta#:#meta_l_af#:#afrikaans###14 Sep 2004 content changed
-meta#:#meta_l_am#:#amharic###14 Sep 2004 content changed
-meta#:#meta_l_ar#:#arabic###14 Sep 2004 content changed
-meta#:#meta_l_as#:#assamese###14 Sep 2004 content changed
-meta#:#meta_l_ay#:#aymara###14 Sep 2004 content changed
-meta#:#meta_l_az#:#azerbaijani###14 Sep 2004 content changed
-meta#:#meta_l_ba#:#bashkir###14 Sep 2004 content changed
-meta#:#meta_l_be#:#byelorussian###14 Sep 2004 content changed
-meta#:#meta_l_bg#:#bulgarian###14 Sep 2004 content changed
-meta#:#meta_l_bh#:#bihari###14 Sep 2004 content changed
-meta#:#meta_l_bi#:#bislama###14 Sep 2004 content changed
-meta#:#meta_l_bn#:#bengali;bangla###14 Sep 2004 content changed
-meta#:#meta_l_bo#:#tibetan###14 Sep 2004 content changed
-meta#:#meta_l_br#:#breton###14 Sep 2004 content changed
-meta#:#meta_l_ca#:#catalan###14 Sep 2004 content changed
-meta#:#meta_l_co#:#corsican###14 Sep 2004 content changed
-meta#:#meta_l_cs#:#czech###14 Sep 2004 content changed
-meta#:#meta_l_cy#:#welsh###14 Sep 2004 content changed
-meta#:#meta_l_da#:#danish###14 Sep 2004 content changed
-meta#:#meta_l_de#:#german###14 Sep 2004 content changed
-meta#:#meta_l_dz#:#bhutani###14 Sep 2004 content changed
-meta#:#meta_l_el#:#greek###14 Sep 2004 content changed
-meta#:#meta_l_en#:#english###14 Sep 2004 content changed
-meta#:#meta_l_eo#:#esperanto###14 Sep 2004 content changed
-meta#:#meta_l_es#:#spanish###14 Sep 2004 content changed
-meta#:#meta_l_et#:#estonian###14 Sep 2004 content changed
-meta#:#meta_l_eu#:#basque###14 Sep 2004 content changed
-meta#:#meta_l_fa#:#persian (farsi)###14 Sep 2004 content changed
-meta#:#meta_l_fi#:#finnish###14 Sep 2004 content changed
-meta#:#meta_l_fj#:#fiji###14 Sep 2004 content changed
-meta#:#meta_l_fo#:#faroese###14 Sep 2004 content changed
-meta#:#meta_l_fr#:#french###14 Sep 2004 content changed
-meta#:#meta_l_fy#:#frisian###14 Sep 2004 content changed
-meta#:#meta_l_ga#:#irish###14 Sep 2004 content changed
-meta#:#meta_l_gd#:#scots gaelic###14 Sep 2004 content changed
-meta#:#meta_l_gl#:#galician###14 Sep 2004 content changed
-meta#:#meta_l_gn#:#guarani###14 Sep 2004 content changed
-meta#:#meta_l_gu#:#gujarati###14 Sep 2004 content changed
-meta#:#meta_l_ha#:#hausa###14 Sep 2004 content changed
-meta#:#meta_l_he#:#hebrew###14 Sep 2004 content changed
-meta#:#meta_l_hi#:#hindi###14 Sep 2004 content changed
-meta#:#meta_l_hr#:#croatian###14 Sep 2004 content changed
-meta#:#meta_l_hu#:#hungarian###14 Sep 2004 content changed
-meta#:#meta_l_hy#:#armenian###14 Sep 2004 content changed
-meta#:#meta_l_ia#:#interlingua###14 Sep 2004 content changed
-meta#:#meta_l_id#:#indonesian###14 Sep 2004 content changed
-meta#:#meta_l_ie#:#interlingue###14 Sep 2004 content changed
-meta#:#meta_l_ik#:#inupiak###14 Sep 2004 content changed
-meta#:#meta_l_is#:#icelandic###14 Sep 2004 content changed
-meta#:#meta_l_it#:#italian###14 Sep 2004 content changed
-meta#:#meta_l_iu#:#inuktitut###14 Sep 2004 content changed
-meta#:#meta_l_ja#:#japanese###14 Sep 2004 content changed
-meta#:#meta_l_jv#:#javanese###14 Sep 2004 content changed
-meta#:#meta_l_ka#:#georgian###14 Sep 2004 content changed
-meta#:#meta_l_kk#:#kazakh###14 Sep 2004 content changed
-meta#:#meta_l_kl#:#greenlandic###14 Sep 2004 content changed
-meta#:#meta_l_km#:#cambodian###14 Sep 2004 content changed
-meta#:#meta_l_kn#:#kannada###14 Sep 2004 content changed
-meta#:#meta_l_ko#:#korean###14 Sep 2004 content changed
-meta#:#meta_l_ks#:#kashmiri###14 Sep 2004 content changed
-meta#:#meta_l_ku#:#kurdish###14 Sep 2004 content changed
-meta#:#meta_l_ky#:#kirghiz###14 Sep 2004 content changed
-meta#:#meta_l_la#:#latin###14 Sep 2004 content changed
-meta#:#meta_l_ln#:#lingala###14 Sep 2004 content changed
-meta#:#meta_l_lo#:#laothian###14 Sep 2004 content changed
-meta#:#meta_l_lt#:#lithuanian###14 Sep 2004 content changed
-meta#:#meta_l_lv#:#latvian;lettish###14 Sep 2004 content changed
-meta#:#meta_l_mg#:#malagasy###14 Sep 2004 content changed
-meta#:#meta_l_mi#:#maori###14 Sep 2004 content changed
-meta#:#meta_l_mk#:#macedonian###14 Sep 2004 content changed
-meta#:#meta_l_ml#:#malayalam###14 Sep 2004 content changed
-meta#:#meta_l_mn#:#mongolian###14 Sep 2004 content changed
-meta#:#meta_l_mo#:#moldavian###14 Sep 2004 content changed
-meta#:#meta_l_mr#:#marathi###14 Sep 2004 content changed
-meta#:#meta_l_ms#:#malay###14 Sep 2004 content changed
-meta#:#meta_l_mt#:#maltese###14 Sep 2004 content changed
-meta#:#meta_l_my#:#burmese###14 Sep 2004 content changed
-meta#:#meta_l_na#:#nauru###14 Sep 2004 content changed
-meta#:#meta_l_ne#:#nepali###14 Sep 2004 content changed
-meta#:#meta_l_nl#:#dutch###14 Sep 2004 content changed
-meta#:#meta_l_no#:#norwegian###14 Sep 2004 content changed
-meta#:#meta_l_oc#:#occitan###14 Sep 2004 content changed
-meta#:#meta_l_om#:#afan (oromo)###14 Sep 2004 content changed
-meta#:#meta_l_or#:#oriya###14 Sep 2004 content changed
-meta#:#meta_l_pa#:#punjabi###14 Sep 2004 content changed
-meta#:#meta_l_pl#:#polish###14 Sep 2004 content changed
-meta#:#meta_l_ps#:#pashto;pushto###14 Sep 2004 content changed
-meta#:#meta_l_pt#:#portuguese###14 Sep 2004 content changed
-meta#:#meta_l_qu#:#quechua###14 Sep 2004 content changed
-meta#:#meta_l_rm#:#rhaeto-romance###14 Sep 2004 content changed
-meta#:#meta_l_rn#:#kurundi###14 Sep 2004 content changed
-meta#:#meta_l_ro#:#romanian###14 Sep 2004 content changed
-meta#:#meta_l_ru#:#russian###14 Sep 2004 content changed
-meta#:#meta_l_rw#:#kinyarwanda###14 Sep 2004 content changed
-meta#:#meta_l_sa#:#sanskrit###14 Sep 2004 content changed
-meta#:#meta_l_sd#:#sindhi###14 Sep 2004 content changed
-meta#:#meta_l_sg#:#sangho###14 Sep 2004 content changed
-meta#:#meta_l_sh#:#serbo-croatian###14 Sep 2004 content changed
-meta#:#meta_l_si#:#singhalese###14 Sep 2004 content changed
-meta#:#meta_l_sk#:#slovak###14 Sep 2004 content changed
-meta#:#meta_l_sl#:#slovenian###14 Sep 2004 content changed
-meta#:#meta_l_sm#:#samoan###14 Sep 2004 content changed
-meta#:#meta_l_sn#:#shona###14 Sep 2004 content changed
-meta#:#meta_l_so#:#somali###14 Sep 2004 content changed
-meta#:#meta_l_sq#:#albanian###14 Sep 2004 content changed
-meta#:#meta_l_sr#:#serbian###14 Sep 2004 content changed
-meta#:#meta_l_ss#:#siswati###14 Sep 2004 content changed
-meta#:#meta_l_st#:#sesotho###14 Sep 2004 content changed
-meta#:#meta_l_su#:#sundanese###14 Sep 2004 content changed
-meta#:#meta_l_sv#:#swedish###14 Sep 2004 content changed
-meta#:#meta_l_sw#:#swahili###14 Sep 2004 content changed
-meta#:#meta_l_ta#:#tamil###14 Sep 2004 content changed
-meta#:#meta_l_te#:#telugu###14 Sep 2004 content changed
-meta#:#meta_l_tg#:#tajik###14 Sep 2004 content changed
-meta#:#meta_l_th#:#thai###14 Sep 2004 content changed
-meta#:#meta_l_ti#:#tigrinya###14 Sep 2004 content changed
-meta#:#meta_l_tk#:#turkmen###14 Sep 2004 content changed
-meta#:#meta_l_tl#:#tagalog###14 Sep 2004 content changed
-meta#:#meta_l_tn#:#setswana###14 Sep 2004 content changed
-meta#:#meta_l_to#:#tonga###14 Sep 2004 content changed
-meta#:#meta_l_tr#:#turkish###14 Sep 2004 content changed
-meta#:#meta_l_ts#:#tsonga###14 Sep 2004 content changed
-meta#:#meta_l_tt#:#tatar###14 Sep 2004 content changed
-meta#:#meta_l_tw#:#twi###14 Sep 2004 content changed
-meta#:#meta_l_ug#:#uigur###14 Sep 2004 content changed
-meta#:#meta_l_uk#:#ukrainian###14 Sep 2004 content changed
-meta#:#meta_l_ur#:#urdu###14 Sep 2004 content changed
-meta#:#meta_l_uz#:#uzbek###14 Sep 2004 content changed
-meta#:#meta_l_vi#:#vietnamese###14 Sep 2004 content changed
-meta#:#meta_l_vo#:#volapuk###14 Sep 2004 content changed
-meta#:#meta_l_wo#:#wolof###14 Sep 2004 content changed
-meta#:#meta_l_xh#:#xhosa###14 Sep 2004 content changed
-meta#:#meta_l_yi#:#yiddish###14 Sep 2004 content changed
-meta#:#meta_l_yo#:#yoruba###14 Sep 2004 content changed
-meta#:#meta_l_za#:#zhuang###14 Sep 2004 content changed
-meta#:#meta_l_zh#:#chinese###14 Sep 2004 content changed
-meta#:#meta_l_zu#:#zulu###14 Sep 2004 content changed
+meta#:#meta_l_aa#:#afar
+meta#:#meta_l_ab#:#abkhazian
+meta#:#meta_l_af#:#afrikaans
+meta#:#meta_l_am#:#amharic
+meta#:#meta_l_ar#:#arabic
+meta#:#meta_l_as#:#assamese
+meta#:#meta_l_ay#:#aymara
+meta#:#meta_l_az#:#azerbaijani
+meta#:#meta_l_ba#:#bashkir
+meta#:#meta_l_be#:#byelorussian
+meta#:#meta_l_bg#:#bulgarian
+meta#:#meta_l_bh#:#bihari
+meta#:#meta_l_bi#:#bislama
+meta#:#meta_l_bn#:#bengali;bangla
+meta#:#meta_l_bo#:#tibetan
+meta#:#meta_l_br#:#breton
+meta#:#meta_l_ca#:#catalan
+meta#:#meta_l_co#:#corsican
+meta#:#meta_l_cs#:#czech
+meta#:#meta_l_cy#:#welsh
+meta#:#meta_l_da#:#danish
+meta#:#meta_l_de#:#german
+meta#:#meta_l_dz#:#bhutani
+meta#:#meta_l_el#:#greek
+meta#:#meta_l_en#:#english
+meta#:#meta_l_eo#:#esperanto
+meta#:#meta_l_es#:#spanish
+meta#:#meta_l_et#:#estonian
+meta#:#meta_l_eu#:#basque
+meta#:#meta_l_fa#:#persian (farsi)
+meta#:#meta_l_fi#:#finnish
+meta#:#meta_l_fj#:#fiji
+meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fr#:#french
+meta#:#meta_l_fy#:#frisian
+meta#:#meta_l_ga#:#irish
+meta#:#meta_l_gd#:#scots gaelic
+meta#:#meta_l_gl#:#galician
+meta#:#meta_l_gn#:#guarani
+meta#:#meta_l_gu#:#gujarati
+meta#:#meta_l_ha#:#hausa
+meta#:#meta_l_he#:#hebrew
+meta#:#meta_l_hi#:#hindi
+meta#:#meta_l_hr#:#croatian
+meta#:#meta_l_hu#:#hungarian
+meta#:#meta_l_hy#:#armenian
+meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonesian
+meta#:#meta_l_ie#:#interlingue
+meta#:#meta_l_ik#:#inupiak
+meta#:#meta_l_is#:#icelandic
+meta#:#meta_l_it#:#italian
+meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_ja#:#japanese
+meta#:#meta_l_jv#:#javanese
+meta#:#meta_l_ka#:#georgian
+meta#:#meta_l_kk#:#kazakh
+meta#:#meta_l_kl#:#greenlandic
+meta#:#meta_l_km#:#cambodian
+meta#:#meta_l_kn#:#kannada
+meta#:#meta_l_ko#:#korean
+meta#:#meta_l_ks#:#kashmiri
+meta#:#meta_l_ku#:#kurdish
+meta#:#meta_l_ky#:#kirghiz
+meta#:#meta_l_la#:#latin
+meta#:#meta_l_ln#:#lingala
+meta#:#meta_l_lo#:#laothian
+meta#:#meta_l_lt#:#lithuanian
+meta#:#meta_l_lv#:#latvian;lettish
+meta#:#meta_l_mg#:#malagasy
+meta#:#meta_l_mi#:#maori
+meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_ml#:#malayalam
+meta#:#meta_l_mn#:#mongolian
+meta#:#meta_l_mo#:#moldavian
+meta#:#meta_l_mr#:#marathi
+meta#:#meta_l_ms#:#malay
+meta#:#meta_l_mt#:#maltese
+meta#:#meta_l_my#:#burmese
+meta#:#meta_l_na#:#nauru
+meta#:#meta_l_ne#:#nepali
+meta#:#meta_l_nl#:#dutch
+meta#:#meta_l_no#:#norwegian
+meta#:#meta_l_oc#:#occitan
+meta#:#meta_l_om#:#afan (oromo)
+meta#:#meta_l_or#:#oriya
+meta#:#meta_l_pa#:#punjabi
+meta#:#meta_l_pl#:#polish
+meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_pt#:#portuguese
+meta#:#meta_l_qu#:#quechua
+meta#:#meta_l_rm#:#rhaeto-romance
+meta#:#meta_l_rn#:#kurundi
+meta#:#meta_l_ro#:#romanian
+meta#:#meta_l_ru#:#russian
+meta#:#meta_l_rw#:#kinyarwanda
+meta#:#meta_l_sa#:#sanskrit
+meta#:#meta_l_sd#:#sindhi
+meta#:#meta_l_sg#:#sangho
+meta#:#meta_l_sh#:#serbo-croatian
+meta#:#meta_l_si#:#singhalese
+meta#:#meta_l_sk#:#slovak
+meta#:#meta_l_sl#:#slovenian
+meta#:#meta_l_sm#:#samoan
+meta#:#meta_l_sn#:#shona
+meta#:#meta_l_so#:#somali
+meta#:#meta_l_sq#:#albanian
+meta#:#meta_l_sr#:#serbian
+meta#:#meta_l_ss#:#siswati
+meta#:#meta_l_st#:#sesotho
+meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_sv#:#swedish
+meta#:#meta_l_sw#:#swahili
+meta#:#meta_l_ta#:#tamil
+meta#:#meta_l_te#:#telugu
+meta#:#meta_l_tg#:#tajik
+meta#:#meta_l_th#:#thai
+meta#:#meta_l_ti#:#tigrinya
+meta#:#meta_l_tk#:#turkmen
+meta#:#meta_l_tl#:#tagalog
+meta#:#meta_l_tn#:#setswana
+meta#:#meta_l_to#:#tonga
+meta#:#meta_l_tr#:#turkish
+meta#:#meta_l_ts#:#tsonga
+meta#:#meta_l_tt#:#tatar
+meta#:#meta_l_tw#:#twi
+meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_uk#:#ukrainian
+meta#:#meta_l_ur#:#urdu
+meta#:#meta_l_uz#:#uzbek
+meta#:#meta_l_vi#:#vietnamese
+meta#:#meta_l_vo#:#volapuk
+meta#:#meta_l_wo#:#wolof
+meta#:#meta_l_xh#:#xhosa
+meta#:#meta_l_yi#:#yiddish
+meta#:#meta_l_yo#:#yoruba
+meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_zh#:#chinese
+meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Мова
 meta#:#meta_learner#:#Учень
 meta#:#meta_learning_resource_type#:#Учбовий Тип Ресурса
@@ -4134,7 +4134,7 @@ meta#:#meta_linear#:#Лінійний
 meta#:#meta_local_file#:#Локальний Файл
 meta#:#meta_location#:#Місцезнаходження
 meta#:#meta_low#:#Низький
-meta#:#meta_mac_os#:#MacOS###05 Nov 2004 new variable
+meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#Менеджер
 meta#:#meta_maximum_version#:#Максимальна Версія
 meta#:#meta_medium#:#Середній
@@ -4142,27 +4142,27 @@ meta#:#meta_meta_metadata#:#Мета-Метадані
 meta#:#meta_metadatascheme#:#Схема Метаданих
 meta#:#meta_minimum_version#:#Мінімальна Версія
 meta#:#meta_mixed#:#Змішаний
-meta#:#meta_ms_windows#:#MS-Windows###05 Nov 2004 new variable
-meta#:#meta_multi_os#:#Multi-OS###05 Nov 2004 new variable
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
 meta#:#meta_name#:#Ім'я
 meta#:#meta_narrative_text#:#Описовий Текст
 meta#:#meta_networked#:#Мережевий
 meta#:#meta_new_element#:#Новий Елемент
 meta#:#meta_no#:#Ні
-meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.###14 Sep 2004 content changed
-meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.###14 Sep 2004 content changed
-meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.###14 Sep 2004 content changed
-meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.###14 Sep 2004 content changed
-meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.###14 Sep 2004 content changed
-meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.###14 Sep 2004 content changed
-meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.###14 Sep 2004 content changed
-meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.###14 Sep 2004 content changed
+meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.
+meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.
+meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.
+meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.
+meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.
+meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.
+meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.
+meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.
 meta#:#meta_none#:#Ніщо
 meta#:#meta_operating_system#:#Операційна Система
 meta#:#meta_or_composite#:#Або Композиція
 meta#:#meta_other#:#Інші
-meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа###14 Sep 2004 content changed
-meta#:#meta_pc_dos#:#PC-DOS###05 Nov 2004 new variable
+meta#:#meta_other_plattform_requirements#:#Потрібна Інша Платформа
+meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Будь ласка виберіть
 meta#:#meta_prerequisite#:#Попередня умова
 meta#:#meta_problem_statement#:#Постанова Задачі
@@ -4200,7 +4200,7 @@ meta#:#meta_type#:#Тип
 meta#:#meta_typical_age_range#:#Типовий Діапазон Віку
 meta#:#meta_typical_learning_time#:#Типовий Час Навчання
 meta#:#meta_unavailable#:#Недоступний
-meta#:#meta_unix#:#Unix###05 Nov 2004 new variable
+meta#:#meta_unix#:#Unix
 meta#:#meta_value#:#Значення
 meta#:#meta_version#:#Версія
 meta#:#meta_very_difficult#:#Дуже Складний
