@@ -95,7 +95,7 @@ if ($script != "login.php" && $script != "index.php")
 	// to do this. All rbac-classes need to be cleaned up
 		
 	// init user
-	$ilias->account =& new User($ilias->db,$AccountId);
+	$ilias->account =& new User($AccountId);
 	
 	//init language
 	$lng = new Language($ilias->account->prefs["language"]);

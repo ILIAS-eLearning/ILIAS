@@ -5,10 +5,9 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends PEAR
 * @package rbac
 */
-class RbacReview extends PEAR
+class RbacReview
 {
 	/**
 	* ilias object

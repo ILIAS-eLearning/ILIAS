@@ -18,7 +18,7 @@ if ($folder == "")
 $tpl = new Template("tpl.mail.html", true, true);
 
 //get mails from user
-$myMails = new UserMail($ilias->db, $ilias->account->Id);
+$myMails = new UserMail($ilias->account->Id);
 
 $mails = $myMails->getMail($folder);
 

@@ -14,6 +14,7 @@
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
+* 
 * @package application
 */
 class Language
@@ -47,10 +48,10 @@ class Language
 	var $lng;
 	
 	/**
-	 * languages directory
-	 * @var string
-	 * @access private
-	 */
+	* languages directory
+	* @var string
+	* @access private
+	*/
 	var $LANGUAGESDIR;
 
 	/**
@@ -61,40 +62,37 @@ class Language
 	var $MASTERLANGFILE;
 	
 	/**
-	 * default date format
-	 * @var string
-	 * @access private
-	 */
+	* default date format
+	* @var string
+	* @access private
+	*/
 	var $DEFAULTDATEFORMAT = "DD.MM.YYYY";
 
 	/**
-	 * default date format
-	 * @var string
-	 * @access private
-	 */
+	* default date format
+	* @var string
+	* @access private
+	*/
 	var $DEFAULTSEPTHOUSAND = ".";
 
 	/**
-	 * default date format
-	 * @var string
-	 * @access private
-	 */
+	* default date format
+	* @var string
+	* @access private
+	*/
 	var $DEFAULTSEPDECIMAL = ",";
 	
 	/**
-	 * constructor
-	 * 
-	 * read the single-language file and put this in an array text.
-	 * the text array is two-dimensional. First dimension is the language. 
-	 * Second dimension is the languagetopic. Content is the translation.
-	 * 
-	 * @param string lng languagecode (two characters), e.g. "de", "en", "in"
-	 * @return boolean false if reading failed
-	 * @access public
-	 * @author Peter Gabriel <pgabriel@databay.de>
-	 * @version 1.0
-	 */
-	function Language($lng)
+	* Constructor
+	* read the single-language file and put this in an array text.
+	* the text array is two-dimensional. First dimension is the language. 
+	* Second dimension is the languagetopic. Content is the translation.
+	* @access public 
+	* @param string lng languagecode (two characters), e.g. "de", "en", "in"
+	* @return boolean false if reading failed
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function Language($a_lng)
 	{
 		global $log,$ilias;
 		
@@ -113,13 +111,13 @@ class Language
 		}
 		
 		$this->setMasterFile($this->MASTERLANGFILE);
-	    $txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
-        
+		$txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
+		
 		$this->log = $log;
 		$this->text = array();
-        
+		
 		if (is_array($txt) == true)
-        {
+		{
 			foreach ($txt as $row)
 			{
 				if ($row[0]!="#")
@@ -130,37 +128,36 @@ class Language
 			}
 			
 			// set language
-			$this->lng = $lng;
+			$this->lng = $a_lng;
 			
 			return true;
-        }
-        else
-        {
+		}
+		else
+		{
 			return false;
-        }
+		}
 	}
 	
 	/**
 	* gets the text for a given topic
 	*
 	* if the topic is not in the list, the topic itself with "-" will be returned
-	* 
-	* @param string topic
-	* @return string text clear-text
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public 
+	* @param	string	topic
+	* @return	string	text clear-text
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
 	*/
-	function txt($topic)
+	function txt($a_topic)
 	{
-	    $translation = $this->text[$this->lng][$topic];
+		$translation = $this->text[$this->lng][$a_topic];
 
-	    if ($translation == "")
+		if ($translation == "")
 		{
-			$this->log->writeLanguageLog($topic);
-			return "-".$topic."-";
+			$this->log->writeLanguageLog($a_topic);
+			return "-".$a_topic."-";
 		}
-	    else
+		else
 		{
 			return $translation;
 		}
@@ -172,10 +169,10 @@ class Language
 	* returns a list (an array) with all languages installed on the system. 
 	* the functions looks for *.lang-files in the languagedirectory
 	*
-	* @return array langs
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public
+	* @return	array	langs
+ 	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
 	*/
 	function getInstalledLanguages()
 	{
@@ -216,28 +213,29 @@ class Language
 	* the format must have DD, MM, and YYYY strings
 	* formatDate replaces the strings with the current values given in str
 	*
-	* @param string date date, given in sql-format YYYY-MM-DD
-	* @param string format type (normal is as given in lang_dateformat)
-	* @return string formatted date
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public
+	* @param	string	date date, given in sql-format YYYY-MM-DD
+	* @param	string	format type (normal is as given in lang_dateformat)
+	* @return	string	formatted date
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
+	* TODO: $a_fmt ist not used!!!
 	*/
-    function fmtDate($str, $fmt="normal")
+	function fmtDate($a_str, $a_fmt="normal")
 	{
 		//read the format
-	    $date = $this->txt("lang_dateformat");
+		$date = $this->txt("lang_dateformat");
 
 		//no format defined set to defaultformat
-	    if ($date == "-lang_dateformat-")
+		if ($date == "-lang_dateformat-")
 		{
 			$date = $this->DEFAULTDATEFORMAT;
 		}
 
 		//get values from given sql-date
-		$d = substr($str,8,2);
-		$m = substr($str,5,2);
-		$y = substr($str,0,4);
+		$d = substr($a_str,8,2);
+		$m = substr($a_str,5,2);
+		$y = substr($a_str,0,4);
 		
 		//do substitutions
 		$date = ereg_replace("DD", $d, $date);
@@ -251,21 +249,21 @@ class Language
 	/** 
 	* formatting function for datetime
 	*
-	* @see fmtDate()
-	* @param string datetime given in sql-format YYYY-MM-DD HH:MM:SS
-	* @param string format type (normal is as given in lang_dateformat)
-	* @return string formatted date
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public
+	* @param	string	datetime given in sql-format YYYY-MM-DD HH:MM:SS
+	* @param	string	format type (normal is as given in lang_dateformat)
+	* @return	string	formatted date
+	* @see		fmtDate()
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
 	*/
-    function fmtDateTime($str, $fmt="normal")
+	function fmtDateTime($a_str, $a_fmt="normal")
 	{
 		//formate date-part
-	    $datetime = $this->fmtDate($str, $fmt);
+		$datetime = $this->fmtDate($a_str, $a_fmt);
 
 		//format timeformat
-		$datetime .= " ".substr($str,11,2).":".substr($str,14,2);
+		$datetime .= " ".substr($a_str,11,2).":".substr($a_str,14,2);
 		
 		//return
 		return $datetime;
@@ -278,29 +276,29 @@ class Language
 	* formats the given value with appropriate thousand and decimal
 	* separator.
 	* 
-	* @param float the float to format
-	* @param integer count of decimals
-	* @param integer display thousands separator
-	* @return string formatted number
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public
+	* @param	float		the float to format
+	* @param	integer		count of decimals
+	* @param	integer		display thousands separator
+	* @return	string		formatted number
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
 	*/
-	function fmtFloat($float, $decimals=0, $th=1)
+	function fmtFloat($a_float, $a_decimals = 0, $a_th = 1)
 	{
 		//thousandskomma?
-		if ($th==1)
+		if ($a_th == 1)
 		{
-			$th = $this->txt("sep_thousand");
+			$a_th = $this->txt("sep_thousand");
 			
-			if ($th == "-sep_thousand-")
+			if ($a_th == "-sep_thousand-")
 			{
-				$th = $this->DEFAULTSEPTHOUSAND;
+				$a_th = $this->DEFAULTSEPTHOUSAND;
 			}
 		}
 		else
 		{
-			$th="";
+			$a_th = "";
 		}
 		
 		//decimalpoint?
@@ -311,7 +309,7 @@ class Language
 			$dec = $this->DEFAULTSEPDECIMAL;
 		}
 
-		return number_format($float, $decimals, $dec, $th);
+		return number_format($a_float, $a_decimals, $dec, $a_th);
 	}
 
 	/**
@@ -319,9 +317,9 @@ class Language
 	* 
 	* returns the user agreement, but who needs it?
 	* 
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 0.1
+	* @access	public
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	0.1
  	*/
 	function getUserAgreement()
 	{
@@ -329,15 +327,15 @@ class Language
 	}
 
 	/**
-	* set MasterFile	
-	* @param string
-	* @acess public
+	* set MasterFile
+	* @access	public	
+	* @param	string
 	*/
-	function setMasterFile($langfile)
+	function setMasterFile($a_langfile)
 	{
-		if ($langfile != "")
+		if ($a_langfile != "")
 		{
-			$this->MASTERLANGFILE = $this->LANGUAGESDIR."/".$langfile;
+			$this->MASTERLANGFILE = $this->LANGUAGESDIR."/".$a_langfile;
 		}
 	}
 
@@ -347,9 +345,9 @@ class Language
 	* input is a string, the masterfile. the masterfile is used for 
 	* generating the single-language-files.
 	* 
-	* @access public
-	* @author Peter Gabriel <pgabriel@databay.de>
-	* @version 1.0
+	* @access	public
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @version	1.0
 	*/
 	function generateLanguageFiles()
 	{
@@ -429,11 +427,10 @@ class Language
 	* 
 	* if you want to install new languages you want to know which languages you can install
 	* this function gives back an array with all languages the masterfile contains
-	* 
- 	* @return array
-	* @access public
-	* @version 1.0
-	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public 
+ 	* @return	array
+	* @version	1.0
+	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
 	function getAvailableLanguages()
 	{
@@ -486,15 +483,15 @@ class Language
 	/**
 	* install a language
 	* 
-	* @param string
- 	* @return boolean
-	* @access public
-	* @version 1.0
-	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public
+	* @param	string
+ 	* @return	boolean
+	* @version	1.0
+	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
-	function installLanguage($id)
+	function installLanguage($a_id)
 	{
-		$id = trim($id);
+		$id = trim($a_id);
 		
 		$l_file = @file($this->MASTERLANGFILE);
 
@@ -551,7 +548,7 @@ class Language
 			//check content of translation, if no translation present
 			// the topic itself is returned
 			
-			if ($translation=="")
+			if ($translation == "")
 			{
 				$translation = $row[0];	
 				$this->log->write("Language: '".$row[0]."' not defined in Language '".$names[$index]."'");
@@ -568,15 +565,15 @@ class Language
 	* 
 	* this function removes the language from the system
 	*
-	* @param string 
- 	* @return boolean
-	* @access public
-	* @version 1.0
-	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public
+	* @param	string 
+ 	* @return	boolean
+	* @version	1.0
+	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
-	function deinstallLanguage($id)
+	function deinstallLanguage($a_id)
 	{
-		$id = trim($id);
+		$id = trim($a_id);
 		//TODO: check if anybody uses this language
 		//delete file and return success or failure
 		if (file_exists($this->LANGUAGESDIR."/".$id.".lang"))
@@ -597,22 +594,22 @@ class Language
 	
 	/**
 	* set the system language
-	* 
-	* @param string
+	* @access	public
+	* @param	string
 	*/
-	function setSystemLanguage($id)
+	function setSystemLanguage($a_id)
 	{
-		$this->systemLang = $id;
+		$this->systemLang = $a_id;
 	}
 
 	/**
 	* set the user language
-	* @param string
+	* @access	public
+	* @param	string
 	*/
-	function setUserLanguage($id)
+	function setUserLanguage($a_id)
 	{
-		$this->userLang = $id;
+		$this->userLang = $a_id;
 	}
-	
-} //class
+} // END class.Language
 ?>

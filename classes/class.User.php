@@ -7,14 +7,12 @@
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
 * 
-* @extends PEAR
 * @package ilias-core
 */
-class User extends PEAR
+class User
 {
 	/**
-	* User Id
-	*
+	* user_id
 	* @var		integer
 	* @access	public
 	*/
@@ -22,7 +20,6 @@ class User extends PEAR
 
 	/**
 	* Contains fixed Userdata
-	*
 	* @var		array
 	* @access	public
 	*/
@@ -30,118 +27,100 @@ class User extends PEAR
 
 	/**
 	* Contains variable Userdata (Prefs, Settings)
-	*
 	* @var		array
 	* @access	public
 	*/
 	var $prefs;
 	
 	/**
-	* database handler
-	*
-	* @var		object	DBx
-	* @access	private
+	* ilias object
+	* @var object ilias
+	* @access private
 	*/	
-	var $db;
+	var $ilias;
 	
 	/**
-	* error handling
-	* @var	object	error
-	* @acess private
-	*/
-	var $error_class;
-
-	/**
 	* Constructor
-	*
-	* setup an user object
-	*
-	* @param object database handler
-	* @param string UserID
+	* @access	public
+	* @param	integer		user_id
 	*/
-	function User(&$dbhandle, $AUsrId = "")
+	function User($a_user_id = 0)
 	{
-		$this->PEAR();
-		$this->error_class = new ErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+		global $ilias;
 
 		// Initiate variables
-		$this->db =& $dbhandle;
+		$this->ilias =& $ilias;
 		$this->data = array();
 
-		if (!empty($AUsrId) and ($AUsrId > 0))
+		if (!empty($a_user_id))
 		{
-		    $this->Id = $AUsrId;
+		    $this->Id = $a_user_id;
 		    $this->getUserdata();
 		}
 	}
 
 	/**
 	* loads a record "user" from database
-	*
 	* @access private
 	*/
 	function getUserdata ()
 	{
-		global $ilias;
-		
-		$query = "SELECT * FROM user_data
-				 LEFT JOIN rbac_ua
-				 ON user_data.usr_id=rbac_ua.usr_id
-				 WHERE user_data.usr_id='".$this->Id."'";	
-		
-		$res = $this->db->query($query);
+		$query = "SELECT * FROM user_data ".
+				 "LEFT JOIN rbac_ua ON user_data.usr_id=rbac_ua.usr_id ".
+				 "WHERE user_data.usr_id='".$this->Id."'";	
+		$res = $this->ilias->db->query($query);
 		
 		if ($res->numRows() > 0)
 		{
 			$data = $res->FetchRow(DB_FETCHMODE_ASSOC);
 
 			$this->data = array(
-				"Id"		 => $this->Id,
-				"login"      => $data["login"],
-				"passwd"     => $data["passwd"],
-				"Gender"	 => $data["gender"],
-				"Title"      => $data["title"],
-				"FirstName"  => $data["firstname"],
-				"SurName"    => $data["surname"],
-				"Email"      => $data["email"],
-				"Role"       => $data["rol_id"],
-				"LastLogin"  => $data["last_login"],
-			);
+							"Id"		 => $this->Id,
+							"login"      => $data["login"],
+							"passwd"     => $data["passwd"],
+							"Gender"	 => $data["gender"],
+							"Title"      => $data["title"],
+							"FirstName"  => $data["firstname"],
+							"SurName"    => $data["surname"],
+							"Email"      => $data["email"],
+							"Role"       => $data["rol_id"],
+							"LastLogin"  => $data["last_login"],
+								);
 
 			//get userpreferences from user_pref table
 			$this->getPrefs();
 			//set language to default if not set
 			if ($this->prefs["language"] == "")
-				$this->prefs["language"] = $ilias->ini->readVariable("language","default");
+			{
+				$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
+			}
+			
 			//set template to default if not set
 //			if ($this->prefs["skin"] == "")
 //			{
-//			 	$this->prefs["skin"] = $ilias->ini->readVariable("")
+//			 	$this->prefs["skin"] = $this->ilias->ini->readVariable("")
 //			}
 		}
 		else
 		{
-			 $this->raiseError("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__, $this->FATAL);
+			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__, $this->ilias->FATAL);
 		}
 	}
 	
 	/**
 	* loads a record "user" from array
-	*
-	* @access private
-	* @param array		userdata
+	* @access	private
+	* @param	array		userdata
 	*/
-	function setUserdata ($AUserdata)
+	function setUserdata ($a_userdata)
 	{
-		$this->data = $AUserdata;
+		$this->data = $a_userdata;
 	}
 	
 	/**
 	* returns a 2char-language-string
-	*
-	* @access public
-	* @return string language
+	* @access	public
+	* @return	string	language
 	*/
 	function getLanguage ()
 	{
@@ -150,9 +129,7 @@ class User extends PEAR
 
 	/**
 	* saves a new record "user" to database
-	*
-	* public method
-	*
+	* @access	public
 	*/
 	function saveAsNew ()
 	{
@@ -169,17 +146,14 @@ class User extends PEAR
 				  '".$this->data["Title"]."','".$this->data["Gender"]."',
 				  '".$this->data["Email"]."',
 				  ',0,now(),now())";
-
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		$this->Id = $this->data["Id"];
 	}
 
 	/**
 	* updates a record "user" and write it into database
-	*
-	* public method
-	*
+	* @access	public
 	*/
 	function update ()
 	{
@@ -192,7 +166,7 @@ class User extends PEAR
 				 surname='".$this->data[SurName]."',
 				 email='".$this->data[Email]."'
 				 WHERE usr_id='".$this->Id."'";
-		$this->db->query($query);
+		$this->ilias->db->query($query);
 		
 		$this->writePrefs();
 		
@@ -200,39 +174,38 @@ class User extends PEAR
 
 		return true;
 	}
-	
+
 	/**
 	* write userpref to user table
-	* @param string keyword
-	* @param string value
-	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public
+	* @param	string	keyword
+	* @param	string		value
 	*/
-	function writePref($keyword, $value)
+	function writePref($a_keyword, $a_value)
 	{
 		//DELETE
 		$sql = "DELETE FROM user_pref 
 				WHERE usr_id='".$this->Id."'
-				AND keyword='".$keyword."'";
-		$r = $this->db->query($sql);
+				AND keyword='".$a_keyword."'";
+		$r = $this->ilias->db->query($sql);
 		//INSERT
 		$sql = "INSERT INTO user_pref 
 				(usr_id, keyword, value_str)
 				VALUES
-				('".$this->Id."', '".$keyword."', '".$value."')";
-		$r = $this->db->query($sql);
+				('".$this->Id."', '".$a_keyword."', '".$a_value."')";
+		$r = $this->ilias->db->query($sql);
 	}
 
 	/**
 	* write all userprefs
 	* @access	public
- 	* @author 	Peter Gabriel <pgabriel@databay.de>
 	*/
 	function writePrefs()
 	{
 		//DELETE
 		$sql = "DELETE FROM user_pref 
 			WHERE usr_id='".$this->Id."'";
-		$r = $this->db->query($sql);
+		$r = $this->ilias->db->query($sql);
 
 		foreach ($this->prefs as $keyword => $value)
 		{
@@ -241,30 +214,28 @@ class User extends PEAR
 				(usr_id, keyword, value_str)
 				VALUES
 				('".$this->Id."', '".$keyword."', '".$value."')";
-			$r = $this->db->query($sql);
+			$r = $this->ilias->db->query($sql);
 		}
 	}
-
 
 	/**
 	* get all user preferences
 	* @access	public
-	* @author	Peter Gabriel <pgabriel@databay.de>
-	* @return	interger	number of preferences
+	* @return	integer		number of preferences
 	*/
 	function getPrefs()
 	{
 		$this->prefs = array();
 		
-		$query = "SELECT * FROM user_pref
-			 WHERE usr_id='".$this->Id."'";	
-		$r = $this->db->query($query);
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		$query = "SELECT * FROM user_pref WHERE usr_id='".$this->Id."'";	
+		$res = $this->ilias->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->prefs[$row["keyword"]] = $row["value_str"];
 		} // while	 
 
-		return $r->numRows();
+		return $res->numRows();
 	}
 	
 	/**
@@ -272,25 +243,25 @@ class User extends PEAR
 	* @access	public
 	* @param	integer		user_id
 	*/
-	function delete ($AUsrId = 0)
+	function delete ($a_user_id = 0)
 	{
-		if (empty($AUsrId))
+		if (empty($a_user_id))
 		{
 			 $id = $this->Id;
 		}
 		else
 		{
-			 $id = $AUsrId;
+			 $id = $a_user_id;
 		}
 		
 		// delete user_account
-		$this->db->query("DELETE FROM user_data WHERE usr_id='$id'");
+		$this->ilias->db->query("DELETE FROM user_data WHERE usr_id='$id'");
 		
 		// delete user-role relation
-		$this->db->query("DELETE FROM rbac_ua WHERE usr_id='$id' AND rol_id='$rol_id'");
+		$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='$id' AND rol_id='$rol_id'");
 		
 		// delete obj_data entry
-		$this->db->query("DELETE FROM object_data WHERE obj_id='$id'");
+		$this->ilias->db->query("DELETE FROM object_data WHERE obj_id='$id'");
 	}
 	
 	/**
@@ -302,7 +273,7 @@ class User extends PEAR
 	* @param	string	surname
 	* @return	string	fullname
 	*/
-	function buildFullName ($ATitle="",$AFirstName="",$ASurName="")
+	function buildFullName ($a_title = "",$a_firstname = "",$a_surname = "")
 	{
 		$num_args = func_num_args();
 		
@@ -322,17 +293,17 @@ class User extends PEAR
 				break;
 				
 			case 3:
-				if ($ATitle)
+				if ($a_title)
 				{
-					$FullName = $ATitle." ";
+					$FullName = $a_title." ";
 				}
 				
-				if ($AFirstName)
+				if ($a_firstname)
 				{
-					$FullName .= $AFirstName." ";
+					$FullName .= $a_firstname." ";
 				}
 				
-				$FullName .= $ASurName;			
+				$FullName .= $a_surname;			
 				break;
 				
 			default:
@@ -347,6 +318,7 @@ class User extends PEAR
 	* get last read lessons
 	* @access	public
 	* @return	array	lessons
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getLastVisitedLessons()
 	{
@@ -373,6 +345,7 @@ class User extends PEAR
 	* get all lessons
 	* @access	public
 	* @return	array	lessons
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getLessons()
 	{
@@ -400,6 +373,7 @@ class User extends PEAR
 	* get courses the user has access to
 	* @access	public
 	* @return	array	lessons
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getCourses()
 	{
@@ -425,6 +399,7 @@ class User extends PEAR
 	* get own bookmarks
 	* @access	public
 	* @return	array	bookmarks
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getBookmarks()
 	{
@@ -446,6 +421,7 @@ class User extends PEAR
 	* get own bookmarks
 	* @access	public
 	* @return	array	bookmarks
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getBookmarkFolder()
 	{
@@ -466,6 +442,7 @@ class User extends PEAR
 	* get literature bookmarks
 	* @access	public
 	* @return	array	lessons
+	* // TODO: query wird nicht abgeschickt!!!
 	*/
 	function getLiterature()
 	{
@@ -488,9 +465,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setFirstName($str)
+	function setFirstName($a_str)
 	{
-		$this->data["FirstName"] = $str;
+		$this->data["FirstName"] = $a_str;
 	}
 
 	/**
@@ -498,9 +475,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setLastName($str)
+	function setLastName($a_str)
 	{
-		$this->data["LastName"] = $str;
+		$this->data["LastName"] = $a_str;
 	}
 
 	/**
@@ -508,9 +485,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setGender($str)
+	function setGender($a_str)
 	{
-		$this->data["Gender"] = $str;
+		$this->data["Gender"] = $a_str;
 	 }
 
 	/**
@@ -518,9 +495,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setTitle($str)
+	function setTitle($a_str)
 	{
-		$this->data["Title"] = $str;
+		$this->data["Title"] = $a_str;
 	}
 
 	/**
@@ -528,9 +505,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setEmail($str)
+	function setEmail($a_str)
 	{
-		$this->data["Email"] = $str;
+		$this->data["Email"] = $a_str;
 	}
 
 	/**
@@ -538,9 +515,9 @@ class User extends PEAR
 	* @access	public
 	* @param	string	str
 	*/
-	function setLanguage($str)
+	function setLanguage($a_str)
 	{
-		$this->prefs["language"] = $str;
+		$this->prefs["language"] = $a_str;
 	}
 } // END class.User
 ?>

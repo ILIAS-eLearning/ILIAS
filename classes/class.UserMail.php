@@ -1,7 +1,6 @@
 <?php
 /**
-* user mail
-* 
+* Class UserMail
 * this class handles user mails 
 * 
 * explanation of flags:
@@ -10,57 +9,55 @@
 * 3 : deleted mail
 *  
 * @author	Peter Gabriel <pgabriel@databay.de>
-* 
-* @extends	PEAR
-* @package	application
 * @version $Id$
+* 
+* @package	application
 */
-class UserMail extends PEAR
+class UserMail
 {
 	/**
 	* User Id
-	*
 	* @var integer
+	* @access public
 	*/
 	var $id;
 
 	/**
 	* database handler
 	*
-	* @var object DB
+	* @var object ilias
+	* @access private
 	*/	
-	var $db;
+	var $ilias;
 
 	/**
 	* Constructor
-	*
 	* setup an usermail object
-	*
-	* @param object database handler
-	* @param string UserID
+	* @access	public
+	* @param	integer	user_id
 	*/
-	function UserMail(&$dbhandle, $aUsrId = "")
+	function UserMail($a_user_id = 0)
 	{
-
+		global $ilias;
+		
 		// Initiate variables
-		$this->db =& $dbhandle;
+		$this->ilias =& $ilias;
 
-		if (!empty($aUsrId) and ($aUsrId > 0))
+		if (!empty($a_user_id))
 		{
-			$this->id = $aUsrId;
+			$this->id = $a_user_id;
 		}
 	}
 
-
 	/**
 	* delete a mail
-	* @param int
-	* @return boolean
-	* @access public
+	* @access	public
+	* @param	integer		message_id
+	* @return	boolean
 	*/
-	function rcpDelete ($aMsgId)
+	function rcpDelete ($a_msg_id)
 	{
-		if (empty($aMsgId))
+		if (empty($a_msg_id))
 		{
 			return true;
 		}
@@ -69,9 +66,9 @@ class UserMail extends PEAR
 			//delete mail here
 			//TODO: security, only delete if it is allowed
 			
-			$sql = "UPDATE mail SET rcp_folder='trash' WHERE id=".$aMsgId;
+			$sql = "UPDATE mail SET rcp_folder='trash' WHERE id=".$a_msg_id;
 
-			$this->db->query($sql);
+			$this->ilias->db->query($sql);
 
 			return true;
 		}
@@ -83,22 +80,22 @@ class UserMail extends PEAR
 	* set the status of a mail. valid stati are
 	* 1: new, 2: read, 3: deleted, 4: erased, 5: saved, 6: sent
 	* 
-	* @param int
-	* @param string rcp or snd
-	* @param string
-	* @return boolean
-	* @access public
+	* @access	public
+	* @param	integer		message_id
+	* @param	string		rcp or snd
+	* @param	string		status ????
+	* @return	boolean
 	*/
-	function setStatus($aMsgId, $who, $status)
+	function setStatus($a_msg_id, $a_who, $a_status)
 	{
-		if (empty($aMsgId) || ($who != "rcp" && $who != "snd") || $status=="")
+		if (empty($a_msg_id) || ($a_who != "rcp" && $a_who != "snd") || $a_status=="")
 		{
 			return false;
 		}
 		else
 		{
 			//TODO: security, only perform an action if allowed to
-			switch ($status)
+			switch ($a_status)
 			{
 				case "unread":
 				case "new":
@@ -122,9 +119,9 @@ class UserMail extends PEAR
 			}
 
 			//perform query
-			$sql = "UPDATE mail SET ".$who."_flag=".$st." WHERE id=".$aMsgId;
+			$sql = "UPDATE mail SET ".$a_who."_flag=".$st." WHERE id=".$a_msg_id;
 
-			$this->db->query($sql);
+			$this->ilias->db->query($sql);
 
 			return true;
 		}
@@ -132,12 +129,11 @@ class UserMail extends PEAR
 
 	/**
 	* get mail
-	*
-	* @param string
-	* @return array mails
-	* @access public
+	* @access	public
+	* @param	string
+	* @return	array	mails
 	*/
-	function getMail($folder = "inbox")
+	function getMail($a_folder = "inbox")
 	{
 		global $lng;
 
@@ -151,13 +147,13 @@ class UserMail extends PEAR
 		//query
 		$sql = "SELECT * FROM mail
 				WHERE rcp='".$this->id."'
-				AND rcp_folder='".$folder."'
+				AND rcp_folder='".$a_folder."'
 				AND (rcp_flag=1 OR rcp_flag=2)";
 
-		$r = $this->db->query($sql);
+		$res = $this->ilias->db->query($sql);
 
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($row["rcp_flag"]==1)
 				$mails["unread"]++;
@@ -165,13 +161,13 @@ class UserMail extends PEAR
 				$mails["read"]++;
 
 			$mails["msg"][] = array(
-				"id" => $row["id"],
-				"from" => $row["snd"],
-				"email" => $row["email"],
-				"subject" => $row["subject"],
-				"body" => $row["body"],
-				"datetime" => $lng->fmtDateTime($row["date_send"]),
-				"new" => $row["new"]
+				"id"		=> $row["id"],
+				"from"		=> $row["snd"],
+				"email"		=> $row["email"],
+				"subject"	=> $row["subject"],
+				"body"		=> $row["body"],
+				"datetime"	=> $lng->fmtDateTime($row["date_send"]),
+				"new"		=> $row["new"]
 			);
 		}
 
@@ -181,12 +177,11 @@ class UserMail extends PEAR
 
 	/**
 	* get one mail
-	*
-	* @param int
-	* @return array mail
-	* @access public
+	* @access	public
+	* @param	integer
+	* @return	array		mail
 	*/
-	function getOneMail($id)
+	function getOneMail($a_id)
 	{
 		global $lng;
 
@@ -196,30 +191,31 @@ class UserMail extends PEAR
 		//query
 		$sql = "SELECT * FROM mail
 				WHERE rcp='".$this->id."'
-				AND id='".$id."'";
-		$r = $this->db->query($sql);
+				AND id='".$a_id."'";
+		$r = $this->ilias->db->query($sql);
 
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		//if mail is marked as unread mark it as read now
 		if ($row["rcp_flag"]==1)
-			$this->setStatus($id, "rcp", "read");
+			$this->setStatus($a_id, "rcp", "read");
 
 		$mail = array(
-			"id" => $row["id"],
-			"from" => $row["snd"],
-			"email" => $row["email"],
-			"subject" => $row["subject"],
-			"body" => $row["body"],
-			"datetime" => $lng->fmtDateTime($row["date_send"]),
-			"new" => 0
-			);
+					"id"		=> $row["id"],
+					"from"		=> $row["snd"],
+					"email"		=> $row["email"],
+					"subject"	=> $row["subject"],
+					"body"		=> $row["body"],
+					"datetime"	=> $lng->fmtDateTime($row["date_send"]),
+					"new"		=> 0
+					);
+			
 		return $mail;
 	}
 
 	/**
 	* get MailFolder of the User
-	* @return array
-	* @access public
+	* @access	public
+	* @return	array
 	*/
 	function getMailFolders()
 	{
@@ -244,21 +240,19 @@ class UserMail extends PEAR
 
 	/**
 	* send mail to recipient
-	*
-	* @param int
-	* @param string
-	* @param string
-	* @access public
+	* @access	public
+	* @param	integer		user_id of recipient
+	* @param	string		subject
+	* @param	string		message text
 	*/
-	function sendMail($rcp, $subject, $body)
+	function sendMail($a_rcp, $a_subject, $a_body)
 	{
 		$sql = "INSERT INTO mail
 				(snd, rcp, subject, body, snd_flag, rcp_flag, date_send)
 				VALUES
-				('".$this->id."', '".$rcp."', '".$subject."', '".$body."','6', '1', NOW())";
+				('".$this->id."', '".$a_rcp."', '".$a_subject."', '".$a_body."','6', '1', NOW())";
 
-		$this->db->query($sql);
+		$this->ilias->db->query($sql);
 	}
-
-} // END classMail
+} // END class.UserMail
 ?>

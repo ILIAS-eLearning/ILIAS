@@ -1,47 +1,81 @@
 <?php
 /**
- * search
- * @author Peter Gabriel <pgabriel@databay.de>
- * 
- * @package ilias-core
- * @version $Id$
- */
-class Search extends PEAR
+* search
+* 
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+* 
+* @package application
+*/
+class Search
 {
 	/**
-	* database handler
-	*
+	* ilias object
 	* @var object DB
+	* @access public
 	*/	
-	var $db;
+	var $ilias;
+
+	/**
+	* search text
+	* @var string
+	* @access public
+	*/	
+	var $text;
+
+	/**
+	* search result
+	* @var array
+	* @access public
+	*/	
+	var $result;
+
+	/**
+	* result count
+	* @var integer
+	* @access public
+	*/	
+	var $hits;
+
+	/**
+	* search options
+	* @var array
+	* @access public
+	*/	
+	var $options;
+
+	/**
+	* ?????
+	* @var string
+	* @access public
+	*/	
+	var $area;
 
 	/**
 	* Constructor
-	*
-	* setup database
-	*
-	* @param object database handler
+	* @access	public
 	*/
-	function Search(&$dbhandle)
+	function Search()
 	{
+		global $ilias;
+		
 		// Initiate variables
-		$this->db =& $dbhandle;
+		$this->ilias =& $ilias;
 	}
 
 	/**
 	* search database with given values
-	 *
-	 * execute() performs a search on the databasetables
-	 * 
+	* execute() performs a search on the databasetables
 	* @access private
 	*/
-
 	function execute()
 	{
 		$this->result = array();
 		
-		if ($this->text == "")
+		if (empty($this->text))
+		{
 			return false;
+		}
 		//now only user search and phrase search
 		//search for login  firstname  surname email
 		$w = "login LIKE '%".$this->text."%'";
@@ -50,7 +84,7 @@ class Search extends PEAR
 		$w .= " OR email LIKE '%".$this->text."%'";
 		
 		$query = "SELECT * FROM user_data WHERE ".$w;	
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		$this->hits = $res->numRows();
 
@@ -59,45 +93,46 @@ class Search extends PEAR
 			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$this->result[] = array(
-					"text" => $row["firstname"]." ".$row["surname"],
-					"link" => "mail.php?to=".$row["usr_id"]
-				);
+										"text" => $row["firstname"]." ".$row["surname"],
+										"link" => "mail.php?to=".$row["usr_id"]
+										);
 			}
 			return true;
 		}
 		else
+		{
 			return false;
+		}
 	}
 
 	/**
 	* set options
-	* @param array
-	* @access public
+	* @access	public
+	* @param	array
 	*/
-	function setOptions($ar)
+	function setOptions($a_arr)
 	{
-		$this->options = $ar;
+		$this->options = $a_arr;
 	}
 
 	/**
-	 * set area
-	 * @access public
-	 * @param string str
-	 */
-	function setArea($str)
+	* set area
+	* @access	public
+	* @param	string
+	*/
+	function setArea($a_str)
 	{
-		$this->area = $str;
+		$this->area = $a_str;
 	}
 
 	/**
-	 * set searchtext
-	 * @access public
-	 * @param string 
-	 */
-	function setText($str)
+	* set searchtext
+	* @access	public
+	* @param	string 
+	*/
+	function setText($a_str)
 	{
-		$this->text = trim($str);
+		$this->text = trim($a_str);
 	}
-	
-} // END class user
+} // END class.Search
 ?>

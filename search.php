@@ -1,14 +1,14 @@
 <?php
 
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
-include_once("./classes/class.Search.php");
+require_once "./include/ilias_header.inc";
+require_once "./include/inc.main.php";
+require_once "./classes/class.Search.php";
 
 $tpl = new Template("tpl.search.html", true, true);
 
 if ($_POST["search"] != "")
 {
-	$mySearch = new Search($ilias->db);
+	$mySearch = new Search();
 	$mySearch->setArea($_POST["area"]);
 	$mySearch->setText($_POST["searchtext"]);
 	$mySearch->setOptions($_POST["options"]);
@@ -71,5 +71,4 @@ $tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>

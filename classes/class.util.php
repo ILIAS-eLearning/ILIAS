@@ -241,7 +241,7 @@ class TUtil
 				return false;
 			}
 
-			$owner = new User($db,$owner_id);
+			$owner = new User($owner_id);
 
 			return $owner;
 		}
