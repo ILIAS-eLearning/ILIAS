@@ -281,10 +281,13 @@ class ilObjGroup extends ilObject
 		//the (global)roles who must be considered when inheritance is stopped
 		//todo: query that fetches the considering global roles
 		//$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
-		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"]));
 
-		//var_dump("<pre>",$rolf_data,"</pre>");exit;
-		
+			
+		//define all relevant roles that rights are needed to be changed
+//		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"]));
+		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$this->getDefaultGroupRoles());
+
+		//group status opened/private		
 	  	if ($a_grpStatus == 0 || $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
@@ -317,7 +320,8 @@ class ilObjGroup extends ilObject
 		{
 			$this->m_grpStatus = 1;
 		}
-
+		
+		//group status closed
 	  	if($a_grpStatus == 2)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
@@ -325,7 +329,9 @@ class ilObjGroup extends ilObject
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
+				{	
 					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
+				}
 
 				//revoke all permission on current group object for all(!) global roles, may be a workaround
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
