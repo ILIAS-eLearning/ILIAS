@@ -294,13 +294,17 @@ class php4DOMNode
 
 	function attributes()
 	{
+//echo "<br>node:".$this->myDOMNode->nodeName.":";
 		$myDOMNodeList=$this->myDOMNode->attributes;
 		$nodeSet=array();
 		$i=0;
-		while ($node=$myDOMNodeList->item($i))
+		if (is_object($myDOMNodeList))
 		{
-			$nodeSet[]=new php4DOMAttr($node);
-			$i++;
+			while ($node=$myDOMNodeList->item($i))
+			{
+				$nodeSet[]=new php4DOMAttr($node);
+				$i++;
+			}
 		}
 
 		return $nodeSet;
