@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+require_once("content/classes/SCORM/class.ilObjDebug.php");
 
 /**
 * Class ilObjSCORMTracking
@@ -46,7 +46,8 @@ class ilObjSCORMTracking
 	function ilObjSCORMTracking($userID, $itemID)
 	{
 		global $ilias;
-		
+		$this->debug = new ilObjDebug("/opt/ilias/www/htdocs/ilias3/debug/debug.ilObjSCORMTracking");
+		$this->debug->debug("Calling Constructor with userID: ".$userID." and itemID: ".$itemID);
 	     $this->ilias =& $ilias;
 		 //$this->db=$this->ilias->db;
 	     //$this->objID=$objectIdentifier;
@@ -63,6 +64,7 @@ class ilObjSCORMTracking
 	*/
 	function lmsInitialize($emptyString)
 	{
+		$this->debug->debug("Calling lmsInitialize with emptyString: ".$emptyString);
 		
 		$query="SELECT * from scorm_tracking WHERE sc_item_id='$this->sco_id' and usr_id='$this->usr_id'";
     	$record_set = $this->ilias->db->query($query);
@@ -80,7 +82,7 @@ class ilObjSCORMTracking
 			}	
     		
     		$query="INSERT INTO scorm_tracking (sc_item_id,usr_id,entry,exit,lesson_location,credit,raw,comments,lesson_status,launch_data,suspend_data,mastery_score,student_name) VALUES ".
-    		"('$this->sco_id','$this->usr_id','ab-initio','','','credit','','','not attempted','$launchData','','$masteryScore','ralph')";
+    		"('$this->sco_id','$this->usr_id','ab-initio','','','credit','','','not attempted','$launchData','','$masteryScore','".$this->ilias->account->login."')";
     		$this->ilias->db->query($query);
     		
     		//time capturing has to be added
@@ -119,6 +121,7 @@ class ilObjSCORMTracking
 	*/
 	 function lmsFinish($emptyString)
     {
+		$this->debug->debug("Calling lmsFinish with emptyString: ".$emptyString);
          $this->endTime=time();
          $this->calculateTime();
          $status='browsed';
@@ -195,7 +198,7 @@ class ilObjSCORMTracking
 	*/
     function lmsGetValue($dataModelElement)
     {
-	
+	$this->debug->debug("Calling lmsGetValue with dataModelElement: ".$dataModelElement);
     	if(substr_count($dataModelElement,"_children")>0)
     	{
     		if(array_key_exists($dataModelElement,$this->supportedElemArrays))
@@ -204,8 +207,8 @@ class ilObjSCORMTracking
     		}
     		else 
     		{
-    			$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    			$this->ilias->db->query($query);
+    			$this->errorCode="401";
+			$this->debug->debug("Errorcode 401 in Line 209");
     			echo "";
     		}
     	}
@@ -228,18 +231,15 @@ class ilObjSCORMTracking
         	}
         	else 
         	{
-        		//Element is write only
-        		$query="UPDATE scorm_tracking SET error_Number='404' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    			$this->ilias->db->query($query);
+        		$this->errorCode="404";//Element is write only
         		echo "";
         	}
         	
         }
         else 
         {
-        	//Element not implemented
-        	$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    		$this->ilias->db->query($query);
+        	$this->errorCode="401";//Element not implemented
+		$this->debug->debug("Errorcode 401 in Line 240");
         	echo "";
         }
     }
@@ -251,18 +251,18 @@ class ilObjSCORMTracking
 	*/
     function lmsSetValue($dataModelElement, $elemValue)
     {
+	$this->debug->debug("Calling lmsSetValue with dataModelElement: ".$dataModelElement." and elemValue: ".$elemValue);
       //checking parameter
       if(!is_string($elemValue))
       {
-      	//Incorrect data type
-      	$query="UPDATE scorm_tracking SET error_Number='405' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    	$this->ilias->db->query($query);
+      	$this->errorCode="405";//Incorrect data type
       	echo "false";
       }
     	
        if(array_key_exists($dataModelElement,$this->supportedElements))
         {
         	//extracting elem name dropping datamodel name
+        	$this->debug->debug("Calling lmsSetValue key exists: ".$dataModelElement." and elemValue: ".$elemValue);
         	
         	if($this->supportedElements[$dataModelElement]==w || $this->supportedElements[$dataModelElement]==rw)
         	{
@@ -271,6 +271,7 @@ class ilObjSCORMTracking
         		if($elemName=="total_time")
         		{
         		}
+        		$this->debug->debug("Calling lmsSetValue query: ".$dataModelElement." and elemValue: ".$elemValue);
         		$query="UPDATE scorm_tracking SET " .$elemName."='$elemValue' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
     			$this->ilias->db->query($query);
     			//error coding. probably for enum fields in scorm_tracking data checkin already here
@@ -279,43 +280,34 @@ class ilObjSCORMTracking
         	}
         	else 
         	{
-        		$query="UPDATE scorm_tracking SET error_Number='403' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    			$this->ilias->db->query($query);
+        		$this->errorCode="403";//Element is read only
         		echo "false";
         	}
         	
         }
         else 
         {
-        	//Element not implemented
-        	$query="UPDATE scorm_tracking SET error_Number='401' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-    		$this->ilias->db->query($query);
+        	$this->errorCode="401";//Element not implemented
+		$this->debug->debug("Errorcode 401 in Line 286");
         	echo "false";
         }
     }
 
     function lmsCommit($emptyString)
     {
+	$this->debug->debug("Calling lmsCommit with emptyString: ".$emptyString);
        echo "true";
     }
 
     function lmsGetLastError()
     {
-    	$query="SELECT error_Number from scorm_tracking WHERE sc_item_id='$this->sco_id' and usr_id='$this->usr_id'";
-    	$record_set = $this->ilias->db->query($query);
-    	
-    	while ($record = $record_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$errnum=$record["error_Number"];
-		}	
-       // error code needs to be set back to be "0"
-       $query="UPDATE scorm_tracking SET error_Number='0' WHERE sc_item_id='$this->sco_id' AND usr_id='$this->usr_id'";
-       $this->ilias->db->query($query);
-       echo $errnum;
+	$this->debug->debug("Calling lmsGetLastError");
+       echo $this->errorCode;//eventually changing cause error code might need to be set back to be "0"
     }
 
     function lmsGetErrorString($errNum)
-    {
+    { 
+	$this->debug->debug("Calling lmsGetErrorString with errNum: ".$errNum);
       echo $this->errorDescription[$errNum];
     }
 
@@ -325,11 +317,13 @@ class ilObjSCORMTracking
 	*/
     function lmsGetDiagnostics($emptyString)
     {
+	$this->debug->debug("Calling lmsGetDiagnostics with emptyString: ".$emptyString);
        echo "";
     }
 
     function calculateTime()
     {
+	$this->debug->debug("Calling calculateTime");
     	$this->sessionTime=($this->endTime-$this->startTime);
     	//datbase call
   
@@ -337,6 +331,7 @@ class ilObjSCORMTracking
 	
 	function extractElement($dataModelElement)
 	{
+			$this->debug->debug("Calling extractElement with dataModelElement: ".$dataModelElement);
 			if(!(strpos($dataModelElement,"cmi.core.score")===false))
 			{
 				return $elemName=eregi_replace("cmi.core.score.","",$dataModelElement);
