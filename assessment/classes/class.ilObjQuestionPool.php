@@ -272,6 +272,38 @@ class ilObjQuestionPool extends ilObject
       return;
     }
   }
+	
+	function get_total_answers($question_id)
+	{
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->db->query($query);
+		return $result->numRows();	
+	}
+
+	function get_total_right_answers($question_id)
+	{
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->db->query($query);
+    $question_gui =& new ASS_QuestionGUI();
+		$answers = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+    	$question =& $question_gui->create_question("", $row->question_fi);
+			$reached = $question->get_reached_points($row->user_fi, $row->test_fi);
+			$max = $question->get_maximum_points();
+			array_push($answers, array("reached" => $reached, "max" => $max));
+		}
+		$max = 0.0;
+		$reached = 0.0;
+		foreach ($answers as $key => $value) {
+			$max += $value["max"];
+			$reached += $value["reached"];
+		}
+		return $reached / $max;
+	}
 
 	/**
 	* get description of content object
