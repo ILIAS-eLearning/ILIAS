@@ -275,6 +275,7 @@ assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
+assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qt_cloze#:#Close Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_javaapplet#:#Java Applet Question
@@ -1890,6 +1891,7 @@ common#:#qpl_delete#:#Delete Question Pool for Test
 common#:#qpl_edit_permission#:#Change permission settings
 common#:#qpl_new#:#New question pool for test
 common#:#qpl_read#:#Read access to Question Pool for Test
+common#:#qpl_upload_file#:#Upload file
 common#:#qpl_visible#:#Question Pool for Test is visible
 common#:#qpl_write#:#Edit Question Pool for Test
 common#:#query_data#:#Query data

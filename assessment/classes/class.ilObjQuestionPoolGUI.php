@@ -286,7 +286,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function uploadQplObject()
+	function uploadQplObject($redirect = true)
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
@@ -348,8 +348,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
-
-		ilUtil::redirect("adm_object.php?".$this->link_params);
+		if ($redirect)
+		{
+			ilUtil::redirect("adm_object.php?".$this->link_params);
+		}
 	}
 	
 	/**
@@ -375,17 +377,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		else
 		{
-/*			include_once("./assessment/classes/class.ilObjTest.php");
-			$newObj = new ilObjTest();
-			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle("dummy");
-			$newObj->setDescription("dummy");
-			$newObj->create(true);
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-*/	
 			// create import directory
 			$this->object->createImportDirectory();
 	
@@ -403,24 +394,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$qti_file = $this->object->getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
 			// import qti data
 			$qtiresult = $this->object->importObject($qti_file);
-			//$tmp_title = $this->object->getTitle();
-			//$tmp_descr = $this->object->getDescription();
 			// import page data
 			include_once ("content/classes/class.ilContObjParser.php");
 			$contParser = new ilContObjParser($this->object, $xml_file, $subdir);
 			$contParser->setQuestionMapping($this->object->getImportMapping());
 			$contParser->startParsing();
-	
-			/* update title and description in object data */
-			/*if (is_object($this->object->meta_data))
-			{
-				$this->object->setTitle($tmp_title);
-				$this->object->setDescription($tmp_descr);
-				$this->object->updateTitleAndDescription();
-			}
-	
-			$this->object->update();
-			$this->object->saveToDb();*/
 		}
 		
 		$this->questionsObject();
@@ -1573,6 +1551,68 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$ret =& $this->executeCommand();
 		return $ret;
+	}
+
+	/**
+	* form for new content object creation
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$this->getTemplateFile("create", $new_type);
+
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->tpl->setVariable("TXT_IMPORT_QPL", $this->lng->txt("import_qpl"));
+			$this->tpl->setVariable("TXT_QPL_FILE", $this->lng->txt("qpl_upload_file"));
+			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		}
+	}
+
+	/**
+	* form for new questionpool object import
+	*/
+	function importFileObject()
+	{
+		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
+		{
+			sendInfo($this->lng->txt("qpl_select_file_for_import"));
+			$this->createObject();
+			return;
+		}
+		$this->uploadQplObject(false);
+		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
 	}
 
 } // END class.ilObjQuestionPoolGUI
