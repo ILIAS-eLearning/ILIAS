@@ -31,6 +31,7 @@ require_once ("content/classes/class.ilLMPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 require_once ("classes/class.ilObjStyleSheet.php");
+require_once ("content/classes/class.ilEditClipboard.php");
 
 
 /**
@@ -138,6 +139,7 @@ class ilLMEditorGUI
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
 					$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
+					$this->obj =& $obj;
 					if (is_object($obj))
 					{
 						$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
@@ -247,7 +249,10 @@ class ilLMEditorGUI
 					{
 						case "pg":
 							$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
-							$pg_gui->setLMPageObject($obj);
+							if (is_object($obj))
+							{
+								$pg_gui->setLMPageObject($obj);
+							}
 							$pg_gui->$cmd();
 							break;
 
@@ -388,7 +393,7 @@ class ilLMEditorGUI
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		if(!empty($this->obj_id))
+		if(!empty($this->obj_id) && $this->tree->isInTree($this->obj_id))
 		{
 //echo "dL0a:".$this->obj_id.":";
 			$path = $this->tree->getPathFull($this->obj_id);
@@ -397,6 +402,10 @@ class ilLMEditorGUI
 		else
 		{
 			$path = $this->tree->getPathFull($this->tree->getRootId());
+			if (!empty($this->obj_id))
+			{
+				$path[] = array("child" => $this->obj_id, "title" => $this->obj->getTitle());
+			}
 		}
 //echo "dL1"; exit;
 		$modifier = 1;

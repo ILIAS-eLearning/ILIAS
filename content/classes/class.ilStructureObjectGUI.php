@@ -113,7 +113,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			//$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
 			$acts = array("delete" => "delete", "cutPage" => "cutPage");
 //echo ":".$this->checkClipboardContentType().":<br>";
-			if($this->checkClipboardContentType() == "pg")
+			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
 				$acts["pastePage"] = "pastePage";
 			}
@@ -196,7 +196,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
 			$acts = array("delete" => "delete", "move" => "moveChapter");
-			if($this->checkClipboardContentType() == "st")
+			if(ilEditClipboard::getContentObjectType() == "st")
 			{
 				$acts["pasteChapter"] =  "pasteChapter";
 			}
@@ -319,7 +319,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE POST VALUES
-		$_SESSION["ilEditClipboard"] = "pg".$_POST["id"][0];
+		ilEditClipboard::storeContentObject("pg",$_POST["id"][0]);
 
 		$tree = new ilTree($this->content_object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
@@ -346,13 +346,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function pastePage()
 	{
-		if($this->checkClipboardContentType() != "pg")
+		if(ilEditClipboard::getContentObjectType() != "pg")
 		{
 			$this->ilias->raiseError($this->lng->txt("no_page_in_clipboard"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($_SESSION["ilEditClipboard"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$tree = new ilTree($this->content_object->getId());
@@ -360,7 +356,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tree->setTreeTablePK("lm_id");
 
 		// cut selected object
-		$id = $this->getClipboardId();
+		$id = ilEditClipboard::getContentObjectId();
 		if(!$tree->isInTree($id))
 		{
 			if(!isset($_POST["id"]))
@@ -372,7 +368,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				$target = $_POST["id"][0];
 			}
 			$tree->insertNode($id, $this->obj->getId(), $target);
-			unset($_SESSION["ilEditClipboard"]);
+			ilEditClipboard::clear();
 		}
 
 		$this->view();
@@ -391,8 +387,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
+
 		// SAVE POST VALUES
-		$_SESSION["ilEditClipboard"] = "st".$_POST["id"][0];
+		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
 
 		sendInfo($this->lng->txt("cont_chap_select_target_now"));
 		$this->subchap();
@@ -403,22 +400,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function pasteChapter()
 	{
-		if ($this->checkClipboardContentType() != "st")
+		if (ilEditClipboard::getContentObjectType() != "st")
 		{
 			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (count($_SESSION["ilEditClipboard"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
 
 		$tree = new ilTree($this->content_object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
 		// cut selected object
-		$id = $this->getClipboardId();
+		$id = ilEditClipboard::getContentObjectId();
 
 		$node = $tree->getNodeData($id);
 		$subnodes = $tree->getSubtree($node);
@@ -430,6 +423,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 			}
+		}
+		if($id == $_POST["id"][0])
+		{
+			ilEditClipboard::clear();
+			$this->subchap();
+			return;
 		}
 
 		//echo ":".$id.":";
@@ -457,7 +456,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			}
 		}
 
-		unset($_SESSION["ilEditClipboard"]);
+		ilEditClipboard::clear();
 
 		$this->subchap();
 	}
