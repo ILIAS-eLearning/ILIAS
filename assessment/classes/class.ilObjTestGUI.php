@@ -2669,11 +2669,25 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if (($_POST["cmd"]["next"]) and $saveResult)
 		{
-			$this->sequence++;
+			if($_GET['crs_show_result'])
+			{
+				$this->sequence = $this->object->incrementSequenceByResult($this->sequence);
+			}
+			else
+			{
+				$this->sequence++;
+			}
 		}
 		elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0) and ($saveResult))
 		{
-			$this->sequence--;
+			if($_GET['crs_show_result'])
+			{
+				$this->sequence = $this->object->decrementSequenceByResult($this->sequence);
+			}
+			else
+			{
+				$this->sequence--;
+			}
 		}
 		$this->setLocator();
 
@@ -2846,7 +2860,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function outIntroductionPage($maxprocessingtimereached = 0)
 	{
 		global $ilUser;
-		
+
 		$add_parameter = $this->getAddParameter();
 		$active = $this->object->getActiveTestUser();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
@@ -2943,12 +2957,26 @@ class ilObjTestGUI extends ilObjectGUI
 			$seq = $active->lastindex;
 		}
 		$add_sequence = "&sequence=$seq";
+
+		if($_GET['crs_show_result'])
+		{
+			$first_seq = $this->object->getFirstSequence();
+			$add_sequence = "&sequence=".$first_seq;
+
+			if(!$first_seq)
+			{
+				sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
+			}
+		}
 		$test_disabled = false;
 		if ($active) {
 			$this->tpl->setCurrentBlock("resume");
 			if ($seq == 1)
 			{
-				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_start_test"));
+				if(!$_GET['crs_show_result'] or $first_seq)
+				{
+					$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_start_test"));
+				}
 			}
 			else
 			{
@@ -3071,7 +3099,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 //		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
 		$formaction = $this->getCallingScript() . $this->getAddParameter() . "&sequence=$sequence";
-
 		// output question
 		switch ($question_gui->getQuestionType())
 		{

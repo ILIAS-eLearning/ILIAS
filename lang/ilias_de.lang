@@ -4674,3 +4674,4 @@ crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_no_starter_created#:#Diesem Kurs sind keine Startobjekte zugeordnet.
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_table_start_objects#:#Startobjekte
+common#:#crs_all_questions_answered_successfully#:#Sie haben bereits alle Fragen korrekt beantwortet.
