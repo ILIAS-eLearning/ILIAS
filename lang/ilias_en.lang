@@ -154,6 +154,7 @@ common#:#forums_edit_post#:#edit article
 common#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 common#:#forums_last_post#:#last article
 common#:#forums_moderators#:#moderators
+common#:#forums_new_entries#:#new forums entries
 common#:#forums_new_thread#:#new topic
 common#:#forums_not_available#:#forums not available
 common#:#forums_overview#:#forums overview
@@ -385,7 +386,7 @@ common#:#set#:#set
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
 common#:#set_system_language#:#set system language
-common#:#show_owner#:#show owner
+common#:#show_list#:#show listcommon#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
 common#:#status#:#status
@@ -441,5 +442,3 @@ common#:#yes#:#yes
 common#:#you_may_add_local_roles#:#you may add local roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
-common#:#forums_new_entries#:#new forums entries
-common#:#show_list#:#show list

@@ -154,6 +154,7 @@ common#:#forums_edit_post#:#Beitrag bearbeiten
 common#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_moderators#:#Moderatoren
+common#:#forums_new_entries#:#Neue Foren-Einträge
 common#:#forums_new_thread#:#Neues Thema
 common#:#forums_not_available#:#Keine Foren verfügbar
 common#:#forums_overview#:#Übersicht Foren
@@ -385,7 +386,7 @@ common#:#set#:#setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#set_system_language#:#Systemsprache ändern
-common#:#show_owner#:#Besitzerinfo
+common#:#show_list#:#Auflistung anzeigencommon#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#startpage#:#Startseite
 common#:#status#:#Status
@@ -441,5 +442,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
-common#:#forums_new_entries#:#Neue Foren-Einträge
-common#:#show_list#:#Auflistung anzeigen
