@@ -111,7 +111,7 @@ class ilExplorer
 		}
 
 		$this->ilias =& $ilias;
-		$this->output = "";
+		$this->output = array();
 		$this->expanded = array();
 		$this->target = $a_target;
 		$this->target_get = 'ref_id';
@@ -268,7 +268,7 @@ class ilExplorer
 				$this->formatObject($options["child"],$options);
 			}
 		}
-
+		
 		return implode('',$this->output);
 	}
 
