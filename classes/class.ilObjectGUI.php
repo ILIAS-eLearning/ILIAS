@@ -216,7 +216,7 @@ class ilObjectGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
