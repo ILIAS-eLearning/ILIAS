@@ -306,8 +306,11 @@ common#:#changed_to#:#mudado para
 common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número do Capítulo
 common#:#chapter_title#:#Título do Capítulo
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###01 Mar 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###01 Mar 2004 new variable
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###01 Mar 2004 new variable
 common#:#chat_visible#:#Chat is visible###01 Mar 2004 new variable
 common#:#chat_write#:#Edit chat###01 Mar 2004 new variable
@@ -923,7 +926,7 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Não Instalado
 common#:#not_logged_in#:#Your are not logged in
 common#:#obj#:#Objecto
-common#:#obj_adm#:#Definições de sistema
+common#:#obj_adm#:#Definições de sistema###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Categoria
 common#:#obj_chac#:#Chat settings###01 Mar 2004 new variable
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#Subobjectos
 common#:#subscription#:#Subscrição
 common#:#summary#:#Sumario
 common#:#system#:#Sistema
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#System Choose Language
 common#:#system_groups#:#Grupos do sistema
 common#:#system_grp#:#Grupo de sistema

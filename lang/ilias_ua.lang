@@ -306,8 +306,11 @@ common#:#changed_to#:#змінити на
 common#:#chapter#:#Глава
 common#:#chapter_number#:#Номер Глави
 common#:#chapter_title#:#Назва Глави
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
@@ -923,7 +926,7 @@ common#:#normal#:#Нормальний
 common#:#not_installed#:#Не Інстальовано
 common#:#not_logged_in#:#Ви не залогінені в
 common#:#obj#:#Об'єкт
-common#:#obj_adm#:#Системні Настройки
+common#:#obj_adm#:#Системні Настройки###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
 common#:#obj_cat#:#Категорія
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#Підоб'єкти
 common#:#subscription#:#Підписка
 common#:#summary#:#Ітого
 common#:#system#:#Ситсема
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Вибір системної Мови
 common#:#system_groups#:#Системна Групи
 common#:#system_grp#:#Системна Група

@@ -34,7 +34,6 @@
 // to the corresponding mode!
 <!-- language file start -->
 assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-common#:#system_check#:#Systemcheck
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
 assessment#:#answer#:#Answer###05 Feb 2004 new variable
 assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
@@ -307,8 +306,11 @@ common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Chat hinzufügen
 common#:#chat_delete#:#Chat löschen
 common#:#chat_edit_permission#:#Rechteeinstellungen ändern
+common#:#chat_new#:#Neuer Chat
 common#:#chat_read#:#Lese/Schreibzugriff auf Chat
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
@@ -924,7 +926,7 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#obj#:#Objekt
-common#:#obj_adm#:#Administration
+common#:#obj_adm#:#Administration###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_chac#:#Chateinstellungen
@@ -1214,6 +1216,7 @@ common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#system#:#System
+common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#Systemsprache wählen
 common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
@@ -2220,6 +2223,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#chat#:#Chat
-common#:#chat_add#:#Chat hinzufügen
-common#:#chat_new#:#Neuer Chat

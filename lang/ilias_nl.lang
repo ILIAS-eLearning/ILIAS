@@ -306,8 +306,11 @@ common#:#changed_to#:#Gewijzigd in
 common#:#chapter#:#Hoofdstuk
 common#:#chapter_number#:#Hoofdstuk-nummer
 common#:#chapter_title#:#Hoofdstuk titel
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Verwijder chat
 common#:#chat_edit_permission#:#Wijzig rechten-instellingen
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Lees/schrijf-rechten op chat
 common#:#chat_visible#:#Chat is zichtbaar
 common#:#chat_write#:#Wijzig chat
@@ -923,7 +926,7 @@ common#:#normal#:#Normaal
 common#:#not_installed#:#Niet geïnstalleerd
 common#:#not_logged_in#:#U bent niet ingelogd
 common#:#obj#:#Object
-common#:#obj_adm#:#Systeem-instellingen
+common#:#obj_adm#:#Systeem-instellingen###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
 common#:#obj_cat#:#Kategorie
 common#:#obj_chac#:#Chat-instellingen
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#Subobjecten
 common#:#subscription#:#Abonnement
 common#:#summary#:#Samenvatting
 common#:#system#:#Systeem
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Systeemtaal kiezen
 common#:#system_groups#:#Systeem-groepen
 common#:#system_grp#:#Systeem-groep

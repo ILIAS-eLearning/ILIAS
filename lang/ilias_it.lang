@@ -306,8 +306,11 @@ common#:#changed_to#:#cambiata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
+common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
 common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
 common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_new#:#New Chat###05 Mar 2004 new variable
 common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
@@ -923,7 +926,7 @@ common#:#normal#:#Normale
 common#:#not_installed#:#Non installato
 common#:#not_logged_in#:#Non sei entrato in ILIAS3
 common#:#obj#:#Oggetto
-common#:#obj_adm#:#Impostazioni di sistema
+common#:#obj_adm#:#Impostazioni di sistema###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
 common#:#obj_cat#:#Categoria
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
@@ -1213,6 +1216,7 @@ common#:#subobjects#:#sotto oggetti
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
 common#:#system#:#Sistema
+common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Lingua di sistema scelta
 common#:#system_groups#:#Gruppi di sistema
 common#:#system_grp#:#Gruppo di sistema
