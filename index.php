@@ -33,8 +33,10 @@
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
+// Specify your start page in ilias.ini.php
 $start = $ilias->ini->readVariable("server", "start");
 
+// if no start page was given, ILIAS defaults to the standard login page
 if ($start == "")
 {
 	$start = "login.php";
