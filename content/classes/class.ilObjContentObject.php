@@ -82,7 +82,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 
 		// create a local role folder
 		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of content object ".$this->getId());
@@ -90,7 +90,14 @@ class ilObjContentObject extends ilObject
 		// create author role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("author object ".$this->getRefId(),"author of content object ref id ".$this->getRefId());
 		$roles[] = $roleObj->getId();
+
+		// copy permissions from author template to new role
 		$rbacadmin->copyRolePermission($this->getAuthorRoleTemplateId(), 8, $rfoldObj->getRefId(), $roleObj->getId());
+
+		// grant all allowed operations of role to current learning module
+		$rbacadmin->grantPermission($roleObj->getId(),
+			$rbacreview->getOperationsOfRole($roleObj->getId(), "lm", $rfoldObj->getRefId()),
+			$this->getRefId());
 
 		unset($rfoldObj);
 		unset($roleObj);
