@@ -16,6 +16,13 @@ class Object
 	* @access	private
 	*/
 	var $ilias;
+
+	/**
+	* object id
+	* @var		integer object id of object itself
+	* @access	private
+	*/
+	var $id;
 	
 	/**
 	* Constructor
@@ -81,7 +88,7 @@ class Object
 	{
 		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 
-		// GET DEWFAULT VALUES
+		// GET DEFAULT VALUES
 		$a_obj_id = $a_obj_id ? $a_obj_id : $_GET["obj_id"];
 		$a_parent = $a_parent ? $a_parent : $_GET["parent"];
 		$a_type = $a_type ? $a_type : $_GET["type"];
@@ -91,8 +98,8 @@ class Object
 		if ($rbacsystem->checkAccess("create",$a_obj_id,$a_parent,$a_type))
 		{
 			// create and insert object in objecttree
-			$new_obj_id = createNewObject($a_new_type, $a_data);
-			$tree->insertNode($new_obj_id,$a_obj_id);
+			$this->id = createNewObject($a_new_type, $a_data);
+			$tree->insertNode($this->id,$a_obj_id);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
@@ -100,7 +107,7 @@ class Object
 			{
 				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 				$ops = $rbacreview->getOperations($parRol["obj_id"], $a_new_type, $parRol["parent"]);
-				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_obj_id, $a_obj_id);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $this->id, $a_obj_id);
 			}
 		}
 		else
@@ -108,7 +115,7 @@ class Object
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
 		
-		return $new_obj_id;
+		return $this->id;
 	}
 
 	/**
