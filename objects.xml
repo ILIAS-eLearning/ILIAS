@@ -1,10 +1,11 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE objects SYSTEM "./objects.dtd">
 <objects xmlns="http://www.w3.org" version="$Id$">
-<object name="root" class_name="RootFolder" checkbox="0" inherit="0" translate="sys">
+<object name="root" class_name="RootFolder" checkbox="0" inherit="0" translate="0">
 	<subobj name="cat">cat</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
