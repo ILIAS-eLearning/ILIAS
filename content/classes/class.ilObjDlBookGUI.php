@@ -62,11 +62,41 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 
 
-	function showAbstract()
+	function showAbstract($a_target_id = 0)
 	{
-		echo "<h2>ABSTRACT</h2>";
-		echo __FUNCTION__;
-		echo __CLASS__;
+		$this->object->initBibItemObject();
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+								ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setCurrentBlock("ilPage");
+	
+
+		$xml = $this->object->bib_obj->getXML();
+		$xsl = file_get_contents("./content/bibliography.xsl");
+
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		if($a_target_id)
+		{
+			$params = array ('mode'			=> "view_full",
+							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]",
+							 'target_id'    => "$a_target_id");
+		}
+		else
+		{
+			$params = array ('mode'			=> "view_simple",
+							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]");
+		}		
+
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		$this->tpl->setVariable("PAGE_CONTENT",$output);
+		
+		return true;
 	}
 	
 	/**

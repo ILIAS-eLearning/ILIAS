@@ -33,6 +33,7 @@ require_once("content/classes/class.ilObjContentObject.php");
 */
 class ilObjDlBook extends ilObjContentObject
 {
+	var $bib_obj;
 
 	/**
 	* Constructor
@@ -45,6 +46,20 @@ class ilObjDlBook extends ilObjContentObject
 	}
 
 	
+	/**
+	*	init bib object (contains all bib item data)
+	*/
+	function initBibItemObject()
+	{
+		include_once("content/classes/class.ilBibItem.php");
+
+		$this->bib_obj =& new ilBibItem($this);
+		$this->bib_obj->read();
+
+		return true;
+	}
+
+
 	/**
 	*	exports the digi-lib-object into a xml structure
 	*/

@@ -382,7 +382,6 @@ class ilLMPresentationGUI
 						else
 						{
 							// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
-
 							$pageContent = $this->ilAbstract($child);
 						}
 						break;
@@ -442,7 +441,7 @@ class ilLMPresentationGUI
 		{
 			case "dbk":
 	#			return $this->ilPage($a_child);
-				return $this->lm_gui->showAbstract();
+				return $this->lm_gui->showAbstract($_POST["target"]);
 
 			case "lm":
 				return $this->ilPage($a_child);
