@@ -405,6 +405,14 @@ img.imgtab {
 	margin:0px;
 }
 
+/* --- Editor styles ---*/
+
+div.il_editarea
+{
+	border-style: dotted;
+	border-width: 1px;
+}
+
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
