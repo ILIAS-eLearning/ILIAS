@@ -22,6 +22,7 @@
 */
 
 require_once("classes/class.ilObjStyleSheet.php");
+require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 
 /**
 * GUI class for glossary term definition editor
@@ -46,19 +47,35 @@ class ilTermDefinitionEditorGUI
 	*/
 	function ilTermDefinitionEditorGUI()
 	{
-		global $ilias, $tpl, $lng, $objDefinition;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
 
 		// initiate variables
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		$this->ctrl =& $ilCtrl;
 		$this->glossary =& new ilObjGlossary($_GET["ref_id"], true);
 		$this->definition =& new ilGlossaryDefinition($_GET["def"]);
 		$this->term =& new ilGlossaryTerm($this->definition->getTermId());
+
+		$this->ctrl->saveParameter($this, array("def"));
 	}
 
-	function executeCommand()
+	/**
+	* get forward classes
+	*/
+	function _forwards()
 	{
+		return array("ilPageObjectGUI");
+	}
+
+
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
@@ -79,43 +96,44 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setVariable("HEADER", $this->term->getTerm());
 
-		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page =& $this->definition->getPageObject();
-		$page->addUpdateListener($this, "saveShortText");
-		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_gui->setOutputMode("edit");
-		$page_gui->setLocator($gloss_loc);
-		$page_gui->setHeader($this->term->getTerm());
-		$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
-				array("edit", "view"),
-				array("cont_preview", "preview"),
-				array("meta_data", "editDefinitionMetaData")
-				));
-		$page_gui->setPresentationTitle($this->term->getTerm());
-		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
-			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
-		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
-			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
-
-//echo "1";
-		if($_GET["mode"] == "page_edit" || $cmd == "view")
+		switch ($next_class)
 		{
-//echo "2";
-			$page_gui->showPageEditor();
-		}
-		else
-		{
-			$cmd = $_GET["cmd"]; // don't move to top
-			$this->setAdminTabs();
 
-			if($cmd == "post")
-			{
-				$cmd = key($_POST["cmd"]);
-			}
+			case "ilpageobjectgui":
+				$gloss_loc->display();
+				$this->setTabs();
+				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+//echo "MK";
+				$this->ctrl->setReturn($this, "listDefinitions");
+				$page =& $this->definition->getPageObject();
+				$page->addUpdateListener($this, "saveShortText");
+				$page_gui =& new ilPageObjectGUI($page);
+				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setOutputMode("edit");
+				$page_gui->setLocator($gloss_loc);
+				$page_gui->setHeader($this->term->getTerm());
+				/*
+				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
+						array("edit", "view"),
+						array("cont_preview", "preview"),
+						array("meta_data", "editDefinitionMetaData")
+						));*/
+				$page_gui->setPresentationTitle($this->term->getTerm());
+				//$page_gui->setTargetScript("glossary_edit.php?ref_id=".
+				//	$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
+				//$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
+				//	$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
+				$page_gui->executeCommand();
 
-			switch ($cmd)
-			{
+				break;
+
+			default:
+				$this->setTabs();
+				$gloss_loc->display();
+				$ret =& $this->$cmd();
+				break;
+
+				/*
 				case "editDefinitionMetaData":
 					$gloss_loc->display();
 					$this->editMeta();
@@ -136,8 +154,6 @@ class ilTermDefinitionEditorGUI
 				case "deleteMeta":
 				case "cancelDefinitionDeletion":
 				case "deleteDefinition":
-				case "moveDown":
-				case "moveUp":
 					$this->$cmd();
 					break;
 
@@ -146,64 +162,11 @@ class ilTermDefinitionEditorGUI
 					$gloss_loc->display();
 					$page_gui->$cmd();
 					break;
-			}
+				*/
 		}
-
 	}
 
 
-	function confirmDefinitionDeletion()
-	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		sendInfo($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
-
-		$page =& new ilPageObject("gdf", $this->definition->getId());
-		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setTemplateOutput(false);
-		$output = $page_gui->preview();
-
-		$this->tpl->setCurrentBlock("definition");
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("LINK_CANCEL",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=cancelDefinitionDeletion&def=".$this->definition->getId());
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("LINK_CONFIRM",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=deleteDefinition&def=".$this->definition->getId());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function cancelDefinitionDeletion()
-	{
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
-			"&term_id=".$this->term->getId());
-	}
-
-
-	function deleteDefinition()
-	{
-		$this->definition->delete();
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
-			"&term_id=".$this->term->getId());
-	}
-
-
-	function moveUp()
-	{
-		$this->definition->moveUp();
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
-			"&term_id=".$this->term->getId());
-	}
-
-
-	function moveDown()
-	{
-		$this->definition->moveDown();
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
-			"&term_id=".$this->term->getId());
-	}
 
 
 	/**
@@ -214,8 +177,8 @@ class ilTermDefinitionEditorGUI
 		include_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->definition);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".
-			$_GET["ref_id"]."&def=".$_GET["def"]."&cmd=saveDefinitionMetaData");
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->ctrl->getLinkTarget($this, "saveMeta"));
 	}
 
 
@@ -228,8 +191,7 @@ class ilTermDefinitionEditorGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->definition);
 		$meta_gui->save();
-		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$_GET["ref_id"].
-			"&def=".$_GET["def"]);
+		$this->ctrl->redirect($this, "editMeta");
 	}
 
 	/**
@@ -240,8 +202,8 @@ class ilTermDefinitionEditorGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->definition);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&def=".$_GET["def"], $_REQUEST["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
+			$_REQUEST["meta_section"]);
 	}
 
 
@@ -267,8 +229,8 @@ class ilTermDefinitionEditorGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&def=".$_GET["def"], $meta_section);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
+			$meta_section);
 	}
 
 	/**
@@ -281,8 +243,8 @@ class ilTermDefinitionEditorGUI
 		$meta_gui->setObject($this->definition);
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&def=".$_GET["def"], $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this, "editMeta"),
+			$_GET["meta_section"]);
 	}
 
 	/**
@@ -299,8 +261,49 @@ class ilTermDefinitionEditorGUI
 		//$this->setAdminTabs($a_type);
 	}
 
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
 
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
 
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+
+	}
+
+	/**
+	* get tabs
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// edit page
+		$tabs_gui->addTarget("edit",
+			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
+			"ilPageObjectGUI");
+
+		// preview page
+		$tabs_gui->addTarget("cont_preview",
+			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
+			"ilPageObjectGUI");
+
+		// properties
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+			get_class($this));
+
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
+
+	}
+
+	/*
 	function setAdminTabs()
 	{
 		$tabs = array();
@@ -341,7 +344,7 @@ class ilTermDefinitionEditorGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-	}
+	}*/
 
 
 	function displayLocator()
