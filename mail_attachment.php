@@ -13,6 +13,7 @@ require_once "classes/class.ilFormatMail.php";
 require_once "classes/class.ilFileDataMail.php";
 
 $lng->loadLanguageModule("mail");
+$lng->loadLanguageModule("forum");
 
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
