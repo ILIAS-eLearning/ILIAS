@@ -484,20 +484,45 @@ class ASS_QuestionGUI
 	
 	function cancelExplorer()
 	{
+		unset($_SESSION["subquestion_index"]);
+		unset($_SESSION["link_new_type"]);
 		$this->editQuestion();
 	}
 	
-	function addSuggestedSolution($subquestion_index = 0)
+	function addSuggestedSolution()
 	{
 		global $tree;
 
 		require_once("./assessment/classes/class.ilSolutionExplorer.php");
-
-		$_SESSION["link_new_type"] = "lm";
+		switch ($_POST["internalLinkType"])
+		{
+			case "lm":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "lm";
+				break;
+			case "glo":
+				$_SESSION["link_new_type"] = "glo";
+				$_SESSION["search_link_type"] = "glo";
+				break;
+			case "st":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "st";
+				break;
+			case "pg":
+				$_SESSION["link_new_type"] = "lm";
+				$_SESSION["search_link_type"] = "pg";
+				break;
+			default:
+				if (!$_SESSION["link_new_type"])
+				{
+					$_SESSION["link_new_type"] = "lm";
+				}
+				break;
+		}
 
 		sendInfo($this->lng->txt("select_object_to_link"));
 		
-		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this), $subquestion_index);
+		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this));
 
 		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addSuggestedSolution'));
@@ -524,7 +549,14 @@ class ASS_QuestionGUI
 	
 	function linkChilds()
 	{
-		$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], 0);
+		$subquestion_index = 0;
+		if ($_SESSION["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_SESSION["subquestion_index"];
+		}
+		$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
+		unset($_SESSION["subquestion_index"]);
+		unset($_SESSION["link_new_type"]);
 		$this->editQuestion();
 	}
 }

@@ -1040,7 +1040,7 @@ class ilObjTest extends ilObject
 	function loadQuestions() {
     $db = $this->ilias->db;
 		$this->questions = array();
-		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+		$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
 			$db->quote($this->test_id)
 		);
 		$result = $db->query($query);

@@ -955,6 +955,10 @@ class ASS_Question
 		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 		$deleteresult = $this->ilias->db->query($querydelete);
 
+		// delete suggested solutions contained in the question
+		$querydelete = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", $this->ilias->db->quote($question_id));
+		$deleteresult = $this->ilias->db->query($querydelete);
+				
 		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
 		if (is_dir($directory))
 		{
@@ -1194,35 +1198,38 @@ class ASS_Question
 	
 	function setSuggestedSolution($solution_id = "", $subquestion_index = 0, $is_import = false)
 	{
-		$import_id = "";
-		if ($is_import)
+		if (strcmp($solution_id, "") != 0)
 		{
-			if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $solution_id, $matches))
+			$import_id = "";
+			if ($is_import)
 			{
-				require_once "./content/classes/Pages/class.ilInternalLink.php";
-				require_once "./content/classes/class.ilLMObject.php";
-				$import_id = $solution_id;
-				switch ($matches[2])
+				if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $solution_id, $matches))
 				{
-					case "pg":
-						$solution_id = ilInternalLink::_getIdForImportId("PageObject", $import_id);
-						break;
-					case "st":
-						$solution_id = ilInternalLink::_getIdForImportId("StructureObject", $import_id);
-						break;
-					case "git":
-						$solution_id = ilInternalLink::_getIdForImportId("GlossaryItem", $import_id);
-						break;
-					case "mob":
-						$solution_id = ilInternalLink::_getIdForImportId("MediaObject", $import_id);
-						break;
+					require_once "./content/classes/Pages/class.ilInternalLink.php";
+					require_once "./content/classes/class.ilLMObject.php";
+					$import_id = $solution_id;
+					switch ($matches[2])
+					{
+						case "pg":
+							$solution_id = ilInternalLink::_getIdForImportId("PageObject", $import_id);
+							break;
+						case "st":
+							$solution_id = ilInternalLink::_getIdForImportId("StructureObject", $import_id);
+							break;
+						case "git":
+							$solution_id = ilInternalLink::_getIdForImportId("GlossaryItem", $import_id);
+							break;
+						case "mob":
+							$solution_id = ilInternalLink::_getIdForImportId("MediaObject", $import_id);
+							break;
+					}
 				}
 			}
+			$this->suggested_solutions[$subquestion_index] = array(
+				"internal_link" => $solution_id,
+				"import_id" => $import_id
+			);
 		}
-		$this->suggested_solutions[$subquestion_index] = array(
-			"internal_link" => $solution_id,
-			"import_id" => $import_id
-		);
 	}
 	
 	function _getInternalLinkHref($target = "")

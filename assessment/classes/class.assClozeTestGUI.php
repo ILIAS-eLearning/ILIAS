@@ -720,12 +720,13 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->editQuestion();
 				return;
 			}
+			$_SESSION["subquestion_index"] = $addForGap;
 		}
 		$this->object->saveToDb();
 		$_GET["q_id"] = $this->object->getId();
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
-		parent::addSuggestedSolution($addForGap);
+		parent::addSuggestedSolution();
 	}
 
 	function removeSuggestedSolution()
