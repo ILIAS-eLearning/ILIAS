@@ -498,7 +498,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if (strcmp($row["title"], "ILIAS") == 0) {
 				$row["title"] = $this->lng->txt("repository");
 			}
-			$ilias_locator->navigate($i++,$row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+			if ($this->ref_id == $row["child"]) {
+				if ($_GET["cmd"]) {
+					$param = "&cmd=" . $_GET["cmd"];
+				} else {
+					$param = "";
+				}
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"bottom");
+			} else {
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+			}
 		}
 
 		if (isset($_GET["obj_id"]))

@@ -450,7 +450,7 @@ class ASS_MatchingQuestion extends ASS_Question {
   function get_reached_points($user_id, $test_id) {
     $found_value1 = array();
     $found_value2 = array();
-    $query = sprintf("SELECT * FROM dum_assessment_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+    $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $this->ilias->db->db->quote($user_id),
       $this->ilias->db->db->quote($test_id),
       $this->ilias->db->db->quote($this->get_id())
@@ -484,7 +484,13 @@ class ASS_MatchingQuestion extends ASS_Question {
 * @see $points
 */
   function get_maximum_points() {
-    return $this->points;
+		$points = 0;
+		foreach ($this->matchingpairs as $key => $value) {
+			if ($value->get_points() > 0) {
+				$points += $value->get_points();
+			}
+		}
+    return $points;
   }
   
 /**
