@@ -106,11 +106,13 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("TXT_EXTERNAL_URL", $this->lng->txt("cont_external_url"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("cont_title"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
 		
 		$this->tpl->setVariable("TXT_OR", $this->lng->txt("cont_or"));
 		$this->tpl->setVariable("TXT_EXAMPLE", $this->lng->txt("cont_example"));
 		
+		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("cont_confirm_delete"));
 	}
 	
 	function showItl() 

@@ -100,6 +100,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 			$this->tpl->setVariable("LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+			
+			$this->tpl->setVariable("REMOVELINK",$this->lng->txt("cont_removeiln"));
+			
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 		}
 

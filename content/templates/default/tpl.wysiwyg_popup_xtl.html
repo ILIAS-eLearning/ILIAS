@@ -20,7 +20,13 @@
 <p>
 <table cellspacing="0" cellpadding="0" width="100%"><tr><td>
 	<input type="button" value="{BTN_SUBMIT}" onClick="returnXtlLink();">
-</td><td align=right>
+</td>
+
+<td align=center>
+	<input type="button" value="{BTN_DELETE}" onClick="if(confirm('{DELETE_QUESTION}')) deleteXln();" name="deletelink">
+</td>
+
+<td align=right>
 	<input type="button" value="{BTN_CLOSE}" onClick="window.close();">
 </td></tr></table>
 
@@ -28,6 +34,7 @@
 
 
 <script>
+
 var oldUrl = "";
 var oldTitle = "";
 var oldLink = "";
@@ -99,7 +106,13 @@ function initForm()
 		if(oldUrl!="") document.form.externalurl.value = oldUrl;
 		if(oldTitle!="") document.form.externaltitle.value = oldTitle;
 	}
-	window.focus();		
+	
+	if(oldTitle=="") {
+		
+		document.form.deletelink.disabled=true;
+	}
+	
+	window.focus();
 }
 
 function returnXtlLink() 
@@ -128,8 +141,11 @@ function returnXtlLink()
 			for(k=0;k<20;k++) 
 			{
 				H = H.replace("<span class=\"ilc_Comment\"></span>","");
+				H = H.replace("<span class=\"ilc_Quotation\"></span>","");
+				H = H.replace("<span class=\"ilc_Strong\"></span>","");
+				H = H.replace("<span class=\"ilc_Emph\"></span>","");
 				H = H.replace("<p>","");
-				H = H.replace("</p>","");
+				H = H.replace("</p>","<br>");
 				H = H.replace("<strong></strong>","");
 			}
 			
@@ -149,6 +165,21 @@ function returnXtlLink()
 	
 	window.close();
 }
+
+
+
+function deleteXln() {
+
+	N = oldTitle;
+	S = opener.editor.getHTML();
+	S = S.replace(oldLink,N);
+	opener.editor.setHTML(S+"&nbsp;");
+	opener.editor.focusEditor();
+
+	window.close();
+}
+
+
 </script>
 
 </body>
