@@ -404,10 +404,12 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 			if ($this->object->get_ordering_type() == OQ_PICTURES) 
 			{
 				$imagepath = $this->object->getImagePathWeb() . $value->get_answertext();
-				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
+	      $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE_IMAGE", $key);
+				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_IMAGE", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
 			} 
 			else 
 			{
+	      $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE_TEXT", $key);
       	$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
 			}
       $this->tpl->parseCurrentBlock();

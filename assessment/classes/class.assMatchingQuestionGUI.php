@@ -435,7 +435,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI {
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES) 
 			{
 				$imagepath = $this->object->getImagePathWeb() . $value->get_matchingtext();
-				$this->tpl->setVariable("MATCHING_TEXT", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
+				$this->tpl->setVariable("MATCHING_PICTURE", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
 			} 
 			else 
 			{

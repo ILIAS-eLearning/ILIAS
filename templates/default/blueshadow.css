@@ -91,6 +91,22 @@ table.fullwidth_invisible {
 	border-spacing:0px;
 }
 
+table.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	padding: 3px;
+}
+
+td.nobackground {
+	color: #000000;
+	background-color: inherit;
+	border-spacing:0px;
+	border: transparent;
+	padding: 3px;
+	vertical-align: top;
+}
+
 td.std {
 	padding:2px;
 }
@@ -184,6 +200,11 @@ td.option_desc, p.option_desc {
 	font-size:11px;
 	vertical-align:top;
 	text-align:left;
+}
+
+td.boxed {
+	border-style: solid;
+	border-width: thin;
 }
 
 td.submit {
@@ -988,6 +1009,23 @@ div.ilc_TableOfContents
 }
 
 .questionTitle {
+	border-bottom: thin solid #333333;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 0.5em;
+}
+
+/* --- Survey tool styles --- */
+
+.surveySheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.surveyTitle {
 	border-bottom: thin solid #333333;
 	font-size: 14px;
 	font-weight: bold;
