@@ -298,7 +298,7 @@ bibitem#:#bibitem_grey_literature#:#Graue Literatur
 bibitem#:#bibitem_how_published#:#Wie veröffentlicht
 bibitem#:#bibitem_identifier#:#Bezeichner
 bibitem#:#bibitem_inbook#:#Bucheinlage
-bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
+bibitem#:#bibitem_inproceedings#:#In Veröffentlichungen
 bibitem#:#bibitem_institution#:#Institution
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
@@ -587,7 +587,7 @@ common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
-common#:#copyPage#:#Copy###10 May 2004 new variable
+common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
 common#:#country#:#Land
 common#:#course#:#Kurs
@@ -862,7 +862,7 @@ common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
-common#:#group_status#:#Gruppe ist###08 May 2004 content changed
+common#:#group_status#:#Gruppe ist
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_public#:#Öffentlich
@@ -1715,7 +1715,7 @@ content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
-content#:#cont_Code#:#Code###08 May 2004 new variable
+content#:#cont_Code#:#Code
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
