@@ -1412,12 +1412,12 @@ class ilObjSurvey extends ilObject
 */
 	function &getExistingQuestions() {
 		$existing_questions = array();
-		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+		$query = sprintf("SELECT survey_question.original_id FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id",
 			$this->ilias->db->quote($this->getSurveyId())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			array_push($existing_questions, $data->question_fi);
+			array_push($existing_questions, $data->original_id);
 		}
 		return $existing_questions;
 	}
@@ -2722,6 +2722,24 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
+
+	function &getForbiddenQuestionpools()
+	{
+		global $rbacsystem;
+		
+		// get all available questionpools and remove the trashed questionspools
+		$forbidden_pools = array();
+		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'spl'";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			if (!$rbacsystem->checkAccess('read', $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
+			{
+				array_push($forbidden_pools, $row->obj_id);
+			}
+		}
+		return $forbidden_pools;
+	}
 	
 /**
 * Calculates the data for the output of the question browser
@@ -2786,7 +2804,21 @@ class ilObjSurvey extends ilObject
       }
     }
 		$maxentries = $ilUser->prefs["hits_per_page"];
-	  $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+
+		$forbidden_pools =& $this->getForbiddenQuestionpools();
+		$forbidden = "";
+		if (count($forbidden_pools))
+		{
+			$forbidden = " AND survey_question.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+		}
+
+		$existing = "";
+		$existing_questions =& $this->getExistingQuestions();
+		if (count($existing_questions))
+		{
+			$existing = " AND survey_question.question_id NOT IN (" . join($existing_questions, ",") . ")";
+		}
+	  $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -2798,7 +2830,7 @@ class ilObjSurvey extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-	  $query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+	  $query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
