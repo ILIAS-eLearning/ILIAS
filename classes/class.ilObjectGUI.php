@@ -957,6 +957,7 @@ class ilObjectGUI
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
 
 			unset($newObj);
 		}
@@ -1219,6 +1220,7 @@ class ilObjectGUI
 						$rolfObj->create();
 						$rolfObj->createReference();
 						$rolfObj->putInTree($_GET["ref_id"]);
+						$rolfObj->setPermissions($_GET["ref_id"]);
 						unset($rolfObj);
 						
 						$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);

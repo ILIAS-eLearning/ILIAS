@@ -467,18 +467,25 @@ class ilObject
 		global $tree, $rbacadmin;
 
 		$tree->insertNode($this->getRefId(), $a_parent);
-
-		// TODO: MAKE THIS WORK!
-		/*
-		$parentRoles = $rbacadmin->getParentRoleIds();
-		foreach ($parentRoles as $parRol)
-		{
-    		// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-			$ops = $rbacreview->getOperations($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId(), $a_parent);
-		}*/
 	}
 
+	/**
+	* set permissions of object
+	* @param integer id of parent object
+	*/
+	function setPermissions($a_parent)
+	{
+		global $rbacadmin,$rbacreview;
+
+		$parentRoles = $rbacadmin->getParentRoleIds($a_parent);
+
+		foreach ($parentRoles as $parRol)
+		{
+			$ops = $rbacreview->getOperations($parRol["obj_id"], $this->getType(), $parRol["parent"]);
+			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
+		}
+	}
+		
 
 	/**
 	* creates reference for object
