@@ -52,7 +52,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="dlib" class_name="Digilib" checkbox="1">
+<object name="dlib" class_name="Digilib" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
