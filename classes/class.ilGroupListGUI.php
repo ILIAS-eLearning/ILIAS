@@ -155,7 +155,7 @@ class ilGroupListGUI
 		infoPanel();
 		sendInfo();
 		$this->setAdminTabs(true, "");
-		ilGroupGUI::setLocator("", "",$locatorscript);
+		$this->setLocator();
 		
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
 
@@ -182,8 +182,6 @@ class ilGroupListGUI
 		{
 			$_SESSION["viewmode"] = "flat";
 		}
-
-
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
@@ -256,7 +254,6 @@ class ilGroupListGUI
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 		$cont_num = count($cont_arr);
 
-
 		// render table content data
 		if ($cont_num > 0)
 		{
@@ -270,7 +267,7 @@ class ilGroupListGUI
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				//$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
-				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"]."&expand=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
+				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LINK", $obj_link);

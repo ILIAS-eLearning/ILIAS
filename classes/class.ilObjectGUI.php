@@ -1273,6 +1273,7 @@ class ilObjectGUI
 		header("Location:".$this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 		exit();
 	}
+
 	/**
 	* save object
 	*
@@ -1308,11 +1309,6 @@ class ilObjectGUI
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
 			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
-
-			
-//			$location = $this->getReturnLocation("save","adm_object.php");
-//			$newObj->setReturnLocation("save",$location);
 
 			return $newObj;
 		}

@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.4 2003/07/29 13:04:23 mrus Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.5 2003/09/29 12:18:33 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -54,8 +54,8 @@ class ilObjFolderGUI extends ilObjectGUI
 	function ilObjFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "fold";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
-		
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		//echo "hier";exit;
 
 		if ($_GET["tree_id"])
 		{
@@ -127,40 +127,35 @@ class ilObjFolderGUI extends ilObjectGUI
 
 	/**
 	* save object
+	*
 	* @access	public
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+		//var_dump($_GET["ref_id"]);exit;
+		global $rbacsystem, $objDefinition;
 
-		//if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		//{
-		// create and insert Folder in objecttree
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+//		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+//		{
+//			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+//		}
+		
+		// create and insert Folder in grp_tree
 		include_once("classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder();
 		$folderObj->setType($this->type);
 		$folderObj->setTitle($_POST["Fobject"]["title"]);
 		$folderObj->setDescription($_POST["Fobject"]["desc"]);
 		$folderObj->create();
-
-		//$folderObj->createReference();
-		//insert folder in local_tree
-		//echo $folderObj->getId()."-".$_GET["obj_id"]."-".$_GET["tree_id"];
-		include_once "class.ilObjGroup.php";
-		ilObjGroup::insertGroupNode($folderObj->getId(), $_GET["obj_id"],$_GET["tree_id"]);
-
-		/*//$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-		//echo "folder_id:".$folderObj->getId()."übergeordnetes Objekt".$object->getId();
-		//insert folder in local_tree
-		$this->local_tree->insertNode($folderObj->getId(), $_GET["obj_id"]);
-		//make sure that objects without a ref_id gets -1 as substitution 
-		$folderObj->setRefId($_GET["tree_id"],$folderObj->getId(),$_GET["obj_id"]);
-		*/
-		/*}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}*/
+		$folderObj->createReference();
+		//insert folder in grp_tree
+		$folderObj->putInTree($_GET["ref_id"]);
+			
+		// no notify for folders
+		//$folderObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$folderObj->getRefId());
 
 		sendInfo($this->lng->txt("folder_added"),true);		
 		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
