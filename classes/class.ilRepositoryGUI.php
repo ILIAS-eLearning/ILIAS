@@ -3540,7 +3540,7 @@ class ilRepositoryGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("objs_webr"),"icon_webr_b.gif",$this->lng->txt("objs_webr"));
+		$tbl->setTitle($this->lng->txt("objs_webr"),"icon_webr.gif",$this->lng->txt("objs_webr"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
@@ -3557,8 +3557,8 @@ class ilRepositoryGUI
 		$tbl->setTemplate($tpl);
 		$tbl->render();
 
-		$this->tpl->setCurrentBlock("folders");
-		$this->tpl->setVariable("FOLDERS", $tpl->get());
+		$this->tpl->setCurrentBlock("web_resources");
+		$this->tpl->setVariable("WEBRESOURCES", $tpl->get());
 		$this->tpl->parseCurrentBlock();
 	} // SHOW link_resources
 
