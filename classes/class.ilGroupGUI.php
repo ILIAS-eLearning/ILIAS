@@ -213,7 +213,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
 		$this->tpl->setVariable("SUBJECT",$textfield);
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("apply"));
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("grp_register"));
 		$this->tpl->setVariable("CMD_CANCEL","groupList");
 		$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&user_id=".$this->ilias->account->getId());
