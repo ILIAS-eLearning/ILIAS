@@ -111,9 +111,22 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 	function showAbstract($a_target_id)
 	{
-		if(is_array($a_target_id) and count($a_target_id) > 1)
+		if(count($_POST["tr_id"]) > 1)
 		{
-			sendInfo($this->lng->txt("cont_msg_multiple_editions"));
+			$message = true;
+			$message_text = $this->lng->txt("cont_select_one_translation_warning");
+			$show_full = false;
+		}
+		else if(!$a_target_id and ($_POST["action"] == "show" or $_POST["action"] == "details"))
+		{
+			$message = true;
+			$message_text = $this->lng->txt("cont_select_one_edition");
+			$show_full = false;
+		}			
+		else if(is_array($a_target_id) and count($a_target_id) > 1)
+		{
+			$message = true;
+			$message_text = $this->lng->txt("cont_msg_multiple_editions");
 			$show_full = false;
 		}
 		else if(is_array($a_target_id))
@@ -194,8 +207,13 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			$tmp_tpl->setVariable("SHOW",$this->lng->txt("cont_show"));
 			$tmp_tpl->setVariable("SHOW_CITATION",$this->lng->txt("cont_show_citation"));
 			$tmp_tpl->setVariable("GO",$this->lng->txt("go"));
-		}		
-
+		}
+		
+		// SHOW MESSAGE
+		if($message)
+		{
+			sendInfo($message_text);
+		}
 		$xsl = $tmp_tpl->get();
 		$xml = $this->object->bib_obj->getXML();
 		
