@@ -140,6 +140,35 @@ class SurveyOrdinalQuestionGUI {
 	}
 	
 /**
+* Creates an output for the addition of standard numbers
+*
+* Creates an output for the addition of standard numbers
+*
+* @access public
+*/
+  function showStandardNumbersForm() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", true);
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
+		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
+		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
+		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
+		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Creates an output to save a phrase
 *
 * Creates an output to save a phrase

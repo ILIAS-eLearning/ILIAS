@@ -3124,3 +3124,8 @@ survey#:#enter_phrase_title#:#Please enter a phrase title
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!
+survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!
+survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
+survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.
+survey#:#lower_limit#:#Lower limit
+survey#:#upper_limit#:#Upper limit
