@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ObjectOut.php,v 1.39 2003/03/14 22:01:47 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.40 2003/03/14 23:17:55 akill Exp $
 *
 * @package ilias-core
 */
@@ -688,7 +688,7 @@ class ObjectOut
 			}
 			//visible data part
 			$this->data["data"][] = array(
-				"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
+				"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"]."_b.gif\" border=\"0\">",
 				"title" => $val["title"],
 				"description" => $val["desc"],
 				"last_change" => Format::formatDate($val["last_update"])
