@@ -56,7 +56,6 @@ class ilLMObjectGUI
 	function edit_meta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setLMObject($this->lm_obj);
 		$meta_gui->setObject($this->obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=save_meta");
@@ -65,7 +64,6 @@ class ilLMObjectGUI
 	function save_meta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setLMObject($this->lm_obj);
 		$meta_gui->setObject($this->obj);
 		$meta_gui->save();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".

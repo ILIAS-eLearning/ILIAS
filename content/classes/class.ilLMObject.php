@@ -145,17 +145,29 @@ class ilLMObject
 		return $this->meta_data;
 	}
 
-	function update()
+
+	/**
+	* update meta data of object and lm_data table
+	*/
+	function updateMetaData()
 	{
-		// insert object data
+		// update object data
 		$query = "UPDATE lm_data SET title = '".$this->getTitle()."'".
 			" WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
 
 		// create meta data
 		$this->meta_data->update();
-
 	}
+
+	/**
+	* update complete object
+	*/
+	function update()
+	{
+		$this->updateMetaData();
+	}
+
 
 	function delete()
 	{

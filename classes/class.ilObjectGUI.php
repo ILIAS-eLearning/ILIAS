@@ -1193,6 +1193,12 @@ class ilObjectGUI
 		exit();
 	}
 
+
+	/**
+	* import new object form
+	*
+	* @access	public
+	*/
 	function importObject()
 	{
 		global $rbacsystem;
@@ -1205,7 +1211,8 @@ class ilObjectGUI
 		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
 		if(!in_array($_POST["new_type"], $imp_obj))
 		{
-			$this->ilias->raiseError($this->lng->txt("no import"),
+			$this->ilias->raiseError($this->lng->txt("no_import_available").
+				" ".$this->lng->txt("obj_".$_POST["new_type"]),
 				$this->ilias->error_obj->MESSAGE);
 		}
 		// no general implementation of this feature, the specialized classes

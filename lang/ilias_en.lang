@@ -146,6 +146,7 @@ common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
+common#:#no_import_available#:#Import not available for type
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
@@ -365,6 +366,7 @@ common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
 common#:#obj_frm#:#Forum
+common#:#obj_lm#:#Learning Module
 common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
 common#:#obj_lng#:#Language

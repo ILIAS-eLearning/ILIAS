@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.13 2003/06/15 17:41:24 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.14 2003/06/16 07:01:48 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -65,7 +65,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
-	*
+	* save new learning module to db
 	*/
 	function saveObject()
 	{
@@ -104,6 +104,27 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		exit();
 	}
 
+	/**
+	* display dialogue for importing XML-LeaningObjects
+	*
+	* @access	public
+	*/
+	function importObject()
+	{
+		$this->getTemplateFile("import", "lm");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=lm");
+		$this->tpl->setVariable("BTN_NAME", "upload");
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
+		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
+		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
+		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));
+		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+
+	}
+
+
 	function editMetaObject()
 	{
 		require_once "classes/class.ilMetaDataGUI.php";
@@ -138,6 +159,22 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		//add template for buttons
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/lm_edit.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/lm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
+
 
 		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);
 
@@ -187,33 +224,6 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		return;
 	}
 
-	/**
-	* display dialogue for importing XML-LeaningObjects
-	*
-	* @access	public
-	*/
-	function importObject()
-	{
-		$this->getTemplateFile("import", "lm");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway");
-		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
-		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
-		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
-		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-
-	}
-
-	/**
-	* test implementation, will be moved or deleted
-	*/
-	function view2Object()
-	{
-		header("Location: content/lm_presentation.php?lm_id=".$this->object->getID());
-	}
 
 	/**
 	* display status information or report errors messages
@@ -223,7 +233,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		global $HTTP_POST_FILES;
+		global $HTTP_POST_FILES, $rbacsystem;
 
 		require_once "classes/class.ilObjLearningModule.php";
 
@@ -233,6 +243,11 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 		}
+		// check create permission
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
+		}
 
 		// check correct file type
 		if ($HTTP_POST_FILES["xmldoc"]["type"] != "text/xml")
@@ -240,25 +255,37 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}
 
+		// create and insert object in objecttree
+		require_once("classes/class.ilObjLearningModule.php");
+		$newObj = new ilObjLearningModule();
+		$newObj->setType("lm");
+		$newObj->setTitle("");			// set by meta_gui->save
+		$newObj->setDescription("");	// set by meta_gui->save
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+
+		// create learning module tree
+		$newObj->createLMTree();
+
 		// --- start: test of alternate parsing / lm storing
 		if ($_POST["parse_mode"] == 2)
 		{
 			require_once ("content/classes/class.ilLMParser.php");
-			$lmParser = new ilLMParser($this->object->getID(), $HTTP_POST_FILES["xmldoc"]["tmp_name"]);
+			$lmParser = new ilLMParser($newObj, $HTTP_POST_FILES["xmldoc"]["tmp_name"]);
 			$lmParser->startParsing();
-			exit;
+		} // --- end: test of alternate parsing / lm storing
+		else
+		{
+			// original import
+			$this->data = $newObj->upload(	$_POST["parse_mode"],
+											$HTTP_POST_FILES["xmldoc"]["tmp_name"],
+											$HTTP_POST_FILES["xmldoc"]["name"]);
+			unset($newObj);
 		}
-		// --- end: test of alternate parsing / lm storing
 
-		//
-		$lmObj = new ilObjLearningModule($_GET["ref_id"]);
-		$this->data = $lmObj->upload(	$_POST["parse_mode"],
-										$HTTP_POST_FILES["xmldoc"]["tmp_name"],
-										$HTTP_POST_FILES["xmldoc"]["name"]);
-		unset($lmObj);
-
-
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&message=".urlencode($this->data["msg"]));
+		header("Location: adm_object.php?".$this->link_params);
 		exit();
 
 		//nada para mirar ahora :-)

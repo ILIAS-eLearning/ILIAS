@@ -112,7 +112,7 @@ class ilMetaDataGUI
 	{
 		$meta = $_POST["meta"];
 		$this->meta_obj->setTitle($meta["title"]);
-		$this->obj->update();
+		$this->obj->updateMetaData();
 	}
 
 	function &create()

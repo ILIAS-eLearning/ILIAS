@@ -71,7 +71,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 
 	function view()
 	{
+		//add template for buttons
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	function chapters()
