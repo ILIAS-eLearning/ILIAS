@@ -5,7 +5,7 @@
   <!--<div class="invisible_border">-->
 	{MESSAGE}
 	<br />
-	  <form action="{FORMACTION}" method="post">
+	  <form action="{FORMACTION}" name="txt_input" method="post">
 		<table class="std" border="0">
 		  <tr>
 			<td class="option">{TXT_COLOR}</td>
@@ -35,3 +35,9 @@
   </table>
   <!--</div>-->
   </td></tr></table>
+<script language="JavaScript">
+<!--
+	if(document.txt_input.message.value!="") document.txt_input.message.focus();
+	else document.txt_input.message.focus();
+//-->
+</script>
