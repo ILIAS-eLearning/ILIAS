@@ -4,12 +4,13 @@
 * perform basic setup: init database handler, load configuration file,
 * init user authentification & error handler, load object type definitions
 *
-* @version $Id$
 * @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
 *
 * @extends PEAR
 * @package ilias-core
-* @access public
+* @todo review the concept how the object type definition is loaded. We need a concept to
+* @todo edit the definitions via webfrontend in the admin console.
 */
 class ILIAS extends PEAR
 {
@@ -117,6 +118,7 @@ class ILIAS extends PEAR
 		if ($this->ini->ERROR != "")
 		{
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
+			exit;
 		}
 		
 		// build dsn of database connection and connect
@@ -167,13 +169,14 @@ class ILIAS extends PEAR
 	* @param	string	keyword
 	* @return	string	value
 	*/
-	function getSettingsStr($key)
+	function getSettingsStr($a_keyword)
 	{
-		$sql = "SELECT value_str FROM settings WHERE keyword='".$key."'";
-		$r = $this->db->query($sql);
-		if ($r->num_rows()>0)
+		$query = "SELECT value_str FROM settings WHERE keyword='".$a_keyword."'";
+		$res = $this->db->query($query);
+
+		if ($res->numRows() > 0)
 		{
-			$row = $r->fetchRow();
+			$row = $res->fetchRow();
 			return $row[0];
 		}
 		else
@@ -188,14 +191,14 @@ class ILIAS extends PEAR
 	* @param	string		keyword
 	* @return	integer		value
 	*/
-	function getSettingsInt($key)
+	function getSettingsInt($a_keyword)
 	{
-		$sql = "SELECT value_int FROM settings WHERE keyword='".$key."'";
-		$r = $this->db->query($sql);
+		$query = "SELECT value_int FROM settings WHERE keyword='".$a_keyword."'";
+		$res = $this->db->query($query);
 
-		if ($r->numRows()>0)
+		if ($res->numRows() > 0)
 		{
-			$row = $r->fetchRow();
+			$row = $res->fetchRow();
 			return $row[0];
 		}
 		else
@@ -211,13 +214,13 @@ class ILIAS extends PEAR
 	* @param	integer		value
 	* @return	integer		value
 	*/
-	function setSettingsInt($key, $value)
+	function setSettingsInt($a_keyword, $a_value)
 	{
-		$sql = "DELETE FROM settings WHERE keyword='".$key."'";
-		$r = $this->db->query($sql);
+		$query = "DELETE FROM settings WHERE keyword='".$a_keyword."'";
+		$res = $this->db->query($query);
 
-		$sql = "INSERT INTO settings (keyword, value_int) VALUES ('".$key."','".$value."')";
-		$r = $this->db->query($sql);
+		$query = "INSERT INTO settings (keyword, value_int) VALUES ('".$a_keyword."','".$a_value."')";
+		$res = $this->db->query($query);
 		return true;
 	}
 	
@@ -254,6 +257,5 @@ class ILIAS extends PEAR
 		$this->skins = $skins;
 		return true;
 	}
-	
 } // END class.ILIAS
 ?>
