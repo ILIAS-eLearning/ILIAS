@@ -25,8 +25,10 @@
   <p class="msg"><font color="red">{TXT_ERR}</font></p>
 <!-- END message -->
 
-
-
+<!-- BEGIN menulink -->
+  <p><a href="{LINK_MENU}">[ {TXT_MENU} ]</a></p>
+<!-- END menulink -->
+  
 <!-- BEGIN step0 -->
 <p>Welcome to ILIAS setup. This setup-routine helps you
 <ul>
@@ -145,28 +147,82 @@
 
 <!-- BEGIN step3 -->
 	<p><h1>{TXT_DATABASE3}</h1></p>
-	<p><a href="{LINK_STEP3}">[ {TXT_STEP3} ]</a></p>
 <!-- END step3 -->
 
 <!-- BEGIN step4 -->
 <h1>{TXT_LANGUAGES4}</h1>
-<p>Coming soon...<br/>English is pre-installed if you setup your database for the first time.</p>
+<form method="post" name="form" action="setup.php?step=5&amp;lang={LANG}">
+<table>
+<tr>
+<td>&nbsp;<input type="checkbox" name="dummy" checked="checked" />&nbsp;</td>
+<td>&nbsp;{TXT_LANG}&nbsp;</td>
+<td>&nbsp;{TXT_OK}&nbsp;</td>
+<td>&nbsp;<i>{TXT_REMARK}</i>&nbsp;</td>
+</tr>
+<!-- BEGIN language_row -->
+<tr>
+<td>&nbsp;<input type="checkbox" name="{ARR_LANG_KEY}" {CHECKED} />&nbsp;</td>
+<td>&nbsp;{TXT_LANG}&nbsp;</td>
+<td>&nbsp;{TXT_OK}&nbsp;</td>
+<td>&nbsp;<i>{TXT_REMARK}</i>&nbsp;</td>
+</tr>
+<!-- END language_row -->
+<tr>
+<td colspan="4"><input type="submit" name="submit" value="submit" /></td>
+</tr>
+</table>
+</form>
 <p><a href="{LINK_STEP4}">[ {TXT_STEP4} ]</a></p>
 <!-- END step4 -->
 
 <!-- BEGIN step5 -->
-<h1>{TXT_PASSWORD5}</h1>
+<h1>{TXT_LANGUAGES5}</h1>
+<p>Installing chosen languages...</p>
+<p><font color="red">{TXT_MESSAGE}</font></p>
+<p><a href="{LINK_STEP5}">[ {TXT_STEP5} ]</a></p>
+<!-- END step5 -->
+
+<!-- BEGIN step6 -->
+<h1>{TXT_PASSWORD6}</h1>
 <p>To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.</p>
-<form action="setup.php?setup.php?step=6&amp;lang={LANG}" method="post">
+<form action="setup.php?step=7&amp;lang={LANG}" method="post">
 <p>Please choose a password: 
 <input type="password" name="passwd" size="20"/>
 <input type="submit" name="ok" value="ok" />
 </p>
 </form>
-<p><font color="red">Under construction. Password protection doesn't work yet.</font></p>
-<p><a href="{LINK_STEP5}">[ {TXT_STEP5} ]</a></p>
-<!-- END step5 -->
+<p><a href="{LINK_STEP6}">[ {TXT_STEP6} ]</a></p>
+<!-- END step6 -->
+
+<!-- BEGIN login -->
+<h1>{TXT_TITLE}</h1>
+<form action="setup.php?step=9&amp;lang={LANG}" method="post">
+<p>{TXT_ENTER_PASSWD}: 
+<input type="password" name="passwd" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<!-- END login -->
+
+<!-- BEGIN changepasswd -->
+<h1>{TXT_TITLE}</h1>
+<form action="setup.php?step=12&amp;lang={LANG}" method="post">
+<p>{TXT_SET_OLDPASSWD}: 
+<input type="password" name="passwdold" size="20"/>
+{TXT_SET_NEWPASSWD}: 
+<input type="password" name="passwdnew" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<!-- END changepasswd -->
 
 <hr />
+<!-- BEGIN logout -->
+<table width="100%">
+<tr>
+<td align="right"><a href="setup.php?step=10&amp;lang={LANG}">[ {TXT_LOGOUT} ]</a>&nbsp;</td>
+</tr>
+</table>
+<!-- END logout -->
 </body>
 </html>
