@@ -256,12 +256,20 @@ phone#:#Telefon
 port#:#Port
 position#:#Position
 pre_cookies_enabled#:#Cookies sind eingeschaltet
+pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS 3.
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
 pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
+pre_folder_create_error#:#Im ILIAS 3 Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
 pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
+pre_folder_write_error#:#Das ILIAS 3 Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
 pre_php_version#:#PHP-Version
+pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
+pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser PHP-Version.
+pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
+pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS 3.
+pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 preliminaries#:#Vorbereitende Massnahmen
 prev#:#Zurück
 overall_status#:#Installationsstatus

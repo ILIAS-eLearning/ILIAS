@@ -261,12 +261,20 @@ phone#:#Phone
 port#:#port
 position#:#Position
 pre_cookies_enabled#:#Cookies enabled
+pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
+pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!
 pre_folder_write#:#Writable ILIAS 3 folder
+pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
 pre_javascript_enabled#:#Javascript enabled
 pre_php_version#:#PHP version
+pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.
+pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.
+pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!
+pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.
+pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!
 preliminaries#:#Preliminaries
 prev#:#Previous
 required_field#:#required fields
