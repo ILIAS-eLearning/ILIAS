@@ -317,6 +317,16 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	* get content print style
+	*
+	* static
+	*/
+	function getContentPrintStyle()
+	{
+		return "../content/print_content.css";
+	}
+
+	/**
 	* get syntax style path
 	*
 	* static
