@@ -33,7 +33,7 @@ function getObject ($a_obj_id)
 
 	if ($r->numRows() == 0)
 	{
-		$message = "perm::getObject(): Object with obj_id ".$a_obj_id." not found!";
+		$message = "perm::getObject(): Object with obj_id: ".$a_obj_id." not found!";
 		$log->writeWarning($message);
 		$ilias->raiseError($message,$ilias->error_obj->WARNING);
 	}

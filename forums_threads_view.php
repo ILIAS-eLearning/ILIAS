@@ -27,11 +27,6 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
 
-if ($_GET["feedback"] != "")
-{
-	$tpl->setVariable("TXT_FORM_FEEDBACK", $_GET["feedback"]);
-}
-
 // sorting val for posts
 if ($_GET["orderby"] == "")
 {
@@ -116,7 +111,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 		if ($errors != "")
 		{
-			$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
+			//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
+			sendInfo($lng->txt("form_empty_fields"));
 		}
 		else
 		{			
@@ -124,14 +120,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 			{
 				// reply: new post
 				$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"], $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"]);			
-				$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_new_entry"));
+				//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_new_entry"));
+				sendInfo($lng->txt("forums_post_new_entry"));
 			}
 			else
 			{				
 				// edit: update post
 				if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
 				{
-					$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_modified"));
+					//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_modified"));
+					sendInfo($lng->txt("forums_post_modified"));
 				}
 			}
 		}
@@ -149,7 +147,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 			exit();
 		}
 		
-		$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_deleted"));
+		//$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_deleted"));
+		sendInfo($lng->txt("forums_post_deleted"));
 	}
 	
 	// get first post of thread
@@ -260,7 +259,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 						{
 							$tpl->setCurrentBlock("kill_cell");
 							$tpl->setVariable("KILL_ANKER", $_GET["pos_pk"]);
-							$tpl->setVariable("KILL_SPACER","<hr noshade width=100% size=1 align='center'>"); 
+							$tpl->setVariable("KILL_SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 							$tpl->setVariable("TXT_KILL", $lng->txt("forums_info_delete_post"));								
 							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel")); 
@@ -288,7 +287,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 						
 						// button: reply
 						$tpl->setCurrentBlock("reply_cell");
-						$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>"); 
+						$tpl->setVariable("SPACER","<hr noshade=\"noshade\" width=\"100%\" size=\"1\" align=\"center\">"); 
 						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
 						$tpl->parseCurrentBlock("reply_cell");
 						
@@ -355,15 +354,6 @@ $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 $tpl->setVariable("TXT_POST", $lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 
 $tpl->parseCurrentBlock("posttable");
-
-// TODO: deprecated. use sendInfo. before deletion check first if it works!
-if ($_GET["message"])
-{
-	$tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-	$tpl->parseCurrentBlock();
-}
 
 $tpl->show();
 ?>
