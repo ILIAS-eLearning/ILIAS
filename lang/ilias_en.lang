@@ -3870,3 +3870,12 @@ payment#:#pay_locator#:#Payment
 payment#:#paya_statistic#:#Statistic
 payment#:#paya_object#:#Objekts
 payment#:#paya_shopping_cart#:#Shopping cart
+payment#:#pays_pay_methods#:#Pay methods
+payment#:#pays_offline#:#Offline
+payment#:#pays_bill#:#Bill
+payment#:#pays_online#:#Online
+payment#:#pays_bmf#:#BMF
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_updated_pay_method#:#Changed pay method.
+common#:#pay_methods#:#Pay methods
