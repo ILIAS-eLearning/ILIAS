@@ -1953,6 +1953,38 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
+content#:#cont_matches#:#entspricht
+content#:#cont_please_select#:#Bitte auswählen
+content#:#cont_ed_edit#:#Bearbeiten
+content#:#cont_ed_edit_prop#:#Eigenschaften
+content#:#cont_ed_delete#:#Löschen
+content#:#cont_ed_moveafter#:#Verschieben nach
+content#:#cont_ed_movebefore#:#Verschieben vor
+content#:#cont_ed_insert_par#:#Absatz einfügen
+content#:#cont_ed_insert_code#:#Code einfügen
+content#:#cont_ed_insert_table#:#Tabelle einfügen
+content#:#cont_ed_insert_media#:#Medien einfügen
+content#:#cont_ed_insert_list#:#Liste einfügen
+content#:#cont_ed_insert_filelist#:#Dateiliste einf.
+content#:#cont_ed_paste_clip#:#Aus Ablage einf.
+content#:#cont_ed_go#:#Ok
+content#:#cont_ed_new_row_after#:#Neue Zeile anf.
+content#:#cont_ed_new_row_before#:#Neue Zeile vor.
+content#:#cont_ed_new_col_after#:#Neue Spalte anf.
+content#:#cont_ed_new_col_before#:#Neue Spalte vor.
+content#:#cont_ed_delete_row#:#Zeile löschen
+content#:#cont_ed_delete_col#:#Spalte löschen
+content#:#cont_ed_class#:#Style
+content#:#cont_ed_width#:#Breite
+content#:#cont_ed_align_left#:#Links ausrichten
+content#:#cont_ed_align_right#:#Rechts ausrichten
+content#:#cont_ed_align_center#:#Mittig ausrichten
+content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
+content#:#cont_ed_align_right_float#:#Rechts ausr., Text umfl.
+content#:#cont_ed_delete_item#:#Eintrag löschen
+content#:#cont_ed_new_item_before#:#Neuen Eintrag anf.
+content#:#cont_ed_new_item_after#:#Neuen Eintrag vor.
+content#:#cont_ed_copy_clip#:#In Ablage kopieren
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
