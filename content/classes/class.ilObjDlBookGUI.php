@@ -70,7 +70,8 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		
 	}
 	
-	function offlineexportform() {
+	function offlineexportform() 
+	{
 		
 		//$tpl_offline =& new ilTemplate("tpl.");
 		//vd($this->tpl);
@@ -80,10 +81,13 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		
 		$this->tpl->setVariable("TXT_TYPE","Export-Type");
 
-		if ($_GET["print"]==1) {
+		if ($_GET["print"]==1) 
+		{
 			$this->tpl->setVariable("TXT_PRINTEXPORT",$this->lng->txt("Print") );
 			$this->tpl->setVariable("PRINT_CHECKED","checked");
-		} else {
+		} 
+		else 
+		{
 			$this->tpl->setVariable("TXT_HTMLEXPORT",$this->lng->txt("HTML export") );
 			$this->tpl->setVariable("TXT_PDFEXPORT",$this->lng->txt("PDF export") );
 			$this->tpl->setVariable("OFFLINE_CHECKED","checked");
