@@ -5505,3 +5505,5 @@ ALTER TABLE `crs_settings` ADD `abo` TINYINT( 2 ) DEFAULT '1';
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#393>
+ALTER TABLE `crs_settings` ADD `objective_view` TINYINT( 2 ) DEFAULT '0';

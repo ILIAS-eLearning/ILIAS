@@ -336,6 +336,9 @@ class ilObjCourseGUI extends ilObjectGUI
 			$_SESSION["error_post_vars"]["crs"]["abo_status"] : 
 			$this->object->getAboStatus();
 
+		$objective_view_status = $_SESSION["error_post_vars"]["crs"]["objective_view"] ? 
+			$_SESSION["error_post_vars"]["crs"]["objective_view"] : 
+			$this->object->enabledObjectiveView();
 
 		// SET VALUES
 		$this->tpl->setVariable("SYLLABUS",$syllabus);
@@ -381,6 +384,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("crs_sort_title"));
 		$this->tpl->setVariable("TXT_SORT_ACTIVATION",$this->lng->txt("crs_sort_activation"));
 		$this->tpl->setVariable("TXT_ABO",$this->lng->txt('crs_allow_abo'));
+		$this->tpl->setVariable("TXT_OBJ_VIEW",$this->lng->txt('crs_objective_view'));
 
 		$this->tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("crs_archive"));
 		$this->tpl->setVariable("TXT_ARCHIVE_START",$this->lng->txt("crs_start"));
@@ -472,6 +476,10 @@ class ilObjCourseGUI extends ilObjectGUI
 								ilUtil::formCheckbox($abo_status == $this->object->ABO_ENABLED ? 1 : 0,
 														"crs[abo_status]",$this->object->ABO_ENABLED));
 
+		$this->tpl->setVariable("CHECK_OBJ_VIEW",
+								ilUtil::formCheckbox($objective_view_status ?  1 : 0,
+														"crs[objective_view]",1));
+
 		$this->tpl->setVariable("SELECT_ARCHIVE_START_MINUTE",$this->__getDateSelect("minute","crs[archive_start][minute]",
 																					 date("i",$archive_start)));
 		$this->tpl->setVariable("SELECT_ARCHIVE_START_HOUR",$this->__getDateSelect("hour","crs[archive_start][hour]",
@@ -542,6 +550,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setArchiveEnd($this->__toUnix($_POST["crs"]["archive_end"]));
 		$this->object->setArchiveType($_POST["crs"]["archive_type"]);
 		$this->object->setAboStatus($_POST['crs']['abo_status']);
+		$this->object->setObjectiveViewStatus((bool) $_POST['crs']['objective_view']);
 
 		if($this->object->validate())
 		{
