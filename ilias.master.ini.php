@@ -4,7 +4,6 @@
 [server]
 start = ./login.php
 data_dir = /opt/iliasdata
-webspace_dir =
 
 [db]
 type = mysql
