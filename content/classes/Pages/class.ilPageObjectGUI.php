@@ -304,28 +304,116 @@ class ilPageObjectGUI
 
 	function showLinkHelp()
 	{
+		$ltype = $_SESSION["il_link_type"];
+		$ltype_arr = explode("_", $ltype);
+		$link_type = ($ltype_arr[0] == "")
+			? "StructureObject"
+			: $ltype_arr[0];
+		$link_target = $ltype_arr[1];
+		$target_str = ($link_target == "")
+			? ""
+			: " target=\"".$link_target."\" ";
+
 		$tpl =& new ilTemplate("tpl.link_help.html", true, true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
+		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post");
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
-		$ltype = array("chapter" => $this->lng->txt("cont_lk_chapter"),
-			"chapter_new" => $this->lng->txt("cont_lk_chapter_new"),
-			"page" => $this->lng->txt("cont_lk_page"),
-			"page_faq" => $this->lng->txt("cont_lk_page_faq"),
-			"page_new" => $this->lng->txt("cont_lk_page_new"),
-			"term" => $this->lng->txt("cont_lk_term"),
-			"term_new" => $this->lng->txt("cont_lk_term_new"),
-			"media_inline" => $this->lng->txt("cont_lk_media_inline"),
-			"media_media" => $this->lng->txt("cont_lk_media_media"),
-			"media_faq" => $this->lng->txt("cont_lk_media_faq"),
-			"media_new" => $this->lng->txt("cont_lk_media_new"));
-		$select_ltype = ilUtil::formSelect ($_POST["ltype"],
-			"ltype",$ltype,false,true);
+		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),
+			"StructureObject_New" => $this->lng->txt("cont_lk_chapter_new"),
+			"PageObject" => $this->lng->txt("cont_lk_page"),
+			"PageObject_FAQ" => $this->lng->txt("cont_lk_page_faq"),
+			"PageObject_New" => $this->lng->txt("cont_lk_page_new"),
+			"GlossaryItem" => $this->lng->txt("cont_lk_term"),
+			"GlossaryItem_New" => $this->lng->txt("cont_lk_term_new"),
+			"Media" => $this->lng->txt("cont_lk_media_inline"),
+			"Media_Media" => $this->lng->txt("cont_lk_media_media"),
+			"Media_FAQ" => $this->lng->txt("cont_lk_media_faq"),
+			"Media_New" => $this->lng->txt("cont_lk_media_new"));
+		$select_ltype = ilUtil::formSelect ($ltype,
+			"ltype",$ltypes,false,true);
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
+		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
+		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
+
+		switch($link_type)
+		{
+			// page link
+			case "PageObject":
+				require_once("./content/classes/class.ilObjContentObject.php");
+				$cont_obj =& new ilObjContentObject($_GET["ref_id"], true);
+
+				// get all chapters
+				$ctree =& $cont_obj->getLMTree();
+				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
+				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeContentObject");
+				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+
+				foreach($nodes as $node)
+				{
+					if($node["type"] == "st")
+					{
+						$tpl->setCurrentBlock("chapter_row");
+						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						//$tpl->setVariable("LINK_CHAPTER",
+						//	"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+						$tpl->parseCurrentBlock();
+					}
+					if($node["type"] == "pg")
+					{
+						$tpl->setCurrentBlock("chapter_row");
+						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						$tpl->setVariable("LINK_CHAPTER",
+							"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+						$tpl->parseCurrentBlock();
+					}
+				}
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+
+			// chapter link
+			case "StructureObject":
+				require_once("./content/classes/class.ilObjContentObject.php");
+				$cont_obj =& new ilObjContentObject($_GET["ref_id"], true);
+
+				// get all chapters
+				$ctree =& $cont_obj->getLMTree();
+				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
+				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeContentObject");
+				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+
+				foreach($nodes as $node)
+				{
+					if($node["type"] == "st")
+					{
+						$tpl->setCurrentBlock("chapter_row");
+						$tpl->setVariable("TXT_CHAPTER", $node["title"]);
+						$tpl->setVariable("LINK_CHAPTER",
+							"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+						$tpl->parseCurrentBlock();
+					}
+				}
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+		}
 
 		$tpl->show();
 		exit;
 	}
+
+	function changeLinkType()
+	{
+		$_SESSION["il_link_type"] = $_POST["ltype"];
+		$this->showLinkHelp();
+	}
+
 }
 ?>

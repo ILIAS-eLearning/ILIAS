@@ -286,6 +286,11 @@ class ilPCParagraph extends ilPageContent
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target[1]."\"]",$a_text);
 					break;
 
+				case "StructureObject":
+					$target = explode("_", $attribs["Target"]);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln chap=\"".$target[1]."\"]",$a_text);
+					break;
+
 				default:
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln]",$a_text);
 					break;
