@@ -106,10 +106,12 @@ function saveForm()
     {
         if (substr($key,0,8) == "require_")
         {
-            if ($settings["passwd_auto_generate"] == 1 and ($key != "require_passwd" and $key != "require_passwd2"))
+            if ($settings["passwd_auto_generate"] == 1 and ($key == "require_passwd" or $key == "require_passwd2"))
             {
-                $require_keys[] = substr($key,8);
+                continue;
             }
+            
+            $require_keys[] = substr($key,8);
         }
     }
 
@@ -150,11 +152,12 @@ function saveForm()
             $ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
         }
     }
+    else
+    {    
+    	$passwd = ilUtil::generatePasswords(1);
+    	$_POST["Fobject"]["passwd"] = $passwd[0];
+    }
     
-    $passwd = ilUtil::generatePasswords(1);
-    
-    $_POST["Fobject"]["passwd"] = $passwd[0];
-
 	// validate email
 	if (!ilUtil::is_email($_POST["Fobject"]["email"]))
 	{
