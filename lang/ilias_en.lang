@@ -1376,3 +1376,23 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+content#:#cont_details#:#Details
+content#:#cont_show#:#Show
+content#:#cont_edition#:#Edition
+content#:#cont_booktitle#:#Booktitle
+content#:#cont_cross_reference#:#Cross reference
+content#:#cont_how_published#:#How published
+content#:#cont_where_published#:#Where published
+content#:#cont_journal#:#Journal
+content#:#cont_keyword#:#Keyword
+content#:#cont_school#:#School
+content#:#cont_month#:#Month
+content#:#cont_publisher#:#Publisher
+content#:#cont_series#:#Series
+content#:#cont_series_title#:#Series title
+content#:#cont_series_editor#:#Series editor
+content#:#cont_series_volume#:#Series volume
+content#:#cont_year#:#Year
+content#:#cont_url#:#URL
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN

@@ -1375,3 +1375,23 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+content#:#cont_details#:#Details
+content#:#cont_show#:#Anzeigen
+content#:#cont_edition#:#Ausgabe
+content#:#cont_booktitle#:#Buchtitel
+content#:#cont_cross_reference#:#Verweis
+content#:#cont_how_published#:#Veröffentlichungsart
+content#:#cont_where_published#:#Veröffentlichungsort
+content#:#cont_journal#:#Journal
+content#:#cont_keyword#:#Schlagwort
+content#:#cont_school#:#Schule
+content#:#cont_month#:#Monat
+content#:#cont_publisher#:#Herausgeber
+content#:#cont_series#:#Serie
+content#:#cont_series_title#:#Serientitel
+content#:#cont_series_editor#:#Series editor
+content#:#cont_series_volume#:#Band
+content#:#cont_year#:#Jahr
+content#:#cont_url#:#URL
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN

@@ -74,24 +74,53 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilPage");
 	
-
-		$xml = $this->object->bib_obj->getXML();
-		$xsl = file_get_contents("./content/bibliography.xsl");
-
-		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-		$xh = xslt_create();
+		$tmp_tpl = new ilTemplate("tpl.bibliography.xsl",true,true,"content");
+		$tmp_tpl->setVariable("TITLE",$this->lng->txt("title"));
+		$tmp_tpl->setVariable("EDITION",$this->lng->txt("cont_edition"));
+		$tmp_tpl->setVariable("AUTHORS",$this->lng->txt("authors"));
 
 		if($a_target_id)
 		{
 			$params = array ('mode'			=> "view_full",
 							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]",
 							 'target_id'    => "$a_target_id");
+
+			$tmp_tpl->setVariable("BOOKTITLE",$this->lng->txt("cont_booktitle"));
+			$tmp_tpl->setVariable("CROSS_REFERENCE",$this->lng->txt("cont_cross_reference"));
+			$tmp_tpl->setVariable("DETAILS",$this->lng->txt("cont_details"));
+			$tmp_tpl->setVariable("EDITOR",$this->lng->txt("editor"));
+			$tmp_tpl->setVariable("HOW_PUBLISHED",$this->lng->txt("cont_how_published"));
+			$tmp_tpl->setVariable("WHERE_PUBLISHED",$this->lng->txt("cont_where_published"));
+			$tmp_tpl->setVariable("INSTITUTION",$this->lng->txt("institution"));
+			$tmp_tpl->setVariable("JOURNAL",$this->lng->txt("cont_journal"));
+			$tmp_tpl->setVariable("KEYWORD",$this->lng->txt("cont_keyword"));
+			$tmp_tpl->setVariable("PAGES",$this->lng->txt("cont_pages"));
+			$tmp_tpl->setVariable("SCHOOL",$this->lng->txt("cont_school"));
+			$tmp_tpl->setVariable("MONTH",$this->lng->txt("cont_month"));
+			$tmp_tpl->setVariable("PUBLISHER",$this->lng->txt("cont_publisher"));
+			$tmp_tpl->setVariable("SERIES",$this->lng->txt("cont_series"));
+			$tmp_tpl->setVariable("SERIES_TITLE",$this->lng->txt("cont_series_title"));
+			$tmp_tpl->setVariable("SERIES_EDITOR",$this->lng->txt("cont_series_editor"));
+			$tmp_tpl->setVariable("SERIES_VOLUME",$this->lng->txt("cont_series_volume"));
+			$tmp_tpl->setVariable("YEAR",$this->lng->txt("cont_year"));
+			$tmp_tpl->setVariable("ISBN",$this->lng->txt("cont_isbn"));
+			$tmp_tpl->setVariable("URL",$this->lng->txt("cont_url"));
 		}
 		else
 		{
 			$params = array ('mode'			=> "view_simple",
 							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]");
+			$tmp_tpl->setVariable("DETAILS",$this->lng->txt("cont_details"));
+			$tmp_tpl->setVariable("SHOW",$this->lng->txt("cont_show"));
+			$tmp_tpl->setVariable("GO",$this->lng->txt("go"));
 		}		
+
+		$xsl = $tmp_tpl->get();
+		$xml = $this->object->bib_obj->getXML();
+
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
 
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		$this->tpl->setVariable("PAGE_CONTENT",$output);
