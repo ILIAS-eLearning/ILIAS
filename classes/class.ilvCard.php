@@ -92,15 +92,15 @@ class ilvCard
 	var $filename;
 	
 /**
-* Identification types
+* ilvCard Constructor
 *
-* @type	string
+* @access	public
 */
-	var $N_family_name;
-	var $N_given_name;
-	var $N_additional_names;
-	var $N_honorific_prefixes;
-	var $N_honorific_suffixes;
+	function ilvCard($version = "3.0")
+	{
+		$this->types = array();
+		$this->types["VERSION"] = $version;
+	}
 	
 /**
 * Encode data with "b" type encoding according to RFC 2045
@@ -111,8 +111,38 @@ class ilvCard
 * @return Encoded binary string
 * @access	public
 */
-	function encode($string) {
+	function encode($string) 
+	{
 		return escape(quoted_printable_encode($string));
+	}
+	
+/**
+* Fold a string according to RFC 2425
+*
+* Fold a string according to RFC 2425
+*
+* @param	string $string String to be folded
+* @param  integer $length Maximum length of a line
+* @return string Folded string
+* @access	public
+*/
+	function fold($string = "", $length = 75)
+	{
+		$folded_string = "";
+		preg_match_all("/(.{1,74})/", $string, $matches);
+		for ($i = 0; $i < count($matches[1]); $i++)
+		{
+			if ($i < (count($matches[1])-1))
+			{
+				$matches[1][$i] .= "\n";
+			}
+			if ($i > 0)
+			{
+				$matches[1][$i] = " " . $matches[1][$i];
+			}
+			$folded_string .= $matches[1][$i];
+		}
+		return $folded_string;
 	}
 	
 /**
@@ -124,12 +154,190 @@ class ilvCard
 * @return Escaped string
 * @access	public
 */
-	function escape($string) {
-		$string = preg_replace("/([^\\]{0,1});/","\\1\;", $string);
-		$string = preg_replace("/([^\\]{0,1})\\/","\\1\\", $string);
-		$string = preg_replace("/([^\\]{0,1}),/","\\1\,", $string);
+	function escape($string) 
+	{
+		$string = preg_replace("/(?<!\\\);/", "\;", $string);
+		$string = preg_replace("/(?<!\\\)\\\/", "\\", $string);
+		$string = preg_replace("/(?<!\\\),/", "\,", $string);
 		$string = preg_replace("/\n/","\n", $string);
 		return $string;
+	}
+	
+/**
+* Splits a variable into an array using a separator and escapes every value
+*
+* Splits a variable into an array using a separator and escapes every value
+*
+* @param	string $variable String to be splitted
+* @param  string $separator Separator string
+* @return Escaped string
+* @access	public
+*/
+	function &explodeVar($variable, $separator = ",") 
+	{
+		$exploded = explode($separator, $variable);
+		foreach ($exploded as $index => $var)
+		{
+			$exploded[$index] = $this->escape($var);
+		}
+		return $exploded;
+	}
+	
+/**
+* Builds a vCard string out of the attributes of this object
+*
+* Builds a vCard string out of the attributes of this object
+*
+* @return string vCard string
+* @access	public
+*/
+	function buildVCard()
+	{
+		$vcard = "BEGIN:vCard\n";
+		$vcard .= "VERSION:" . $this->types["VERSION"] . "\n";
+		foreach ($this->types as $type => $var)
+		{
+			switch ($type)
+			{
+				case "FN":
+					if (strcmp($this->types["FN"], "") != 0)
+					{
+						$fn = $this->fold("FN:" . $this->types["FN"]) . "\n";
+					}
+					else
+					{
+						$fn = "";
+					}
+					break;
+				case "N":
+					if (strcmp($this->types["N"], "") != 0)
+					{
+						$n = $this->fold("N:" . $this->types["N"]) . "\n";
+					}
+					else
+					{
+						$n = "";
+					}
+					break;
+				case "NICKNAME":
+					if (strcmp($this->types["NICKNAME"], "") != 0)
+					{
+						$nickname = $this->fold("NICKNAME:" . $this->types["NICKNAME"]) . "\n";
+					}
+					else
+					{
+						$nickname = "";
+					}
+					break;
+				case "PHOTO":
+					if (strcmp($this->types["PHOTO"]["VALUE"], "") != 0)
+					{
+						$photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
+					}
+					elseif (strcmp($this->types["PHOTO"]["ENCODING"], "") != 0)
+					{
+						$photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
+						if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0)
+						{
+							$photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
+						}
+						$photo .= ":" . $this->types["PHOTO"]["PHOTO"];
+						$photo = $this->fold($photo) . "\n";
+					}
+					else
+					{
+						$photo = "";
+					}
+					break;
+				case "BDAY":
+					if (strcmp($this->types["BDAY"], "") != 0)
+					{
+						$bday = $this->fold("BDAY:" . $this->types["BDAY"]) . "\n";
+					}
+					else
+					{
+						$bday = "";
+					}
+					break;
+				case "ADR":
+					$test = "";
+					foreach ($this->types["ADR"] as $str)
+					{
+						$test .= $str;
+					}
+					if (strcmp($test, "") != 0)
+					{
+						$adr = "ADR";
+						$adr_types = array();
+						if ($this->types["ADR"]["TYPE"] > 0)
+						{
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_DOM) > 0)
+							{
+								array_push($adr_types, "dom");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_INTL) > 0)
+							{
+								array_push($adr_types, "intl");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_POSTAL) > 0)
+							{
+								array_push($adr_types, "postal");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_PARCEL) > 0)
+							{
+								array_push($adr_types, "parcel");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_HOME) > 0)
+							{
+								array_push($adr_types, "home");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_WORK) > 0)
+							{
+								array_push($adr_types, "work");
+							}
+							if (($this->types["ADR"]["TYPE"] & ADR_TYPE_PREF) > 0)
+							{
+								array_push($adr_types, "pref");
+							}
+						}
+						$adr .= ";" . join(",", $adr_types);
+						$adr .= ":" . $this->types["ADR"]["POBOX"] . ";" . $this->types["ADR"]["EXTENDED_ADDRESS"] .
+							";" . $this->types["ADR"]["STREET_ADDRESS"] . ";" . $this->types["ADR"]["LOCALITY"] .
+							";" . $this->types["ADR"]["REGION"] . ";" . $this->types["ADR"]["POSTAL_CODE"] .
+							";" . $this->types["ADR"]["COUNTRY"];
+						$adr = $this->fold($adr) . "\n";
+					}
+					else
+					{
+						$adr = "";
+					}
+					break;
+				case "LABEL":
+				case "TEL":
+				case "EMAIL":
+				case "MAILER":
+				case "TZ":
+				case "GEO":
+				case "TITLE":
+				case "ROLE":
+				case "LOGO":
+				case "AGENT":
+				case "ORG":
+				case "CATEGORIES":
+				case "NOTE":
+				case "PRODID":
+				case "REV":
+				case "SORT-STRING":
+				case "SOUND":
+				case "UID":
+				case "URL":
+				case "VERSION":
+				case "KEY":
+				case "CLASS":
+					break;
+			}
+		}
+		$vcard .= "END:vCard\n";
 	}
 	
 /**
@@ -232,31 +440,11 @@ class ilvCard
 */
 	function setName($family_name, $given_name = "", $additional_names = "", $honorific_prefixes = "", $honorific_suffixes = "")
 	{
-		$familynames = explode(",", $family_name);
-		foreach ($familynames as $index => $familyname)
-		{
-			$familynames[$index] = $this->escape($familyname);
-		}
-		$givennames = explode(",", $given_name);
-		foreach ($givennames as $index => $givenname)
-		{
-			$givennames[$index] = $this->escape($givenname);
-		}
-		$addnames = explode(",", $additional_names);
-		foreach ($addnames as $index => $addname)
-		{
-			$addnames[$index] = $this->escape($addname);
-		}
-		$prefixes = explode(",", $honorific_prefixes);
-		foreach ($prefixes as $index => $prefix)
-		{
-			$prefixes[$index] = $this->escape($prefix);
-		}
-		$suffixes = explode(",", $honorific_suffixes);
-		foreach ($suffixes as $index => $suffix)
-		{
-			$suffixes[$index] = $this->escape($suffix);
-		}
+		$familynames =& $this->explodeVar($family_name);
+		$givennames =& $this->explodeVar($given_name);
+		$addnames =& $this->explodeVar($additional_names);
+		$prefixes =& $this->explodeVar($honorific_prefixes);
+		$suffixes =& $this->explodeVar($honorific_suffixes);
 
 		$this->types["N"] = 
 			join(",", $familynames) .
@@ -298,11 +486,7 @@ class ilvCard
 */
 	function setNickname($nickname)
 	{
-		$nicknames = explode(",", $nickname);
-		foreach ($nicknames as $index => $nick)
-		{
-			$nicknames[$index] = $this->escape($nick);
-		}
+		$nicknames =& $this->explodeVar($nickname);
 		$this->types["NICKNAME"] = join(",", $nicknames);
 	}
 	
@@ -390,7 +574,7 @@ class ilvCard
 		}
 		else
 		{
-			$this->types["BDAY"] = sprintf("%04d%02d%02d", $year, $month, $day);
+			$this->types["BDAY"] = sprintf("%04d-%02d-%02d", $year, $month, $day);
 		}
 	}
 	
@@ -463,9 +647,30 @@ class ilvCard
 		$region = "",
 		$postal_code = "",
 		$country = "",
-		$type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK
+		$type = ADR_TYPE_NONE
 	)
 	{
+		if ($type == ADR_TYPE_NONE)
+		{
+			$type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
+		}
+		$po_box = join(",", $this->explodeVar($po_box));
+		$extended_address = join(",", $this->explodeVar($extended_address));
+		$street_address = join(",", $this->explodeVar($street_address));
+		$locality = join(",", $this->explodeVar($locality));
+		$region = join(",", $this->explodeVar($region));
+		$postal_code = join(",", $this->explodeVar($postal_code));
+		$country = join(",", $this->explodeVar($country));
+		$this->types["ADR"] = array(
+			"POBOX" => $po_box,
+			"EXTENDED_ADDRESS" => $extended_address,
+			"STREET_ADDRESS" => $street_address,
+			"LOCALITY" => $locality,
+			"REGION" => $region,
+			"POSTAL_CODE" => $postal_code,
+			"COUNTRY" => $country,
+			"TYPE" => $type
+		);
 	}
 	
 /**
@@ -504,8 +709,16 @@ class ilvCard
 * @param	integer $type The address type (can be combined with the + operator)
 * @access	public
 */
-	function setLabel($label = "", $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK)
+	function setLabel($label = "", $type = ADR_TYPE_NONE)
 	{
+		if ($type == ADR_TYPE_NONE)
+		{
+			$type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK;
+		}
+		$this->types["LABEL"] = array(
+			"LABEL" => $this->escape($label),
+			"TYPE" => $type
+		);
 	}
 
 // Telecommunications Addressing Types
@@ -557,6 +770,10 @@ class ilvCard
 */
 	function setPhone($number = "", $type = TEL_TYPE_VOICE)
 	{
+		$this->types["TEL"] = array(
+			"TEL" => $this->escape($number),
+			"TYPE" => $type
+		);
 	}
 	
 /**
@@ -587,6 +804,10 @@ class ilvCard
 */
 	function setEmail($address = "", $type = EMAIL_TYPE_INTERNET)
 	{
+		$this->types["EMAIL"] = array(
+			"EMAIL" => $this->escape($address),
+			"TYPE" => $type
+		);
 	}
 	
 /**
@@ -611,6 +832,7 @@ class ilvCard
 */
 	function setMailer($name = "")
 	{
+		$this->types["MAILER"] = $this->escape($name);
 	}
 	
 // Geographical Types
@@ -638,6 +860,7 @@ class ilvCard
 */
 	function setTimezone($zone = "")
 	{
+		$this->types["TZ"] = $this->escape($zone);
 	}
 	
 /**
@@ -676,6 +899,10 @@ class ilvCard
 */
 	function setPosition($latitude = "", $longitude = "")
 	{
+		$this->types["GEO"] = array(
+			"LAT" => $latitude,
+			"LON" => $longitude
+		);
 	}
 	
 // Organizational Types
@@ -702,6 +929,7 @@ class ilvCard
 */
 	function setTitle($title = "")
 	{
+		$this->types["TITLE"] = $this->escape($title);
 	}
 	
 /**
@@ -726,6 +954,7 @@ class ilvCard
 */
 	function setRole($role = "")
 	{
+		$this->types["ROLE"] = $this->escape($role);
 	}
 	
 /**
@@ -762,6 +991,7 @@ class ilvCard
 * @access	public
 */
 	function setLogo($logo, $type = "")
+	{
 		$value = "";
 		$encoding = "";
 		if (preg_match("/^http/", $logo))
@@ -810,6 +1040,7 @@ class ilvCard
 */
 	function setAgent($agent = "")
 	{
+		$this->types["AGENT"] = $this->escape($agent);
 	}
 	
 /**
@@ -835,6 +1066,8 @@ class ilvCard
 */
 	function setOrganization($organization = "")
 	{
+		$organization = join(";", $this->explodeVar($organization, ";"));
+		$this->types["ORG"] = $organization;
 	}
 	
 // Explanatory Types
@@ -861,6 +1094,8 @@ class ilvCard
 */
 	function setCategories($categories)
 	{
+		$categories = join(",", $this->explodeVar($categories));
+		$this->types["CATEGORIES"] = $categories;
 	}
 	
 /**
@@ -884,6 +1119,7 @@ class ilvCard
 */
 	function setNote($note = "")
 	{
+		$this->types["NOTE"] = $this->escape($note);
 	}
 	
 /**
@@ -907,6 +1143,7 @@ class ilvCard
 */
 	function setProductId($product_id = "")
 	{
+		$this->types["PRODID"] = $this->escape($product_id);
 	}
 	
 /**
@@ -932,6 +1169,7 @@ class ilvCard
 */
 	function setRevision($revision_date = "")
 	{
+		$this->types["REV"] = $this->escape($revision_date);
 	}
 	
 /**
@@ -979,6 +1217,7 @@ class ilvCard
 */
 	function setSortString($string = "")
 	{
+		$this->types["SORT-STRING"] = $this->escape($string);
 	}
 	
 /**
@@ -1018,6 +1257,23 @@ class ilvCard
 */
 	function setSound($sound = "", $type = "")
 	{
+		$value = "";
+		$encoding = "";
+		if (preg_match("/^http/", $sound))
+		{
+			$value = $this->encode($sound);
+		}
+		else
+		{
+			$encoding = "BASE64";
+			$sound = base64_encode($sound);
+		}
+		$this->types["SOUND"] = array(
+			"VALUE" => $value,
+			"TYPE" => $type,
+			"ENCODING" => $encoding,
+			"SOUND" => $sound
+		);
 	}
 	
 /**
@@ -1048,6 +1304,10 @@ class ilvCard
 */
 	function setUID($uid = "", $type = "")
 	{
+		$this->types["UID"] = array(
+			"UID" => $this->escape($uid),
+			"TYPE" => $type
+		);
 	}
 	
 /**
@@ -1068,6 +1328,7 @@ class ilvCard
 */
 	function setURL($uri = "")
 	{
+		$this->types["URL"] = $this->escape($uri);
 	}
 	
 /**
@@ -1088,6 +1349,7 @@ class ilvCard
 */
 	function setVersion($version = "3.0")
 	{
+		$this->types["VERSION"] = $version;
 	}
 	
 // Security Types
@@ -1120,6 +1382,7 @@ class ilvCard
 */
 	function setClassification($classification = "")
 	{
+		$this->types["CLASS"] = $this->escape($classification);
 	}
 	
 /**
@@ -1168,6 +1431,13 @@ class ilvCard
 */
 	function setKey($key = "", $type = "")
 	{
+		$encoding = "BASE64";
+		$key = base64_encode($key);
+		$this->types["KEY"] = array(
+			"KEY" => $key,
+			"TYPE" => $type,
+			"ENCODING" => $encoding
+		);
 	}
 	
 ?>
