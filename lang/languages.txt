@@ -219,7 +219,7 @@ drafts	drafts	Entwürfe	drafts	drafts
 trash	trash	Papierkorb	trash	trash
 overview	overview	Übersicht	overview	overview
 information_abbr	info	Infos	info	info
-structure	structure	Gliederung	structura	structure
+structure	structure	Gliederung	struttura	structure
 list_of_pages	pages list	Seitenliste	lista di pagina	list of pages
 glossary	glossary	Glossar	glossary	glossary
 list_of_questions	question list	Fragenliste	question list	question list
@@ -233,3 +233,21 @@ folder	folder	Ordner	folder	folder
 create_in	create in	erstellen in	create in	create in
 folders	folders	Ordner	folders	folders
 back	back	zurück	back	back
+lo_categories	lo categories	Lerneinheiten Kategorien	LO categorie	lo categories
+publication_date	publication date	Veröffentlichungsdatum	data di publicazione	publication date
+publication	publication	Veröffentlichung 	publicazione	publication
+functions	functions	Funktionen	funzioni	functions
+change_metadata	change metadata	Metadaten ändern	cambia metadati	change metadata
+presentation_options	presentation options	Präsentationsoptionen	opzioni di presentazione	presentation options
+change_lo_info	change lo info	Lerneinheiten-Infos ändern	cambia LO_Informazioni	change lo info
+announce_changes	announce changes	Änderungen bekanntgeben	annunciare cambio	announce changes
+assign_lo_forum	assign lo forum	Lerneinheiten-Forum zuordnen	assign lo forum	assign lo forum
+id	ID	ID	ID	ID
+item	item	Begriff	item	item
+question	question	Frage	domanda	question
+linked_pages	linked pages	verknüpft mit den Seiten	linked pages	linked pages
+sections	sections	Abschnitte	sezioni	sections
+set	set	setzen	set	set
+total	total	gesamt	totale	total
+new	new	neu	nuovo	new
+no_objects	no objects	keine Objekte	no oggetti	no objects

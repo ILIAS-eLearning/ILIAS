@@ -11,7 +11,9 @@ include("./include/inc.main.php");
 
 $tpl = new Template("tpl.lo_edit_pagelist.html", false, false);
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("list_of_pages"));
+$tpl->setVariable("TXT_ID", $lng->txt("id"));
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
 
 include("./include/inc.lo_buttons.php");
 

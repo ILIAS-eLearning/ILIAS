@@ -12,6 +12,7 @@ include("./include/inc.main.php");
 $tpl = new Template("tpl.lo_edit_glossary.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("glossary"));
+$tpl->setVariable("TXT_ITEM", $lng->txt("item"));
 
 include("./include/inc.lo_buttons.php");
 

@@ -13,6 +13,12 @@ $tpl = new Template("tpl.lo_edit_multimedia.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("multimedia"));
 
+$tpl->setVariable("TXT_NEW", $lng->txt("new"));
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_NO_OBJECTS", $lng->txt("no_objects"));
+$tpl->setVariable("TXT_NAME", $lng->txt("name"));
+
+
 include("./include/inc.lo_buttons.php");
 
 $tpl->parseCurrentBlock();
