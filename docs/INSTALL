@@ -250,7 +250,7 @@ stored in:
 
 or for ILIAS 3 in:
 
-    ilias-3.1.0_beta1.tar.gz
+    ilias-3.2.0_beta1.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -951,7 +951,7 @@ must be specified in the ILIAS 3 system settings.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.1.0_beta1.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0_beta1.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -1148,7 +1148,7 @@ must be specified in the ILIAS 3 system settings.
  
     Please check the PHP Accelerator configuration documentation for further
     options. Especially you may want to enlarge the cache size. For a rather
-    complex system like ILIAS the default size of 8 MB is rather low. We 
+    complex system like ILIAS the default size of 8 MB is rather low. We
     recommend a size of up to 32 MB, if your systems main memory size allows
     it, even more. Solaris users should read the 'solaris_notes' (included in
     the PHP Accelerator tarball) on how to configure shared memory.
@@ -1353,8 +1353,8 @@ options in the ILIAS system settings.
 
 3.2  Updating ILIAS 3
 
-THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM any ILIAS 3.0.0 beta version or
-higher to ILIAS 3.1.0 beta1.
+THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3.0.0 beta version or
+higher to ILIAS 3.2.0 beta1.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -1384,7 +1384,7 @@ may easily restore it.
     rm *.php *.xml *.dtd *.css
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
-    rm -r survey syntax_highlight
+    rm -r survey syntax_highlight course
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
@@ -1395,7 +1395,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.1.0_beta1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.2.0_beta1.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -1405,7 +1405,8 @@ copy various files and directories to your ILIAS web directory:
     cp -p * /opt/ilias/www/htdocs/ilias/
     cp -rp classes content css docs images include java /opt/ilias/www/htdocs/ilias/
     cp -rp lang layouts modules setup sql templates xml /opt/ilias/www/htdocs/ilias/
-    cp -rp assessment chat tracking survey syntax_highlight /opt/ilias/www/htdocs/ilias/
+    cp -rp assessment chat tracking survey /opt/ilias/www/htdocs/ilias/
+    cp -rp syntax_highlight course /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
