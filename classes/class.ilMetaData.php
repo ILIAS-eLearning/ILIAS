@@ -463,6 +463,7 @@ class ilMetaData
 			$this->nested->updateDomNode($p, $this->meta);
 			$this->nested->updateFromDom();
 			if ($this->getType() == "lm" ||
+				$this->getType() == "glo" ||
 				$this->getType() == "dbk")
 			{
 				$this->setTitle($this->meta["title_value"]);
@@ -470,6 +471,7 @@ class ilMetaData
 			}
 			if ($this->getType() == "lm" ||
 					 $this->getType() == "dbk" ||
+					 $this->getType() == "glo" ||
 					 $this->getType() == "st" ||
 					 $this->getType() == "pg")
 			{
