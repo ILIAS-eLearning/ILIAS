@@ -775,6 +775,7 @@ common#:#obj_objf#:#对象定义
 common#:#obj_objf_desc#:#管理ILIAS对象类型和对象权限。（只适用于专家！）
 common#:#obj_owner#:#此对象拥有者为
 common#:#obj_pg#:#页
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#角色
 common#:#obj_rolf#:#角色
 common#:#obj_rolf_desc#:#在此管理角色
@@ -784,6 +785,7 @@ common#:#obj_rolt#:#角色模板
 common#:#obj_root#:#根目录###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM学习模块###31 Jan 2004 content changed
 common#:#obj_st#:#章
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#对象类型定义
 common#:#obj_type#:#对象类型定义
 common#:#obj_uset#:#用户设置
@@ -869,7 +871,16 @@ common#:#publication#:#公布
 common#:#publication_date#:#公布日期
 common#:#published#:#已出版
 common#:#publishing_organisation#:#出版组织
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#问题
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#离开
 common#:#quote#:#引用
 common#:#read#:#读
@@ -1007,6 +1018,7 @@ common#:#system_language#:#系统语言
 common#:#system_message#:#系统消息
 common#:#term#:#术语
 common#:#test_intern#:#内部测试
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#时间
 common#:#title#:#标题
 common#:#to#:#到
@@ -1018,6 +1030,14 @@ common#:#tpl_path#:#模板路径
 common#:#translation#:#翻译
 common#:#trash#:#拉圾箱
 common#:#treeview#:#树形视图
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。
@@ -1372,6 +1392,10 @@ mail#:#mail_folder_name_changed#:#文件夹已改名
 mail#:#mail_folder_options#:#文件夹选项
 mail#:#mail_following_rcp_not_valid#:#下列收件人无效
 mail#:#mail_global_options#:#全局选项
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#请插入文件夹名
 mail#:#mail_insert_query#:#请插入询问
 mail#:#mail_intern#:#内部的
@@ -1386,6 +1410,7 @@ mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
 mail#:#mail_new_file#:#增加新文件
 mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
 mail#:#mail_no_attachments_found#:#未找到附件
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#选项
 mail#:#mail_options_saved#:#Options saved###17 Dec 2003 new variable
 mail#:#mail_recipient_not_valid#:#收件人无效

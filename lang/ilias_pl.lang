@@ -758,6 +758,7 @@ common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#Rola
 common#:#obj_rolf#:#Role
 common#:#obj_rolf_desc#:#Zarządzanie rolami.
@@ -767,6 +768,7 @@ common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
 common#:#obj_slm#:#SCORM (MN)###31 Jan 2004 content changed
 common#:#obj_st#:#Rozdział
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
 common#:#obj_uset#:#Ustawienia użytkownika
@@ -852,7 +854,16 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#Pytanie
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#Wyjście
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
@@ -990,6 +1001,7 @@ common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
 common#:#term#:#Termin
 common#:#test_intern#:#Test wewnętrzny
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#Czas
 common#:#title#:#Tytuł
 common#:#to#:#Do
@@ -1001,6 +1013,14 @@ common#:#tpl_path#:#Scieżka do szablonu
 common#:#translation#:#Tłumaczenmie
 common#:#trash#:#Kosz
 common#:#treeview#:#Widok drzewa
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Przejdź do miejsca gdzie chcesz dodać
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Zostałeś zarejestrowany w systemie ILIAS. Kliknij na przycisk poniżej aby się zalogować do ILIAS na swoje konto.
@@ -1355,6 +1375,10 @@ mail#:#mail_folder_name_changed#:#Zmieniono nazwę folderu
 mail#:#mail_folder_options#:#Opcje Folderu
 mail#:#mail_following_rcp_not_valid#:#Następujący odbiorcy nie są prawidłowi:
 mail#:#mail_global_options#:#Opcje globalne
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
 mail#:#mail_intern#:#Wewnętrzny
@@ -1369,6 +1393,7 @@ mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
 mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.

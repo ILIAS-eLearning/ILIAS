@@ -737,18 +737,6 @@ common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc#:#Exercise
 common#:#obj_file#:#File
-common#:#obj_tst#:#Test
-common#:#obj_qpl#:#Question Pool
-common#:#qpl_edit_permission#:#Change permission settings
-common#:#tst_edit_permission#:#Change permission settings
-common#:#qpl_visible#:#Question Pool is visible
-common#:#tst_visible#:#Test is visible
-common#:#qpl_read#:#Read access to Question Pool
-common#:#tst_read#:#Read access to Test
-common#:#qpl_write#:#Edit Question Pool
-common#:#tst_write#:#Edit Test
-common#:#qpl_delete#:#Delete Question Pool
-common#:#tst_delete#:#Delete Test
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
@@ -770,6 +758,7 @@ common#:#obj_objf#:#Objectdefinitions
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
+common#:#obj_qpl#:#Question Pool
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -779,6 +768,7 @@ common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
 common#:#obj_st#:#Chapter
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
@@ -864,7 +854,16 @@ common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
 common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organisation
+common#:#qpl#:#Question pool
+common#:#qpl_add#:#Add question pool
+common#:#qpl_delete#:#Delete Question Pool
+common#:#qpl_edit_permission#:#Change permission settings
+common#:#qpl_new#:#New question pool
+common#:#qpl_read#:#Read access to Question Pool
+common#:#qpl_visible#:#Question Pool is visible
+common#:#qpl_write#:#Edit Question Pool
 common#:#question#:#Question
+common#:#question_pools#:#Question pools
 common#:#quit#:#Quit
 common#:#quote#:#Quote
 common#:#read#:#Read
@@ -1002,6 +1001,7 @@ common#:#system_language#:#System Language
 common#:#system_message#:#System Message
 common#:#term#:#Term
 common#:#test_intern#:#Test Intern
+common#:#tests#:#Tests
 common#:#time#:#Time
 common#:#title#:#Title
 common#:#to#:#To
@@ -1013,6 +1013,14 @@ common#:#tpl_path#:#Template Path
 common#:#translation#:#Translation
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
+common#:#tst#:#Test
+common#:#tst_add#:#Add test
+common#:#tst_delete#:#Delete Test
+common#:#tst_edit_permission#:#Change permission settings
+common#:#tst_new#:#New test
+common#:#tst_read#:#Read access to Test
+common#:#tst_visible#:#Test is visible
+common#:#tst_write#:#Edit Test
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAs with your useraccount.
@@ -1076,14 +1084,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Postal Code
 common#:#zipcode#:#Postal Code
-common#:#qpl#:#Question pool
-common#:#qpl_new#:#New question pool
-common#:#qpl_add#:#Add question pool
-common#:#question_pools#:#Question pools
-common#:#tst#:#Test
-common#:#tst_new#:#New test
-common#:#tst_add#:#Add test
-common#:#tests#:#Tests
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
@@ -1375,6 +1375,10 @@ mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_folder_options#:#Folder Options
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
+mail#:#mail_incoming#:#Incoming mails
+mail#:#mail_incoming_both#:#local and forwarding
+mail#:#mail_incoming_local#:#only local
+mail#:#mail_incoming_smtp#:#forward to email address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_intern#:#Internal
@@ -1389,6 +1393,7 @@ mail#:#mail_moved_to_trash#:#Mail(s) have been moved to trash
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_recipient_not_valid#:#The recipient is not valid
@@ -1972,8 +1977,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-mail#:#mail_incoming#:#Incoming mails
-mail#:#mail_incoming_local#:#only local
-mail#:#mail_incoming_smtp#:#forward to email address
-mail#:#mail_incoming_both#:#local and forwarding
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails

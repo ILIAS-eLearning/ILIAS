@@ -758,6 +758,7 @@ common#:#obj_objf#:#Object-definities
 common#:#obj_objf_desc#:#Beheer van ILIAS object-typen en object-rechten. (alleen voor experts!)
 common#:#obj_owner#:#Dit object is eigendom van
 common#:#obj_pg#:#Pagina
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#Rol
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Beheer uw rollen hier.
@@ -767,6 +768,7 @@ common#:#obj_rolt#:#Rol-sjabloon
 common#:#obj_root#:#root###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM lesmodule###31 Jan 2004 content changed
 common#:#obj_st#:#Hoofdstuk
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Object-type definitie
 common#:#obj_type#:#Object-type
 common#:#obj_uset#:#Gebruikers-instellingen
@@ -852,7 +854,16 @@ common#:#publication#:#Publikatie
 common#:#publication_date#:#Publikatie-datum
 common#:#published#:#gepubliceerd
 common#:#publishing_organisation#:#Uitgevers-organisatie
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#Vraag
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#Loguit
 common#:#quote#:#Citeren
 common#:#read#:#Lezen
@@ -990,6 +1001,7 @@ common#:#system_language#:#Systeemtaal
 common#:#system_message#:#Systeem-bericht
 common#:#term#:#Begrip
 common#:#test_intern#:#Interne test
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#Tijd
 common#:#title#:#Titel
 common#:#to#:#Aan
@@ -1001,6 +1013,14 @@ common#:#tpl_path#:#Sjabloon-pad
 common#:#translation#:#Vertaling
 common#:#trash#:#Prullenbak
 common#:#treeview#:#Tonen
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#U heeft u met succes aangemeld aan ILIAS. A.u.b. klik op de onderstaande button om op ILIAS in te  loggen met uw gebruikers-account.
@@ -1355,6 +1375,10 @@ mail#:#mail_folder_name_changed#:#De map-naam is gewijzigd
 mail#:#mail_folder_options#:#Map-opties
 mail#:#mail_following_rcp_not_valid#:#De volgende ontvangers zijn niet geldig:
 mail#:#mail_global_options#:#Globale opties
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Voeg een map-naam in
 mail#:#mail_insert_query#:#Voeg een vraag in
 mail#:#mail_intern#:#intern
@@ -1369,6 +1393,7 @@ mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak
 mail#:#mail_new_file#:#Voeg een nieuw bestand toe:
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen attachments hebben
 mail#:#mail_no_attachments_found#:#Geen attachments gevonden
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#Opties
 mail#:#mail_options_saved#:#Opties opgeslagen
 mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
