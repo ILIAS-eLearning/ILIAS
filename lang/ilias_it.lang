@@ -191,6 +191,8 @@ assessment#:#insert_before#:#Inserisci prima
 assessment#:#internal_links#:#Link interno
 assessment#:#internal_links_update#:#Aggiorna
 assessment#:#javaapplet#:#Applet Java
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
@@ -557,6 +559,7 @@ common#:#account_expires_body#:#La tua iscrizione &#232; limitata, scadr&#224; i
 common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
+common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
 common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
 common#:#active#:#Active###14 Sep 2004 new variable
@@ -1185,6 +1188,7 @@ common#:#htlm_read#:#Accedere in lettura ad un modulo HTML
 common#:#htlm_visible#:#Vedere un modulo HTML
 common#:#htlm_write#:#Modificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
+common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
@@ -1690,6 +1694,7 @@ common#:#ok#:#OK
 common#:#old#:#Vecchio
 common#:#online_chapter#:#Capitolo online
 common#:#online_version#:#Versione online
+common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
 common#:#operation#:#Operazione
 common#:#optimize#:#Ottimizza
 common#:#options#:#Opzioni

@@ -191,6 +191,8 @@ assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
 assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
 assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###7 June 2004 new variable
@@ -557,6 +559,7 @@ common#:#account_expires_body#:#Your account is limited, it will expire at:###25
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
 common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#acciones
+common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activación
 common#:#active#:#Active###14 Sep 2004 new variable
@@ -1187,6 +1190,7 @@ common#:#htlm_read#:#Leer Módulo de Aprendizaje HTML
 common#:#htlm_visible#:#El módulo de aprendizaje HTML es visible
 common#:#htlm_write#:#Editar Módulo de aprendizaje HTML
 common#:#http_path#:#http path
+common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
 common#:#identifier#:#identificador
 common#:#if_no_title_then_filename#:#Leave blank to display the file name###07 June 2004 new variable
@@ -1691,6 +1695,7 @@ common#:#ok#:#OK
 common#:#old#:#old
 common#:#online_chapter#:#capítulo online
 common#:#online_version#:#versión online
+common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
 common#:#operation#:#Operación
 common#:#optimize#:#optimizar
 common#:#options#:#opciones

@@ -191,6 +191,8 @@ assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
 assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
 assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###27 Apr 2004 new variable
@@ -557,6 +559,7 @@ common#:#account_expires_body#:#Your account is limited, it will expire at:###25
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
 common#:#action_aborted#:#Дію перервано
 common#:#actions#:#Дії
+common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active#:#Active###14 Sep 2004 new variable
@@ -1187,6 +1190,7 @@ common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Http Шлях
+common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
@@ -1692,6 +1696,7 @@ common#:#ok#:#Так
 common#:#old#:#Старий
 common#:#online_chapter#:#Онлайн Глава
 common#:#online_version#:#Онлайн Версія
+common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
 common#:#operation#:#Операція
 common#:#optimize#:#Оптимізувати
 common#:#options#:#Опції

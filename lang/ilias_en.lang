@@ -103,8 +103,6 @@ assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#New parameter
-assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
-assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
@@ -193,6 +191,8 @@ assessment#:#insert_before#:#Insert before
 assessment#:#internal_links#:#Internal Links
 assessment#:#internal_links_update#:#Update
 assessment#:#javaapplet#:#Java Applet
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
@@ -559,6 +559,7 @@ common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
+common#:#activate_https#:#Activate HTTPS (Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active#:#Active
@@ -866,7 +867,6 @@ common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
 common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
-common#:#open_views_inside_frameset#:#Open views inside frameset
 common#:#delete#:#Delete
 common#:#delete_all#:#Delete All
 common#:#delete_all_rec#:#Delete all records
@@ -1190,6 +1190,7 @@ common#:#htlm_read#:#Read HTML Learning Module
 common#:#htlm_visible#:#HTML Learning Module is visible
 common#:#htlm_write#:#Edit HTML Learning Module
 common#:#http_path#:#Http Path
+common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
@@ -1695,6 +1696,7 @@ common#:#ok#:#OK
 common#:#old#:#Old
 common#:#online_chapter#:#Online Chapter
 common#:#online_version#:#Online Version
+common#:#open_views_inside_frameset#:#Open views inside frameset
 common#:#operation#:#Operation
 common#:#optimize#:#Optimize
 common#:#options#:#Options
@@ -3820,5 +3822,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
-common#:#activate_https#:#Activate HTTPS (Payment, Login)

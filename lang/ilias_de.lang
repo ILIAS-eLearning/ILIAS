@@ -191,6 +191,8 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java Applet
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -557,6 +559,7 @@ common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauf
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
+common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
 common#:#active#:#Active###14 Sep 2004 new variable
@@ -863,7 +866,6 @@ common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
-common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
@@ -1186,6 +1188,7 @@ common#:#htlm_read#:#HTML-Lernmodul ansehen
 common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
 common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
+common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
@@ -1689,6 +1692,7 @@ common#:#ok#:#OK
 common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
+common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
@@ -3812,7 +3816,5 @@ survey#:#value_nr_entered#:#Anzahl der Nutzerinnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
-common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
