@@ -26,7 +26,7 @@ class ForumObject extends Object
 	* @param	integer	$a_id object id
 	* @access	public
 	*/
-	function ForumObject($a_id,$a_call_by_reference = "")
+	function ForumObject($a_id = 0,$a_call_by_reference = "")
 	{
 		$this->Object($a_id,$a_call_by_reference);
 		$this->Forum = new Forum();

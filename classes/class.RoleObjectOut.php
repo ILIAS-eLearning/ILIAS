@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -27,6 +27,47 @@ class RoleObjectOut extends ObjectOut
 			   $_GET["parent_parent"]."&cmd=view");
 		exit();
 	}
+
+		/**
+	* save a new role object
+	* @access	public
+	* @return new ID
+	*/
+	//$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
+	//function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
+	function saveObject()
+	{
+		global $rbacsystem, $rbacadmin;
+
+	
+		// CHECK ACCESS 'write' to role folder
+		// TODO: check for create role permission should be better
+		//if (!$rbacsystem->checkAccess("write",$a_obj_id,$a_parent))
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"],$_GET["parent"]))
+		{
+			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// check if role title is unique
+			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+			}
+
+			// create new role object
+			$roleObj = new RoleObject();
+			$roleObj->setTitle($_POST["Fobject"]["title"]);
+			$roleObj->setDescription($_POST["Fobject"]["desc"]);
+			$roleObj->create();
+			//$rbacadmin->assignRoleToFolder($new_obj_id,$a_obj_id,$a_parent,'y');
+			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"], $_GET["parent"], 'y');
+		}
+		
+		return $new_obj_id;
+	}
+
 	
 	function permObject()
 	{
@@ -107,6 +148,8 @@ class RoleObjectOut extends ObjectOut
 
 		$this->tpl->parseCurrentBlock("adm_content");
 	}
+	
+	
 	function adoptPermSaveObject()
 	{
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".

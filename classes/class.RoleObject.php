@@ -14,7 +14,7 @@ class RoleObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleObject($a_id,$a_call_by_reference = "")
+	function RoleObject($a_id = 0,$a_call_by_reference = "")
 	{
 		$this->Object($a_id,$a_call_by_reference);
 		$this->type = "role";
@@ -44,38 +44,6 @@ class RoleObject extends Object
 		}
 	}
 
-	/**
-	* save a new role object
-	* @access	public
-	* @return new ID
-	*/
-	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
-	{
-		global $rbacsystem, $rbacadmin;
-
-	
-		// CHECK ACCESS 'write' to role folder
-		// TODO: check for create role permission should be better
-		if (!$rbacsystem->checkAccess("write",$a_obj_id,$a_parent))
-		{
-			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
-		}
-		else
-		{
-			// check if role title is unique
-			if ($rbacadmin->roleExists($a_data["title"]))
-			{
-				$this->ilias->raiseError("A role with the name '".$a_data["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
-			}
-
-			// save new role
-			$new_obj_id = createNewObject("role",$a_data["title"],$a_data["desc"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$a_obj_id,$a_parent,'y');
-		}
-		
-		return $new_obj_id;
-	}
 
 	/**
 	* delete a role object

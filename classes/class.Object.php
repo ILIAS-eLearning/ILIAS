@@ -80,10 +80,10 @@ class Object
 	* @access	public
 	* @param	integer	reference_id NOT object_id!!!!
 	*/
-	function Object($a_id = 0,$a_call_by_reference = "true")
+	function Object($a_id = 0, $a_call_by_reference = "true")
 	{
 		global $ilias, $lng;
-
+		
 		$this->ilias =& $ilias;
 		$this->lng = &$lng;
 
@@ -309,7 +309,6 @@ class Object
 	{
 		return $this->last_update;
 	}
-
 
 	/**
 	* create
@@ -556,13 +555,18 @@ class Object
 	{
 		/*global $rbacsystem,$rbacreview,$rbacadmin,$tree;
 
+		// $_GET["obj_id"], $_GET["parent"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]
+		
+		//if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_GET["new_type"]))
+
 		if ($rbacsystem->checkAccess("create",$a_parent_ref_id,$a_new_type))
 		{
 			// create and insert object in objecttree
+			//$this->id = createNewObject($_GET["new_type"], $a_data["title"], $a_data["desc"]);
+			//$tree->insertNode($this->id,$a_obj_id,$a_parent);
 			$this->id = createNewObject($a_new_type,$a_data["title"],$a_data["desc"]);
 			$this->ref_id = createNewReference($this->id);
 			$tree->insertNode($this->ref_id,$a_parent_ref_id);
-
 
 			// TODO: first param is required
 			$parentRoles = $rbacadmin->getParentRoleIds();
