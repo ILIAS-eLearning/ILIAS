@@ -49,6 +49,8 @@ class ilSearch
 	var $search_type;			// STRING 'new' or 'result'
 	var $result;				// RESULT SET array['object_type']['counter']
 	var $perform_update;		// UPDATE USER SEARCH HISTORY default is true SEE function setPerformUpdate()
+
+	var $allow_emty_search;		// ALLOW EMPTY SEARCH TERM use setEmtySearch(true | false) TO SET THIS VALUE DEFAULT (FALSE)
 	/**
 	* Constructor
 	* @access	public
@@ -65,6 +67,7 @@ class ilSearch
 		$this->user_id = $a_user_id;
 
 		$this->setPerformUpdate(true);
+		$this->setEmptySearch(false);
 		// READ OLD SEARCH RESULTS FROM DATABASE
 		$this->__readDBResult();
 	}
@@ -98,6 +101,10 @@ class ilSearch
 	function setPerformUpdate($a_value)
 	{
 		$this->perform_update = $a_value;
+	}
+	function setEmptySearch($a_value)
+	{
+		$this->allow_empty_search = $a_value;
 	}
 	
 	// GET MEHODS
@@ -148,6 +155,10 @@ class ilSearch
 	{
 		return $this->perform_update;
 	}
+	function getEmptySearch()
+	{
+		return $this->allow_empty_search;
+	}
 
 
 	// PUBLIC
@@ -168,21 +179,24 @@ class ilSearch
 	{
 		$ok = true;
 
-		if(!$this->getSearchString())
+		if(!$this->getEmptySearch())
 		{
-			$message .= $this->lng->txt("search_no_search_term")."<br/>";
-			$ok = false;
-		}
-		$this->__parseSearchString();
+			if(!$this->getSearchString())
+			{
+				$message .= $this->lng->txt("search_no_search_term")."<br/>";
+				$ok = false;
+			}
+			$this->__parseSearchString();
 
-		if(!$this->__validateParsedString($message))
-		{
-			$ok = false;
-		}
-		if(!$this->getSearchFor())
-		{
-			$message .= $this->lng->txt("search_no_category")."<br/>";
-			$ok = false;
+			if(!$this->__validateParsedString($message))
+			{
+				$ok = false;
+			}
+			if(!$this->getSearchFor())
+			{
+				$message .= $this->lng->txt("search_no_category")."<br/>";
+				$ok = false;
+			}
 		}
 		return $ok;
 	}
@@ -205,6 +219,14 @@ class ilSearch
 					// THIS VAR IS USED IN __getResultIdsByType()
 					$this->act_type = 'usr';
 					$result["usr"] = ilObjUser::_search($this);
+					break;
+
+				case "grp":
+					include_once "./classes/class.ilObjGroup.php";
+
+					$this->act_type = 'grp';
+					$result["grp"] = ilObjGroup::_search($this);
+					$result["grp"] = $this->__checkAccess($result["grp"]);
 					break;
 
 				case "lm":

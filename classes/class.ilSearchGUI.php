@@ -142,6 +142,10 @@ class ilSearchGUI
 		{
 			$this->__showResultTable("usr");
 		}
+		if($this->search->getResultByType("grp") and ( !$this->res_type or $this->res_type == 'grp'))
+		{
+			$this->__showResultTable("grp");
+		}
 		if($res = $this->search->getResultByType("dbk") and ( !$this->res_type or $this->res_type == 'dbk'))
 		{
 			if(count($res["meta"]))
@@ -171,7 +175,7 @@ class ilSearchGUI
 		// FOR ALL TYPES
 		$tbl = new ilTableGUI(0,false);
 
-		// SWITCH 'usr','dbk','lm'
+		// SWITCH 'usr','dbk','lm','grp'
 		switch($a_type)
 		{
 			case "usr":
@@ -182,6 +186,16 @@ class ilSearchGUI
 				$tbl->setColumnWidth(array("25%","25%","25%","25%"));
 				$tbl->setData(array_values($this->__formatUserResult($this->search->getResultByType("usr"))));
 				break;
+
+			case "grp":
+				$tbl->setTitle($this->lng->txt("search_group"),"icon_grp_b.gif",$this->lng->txt("search_group"));
+				$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),
+										   $this->lng->txt("search_show_result")));
+				$tbl->setHeaderVars(array("title","description",""),array("res_type" => "grp"));
+				$tbl->setColumnWidth(array("25%","25%","25%"));
+				$tbl->setData(array_values($this->__formatGroupResult($this->search->getResultByType("grp"))));
+				break;
+
 				
 			case "dbk":
 				// SWITCH 'meta','content'
@@ -362,6 +376,29 @@ class ilSearchGUI
 			$f_result[$counter][]	= $tmp_obj->getFirstname();
 			$f_result[$counter][]	= $tmp_obj->getLastname();
 			$f_result[$counter][]	= $this->__formatLink($user["link"],$user["target"]);
+
+			unset($tmp_obj);
+			++$counter;
+		}
+		return $f_result;
+	}
+
+	function __formatGroupResult($a_res)
+	{
+		if(!is_array($a_res))
+		{
+			return array();
+		}
+		include_once "./classes/class.ilObjectFactory.php";
+
+		$counter = 0;
+		foreach($a_res as $group)
+		{
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($group["id"]);
+			
+			$f_result[$counter][]	= $tmp_obj->getTitle();
+			$f_result[$counter][]	= $tmp_obj->getDescription();
+			$f_result[$counter][]	= $this->__formatLink($group["link"],$group["target"]);
 
 			unset($tmp_obj);
 			++$counter;
