@@ -120,6 +120,7 @@ common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
+common#:#objs_delete#:#Objekte löschen
 common#:#cont_object#:#Object###15 Sep 2003 new variable
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
@@ -254,7 +255,7 @@ common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_not_available#:#keine Gruppe verfügbar
-common#:#group_objects#:#Gruppen Objekte###09 Sep 2003 new variable
+common#:#group_objects#:#Gruppenobjekte
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_private#:#Privat
@@ -531,6 +532,7 @@ common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Install
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
+common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
@@ -566,7 +568,7 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
-common#:#objf#:#Objektordner
+common#:#objf#:#Objektdefinitionen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
@@ -984,6 +986,10 @@ forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten###01 Sep 2003 content changed
 forum#:#forums_the_post#:#Beitrag
+common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
+common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
+common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
+common#:#remove#:#Entfernen
 forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
