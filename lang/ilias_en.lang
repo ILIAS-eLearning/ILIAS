@@ -31,6 +31,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+<<<<<<< ilias_en.lang
+=======
+>>>>>>> 1.35
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -118,40 +121,75 @@ common#:#drafts#:#Drafts
 common#:#edit#:#Edit
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
+common#:#edit_operations#:#edit operations
 common#:#edit_properties#:#Edit Properties
+common#:#edit_properties#:#edit properties
 common#:#edited_at#:#Edited at
+common#:#edited_at#:#edited at
 common#:#editor#:#Editor
+common#:#editor#:#editor
 common#:#email#:#Email
+common#:#email#:#email
 common#:#employee#:#Employee
+common#:#employee#:#employee
 common#:#enable#:#Enable
+common#:#enable#:#enable
 common#:#enabled#:#Enabled
+common#:#enabled#:#enabled
 common#:#enumerate#:#Enumerate
+common#:#enumerate#:#enumerate
 common#:#err_wrong_login#:#Wrong Login
+common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#Error Recipient
+common#:#error_recipient#:#error recipient
 common#:#execute#:#Execute
+common#:#execute#:#execute
 common#:#faq_exercise#:#FAQ Exercise
+common#:#faq_exercise#:#faq exercise
 common#:#feedback#:#Feedback
+common#:#feedback#:#feedback
 common#:#feedback_recipient#:#Feedback Recipient
+common#:#feedback_recipient#:#feedback recipient
 common#:#file#:#File
+common#:#file#:#file
 common#:#file_not_found#:#File Not Found
+common#:#file_not_found#:#File not found
 common#:#file_version#:#Version Provided in File
+common#:#file_version#:#version provided in file
 common#:#files_location#:#Files Location
+common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
+common#:#fill_out_all_required_fields#:#please fill out all required fields
 common#:#firstname#:#Firstname
+common#:#firstname#:#firstname
 common#:#flatview#:#Flat View
+common#:#flatview#:#Flat viewcommon
 common#:#folder#:#Folder
+common#:#folder#:#folder
 common#:#folders#:#Folders
+common#:#folders#:#folders
 common#:#forename#:#Forename
+common#:#forename#:#forename
 common#:#form_empty_fields#:#Please complete these fields:
+common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#Forum
+common#:#forum#:#forum
 common#:#forum_new#:#New Forum
+common#:#forum_new#:#new forum
 common#:#forums#:#Forums
+common#:#forums#:#forums
 common#:#forums_articles#:#Articles
+common#:#forums_articles#:#articles
 common#:#forums_available#:#Available Forums
+common#:#forums_available#:#available forums
 common#:#forums_count#:#Number of Forums
+common#:#forums_count#:#number of forums
 common#:#forums_count_art#:#Number of Articles
+common#:#forums_count_art#:#number of articles
 common#:#forums_count_thr#:#Number of Threads
+common#:#forums_count_thr#:#number of threads
 common#:#forums_edit_post#:#Edit Article
+common#:#forums_edit_post#:#edit article
 common#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 common#:#forums_last_post#:#Last Article
 common#:#forums_moderators#:#Moderators
@@ -210,7 +248,6 @@ common#:#ip_address#:#IP Address
 common#:#item#:#Item
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
-common#:#lang_timeformat#:#H:i:s
 common#:#lang_de#:#German
 common#:#lang_dk#:#Danish
 common#:#lang_en#:#English
@@ -222,6 +259,9 @@ common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Language Path
 common#:#lang_pl#:#Polish
 common#:#lang_se#:#Swedish
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#language#:#Language
@@ -317,6 +357,7 @@ common#:#overview#:#Overview
 common#:#owner#:#Owner
 common#:#page#:#Page
 common#:#page_edit#:#Edit Page
+common#:#parse#:#Parse
 common#:#passwd#:#Password
 common#:#password#:#Password
 common#:#paste#:#Paste
@@ -376,12 +417,11 @@ common#:#search_in#:#Search in
 common#:#search_recipient#:#Search Recipient
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
+common#:#select_file#:#Select filecommon#:#select_mode#:#Select mode
 common#:#selected#:#Selected
 common#:#send#:#Send
 common#:#sender#:#Sender
 common#:#sent#:#Sent
-common#:#lang_sep_decimal#:#.
-common#:#lang_sep_thousand#:#,
 common#:#sequence#:#Sequence
 common#:#sequences#:#Sequences
 common#:#server#:#Server
@@ -429,6 +469,7 @@ common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
+common#:#upload#:#Upload
 common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
@@ -440,6 +481,7 @@ common#:#usr_agreement#:#User Agreement
 common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
+common#:#validate#:#Validate
 common#:#version#:#Version
 common#:#view#:#View
 common#:#view_content#:#View Content
@@ -450,8 +492,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#upload#:#Upload
-common#:#parse#:#Parse
-common#:#validate#:#Validate
-common#:#select_mode#:#Select mode
-common#:#select_file#:#Select file
