@@ -39,7 +39,7 @@ require_once "./include/inc.header.php";
 // define here on what page to enter the system the first time
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
-	$default_start_script = "lo_list.php";
+	$default_start_script = "repository.php";
 }
 else
 {
