@@ -448,9 +448,9 @@ common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
-common#:#no_frm_in_personal_list#:#No forums in personal list.###19 Aug 2003 new variable
+common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
-common#:#no_lo_in_personal_list#:#No learning objects in personal list.###19 Aug 2003 new variable
+common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_objects#:#Keine Objekte
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
@@ -463,7 +463,7 @@ common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
 common#:#obj_frm#:#Forum
-common#:#obj_glo#:#Glossary###15 Aug 2003 new variable
+common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
@@ -476,13 +476,13 @@ common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizenverwaltung
 common#:#obj_objf#:#Objektverwaltung
 common#:#obj_owner#:#Besitzer des Objekts ist
-common#:#obj_pg#:#Page###15 Aug 2003 new variable
+common#:#obj_pg#:#Seite
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollenverwaltung
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM Lernmodul
-common#:#obj_st#:#Chapter###15 Aug 2003 new variable
+common#:#obj_st#:#Kapitel
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
@@ -531,8 +531,8 @@ common#:#personal_profile#:#Persönliches Profil
 common#:#persons#:#Personen
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
-common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein!###09 Aug 2003 content changed
-common#:#please_enter_title#:#Bitte geben Sie einen Titel ein!###09 Aug 2003 content changed
+common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
+common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Präsentationsoptionen
@@ -637,7 +637,7 @@ common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
-common#:#term#:#Term###16 Aug 2003 new variable
+common#:#term#:#Begriff
 common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
@@ -675,7 +675,7 @@ common#:#users#:#Benutzer
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text###09 Aug 2003 content changed
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
@@ -700,13 +700,13 @@ content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline#:#Überschrift
 content#:#cont_List#:#ListListe
-content#:#cont_LocalFile#:#Local File###06 Aug 2003 new variable
+content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
-content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
+content#:#cont_Reference#:#Referenz
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
+content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_bottom#:#Unten
@@ -719,12 +719,12 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
 content#:#cont_dependencies#:#Dependencies
-content#:#cont_edit_mob#:#Edit Media Object###07 Aug 2003 new variable
+content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
-content#:#cont_edit_term#:#Edit Term###16 Aug 2003 new variable
+content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_fullscreen#:#Vollbild
@@ -743,7 +743,7 @@ content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_new_term#:#New Term###16 Aug 2003 new variable
+content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
@@ -780,10 +780,10 @@ content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_width#:#Tabellenbreite
-content#:#cont_term#:#Term###15 Aug 2003 new variable
-content#:#cont_terms#:#Terms###15 Aug 2003 new variable
+content#:#cont_term#:#Begriff
+content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
-content#:#cont_toc#:#Table of Contents###20 Aug 2003 new variable
+content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_version#:#version
 content#:#cont_width#:#Breite
@@ -899,7 +899,7 @@ meta#:#meta_c_AN#:#Niederländische Antillen
 meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antarktis
 meta#:#meta_c_AR#:#Argentinien
-meta#:#meta_c_AS#:#Amerikanisch Samoa###14 May 2003 new variable
+meta#:#meta_c_AS#:#Amerikanisch Samoa
 meta#:#meta_c_AT#:#Österreich
 meta#:#meta_c_AU#:#Australien
 meta#:#meta_c_AW#:#Aruba
@@ -924,7 +924,7 @@ meta#:#meta_c_BW#:#Botswana
 meta#:#meta_c_BY#:#Weißrußland
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Kanada
-meta#:#meta_c_CC#:#Kokos (Keeling) Inseln###14 May 2003 new variable
+meta#:#meta_c_CC#:#Kokos (Keeling) Inseln
 meta#:#meta_c_CF#:#Zentralafrikanische Republik
 meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Schweiz
@@ -932,12 +932,12 @@ meta#:#meta_c_CI#:#Elfenbeinküste
 meta#:#meta_c_CK#:#Cook Inseln
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Kamerun
-meta#:#meta_c_CN#:#China###14 May 2003 new variable
+meta#:#meta_c_CN#:#China
 meta#:#meta_c_CO#:#Kolumbien
 meta#:#meta_c_CR#:#Costa Rica
 meta#:#meta_c_CU#:#Cuba
-meta#:#meta_c_CV#:#Kapverdische Inseln###14 May 2003 new variable
-meta#:#meta_c_CX#:#Weihnachtsinseln###14 May 2003 new variable
+meta#:#meta_c_CV#:#Kapverdische Inseln
+meta#:#meta_c_CX#:#Weihnachtsinseln
 meta#:#meta_c_CY#:#Zypern
 meta#:#meta_c_CZ#:#Tschechische Republik
 meta#:#meta_c_DE#:#Deutschland
@@ -971,7 +971,7 @@ meta#:#meta_c_GL#:#Grönland
 meta#:#meta_c_GM#:#Gambia
 meta#:#meta_c_GN#:#Guinea
 meta#:#meta_c_GP#:#Guadeloupe
-meta#:#meta_c_GQ#:#Äquatorial-Guinea###14 May 2003 new variable
+meta#:#meta_c_GQ#:#Äquatorial-Guinea
 meta#:#meta_c_GR#:#Griechenland
 meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
 meta#:#meta_c_GT#:#Guatemala
@@ -1128,7 +1128,7 @@ meta#:#meta_c_ZW#:#Simbabwe
 meta#:#meta_c_ZZ#:#Andere Länder
 meta#:#meta_general#:#General
 meta#:#meta_identifier#:#Identifier
-meta#:#meta_l_aa#:#afar###28 May 2003 new variable
+meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#Abchasisch
 meta#:#meta_l_af#:#Afrikaans
 meta#:#meta_l_am#:#Amharic
