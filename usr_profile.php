@@ -62,7 +62,7 @@ if ($_POST["u_id"]!="")
 }
 
 //get all languages
-$langs = $lng->getAllLanguages();
+$langs = $lng->getInstalledLanguages();
 
 //go through languages
 foreach ($langs as $row)
