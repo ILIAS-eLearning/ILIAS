@@ -406,6 +406,60 @@ class ilRbacAdmin
 
 		return true;
 	}
+	/**
+	* Copies the intersection of the template permissions of two roles to a
+        * third role.
+        *
+	* @access	public
+	* @param	integer		$a_source1_id		role_id source
+	* @param	integer		$a_source1_parent	parent_id source
+	* @param	integer		$a_source2_id		role_id source
+	* @param	integer		$a_source2_parent	parent_id source
+ 	* @param	integer		$a_dest_id		role_id destination
+	* @param	integer		$a_dest_parent		parent_id destination
+	* @return	boolean 
+	*/
+	function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
+	{
+		if (!isset($a_source1_id) or !isset($a_source1_parent) 
+		or !isset($a_source2_id) or !isset($a_source2_parent) 
+                or !isset($a_dest_id) or !isset($a_dest_parent))
+		{
+			$message = get_class($this)."::copyRolePermissionIntersection(): Missing parameter! source1_id: ".$a_source1_id.
+					   " source1_parent: ".$a_source1_parent.
+					   " source2_id: ".$a_source2_id.
+					   " source2_parent: ".$a_source2_parent.
+					   " dest_id: ".$a_dest_id.
+					   " dest_parent_id: ".$a_dest_parent;
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+		
+		// exclude system role from rbac
+		if ($a_dest_id == SYSTEM_ROLE_ID)
+		{
+			return true;
+		}
+
+		$q = "SELECT s1.type, s1.ops_id ".
+                        "FROM rbac_templates AS s1, rbac_templates AS s2 ".
+                        "WHERE s1.rol_id = '".$a_source1_id."' ".
+                        "AND s1.parent = '".$a_source1_parent."' ".
+                        "AND s2.rol_id = '".$a_source2_id."' ".
+                        "AND s2.parent = '".$a_source2_parent."' ".
+                        "AND s1.type = s2.type ".
+                        "AND s1.ops_id = s2.ops_id";
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$q = "INSERT INTO rbac_templates ".
+				 "VALUES ".
+				 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
+			$this->ilDB->query($q);
+		}
+
+		return true;
+	}
 	
 	/**
 	* Deletes all entries of a template. If an object type is given for third parameter only
