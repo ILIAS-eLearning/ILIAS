@@ -203,27 +203,21 @@ common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
-common#:#file_added#:#Datei hochgeladen
 common#:#file_add#:#Datei hochladen
+common#:#file_added#:#Datei hochgeladen
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
-common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
-common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
-common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#obj_rolf_desc#:#Rollenverwaltung
-common#:#obj_mail_desc#:#Globale Mailkonfiguration
-common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
-common#:#fold_added#:#Ordner angelegt
 common#:#fold_add#:#Ordner anlegen
+common#:#fold_added#:#Ordner angelegt
 common#:#fold_new#:#Neuer Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
@@ -255,6 +249,9 @@ common#:#group_any_objects#:#Keine Unterobjekte vorhanden###09 Sep 2003 content 
 common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppenmitglieder
+common#:#group_memstat#:#Mitgliederstatus
+common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
+common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppen Objekte###09 Sep 2003 new variable
@@ -262,9 +259,6 @@ common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_private#:#Privat
 common#:#group_status_public#:#Öffentlich
-common#:#group_memstat#:#Mitgliederstatus
-common#:#group_memstat_member#:#Mitglied
-common#:#group_memstat_admin#:#Administrator
 common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
@@ -296,22 +290,22 @@ common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
 common#:#ingmedia_back_to_le#:#Zur&uuml;ck zur Lerneinheit
-common#:#ingmedia_level_zero#:#Eine Ebene nach oben
-common#:#ingmedia_good_morning#:#Guten Morgen
 common#:#ingmedia_good_afternoon#:#Guten Nachmittag
 common#:#ingmedia_good_evening#:#Guten Abend
+common#:#ingmedia_good_morning#:#Guten Morgen
 common#:#ingmedia_good_night#:#Guten Nacht
 common#:#ingmedia_hello#:#Guten Tag
 common#:#ingmedia_info_about_work1#:#Sie haben hier am
 common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie k&ouml;nnen jetzt dort weitermachen, wo Sie damals aufgeh&ouml;rt haben:
+common#:#ingmedia_level_zero#:#Eine Ebene nach oben
 common#:#ingmedia_pers_dates#:#Pers&ouml;nliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_user_agree#:#Benutzervereinbarung
 common#:#ingmedia_use_info1#:#Hier k&ouml;nnen Sie Ihre pers&ouml;nliche Daten &auml;ndern. Sie sind NICHT verpflichtet, au&szlig;er dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder d&uuml;rfen Sie mit sonstigen Zeichen f&uuml;llen.
 common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu d&uuml;rfen, m&uuml;ssen Sie mit den Benutzervereinbarungen einverstanden sein.
 common#:#ingmedia_use_info3#:#Bitte w&auml;hlen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
 common#:#ingmedia_use_title#:#Benutzerdaten &auml;ndern
+common#:#ingmedia_user_agree#:#Benutzervereinbarung
 common#:#ingmedia_vis_le#:#Besuchte LE
 common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
 common#:#ingmedia_welcome#:#, willkommen an Ihrem pers&ouml;nlichen Schreibtisch!
@@ -528,6 +522,7 @@ common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Systemeinstellungen
+common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
@@ -537,17 +532,21 @@ common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
-common#:#obj_lngf#:#Sprachen
+common#:#obj_lngf#:#Sprachen###01 Oct 2003 content changed
+common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
+common#:#obj_mail_desc#:#Globale Mailkonfiguration
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
-common#:#obj_objf#:#Objektdefinitionen
+common#:#obj_objf#:#Objektdefinitionen###01 Oct 2003 content changed
+common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_role#:#Rolle
-common#:#obj_rolf#:#Rollen
+common#:#obj_rolf#:#Rollen###01 Oct 2003 content changed
+common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
@@ -558,7 +557,8 @@ common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerkonten
+common#:#obj_usrf#:#Benutzerkonten###01 Oct 2003 content changed
+common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
@@ -1051,8 +1051,13 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
+meta#:#meta_accessibility_restrictions#:#Zugangseinschränkungen
+meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Hinzufügen
+meta#:#meta_annotation#:#Erläuterung
 meta#:#meta_atomic#:#Atomar
+meta#:#meta_author#:#Autor
+meta#:#meta_browser#:#Browser###01 Oct 2003 new variable
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
 meta#:#meta_c_AF#:#Afghanistan
@@ -1295,14 +1300,60 @@ meta#:#meta_catalog#:#Katalog
 meta#:#meta_choose_element#:#Bitte wählen Sie das Element, das Sie hinzufügen möchten!
 meta#:#meta_choose_language#:#Bitte wählen Sie eine Sprache
 meta#:#meta_choose_section#:#Bitte wählen Sie einen Bereich
+meta#:#meta_classification#:#Klassifizierung
 meta#:#meta_collection#:#Sammlung
+meta#:#meta_competency#:#Kompetenz
+meta#:#meta_context#:#Kontext
+meta#:#meta_contribute#:#Beitrag
+meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
+meta#:#meta_cost#:#Kosten
+meta#:#meta_coverage#:#Coverage###01 Oct 2003 new variable
+meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
+meta#:#meta_diagramm#:#Diagramm###01 Oct 2003 new variable
+meta#:#meta_difficulty#:#Schwierigkeit
+meta#:#meta_dificult#:#Schwierig
+meta#:#meta_draft#:#Entwurf
+meta#:#meta_duration#:#Dauer
+meta#:#meta_easy#:#Leicht
+meta#:#meta_education#:#Education###01 Oct 2003 new variable
+meta#:#meta_educational_level#:#Ausbildungsstufe
+meta#:#meta_educational_objective#:#Erzieherisches Ziel
+meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
+meta#:#meta_exam#:#Prüfung
+meta#:#meta_exercise#:#Übung
+meta#:#meta_experiment#:#Experiment###01 Oct 2003 new variable
+meta#:#meta_expositive#:#Erklärend
+meta#:#meta_figure#:#Abbildung
+meta#:#meta_final#:#Endfassung
+meta#:#meta_format#:#Format###01 Oct 2003 new variable
 meta#:#meta_general#:#Allgemein
+meta#:#meta_graph#:#Graph###01 Oct 2003 new variable
+meta#:#meta_has_format#:#Hat Format
+meta#:#meta_has_part#:#Hat Teil
+meta#:#meta_has_version#:#Hat Version
 meta#:#meta_hierarchical#:#Hierarchisch
+meta#:#meta_high#:#Hoch
+meta#:#meta_higher_education#:#Hochschulbildung
+meta#:#meta_id#:#Id###01 Oct 2003 new variable
+meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
+meta#:#meta_index#:#Index###01 Oct 2003 new variable
+meta#:#meta_installation_remarks#:#Installationsanmerkungen
+meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
+meta#:#meta_interactivity_level#:#Stufe der Interaktivität
+meta#:#meta_interactivity_type#:#Art der Interaktivität
+meta#:#meta_is_based_on#:#Basiert auf
+meta#:#meta_is_basis_for#:#Ist Basis für
+meta#:#meta_is_format_of#:#Ist Format von
+meta#:#meta_is_part_of#:#Ist Teil von
+meta#:#meta_is_referenced_by#:#Ist referenziert von
+meta#:#meta_is_required_by#:#Wird benötigt von
+meta#:#meta_is_version_of#:#Ist Version von
 meta#:#meta_keyword#:#Schlagwort
+meta#:#meta_kind#:#Art
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#Abchasisch
 meta#:#meta_l_af#:#Afrikaans
@@ -1443,13 +1494,88 @@ meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
 meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
+meta#:#meta_learner#:#Lernender
+meta#:#meta_learning_resource_type#:#Art der Lernhilfsmittel
+meta#:#meta_lecture#:#Lektüre
+meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear###18 Sep 2003 new variable
+meta#:#meta_local_file#:#Lokale Datei
+meta#:#meta_location#:#Location###01 Oct 2003 new variable
+meta#:#meta_low#:#niedrig
+meta#:#meta_mac_os#:#MacOS###01 Oct 2003 new variable
+meta#:#meta_manager#:#Manager###01 Oct 2003 new variable
+meta#:#meta_maximum_version#:#Maximale Version
+meta#:#meta_medium#:#Mittel
+meta#:#meta_meta_metadata#:#Meta-Metadata###01 Oct 2003 new variable
+meta#:#meta_metadatascheme#:#Metadaten Schema
+meta#:#meta_minimum_version#:#Minimale Version
+meta#:#meta_mixed#:#Gemischt
+meta#:#meta_ms_windows#:#MS-Windows###01 Oct 2003 new variable
+meta#:#meta_multi_os#:#Multi-OS###01 Oct 2003 new variable
+meta#:#meta_name#:#Name###01 Oct 2003 new variable
+meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
+meta#:#meta_no#:#Nein
+meta#:#meta_no_annotation#:#Keine Metadaten für den Erläuterungen Bereich vorhanden.
+meta#:#meta_no_classification#:#Keine Metadaten für den Klassifizierungsbereich vorhanden.
+meta#:#meta_no_educational#:#Keine Metadaten für den erzieherischen Bereich vorhanden.
+meta#:#meta_no_lifecycle#:#Keine Metadaten für den Lebenszyklus Bereich vorhanden.
+meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Meta-Metadaten Bereich vorhanden.
+meta#:#meta_no_relation#:#Keine Metadate für den Beziehungen Bereich vorhanden.
+meta#:#meta_no_rights#:#Keine Metadaten für den Rechte Bereich vorhanden.
+meta#:#meta_no_technical#:#Keine Metadaten für den technischen Bereich vorhanden.
+meta#:#meta_none#:#Keins
+meta#:#meta_operating_system#:#Betriebssystem
+meta#:#meta_or_composite#:#Oder zusammengefasst
+meta#:#meta_other#:#Andere
+meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
+meta#:#meta_pc_dos#:#PC-DOS###01 Oct 2003 new variable
 meta#:#meta_please_select#:#Bitte wählen Sie
+meta#:#meta_prerequisite#:#Voraussetzung
+meta#:#meta_problem_statement#:#Problemstellung
+meta#:#meta_publisher#:#Herausgeber
+meta#:#meta_purpose#:#Zweck
+meta#:#meta_questionnaire#:#Fragebogen
+meta#:#meta_reference#:#Referenz
+meta#:#meta_references#:#Referenzen
+meta#:#meta_relation#:#Beziehung
+meta#:#meta_requirement#:#Anforderung
+meta#:#meta_requires#:#Benötigt
+meta#:#meta_resource#:#Resource###01 Oct 2003 new variable
+meta#:#meta_revised#:#Überarbeitete Fassung
+meta#:#meta_rights#:#Rechte
+meta#:#meta_role#:#Rolle
+meta#:#meta_school#:#Schule
+meta#:#meta_security_level#:#Sicherheitsstufe
+meta#:#meta_self_assessment#:#Selbsttest
+meta#:#meta_semantic_density#:#Semantische Dichte
+meta#:#meta_simulation#:#Simulation###01 Oct 2003 new variable
+meta#:#meta_size#:#Größe
+meta#:#meta_skill_level#:#Stufe der Fertigkeit
+meta#:#meta_slide#:#Folie
+meta#:#meta_source#:#Quelle
+meta#:#meta_status#:#Status###01 Oct 2003 new variable
 meta#:#meta_structure#:#Struktur
+meta#:#meta_table#:#Tabelle
+meta#:#meta_taxon#:#Taxonomie
+meta#:#meta_taxon_path#:#Taxonomie Pfad
+meta#:#meta_teacher#:#Lehrer
+meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_title#:#Titel
+meta#:#meta_training#:#Training###01 Oct 2003 new variable
+meta#:#meta_type#:#Typ
+meta#:#meta_typical_age_range#:#Typische Altersspanne
+meta#:#meta_typical_learning_time#:#Typische Lerndauer
+meta#:#meta_unavailable#:#Nicht verfügbar
+meta#:#meta_unix#:#Unix###01 Oct 2003 new variable
 meta#:#meta_value#:#Wert
+meta#:#meta_version#:#Version###01 Oct 2003 new variable
+meta#:#meta_very_difficult#:#Sehr schwierig
+meta#:#meta_very_easy#:#Sehr leicht
+meta#:#meta_very_high#:#Sehr hoch
+meta#:#meta_very_low#:#Sehr niedrig
+meta#:#meta_yes#:#Ja
 search#:#search_all_results#:#Alle Resultate
 search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
@@ -1467,129 +1593,3 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-meta#:#meta_coverage#:#Coverage
-meta#:#meta_no_lifecycle#:#Keine Metadaten für den Lebenszyklus Bereich vorhanden.
-meta#:#meta_lifecycle#:#Lebenszyklus
-meta#:#meta_contribute#:#Beitrag
-meta#:#meta_status#:#Status
-meta#:#meta_draft#:#Entwurf
-meta#:#meta_final#:#Endfassung
-meta#:#meta_revised#:#Überarbeitete Fassung
-meta#:#meta_unavailable#:#Nicht verfügbar
-meta#:#meta_version#:#Version
-meta#:#meta_role#:#Rolle
-meta#:#meta_publisher#:#Herausgeber
-meta#:#meta_entity#:#Instanz
-meta#:#meta_date#:#Datum
-meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Meta-Metadaten Bereich vorhanden.
-meta#:#meta_meta_metadata#:#Meta-Metadata
-meta#:#meta_metadatascheme#:#Metadaten Schema
-meta#:#meta_no_technical#:#Keine Metadaten für den technischen Bereich vorhanden.
-meta#:#meta_technical#:#Technische Angaben
-meta#:#meta_format#:#Format
-meta#:#meta_size#:#Größe
-meta#:#meta_location#:#Location
-meta#:#meta_requirement#:#Anforderung
-meta#:#meta_or_composite#:#Oder zusammengefasst
-meta#:#meta_installation_remarks#:#Installationsanmerkungen
-meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
-meta#:#meta_duration#:#Dauer
-meta#:#meta_type#:#Typ
-meta#:#meta_local_file#:#Lokale Datei
-meta#:#meta_reference#:#Referenz
-meta#:#meta_operating_system#:#Betriebssystem
-meta#:#meta_name#:#Name
-meta#:#meta_minimum_version#:#Minimale Version
-meta#:#meta_maximum_version#:#Maximale Version
-meta#:#meta_browser#:#Browser
-meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_ms_windows#:#MS-Windows
-meta#:#meta_mac_os#:#MacOS
-meta#:#meta_unix#:#Unix
-meta#:#meta_multi_os#:#Multi-OS
-meta#:#meta_none#:#Keins
-meta#:#meta_no_educational#:#Keine Metadaten für den erzieherischen Bereich vorhanden.
-meta#:#meta_educational#:#Erzieherische Angaben
-meta#:#meta_interactivity_type#:#Art der Interaktivität
-meta#:#meta_learning_resource_type#:#Art der Lernhilfsmittel
-meta#:#meta_interactivity_level#:#Stufe der Interaktivität
-meta#:#meta_semantic_density#:#Semantische Dichte
-meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
-meta#:#meta_context#:#Kontext
-meta#:#meta_difficulty#:#Schwierigkeit
-meta#:#meta_typical_age_range#:#Typische Altersspanne
-meta#:#meta_typical_learning_time#:#Typische Lerndauer
-meta#:#meta_active#:#Aktiv
-meta#:#meta_expositive#:#Erklärend
-meta#:#meta_mixed#:#Gemischt
-meta#:#meta_exercise#:#Übung
-meta#:#meta_simulation#:#Simulation
-meta#:#meta_questionnaire#:#Fragebogen
-meta#:#meta_diagramm#:#Diagramm
-meta#:#meta_figure#:#Abbildung
-meta#:#meta_graph#:#Graph
-meta#:#meta_index#:#Index
-meta#:#meta_slide#:#Folie
-meta#:#meta_table#:#Tabelle
-meta#:#meta_narrative_text#:#Erzählender Text
-meta#:#meta_exam#:#Prüfung
-meta#:#meta_experiment#:#Experiment
-meta#:#meta_problem_statement#:#Problemstellung
-meta#:#meta_self_assessment#:#Selbsttest
-meta#:#meta_lecture#:#Lektüre
-meta#:#meta_very_low#:#Sehr niedrig
-meta#:#meta_low#:#niedrig
-meta#:#meta_medium#:#Mittel
-meta#:#meta_high#:#Hoch
-meta#:#meta_very_high#:#Sehr hoch
-meta#:#meta_teacher#:#Lehrer
-meta#:#meta_author#:#Autor
-meta#:#meta_learner#:#Lernender
-meta#:#meta_manager#:#Manager
-meta#:#meta_school#:#Schule
-meta#:#meta_higher_education#:#Hochschulbildung
-meta#:#meta_training#:#Training
-meta#:#meta_other#:#Andere
-meta#:#meta_very_easy#:#Sehr leicht
-meta#:#meta_easy#:#Leicht
-meta#:#meta_dificult#:#Schwierig
-meta#:#meta_very_difficult#:#Sehr schwierig
-meta#:#meta_no_rights#:#Keine Metadaten für den Rechte Bereich vorhanden.
-meta#:#meta_rights#:#Rechte
-meta#:#meta_cost#:#Kosten
-meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
-meta#:#meta_no_relation#:#Keine Metadate für den Beziehungen Bereich vorhanden.
-meta#:#meta_relation#:#Beziehung
-meta#:#meta_kind#:#Art
-meta#:#meta_is_part_of#:#Ist Teil von
-meta#:#meta_has_part#:#Hat Teil
-meta#:#meta_is_version_of#:#Ist Version von
-meta#:#meta_has_version#:#Hat Version
-meta#:#meta_is_format_of#:#Ist Format von
-meta#:#meta_has_format#:#Hat Format
-meta#:#meta_references#:#Referenzen
-meta#:#meta_is_referenced_by#:#Ist referenziert von
-meta#:#meta_is_based_on#:#Basiert auf
-meta#:#meta_is_basis_for#:#Ist Basis für
-meta#:#meta_requires#:#Benötigt
-meta#:#meta_is_required_by#:#Wird benötigt von
-meta#:#meta_resource#:#Resource
-meta#:#meta_no_annotation#:#Keine Metadaten für den Erläuterungen Bereich vorhanden.
-meta#:#meta_annotation#:#Erläuterung
-meta#:#meta_no_classification#:#Keine Metadaten für den Klassifizierungsbereich vorhanden.
-meta#:#meta_classification#:#Klassifizierung
-meta#:#meta_purpose#:#Zweck
-meta#:#meta_idea#:#Idee
-meta#:#meta_prerequisite#:#Voraussetzung
-meta#:#meta_educational_objective#:#Erzieherisches Ziel
-meta#:#meta_accessibility_restrictions#:#Zugangseinschränkungen
-meta#:#meta_educational_level#:#Ausbildungsstufe
-meta#:#meta_skill_level#:#Stufe der Fertigkeit
-meta#:#meta_security_level#:#Sicherheitsstufe
-meta#:#meta_competency#:#Kompetenz
-meta#:#meta_taxon_path#:#Taxonomie Pfad
-meta#:#meta_source#:#Quelle
-meta#:#meta_taxon#:#Taxonomie
-meta#:#meta_id#:#Id
-meta#:#meta_no#:#Nein
-meta#:#meta_yes#:#Ja

@@ -202,6 +202,10 @@ common#:#faq_exercise#:#FAQ/Esercizi
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Destinatario per le risposte
 common#:#file#:#File
+common#:#file_a#:#a File###01 Oct 2003 new variable
+common#:#file_add#:#Upload File###01 Oct 2003 new variable
+common#:#file_added#:#File uploaded###01 Oct 2003 new variable
+common#:#file_new#:#New File###01 Oct 2003 new variable
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!###26 Mar 2003 new variable
 common#:#file_valid#:#File valido!###26 Mar 2003 new variable
@@ -211,8 +215,10 @@ common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo###07 Feb 2003 new variable
 common#:#fold#:#Chiudi###23 Jun 2003 new variable
-common#:#folder#:#Cartella
-common#:#folder_added#:#Cartella aggiunta###24 Jun 2003 new variable
+common#:#fold_a#:#a Folder###01 Oct 2003 new variable
+common#:#fold_add#:#Add Folder###01 Oct 2003 new variable
+common#:#fold_added#:#Folder added###01 Oct 2003 new variable
+common#:#fold_new#:#New Folder###01 Oct 2003 new variable
 common#:#folders#:#Cartelle
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
@@ -233,6 +239,7 @@ common#:#gdf_new#:#Nuova definizione###22 Sep 2003 new variable
 common#:#gender#:#Sesso
 common#:#generate#:#Generato
 common#:#glo#:#Glossario###15 Aug 2003 new variable
+common#:#glo_a#:#a Glossary###01 Oct 2003 new variable
 common#:#glo_add#:#Aggiungi glossario###22 Sep 2003 new variable
 common#:#glo_added#:#Aggiunto glossario###15 Aug 2003 new variable
 common#:#glo_new#:#Nuovo glossario###22 Sep 2003 new variable
@@ -242,6 +249,9 @@ common#:#group_any_objects#:#Nessun oggetto nel gruppo###12 Jun 2003 new variabl
 common#:#group_details#:#Dettagli gruppo###12 Jun 2003 new variable
 common#:#group_filesharing#:#Condivisione file al gruppo
 common#:#group_members#:#Membri del gruppo###12 Jun 2003 new variable
+common#:#group_memstat#:#Member Status###01 Oct 2003 new variable
+common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
+common#:#group_memstat_member#:#Member###01 Oct 2003 new variable
 common#:#group_name#:#Nome gruppo###29 Apr 2003 new variable
 common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new variable
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
@@ -278,6 +288,27 @@ common#:#info_deleted#:#Oggetti cancellati
 common#:#info_trash#:#Oggetti cancellati
 common#:#inform_user_mail#:#Invia una email per informare gli utenti dei cambiamenti###25 Mar 2003 new variable
 common#:#information_abbr#:#Informazioni
+common#:#ingmedia_all_offers#:#All LE###01 Oct 2003 new variable
+common#:#ingmedia_back_to_le#:#Back to LE###01 Oct 2003 new variable
+common#:#ingmedia_good_afternoon#:#Good afternoon###01 Oct 2003 new variable
+common#:#ingmedia_good_evening#:#Good evening###01 Oct 2003 new variable
+common#:#ingmedia_good_morning#:#Good morning###01 Oct 2003 new variable
+common#:#ingmedia_good_night#:#Good night###01 Oct 2003 new variable
+common#:#ingmedia_hello#:#Hello###01 Oct 2003 new variable
+common#:#ingmedia_info_about_work1#:#On###01 Oct 2003 new variable
+common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:###01 Oct 2003 new variable
+common#:#ingmedia_level_zero#:#Level up###01 Oct 2003 new variable
+common#:#ingmedia_pers_dates#:#Personal data###01 Oct 2003 new variable
+common#:#ingmedia_reg_fo#:#Registered forums###01 Oct 2003 new variable
+common#:#ingmedia_reg_le#:#Registered LE###01 Oct 2003 new variable
+common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).###01 Oct 2003 new variable
+common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you have to accept the user agreement.###01 Oct 2003 new variable
+common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.###01 Oct 2003 new variable
+common#:#ingmedia_use_title#:#Change user data.###01 Oct 2003 new variable
+common#:#ingmedia_user_agree#:#Agreement###01 Oct 2003 new variable
+common#:#ingmedia_vis_le#:#Visited LE###01 Oct 2003 new variable
+common#:#ingmedia_visited_le#:#All LE you have visited so far.###01 Oct 2003 new variable
+common#:#ingmedia_welcome#:#, welcome to your personal desktop!!###01 Oct 2003 new variable
 common#:#inifile#:#File .ini
 common#:#input_error#:#Errore di inserimento###20 Mar 2003 new variable
 common#:#insert#:#Inserisci###30 May 2003 new variable
@@ -488,6 +519,7 @@ common#:#not_installed#:#Non installato
 common#:#not_logged_in#:#Your are not logged in###12 Aug 2003 new variable
 common#:#obj#:#obj
 common#:#obj_adm#:#Impostazioni di sistema###15 May 2003 new variable
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###01 Oct 2003 new variable
 common#:#obj_cat#:#Categoria###15 May 2003 new variable
 common#:#obj_crs#:#Corso###15 May 2003 new variable
 common#:#obj_file#:#File###15 May 2003 new variable
@@ -498,16 +530,20 @@ common#:#obj_le#:#Learning Module###15 May 2003 new variable
 common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
 common#:#obj_lng#:#Lingua###15 May 2003 new variable
 common#:#obj_lngf#:#Impostazioni lingua###15 May 2003 new variable
+common#:#obj_lngf_desc#:#Manage your system languages here.###01 Oct 2003 new variable
 common#:#obj_lo#:#Lezioni###15 May 2003 new variable
 common#:#obj_mail#:#Impostazioni mail###15 May 2003 new variable
+common#:#obj_mail_desc#:#Configure global mail settings here.###01 Oct 2003 new variable
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note###15 May 2003 new variable
 common#:#obj_notf#:#Gestione note###15 May 2003 new variable
 common#:#obj_objf#:#Gestione oggetti###15 May 2003 new variable
+common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)###01 Oct 2003 new variable
 common#:#obj_owner#:#Questo oggetto &egrave; posseduto da###04 Jun 2003 content changed
 common#:#obj_pg#:#Pagina###15 Aug 2003 new variable
 common#:#obj_role#:#Ruolo###15 May 2003 new variable
 common#:#obj_rolf#:#Gestione ruoli###15 May 2003 new variable
+common#:#obj_rolf_desc#:#Manage your roles here.###01 Oct 2003 new variable
 common#:#obj_rolf_local#:#Ruoli Locali###01 Sep 2003 new variable
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.###01 Sep 2003 new variable
 common#:#obj_rolt#:#Template di Ruolo###15 May 2003 new variable
@@ -519,6 +555,7 @@ common#:#obj_type#:#Tipo oggetto###01 Apr 2003 new variable
 common#:#obj_uset#:#Impostazioni utente###15 May 2003 new variable
 common#:#obj_usr#:#Utente###15 May 2003 new variable
 common#:#obj_usrf#:#Gestione utente###15 May 2003 new variable
+common#:#obj_usrf_desc#:#Manage user accounts here.###01 Oct 2003 new variable
 common#:#objects#:#Oggetti
 common#:#objf#:#objf
 common#:#of#:#di
@@ -1010,8 +1047,13 @@ mail#:#mail_to_search#:#Cerca To###16 Apr 2003 new variable
 mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di email valido###16 Apr 2003 new variable
 mail#:#search_bc_recipient#:#Cerca destinatario BC###16 Apr 2003 new variable
 mail#:#search_cc_recipient#:#Cerca destinatario CC###16 Apr 2003 new variable
+meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions###01 Oct 2003 new variable
+meta#:#meta_active#:#Active###01 Oct 2003 new variable
 meta#:#meta_add#:#Aggiungi###18 Sep 2003 new variable
+meta#:#meta_annotation#:#Annotation###01 Oct 2003 new variable
 meta#:#meta_atomic#:#Atomico###18 Sep 2003 new variable
+meta#:#meta_author#:#Author###01 Oct 2003 new variable
+meta#:#meta_browser#:#Browser###01 Oct 2003 new variable
 meta#:#meta_c_AD#:#Andorra###14 May 2003 new variable
 meta#:#meta_c_AE#:#Emirati Arabi Uniti###14 May 2003 new variable
 meta#:#meta_c_AF#:#Afghanistan###14 May 2003 new variable
@@ -1254,14 +1296,60 @@ meta#:#meta_catalog#:#Catalogo###18 Sep 2003 new variable
 meta#:#meta_choose_element#:#Per favore, scegli l&acute;elemento che vuoi aggiungere!###18 Sep 2003 new variable
 meta#:#meta_choose_language#:#Per favore, scegli una lingua###18 Sep 2003 new variable
 meta#:#meta_choose_section#:#Per favore, scegli una sezione###18 Sep 2003 new variable
+meta#:#meta_classification#:#Classification###01 Oct 2003 new variable
 meta#:#meta_collection#:#Collezione###18 Sep 2003 new variable
+meta#:#meta_competency#:#Competency###01 Oct 2003 new variable
+meta#:#meta_context#:#Context###01 Oct 2003 new variable
+meta#:#meta_contribute#:#Contribute###01 Oct 2003 new variable
+meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions###01 Oct 2003 new variable
+meta#:#meta_cost#:#Cost###01 Oct 2003 new variable
+meta#:#meta_coverage#:#Coverage###01 Oct 2003 new variable
+meta#:#meta_date#:#Date###01 Oct 2003 new variable
 meta#:#meta_delete#:#Cancella###18 Sep 2003 new variable
 meta#:#meta_description#:#Descrizione###18 Sep 2003 new variable
+meta#:#meta_diagramm#:#Diagramm###01 Oct 2003 new variable
+meta#:#meta_difficulty#:#Difficulty###01 Oct 2003 new variable
+meta#:#meta_dificult#:#Difficult###01 Oct 2003 new variable
+meta#:#meta_draft#:#Draft###01 Oct 2003 new variable
+meta#:#meta_duration#:#Duration###01 Oct 2003 new variable
+meta#:#meta_easy#:#Easy###01 Oct 2003 new variable
+meta#:#meta_education#:#Education###01 Oct 2003 new variable
+meta#:#meta_educational_level#:#Educational Level###01 Oct 2003 new variable
+meta#:#meta_educational_objective#:#Educational Objective###01 Oct 2003 new variable
+meta#:#meta_entity#:#Entity###01 Oct 2003 new variable
 meta#:#meta_entry#:#Voce###18 Sep 2003 new variable
+meta#:#meta_exam#:#Exam###01 Oct 2003 new variable
+meta#:#meta_exercise#:#Exercise###01 Oct 2003 new variable
+meta#:#meta_experiment#:#Experiment###01 Oct 2003 new variable
+meta#:#meta_expositive#:#Expositive###01 Oct 2003 new variable
+meta#:#meta_figure#:#Figure###01 Oct 2003 new variable
+meta#:#meta_final#:#Final###01 Oct 2003 new variable
+meta#:#meta_format#:#Format###01 Oct 2003 new variable
 meta#:#meta_general#:#Generale###14 May 2003 new variable
+meta#:#meta_graph#:#Graph###01 Oct 2003 new variable
+meta#:#meta_has_format#:#Has Format###01 Oct 2003 new variable
+meta#:#meta_has_part#:#Has Part###01 Oct 2003 new variable
+meta#:#meta_has_version#:#Has Version###01 Oct 2003 new variable
 meta#:#meta_hierarchical#:#Gerarchico###18 Sep 2003 new variable
+meta#:#meta_high#:#High###01 Oct 2003 new variable
+meta#:#meta_higher_education#:#Higher Education###01 Oct 2003 new variable
+meta#:#meta_id#:#Id###01 Oct 2003 new variable
+meta#:#meta_idea#:#Idea###01 Oct 2003 new variable
 meta#:#meta_identifier#:#Identificatore###14 May 2003 new variable
+meta#:#meta_index#:#Index###01 Oct 2003 new variable
+meta#:#meta_installation_remarks#:#Installation Remarks###01 Oct 2003 new variable
+meta#:#meta_intended_end_user_role#:#Intended End User Role###01 Oct 2003 new variable
+meta#:#meta_interactivity_level#:#Interactivity Level###01 Oct 2003 new variable
+meta#:#meta_interactivity_type#:#Interactivity Type###01 Oct 2003 new variable
+meta#:#meta_is_based_on#:#Is Based On###01 Oct 2003 new variable
+meta#:#meta_is_basis_for#:#Is Basis For###01 Oct 2003 new variable
+meta#:#meta_is_format_of#:#Is Format Of###01 Oct 2003 new variable
+meta#:#meta_is_part_of#:#Is Part Of###01 Oct 2003 new variable
+meta#:#meta_is_referenced_by#:#Is Referenced By###01 Oct 2003 new variable
+meta#:#meta_is_required_by#:#Is Required By###01 Oct 2003 new variable
+meta#:#meta_is_version_of#:#Is Version Of###01 Oct 2003 new variable
 meta#:#meta_keyword#:#Chiave###18 Sep 2003 new variable
+meta#:#meta_kind#:#Kind###01 Oct 2003 new variable
 meta#:#meta_l_aa#:#afar###28 May 2003 new variable
 meta#:#meta_l_ab#:#abkhazian###28 May 2003 new variable
 meta#:#meta_l_af#:#afrikaans###28 May 2003 new variable
@@ -1402,13 +1490,88 @@ meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
 meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Lingua###14 May 2003 new variable
+meta#:#meta_learner#:#Learner###01 Oct 2003 new variable
+meta#:#meta_learning_resource_type#:#Learning Resource Type###01 Oct 2003 new variable
+meta#:#meta_lecture#:#Lecture###01 Oct 2003 new variable
+meta#:#meta_lifecycle#:#Lifecycle###01 Oct 2003 new variable
 meta#:#meta_linear#:#Lineare###18 Sep 2003 new variable
+meta#:#meta_local_file#:#Local File###01 Oct 2003 new variable
+meta#:#meta_location#:#Location###01 Oct 2003 new variable
+meta#:#meta_low#:#Low###01 Oct 2003 new variable
+meta#:#meta_mac_os#:#MacOS###01 Oct 2003 new variable
+meta#:#meta_manager#:#Manager###01 Oct 2003 new variable
+meta#:#meta_maximum_version#:#Maximum Version###01 Oct 2003 new variable
+meta#:#meta_medium#:#Medium###01 Oct 2003 new variable
+meta#:#meta_meta_metadata#:#Meta-Metadata###01 Oct 2003 new variable
+meta#:#meta_metadatascheme#:#Metadata Scheme###01 Oct 2003 new variable
+meta#:#meta_minimum_version#:#Minimum Version###01 Oct 2003 new variable
+meta#:#meta_mixed#:#Mixed###01 Oct 2003 new variable
+meta#:#meta_ms_windows#:#MS-Windows###01 Oct 2003 new variable
+meta#:#meta_multi_os#:#Multi-OS###01 Oct 2003 new variable
+meta#:#meta_name#:#Name###01 Oct 2003 new variable
+meta#:#meta_narrative_text#:#Narrative Text###01 Oct 2003 new variable
 meta#:#meta_networked#:#Collegato in rete###18 Sep 2003 new variable
 meta#:#meta_new_element#:#Nuovo elemento###18 Sep 2003 new variable
+meta#:#meta_no#:#No###01 Oct 2003 new variable
+meta#:#meta_no_annotation#:#No meta data available for the Annotation section.###01 Oct 2003 new variable
+meta#:#meta_no_classification#:#No meta data available for the Classification section.###01 Oct 2003 new variable
+meta#:#meta_no_educational#:#No meta data available for Educational section.###01 Oct 2003 new variable
+meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.###01 Oct 2003 new variable
+meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.###01 Oct 2003 new variable
+meta#:#meta_no_relation#:#No meta data available for the Relation section.###01 Oct 2003 new variable
+meta#:#meta_no_rights#:#No meta data available for the Rights section.###01 Oct 2003 new variable
+meta#:#meta_no_technical#:#No meta data available for Technical section.###01 Oct 2003 new variable
+meta#:#meta_none#:#None###01 Oct 2003 new variable
+meta#:#meta_operating_system#:#Operating System###01 Oct 2003 new variable
+meta#:#meta_or_composite#:#Or Composite###01 Oct 2003 new variable
+meta#:#meta_other#:#Other###01 Oct 2003 new variable
+meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements###01 Oct 2003 new variable
+meta#:#meta_pc_dos#:#PC-DOS###01 Oct 2003 new variable
 meta#:#meta_please_select#:#Per favore, scegli###18 Sep 2003 new variable
+meta#:#meta_prerequisite#:#Prerequisite###01 Oct 2003 new variable
+meta#:#meta_problem_statement#:#Problem Statement###01 Oct 2003 new variable
+meta#:#meta_publisher#:#Publisher###01 Oct 2003 new variable
+meta#:#meta_purpose#:#Purpose###01 Oct 2003 new variable
+meta#:#meta_questionnaire#:#Questionnaire###01 Oct 2003 new variable
+meta#:#meta_reference#:#Reference###01 Oct 2003 new variable
+meta#:#meta_references#:#References###01 Oct 2003 new variable
+meta#:#meta_relation#:#Relation###01 Oct 2003 new variable
+meta#:#meta_requirement#:#Requirement###01 Oct 2003 new variable
+meta#:#meta_requires#:#Requires###01 Oct 2003 new variable
+meta#:#meta_resource#:#Resource###01 Oct 2003 new variable
+meta#:#meta_revised#:#Revised###01 Oct 2003 new variable
+meta#:#meta_rights#:#Rights###01 Oct 2003 new variable
+meta#:#meta_role#:#Role###01 Oct 2003 new variable
+meta#:#meta_school#:#School###01 Oct 2003 new variable
+meta#:#meta_security_level#:#Security Level###01 Oct 2003 new variable
+meta#:#meta_self_assessment#:#Self Assessment###01 Oct 2003 new variable
+meta#:#meta_semantic_density#:#Semantic Density###01 Oct 2003 new variable
+meta#:#meta_simulation#:#Simulation###01 Oct 2003 new variable
+meta#:#meta_size#:#Size###01 Oct 2003 new variable
+meta#:#meta_skill_level#:#Skill Level###01 Oct 2003 new variable
+meta#:#meta_slide#:#Slide###01 Oct 2003 new variable
+meta#:#meta_source#:#Source###01 Oct 2003 new variable
+meta#:#meta_status#:#Status###01 Oct 2003 new variable
 meta#:#meta_structure#:#Struttura###18 Sep 2003 new variable
+meta#:#meta_table#:#Table###01 Oct 2003 new variable
+meta#:#meta_taxon#:#Taxon###01 Oct 2003 new variable
+meta#:#meta_taxon_path#:#Taxon Path###01 Oct 2003 new variable
+meta#:#meta_teacher#:#Teacher###01 Oct 2003 new variable
+meta#:#meta_technical#:#Technical###01 Oct 2003 new variable
 meta#:#meta_title#:#Titolo###14 May 2003 new variable
+meta#:#meta_training#:#Training###01 Oct 2003 new variable
+meta#:#meta_type#:#Type###01 Oct 2003 new variable
+meta#:#meta_typical_age_range#:#Typical Age Range###01 Oct 2003 new variable
+meta#:#meta_typical_learning_time#:#Typical Learning Time###01 Oct 2003 new variable
+meta#:#meta_unavailable#:#Unavailable###01 Oct 2003 new variable
+meta#:#meta_unix#:#Unix###01 Oct 2003 new variable
 meta#:#meta_value#:#Valore###18 Sep 2003 new variable
+meta#:#meta_version#:#Version###01 Oct 2003 new variable
+meta#:#meta_very_difficult#:#Very Difficult###01 Oct 2003 new variable
+meta#:#meta_very_easy#:#Very Easy###01 Oct 2003 new variable
+meta#:#meta_very_high#:#Very High###01 Oct 2003 new variable
+meta#:#meta_very_low#:#Very Low###01 Oct 2003 new variable
+meta#:#meta_yes#:#Yes###01 Oct 2003 new variable
 search#:#search_all_results#:#Tutti i resultati###10 Sep 2003 new variable
 search#:#search_concatenation#:#Concatenazione###10 Sep 2003 new variable
 search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable

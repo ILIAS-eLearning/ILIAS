@@ -203,8 +203,8 @@ common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#file#:#File
 common#:#file_a#:#a File
-common#:#file_added#:#File uploaded
 common#:#file_add#:#Upload File
+common#:#file_added#:#File uploaded
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
@@ -216,16 +216,10 @@ common#:#firstname#:#Firstname
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
-common#:#fold_added#:#Folder added
 common#:#fold_add#:#Add Folder
+common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
 common#:#folders#:#Folders
-common#:#obj_lngf_desc#:#Manage your system languages here.
-common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
-common#:#obj_usrf_desc#:#Manage user accounts here.
-common#:#obj_rolf_desc#:#Manage your roles here.
-common#:#obj_mail_desc#:#Configure global mail settings here.
-common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
@@ -255,6 +249,9 @@ common#:#group_any_objects#:#No Subobjects avilable
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
+common#:#group_memstat#:#Member Status
+common#:#group_memstat_admin#:#Administrator
+common#:#group_memstat_member#:#Member
 common#:#group_name#:#Groupname
 common#:#group_not_available#:#any group available
 common#:#group_objects#:#Group Objects
@@ -262,9 +259,6 @@ common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_private#:#Private
 common#:#group_status_public#:#Public
-common#:#group_memstat#:#Member Status
-common#:#group_memstat_member#:#Member
-common#:#group_memstat_admin#:#Administrator
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
@@ -296,22 +290,22 @@ common#:#inform_user_mail#:#Send email to inform user about changes
 common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#All LE
 common#:#ingmedia_back_to_le#:#Back to LE
-common#:#ingmedia_level_zero#:#Level up
-common#:#ingmedia_good_morning#:#Good morning
 common#:#ingmedia_good_afternoon#:#Good afternoon
 common#:#ingmedia_good_evening#:#Good evening
+common#:#ingmedia_good_morning#:#Good morning
 common#:#ingmedia_good_night#:#Good night
 common#:#ingmedia_hello#:#Hello
 common#:#ingmedia_info_about_work1#:#On
 common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
+common#:#ingmedia_level_zero#:#Level up
 common#:#ingmedia_pers_dates#:#Personal data
 common#:#ingmedia_reg_fo#:#Registered forums
 common#:#ingmedia_reg_le#:#Registered LE
-common#:#ingmedia_user_agree#:#Agreement
 common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
 common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you have to accept the user agreement.
 common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
 common#:#ingmedia_use_title#:#Change user data.
+common#:#ingmedia_user_agree#:#Agreement
 common#:#ingmedia_vis_le#:#Visited LE
 common#:#ingmedia_visited_le#:#All LE you have visited so far.
 common#:#ingmedia_welcome#:#, welcome to your personal desktop!!
@@ -528,6 +522,7 @@ common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#Your are not logged in
 common#:#obj#:#Object
 common#:#obj_adm#:#System Settings
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
@@ -538,16 +533,20 @@ common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
+common#:#obj_lngf_desc#:#Manage your system languages here.
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
+common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
 common#:#obj_objf#:#Objectdefinitions
+common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Roles
+common#:#obj_rolf_desc#:#Manage your roles here.
 common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
@@ -559,6 +558,7 @@ common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
+common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#objects#:#Objects
 common#:#objf#:#Object Folder
 common#:#of#:#Of
@@ -1051,8 +1051,13 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
+meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
+meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_annotation#:#Annotation
 meta#:#meta_atomic#:#Atomic
+meta#:#meta_author#:#Author
+meta#:#meta_browser#:#Browser
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#United Arab Emirates
 meta#:#meta_c_AF#:#Afghanistan
@@ -1295,14 +1300,60 @@ meta#:#meta_catalog#:#Catalog
 meta#:#meta_choose_element#:#Please choose an element you want to add!
 meta#:#meta_choose_language#:#Please choose a language
 meta#:#meta_choose_section#:#Please choose a section
+meta#:#meta_classification#:#Classification
 meta#:#meta_collection#:#Collection
+meta#:#meta_competency#:#Competency
+meta#:#meta_context#:#Context
+meta#:#meta_contribute#:#Contribute
+meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
+meta#:#meta_cost#:#Cost
+meta#:#meta_coverage#:#Coverage
+meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Delete
 meta#:#meta_description#:#Description
+meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_difficulty#:#Difficulty
+meta#:#meta_dificult#:#Difficult
+meta#:#meta_draft#:#Draft
+meta#:#meta_duration#:#Duration
+meta#:#meta_easy#:#Easy
+meta#:#meta_education#:#Education
+meta#:#meta_educational_level#:#Educational Level
+meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_entity#:#Entity
 meta#:#meta_entry#:#Entry
+meta#:#meta_exam#:#Exam
+meta#:#meta_exercise#:#Exercise
+meta#:#meta_experiment#:#Experiment
+meta#:#meta_expositive#:#Expositive
+meta#:#meta_figure#:#Figure
+meta#:#meta_final#:#Final
+meta#:#meta_format#:#Format
 meta#:#meta_general#:#General
+meta#:#meta_graph#:#Graph
+meta#:#meta_has_format#:#Has Format
+meta#:#meta_has_part#:#Has Part
+meta#:#meta_has_version#:#Has Version
 meta#:#meta_hierarchical#:#Hierarchical
+meta#:#meta_high#:#High
+meta#:#meta_higher_education#:#Higher Education
+meta#:#meta_id#:#Id
+meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
+meta#:#meta_index#:#Index
+meta#:#meta_installation_remarks#:#Installation Remarks
+meta#:#meta_intended_end_user_role#:#Intended End User Role
+meta#:#meta_interactivity_level#:#Interactivity Level
+meta#:#meta_interactivity_type#:#Interactivity Type
+meta#:#meta_is_based_on#:#Is Based On
+meta#:#meta_is_basis_for#:#Is Basis For
+meta#:#meta_is_format_of#:#Is Format Of
+meta#:#meta_is_part_of#:#Is Part Of
+meta#:#meta_is_referenced_by#:#Is Referenced By
+meta#:#meta_is_required_by#:#Is Required By
+meta#:#meta_is_version_of#:#Is Version Of
 meta#:#meta_keyword#:#Keyword
+meta#:#meta_kind#:#Kind
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
 meta#:#meta_l_af#:#afrikaans
@@ -1443,13 +1494,88 @@ meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
+meta#:#meta_learner#:#Learner
+meta#:#meta_learning_resource_type#:#Learning Resource Type
+meta#:#meta_lecture#:#Lecture
+meta#:#meta_lifecycle#:#Lifecycle
 meta#:#meta_linear#:#Linear
+meta#:#meta_local_file#:#Local File
+meta#:#meta_location#:#Location
+meta#:#meta_low#:#Low
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Manager
+meta#:#meta_maximum_version#:#Maximum Version
+meta#:#meta_medium#:#Medium
+meta#:#meta_meta_metadata#:#Meta-Metadata
+meta#:#meta_metadatascheme#:#Metadata Scheme
+meta#:#meta_minimum_version#:#Minimum Version
+meta#:#meta_mixed#:#Mixed
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Name
+meta#:#meta_narrative_text#:#Narrative Text
 meta#:#meta_networked#:#Networked
 meta#:#meta_new_element#:#New Element
+meta#:#meta_no#:#No
+meta#:#meta_no_annotation#:#No meta data available for the Annotation section.
+meta#:#meta_no_classification#:#No meta data available for the Classification section.
+meta#:#meta_no_educational#:#No meta data available for Educational section.
+meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.
+meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.
+meta#:#meta_no_relation#:#No meta data available for the Relation section.
+meta#:#meta_no_rights#:#No meta data available for the Rights section.
+meta#:#meta_no_technical#:#No meta data available for Technical section.
+meta#:#meta_none#:#None
+meta#:#meta_operating_system#:#Operating System
+meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_other#:#Other
+meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
+meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Please select
+meta#:#meta_prerequisite#:#Prerequisite
+meta#:#meta_problem_statement#:#Problem Statement
+meta#:#meta_publisher#:#Publisher
+meta#:#meta_purpose#:#Purpose
+meta#:#meta_questionnaire#:#Questionnaire
+meta#:#meta_reference#:#Reference
+meta#:#meta_references#:#References
+meta#:#meta_relation#:#Relation
+meta#:#meta_requirement#:#Requirement
+meta#:#meta_requires#:#Requires
+meta#:#meta_resource#:#Resource
+meta#:#meta_revised#:#Revised
+meta#:#meta_rights#:#Rights
+meta#:#meta_role#:#Role
+meta#:#meta_school#:#School
+meta#:#meta_security_level#:#Security Level
+meta#:#meta_self_assessment#:#Self Assessment
+meta#:#meta_semantic_density#:#Semantic Density
+meta#:#meta_simulation#:#Simulation
+meta#:#meta_size#:#Size
+meta#:#meta_skill_level#:#Skill Level
+meta#:#meta_slide#:#Slide
+meta#:#meta_source#:#Source
+meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Structure
+meta#:#meta_table#:#Table
+meta#:#meta_taxon#:#Taxon
+meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_teacher#:#Teacher
+meta#:#meta_technical#:#Technical
 meta#:#meta_title#:#Title
+meta#:#meta_training#:#Training
+meta#:#meta_type#:#Type
+meta#:#meta_typical_age_range#:#Typical Age Range
+meta#:#meta_typical_learning_time#:#Typical Learning Time
+meta#:#meta_unavailable#:#Unavailable
+meta#:#meta_unix#:#Unix
 meta#:#meta_value#:#Value
+meta#:#meta_version#:#Version
+meta#:#meta_very_difficult#:#Very Difficult
+meta#:#meta_very_easy#:#Very Easy
+meta#:#meta_very_high#:#Very High
+meta#:#meta_very_low#:#Very Low
+meta#:#meta_yes#:#Yes
 search#:#search_all_results#:#All results
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
@@ -1467,129 +1593,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-meta#:#meta_coverage#:#Coverage
-meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.
-meta#:#meta_lifecycle#:#Lifecycle
-meta#:#meta_contribute#:#Contribute
-meta#:#meta_status#:#Status
-meta#:#meta_draft#:#Draft
-meta#:#meta_final#:#Final
-meta#:#meta_revised#:#Revised
-meta#:#meta_unavailable#:#Unavailable
-meta#:#meta_version#:#Version
-meta#:#meta_role#:#Role
-meta#:#meta_publisher#:#Publisher
-meta#:#meta_entity#:#Entity
-meta#:#meta_date#:#Date
-meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.
-meta#:#meta_meta_metadata#:#Meta-Metadata
-meta#:#meta_metadatascheme#:#Metadata Scheme
-meta#:#meta_no_technical#:#No meta data available for Technical section.
-meta#:#meta_technical#:#Technical
-meta#:#meta_format#:#Format
-meta#:#meta_size#:#Size
-meta#:#meta_location#:#Location
-meta#:#meta_requirement#:#Requirement
-meta#:#meta_or_composite#:#Or Composite
-meta#:#meta_installation_remarks#:#Installation Remarks
-meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements
-meta#:#meta_duration#:#Duration
-meta#:#meta_type#:#Type
-meta#:#meta_local_file#:#Local File
-meta#:#meta_reference#:#Reference
-meta#:#meta_operating_system#:#Operating System
-meta#:#meta_name#:#Name
-meta#:#meta_minimum_version#:#Minimum Version
-meta#:#meta_maximum_version#:#Maximum Version
-meta#:#meta_browser#:#Browser
-meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_ms_windows#:#MS-Windows
-meta#:#meta_mac_os#:#MacOS
-meta#:#meta_unix#:#Unix
-meta#:#meta_multi_os#:#Multi-OS
-meta#:#meta_none#:#None
-meta#:#meta_no_educational#:#No meta data available for Educational section.
-meta#:#meta_education#:#Education
-meta#:#meta_interactivity_type#:#Interactivity Type
-meta#:#meta_learning_resource_type#:#Learning Resource Type
-meta#:#meta_interactivity_level#:#Interactivity Level
-meta#:#meta_semantic_density#:#Semantic Density
-meta#:#meta_intended_end_user_role#:#Intended End User Role
-meta#:#meta_context#:#Context
-meta#:#meta_difficulty#:#Difficulty
-meta#:#meta_typical_age_range#:#Typical Age Range
-meta#:#meta_typical_learning_time#:#Typical Learning Time
-meta#:#meta_active#:#Active
-meta#:#meta_expositive#:#Expositive
-meta#:#meta_mixed#:#Mixed
-meta#:#meta_exercise#:#Exercise
-meta#:#meta_simulation#:#Simulation
-meta#:#meta_questionnaire#:#Questionnaire
-meta#:#meta_diagramm#:#Diagramm
-meta#:#meta_figure#:#Figure
-meta#:#meta_graph#:#Graph
-meta#:#meta_index#:#Index
-meta#:#meta_slide#:#Slide
-meta#:#meta_table#:#Table
-meta#:#meta_narrative_text#:#Narrative Text
-meta#:#meta_exam#:#Exam
-meta#:#meta_experiment#:#Experiment
-meta#:#meta_problem_statement#:#Problem Statement
-meta#:#meta_self_assessment#:#Self Assessment
-meta#:#meta_lecture#:#Lecture
-meta#:#meta_very_low#:#Very Low
-meta#:#meta_low#:#Low
-meta#:#meta_medium#:#Medium
-meta#:#meta_high#:#High
-meta#:#meta_very_high#:#Very High
-meta#:#meta_teacher#:#Teacher
-meta#:#meta_author#:#Author
-meta#:#meta_learner#:#Learner
-meta#:#meta_manager#:#Manager
-meta#:#meta_school#:#School
-meta#:#meta_higher_education#:#Higher Education
-meta#:#meta_training#:#Training
-meta#:#meta_other#:#Other
-meta#:#meta_very_easy#:#Very Easy
-meta#:#meta_easy#:#Easy
-meta#:#meta_dificult#:#Difficult
-meta#:#meta_very_difficult#:#Very Difficult
-meta#:#meta_no_rights#:#No meta data available for the Rights section.
-meta#:#meta_rights#:#Rights
-meta#:#meta_cost#:#Cost
-meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
-meta#:#meta_no_relation#:#No meta data available for the Relation section.
-meta#:#meta_relation#:#Relation
-meta#:#meta_kind#:#Kind
-meta#:#meta_is_part_of#:#Is Part Of
-meta#:#meta_has_part#:#Has Part
-meta#:#meta_is_version_of#:#Is Version Of
-meta#:#meta_has_version#:#Has Version
-meta#:#meta_is_format_of#:#Is Format Of
-meta#:#meta_has_format#:#Has Format
-meta#:#meta_references#:#References
-meta#:#meta_is_referenced_by#:#Is Referenced By
-meta#:#meta_is_based_on#:#Is Based On
-meta#:#meta_is_basis_for#:#Is Basis For
-meta#:#meta_requires#:#Requires
-meta#:#meta_is_required_by#:#Is Required By
-meta#:#meta_resource#:#Resource
-meta#:#meta_no_annotation#:#No meta data available for the Annotation section.
-meta#:#meta_annotation#:#Annotation
-meta#:#meta_no_classification#:#No meta data available for the Classification section.
-meta#:#meta_classification#:#Classification
-meta#:#meta_purpose#:#Purpose
-meta#:#meta_idea#:#Idea
-meta#:#meta_prerequisite#:#Prerequisite
-meta#:#meta_educational_objective#:#Educational Objective
-meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
-meta#:#meta_educational_level#:#Educational Level
-meta#:#meta_skill_level#:#Skill Level
-meta#:#meta_security_level#:#Security Level
-meta#:#meta_competency#:#Competency
-meta#:#meta_taxon_path#:#Taxon Path
-meta#:#meta_source#:#Source
-meta#:#meta_taxon#:#Taxon
-meta#:#meta_id#:#Id
-meta#:#meta_no#:#No
-meta#:#meta_yes#:#Yes
