@@ -82,6 +82,8 @@ class ilPersonalDesktopGUI
 	*/
 	function getSelectedItemBlockHTML($a_title, $a_type)
 	{
+		global $rbacsystem;
+
 		$items = $this->ilias->account->getDesktopItems($a_type);
 
 		if (count($items) > 0)
@@ -134,7 +136,8 @@ class ilPersonalDesktopGUI
 
 
 				// edit link
-				if ($item["edit_link"] != "")
+				if ($item["edit_link"] != "" &&
+					$rbacsystem->checkAccess("write", $item["id"]))
 				{
 					$tpl->setCurrentBlock("edit_link");
 					$tpl->setVariable("LINK_EDIT", $item["edit_link"]);
