@@ -98,7 +98,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$this->lng =& $this->object->lng;
 
-		// get group object ($this->object nad $this->grp_object are not always the same)
+		// get group object ($this->object and $this->grp_object are not always the same)
 		if($this->object->getType()=="fold")
 		{
 			$this->grp_object =& $ilias->obj_factory->getInstanceByRefId(ilUtil::getGroupId($_GET["ref_id"]));
@@ -111,8 +111,8 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->grp_id = ilUtil::getGroupId($_GET["ref_id"]);
 
-		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
-		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
+		$this->grp_tree = new ilGroupTree($this->grp_id,$this->grp_id);
+		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 
 		//return to the same place , where the action was executed
 		$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
@@ -1563,16 +1563,17 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		//TODO: it will be visiblle if trash works
+		//$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
-		if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
-		{
+		//if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
+		/*{
 			$tab[4] = array ();
 			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1712,7 +1713,8 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
 				
 		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		//TODO: if trash works, it will be visible
+		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 		
 		if (count($objects) > 0)
 		{
@@ -1721,7 +1723,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -1979,8 +1981,8 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["tab_text"] = $_GET["tree"] ? 'hide_structure' : 'show_structure';						//tab -text
 
 		//check if trash is filled
-		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
-
+		/*$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
+		//TODO:it will be visible if trash works
 		if (count($objects) > 0)
 		{
 			$tab[4] = array ();
@@ -1988,7 +1990,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
-		}
+		}*/
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
@@ -2027,15 +2029,15 @@ class ilGroupGUI extends ilObjectGUI
 		$access = false;
 
 		//check if user got "write" permissions; if so $access is set true to prevent further database queries in this function
-		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
+		//if ($rbacsystem->checkAccess("write", $this->grp_object->getRefId()))
+		//{
 			 $access = true;
 			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows_checkbox.html");
-		}
+		/*}
 		else
 		{
 			 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
-		}
+		}*/
 		$cont_num = count($cont_arr);
 		// render table content data
 		if ($cont_num > 0)
@@ -2735,6 +2737,220 @@ class ilGroupGUI extends ilObjectGUI
 	    readfile($file_name);
 	    // Done
 	    return true;
+	}
+	
+	
+	/** TODO MARTIN ANPASSEN AN GRUPPEN BESONDERHEITEN
+	* confirmed deletion if object -> objects are moved to trash
+	*
+	* However objects are only removed from tree!! That means that the objects
+	* itself stay in the database but are not linked in any context within the system.
+	* Trash Bin Feature: Objects can be refreshed in trash
+	*
+	* @access	public
+	*/
+	function confirmedDeleteObject()
+	{
+		global $rbacsystem, $rbacadmin;
+	
+		// TODO: move checkings to deleteObject
+		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
+		// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
+		
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($_SESSION["saved_post"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+																//echo " node_data "; var_dump($node_data); echo " subtree_nodes "; var_dump($subtree_nodes);
+
+
+		// FOR ALL SELECTED OBJECTS
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+		
+		 	// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM TREE TABLE
+			$tree_subtree_nodes = $this->tree->getSubTree($this->tree->getNodeData($id));
+
+			$tree_all_node_data[] = $tree_node_data;
+			$tree_all_subtree_nodes[] = $tree_subtree_nodes;
+			
+			
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM GRP_TREE TABLE
+			$grp_tree_subtree_nodes = $this->grp_tree->getSubTree($this->grp_tree->getNodeData($id));
+
+			//$grp_tree_all_node_data[] = $grp_tree_node_data;
+			$grp_tree_all_subtree_nodes[] = $grp_tree_subtree_nodes;
+			
+			
+			
+			//GET ALL NODES THAT SHOUD BE DELETED (from grp_tree and from tree) 
+			$all_subnodes = array();
+			
+			$all_subnodes = $this->grp_tree->getSubtree($this->grp_tree->getNodeData($id));
+			
+			if($all_subnodes[0]["perm"] == 0)
+			{
+				foreach($all_subnodes as $node)
+				{
+					if($node["perm"] != 0)
+					{
+						$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($node["child"]));
+						foreach($tree_subnodes as $tree_node)
+						{
+							$tree_node_in_all = false;
+							foreach($all_subnodes as $all_node)
+							{
+								if( $tree_node["child"] == $all_node["child"])
+								{
+									$tree_node_in_all = true;
+								}
+							}
+							if(!$tree_node_in_all)
+								array_push($all_subnodes,$tree_node);
+						}
+					}
+				}
+			}
+			
+			
+			
+			
+			// CHECK DELETE PERMISSION OF ALL OBJECTS
+			foreach ($all_subnodes as $node)
+			{	
+				$check_id = $node["child"];
+				
+				if($node["perm"] == 0)
+				{
+					$check_id == $this->grp_id;
+				}
+				
+				if (!$rbacsystem->checkAccess('delete',$check_id))
+				{
+					$not_deletable[] = $node["child"];
+					$perform_delete = false;
+				}
+			}
+			
+			
+			
+		}
+
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
+		if (count($not_deletable))
+		{
+			$not_deletable = implode(',',$not_deletable);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
+									 $not_deletable,$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// DELETE THEM
+		/*if (!$tree_all_node_data[0]["type"])
+		{
+			// OBJECTS ARE NO 'TREE OBJECTS'
+			if ($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
+			{
+				foreach($_SESSION["saved_post"] as $id)
+				{
+					$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+					$obj->delete();
+				}
+			}
+			else
+			{
+				$this->ilias->raiseError($this->lng->txt("no_perm_delete"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+		else
+		{*/
+			
+			
+			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
+			foreach ($_SESSION["saved_post"] as $id)
+			{
+				
+				// GET ALL RBAC-OBJECTS
+				//variable $tree_subnodes contains all subnodes of variable $id in tree_table  
+				//variable $grp_tree_subnodes contains all subnodes of variable $id in grp_table 
+				$tree_subnodes = array();
+				$grp_tree_subnodes = $this->grp_tree->getSubtree($this->grp_tree->getNodeData($id));
+				
+				if ($grp_tree_subnodes[0]["perm"] == 1)
+				{ 
+					$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($id));
+				}
+				else
+				{
+					
+					foreach($grp_tree_subnodes as $grp_tree_subnode)
+					{
+						if($grp_tree_subnode["perm"] == 1 )
+						{
+							$tree_subnodes = $this->tree->getSubtree($this->tree->getNodeData($grp_tree_subnode["child"]));
+						}	
+					}
+				}
+				
+				
+				// DELETE OLD PERMISSION ENTRIES
+				foreach ($tree_subnodes as $subnode)
+				{
+					$rbacadmin->revokePermission($subnode["child"]);
+					// remove item from all user desktops
+					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
+				
+					// TODO: inform users by mail that object $id was deleted
+					//$mail->sendMail($id,$msg,$affected_users);
+				}
+				
+				//SET DELETED NODES IN TREE TABLE 
+				if ($is_rbac)
+				{
+					$this->tree->saveSubTree($id);
+					$this->tree->deleteTree($this->tree->getNodeData($id));
+				}
+				else
+				{
+					//node that are deleted in tree table ( and their subnodes)
+					foreach($grp_tree_subnodes as $grp_tree_subnode)
+					{
+						if($grp_tree_subnode["perm"] == 1 )
+						{
+							$this->tree->saveSubTree($grp_tree_subnode["child"]);
+							$this->tree->deleteTree($this->tree->getNodeData($grp_tree_subnode["child"]));
+						}	
+					}
+				}
+				
+				//SET DELETED NODES IN GRP_TREE TABLE 
+				$this->grp_tree->saveSubTree($id);
+				$this->grp_tree->deleteTree($this->grp_tree->getNodeData($id));
+				
+				
+				
+				// remove item from all user desktops
+				foreach($grp_tree_subnodes as $grp_tree_subnode)
+				{
+					if($grp_tree_subnode["perm"] == 1 )
+					{
+						$affected_users = ilUtil::removeItemFromDesktops($grp_tree_subnode["child"]);
+					}
+				}
+				
+				// TODO: inform users by mail that object $id was deleted
+				//$mail->sendMail($id,$msg,$affected_users);
+			}
+			// inform other objects in hierarchy about paste operation
+			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
+		//}
+		
+		// Feedback
+		sendInfo($this->lng->txt("info_deleted"),true);
+		
+		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+		exit();
 	}
 }
 ?>
