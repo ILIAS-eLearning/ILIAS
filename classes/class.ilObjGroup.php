@@ -43,7 +43,9 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjGroup extends ilObject
 {
-	var $m_grpId;
+	var $ref_grpId;
+	
+	var $obj_grpId;
 
 	var $m_grpStatus;
 
@@ -55,6 +57,7 @@ class ilObjGroup extends ilObject
 
 	var $m_roleAdminId;	
 	
+	var $grp_tree;
 
 	/**
 	* Constructor
@@ -74,13 +77,15 @@ class ilObjGroup extends ilObject
 
 		if($a_call_by_reference)
 		{
-			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-			$this->m_grpId = $a_id;
-		
+			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
+			
+			$this->ref_grpId = $a_id;
+			
+			
 		}
 		else
 		{
-			$this->m_grpId = $a_id;		
+			$this->obj_grpId = $a_id;		
 		}
 
 		$this->tree = $tree;
@@ -624,11 +629,38 @@ class ilObjGroup extends ilObject
 
 	function createNewGroupTree()
 	{
-		$this->grp_tree = new ilTree($this->getRefId());
+		$this->grp_tree = new ilTree($this->object->getId());
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		$this->grp_tree->addTree($this->getRefId());
+		$this->grp_tree->addTree($this->object->getId());
+		//var_dump($this->grp_tree);
+		//return $this->grp_tree;
 	}
-
+	
+	/*
+	*
+	*@param integer obj_id of the new object
+	*@param integer ref_id of the new object
+	*@param integer obj_id of the group;root/tree id of the group
+	*/
+	function insertGroupNode($new_node_obj_id,$new_node_ref_id, $parent_obj_id )
+	{	
+		$this->grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
+		
+		if(isset($new_node_ref_id) && $new_node_ref_id>0)
+		{
+			$q1 = "UPDATE grp_tree SET ref_id=".$new_node_ref_id." WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
+			$this->ilias->db->query($q1);
+			
+			$q2 = "UPDATE grp_tree SET perm=1 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
+			$this->ilias->db->query($q2);
+		}
+		else
+		{
+			$q2 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
+			$this->ilias->db->query($q2);
+		}
+		
+	}
 	/**
 	* copy all properties and subobjects of a group.
 	* Does not copy the settings in the group's local role folder. Instead a new local role folder is created from

@@ -191,7 +191,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	}
 
 	$this->tpl->setCurrentBlock("btn_cell");
-	$this->tpl->setVariable("BTN_LINK","group_new.php?parent_ref_id=".$_GET["ref_id"]);
+	$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
 	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_new"));
 	$this->tpl->parseCurrentBlock();
 
@@ -1341,7 +1341,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			$data["fields"]["desc"] = "";
 
 			$this->tpl->addBlockFile("CONTENT", "content" ,"tpl.obj_edit.html");
-			$this->tpl->addBlockFile("CONTENT", "content", "tpl.groups_overview.html");
+			//$this->tpl->addBlockFile("CONTENT", "content", "tpl.groups_overview.html");
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -1349,8 +1349,9 @@ class ilGroupGUI extends ilObjGroupGUI
 				//$this->tpl->parseCurrentBlock();
 			}
 			echo ("refid: ".$_GET["grp_id"]." new_type : ".$_POST["new_type"]);
-			$this->tpl->setVariable("FORMACTION","group.php?cmd=saveobject&ref_id=".$_GET["grp_id"].
+			$this->tpl->setVariable("FORMACTION","group.php?cmd=saveobject&ref_id=".$_GET["ref_id"].
 				"&new_type=".$_POST["new_type"]);
+			
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
@@ -1364,7 +1365,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	function saveObject()
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
-
+		
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			// create and insert object in objecttree
@@ -1384,6 +1385,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
+		
 		header("location: group.php?cmd=DisplayList");
 		exit();
 	}
@@ -1593,7 +1595,158 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* create new object form
+	*/
+	function create()
+	{
+		//TODO: check the acces rights; compare class.ilObjectGUI.php
 
+		global $rbacsystem;
+
+			if(isset($_POST["new_type"]))
+			{
+				$new_type =  $_POST["new_type"];
+			}else{
+				$new_type =	 $_GET["type"];		
+			}
+			
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["group_name"] = "";
+			$data["fields"]["desc"] = "";
+
+
+			//$this->getTemplateFile("new","group");
+			$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_new.html");
+			
+			infoPanel();
+			
+			$node = $this->tree->getNodeData($_GET["parent_ref_id"]);
+			$this->tpl->setVariable("TXT_PAGEHEADLINE", $node["title"]);	
+			
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				
+			}
+
+			$stati = array("group_status_public","group_status_private","group_status_closed");
+
+			//build form
+			$opts = ilUtil::formSelect(0,"group_status_select",$stati);
+
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+			//$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+			//	"&new_type=".$_POST["new_type"]);
+			
+			$this->tpl->setVariable("FORMACTION", "group.php?cmd=save"."&ref_id=".$_GET["ref_id"].
+				"&new_type=".$new_type);
+				
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->show();
+	}
+	
+	/*
+	* save object
+	*
+	* @access	public
+	*/
+	function save()
+	{	
+	
+		//TODO: check the acces rights; compare class.ilObjectGUI.php
+		global $rbacadmin,$ilias;
+
+		$newObj = new ilObject();
+		$newObj->setType("grp");
+		$newObj->setTitle($_POST["Fobject"]["title"]);
+		$newObj->setDescription($_POST["Fobject"]["desc"]);
+		$newObj->create();
+		$newObj->createReference();
+		
+		
+		$refGrpId = $newObj->getRefId();
+		$objGrpId = $newObj->getId();
+
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+
+		unset($newObj);
+		//rolefolder
+
+		//create new rolefolder-object
+		$newObj = new ilObject();
+		$newObj->setType("rolf");
+		$newObj->setTitle("Rolefolder:".$_POST["Fobject"]["title"]);
+		$newObj->setDescription($_POST["Fobject"]["desc"]);
+
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($refGrpId);		//assign rolefolder to group
+		$newObj->setPermissions($refGrpId);
+
+		$refRolf = $newObj->getRefId();
+		$objRolf = $newObj->getId();
+		unset($newObj);
+
+		// create new role objects
+		$newGrp = new ilObjGroup($refGrpId,true);
+		//create standard group roles:member,admin,request(!),depending on group status(public,private,closed)
+
+		//the order is very important, please do not change: first create roles and join group, then setGroupStatus !!!
+		$newGrp->createGroupRoles($refRolf);
+		//creator becomes admin of group
+		//$newGrp->joinGroup($ilias->account->getId(),"admin");
+		$newGrp->joinGroup($ilias->account->getId(),1);
+
+		//0=public,1=private,2=closed
+		$newGrp->setGroupStatus($_POST["group_status_select"]);
+
+		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
+		$newGrp->createNewGroupTree();
+		$newGrp->insertGroupNode($objRolf,$refRolf,$objGrpId);
+		
+		header("location: group.php?cmd=DisplayList");
+		exit();
+		
+		
+		/*global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+		
+		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			// create and insert object in objecttree
+			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
+			echo $class_name;
+			
+			require_once("classes/class.".$class_name.".php");
+			$newObj = new $class_name();
+			$newObj->setType($_GET["new_type"]);
+			$newObj->setTitle($_POST["Fobject"]["title"]);
+			$newObj->setDescription($_POST["Fobject"]["desc"]);
+			$newObj->create();
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
+			
+			insert object in grp_tree
+			$newObj->id.
+			
+			unset($newObj);
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
+		}
+		
+		header("location: group.php?cmd=DisplayList");
+		exit();*/
+	}
+	
 
 
 }

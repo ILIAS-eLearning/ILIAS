@@ -99,7 +99,7 @@
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="file" max="1">file</subobj>
+	<subobj name="mob" max="1">mob</subobj>
 	<subobj name="fold">fold</subobj>
 	<property name="view">view_content</property>
 	<action name="cut">cut</action>
