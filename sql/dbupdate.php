@@ -5778,3 +5778,6 @@ $ilDB->query('DELETE FROM crs_groupings');
 
 <#414>
 ALTER TABLE `crs_groupings` ADD `crs_ref_id` INT( 11 ) NOT NULL AFTER `crs_grp_id` ;
+
+<#415>
+ALTER TABLE media_item ADD COLUMN tried_thumb ENUM('y','n') DEFAULT 'n';

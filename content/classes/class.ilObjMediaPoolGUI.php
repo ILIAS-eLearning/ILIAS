@@ -35,12 +35,13 @@
 * @package content
 */
 
-require_once("classes/class.ilObjectGUI.php");
-require_once("content/classes/class.ilObjMediaPool.php");
-require_once("classes/class.ilTableGUI.php");
-require_once("classes/class.ilObjFolderGUI.php");
-require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
-require_once ("content/classes/class.ilEditClipboardGUI.php");
+include_once("classes/class.ilObjectGUI.php");
+include_once("content/classes/class.ilObjMediaPool.php");
+include_once("classes/class.ilTableGUI.php");
+include_once("classes/class.ilObjFolderGUI.php");
+include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+include_once("content/classes/Media/class.ilObjMediaObject.php");
+include_once ("content/classes/class.ilEditClipboardGUI.php");
 
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
@@ -436,6 +437,15 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->ctrl->setParameter($this, "obj_id", $obj["obj_id"]);
 						$this->tpl->setVariable("LINK_VIEW",
 							$this->ctrl->getLinkTarget($this, "listMedia"));
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("link");
+						$this->tpl->setVariable("TXT_TITLE", "[".$this->lng->txt("edit")."]");
+						$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $obj["obj_id"]);
+						$this->tpl->setVariable("LINK_VIEW",
+							$this->ctrl->getLinkTargetByClass("ilobjfoldergui", "edit"));
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
 						break;
 
 					case "mob":
@@ -449,26 +459,27 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->setCurrentBlock("link");
                         //$this->tpl->setVariable("OBJ_URL", ilUtil::getHtmlPath(ilObjMediaObject::_getDirectory($obj["obj_id"]) . '/'. $obj["title"]));
+						$this->tpl->setCurrentBlock("tbl_content");
+						
+						// output thumbnail (or mob icon)
+						$mob =& new ilObjMediaObject($obj["obj_id"]);
+						$med =& $mob->getMediaItem("Standard");
+						$target = $med->getThumbnailTarget();
+						if ($target != "")
+						{
+							$this->tpl->setVariable("IMG_OBJ", $target);
+						}
+						else
+						{
+							$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
+						}
 						break;
 				}
-				$this->tpl->parseCurrentBlock();
 
-				// edit folder Link
-				if ($obj["type"] == "fold")
-				{
-					$this->tpl->setCurrentBlock("link");
-					$this->tpl->setVariable("TXT_TITLE", "[".$this->lng->txt("edit")."]");
-					$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $obj["obj_id"]);
-					$this->tpl->setVariable("LINK_VIEW",
-						$this->ctrl->getLinkTargetByClass("ilobjfoldergui", "edit"));
-					$this->tpl->parseCurrentBlock();
-				}
 
-				$this->tpl->setCurrentBlock("tbl_content");
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
 
 				$this->tpl->parseCurrentBlock();
 			}

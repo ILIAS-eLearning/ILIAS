@@ -202,6 +202,7 @@ class ilMediaItem
 			$this->setNr($item_rec["nr"]);
 			$this->setMobId($item_rec["mob_id"]);
 			$this->setId($item_rec["id"]);
+			$this->setThumbTried($item_rec["tried_thumb"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
@@ -221,6 +222,20 @@ class ilMediaItem
 			}
 		}
 
+	}
+	
+	/**
+	* write thumbnail creation try data ("y"/"n")
+	*/
+	function writeThumbTried($a_tried)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE media_item SET tried_thumb=".
+			$ilDB->quote($a_tried).
+			" WHERE id = ".$ilDB->quote($this->getId());
+			
+		$ilDB->query($q);
 	}
 
 	/**
@@ -248,6 +263,7 @@ class ilMediaItem
 			$media_item->setCaption($item_rec["caption"]);
 			$media_item->setPurpose($item_rec["purpose"]);
 			$media_item->setMobId($item_rec["mob_id"]);
+			$media_item->setThumbTried($item_rec["tried_thumb"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
@@ -333,6 +349,16 @@ class ilMediaItem
 	function getFormat()
 	{
 		return $this->format;
+	}
+
+	function setThumbTried($a_tried)
+	{
+		$this->tried_thumb = $a_tried;
+	}
+
+	function getThumbTried()
+	{
+		return $this->tried_thumb;
 	}
 
 	function addMapArea(&$a_map_area)
@@ -560,6 +586,50 @@ class ilMediaItem
 	function getDirectory()
 	{
 		return ilObjMediaObject::_getDirectory($this->getMobId());
+	}
+
+	/**
+	* get media file directory
+	*/
+	function getThumbnailDirectory($a_mode = "filesystem")
+	{
+		return ilObjMediaObject::_getThumbnailDirectory($this->getMobId(), $a_mode);
+	}
+	
+	/**
+	* get thumbnail target
+	*/
+	function getThumbnailTarget()
+	{
+		if (is_int(strpos($this->getFormat(), "image")))
+		{
+			$thumb_file = $this->getThumbnailDirectory()."/".
+				$this->getPurpose().".jpeg";
+
+			// generate thumbnail (if not tried before)
+			if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile")
+			{
+				if (is_file($thumb_file))
+				{
+					unlink($thumb_file);
+				}
+				$this->writeThumbTried("y");
+				ilObjMediaObject::_createThumbnailDirectory($this->getMobId());
+				$med_file = $this->getDirectory()."/".$this->getLocation();
+				if (is_file($med_file))
+				{
+					ilUtil::convertImage($med_file, $thumb_file, "jpeg", "80");
+				}
+			}
+			
+			if (is_file($thumb_file))
+			{
+				return $this->getThumbnailDirectory("output")."/".
+					$this->getPurpose().".jpeg?dummy=".rand(1, 999999);
+			}
+		}
+		
+		return "";
 	}
 
 
