@@ -693,7 +693,7 @@ class ilMail
 	}
 
 	/**
-	* send external mail using class.MimeMail.php
+	* send external mail using class.ilMimeMail.php
 	* @param string to
 	* @param string cc
 	* @param string bcc
@@ -823,7 +823,7 @@ class ilMail
 
 
 	/**
-	* send mime mail using class.MimeMail.php
+	* send mime mail using class.ilMimeMail.php
 	* @param array attachments
 	* @param string to
 	* @param string cc
@@ -847,7 +847,7 @@ class ilMail
 	}
 
 	/**
-	* send mime mail using class.MimeMail.php
+	* send mime mail using class.ilMimeMail.php
 	* @param string to
 	* @param string cc
 	* @param string bcc
@@ -859,11 +859,11 @@ class ilMail
 	*/
 	function sendMimeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachments)
 	{
-		require_once "classes/class.MimeMail.php";
+		require_once "classes/class.ilMimeMail.php";
 
 		$sender = $this->getEmailOfSender();
 
-		$mmail = new MimeMail();
+		$mmail = new ilMimeMail();
 		$mmail->From($sender);
 		$mmail->To($a_rcp_to);
 		// Add installation name to subject
