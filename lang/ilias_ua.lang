@@ -1056,36 +1056,36 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Введена вами email адресa не є коректною!
 common#:#enable#:#Дозволити
 common#:#enable_hist_user_comments#:#Дозволити коментарії користувачів в історії
-common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
-common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
-common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
-common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
+common#:#enable_hist_user_comments_desc#:#Дати авторам можливість додавати коментарі до сторінок з історією логів.
+common#:#enable_js_edit#:#Дозволити Редагування JavaScript
+common#:#enable_js_edit_info#:#Ця опція дозволяє редагувати JavaScript для усіх об'єктів (Учбовий Модуль ILIAS, Глосарії, Оціночні Питання, Digilib Книги) 
+common#:#enable_password_assistance#:#Дозволити відновлення паролю
 common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
 common#:#enabled#:#Дозволено
-common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
+common#:#enter_filename_deliver#:#Увійти в вправу для доставки
 common#:#enumerate#:#Перерахувати
 common#:#err_1_param#:#Тільки 1 параметр!
 common#:#err_2_param#:#Тільки 2 параметра!
 common#:#err_count_param#:#Причина: Невірна кількість параметрів
-common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
+common#:#err_enter_current_passwd#:#Будь ласка введіть ваш поточний пароль
 common#:#err_in_line#:#Помилка в стрічці
-common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.###14 Sep 2004 new variable
-common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
-common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP###02 Sep 2004 new variable
-common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings###02 Sep 2004 new variable
-common#:#err_ldap_search_failed#:#Connection to LDAP server failed! PLease check BaseDN and Search base###02 Sep 2004 new variable
-common#:#err_ldap_user_not_found#:#User not found on LDAP server! Please check attribute for login name and Objectclass###02 Sep 2004 new variable
+common#:#err_inactive#:#Цей аккаунт ще не активований. Будь ласка зв'яжіться з системним адміністратором щоб отримати доступ.
+common#:#err_invalid_port#:#Невірний номер порта
+common#:#err_ldap_auth_failed#:#Користувач не аутентифікований на LDAP сервері! Будь ласка впевніться, що ви маєте однаковий пароль в ILIAS та LDAP
+common#:#err_ldap_connect_failed#:#Невдале з'єднання з LDAP сервером! Будь ласка перевірте ваші настройки
+common#:#err_ldap_search_failed#:#Невдале з'єднання з LDAP сервером! Будь ласка перевірте BaseDN та Search базу
+common#:#err_ldap_user_not_found#:#Користувач не знайдений на LDAP сервері! Будь ласка перевірте атрібути - логіну та Objectclass
 common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
 common#:#err_no_param#:#Немає параметру!
 common#:#err_over_3_param#:#Більш ніж 3 параметри!
 common#:#err_role_not_assignable#:#Ви не можете призначити користувача на цю роль в цьому місці
 common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
-common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
+common#:#err_unknown_error#:#Невідома Помилка
 common#:#err_wrong_header#:#Причина: Невірний заголовок.
 common#:#err_wrong_login#:#Невірний Логін
-common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
-common#:#error#:#Error###29 Nov 2004 new variable
-common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
+common#:#err_wrong_password#:#Невірний Пароль
+common#:#error#:#Помилка
+common#:#error_parser#:#Помилка при запуску парсера.
 common#:#error_recipient#:#Помилка Отримувача
 common#:#exc#:#Вправа
 common#:#exc_add#:#Додати Вправу
@@ -1101,9 +1101,9 @@ common#:#exc_edit_exercise#:#Редагувати вправу
 common#:#exc_edit_permission#:#Змінити настройки прав
 common#:#exc_edit_until#:#Редагувати поки
 common#:#exc_files#:#Файли
-common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
+common#:#exc_files_returned#:#Повернені файли
 common#:#exc_groups#:#Групи
-common#:#exc_header_members#:#Вправа(члени)###14 Sep 2004 content changed
+common#:#exc_header_members#:#Вправа (члени)
 common#:#exc_instruction#:#Робочі інструкції
 common#:#exc_members_already_assigned#:#Цей користувач вже призначений до цієї вправи
 common#:#exc_members_assigned#:#Члени призначені
@@ -1112,7 +1112,7 @@ common#:#exc_no_members_assigned#:#Жодного члену не признач
 common#:#exc_notices#:#Повідомлення
 common#:#exc_obj#:#Вправа
 common#:#exc_read#:#Вправа доступу
-common#:#exc_roles#:#Roles###11 Aug 2004 new variable
+common#:#exc_roles#:#Ролі
 common#:#exc_save_changes#:#Зберігти
 common#:#exc_search_for#:#Пошук
 common#:#exc_select_one_file#:#Будь ласка виберіть рівно один файл.
@@ -1127,11 +1127,11 @@ common#:#exc_visible#:#Вправа видима
 common#:#exc_write#:#Редагувати вправу
 common#:#excs#:#Вправи
 common#:#execute#:#Виконати
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
-common#:#export#:#Export###20 Mar 2004 new variable
-common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
-common#:#export_html#:#експортувати як html файл###14 Sep 2004 content changed
-common#:#export_xml#:#експортувати як xml файл###14 Sep 2004 content changed
+common#:#exercise_time_over#:#Ваш час для вправи закінчився. Ви не можете більше доставляти файли!
+common#:#export#:#Експорт
+common#:#export_group_members#:#Експортувати членів групи (в Microsoft Excel)
+common#:#export_html#:#експортувати як HTML файл
+common#:#export_xml#:#експортувати як XML файл
 common#:#faq_exercise#:#FAQ Вправа
 common#:#fax#:#Факс
 common#:#feedback#:#Зворотній зв'язокk
@@ -1140,63 +1140,63 @@ common#:#file#:#Файл
 common#:#file_a#:#Файл
 common#:#file_add#:#Завантажити Файл
 common#:#file_added#:#Файл завантажено
-common#:#file_delete#:#Delete File###17 Apr 2004 new variable
-common#:#file_edit#:#Edit File###16 Apr 2004 new variable
-common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
-common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
+common#:#file_delete#:#Видалити Файл
+common#:#file_edit#:#Редагувати Файл
+common#:#file_edit_permission#:#Змінити настройки Прав
+common#:#file_is_infected#:#Файл інфікований вірусом.
 common#:#file_new#:#Новий Файл
 common#:#file_not_found#:#Файл Не Знайдений
 common#:#file_not_valid#:#Файл є пошкодженим!
-common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
-common#:#file_read#:#Download File###17 Apr 2004 new variable
+common#:#file_notice#:#Будь ласка візьміть до уваги ліміт на розмір файлу 
+common#:#file_read#:#Завантажити Файл
 common#:#file_valid#:#Файл є корректним!
 common#:#file_version#:#Версія Знаходиться в Файлі
-common#:#file_visible#:#File is visible###17 Apr 2004 new variable
-common#:#file_write#:#Edit File###17 Apr 2004 new variable
-common#:#filename#:#Filename###06 Oct 2004 new variable
-common#:#files#:#Files###16 Apr 2004 new variable
+common#:#file_visible#:#Файл є видимим
+common#:#file_write#:#Редагувати Файл
+common#:#filename#:#Ім'я Файлу
+common#:#files#:#Файли
 common#:#files_location#:#Місцезнаходження Файлів
 common#:#fill_out_all_required_fields#:#Будь ласка заповніть усі потрібні поля
-common#:#filter#:#Filter:###11 Sep 2004 new variable
+common#:#filter#:#Фільтр:
 common#:#firstname#:#Ім'я
 common#:#flatview#:#Плоский Огляд
 common#:#fold#:#Папка
 common#:#fold_a#:#Папка
 common#:#fold_add#:#Додати Папку
 common#:#fold_added#:#Папка додана
-common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
-common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
-common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
-common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
-common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
-common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
-common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
-common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
-common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
-common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
-common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
-common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
-common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
-common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#fold_create_alm#:#Створити AICC Учбовий Модуль
+common#:#fold_create_chat#:#Створити Чат
+common#:#fold_create_dbk#:#Створити Digilib Книгу
+common#:#fold_create_exc#:#Створити Вправу
+common#:#fold_create_file#:#Завантажити Файл
+common#:#fold_create_fold#:#Створити Папку
+common#:#fold_create_frm#:#Створити Форум
+common#:#fold_create_glo#:#Створити Глосарій
+common#:#fold_create_hlm#:#Створити HACP Учбовий Модуль
+common#:#fold_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#fold_create_lm#:#Створити Учбовий Модуль
+common#:#fold_create_mep#:#Створити Медіа Пул
+common#:#fold_create_qpl#:#Створити Пул Питань для Тесту
+common#:#fold_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+common#:#fold_create_spl#:#Створити Пул Питань для Голосування
+common#:#fold_create_svy#:#Створити Опитування
+common#:#fold_create_tst#:#Створити Тест
+common#:#fold_delete#:#Видалити Папку
+common#:#fold_edit#:#РЕдагувати Папку
+common#:#fold_edit_permission#:#Змінити настройки прав
 common#:#fold_new#:#Нова Папка
-common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
-common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
-common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
+common#:#fold_read#:#Доступ на читання до Папки
+common#:#fold_visible#:#Папка є видимою
+common#:#fold_write#:#Редагувати Папку
 common#:#folder#:#папка
 common#:#folders#:#Папки
-common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!###14 Sep 2004 content changed
+common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
 common#:#forename#:#Ім'я
-common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
+common#:#forgot_password#:#Забули пароль?
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
 common#:#forum#:#Форум
-common#:#forum_import#:#Forum import###09 Apr 2004 new variable
-common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
+common#:#forum_import#:#Імпортувати форума
+common#:#forum_import_file#:#Імпортувати файл
 common#:#forum_notification#:#Повідомлення
 common#:#forum_notify_me#:#Повідомити меня про відповідь
 common#:#forum_post_replied#:#На вашу відку в форумі з'явилась відповідь!
@@ -1208,14 +1208,14 @@ common#:#frm_add#:#Додати Форум
 common#:#frm_added#:#Форум доданий
 common#:#frm_create#:#Створити Форум
 common#:#frm_delete#:#Видалити Форум
-common#:#frm_delete_post#:#Видалити пост###30 Mar 2004 content changed
+common#:#frm_delete_post#:#Видалити пост, цензура
 common#:#frm_edit#:#Редагувати Форум
 common#:#frm_edit_permission#:#Змінити настройки прав
-common#:#frm_edit_post#:#Редагувати пост###30 Mar 2004 content changed
+common#:#frm_edit_post#:#Додати нову гілку, запис
 common#:#frm_new#:#Новий Форум
 common#:#frm_read#:#Доступ на читання до Форума
 common#:#frm_visible#:#Форум є видимим
-common#:#frm_write#:#Редагувати форум###30 Mar 2004 content changed
+common#:#frm_write#:#Редагувати форум
 common#:#from#:#Від
 common#:#fullname#:#Повне ім'я
 common#:#functions#:#Функції
@@ -1224,7 +1224,7 @@ common#:#gdf_new#:#Нове Визначення
 common#:#gender#:#Пол
 common#:#gender_f#:#Жінка
 common#:#gender_m#:#Чоловік
-common#:#general_settings#:#General settings###29 Nov 2004 new variable
+common#:#general_settings#:#Загальні настройки
 common#:#generate#:#Сгенерувати
 common#:#glo#:#Глосарій
 common#:#glo_a#:#Глосарій
@@ -1237,70 +1237,70 @@ common#:#glo_join#:#Підписатить на Глосарій
 common#:#glo_leave#:#Відписатись від Глосарію
 common#:#glo_new#:#Новий Глосарій
 common#:#glo_read#:#Доступ на читання до Глосарію
-common#:#glo_upload_file#:#File###07 May 2004 new variable
+common#:#glo_upload_file#:#Файл
 common#:#glo_visible#:#Глосарій є видимим
 common#:#glo_write#:#Редагувати Глосарій
-common#:#global#:#Global###11 Sep 2004 new variable
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
-common#:#global_user#:#Global users###11 Sep 2004 new variable
+common#:#global#:#Глобальний
+common#:#global_settings#:#Глобальні настройки
+common#:#global_user#:#Глобальні користувачі
 common#:#glossaries#:#Глосарії
 common#:#glossary#:#Глосарій
 common#:#glossary_added#:#Глосарій доданий
 common#:#group_access_denied#:#В Доступі Відмовлено
-common#:#group_any_objects#:#Жоден підоб'єкт не є доступним###14 Sep 2004 content changed
-common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
+common#:#group_any_objects#:#Немає доступних підоб'єктів
+common#:#group_create_chat#:#Створити чат
 common#:#group_desc#:#Опис Групи
 common#:#group_details#:#Деталі Групи
 common#:#group_filesharing#:#Спільне Використання Файлу Групи
-common#:#group_import#:#Group import###20 Apr 2004 new variable
-common#:#group_import_file#:#Import file###20 Apr 2004 new variable
-common#:#group_members#:#Члени Групи###04 Sep 2004 content changed
+common#:#group_import#:#Імпорт групи
+common#:#group_import_file#:#Імпорт файлу
+common#:#group_members#:#Члени Групи
 common#:#group_memstat#:#Статус Члена
 common#:#group_memstat_admin#:#Адміністратор
 common#:#group_memstat_member#:#Член
-common#:#group_name#:#Ім'я групи###14 Sep 2004 content changed
-common#:#group_new_registrations#:#Нові Реєстрації###04 Sep 2004 content changed
+common#:#group_name#:#Ім'я групи
+common#:#group_new_registrations#:#Нові Реєстрації
 common#:#group_no_registration#:#реєстрація непотрібна
-common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.###14 Sep 2004 content changed
+common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.
 common#:#group_not_available#:#Жодна група не є доступною
 common#:#group_objects#:#Об'єкти групи
 common#:#group_password_registration_expired_msg#:#Період реєстрації цієї групи скінчився, повідомлення більше не є можливими. Будь ласка зв'яжіться з власником відповідної групи або адміністратором.
-common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.###14 Sep 2004 content changed
+common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.
 common#:#group_registration_expiration_date#:#Дата закінчення терміну дії
 common#:#group_registration_expiration_time#:#Час закінчення терміну дії
-common#:#group_registration_expired#:#Період реєстрації скінчився###14 Sep 2004 content changed
+common#:#group_registration_expired#:#Період реєстрації скінчився
 common#:#group_registration_mode#:#Режим Реєстрації
 common#:#group_req_password#:#Потрібен реєстраційний пароль
 common#:#group_req_registration#:#Потрібна реєстрація
-common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.###14 Sep 2004 content changed
+common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Відповідний адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему щоб дати причину вашим даним.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.
 common#:#group_reset#:#Скинути Права Групи
-common#:#group_status#:#Статус Групи###08 May 2004 content changed
+common#:#group_status#:#Група
 common#:#group_status_closed#:#Закрита
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
+common#:#group_status_desc#:#Вкажіть початковий статус групи використовуючи настройки прав з шаблонів ролей 'il_grp_status_closed' або 'il_grp_status_open' <br/>Публічн: Група видима; КОристувачі можуть підписуватись. <br/> Зікрита: Група не видима для не членів; Користувачі мають бути запрошені для приєднання до групи.
 common#:#group_status_public#:#Публічна
 common#:#groups#:#Групи
 common#:#groups_overview#:#Огляд Груп
 common#:#grp#:#Група
 common#:#grp_a#:#Група
 common#:#grp_add#:#Додати Групу
-common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
+common#:#grp_add_member#:#Додати членів
 common#:#grp_added#:#Група додана
-common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
-common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
-common#:#grp_back#:#Back###18 Apr 2004 new variable
-common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
+common#:#grp_already_applied#:#Ви вже прикріплені до цієї групи! Будь ласка зачекайте на підтвердження
+common#:#grp_app_send_mail#:#Відіслати кандидату повідомлення
+common#:#grp_back#:#Назад
+common#:#grp_count_members#:#Кількість членів
 common#:#grp_create#:#Створити Групу
-common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
-common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
-common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
-common#:#grp_create_file#:#Користувач може завантажувати Файли###17 Apr 2004 content changed
-common#:#grp_create_fold#:#Користувач може створювати Папки###17 Apr 2004 content changed
+common#:#grp_create_alm#:#Створити AICC Учбовий Модуль
+common#:#grp_create_chat#:#Створити Чат
+common#:#grp_create_dbk#:#Створити Digibook
+common#:#grp_create_exc#:#Створити Вправу
+common#:#grp_create_file#:#Завантажити Файл
+common#:#grp_create_fold#:#Створити Папку
 common#:#grp_create_frm#:#Створити Форум
-common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
-common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
+common#:#grp_create_glo#:#Створити Глосарій
+common#:#grp_create_hlm#:#Створити HACP Учбовий Модуль
+common#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
