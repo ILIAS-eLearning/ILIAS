@@ -91,7 +91,7 @@ step#:#step
 inifile#:#INI-file
 db_name#:#database name
 db_user#:#database user
-dp_pass#:#database password
+db_pass#:#database password
 reset#:#reset
 err_create_database_failed#:#creation of database failed
 setup_ready#:#setup is ready

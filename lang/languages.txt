@@ -93,7 +93,7 @@ step	step	Schritt	step	step
 inifile	INI-file	Ini-Datei	inifile	inifile
 db_name	database name	Datenbankname	database name	database name
 db_user	database user	Datenbankbenutzer	database user	database user
-dp_pass	database password	Datenbankpassword	database password	database password
+db_pass	database password	Datenbankpassword	database password	database password
 reset	reset	Zurücksetzen	reset	reset
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
 setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup is ready	setup is ready
