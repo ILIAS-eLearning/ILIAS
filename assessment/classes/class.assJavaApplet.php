@@ -228,6 +228,15 @@ class ASS_JavaApplet extends ASS_Question
 			$qtiFlow->append_child($qtiMaterial);
 		}
 
+		// add available points as material
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatText = $this->domxml->create_element("mattext");
+		$qtiMatText->set_attribute("label", "points");
+		$qtiMatTextText = $this->domxml->create_text_node($this->getPoints());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiFlow->append_child($qtiMaterial);
+
 		$qtiPresentation->append_child($qtiFlow);
 		$qtiIdent->append_child($qtiPresentation);
 
@@ -241,6 +250,114 @@ class ASS_JavaApplet extends ASS_Question
 		return $xml;
 
 	}
+
+	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		if (!empty($this->domxml))
+		{
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$comment = $item->first_child();
+			if (strcmp($comment->node_name(), "qticomment") == 0)
+			{
+				$this->setComment($comment->get_content());
+			}
+			$itemnodes = $item->child_nodes();
+			$materials = array();
+			$images = array();
+			$shuffle = "";
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "duration":
+						$iso8601period = $node->get_content();
+						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+						{
+							$this->setEstimatedWorkingTime($matches[4], $matches[5], $matches[6]);
+						}
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
+						{
+							if (strcmp($flownode->node_name(), "material") == 0)
+							{
+								$childnode = $flownode->first_child();
+								if (strcmp($childnode->node_name(), "mattext") == 0)
+								{
+									if (!$childnode->has_attribute("label"))
+									{
+										$this->setQuestion($childnode->get_content());
+									}
+									elseif (strcmp($childnode->get_attribute("label"), "points") == 0)
+									{
+										$this->setPoints($childnode->get_content());
+									}
+								}
+								elseif (strcmp($childnode->node_name(), "matapplet") == 0)
+								{
+									if (strcmp($childnode->get_attribute("label"), "applet data") == 0)
+									{
+										$this->javaapplet_filename = $childnode->get_attribute("uri");
+										$this->java_height = $childnode->get_attribute("height");
+										$this->java_width = $childnode->get_attribute("width");
+										$java = base64_decode($childnode->get_content());
+									}
+									elseif (strcmp($childnode->get_attribute("label"), "applet params") == 0)
+									{
+										$params = $childnode->get_content();
+										$this->splitParams($params);
+									}
+								}
+							}
+						}
+						break;
+				}
+			}
+			if ($this->javaapplet_filename)
+			{
+				$this->saveToDb();
+				$javapath = $this->getJavaPath();
+				if (!file_exists($javapath))
+				{
+					ilUtil::makeDirParents($javapath);
+				}
+				$javapath .=  $this->javaapplet_filename;
+				$fh = fopen($javapath, "wb");
+				if ($fh == false)
+				{
+					global $ilErr;
+					$ilErr->raiseError($this->lng->txt("error_save_java_file") . ": $php_errormsg", $ilErr->WARNING);
+					return;
+				}
+				$javafile = fwrite($fh, $java);
+				fclose($fh);
+			}
+			$result = true;
+		}
+		return $result;
+	}
+
 
 	/**
 	* Sets the applet parameters from a parameter string containing all parameters in a list
@@ -323,6 +440,10 @@ class ASS_JavaApplet extends ASS_Question
 	function buildParamsOnly()
 	{
 		$params_array = array();
+		if ($this->java_code)
+		{
+			array_push($params_array, "java_code=$this->java_code");
+		}
 		foreach ($this->parameters as $key => $value)
 		{
 			array_push($params_array, "param_name_$key=" . $value["name"]);
@@ -341,7 +462,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->points > 0))
 		{
 			return true;
 		}

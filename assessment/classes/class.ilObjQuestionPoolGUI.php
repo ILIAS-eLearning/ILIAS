@@ -301,6 +301,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 							case ORDERING_QUESTION_IDENTIFIER:
 								$question = new ASS_OrderingQuestion();
 								break;
+							case JAVAAPPLET_QUESTION_IDENTIFIER:
+								$question = new ASS_JavaApplet();
+								break;
 						}
 						if ($question)
 						{
