@@ -266,13 +266,14 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// view button
+		// edit object button
+		/*
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
 			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
 			"&cmd=edit");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_edit_mob"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
@@ -463,7 +464,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function centerAlign()
 	{
-		$this->content_obj->setHorizontalAlign("Center");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -471,7 +473,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function leftAlign()
 	{
-		$this->content_obj->setHorizontalAlign("Left");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -479,7 +482,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function rightAlign()
 	{
-		$this->content_obj->setHorizontalAlign("Right");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -487,7 +491,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function leftFloatAlign()
 	{
-		$this->content_obj->setHorizontalAlign("LeftFloat");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -495,7 +500,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 	function rightFloatAlign()
 	{
-		$this->content_obj->setHorizontalAlign("RightFloat");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());

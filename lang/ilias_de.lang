@@ -157,7 +157,7 @@ common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#download#:#Herunterladen
 common#:#drafts#:#Entwürfe
-common#:#drop#:#Drop###19 Aug 2003 new variable
+common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
@@ -173,7 +173,7 @@ common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
-common#:#err_count_param#:#Grund: Falsche Parameteranzahl###09 Aug 2003 content changed
+common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
@@ -216,11 +216,11 @@ common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
-common#:#glo#:#Glossary###15 Aug 2003 new variable
-common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
+common#:#glo#:#Glossar
+common#:#glo_added#:#Glossar hinzugefügt
 common#:#glossary#:#Glossar
-common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
-common#:#group_any_objects#:#Keine Unterobjekte vorhanden  
+common#:#glossary_added#:#Glossar hinzugefügt
+common#:#group_any_objects#:#Keine Unterobjekte vorhanden
 common#:#group_details#:#Gruppen-Details
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppen-Mitglieder
@@ -291,11 +291,11 @@ common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
-common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst###09 Aug 2003 content changed
+common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert###09 Aug 2003 content changed
-common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert###09 Aug 2003 content changed
-common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert###09 Aug 2003 content changed
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
@@ -327,7 +327,7 @@ common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen###09 Aug 2003 content changed
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
@@ -355,7 +355,7 @@ common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
-common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen###09 Aug 2003 content changed
+common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
@@ -372,12 +372,12 @@ common#:#migrate#:#Migrieren
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
-common#:#msg_cancel_delete#:#Aktion abgebrochen###09 Aug 2003 content changed
+common#:#msg_cancel_delete#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
-common#:#msg_clear_clipboard#:#Zwischenablage gelöscht###09 Aug 2003 content changed
-common#:#msg_cloned#:#Objekt(e) kopiert.###09 Aug 2003 content changed
-common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)###09 Aug 2003 content changed
-common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)###09 Aug 2003 content changed
+common#:#msg_clear_clipboard#:#Zwischenablage gelösch
+common#:#msg_cloned#:#Objekt(e) kopiert.
+common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
+common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_role#:#Rolle gelöscht
 common#:#msg_deleted_roles#:#Rollen gelöscht
@@ -387,7 +387,7 @@ common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Rollenzuweisung genommen
-common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)###09 Aug 2003 content changed
+common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
@@ -411,7 +411,7 @@ common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um di
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
-common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten###09 Aug 2003 content changed
+common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_search_result#:#Keine Einträge gefunden!
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein!
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
@@ -425,7 +425,7 @@ common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
-common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen###09 Aug 2003 content changed
+common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
 common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte!
@@ -434,8 +434,8 @@ common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Roll
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
-common#:#my_frms#:#My Forums###19 Aug 2003 new variable
-common#:#my_los#:#My Learning Objects###19 Aug 2003 new variable
+common#:#my_frms#:#Meine Foren
+common#:#my_los#:#Meine Lernobjekte
 common#:#name#:#Name
 common#:#new#:#Neu
 common#:#new_folder#:#Neuer Ordner
@@ -622,7 +622,7 @@ common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
-common#:#street#:#Straﬂe
+common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
@@ -642,7 +642,7 @@ common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
-common#:#to_desktop#:#To Desktop###19 Aug 2003 new variable
+common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
@@ -753,7 +753,7 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
 content#:#cont_page_header#:#Seitentitel
-content#:#cont_pages#:#PagesSeiten
+content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_pg_content#:#Seiteninhalt
