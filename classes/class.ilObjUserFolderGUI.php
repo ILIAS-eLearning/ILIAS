@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.7 2003/05/14 17:16:56 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.8 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -73,20 +73,33 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			{
 				//visible data part
 				$this->data["data"][] = array(
-						"type" => ilUtil::getImageTagByType("usr",$this->tpl->tplPath),
-						"name" => $val["title"],
-						"description" => $val["desc"],
-						"last_change" => ilFormat::formatDate($val["last_update"])
-					);
-
-				//control information
-				$this->data["ctrl"][] = array(
-						"ref_id"	=> $this->id,
-						"obj_id"	=> $val["obj_id"],
-						"type"		=> "usr"
+						"type"			=> $val["type"],
+						"name"			=> $val["title"],
+						"description"	=> $val["desc"],
+						"last_change"	=> ilFormat::formatDate($val["last_update"]),
+						"obj_id"		=> $val["obj_id"]
 					);
 			}
 		} //if userdata
+
+		$this->maxcount = count($this->data["data"]);
+
+		// sorting array
+		require_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$this->data["ctrl"][$key] = array(
+											"ref_id"	=> $this->id,
+											"obj_id"	=> $val["obj_id"],
+											"type"		=> $val["type"]
+											);		
+
+			unset($this->data["data"][$key]["obj_id"]);
+		}
 
 		parent::displayList();
 	} //function

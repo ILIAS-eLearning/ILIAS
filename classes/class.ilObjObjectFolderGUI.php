@@ -59,7 +59,53 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-    	
+
+
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+
+		$this->data["cols"] = array("", "type", "name", "description", "last_change");
+
+		if ($list = getObjectList("typ",$_GET["order"], $_GET["direction"]))
+		{
+			foreach ($list as $key => $val)
+			{
+				//visible data part
+				$this->data["data"][] = array(
+						"type"			=> $val["type"],
+						"name"			=> $val["title"],
+						"description"	=> $val["desc"],
+						"last_change"	=> ilFormat::formatDate($val["last_update"]),
+						"obj_id"		=> $val["obj_id"]
+					);
+
+			}
+		} //if roledata
+
+		$this->maxcount = count($this->data["data"]);
+
+		// sorting array
+		require_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$this->data["ctrl"][$key] = array(
+											"ref_id"	=> $this->id,
+											"obj_id"	=> $val["obj_id"],
+											"type"		=> $val["type"],
+											);		
+
+			unset($this->data["data"][$key]["obj_id"]);
+		}
+
+		parent::displayList(); 	
+
+		/*
 		$this->getTemplateFile("view");
 		$num = 0;
 
@@ -171,7 +217,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
-		
+		*/
 	}
 } // END class.ObjectFolderObjectOut
 ?>
