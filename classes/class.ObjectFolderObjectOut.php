@@ -3,7 +3,7 @@
 * Class ObjectFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ObjectFolderObjectOut.php,v 1.4 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.ObjectFolderObjectOut.php,v 1.5 2003/03/14 16:25:06 shofmann Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -57,7 +57,7 @@ class ObjectFolderObjectOut extends ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($rbacsystem->checkAccess("read", $_GET["obj_id"]))
+		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
 		{
 			if ($list = getObjectList("typ",$_GET["order"],$_GET["direction"]))
 			{
@@ -107,27 +107,28 @@ class ObjectFolderObjectOut extends ObjectOut
 							$this->tpl->setCurrentBlock("begin_link");
 							$this->tpl->setVariable("LINK_TARGET", $link);
 
-						if ($_GET["type"] == "lo" && $key == "type")
-						{
-							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
+							if ($_GET["type"] == "lo" && $key == "type")
+							{
+								$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
+							}
+
+							$this->tpl->parseCurrentBlock();
+							$this->tpl->touchBlock("end_link");
 						}
 
+						$this->tpl->setCurrentBlock("text");
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
 						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
+						$this->tpl->setCurrentBlock("table_cell");
+						$this->tpl->parseCurrentBlock();
+					} //foreach
 
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					$this->tpl->setCurrentBlock("table_row");
+					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-				} //foreach
-
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-		} //if is_array
+				} //for
+			} //if is_array
+		}
 		else
 		{
 			$this->tpl->setCurrentBlock("notfound");
