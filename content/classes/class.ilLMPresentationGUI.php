@@ -504,7 +504,6 @@ class ilLMPresentationGUI
 								unset($_SESSION["tr_id"]);
 								unset($_SESSION["bib_id"]);
 								unset($_SESSION["citation"]);
-
 								$page_content = $this->ilPage($child);
 								break;
 
@@ -532,6 +531,7 @@ class ilLMPresentationGUI
 
 								break;
 						}
+
 						break;
 
 					case "ilGlossary":
@@ -1007,6 +1007,7 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilPage");
 
 		return $page_object_gui->presentation();
+
 	}
 
 	function getLinkXML($a_int_links, $a_layoutframes)

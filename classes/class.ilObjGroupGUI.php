@@ -26,7 +26,9 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.84 2004/05/07 20:23:14 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.85 2004/06/18 12:57:59 shofmann Exp $
+*
+* @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -47,11 +49,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
-	function _forwards()
-	{
-		return array("ilRegisterGUI");
-	}
-	
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
@@ -62,9 +59,10 @@ class ilObjGroupGUI extends ilObjectGUI
 			case "ilregistergui":
 				$this->ctrl->setReturn($this, "");   // ###
 				$reg_gui = new ilRegisterGUI();
-				$reg_gui->executeCommand();
+				//$reg_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
-	
+
 			default:
 				if ($this->object->requireRegistration() and !$this->object->isUserRegistered())
 				{
@@ -80,7 +78,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				$cmd .= "Object";
 				$this->$cmd();
 				break;
-		}		
+		}
 	}
 
 	/**

@@ -232,7 +232,7 @@ class ilDBUpdate
 	 */
 	function applyUpdateNr($nr)
 	{
-		global $ilDB,$ilErr,$ilUser;
+		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader;
 
 		//search for desired $nr
 		reset($this->filecontent);

@@ -37,6 +37,8 @@ require_once("content/classes/Pages/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI
+*
 * @package content
 */
 class ilObjGlossaryGUI extends ilObjectGUI
@@ -69,14 +71,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	}
 
 	/**
-	* get forward classes
-	*/
-	function _forwards()
-	{
-		return array("ilGlossaryTermGUI");
-	}
-
-	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -90,7 +84,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
 				$term_gui->setGlossary($this->object);
-				$ret =& $term_gui->executeCommand();
+				//$ret =& $term_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($term_gui);
 				break;
 
 			default:
@@ -536,7 +531,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
@@ -669,7 +664,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term["id"]);
 					$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def["id"]);
 					$this->tpl->setVariable("LINK_EDIT",
-						$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+						$this->ctrl->getLinkTargetByClass(array("ilglossarytermgui",
+						"iltermdefinitioneditorgui",
+						"ilpageobjectgui"), "view"));
 					$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$this->tpl->parseCurrentBlock();
 
@@ -739,7 +736,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
-		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		$this->ctrl->redirectByClass(array("ilglossarytermgui",
+			"iltermdefinitioneditorgui", "ilpageobjectgui"), "view");
 	}
 
 	/**
@@ -1388,7 +1386,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "term_id", $term->getId());
 		$this->ctrl->setParameterByClass("ilpageobjectgui", "def", $def->getId());
-		$this->ctrl->redirectByClass("ilpageobjectgui", "view");
+		$this->ctrl->redirectByClass(array("ilglossarytermgui",
+			"iltermdefinitioneditorgui", "ilpageobjectgui"), "view");
 		
 	}
 

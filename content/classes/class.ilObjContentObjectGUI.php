@@ -65,19 +65,31 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
+		{
+			$this->explorer();
+			return;
+		}
+
+		if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
+		{
+			$this->ctrl->setReturn($this, "explorer");
+		}
+
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
-
+		$this->addLocations();
 		switch($next_class)
 		{
 			case "ilobjstylesheetgui":
 				$this->ctrl->setReturn($this, "properties");
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-				$ret =& $style_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($style_gui);
+				//$ret =& $style_gui->executeCommand();
 
 				if ($cmd == "save")
 				{
@@ -99,7 +111,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
 					$pg_gui->setLMPageObject($obj);
 				}
-				$ret =& $pg_gui->executeCommand();
+				//$ret =& $pg_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($pg_gui);
 				if ($cmd == "save" || $cmd == "cancel")
 				{
 					$this->ctrl->redirect($this, "pages");
@@ -114,7 +127,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
 					$st_gui->setStructureObject($obj);
 				}
-				$ret =& $st_gui->executeCommand();
+				//$ret =& $st_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($st_gui);
 				if ($cmd == "save" || $cmd == "cancel")
 				{
 					if ($_GET["obj_id"] == "")
@@ -155,7 +169,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				}
 				break;
 		}
-
 		return $ret;
 	}
 
@@ -280,6 +293,69 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	* output explorer tree
+	*/
+	function explorer()
+	{
+		switch ($this->object->getType())
+		{
+			case "lm":
+				$gui_class = "ilobjlearningmodulegui";
+				break;
+
+			case "dlb":
+				$gui_class = "ilobjdlbookgui";
+				break;
+		}
+
+
+		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		// get learning module object
+		//$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+
+		require_once ("content/classes/class.ilLMEditorExplorer.php");
+		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->object->getRefId(),
+			$this->object, $gui_class);
+
+		$exp->setTargetGet("obj_id");
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
+
+		if ($_GET["lmexpand"] == "")
+		{
+			$mtree = new ilTree($this->object->getId());
+			$mtree->setTableNames('lm_tree','lm_data');
+			$mtree->setTreeTablePK("lm_id");
+			$expanded = $mtree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["lmexpand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->ctrl->setParameter($this, "lmexpand", $_GET["lmexpand"]);
+		//$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&lmexpand=".$_GET["lmexpand"]);
+		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "explorer"));
+		$this->tpl->parseCurrentBlock();
+		//$this->tpl->show(false);
+
+	}
+
 
 	/**
 	* save properties
@@ -1785,6 +1861,66 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$cont_exp->buildExportFile();
 		$this->offlineList();
 	}
+
+	/**
+	* display locator
+	*/
+	function addLocations()
+	{
+		global $lng;
+
+		$obj_id = $_GET["obj_id"];
+		$tree =& $this->object->getTree();
+
+		if (($obj_id != 0) && $tree->isInTree($obj_id))
+		{
+			$path = $tree->getPathFull($obj_id);
+		}
+		else
+		{
+			$path = $tree->getPathFull($tree->getRootId());
+			if ($obj_id != 0)
+			{
+				$path[] = array("type" => "pg", "child" => $this->obj_id,
+					"title" => ilLMPageObject::_getPresentationTitle($this->obj_id));
+			}
+		}
+
+		$modifier = 1;
+
+		foreach ($path as $key => $row)
+		{
+			if ($row["child"] == 1)
+			{
+				$this->ctrl->setParameter($this, "obj_id", "");
+				$this->ctrl->addLocation(
+					$this->object->getTitle(),
+					$this->ctrl->getLinkTarget($this, "properties"));
+			}
+			else
+			{
+				$title = $row["title"];
+				switch($row["type"])
+				{
+					case "st":
+						$this->ctrl->setParameterByClass("ilstructureobjectgui", "obj_id", $row["child"]);
+						$this->ctrl->addLocation(
+							$title,
+							$this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view"));
+						break;
+
+					case "pg":
+						$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $row["child"]);
+						$this->ctrl->addLocation(
+							$title,
+							$this->ctrl->getLinkTargetByClass("illmpageobjectgui", "view"));
+						break;
+				}
+			}
+		}
+		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+	}
+
 
 	/**
 	* output tabs

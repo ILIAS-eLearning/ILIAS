@@ -30,6 +30,8 @@ require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilPageObjectGUI
+*
 * @package content
 */
 class ilTermDefinitionEditorGUI
@@ -59,14 +61,6 @@ class ilTermDefinitionEditorGUI
 		$this->term =& new ilGlossaryTerm($this->definition->getTermId());
 
 		$this->ctrl->saveParameter($this, array("def"));
-	}
-
-	/**
-	* get forward classes
-	*/
-	function _forwards()
-	{
-		return array("ilPageObjectGUI");
 	}
 
 
@@ -131,11 +125,8 @@ class ilTermDefinitionEditorGUI
 						array("meta_data", "editDefinitionMetaData")
 						));*/
 				$page_gui->setPresentationTitle($this->term->getTerm());
-				//$page_gui->setTargetScript("glossary_edit.php?ref_id=".
-				//	$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
-				//$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
-				//	$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
-				$page_gui->executeCommand();
+				//$page_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($page_gui);
 
 				break;
 
@@ -145,36 +136,6 @@ class ilTermDefinitionEditorGUI
 				$ret =& $this->$cmd();
 				break;
 
-				/*
-				case "editDefinitionMetaData":
-					$gloss_loc->display();
-					$this->editMeta();
-					break;
-
-				case "saveMeta":
-				case "saveDefinitionMetaData":
-					$this->saveMeta();
-					break;
-
-				case "confirmDefinitionDeletion":
-					$gloss_loc->display();
-					$this->$cmd();
-					break;
-
-				case "chooseMetaSection":
-				case "addMeta":
-				case "deleteMeta":
-				case "cancelDefinitionDeletion":
-				case "deleteDefinition":
-					$this->$cmd();
-					break;
-
-
-				default:
-					$gloss_loc->display();
-					$page_gui->$cmd();
-					break;
-				*/
 		}
 	}
 

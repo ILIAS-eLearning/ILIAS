@@ -278,6 +278,7 @@ class ilLMObjectGUI
 		}
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 //echo "<br>lmobjectgui_formaction";
+//echo ":".$this->ctrl->getFormAction($this, "", true).":";
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this, "", true));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));

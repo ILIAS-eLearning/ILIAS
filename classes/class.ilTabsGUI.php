@@ -166,6 +166,7 @@ class ilTabsGUI
 
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass);
+//echo "<br>addTarget:".$a_link."::";
 	}
 
 	function getHTML()

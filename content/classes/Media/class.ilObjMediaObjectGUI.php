@@ -32,6 +32,7 @@ require_once ("classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @ilCtrl_Calls ilObjMediaObjectGUI: ilInternalLinkGUI
 *
 * @package content
 */
@@ -94,7 +95,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$this->ctrl->getLinkTargetByClass("ilObjMediaObjectGUI",
 					"setInternalLink", "", true));
 				$link_gui->filterLinkType("Media");
-				$ret =& $link_gui->executeCommand();
+				//$ret =& $link_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($link_gui);
 				break;
 
 			default:

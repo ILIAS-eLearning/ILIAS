@@ -30,6 +30,7 @@ require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
 *
 * @package content
 */
@@ -96,7 +97,8 @@ class ilEditClipboardGUI
 				//$mob_gui->getTabs($tabs_gui);
 				$mob_gui->setAdminTabs();
 				//$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-				$ret =& $mob_gui->executeCommand();
+				//$ret =& $mob_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
 
 

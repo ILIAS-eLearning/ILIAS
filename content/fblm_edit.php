@@ -44,9 +44,9 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 // editor GUI class does the rest
 require_once "./content/classes/class.ilObjFileBasedLMGUI.php";
 $ilCtrl->setTargetScript("fblm_edit.php");
-
-$ilCtrl->getCallStructure("ilObjFileBasedLMGUI");
+$ilCtrl->getCallStructure("ilobjfilebasedlmgui");
 $fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
-$fblm_gui->executeCommand();
+$ilCtrl->forwardCommand($fblm_gui);
+//$fblm_gui->executeCommand();
 
 ?>

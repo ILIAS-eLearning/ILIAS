@@ -31,6 +31,8 @@ require_once("classes/class.ilTabsGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilFileSystemGUI
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -52,11 +54,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 	}
 
-	function _forwards()
-	{
-		return array("ilFileSystemGUI");
-	}
-
 	/**
 	* execute command
 	*/
@@ -73,17 +70,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilfilesystemgui":
-//echo "<br>data_dir:".$this->object->getDataDirectory().":";
-				/*
-				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
-				if ($this->object->getStartFile() != "")
-				{
-					$fs_gui->labelFile($this->object->getStartFile(),
-						$this->lng->txt("cont_startfile"));
-				}
-				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
-				*/
-				$ret =& $this->fs_gui->executeCommand();
+				//$ret =& $this->fs_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
 				break;
 
 			default:

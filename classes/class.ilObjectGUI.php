@@ -854,7 +854,7 @@ class ilObjectGUI
 	function cutObject()
 	{
 		global $rbacsystem;
-
+//echo $_SESSION["referer"];
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -866,7 +866,7 @@ class ilObjectGUI
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($ref_id);
 			$subtree_nodes = $this->tree->getSubTree($node_data);
-			
+
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
 
@@ -1632,7 +1632,6 @@ class ilObjectGUI
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
-
 		$this->getTemplateFile("perm");
 		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
@@ -1727,7 +1726,7 @@ class ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", $this->ctrl->getLinkTarget($this,"addRole")));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole")));
 //			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
@@ -1736,6 +1735,7 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 //vd($this->link_params);
+
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
@@ -2470,7 +2470,7 @@ class ilObjectGUI
 			{
 				// can the current object contain a rolefolder?
 				$subobjects = $this->objDefinition->getSubObjects($this->object->getType());
-				
+
 				if (!isset($subobjects["rolf"]))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
@@ -2515,7 +2515,7 @@ class ilObjectGUI
 		sendInfo($this->lng->txt("role_added"),true);
 		$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
 		$this->ctrl->setParameter($this,"ref_id",$rolf_id);
-		
+
 		ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
 		#ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
 	}

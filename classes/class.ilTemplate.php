@@ -111,8 +111,19 @@ class ilTemplate extends ilTemplateX
 	* @param	string
 	* @return	string
 	*/
-	function get($part = "DEFAULT")
+	function get($part = "DEFAULT", $add_error_mess = false,
+		$handle_referer = false)
 	{
+		if ($add_error_mess)
+		{
+			$this->addErrorMessage();
+		}
+
+		if ($handle_referer)
+		{
+			$this->handleReferer();
+		}
+
 		if ($part == "DEFAULT")
 		{
 			return parent::get();
@@ -121,18 +132,11 @@ class ilTemplate extends ilTemplateX
 		{
 			return parent::get($part);
 		}
+
 	}
 
-	/**
-	* @access	public
-	* @param	string
-	*/
-	function show($part = "DEFAULT")
+	function addErrorMessage()
 	{
-		global $ilias;
-
-		header('Content-type: text/html; charset=UTF-8');
-
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		if ($_SESSION["message"] || $_SESSION["info"])
 		{
@@ -150,6 +154,19 @@ class ilTemplate extends ilTemplateX
 #			$this->parseCurrentBlock();
 			}
 		}
+	}
+
+	/**
+	* @access	public
+	* @param	string
+	*/
+	function show($part = "DEFAULT")
+	{
+		global $ilias;
+
+		header('Content-type: text/html; charset=UTF-8');
+
+		$this->addErrorMessage();
 
 		// display ILIAS footer
 		if ($part !== false)
@@ -175,6 +192,11 @@ class ilTemplate extends ilTemplateX
 			parent::show($part);
 		}
 
+		$this->handleReferer();
+	}
+
+	function handleReferer()
+	{
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "chat.php")))

@@ -37,6 +37,8 @@ include_once("classes/class.ilTabsGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilRepositoryGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI
+*
 * @package core
 */
 class ilRepositoryGUI
@@ -126,13 +128,6 @@ class ilRepositoryGUI
 		$this->media_pools = array();
 	}
 
-	/**
-	* get forward scripts
-	*/
-	function _forwards()
-	{
-		return array("ilObjGroupGUI","ilObjFolderGUI","ilObjFileGUI","ilObjCourseGUI");
-	}
 
 	/**
 	* execute command
@@ -150,7 +145,6 @@ class ilRepositoryGUI
 		}*/
 
 		$cmd = $this->ctrl->getCmd();
-
 		switch ($next_class)
 		{
 			case "ilobjgroupgui":
@@ -158,8 +152,9 @@ class ilRepositoryGUI
 				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);
 
 				$this->prepareOutput();
+				//$this->gui_obj->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 
-				$this->gui_obj->executeCommand();
 				$this->tpl->show();
 				break;
 
@@ -173,7 +168,8 @@ class ilRepositoryGUI
 
 				$this->prepareOutput();
 
-				$this->gui_obj->executeCommand();
+				//$this->gui_obj->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				$this->tpl->show();
 				break;
 
@@ -183,7 +179,8 @@ class ilRepositoryGUI
 
 				$this->prepareOutput();
 
-				$this->gui_obj->executeCommand();
+				//$this->gui_obj->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 				$this->tpl->show();
 				break;
 
@@ -826,8 +823,8 @@ class ilRepositoryGUI
 						break;
 
 					case "slm":
-						$read_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
-						$edit_link = "content/scorm_edit.php?ref_id=".$lr_data["ref_id"];
+						$read_link = "content/sahs_presentation.php?ref_id=".$lr_data["ref_id"];
+						$edit_link = "content/sahs_edit.php?ref_id=".$lr_data["ref_id"];
 						$desk_type = "slm";
 						break;
 

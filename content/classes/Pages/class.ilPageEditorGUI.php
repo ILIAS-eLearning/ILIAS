@@ -39,7 +39,13 @@ require_once ("classes/class.ilTabsGUI.php");
 * Page Editor GUI class
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
+*
+* @ilCtrl_Calls ilPageEditorGUI: ilPCParagraphGUI, ilPCTableGUI, ilPCTableDataGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI
 *
 * @package content
 */
@@ -135,6 +141,13 @@ class ilPageEditorGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	function setIntLinkHelpDefault($a_type, $a_id)
+	{
+		$this->int_link_def_type = $a_type;
+		$this->int_link_def_id = $a_id;
+	}
+
+
 	/**
 	* execute command
 	*/
@@ -142,6 +155,7 @@ class ilPageEditorGUI
 	{
 //echo "execute";
 		$cmd = $this->ctrl->getCmd();
+		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
 		$hier_id = $_GET["hier_id"];
 		if(isset($_POST["new_hier_id"]))
@@ -171,6 +185,7 @@ class ilPageEditorGUI
 		$cmd = $com[0];
 
 //echo "type:$type:cmd:$cmd:";
+		$next_class = $this->ctrl->getNextClass($this);
 
 		// determine content type
 		if ($cmd == "insert" || $cmd == "create")
@@ -179,16 +194,17 @@ class ilPageEditorGUI
 		}
 		else
 		{
-//echo $cmd;
-//echo "<br>is_object:".is_object($this->page).":";
+			// note: ilinternallinkgui for page: no cont_obj is received
+			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
-				$cmd != "setMediaMode")
+				$cmd != "setMediaMode" &&
+				$cmdClass != "ileditclipboardgui" &&
+				($cmdClass != "ilinternallinkgui" || $next_class == "ilobjmediaobjectgui"))
 			{
 				$cont_obj =& $this->page->getContentObject($hier_id);
 				$ctype = $cont_obj->getType();
 			}
 		}
-
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -205,7 +221,7 @@ class ilPageEditorGUI
 		// special command / command class handling
 		$this->ctrl->setParameter($this, "hier_id", $hier_id);
 		$this->ctrl->setCmd($cmd);
-		$next_class = $this->ctrl->getNextClass($this);
+		//$next_class = $this->ctrl->getNextClass($this);
 
 		if ($next_class == "")
 		{
@@ -214,7 +230,7 @@ class ilPageEditorGUI
 				case "src":
 					$this->ctrl->setCmdClass("ilPCSourcecodeGUI");
 					break;
-				
+
 				case "par":
 					$this->ctrl->setCmdClass("ilPCParagraphGUI");
 					break;
@@ -254,29 +270,44 @@ class ilPageEditorGUI
 
 		switch($next_class)
 		{
+			case "ilinternallinkgui":
+				$link_gui = new ilInternalLinkGUI(
+					$this->int_link_def_type, $this->int_link_def_id);
+				$link_gui->setMode("normal");
+				$link_gui->setSetLinkTargetScript(
+					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+				//$link_gui->filterLinkType("Media");
+				$ret =& $this->ctrl->forwardCommand($link_gui);
+				//$ret =& $link_gui->executeCommand();
+				break;
+
 			// Sourcecode
 			case "ilpcsourcecodegui":
 
 				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $src_gui->executeCommand();
+				//$ret =& $src_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($src_gui);
 				break;
 
 			// Paragraph
 			case "ilpcparagraphgui":
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $par_gui->executeCommand();
+				//$ret =& $par_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 
 			// Table
 			case "ilpctablegui":
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $tab_gui->executeCommand();
+				//$ret =& $tab_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
 			// Table Cell
 			case "ilpctabledatagui":
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $td_gui->executeCommand();
+				//$ret =& $td_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($td_gui);
 				break;
 
 			// PC Media Object
@@ -297,39 +328,47 @@ class ilPageEditorGUI
 				{
 					$pcmob_gui->getTabs($tabs_gui, true);
 				}
+
 				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+
 				if ($next_class == "ilpcmediaobjectgui")
 				{
-					$pcmob_gui->executeCommand();
+					//$pcmob_gui->executeCommand();
+					$ret =& $this->ctrl->forwardCommand($pcmob_gui);
 				}
 				else
 				{
-					$ret =& $mob_gui->executeCommand();
+					//$ret =& $mob_gui->executeCommand();
+					$ret =& $this->ctrl->forwardCommand($mob_gui);
 				}
 				break;
 
 			// List
 			case "ilpclistgui":
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $list_gui->executeCommand();
+				//$ret =& $list_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($list_gui);
 				break;
 
 			// List Item
 			case "ilpclistitemgui":
 				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $list_item_gui->executeCommand();
+				//$ret =& $list_item_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($list_item_gui);
 				break;
 
 			// File List
 			case "ilpcfilelistgui":
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $file_list_gui->executeCommand();
+				//$ret =& $file_list_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($file_list_gui);
 				break;
 
 			// File List Item
 			case "ilpcfileitemgui":
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
-				$ret =& $file_item_gui->executeCommand();
+				//$ret =& $file_item_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($file_item_gui);
 				break;
 
 			default:

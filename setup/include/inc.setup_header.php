@@ -62,6 +62,7 @@ require_once "./classes/class.Session.php";
 require_once "./classes/class.ilClientList.php";
 require_once "./classes/class.ilClient.php";
 require_once "../classes/class.ilFile.php";
+require_once "./classes/class.ilCtrlStructureReader.php";
 
 // include error_handling
 require_once "../classes/class.ilErrorHandling.php";
@@ -90,7 +91,7 @@ $sess = new Session();
 $lang = ($_GET["lang"]) ? $_GET["lang"] : $_SESSION["lang"];
 $_SESSION["lang"] = $lang;
 
-// init languages 
+// init languages
 $lng = new ilLanguage($lang);
 
 // init log
@@ -100,5 +101,8 @@ $log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
 // instantiate main template
 $tpl = new ilTemplate("./templates");
 $tpl->loadTemplatefile("tpl.main.html", true, true);
+
+// make instance of structure reader
+$ilCtrlStructureReader = new ilCtrlStructureReader();
 
 ?>

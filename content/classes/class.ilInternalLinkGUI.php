@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilLMPageObject.php");
+require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+
 /**
 * Class ilInternalLinkGUI
 *

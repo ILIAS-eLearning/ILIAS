@@ -390,9 +390,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cutPage()
 	{
+//echo "1";
+//unset($_SESSION["message"]);
+//echo $_SESSION["referer"];
 		if(!isset($_POST["id"]))
 		{
+//echo "2:".$_SESSION["message"].":";
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+
 		}
 		if(count($_POST["id"]) > 1)
 		{

@@ -24,7 +24,7 @@
 require_once("./content/classes/class.ilLMObjectGUI.php");
 require_once("./content/classes/class.ilLMPageObject.php");
 require_once("./content/classes/Pages/class.ilPageObjectGUI.php");
-require_once ("content/classes/class.ilEditClipboardGUI.php");
+//require_once ("content/classes/class.ilEditClipboardGUI.php");
 require_once ("content/classes/class.ilInternalLinkGUI.php");
 
 /**
@@ -33,7 +33,10 @@ require_once ("content/classes/class.ilInternalLinkGUI.php");
 * User Interface for Learning Module Page Objects Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
+*
 * @version $Id$
+*
+* @ilCtrl_Calls ilLMPageObjectGUI: ilPageObjectGUI
 *
 * @package content
 */
@@ -62,7 +65,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function _forwards()
 	{
-		return (array("ilPageObjectGUI", "ilInternalLinkGUI", "ilEditClipboardGUI"));
+		return (array("ilPageObjectGUI", "ilInternalLinkGUI"));
 	}
 
 	/**
@@ -80,7 +83,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
-//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":";
+//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":"; flush();
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -97,6 +100,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$int_links = $page_object->getInternalLinks();
 				$link_xml = $this->getLinkXML($int_links);
 				$page_gui =& new ilPageObjectGUI($page_object);
+				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);
 				$page_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
@@ -106,22 +110,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
-				$ret =& $page_gui->executeCommand();
-				break;
-
-			case "ilinternallinkgui":
-				$link_gui = new ilInternalLinkGUI("StructureObject", $this->content_object->getRefId());
-				$link_gui->setMode("normal");
-				$link_gui->setSetLinkTargetScript(
-					$this->ctrl->getLinkTarget($this, "setInternalLink"));
-				//$link_gui->filterLinkType("Media");
-				$ret =& $link_gui->executeCommand();
-				break;
-
-			case "ileditclipboardgui":
-				$this->ctrl->setReturn($this, "view");
-				$clip_gui = new ilEditClipboardGUI();
-				$ret =& $clip_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($page_gui);
+				//$ret =& $page_gui->executeCommand();
 				break;
 
 			default:
@@ -137,10 +127,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function view()
 	{
 //echo "<br>umschuss";
-		$this->setTabs();
 		$this->ctrl->setCmdClass("ilpageobjectgui");
 		$this->ctrl->setCmd("view");
 		$this->executeCommand();
+		$this->setTabs();
 	}
 
 	/*
@@ -148,10 +138,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function preview()
 	{
-		$this->setTabs();
 		$this->ctrl->setCmdClass("ilpageobjectgui");
 		$this->ctrl->setCmd("preview");
 		$this->executeCommand();
+		$this->setTabs();
 	}
 
 
@@ -173,6 +163,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		// obj_id is empty, if page is created from "all pages" screen
 		// -> a free page is created (not in the tree)
+//echo "<br>savePage:".$_GET["obj_id"].":";
 		if ($_GET["obj_id"] != 0)
 		{
 			$this->putInTree();
@@ -309,8 +300,15 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
 			, "editMeta", get_class($this));
 
-		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
-			, "view", "ilEditClipboardGUI");
+		$tabs = $this->ctrl->getTabs();
+		foreach ($tabs as $tab)
+		{
+			$tabs_gui->addTarget($tab["lang_var"], $tab["link"]
+				, $tab["cmd"], $tab["class"]);
+		}
+
+		//$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+		//	, "view", "ilEditClipboardGUI");
 
 	}
 
