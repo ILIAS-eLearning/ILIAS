@@ -466,6 +466,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $_GET["ref_id"] . " $where$order";
     $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
+   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" />";
+   	$img_preview = "<img src=\"" . ilUtil::getImagePath("preview.gif", true) . "\" alt=\"" . $this->lng->txt("preview") . "\" title=\"" . $this->lng->txt("preview") . "\" border=\"1\" />";
     $counter = 0;
     if ($query_result->numRows() > 0)
     {
@@ -474,11 +476,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
           if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-            $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
+						if ($this->object->is_in_use($data->question_id)) {
+	            $this->tpl->setVariable("EDIT", $img_locked);
+						} else {
+	            $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
+						}
           }
           $this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
+					//$this->lng->txt("preview")
           $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
+//					$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 					$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=$data->question_id" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" boder=\"0\" /></a>");
           $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);

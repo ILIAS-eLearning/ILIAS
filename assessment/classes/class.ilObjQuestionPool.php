@@ -376,5 +376,22 @@ class ilObjQuestionPool extends ilObject
 		parent::update();
 	}
 
+/**
+* Checks whether the question is in use or not
+*
+* Checks whether the question is in use or not
+*
+* @param integer $question_id The question id of the question to be checked
+* @return boolean The number of datasets which are affected by the use of the query.
+* @access public
+*/
+	function is_in_use($question_id) {
+		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
+			$this->ilias->db->quote("$question_id")
+		);
+		$result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->solution_count;
+	}
 } // END class.ilObjQuestionPool
 ?>
