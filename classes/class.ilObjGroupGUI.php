@@ -290,8 +290,9 @@ class ilObjGroupGUI extends ilObjectGUI
 			$data["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
 			$data["desc"] = $this->object->getDescription();
 			$data["registration"] = $this->object->getRegistrationFlag();
-			$data["password"] = $this->object->getPassword();			
+			$data["password"] = $this->object->getPassword();
 			$datetime = $this->object->getExpirationDateTime();
+			
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
 			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
 
