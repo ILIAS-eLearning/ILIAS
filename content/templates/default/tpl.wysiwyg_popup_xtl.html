@@ -54,7 +54,29 @@ function returnXtlLink()
 	
 	// alex changed
 	//opener.editor.insertHTML("<span class=\"iliasxln\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</span>");
-	opener.editor.insertHTML("<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>");
+	A = opener.getClearTags();
+	//alert(A[1]+" ... "+A[0]);
+	if (A[0]=="") {
+		opener.editor.insertHTML("<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>");
+	} else {
+		N = "<a class=\"ilc_ExtLink\" url=\""+document.form.externalurl.value+"\">"+document.form.externaltitle.value+"</a>";
+		S = opener.editor.getSelectedHTML();
+		opener.editor.insertHTML("#!#*#!#");
+		H = opener.editor.getHTML();
+		H = H.replace("#!#*#!#",A[1]+N+A[0]);
+		
+		for(k=0;k<20;k++) {
+			H = H.replace("<span class=\"ilc_Comment\"></span>","");
+			H = H.replace("<p>","");
+			H = H.replace("</p>","");
+			H = H.replace("<strong></strong>","");
+		}
+		
+		opener.editor.setHTML(H+"&nbsp;");
+		opener.editor.focusEditor();
+
+	}
+	
 	window.close();
 }
 </script>
