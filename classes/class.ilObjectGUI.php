@@ -1173,7 +1173,7 @@ class ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $objDefinition;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -1184,9 +1184,14 @@ class ilObjectGUI
 		}
 		else
 		{
+			$module = $objDefinition->getModule($_GET["new_type"]);
+			$module_dir = ($module == "")
+				? ""
+				: $module."/";
+
  			// create and insert object in objecttree
 			$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
-			include_once("classes/class.".$class_name.".php");
+			include_once($module_dir."classes/class.".$class_name.".php");
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
 			$newObj->setTitle($_POST["Fobject"]["title"]);

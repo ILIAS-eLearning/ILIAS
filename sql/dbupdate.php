@@ -1615,3 +1615,41 @@ $q = "DELETE FROM object_data WHERE title='lm_Author_rolt'";
 $this->db->query($q);
 
 ?>
+
+<#93>
+INSERT INTO object_data (type, title, description, owner, create_date, last_update) VALUES
+	('typ', 'glo', 'Glossary', -1, now(), now());
+
+<#94>
+<?php
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='glo'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$glo_id = $row->obj_id;
+
+$query = "SELECT * FROM object_data WHERE type='typ' AND title='lm'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$lm_id = $row->obj_id;
+
+$query = "SELECT * FROM rbac_ta WHERE typ_id='$lm_id'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('$glo_id','".$row->ops_id."')";
+	$this->db->query($query);
+}
+?>
+
+<#95>
+<?php
+$q = "SELECT * FROM rbac_templates WHERE type = 'lm'";
+$t_set = $this->db->query($q);
+while($t_rec = $t_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES".
+		" ('".$t_rec["rol_id"]."','glo','".$t_rec["ops_id"].
+		"','".$t_rec["parent"]."')";
+	$this->db->query($q);
+}
+?>
