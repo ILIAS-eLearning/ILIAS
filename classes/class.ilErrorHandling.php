@@ -87,7 +87,7 @@ class ilErrorHandling
 		}
 
 		if ($a_error_obj->getCode() == $this->MESSAGE)
-		{	
+		{
 			// check if already GET-Parameters exists in Referer-URI
 			if (substr($_SESSION["referer"],-4) == ".php")
 			{
