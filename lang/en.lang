@@ -1,4 +1,8 @@
 english
+lang_version#:#1
+lang_dateformat#:#MM/DD/YYYY
+sep_thousand#:#,
+sep_decimal#:#.
 accept_usr_agreement#:#accept user agreement?
 administrate#:#administrate
 administration#:#administration
