@@ -888,13 +888,13 @@ class ilObjGroup extends ilObject
 	function delete()
 	{
 		// always call parent delete function first!!
-		/*if (!parent::delete())
+		if (!parent::delete())
 		{
 			return false;
-		}*/
+		}
 		
 		$nodes = $this->getNoneRbacObjects();
-		//vd($nodes);exit;
+
 		foreach ($nodes as $node)
 		{
 			$obj = $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
