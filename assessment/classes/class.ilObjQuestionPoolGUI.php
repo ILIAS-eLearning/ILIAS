@@ -788,6 +788,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 // temporary disable imagemap and java questions
 				if ($data->type_tag != "qt_javaapplet" && $data->type_tag != "qt_imagemap")
+//				if ($data->type_tag != "qt_javaapplet")
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));

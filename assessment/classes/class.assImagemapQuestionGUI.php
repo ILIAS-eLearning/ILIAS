@@ -97,7 +97,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-		if (($this->ctrl->getCmd() == "addArea" or $this->ctrl->getCmd() == "getCoords") and (!$_POST["cmd"]["back"]) and ($this->ctrl->getCmd() != "saveShape"))
+		if (($this->ctrl->getCmd() == "addArea" or $this->ctrl->getCmd() == "getCoords") and ($this->ctrl->getCmd() != "saveShape"))
 		{
 			foreach ($this->object->coords as $key => $value)
 			{
@@ -238,12 +238,14 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$answer = $this->object->get_answer($i);
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
+				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
+				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-				if ($answer->is_true())
+				if ($answer->isStateSet())
 				{
-					$this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+					$this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
 				}
 				$coords = "";
 				switch ($answer->get_area())
@@ -355,6 +357,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
+	function back()
+	{
+		$this->editQuestion();
+	}
+
 	function saveShape()
 	{
 		$this->writePostData();
@@ -379,6 +386,25 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
+	function deleteArea()
+	{
+		$this->writePostData();
+		$checked_areas = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				array_push($checked_areas, $matches[1]);
+			}
+		}
+		rsort($checked_areas, SORT_NUMERIC);
+		foreach ($checked_areas as $index)
+		{
+			$this->object->deleteArea($index);
+		}
+		$this->editQuestion();
+	}
+
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
@@ -391,11 +417,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	{
 		$result = 0;
 		$saved = false;
-
-		if ($_POST["cmd"]["back"])
-		{
-			return $result;
-		}
 
 		if ($_GET["editmap"])
 		{
@@ -438,7 +459,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			{
 				$result = 1;
 			}
-
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
@@ -478,18 +498,18 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					{
 						if (preg_match("/answer_(\d+)/", $key, $matches))
 						{
-							if ($_POST["radio"] == $matches[1])
+							if ($_POST["status"] == $matches[1])
 							{
-								$is_true = TRUE;
+								$isSet = 1;
 							}
 							else
 							{
-								$is_true = FALSE;
+								$isSet = 0;
 							}
 							$this->object->add_answer(
 								ilUtil::stripSlashes($_POST["$key"]),
 								ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-								ilUtil::stripSlashes($is_true, $matches[1]),
+								ilUtil::stripSlashes($isSet),
 								$matches[1],
 								ilUtil::stripSlashes($_POST["coords_$matches[1]"]),
 								ilUtil::stripSlashes($_POST["area_$matches[1]"])
@@ -520,24 +540,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
 				}
 			}
-			if ($_POST["cmd"]["deletearea"])
-			{
-				$checked_areas = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/cb_(\d+)/", $key, $matches))
-					{
-						array_push($checked_areas, $matches[1]);
-					}
-				}
-				rsort($checked_areas, SORT_NUMERIC);
-				foreach ($checked_areas as $index)
-				{
-					$this->object->deleteArea($index);
-				}
-			}
 		}
-		if ($this->ctrl->getCmd == "addArea")
+		if ($this->ctrl->getCmd() == "addArea")
 		{
 			$this->object->saveToDb();
 			$saved = true;
