@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.56 2003/11/20 10:18:20 neiken Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.58 2003/11/25 10:47:07 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -36,7 +36,7 @@
 require_once "class.ilObjectGUI.php";
 
 class ilObjGroupGUI extends ilObjectGUI
-{	
+{
 	/**
 	* Constructor
 	* @access	public
@@ -224,7 +224,10 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		if($_POST["enable_registration"] == 2 && empty($_POST["password"]) || empty($_POST["expirationdate"]) || empty($_POST["expirationtime"]) )//Password-Registration Mode
+		{
+			$this->ilias->raiseError($this->lng->txt("grp_err_registration_data"),$this->ilias->error_obj->MESSAGE);
+		}
 		// check groupname
 		if ($grp->groupNameExists(ilUtil::stripSlashes($_POST["Fobject"]["title"]),$this->object->getId()))
 		{
@@ -234,26 +237,25 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError("No permissions to change group status!",$this->ilias->error_obj->WARNING);
 		}
+
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+
+		if($_POST["enable_registration"] == 2 && !ilUtil::isPassword($_POST["password"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->object->setRegistrationFlag($_POST["enable_registration"]);
+		$this->object->setPassword($_POST["password"]);
+		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
+
 		if($_POST["group_reset"] == 1)
 		{
 			$this->object->setGroupStatus($_POST["group_status"]);
 		}
-		$this->object->setRegistrationFlag($_POST["enable_registration"]);
-		$this->object->setPassword($_POST["password"]);
-		$this->object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
 
-/*
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->object->setGroupStatus($_POST["group_status"]);
-		$this->object->setRegistrationFlag($_POST["enable_registration"]);
+		$this->update = $this->object->update();
 
-		// update object data
-		$this->update = $this->object->update();
-*/
-		$this->update = $this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 		header("Location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->object->getRefId()));
 		exit();
@@ -346,6 +348,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
 
 		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
+		$this->tpl->setVariable("TXT_EXPIRATIONTIME", $this->lng->txt("group_registration_expiration_time"));		
 		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
 		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
 
@@ -603,19 +606,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$stati = array();
 		$stati = $flipped_local_roles;
 
-//		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
-
 		//build data structure
 		foreach($member_ids as $member_id)
 		{
-			$member =& $ilias->obj_factory->getInstanceByObjId($member_id);
-			$mem_status = $newGrp->getMemberStatus($member_id);
+			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
+			$mem_status = $newGrp->getMemberRoles($member_id);
 
 			$this->data["data"][$member->getId()]= array(
 				"login"        => $member->getLogin(),
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
-				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."]",$stati,false,true)
+				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."][]",$stati,true,true,3)
 				);
 			unset($member);
 		}
@@ -810,17 +811,33 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			}
 
+			$grp_role_id = $newGrp->getMemberRoles($member->getId());
+			$str_member_roles ="";
+			if(is_array($grp_role_id))
+			{
+				$count = count($grp_role_id);
+				foreach($grp_role_id as $role_id)
+				{
+					$count--;
+					$newObj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+					$str_member_roles .= $newObj->getTitle();
+					if($count > 0)
+						$str_member_roles .= ",";
+				}
+			}
+			else
+			{
+				$newObj =& $this->ilias->obj_factory->getInstanceByObjId($grp_role_id);
+				$str_member_roles = $newObj->getTitle();
+			}
 
-
-			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
-			$newObj	     = new ilObject($grp_role_id,false);
 
 			$this->data["data"][$member->getId()]= array(
 			        "check"		=> ilUtil::formCheckBox(0,"user_id[]",$member->getId()),
 				"login"        => $member->getLogin(),
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
-				"grp_role" => $newObj->getTitle(),
+				"grp_role" => $str_member_roles,
 				"functions" => "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions
 				);
 			unset($member_functions);
