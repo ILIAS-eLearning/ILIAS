@@ -788,7 +788,7 @@ class ilLMPresentationGUI
 		$page_id = $this->getCurrentPageId();
 		$this->tpl = new ilTemplate("tpl.page.html",true,true,true);
 		$this->ilLocator();
-		#$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
+		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 
 		include_once("content/classes/Pages/class.ilPageObject.php");
 
