@@ -2300,6 +2300,149 @@ class ilLMPresentationGUI
 	}
 	
 	/**
+	* show download list
+	*/
+	function showDownloadList()
+	{
+		global $ilBench;
+
+		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
+		$this->tpl->setCurrentBlock("ContentStyle");
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_download_list.html", true);
+
+		// set title header
+		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
+		$this->tpl->setVariable("LINK_BACK",
+			"lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("DOWNLOAD_TABLE", "download_table", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", true);
+
+		$export_files = array();
+		$types = array("xml", "html");
+		foreach($types as $type)
+		{
+			if ($this->lm->getPublicExportFile($type) != "")
+			{
+				$dir = $this->lm->getExportDirectory($type);
+				$size = filesize($this->lm->getExportDirectory($type)."/".
+					$this->lm->getPublicExportFile($type));
+				$export_files[] = array("type" => $type,
+					"file" => $this->lm->getPublicExportFile($type),
+					"size" => $size);
+			}
+		}
+		
+		$num = 0;
+		
+		$tbl->setTitle($this->lng->txt("download"));
+
+		$tbl->setHeaderNames(array($this->lng->txt("cont_format"),
+			$this->lng->txt("cont_file"),
+			$this->lng->txt("size"), $this->lng->txt("date"),
+			""));
+
+		$cols = array("format", "file", "size", "date", "download");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "showDownloadList", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
+				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
+
+				$file_arr = explode("__", $exp_file["file"]);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+				
+				$this->tpl->setVariable("TXT_DOWNLOAD", $this->lng->txt("download"));
+				$this->tpl->setVariable("LINK_DOWNLOAD", "lm_presentation.php?cmd=downloadExportFile&type=".
+					$exp_file["type"]."&ref_id=".$_GET["ref_id"]);
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 5);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->show();
+	}
+
+	
+	/**
+	* send download file (xml/html)
+	*/
+	function downloadExportFile()
+	{
+		$file = $this->lm->getPublicExportFile($_GET["type"]);
+		if ($this->lm->getPublicExportFile($_GET["type"]) != "")
+		{
+			$dir = $this->lm->getExportDirectory($_GET["type"]);
+			if (is_file($dir."/".$file))
+			{
+				ilUtil::deliverFile($dir."/".$file, $file);
+				exit;
+			}
+		}
+		$this->ilias->raiseError($this->lng->txt("file_not_found"),$this->ilias->error_obj->MESSAGE);
+	}
+
+	
+	/**
 	* handles links for learning module presentation
 	*/
 	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "")

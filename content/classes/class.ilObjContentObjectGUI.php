@@ -265,6 +265,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// clean frames
 		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_clean_frames"));
+		$this->tpl->setVariable("TXT_CLEAN_FRAMES_DESC", $this->lng->txt("cont_clean_frames_desc"));
 		$this->tpl->setVariable("CBOX_CLEAN_FRAMES", "cobj_clean_frames");
 		$this->tpl->setVariable("VAL_CLEAN_FRAMES", "y");
 		if ($this->object->cleanFrames())
@@ -274,6 +275,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		
 		// history user comments
 		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS", $this->lng->txt("enable_hist_user_comments"));
+		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS_DESC", $this->lng->txt("enable_hist_user_comments_desc"));
 		$this->tpl->setVariable("CBOX_HIST_USER_COMMENTS", "cobj_user_comments");
 		$this->tpl->setVariable("VAL_HIST_USER_COMMENTS", "y");
 		if ($this->object->isActiveHistoryUserComments())
@@ -307,6 +309,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if ($this->object->isActivePrintView())
 		{
 			$this->tpl->setVariable("CHK_PRINT", "checked");
+		}
+
+		// downloads
+		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
+		$this->tpl->setVariable("TXT_DOWNLOADS_DESC", $this->lng->txt("cont_downloads_desc"));
+		$this->tpl->setVariable("CBOX_DOWNLOADS", "cobj_act_downloads");
+		$this->tpl->setVariable("VAL_DOWNLOADS", "y");
+		if ($this->object->isActiveDownloads())
+		{
+			$this->tpl->setVariable("CHK_DOWNLOADS", "checked");
 		}
 
 		$this->tpl->setCurrentBlock("commands");
@@ -639,6 +651,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setActiveNumbering(ilUtil::yn2tf($_POST["cobj_act_number"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
+		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
 		$this->object->updateProperties();
@@ -2055,6 +2068,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
 		
 		$file = explode(":", $_POST["file"][0]);
 		$export_dir = $this->object->getExportDirectory($file[0]);
@@ -2260,6 +2277,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tpl_menu->parseCurrentBlock();
 		}
 
+		// print view
 		if ($this->object->isActivePrintView())
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
@@ -2271,6 +2289,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 		}
 
+		// download
+		if ($this->object->isActiveDownloads() && !$a_offline)
+		{
+			$tpl_menu->setVariable("BTN_LINK", "./lm_presentation.php?cmd=showDownloadList&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$tpl_menu->setVariable("BTN_TXT", $this->lng->txt("download"));
+						$tpl_menu->setVariable("BTN_TARGET", $buttonTarget);
+			$tpl_menu->parseCurrentBlock();
+		}
+		
 		return $tpl_menu->get();
 		//return "";
 	}

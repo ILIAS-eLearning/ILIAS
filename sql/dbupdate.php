@@ -5268,4 +5268,6 @@ INDEX ( `question_fi` )
 );
 <#372>
 ALTER TABLE `survey_material` ADD `material_title` VARCHAR( 255 ) AFTER `import_id` ;
+<#373>
+ALTER TABLE content_object ADD COLUMN downloads_active ENUM('y','n') DEFAULT 'n';
 

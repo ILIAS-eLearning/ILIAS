@@ -676,6 +676,16 @@ class ilObjContentObject extends ilObject
 		return $this->print_view_active;
 	}
 
+	function setActiveDownloads($a_down)
+	{
+		$this->downloads_active = $a_down;
+	}
+
+	function isActiveDownloads()
+	{
+		return $this->downloads_active;
+	}
+
 	function setCleanFrames($a_clean)
 	{
 		$this->clean_frames = $a_clean;
@@ -717,6 +727,7 @@ class ilObjContentObject extends ilObject
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
+		$this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
@@ -739,6 +750,7 @@ class ilObjContentObject extends ilObject
 			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
 			" numbering = '".ilUtil::tf2yn($this->isActiveNumbering())."',".
 			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
+			" downloads_active = '".ilUtil::tf2yn($this->isActiveDownloads())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
 			" public_access_mode = '".$this->getPublicAccessMode()."',".
