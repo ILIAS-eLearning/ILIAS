@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.8 2003/08/14 15:23:15 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.9 2003/08/19 12:21:45 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -166,6 +166,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["unzip_path"] = $_POST["unzip_path"];
 				$settings["java_path"] = $_POST["java_path"];
 				$settings["babylon_path"] = $_POST["babylon_path"];
+				$settings["htmldoc_path"] = $_POST["htmldoc_path"];
 
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
@@ -217,6 +218,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->setSetting("unzip_path",$_POST["unzip_path"]);
 				$ilias->setSetting("java_path",$_POST["java_path"]);
 				$ilias->setSetting("babylon_path",$_POST["babylon_path"]);
+				$ilias->setSetting("htmldoc_path",$_POST["htmldoc_path"]);
 
 				// modules
 				$ilias->setSetting("pub_section",$_POST["pub_section"]);
@@ -287,6 +289,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_UNZIP_PATH", $lng->txt("path_to_unzip"));
 		$tpl->setVariable("TXT_JAVA_PATH", $lng->txt("path_to_java"));
 		$tpl->setVariable("TXT_BABYLON_PATH", $lng->txt("path_to_babylon"));
+		$tpl->setVariable("TXT_HTMLDOC_PATH", $lng->txt("path_to_htmldoc"));
 
 		// modules
 		$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
@@ -398,6 +401,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
 		$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
 		$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
+		$tpl->setVariable("HTMLDOC_PATH",$settings["htmldoc_path"]);
 
 		// modules
 		if ($settings["pub_section"])
