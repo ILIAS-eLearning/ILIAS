@@ -750,13 +750,15 @@ class ilNestedSetXML
 	/**
 	*	parse XML code and add it to a given DOM object as a new node
 	*/
-	function addXMLNode($xPath, $xml) 
+	function addXMLNode($xPath, $xml, $index = 0) 
 	{
 		$newDOM = new XML2DOM($xml);
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
+#		echo "addXMLNode() -> Index: " . $index . " | Path: " . $xPath . "<br>\n";
+#		echo htmlspecialchars($xml) . "<br>\n";
 		if (count($nodes) > 0)
 		{
-			$newDOM->insertNode($this->dom, $nodes[0]);
+			$newDOM->insertNode($this->dom, $nodes[$index]);
 #			echo htmlspecialchars($this->dom->dump_mem(0));
 			return true;
 		}
@@ -774,6 +776,8 @@ class ilNestedSetXML
 		$content = "";
 		if (is_object($this->dom))
 		{
+#			echo $xPath;
+#			echo htmlspecialchars($this->dom->dump_mem(0));
 			$node = $this->getXpathNodes($this->dom,$xPath);
 			$c = $node[0]->children();
 			$content = $c[0]->content;
@@ -784,25 +788,49 @@ class ilNestedSetXML
 	/**
 	*	deletes node
 	*/
-	function deleteDomNode($xPath, $index) 
+	function deleteDomNode($xPath, $name, $index) 
 	{
-		$nodes = $this->getXpathNodes($this->dom, $xPath);
-		if (count($nodes) > 0 &&
-			$index < count($nodes))
+		if (strpos($index, ","))
 		{
-			$nodes[$index]->unlink_node();
-			return true;
+			$indices = explode(",", $index);
+			$nodes = $this->getXpathNodes($this->dom, $xPath);
+			if (count($nodes) > 0)
+			{
+				$children = $nodes[$indices[0]]->child_nodes();
+				if (count($children) > 0)
+				{
+					$j = 0;
+					for ($i = 0; $i < count($children); $i++)
+					{
+						if ($children[$i]->tagname == $name)
+						{
+							if ($j == $indices[1])
+							{
+								$children[$i]->unlink_node();
+								return true;
+							}
+							$j++;
+						}
+					}
+				}
+			}
 		}
 		else
 		{
-			return false;
+			$nodes = $this->getXpathNodes($this->dom, $xPath . "/" . $name);
+			if (count($nodes) > 0)
+			{
+				$nodes[$index]->unlink_node();
+				return true;
+			}
 		}
+		return false;
 	}	
 	
 	/**
 	*	adds node
 	*/
-	function addDomNode($xPath, $name, $value = "", $attributes = "") 
+	function addDomNode($xPath, $name, $value = "", $attributes = "", $index = 0) 
 	{
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 		if (count($nodes) > 0)
@@ -819,7 +847,7 @@ class ilNestedSetXML
 					$node->set_attribute($attributes[$i]["name"], utf8_encode($attributes[$i]["value"]));
 				}
 			}
-			$nodes[0]->append_child($node);
+			$nodes[$index]->append_child($node);
 			return true;
 		}
 		else
@@ -829,105 +857,294 @@ class ilNestedSetXML
 	}	
 	
 	/**
-	*	adds node
+	*	updates dom node
 	*/
 	function updateDomNode($xPath, $meta, $no = 0) 
 	{
+		$update = false;
+
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 #		echo "Path: " . $xPath . "<br>\n";
 #		var_dump("<pre>", $meta, "</pre>");
 #		var_dump("<pre>", $nodes, "</pre>");
 		if (count($nodes) > 0)
 		{
+
+#echo $nodes[0]->node_name();
 			/* General */
 			if ($nodes[0]->node_name() == "General")
 			{
-				$nodes[0]->set_attribute("Structure", $meta["structure"]);
 
-				$del = $this->getXpathNodes($this->dom, $xPath . "/Title");
-				if (count($del) > 0)
-				for ($i = 0; $i < count($del); $i++)
+				$xml = '<General Structure="' . $meta["Structure"] . '">';
+				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$del[$i]->unlink_node();
+					$xml .= '<Identifier Catalog="' . utf8_encode($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  utf8_encode($meta["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Identifier"][$i]["Value"]) . '</Identifier>';
 				}
-				$node = $this->dom->create_element("Title");
-				$node->set_attribute("Language", $meta["title_language"]);
-				$node->set_content(utf8_encode($meta["title_value"]));
-				$nodes[0]->append_child($node);
-				unset($node);
+				$xml .= '<Title Language="' . $meta["Title"]["Language"] . '">' . utf8_encode($meta["Title"]["Value"]) . '</Title>';
+				for ($i = 0; $i < count($meta["Language"]); $i++)
+				{
+					$xml .= '<Language Language="' . $meta["Language"][$i]["Language"] . '">' . $meta["Language"][$i]["Value"] . '</Language>';
+				}
+				for ($i = 0; $i < count($meta["Description"]); $i++)
+				{
+					$xml .= '<Description Language="' . $meta["Description"][$i]["Language"] . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+				}
+				for ($i = 0; $i < count($meta["Keyword"]); $i++)
+				{
+					$xml .= '<Keyword Language="' . $meta["Keyword"][$i]["Language"] . '">' . utf8_encode($meta["Keyword"][$i]["Value"]) . '</Keyword>';
+				}
+				if ($meta["Coverage"] != "")
+				{
+					$xml .= '<Coverage Language="' . $meta["Coverage"]["Language"] . '">' . utf8_encode($meta["Coverage"]["Value"]) . '</Coverage>';
+				}
+				$xml .= '</General>';
+#				echo htmlspecialchars($xml);
 
-				$del = $this->getXpathNodes($this->dom, $xPath . "/Keyword");
-				if (count($del) > 0)
-				for ($i = 0; $i < count($del); $i++)
+				$update = true;
+			}
+
+			/* Lifecycle */
+			else if ($nodes[0]->node_name() == "Lifecycle")
+			{
+				$xml = '<Lifecycle Status="' . $meta["Status"] . '">';
+				$xml .= '<Version Language="' . $meta["Version"]["Language"] . '">' . utf8_encode($meta["Version"]["Value"]) . '</Version>';
+				for ($i = 0; $i < count($meta["Contribute"]); $i++)
 				{
-					$del[$i]->unlink_node();
-				}
-				if (is_array($meta["keyword_value"]))
-				{
-					for ($i = 0; $i < count($meta["keyword_value"]); $i++)
+					$xml .= '<Contribute Role="' . utf8_encode($meta["Contribute"][$i]["Role"]) . '">';
+					$xml .= '<Date>' . utf8_encode($meta["Contribute"][$i]["Date"]) . '</Date>';
+					for ($j = 0; $j < count($meta["Contribute"][$i]["Entity"]); $j++)
 					{
-						$node = $this->dom->create_element("Keyword");
-						$node->set_attribute("Language", $meta["keyword_language"][$i]);
-						$node->set_content(utf8_encode($meta["keyword_value"][$i]));
-						$nodes[0]->append_child($node);
-						unset($node);
+						$xml .= '<Entity>' . utf8_encode($meta["Contribute"][$i]["Entity"][$j]) . '</Entity>';
+					}
+					$xml .= '</Contribute>';
+				}
+				$xml .= '</Lifecycle>';
+#				echo htmlspecialchars($xml);
+
+				$update = true;
+			}
+
+			/* Meta-Metadata */
+			else if ($nodes[0]->node_name() == "Meta-Metadata")
+			{
+
+				$xml = '<Meta-Metadata MetadataScheme="' . $meta["MetadataScheme"] . '" Language="' . $meta["Language"] . '">';
+				$xml .= '<Version Language="' . $meta["Version"]["Language"] . '">' . utf8_encode($meta["Version"]["Value"]) . '</Version>';
+				for ($i = 0; $i < count($meta["Identifier"]); $i++)
+				{
+					$xml .= '<Identifier Catalog="' . utf8_encode($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  utf8_encode($meta["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Identifier"][$i]["Value"]) . '</Identifier>';
+				}
+				for ($i = 0; $i < count($meta["Contribute"]); $i++)
+				{
+					$xml .= '<Contribute Role="' . utf8_encode($meta["Contribute"][$i]["Role"]) . '">';
+					$xml .= '<Date>' . utf8_encode($meta["Contribute"][$i]["Date"]) . '</Date>';
+					for ($j = 0; $j < count($meta["Contribute"][$i]["Entity"]); $j++)
+					{
+						$xml .= '<Entity>' . utf8_encode($meta["Contribute"][$i]["Entity"][$j]) . '</Entity>';
+					}
+					$xml .= '</Contribute>';
+				}
+				$xml .= '</Meta-Metadata>';
+
+				$update = true;
+			}
+
+			/* Technical */
+			else if ($nodes[0]->node_name() == "Technical")
+			{
+
+				$xml = '<Technical>';
+				for ($i = 0; $i < count($meta["Format"]); $i++)
+				{
+					$xml .= '<Format>' . $meta["Format"][$i] . '</Format>';
+				}
+				if ($meta["Size"] != "")
+				{
+					$xml .= '<Size>' . $meta["Size"] . '</Size>';
+				}
+				for ($i = 0; $i < count($meta["Location"]); $i++)
+				{
+					$xml .= '<Location Type="' . $meta["Location"][$i]["Type"] . '">' . utf8_encode($meta["Location"][$i]["Value"]) . '</Location>';
+				}
+				if (is_array($meta["Requirement"]))
+				{
+					for ($i = 0; $i < count($meta["Requirement"]); $i++)
+					{
+						$xml .= '<Requirement>';
+						$xml .= '<Type>';
+						if (is_array($meta["Requirement"][$i]["Type"]["OperatingSystem"]))
+						{
+							$xml .= '<OperatingSystem Name="' . $meta["Requirement"][$i]["Type"]["OperatingSystem"]["Name"] . '" MinimumVersion="' . $meta["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"] . '" MaximumVersion="' . $meta["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"] . '"/>';
+						}
+						if (is_array($meta["Requirement"][$i]["Type"]["Browser"]))
+						{
+							$xml .= '<Browser Name="' . $meta["Requirement"][$i]["Type"]["Browser"]["Name"] . '" MinimumVersion="' . $meta["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"] . '" MaximumVersion="' . $meta["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"] . '"/>';
+						}
+						$xml .= '</Type>';
+						$xml .= '</Requirement>';
 					}
 				}
-
-				$del = $this->getXpathNodes($this->dom, $xPath . "/Identifier");
-				if (count($del) > 0)
-				for ($i = 0; $i < count($del); $i++)
+				else if (is_array($meta["OrComposite"]))
 				{
-					$del[$i]->unlink_node();
-				}
-				if (is_array($meta["identifier_value"]))
-				{
-					for ($i = 0; $i < count($meta["identifier_value"]); $i++)
+					for ($j = 0; $j < count($meta["OrComposite"]); $j++)
 					{
-						$node = $this->dom->create_element("Identifier");
-						$node->set_attribute("Catalog", utf8_encode($meta["identifier_catalog"][$i]));
-						$node->set_attribute("Entry", utf8_encode($meta["identifier_entry"][$i]));
-						$node->set_content(utf8_encode($meta["identifier_value"][$i]));
-						$nodes[0]->append_child($node);
-						unset($node);
+						$xml .= '<OrComposite>';
+						for ($i = 0; $i < count($meta["OrComposite"][$j]["Requirement"]); $i++)
+						{
+							$xml .= '<Requirement>';
+							$xml .= '<Type>';
+							if (is_array($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]))
+							{
+								$xml .= '<OperatingSystem Name="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["Name"] . '" MinimumVersion="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MinimumVersion"] . '" MaximumVersion="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["OperatingSystem"]["MaximumVersion"] . '"/>';
+							}
+							if (is_array($meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]))
+							{
+								$xml .= '<Browser Name="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["Name"] . '" MinimumVersion="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MinimumVersion"] . '" MaximumVersion="' . $meta["OrComposite"][$j]["Requirement"][$i]["Type"]["Browser"]["MaximumVersion"] . '"/>';
+							}
+							$xml .= '</Type>';
+							$xml .= '</Requirement>';
+						}
+						$xml .= '</OrComposite>';
 					}
 				}
+				if (is_array($meta["InstallationRemarks"]))
+				{
+					$xml .= '<InstallationRemarks Language="' . $meta["InstallationRemarks"]["Language"] . '">' . utf8_encode($meta["InstallationRemarks"]["Value"]) . '</InstallationRemarks>';
+				}
+				if (is_array($meta["OtherPlattformRequirements"]))
+				{
+					$xml .= '<OtherPlattformRequirements Language="' . $meta["OtherPlattformRequirements"]["Language"] . '">' . utf8_encode($meta["OtherPlattformRequirements"]["Value"]) . '</OtherPlattformRequirements>';
+				}
+				if ($meta["Duration"] != "")
+				{
+					$xml .= '<Duration>' . utf8_encode($meta["Duration"]) . '</Duration>';
+				}
+				$xml .= '</Technical>';
+				echo htmlspecialchars($xml);
 
-				$del = $this->getXpathNodes($this->dom, $xPath . "/Language");
-				if (count($del) > 0)
-				for ($i = 0; $i < count($del); $i++)
-				{
-					$del[$i]->unlink_node();
-				}
-				if (is_array($meta["language_value"]))
-				{
-					for ($i = 0; $i < count($meta["language_value"]); $i++)
-					{
-						$node = $this->dom->create_element("Language");
-						$node->set_attribute("Language", $meta["language_language"][$i]);
-						$node->set_content($meta["language_value"][$i]);
-						$nodes[0]->append_child($node);
-						unset($node);
-					}
-				}
+				$update = true;
+			}
 
-				$del = $this->getXpathNodes($this->dom, $xPath . "/Description");
-				if (count($del) > 0)
-				for ($i = 0; $i < count($del); $i++)
+			/* Educational */
+			else if ($nodes[0]->node_name() == "Educational")
+			{
+
+				$xml = '<Educational InteractivityType="' . $meta["InteractivityType"] . '" LearningResourceType="' . $meta["LearningResourceType"] . '" InteractivityLevel="' . $meta["InteractivityLevel"] . '" SemanticDensity="' . $meta["SemanticDensity"] . '" IntendedEndUserRole="' . $meta["IntendedEndUserRole"] . '" Context="' . $meta["Context"] . '" Difficulty="' . $meta["Difficulty"] . '">';
+				$xml .= '<TypicalLearningTime>' . utf8_encode($meta["TypicalLearningTime"]) . '</TypicalLearningTime>';
+				for ($i = 0; $i < count($meta["TypicalAgeRange"]); $i++)
 				{
-					$del[$i]->unlink_node();
+					$xml .= '<TypicalAgeRange Language="' . utf8_encode($meta["TypicalAgeRange"][$i]["Language"]) . '">' . utf8_encode($meta["TypicalAgeRange"][$i]["Value"]) . '</TypicalAgeRange>';
 				}
-				if (is_array($meta["description_value"]))
+				for ($i = 0; $i < count($meta["Description"]); $i++)
 				{
-					for ($i = 0; $i < count($meta["description_value"]); $i++)
+					$xml .= '<Description Language="' . utf8_encode($meta["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+				}
+				for ($i = 0; $i < count($meta["Language"]); $i++)
+				{
+					$xml .= '<Language Language="' . utf8_encode($meta["Language"][$i]["Language"]) . '">' . utf8_encode($meta["Language"][$i]["Value"]) . '</Language>';
+				}
+				$xml .= '</Educational>';
+
+				$update = true;
+			}
+
+			/* Rights */
+			else if ($nodes[0]->node_name() == "Rights")
+			{
+
+				$xml = '<Rights Cost="' . $meta["Cost"] . '" CopyrightAndOtherRestrictions="' . $meta["CopyrightAndOtherRestrictions"] . '">';
+				for ($i = 0; $i < count($meta["Description"]); $i++)
+				{
+					$xml .= '<Description Language="' . utf8_encode($meta["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Description"][$i]["Value"]) . '</Description>';
+				}
+				$xml .= '</Rights>';
+
+				$update = true;
+			}
+
+			/* Relation */
+			else if ($nodes[0]->node_name() == "Relation")
+			{
+
+#				for ($j = 0; $j < count($meta["Relation"]); $j++)
+#				{
+					$meta["Relation"][0] = $meta;
+					$j = 0;
+					$xml = '<Relation Kind="' . $meta["Relation"][$j]["Kind"] . '">';
+					$xml .= '<Resource>';
+					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Identifier"]); $i++)
 					{
-						$node = $this->dom->create_element("Description");
-						$node->set_attribute("Language", $meta["description_language"][$i]);
-						$node->set_content(utf8_encode($meta["description_value"][$i]));
-						$nodes[0]->append_child($node);
-						unset($node);
+						$xml .= '<Identifier_ Catalog="' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Catalog"]) . '" Entry="' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Entry"]) . '">' . utf8_encode($meta["Relation"][$j]["Resource"]["Identifier"][$i]["Value"]) . '</Identifier_>';
 					}
-				}
+					for ($i = 0; $i < count($meta["Relation"][$j]["Resource"]["Description"]); $i++)
+					{
+						$xml .= '<Description Language="' . utf8_encode($meta["Relation"][$j]["Resource"]["Description"][$i]["Language"]) . '">' . utf8_encode($meta["Relation"][$j]["Resource"]["Description"][$i]["Value"]) . '</Description>';
+					}
+					$xml .= '</Resource>';
+					$xml .= '</Relation>';
+#					echo htmlspecialchars($xml);
+#				}
+
+				$update = true;
+			}
+
+			/* Annotation */
+			else if ($nodes[0]->node_name() == "Annotation")
+			{
+
+#				for ($i = 0; $i < count($meta["Annotation"]); $i++)
+#				{
+					$meta["Annotation"][0] = $meta;
+					$i = 0;
+					$xml = '<Annotation>';
+					$xml .= '<Entity>' . utf8_encode($meta["Annotation"][$i]["Entity"]) . '</Entity>';
+					$xml .= '<Date>' . utf8_encode($meta["Annotation"][$i]["Date"]) . '</Date>';
+					$xml .= '<Description Language="' . utf8_encode($meta["Annotation"][$i]["Description"]["Language"]) . '">' . utf8_encode($meta["Annotation"][$i]["Description"]["Value"]) . '</Description>';
+					$xml .= '</Annotation>';
+#					echo htmlspecialchars($xml);
+#				}
+
+				$update = true;
+			}
+
+			/* Classification */
+			else if ($nodes[0]->node_name() == "Classification")
+			{
+
+#				for ($j = 0; $j < count($meta["Classification"]); $j++)
+#				{
+					$meta["Classification"][0] = $meta;
+					$j = 0;
+					$xml = '<Classification Purpose="' . $meta["Classification"][$j]["Purpose"] . '">';
+					for ($k = 0; $k < count($meta["Classification"][$j]["TaxonPath"]); $k++)
+					{
+						$xml .= '<TaxonPath>';
+						$xml .= '<Source Language="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Language"]) . '">' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Source"]["Value"]) . '</Source>';
+						for ($i = 0; $i < count($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"]); $i++)
+						{
+							$xml .= '<Taxon Language="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Language"]) . '" Id="' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Id"]) . '">' . utf8_encode($meta["Classification"][$j]["TaxonPath"][$k]["Taxon"][$i]["Value"]) . '</Taxon>';
+						}
+						$xml .= '</TaxonPath>';
+					}
+					$xml .= '<Description Language="' . utf8_encode($meta["Classification"][$j]["Description"]["Language"]) . '">' . utf8_encode($meta["Classification"][$j]["Description"]["Value"]) . '</Description>';
+					for ($i = 0; $i < count($meta["Classification"][$j]["Keyword"]); $i++)
+					{
+						$xml .= '<Keyword Language="' . $meta["Classification"][$j]["Keyword"][$i]["Language"] . '">' . utf8_encode($meta["Classification"][$j]["Keyword"][$i]["Value"]) . '</Keyword>';
+					}
+					$xml .= '</Classification>';
+#					echo htmlspecialchars($xml);
+#				}
+
+				$update = true;
+			}
+
+			if ($update)
+			{
+				$nodes[0]->unlink_node();
+
+				$xPath = "//MetaData";
+				$this->addXMLNode($xPath, $xml);
+#				echo htmlspecialchars($this->dom->dump_mem(0));
 			}
 
 			return true;
@@ -941,27 +1158,35 @@ class ilNestedSetXML
 	/**
 	*	returns all contents of this node
 	*/
-	function getDomContent($xPath) 
+	function getDomContent($xPath, $name = "", $index = 0) 
 	{
-		$nodes = $this->getXpathNodes($this->dom,$xPath);
+#		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
+		$nodes = $this->getXpathNodes($this->dom, $xPath);
 		if (count($nodes) > 0)
 		{
-			for ($i = 0; $i < count($nodes); $i++)
+			$children = $nodes[$index]->child_nodes();
+			if (count($children) > 0)
 			{
-				$content[$i]["value"] = $nodes[$i]->get_content();
-#				echo $nodes[$i]->node_name() . ": " . $content[$i]["value"] . "<br>\n";
-				$a = $nodes[$i]->attributes();
-				for ($j = 0; $j < count($a); $j++)
+				$k = 0;
+				for ($i = 0; $i < count($children); $i++)
 				{
-					$content[$i][$a[$j]->name] = $a[$j]->value;
+					if ($name == "" ||
+						$children[$i]->tagname == $name)
+					{
+						$content[$k]["value"] = $children[$i]->get_content();
+						$a = $children[$i]->attributes();
+						for ($j = 0; $j < count($a); $j++)
+						{
+							$content[$k][$a[$j]->name] = $a[$j]->value;
+						}
+						$k++;
+					}
 				}
+#				vd($content);
+				return($content);
 			}
-			return($content);
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}	
 	
 	function getFirstDomNode($xPath) 

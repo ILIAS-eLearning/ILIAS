@@ -197,14 +197,19 @@ class ilLMObject
 	*/
 	function updateMetaData()
 	{
-		// update object data
-		$query = "UPDATE lm_data SET title = '".$this->getTitle()."'".
-			", import_id = '".$this->getImportId()."'".
-			" WHERE obj_id= '".$this->getId()."'";
-		$this->ilias->db->query($query);
-
-		// create meta data
 		$this->meta_data->update();
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->title = $meta[0]["Value"];
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->description = $meta[0]["Value"];
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
 	}
 
 	/**

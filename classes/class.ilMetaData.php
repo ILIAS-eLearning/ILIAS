@@ -148,15 +148,17 @@ class ilMetaData
 	* get identifier catalog value
 	* note: only one value implemented currently
 	*/
-	function getElement($a_name, $a_path = "")
+	function getElement($a_name, $a_path = "", $a_index = 0)
 	{
-		$p = "//MetaData/";
+		$p = "//MetaData";
 		if ($a_path != "")
 		{
-			$p .= $a_path . "/";
+			$p .= "/" . $a_path;
 		}
-		$p .= $a_name;
-		$this->setElement($a_name, $this->nested->getDomContent($p));
+#		echo "Index: " . $a_index . " | Path: " . $p . " | Name: " . $a_name . "<br>\n";
+		$nodes = $this->nested->getDomContent($p, $a_name, $a_index);
+		$this->setElement($a_name, $nodes);
+#		vd($this->$a_name);
 		return $this->$a_name;
 	}
 
@@ -167,13 +169,12 @@ class ilMetaData
 	{
 		if ($a_name != "")
 		{
-			$p = "//MetaData/";
+			$p = "//MetaData";
 			if ($a_path != "")
 			{
-				$p .= $a_path . "/";
+				$p .= "/" . $a_path;
 			}
-			$p .= $a_name;
-			$this->nested->deleteDomNode($p, $a_index);
+			$this->nested->deleteDomNode($p, $a_name, $a_index);
 			$this->nested->updateFromDom();
 		}
 	}
@@ -181,7 +182,7 @@ class ilMetaData
 	/**
 	* add meta data node
 	*/
-	function add($a_name, $a_path)
+	function add($a_name, $a_path, $a_index = 0)
 	{
 		$p = "//MetaData";
 		if ($a_path != "")
@@ -189,33 +190,150 @@ class ilMetaData
 			$p .= "/" . $a_path;
 		}
 		$attributes = array();
+#		echo "Index: " . $a_index . " | Path: " . $a_path . " | Name: " . $a_name . "<br>\n";
 		switch ($a_name)
 		{
 			case "Relation"		:	$xml = '
 										<Relation>
 											<Resource>
-												<Identifier_ Language="' . $this->ilias->account->getLanguage() . '"/>
+												<Identifier_ Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
 												<Description Language="' . $this->ilias->account->getLanguage() . '"/>
 											</Resource>
 										</Relation>
 									';
-									$this->nested->addXMLNode($p, $xml);
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Lifecycle":	$xml = '
+										<Lifecycle Status="Draft">
+											<Version Language="' . $this->ilias->account->getLanguage() . '"></Version>
+											<Contribute Role="Author">
+												<Entity/>
+												<Data/>
+											</Contribute>
+										</Lifecycle>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Meta-Metadata":	$xml = '
+										<Meta-Metadata MetadataScheme="" Language="' . $this->ilias->account->getLanguage() . '">
+											<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
+											<Contribute Role="Author">
+												<Entity/>
+												<Data/>
+											</Contribute>
+										</Meta-Metadata>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Technical"	:	$xml = '
+										<Technical/>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Educational"	:	$xml = '
+										<Educational InteractivityType="Active" LearningResourceType="Exercise" InteractivityLevel="Medium" SemanticDensity="Medium" IntendedEndUserRole="Learner" Context="Other" Difficulty="Medium">
+											<TypicalAgeRange></TypicalAgeRange>
+											<TypicalLearningTime></TypicalLearningTime>
+										</Educational>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Rights"		:	$xml = '
+										<Rights Cost="No" CopyrightAndOtherRestrictions="No">
+											<Description Language="' . $this->ilias->account->getLanguage() . '"/>
+										</Rights>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Annotation"	:	$xml = '
+										<Annotation>
+											<Entity/>
+											<Date/>
+											<Description Language="' . $this->ilias->account->getLanguage() . '"/>
+										</Annotation>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Classification":	$xml = '
+										<Classification Purpose="Idea">
+											<TaxonPath>
+												<Source Language="' . $this->ilias->account->getLanguage() . '"/>
+												<Taxon Language="' . $this->ilias->account->getLanguage() . '" Id=""/>
+											</TaxonPath>
+											<Description Language="' . $this->ilias->account->getLanguage() . '"/>
+											<Keyword Language="' . $this->ilias->account->getLanguage() . '"/>
+										</Classification>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Contribute"	:	$xml = '
+										<Contribute Role="Author">
+											<Entity/>
+											<Data/>
+										</Contribute>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Requirement"	:	$xml = '
+										<Requirement>
+											<Type>
+												<Browser Name="Any" MinimumVersion="" MaximumVersion=""/>
+											</Type>
+										</Requirement>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "OrComposite"	:	$xml = '
+										<OrComposite>
+											<Requirement>
+												<Type>
+													<Browser Name="Any" MinimumVersion="" MaximumVersion=""/>
+												</Type>
+											</Requirement>
+										</OrComposite>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "TaxonPath"	:	$xml = '
+										<TaxonPath>
+											<Source Language="' . $this->ilias->account->getLanguage() . '"/>
+											<Taxon Language="' . $this->ilias->account->getLanguage() . '" Id="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
+										</TaxonPath>
+									';
+									$this->nested->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Taxon"		:	$value = "";
+									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
+									$attributes[1] = array("name" => "Id", value => substr(md5(uniqid(rand())), 0, 5));
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
 			case "Identifier"	:	;
 			case "Identifier_"	:	$value = "";
 									$attributes[0] = array("name" => "Catalog", "value" => "");
 									$attributes[1] = array("name" => "Entry", "value" => "");
-									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
 			case "Language"		:	$value = $this->ilias->account->getLanguage();
 									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
-									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
+			case "InstallationRemarks"	:	;
+			case "OtherPlattformRequirements"	:	;
+			case "TypicalAgeRange"	:	;
 			case "Title"		:	;
 			case "Description"	:	;
+			case "Coverage"		:	;
 			case "Keyword"		:	$value = "";
 									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
-									$this->nested->addDomNode($p, $a_name, $value, $attributes);
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+			case "Location"		:	$value = "";
+									$attributes[0] = array("name" => "Type", value => "LocalFile");
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+			default				:	$value = "";
+									$attributes = "";
+									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
 		}
 		$this->nested->updateFromDom();
@@ -464,23 +582,28 @@ class ilMetaData
 				$p .= "/" . $this->section;
 			$this->nested->updateDomNode($p, $this->meta);
 			$this->nested->updateFromDom();
-			if ($this->getType() == "lm" ||
+/*			if ($this->getType() == "lm" ||
 				$this->getType() == "glo" ||
 				$this->getType() == "dbk")
 			{
 				$this->setTitle($this->meta["title_value"]);
 				$this->setDescription($this->meta["description_value"][0]);
-			}
+			}*/
 			if ($this->getType() == "lm" ||
 					 $this->getType() == "dbk" ||
 					 $this->getType() == "glo" ||
 					 $this->getType() == "st" ||
 					 $this->getType() == "pg")
 			{
-				$query = "UPDATE lm_data SET title = '".$this->meta["title_value"]."' WHERE ".
-						 "obj_id = '" . $this->getID() . "'";
-#				echo $query;
-				$this->ilias->db->query($query);
+				/* editing meta data with editor: new title */
+				if (isset($this->meta["Title"]["Value"]))
+				{
+					$this->setTitle($this->meta["Title"]["Value"]);
+					$this->setDescription($this->meta["Description"][0]["Value"]);
+					$query = "UPDATE lm_data SET title = '".$this->meta["Title"]["Value"]."' WHERE ".
+							 "obj_id = '" . $this->getID() . "'";
+					$this->ilias->db->query($query);
+				}
 			}
 		}
 	}

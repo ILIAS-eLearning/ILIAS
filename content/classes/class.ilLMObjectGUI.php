@@ -77,10 +77,13 @@ class ilLMObjectGUI
 		$meta_gui->setObject($this->obj);
 		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
 		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
 		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
 		if ($meta_name != "")
 		{
-			$meta_gui->meta_obj->add($meta_name, $meta_path);
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
 		}
 		else
 		{
@@ -94,7 +97,8 @@ class ilLMObjectGUI
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"]);
 	}

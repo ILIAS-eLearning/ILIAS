@@ -143,9 +143,9 @@ class ilObjGlossary extends ilObject
 	*/
 	function updateMetaData()
 	{
+		$this->meta_data->update();
 		$this->setTitle($this->meta_data->getTitle());
 		$this->setDescription($this->meta_data->getDescription());
-		$this->meta_data->update();
 		parent::update();
 	}
 

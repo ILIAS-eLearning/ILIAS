@@ -110,7 +110,7 @@ common#:#check_languages#:#Sprachen checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
-common#:#choose_location#:#Position w&auml;hlen
+common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
@@ -1433,3 +1433,129 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+meta#:#meta_coverage#:#Coverage
+meta#:#meta_no_lifecycle#:#Keine Metadaten für den Lebenszyklus Bereich vorhanden.
+meta#:#meta_lifecycle#:#Lebenszyklus
+meta#:#meta_contribute#:#Beitrag
+meta#:#meta_status#:#Status
+meta#:#meta_draft#:#Entwurf
+meta#:#meta_final#:#Endfassung
+meta#:#meta_revised#:#Überarbeitete Fassung
+meta#:#meta_unavailable#:#Nicht verfügbar
+meta#:#meta_version#:#Version
+meta#:#meta_role#:#Rolle
+meta#:#meta_publisher#:#Herausgeber
+meta#:#meta_entity#:#Instanz
+meta#:#meta_date#:#Datum
+meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Meta-Metadaten Bereich vorhanden.
+meta#:#meta_meta_metadata#:#Meta-Metadata
+meta#:#meta_metadatascheme#:#Metadaten Schema
+meta#:#meta_no_technical#:#Keine Metadaten für den technischen Bereich vorhanden.
+meta#:#meta_technical#:#Technische Angaben
+meta#:#meta_format#:#Format
+meta#:#meta_size#:#Größe
+meta#:#meta_location#:#Location
+meta#:#meta_requirement#:#Anforderung
+meta#:#meta_or_composite#:#Oder zusammengefasst
+meta#:#meta_installation_remarks#:#Installationsanmerkungen
+meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
+meta#:#meta_duration#:#Dauer
+meta#:#meta_type#:#Typ
+meta#:#meta_local_file#:#Lokale Datei
+meta#:#meta_reference#:#Referenz
+meta#:#meta_operating_system#:#Betriebssystem
+meta#:#meta_name#:#Name
+meta#:#meta_minimum_version#:#Minimale Version
+meta#:#meta_maximum_version#:#Maximale Version
+meta#:#meta_browser#:#Browser
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_unix#:#Unix
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_none#:#Keins
+meta#:#meta_no_educational#:#Keine Metadaten für den erzieherischen Bereich vorhanden.
+meta#:#meta_educational#:#Erzieherische Angaben
+meta#:#meta_interactivity_type#:#Art der Interaktivität
+meta#:#meta_learning_resource_type#:#Art der Lernhilfsmittel
+meta#:#meta_interactivity_level#:#Stufe der Interaktivität
+meta#:#meta_semantic_density#:#Semantische Dichte
+meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
+meta#:#meta_context#:#Kontext
+meta#:#meta_difficulty#:#Schwierigkeit
+meta#:#meta_typical_age_range#:#Typische Altersspanne
+meta#:#meta_typical_learning_time#:#Typische Lerndauer
+meta#:#meta_active#:#Aktiv
+meta#:#meta_expositive#:#Erklärend
+meta#:#meta_mixed#:#Gemischt
+meta#:#meta_exercise#:#Übung
+meta#:#meta_simulation#:#Simulation
+meta#:#meta_questionnaire#:#Fragebogen
+meta#:#meta_diagramm#:#Diagramm
+meta#:#meta_figure#:#Abbildung
+meta#:#meta_graph#:#Graph
+meta#:#meta_index#:#Index
+meta#:#meta_slide#:#Folie
+meta#:#meta_table#:#Tabelle
+meta#:#meta_narrative_text#:#Erzählender Text
+meta#:#meta_exam#:#Prüfung
+meta#:#meta_experiment#:#Experiment
+meta#:#meta_problem_statement#:#Problemstellung
+meta#:#meta_self_assessment#:#Selbsttest
+meta#:#meta_lecture#:#Lektüre
+meta#:#meta_very_low#:#Sehr niedrig
+meta#:#meta_low#:#niedrig
+meta#:#meta_medium#:#Mittel
+meta#:#meta_high#:#Hoch
+meta#:#meta_very_high#:#Sehr hoch
+meta#:#meta_teacher#:#Lehrer
+meta#:#meta_author#:#Autor
+meta#:#meta_learner#:#Lernender
+meta#:#meta_manager#:#Manager
+meta#:#meta_school#:#Schule
+meta#:#meta_higher_education#:#Hochschulbildung
+meta#:#meta_training#:#Training
+meta#:#meta_other#:#Andere
+meta#:#meta_very_easy#:#Sehr leicht
+meta#:#meta_easy#:#Leicht
+meta#:#meta_dificult#:#Schwierig
+meta#:#meta_very_difficult#:#Sehr schwierig
+meta#:#meta_no_rights#:#Keine Metadaten für den Rechte Bereich vorhanden.
+meta#:#meta_rights#:#Rechte
+meta#:#meta_cost#:#Kosten
+meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
+meta#:#meta_no_relation#:#Keine Metadate für den Beziehungen Bereich vorhanden.
+meta#:#meta_relation#:#Beziehung
+meta#:#meta_kind#:#Art
+meta#:#meta_is_part_of#:#Ist Teil von
+meta#:#meta_has_part#:#Hat Teil
+meta#:#meta_is_version_of#:#Ist Version von
+meta#:#meta_has_version#:#Hat Version
+meta#:#meta_is_format_of#:#Ist Format von
+meta#:#meta_has_format#:#Hat Format
+meta#:#meta_references#:#Referenzen
+meta#:#meta_is_referenced_by#:#Ist referenziert von
+meta#:#meta_is_based_on#:#Basiert auf
+meta#:#meta_is_basis_for#:#Ist Basis für
+meta#:#meta_requires#:#Benötigt
+meta#:#meta_is_required_by#:#Wird benötigt von
+meta#:#meta_resource#:#Resource
+meta#:#meta_no_annotation#:#Keine Metadaten für den Erläuterungen Bereich vorhanden.
+meta#:#meta_annotation#:#Erläuterung
+meta#:#meta_no_classification#:#Keine Metadaten für den Klassifizierungsbereich vorhanden.
+meta#:#meta_classification#:#Klassifizierung
+meta#:#meta_purpose#:#Zweck
+meta#:#meta_idea#:#Idee
+meta#:#meta_prerequisite#:#Voraussetzung
+meta#:#meta_educational_objective#:#Erzieherisches Ziel
+meta#:#meta_accessibility_restrictions#:#Zugangseinschränkungen
+meta#:#meta_educational_level#:#Ausbildungsstufe
+meta#:#meta_skill_level#:#Stufe der Fertigkeit
+meta#:#meta_security_level#:#Sicherheitsstufe
+meta#:#meta_competency#:#Kompetenz
+meta#:#meta_taxon_path#:#Taxonomie Pfad
+meta#:#meta_source#:#Quelle
+meta#:#meta_taxon#:#Taxonomie
+meta#:#meta_id#:#Id
+meta#:#meta_no#:#Nein
+meta#:#meta_yes#:#Ja
