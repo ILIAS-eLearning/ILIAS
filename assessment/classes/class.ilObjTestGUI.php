@@ -597,7 +597,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
 		if (!strcmp($_POST["meta_section"], "General")) {
-			$this->updateObject();
+			//$this->updateObject();
 		}
 		ilUtil::redirect("test.php?ref_id=".$_GET["ref_id"]);
 	}
