@@ -87,7 +87,7 @@ HTMLArea.Config = function () {
 
 	// the next parameter specifies whether the toolbar should be included
 	// in the size or not.
-	this.sizeIncludesToolbar = true;
+	this.sizeIncludesToolbar = false;
 
 	// if true then HTMLArea will retrieve the full HTML, starting with the
 	// <HTML> tag.
@@ -98,7 +98,7 @@ HTMLArea.Config = function () {
 	this.pageStyleLink = "";
 
 	// set to true if you want Word code to be cleaned upon Paste
-	this.killWordOnPaste = false;
+	this.killWordOnPaste = true;
 
 	// BaseURL included in the iframe document
 	this.baseURL = document.baseURI || document.URL;
@@ -1725,9 +1725,8 @@ HTMLArea.prototype.execCommand = function(cmdID, UI, param) {
 	    case "copy":
 	    case "paste":
 		try {
-			if (this.config.killWordOnPaste)
-				this._wordClean();
 			this._doc.execCommand(cmdID, UI, param);
+			if (this.config.killWordOnPaste) this._wordClean();
 		} catch (e) {
 			if (HTMLArea.is_gecko) {
 				if (confirm("Unprivileged scripts cannot access Cut/Copy/Paste programatically " +
