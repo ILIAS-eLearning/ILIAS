@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
+common#:#3rd_party_software#:#software di terze parti###19 Nov 2003 new variable
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -119,8 +119,8 @@ common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.###20 Mar
 common#:#city#:#Citt&#224;
 common#:#clear#:#Cancella
 common#:#client_id#:#Client ID###19 Nov 2003 new variable
-common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
-common#:#close#:#Close###28 Sep 2003 new variable
+common#:#clipboard#:#Appunti###15 Sep 2003 new variable
+common#:#close#:#Chiudi###28 Sep 2003 new variable
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento###13 May 2003 new variable
 common#:#compose#:#Componi
@@ -155,7 +155,7 @@ common#:#day#:#Giorno###01 Sep 2003 new variable
 common#:#days#:#Giorni###25 Mar 2003 new variable
 common#:#db_host#:#Host database
 common#:#db_name#:#Nome database
-common#:#db_need_update#:#Database needs an update!###19 Nov 2003 new variable
+common#:#db_need_update#:#Occorre aggiornare il database!###19 Nov 2003 new variable
 common#:#db_pass#:#Password database
 common#:#db_type#:#Tipo database
 common#:#db_user#:#Utente database
@@ -170,7 +170,7 @@ common#:#default_language#:#Lingua predefinita###20 Mar 2003 new variable
 common#:#default_role#:#Ruolo predefinito###05 Nov 2003 new variable
 common#:#default_roles#:#Ruoli predefiniti###01 Nov 2003 new variable
 common#:#default_skin#:#Tema predefinito###20 Mar 2003 new variable
-common#:#default_skin_style#:#Default Skin / Style###19 Nov 2003 new variable
+common#:#default_skin_style#:#Tema / Stile predefiniti###19 Nov 2003 new variable
 common#:#default_style#:#Stile predefinito###20 Mar 2003 new variable
 common#:#delete#:#Elimina
 common#:#delete_all#:#Elimina tutto
@@ -311,14 +311,14 @@ common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new varia
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
 common#:#group_password_registration_expired_msg#:#Il periodo di appartenenza a questo gruppo &#232; terminato, questo &#232; l&#039;ultimo avviso. Puoi contattare il proprietario o l&#039;amministratore del gruppo.###01 Nov 2003 new variable
 common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.###01 Nov 2003 new variable
-common#:#group_registration_expiration_date#:#Periodo di registrazione###06 Nov 2003 new variable
-common#:#group_registration_expiration_time#:#Expiration Time###26 Nov 2003 new variable
+common#:#group_registration_expiration_date#:#Data di scadenza del periodo di registrazione###06 Nov 2003 new variable
+common#:#group_registration_expiration_time#:#Ora di scadenza del periodo di registrazione###26 Nov 2003 new variable
 common#:#group_registration_expired#:#Periodo di registrazione terminato###01 Nov 2003 new variable
 common#:#group_registration_mode#:#Tipo di registrazione###06 Nov 2003 new variable
 common#:#group_req_password#:#E&#039; richiesta la password di registrazione###01 Nov 2003 new variable
 common#:#group_req_registration#:#E&#039; richiesta la registrazione###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.###01 Nov 2003 new variable
-common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
+common#:#group_reset#:#Reset del gruppo###26 Nov 2003 new variable
 common#:#group_status#:#Stato del gruppo###29 Apr 2003 new variable
 common#:#group_status_closed#:#Chiuso###29 Apr 2003 new variable
 common#:#group_status_public#:#Pubblico###29 Apr 2003 new variable
@@ -329,18 +329,18 @@ common#:#grp_a#:#Un gruppo###06 Aug 2003 new variable
 common#:#grp_add#:#Aggiungi gruppo###06 Aug 2003 new variable
 common#:#grp_added#:#Aggiunto gruppo###16 Jul 2003 new variable
 common#:#grp_edit#:#Modifica gruppo###01 Sep 2003 new variable
-common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###26 Nov 2003 new variable
-common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
-common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
-common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
+common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!###26 Nov 2003 new variable
+common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminato, puoi invece  eliminare il gruppo.###26 Nov 2003 new variable
+common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.###26 Nov 2003 new variable
+common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.###26 Nov 2003 new variable
+common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !###26 Nov 2003 new variable
 common#:#grp_mem_change_status#:#Cambia stato del membro###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Togli il membro dal gruppo###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Invia una mail al membro###02 Oct 2003 new variable
-common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegline un altro.###17 Oct 2003 new variable
+common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.###17 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
-common#:#grp_register#:#Register###21 Nov 2003 new variable
-common#:#grp_registration_completed#:#Registration completed###21 Nov 2003 new variable
+common#:#grp_register#:#Registra###21 Nov 2003 new variable
+common#:#grp_registration_completed#:#Registrazione completata###21 Nov 2003 new variable
 common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
 common#:#help#:#Aiuto
@@ -498,7 +498,7 @@ common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#member#:#Membro###04 Nov 2003 new variable
 common#:#members#:#Membri
-common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
+common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata###25 Nov 2003 new variable
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
@@ -537,27 +537,27 @@ common#:#msg_no_delete_yourself#:#Non puoi cancellare il tuo stesso utente.###19
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.###01 Sep 2003 new variable
 common#:#msg_no_perm_copy#:#Non hai i permessi per creare una copia dei seguenti oggetti: ###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#Non hai i permessi per creare i seguenti oggetti: ###04 Jul 2003 content changed
-common#:#msg_no_perm_create_object1#:#Non hai i permessi di creazione###06 Aug 2003 new variable
+common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione###06 Aug 2003 new variable
 common#:#msg_no_perm_create_object2#:#in questo punto!###06 Aug 2003 new variable
-common#:#msg_no_perm_create_role#:#Non hai il permesso per aggiungere il ruolo###08 Jul 2003 new variable
-common#:#msg_no_perm_create_rolf#:#Non hai il permesso per crare una cartella di ruoli. Therefore you may not stop inheritance of roles or add local roles here.###10 Jul 2003 new variable
-common#:#msg_no_perm_create_rolt#:#Non hai il permesso per aggiungere template di ruoli###08 Jul 2003 new variable
-common#:#msg_no_perm_create_user#:#Non hai il permesso per creare utenti###07 Jul 2003 new variable
-common#:#msg_no_perm_cut#:#Non hai il permesso per tagliare i seguenti oggetti: ###04 Jul 2003 content changed
-common#:#msg_no_perm_delete#:#Non hai il permesso per cancellare i seguenti oggetti: ###04 Jul 2003 content changed
-common#:#msg_no_perm_link#:#Non hai il permesso per creare dei collegamenti dai seguenti oggetti: ###04 Jul 2003 content changed
-common#:#msg_no_perm_modify_role#:#Non hai il permesso per modificare i ruoli###08 Jul 2003 new variable
-common#:#msg_no_perm_modify_rolt#:#Non hai il permesso per modificare i template dei ruoli###08 Jul 2003 new variable
-common#:#msg_no_perm_modify_user#:#Non hai il permesso per modificare i dati dell&#039;utente###07 Jul 2003 new variable
-common#:#msg_no_perm_paste#:#Non hai il permesso per incollare i seguenti oggetti::###08 Jul 2003 new variable
-common#:#msg_no_perm_perm#:#Non hai il permesso per modificare le impostazioni dei permessi###08 Jul 2003 new variable
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):###19 Nov 2003 new variable
-common#:#msg_no_perm_write#:#Non hai il permesso di scrittura###07 Jul 2003 new variable
+common#:#msg_no_perm_create_role#:#Non hai i diritti per aggiungere il ruolo###08 Jul 2003 new variable
+common#:#msg_no_perm_create_rolf#:#Non hai i diritti per crare una cartella di ruoli. Therefore you may not stop inheritance of roles or add local roles here.###10 Jul 2003 new variable
+common#:#msg_no_perm_create_rolt#:#Non hai i diritti per aggiungere template di ruoli###08 Jul 2003 new variable
+common#:#msg_no_perm_create_user#:#Non hai i diritti per creare utenti###07 Jul 2003 new variable
+common#:#msg_no_perm_cut#:#Non hai i diritti per tagliare i seguenti oggetti: ###04 Jul 2003 content changed
+common#:#msg_no_perm_delete#:#Non hai i diritti per cancellare i seguenti oggetti: ###04 Jul 2003 content changed
+common#:#msg_no_perm_link#:#Non hai i diritti per creare dei collegamenti dai seguenti oggetti: ###04 Jul 2003 content changed
+common#:#msg_no_perm_modify_role#:#Non hai i diritti per modificare i ruoli###08 Jul 2003 new variable
+common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template dei ruoli###08 Jul 2003 new variable
+common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente###07 Jul 2003 new variable
+common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:###08 Jul 2003 new variable
+common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi###08 Jul 2003 new variable
+common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:###19 Nov 2003 new variable
+common#:#msg_no_perm_write#:#Non hai i diritti di scrittura###07 Jul 2003 new variable
 common#:#msg_no_rolf_allowed1#:#L&#039;oggetto###10 Jul 2003 new variable
 common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.###10 Jul 2003 new variable
 common#:#msg_no_search_result#:#Nessun risultato trovato###04 Aug 2003 new variable
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca###04 Aug 2003 new variable
-common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users###18 Nov 2003 new variable
+common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati###18 Nov 2003 new variable
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_not_possible_link#:#Non &#232; possibile creare il collegamento dell&#039;oggetto: Tipo
 common#:#msg_nothing_found#:#Nessun risultato
@@ -574,8 +574,8 @@ common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. P
 common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato###04 Nov 2003 new variable
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. ###04 Nov 2003 new variable
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato###04 Aug 2003 new variable
-common#:#msg_sysrole_not_deletable#:#The systemrole cannot be deleted###18 Nov 2003 new variable
-common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.###18 Nov 2003 new variable
+common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato###18 Nov 2003 new variable
+common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui è stato assegnato, accesso illimitato a tutti gli oggetti e tutte le funzioni.###18 Nov 2003 new variable
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.###10 Jul 2003 new variable
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:###04 Jul 2003 new variable
@@ -654,8 +654,8 @@ common#:#obj_usr#:#Utente###15 May 2003 new variable
 common#:#obj_usrf#:#Gestione utenti###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Configura gli utenti qui.###01 Oct 2003 new variable
 common#:#objects#:#Oggetti
-common#:#objf#:#objf###02 Oct 2003 content changed
-common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
+common#:#objf#:#Oggetti###02 Oct 2003 content changed
+common#:#objs_confirm#:#Conferma la cancellazione###25 Nov 2003 new variable
 common#:#objs_delete#:#Cancella gli oggetti###02 Oct 2003 new variable
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
@@ -684,13 +684,13 @@ common#:#paste#:#Incolla
 common#:#pasteChapter#:#Incolla###19 Sep 2003 new variable
 common#:#pastePage#:#Incolla###19 Sep 2003 new variable
 common#:#path#:#path
-common#:#path_not_set#:#Path not set###19 Nov 2003 new variable
-common#:#path_to_babylon#:#Percorso BABYLON
-common#:#path_to_convert#:#Percorso CONVERT
-common#:#path_to_htmldoc#:#Path to HTMLdoc###19 Nov 2003 new variable
-common#:#path_to_java#:#Percorso JAVA
-common#:#path_to_unzip#:#Percorso UNZIP
-common#:#path_to_zip#:#Percorso ZIP
+common#:#path_not_set#:#Persorso non specificato###19 Nov 2003 new variable
+common#:#path_to_babylon#:#Percorso a BABYLON
+common#:#path_to_convert#:#Percorso a CONVERT
+common#:#path_to_htmldoc#:#Percorso ad HTMLdoc###19 Nov 2003 new variable
+common#:#path_to_java#:#Percorso a JAVA
+common#:#path_to_unzip#:#Percorso a UNZIP
+common#:#path_to_zip#:#Percorso a ZIP
 common#:#pathes#:#Percorsi###20 Mar 2003 new variable
 common#:#payment_system#:#Sistema a pagamento
 common#:#perm_settings#:#Diritti
@@ -798,7 +798,7 @@ common#:#sent#:#Inviato
 common#:#sequence#:#Sequenza
 common#:#sequences#:#Sequenze
 common#:#server#:#Server
-common#:#server_data#:#Server data ###19 Nov 2003 new variable
+common#:#server_data#:#Server dei dati ###19 Nov 2003 new variable
 common#:#server_software#:#Software
 common#:#set#:#Imposta
 common#:#setSystemLanguage#:#Imposta come lingua di sistema###19 Apr 2003 new variable
@@ -1015,7 +1015,7 @@ content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variabl
 content#:#cont_mob_files#:#File oggetto###27 Oct 2003 new variable
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza###27 Oct 2003 new variable
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto###27 Oct 2003 new variable
-content#:#cont_mob_usages#:#Usage###25 Nov 2003 new variable
+content#:#cont_mob_usages#:#Utilizzo###25 Nov 2003 new variable
 content#:#cont_month#:#Mese###19 Sep 2003 new variable
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple###27 Sep 2003 new variable
 content#:#cont_new_assignment#:#Nuova assegnazione###26 Sep 2003 new variable
@@ -1110,7 +1110,7 @@ forum#:#forums_attachments#:#Allegati###28 Oct 2003 new variable
 forum#:#forums_attachments_add#:#Aggiungi un allegato###28 Oct 2003 new variable
 forum#:#forums_attachments_edit#:#Modifica l&#039;allegato###28 Oct 2003 new variable
 forum#:#forums_available#:#Forum disponibili
-forum#:#forums_censor_comment#:#Comment of Censor###20 Nov 2003 new variable
+forum#:#forums_censor_comment#:#Commento del moderatore###20 Nov 2003 new variable
 forum#:#forums_count#:#Numero di forum
 forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
@@ -1194,7 +1194,7 @@ mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere attachment###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#Non sono stati trovati attachment###16 Apr 2003 new variable
 mail#:#mail_options_of#:#Opzioni::###16 Apr 2003 new variable
-mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
+mail#:#mail_options_saved#:#Opzioni salvate###25 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido###16 Apr 2003 new variable
 mail#:#mail_s#:#Mail###16 Apr 2003 new variable
 mail#:#mail_s_unread#:#Mail non lette###16 Apr 2003 new variable
