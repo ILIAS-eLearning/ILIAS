@@ -1215,33 +1215,26 @@ class ASS_QuestionGUI extends PEAR {
 
     // Add answers from the form
     foreach ($_POST as $key => $value) {
-      if (preg_match("/answer_(\d+)/", $key, $matches)) {
-
-			if ($this->question->get_ordering_type() == OQ_PICTURES) {
-				foreach ($_FILES as $key2 => $value2) {
-					if (preg_match("/answer_(\d+)/", $key2, $matches2)) {
-						if ($value2["tmp_name"]) {
-							// upload the matching picture
-							if ($this->question->get_id() <= 0) {
-								$this->question->save_to_db();
-								$saved = true;
-						       sendInfo($this->lng->txt("question_saved_for_upload"));
-							}
-							print "answer kkkey: ".$key2." value: ".$value2["tmp_name"];
-							$this->question->set_image_file($value2['name'], $value2['tmp_name']);
-							$_POST["$key"] = $value2['name'];
+			if (preg_match("/answer_(\d+)/", $key, $matches)) {
+				if ($this->question->get_ordering_type() == OQ_PICTURES) {
+					if ($_FILES[$key]["tmp_name"]) {
+						// upload the ordering picture
+						if ($this->question->get_id() <= 0) {
+							$this->question->save_to_db();
+							$saved = true;
+							sendInfo($this->lng->txt("question_saved_for_upload"));
 						}
+						$this->question->set_image_file($_FILES[$key]['name'], $_FILES[$key]['tmp_name']);
+						$_POST[$key] = $_FILES[$key]['name'];
 					}
 				}
+				$this->question->add_answer(
+					ilUtil::stripSlashes($_POST["$key"]),
+					ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+					ilUtil::stripSlashes($matches[1]),
+					ilUtil::stripSlashes($_POST["order_$matches[1]"])
+				);
 			}
-			print "answer tey: ".$_POST["$key"];
-			$this->question->add_answer(
-			  ilUtil::stripSlashes($_POST["$key"]),
-			  ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-			  ilUtil::stripSlashes($matches[2]),
-			  ilUtil::stripSlashes($_POST["order_$matches[1]"]));
-
-      }
     }
 
     // Delete an answer if the delete button was pressed
@@ -1635,7 +1628,12 @@ class ASS_QuestionGUI extends PEAR {
 		      $this->tpl->setVariable("VALUE_ORDER", $solution->value2);
 				}
 			}
-      $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
+			if ($this->question->get_ordering_type() == OQ_PICTURES) {
+				$imagepath = $this->question->get_image_path_web() . $value->get_answertext();
+				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
+			} else {	
+      	$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
+			}
       $this->tpl->parseCurrentBlock();
     }
 
