@@ -99,7 +99,7 @@ class UserObject extends Object
 			$Fusetdata["Id"]   = createNewObject("uset",$Fobject2);
 			
 			//create usertree from class.user.php	
-			$tree->addTree($Fuserdata["Id"], $Fusetdata["Id"]);
+			$tree->addTree($Fuserdata["Id"], $Fuserdata["Id"]);
 		}
 		else
 		{
