@@ -48,6 +48,9 @@ assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
+assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
 assessment#:#imagemap#:#Image map
@@ -77,6 +80,7 @@ assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
