@@ -643,7 +643,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $this->lng->txt("group_details"));
+		$tbl->setTitle($this->lng->txt("ressources"),"icon_grp_b.gif", $this->lng->txt("ressources"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -1036,7 +1036,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_members"));
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
 		// load template for table content data
@@ -1094,7 +1094,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl = new ilTableGUI($output);
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("group_members")." - ".$this->object->getTitle(),"icon_usr_b.gif",$this->lng->txt("group_members"));
+		$tbl->setTitle($this->lng->txt("members"),"icon_usr_b.gif",$this->lng->txt("group_members"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
