@@ -47,7 +47,7 @@ change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
 check_failed_convert#:#Test di conversione fallito
-check_failed_htmldoc#:#Test HTMLdoc fallito###26 May 2004 content changed
+check_failed_htmldoc#:#Test HTMLdoc fallito
 check_failed_java#:#Test per java fallito
 check_failed_unzip#:#Test di decompressione fallito
 check_failed_zip#:#Test di compressione fallito
@@ -135,8 +135,8 @@ finish#:#Termina
 finish_initial_setup_first#:#Per favore, termina l&#installazione; prima
 finish_setup#:#Installazione terminata
 firstname#:#Nome
-fop_path#:#Path to FOP###26 May 2004 new variable
-fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
+fop_path#:#Percorso di FOP
+fop_path_comment#:#richiesto per generare documenti PDF
 hide_clientlist#:#Nascondi la lista dei client
 host#:#Host
 htmldoc_path#:#Percorso della cartella con i doc HTML
@@ -148,7 +148,7 @@ ilias_nic#:#Registrazione NIC
 ilias_nic_id#:#NIC ID
 ilias_setup#:#Installazione di ILIAS3
 ilias_version#:#Versione di ILIAS3
-info_text_contact#:#Qui puoi specificare informazioni aggiuntive del client e riferimenti per i contatti dell&#039;amministratore. I campi marcati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
+info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi marcati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
 info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione 'crea il database'. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire(per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.
 info_text_delete#:#Puoi cancellare questo client agendo cliccando sul pulsante qui sotto. Comunque, solamente il tuo file client.ini verr&#224; cancellato, tutti i file contenuti nelle cartelle di dati ed il contenuto del database saranno mantenuti. I file ed il database potranno essere rimossi successivamente manualmente dall&#039;amministratore di sistema.
 info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232; stata eseguita con successo. <br/>Clicca su 'Login' per entrare in ILIAS3.
@@ -163,7 +163,7 @@ info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro serv
 info_text_nic2#:#invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inseriscilo nel campo appropriato.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo nic-id &#232;
 info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
-info_text_pathes#:#ILIAS3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso del database, la posizione dei file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
+info_text_pathes#:#ILIAS3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
 ini_client_id_exists#:#Un client con questo ID esiste gi&#224;! Per favore, scegline un altro.
 ini_client_id_invalid#:#Il client ID che hai specificato contiene caratteri non validi
 ini_client_id_no_change#:#L&#039;Id del client non pu&#242; essere cambiato (in questa versione) dopo che sono state create con successo le cartelle del client.
@@ -186,7 +186,7 @@ input_error#:#Errore di inserimento
 inst_identification#:#Identificativo dell&#039;installazione
 inst_name#:#Nome dell&#039;installazione
 install#:#Installa
-installation#:#Installazione
+installation#:#Installa
 installed#:#Installata
 institution#:#Istituzione
 intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS3. Da qui puoi procedere con l&#039;installazione.
@@ -254,16 +254,16 @@ no_clients_available#:#Non ci sono client disponibili
 no_database#:#Nessun database
 no_db_connect_consult_admin#:#Non &#232; possibile connettersi al database. Per favore, contatta il tuo amministratore di sistema
 no_db_update_file#:#Non ho trovato il file dbupdate.php!
-no_password#:#No password given
-no_path_convert#:#No convert path given
-no_path_datadir#:#No data directory given
-no_path_fop#:#No FOP path given###26 May 2004 new variable
-no_path_given#:#No path given
-no_path_htmldoc#:#No HTMLdoc path given
-no_path_java#:#No java path given
-no_path_log#:#No log path given
-no_path_unzip#:#No unzip path given
-no_path_zip#:#No zip path given
+no_password#:#Non &#232; stata specificata la password
+no_path_convert#:#Non &#232; stata specificata la passwordNo convert path given
+no_path_datadir#:#Non &#232; stata specificata la cartella data
+no_path_fop#:#Non &#232; stato specificato il percorso per FOP
+no_path_given#:#Non &#232; stato specificato il percorso
+no_path_htmldoc#:#Non &#232; stato specificato il percorso per HTMLdoc
+no_path_java#:#Non &#232; stato specificato il percordo di java
+no_path_log#:#Non &#232; stato specificato il percorso del log
+no_path_unzip#:#Non &#232; stato specificato il percorso per l'unzip
+no_path_zip#:#Non &#232; stato specificato il percorso per lo zip
 no_setup_pass_given#:#Non &#232; stata indicata la password di installazione
 no_username#:#Non &#232; stato indicato lo username
 no_valid_client_id#:#Nessun client valido
@@ -287,7 +287,7 @@ password_same#:#Vecchia e nuova password sono la stessa!
 password_set#:#Password salvata.
 path_not_set#:#Cartella non specificata
 path_to_convert#:#Percorso al programma di conversione delle immagini
-path_to_fop#:#Path to FOP###26 May 2004 new variable
+path_to_fop#:#Percorso a FOP
 path_to_htmldoc#:#Percorso della cartella con i doc HTML
 path_to_java#:#Percorso a Java
 path_to_unzip#:#Percorso del programma di unzip
