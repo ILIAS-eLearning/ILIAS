@@ -959,8 +959,9 @@ class ilInternalLinkGUI
 		$exp->addFilter("exc");
 		$exp->addFilter("tst");
 		$exp->addFilter("svy");
+		$exp->addFilter("webr");
 
-		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy');
+		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy','webr');
 		$exp->setSelectableTypes($sel_types);
 
 		/*

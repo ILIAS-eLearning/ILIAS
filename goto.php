@@ -88,6 +88,12 @@ switch($target_type)
 		require_once("./survey/classes/class.ilObjSurvey.php");
 		ilObjSurvey::_goto($target_id);
 		break;
+
+	case "webr":
+		require_once("./link/classes/class.ilObjLinkResource.php");
+		ilObjLinkResource::_goto($target_id);
+		break;
+
 }
 
 ?>
