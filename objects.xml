@@ -146,7 +146,7 @@
 </object>
 <object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1" translate="0">
 	<subobj name="rolf" max="1">rolf</subobj>
-	<property name="view" module="0">view</property>
+	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
