@@ -54,13 +54,21 @@ class ilDBUpdate
 	/**
 	* constructor
 	*/
-	function ilDBUpdate($a_db_handler = 0)
+	function ilDBUpdate($a_db_handler = 0,$tmp_flag = false)
 	{
 		// workaround to allow setup migration
 		if ($a_db_handler)
 		{
 			$this->db =& $a_db_handler;
-			$this->DB_UPDATE_FILE = "../sql/dbupdate.php";
+			
+			if ($tmp_flag)
+			{
+				$this->DB_UPDATE_FILE = "./sql/dbupdate.php";			
+			}
+			else
+			{
+				$this->DB_UPDATE_FILE = "../sql/dbupdate.php";
+			}
 		}
 		else
 		{

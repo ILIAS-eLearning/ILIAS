@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.16 2003/10/31 12:33:22 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.17 2003/11/07 11:11:17 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -158,23 +158,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// load user modified settings again
 		
 				// basic data
-				$settings["inst_name"] = $_POST["inst_name"];
-				$settings["inst_info"] = $_POST["inst_info"];
 				$settings["feedback_recipient"] = $_POST["feedback_recipient"];
 				$settings["error_recipient"] = $_POST["error_recipient"];
 
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
 				$settings["enable_registration"] = $_POST["enable_registration"];
-				//$settings["payment_system"] = $_POST["payment_system"];
-
-				// pathes
-				$settings["lang_path"] = $_POST["lang_path"];
-				$settings["convert_path"] = $_POST["convert_path"];
-				$settings["zip_path"] = $_POST["zip_path"];
-				$settings["unzip_path"] = $_POST["unzip_path"];
-				$settings["java_path"] = $_POST["java_path"];
-				$settings["htmldoc_path"] = $_POST["htmldoc_path"];
 
 				// contact
 				$settings["admin_firstname"] = $_POST["admin_firstname"];
@@ -196,26 +185,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// write new settings
 
 				// basic data
-				$ilias->setSetting("inst_name",$_POST["inst_name"]);
-				$ilias->setSetting("inst_info",$_POST["inst_info"]);
 				$ilias->setSetting("feedback_recipient",$_POST["feedback_recipient"]);
 				$ilias->setSetting("error_recipient",$_POST["error_recipient"]);
-				$ilias->ini->setVariable("language","path",$_POST["lang_path"]);
 				$ilias->ini->setVariable("language","default",$_POST["default_language"]);
-				$ilias->ini->setVariable("layout","skin",$_POST["default_skin"]);
-				$ilias->ini->setVariable("layout","style",$_POST["default_style"]);
+
+				//set default skin and style
+				if ($_POST["default_skin_style"] != "")
+				{
+					$sknst = explode(":", $_POST["default_skin_style"]);
+					
+					if ($ilias->ini->readVariable("layout","style") != $sknst[1] ||
+						$ilias->ini->readVariable("layout","skin") != $sknst[0])
+					{
+						$ilias->ini->setVariable("layout","skin", $sknst[0]);
+						$ilias->ini->setVariable("layout","style",$sknst[1]);
+					}
+				}
 
 				// modules
 				$ilias->setSetting("pub_section",$_POST["pub_section"]);
 				$ilias->setSetting("enable_registration",$_POST["enable_registration"]);
-				//$ilias->setSetting("payment_system",$_POST["payment_system"]);
-
-				// pathes
-				$ilias->setSetting("convert_path",$_POST["convert_path"]);
-				$ilias->setSetting("zip_path",$_POST["zip_path"]);
-				$ilias->setSetting("unzip_path",$_POST["unzip_path"]);
-				$ilias->setSetting("java_path",$_POST["java_path"]);
-				$ilias->setSetting("htmldoc_path",$_POST["htmldoc_path"]);
 
 				// contact
 				$ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -234,7 +223,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->ini->write();
 
 				$settings = $ilias->getAllSettings();
-
+				
 				// feedback
 				sendInfo($lng->txt("saved_successfully"));
 			}
@@ -248,30 +237,37 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// basic data
 		$tpl->setVariable("TXT_ILIAS_VERSION", $lng->txt("ilias_version"));
 		$tpl->setVariable("TXT_DB_VERSION", $lng->txt("db_version"));
+		$tpl->setVariable("TXT_CLIENT_ID", $lng->txt("client_id"));
 		$tpl->setVariable("TXT_INST_ID", $lng->txt("inst_id"));
 		$tpl->setVariable("TXT_HOSTNAME", $lng->txt("host"));
 		$tpl->setVariable("TXT_IP_ADDRESS", $lng->txt("ip_address"));
+		$tpl->setVariable("TXT_SERVER_DATA", $lng->txt("server_data"));
 		$tpl->setVariable("TXT_SERVER_PORT", $lng->txt("port"));
 		$tpl->setVariable("TXT_SERVER_SOFTWARE", $lng->txt("server_software"));
 		$tpl->setVariable("TXT_HTTP_PATH", $lng->txt("http_path"));
 		$tpl->setVariable("TXT_ABSOLUTE_PATH", $lng->txt("absolute_path"));
 		$tpl->setVariable("TXT_INST_NAME", $lng->txt("inst_name"));
 		$tpl->setVariable("TXT_INST_INFO", $lng->txt("inst_info"));
-		$tpl->setVariable("TXT_DEFAULT_SKIN", $lng->txt("default_skin"));
-		$tpl->setVariable("TXT_DEFAULT_STYLE", $lng->txt("default_style"));
+		$tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $lng->txt("usr_skin_style"));
 		$tpl->setVariable("TXT_DEFAULT_LANGUAGE", $lng->txt("default_language"));
 		$tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $lng->txt("feedback_recipient"));
 		$tpl->setVariable("TXT_ERROR_RECIPIENT", $lng->txt("error_recipient"));
+		
+		include ("./classes/class.ilDBUpdate.php");
+		$dbupdate = new ilDBUpdate($ilias->db,true);
+		
+		if (!$dbupdate->getDBVersionStatus())
+		{
+			$tpl->setVariable("TXT_DB_UPDATE", "&nbsp;<span class=\"warning\">".$lng->txt("db_need_update")."</span>");
+		} 
 
 		// modules
 		//$tpl->setVariable("TXT_MODULES", $lng->txt("modules"));
 		$tpl->setVariable("TXT_PUB_SECTION", $lng->txt("pub_section"));
 		$tpl->setVariable("TXT_ENABLE_REGISTRATION", $lng->txt("enable_registration"));
-		//$tpl->setVariable("TXT_PAYMENT_SYSTEM", $lng->txt("payment_system"));
 
 		// pathes
-		$tpl->setVariable("TXT_PATHES", $lng->txt("pathes"));
-		$tpl->setVariable("TXT_LANG_PATH", $lng->txt("lang_path"));
+		$tpl->setVariable("TXT_SOFTWARE", $lng->txt("3rd_party_software"));
 		$tpl->setVariable("TXT_CONVERT_PATH", $lng->txt("path_to_convert"));
 		$tpl->setVariable("TXT_ZIP_PATH", $lng->txt("path_to_zip"));
 		$tpl->setVariable("TXT_UNZIP_PATH", $lng->txt("path_to_unzip"));
@@ -311,41 +307,36 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("DB_VERSION",$settings["db_version"]);
 		$tpl->setVariable("ILIAS_VERSION",$settings["ilias_version"]);
 		$tpl->setVariable("INST_ID",$settings["inst_id"]);
-		$tpl->setVariable("INST_NAME",$settings["inst_name"]);
-		$tpl->setVariable("INST_INFO",$settings["inst_info"]);
+		$tpl->setVariable("CLIENT_ID",CLIENT_ID);
+		$tpl->setVariable("INST_NAME",$ilias->ini->readVariable("client","name"));
+		$tpl->setVariable("INST_INFO",$ilias->ini->readVariable("client","description"));
 		$tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
 		$tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
 
-		// skin selection
+		// get all skins
 		$ilias->getSkins();
+		
 		$tpl->setCurrentBlock("selectskin");
-
-		foreach ($ilias->skins as $row)
+				
+		foreach ($ilias->skins as $skin)
 		{
-			if ($ilias->ini->readVariable("layout","skin") == $row["name"])
+			// get styles for skin
+			$ilias->getStyles($skin["name"]);
+
+			reset($ilias->styles);
+
+			foreach ($ilias->styles as $style)
 			{
-				$tpl->setVariable("SKINSELECTED", " selected=\"selected\"");
+				if ($ilias->ini->readVariable("layout","skin") == $skin["name"] &&
+					$ilias->ini->readVariable("layout","style") == $style["name"])
+				{
+					$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+				}
+		
+				$tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
+				$tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+				$tpl->parseCurrentBlock();
 			}
-
-			$tpl->setVariable("SKINVALUE", $row["name"]);
-			$tpl->setVariable("SKINOPTION", $row["name"]);
-			$tpl->parseCurrentBlock();
-		}
-
-		// style selection
-		$ilias->getStyles($ilias->ini->readVariable("layout","skin"));
-		$tpl->setCurrentBlock("selectstyle");
-
-		foreach ($ilias->styles as $row)
-		{
-			if ($ilias->ini->readVariable("layout","style") == $row["name"])
-			{
-				$tpl->setVariable("STYLESELECTED", " selected=\"selected\"");
-			}
-
-			$tpl->setVariable("STYLEVALUE", $row["name"]);
-			$tpl->setVariable("STYLEOPTION", $row["name"]);
-			$tpl->parseCurrentBlock();
 		}
 
 		// language selection
@@ -375,18 +366,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
 		}
 
-		/*if ($settings["payment_system"])
-		{
-			$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
-		}*/
-
-		// pathes
-		$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("language","path"));
-		$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
-		$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
-		$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
-		$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
-		$tpl->setVariable("HTMLDOC_PATH",$settings["htmldoc_path"]);
+		// pathes to tools
+		$not_set = $lng->txt("path_not_set");
+		
+		$tpl->setVariable("CONVERT_PATH",(PATH_TO_CONVERT) ? PATH_TO_CONVERT : $not_set);
+		$tpl->setVariable("ZIP_PATH",(PATH_TO_ZIP) ? PATH_TO_ZIP : $not_set);
+		$tpl->setVariable("UNZIP_PATH",(PATH_TO_UNZIP) ? PATH_TO_UNZIP : $not_set);
+		$tpl->setVariable("JAVA_PATH",(PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
+		$tpl->setVariable("HTMLDOC_PATH",(PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
 
 		// contact
 		$tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
@@ -402,7 +389,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
 
 		$tpl->parseCurrentBlock();
-
 	}
 
 	/**
