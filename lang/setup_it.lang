@@ -87,7 +87,7 @@ database_ready#:#Database pronto.
 database_update#:#Aggiorna il database
 database_version#:#Versione attuale del database
 datadir_path#:#Percorso della cartella data
-datadir_path_comment1#:#Obbligatorio
+datadir_path_comment1#:#Obbligatorio. Deve essere esterna al webspace.
 datadir_path_comment2#:#non pu&#242; essere cambiato in questa versione dell&#039;installazione
 datadir_webspacedir_match#:#Il percorso della tua cartella dei dati coincide con la cartella creata all&#039;interno del webspace. Per favore, scegli per i dati una cartella all&#039;esterno del webspace.
 date#:#Data
@@ -158,7 +158,7 @@ info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
 info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
 info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3. Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca qui
-info_text_nic2#:#invierai una email i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, inseriscilo nel campo appropriato e seleziona 'registrati tramite Email'.
+info_text_nic2#:#invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, inseriscilo nel campo appropriato e seleziona 'registrati tramite Email'.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo nic-id &#232;
 info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
 info_text_pathes#:#ILIAS3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso del database, la posizione dei file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
@@ -237,7 +237,7 @@ nic_reg_disable_comment#:#(registra successivamente)
 nic_reg_disabled#:#Registrazione NIC disabilitata
 nic_reg_email#:#registrati tramite Email
 nic_reg_enabled#:#Registrazione NIC abilitata!
-nic_reg_enter_checksum#:#Enter sent checksum
+nic_reg_enter_checksum#:#scrivi il checksum 
 nic_reg_enter_correct_id#:#Per favore, specifica il corretto nic_id
 nic_reg_enter_id#:#per favore indica l&#039;id che hai mandato via email
 nic_reg_failed#:#Registratione del NIC fallita
@@ -335,7 +335,7 @@ setup_ini_first#:#Per favore, crea prima il file ilias.ini!
 setup_inifile#:#Creazione del file ilias.ini
 setup_inifile_desc#:#creare il file ilias.ini per l&#039;installazione
 setup_languages#:#Installa le lingue
-setup_languages_desc#:#installare ulteriori le lingue 
+setup_languages_desc#:#installare ulteriori lingue 
 setup_login#:#Login per l&#039;installazione
 setup_mainmenu#:#Menu principale dell&#039;installazione
 setup_menu#:#Menu dell&#039;installazione

@@ -33,48 +33,48 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#apply#:#Apply###05 Feb 2004 new variable
-assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-assessment#:#by#:#by###05 Feb 2004 new variable
-assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
-assessment#:#create_date#:#Created###05 Feb 2004 new variable
-assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
-assessment#:#create_new#:#Create new###05 Feb 2004 new variable
-assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#export#:#Export###05 Feb 2004 new variable
-assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#filter#:#Filter###05 Feb 2004 new variable
-assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
-assessment#:#last_update#:#Last update###05 Feb 2004 new variable
-assessment#:#matches#:#matches###05 Feb 2004 new variable
-assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
-assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
-assessment#:#preview#:#Preview###07 Feb 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
-assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
-assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
-assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
-assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
-assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
-assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
-assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#add_answer#:#Aggiungi risposta
+assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
+assessment#:#answer#:#Rispondi
+assessment#:#answer_text#:#Rispondi il testo
+assessment#:#apply#:#Esegui
+assessment#:#ass_questions#:#Domande
+assessment#:#by#:#da
+assessment#:#cloze_text#:#Testo simile
+assessment#:#create_date#:#Creata
+assessment#:#create_gaps#:#Crea un vuoto
+assessment#:#create_new#:#Crea nuovo
+assessment#:#duplicate#:#Duplica
+assessment#:#export#:#Esporta
+assessment#:#false#:#Falso
+assessment#:#filter#:#Filtro
+assessment#:#gap_selection#:#Selezione vuota
+assessment#:#last_update#:#Ultimo aggiornamento
+assessment#:#matches#:#corrispondenti
+assessment#:#matching_pair#:#Coppia corrispondente
+assessment#:#no_questions_available#:#Non ci sono domande disponibili
+assessment#:#points#:#Punti
+assessment#:#possible_gap_text#:#Possibile testo vuoto
+assessment#:#preview#:#Anteprima
+assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa domanda!
+assessment#:#qpl_delete_select_none#:#Seleziona la domanda da cancellare
+assessment#:#qpl_duplicate_select_none#:#Seleziona la domanda da duplicare
+assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa domanda!
+assessment#:#qpl_edit_select_multiple#:#Seleziona solo una domanda da modificare
+assessment#:#qpl_edit_select_none#:#Seleziona la domanda da modificare
+assessment#:#qpl_export_select_none#:#Seleziona la domanda da esportare
+assessment#:#qt_cloze#:#Domanda con risposta da completare
+assessment#:#qt_matching#:#Domanda a corrispondenza
+assessment#:#qt_multiple_choice_mr#:#Domanda a scelta multipla (risposta multipla)
+assessment#:#qt_multiple_choice_sr#:#Domanda a scelta multipla (risposta singola)
+assessment#:#qt_ordering#:#Domanda con risposte da ordinare
+assessment#:#question_type#:#Tipo di domanda
+assessment#:#reset_filter#:#Annulla filtro
+assessment#:#select_gap#:#Seleziona spazio
+assessment#:#set_filter#:#Imposta filtro
+assessment#:#solution_order#:#Ordine risposte
+assessment#:#text_gap#:#Spazio vuoto
+assessment#:#true#:#Vero
 common#:#3rd_party_software#:#Software di terze parti
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -150,9 +150,9 @@ common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
 common#:#cat_create_lm#:#Creare un modulo
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
+common#:#cat_create_qpl#:#Creare un esame
 common#:#cat_create_slm#:#Creare un modulo SCORM
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
+common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Cancellare un categoria
 common#:#cat_edit#:#Modificare un categoria
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi di una categoria
@@ -340,7 +340,7 @@ common#:#export_html#:#Esporta come file html
 common#:#export_xml#:#Esporta come file xml
 common#:#faq_exercise#:#FAQ/Esercizi
 common#:#fax#:#Fax
-common#:#feedback#:#Feedback
+common#:#feedback#:#Risposta
 common#:#feedback_recipient#:#Destinatario per le risposte
 common#:#file#:#File
 common#:#file_a#:#un file
@@ -366,9 +366,9 @@ common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
-common#:#forum_notification#:#Notification###06 Feb 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
+common#:#forum_notification#:#Notifica
+common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
+common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
 common#:#forums#:#Forum
 common#:#forums_overview#:#Descrizione Forum
 common#:#frm#:#Forum
@@ -451,8 +451,8 @@ common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Cancellare il gruppo
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
+common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
+common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione dal gruppo?
 common#:#grp_edit#:#Modificare il gruppo
 common#:#grp_edit_permission#:#Modificare le impostazioni dei permessi del gruppo
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!
@@ -467,7 +467,7 @@ common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
-common#:#grp_msg_membership_annulled#:#Membership annulled
+common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
 common#:#grp_read#:#Accedere in lettura al gruppo
@@ -668,7 +668,7 @@ common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
 common#:#meta_data#:#Meta Dati
 common#:#migrate#:#migrare
-common#:#mob#:#Media Object
+common#:#mob#:#Oggetto multimediale
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
 common#:#month#:#Mese
@@ -700,9 +700,9 @@ common#:#msg_multi_language_selected#:#Hai selezionato la stessa lingua per trad
 common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predefinita! Devi indicare una traduzione come predefinita.
 common#:#msg_no_delete_yourself#:#Non puoi cancellare il tuo stesso utente.
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
-common#:#msg_no_perm_copy#:#Non hai i permessi per creare una copia dei seguenti oggetti: 
-common#:#msg_no_perm_create#:#Non hai i permessi per creare i seguenti oggetti: 
+common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per modificare il ruolo dell&#039;utente
+common#:#msg_no_perm_copy#:#Non hai i diritti per creare una copia dei seguenti oggetti: 
+common#:#msg_no_perm_create#:#Non hai i diritti per creare i seguenti oggetti: 
 common#:#msg_no_perm_create_object1#:#Non hai i diritti di creazione
 common#:#msg_no_perm_create_object2#:#in questo punto!
 common#:#msg_no_perm_create_role#:#Non hai i diritti per aggiungere il ruolo
@@ -723,7 +723,7 @@ common#:#msg_no_rolf_allowed1#:#L&#039;oggetto
 common#:#msg_no_rolf_allowed2#:#non pu&#242; contenere una cartella di ruoli.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_not_possible_link#:#Non &#232; possibile creare il collegamento dell&#039;oggetto: Tipo
@@ -807,7 +807,7 @@ common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_qpl#:#Esame
 common#:#obj_role#:#Ruolo
 common#:#obj_rolf#:#Gestione ruoli
 common#:#obj_rolf_desc#:#Configura i tuoi ruoli qui.
@@ -815,9 +815,9 @@ common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
-common#:#obj_slm#:#SCORM LM###31 Jan 2004 content changed
+common#:#obj_slm#:#SCORM LM
 common#:#obj_st#:#Capitolo
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
 common#:#obj_uset#:#Impostazioni utente
@@ -903,16 +903,16 @@ common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#Esame
+common#:#qpl_add#:#Aggiungere un esame
+common#:#qpl_delete#:#Cancellare un esame
+common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#qpl_new#:#Creare un esame
+common#:#qpl_read#:#Accedere in lettura agli esami
+common#:#qpl_visible#:#Vedere gli esami
+common#:#qpl_write#:#Modificare esame
 common#:#question#:#Domanda
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#Esami
 common#:#quit#:#Esci
 common#:#quote#:#Virgolette
 common#:#read#:#Leggi
@@ -921,7 +921,7 @@ common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
 common#:#register#:#Registra
-common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).###09 Feb 2004 content changed
+common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).
 common#:#registered_since#:#Registrato dal
 common#:#registered_user#:#Utente registrato
 common#:#registered_users#:#Utenti registrati
@@ -953,11 +953,11 @@ common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Cancellare un ruolo o un template di ruolo
-common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo###31 Jan 2004 content changed
+common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
 common#:#rolf_edit_userassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
-common#:#rolf_write#:#Modificare i ruoli o i template di ruolo###01 Feb 2004 content changed
+common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
 common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo
 common#:#rolt_add#:#Aggiungi template di ruolo
@@ -965,11 +965,11 @@ common#:#rolt_added#:#Template di ruolo aggiunto
 common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
 common#:#root_create_cat#:#Creare nuove categorie
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
+common#:#root_edit#:#Modificare il nodo di sistema
 common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sistema
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
-common#:#root_write#:#Modificare il nodo radice di ILIAS3###29 Jan 2004 content changed
+common#:#root_write#:#Modificare il nodo radice di ILIAS3
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
@@ -1050,7 +1050,7 @@ common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#term#:#Termine
 common#:#test_intern#:#Test interno
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#Test
 common#:#time#:#Ora
 common#:#title#:#Titolo
 common#:#to#:#A:
@@ -1062,14 +1062,14 @@ common#:#tpl_path#:#Percorso template
 common#:#translation#:#Traduzione
 common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#Test
+common#:#tst_add#:#Aggiungere un test
+common#:#tst_delete#:#Cancellare un test
+common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#tst_new#:#Creare un test
+common#:#tst_read#:#Accedere in lettura al test
+common#:#tst_visible#:#Vedere il test
+common#:#tst_write#:#Modificare il test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Ti sei registrato con successo a ILIAS3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS3 con il tuo utente.
@@ -1131,7 +1131,7 @@ common#:#write#:#Scrivi
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
 common#:#your_message#:#Il tuo messaggio
-common#:#zip#:#Postal Code
+common#:#zip#:#Codice postale
 common#:#zipcode#:#Codice postale
 content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
@@ -1160,7 +1160,7 @@ content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
 content#:#cont_alphabetic#:#Alfabetico a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#Aree cancellate.
 content#:#cont_assign_full#:#Imposta a schermo pieno
 content#:#cont_assign_std#:#Imposta a schermo standard
 content#:#cont_assign_translation#:#Assegna la traduzione
@@ -1181,13 +1181,13 @@ content#:#cont_choose_glossary#:#Scegli il glossario
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#Per favore, clicca nell&#039;angolo inferiore destro dell'area desiderata.
+content#:#cont_click_center#:#Per favore, clicca nel centro dell'area desiderata.
+content#:#cont_click_circle#:#Per favore, clicca in una circonferenza dell'area desiderata.
+content#:#cont_click_next_or_save#:#Per favore, clicca nel punto successivo del poligono oppure salva l&#039;area. (Non &#232; necessario cliccare nuovamente sul punto di partenza del poligono!)
+content#:#cont_click_next_point#:#Per favore, clicca nel punto successivo del poligono.
+content#:#cont_click_starting_point#:#Per favore, clicca nel punto di partenza del poligono.
+content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore sinistro dell'area desiderata.
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
 content#:#cont_coords#:#Coordinate
@@ -1211,12 +1211,12 @@ content#:#cont_edit_par#:#Modifica paragrafo
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#esterno
 content#:#cont_file#:#File
 content#:#cont_files#:#File
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#restituisci il collegamento
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Come pubblicato
 content#:#cont_href#:#href
@@ -1230,7 +1230,7 @@ content#:#cont_insert_mob#:#Inserisci oggetto multimediale
 content#:#cont_insert_par#:#Inserisci paragrafo
 content#:#cont_insert_search#:#Per favore, inserisci un criterio di ricerca
 content#:#cont_insert_table#:#Inserisci tabella
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#interno
 content#:#cont_internal_link#:#Collegamento interno
 content#:#cont_is_visible#:#&#232; visibile
 content#:#cont_isbn#:#ISBN
@@ -1239,14 +1239,14 @@ content#:#cont_item#:#Elemento
 content#:#cont_journal#:#Giornaliero
 content#:#cont_keyword#:#Chiave
 content#:#cont_link#:#Collegamento
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link_ext#:#Link (esterno)
+content#:#cont_link_int#:#Link (interno)
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
 content#:#cont_list_properties#:#Elenca le propriet&#224;
 content#:#cont_lk_chapter#:#Capitolo
 content#:#cont_lk_chapter_new#:#Capitolo (Nuovo Frame)
-content#:#cont_lk_media_faq#:#Media (FAQ Frame)
+content#:#cont_lk_media_faq#:#Media (FAQ frame)
 content#:#cont_lk_media_inline#:#Media (Inline)
 content#:#cont_lk_media_media#:#Media (Media Frame)
 content#:#cont_lk_media_new#:#Media (Nuovo Frame)
@@ -1267,7 +1267,7 @@ content#:#cont_mob_usages#:#Utilizzo
 content#:#cont_month#:#Mese
 content#:#cont_msg_multiple_editions#:#Non &#232; possibile mostrare i dettagli di edizioni multiple
 content#:#cont_name#:#Nome
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_new_area#:#Nuova area di collegamento
 content#:#cont_new_assignment#:#Nuova assegnazione
 content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
@@ -1304,7 +1304,7 @@ content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
+content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
@@ -1435,10 +1435,10 @@ mail#:#mail_folder_name_changed#:#La cartella &#232; stata rinominata
 mail#:#mail_folder_options#:#Opzioni cartella
 mail#:#mail_following_rcp_not_valid#:#I seguenti destinatari non sono validi:
 mail#:#mail_global_options#:#Opzioni globali
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
+mail#:#mail_incoming#:#Mail in arrivo
+mail#:#mail_incoming_both#:#locali ed esterne
+mail#:#mail_incoming_local#:#solamente locali
+mail#:#mail_incoming_smtp#:#invia all&#039;indirizzo
 mail#:#mail_insert_folder_name#:#Per favore, inserisci il nome della cartella
 mail#:#mail_insert_query#:#Per favore, inserisci il criterio
 mail#:#mail_intern#:#Interna
@@ -1450,10 +1450,10 @@ mail#:#mail_move_error#:#Errore spostando la email
 mail#:#mail_move_to#:#Sposta le email in
 mail#:#mail_moved#:#Le email sono state spostate
 mail#:#mail_moved_to_trash#:#Le email sono state spostate nel cestino
-mail#:#mail_new_file#:#Add new file:
+mail#:#mail_new_file#:#Aggiungi un nuovo file:
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere attachment
 mail#:#mail_no_attachments_found#:#Non sono stati trovati attachment
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#Non hai i permessi per scrivere mail all&#039;esterno
 mail#:#mail_options_of#:#Opzioni:
 mail#:#mail_options_saved#:#Opzioni salvate
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
