@@ -9,37 +9,62 @@
  */
 class Explorer extends PEAR
 {
+	/**
+	* ilias object
+	* @var object
+	* @access public
+	*/
 	var $ilias;
+
+	/**
+	* output
+	* @var string
+	* @access public
+	*/
 	var $output;
+
+	/**
+	* contains format options
+	* @var array
+	* @access public
+	*/
 	var $format_options;
-/**
- * Constructor
- * @access public
- * @param object Ilias object
- * @param int
- *
- */
+	
+	/**
+	* tree
+	* @var object
+	* @access public
+	*/
+	var $tree;
+	
+	/**
+	* Constructor
+	* @access public
+	* @param object Ilias object
+	* @param int
+	*
+	*/
 	function Explorer(&$a_ilias,$a_depth)
 	{
 		$this->PEAR();
 		$this->ilias = $a_ilias;
 		$this->output = "";
+		
+		$this->tree = new Tree(1,0);
 	}
-/**
- * Creates output for explorer view in admin menue
- * recursive method
- * @access public
- * @return string
- * 
- */
+	
+	/**
+	* Creates output for explorer view in admin menue
+	* recursive method
+	* @access public
+	* @return string
+	* 
+	*/
 	function setOutput($a_depth,$a_parent)
 	{
-		global $rbacadmin;
-		global $rbacsystem;
-		global $expanded;
-
-		$tree = new Tree();
-		if($objects =  $tree->getChildsByDepth($a_depth,$a_parent))
+		global $rbacadmin, $rbacsystem, $expanded;
+	
+		if($objects =  $this->tree->getChildsByDepth($a_depth,$a_parent))
 		{
 			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
@@ -47,11 +72,11 @@ class Explorer extends PEAR
 			{
 				if($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 				{
-					$this->format_options["$object[id]"]["parent"] = $object["parent"];
-					$this->format_options["$object[id]"]["title"] = $object["title"];
-					$this->format_options["$object[id]"]["depth"] = $tab;
+					$this->format_options["$object[id]"]["parent"]	  = $object["parent"];
+					$this->format_options["$object[id]"]["title"]	  = $object["title"];
+					$this->format_options["$object[id]"]["depth"]	  = $tab;
 					$this->format_options["$object[id]"]["container"] = false;
-					$this->format_options["$object[id]"]["visible"] = true;
+					$this->format_options["$object[id]"]["visible"]	  = true;
 
 					// Create prefix array
 					for($i=0;$i<$tab;++$i)
