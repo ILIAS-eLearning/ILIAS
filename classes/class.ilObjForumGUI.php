@@ -25,9 +25,9 @@
 /**
 * Class ilObjForumGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.12 2003/09/30 09:52:48 shofmann Exp $
-* 
+* @author Stefan Meyer <smeyer@databay.de>
+* $Id$Id: class.ilObjForumGUI.php,v 1.13 2004/04/08 09:52:44 smeyer Exp $
+*
 * @extends ilObject
 * @package ilias-core
 */
@@ -52,7 +52,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		/*
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
+
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", "adm_object.php?ref_id=".$this->ref_id."&cmd=importForm");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_forum"));
@@ -62,6 +62,42 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return true;
 	}
+
+	/**
+	* display edit form (usually called by editObject)
+	*
+	* @access	private
+	* @param	array	$fields		key/value pairs of input fields
+	*/
+	function properties()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.forum_properties.html");
+
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("DESC", $this->object->getDescription());
+
+
+		$this->tpl->setVariable("FORMACTION", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+	}
+
+	function saveProperties()
+	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect("forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
+	}
+
 
 	function importObject()
 	{
