@@ -1,22 +1,4 @@
-<script language="JavaScript" type="text/javascript">
-<![CDATA[
-<!--
-function CheckAll(){
-	if(document.formmsg.all)
-	{
-		var c = document.formmsg.all.checked;
-	}
-	for (var i=0;i<document.formmsg.elements.length;i++)
-	{
-		var e = document.formmsg.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-//-->
-]]>
-</script>
-
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h1>{TXT_MAIL}</h1>
 
 {BUTTONS}
 
@@ -24,7 +6,7 @@ function CheckAll(){
 
 <h2>{FOLDERNAME}</h2>
 
-<p>{MAIL_COUNT}&nbsp;{TXT_MAIL} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
+<p>{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
 
 <table cellpadding=4 cellspacing=0 border=0 width="100%">
 <tr class="tblrow2">
