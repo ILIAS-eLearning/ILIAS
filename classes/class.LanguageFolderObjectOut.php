@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.LanguageFolderObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* $Id$Id: class.LanguageFolderObjectOut.php,v 1.2 2002/12/21 01:52:37 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -20,10 +20,54 @@ class LanguageFolderObjectOut extends ObjectOut
 		$this->ObjectOut($a_data);
 	}
 
+	/**
+	* Overwritten method from class.Object.php
+	* It handles all button commands from Learning Modules
+	* 
+	* @access public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		switch($_POST["cmd"])
+		{
+			case $lng->txt("install"):
+				return $this->out();
+				break;
+				
+			case $lng->txt("uninstall"):
+				return $this->out();
+				break;
+
+			case $lng->txt("refresh"):
+				return $this->refreshObject();
+				break;
+
+			case $lng->txt("set_system_language"):
+				return $this->out();
+				break;
+
+			case $lng->txt("change_language"):
+				return $this->out();
+				break;
+
+			case $lng->txt("check_language"):
+				return $this->out();
+				break;
+
+		}
+		parent::gatewayObject();
+	}
+
 	function viewObject()
 	{
 		$this->getTemplateFile("view");
 		$num = 0;
+
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+								$_GET["parent"]."&cmd=gateway");
 
 		//table header
 		foreach ($this->data["cols"] as $key)

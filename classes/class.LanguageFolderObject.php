@@ -90,6 +90,48 @@ class LanguageFolderObject extends Object
 	*
 	* @return	array	$languages	status information about available languages
 	*/
+
+	/**
+	* Overwritten method from class.Object.php
+	* It handles all button commands from Language Folder Object
+	* 
+	* @access public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		switch($_POST["cmd"])
+		{
+			case $lng->txt("install"):
+				return $this->installObject();
+				break;
+
+			case $lng->txt("export"):
+				return $this->uninstallObject();
+				break;
+
+			case $lng->txt("refresh"):
+				return $this->refreshObject();
+				break;
+
+			case $lng->txt("set_system_language"):
+				return $this->setsyslangObject();
+				break;
+
+			case $lng->txt("change_language"):
+				return $this->setuserlangObject();
+				break;
+
+			case $lng->txt("check_language"):
+				return $this->checklangObject();
+				break;
+
+		}
+
+		parent::gatewayObject();
+	}
+
 	function getLanguages ()
 	{
 		global $lng;
