@@ -94,7 +94,7 @@ class ilMetaData
 	* get identifier entry ID
 	* note: only one ID implemented currently
 	*/
-	function getIdentifierEntryID($a_id)
+	function getIdentifierEntryID()
 	{
 		return $this->identifier[0]["entry_id"];
 	}
