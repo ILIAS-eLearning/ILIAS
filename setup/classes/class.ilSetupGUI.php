@@ -1625,11 +1625,8 @@ class ilSetupGUI extends ilSetup
 
 		include_once "../classes/class.ilDBUpdate.php";
 		include_once "../classes/class.ilRbacAdmin.php";
-		include_once "../classes/class.ilRbacAdminH.php";
 		include_once "../classes/class.ilRbacReview.php";
-		include_once "../classes/class.ilRbacReviewH.php";
 		include_once "../classes/class.ilRbacSystem.php";
-		include_once "../classes/class.ilRbacSystemH.php";
 		include_once "../classes/class.ilTree.php";
 
 		// checkings

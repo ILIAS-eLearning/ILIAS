@@ -36,21 +36,16 @@
 class ilRbacSystem
 {
 	/**
-	* ilias object
-	* @var		object	ilias
-	* @access	public
-	*/
-	var $ilias;
-
-	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilRbacSystem()
 	{
-		global $ilias;
+		global $ilDB,$ilErr;
 
-		$this->ilias =& $ilias;
+		// set db & error handler
+		$this->ilDB =& $ilDB;
+		$this->ilErr =& $ilErr;
 	}
 	
 	/**	
@@ -82,13 +77,13 @@ class ilRbacSystem
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
-							"ref_id: ".$a_ref_id." operations: ".$a_operations,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Missing parameter! ".
+							"ref_id: ".$a_ref_id." operations: ".$a_operations,$this->ilErr->WARNING);
 		}
 
 		if (!is_string($a_operations))
 		{
-			$this->ilias->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilErr->WARNING);
 		}
 
 		$operations = explode(",",$a_operations);
@@ -99,8 +94,8 @@ class ilRbacSystem
 			{
 				if (empty($a_type))
 				{
-					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking a 'create' permission",
-											 $this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking a 'create' permission",
+											 $this->ilErr->WARNING);
 				}
 				
 				$ops_id = getOperationId($operation."_".$a_type);
@@ -118,7 +113,7 @@ class ilRbacSystem
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
 				 "AND obj_id = '".$a_ref_id."' ";
-			$r = $this->ilias->db->query($q);
+			$r = $this->ilDB->query($q);
 
 			$ops = array();
 
@@ -155,7 +150,7 @@ class ilRbacSystem
 		$q = "SELECT ops_id FROM rbac_operations ".
 				 "WHERE operation ='".$a_operation."'";
 		
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -166,7 +161,7 @@ class ilRbacSystem
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND obj_id = '".$a_ref_id."' ";
 		
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{

@@ -38,21 +38,16 @@
 class ilRbacAdmin
 {
 	/**
-	* ilias object
-	* @var		object	ilias
-	* @access	public
-	*/
-	var $ilias;
-
-	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilRbacAdmin()
 	{
-		global $ilias;
+		global $ilDB,$ilErr;
 
-		$this->ilias =& $ilias;
+		// set db & error handler
+		$this->ilDB =& $ilDB;
+		$this->ilErr =& $ilErr;
 	}
 
 	/**
@@ -67,11 +62,11 @@ class ilRbacAdmin
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "DELETE FROM rbac_ua WHERE usr_id='".$a_usr_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 		
 		return true;
 	}
@@ -90,13 +85,13 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::deleteRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
-			$this->ilias->raiseError($lng->txt("msg_sysrole_not_deletable"),$this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($lng->txt("msg_sysrole_not_deletable"),$this->ilErr->MESSAGE);
 		}
 
 		// TODO: check assigned users before deletion
@@ -105,12 +100,12 @@ class ilRbacAdmin
 		// delete user assignements
 		$q = "DELETE FROM rbac_ua ".
 			 "WHERE rol_id = '".$a_rol_id ."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 		
 		// delete permission assignments
 		$q = "DELETE FROM rbac_pa ".
 			 "WHERE rol_id = '".$a_rol_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 		
 		//delete rbac_templates and rbac_fa
 		$this->deleteLocalRole($a_rol_id);
@@ -129,16 +124,16 @@ class ilRbacAdmin
 		if (!isset($a_obj_id))
 		{
 			$message = get_class($this)."::deleteTemplate(): No obj_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_obj_id ."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_obj_id ."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -155,7 +150,7 @@ class ilRbacAdmin
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: '".$a_rol_id."'";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		if ($a_ref_id != 0)
@@ -173,12 +168,12 @@ class ilRbacAdmin
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 $clause;
 
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 $clause;
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -198,12 +193,12 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		$q = "REPLACE INTO rbac_ua ".
 			 "VALUES ('".$a_usr_id."','".$a_rol_id."')";
-		$res = $this->ilias->db->query($q);
+		$res = $this->ilDB->query($q);
 
 		return true;
 	}
@@ -220,13 +215,13 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{
 			$message = get_class($this)."::deassignUser(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "DELETE FROM rbac_ua ".
 			 "WHERE usr_id='".$a_usr_id."' ".
 			 "AND rol_id='".$a_rol_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 		
 		return true;
 	}
@@ -243,14 +238,14 @@ class ilRbacAdmin
 	{
 		if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::grantPermission(): Missing parameter! ".
-							"role_id: ".$a_rol_id." ref_id: ".$a_ref_id." operations: ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::grantPermission(): Missing parameter! ".
+							"role_id: ".$a_rol_id." ref_id: ".$a_ref_id." operations: ",$this->ilErr->WARNING);
 		}
 
 		if (!is_array($a_ops))
 		{
-			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",
-									 $this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",
+									 $this->ilErr->WARNING);
 		}
 		
 		// exclude system role from rbac
@@ -271,7 +266,7 @@ class ilRbacAdmin
 		$q = "INSERT INTO rbac_pa (rol_id,ops_id,obj_id) ".
 			 "VALUES ".
 			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -290,7 +285,7 @@ class ilRbacAdmin
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// exclude system role from rbac
@@ -312,7 +307,7 @@ class ilRbacAdmin
 		$q = "DELETE FROM rbac_pa ".
 			 "WHERE obj_id = '".$a_ref_id."' ".
 			 $and1;
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -329,13 +324,13 @@ class ilRbacAdmin
 		if (!isset($a_obj_ids) or !is_array($a_obj_ids))
 		{
 			$message = get_class($this)."::revokePermissionList(): Missing parameter or parameter is not an array! object_list: ".$a_obj_ids;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::revokePermissionList(): Missing parameter! rol_id: ".$a_rol_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// exclude system role from rbac
@@ -350,7 +345,7 @@ class ilRbacAdmin
 		$q = "DELETE FROM rbac_pa ".
 			 "WHERE obj_id IN (".$object_ids.") ".
 			 "AND rol_id = ".$a_rol_id;
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -373,7 +368,7 @@ class ilRbacAdmin
 					   " source_parent_id: ".$a_source_parent.
 					   " dest_id : ".$a_dest_id.
 					   " dest_parent_id: ".$a_dest_parent;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		// exclude system role from rbac
@@ -385,14 +380,14 @@ class ilRbacAdmin
 		$q = "SELECT * FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_source_id."' ".
 			 "AND parent = '".$a_source_parent."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
 				 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
-			$this->ilias->db->query($q);
+			$this->ilDB->query($q);
 		}
 
 		return true;
@@ -410,7 +405,7 @@ class ilRbacAdmin
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::deleteRolePermission(): Missing parameter! role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// exclude system role from rbac
@@ -422,7 +417,7 @@ class ilRbacAdmin
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -446,19 +441,19 @@ class ilRbacAdmin
 					   " type: ".$a_type.
 					   " operations: ".$a_ops.
 					   " ref_id: ".$a_ref_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		if (!is_string($a_type) or empty($a_type))
 		{
 			$message = get_class($this)."::setRolePermission(): a_type is no string or empty!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		if (!is_array($a_ops) or empty($a_ops))
 		{
 			$message = get_class($this)."::setRolePermission(): a_ops is no array or empty!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		// exclude system role from rbac
@@ -472,7 +467,7 @@ class ilRbacAdmin
 			$q = "INSERT INTO rbac_templates ".
 				 "VALUES ".
 				 "('".$a_rol_id."','".$a_type."','".$op."','".$a_ref_id."')";
-			$this->ilias->db->query($q);
+			$this->ilDB->query($q);
 		}
 
 		return true;
@@ -499,7 +494,7 @@ class ilRbacAdmin
 					   " role_id: ".$a_rol_id.
 					   " parent_id: ".$a_parent.
 					   " assign: ".$a_assign;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		// exclude system role from rbac
@@ -516,7 +511,7 @@ class ilRbacAdmin
 
 		$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
 			 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -536,12 +531,12 @@ class ilRbacAdmin
 			$message = get_class($this)."::assignOperationToObject(): Missing parameter!".
 					   "type_id: ".$a_type_id.
 					   "ops_id: ".$a_ops_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "INSERT INTO rbac_ta ".
 			 "VALUES('".$a_type_id."','".$a_ops_id."')";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -561,13 +556,13 @@ class ilRbacAdmin
 			$message = get_class($this)."::deassignPermissionFromObject(): Missing parameter!".
 					   "type_id: ".$a_type_id.
 					   "ops_id: ".$a_ops_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "DELETE FROM rbac_ta ".
 			 "WHERE typ_id = '".$a_type_id."' ".
 			 "AND ops_id = '".$a_ops_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 	
 		return true;
 	}
