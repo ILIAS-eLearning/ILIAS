@@ -595,11 +595,6 @@ class ilObjTestGUI extends ilObjectGUI
 			// save question solution
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
-			$postponed = 0;
-			if ($_POST["cmd"]["postpone"]) {
-				$postponed = 1;
-			}
-			$question_gui->question->save_working_data($this->object->get_test_id(), $postponed);
 		}
 
 		$this->sequence = $_GET["sequence"];
@@ -608,7 +603,6 @@ class ilObjTestGUI extends ilObjectGUI
 		} elseif (($_POST["cmd"]["previous"]) and ($this->sequence != 0)) {
 			$this->sequence--;
 		}
-
 		$this->setLocator();
 
 		if (!empty($title))
@@ -686,10 +680,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($this->object->get_sequence_settings() == TEST_POSTPONE) {
 					$postpone = true;
 				}
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $postpone);
+				$active = $this->object->get_active_test_user();
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active);
 			} else {
 				// finish test
-				$this->object->set_active_test_user($this->sequence, "", true);
+				$this->object->set_active_test_user(1, "", true);
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 				$this->tpl->setCurrentBlock("adm_content");
 				$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));

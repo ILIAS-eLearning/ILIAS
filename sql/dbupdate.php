@@ -2031,3 +2031,7 @@ CREATE TABLE `tst_active` (
   UNIQUE KEY `active_id` (`active_id`),
   KEY `active_id_2` (`active_id`)
 ) TYPE=MyISAM ;
+<#126>
+ALTER  TABLE  `tst_solutions`  DROP  `postponed` ;
+<#127>
+ALTER  TABLE  `tst_active`  ADD  `postponed` text AFTER  `sequence` ;

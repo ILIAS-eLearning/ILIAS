@@ -580,7 +580,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @access public
 * @see $answers
 */
-  function save_working_data($test_id, $postponed = 0, $limit_to = LIMIT_NO_LIMIT) {
+  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
@@ -594,12 +594,11 @@ class ASS_ImagemapQuestion extends ASS_Question {
 
       foreach ($_POST as $key => $value) {
         if (preg_match("/imagemap_(\d+)/", $key, $matches)) {
-          $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, postponed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, %s, NULL)",
+          $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
             $db->quote($ilUser->id),
             $db->quote($test_id),
             $db->quote($this->get_id()),
-            $db->quote($value),
-						$db->quote(sprintf("%d", $postponed))
+            $db->quote($value)
           );
           $result = $db->query($query);
         }
