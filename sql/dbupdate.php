@@ -4989,4 +4989,6 @@ ALTER TABLE `qpl_questions` ADD INDEX `question_type_fi` ( `question_type_fi` );
 ALTER TABLE `qpl_answers` ADD INDEX `question_fi` ( `question_fi` );
 ALTER TABLE `tst_solutions` ADD INDEX `user_fi` ( `user_fi` );
 ALTER TABLE `tst_solutions` ADD INDEX `test_fi` ( `test_fi` );
+<#338>
+UPDATE settings SET value = '3.2.2 2004-11-19' WHERE keyword = 'ilias_version' LIMIT 1;
 
