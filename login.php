@@ -33,9 +33,9 @@ if ($lang == "")
 
 //instantiate language
 $lng = new Language($lang);
-$langs = $lng->getInstalledLanguages();
+$lng->getLanguageNames($lang);
 
-foreach ($langs as $row)
+foreach ($lng->LANGUAGES as $row)
 {
 	$tpl->setCurrentBlock("languages");
 	$tpl->setVariable("LANG_ID", $row["id"]);

@@ -87,11 +87,11 @@ class TUtil
 	}
 
 	/**
-	* Builds aa select form field with options and shows the selected option first
-	* @param string value to be selected
-	* @param string variable name in formular
-	* @param array array with $options
-	* @param boolean
+	* Builds a select form field with options and shows the selected option first
+	* @param	string	value to be selected
+	* @param	string	variable name in formular
+	* @param	array	array with $options (key = lang_key, value = long name)
+	* @param	boolean
 	*/
 	function formSelect ($selected,$varname,$options,$multiple = false)
 	{
@@ -207,8 +207,12 @@ class TUtil
 	function setPathStr ($a_path)
 	{
 		if ("" != $a_path && "/" != substr($a_path, -1))
+		{
 			$a_path .= "/";
-			
+			//$a_path = substr($a_path,1);
+		}
+	
+		//return getcwd().$a_path;
 		return $a_path;
 	}
 	

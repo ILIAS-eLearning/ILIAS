@@ -11,60 +11,47 @@
 require_once "./include/ilias_header.inc";
 
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
-$lng->setUserLanguage($lng->lng);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_languages.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-
-if ($_POST["cmd"]=="generateall")
+switch ($_GET["cmd"])
 {
-        $lng->generateLanguageFiles();
+    case "install":
+        $result = $lng->installLanguage($lang_key);
+	break;
+
+	case "uninstall":
+		$result = $lng->uninstallLanguage($lang_key);
+	break;
+	
+	case "refresh":
+		$result = $lng->refreshLanguages();
+    break;
+
+	case "checkfiles":
+		$lng->checkLanguageFiles();
+    break;
+	
+	case "setsyslang":
+		$result = $lng->setDefaultLanguage($_POST["lang_key"]);
+	break;
+	
+	case "setuserlang":
+		$result = $lng->setUserLanguage($_POST["lang_key"]);
+	break;
+	
+    default:
+	break;
 }
 
-if ($_POST["action"] == "del")
-{
-        for ($i = 0; $i<count($marker); $i++)
-        {
-                if ($lng->deinstallLanguage($marker[$i]) == false)
-                {
-                        $msg = $lng->error;
-                }
-        }
-}
+$languages = $lng->getLanguages();
 
-if ($_POST["action"] == "install")
-{
-        for ($i = 0; $i<count($marker); $i++)
-        {
-                if ($lng->installLanguage($marker[$i]) == false)
-                {
-                        $msg = $lng->error;
-                }
-        }
-}
+//$tpl->setCurrentBlock("message");
+//$tpl->setVariable("MSG", $msg);
+//$tpl->parseCurrentBlock();
 
-if ($_GET["cmd"] == "install")
-{
-        if ($lng->installLanguage($_GET["id"]) == false)
-        {
-                $msg = $lng->error;
-        }
-}
-
-if ($_GET["cmd"] == "del")
-{
-        if ($lng->deinstallLanguage($_GET["id"]) == false)
-        {
-                $msg = $lng->error;
-        }
-}
-
-$tpl->setCurrentBlock("message");
-$tpl->setVariable("MSG", $msg);
-$tpl->parseCurrentBlock();
-
-$langs = $lng->getAvailableLanguages();
+//$langs = $lng->getAvailableLanguages();
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","./admin.php");
@@ -73,20 +60,29 @@ $tpl->parseCurrentBlock();
 
 $tpl->touchBlock("btn_row");
 
-$tpl->addBlockFile("BUTTONS2", "buttons2", "tpl.buttons.html");
-
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","./adm_languages.php");
 $tpl->setVariable("BTN_TXT", $lng->txt("refresh"));
 $tpl->parseCurrentBlock();
+
+
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK",".php");
-$tpl->setVariable("BTN_TXT", $lng->txt("change"));
+$tpl->setVariable("BTN_LINK","./adm_languages.php?cmd=refresh");
+$tpl->setVariable("BTN_TXT", $lng->txt("update_language"));
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK",".php");
-$tpl->setVariable("BTN_TXT", $lng->txt("check"));
+$tpl->setVariable("BTN_LINK","./adm_systemlang.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("system_language"));
 $tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","userlang.php");
+$tpl->setVariable("BTN_TXT", $lng->txt("change_language"));
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","./adm_languages.php?cmd=checkfiles");
+$tpl->setVariable("BTN_TXT", $lng->txt("check_language"));
+$tpl->parseCurrentBlock();
+
 $tpl->touchBlock("btn_row");
 
 
@@ -95,35 +91,62 @@ $tpl->setVariable("TXT_LANG", $lng->txt("language"));
 $tpl->setVariable("TXT_STATUS", $lng->txt("status"));
 $tpl->setVariable("TXT_LASTCHANGE", $lng->txt("last_change"));
 
-foreach ($langs as $row)
+//vd($languages);
+//exit;
+
+foreach ($languages as $lang_key => $row)
 {
-        $i++;
-        $tpl->setCurrentBlock("language_row");
-        $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-        $tpl->setVariable("ID", $row["id"]);
-        $tpl->setVariable("LNG", $row["name"]);
-        $tpl->setVariable("STATUS", $lng->txt($row["status"]));
+		$i++;
+		$link = "";
+		$tpl->setCurrentBlock("language_row");
+		$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+		$tpl->setVariable("LNG", $row["long"]);
 
-        if ($row["status"] == "installed")
-        {
-            $link = "adm_languages.php?cmd=del&amp;id=".$row["id"];
-        }
-
-        if ($row["status"] == "not_installed")
-        {
-            $link = "adm_languages.php?cmd=install&amp;id=".$row["id"];
-        }
-
-        $tpl->setVariable("LINK", $link);
-
-        if ($row["lastchange"] != "") {
-                $tpl->setVariable("LASTCHANGE", $lng->fmtDateTime($row["lastchange"]));
+		if ($row["installed"]) 
+		{
+			$tpl->setVariable("STATUS", $lng->txt("installed"));
+			//$_GET["message"] = "Systemsprache kann nicht deinstalliert werden";
+			$link = "adm_languages.php?cmd=uninstall&lang_key=".$lang_key;
+		}
+		else
+		{
+			$tpl->setVariable("STATUS", $lng->txt("not_installed"));
+			$link = "adm_languages.php?cmd=install&lang_key=".$lang_key;
+		}
+		
+		// avoid uninstalling of system language and language in use
+		if (($lang_key == $lng->systemLang) || ($lang_key == $lng->userLang))
+		{
+			if ($lang_key == $lng->systemLang)
+			{
+				$tpl->setVariable("STATUS", $lng->txt("system_language"));
+				$link = "";
+			}
+			else
+			{
+				$tpl->setVariable("STATUS", $lng->txt("in_use"));
+				$link = "";
+			}
+		}
+		
+		$tpl->setVariable("LINK", $link);
+		
+        if ($row["update"] != "") {
+                $tpl->setVariable("LASTCHANGE", $lng->ftimestamp2datetimeDE($row["update"]));
         }
         $tpl->parseCurrentBlock();
 }
 
+// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
+if ($_GET["message"])
+{
+    $tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("MSG", urldecode($_GET["message"]));
+	$tpl->parseCurrentBlock();
+}
+/*
 $tpl->setVariable("TXT_GENERATE", $lng->txt("languages_generate_from_file"));
-$tpl->setVariable("LANGMASTERFILE", "languages.txt");
 $tpl->setVariable("TXT_SELECTED", $lng->txt("selected"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("FORMACTION", "adm_languages.php");
@@ -138,10 +161,11 @@ $tpl->setVariable("VALUE", "install");
 $tpl->setVariable("OPTION", $lng->txt("install"));
 $tpl->parseCurrentBlock();
 
-
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_LANGUAGES", $lng->txt("languages"));
 $tpl->parseCurrentBlock();
+
+*/
 
 $tpl->show();
 

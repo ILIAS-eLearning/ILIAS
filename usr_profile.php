@@ -63,10 +63,10 @@ if ($_GET["cmd"] == "save")
 }
 
 //get all languages
-$langs = $lng->getInstalledLanguages();
+$lng->getLanguageNames($lng->userLang);
 
 //go through languages
-foreach ($langs as $row)
+foreach ($lng->LANGUAGES as $row)
 {
 	$tpl->setCurrentBlock("sel_lang");
 	$tpl->setVariable("LANG", $row["name"]);

@@ -1,0 +1,390 @@
+/**
+* ILIAS language file
+*
+* @module		language file english
+* @modulegroup	language
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de> 
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+<!-- language file start --> 
+common#:#lang_version#:#1
+common#:#lang_dateformat#:#MM/DD/YYYY
+common#:#sep_thousand#:#,
+common#:#sep_decimal#:#.
+common#:#absolute_path#:#absolute path
+common#:#accept_usr_agreement#:#accept user agreement?
+common#:#access#:#access
+common#:#actions#:#actions
+common#:#add#:#add 
+common#:#add_author#:#add author
+common#:#add_member#:#add member
+common#:#administrate#:#administrate
+common#:#administration#:#administration
+common#:#administrator#:#administrator
+common#:#also_as_email#:#also as email
+common#:#announce#:#announce
+common#:#announce_changes#:#announce changes
+common#:#archive#:#archive
+common#:#are_you_sure#:#Are you sure?
+common#:#assign_lo_forum#:#assign lo forum
+common#:#authors#:#authors
+common#:#available_languages#:#available languages
+common#:#back#:#back
+common#:#basedn#:#BaseDN
+common#:#basic_data#:#basic data
+common#:#bc#:#bc
+common#:#bookmark_new#:#new bookmark
+common#:#bookmarks#:#bookmarks
+common#:#categories#:#categories
+common#:#cc#:#cc
+common#:#change#:#change
+common#:#change_lo_info#:#change lo info
+common#:#change_metadata#:#change metadata
+common#:#chapter#:#chapter
+common#:#chapter_number#:#chapter number
+common#:#chapter_title#:#chapter title
+common#:#check#:#check
+common#:#chg_language#:#change language
+common#:#chg_password#:#change password
+common#:#choose_language#:#choose your language
+common#:#city#:#city
+common#:#comma_separated#:#comma separated
+common#:#compose#:#compose
+common#:#contact_information#:#contact information
+common#:#country#:#country
+common#:#course#:#course
+common#:#courses#:#courses
+common#:#create#:#create
+common#:#create_in#:#create in
+common#:#crs_available#:#available courses
+common#:#crs_management_system#:#crs management system
+common#:#current_password#:#current password
+common#:#database#:#database
+common#:#database_exists#:#database exists
+common#:#database_is_uptodate#:#the database is up-to-date
+common#:#database_needs_update#:#database needs an update
+common#:#database_update#:#update database
+common#:#database_version#:#current database version
+common#:#date#:#date
+common#:#db_host#:#database host
+common#:#db_name#:#database name
+common#:#db_pass#:#database password
+common#:#db_type#:#database type
+common#:#db_user#:#database user
+common#:#db_version#:#database version
+common#:#default#:#default
+common#:#delete#:#delete
+common#:#delete_all#:#delete all
+common#:#delete_selected#:#delete selected
+common#:#deleted#:#deleted
+common#:#description#:#description
+common#:#desired_password#:#desired password
+common#:#drafts#:#drafts
+common#:#edit#:#edit
+common#:#edit_data#:#edit data
+common#:#edit_properties#:#edit properties
+common#:#editor#:#editor
+common#:#email#:#email
+common#:#employee#:#employee
+common#:#enable#:#enable
+common#:#enumerate#:#enumerate
+common#:#err_create_database_failed#:#creation of database failed
+common#:#err_wrong_login#:#wrong login
+common#:#error_recipient#:#error recipient
+common#:#execute#:#execute
+common#:#faq_exercise#:#faq exercise
+common#:#feedback#:#feedback
+common#:#feedback_recipient#:#feedback recipient
+common#:#file_version#:#version provided in file
+common#:#files_location#:#files location
+common#:#fill_out_all_required_fields#:#please fill out all required fields
+common#:#firstname#:#firstname
+common#:#folder#:#folder
+common#:#folders#:#folders
+common#:#forename#:#forename
+common#:#forum#:#forum
+common#:#forum_new#:#new forum
+common#:#forums#:#forums
+common#:#forums_available#:#available forums
+common#:#forums_of_your_groups#:#forums of your groups
+common#:#forward#:#forward
+common#:#from#:#from:
+common#:#functions#:#functions
+common#:#gender#:#gender
+common#:#generate#:#generate
+common#:#glossary#:#glossary
+common#:#group_filesharing#:#group file sharing
+common#:#groupname#:#groupname
+common#:#groups#:#groups
+common#:#groupscope#:#groupscope
+common#:#guest#:#guest
+common#:#help#:#help
+common#:#host#:#host
+common#:#http_path#:#http path
+common#:#id#:#ID
+common#:#ilias_version#:#ILIAS version
+common#:#inbox#:#inbox
+common#:#information_abbr#:#info
+common#:#inifile#:#INI-file
+common#:#inst_id#:#installation ID
+common#:#inst_info#:#installation info
+common#:#inst_name#:#installation name
+common#:#install#:#install
+common#:#installed#:#installed
+common#:#institution#:#institution
+common#:#ip_address#:#IP address
+common#:#item#:#item
+common#:#keywords#:#keywords
+common#:#lang_path#:#language path
+common#:#language#:#language
+common#:#languages#:#languages
+common#:#languages_generate_from_file#:#generate languages from file
+common#:#languages_generate_from_upload#:#generate languages from uploaded file
+common#:#last_change#:#last change
+common#:#lastname#:#lastname
+common#:#ldap#:#LDAP
+common#:#level#:#level
+common#:#linebreak#:#linebreak
+common#:#link#:#link
+common#:#linked_pages#:#linked pages
+common#:#list_of_pages#:#pages list
+common#:#list_of_questions#:#question list
+common#:#literature#:#literature
+common#:#literature_bookmarks#:#literature bookmarks
+common#:#lo#:#learning object
+common#:#lo_available#:#available learning objects
+common#:#lo_categories#:#lo categories
+common#:#lo_edit#:#edit learning object
+common#:#lo_new#:#new learning object
+common#:#lo_other_langs#:#lo's in other langauges
+common#:#lo_overview#:#lo overview
+common#:#login#:#login
+common#:#login_to_ilias#:#login to ILIAS
+common#:#logout#:#logout
+common#:#los#:#learning objects
+common#:#los_last_visited#:#last visited learning objects
+common#:#mail#:#mail
+common#:#mail_s#:#mail(s)
+common#:#mail_s_unread#:#unread mail(s)
+common#:#mails#:#mails
+common#:#mark_all_read#:#mark all as read
+common#:#mark_all_unread#:#mark all as unread
+common#:#members#:#members
+common#:#message#:#message
+common#:#message_content#:#message content
+common#:#message_to#:#message to:
+common#:#migrate#:#migrate
+common#:#move_to#:#move to
+common#:#msg_changes_ok#:#the changes were ok
+common#:#msg_failed#:#sorry, action failed
+common#:#msg_nothing_found#:#msg_nothing_found
+common#:#multimedia#:#multimedia
+common#:#must_fill_in#:#must fill in
+common#:#name#:#name
+common#:#new#:#new
+common#:#new_folder#:#new folder
+common#:#new_group#:#new group
+common#:#news#:#news
+common#:#nickname#:#nickname
+common#:#no#:#no
+common#:#no_objects#:#no objects
+common#:#no_title#:#no title
+common#:#none#:#none
+common#:#normal#:#normal
+common#:#not_installed#:#not installed
+common#:#objects#:#objects
+common#:#offline_version#:#offline version
+common#:#old#:#old
+common#:#online_chapter#:#online chapter
+common#:#online_version#:#online version
+common#:#optimize#:#optimize
+common#:#options#:#options
+common#:#other#:#other
+common#:#overview#:#overview
+common#:#owner#:#owner
+common#:#page#:#page
+common#:#page_edit#:#edit page
+common#:#password#:#password
+common#:#path#:#path
+common#:#path_to_babylon#:#path to babylon
+common#:#path_to_convert#:#path to convert
+common#:#path_to_java#:#path to java
+common#:#path_to_unzip#:#path to unzip
+common#:#path_to_zip#:#path to zip
+common#:#payment_system#:#payment system
+common#:#perm_settings#:#permissions
+common#:#personal_desktop#:#personal desktop
+common#:#personal_profile#:#personal profile
+common#:#phone#:#phone
+common#:#phrase#:#phrase
+common#:#port#:#port
+common#:#position#:#position
+common#:#presentation_options#:#presentation options
+common#:#print#:#print
+common#:#profile#:#profile
+common#:#pub_section#:#public section
+common#:#publication#:#publication
+common#:#publication_date#:#publication date
+common#:#published#:#published
+common#:#publishing_organisation#:#publishing organisation
+common#:#question#:#question
+common#:#quit#:#quit
+common#:#read#:#read
+common#:#recipient#:#recipient
+common#:#refresh#:#refresh
+common#:#refresh_list#:#refresh list
+common#:#reply#:#reply
+common#:#reset#:#reset
+common#:#retype_password#:#retype password
+common#:#right#:#right
+common#:#rights#:#rights
+common#:#salutation#:#salutation
+common#:#salutation_f#:#Ms./Mrs.
+common#:#salutation_m#:#Mr.
+common#:#save#:#save
+common#:#save_and_back#:#save and back
+common#:#save_message#:#save message
+common#:#saved#:#saved
+common#:#saved_successfully#:#saved successfully
+common#:#search#:#search
+common#:#search_bc_recipient#:#search bc recipient
+common#:#search_cc_recipient#:#search cc recipient
+common#:#search_in#:#search in
+common#:#search_recipient#:#search recipient
+common#:#sections#:#sections
+common#:#select_all#:#select all
+common#:#selected#:#selected
+common#:#send#:#send
+common#:#sender#:#sender
+common#:#sent#:#sent
+common#:#sequence#:#sequence
+common#:#sequences#:#sequences
+common#:#server#:#server
+common#:#server_software#:#server software
+common#:#set#:#set
+common#:#set_offline#:#set offline
+common#:#set_online#:#set online
+common#:#setup#:#setup
+common#:#setup_ready#:#setup is ready
+common#:#setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
+common#:#show_owner#:#show owner
+common#:#signature#:#signature
+common#:#startpage#:#startpage
+common#:#status#:#status
+common#:#step#:#step
+common#:#street#:#street
+common#:#structure#:#structure
+common#:#student#:#student
+common#:#subcat_name#:#subcategory name
+common#:#subchapter_new#:#new subchapter
+common#:#subject#:#subject
+common#:#submit#:#submit
+common#:#subscription#:#subscription
+common#:#summary#:#summary
+common#:#system#:#system
+common#:#system_groups#:#system groups
+common#:#system_grp#:#system group
+common#:#system_message#:#system message
+common#:#system_language#:#system language
+common#:#test_intern#:#test intern
+common#:#time#:#time
+common#:#title#:#title
+common#:#to#:#to:
+common#:#total#:#total
+common#:#tpl_path#:#template path
+common#:#trash#:#trash
+common#:#type#:#type
+common#:#type_your_message_here#:#type your message here
+common#:#uid#:#uid
+common#:#unknown#:#UNKNOWN
+common#:#unread#:#unread
+common#:#update_applied#:#update applied
+common#:#url#:#url
+common#:#url_description#:#url description
+common#:#userdata#:#userdata
+common#:#username#:#username
+common#:#users#:#users
+common#:#usr_agreement#:#user agreement
+common#:#usr_skin#:#user skin
+common#:#usr_style#:#usr style
+common#:#version#:#version
+common#:#view_content#:#view content
+common#:#visible_layers#:#visible layers
+common#:#write#:#write
+common#:#yes#:#yes
+common#:#your_message#:#your message
+common#:#zip#:#zip code
+common#:#obj_not_found#:#object not found
+common#:#cut#:#cut
+common#:#copy#:#copy
+common#:#paste#:#paste
+common#:#clear#:#clear
+common#:#required_field#:#required field
+common#:#you_may_add_local_roles#:#you may add local roles
+common#:#obj_owner#:#This Object is owned by
+common#:#permission#:#permission
+common#:#roles#:#roles
+common#:#uninstall#:#uninstall
+common#:#frm#:#forum
+common#:#obj#:#object
+common#:#cat#:#category
+common#:#le#:#learning module
+common#:#grp#:#group
+common#:#crs#:#course
+common#:#file#:#file
+common#:#rolf#:#role folder
+common#:#rolt#:#role template
+common#:#lngf#:#language folder
+common#:#lng#:#language
+common#:#change_language#:#change language
+common#:#update_language#:#update language
+common#:#check_language#:#check language
+common#:#set_system_language#:#set system language
+common#:#system_choose_language#:#system choose language
+common#:#usr#:#user
+common#:#user#:#user
+common#:#usrf#:#user folder
+common#:#objf#:#object folder
+common#:#role#:#role
+common#:#passwd#:#password
+common#:#desc#:#description
+common#:#default_role#:#default role
+common#:#enabled#:#enabled
+common#:#disabled#:#disabled
+common#:#import#:#import
+common#:#in_use#:#user language
+common#:#lang_de#:#German
+common#:#lang_en#:#English
+common#:#lang_dk#:#D&auml;nish
+common#:#lang_pl#:#Polnish
+common#:#lang_se#:#Schwedish
+common#:#lang_no#:#Norwegish
+common#:#lang_es#:#Spanish
+common#:#lang_fr#:#Franz&ouml;sish
+common#:#lang_it#:#Italienish
+common#:#lang_id#:#Indonesish
+common#:#lang_xx#:#benutzerdefiniert
