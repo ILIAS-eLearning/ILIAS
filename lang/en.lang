@@ -58,9 +58,6 @@ edit_data#:#edit data
 email#:#email
 employee#:#employee
 err_create_database_failed#:#creation of database failed
-err_session_expired#:#Your Session expired. Please relogin.
-err_idled#:#You have been idle too long. Please relogin.
-err_wrong_login#:#Wrong Login Data.
 execute#:#execute
 faq_exercise#:#faq exercise
 feedback#:#feedback
@@ -295,5 +292,7 @@ tpl_path#:#template path
 lang_path#:#language path
 fill_out_all_required_fields#:#please fill out all required fields
 saved_successfully#:#saved successfully
-usr_style#:#style
-ip_address#:#IP address
+view_content#:#view content
+edit_properties#:#edit properties
+perm_settings#:#permission
+show_owner#:#show owner
