@@ -147,7 +147,7 @@ class ilObjectGUI
 	function setAdminTabs()
 	{
 		global $rbacsystem;
-
+		
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		$d = $this->objDefinition->getProperties($this->type);
@@ -157,7 +157,8 @@ class ilObjectGUI
 			$tabs[] = array($row["lng"], $row["name"]);
 		}
 
-		if (isset($_GET["obj_id"]))
+		// check for call_by_reference too to avoid hacking
+		if (isset($_GET["obj_id"]) and $this->call_by_reference === false)
 		{
 			$object_link = "&obj_id=".$_GET["obj_id"];
 		}
@@ -176,40 +177,49 @@ class ilObjectGUI
 				$tabtype = "tabinactive";
 				$tab = "tab";
 			}
+
 			$show = true;
-			switch($row[1])
+			
+			// only check permissions for tabs if object is a permission object
+			if ($this->call_by_reference)
 			{
-			  case 'view':
-				  if(!$rbacsystem->checkAccess('visible',$this->ref_id))
-				  {
-					  $show = false;
-				  }
-				  break;
-
-			  case 'edit':
-				  if(!$rbacsystem->checkAccess('write',$this->ref_id))
-				  {
-					  $show = false;
-				  }
-				  break;
-
-			  case 'perm':
-				  if(!$rbacsystem->checkAccess('edit permission',$this->ref_id))
-				  {
-					  $show = false;
-				  }
-				  break;
-			  case 'trash':
-				  if(!$rbacsystem->checkAccess('edit permission',$this->ref_id))
-				  {
-					  $show = false;
-				  }
-				  break;
+				// only show tab when the corresponding permission is granted
+				switch ($row[1])
+				{
+				  case 'view':
+					  if (!$rbacsystem->checkAccess('visible',$this->ref_id))
+					  {
+						  $show = false;
+					  }
+					  break;
+	
+				  case 'edit':
+					  if (!$rbacsystem->checkAccess('write',$this->ref_id))
+					  {
+						  $show = false;
+					  }
+					  break;
+	
+				  case 'perm':
+					  if (!$rbacsystem->checkAccess('edit permission',$this->ref_id))
+					  {
+						  $show = false;
+					  }
+					  break;
+				  case 'trash':
+					  if (!$rbacsystem->checkAccess('edit permission',$this->ref_id))
+					  {
+						  $show = false;
+					  }
+					  break;
+				} //switch
 			}
-			if(!$show)
+
+			if (!$show)
 			{
 				continue;
 			}
+
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $tabtype);
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
@@ -1438,7 +1448,7 @@ class ilObjectGUI
 						$this->ilias->raiseError("No permission to create Role Folder",$this->ilias->error_obj->WARNING);
 					}
 				}
-				
+
 				// CHECK ACCESS 'write' of role folder
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
@@ -1520,15 +1530,12 @@ class ilObjectGUI
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
-
-//		$this->getTemplateFile("view");
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
 
-//var_dump("<pre>",$this->data,"</pre>");exit;
-
+// sorting temp. disabled
 //require_once "./include/inc.sort.php";
 $maxcount = count($this->data["data"]);
 //$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
