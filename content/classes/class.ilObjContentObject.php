@@ -78,7 +78,7 @@ class ilObjContentObject extends ilObject
 			if ($this->getId())
 			{
 				$new_meta =& new ilMetaData($this->getType(), $this->getId());
-			}	
+			}
 			else
 			{
 				$new_meta =& new ilMetaData();
@@ -629,6 +629,16 @@ class ilObjContentObject extends ilObject
 		return $this->toc_active;
 	}
 
+	function setActiveNumbering($a_num)
+	{
+		$this->numbering = $a_num;
+	}
+
+	function isActiveNumbering()
+	{
+		return $this->numbering;
+	}
+
 	function setActivePrintView($a_print)
 	{
 		$this->print_view_active = $a_print;
@@ -663,6 +673,7 @@ class ilObjContentObject extends ilObject
 		$this->setTOCMode($lm_rec["toc_mode"]);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
+		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
@@ -680,6 +691,7 @@ class ilObjContentObject extends ilObject
 			" toc_mode = '".$this->getTOCMode()."',".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
+			" numbering = '".ilUtil::tf2yn($this->isActiveNumbering())."',".
 			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".

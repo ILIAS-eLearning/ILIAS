@@ -238,7 +238,8 @@ class ilLMPageObject extends ilLMObject
 	*
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
-	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE)
+	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
+		$a_include_numbers = false)
 	{
 		global $ilDB;
 
@@ -252,14 +253,48 @@ class ilLMPageObject extends ilLMObject
 			return "";
 		}
 
-		if($a_mode == IL_PAGE_TITLE)
-		{
-			return $pg_rec["title"];
-		}
-
 		$tree = new ilTree($pg_rec["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
+
+		if($a_mode == IL_PAGE_TITLE)
+		{
+			$nr = "";
+
+			/*
+			if ($a_include_numbers)
+			{
+				if ($tree->isInTree($pg_rec["obj_id"]))
+				{
+					// get page tree node
+					$query = "SELECT * FROM lm_tree WHERE child = ".
+						$ilDB->quote($a_pg_id)." AND lm_id = ".
+						$ilDB->quote($pg_rec["lm_id"]);
+					$tree_set = $ilDB->query($query);
+					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+					$depth = $tree_node["depth"];
+
+					//$nr = $tree->getChildSequenceNumber($tree_node)." ";
+					$nr = " ";
+					$dot = "";
+					for ($i = $depth - 1; $i > 1; $i --)
+					{
+						// get next parent tree node
+						$query = "SELECT * FROM lm_tree WHERE child = ".
+						$ilDB->quote($tree_node["parent"])." AND lm_id = ".
+						$ilDB->quote($pg_rec["lm_id"]);
+						$tree_set = $ilDB->query($query);
+						$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+						$seq = $tree->getChildSequenceNumber($tree_node);
+
+						$nr = $seq.$dot.$nr;
+						$dot = ".";
+					}
+				}
+			}*/
+			
+			return $nr.$pg_rec["title"];
+		}
 
 		if ($tree->isInTree($pg_rec["obj_id"]))
 		{

@@ -28,6 +28,7 @@
 <xsl:param name="mode"/>
 <xsl:param name="media_mode"/>
 <xsl:param name="pg_title"/>
+<xsl:param name="pg_title_class"/>
 <xsl:param name="pg_id"/>
 <xsl:param name="ref_id"/>
 <xsl:param name="parent_id"/>
@@ -47,6 +48,12 @@
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
+		<xsl:if test="$pg_title_class = ''">
+			<xsl:attribute name="class">ilc_PageTitle</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$pg_title_class != ''">
+			<xsl:attribute name="class"><xsl:value-of select="$pg_title_class" /></xsl:attribute>
+		</xsl:if>
 		<xsl:value-of select="$pg_title"/>
 		</div>
 	</xsl:if>
