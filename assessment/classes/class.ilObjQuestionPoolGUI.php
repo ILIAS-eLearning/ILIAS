@@ -286,8 +286,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 								$question = new ASS_OrderingQuestion();
 								break;
 						}
-						$question->from_xml("<questestinterop>$item</questestinterop>");
 						$question->setObjId($this->object->getId());
+						$question->from_xml("<questestinterop>$item</questestinterop>");
+//						$question->setObjId($this->object->getId());
 						$question->saveToDb();
 					}
 				}

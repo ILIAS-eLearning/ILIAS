@@ -156,6 +156,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		}
 		$itemnodes = $item->child_nodes();
 		$materials = array();
+		$images = array();
 		$shuffle = "";
 		foreach ($itemnodes as $index => $node)
 		{
@@ -190,8 +191,26 @@ class ASS_MatchingQuestion extends ASS_Question
 								foreach ($labels as $lidx => $response_label)
 								{
 									$material = $response_label->first_child();
-									$mattext = $material->first_child();
-									$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+									if ($this->get_matching_type() == MT_TERMS_PICTURES)
+									{
+										$mattype = $material->first_child();
+										if (strcmp($mattype->node_name(), "matimage") == 0)
+										{
+											$filename = $mattype->get_attribute("label");
+											$image = base64_decode($mattype->get_content());
+											$images["$filename"] = $image;
+											$materials[$response_label->get_attribute("ident")] = $filename;
+										}
+										else
+										{
+											$materials[$response_label->get_attribute("ident")] = $mattype->get_content();
+										}
+									}
+									else
+									{
+										$mattext = $material->first_child();
+										$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+									}
 								}
 							}
 						}
@@ -209,6 +228,34 @@ class ASS_MatchingQuestion extends ASS_Question
 						}
 					}
 					break;
+			}
+		}
+		if (count($images))
+		{
+			$this->saveToDb();
+			foreach ($images as $filename => $image)
+			{
+				if ($filename)
+				{
+					$imagepath = $this->getImagePath();
+					if (!file_exists($imagepath))
+					{
+						ilUtil::makeDirParents($imagepath);
+					}
+					$imagepath .=  $filename;
+					$fh = fopen($imagepath, "wb");
+					if ($fh == false)
+					{
+						global $ilErr;
+						$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
+						return;
+					}
+					$imagefile = fwrite($fh, $image);
+					fclose($fh);
+					// create thumbnail file
+					$thumbpath = $imagepath . "." . "thumb.jpg";
+					ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+				}
 			}
 		}
 	}

@@ -127,6 +127,7 @@ assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#error_open_image_file#:#Error opening an image file!
+assessment#:#error_save_image_file#:#Error saving an image file!
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_data#:#Evaluation Data
