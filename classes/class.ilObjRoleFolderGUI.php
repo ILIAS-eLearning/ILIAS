@@ -66,7 +66,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
 
-		if ($list = $rbacreview->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
+		if ($list = $rbacreview->getRoleListByObject($_GET["ref_id"],true))
 		{
 			foreach ($list as $key => $val)
 			{
@@ -93,7 +93,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		foreach ($this->data["data"] as $key => $val)
 		{
 			$this->data["ctrl"][$key] = array(
-											"ref_id"	=> $this->id,
+											"ref_id"	=> $this->object->getRefId(),
 											"obj_id"	=> $val["obj_id"],
 											"type"		=> $val["type"],
 											// DEFAULT ACTION IS 'permObject()'
@@ -101,7 +101,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 											);		
 
 			unset($this->data["data"][$key]["obj_id"]);
-						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+			$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		parent::displayList();

@@ -178,11 +178,9 @@ class ilRbacReview
 	* @access	public
 	* @param	integer	ref_id
 	* @param	boolean	if true fetch template roles too
-	* @param	string	order by type,title,desc or last_update
-	* @param	string	order ASC or DESC (default: ASC)
 	* @return	array	set ids
 	*/
-	function getRoleListByObject($a_ref_id,$a_templates,$a_order = "",$a_direction = "ASC")
+	function getRoleListByObject($a_ref_id,$a_templates = false)
 	{
 		global $log;
 
@@ -197,11 +195,6 @@ class ilRbacReview
 
 		$role_list = array();
 
-		if (!$a_order)
-		{
-			$a_order = "title";
-		}
-
 		if ($a_templates)
 		{
 			 $where = "WHERE object_data.type IN ('role','rolt') ";		
@@ -214,15 +207,14 @@ class ilRbacReview
 		$q = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.parent = '".$a_ref_id."' ".
-			 "ORDER BY ".$a_order." ".$a_direction;
+			 "AND rbac_fa.parent = '".$a_ref_id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$role_list[] = fetchObjectData($row);
 		}
-
+		
 		return $role_list;
 	}
 
