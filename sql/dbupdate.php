@@ -2035,3 +2035,6 @@ CREATE TABLE `tst_active` (
 ALTER  TABLE  `tst_solutions`  DROP  `postponed` ;
 <#127>
 ALTER  TABLE  `tst_active`  ADD  `postponed` text AFTER  `sequence` ;
+
+<#128>
+UPDATE settings SET value = '3.0.0_beta5 2004/03/09' WHERE keyword = 'ilias_version' LIMIT 1;
