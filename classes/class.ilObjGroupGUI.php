@@ -171,7 +171,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// check registration & password
 		if ($_POST["enable_registration"] == 2 and empty($_POST["password"]))
 		{
@@ -194,7 +194,7 @@ class ilObjGroupGUI extends ilObjectGUI
 //		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
 		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
 
-		ilObjUser::updateActiveRoles($groupObj->getOwner());
+//		ilObjUser::updateActiveRoles($groupObj->getOwner());
 
 		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
 		$groupObj->setPassword($_POST["password"]);
