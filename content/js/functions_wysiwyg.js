@@ -14,7 +14,7 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    editor.surroundHTML('<span class="iliasstrong">', '</span>');
+                    editor.surroundHTML('<span class="ilc_Strong">', '</span>');
                   }
     });
 
@@ -26,7 +26,7 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id)
 	  			  {
-                    editor.surroundHTML('<span class="iliasemp">', '</span>');
+                    editor.surroundHTML('<span class="ilc_Emph">', '</span>');
                   }
     });
 
@@ -38,7 +38,7 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    editor.surroundHTML('<span class="iliascom">', '</span>');
+                    editor.surroundHTML('<span class="ilc_Comment">', '</span>');
                   }
     });
 
@@ -50,7 +50,7 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
-                    editor.surroundHTML('<span class="iliasquot">', '</span>');
+                    editor.surroundHTML('<span class="ilc_Quotation">', '</span>');
                   }
     });
     
@@ -102,10 +102,10 @@ function initEditor(TextAreaName)
     });
 	
   	cfg.pageStyle = ".footnote { color:0000FF; } ";
-	cfg.pageStyle += ".iliasquot {color: rgb(165, 42, 42); font-style: italic;} ";
-	cfg.pageStyle += ".iliascom {color: rgb(0, 128, 0);} ";
-	cfg.pageStyle += ".iliasstrong {font-weight: bold;} ";
-	cfg.pageStyle += ".iliasemp {font-style: italic;} ";
+	cfg.pageStyle += ".ilc_Quotation {color: rgb(165, 42, 42); font-style: italic;} ";
+	cfg.pageStyle += ".ilc_Comment {color: rgb(0, 128, 0);} ";
+	cfg.pageStyle += ".ilc_Strong {font-weight: bold;} ";
+	cfg.pageStyle += ".ilc_Emph {font-style: italic;} ";
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
 	
 	//cfg.statusBar = false;
@@ -174,48 +174,10 @@ function addFussnote(Tb)
 
 function buttonFootnote() 
 {
-
-	w = window.open("","footnote","width=450,height=350,resizable=yes");
+	w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
 	setTimeout("w.focus()",500);
-	
-	html = "<html><body>";
-	html += "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />";
-	html += "<b>Fussnoten / Footnotes</b><ul>";
-	
-	for (i=0;i<fussnoten.length;i++) 
-	{
-		j=i+1;
-		html += "["+j+"]&nbsp;"+fussnoten[i]+"<br>"; 
-	}
-	html += "</ul>";
-	
-	html += "<form name='form'>";
-	html += "<hr size=1>";
-	html += "Neue Fussnote eintragen:<br>";
-	html += "<input type='text' size=30 style='width:100%' name='fn'>";
-	html += "<p>";
-	html += "<table cellspacing=0 cellpadding=0 width=100%><tr>";
-	html += "<td><input type='button' value='Fussnote eintragen' onClick=\"opener.addFussnote(document.form.fn.value);opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');window.close();\"></td>";
-	html += "<td align=right><input type='button' value='Fenster schliessen' onClick='window.close();'></td>";
-	html += "</tr></table>";
-	html += "";
-	html += "";
-	html += "";
-	html += "</form>";
-	
-	html += "</body></html>";
-	
-	w.document.open();
-	w.document.write(html);
-	w.document.close();
-	
-	//editor.surroundHTML('[fn]', '[/fn]');
 }
 
-/**
-*	Open Window for ($i=0;$i<count();$i++) {
-}
-*/
 function buttonExternalLink() 
 {
 	w = window.open("lm_edit.php?cmd=popup&ptype=xtl","xtl","width=500,height=450,resizable=yes");

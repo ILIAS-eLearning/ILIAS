@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+</head>
+
+<body>
+
+Popup footnote!
+<p>
+
+<b>Fussnoten / Footnotes</b>
+
+<ul>
+
+<script>	
+	for (i=0;i<opener.fussnoten.length;i++) 
+	{
+		j=i+1;
+		document.write( "["+j+"]&nbsp;"+opener.fussnoten[i]+"<br>"); 
+	}
+</script>
+
+</ul>
+	
+<form name='form'>
+<hr size=1>
+Neue Fussnote eintragen:<br>
+<input type='text' size=30 style='width:100%' name='fn'>
+<p>
+<table cellspacing=0 cellpadding=0 width=100%>
+	<tr>
+		<td>
+			<input 	type='button' 
+					value='Fussnote eintragen' 
+					onClick="opener.addFussnote(document.form.fn.value);opener.editor.surroundHTML('<span class=&quot;footnote&quot; value=&quot;'+document.form.fn.value+'&quot;>['+opener.fnCount+']</span>','');window.close();">
+		</td>
+		<td align=right>
+			<input type='button' value='Fenster schliessen' onClick='window.close();'>
+		</td>
+	</tr>
+</table>
+
+
+
+</form>
+
+</body>
+</html>
