@@ -123,6 +123,12 @@
 								</xsl:attribute>
 								<option value="insert_par">insert Paragr.</option>
 								<option value="insert_tab">insert Table</option>
+								<option value="newRowAfter">new Row after</option>
+								<option value="newRowBefore">new Row before</option>
+								<option value="newColAfter">new Col after</option>
+								<option value="newColBefore">new Col before</option>
+								<option value="deleteRow">delete Row</option>
+								<option value="deleteCol">delete Col</option>
 							</select>
 							<input class="ilEditSubmit" type="submit" value="Go">
 								<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
