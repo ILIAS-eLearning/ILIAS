@@ -285,6 +285,7 @@ common#:#glo_a#:#un glossario###01 Oct 2003 new variable
 common#:#glo_add#:#Aggiungi un glossario###22 Sep 2003 new variable
 common#:#glo_added#:#Glossario aggiunto###15 Aug 2003 new variable
 common#:#glo_new#:#Nuovo glossario###22 Sep 2003 new variable
+common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
 common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario###15 Aug 2003 new variable
 common#:#group_access_denied#:#Vietato l&#039;accesso###01 Nov 2003 new variable

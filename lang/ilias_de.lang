@@ -287,6 +287,7 @@ common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_new#:#Neues Glossar
+common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
 common#:#group_access_denied#:#Zugriff verweigert
