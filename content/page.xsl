@@ -41,6 +41,12 @@
 	</p>
 </xsl:template>
 
+<xsl:template match="Emph|Strong|Comment">
+	<xsl:variable name="Tagname" select="name()"/>
+	<span class="il{$Tagname}"><xsl:apply-templates/></span>
+</xsl:template>
+
+
 <!--
 <xsl:template match="Item/Paragraph">
 	<xsl:apply-templates/>

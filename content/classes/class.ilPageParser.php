@@ -148,8 +148,19 @@ class ilPageParser extends ilSaxParser
 				}
 				break;
 
+			case "Comment":
+			case "Emph":
+			case "Strong":
+				if (is_object($this->paragraph))
+				{
+					$this->paragraph->appendText("<$a_name>");
+				}
+				break;
+
+
 		}
 		$this->beginElement($a_name);
+
 	}
 
 	/**
@@ -158,11 +169,20 @@ class ilPageParser extends ilSaxParser
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 //echo "EndTag:$a_name:<br>";
-		/*
+
 		switch($a_name)
 		{
+			case "Comment":
+			case "Emph":
+			case "Strong":
+				if (is_object($this->paragraph))
+				{
+					$this->paragraph->appendText("</$a_name>");
+				}
+				break;
+
 		}
-		*/
+
 		$this->endElement($a_name);
 	}
 
@@ -183,6 +203,16 @@ class ilPageParser extends ilSaxParser
 					$this->paragraph->appendText($a_data);
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
+
+				case "Comment":
+				case "Emph":
+				case "Strong":
+					if (is_object($this->paragraph))
+					{
+						$this->paragraph->appendText($a_data);
+					}
+				break;
+
 			}
 		}
 

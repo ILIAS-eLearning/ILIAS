@@ -235,16 +235,13 @@ function storeCaret(textEl) {
 </script>
 <form action="{FORMACTION}" name="post" method="post">
 <table class="fullwidth">
-<!-- BEGIN content_selection -->
-<tr>
-	<td class="submit" >
-		{SELECT_CONTENT}
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+<tr class="tblheader">
+	<td class="std" >
+		{TXT_ACTION}
 	</td>
 </tr>
-<!-- END content_selection -->
-<tr>
-	<td class="submit">
+<tr class="std">
+	<td class="std">
 	<input type="text" name="helpbox" size="45" maxlength="100" class="ilEditHelpline" value="Tip: Styles can be applied quickly to selected text." />
 	<br />
 	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " style="font-weight:bold; width: 30px" onClick="bbstyle(0)" onMouseOver="helpline('b')" />
@@ -260,9 +257,9 @@ function storeCaret(textEl) {
 -->
 	</td>
 </tr>
-<tr>
-<td class="submit">
-<textarea name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" cols="80" rows="15" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+<tr class="std">
+<td class="std">
+<textarea name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <!-- BEGIN commands -->
@@ -272,5 +269,13 @@ function storeCaret(textEl) {
 	</td>
 </tr>
 <!-- END commands -->
+<!-- BEGIN content_selection -->
+<tr>
+	<td class="submit" >
+		{SELECT_CONTENT}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+	</td>
+</tr>
+<!-- END content_selection -->
 </table>
 </form>
