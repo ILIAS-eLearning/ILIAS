@@ -440,8 +440,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     }
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", true);
-    $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
-    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
+	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+  	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_as_create_new_question.html", true);
+	    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
+		}
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
 
     
@@ -505,23 +507,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     }
   
   // create edit buttons & table footer
-  
-//    if ($this->view_mode == VIEW_MODE_STANDARD) {
+  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
       $this->tpl->setCurrentBlock("standard");
-//      $this->tpl->setVariable("EDIT", $this->lng->txt("edit"));
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
       $this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
       $this->tpl->parseCurrentBlock();
-//    } elseif ($this->view_mode == VIEW_MODE_QUESTION_SELECTION) {
-//      $this->tpl->setCurrentBlock("selection");
-//      $this->tpl->setVariable("INSERT", "Insert");
-//      $this->tpl->parseCurrentBlock();
-//    }
-    
-    $this->tpl->setCurrentBlock("Footer");
-    $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-    $this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("Footer");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+	}    
     
     $this->tpl->setCurrentBlock("QTab");
 
@@ -563,13 +558,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $colors = array("tblrow1", "tblrow2");
    	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
     $counter = 0;
+		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
     if ($query_result->numRows() > 0)
     {
       while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
       {
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
-          if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+          if ($editable) {
 						if ($this->object->is_in_use($data->question_id)) {
 	            $this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id&locked=1\">" . $img_locked . "</a>");
 						} else {
@@ -600,21 +596,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       $this->tpl->parseCurrentBlock();
     }
     
-    // "create question" form
-    $this->tpl->setCurrentBlock("QTypes");
-    $query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
-    $query_result = $this->ilias->db->query($query);
-    while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
-    {
-      $this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-      $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-      $this->tpl->parseCurrentBlock();
-    }
-    $this->tpl->setCurrentBlock("CreateQuestion");
-    $this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
-    $this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
-    $this->tpl->parseCurrentBlock();
-
+	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			// "create question" form
+			$this->tpl->setCurrentBlock("QTypes");
+			$query = "SELECT * FROM qpl_question_type ORDER BY question_type_id";
+			$query_result = $this->ilias->db->query($query);
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("CreateQuestion");
+			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
+			$this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
+			$this->tpl->parseCurrentBlock();
+		}
     // define the sort column parameters
     $sort = array(
       "title" => $_GET["sort"]["title"],
@@ -845,7 +842,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			if ($role["link"])
 			{
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-				$this->tpl->setVariable("LINK_ROLE_RULESET","../adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
+				$this->tpl->setVariable("LINK_ROLE_RULESET","questionpool.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
 
@@ -917,7 +914,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "../adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "questionpool.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
@@ -928,7 +925,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-		$this->getFormAction("permSave","../adm_object.php?".$this->link_params."&cmd=permSave"));
+		$this->getFormAction("permSave","questionpool.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
