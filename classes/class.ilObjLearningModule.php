@@ -54,12 +54,13 @@ class ilObjLearningModule extends ilObject
 
 	function read()
 	{
+		parent::read();
 		$this->lm_tree = new ilTree($this->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
 
 		$this->meta_data =& new ilMetaData("lm", $this->getId());
-		parent::read();
+		//parent::read();
 	}
 
 	function getTitle()

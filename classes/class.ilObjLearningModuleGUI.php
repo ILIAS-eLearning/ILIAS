@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.11 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.12 2003/06/13 22:47:59 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -142,7 +142,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	*/
 	function importObject()
 	{
-		$this->getTemplateFile("import");
+		$this->getTemplateFile("import", "lm");
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		$this->tpl->setVariable("BTN_NAME", "upload");
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));

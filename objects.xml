@@ -35,7 +35,7 @@
 <object name="cat" class_name="Category" checkbox="1" inherit="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
-	<subobj name="lm">lm</subobj>
+	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
@@ -113,7 +113,7 @@
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
-	<subobj name="lm">lm</subobj>
+	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>

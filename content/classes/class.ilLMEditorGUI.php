@@ -47,7 +47,7 @@ class ilLMEditorGUI
 	var $tpl;
 	var $lng;
 	var $objDefinition;
-	var $lm_id;
+	var $ref_id;
 	var $lm_obj;
 
 	var $tree;
@@ -66,7 +66,7 @@ class ilLMEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition = $objDefinition;
-		$this->lm_id = $_GET["lm_id"];
+		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
 		$hier_id = $_GET["hier_id"];
@@ -113,10 +113,10 @@ class ilLMEditorGUI
 				break;
 
 			default:
-				$this->tree = new ilTree($_GET["lm_id"]);
+				$this->lm_obj =& new ilLearningModule($this->ref_id);
+				$this->tree = new ilTree($this->lm_obj->getId());
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
-				$this->lm_obj =& new ilLearningModule($this->lm_id);
 
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
@@ -185,7 +185,7 @@ class ilLMEditorGUI
 							break;
 
 						case "lm":
-							$lm_gui =& new ilLearningModuleGUI($_GET["lm_id"]);
+							$lm_gui =& new ilLearningModuleGUI($_GET["ref_id"]);
 							//require_once ("content/classes/class.ilObjLearningModuleGUI.php");
 							//$lm_gui =& new ilObjLearningModuleGUI("", $_GET["lm_id"], false);
 							//$lm_gui->setLearningModuleObject($this->lm_obj);
@@ -216,7 +216,7 @@ class ilLMEditorGUI
 	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.lm_edit_frameset.html", false, false, "content");
-		$this->tpl->setVariable("LM_ID",$this->lm_id);
+		$this->tpl->setVariable("REF_ID",$this->ref_id);
 		$this->tpl->show();
 	}
 
@@ -226,9 +226,8 @@ class ilLMEditorGUI
 	function explorer()
 	{
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-
 		// get learning module object
-		$this->lm_obj =& new ilLearningModule($this->lm_id);
+		$this->lm_obj =& new ilLearningModule($this->ref_id);
 
 		$path = (substr($this->tpl->tplPath,0,2) == "./") ?
 			".".$this->tpl->tplPath :
@@ -239,12 +238,12 @@ class ilLMEditorGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		require_once ("content/classes/class.ilLMEditorExplorer.php");
-		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId(),$this->lm_obj);
+		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId(),$this->lm_obj);
 		$exp->setTargetGet("obj_id");
 
 		if ($_GET["mexpand"] == "")
 		{
-			$mtree = new ilTree($this->lm_id);
+			$mtree = new ilTree($this->lm_obj->getId());
 			$mtree->setTableNames('lm_tree','lm_data');
 			$mtree->setTreeTablePK("lm_id");
 			$expanded = $mtree->readRootId();
@@ -262,9 +261,10 @@ class ilLMEditorGUI
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&lm_id=".$this->lm_id."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&mexpand=".$_GET["mexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
+
 	}
 
 
@@ -337,8 +337,8 @@ class ilLMEditorGUI
 			$obj_str = ($row["child"] == 1)
 				? ""
 				: "&obj_id=".$row["child"];
-			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=view&lm_id=".
-				$this->lm_id.$obj_str);
+			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=view&ref_id=".
+				$this->ref_id.$obj_str);
 			$this->tpl->parseCurrentBlock();
 
 		}
@@ -396,7 +396,7 @@ class ilLMEditorGUI
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
 			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
 			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", "lm_edit.php?lm_id=".$_GET["lm_id"]."&obj_id=".
+			$this->tpl->setVariable("TAB_LINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
 				$_GET["obj_id"]."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();

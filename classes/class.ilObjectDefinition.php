@@ -100,10 +100,10 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]["checkbox"];
 	}
-	
+
 	/**
 	* Does object permits stopping inheritance?
-	* 
+	*
 	* @param	string	object type
 	* @access	public
 	*/
@@ -114,7 +114,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* get properties by type
-	* 
+	*
 	* @access	public
 	*/
 	function getProperties($a_obj_name)
@@ -212,6 +212,28 @@ class ilObjectDefinition extends ilSaxParser
 			return $string;
 	}
 
+	/**
+	* get all subobjects that may be imported
+	*
+	* @access	public
+	*/
+	function getImportObjects($a_obj_type)
+	{
+		$imp = array();
+
+		if (is_array($this->obj_data[$a_obj_type]["subobjects"]))
+		{
+			foreach ($this->obj_data[$a_obj_type]["subobjects"] as $sub)
+			{
+				if($sub["import"] == 1)
+				{
+					$imp[] = $sub["name"];
+				}
+			}
+		}
+		return $imp;
+	}
+
 // PRIVATE METHODS
 	/**
 	* set event handler
@@ -251,6 +273,8 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				// NUMBER OF ALLOWED SUBOBJECTS (NULL means no limit)
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["max"] = $a_attribs["max"];
+				// also allow import ("1" means yes)
+				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["import"] = $a_attribs["import"];
 				break;
 			case 'property':
 				$this->current_tag = "property";

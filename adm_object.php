@@ -82,7 +82,7 @@ if (empty($cmd)) // if no cmd is given default to first property
 }
 
 // determine object type
-if ($_POST["new_type"] && ($cmd == "create"))
+if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
 {
 	$obj_type = $_POST["new_type"];
 }
@@ -100,6 +100,7 @@ $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./classes/class.ilObj".$class_name."GUI.php");
+//echo $class_constr.":".$method;
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->$method();
 

@@ -237,9 +237,9 @@ class ilLOListGUI
 
 				if ($lr_data["type"] == "lm")		// Test
 				{
-					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
+					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
 					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
-					$this->tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
+					$this->tpl->setVariable("VIEW_LINK","content/lm_presentation.php?ref_id=".$lr_data["ref_id"]);
 					$this->tpl->setVariable("TXT_VIEW", "(".$this->lng->txt("view").")");
 				}
 

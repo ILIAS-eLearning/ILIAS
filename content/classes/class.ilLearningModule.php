@@ -43,9 +43,9 @@ class ilLearningModule extends ilObjLearningModule
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModule($a_id)
+	function ilLearningModule($a_ref_id)
 	{
-		parent::ilObjLearningModule($a_id, false);
+		parent::ilObjLearningModule($a_ref_id, true);
 	}
 
 	// try to use ilObjLearningModule only!
