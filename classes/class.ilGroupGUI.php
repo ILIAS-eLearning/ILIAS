@@ -776,15 +776,9 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$img_contact = "pencil";
-		$img_change = "change";
-		$img_leave = "group_out";
-		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-		$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
-		$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
-
-//"<img src=\"".$ilUtil::getImagePath($img_contact)."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt("icon_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
-		
+		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
+		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
+		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";		
 		
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
