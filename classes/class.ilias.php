@@ -141,7 +141,8 @@ class ILIAS extends PEAR
 									'passwordcol' => $this->ini->readVariable("auth", "passcol")
 									);
 		// set tplPath
-		$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
+		//$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
+		$this->tplPath = "./templates/";
 
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
@@ -149,12 +150,12 @@ class ILIAS extends PEAR
 		// Error Handling
 		$this->error_obj = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
-		
+
 		// create instance of object factory
 		require_once("classes/class.ilObjectFactory.php");
 		$this->obj_factory =& new ilObjectFactory();
 	}
-	
+
 	/**
 	* Destructor
 	* @access	private
@@ -238,9 +239,10 @@ class ILIAS extends PEAR
 	function getSkins()
 	{
 		$skins = array();
-		
+
 		//open directory for reading and search for subdirectories
-		$tplpath = $this->ini->readVariable("server", "tpl_path");
+		//$tplpath = $this->ini->readVariable("server", "tpl_path");
+		$tplpath = "./templates";
 		if ($dp = @opendir($tplpath))
 		{
 			while (($file = readdir($dp)) != false)
@@ -261,7 +263,7 @@ class ILIAS extends PEAR
 		$this->skins = $skins;
 		return true;
 	}
-	
+
 	/**
 	* skin system: get all available styles from current templates
 	* @access	public
@@ -274,7 +276,8 @@ class ILIAS extends PEAR
 		$styles = array();
 
 		//open directory for reading and search for subdirectories
-		$tplpath = $this->ini->readVariable("server", "tpl_path")."/".$skin;
+		//$tplpath = $this->ini->readVariable("server", "tpl_path")."/".$skin;
+		$tplpath = "./templates/".$skin;
 
 		if ($dp = @opendir($tplpath))
 		{
