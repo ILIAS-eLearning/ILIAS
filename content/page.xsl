@@ -1448,7 +1448,7 @@
 		</xsl:when>
 
 		<!-- ordering -->
-		<xsl:when test = "@ident = 'OQT'">
+		<xsl:when test = "@ident = 'OQT' or @ident = 'OQP'">
 			<table class="nobackground">
 				<xsl:for-each select="render_choice/response_label">
 					<tr>
@@ -1464,7 +1464,17 @@
 							<xsl:attribute name="for">
 							<xsl:value-of select="@ident"/>
 							</xsl:attribute>
-							<xsl:value-of select="material/mattext"/>
+							<xsl:if test = "material/mattext">
+								<xsl:value-of select="material/mattext"/>
+							</xsl:if>
+							<xsl:if test = "material/matimage">
+								<a target="_new">
+									<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+									<img border="0">
+										<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+									</img>
+								</a>
+							</xsl:if>
 							</label>
 						</td>
 					</tr>
