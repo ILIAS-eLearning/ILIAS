@@ -38,6 +38,7 @@ class ilMetaDataGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $lm_obj;
 
 
 	/**
@@ -53,6 +54,11 @@ class ilMetaDataGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 
+	}
+
+	function setLMObject($a_lm_obj)
+	{
+		$this->lm_obj =& $a_lm_obj;
 	}
 
 	function setMetaDataObject(&$a_obj)
@@ -76,6 +82,8 @@ class ilMetaDataGUI
 	function edit()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=saveMeta");
 		$this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
 		$this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 		$this->tpl->setVariable("VAL_IDENTIFIER", $this->curValue("ID"));
