@@ -73,7 +73,7 @@ class ILIAS extends PEAR
     *  @access private
     */	
 	var $typedefinition = array(
-								"grp"  => "'grp','frm','le'",
+								"grp"  => "'frm','le'",
 								"cat"  => "'cat','frm','le','grp'",
 								"frm"  => "",
 								"le"   => "",
