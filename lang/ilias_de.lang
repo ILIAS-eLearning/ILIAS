@@ -244,7 +244,7 @@ common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppen-Mitglieder
 common#:#group_name#:#Gruppenname
 common#:#group_not_available#:#keine Gruppe verfügbar
-common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
+common#:#group_objects#:#Gruppen Objekte###09 Sep 2003 new variable
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_private#:#Privat
