@@ -317,13 +317,11 @@ $tpl->setVariable("TXT_SEND", $lng->txt("send"));
 $tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
 
 // MAIL DATA
-$tpl->setVariable("RCP_TO", htmlentities(ilUtil::stripSlashes($mail_data["rcp_to"])));
-$tpl->setVariable("RCP_CC", htmlentities(ilUtil::stripSlashes($mail_data["rcp_cc"])));
-$tpl->setVariable("RCP_BCC", htmlentities(ilUtil::stripSlashes($mail_data["rcp_bcc"])));
+$tpl->setVariable("RCP_TO", ilUtil::stripSlashes($mail_data["rcp_to"]));
+$tpl->setVariable("RCP_CC", ilUtil::stripSlashes($mail_data["rcp_cc"]));
+$tpl->setVariable("RCP_BCC",ilUtil::stripSlashes($mail_data["rcp_bcc"]));
 
-
-
-$tpl->setVariable("M_SUBJECT",htmlentities(ilUtil::stripSlashes($mail_data["m_subject"])));
+$tpl->setVariable("M_SUBJECT",ilUtil::stripSlashes($mail_data["m_subject"]));
 
 if(count($mail_data["attachments"]))
 {

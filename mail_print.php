@@ -67,7 +67,7 @@ if($mail_data["rcp_cc"])
 }
 // SUBJECT
 $tplprint->setVariable("TXT_SUBJECT",$lng->txt("subject"));
-$tplprint->setVariable("SUBJECT", $mail_data["m_subject"]);
+$tplprint->setVariable("SUBJECT",htmlspecialchars($mail_data["m_subject"]));
 
 // DATE
 $tplprint->setVariable("TXT_DATE", $lng->txt("date"));
@@ -75,7 +75,7 @@ $tplprint->setVariable("DATE", ilFormat::formatDate($mail_data["send_time"]));
 
 // MESSAGE
 $tplprint->setVariable("TXT_MESSAGE", $lng->txt("message"));
-$tplprint->setVariable("MAIL_MESSAGE", nl2br($mail_data["m_message"]));
+$tplprint->setVariable("MAIL_MESSAGE", nl2br(htmlspecialchars($mail_data["m_message"])));
 
 
 $tplprint->show();
