@@ -721,7 +721,6 @@ common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
 common#:#copy_to#:#to
 common#:#count#:#Count
-common#:#lm_type_scorm#:#SCORM
 common#:#country#:#Country
 common#:#course#:#Course
 common#:#courses#:#Courses
@@ -1244,6 +1243,7 @@ common#:#lm_join#:#Subscribe to Learning Module
 common#:#lm_leave#:#Unsubscribe from Learning Module
 common#:#lm_new#:#New Learning Module
 common#:#lm_read#:#Read access to Learning Module
+common#:#lm_type_scorm#:#SCORM
 common#:#lm_visible#:#Learning Module is visible
 common#:#lm_write#:#Edit Learning Module
 common#:#lng#:#Language

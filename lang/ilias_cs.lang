@@ -282,6 +282,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Please check at least one qu
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###16 Mar 2004 new variable
 assessment#:#tst_no_taken_tests#:#There are no taken tests!###16 Mar 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###16 Mar 2004 new variable
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percent solved###16 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###16 Mar 2004 new variable
 assessment#:#tst_question_no#:#Order###16 Mar 2004 new variable
@@ -337,6 +338,7 @@ assessment#:#tst_status_completed#:#completed###16 Mar 2004 new variable
 assessment#:#tst_status_completed_more_tries_possible#:#(completed)###16 Mar 2004 new variable
 assessment#:#tst_status_not_entered#:#not entered###16 Mar 2004 new variable
 assessment#:#tst_status_progress#:#in progress###16 Mar 2004 new variable
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test type###16 Mar 2004 new variable
 assessment#:#tst_types#:#Test types###16 Mar 2004 new variable
 assessment#:#tst_your_mark_is#:#Your mark is###16 Mar 2004 new variable
@@ -1241,6 +1243,7 @@ common#:#lm_join#:#Subscribe to Learning Module###16 Mar 2004 new variable
 common#:#lm_leave#:#Unsubscribe from Learning Module###16 Mar 2004 new variable
 common#:#lm_new#:#Nový výukový modul
 common#:#lm_read#:#Read access to Learning Module###16 Mar 2004 new variable
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Learning Module is visible###16 Mar 2004 new variable
 common#:#lm_write#:#Edit Learning Module###16 Mar 2004 new variable
 common#:#lng#:#Jazyk

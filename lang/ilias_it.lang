@@ -282,6 +282,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Per favore, scegli almeno un
 assessment#:#tst_no_questions_available#:#Non ci sono domande disponibili! Devi crearne di nuove.
 assessment#:#tst_no_taken_tests#:#Non sono stati scelti test!
 assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_question_no#:#Ordine
@@ -337,6 +338,7 @@ assessment#:#tst_status_completed#:#completato
 assessment#:#tst_status_completed_more_tries_possible#:#(completato) 
 assessment#:#tst_status_not_entered#:#non inserito
 assessment#:#tst_status_progress#:#in esecuzione
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
@@ -1239,6 +1241,7 @@ common#:#lm_join#:#Iscrivere al modulo
 common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo
 common#:#lm_new#:#Nuovo modulo
 common#:#lm_read#:#Accedere in lettura al modulo
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Vedere il modulo
 common#:#lm_write#:#Modificare il modulo
 common#:#lng#:#Lingua

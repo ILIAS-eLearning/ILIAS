@@ -282,6 +282,7 @@ assessment#:#tst_no_question_selected_for_removal#:#Markeer tenminste één vraa
 assessment#:#tst_no_questions_available#:#Er zijn geen vragen beschikbaar! U moet nieuwe vragen  creëren of bladeren voor vragen.
 assessment#:#tst_no_taken_tests#:#Er zijn geen testen gedaan!
 assessment#:#tst_nr_of_tries#:#Max. aantal keer geprobeerd
+assessment#:#tst_nr_of_tries_of_user#:#Tries already completed###29 Aug 2004 new variable
 assessment#:#tst_percent_solved#:#Percentage opgelost
 assessment#:#tst_processing_time#:#Max. verwerkings-tijd
 assessment#:#tst_question_no#:#Order
@@ -337,6 +338,7 @@ assessment#:#tst_status_completed#:#compleet
 assessment#:#tst_status_completed_more_tries_possible#:#(compleet)###30 Apr 2004 content changed
 assessment#:#tst_status_not_entered#:#Niet ingevoerd###30 Apr 2004 content changed
 assessment#:#tst_status_progress#:#werkend###30 Apr 2004 content changed
+assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test-type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Uw cijfer is
@@ -1241,6 +1243,7 @@ common#:#lm_join#:#Abonneer op  lesmodule
 common#:#lm_leave#:#Abonnement op lesmodule beëindigen
 common#:#lm_new#:#Nieuwe lesmodule
 common#:#lm_read#:#Lees-recht op lesmodule
+common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Lesmodule is zichtbaar
 common#:#lm_write#:#Wijzig lesmodule
 common#:#lng#:#Taal
