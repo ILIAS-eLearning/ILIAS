@@ -63,6 +63,11 @@ a.ilc_IntLink:hover
 	color:#000000;
 }
 
+a.ilc_IntLink:visited
+{
+	color: blue;
+}
+
 a.ilc_ExtLink
 {
 	color: blue;
@@ -73,6 +78,11 @@ a.ilc_ExtLink
 a.ilc_ExtLink:hover
 {
 	color:#000000;
+}
+
+a.ilc_ExtLink:visited
+{
+	color: blue;
 }
 
 div.ilc_LMNavigation
