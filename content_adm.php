@@ -87,5 +87,9 @@ if ($_GET["message"])
 	$tplContent->parseCurrentBlock();
 }
 
+$eingebunden = true;
+require_once("./adm_basicdata.php");
+$tplContent->setVariable("SYSTEMSETTINGS",$tpl->get());
+
 $tplContent->show();
 ?>
