@@ -88,17 +88,13 @@ div.ilc_LMNavigation
 
 div.ilc_Page
 {
-	background-color:#EEEEEE;
-	padding:20px;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #EEEEEE;
-	border-width: 1px;
-	margin-bottom: 0px;
+	background-color:#EEE3EE;
+	margin: 0px;
+	padding: 0px;
 }
 
 table.ilc_Page {
-	background-color:#EEEE00;
+	background-color:#EEEEEE;
 	width:100%;
 	border-spacing:10px;
 }
