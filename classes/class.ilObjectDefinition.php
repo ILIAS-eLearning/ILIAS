@@ -149,7 +149,15 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		if(defined("ILIAS_MODULE"))
 		{
-			return $this->obj_data[$a_obj_name]["properties"];
+			$props = array();
+			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			{
+				if($prop["module"] != 0)
+				{
+					$props[$data] = $prop;
+				}
+			}
+			return $props;
 		}
 		else
 		{
@@ -215,8 +223,13 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		if(defined("ILIAS_MODULE"))
 		{
-			$data = array_keys($this->obj_data[$a_obj_name]["properties"]);
-			return $data[0];
+			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
+			{
+				if($prop["module"] != 0)
+				{
+					return $data;
+				}
+			}
 		}
 		else
 		{

@@ -46,6 +46,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 		$this->setExpandTarget("lm_edit.php?cmd=explorer&ref_id=".$this->lm_obj->getRefId());
 	}
 
+	
 
 } // END class.ilLMEditorExplorer
 ?>

@@ -418,14 +418,21 @@ class ilLMEditorGUI
 			}
 
 			$this->tpl->setCurrentBlock("locator_item");
-			$title = ($row["child"] == 1) ?
-				$this->lm_obj->getTitle() :
-				$row["title"];
+			if ($row["child"] == 1)
+			{
+				$title = $this->lm_obj->getTitle();
+				$cmd = "properties";
+			}
+			else
+			{
+				$title = $row["title"];
+				$cmd = "view";
+			}
 			$this->tpl->setVariable("ITEM", $title);
 			$obj_str = ($row["child"] == 1)
 				? ""
 				: "&obj_id=".$row["child"];
-			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=view&ref_id=".
+			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=$cmd&ref_id=".
 				$this->ref_id.$obj_str);
 			$this->tpl->parseCurrentBlock();
 

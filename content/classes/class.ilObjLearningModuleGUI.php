@@ -87,6 +87,12 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 	{
 		return "";
 	}
+
+	function view()
+	{
+		$this->properties();
+	}
+
 }
 
 ?>
