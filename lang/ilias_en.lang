@@ -1234,6 +1234,9 @@ content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Keyword
 content#:#cont_link#:#Link
+content#:#cont_link_ext#:#Link (external)
+content#:#cont_link_int#:#Link (internal)
+content#:#cont_get_link#:#get link
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
 content#:#cont_list_properties#:#List Properties
