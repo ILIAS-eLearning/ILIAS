@@ -82,29 +82,16 @@ class Template extends IntegratedTemplateExtension
 */
     function show($part = "DEFAULT") {
 
-		$this->fillVars();
-
-        if ($part == "DEFAULT") {
-            parent::show();
-        } else {
-            parent::show($part);
-        }
-		if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php"
-			&& substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
-		{
-			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-			$_SESSION["post_vars"] = $_POST;
-		}
-
         // ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
-		if ($_GET["message"] || $_SESSION["info"])
+		if ($_SESSION["message"] || $_SESSION["info"])
 		{
 		   $this->addBlockFile("MESSAGE", "message", "tpl.message.html");
 		   $this->setCurrentBlock("message");
    
-		   if($_GET["message"])
+		   if($_SESSION["message"])
 		   {
-			  $this->setVariable("MSG", urldecode($_GET["message"]));
+			  $this->setVariable("MSG", $_SESSION["message"]);
+			  session_unregister("message");
 		   }
 		   if($_SESSION["info"])
 		   {
@@ -112,7 +99,20 @@ class Template extends IntegratedTemplateExtension
 			  session_unregister("info");
 		   }
 		   $this->parseCurrentBlock();
-}
+		}
+
+		$this->fillVars();
+
+        if ($part == "DEFAULT") {
+            parent::show();
+        } else {
+            parent::show($part);
+        }
+		if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
+		{
+			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+			$_SESSION["post_vars"] = $_POST;
+		}
     }
 
 	/**
