@@ -271,7 +271,6 @@ common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
-common#:#resources#:#Ressourcen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
@@ -385,7 +384,7 @@ common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
 common#:#lo_edit#:#Lernmodule editieren
 common#:#lo_new#:#neues Lernmodul
-common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
+common#:#lo_no_content#:#Keine Lernmaterialien vorhanden###25 Oct 2003 content changed
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
@@ -658,6 +657,7 @@ common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#required_field#:#Erforderliche Angabe
 common#:#reset#:#Zurücksetzen
+common#:#resources#:#Ressourcen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
