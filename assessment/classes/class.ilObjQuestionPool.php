@@ -34,6 +34,7 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilMetaData.php");
+require_once "class.assQuestion.php";
 require_once "class.assClozeTestGUI.php";
 require_once "class.assImagemapQuestionGUI.php";
 require_once "class.assJavaAppletGUI.php";
@@ -279,36 +280,8 @@ class ilObjQuestionPool extends ilObject
 */
   function deleteQuestion($question_id) 
   {
-    if ($question_id < 1)
-      return;
-      
-    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE question_id = %s AND qpl_question_type.question_type_id = qpl_questions.question_type_fi",
-      $this->ilias->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-        $this->ilias->db->quote($question_id)
-      );
-      $result = $this->ilias->db->query($query);
-      $query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
-        $this->ilias->db->quote($question_id)
-      );
-      $result = $this->ilias->db->query($query);
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-        $this->ilias->db->quote($question_id)
-      );
-      $result = $this->ilias->db->query($query);
-			$question = new ASS_Question();
-			$question->setId($question_id);
-			$question->removeAllQuestionReferences();
-			// delete the question in the tst_test_question table (list of test questions)
-			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
-			$deleteresult = $this->ilias->db->query($querydelete);
-    } else {
-      return;
-    }
+		$question = new ASS_Question();
+		$question->delete($question_id);
   }
 	
 /**
