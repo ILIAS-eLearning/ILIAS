@@ -150,14 +150,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					{
 						case "pg":
 							$this->setTabs();
-							$this->ctrl->addTransit(get_class($this));
 							$this->ctrl->setCmdClass("ilLMPageObjectGUI");
 							$ret =& $this->executeCommand();
 							break;
 
 						case "st":
 							$this->setTabs();
-							$this->ctrl->addTransit(get_class($this));
 							$this->ctrl->setCmdClass("ilStructureObjectGUI");
 							$ret =& $this->executeCommand();
 							break;
@@ -199,9 +197,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create",
-					array(get_class($this))));
-			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create_stylesheet"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -209,9 +205,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit",
-					array(get_class($this))));
-			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit_stylesheet"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -885,7 +879,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, "backcmd", "");
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
 			$this->tpl->setVariable("LINK_TARGET",
-				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view", array(get_class($this))));
+				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view"));
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT", $child["title"]);
@@ -968,7 +962,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $page["obj_id"]);
 //echo "<br>:".$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view").":";
 			$this->tpl->setVariable("LINK_TARGET",
-				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view", array(get_class($this))));
+				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view"));
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT", $page["title"]);
@@ -1520,7 +1514,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$cols = array("", "file", "size", "date");
 		$header_params = array("ref_id" => $_GET["ref_id"],
-			"cmd" => "exportList", "cmdClass" => get_class($this));
+			"cmd" => "exportList", "cmdClass" => strtolower(get_class($this)));
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
@@ -1786,7 +1780,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$cols = array("", "file", "size", "date");
 		$header_params = array("ref_id" => $_GET["ref_id"],
-			"cmd" => "offlineList", "cmdClass" => get_class($this));
+			"cmd" => "offlineList", "cmdClass" => strtolower(get_class($this)));
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
 
