@@ -414,7 +414,7 @@ class ilPersonalDesktopGUI
 		$mail_counter = $umail->getMailCounterData();
 		$this->tpl->setVariable("MAIL_COUNTER", $mail_counter["total"]);
 		$this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
-
+		$unreadmails = 0;
 
 		foreach ($mail_data as $mail)
 		{
