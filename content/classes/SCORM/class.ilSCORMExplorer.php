@@ -59,6 +59,19 @@ class ilSCORMExplorer extends ilExplorer
 		$this->outputIcons(true);
 		$this->setOrderColumn("");
 	}
+	
+	function getItem($a_node_id) {
+		return new ilSCORMItem($a_node_id);
+	}
+	
+	function getIconImagePathPrefix() {
+		return "scorm/";
+	}
+	
+	function getNodesToSkip() {
+		return 2;
+	}
+	
 
 	/**
 	* overwritten method from base class
@@ -81,7 +94,6 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
-		echo "formatHeader fertig <br>";
 	}
 
 
@@ -110,6 +122,8 @@ class ilSCORMExplorer extends ilExplorer
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
 
+		//echo "setOutput <br>";
+
 		if (!isset($a_parent_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
@@ -126,7 +140,13 @@ class ilSCORMExplorer extends ilExplorer
 
 		if (count($objects) > 0)
 		{
-			$tab = ++$a_depth - 2;
+			
+			//moved the scorm-only constant parameter to a function
+			//to be able to reuse the code
+			//$tab = ++$a_depth - 2;
+			$tab = ++$a_depth - $this->getNodesToSkip();
+			
+			
 			// Maybe call a lexical sort function for the child objects
 			
 			//666if ($this->post_sort)
@@ -218,10 +238,11 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function getOutput()
 	{
+		//echo "getOutput <br>";
 		$this->format_options[0]["tab"] = array();
 
 		$depth = $this->tree->getMaximumDepth();
-
+		
 		for ($i=0;$i<$depth;++$i)
 		{
 			$this->createLines($i);
@@ -308,6 +329,7 @@ class ilSCORMExplorer extends ilExplorer
 	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
+		//echo "scorm: ".$a_option["title"]." >> ".implode(", ",$a_option["tab"])."<br>";
 
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -355,43 +377,9 @@ class ilSCORMExplorer extends ilExplorer
 			}
 		}
 		
-		if ($this->output_icons)
-		{
+		if ($this->output_icons)	{
 			if ($this->isClickable($a_option["type"], $a_node_id))
-			{
-				$sc_object =& new ilSCORMItem($a_node_id);
-
-				$trdata = $sc_object->getTrackingDataOfUser();
-				$tpl->setCurrentBlock("icon");
-				// status
-				$status = ($trdata["cmi.core.lesson_status"] == "")
-					? "not attempted"
-					: $trdata["cmi.core.lesson_status"];
-				$alt = $lng->txt("cont_status").": ".
-					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
-
-				// score
-				if ($trdata["cmi.core.score.raw"] != "")
-				{
-					$alt.= ", ".$lng->txt("cont_credits").
-					": ".$trdata["cmi.core.score.raw"];
-				}
-
-				// total time
-				if ($trdata["cmi.core.total_time"] != "" &&
-					$trdata["cmi.core.total_time"] != "0000:00:00.00")
-				{
-					$alt.= ", ".$lng->txt("cont_total_time").
-					": ".$trdata["cmi.core.total_time"];
-				}
-
-				$tpl->setVariable("ICON_NAME",
-					'scoIcon'.$a_node_id);
-				$tpl->setVariable("ICON_IMAGE",
-					ilUtil::getImagePath("scorm/".str_replace(" ", "_", $status).".gif"));
-				$tpl->setVariable("TXT_ALT_IMG", $alt);
-				$tpl->parseCurrentBlock();
-			}
+				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
 		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
@@ -435,6 +423,62 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+	}
+	
+	function getOutputIcons(&$tpl, $a_option, $a_node_id) {
+		global $lng;
+		
+			$sc_object = & $this->getItem($a_node_id);
+
+			$trdata = $sc_object->getTrackingDataOfUser();
+			$tpl->setCurrentBlock("icon");
+			// status
+			$status = ($trdata["cmi.core.lesson_status"] == "")
+				? "not attempted"
+				: $trdata["cmi.core.lesson_status"];
+				
+				
+			$statusChar=strtolower(substr($status,0,1));
+			if ($statusChar=="f")
+				$status="failed";
+			else if ($statusChar=="b")
+				$status="browsed";
+			else if ($statusChar=="c")
+				$status="completed";
+			else if ($statusChar=="n")
+				$status="not_attempted";
+			else if ($statusChar=="p")
+				$status="passed";
+			else if ($statusChar=="r")
+				$status="running";
+			
+	
+	
+			$alt = $lng->txt("cont_status").": ".
+				$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status));
+
+			// score
+			if ($trdata["cmi.core.score.raw"] != "")
+			{
+				$alt.= ", ".$lng->txt("cont_credits").
+				": ".$trdata["cmi.core.score.raw"];
+			}
+
+			// total time
+			if ($trdata["cmi.core.total_time"] != "" &&
+				$trdata["cmi.core.total_time"] != "0000:00:00.00")
+			{
+				$alt.= ", ".$lng->txt("cont_total_time").
+				": ".$trdata["cmi.core.total_time"];
+			}
+
+			$tpl->setVariable("ICON_NAME",
+				'scoIcon'.$a_node_id);
+			$tpl->setVariable("ICON_IMAGE",
+				ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $alt);
+			$tpl->parseCurrentBlock();
+
 	}
 }
 ?>

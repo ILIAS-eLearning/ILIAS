@@ -99,7 +99,33 @@ class ilSCORMTree extends ilTree
 		{
 			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$childs[] = $this->fetchNodeData($row);
+//				echo "lese data-----------------<br>";
+				$data=$this->fetchNodeData($row);
+/*				
+				if ($data["child"]==3 && $data["parent"]==0) {
+					$data2=$data;
+					
+					
+					$data2["child"]=2;
+					$data2["parent"]=0;
+					$data2["obj_id"]=2;
+					
+					$data["parent"]=2;
+					$data["depth"]=2;
+					
+					$childs[]=$data2;
+					
+					foreach($data2 as $k=>$v)
+						echo " $k=>$v ";
+					echo "<br>";
+				}
+				
+				foreach($data as $k=>$v)
+					echo " $k=>$v ";
+				echo "<br>";
+*/				
+				$childs[] = $data;
+				
 			}
 
 			// mark the last child node (important for display)

@@ -53,6 +53,18 @@ class ilAICCExplorer extends ilSCORMExplorer
 		$this->outputIcons(false);
 		$this->setOrderColumn("");
 	}
+	
+	function getItem($a_node_id) {
+		return new ilAICCUnit($a_node_id);
+	}
+	
+	function getIconImagePathPrefix() {
+		return "scorm/";
+	}
+	
+	function getNodesToSkip() {
+		return 1;
+	}
 
 	function isClickable($a_type, $a_id = 0)
 	{
@@ -186,12 +198,9 @@ class ilAICCExplorer extends ilSCORMExplorer
 			}
 		}
 
-		if ($this->output_icons)
-		{
-			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-			$tpl->parseCurrentBlock();
+		if ($this->output_icons)	{
+			if ($this->isClickable($a_option["type"], $a_node_id) && !$a_option["type"]=="sbl")
+				$this->getOutputIcons(&$tpl, $a_option, $a_node_id);
 		}
 
 		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
