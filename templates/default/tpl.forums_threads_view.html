@@ -27,6 +27,7 @@ body { margin:0px; }
  <br/>{TXT_NUM_POSTS} {NUM_POSTS}</span>
  </td>
  <td class="{ROWCOL}">
+ <b>{SUBJECT}</b><br /> 
  <span class="small">{TXT_CREATE_DATE}: {POST_DATE}</span>
  {SPACER}
  <a name="{POST_ANKER}"></a>{POST}<br/>
@@ -93,9 +94,17 @@ body { margin:0px; }
 <table class="std">
 	<tr>
 		<td>
-			<br/><p><b>{TXT_FORM_HEADER}</b></p>
 			<form name="formular1" action="{FORMACTION}" enctype="multipart/form-data" method="post" onSubmit="return isEmpty(this, 'all', '')">
-			<table class="std">
+								<table class="std">
+								  <tr>
+									<td><br/><p><b>{TXT_FORM_SUBJECT}</b></p></td>
+								  </tr>
+								  <tr>
+									<td><input type="text" name="subject" value="{SUBJECT_VALUE}" size="32" maxlength="64"></td>
+								  </tr>
+								  <tr>
+									<td><br/><p><b>{TXT_FORM_HEADER}</b></p></td>
+								  </tr>
 			<tr>
 			    <td valign="top">
 				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>

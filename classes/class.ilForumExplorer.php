@@ -42,6 +42,8 @@ class ilForumExplorer extends ilExplorer
 	* @access private
 	*/
 	var $thread_id;
+	var $thread_subject;
+	
 
 	/**
 	* id of root node
@@ -74,6 +76,8 @@ class ilForumExplorer extends ilExplorer
 		$tmp_array = $this->forum->getFirstPostNode($this->thread_id);
 		$this->root_id = $tmp_array["child"];
 
+		$this->__readThreadSubject();
+
 		// max length of user fullname which is shown in explorer view
 		define(FULLNAME_MAXLENGTH,16);
 	}
@@ -104,7 +108,7 @@ class ilForumExplorer extends ilExplorer
 
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
-				$this->format_options["$counter"]["title"] = $object["title"];
+				$this->format_options["$counter"]["title"] = $object["subject"] ? $object["subject"] : $this->thread_subject;
 				$this->format_options["$counter"]["type"] = $object["type"];
 				$this->format_options["$counter"]["desc"] = "forums_the_".$object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
@@ -339,6 +343,15 @@ class ilForumExplorer extends ilExplorer
 		}
 		$this->expanded = $_SESSION["fexpand"];
 	}
+
+	function __readThreadSubject()
+	{
+		$this->forum->setWhereCondition("thr_pk = ".$this->thread_id);
+		$threadData = $this->forum->getOneThread();
+
+		$this->thread_subject = $threadData["thr_subject"];
+	}
+		
 
 } // END class.ilExplorer
 ?>

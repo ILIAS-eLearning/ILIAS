@@ -217,7 +217,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 					// reply: new post
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
 												  $_SESSION["AccountId"], $formData["message"], 
-												  $_GET["pos_pk"],$_POST["notify"],$threadData["thr_subject"]);
+												  $_GET["pos_pk"],$_POST["notify"],
+												  $_POST["subject"] ? $_POST["subject"] : $threadData["thr_subject"]);
 					sendInfo($lng->txt("forums_post_new_entry"));
 					if(isset($_FILES["userfile"]))
 					{
@@ -229,7 +230,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 				else
 				{
 					// edit: update post
-					if ($frm->updatePost($formData["message"], $_GET["pos_pk"],$_POST["notify"]))
+					if ($frm->updatePost($formData["message"], $_GET["pos_pk"],$_POST["notify"],
+										 $_POST["subject"] ? $_POST["subject"] : $threadData["thr_subject"]))
 					{
 						sendInfo($lng->txt("forums_post_modified"));
 					}
@@ -378,6 +380,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$tpl->setCurrentBlock("reply_post");
 					$tpl->setVariable("REPLY_ANKER", $_GET["pos_pk"]);
 
+					$tpl->setVariable("TXT_FORM_SUBJECT",$lng->txt("forums_subject"));
 					if ($_GET["cmd"] == "showreply")
 					{
 						$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
@@ -388,13 +391,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 					}
 
 					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
-
+					
 					if ($_GET["cmd"] == "showreply")
 					{
+						$tpl->setVariable("SUBJECT_VALUE",$threadData["thr_subject"]);
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
 					}
 					else
 					{
+						$tpl->setVariable("SUBJECT_VALUE",$node["subject"]);
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
 					}
 					// NOTIFY
@@ -635,6 +640,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			$node["message"] = ilUtil::makeClickable($node["message"]);
 
 			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
+			$tpl->setVariable("SUBJECT",$node["subject"]);
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));
 			$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");
 			if ($node["pos_cens"] > 0)

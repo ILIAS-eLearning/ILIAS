@@ -238,7 +238,7 @@ class ilObjForum extends ilObject
 		$roles[] = $roleObj->getId();
 		
 		// grant permissions: visible,read,write,edit_post,delete_post
-		$permissions = array(2,3,4,9,10);
+		$permissions = array(1,2,3,4,6,9,10);
 		$rbacadmin->grantPermission($roles[0],$permissions,$this->getRefId());
 
 		unset($rfoldObj);
