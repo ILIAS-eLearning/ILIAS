@@ -330,25 +330,37 @@ function initEditor(TextAreaName) {
 
   var cfg = editor.config; // this is the default configuration
 
+    cfg.registerButton({
+      id        : "ilias-com",
+      tooltip   : "Kommentar",
+      image     : "./htmlarea/images/ed_com.gif",
+      textMode  : false,
+      action    : function(editor, id) {
+                    editor.surroundHTML('<span style="color: rgb(0, 128, 0);">', '</span>');
+                  }
+    });
+
+    cfg.registerButton({
+      id        : "ilias-quot",
+      tooltip   : "Quotation",
+      image     : "./htmlarea/images/ed_quot.gif",
+      textMode  : false,
+      action    : function(editor, id) {
+                    editor.surroundHTML('<span style="color: rgb(165, 42, 42); font-style: italic;">', '</span>');
+                  }
+    });
+    
+  
 	cfg.toolbar = [
 		[ 
-		  "bold", "italic", "separator", 
+		  "bold", "italic", "ilias-com", "ilias-quot", "separator", 
           
-		  "copy", "cut", "paste", "space", "undo", "redo","separator",
-		   "htmlmode"
+		  "copy", "cut", "paste", "space", "undo", "redo"
+		  
           ],
 
 	];
 
-    cfg.registerButton({
-      id        : "my-hilite",
-      tooltip   : "Highlight text",
-      image     : "ed_about.gif",
-      textMode  : false,
-      action    : function(editor, id) {
-                    editor.surroundHTML('<span class="hilite">', '</span>');
-                  }
-    });
     
 /*
 "insertorderedlist", "insertunorderedlist", "outdent", "indent", "separator",
