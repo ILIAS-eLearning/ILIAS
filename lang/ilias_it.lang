@@ -3126,6 +3126,7 @@ survey#:#mode_nr_of_selections#:#Nr di selezioni
 survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
 survey#:#multiple_choice_multiple_response#:#Scelta multipla (risposta multipla)
 survey#:#multiple_choice_single_response#:#Scelta multipla (risposta singola)
+survey#:#next_question_rows#:#Questions %d - %d of %d >>###29 Jun 2004 new variable
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
 survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!
@@ -3153,6 +3154,7 @@ survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato
 survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
 survey#:#predefined_users#:#Utenti predefiniti
 survey#:#preview#:#Anteprima
+survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Sei sicuro di voler cancellare le seguenti domande?
 survey#:#qpl_copy_select_none#:#Per favore, scegli almeno una domanda da copiare!
