@@ -85,7 +85,6 @@ class ilPageEditorGUI
 		return $this->return_location;
 	}
 
-
 	function executeCommand()
 	{
 		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
