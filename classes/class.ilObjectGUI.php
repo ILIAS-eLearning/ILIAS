@@ -1221,7 +1221,7 @@ class ilObjectGUI
 	function removeFromSystemObject()
 	{
 		global $rbacsystem;
-
+		
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
 		{

@@ -217,7 +217,8 @@ class ILIAS
 		define ("ANONYMOUS_ROLE_ID",$this->getSetting("anonymous_role_id"));
 		define ("SYSTEM_USER_ID",$this->getSetting("system_user_id"));
 		define ("SYSTEM_ROLE_ID",$this->getSetting("system_role_id"));
-
+		define ("RECOVERY_FOLDER_ID",$this->getSetting("recovery_folder_id"));
+		
 		// build option string for PEAR::Auth
 		$this->auth_params = array(
 									'dsn'		  => $this->dsn,

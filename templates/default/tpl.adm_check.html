@@ -1,0 +1,168 @@
+<script type="text/javascript">
+<!--
+function handleScanOnly(form)
+{
+	if (form.elements[0].checked)
+	{
+		form.elements[1].disabled = true;
+		form.elements[2].disabled = true;
+		form.elements[3].disabled = true;
+		form.elements[4].disabled = true;
+		form.elements[5].disabled = true;
+	}
+	else
+	{
+		form.elements[1].disabled = false;
+		
+		if (!form.elements[3].checked)
+		{
+			form.elements[2].disabled = false;
+		}
+		
+		if (!form.elements[2].checked)
+		{
+			form.elements[3].disabled = false;
+		}
+		
+		if (!form.elements[5].checked)
+		{
+			form.elements[4].disabled = false;
+		}
+		
+		if (!form.elements[4].checked)
+		{
+			form.elements[5].disabled = false;
+		}
+	}
+}
+
+function handleClean(form)
+{
+	if (form.elements[2].checked || form.elements[3].checked || form.elements[4].checked || form.elements[5].checked)
+	{
+		form.elements[1].checked = true;
+		alert("Cleaning process is required for restore/purge");
+	}
+}
+
+function handleRestore(form)
+{
+	if (!form.elements[1].checked && form.elements[2].checked)
+	{
+		form.elements[1].checked = true;
+	}
+	
+	if (form.elements[2].checked)
+	{
+		form.elements[3].disabled = true;
+	}
+	else
+	{
+		form.elements[3].disabled = false;	
+	}
+}
+
+function handlePurge(form)
+{
+	if (!form.elements[1].checked && form.elements[3].checked)
+	{
+		form.elements[1].checked = true;
+	}
+	
+	if (form.elements[3].checked)
+	{
+		form.elements[2].disabled = true;
+	}
+	else
+	{
+		form.elements[2].disabled = false;	
+	}
+}
+
+function handleRestoreTrash(form)
+{
+	if (!form.elements[1].checked && form.elements[4].checked)
+	{
+		form.elements[1].checked = true;
+	}
+	
+	if (form.elements[4].checked)
+	{
+		form.elements[5].disabled = true;
+	}
+	else
+	{
+		form.elements[5].disabled = false;	
+	}
+}
+
+function handlePurgeTrash(form)
+{
+	if (!form.elements[1].checked && form.elements[5].checked)
+	{
+		form.elements[1].checked = true;
+	}
+	
+	if (form.elements[5].checked)
+	{
+		form.elements[4].disabled = true;
+	}
+	else
+	{
+		form.elements[4].disabled = false;	
+	}
+}
+//-->
+</script>
+<form action="{FORMACTION}" name="ScanOptions" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+  <td colspan="{COLSPAN}">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_ANALYZE_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_OPTIONS}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_ANALYZE}</td>
+   <td class="option_value"><input type="checkbox" name="mode[analyze]"  value="1" checked="checked" onClick="handleScanOnly(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_ANALYZE_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_CLEAN}</td>
+   <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" disabled="disabled" onClick="handleClean(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_CLEAN_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_RESTORE}</td>
+   <td class="option_value"><input type="checkbox" name="mode[restore]" value="1" disabled="disabled" onClick="handleRestore(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_RESTORE_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_PURGE}</td>
+   <td class="option_value"><input type="checkbox" name="mode[purge]"  value="1" disabled="disabled" onClick="handlePurge(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_PURGE_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_RESTORE_TRASH}</td>
+   <td class="option_value"><input type="checkbox" name="mode[restore_trash]" disabled="disabled" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_RESTORE_TRASH_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option">{TXT_PURGE_TRASH}</td>
+   <td class="option_value"><input type="checkbox" name="mode[purge_trash]" disabled="disabled" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_PURGE_TRASH_DESC}</td>
+  </tr>
+  <tr>
+	<td class="submit" colspan="3" align="right">
+	<input class="submit" type="submit" value="{TXT_SUBMIT}"/>
+	</td>
+  </tr>
+</table>
+</form>
