@@ -138,7 +138,7 @@ class ilSetup extends PEAR
 		// create client
 		if (!$this->client->create())
 		{
-			$this->error =& $this->client->getError();
+			$this->error = $this->client->getError();
 			return false;
 		}
 

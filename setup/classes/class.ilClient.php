@@ -46,7 +46,7 @@ class ilClient
 	{
 		if ($a_client_id)
 		{
-			$this->setId($a_client_id);
+			$this->id = $a_client_id;
 			$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId()."/client.ini.php";
 		}
 
@@ -72,7 +72,7 @@ class ilClient
 			$this->error = get_class($this).": ".$this->ini->getError();
 			return false;		
 		}
-		
+
 		define(CLIENT_WEB_DIR,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId());
 		define(CLIENT_DATA_DIR,ILIAS_DATA_DIR."/".$this->getId());
 		
@@ -447,7 +447,10 @@ class ilClient
 
 	function getError()
 	{
-		return $this->error;
+		$error = $this->error;
+		$this->error = "";
+
+		return $error;
 	}
 	
 	function delete ($a_ini = true, $a_db = false, $a_files = false)
@@ -541,7 +544,7 @@ class ilClient
 			$this->error = "could_not_create_css_webspace_dir";
 			return false;
 		}
-
+		
 		// write client ini
 		if (!$this->ini->write())
 		{
