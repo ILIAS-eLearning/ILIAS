@@ -124,7 +124,8 @@ if (!empty($status))
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
 			break;
 		case AUTH_IDLED:
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
+			// lang variable err_idled not existing
+			//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
 			break;
 		case AUTH_WRONG_LOGIN:
 		default:
