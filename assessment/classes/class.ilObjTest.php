@@ -1368,6 +1368,71 @@ class ilObjTest extends ilObject
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
 	
+/**
+* Returns all questions of a test in users order
+* 
+* Returns all questions of a test in users order
+*
+* @return array An array containing the id's and the titles of the questions
+* @access public
+*/
+	function &getAllQuestionsForActiveUser() {
+		$result_array = array();
+		$active = $this->get_active_test_user();
+		$sequence_array = split(",", $active->sequence);
+		$all_questions = &$this->getAllQuestions();
+		$worked_questions = &$this->getWorkedQuestions();
+		foreach ($sequence_array as $sequence)
+		{
+			if (in_array($this->questions[$sequence], $worked_questions))
+			{
+				$all_questions[$this->questions[$sequence]]["worked"] = 1;
+			}
+			else
+			{
+				$all_questions[$this->questions[$sequence]]["worked"] = 0;
+			}
+			array_push($result_array, $all_questions[$this->questions[$sequence]]);
+		}
+		return $result_array;
+	}
+	
+	function &getWorkedQuestions()
+	{
+		global $ilUser;
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s GROUP BY question_fi",
+			$this->ilias->db->quote($ilUser->id),
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		$result_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row->question_fi);
+		}
+		return $result_array;
+	}
+	
+/**
+* Returns all questions of a test in test order
+* 
+* Returns all questions of a test in test order
+*
+* @return array An array containing the id's as keys and the database row objects as values
+* @access public
+*/
+	function &getAllQuestions()
+	{
+		$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")";
+		$result = $this->ilias->db->query($query);
+		$result_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$result_array[$row["question_id"]] = $row;
+		}
+		return $result_array;
+	}
+	
 	function get_active_test_user($user_id = "") {
 		global $ilDB;
 		global $ilUser;

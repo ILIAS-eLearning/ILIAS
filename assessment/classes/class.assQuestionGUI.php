@@ -2245,8 +2245,32 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->setVariable("PARAM_VALUE", $ilUser->id);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("additional_params");
+		$this->tpl->setVariable("PARAM_NAME", "test_type");
+		$this->tpl->setVariable("PARAM_VALUE", "");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("additional_params");
 		$this->tpl->setVariable("PARAM_NAME", "question_id");
 		$this->tpl->setVariable("PARAM_VALUE", $this->question->get_id());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("additional_params");
+		$this->tpl->setVariable("PARAM_NAME", "post_url");
+		$session = array();
+		if (strlen(SID))
+		{
+			array_push($session, SID);
+		}
+		else
+		{
+			foreach ($_COOKIE as $key => $value)
+			{
+				array_push($session, "$key=$value");
+			}
+		}
+		$this->tpl->setVariable("PARAM_VALUE", ILIAS_HTTP_PATH . "/assessment/save_java_question_result.php?" . join($session, "&"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("additional_params");
+		$this->tpl->setVariable("PARAM_NAME", "points_max");
+		$this->tpl->setVariable("PARAM_VALUE", "30");
 		$this->tpl->parseCurrentBlock();
 		for ($i = 0; $i < $this->question->get_parameter_count(); $i++) {
 			$this->tpl->setCurrentBlock("additional_params");
@@ -2408,7 +2432,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_question($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed) {
+  function out_working_question($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed, $user_question_order) {
     $question_type = $this->get_question_type($this->question);
     $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
