@@ -961,7 +961,7 @@ class ilSetup extends PEAR
 		if (!isset($a_formdata["chk_htmldoc_path"]))
 		{
 			// remove trailing slash
-			$htmldoc_path = ilFile::deleteTrailingSlash($htmldoc_path);
+			$htmldoc_path = ilFile::deleteTrailingSlash($a_formdata["htmldoc_path"]);
 
 			if (empty($htmldoc_path))
 			{
