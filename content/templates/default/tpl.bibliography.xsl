@@ -72,7 +72,7 @@
                 <td class="option_value"><xsl:call-template name="authors" /></td>
               </tr>
             </xsl:if>
-            <xsl:if test="count(Author) &gt; 0">
+            <xsl:if test="count(Booktitle) &gt; 0">
               <tr>
                 <td align="left" class="option" colspan="2"><div align="left">{BOOKTITLE}</div></td>
                 <td class="option_value"><xsl:call-template name="book_title" /></td>
@@ -233,13 +233,6 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="Author">  
-  
-    <td class="option">{AUTHORS}</td>
-    <td class="option_value">
-
-    </td>
-  </xsl:template>
 
   <xsl:template name="book_title">
     <xsl:value-of select="Booktitle" />
