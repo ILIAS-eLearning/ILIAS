@@ -20,14 +20,14 @@ class Language
 {
 	/**
 	* ilias object
-	* @var object
+	* @var object Ilias
 	* @access private
 	*/
 	var $ilias;
 	
 	/**
 	* logging object
-	* @var object
+	* @var object Log
 	* @access private
 	*/
 	var $log;
@@ -347,7 +347,6 @@ class Language
 	* input is a string, the masterfile. the masterfile is used for 
 	* generating the single-language-files.
 	* 
-	* @param string textfile with all language topics
 	* @access public
 	* @author Peter Gabriel <pgabriel@databay.de>
 	* @version 1.0
@@ -569,7 +568,8 @@ class Language
 	* deinstall a language
 	* 
 	* this function removes the language from the system
-	* 
+	*
+	* @param string 
  	* @return boolean
 	* @access public
 	* @version 1.0
@@ -596,14 +596,24 @@ class Language
 		
 	}
 	
+	/**
+	* set the system language
+	* 
+	* @param string
+	*/
 	function setSystemLanguage($id)
 	{
 		$this->systemLang = $id;
 	}
 
+	/**
+	* set the user language
+	* @param string
+	*/
 	function setUserLanguage($id)
 	{
 		$this->userLang = $id;
 	}
+	
 } //class
 ?>

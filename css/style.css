@@ -2,10 +2,10 @@ body {
         color:#222222;
         background-color:#dddddd;
         font-family:Verdana,Arial,Helvetica,sans-serif;
-        font-size:medium;
+        font-size:x-small;
 }
 td {
-        font-size:small;
+        font-size:x-small;
 }
 
 .btnbar {
@@ -34,7 +34,7 @@ td {
 /* ---------------- headlines ------------------ */
 
 h1 {
-   font-size:large;
+   font-size:medium;
    color:#222222;
 }
 
@@ -83,7 +83,7 @@ a.mailunread
 a.btn {
         color:#ffffff;
         text-decoration:none;
-        font-size:11pt;
+        font-size:x-small;
 }
 
 a.btn:hover {
