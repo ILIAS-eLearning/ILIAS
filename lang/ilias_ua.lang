@@ -767,20 +767,20 @@ common#:#auth_script#:#Заказ
 common#:#auth_script_desc#:#Аутентифікація користувачів через зовнішній скрипт
 common#:#auth_select#:#Вибір методу аутентифікації
 common#:#auth_visible#:#Настройки аутентифікації є видимі
-common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
+common#:#auth_write#:#Редагувати настройки аутентифікації
 common#:#author#:#Автор
 common#:#authors#:#Атвори
-common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
-common#:#available#:#Available###23 Dec 2004 new variable
+common#:#auto_registration#:#Автоматично схвалювати реєстрацію
+common#:#available#:#Доступний
 common#:#available_languages#:#Доступні Мови
-common#:#average_time#:#Average time###16 Mar 2004 new variable
+common#:#average_time#:#Середній час
 common#:#back#:#Назад
 common#:#basedn#:#БазаDN
 common#:#basic_data#:#Базові Дані
-common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
-common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
-common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
-common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
+common#:#benchmark#:#Тест на продуктивність
+common#:#benchmark_settings#:#Настройки тесту на продуктивність
+common#:#benchmarks#:#Тести на продуктивність
+common#:#bib_data#:#Бібліографічні Дані
 common#:#bm#:#Закладинка
 common#:#bmf#:#Папка Закладинок
 common#:#bookmark_edit#:#Редагувати Закладинку
@@ -795,67 +795,67 @@ common#:#btn_undelete#:#Відмінити видалення
 common#:#by#:#
 common#:#calendar#:#Календар
 common#:#cancel#:#Відмінити
-common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
+common#:#cannot_find_xml#:#Неможливо знайти жнодного XML-файлу.
 common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
 common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
-common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
+common#:#cannot_unzip_file#:#Неможливо розпакувати файл.
 common#:#cat#:#Категорія
 common#:#cat_a#:#Категорія
 common#:#cat_add#:#Додати Категорію
 common#:#cat_added#:#Категорію додано
-common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
+common#:#cat_cat_administrate_users#:#Адміністрування локальними акаунтами користувачів
 common#:#cat_create#:#Створити Категорію
-common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#cat_create_alm#:#Створити AICC Учбовий Модуль
 common#:#cat_create_cat#:#Створити Категорію
-common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
+common#:#cat_create_chat#:#Створити чат
 common#:#cat_create_crs#:#Створити Курс
-common#:#cat_create_dbk#:#Створити Електронну книжку###24 Sep 2004 content changed
+common#:#cat_create_dbk#:#Створити Електронну книжку
 common#:#cat_create_exc#:#Створити Вправу
-common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
+common#:#cat_create_file#:#Завантажити Файл
 common#:#cat_create_frm#:#Створити Форум
 common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
-common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
-common#:#cat_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
-common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
-common#:#cat_create_qpl#:#Створити Чергу Питань###07 May 2004 content changed
-common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
-common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
+common#:#cat_create_hlm#:#Створити HACP Учбовий Модуль
+common#:#cat_create_htlm#:#Створити HTML Учбовий Модуль
+common#:#cat_create_lm#:#Створити Учбовий Модуль
+common#:#cat_create_mep#:#Створити Медіа Пул
+common#:#cat_create_qpl#:#Створити Пил Питань для тесту
+common#:#cat_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+common#:#cat_create_spl#:#Створити Пул Питань (Опитування)
+common#:#cat_create_svy#:#Створити Опитування
 common#:#cat_create_tst#:#Створити Тест
-common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_url#:#Створити URL
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
 common#:#cat_new#:#Нова категорія
 common#:#cat_read#:#Доступ на читання до Категорії
-common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
+common#:#cat_read_users#:#Доступ на читання до локальних акаунтів користувачів
 common#:#cat_visible#:#Категорія є видима
 common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
-common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
-common#:#cc#:#CC###05 Nov 2004 new variable
-common#:#cen#:#Centra Event###03 Apr 2004 new variable
-common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
-common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
-common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
-common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
-common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
-common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
+common#:#categories_imported#:#Імпорт категорії завершений.
+common#:#cc#:#CC
+common#:#cen#:#Centra Подія
+common#:#cen_add#:#Додати Centra Подію
+common#:#cen_added#:#Centra Подія додана
+common#:#cen_delete#:#Видалити Centra Подію
+common#:#cen_edit#:#Редагувати Centra Подію
+common#:#cen_new#:#Нова Centra Подія
+common#:#cen_save#:#Зберегти Centra Подію
 common#:#censorship#:#Цензура
-common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
-common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
-common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
-common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
-common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
-common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
+common#:#centra_account#:#Centra Акаунт Адміністратора
+common#:#centra_rooms#:#Centra Кімнати
+common#:#centra_server#:#Centra Сервер
+common#:#chac_edit_permission#:#Змінити настройки прав
+common#:#chac_read#:#Доступ на читання в настройки чату
+common#:#chac_visible#:#Настройки чату є видимі
+common#:#chac_write#:#Редагувати настройки чату
 common#:#change#:#Змінити
 common#:#change_active_assignment#:#Змінити активне призначення
 common#:#change_assignment#:#Змінити призначення
 common#:#change_existing_objects#:#Змінити існуючі Об'єкти
-common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
+common#:#change_header_title#:#Редагувати Назву Заголовку
 common#:#change_lo_info#:#Змінити LO Інформацію
 common#:#change_metadata#:#Змінити Метадані
 common#:#change_sort_direction#:#Змінити напрямок сортування
@@ -863,22 +863,22 @@ common#:#changed_to#:#змінити на
 common#:#chapter#:#Глава
 common#:#chapter_number#:#Номер Глави
 common#:#chapter_title#:#Назва Глави
-common#:#chat#:#Chat###05 Mar 2004 new variable
-common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
-common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
-common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chat_new#:#New Chat###05 Mar 2004 new variable
-common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
-common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
-common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
+common#:#chat#:#Чат
+common#:#chat_add#:#Додати Чат
+common#:#chat_delete#:#Видалити чат
+common#:#chat_edit_permission#:#Змінити настройки прав
+common#:#chat_new#:#Новий Чат
+common#:#chat_read#:#Доступ на Читання/Запис до чату
+common#:#chat_visible#:#Чат є видимим
+common#:#chat_write#:#Редагувати чат
 common#:#check#:#Перевірити
-common#:#check_all#:#Check all###26 Aug 2004 new variable
+common#:#check_all#:#Перевірити усе
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
-common#:#check_link#:#Link check###18 Dec 2004 new variable
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
+common#:#check_link#:#Перевірка посилання
+common#:#check_link_desc#:#Якщо включено, усі зовнішні посилання в учбових модулях ILIAS будуть перевірені, чи вони активні.
 common#:#check_max_allowed_packet_size#:#Вміст сторінки є надто великим.
-common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts#:#Перевірити акаунти користувачів
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Importable files###31 Mar 2004 new variable
 common#:#chg_language#:#Змінити Мову
