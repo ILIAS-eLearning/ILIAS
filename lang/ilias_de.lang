@@ -753,6 +753,8 @@ common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
+common#:#registered_user#:#registrierter Benutzer
+common#:#registered_users#:#registrierte Benutzer
 common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt

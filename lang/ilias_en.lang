@@ -52,6 +52,8 @@ common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
+common#:#registered_user#:#registered User
+common#:#registered_users#:#registered Users
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
@@ -240,7 +242,7 @@ common#:#frm_added#:#Forum added
 common#:#frm_edit#:#Edit Forum
 common#:#frm_new#:#New Forum
 common#:#from#:#From
-common#:#fullname#:#Fullname
+common#:#fullname#:#Full name
 common#:#functions#:#Functions
 common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
@@ -393,7 +395,7 @@ common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
-common#:#login_time#:#Current online time
+common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
