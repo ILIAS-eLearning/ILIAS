@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.86 2004/09/10 15:10:05 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.87 2004/09/15 05:52:54 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -114,7 +114,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			$this->tpl->setCurrentBlock("assign_users");
 			$assign_users = $_SESSION["error_post_vars"]["Fobject"]["assign_users"] ? "checked=\"checked\"" : "";
-			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt("assign_users"));
+			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt("allow_assign_users"));
 			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
 			$this->tpl->parseCurrentBlock();
 		}

@@ -84,10 +84,17 @@ class ilLocalUser
 		switch($a_filter)
 		{
 			case 0:
-				$where = "WHERE time_limit_owner IN ";
-				$where .= '(';
-				$where .= implode(',',ilLocalUser::_getFolderIds());
-				$where .= ')';
+				if(ilLocalUser::_getFolderIds())
+				{
+					$where = "WHERE time_limit_owner IN ";
+					$where .= '(';
+					$where .= implode(",",ilLocalUser::_getFolderIds());
+					$where .= ')';
+				}
+				else
+				{
+					$where = "WHERE time_limit_owner IN ('')";
+				}
 
 				break;
 
