@@ -1632,7 +1632,7 @@ class ilObjUser extends ilObject
 			$modified_data = preg_replace("/RoleId.*?;\}/",$roles,$user_online[$a_user_id]["data"]);
 
 			$q = "UPDATE usr_session SET data='".$modified_data."' WHERE user_id = '".$a_user_id."'";
-			$this->ilDB->query($q);
+			$ilDB->query($q);
 		}
 
 		return true;
