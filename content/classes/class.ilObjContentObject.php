@@ -294,7 +294,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
+		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
 			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
@@ -331,7 +331,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		$import_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data".
+		$import_dir = ilUtil::getDataDir()."/lm_data".
 			"/lm_".$this->getId()."/import";
 		if(@is_dir($import_dir))
 		{
@@ -350,7 +350,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createExportDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
+		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
 			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
@@ -385,7 +385,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		$export_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data".
+		$export_dir = ilUtil::getDataDir()."/lm_data".
 			"/lm_".$this->getId()."/export";
 		if(@is_dir($export_dir))
 		{
