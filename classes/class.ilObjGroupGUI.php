@@ -748,11 +748,11 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			//sort data array
 			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+			//$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 			// create table
 			include_once "./classes/class.ilTableGUI.php";
-			$tbl = new ilTableGUI($output);
+			$tbl = new ilTableGUI($this->data["data"]);
 			// title & header columns
 			$tbl->setTitle($this->lng->txt("search_result"),"icon_usr_b.gif",$this->lng->txt("search_result"));
 			$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
