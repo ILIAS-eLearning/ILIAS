@@ -4,7 +4,7 @@
 * @module		language file german
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
-* @version		$Id$
+* @version		$Id*
 */
 
     +-----------------------------------------------------------------------------+
@@ -682,8 +682,8 @@ common#:#attachment#:#Attachment###03 Nov 2004 new variable
 common#:#attachments#:#Attachments###03 Nov 2004 new variable
 common#:#attend#:#Teilnehmen
 common#:#auth_configure#:#konfigurieren...
-common#:#auth_edit_permission#:#Rechteeinstellungen ndern
-common#:#auth_ldap#:#LDAP###03 Nov 2004 new variable
+common#:#auth_edit_permission#:#Rechteeinstellungen ändern
+common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_local#:#ILIAS Datenbank
