@@ -25,6 +25,9 @@ path = ./lang
 [layout]
 skin = default
 style = default
+ 
+[session]
+expire = 180 
 
 [system]
 ROOT_FOLDER_ID = 1

@@ -103,7 +103,8 @@ if (DEBUG)
 	include_once "include/inc.debug.php";
 }
 
-//authenticate
+//authenticate & start session
+$ilias->auth->setExpire($ilias->ini->readVariable("session","expire"));
 $ilias->auth->start();
 
 // start logging
@@ -118,6 +119,14 @@ $ilias->account = new ilObjUser();
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
+
+//var_dump("<pre>",$ilias->auth->sessionValidThru(),"</pre>");
+$status = $ilias->auth->getStatus();
+
+if ($ilias->auth->getStatus() == AUTH_EXPIRED and $script != "login.php")
+{
+	header("Location: index.php?reload=true");
+}	
 
 if ($ilias->auth->getAuth())
 {

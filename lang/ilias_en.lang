@@ -37,6 +37,7 @@ common#:#users_online#:#Users online
 common#:#login_time#:#Current online time
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
+common#:#err_session_expired#:#Your session is expired!
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add
