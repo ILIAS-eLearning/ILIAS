@@ -418,10 +418,26 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	function outUserSolution($user_id, $test_id)
 	{
 		$results = $this->object->getReachedInformation($user_id, $test_id);
+		$user_order = array();
+		foreach ($results as $key => $value)
+		{
+			$user_order[$value["order"]] = $value["answer_id"];
+		}
+		ksort($user_order);
+		$user_order = array_values($user_order);
+		
+		$answer_order = array();
+		foreach ($this->answers as $key => $answer)
+		{
+			$answer_order[$answer->get_solution_order()] = $key;
+		}
+		ksort($answer_order);
+		$answer_order = array_values($answer_order);
 		foreach ($this->object->answers as $key => $answer)
 		{
 			$this->tpl->setCurrentBlock("tablerow");
-			if ($answer->get_solution_order() == $results[$key]["order"])
+			$array_key = array_search($key);
+			if ($user_order[$array_key] == $answer_order[$array_key])
 			{
 				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
 				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
