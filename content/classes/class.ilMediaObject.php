@@ -304,7 +304,15 @@ class ilMediaObject extends ilObjMediaObject
 				}
 				break;
 
+			// for output we need technical sections of meta data
 			case IL_MODE_OUTPUT:
+				// get first technical section
+				$meta =& $this->getMetaData();
+				$technical =& $meta->getTechnicalSection(1);
+				if ($technical != false)
+				{
+					$xml .= $technical->getXML();
+				}
 				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
 				$parameters = $this->getParameters();
 				foreach ($parameters as $name => $value)

@@ -128,5 +128,37 @@ class ilMetaTechnicalRequirement
 		return $this->max_version;
 	}
 
+	function getXML()
+	{
+		$xml = "<Requirement>";
+		$xml.= "<Type>";
+
+		$min = ($this->getMinVersion != "")
+			? "MinimumVersion=\"".$this->getMinVersion()."\""
+			: "";
+		$max = ($this->getMaxVersion != "")
+			? "MaximumVersion=\"".$this->getMaxVersion()."\""
+			: "";
+
+		switch ($this->getType())
+		{
+			case "OperatingSystem":
+				$xml.= "<OperatingSystem Name=\"".$this->getName()."\" $min $max>";
+				break;
+
+			case "Browser":
+				$xml.= "<Browser Name=\"".$this->getName()."\" $min $max>";
+				break;
+
+			default:
+				return false;
+		}
+
+		$xml.= "</Type>";
+		$xml.= "</Requirement>";
+
+		return $xml;
+	}
+
 }
 ?>

@@ -80,12 +80,17 @@ class ilMetaData
 
 	function read()
 	{
+//echo "<b>".$this->id."</b><br>";
 		$query = "SELECT * FROM meta_data ".
 			"WHERE obj_id = '".$this->id."' AND obj_type='".$this->type."'";
 		$meta_set = $this->ilias->db->query($query);
 		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTitle($meta_rec["title"]);
+		$this->setDescription($meta_rec["description"]);
+		$this->setLanguage($meta_rec["language"]);
+		$this->readKeywords();
+		$this->readTechnicalSections();
 	}
 
 	/**
@@ -227,6 +232,27 @@ class ilMetaData
 		}
 	}
 
+	function readTechnicalSections()
+	{
+		ilMetaTechnical::readTechnicalSections($this);
+	}
+
+	/**
+	* get technical section number $a_nr (starting with 1!)
+	*/
+	function &getTechnicalSection($a_nr)
+	{
+//echo "counttech:".count($this->technicals).":<br>";
+		if ($a_nr < count($this->technicals))
+		{
+			return false;
+		}
+		else
+		{
+			return $this->technicals[$a_nr - 1];
+		}
+	}
+
 
 	/**
 	* create meta data object in db
@@ -236,7 +262,7 @@ class ilMetaData
 		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
 			"language, description) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
-			"'".$this->getLanguage()."','".$this->getDescription."')";
+			"'".$this->getLanguage()."','".$this->getDescription()."')";
 		$this->ilias->db->query($query);
 		$this->updateKeywords();
 		$this->updateTechnicalSections();
@@ -259,7 +285,7 @@ class ilMetaData
 
 
 	/**
-	* update / create keywords
+	* update / create keywords from object into db
 	*/
 	function updateKeywords()
 	{
@@ -274,6 +300,20 @@ class ilMetaData
 				"VALUES ('".$this->getId()."','".$this->getType().
 				"','".$keyword["language"]."','".$keyword["keyword"]."')";
 			$this->ilias->db->query($query);
+		}
+	}
+
+	/**
+	* read keywords form db into object
+	*/
+	function readKeywords()
+	{
+		$query = "SELECT * FROM meta_keyword ".
+			"WHERE obj_id = '".$this->id."' AND obj_type='".$this->type."'";
+		$keyword_set = $this->ilias->db->query($query);
+		while ($key_rec = $keyword_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->addKeyword($key_rec["language"], $key_rec["keyword"]);
 		}
 	}
 

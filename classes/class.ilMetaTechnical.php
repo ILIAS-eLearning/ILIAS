@@ -133,6 +133,16 @@ class ilMetaTechnical
 	}
 
 	/**
+	* reads all technical sections from db into a meta data object
+	* static
+	*/
+	function readTechnicalSections(&$a_meta_obj)
+	{
+		$query = "SELECT * FROM meta_technical WHERE obj_id='".$a_meta_obj->getId()."' ".
+			"AND obj_type='".$a_meta_obj->getType()."'";
+	}
+
+	/**
 	* Format
 	*
 	* @param	string		$a_format		mime type
@@ -259,6 +269,23 @@ class ilMetaTechnical
 		return $this->duration;
 	}
 
+	// get xml string of this meta technical section
+	function getXML()
+	{
+		$xml = "<Technical Format=\"".$this->getFormat()."\">\n";
+		$xml.= "<Size>".$this->getSize()."</Size>\n";
+		foreach ($this->locations as $location)
+		{
+			$xml.= "<Location>".$location."</Location>\n";
+		}
+		$req_sets =& $this->getRequirementsSets();
+		foreach ($req_sets as $req_set)
+		{
+			$req_set->getXML();
+		}
+		$xml.= "<Size>".$this->getSize()."</Size>\n";
+		$xml.= "</Technical>";
+	}
 
 }
 ?>
