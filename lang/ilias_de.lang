@@ -407,7 +407,7 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (nur Anordnungsfragen)
+assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
