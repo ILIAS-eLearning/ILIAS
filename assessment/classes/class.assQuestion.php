@@ -1304,7 +1304,7 @@ class ASS_Question
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_HASHREF))
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$internal_link = $row["internal_link"];
 				$resolved_link = ASS_Question::_resolveInternalLink($internal_link);
@@ -1334,7 +1334,7 @@ class ASS_Question
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_HASHREF))
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
 					{

@@ -432,49 +432,74 @@ class ASS_ImagemapQuestion extends ASS_Question {
 							elseif (strcmp($flownode->node_name(), "response_xy") == 0)
 							{
 								$ident = $flownode->get_attribute("ident");
-								$render_hotspot = $flownode->first_child();
-								if (strcmp($render_hotspot->node_name(), "render_hotspot") == 0)
+								$subnodes = $flownode->child_nodes();
+								foreach ($subnodes as $node_type)
 								{
-									$labels = $render_hotspot->child_nodes();
-									foreach ($labels as $lidx => $response_label)
+									switch ($node_type->node_name())
 									{
-										if (strcmp($response_label->node_name(), "material") == 0)
-										{
-											// image map image
-											$mattype = $response_label->first_child();
-											if (strcmp($mattype->node_name(), "matimage") == 0)
+										case "material":
+											$matlabel = $node_type->get_attribute("label");
+											if (strcmp($matlabel, "suggested_solution") == 0)
 											{
-												$filename = $mattype->get_attribute("label");
-												$image = base64_decode($mattype->get_content());
-											}
-										}
-										else
-										{
-											$material_children = $response_label->child_nodes();
-											switch ($response_label->get_attribute("rarea"))
-											{
-												case "Ellipse":
-													$materials[$response_label->get_attribute("ident")]["area"] = "circle";
-													break;
-												case "Bounded":
-													$materials[$response_label->get_attribute("ident")]["area"] = "poly";
-													break;
-												case "Rectangle":
-													$materials[$response_label->get_attribute("ident")]["area"] = "rect";
-													break;
-											}
-											foreach ($material_children as $midx => $childnode)
-											{
-												if (strcmp($childnode->node_name(), "#text") == 0)
+												$mattype = $node_type->first_child();
+												if (strcmp($mattype->node_name(), "mattext") == 0)
 												{
-													$materials[$response_label->get_attribute("ident")]["coords"] = $childnode->get_content();
-												}
-												elseif (strcmp($childnode->node_name(), "material") == 0)
-												{
-													$materials[$response_label->get_attribute("ident")]["answertext"] = $childnode->get_content();
+													$suggested_solution = $mattype->get_content();
+													if ($suggested_solution)
+													{
+														if ($this->getId() < 1)
+														{
+															$this->saveToDb();
+														}
+														$this->setSuggestedSolution($suggested_solution, 0, true);
+													}
 												}
 											}
-										}
+											break;
+										case "render_hotspot":
+											$render_hotspot = $node_type;
+											$labels = $render_hotspot->child_nodes();
+											foreach ($labels as $lidx => $response_label)
+											{
+												if (strcmp($response_label->node_name(), "material") == 0)
+												{
+													// image map image
+													$mattype = $response_label->first_child();
+													if (strcmp($mattype->node_name(), "matimage") == 0)
+													{
+														$filename = $mattype->get_attribute("label");
+														$image = base64_decode($mattype->get_content());
+													}
+												}
+												else
+												{
+													$material_children = $response_label->child_nodes();
+													switch ($response_label->get_attribute("rarea"))
+													{
+														case "Ellipse":
+															$materials[$response_label->get_attribute("ident")]["area"] = "circle";
+															break;
+														case "Bounded":
+															$materials[$response_label->get_attribute("ident")]["area"] = "poly";
+															break;
+														case "Rectangle":
+															$materials[$response_label->get_attribute("ident")]["area"] = "rect";
+															break;
+													}
+													foreach ($material_children as $midx => $childnode)
+													{
+														if (strcmp($childnode->node_name(), "#text") == 0)
+														{
+															$materials[$response_label->get_attribute("ident")]["coords"] = $childnode->get_content();
+														}
+														elseif (strcmp($childnode->node_name(), "material") == 0)
+														{
+															$materials[$response_label->get_attribute("ident")]["answertext"] = $childnode->get_content();
+														}
+													}
+												}
+											}
+											break;
 									}
 								}
 							}

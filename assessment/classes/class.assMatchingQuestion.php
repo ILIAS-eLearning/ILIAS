@@ -195,34 +195,59 @@ class ASS_MatchingQuestion extends ASS_Question
 								{
 									$this->set_matching_type(MT_TERMS_PICTURES);
 								}
-								$render_choice = $flownode->first_child();
-								if (strcmp($render_choice->node_name(), "render_choice") == 0)
+								$subnodes = $flownode->child_nodes();
+								foreach ($subnodes as $node_type)
 								{
-									$shuffle = $render_choice->get_attribute("shuffle");
-									$labels = $render_choice->child_nodes();
-									foreach ($labels as $lidx => $response_label)
+									switch ($node_type->node_name())
 									{
-										$material = $response_label->first_child();
-										if ($this->get_matching_type() == MT_TERMS_PICTURES)
-										{
-											$mattype = $material->first_child();
-											if (strcmp($mattype->node_name(), "matimage") == 0)
+										case "material":
+											$matlabel = $node_type->get_attribute("label");
+											if (strcmp($matlabel, "suggested_solution") == 0)
 											{
-												$filename = $mattype->get_attribute("label");
-												$image = base64_decode($mattype->get_content());
-												$images["$filename"] = $image;
-												$materials[$response_label->get_attribute("ident")] = $filename;
+												$mattype = $node_type->first_child();
+												if (strcmp($mattype->node_name(), "mattext") == 0)
+												{
+													$suggested_solution = $mattype->get_content();
+													if ($suggested_solution)
+													{
+														if ($this->getId() < 1)
+														{
+															$this->saveToDb();
+														}
+														$this->setSuggestedSolution($suggested_solution, 0, true);
+													}
+												}
 											}
-											else
+											break;
+										case "render_choice":
+											$render_choice = $node_type;
+											$shuffle = $render_choice->get_attribute("shuffle");
+											$labels = $render_choice->child_nodes();
+											foreach ($labels as $lidx => $response_label)
 											{
-												$materials[$response_label->get_attribute("ident")] = $mattype->get_content();
+												$material = $response_label->first_child();
+												if ($this->get_matching_type() == MT_TERMS_PICTURES)
+												{
+													$mattype = $material->first_child();
+													if (strcmp($mattype->node_name(), "matimage") == 0)
+													{
+														$filename = $mattype->get_attribute("label");
+														$image = base64_decode($mattype->get_content());
+														$images["$filename"] = $image;
+														$materials[$response_label->get_attribute("ident")] = $filename;
+													}
+													else
+													{
+														$materials[$response_label->get_attribute("ident")] = $mattype->get_content();
+													}
+												}
+												else
+												{
+													$mattext = $material->first_child();
+													$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+												}
 											}
-										}
-										else
-										{
-											$mattext = $material->first_child();
-											$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
-										}
+											break;
 									}
 								}
 							}
