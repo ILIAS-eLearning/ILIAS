@@ -376,6 +376,7 @@ class ilPersonalDesktopGUI
 
 					// check for profile
 					// todo: use user class!
+					$user_obj = new ilObjUser($user_id);
 					$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
 					$r = $this->ilias->db->query($q);
 
@@ -386,6 +387,23 @@ class ilPersonalDesktopGUI
 						$this->tpl->setVariable("ALT_TXT_VIEW",$this->lng->txt("view"));
 						$this->tpl->setVariable("USR_ID",$user_id);
 						$this->tpl->parseCurrentBlock();
+					}
+
+					// user image
+					$webspace_dir = ilUtil::getWebspaceDir();
+					$image_dir = $webspace_dir."/usr_images";
+					$xxthumb_file = $image_dir."/usr_".$user_obj->getID()."_xxsmall.jpg";
+					if ($user_obj->getPref("public_upload") == "y" &&
+						$user_obj->getPref("public_profile") == "y" &&
+						@is_file($xxthumb_file))
+					{
+						$this->tpl->setCurrentBlock("usr_image");
+						$this->tpl->setVariable("USR_IMAGE", $xxthumb_file."?t=".rand(1, 99999));
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("NO_IMAGE", "&nbsp;");
 					}
 
 					$this->tpl->setCurrentBlock("tbl_users_row");
