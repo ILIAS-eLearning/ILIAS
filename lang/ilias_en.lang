@@ -2381,8 +2381,8 @@ content#:#cont_dependencies#:#Dependencies
 content#:#cont_derive_from_obj#:#Derive from Object
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/File
-content#:#cont_disable_js#:#Disable JavaScript
-content#:#cont_disable_media#:#Disable Media
+content#:#cont_disable_js#:#JavaScript inactive
+content#:#cont_disable_media#:#Media inactive
 content#:#cont_download_title#:#Download Title
 content#:#cont_ed_align_center#:#align: center
 content#:#cont_ed_align_left#:#align: left
@@ -2433,8 +2433,8 @@ content#:#cont_edit_src#:#Edit source code
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
-content#:#cont_enable_js#:#Enable JavaScript
-content#:#cont_enable_media#:#Enable Media
+content#:#cont_enable_js#:#JavaScript active
+content#:#cont_enable_media#:#Media active
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_file#:#File
