@@ -66,7 +66,8 @@ class ilTermDefinitionEditorGUI
 
 		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 
-		$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm());
+		$this->main_header($this->lng->txt("cont_definition").
+			", ".$this->lng->txt("cont_term").": ".$this->term->getTerm()." ");
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page =& $this->definition->getPageObject();
@@ -141,6 +142,14 @@ class ilTermDefinitionEditorGUI
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$this->tpl->setCurrentBlock("tab");
+		$this->tpl->setVariable("TAB_TYPE", "tabinactive");
+		$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=listDefinitions&term_id=".$this->term->getId());
+		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("cont_term"));
+		$this->tpl->parseCurrentBlock();
+
 	}
 
 	function displayLocator()
@@ -154,10 +163,18 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->touchBlock("locator_separator");
+
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->term->getTerm());
 		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=editTerm&term_id=".$this->term->getId());
+			"&cmd=listDefinitions&term_id=".$this->term->getId());
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition"));
+		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=".$_GET["cmd"]."&def=".$_GET["def"]);
 		$this->tpl->parseCurrentBlock();
 
 		//$this->tpl->touchBlock("locator_separator");
