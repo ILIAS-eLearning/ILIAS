@@ -4,12 +4,28 @@
 		<ilMainMenu />
 	</ilFrame>
 	<ilFrame name="content" cols="50%,50%">
-		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
-			<ilPage />
-			<ilLMNavigation />
+		<ilFrame name="maincontent">
+			<PageObject template="tpl.page.html" template_location="module">
+				<ilPage>
+					<LinkTarget Type="New" Frame="_new" />
+					<LinkTarget Type="FAQ" Frame="topright" />
+					<LinkTarget Type="Glossary" Frame="botright" />
+					<LinkTarget Type="Media" Frame="topright" />
+				</ilPage>
+				<ilLMNavigation />
+			</PageObject>
 		</ilFrame>
 		<ilFrame rows="66%,34%">
-			<ilFrame name="topright" template="tpl.blank.html" template_location="module"/>
+			<ilFrame name="topright" template="tpl.blank.html" template_location="module">
+				<PageObject template="tpl.page.html" template_location="module">
+					<ilPage>
+						<LinkTarget Type="New" Frame="_new" />
+						<LinkTarget Type="FAQ" Frame="topright" />
+						<LinkTarget Type="Glossary" Frame="botright" />
+						<LinkTarget Type="Media" Frame="topright" />
+					</ilPage>
+				</PageObject>
+			</ilFrame>
 			<ilFrame name="botright" template="tpl.blank.html" template_location="module"/>
 		</ilFrame>
 	</ilFrame>

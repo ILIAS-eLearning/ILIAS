@@ -180,7 +180,24 @@
 
 <!-- IntLink -->
 <xsl:template match="IntLink">
+	<xsl:variable name="frametype" select="@TargetFrame"/>
 	<a class="ilc_IntLink">
+		<xsl:variable name="targetframe">
+			<xsl:value-of select="//LinkTargets/LinkTarget[@Type=$frametype]/@Frame"/>
+		</xsl:variable>
+		<xsl:if test="$targetframe != ''">
+			<xsl:attribute name="target"><xsl:value-of select="$targetframe"/></xsl:attribute>
+		</xsl:if>
+		<xsl:variable name="frame">
+			<xsl:choose>
+				<xsl:when test="$targetframe = ''">
+					<xsl:value-of select="$pg_frame"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$targetframe"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:if test="@Type = 'PageObject'">
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="href">lm_edit.php?cmd=view&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
@@ -189,7 +206,7 @@
 				<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$mode = 'presentation'">
-				<xsl:attribute name="href">lm_presentation.php?cmd=layout&amp;frame=<xsl:value-of select="$pg_frame"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+				<xsl:attribute name="href">lm_presentation.php?obj_type=PageObject&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 		</xsl:if>
 		<xsl:apply-templates/>

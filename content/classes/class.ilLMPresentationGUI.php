@@ -40,6 +40,7 @@ class ilLMPresentationGUI
 	var $ilias;
 	var $lm;
 	var $tpl;
+	var $layout_doc;
 
 	function ilLMPresentationGUI()
 	{
@@ -76,15 +77,16 @@ class ilLMPresentationGUI
 		$layout = $this->lm->getLayout();
 
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
-		
+
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
+		$this->layout_doc =& $doc;
 
 		$xpc = xpath_new_context($doc);
-		$path = (empty($_GET["frame"]))
+		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_new"))
 			? "/ilFrame[1]"
 			: "//ilFrame[@name='".$_GET["frame"]."']";
 		$result = xpath_eval($xpc, $path);
@@ -105,9 +107,39 @@ class ilLMPresentationGUI
 		}
 		else	// node is frame -> process the content tags
 		{
-			if (empty($attributes["template"]))
-			{ echo "ilLMPresentation: No template specified for ilFrame"; exit; }
+			if (empty($attributes["template"]) || !empty($_GET["obj_type"]))
+			{
+				// we got a variable content frame (can display different
+				// object types (PageObject, MediaObject, GlossarItem)
+				// and contains elements for them)
 
+				// determine object type
+				if(empty($_GET["obj_type"]))
+				{
+					$obj_type = "PageObject";
+				}
+				else
+				{
+					$obj_type = $_GET["obj_type"];
+				}
+
+				// get object specific node
+				$childs = $node->child_nodes();
+				$found = false;
+				foreach($childs as $child)
+				{
+					if ($child->node_name() == $obj_type)
+					{
+						$found = true;
+						$attributes = $this->attrib2arr($child->attributes());
+						$node =& $child;
+						break;
+					}
+				}
+				if (!$found) { echo "ilLMPresentation: No template specified for frame '".
+					$_GET["frame"]."' and object type '".$obj_type."'."; exit; }
+
+			}
 			// get template
 			$in_module = ($attributes["template_location"] == "module")
 				? true
@@ -132,7 +164,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
-						$this->ilPage();
+						$this->ilPage($child);
 						break;
 
 					case "ilLMNavigation":
@@ -226,8 +258,19 @@ class ilLMPresentationGUI
 		return $page_id;
 	}
 
-	function ilPage()
+	function ilPage(&$a_page_node)
 	{
+		// read link targets
+		$childs =& $a_page_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if($child->node_name() == "LinkTarget")
+			{
+				$targets.= $this->layout_doc->dump_node($child);
+			}
+		}
+		$targets = "<LinkTargets>$targets</LinkTargets>";
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
@@ -242,7 +285,7 @@ class ilLMPresentationGUI
 		$pg_obj =& new ilPageObject($page_id);
 		$pg_obj->setLMId($this->lm->getId());
 		$builded = $pg_obj->buildDom();
-		$content = $pg_obj->getXMLFromDom(false, true, true);
+		$content = $pg_obj->getXMLFromDom(false, true, true, $targets);
 
 		$pg_title = $pg_obj->getPresentationTitle($this->lm->getPageHeader());
 
@@ -250,7 +293,7 @@ class ilLMPresentationGUI
 		$pg_obj->bbCode2XML($content);
 
 		// todo: utf-header should be set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
@@ -398,7 +441,7 @@ class ilLMPresentationGUI
 					if(!empty($attributes["name"]))
 					{
 						$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-							"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
+							"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
 					}
 					else	// ok, no name means that we can easily output the frameset tag
 					{
@@ -410,7 +453,7 @@ class ilLMPresentationGUI
 				else	// frame with
 				{
 					$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-						"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
+						"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
 				}
 			}
 		}
