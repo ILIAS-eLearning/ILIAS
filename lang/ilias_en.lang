@@ -312,6 +312,7 @@ common#:#import_slm#:#Import SCORM Package
 common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
+common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_trash#:#Deleted Objects
@@ -446,6 +447,7 @@ common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
+common#:#member#:#Member
 common#:#members#:#Members
 common#:#message#:#Message
 common#:#message_content#:#Message Content
