@@ -62,9 +62,9 @@ class ilRbacSystem
 	*  The last parameter is only required, if you ask for the 'create' operation. Here you specify
 	*  the object type which you want to create.
 	* 
-	*  example: $rbacSystem->checkAccess("visible,read",23,5);
+	*  example: $rbacSystem->checkAccess("visible,read",23);
 	*  Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
-	*  The object_id is 23 and it is located under object no. 5 under the tree structure.
+	*  The reference_id is 23 in the tree structure.
 	*  
 	* @access	public
 	* @param	string		one or more operations, separated by commas (i.e.: visible,read,join)
@@ -74,10 +74,6 @@ class ilRbacSystem
 	*/
 	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
-		global $tree, $rbacadmin, $rbacreview, $objDefinition;
-
-		//return true;
-		
 		// exclude system role from rbac
 		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
@@ -95,24 +91,16 @@ class ilRbacSystem
 			$this->ilias->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
 		}
 
-		//$create = false;
-		//$ops_arr = array();
-		
 		$operations = explode(",",$a_operations);
 
 		foreach ($operations as $operation)
 		{
-			//$ops_id = getOperationId($operation);
-			
-			// Case 'create': naturally there is no rbac_pa entry
-			// => looking for the next template and compare operation with template permission
 			if ($operation == "create")
 			{
 				if (empty($a_type))
 				{
-					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking 'create' permission",
+					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking a 'create' permission",
 											 $this->ilias->error_obj->WARNING);
-					exit();
 				}
 				
 				$ops_id = getOperationId($operation."_".$a_type);
@@ -122,52 +110,6 @@ class ilRbacSystem
 				$ops_id = getOperationId($operation);
 			}
 			
-
-				/*
-				$obj = $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-		
-				if ($objDefinition->getSubObjectsAsString($obj->getType()) == "")
-				{
-					$this->ilias->raiseError(get_class($this)."::CheckAccess(): Wrong or unknown type definition given: '".$a_type."'",
-											 $this->ilias->error_obj->WARNING);
-				}
-
-				// sometimes no tree-object was instated, therefore:
-				// TODO: maybe deprecated
-				if (!is_object($tree))
-				{
-					$tree = new ilTree(ROOT_FOLDER_ID);
-				}
-
-				$path_ids = $tree->getPathId($a_ref_id);
-				array_unshift($path_ids,SYSTEM_FOLDER_ID);
-				$parent_roles = $rbacreview->getParentRoles($path_ids);
-
-				foreach ($parent_roles as $par_rol)
-				{
-					if (in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
-					{
-						$ops_arr = $rbacreview->getOperationsOfRole($par_rol["obj_id"],$a_type,$par_rol["parent"]);
-
-						if (in_array($ops_id,$ops_arr))
-						{
-							$create = true;
-							break;
-						}
-					}
-				}
-
-				if ($create)
-				{
-					continue;
-				}
-				else
-				{
-					return false;
-				}*/
-
-			//} // END CASE 'create'
-	
 			// Um nur eine Abfrage zu haben
 			$in = " IN ('";
 			$in .= implode("','",$_SESSION["RoleId"]);
