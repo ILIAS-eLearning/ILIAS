@@ -485,6 +485,11 @@ input.submit, a.submit {
 	cursor:pointer;
 }
 
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
 a.ilEditSubmit, input.ilEditSubmit {
 	background-color:#ffffff;
 	color:#2255a0;
