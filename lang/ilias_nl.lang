@@ -208,8 +208,8 @@ assessment#:#tst_anon_eval#:#Anoniem geaggregeerde resultaten
 assessment#:#tst_browse_for_questions#:#Blader voor vragen
 assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
 assessment#:#tst_eval_no_anonymous_aggregation#:#Niemand heeft tot nu toe de test gedaan. Er zijn geen anoniem geaggregeerde resultaten beschikbaar
-assessment#:#tst_eval_total_finished#:#Totaal aantal afgeronde testen
-assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde verwerkingstijd voor afgeronde testen
+assessment#:#tst_eval_total_finished#:#Totaal aantal afgeronde testen###12 Jun 2004 content changed
+assessment#:#tst_eval_total_finished_average_time#:#Gemiddelde verwerkingstijd voor afgeronde testen###12 Jun 2004 content changed
 assessment#:#tst_eval_total_passed#:#Totaal aantal afgewerkte testen
 assessment#:#tst_eval_total_passed_average_points#:#Gemiddeld aantal punten voor afgeronde testen
 assessment#:#tst_eval_total_persons#:#Totaal aantal personen die de test gedaan hebben
@@ -2940,6 +2940,7 @@ survey#:#contains#:#Contains###10 Jun 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
+survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
 survey#:#dc_agree#:#agree###23 May 2004 new variable
 survey#:#dc_always#:#always###23 May 2004 new variable
 survey#:#dc_definitelyfalse#:#definitely false###23 May 2004 new variable
@@ -3008,7 +3009,9 @@ survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new vari
 survey#:#enter_value#:#Enter a value###26 May 2004 new variable
 survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
 survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
+survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
 survey#:#exit#:#Exit###01 Jun 2004 new variable
+survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
 survey#:#filter#:#Filter###21 May 2004 new variable
@@ -3037,6 +3040,7 @@ survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
 survey#:#mode#:#Most selected value###02 Jun 2004 new variable
 survey#:#mode_nr_of_selections#:#Nr of selections###02 Jun 2004 new variable
+survey#:#mode_text#:#Most selected value (Text)###12 Jun 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
 survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
@@ -3053,6 +3057,7 @@ survey#:#no_user_or_group_selected#:#Please check an option what are you searchi
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
 survey#:#not_finished#:#not finished###07 Jun 2004 new variable
+survey#:#not_started#:#not started###12 Jun 2004 new variable
 survey#:#obligatory#:#obligatory###24 May 2004 new variable
 survey#:#off#:#off###23 May 2004 new variable
 survey#:#offline#:#offline###23 May 2004 new variable
