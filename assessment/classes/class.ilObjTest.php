@@ -2234,6 +2234,7 @@ class ilObjTest extends ilObject
 	}
 	
 	
+
 	/**
 	* Calculates the results of a test for a given user
 	* 
@@ -2267,25 +2268,58 @@ class ilObjTest extends ilObject
 			$value = $this->questions[$seq];
 //			$ilBench->start("getTestResult","instanciate question"); 
 			$question =& ilObjTest::_instanciateQuestion($value);
-//			$ilBench->stop("getTestResult","instanciate question");
+//			$ilBench->stop("getTestResult","instanciate question"); 
+			$max_points = $question->getMaximumPoints();
+			$total_max_points += $max_points;
+			$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+			$total_reached_points += $reached_points;
+			if ($max_points > 0)
+			{
+				$percentvalue = $reached_points / $max_points;
+			}
+			else
+			{
+				$percentvalue = 0;
+			}
 			if (is_object($question))
 			{
-				$max_points = $question->getMaximumPoints();
-				$total_max_points += $max_points;
-				$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
-				$total_reached_points += $reached_points;
-				if ($max_points > 0)
-				{
-					$percentvalue = $reached_points / $max_points;
-				}
-				else
-				{
-					$percentvalue = 0;
-				}
 				if (count($question->suggested_solutions) == 1)
 				{
-					$solution_array = $question->getSuggestedSolution(0);
-					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					$max_points = $question->getMaximumPoints();
+					$total_max_points += $max_points;
+					$reached_points = $question->getReachedPoints($user_id, $this->getTestId());
+					$total_reached_points += $reached_points;
+					if ($max_points > 0)
+					{
+						$percentvalue = $reached_points / $max_points;
+					}
+					else
+					{
+						$percentvalue = 0;
+					}
+					if (count($question->suggested_solutions) == 1)
+					{
+						$solution_array = $question->getSuggestedSolution(0);
+						$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
+					}
+					elseif (count($question->suggested_solutions) > 1)
+					{
+						$href = "see_details_for_further_information";
+					}
+					else
+					{
+						$href = "";
+					}
+					$row = array(
+						"nr" => "$key",
+						"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
+						"max" => sprintf("%d", $max_points),
+						"reached" => sprintf("%d", $reached_points),
+						"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
+						"solution" => $href
+					);
+					array_push($result_array, $row);
+					$key++;
 				}
 				elseif (count($question->suggested_solutions) > 1)
 				{
