@@ -118,12 +118,12 @@ assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
 assessment#:#ass_create_export_file#:#Crea file di export
 assessment#:#ass_export_files#:#File di export
-assessment#:#ass_file#:#File
+assessment#:#ass_file#:#Scegli il file
 assessment#:#ass_questions#:#Domande
 assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
-assessment#:#by#:#da
+assessment#:#by#:#con
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
@@ -223,11 +223,11 @@ assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti
 assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
-assessment#:#filter#:#Filtro
+assessment#:#filter#:#Filtra in 
 assessment#:#filter_all_question_types#:#Tutti i tipi di domande
 assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
-assessment#:#filter_show_question_types#:#Mostra i tipi di domande
-assessment#:#filter_show_questionpools#:#Mostra le raccolte di domande
+assessment#:#filter_show_question_types#:#Filtra tra le domande di tipo
+assessment#:#filter_show_questionpools#:#Filtra tra le domande nella raccolta
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
@@ -276,7 +276,7 @@ assessment#:#no_question_selected_for_move#:#Per favore seleziona la domanda che
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arrivo!
 assessment#:#no_user_or_group_selected#:#Per favore indica cosa stai ricercando (utenti e/o gruppi)!
-assessment#:#or#:#oppure
+assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#passed_official#:#Superato
@@ -313,10 +313,10 @@ assessment#:#qt_cloze#:#con risposta da completare
 assessment#:#qt_imagemap#:#con immagine a mappa
 assessment#:#qt_javaapplet#:#con applet java
 assessment#:#qt_matching#:#con risposte da associare
-assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
-assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
+assessment#:#qt_multiple_choice_mr#:#con risposta multipla (scelta multipla)
+assessment#:#qt_multiple_choice_sr#:#con risposta singola (scelta multipla)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#qt_text#:#Domanda con risposta breve (testo)
+assessment#:#qt_text#:#con risposta breve (testo)
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_title#:#Titolo della domanda
@@ -327,7 +327,7 @@ assessment#:#radio_set#:#Seleziona
 assessment#:#radio_unset#:#Deseleziona
 assessment#:#random_accept_sample#:#Accetta esempio
 assessment#:#random_another_sample#:#Prendi un altro esempio
-assessment#:#random_selection#:#Selezione casuale
+assessment#:#random_selection#:#Scegli casualmente
 assessment#:#rectangle#:#Rettangolo
 assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore destro dell'area desiderata.
 assessment#:#rectangle_click_tl_corner#:#Per favore clicca sull'angolo superiore sinistro dell'area desiderata.
@@ -335,7 +335,7 @@ assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
 assessment#:#remove_solution#:#Rimuovi la soluzione suggerita
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
-assessment#:#reset_filter#:#Annulla il filtro
+assessment#:#reset_filter#:#Azzera il filtro
 assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
@@ -354,7 +354,7 @@ assessment#:#select_max_one_item#:#Per favore scegli un solo elemento
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
 assessment#:#select_tst_option#:#--- Seleziona un test ---
 assessment#:#selected_image#:#Immagine selezionata
-assessment#:#set_filter#:#Imposta filtro
+assessment#:#set_filter#:#Filtra
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#solution_hint#:#Soluzione suggerita
@@ -374,7 +374,7 @@ assessment#:#true#:#Vero
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati relativi agli utenti di questo test sono stati cancellati!
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
-assessment#:#tst_browse_for_questions#:#Cerca le domande
+assessment#:#tst_browse_for_questions#:#Cerca la domanda
 assessment#:#tst_confirm_delete_results#:#Stai per cancellare tutti i risultati del test appena eseguito. Questo riporterà tutte le domande ai loro valori predefiniti. Attenzione, non viene per&#242; azzerato il numero di tentativi che puoi effettuare per quest test. Vuoi veramente annullare tutti i risultati che hai appena inserito?
 assessment#:#tst_confirm_delete_results_info#:#Tutti i risultati che hai appena inserito sono stati cancellati. Il test è stato annullato con successo!
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
@@ -397,7 +397,7 @@ assessment#:#tst_insert_questions_and_results#:#Questo test &#232; gi&#224; stat
 assessment#:#tst_introduction#:#Introduzione
 assessment#:#tst_mark#:#Voto
 assessment#:#tst_mark_create_new_mark_step#:#Crea un nuovo voto
-assessment#:#tst_mark_create_simple_mark_schema#:#Crea un semplice schema voti
+assessment#:#tst_mark_create_simple_mark_schema#:#Crea uno schema voti
 assessment#:#tst_mark_minimum_level#:#Livello minimo (in %)
 assessment#:#tst_mark_official_form#:#Form ufficiale
 assessment#:#tst_mark_passed#:#Superato
@@ -423,10 +423,10 @@ assessment#:#tst_question_title#:#Titolo
 assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domande inserite!
 assessment#:#tst_questions_removed#:#Domande cancellate!
-assessment#:#tst_random_nr_of_questions#:#Quante domande?
+assessment#:#tst_random_nr_of_questions#:#Quante domande vuoi inserire?
 assessment#:#tst_random_qpl_unselected#:#C'&#232; almeno una raccolta di domande non selezionata! Non hai bisogno di aggiungere una nuova raccolta.
 assessment#:#tst_random_questionpools#:#Raccolta di domande sorgente
-assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dal quale scegliere le domande
+assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dalla quale verranno prese le domande
 assessment#:#tst_random_test#:#Test casuale
 assessment#:#tst_random_test_description#:#Se abilitato, le domande del test saranno generate casualmente.
 assessment#:#tst_reached_points#:#Punteggio raggiunto
@@ -442,7 +442,7 @@ assessment#:#tst_score_reporting#:#Rapporto con i risultati
 assessment#:#tst_score_reporting_date#:#Data del rapporto
 assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_file_for_import#:#Devi scegliere un file da importare!
-assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
+assessment#:#tst_select_questionpool#:#Per favore, seleziona la raccolta alla quale verr&#224; aggiunta la domanda
 assessment#:#tst_select_questionpools#:#Per favore scegli scegli la raccolta nella quale inserire le domande importate
 assessment#:#tst_select_random_questions#:#Seleziona la(e) raccolta(e) di domande ed il numero di domande che comporranno il test casuale
 assessment#:#tst_select_tsts#:#Per favore scegli un test da duplicare
@@ -488,7 +488,7 @@ assessment#:#tst_total_questions#:#Numero di domande
 assessment#:#tst_total_questions_description#:#Se viene impostato questo valore, il numero di domande inserite nella raccolta viene ignorato ed il numero rappresenta le domande prelevate da ogni raccolta!
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_type_changed#:#Hai modificato il tipo di test. Tutti i test precedentemente svolti sono stati eliminati!
-assessment#:#tst_type_comment#:#Attenzione: modificando il tipo di test, verranno eliminati tutti i test svolti precedentemente!
+assessment#:#tst_type_comment#:#Attenzione: modificando il tipo, tutti i test svolti precedentemente verranno eliminati!
 assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_use_javascript#:#Usa i Javascript per le operazioni di "drag and drop"
 assessment#:#tst_your_ects_mark_is#:#Il tuo voto ECTS &#232;
@@ -499,7 +499,7 @@ assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
-assessment#:#upload_imagemap#:#Upload una immagine a mappa
+assessment#:#upload_imagemap#:#Importa una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#warning_question_not_complete#:#La domanda non &#232; stata completata!
 assessment#:#warning_test_not_complete#:#Il test non &#232; stata completato!
@@ -684,7 +684,7 @@ common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
 common#:#administrate#:#Amministra
-common#:#administrate_users#:#Amministrazione utenti locali
+common#:#administrate_users#:#Utenti locali
 common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
@@ -710,7 +710,7 @@ common#:#alm_read#:#Accedere in lettura ad un modulo AICC
 common#:#alm_visible#:#Vedere un modulo AICC
 common#:#alm_write#:#Modificare un modulo AICC
 common#:#already_delivered_files#:#File gi&#224; inviati
-common#:#and#:#e
+common#:#and#:#AND
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Risposta
@@ -787,7 +787,7 @@ common#:#bookmarks#:#Preferiti
 common#:#bookmarks_of#:#Preferiti di
 common#:#btn_remove_system#:#Rimuovi dal sistema
 common#:#btn_undelete#:#Ripristina gli oggetti
-common#:#by#:#da
+common#:#by#:#con
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annulla
 common#:#cannot_find_xml#:#Non ho trovato nessun file XML.
@@ -806,7 +806,7 @@ common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
 common#:#cat_create_exc#:#Creare una esercitazione
-common#:#cat_create_file#:#Upload di un file
+common#:#cat_create_file#:#Scegli il file
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
@@ -901,7 +901,7 @@ common#:#condition_deleted#:#Condizione eliminata.
 common#:#condition_passed#:#Superato
 common#:#condition_precondition#:#Condizioni preliminari:
 common#:#condition_select_object#:#Per favore, scegli almeno un oggetto.
-common#:#condition_select_one#:#- Scegli una condizione -
+common#:#condition_select_one#:#--- Scegli una condizione ---
 common#:#condition_update#:#Salva
 common#:#conditions_updated#:#Condizioni salvate
 common#:#confirm#:#Conferma
@@ -1016,7 +1016,7 @@ common#:#delete_selected#:#Elimina selezionato
 common#:#delete_tr_data#:#Elimina i dati del tracciamento
 common#:#deleted#:#Eliminato
 common#:#deleted_user#:#L'utente &#232; stato eliminato
-common#:#deliver#:#Esercitazione inviata
+common#:#deliver#:#Esercitazioni inviate
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
@@ -1025,7 +1025,7 @@ common#:#disabled#:#Disabilitato
 common#:#domain#:#Dominio
 common#:#down#:#Gi&#249;
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Download di tutti i file restituiti.
+common#:#download_all_returned_files#:#Download di tutti i file restituiti
 common#:#drafts#:#Bozze
 common#:#drop#:#Togli
 common#:#edit#:#Modifica
@@ -1086,7 +1086,7 @@ common#:#exc_edit#:#Creata nuova esercitazione
 common#:#exc_edit_exercise#:#Modifica l&#039;esercitazione
 common#:#exc_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#exc_edit_until#:#Data scadenza 
-common#:#exc_files#:#File
+common#:#exc_files#:#Scegli il file
 common#:#exc_files_returned#:#File restituiti
 common#:#exc_groups#:#Gruppi
 common#:#exc_header_members#:#Esercitazione (membri)
@@ -1124,8 +1124,8 @@ common#:#feedback#:#Risposta
 common#:#feedback_recipient#:#Destinatario per le risposte
 common#:#file#:#File
 common#:#file_a#:#un file
-common#:#file_add#:#Upload del file
-common#:#file_added#:#Upload del file eseguito
+common#:#file_add#:#File
+common#:#file_added#:#Importazione del file eseguita
 common#:#file_delete#:#Cancellare un file
 common#:#file_edit#:#Modificare un file
 common#:#file_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1182,7 +1182,7 @@ common#:#forgot_password#:#Dimenticata la password?
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forum_import#:#Importa forum
-common#:#forum_import_file#:#Importa file
+common#:#forum_import_file#:#Scegli il file
 common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
@@ -1223,7 +1223,7 @@ common#:#glo_join#:#Iscrivere ad un glossario
 common#:#glo_leave#:#Annullare l&#039;iscrizione ad un glossario
 common#:#glo_new#:#Nuovo glossario
 common#:#glo_read#:#Accedere in lettura ad un glossario
-common#:#glo_upload_file#:#File
+common#:#glo_upload_file#:#Scegli il file
 common#:#glo_visible#:#Vedere un glossario
 common#:#glo_write#:#Modificare un glossario
 common#:#global#:#Globale
@@ -1238,7 +1238,7 @@ common#:#group_desc#:#Descrizione del gruppo
 common#:#group_details#:#Dettagli gruppo
 common#:#group_filesharing#:#Condivisione file al gruppo
 common#:#group_import#:#Importa gruppo
-common#:#group_import_file#:#Importa file
+common#:#group_import_file#:#Scegli il file
 common#:#group_members#:#Membri del gruppo
 common#:#group_memstat#:#Stato del membro
 common#:#group_memstat_admin#:#Amministratore
@@ -1383,9 +1383,9 @@ common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
 common#:#import_alm#:#Importa un modulo AICC
-common#:#import_categories#:#Importa contesti
-common#:#import_dbk#:#Importa Libri digitali
-common#:#import_file#:#Importa file
+common#:#import_categories#:#Importa contesto
+common#:#import_dbk#:#Importa un libro digitale
+common#:#import_file#:#Scegli il file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
@@ -1571,7 +1571,7 @@ common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
 common#:#logs#:#Log con i dati
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
-common#:#mail#:#Impostazioni della posta
+common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta
 common#:#mail_addressbook#:#Rubrica
 common#:#mail_allow_smtp#:#Consenti SMTP
@@ -1811,7 +1811,7 @@ common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
 common#:#obj_exc#:#Esercitazione
-common#:#obj_file#:#File
+common#:#obj_file#:#Scegli il file
 common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossario
@@ -1881,7 +1881,7 @@ common#:#objs_crs#:#Corsi
 common#:#objs_dbk#:#Libri digitali
 common#:#objs_delete#:#Cancella gli oggetti
 common#:#objs_exc#:#Esercitazioni
-common#:#objs_file#:#File
+common#:#objs_file#:#Scegli il file
 common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
 common#:#objs_glo#:#Glossari
@@ -1921,7 +1921,7 @@ common#:#options_for_subobjects#:#Opzioni per i sotto-oggetti
 common#:#order_by#:#Ordinato per
 common#:#other#:#Altro
 common#:#overview#:#Visione generale
-common#:#owner#:#Proprietario
+common#:#owner#:#Mostra il proprietario
 common#:#page#:#Pagina
 common#:#page_edit#:#Modifica pagina
 common#:#pages#:#Pagine
@@ -1958,7 +1958,7 @@ common#:#per_object#:#Permessi sull'oggetto
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
-common#:#permission_settings#:#Impostazione dei permessi
+common#:#permission_settings#:#Modifica i permessi
 common#:#person_title#:#Titolo
 common#:#personal_data#:#Informazioni Personali
 common#:#personal_desktop#:#Desktop personale
@@ -2001,7 +2001,7 @@ common#:#qpl_delete#:#Eliminare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
-common#:#qpl_upload_file#:#Upload file
+common#:#qpl_upload_file#:#Scegli il file
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
 common#:#query_data#:#Invia
@@ -2154,12 +2154,12 @@ common#:#search_user#:#Ricerca utente
 common#:#sections#:#Sezioni
 common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
-common#:#select_file#:#Seleziona file
+common#:#select_file#:#Scegli il file
 common#:#select_mode#:#Seleziona modo
 common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#select_object_to_link#:#Per favore seleziona l'oggetto che vuoi collegare
 common#:#select_password#:#Scegli una nuova password
-common#:#select_questionpool#:#Raccolta di domande per Test
+common#:#select_questionpool#:#Scegli la raccolta
 common#:#select_questionpool_option#:#--- Seleziona una raccolta di domande ---
 common#:#selected#:#Selezionati
 common#:#selected_items#:#Elementi selezionati
@@ -2194,7 +2194,7 @@ common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
 common#:#spl_read#:#Accedere in lettura ad una raccolta di domande
-common#:#spl_upload_file#:#Upload di file
+common#:#spl_upload_file#:#Scegli il file
 common#:#spl_visible#:#Vedere una raccolta di domande
 common#:#spl_write#:#Modificare una raccolta di domande
 common#:#st_a#:#un capitolo
@@ -2226,7 +2226,7 @@ common#:#svy_invite#:#Invitare utenti ad un sondaggio
 common#:#svy_new#:#Nuovo sondaggio
 common#:#svy_participate#:#Participare ad un sondaggio
 common#:#svy_read#:#Accedere in lettura ad un sondaggio
-common#:#svy_upload_file#:#Upload di file
+common#:#svy_upload_file#:#Scegli il file
 common#:#svy_visible#:#Vedere un sondaggio
 common#:#svy_write#:#Modificare un sondaggio
 common#:#system#:#Sistema
@@ -2294,7 +2294,7 @@ common#:#tst_delete#:#Eliminare un test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tst_new#:#Nuovo test
 common#:#tst_read#:#Accedere in lettura ad un test
-common#:#tst_upload_file#:#Upload del file
+common#:#tst_upload_file#:#Scegli il file
 common#:#tst_visible#:#Vedere un test
 common#:#tst_write#:#Modificare un test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
@@ -2316,7 +2316,7 @@ common#:#unzip#:#Unzip
 common#:#up#:#Su
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
-common#:#upload#:#Upload
+common#:#upload#:#Importa
 common#:#upload_error_file_not_found#:#Errore nell'upload: file non trovato.
 common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
 common#:#url#:#URL
@@ -2425,7 +2425,7 @@ content#:#cont_act_number#:#Numerazione capitoli
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_change_comment#:#Aggiungi commento con i cambiamenti
-content#:#cont_add_definition#:#Aggiungi termine
+content#:#cont_add_definition#:#Aggiungi voce
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo
 content#:#cont_added_comment#:#Il commento &#232; stato aggiunto nella storia.
 content#:#cont_added_term#:#Termine aggiunto
@@ -2656,7 +2656,7 @@ content#:#cont_offline#:#Versione Offline
 content#:#cont_offline_files#:#Versioni offline
 content#:#cont_offline_versions#:#Versioni offline
 content#:#cont_online#:#Online
-content#:#cont_or#:#o
+content#:#cont_or#:#OR
 content#:#cont_order#:#Tipo di ordinamento
 content#:#cont_ordering_question_javascript_hint#:#Per favore trascina una definizione/immagine sulla definizione/immagine dove vuoi metterla e rilasciala. La definizione/immagine che sta sotto e tutte le definizioni/immagini che seguono verranno spostate verso il basso.
 content#:#cont_organization#:#Organizzazione
@@ -2753,8 +2753,8 @@ content#:#cont_table_html_import#:#Importare una tabella HTML
 content#:#cont_table_html_import_info#:#Importare solo lavori con tabelle conformi allo standard XHTML. "Table" deve essere il tag radice!
 content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
-content#:#cont_term#:#Termine
-content#:#cont_terms#:#Termini
+content#:#cont_term#:#Voce
+content#:#cont_terms#:#Gestione voci
 content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_title#:#titolo
@@ -2923,7 +2923,7 @@ crs#:#crs_role_status#:#Ruolo / Stato
 crs#:#crs_search_enter_search_string#:#Per favore indica una stringa da ricercare
 crs#:#crs_search_for#:#Ricerca per
 crs#:#crs_search_members#:#Ricerca utente
-crs#:#crs_search_str#:#Ricerca termine
+crs#:#crs_search_str#:#Ricerca voce
 crs#:#crs_select_archive_language#:#Per favore scegli una lingua per l'archivio
 crs#:#crs_select_one_archive#:#Per favore scegli un archivio
 crs#:#crs_settings#:#Propriet&#224; del corso
@@ -3921,7 +3921,7 @@ payment#:#pay_bmf_description_personal_data#:#Per favore, riempi i campi seguent
 payment#:#pay_bmf_house_number#:#Numero di casa
 payment#:#pay_bmf_info#:#L'accesso al materiale seguente non &#232; libero. Se vuoi consultare un particolare oggetto seleziona il prezzo. Puoi acquistare uno o pi&#249; oggetti utilizzando il pulsante "Aggiungi al carrello". In questo modo avrai immediato accesso agli oggetti scelti
 payment#:#pay_bmf_optional#:#opzionale
-payment#:#pay_bmf_or#:#o
+payment#:#pay_bmf_or#:#OR
 payment#:#pay_bmf_password_not_valid#:#La tua password non &#232; valida.
 payment#:#pay_bmf_payment_type#:#Tipo di pagamento
 payment#:#pay_bmf_payment_type_not_valid#:#Il tipo di pagamento che hai selezionato non &#232; valido. Scegli un'altro tipo.
@@ -4164,8 +4164,8 @@ survey#:#arithmetic_mean#:#Valore aritmetico
 survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel sondaggio?
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel sondaggio?
 survey#:#back#:#<< Indietro
-survey#:#before#:#prima
-survey#:#browse_for_questions#:#Scegli le domande
+survey#:#before#:#prima di 
+survey#:#browse_for_questions#:#Ricerca con filtro
 survey#:#cannot_create_survey_codes#:#Non hai sufficienti diritti per creare codici di accesso al sondaggio!
 survey#:#cannot_edit_survey#:#Non hai sufficienti diritti per poter modificare il sondaggio!
 survey#:#cannot_export_questionpool#:#Non hai sufficienti diritti per esportare la raccolta di domande per sondaggi!
@@ -4232,7 +4232,7 @@ survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
 survey#:#description_maxchars#:#Se non &#232; indicato, la risposta non ha un numero massimo di caratteri (senza limite).
 survey#:#disinvite#:#Annulla l'invito
-survey#:#display_all_available#:#Mostra tutto
+survey#:#display_all_available#:#Mostra
 survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d'accordo -d'accordo-indeciso-in disaccordo-molto in disaccordo)
 survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d'accordo-disaccordo)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Giudizio standard (d'accordo-indeciso-in disaccordo)
@@ -4281,11 +4281,11 @@ survey#:#fill_out_all_required_fields_add_category#:#Per favore riempi tutti i c
 survey#:#fill_out_all_required_fields_delete_category#:#Per favore completa tutti i campi richiesti prima di effettuare la cancellazione delle categorie!
 survey#:#fill_out_all_required_fields_move_category#:#Per favore completa tutti i campi richiesti prima di effettuare spostamento delle categorie!
 survey#:#fill_out_all_required_fields_save_phrase#:#Per favore completa tutti i campi richiesti prima di salvare la frase!
-survey#:#filter#:#Filtro
+survey#:#filter#:#Filtra in
 survey#:#filter_all_question_types#:#Tutti i tipi di domande
-survey#:#filter_all_questionpools#:#Tutte le raccolte di domande (per sondaggi)
-survey#:#filter_show_question_types#:#Mostra i tipi di domande
-survey#:#filter_show_questionpools#:#Mostra le raccolte di domande (per sondaggi)
+survey#:#filter_all_questionpools#:#Tutte le raccolte di domande
+survey#:#filter_show_question_types#:#Fitra tra le domande di tipo
+survey#:#filter_show_questionpools#:#Fitra tra le domande nella raccolta
 survey#:#finished#:#finito
 survey#:#found_questions#:#Trovate domande
 survey#:#geometric_mean#:#Significato geometrico
@@ -4330,8 +4330,8 @@ survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore
 survey#:#mode#:#Valore pi&#249; selezionato
 survey#:#mode_nr_of_selections#:#Nr di selezioni
 survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
-survey#:#multiple_choice_multiple_response#:#A scelta multipla (risposta multipla)
-survey#:#multiple_choice_single_response#:#A scelta multipla (risposta singola)
+survey#:#multiple_choice_multiple_response#:#con risposta multipla (scelta multipla)
+survey#:#multiple_choice_single_response#:#con risposta singola (scelta multipla)
 survey#:#new_survey_codes#:#nuovo codice di accesso al sondaggio
 survey#:#next_question_rows#:#Domande %d - %d di %d >>
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
@@ -4356,7 +4356,7 @@ survey#:#off#:#inattivo
 survey#:#offline#:#offline
 survey#:#on#:#attivo
 survey#:#online#:#online
-survey#:#or#:#o
+survey#:#or#:#OR
 survey#:#ordinal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
 survey#:#orientation#:#Orientamento
 survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato questo valore
@@ -4391,7 +4391,7 @@ survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticam
 survey#:#question_type#:#Tipo di domanda
 survey#:#questionblock#:#Blocco di domande
 survey#:#questionblock_has_constraints#:#Vincoli
-survey#:#questionblocks#:#Blocco di domande
+survey#:#questionblocks#:#Blocchi di domande
 survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!
 survey#:#questions_removed#:#Domande e/o blocco di domande cancellate!
@@ -4401,32 +4401,32 @@ survey#:#ratio_non_absolute#:#con risposta frazionaria (non assoluta)
 survey#:#remove_question#:#Cancella
 survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
 survey#:#reset_filter#:#Azzera il filtro
-survey#:#resume_survey#:#Annulla il filtro
+survey#:#resume_survey#:#Azzera il filtro
 survey#:#save_obligatory_state#:#Salva gli stati obbligatori
 survey#:#save_phrase#:#Salva come frase
 survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!
 survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, devi specificare il titolo. Verr&#224; mostrata la frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.
-survey#:#search_field_all#:#Ricerca in tutti i campi
-survey#:#search_for#:#Ricerca per
+survey#:#search_field_all#:#Tutti i campi
+survey#:#search_for#:#Ricerca in
 survey#:#search_groups#:#Gruppi
 survey#:#search_invitation#:#Ricerca utenti o gruppi da invitare
-survey#:#search_questions#:#Ricerca le domande
+survey#:#search_questions#:#Ricerca semplice
 survey#:#search_term#:#Ricerca il termine
-survey#:#search_type_all#:#Ricerca in tutti i tipi di domande
+survey#:#search_type_all#:#Tutti i tipi di domande
 survey#:#search_users#:#Utenti
 survey#:#select_max_one_item#:#Per favore scegli un solo oggetto
 survey#:#select_option#:#--- Scegli un valore ---
 survey#:#select_phrase_to_add#:#Per favore scegli una frase da aggiungere alla domanda!
 survey#:#select_prior_question#:#Seleziona la domanda precedente
 survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
-survey#:#select_questionpool_short#:#Raccolta di domande per sondaggio
+survey#:#select_questionpool_short#:#Scegli la raccolta
 survey#:#select_relation#:#Seleziona una relazione
 survey#:#select_svy_option#:#--- Seleziona un sondaggio ---
 survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di destinazione nella quale spostare le categorie e premi uno dei pulsanti Inserisci!
 survey#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!
 survey#:#select_value#:#Seleziona un valore
 survey#:#selection#:#Seleziona
-survey#:#set_filter#:#Imposta filtro
+survey#:#set_filter#:#Filtra
 survey#:#skipped#:#saltato
 survey#:#spl_select_file_for_import#:#Devi scegliere un file da importare!
 survey#:#start_date#:#Giorno di esecuzione
@@ -4437,7 +4437,7 @@ survey#:#subtype#:#Sottotipo
 survey#:#survey_code#:#Codice di accesso al sondaggio
 survey#:#survey_code_message_sent#:#Il codice del sondaggio che ti consente di riprenderlo dal punto in cui &#232; stato interrotto, ti &#232; stato inviato con una eMail!
 survey#:#survey_code_no_codes#:#Non hai ancora creato nessun codice di accesso al sondaggio.
-survey#:#survey_code_used#:#Il codice %#232; stato usato
+survey#:#survey_code_used#:#Stato del codice
 survey#:#survey_finish#:#Salva e finisci il sondaggio >>>
 survey#:#survey_finished#:#Il sondaggio &#232; finito. Grazie per la tua partecipazione!
 survey#:#survey_is_offline#:#Non puoi eseguire il sondaggio! Il sondaggio &#232; offline.
@@ -4459,7 +4459,7 @@ survey#:#svy_eval_cumulated#:#Risultati aggregati
 survey#:#svy_eval_detail#:#Risultati aggregati (dettagli)
 survey#:#svy_eval_user#:#Risultati dell'utente specificato
 survey#:#svy_export_files#:#Exporta file
-survey#:#svy_file#:#File
+survey#:#svy_file#:#Scegli il file
 survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propriet&#224; del sondaggio! Per favore inserisci il nome dell'autore.
 survey#:#svy_missing_questions#:#Non hai inserito nessuna domanda nel sondaggio! Per favore aggiungi almeno una domanda al sondaggio.
 survey#:#svy_missing_title#:#Non hai indicato il titolo del sondaggio! Per favore vai nella sezione dei metadati e specifica il titolo.
