@@ -2004,6 +2004,7 @@ content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
+content#:#cont_src_other#:#other###18 Jun 2004 new variable
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
 content#:#cont_status#:#Stato
