@@ -132,16 +132,23 @@ class ilLanguage
 	*/
 	function ilLanguage($a_lang_key)
 	{
-		global $ilias;
+		global $ilias,$log;
+
 
 		$this->ilias =& $ilias;
 
+		if (!isset($log))
+		{
+			$this->log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
+		}
+		else
+		{
+			$this->log =& $log;
+		}
+
 		$this->lang_key = $a_lang_key;
-
 		$this->text = array();
-
 		$this->loaded_modules = array();
-
 		$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
 		// if no directory was found fall back to default lang dir
@@ -175,8 +182,6 @@ class ilLanguage
 	*/
 	function txt($a_topic)
 	{
-		global $log;
-		
 		if (empty($a_topic))
 		{
 			return "";
@@ -185,7 +190,11 @@ class ilLanguage
 
 		if ($translation == "")
 		{
-			$log->writeLanguageLog($a_topic,$this->lang_key);
+			if (ILIAS_LOG_ENABLED)
+			{
+				$this->log->writeLanguageLog($a_topic,$this->lang_key);
+			}
+
 			return "-".$a_topic."-";
 		}
 		else
@@ -196,7 +205,7 @@ class ilLanguage
 	
 	function loadLanguageModule ($a_module)
 	{
-		if(in_array($a_module, $this->loaded_modules))
+		if (in_array($a_module, $this->loaded_modules))
 		{
 			return;
 		}
@@ -210,12 +219,12 @@ class ilLanguage
 			$lang_key = $this->lang_user;
 		}
 
-		$query = "SELECT identifier,value FROM lng_data ".
-				 "WHERE lang_key = '".$lang_key."' ".
-				 "AND module = '$a_module'";
-		$res = $this->ilias->db->query($query);
+		$q = "SELECT identifier,value FROM lng_data ".
+			 "WHERE lang_key = '".$lang_key."' ".
+			 "AND module = '$a_module'";
+		$r = $this->ilias->db->query($q);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
 		}
