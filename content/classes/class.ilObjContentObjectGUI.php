@@ -50,6 +50,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->actions = $this->objDefinition->getActions("lm");
 
 	}
 	// PROPERTY METHODS MOVED FROM class.ilObjLearningModuleGUI.php
@@ -612,6 +613,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
+			$acts = array("delete" => "delete", "move" => "moveChapter");
+			if (ilEditClipboard::getContentObjectType() == "st")
+			{
+				$acts["pasteChapter"] =  "pasteChapter";
+			}
+			$this->setActions($acts);
 			$this->showActions();
 		}
 
@@ -853,23 +860,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function showActions()
 	{
 		$notoperations = array();
-		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
-		if (empty($_SESSION["clipboard"]))
-		{
-			$notoperations[] = "paste";
-			$notoperations[] = "clear";
-		}
-		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
-		if ($_SESSION["clipboard"])
-		{
-			$notoperations[] = "cut";
-			$notoperations[] = "copy";
-			$notoperations[] = "link";
-		}
 
 		$operations = array();
 
-		$d = $this->objDefinition->getActions("lm");
+		$d = $this->actions;
 
 		foreach ($d as $row)
 		{
@@ -941,6 +935,88 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->viewObject();
 	}
+
+	/**
+	* move chapter
+	*/
+	function moveChapter()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
+
+		sendInfo($this->lng->txt("cont_chap_select_target_now"));
+		$this->chapters();
+	}
+
+	/**
+	* paste chapter
+	*/
+	function pasteChapter()
+	{
+		if (ilEditClipboard::getContentObjectType() != "st")
+		{
+			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$tree = new ilTree($this->object->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		// cut selected object
+		$id = ilEditClipboard::getContentObjectId();
+
+		$node = $tree->getNodeData($id);
+		$subnodes = $tree->getSubtree($node);
+
+		// check, if target is within subtree
+		if($_POST["id"][0] == $id)
+		{
+			ilEditClipboard::clear();
+			$this->chapters();
+			return;
+		}
+
+
+		//echo ":".$id.":";
+		// delete old tree entries
+		$tree->deleteTree($node);
+
+		if(!isset($_POST["id"]))
+		{
+			$target = IL_LAST_NODE;
+		}
+		else
+		{
+			$target = $_POST["id"][0];
+		}
+
+		$tree->insertNode($id, $tree->getRootId(), $target);
+
+		foreach ($subnodes as $node)
+		{
+			//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+			//$obj_data->putInTree($node["parent"]);
+			if($node["obj_id"] != $id)
+			{
+				$tree->insertNode($node["obj_id"], $node["parent"]);
+			}
+		}
+
+		ilEditClipboard::clear();
+
+		$this->chapters();
+	}
+
 
 } // END class.ilObjContentObjectGUI
 ?>

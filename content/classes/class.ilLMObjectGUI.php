@@ -465,29 +465,5 @@ class ilLMObjectGUI
 		}
 	}
 
-	function checkClipboardContentType()
-	{
-		if (substr($_SESSION["ilEditClipboard"],0,2) == "st")
-		{
-			return "st";
-		}
-		else if (substr($_SESSION["ilEditClipboard"],0,2) == "pg")
-		{
-			return "pg";
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	function getClipboardId()
-	{
-		if (isset($_SESSION["ilEditClipboard"]))
-		{
-			return substr($_SESSION["ilEditClipboard"], 2, strlen($_SESSION["ilEditClipboard"]) - 2);
-		}
-	}
-
 }
 ?>
