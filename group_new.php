@@ -58,7 +58,7 @@ $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 $tplmain = new ilTemplate("tpl.main.html", false, false);
 $tplmain->setVariable("CONTENT",$tpl->get());
 $tplmain->show();*/
-global $rbacsystem;
+global $rbacsystem, $tree;
 	
 	
 	$data = array();
@@ -72,7 +72,8 @@ global $rbacsystem;
 	infoPanel();
 	
 	
-	$tpl->setVariable("TXT_PAGEHEADLINE", "Name der Kategorie");	
+	$node = $tree->getNodeData($_GET["parent_ref_id"]);
+	$tpl->setVariable("TXT_PAGEHEADLINE", $node["title"]);	
 	
 	//$this->getTemplateFile("new","group");
 	foreach ($data["fields"] as $key => $val)
