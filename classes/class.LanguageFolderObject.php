@@ -102,7 +102,7 @@ class LanguageFolderObject extends Object
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang)", $entry)))
+			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages[$lang_key] = ""; // long names will be set in class Out
@@ -674,7 +674,7 @@ class LanguageFolderObject extends Object
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang)", $entry)))
+			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
 			{
 				// textmeldung, wenn langfile gefunden wurde
 				$output .= "<br>langfile found: ".$entry;
@@ -683,41 +683,51 @@ class LanguageFolderObject extends Object
 				$found = true;
 				$error = false;
 	
-				if ($content = $this->cut_header($content)) {
-					foreach ($content as $key => $val) {
+				if ($content = $this->cut_header($content))
+				{
+					foreach ($content as $key => $val)
+					{
 						$separated = explode ($this->separator,trim($val));
 						$num = count($separated);
 
-						if ($num != 3) {
-	
+						if ($num != 3)
+						{
 							$error = true;
 						
-							switch ($num) {
+                        $output .= "<br/><br/><b>error in line ".$key." !</b>";
+                        $output .= "<br/>module: ".$separated[0];
+                        $output .= "<br/>identifier: ".$separated[1];
+                        $output .= "<br/>value: ".$separated[2]."<br/>";
+
+							switch ($num)
+							{
 								case 1:
-									if (empty($separated[0])) {
-										$output .= "<br>no params! Please check your langfiles";
+									if (empty($separated[0]))
+									{
+										$output .= "<br/>no params! Please check your langfiles";
 									}
-									else {
-										$output .= "<br>only 1 param! Please check your langfiles";
+									else
+									{
+										$output .= "<br/>only 1 param! Please check your langfiles";
 									}
 								break;
 	
 								case 2:
-									$output .= "<br>only 2 params! Please check your langfiles";
+									$output .= "<br/>only 2 params! Please check your langfiles";
 								break;
 	
 								default:
-									$output .= "<br>more than 3 params! Please check your langfiles";
+									$output .= "<br/>more than 3 params! Please check your langfiles";
 								break;
 							}
 						}
 					}
 	
 					if ($error) {
-						$output .= "<br>File not valid! reason: wrong param count!";
+						$output .= "<br/>File not valid! reason: wrong param count!";
 					}
 					else {
-						$output .= "<br>file is valid";
+						$output .= "<br/>file is valid";
 					}
 				}
 				else {
