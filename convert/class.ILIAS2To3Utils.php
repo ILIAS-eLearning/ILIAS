@@ -349,6 +349,52 @@ class ILIAS2To3Utils
 		return $str;
 	}
 	
+	/* ***
+	// convert alignment values ***
+	function selectAlignment ($align)
+	{
+		switch ($align)
+		{
+			/* ***
+			case 0: // left, wrapped by text
+			case 1: // left
+			case 2: // right, wrapped by text
+			case 3: // right
+			case 4: // center
+				$str = "";
+				break;
+						
+			case 5: // citation
+				$str = "Citation";
+				break;
+			
+			case 6: // mnemonic
+				$str = "Mnemonic";
+				break;
+			
+			case 7: // pointed list
+				$str = "";
+				break;
+			
+			case 8: // numerical list
+				$str = "";
+				break;
+			
+			case 9: // alphabetic list
+				$str = "";
+				break;
+			
+			case 10: // list with roman numerals
+				$str = "";
+				break;
+			
+			default: // all exceptions
+				$str = "";
+		}
+		return $str;
+	}
+	*/
+	
 	// convert area shape ***
 	function selectShape ($shape)
 	{
@@ -634,7 +680,7 @@ class ILIAS2To3Utils
 						chmod($tDir."/".$file, 0770);
 					}
 	
-					if (!rCopy($sDir."/".$file,$tDir."/".$file))
+					if (!$this->rCopy($sDir."/".$file,$tDir."/".$file))
 					{
 						return FALSE;
 					}
