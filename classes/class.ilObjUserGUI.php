@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.19 2003/06/04 14:06:28 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.20 2003/06/05 13:46:05 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -51,13 +51,47 @@ class ilObjUserGUI extends ilObjectGUI
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usr";
+
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
-		
+
 		// for gender selection. don't change this
 		$this->gender = array(
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
 							  );
+	}
+
+
+	//new method
+	function insertPublicProfile($a_template_var, $a_template_block_name)
+	{
+		global $tpl;
+		require_once "classes/class.ilForum.php";
+		$frm = new ilForum();
+		$author = $frm->getUser($_GET["user"]);
+
+		$tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
+		$tpl->setCurrentBlock("profile");
+		//$tpl->setVariable("ROWCOL1", "tblrow1");
+		//$tpl->setVariable("ROWCOL2", "tblrow2");
+
+		// Get name of picture of user
+		require_once "classes/class.ilObjUser.php";
+		$userObj = new ilObjUser($_GET["user"]);
+		// End of get picture of user
+		$tpl->setVariable("TXT_NAME","Name");
+		$tpl->setVariable("FIRSTNAME",$author->getFirstName());
+		$tpl->setVariable("LASTNAME",$author->getLastName());
+		$tpl->setVariable("TXT_TITLE","Title");
+		$tpl->setVariable("TITLE",$author->getTitle());
+		$tpl->setVariable("TXT_IMAGE","Image");
+		$tpl->setVariable("IMAGE_PATH","./docss/usr_images/".$userObj->getPref("profile_image"));
+
+		//echo "./docss/usr_images/".$userObj->getPref("profile_image");
+		//exit;
+
+		$tpl->parseCurrentBlock("profile");
+		//$tpl->show();
 	}
 
 
@@ -417,7 +451,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// validate password
 		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
 		{
@@ -429,7 +463,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
@@ -500,7 +534,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$_SESSION["RoleId"] = $_POST["active"];
 		header("Location: adm_object.php?ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]&cmd=edit");
 		exit;
-	}	   
+	}
 
 } // END class.UserObjectOut
 ?>
