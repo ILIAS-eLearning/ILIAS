@@ -92,7 +92,9 @@ class ASS_AnswerSimple
 	*/
 	function get_answertext()
 	{
-		return $this->answertext;
+	  //$tmpanswertext = "<![CDATA[".$this->answertext."]]>";
+	  $tmpanswertext = $this->answertext;
+		return $tmpanswertext;
 	}
 
 	/**

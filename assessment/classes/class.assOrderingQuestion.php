@@ -154,7 +154,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		$root->append_child($qtiIdent);
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiCommentText = $this->domxml->create_text_node("<![CDATA[".$this->getComment()."]]>");
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// PART I: qti presentation
@@ -165,7 +165,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		// add material with question text to presentation
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$this->get_question()."]]>");
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
