@@ -436,12 +436,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("resume");
 			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("resume_survey"));
-			if ($canStart = SURVEY_START_START_DATE_NOT_REACHED)
+			if ($canStart == SURVEY_START_START_DATE_NOT_REACHED)
 			{
 				sendInfo($this->lng->txt("start_date_not_reached"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			}
-			if ($canStart = SURVEY_START_END_DATE_REACHED)
+			if ($canStart == SURVEY_START_END_DATE_REACHED)
 			{
 				sendInfo($this->lng->txt("end_date_reached"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
@@ -457,12 +457,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				sendInfo($this->lng->txt("cannot_participate_survey"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			}
-			if ($canStart = SURVEY_START_START_DATE_NOT_REACHED)
+			if ($canStart == SURVEY_START_START_DATE_NOT_REACHED)
 			{
 				sendInfo($this->lng->txt("start_date_not_reached"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
 			}
-			if ($canStart = SURVEY_START_END_DATE_REACHED)
+			if ($canStart == SURVEY_START_END_DATE_REACHED)
 			{
 				sendInfo($this->lng->txt("end_date_reached"));
 				$this->tpl->setVariable("DISABLED", " disabled=\"disabled\"");
