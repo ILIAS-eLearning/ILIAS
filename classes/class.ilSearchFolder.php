@@ -196,7 +196,7 @@ class ilSearchFolder
 		
 		$res = $this->ilias->db->query($query);
 
-		$this->s_tree->insertNode(getLastInsertId(),$this->getFolderId());
+		$this->s_tree->insertNode($this->ilias->db->getLastInsertId(),$this->getFolderId());
 
 		return true;
 	}
@@ -223,7 +223,7 @@ class ilSearchFolder
 		
 		$res = $this->ilias->db->query($query);
 
-		$this->s_tree->insertNode(getLastInsertId(),$this->getFolderId());
+		$this->s_tree->insertNode($this->ilias->db->getLastInsertId(),$this->getFolderId());
 
 		$new_obj =& new ilSearchFolder($this->getUserId(),$this->getFolderId());
 		$new_obj->setTitle($a_title);
@@ -302,7 +302,7 @@ class ilSearchFolder
 		$root_id = $this->__getLastInsertId();
 
 		$this->s_tree->addTree($this->getUserId(),$root_id);
-		
+
 		// SET MEMBER VARIABLES
 		$this->setFolderId($root_id);
 		$this->setRootId($root_id);
@@ -326,12 +326,8 @@ class ilSearchFolder
 
 	function __getLastInsertId()
 	{
-		$query = "SELECT LAST_INSERT_ID()";
+		return $this->ilias->db->getLastInsertId();
+	}
 
-		$res = $this->ilias->db->query($query);
-		$row = $res->fetchRow();
-		return $row[0];
-	}		
-	
 } // END class.Search
 ?>

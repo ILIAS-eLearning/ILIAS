@@ -679,8 +679,8 @@ restore starts here
 		
 		$q = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('0','".$a_obj_id."')";
 		$this->db->query($q);
-		
-		return getLastInsertId();
+
+		return $this->db->getLastInsertId();
 	}
 
 	/**
