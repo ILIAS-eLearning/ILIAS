@@ -1361,6 +1361,11 @@ class ilUtil
 	*/
 	function delDir($a_dir)
 	{
+		if (!is_dir($a_dir))
+		{
+			return;
+		}
+
 		$current_dir = opendir($a_dir);
 
 		while($entryname = readdir($current_dir))

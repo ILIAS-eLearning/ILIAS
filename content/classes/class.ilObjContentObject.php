@@ -331,6 +331,15 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	* get data directory
+	*/
+	function getDataDirectory()
+	{
+		return ilUtil::getDataDir()."/lm_data".
+			"/lm_".$this->getId();
+	}
+
+	/**
 	* get import directory of lm
 	*/
 	function getImportDirectory()
@@ -347,15 +356,6 @@ class ilObjContentObject extends ilObject
 		}
 	}
 
-	/*
-	function getExportLogFileName()
-	{
-		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
-		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		$export_log = $lm_dir."/export/export.log";
-
-		return $export_log;
-	}*/
 
 	/**
 	* creates data directory for export files
@@ -424,6 +424,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -439,14 +441,20 @@ class ilObjContentObject extends ilObject
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
 
+		// delete bibitem data
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), "bib");
+		$nested->deleteAllDBData();
+
 		// delete learning module tree
 		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
 
-		// delete import directory
-		ilUtil::delDir($this->getImportDirectory());
+		// delete data directory
+		ilUtil::delDir($this->getDataDirectory());
 
-		// delete export directory
-		ilUtil::delDir($this->getExportDirectory());
+		// delete content object record
+		$q = "DELETE FROM content_object WHERE id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
 
 		return true;
 	}

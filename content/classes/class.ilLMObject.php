@@ -331,7 +331,10 @@ class ilLMObject
 		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"]);
-			$lm_obj->delete();
+			if (is_object($lm_obj))
+			{
+				$lm_obj->delete();
+			}
 		}
 	}
 
