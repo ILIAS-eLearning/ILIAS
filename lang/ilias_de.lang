@@ -578,7 +578,7 @@ mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
-mail#:#mail_move_to#:#Nachricht(en) verschieben
+mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten

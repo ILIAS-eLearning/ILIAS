@@ -94,12 +94,17 @@ if (isset($_POST["cmd"]["submit"]))
 				}
 			}
 			break;
-		case 'move':
+
+		case 'add':
+			header("location: mail_options.php?mobj_id=$_GET[mobj_id]&cmd=add");
+			exit;
+
+		default:
 			if(!is_array($_POST["mail_id"]))
 			{
 				sendInfo($lng->txt("mail_select_one"));
 			}
-			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["move_to"]))
+			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["action"]))
 			{
 				sendInfo($lng->txt("mail_moved"));
 			}
@@ -108,9 +113,6 @@ if (isset($_POST["cmd"]["submit"]))
 				sendInfo($lng->txt("mail_move_error"));
 			}
 			break;
-		case 'add':
-			header("location: mail_options.php?mobj_id=$_GET[mobj_id]&cmd=add");
-			exit;
 	}
 }
 // ONLY IF FOLDER IS TRASH, IT WAS ASKED FOR CONFIRMATION
@@ -157,36 +159,33 @@ $actions = $mbox->getActions($_GET["mobj_id"]);
 $tpl->setCurrentBlock("mailactions");
 foreach($actions as $key => $action)
 {
-	$tpl->setVariable("MAILACTION_NAME", $key);
-	$tpl->setVariable("MAILACTION_VALUE", $action);
-	$tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
-	$tpl->parseCurrentBlock();
-}
-// END MAIL ACTIONS
-
-// BEGIN MAILMOVE
-
-$folders = $mbox->getSubFolders();
-$tpl->setCurrentBlock("mailmove");
-foreach($folders as $folder)
-{
-	if($folder["obj_id"] == $_GET["mobj_id"])
+	if($key == 'move')
 	{
-		continue;
-	}
-	$tpl->setVariable("MAILMOVE_VALUE", $folder["obj_id"]);
-	if($folder["type"] == 'user_folder')
-	{
-		$tpl->setVariable("MAILMOVE_NAME", $folder["title"]);
+		$folders = $mbox->getSubFolders();
+		foreach($folders as $folder)
+		{
+			$tpl->setVariable("MAILACTION_VALUE", $folder["obj_id"]);
+			if($folder["type"] != 'user_folder')
+			{
+				$tpl->setVariable("MAILACTION_NAME",$action." ".$lng->txt("mail_".$folder["title"]));
+			}
+			else
+			{
+				$tpl->setVariable("MAILACTION_NAME",$action." ".$folder["title"]);
+			}
+			$tpl->parseCurrentBlock();
+		}
 	}
 	else
 	{
-		$tpl->setVariable("MAILMOVE_NAME", $lng->txt("mail_".$folder["title"]));
+		$tpl->setVariable("MAILACTION_NAME", $action);
+		$tpl->setVariable("MAILACTION_VALUE", $key);
+		$tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
+		$tpl->parseCurrentBlock();
 	}
-	$tpl->parseCurrentBlock();
 }
+// END MAIL ACTIONS
 
-// END MAILMOVE
 
 // SHOW_FOLDER ONLY IF viewmode is flatview
 if(!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == 'flat')
