@@ -122,9 +122,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->get_points()));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				if ($answer->isStateSet())
+				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("radio_unset"));
+				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("radio_set"));
+				if ($answer->isStateChecked())
 				{
-					$this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
+					$this->tpl->setVariable("CHECKED_SELECTED", " selected=\"selected\"");
 				}
 				$this->tpl->parseCurrentBlock();
 			}
@@ -635,7 +637,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$this->object->add_answer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
-						$state,
+						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
 						ilUtil::stripSlashes($matches[1])
 						);
 				}
