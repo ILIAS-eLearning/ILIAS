@@ -133,5 +133,5 @@ if ($script != "login.php" && $script != "index.php")
 	}
 }
 
-$tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style_".$ilias->account->prefs["skin"]].".css");
+$tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style"].".css");
 ?>

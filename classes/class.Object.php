@@ -42,8 +42,8 @@ class Object
 		$this->ilias =& $ilias;
 
 		$this->id = $_GET["obj_id"];
-		$this->parent = $_GET["parent"];
-		$this->parent_parent = $_GET["parent_parent"];
+		$this->parent = $_GET["parent"]; // possible deprecated
+		$this->parent_parent = $_GET["parent_parent"]; // // possible deprecated
 
 		$sql = "SELECT * FROM object_data
 				WHERE obj_id='".$this->id."'";

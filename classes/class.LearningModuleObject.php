@@ -144,6 +144,7 @@ class LearningModuleObject extends Object
 		$last[$lo_id] = $lo->getReferences();
 		array_push($mapping,$last);
 		
+		// MOVE TO xml2sql class
 		$this->insertStructureIntoTree(array_reverse($mapping));
 		
 		// for output
@@ -167,6 +168,7 @@ class LearningModuleObject extends Object
 			}
 		}
 
+		// insert first_node
 		$parent_id = $this->id;
 		$lm_tree->insertNode(key($a_nodes[0]),$parent_id,0);
 		

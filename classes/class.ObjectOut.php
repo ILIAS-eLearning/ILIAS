@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.12 2002/12/19 16:33:33 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.13 2002/12/20 13:13:25 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -375,12 +375,13 @@ class ObjectOut
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
-
+		
 		// SHOW VALID ACTIONS
 		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
+
 	}
 
 	function cutAdmObject()

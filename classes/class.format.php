@@ -260,15 +260,15 @@ class Format
 	* @param	string	date date, given in sql-format YYYY-MM-DD
 	* @return	string	formatted date
 	*/
-	function fmtDate($a_str)
+	function fmtDate($a_str,$a_dateformat)
 	{
 		//read the format
-		$date = $this->txt("lang_dateformat");
+		$date = $a_dateformat;
 
 		//no format defined set to defaultformat
-		if ($date == "-lang_dateformat-")
+		if ($a_dateformat == "-lang_dateformat-")
 		{
-			$date = $this->DEFAULTDATEFORMAT;
+			$date = "MM/DD/YYYY";
 		}
 
 		//get values from given sql-date
@@ -315,29 +315,23 @@ class Format
 	* @param	integer		display thousands separator
 	* @return	string		formatted number
 	*/
-	function fmtFloat($a_float, $a_decimals = 0, $a_th = 1)
+	function fmtFloat($a_float, $a_decimals = "", $a_th = "")
 	{
 		//thousandskomma?
-		if ($a_th == 1)
+		if (!empty($a_th))
 		{
-			$a_th = $this->txt("sep_thousand");
-			
 			if ($a_th == "-sep_thousand-")
 			{
-				$a_th = $this->DEFAULTSEPTHOUSAND;
+				$a_th = ",";
 			}
-		}
-		else
-		{
-			$a_th = "";
 		}
 		
 		//decimalpoint?
-		$dec = $this->txt("sep_decimal");
+		$dec = $a_decimals;
 		
 		if ($dec == "-sep_decimal-")
 		{
-			$dec = $this->DEFAULTSEPDECIMAL;
+			$dec = ".";
 		}
 
 		return number_format($a_float, $a_decimals, $dec, $a_th);

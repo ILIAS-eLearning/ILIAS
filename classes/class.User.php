@@ -65,14 +65,19 @@ class User
 			$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
 			
 			//skin and pda support
-			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
+			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE") > 0)
+			{
 				$this->skin = "pda";
+			}
 			else
-			 	$this->skin = $this->ilias->ini->readVariable("layout","defaultskin");
+			{
+			 	$this->skin = $this->ilias->ini->readVariable("layout","skin");
+			}
+			
 			$this->prefs["skin"] = $this->skin;
-			//style
-			$style = "style_".$this->skin;			
-		 	$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
+			
+			//style (css)
+		 	$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 		}
 	}
 
@@ -120,16 +125,20 @@ class User
 			}
 
 			//pda support
-			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
+			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE") > 0)
+			{
 				$this->skin = "pda";
+			}
 			else
+			{
 				$this->skin = $this->prefs["skin"];
+			}
 			
 			//assign style
 			$style = "style_".$this->skin;
 			
 			//check style-setting (skins could have more than one stylesheet
-			if ($this->prefs[$style] == "" || file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs[$style].".css") == false)
+			if ($this->prefs["style"] == "" || file_exists($this->ilias->tplPath."/".$this->skin."/".$this->prefs["style"].".css") == false)
 			{
 				$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
 			}
@@ -440,14 +449,15 @@ class User
 		$sql = "SELECT * FROM lessons
 				WHERE user_fk='".$this->id."'
 				AND read=1";
-		$lessons[] = array(
-			"id" => 1,
-			"title" => "Lesson 1",
-			"content" => "This is Lesson One",
-			"page" => "Contents",
-			"pageid" => "1",
-			"datetime" => $lng->fmtDate(date("Y-m-d"))
-			);
+				
+			$lessons[] = array(
+					"id" => 1,
+					"title" => "Lesson 1",
+					"content" => "This is Lesson One",
+					"page" => "Contents",
+					"pageid" => "1",
+					"datetime" => Format::fmtDate(date("Y-m-d"),$lng->txt("lang_dateformat"))
+					);
 		return $lessons;
 	}
 
@@ -500,7 +510,7 @@ class User
 			"title" => "Course 1",
 			"desc" => "description of course one",
 			"content" => "This is Course One",
-			"datetime" => $lng->fmtDate(date("Y-m-d"))
+			"datetime" => Format::fmtDate(date("Y-m-d"),$lng->txt("lang_dateformat"))
 			);
 		return $courses;
 	}

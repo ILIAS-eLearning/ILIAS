@@ -30,14 +30,36 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("clear"):
 			$_GET["cmd"] = "clearAdm";
 			break;
-		case $lng->txt("import"):
-			$_GET["cmd"] = "import";
-			break;
 		case $lng->txt("delete"):
 			$_GET["cmd"] = "deleteAdm";
 			break;
+		case $lng->txt("import"):
+			$_GET["cmd"] = "import";
+			break;
+		case $lng->txt("export"):
+			$_GET["cmd"] = "export";
+			break;
+		case $lng->txt("install"):
+			$_GET["cmd"] = "install";
+			break;
+		case $lng->txt("uninstall"):
+			$_GET["cmd"] = "uninstall";
+			break;
+		case $lng->txt("refresh"):
+			$_GET["cmd"] = "refresh";
+			break;
+		case $lng->txt("set_system_language"):
+			$_GET["cmd"] = "setsyslang";
+			break;
+		case $lng->txt("change_language"):
+			$_GET["cmd"] = "setuserlang";
+			break;
+		case $lng->txt("check_language"):
+			$_GET["cmd"] = "checklang";
+			break;
 	}
 }
+
 //if no cmd is given default to first property
 if (!$_GET["cmd"])
 {

@@ -72,6 +72,7 @@ class TypeDefinitionObject extends Object
 	{
 		global $rbacsystem, $rbacadmin, $tpl;
 
+		// RBAC deactived for testing
 		//if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		//{
 			//prepare objectlist
