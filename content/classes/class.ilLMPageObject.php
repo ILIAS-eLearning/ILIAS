@@ -262,21 +262,24 @@ class ilLMPageObject extends ilLMObject
 		$tree = new ilTree($cont_obj->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
-		
+
 		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
 		$source_page =& $source_lm_page->getPageObject();
 		
 		// get next page
 		$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
-		if ($succ > 0)
+		if ($succ["child"] > 0)
 		{
-			$target_lm_page =& new ilLMPageObject($cont_obj, $succ);
+			$target_lm_page =& new ilLMPageObject($cont_obj, $succ["child"]);
 			$target_page =& $target_lm_page->getPageObject();
-				
-			// remove all nodes >= hierarchical id from source page
+			$target_page->buildDom();
+			$target_page->addHierIds();
+			
+			// move nodes to target page
 			$source_page->buildDom();
 			$source_page->addHierIds();
-			$source_page->deleteContentFromHierId($a_hier_id);
+			ilPageObject::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
+			//$source_page->deleteContentFromHierId($a_hier_id);
 		}
 		
 		return $lm_page;		
