@@ -23,8 +23,13 @@ a.menu:hover {
 	color:#DDDDFF;
 }
 
-input, textarea {
+input {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+textarea {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%
 }
 
 
