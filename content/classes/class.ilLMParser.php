@@ -59,6 +59,8 @@ class ilLMParser extends ilSaxParser
 	var $in_media_object;
 	var $lm_object;
 	var $keyword_language;
+	var $mob_mapping;
+	var $subdir;
 
 
 	/**
@@ -66,9 +68,10 @@ class ilLMParser extends ilSaxParser
 	*
 	* @param	object		$a_lm_object	must be of type ilObjLearningModule
 	* @param	string		$a_xml_file		xml file
+	* @param	string		$a_subdir		subdirectory in import directory
 	* @access	public
 	*/
-	function ilLMParser(&$a_lm_object, $a_xml_file)
+	function ilLMParser(&$a_lm_object, $a_xml_file, $a_subdir)
 	{
 		parent::ilSaxParser($a_xml_file);
 		$this->cnt = array();
@@ -78,6 +81,8 @@ class ilLMParser extends ilSaxParser
 		//$this->lm_id = $a_lm_id;
 		$this->st_into_tree = array();
 		$this->pg_into_tree = array();
+		$this->mob_mapping = array();
+		$this->subdir = $a_subdir;
 
 		$this->lm_tree = new ilTree($this->lm_object->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
@@ -102,6 +107,7 @@ class ilLMParser extends ilSaxParser
 	{
 		parent::startParsing();
 		$this->storeTree();
+		$this->copyMobFiles();
 	}
 
 	/**
@@ -132,6 +138,32 @@ class ilLMParser extends ilSaxParser
 			}
 		}
 //echo "6";
+	}
+
+
+	/**
+	* copy multimedia object files from import zip file to mob directory
+	*/
+	function copyMobFiles()
+	{
+		$imp_dir = $this->lm_object->getImportDirectory();
+		foreach ($this->mob_mapping as $origin_id => $mob_id)
+		{
+			$obj_dir = str_replace("_", "", $origin_id);
+			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
+			$target_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$mob_id;
+			if (@is_dir($source_dir))
+			{
+				// make target directory
+				@mkdir($target_dir);
+				@chmod($target_dir, 0755);
+
+				if (@is_dir($target_dir))
+				{
+					ilUtil::rCopy($source_dir, $target_dir);
+				}
+			}
+		}
 	}
 
 
@@ -573,6 +605,7 @@ class ilLMParser extends ilSaxParser
 
 				// TECHNICAL: Location
 				case "Location":
+//echo "Adding a location:".$a_data.":<br>";
 					$this->meta_technical->addLocation($a_data);
 					break;
 

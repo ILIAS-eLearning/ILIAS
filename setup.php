@@ -528,9 +528,16 @@ switch ($_GET["step"])
 						mkdir($mySetup->getWebspacePath().'/usr_images');
 					}
 
+					// PREPARE MULTIMEDIA OBJECTS DATA DIRECTORY (inside wb)
+					if(!@is_dir($mySetup->getWebspacePath().'/mobs'))
+					{
+						mkdir($mySetup->getWebspacePath().'/mobs');
+					}
+
 				}
 				chmod($mySetup->getWebspacePath().'/lm_data',0755);
 				chmod($mySetup->getWebspacePath().'/usr_images',0755);
+				chmod($mySetup->getWebspacePath().'/mobs',0755);
 			}
 
 			$msg = $lng->txt("inifile_written")."<br />".$lng->txt("inifile_content");

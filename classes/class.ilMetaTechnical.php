@@ -121,11 +121,13 @@ class ilMetaTechnical
 		$row = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 
 		$this->tech_id =  $row["tech_id"];
-
+//echo "saving...tech_id:".$row["tech_id"].":<br>";
 		foreach ($this->locations as $location)
 		{
+//echo "INSERT INTO meta_techn_loc<br>";
 			$q = "INSERT INTO meta_techn_loc (tech_id, location) VALUES
 				('".$this->tech_id."','".$location."')";
+			$this->ilias->db->query($q);
 		}
 
 	}

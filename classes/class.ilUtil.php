@@ -762,7 +762,7 @@ class ilUtil
 						chmod($a_tdir."/".$file, 0775);
 					}
 
-					if (!$this->rCopy($a_sdir."/".$file,$a_tdir."/".$file))
+					if (!ilUtil::rCopy($a_sdir."/".$file,$a_tdir."/".$file))
 					{
 						return FALSE;
 					}
