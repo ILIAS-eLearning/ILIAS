@@ -402,8 +402,8 @@ class ilGroupGUI extends ilObjectGUI
 		
 		//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe übergeben kann
 		
-		//$exp = new ilGroupExplorer("group.php?cmd=displayList",$_GET["ref_id"]);
-		$exp = new ilExplorer("group.php?cmd=displayList");
+		$exp = new ilGroupExplorer("group.php?cmd=displayList",$_GET["ref_id"]);
+		//$exp = new ilExplorer("group.php?cmd=displayList");
 		if ($_GET["expand"] == "")
 		{
 			$expanded = "1";
