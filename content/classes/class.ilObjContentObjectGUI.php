@@ -439,15 +439,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			// move pages / chapters
 			case "move":
+			case "copy":
 
 				// move pages
 				if ($source_obj->getType() == "pg")
 				{
-					// cut page
 					if ($lmtree->isInTree($source_obj->getId()))
 					{
 						$node_data = $lmtree->getNodeData($source_obj->getId());
-						$lmtree->deleteTree($node_data);
+						
+						// cut on move
+						if ($movecopy == "move")
+						{
+							$lmtree->deleteTree($node_data);
+						}
+						else
+						{
+							// copy page
+							$new_page =& $source_obj->copy();
+							$source_id = $new_page->getId();
+							$source_obj =& $new_page;
+						}
+						
 						// paste page
 						if(!$lmtree->isInTree($source_obj->getId()))
 						{
