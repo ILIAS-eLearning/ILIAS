@@ -35,7 +35,7 @@
 * @todo review the concept how the object type definition is loaded. We need a concept to
 * edit the definitions via webfrontend in the admin console.
 */
-class ILIAS extends PEAR
+class ILIAS
 {
 	/**
 	* ini file
@@ -130,6 +130,8 @@ class ILIAS extends PEAR
 	*/
 	function ILIAS($a_client_id = 0)
 	{
+		global $ilErr;
+
 		// load setup.ini
 		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
 		$this->ini_ilias->read();
@@ -166,7 +168,7 @@ class ILIAS extends PEAR
 		
 		$this->INI_FILE = "./".ILIAS_WEB_DIR."/".$this->client_id."/client.ini.php";
 		
-		$this->PEAR();
+//		$this->PEAR();
 
 		// prepare file access to work with safe mode
 		umask(0117);
@@ -228,8 +230,9 @@ class ILIAS extends PEAR
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
 
 		// Error Handling
-		$this->error_obj = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
+		$this->error_obj =& $ilErr;
+//		$this->error_obj = new ilErrorHandling();
+//		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 
 		// create instance of object factory
 		require_once("classes/class.ilObjectFactory.php");
@@ -435,6 +438,16 @@ class ILIAS extends PEAR
 	function getClientId()
 	{
 		return $this->client_id;
+	}
+	
+	/**
+	* wrapper for downward compability
+	*/
+	function raiseError($a_msg,$a_err_obj)
+	{
+		global $ilErr;
+
+		$ilErr->raiseError($a_msg,$a_err_obj);
 	}
 
 } // END class.ilias

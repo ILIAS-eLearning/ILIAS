@@ -89,6 +89,9 @@ require_once "classes/class.ilLocatorGUI.php";
 // include error_handling
 require_once "classes/class.ilErrorHandling.php";
 
+$ilErr = new ilErrorHandling();
+$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+
 // load main class
 $ilias = new ILIAS($_COOKIE["ilClientId"]);
 
@@ -122,6 +125,10 @@ $objDefinition->startParsing();
 
 // current user account
 $ilias->account = new ilObjUser();
+
+// create references for subobjects in ilias object
+$ilDB =& $ilias->db;
+$ilUser =& $ilias->account;
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
@@ -223,4 +230,6 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 									//"img"	=> "icon_mail.gif"
 									);
 }
+
+//vd($ilError);exit;
 ?>

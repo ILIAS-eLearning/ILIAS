@@ -32,7 +32,7 @@
 * @package	application
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
-class ilErrorHandling
+class ilErrorHandling extends PEAR
 {
 	/**
 	* Toggle debugging on/off
@@ -68,6 +68,8 @@ class ilErrorHandling
 	*/
 	function ilErrorHandling()
 	{
+		$this->PEAR();
+		
 		// init vars
 		$this->DEBUG_ENV = true;
 		$this->FATAL	 = 1;

@@ -107,19 +107,30 @@ class ilTree
 	*/
 	function ilTree($a_tree_id, $a_root_id = 0)
 	{
-		global $ilias;
+		global $ilDB,$ilErr,$ilUser;
 
-		// set ilias
-		$this->ilias =& $ilias;
+		// set db & error handler
+		$this->ilDB =& $ilDB;
+		$this->ilErr =& $ilErr;
+		
+		// lang_code is only required in $this->fetchnodedata
+		if (!is_object($ilUser))
+		{
+			$this->lang_code = "en";
+		}
+		else
+		{
+			$this->lang_code = $ilUser->getPref("language");
+		}
 
 		if (!isset($a_tree_id) or (func_num_args() == 0) )
 		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::Constructor(): No tree_id given!",$this->ilErr->WARNING);
 		}
 
 		if (func_num_args() > 2)
 		{
-			$this->ilias->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilErr->WARNING);
 		}
 
 		//init variables
@@ -156,8 +167,8 @@ class ilTree
 	{
 		if (!isset($a_table_tree) or !isset($a_table_obj_data))
 		{
-			$this->ilias->raiseError(get_class($this)."::setTableNames(): Missing parameter! ".
-								"tree table: ".$a_table_tree." object data table: ".$a_table_obj_data,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::setTableNames(): Missing parameter! ".
+								"tree table: ".$a_table_tree." object data table: ".$a_table_obj_data,$this->ilErr->WARNING);
 		}
 
 		$this->table_tree = $a_table_tree;
@@ -177,7 +188,7 @@ class ilTree
 	{
 		if (!isset($a_column_name))
 		{
-			$this->ilias->raiseError(get_class($this)."::setReferenceTablePK(): No column name given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::setReferenceTablePK(): No column name given!",$this->ilErr->WARNING);
 		}
 
 		$this->ref_pk = $a_column_name;
@@ -194,7 +205,7 @@ class ilTree
 	{
 		if (!isset($a_column_name))
 		{
-			$this->ilias->raiseError(get_class($this)."::setObjectTablePK(): No column name given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::setObjectTablePK(): No column name given!",$this->ilErr->WARNING);
 		}
 
 		$this->obj_pk = $a_column_name;
@@ -211,7 +222,7 @@ class ilTree
 	{
 		if (!isset($a_column_name))
 		{
-			$this->ilias->raiseError(get_class($this)."::setTreeTablePK(): No column name given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::setTreeTablePK(): No column name given!",$this->ilErr->WARNING);
 		}
 
 		$this->tree_pk = $a_column_name;
@@ -248,7 +259,7 @@ class ilTree
 			 $this->buildJoin().
 			 "WHERE lft = (rgt -1) ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree->id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -271,7 +282,7 @@ class ilTree
 		if (!isset($a_node_id))
 		{
 			$message = get_class($this)."::getChilds(): No node_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// init childs
@@ -299,7 +310,7 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $order_clause;
 
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		$count = $r->numRows();
 
@@ -333,7 +344,7 @@ class ilTree
 		if (!isset($a_node_id) or !isset($a_type))
 		{
 			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_type;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// init childs
@@ -345,7 +356,7 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -366,13 +377,13 @@ class ilTree
 	{
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::insertNode(): Missing parameter! ".
-				"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::insertNode(): Missing parameter! ".
+				"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
 		}
 
 		if ($this->isInTree($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".$this->table_tree."!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".$this->table_tree."!",$this->ilErr->WARNING);
 		}
 
 		//
@@ -387,7 +398,7 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_parent_id."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilias->db->getRow($q);
+				$r = $this->ilDB->getRow($q);
 
 				$left = $r->lft;
 				$lft = $left + 1;
@@ -406,7 +417,7 @@ class ilTree
 					"ELSE rgt ".
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilias->db->query($q);
+				$this->ilDB->query($q);
 				break;
 
 			case IL_LAST_NODE:
@@ -415,7 +426,7 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_parent_id."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilias->db->getRow($q);
+				$r = $this->ilDB->getRow($q);
 
 				$right = $r->rgt;
 				$lft = $right;
@@ -434,7 +445,7 @@ class ilTree
 					"ELSE rgt ".
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilias->db->query($q);
+				$this->ilDB->query($q);
 				break;
 
 			default:
@@ -443,12 +454,12 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilias->db->getRow($q);
+				$r = $this->ilDB->getRow($q);
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
 				{
-					$this->ilias->raiseError(get_class($this)."::Wrong use of insertNode(): Parents mismatch! ".
-						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::Wrong use of insertNode(): Parents mismatch! ".
+						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilErr->WARNING);
 				}
 				$right = $r->rgt;
 				$lft = $right + 1;
@@ -467,7 +478,7 @@ class ilTree
 					"ELSE rgt ".
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilias->db->query($q);
+				$this->ilDB->query($q);
 
 				break;
 
@@ -481,7 +492,7 @@ class ilTree
 			 "VALUES ".
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 	}
 
 	/**
@@ -495,7 +506,7 @@ class ilTree
 	{
 		if (!is_array($a_node))
 		{
-			$this->ilias->raiseError(get_class($this)."::getSubTree(): Wrong datatype for node_data! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getSubTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
 
 	    $subtree = array();
@@ -506,7 +517,7 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
 
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -525,7 +536,7 @@ class ilTree
 	{
 		if (!is_array($a_node))
 		{
-			$this->ilias->raiseError(get_class($this)."::deleteTree(): Wrong datatype for node_data! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::deleteTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
 
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
@@ -534,7 +545,7 @@ class ilTree
 		$q = "DELETE FROM ".$this->table_tree." ".
 			 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
 			 "AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		// close gaps
 		$q = "UPDATE ".$this->table_tree." SET ".
@@ -549,7 +560,7 @@ class ilTree
 			 "ELSE rgt ".
 			 "END ".
 			 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		// TODO: DO WE NEED THIS INFORMATION????
 		//$this->parent_id = $a_node["parent"];
@@ -588,7 +599,7 @@ class ilTree
 			 "AND T3.".$this->tree_pk." = '".$this->tree_id." '".
 			 "ORDER BY sort_col DESC";
 
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 		if ($r->numRows() > 0)
 		{
 			return $r;
@@ -596,7 +607,7 @@ class ilTree
 		else
 		{
 
-			$this->ilias->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::fetchPath: No path found! startnode_id:".$a_startnode_id.", endnode_id:".$a_endnode_id,$this->ilErr->WARNING);
 		}
 	}
 
@@ -612,7 +623,7 @@ class ilTree
 	{
 		if (!isset($a_endnode_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getPathFull(): No endnode_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getPathFull(): No endnode_id given! ",$this->ilErr->WARNING);
 		}
 
 		if (empty($a_startnode_id))
@@ -642,7 +653,7 @@ class ilTree
 	{
 		if (!isset($a_endnode_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilErr->WARNING);
 		}
 
 		//if (!isset($a_startnode_id))
@@ -671,7 +682,7 @@ class ilTree
 		$q = "SELECT lft,rgt FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -684,7 +695,7 @@ class ilTree
 
 		if (count($all) != count($uni))
 		{
-			$this->ilias->raiseError(get_class($this)."::checkTree(): Tree is corrupted!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::checkTree(): Tree is corrupted!",$this->ilErr->WARNING);
 		}
 
 		return true;
@@ -698,46 +709,46 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "ORDER BY lft";
-		$r1 = $this->ilias->db->query($q);
+		$r1 = $this->ilDB->query($q);
 		while ($row = $r1->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 //echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
 			if (($row["child"] == 0) && $a_no_zero_child)
 			{
-				$this->ilias->raiseError(get_class($this)."::checkTreeChilds(): Tree contains child with ID 0!",$this->ilias->error_obj->WARNING);
+				$this->ilErr->raiseError(get_class($this)."::checkTreeChilds(): Tree contains child with ID 0!",$this->ilErr->WARNING);
 			}
 
 			if ($this->table_obj_reference)
 			{
 				// get object reference data
 				$q = "SELECT * FROM ".$this->table_obj_reference." WHERE ".$this->ref_pk."='".$row["child"]."'";
-				$r2 = $this->ilias->db->query($q);
+				$r2 = $this->ilDB->query($q);
 //echo "num_childs:".$r2->numRows().":<br>";
 				if ($r2->numRows() == 0)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): No Object-to-Reference entry found for ID ".
-						$row["child"]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): No Object-to-Reference entry found for ID ".
+						$row["child"]."!",$this->ilErr->WARNING);
 				}
 				if ($r2->numRows() > 1)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): More Object-to-Reference entries found for ID ".
-						$row["child"]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): More Object-to-Reference entries found for ID ".
+						$row["child"]."!",$this->ilErr->WARNING);
 				}
 
 				// get object data
 				$obj_ref = $r2->fetchRow(DB_FETCHMODE_ASSOC);
 
 				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$obj_ref[$this->obj_pk]."'";
-				$r3 = $this->ilias->db->query($q);
+				$r3 = $this->ilDB->query($q);
 				if ($r3->numRows() == 0)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
-						$obj_ref[$this->obj_pk]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): No child found for ID ".
+						$obj_ref[$this->obj_pk]."!",$this->ilErr->WARNING);
 				}
 				if ($r3->numRows() > 1)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
-						$obj_ref[$this->obj_pk]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
+						$obj_ref[$this->obj_pk]."!",$this->ilErr->WARNING);
 				}
 
 			}
@@ -745,17 +756,17 @@ class ilTree
 			{
 				// get only object data
 				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$row["child"]."'";
-				$r2 = $this->ilias->db->query($q);
+				$r2 = $this->ilDB->query($q);
 //echo "num_childs:".$r2->numRows().":<br>";
 				if ($r2->numRows() == 0)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
-						$row["child"]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): No child found for ID ".
+						$row["child"]."!",$this->ilErr->WARNING);
 				}
 				if ($r2->numRows() > 1)
 				{
-					$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
-						$row["child"]."!",$this->ilias->error_obj->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
+						$row["child"]."!",$this->ilErr->WARNING);
 				}
 			}
 		}
@@ -771,7 +782,7 @@ class ilTree
 	function getMaximumDepth()
 	{
 		$q = "SELECT MAX(depth) FROM ".$this->table_tree;
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		$row = $r->fetchRow();
 		
@@ -791,7 +802,7 @@ class ilTree
 			$q = "SELECT depth FROM ".$this->table_tree." ".
 				 "WHERE child = '".$a_node_id."' ".
 				 "AND ".$this->tree_pk." = '".$this->tree_id."'";
-			$r = $this->ilias->db->getRow($q);
+			$r = $this->ilDB->getRow($q);
 	
 			return $r->depth;
 		}
@@ -835,7 +846,7 @@ class ilTree
 			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
 			 "GROUP BY s.child ".
 			 "ORDER BY s.lft";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -864,14 +875,14 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -914,9 +925,9 @@ class ilTree
 		{
 			$q = "SELECT title,description FROM object_translation ".
 				 "WHERE obj_id = ".$data["obj_id"]." ".
-				 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+				 "AND lang_code = '".$this->lang_code."' ".
 				 "AND NOT lang_default = 1";
-			$r = $this->ilias->db->query($q);
+			$r = $this->ilDB->query($q);
 			
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -965,13 +976,13 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		if ($r->numRows() > 0)
 		{
@@ -994,7 +1005,7 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getParentNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getParentNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		if ($this->table_obj_reference)
@@ -1015,7 +1026,7 @@ class ilTree
 			 "AND s.rgt < v.rgt ".
 			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND v.".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -1033,7 +1044,7 @@ class ilTree
 	{
 		if (!isset($a_startnode_id) or !isset($a_querynode_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".$a_querynode_id,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".$a_querynode_id,$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
@@ -1043,7 +1054,7 @@ class ilTree
 			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND v.lft BETWEEN s.lft AND s.rgt ".
 			 "AND v.rgt BETWEEN s.lft AND s.rgt";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		return $r->numRows();
 	}
@@ -1060,7 +1071,7 @@ class ilTree
 	{
 		if (!isset($a_tree_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::addTree(): No tree_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::addTree(): No tree_id given! ",$this->ilErr->WARNING);
 		}
 
 		if ($a_node_id <= 0)
@@ -1072,7 +1083,7 @@ class ilTree
 			 "VALUES ".
 			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
 
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -1088,7 +1099,7 @@ class ilTree
 	{
 		if (!isset($a_type) or (!is_string($a_type)))
 		{
-			$this->ilias->raiseError(get_class($this)."::getNodeDataByType(): Type not given or wrong datatype!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getNodeDataByType(): Type not given or wrong datatype!",$this->ilErr->WARNING);
 		}
 
 		$data = array();	// node_data
@@ -1099,7 +1110,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'".
 			 "AND parent = '0'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -1113,7 +1124,7 @@ class ilTree
 			 "AND ".$this->table_tree.".lft BETWEEN '".$left."' AND '".$right."' ".
 			 "AND ".$this->table_tree.".rgt BETWEEN '".$left."' AND '".$right."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -1134,11 +1145,11 @@ class ilTree
 	{
 		if (!$a_tree_id)
 		{
-			$this->ilias->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilErr->MESSAGE);
 		}
 
 		$q = "DELETE FROM ".$this->table_tree." WHERE ".$this->tree_pk." = '".$a_tree_id."'";
-		$this->ilias->db->query($q);
+		$this->ilDB->query($q);
 
 		return true;
 	}
@@ -1154,14 +1165,14 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::saveSubTree(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::saveSubTree(): No node_id given!",$this->ilErr->WARNING);
 		}
 
 		// GET LEFT AND RIGHT VALUE
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND child = '".$a_node_id."' ";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -1174,7 +1185,7 @@ class ilTree
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND lft >= '".$lft."' ".
 			 "AND rgt <= '".$rgt."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -1187,7 +1198,7 @@ class ilTree
 			$q = "INSERT INTO ".$this->table_tree." ".
 				 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
 				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
-			$r = $this->ilias->db->query($q);
+			$r = $this->ilDB->query($q);
 		}
 
 		return true;
@@ -1205,14 +1216,14 @@ class ilTree
 	{
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::saveNode(): Missing parameter! ".
-								"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::saveNode(): Missing parameter! ".
+								"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
 		}
 
 		// SAVE NODE
 		$q = "INSERT INTO ".$this->table_tree." ".
 			 "VALUES ('".-$a_node_id."','".$a_node_id."','".$a_parent_id."','1','2','1')";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		return true;
 	}
@@ -1227,7 +1238,7 @@ class ilTree
 	{
 		if (!isset($a_parent_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getSavedNodeData(): No node_id given!",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getSavedNodeData(): No node_id given!",$this->ilErr->WARNING);
 		}
 
 		$q =	"SELECT * FROM ".$this->table_tree." ".
@@ -1235,7 +1246,7 @@ class ilTree
 				"WHERE ".$this->table_tree.".".$this->tree_pk." < 0 ".
 				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
 
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -1255,13 +1266,13 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getParentId(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getParentId(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT parent FROM ".$this->table_tree." ".
 			 "WHERE child='".$a_node_id."' ".
 			 "AND ".$this->tree_pk."='".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -1279,7 +1290,7 @@ class ilTree
 		$query = "SELECT child FROM $this->table_tree ".
 			"WHERE parent = '0'".
 			"AND ".$this->tree_pk." = '".$this->tree_id."'";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilDB->getRow($query,DB_FETCHMODE_OBJECT);
 
 		$this->root_id = $row->child;
 		return $this->root_id;
@@ -1326,14 +1337,14 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		// get lft value for current node
 		$q = "SELECT lft FROM ".$this->table_tree." ".
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		// get data of successor node
@@ -1346,7 +1357,7 @@ class ilTree
 			 $type_where.
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
 			 "ORDER BY lft LIMIT 1";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		if ($r->numRows() < 1)
 		{
@@ -1370,14 +1381,14 @@ class ilTree
 	{
 		if (!isset($a_node_id))
 		{
-			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		// get lft value for current node
 		$q = "SELECT lft FROM ".$this->table_tree." ".
 			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 		// get data of predecessor node
@@ -1390,7 +1401,7 @@ class ilTree
 			 $type_where.
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
 			 "ORDER BY lft DESC LIMIT 1";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		if ($r->numRows() < 1)
 		{
