@@ -129,16 +129,18 @@ class ilObject
 
 	/**
 	* read object data from db into object
+	* @param	boolean
 	* @access	public
 	*/
 	function read($a_force_db = false)
 	{
-		global $ilias;
+		global $ilias,$log;
 
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
 			$obj = $this->$obj_data_record;
 		}
+		
 		if ($this->referenced)
 		{
 			$obj = getObjectByReference($this->ref_id);
