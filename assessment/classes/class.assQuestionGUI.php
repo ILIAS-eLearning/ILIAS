@@ -577,6 +577,21 @@ class ASS_QuestionGUI
 		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 		$this->editQuestion();
 	}
+
+	function addGIT()
+	{
+		$subquestion_index = 0;
+		if ($_SESSION["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_SESSION["subquestion_index"];
+		}
+		$this->object->setSuggestedSolution("il__git_" . $_GET["git"], $subquestion_index);
+		unset($_SESSION["subquestion_index"]);
+		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+		$this->editQuestion();
+	}
 	
 	function linkChilds()
 	{
@@ -586,7 +601,7 @@ class ASS_QuestionGUI
 			case "st":
 				$_GET["q_id"] = $this->object->getId();
 				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate("qt_ordering");
+				$this->getQuestionTemplate($_GET["sel_question_types"]);
 				$color_class = array("tblrow1", "tblrow2");
 				$counter = 0;
 				require_once("./content/classes/class.ilObjContentObject.php");
@@ -615,8 +630,32 @@ class ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "glo":
-				sendInfo("glossary links are not yet supported!");
-				$this->editQuestion();
+				$_GET["q_id"] = $this->object->getId();
+				$this->tpl->setVariable("HEADER", $this->object->getTitle());
+				$this->getQuestionTemplate($_GET["sel_question_types"]);
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
+				require_once "./content/classes/class.ilObjGlossary.php";
+				$glossary =& new ilObjGlossary($_GET["source_id"], true);
+				print_r($_GET);
+				// get all glossary items
+				$terms = $glossary->getTermList();
+				foreach($terms as $term)
+				{
+					$this->tpl->setCurrentBlock("linktable_row");
+					$this->tpl->setVariable("TEXT_LINK", $term["term"]);
+					$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+					$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("link_selection");
+				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
 				break;
 			case "lm":
 				$subquestion_index = 0;

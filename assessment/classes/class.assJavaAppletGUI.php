@@ -104,7 +104,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg")
+			"pg" => $this->lng->txt("obj_pg"),
+			"glo" => $this->lng->txt("glossary_term")
 		);
 		foreach ($internallinks as $key => $value)
 		{
