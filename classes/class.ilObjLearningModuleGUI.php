@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.17 2003/06/24 14:49:15 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.18 2003/06/25 14:13:37 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -295,7 +295,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 //echo "xmlfile:".$xml_file;
 
 			require_once ("content/classes/class.ilLMParser.php");
-			$lmParser = new ilLMParser($newObj, $xml_file);
+			$lmParser = new ilLMParser($newObj, $xml_file, $subdir);
 			$lmParser->startParsing();
 		} // --- end: test of alternate parsing / lm storing
 		else
