@@ -294,3 +294,7 @@ tpl_path	template path	Template-Pfad	tpl_path	tpl_path
 lang_path	language path	Sprachdateien-Pfad	lang_path	lang_path
 fill_out_all_required_fields	please fill out all required fields	Bitte füllen Sie alle benötigten Felder aus	fill_out_all_required_fields	fill_out_all_required_fields
 saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	saved_successfully	saved_successfully
+view_content	view content	Inhalt	contenuto	view_content
+edit_properties	edit properties	Eigenschaften	proprieta	properties
+perm_settings	permission	Rechte	diritti	permissions
+show_owner	show owner	Besitzer	owner	owner
