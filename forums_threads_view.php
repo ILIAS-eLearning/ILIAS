@@ -80,7 +80,19 @@ if($_GET["file"])
 
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
 
+if($_SESSION["viewmode"] == 'flat')
+{
+	$new_order = "answers";
+	$orderField = "frm_posts_tree.date";
+}
+else
+{
+	$new_order = "date";
+	$orderField = "frm_posts_tree.rgt";
+}
+
 // sorting val for posts
+/*
 if ($_GET["orderby"] == "")
 {
 	$old_order = "answers";
@@ -100,8 +112,8 @@ else
 	$new_order = "date";
 	$orderField = "frm_posts_tree.rgt";
 }
-
-$tpl->setVariable("LINK_SORT", "<b>></b><a href=\"forums_threads_view.php?orderby=".$new_order."&thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$lng->txt("order_by")." ".$lng->txt($new_order)."</a>");
+*/
+#tpl->setVariable("LINK_SORT", "<b>></b><a href=\"forums_threads_view.php?orderby=".$new_order."&thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$lng->txt("order_by")." ".$lng->txt($new_order)."</a>");
 
 // get forum- and thread-data
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
@@ -143,14 +155,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE", $ttabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=tree&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-	$tpl->setVariable("TAB_TEXT", $lng->txt("treeview"));
+	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("answers"));
 	$tpl->setVariable("TAB_TARGET", "bottom");
 	$tpl->parseCurrentBlock();
 
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE", $ftabtype);
 	$tpl->setVariable("TAB_LINK", "forums_frameset.php?viewmode=flat&thr_pk=$_GET[thr_pk]&ref_id=$_GET[ref_id]");
-	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
+	$tpl->setVariable("TAB_TEXT", $lng->txt("order_by")." ".$lng->txt("date"));
 	$tpl->setVariable("TAB_TARGET", "bottom");
 	$tpl->parseCurrentBlock();
 		
