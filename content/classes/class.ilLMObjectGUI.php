@@ -131,7 +131,7 @@ class ilLMObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
 		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
@@ -144,6 +144,15 @@ class ilLMObjectGUI
 		foreach($_POST["id"] as $id)
 		{
 			$obj =& new ilLMObject($id);
+			switch($obj->getType())		// ok that's not so nice, could be done better
+			{
+				case "pg":
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
+					break;
+				case "st":
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
+					break;
+			}
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
@@ -167,7 +176,7 @@ class ilLMObjectGUI
 	{
 		session_unregister("saved_post");
 
-		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->obj->getId());
 		exit();
 
@@ -196,7 +205,7 @@ class ilLMObjectGUI
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->obj->getId());
 		exit();
 	}

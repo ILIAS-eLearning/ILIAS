@@ -69,8 +69,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
+		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 		$cnt = 0;
 		$childs = $this->tree->getChilds($this->obj->getId());
@@ -87,6 +88,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
 			// type
 			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
@@ -108,12 +110,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		else
 		{
 			// SHOW VALID ACTIONS
-			$this->tpl->setVariable("NUM_COLS", 2);
+			$this->tpl->setVariable("NUM_COLS", 3);
 			$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 2);
+		$this->tpl->setVariable("NUM_COLS", 3);
 		//$this->showPossibleSubObjects("st");
 		$subobj = array("pg");
 		$opts = ilUtil::formSelect(12,"new_type",$subobj);
@@ -144,8 +146,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
+		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 		$cnt = 0;
 		$childs = $this->tree->getChilds($this->obj->getId());
@@ -162,6 +165,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
 			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
@@ -183,13 +187,25 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		else
 		{
 			// SHOW VALID ACTIONS
-			//$this->tpl->setVariable("NUM_COLS", 4);
-			//$this->showActions();
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 2);
-		$this->showPossibleSubObjects("st");
+		$this->tpl->setVariable("NUM_COLS", 3);
+		//$this->showPossibleSubObjects("st");
+		$subobj = array("st");
+		$opts = ilUtil::formSelect(12,"new_type",$subobj);
+		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("BTN_NAME", "create");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
+		$this->tpl->parseCurrentBlock();
+
+		//$this->tpl->setVariable("NUM_COLS", 2);
+		//$this->showPossibleSubObjects("st");
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->parseCurrentBlock();
@@ -216,6 +232,42 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function save()
+	{
+		// create new object
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_data =& $meta_gui->create();
+		$this->obj =& new ilStructureObject();
+		$this->obj->assignMetaData($meta_data);
+		$this->obj->setType($_GET["new_type"]);
+		$this->obj->setLMId($_GET["lm_id"]);
+		$this->obj->create();
 
+		$this->putInTree();
+
+		header("location: lm_edit.php?cmd=subchap&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$_GET["obj_id"]);
+	}
+
+	function putInTree()
+	{
+		// chapters should be behind pages in the tree
+		// so if target is first node, the target is substituted with
+		// the last child of type pg
+		if ($_GET["target"] == IL_FIRST_NODE)
+		{
+			$tree = new ilTree($_GET["lm_id"]);
+			$tree->setTableNames('lm_tree','lm_data');
+			$tree->setTreeTablePK("lm_id");
+			// determine last child of type pg
+			$childs =& $tree->getChildsByType($_GET["obj_id"], "pg");
+			if (count($childs) != 0)
+			{
+				$_GET["target"] = $childs[count($childs) - 1]["obj_id"];
+			}
+		}
+
+		parent::putInTree();
+	}
 }
 ?>
