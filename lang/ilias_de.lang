@@ -1006,7 +1006,7 @@ common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_import#:#Gruppenimport
 common#:#group_import_file#:#Importdatei
-common#:#group_members#:#Gruppenmitglieder
+common#:#group_members#:#Mitglieder
 common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
@@ -2411,7 +2411,7 @@ crs#:#crs_member#:#Mitglied
 crs#:#crs_member_blocked#:#Mitglied (gesperrt)
 crs#:#crs_member_unblocked#:#Mitglied (freigeschaltet)
 crs#:#crs_member_updated#:#Die Mitgliedsdaten wurden aktualisiert
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen.
+crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_move_down#:#Nach unten verschieben
@@ -2419,17 +2419,17 @@ crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
 crs#:#crs_new_search#:#Neue Suche
 crs#:#crs_new_subscription#:#Kursneuanmeldung
-crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet.
+crs#:#crs_new_subscription_body#:#Ein neuer Benutzer hat sich angemeldet
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
-crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt.
+crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
-crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt.
-crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet.
+crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
+crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Neuanmeldungen
-crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden.
+crs#:#crs_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 crs#:#crs_no_subscribers_selected#:#Sie haben keine Benutzer ausgewählt.
 crs#:#crs_no_users_added#:#Es wurden keine Benutzer hinzugefügt.
 crs#:#crs_no_users_selected#:#Sie haben keinen Benutzer ausgewählt
@@ -2440,7 +2440,7 @@ crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Aktionen
 crs#:#crs_passed#:#Bestanden
-crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt.
+crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert.
@@ -2503,6 +2503,7 @@ crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Archive
+common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.

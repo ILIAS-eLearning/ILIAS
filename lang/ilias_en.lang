@@ -1007,12 +1007,12 @@ common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_import#:#Group import
 common#:#group_import_file#:#Import file
-common#:#group_members#:#Group Members
+common#:#group_members#:#Members
 common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
 common#:#group_name#:#Groupname
-common#:#group_new_registrations#:#New Registrations
+common#:#group_new_registrations#:#New registrations
 common#:#group_no_registration#:#no registration required
 common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.
 common#:#group_not_available#:#No group available
@@ -2436,6 +2436,7 @@ crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course
 crs#:#crs_no_notify#:#No notify for new registrations
 crs#:#crs_no_results_found#:#No results found
+common#:#grp_no_results_found#:#No results found
 crs#:#crs_no_subscribers_selected#:#Please select a user
 crs#:#crs_no_users_added#:#No members added
 crs#:#crs_no_users_selected#:#You did not select any user
