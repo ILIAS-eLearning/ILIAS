@@ -534,7 +534,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false)
 	{
 		if (!empty($this->domxml))
 		{

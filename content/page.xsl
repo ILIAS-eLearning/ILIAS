@@ -1541,7 +1541,9 @@
 			<xsl:choose>
 				<xsl:when test="../mattext/@label='java_code'">
 					<xsl:attribute name="code"><xsl:value-of select="../mattext"/></xsl:attribute>
-					<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/</xsl:attribute>
+					<xsl:if test="contains(@uri, '.class')">
+						<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/java/</xsl:attribute>
+					</xsl:if>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:if test="contains(@uri, '.jar')">

@@ -318,61 +318,26 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
 		global $ilUser;
+		
+		$output = $this->outQuestionPage("JAVA_QUESTION", $is_postponed, $test_id);
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
+		$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
 
-		$this->tpl->addBlockFile("JAVAAPPLET_QUESTION", "javaappletblock", "tpl.il_as_execute_javaapplet_question.html", true);
-		$solutions = array();
-		$postponed = "";
-		if ($test_id)
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
 		{
-			$solutions =& $this->object->getSolutionValues($test_id);
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
 		}
-		if ($is_postponed)
+		if (!$showsolution)
 		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
+			$solutionoutput = "";
+			$received_points = "";
 		}
-
-		$this->tpl->setCurrentBlock("additional_params");
-		if (!$test_id)
-		{
-			$test_id = 0;
-		}
-		$this->tpl->setVariable("PARAM_NAME", "test_id");
-		$this->tpl->setVariable("PARAM_VALUE", $test_id);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("additional_params");
-		$this->tpl->setVariable("PARAM_NAME", "user_id");
-		$this->tpl->setVariable("PARAM_VALUE", $ilUser->id);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("additional_params");
-		$this->tpl->setVariable("PARAM_NAME", "question_id");
-		$this->tpl->setVariable("PARAM_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
-		{
-			$this->tpl->setCurrentBlock("additional_params");
-			$param = $this->object->getParameter($i);
-			$this->tpl->setVariable("PARAM_NAME", $param["name"]);
-			$this->tpl->setVariable("PARAM_VALUE", $param["value"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("javaappletblock");
-		$this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->object->getTitle());
-		$this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->object->getQuestion());
-		$javaappletpath_working = $this->object->getJavaPathWeb() . $this->object->getJavaAppletFilename();
-		$this->tpl->setVariable("PARAM_ARCHIVE", "archive=$javaappletpath_working ");
-
-		if ($this->object->getJavaCode())
-		{
-			$this->tpl->setVariable("PARAM_CODE", "code=" . $this->object->getJavaCode() . " ");
-		}
-
-		$this->tpl->setVariable("PARAM_WIDTH", $this->object->getJavaWidth());
-		$this->tpl->setVariable("PARAM_HEIGHT", $this->object->getJavaHeight());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("JAVA_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	/**

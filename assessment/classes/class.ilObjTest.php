@@ -2494,6 +2494,9 @@ class ilObjTest extends ilObject
         case "qt_multiple_choice_mr":
           $question = new ASS_MultipleChoice();
           break;
+				case "qt_javaapplet":
+					$question = new ASS_JavaApplet();
+					break;
       }
       $question->loadFromDb($question_id);
 			return $question;
@@ -2719,6 +2722,23 @@ class ilObjTest extends ilObject
 			"step" => $maxentries,
 			"rowcount" => $max
 		);
+	}
+	
+	function _getTestType($test_id)
+	{
+		global $ilDB;
+		
+		$result = "";
+		$query = sprintf("SELECT tst_test_type.type_tag FROM tst_test_type, tst_tests WHERE tst_test_type.test_type_id = tst_tests.test_type_fi AND tst_tests.test_id = %s",
+			$ilDB->quote($test_id)
+		);
+		$query_result = $ilDB->query($query);
+		if ($query_result->numRows())
+		{
+			$row = $query_result->fetchRow(DB_FETCHMODE_ASSOC);
+			$result = $row["type_tag"];
+		}
+		return $result;
 	}
 		
 } // END class.ilObjTest

@@ -103,6 +103,8 @@ assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#New parameter
+assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!
+assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet parameters
 assessment#:#apply#:#Apply
