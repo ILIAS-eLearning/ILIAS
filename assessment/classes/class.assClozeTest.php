@@ -218,7 +218,7 @@ class ASS_ClozeTest extends ASS_Question
 		{
 			// Antworten schreiben
 
-			// alte Antworten l�schen
+			// delete old answers
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -243,12 +243,13 @@ class ASS_ClozeTest extends ASS_Question
 				}
 			}
 		}
+		parent::saveToDb($original_id);
 	}
 
 /**
 * Loads a ASS_ClozeTest object from a database
 *
-* Loads a ASS_ClozeTest object from a database (experimental)
+* Loads a ASS_ClozeTest object from a database
 *
 * @param object $db A pear DB object
 * @param integer $question_id A unique key which defines the cloze test in the database
@@ -294,6 +295,7 @@ class ASS_ClozeTest extends ASS_Question
         }
       }
     }
+		parent::loadFromDb($question_id);
   }
 
 /**

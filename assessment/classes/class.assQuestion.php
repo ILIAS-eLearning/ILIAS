@@ -28,6 +28,8 @@ require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
 require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 require_once "./content/classes/Pages/class.ilPageObject.php";
+require_once "./assessment/classes/class.assEnhancedAnswerblock.php";
+require_once "./assessment/classes/class.assAnswerblockAnswer.php";
 
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
@@ -177,12 +179,23 @@ class ASS_Question
 	var $outputType;
 
 	/**
+	* An array containing the answerblocks of the enhanced question mode
+	*
+	* An array containing the answerblocks of the enhanced question mode
+	*
+	* @var array
+	*/
+
+	var $answerblocks;
+
+	/**
 	* Contains an internal link reference id to a solution hint learning module
 	*
 	* Contains an internal link reference id to a solution hint learning module
 	*
 	* @var integer
 	*/
+
 	var $solution_hint;
 
 	/**
@@ -229,6 +242,7 @@ class ASS_Question
 		$this->shuffle = 1;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
+		$this->answerblocks = array();
 		register_shutdown_function(array(&$this, '_ASS_Question'));
 	}
 
@@ -690,18 +704,6 @@ class ASS_Question
 		{
 		// Fehlermeldung
 		}
-	}
-
-	/**
-	* Saves a ASS_Question object to a database
-	*
-	* Saves a ASS_Question object to a database (only method body)
-	*
-	* @access public
-	*/
-	function saveToDb()
-	{
-		// Method body
 	}
 
 	/**
@@ -1249,6 +1251,149 @@ class ASS_Question
 		}
 		return $connections;
 	}
-}
 
+	function setEnhancedData($connections, $booleans, $points, $feedbacks)
+	{
+		$this->flushAnswerblocks();
+		foreach ($connections as $index => $block)
+		{
+			$connection = new EnhancedAnswerblock($this->getId());
+			$connection->setAnswerblockIndex($index);
+			$connection->setPoints($points[$index]);
+			$connection->setFeedback($feedbacks[$index]);
+			foreach ($block as $blockindex => $answer_id)
+			{
+				if (preg_match("/(\d+)_(\d+)/", $answer_id, $matches))
+				{
+					$answer_id = $matches[2];
+					$connection->setSubquestionIndex($matches[1]);
+				}
+				if ($answer_id >= 0)
+				{
+					$connection->addConnection($answer_id, $blockindex, $booleans[$index][$blockindex]);
+				}
+			}
+			array_push($this->answerblocks, $connection);
+		}
+	}
+	
+	function flushAnswerblocks()
+	{
+		$this->answerblocks = array();
+	}
+
+/**
+* Loads existing answerblocks from the database
+*
+* Loads existing answerblocks from the database
+*
+* @param integer $question_id A unique key which defines the question in the database
+* @access public
+*/
+	function loadFromDb($question_id)
+	{
+    global $ilias;
+    $db =& $ilias->db;
+		$this->flushAnswerblocks();
+    $query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
+      $db->quote($question_id)
+    );
+    $result = $db->query($query);
+		$answerblocks = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($answerblocks, $row);
+			}
+		}
+		foreach ($answerblocks as $answerblock_data)
+		{
+			$query = sprintf("SELECT * FROM qpl_answer_enhanced WHERE answerblock_fi = %s ORDER BY enhanced_order",
+				$db->quote($answerblock_data["answerblock_id"])
+			);
+			$result = $db->query($query);
+			$answerblock = new EnhancedAnswerblock($this->getId());
+			$answerblock->setAnswerblockIndex($answerblock_data["answerblock_index"]);
+			$answerblock->setPoints($answerblock_data["points"]);
+			$answerblock->setFeedback($answerblock_data["feedback"]);
+			$answerblock->setSubquestionIndex($answerblock_data["subquestion_index"]);
+			if ($result->numRows())
+			{
+				while ($enhancedrow = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$answerblock->addConnection($enhancedrow["answer_fi"], $enhancedrow["enhanced_order"], $enhancedrow["answer_boolean_prefix"]);
+				}
+			}
+			array_push($this->answerblocks, $answerblock);
+		}
+	}
+
+	/**
+	* Saves the enhanced answer information to the database
+	*
+	* Saves the enhanced answer information to the database
+	*
+	* @param integer $original_id
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+    global $ilias;
+    $db =& $ilias->db;
+		$this->deleteAllEnhancedData();
+		foreach ($this->answerblocks as $index => $answerblock)
+		{
+			$query = sprintf("INSERT INTO qpl_answerblock (answerblock_id, answerblock_index, subquestion_index, question_fi, points, feedback, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($answerblock->getAnswerblockIndex() . ""),
+				$db->quote($answerblock->getSubquestionIndex() . ""),
+				$db->quote($this->getId() . ""),
+				$db->quote($answerblock->getPoints() . ""),
+				$db->quote($answerblock->getFeedback() . "")
+			);
+			$result = $db->query($query);
+			$answerblock_id = $db->getLastInsertId();
+			foreach ($answerblock->connections as $order => $connection)
+			{
+				$query = sprintf("INSERT INTO qpl_answer_enhanced (answer_enhanced_id, answerblock_fi, answer_fi, answer_boolean_prefix, enhanced_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+					$db->quote($answerblock_id . ""),
+					$db->quote($connection->getAnswerId() . ""),
+					$db->quote($connection->getBooleanPrefix() . ""),
+					$db->quote($order . "")
+				);
+				$result = $db->query($query);
+			}
+		}
+	}
+	
+	function deleteAllEnhancedData()
+	{
+    global $ilias;
+    $db =& $ilias->db;
+    $query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
+      $db->quote($this->getId() . "")
+    );
+    $result = $db->query($query);
+		$answerblocks = array();
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($answerblocks, $row);
+			}
+		}
+		$query = sprintf("DELETE FROM qpl_answerblock WHERE question_fi = %s",
+			$db->quote($this->getId() . "")
+		);
+		$result = $db->query($query);
+		foreach ($answerblocks as $data)
+		{
+			$query = sprintf("DELETE FROM qpl_answer_enhanced WHERE answerblock_fi = %s",
+				$db->quote($data["answerblock_id"] . "")
+			);
+			$result = $db->query($query);
+		}
+	}
+}
+	
 ?>

@@ -15,28 +15,31 @@
 <!-- BEGIN answerblock_row -->
 	<tr class="{COLOR_CLASS}">
 		<td class="{COLOR_CLASS}">
-		<select name="bool_{ANSWERBLOCK_INDEX}">
-		<option value="0"></option>
-		<option value="1">{TEXT_NOT}</option>
+		<select name="bool_{ANSWERBLOCK_INDEX}_{ANSWER_INDEX}">
+			<option value="0"></option>
+			<option value="1"{SELECTED_NOT}>{TEXT_NOT}</option>
 		</select>
-		<select>
-		<select name="answer_{ANSWERBLOCK_INDEX}">
-		<option value="-1">{TEXT_SELECT_ANSWER}</option>
+		<select name="answer_{ANSWERBLOCK_INDEX}_{ANSWER_INDEX}">
+			<option value="-1">{TEXT_SELECT_ANSWER}</option>
 <!-- BEGIN option_value -->
-		<option value="{ANSWER_ID}"{ANSWER_SELECTED}>{ANSWER_TEXT}</option>
+			<option value="{ANSWER_ID}"{ANSWER_SELECTED}>{ANSWER_TEXT}</option>
 <!-- END option_value -->
 		</select>
 		</td>
 		<td class="{COLOR_CLASS}">
 <!-- BEGIN delete_button -->
-		<input type="submit" class="submit" name="cmd[delete_{ANSWERBLOCK_INDEX}_{ANSWER_INDEX}]" value="{BUTTON_DELETE}" />
+		<input type="submit" class="submit" name="cmd[enhancedDelete_{ANSWERBLOCK_INDEX}_{ANSWER_INDEX}]" value="{BUTTON_DELETE}" />
 <!-- END delete_button -->
-<!-- BEGIN add_button -->
-		<input type="submit" class="submit" name="cmd[add_{ANSWERBLOCK_INDEX}]" value="{BUTTON_ADD}" />
-<!-- END add_button -->
 		</td>
 	</tr>
 <!-- END answerblock_row -->
+<!-- BEGIN answerblock_footer -->
+	<tr class="{COLOR_CLASS}">
+		<td class="{COLOR_CLASS}" colspan="2">
+		<label for="points_{ANSWERBLOCK_INDEX}">{TEXT_POINTS}:</label> <input type="text" id="points_{ANSWERBLOCK_INDEX}" name="points_{ANSWERBLOCK_INDEX}" value="{POINTS_ANSWERBLOCK}" size="3" />
+		</td>
+	</tr>
+<!-- END answerblock_footer -->
 <!-- END table_row -->
 <!-- BEGIN empty_table -->
 	<tr class="tblfooter">

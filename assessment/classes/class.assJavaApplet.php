@@ -633,6 +633,7 @@ class ASS_JavaApplet extends ASS_Question
 			);
 			$result = $db->query($query);
 		}
+		parent::saveToDb($original_id);
 	}
 
 	/**
@@ -674,6 +675,7 @@ class ASS_JavaApplet extends ASS_Question
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
 		}
+		parent::loadFromDb($question_id);
 	}
 
 	/**

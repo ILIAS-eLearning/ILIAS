@@ -78,12 +78,17 @@ class ASS_QuestionGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
+		if (preg_match("/enhancedDelete_(\d+)_(\d+)/", $cmd, $matches))
+		{
+			$cmd = "deleteEnhancedAnswer";
+		}
 		switch($next_class)
 		{
 			default:
 				$ret =& $this->$cmd();
 				break;
 		}
+		return $ret;
 	}
 
 	function getCommand($cmd)
@@ -218,16 +223,72 @@ class ASS_QuestionGUI
 		$saved = false;
 		return $saved;
 	}
+
+	/**
+	* Saved all changes in the enhanced mode form
+	*
+	* Saved all changes in the enhanced mode form
+	*
+	* @access private
+	*/
+	function saveEnhanced()
+	{
+		$connections = array();
+		$booleans = array();
+		$points = array();
+		$feedbacks = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/answer_(\d+)_(\d+)/", $key, $matches))
+			{
+				$connections[$matches[1]][$matches[2]] = $value;
+			}
+			if (preg_match("/bool_(\d+)_(\d+)/", $key, $matches))
+			{
+				$booleans[$matches[1]][$matches[2]] = $value;
+			}
+			if (preg_match("/points_(\d+)/", $key, $matches))
+			{
+				$points[$matches[1]] = $value;
+			}
+		}
+		$this->object->setEnhancedData($connections, $booleans, $points, $feedbacks);
+		$this->object->saveToDb();
+//		$this->ctrl->setParameterByClass(get_class($this), "cmd", "enhancedMode");
+		$this->ctrl->setCmd("enhancedMode");
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
 	
 	function addAnswerblock()
 	{
 		$answerblock_id = $this->object->addAnswerblock();
-		//$this->ctrl->setParameterByClass(get_class($this), "ab_id", $answerblock_id);
+//		$this->ctrl->setParameterByClass(get_class($this), "cmd", "enhancedMode");
 		$this->ctrl->setCmd("enhancedMode");
 		$ret =& $this->executeCommand();
 		return $ret;
 	}
 
+	function deleteEnhancedAnswer()
+	{
+		foreach ($_POST as $key => $value)
+		{ 
+			if (is_array($value))
+			{
+				foreach ($value as $command => $string)
+				{
+					if (preg_match("/enhancedDelete_(\d+)_(\d+)/", $command, $matches))
+					{
+						echo "delete";
+					}
+				}
+			}
+		}
+		$this->ctrl->setCmd("enhancedMode");
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+	
 	function fillAnswerblockOptions()
 	{
 	}
@@ -236,8 +297,7 @@ class ASS_QuestionGUI
 	{
 		$color_class = array("tblrow1", "tblrow2");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_enhanced.html", true);
-		$answerblocks =& $this->object->getAnswerblocks();
-		if (count($answerblocks) == 0)
+		if (count($this->object->answerblocks) == 0)
 		{
 			$this->tpl->setCurrentBlock("empty_table");
 			$this->tpl->setVariable("TEXT_NO_ANSWERBLOCKS", $this->lng->txt("question_no_answerblocks"));
@@ -245,49 +305,57 @@ class ASS_QuestionGUI
 		}
 		else
 		{
-			foreach ($answerblocks as $answerblock_index => $answerblock)
+			foreach ($this->object->answerblocks as $answerblock_index => $answerblock)
 			{
 				$this->tpl->setCurrentBlock("answerblock_head");
-				$this->tpl->setVariable("TEXT_ANSWERBLOCK", $this->lng->txt("answerblock") . " " . ($answerblock["answerblock_index"] + 1));
+				$this->tpl->setVariable("TEXT_ANSWERBLOCK", $this->lng->txt("answerblock") . " " . ($answerblock->getAnswerblockIndex() + 1));
 				$this->tpl->parse("answerblock_head");
 				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->parse("table_row");
-				$answerblock_connections =& $this->object->getAnswerblockConnections($answerblock["answerblock_id"]);
-				foreach ($answerblock_connections as $connection_counter => $connection)
+				$answer_index = 0;
+				foreach ($answerblock->connections as $connection_counter => $connection)
 				{
-					$this->fillAnswerblockOptions($connection["answer_fi"]);
-					if ($connection_counter >= count($answerblock_connections)-1)
-					{
-						$this->tpl->setCurrentBlock("add_button");
-						$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock["answerblock_index"]);
-						$this->tpl->parseCurrentBlock();
-					}
-					if ($deletable)
+					$this->fillAnswerblockOptions($answerblock->getSubquestionIndex() . "_" . $connection->getAnswerId());
+					if ($connection_counter <= (count($answerblock->connections)-1))
 					{
 						$this->tpl->setCurrentBlock("delete_button");
-						$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock["answerblock_index"]);
-						$this->tpl->setVariable("ANSWER_INDEX", $connection["answer_fi"]);
+						$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
+						$this->tpl->setVariable("ANSWER_INDEX", $answer_index);
+						$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
 						$this->tpl->parseCurrentBlock();
 					}
 					$this->tpl->setCurrentBlock("answerblock_row");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$answerblock_index % 2]);
-					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock["answerblock_index"]);
+					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
+					$this->tpl->setVariable("ANSWER_INDEX", $connection_counter);
 					$this->tpl->setVariable("TEXT_NOT", $this->lng->txt("not"));
+					if ($connection->getBooleanPrefix())
+					{
+						$this->tpl->setVariable("SELECTED_NOT", " selected=\"selected\"");
+					}
 					$this->tpl->setVariable("TEXT_SELECT_ANSWER", $this->lng->txt("select_an_answer"));
 					$this->tpl->parseCurrentBlock();
+					$answer_index++;
 				}
-				if (count($answerblock_connections) == 0)
+				// new line for additional connections
+				$this->fillAnswerblockOptions();
+				$this->tpl->setCurrentBlock("answerblock_row");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$answerblock_index % 2]);
+				$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
+				$this->tpl->setVariable("ANSWER_INDEX", count($answerblock->connections));
+				$this->tpl->setVariable("TEXT_NOT", $this->lng->txt("not"));
+				$this->tpl->setVariable("TEXT_SELECT_ANSWER", $this->lng->txt("select_an_answer"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->parse("table_row");
+
+				if (count($answerblock->connections) > 0)
 				{
-					$this->tpl->setCurrentBlock("add_button");
-					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock["answerblock_index"]);
-					$this->tpl->setVariable("BUTTON_ADD", $this->lng->txt("add"));
-					$this->tpl->parseCurrentBlock();
-					$this->fillAnswerblockOptions();
-					$this->tpl->setCurrentBlock("answerblock_row");
+					$this->tpl->setCurrentBlock("answerblock_footer");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$answerblock_index % 2]);
-					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock["answerblock_index"]);
-					$this->tpl->setVariable("TEXT_NOT", $this->lng->txt("not"));
-					$this->tpl->setVariable("TEXT_SELECT_ANSWER", $this->lng->txt("select_an_answer"));
+					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
+					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+					$this->tpl->setVariable("POINTS_ANSWERBLOCK", sprintf("%d", $answerblock->getPoints()));
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("table_row");
