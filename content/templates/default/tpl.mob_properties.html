@@ -1,4 +1,4 @@
-<form action="{FORMACTION}" name="post" method="post">
+<form action="{FORMACTION}" name="post" method="post" enctype="multipart/form-data">
 
 <table class="std">
 <tr class="tblheader">
@@ -13,10 +13,21 @@
 	</td>
 </tr>
 <tr class="std">
-	<td class="option">{TXT_TYPE}
+	<td class="option">{TXT_FILE}
+	<input type="radio" name="standard_type" value="LocalFile" {FILE_CHECKED}/>
 	</td>
 	<td class="option_value">
-	{TXT_LOCATION}
+	{VAL_FILE}<br />
+	<input type="file" name="standard_file" size="30">
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">{TXT_REFERENCE}
+	<input type="radio" name="standard_type" value="Reference" {REF_CHECKED}/>
+	</td>
+	<td class="option_value">
+	<input type="text" name="standard_reference" value="{VAL_REFERENCE}" size="40" maxlength="200" /><br />
+	<span class="il_Helptext">{TXT_REF_HELPTEXT}</span>
 	</td>
 </tr>
 <!-- Format -->
@@ -27,22 +38,18 @@
 	{VAL_FORMAT}
 	</td>
 </tr>
-<!-- Width -->
+<!-- Width / Height-->
 <tr class="std">
 	<td class="option">
-	{TXT_MOB_WIDTH}
+	{TXT_MOB_WIDTH} / {TXT_MOB_HEIGHT}
 	</td>
 	<td class="option_value">
-	<input name="{INPUT_MOB_WIDTH}" value="{VAL_MOB_WIDTH}" size="8" maxlength="8" />
-	</td>
-</tr>
-<!-- Height -->
-<tr class="std">
-	<td class="option">
-	{TXT_MOB_HEIGHT}
-	</td>
-	<td class="option_value">
+	<input name="{INPUT_MOB_WIDTH}" value="{VAL_MOB_WIDTH}" size="8" maxlength="8" /> /
 	<input name="{INPUT_MOB_HEIGHT}" value="{VAL_MOB_HEIGHT}" size="8" maxlength="8" />
+	<!-- BEGIN get_size -->
+	&nbsp;
+	<input class="submit" type="submit" name="cmd[{CMD_SIZE}]" value="{TXT_GET_SIZE}" />
+	<!-- END get_size -->
 	</td>
 </tr>
 <!-- Caption -->
@@ -69,11 +76,24 @@
 		{TXT_FULLSCREEN_VIEW}
 	</td>
 </tr>
+<!-- File -->
 <tr class="std">
-	<td class="option">{TXT_FULL_TYPE}
+	<td class="option">{TXT_FULL_FILE}
+	<input type="radio" name="full_type" value="LocalFile" {FULL_FILE_CHECKED}/>
 	</td>
 	<td class="option_value">
-	{TXT_FULL_LOCATION}
+	{VAL_FULL_FILE}<br />
+	<input type="file" name="full_file" size="30">
+	</td>
+</tr>
+<!-- Reference -->
+<tr class="std">
+	<td class="option">{TXT_FULL_REFERENCE}
+	<input type="radio" name="full_type" value="Reference" {FULL_REF_CHECKED}/>
+	</td>
+	<td class="option_value">
+	<input type="text" name="full_reference" value="{VAL_FULL_REFERENCE}" size="40" maxlength="200" /><br />
+	<span class="il_Helptext">{TXT_FULL_REF_HELPTEXT}</span>
 	</td>
 </tr>
 <!-- Format -->
@@ -84,22 +104,18 @@
 	{VAL_FULL_FORMAT}
 	</td>
 </tr>
-<!-- Width -->
+<!-- Width / Height -->
 <tr class="std">
 	<td class="option">
-	{TXT_FULL_WIDTH}
+	{TXT_FULL_WIDTH} / {TXT_FULL_HEIGHT}
 	</td>
 	<td class="option_value">
-	<input name="{INPUT_FULL_WIDTH}" value="{VAL_FULL_WIDTH}" size="8" maxlength="8" />
-	</td>
-</tr>
-<!-- Height -->
-<tr class="std">
-	<td class="option">
-	{TXT_FULL_HEIGHT}
-	</td>
-	<td class="option_value">
+	<input name="{INPUT_FULL_WIDTH}" value="{VAL_FULL_WIDTH}" size="8" maxlength="8" /> /
 	<input name="{INPUT_FULL_HEIGHT}" value="{VAL_FULL_HEIGHT}" size="8" maxlength="8" />
+	<!-- BEGIN get_full_size -->
+	&nbsp;
+	<input class="submit" type="submit" name="cmd[{CMD_FULL_SIZE}]" value="{TXT_GET_FULL_SIZE}" />
+	<!-- END get_full_size -->
 	</td>
 </tr>
 <!-- Caption -->
@@ -129,6 +145,10 @@
 		&nbsp;
 		<input class="submit" type="submit" name="cmd[{CMD_REMOVE_FULL}]" value="{TXT_REMOVE_FULL}" />
 		<!-- END remove_full -->
+		<!-- BEGIN add_full -->
+		&nbsp;
+		<input class="submit" type="submit" name="cmd[{CMD_ADD_FULL}]" value="{TXT_ADD_FULL}" />
+		<!-- END add_full -->
 	</td>
 </tr>
 <!-- END commands -->

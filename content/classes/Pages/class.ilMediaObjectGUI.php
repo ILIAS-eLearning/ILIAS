@@ -144,10 +144,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// determine width and height of known image types
 		if ($_POST["standard_size"] == "original")
 		{
-			if (($format == "image/gif") || ($format == "image/jpeg") ||
-				($format == "image/png") || ($format == "application/x-shockwave-flash") ||
-				($format == "image/tiff") || ($format == "image/x-ms-bmp") ||
-				($format == "image/psd") || ($format == "image/iff"))
+			if (ilUtil::deducibleSize($format))
 			{
 				$size = getimagesize($file);
 				$media_item->setWidth($size[0]);
@@ -214,10 +211,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			// determine width and height of known image types
 			if ($_POST["full_size"] == "original")
 			{
-				if (($format == "image/gif") || ($format == "image/jpeg") ||
-					($format == "image/png") || ($format == "application/x-shockwave-flash") ||
-					($format == "image/tiff") || ($format == "image/x-ms-bmp") ||
-					($format == "image/psd") || ($format == "image/iff"))
+				if (ilUtil::deducibleSize($format))
 				{
 					$size = getimagesize($file);
 					$media_item->setWidth($size[0]);
@@ -275,15 +269,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// edit object button
-		/*
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
-			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
-			"&cmd=edit");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_edit_mob"));
-		$this->tpl->parseCurrentBlock();*/
-
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_item =& $this->content_obj->getMediaItem("Standard");
@@ -292,6 +277,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+		$this->tpl->setVariable("TXT_DERIVE", $this->lng->txt("cont_derive_from_obj"));
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
 		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
@@ -324,6 +310,35 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("VAL_PARAMETERS", $std_alias_item->getParameterString());
 		$this->tpl->parseCurrentBlock();
 
+		// object default values
+		$this->tpl->setVariable("VAL_OBJ_ST_SIZE", $std_item->getWidth()." / ".$std_item->getHeight());
+		$this->tpl->setVariable("VAL_OBJ_ST_CAPTION", $std_item->getCaption());
+		$this->tpl->setVariable("VAL_OBJ_ST_PARAMETERS", $std_item->getParameterString());
+		if ($std_alias_item->definesSize())
+		{
+			$this->tpl->setVariable("DERIVE_ST_SIZE_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_SIZE_Y", "checked=\"1\"");
+		}
+		if ($std_alias_item->definesCaption())
+		{
+			$this->tpl->setVariable("DERIVE_ST_CAPTION_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_CAPTION_Y", "checked=\"1\"");
+		}
+		if ($std_alias_item->definesParameters())
+		{
+			$this->tpl->setVariable("DERIVE_ST_PARAMETER_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_PARAMETER_Y", "checked=\"1\"");
+		}
+
 		// fullscreen view
 		if($this->content_obj->hasFullScreenItem())
 		{
@@ -331,7 +346,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
 			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
 
-			// edit media alias template
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
 			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
@@ -339,25 +353,67 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
 			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
 
-			// width
+			// width text
 			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
 			$this->tpl->setVariable("INPUT_FULL_WIDTH", "full_width");
-			$this->tpl->setVariable("VAL_FULL_WIDTH", $full_alias_item->getWidth());
 
-			// height
+			// height text
 			$this->tpl->setVariable("TXT_FULL_HEIGHT", $this->lng->txt("cont_height"));
 			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
-			$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_alias_item->getHeight());
 
-			// caption
+			// caption text
 			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
 			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
-			$this->tpl->setVariable("VAL_FULL_CAPTION", $full_alias_item->getCaption());
 
-			// parameters
+			// parameters text
 			$this->tpl->setVariable("TXT_FULL_PARAMETER", $this->lng->txt("cont_parameter"));
 			$this->tpl->setVariable("INPUT_FULL_PARAMETERS", "full_parameters");
-			$this->tpl->setVariable("VAL_FULL_PARAMETERS", $full_alias_item->getParameterString());
+
+			// object default values
+			$this->tpl->setVariable("VAL_OBJ_FULL_SIZE", $full_item->getWidth()." / ".$full_item->getHeight());
+			$this->tpl->setVariable("VAL_OBJ_FULL_CAPTION", $full_item->getCaption());
+			$this->tpl->setVariable("VAL_OBJ_FULL_PARAMETERS", $full_item->getParameterString());
+			if ($full_alias_item->definesSize())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_SIZE_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_SIZE_Y", "checked=\"1\"");
+			}
+			if ($full_alias_item->definesCaption())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_CAPTION_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_CAPTION_Y", "checked=\"1\"");
+			}
+			if ($full_alias_item->definesParameters())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_Y", "checked=\"1\"");
+			}
+
+			if ($full_alias_item->exists())
+			{
+				$this->tpl->setVariable("FULLSCREEN_CHECKED", "checked=\"1\"");
+
+				// width
+				$this->tpl->setVariable("VAL_FULL_WIDTH", $full_alias_item->getWidth());
+
+				// height
+				$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_alias_item->getHeight());
+
+				// caption
+				$this->tpl->setVariable("VAL_FULL_CAPTION", $full_alias_item->getCaption());
+
+				// parameters
+				$this->tpl->setVariable("VAL_FULL_PARAMETERS", $full_alias_item->getParameterString());
+			}
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -379,17 +435,84 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
 
-		$std_item->setWidth($_POST["mob_width"]);
-		$std_item->setHeight($_POST["mob_height"]);
-		$std_item->setCaption($_POST["mob_caption"]);
-		$std_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"]))));
+		// standard size
+		if($_POST["derive_st_size"] == "y")
+		{
+			$std_item->deriveSize();
+		}
+		else
+		{
+			$std_item->setWidth($_POST["mob_width"]);
+			$std_item->setHeight($_POST["mob_height"]);
+		}
+
+		// standard caption
+		if($_POST["derive_st_caption"] == "y")
+		{
+			$std_item->deriveCaption();
+		}
+		else
+		{
+			$std_item->setCaption($_POST["mob_caption"]);
+		}
+
+		// standard parameters
+		if($_POST["derive_st_parameter"] == "y")
+		{
+			$std_item->deriveParameters();
+		}
+		else
+		{
+			$std_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"]))));
+		}
 
 		if($this->content_obj->hasFullscreenItem())
 		{
-			$full_item->setWidth($_POST["full_width"]);
-			$full_item->setHeight($_POST["full_height"]);
-			$full_item->setCaption($_POST["full_caption"]);
-			$full_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+			if ($_POST["fullscreen"] ==  "y")
+			{
+				if (!$full_item->exists())
+				{
+					$full_item->insert();
+				}
+
+				// fullscreen size
+				if($_POST["derive_full_size"] == "y")
+				{
+					$full_item->deriveSize();
+				}
+				else
+				{
+					$full_item->setWidth($_POST["full_width"]);
+					$full_item->setHeight($_POST["full_height"]);
+				}
+
+				// fullscreen caption
+				if($_POST["derive_full_caption"] == "y")
+				{
+					$full_item->deriveCaption();
+				}
+				else
+				{
+					$full_item->setCaption($_POST["full_caption"]);
+				}
+
+				// fullscreen parameters
+				if($_POST["derive_full_parameter"] == "y")
+				{
+					$full_item->deriveParameters();
+				}
+				else
+				{
+					$full_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+				}
+			}
+			else
+			{
+				if ($full_item->exists())
+				{
+					$full_item->delete();
+				}
+			}
 		}
 
 		$this->updated = $this->pg_obj->update();
@@ -406,6 +529,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* edit media object properties
+	*/
 	function edit()
 	{
 		//add template for view button
@@ -425,10 +551,35 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		// edit media alias template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", true);
+
+		// deduce size button
+		if ($std_item->getLocationType() == "LocalFile" &&
+			ilUtil::deducibleSize($std_item->getFormat()))
+		{
+			$this->tpl->setCurrentBlock("get_size");
+			$this->tpl->setVariable("CMD_SIZE", "getStandardSize");
+			$this->tpl->setVariable("TXT_GET_SIZE", $this->lng->txt("cont_get_orig_size"));
+			$this->tpl->parseCurrentBlock();
+			//$this->tpl->setCurrentBlock("adm_content");
+		}
+
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_properties"));
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
-		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
+
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_LocalFile"));
+		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_Reference"));
+		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+		if ($std_item->getLocationType() == "LocalFile")
+		{
+			$this->tpl->setVariable("FILE_CHECKED", "checked=\"1\"");
+			$this->tpl->setVariable("VAL_FILE", $std_item->getLocation());
+		}
+		else
+		{
+			$this->tpl->setVariable("REF_CHECKED", "checked=\"1\"");
+			$this->tpl->setVariable("VAL_REFERENCE", $std_item->getLocation());
+		}
+
 		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
 		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
 		$this->tpl->setVariable("FORMACTION",
@@ -465,14 +616,38 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// fullscreen view
 		if($this->content_obj->hasFullScreenItem())
 		{
-			$this->tpl->setCurrentBlock("fullscreen");
-			//$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
 			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+			if ($full_item->getLocationType() == "LocalFile" &&
+				ilUtil::deducibleSize($full_item->getFormat()))
+			{
+				$this->tpl->setCurrentBlock("get_full_size");
+				$this->tpl->setVariable("CMD_FULL_SIZE", "getFullscreenSize");
+				$this->tpl->setVariable("TXT_GET_FULL_SIZE", $this->lng->txt("cont_get_orig_size"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("fullscreen");
 
 			// edit media alias template
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
-			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
-			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+
+			$this->tpl->setVariable("TXT_FULL_FILE", $this->lng->txt("cont_LocalFile"));
+			$this->tpl->setVariable("TXT_FULL_REFERENCE", $this->lng->txt("cont_Reference"));
+			$this->tpl->setVariable("TXT_FULL_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+			if ($full_item->getLocationType() == "LocalFile")
+			{
+				$this->tpl->setVariable("FULL_FILE_CHECKED", "checked=\"1\"");
+				$this->tpl->setVariable("VAL_FULL_FILE", $full_item->getLocation());
+			}
+			else
+			{
+				$this->tpl->setVariable("FULL_REF_CHECKED", "checked=\"1\"");
+				$this->tpl->setVariable("VAL_FULL_REFERENCE", $full_item->getLocation());
+			}
+
+			//$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
+			//$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
 			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
 			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
 
@@ -507,6 +682,13 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("TXT_REMOVE_FULL", $this->lng->txt("cont_remove_fullscreen"));
 			$this->tpl->parseCurrentBlock();
 		}
+		else
+		{
+			$this->tpl->setCurrentBlock("add_full");
+			$this->tpl->setVariable("CMD_ADD_FULL", "addFullscreen");
+			$this->tpl->setVariable("TXT_ADD_FULL", $this->lng->txt("cont_add_fullscreen"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
@@ -516,11 +698,71 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 
 	/**
+	* set original size of standard file
+	*/
+	function getStandardSize()
+	{
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+
+		if ($std_item->getLocationType() == "LocalFile")
+		{
+			$file = $mob_dir."/".$std_item->getLocation();
+			$size = getimagesize($file);
+			$std_item->setWidth($size[0]);
+			$std_item->setHeight($size[1]);
+			$this->content_obj->update();
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* set original size of fullscreen file
+	*/
+	function getFullscreenSize()
+	{
+		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+
+		if ($full_item->getLocationType() == "LocalFile")
+		{
+			$file = $mob_dir."/".$full_item->getLocation();
+			$size = getimagesize($file);
+			$full_item->setWidth($size[0]);
+			$full_item->setHeight($size[1]);
+			$this->content_obj->update();
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
 	* save table properties in db and return to page edit screen
 	*/
 	function saveProperties()
 	{
 		$std_item =& $this->content_obj->getMediaItem("Standard");
+		if ($_POST["standard_type"] == "Reference")
+		{
+			$std_item->setLocationType("Reference");
+			$std_item->setFormat(ilMediaObject::getMimeType($_POST["standard_reference"]));
+			$std_item->setLocation($_POST["standard_reference"]);
+		}
+		if ($_POST["standard_type"] == "LocalFile")
+		{
+			if ($_FILES['standard_file']['name'] != "")
+			{
+				$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+				$file = $mob_dir."/".$_FILES['standard_file']['name'];
+				move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+				$format = ilMediaObject::getMimeType($file);
+				$std_item->setFormat($format);
+				$std_item->setLocation($_FILES['standard_file']['name']);
+			}
+			$std_item->setLocationType("LocalFile");
+		}
 		$std_item->setWidth($_POST["mob_width"]);
 		$std_item->setHeight($_POST["mob_height"]);
 		$std_item->setCaption($_POST["mob_caption"]);
@@ -529,6 +771,25 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		if($this->content_obj->hasFullscreenItem())
 		{
 			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+			if ($_POST["full_type"] == "Reference")
+			{
+				$full_item->setLocationType("Reference");
+				$full_item->setFormat(ilMediaObject::getMimeType($_POST["full_reference"]));
+				$full_item->setLocation($_POST["full_reference"]);
+			}
+			if ($_POST["full_type"] == "LocalFile")
+			{
+				if ($_FILES['full_file']['name'] != "")
+				{
+					$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+					$file = $mob_dir."/".$_FILES['full_file']['name'];
+					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					$format = ilMediaObject::getMimeType($file);
+					$full_item->setFormat($format);
+					$full_item->setLocation($_FILES['full_file']['name']);
+				}
+				$full_item->setLocationType("LocalFile");
+			}
 			$full_item->setWidth($_POST["full_width"]);
 			$full_item->setHeight($_POST["full_height"]);
 			$full_item->setCaption($_POST["full_caption"]);
@@ -857,20 +1118,32 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		if(!$this->content_obj->hasFullScreenItem())
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_no_fullscreen_item"),$this->ilias->error_obj->MESSAGE);
+		{	// create new fullscreen item
+			$std_item =& $this->content_obj->getMediaItem("Standard");
+			$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+			$file = $mob_dir."/".$location;
+			$full_item =& new ilMediaItem();
+			$full_item->setMobId($std_item->getMobId());
+			$full_item->setLocation($location);
+			$full_item->setLocationType("LocalFile");
+			$full_item->setFormat(ilMediaObject::getMimeType($file));
+			$full_item->setPurpose("Fullscreen");
+			$this->content_obj->addMediaItem($full_item);
 		}
+		else	// alter existing fullscreen item
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
 
-		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
-
-		$full_item->setLocationType("LocalFile");
-		$full_item->setLocation($location);
-		$format = ilMediaObject::getMimeType($file);
-		$full_item->setFormat($format);
+			$full_item->setLocationType("LocalFile");
+			$full_item->setLocation($location);
+			$format = ilMediaObject::getMimeType($file);
+			$full_item->setFormat($format);
+		}
 		$this->content_obj->update();
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
+
 
 	/**
 	* remove fullscreen view
@@ -884,6 +1157,35 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* add fullscreen view
+	*/
+	function addFullscreen()
+	{
+		if (!$this->content_obj->hasFullScreenItem())
+		{
+			$std_item =& $this->content_obj->getMediaItem("Standard");
+			$full_item =& new ilMediaItem();
+			$full_item->setMobId($std_item->getMobId());
+			$full_item->setLocation($std_item->getLocation());
+			$full_item->setLocationType($std_item->getLocationType());
+			$full_item->setFormat($std_item->getFormat());
+			$full_item->setWidth($std_item->getWidth());
+			$full_item->setHeight($std_item->getHeight());
+			$full_item->setCaption($std_item->getCaption());
+			$full_item->setPurpose("Fullscreen");
+			$this->content_obj->addMediaItem($full_item);
+
+			$this->content_obj->update();
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* delete object file
+	*/
 	function deleteFile()
 	{
 		if (!isset($_POST["file"]))

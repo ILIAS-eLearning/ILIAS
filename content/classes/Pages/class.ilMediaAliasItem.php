@@ -54,6 +54,41 @@ class ilMediaAliasItem
 		}
 	}
 
+	/**
+	* check if item node exists
+	*
+	* @return	 boolean		returns true if item node exists
+	*/
+	function exists()
+	{
+		if (is_object($this->item_node))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* inserts new node in dom
+	*/
+	function insert()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			$obj_node =& $res->nodeset[0];
+			$item_node =& $this->dom->create_element("MediaAliasItem");
+			$item_node =& $obj_node->append_child($item_node);
+			$item_node->set_attribute("Purpose", $this->purpose);
+			$this->item_node =& $item_node;
+		}
+	}
+
 	function setWidth($a_width)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
@@ -71,6 +106,46 @@ class ilMediaAliasItem
 		{
 			$layout_node =& $res->nodeset[0];
 			return $layout_node->get_attribute("Width");
+		}
+	}
+
+	/**
+	* check if alias item defines own size or derives size from object
+	*
+	* @return	boolean		returns true if size is not derived from object
+	*/
+	function definesSize()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			$layout_node =& $res->nodeset[0];
+			return $layout_node->has_attribute("Width");
+		}
+		return false;
+	}
+
+	/**
+	* derive size from object (-> width and height attributes are removed from layout element)
+	*/
+	function deriveSize()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) == 1)
+		{
+			$layout_node =& $res->nodeset[0];
+			if ($layout_node->has_attribute("Width"))
+			{
+				$layout_node->remove_attribute("Width");
+			}
+			if ($layout_node->has_attribute("Height"))
+			{
+				$layout_node->remove_attribute("Height");
+			}
 		}
 	}
 
@@ -115,6 +190,37 @@ class ilMediaAliasItem
 		}
 	}
 
+	/**
+	* check if alias item defines own caption or derives caption from object
+	*
+	* @return	boolean		returns true if caption is not derived from object
+	*/
+	function definesCaption()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* derive caption from object (-> caption element is removed from media alias item)
+	*/
+	function deriveCaption()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			$caption_node =& $res->nodeset[0];
+			$caption_node->unlink_node($caption_node);
+		}
+	}
 
 	function setHorizontalAlign($a_halign)
 	{
@@ -194,5 +300,50 @@ class ilMediaAliasItem
 	{
 	}
 
+	/**
+	* check if alias item defines own parameters or derives parameters from object
+	*
+	* @return	boolean		returns true if parameters are not derived from object
+	*/
+	function definesParameters()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* derive parameters from object (-> all parameter elements are removed from media alias item)
+	*/
+	function deriveParameters()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			for($i=0; $i < count($res->nodeset); $i++)
+			{
+				$par_node =& $res->nodeset[$i];
+				$par_node->unlink_node($par_node);
+			}
+		}
+	}
+
+	/**
+	* delete full item node from dom
+	*/
+	function delete()
+	{
+		if (is_object($this->item_node))
+		{
+			$this->item_node->unlink_node($this->item_node);
+		}
+	}
 }
 ?>
