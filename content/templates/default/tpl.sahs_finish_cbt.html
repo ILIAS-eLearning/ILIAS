@@ -5,8 +5,9 @@
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body onunload="switch_icon()">
+
 <script language="JavaScript">
+
 function switch_icon () {
 	var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
 	if (ico != null) {
@@ -14,11 +15,22 @@ function switch_icon () {
 		ico.title = '{SCO_ALT}';
 	}
 }
-if ('{SCO_LAUNCH_ID}' != 'null') {
-	parent.API.IliasLaunchSahs('{SCO_LAUNCH_ID}');
-} else {
-	switch_icon();
+
+function launch_next () {
+	if ('{SCO_LAUNCH_ID}' != 'null') {
+		parent.API.IliasLaunchSahs('{SCO_LAUNCH_ID}');
+	}
 }
+
+function action() {
+	switch_icon();
+	launch_next();
+}
+
 </script>
+
+
+
+<body onload="action();">
 </body>
 </html>
