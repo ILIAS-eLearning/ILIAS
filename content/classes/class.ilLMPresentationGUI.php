@@ -971,7 +971,7 @@ class ilLMPresentationGUI
 							$nframe = ($ltarget == "")
 								? $_GET["frame"]
 								: $ltarget;
-							$href = "lm_presentation.php?cmd=layout&amp;ref_id=".$_GET["ref_id"].
+							$href = "lm_presentation.php?obj_type=$type&amp;cmd=layout&amp;ref_id=".$_GET["ref_id"].
 								"&amp;obj_id=".$target_id."&amp;frame=$nframe";
 						}
 						else
@@ -1046,8 +1046,8 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilMedia");
 
-		require_once("content/classes/Pages/class.ilMediaObject.php");
-		$media_obj =& new ilMediaObject($_GET["mob_id"]);
+		require_once("content/classes/Media/class.ilObjMediaObject.php");
+		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
 			require_once("content/classes/Pages/class.ilPageObject.php");
