@@ -20,27 +20,27 @@
 {OTHER_QUESTION_DATA}
 <tr>
 	<td class="option">{TEXT_IMAGE}:</td>
-	<td class="option_value">
+	<td class="option_value" colspan="4">
+  <input name="imageName" type="file" id="image" size="30" />
+	<input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} />
   <!-- BEGIN imageupload -->
-	{UPLOADED_IMAGE} <br>
+	<p>{UPLOADED_IMAGE}</p>
   <!-- END imageupload -->
   <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
   <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-  <input name="imageName" type="file" id="image" size="30" />
  	</td>
- 	<td class="option_value" colspan="3" > <input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} /></td>
 </tr>
 <tr>
 	<td class="option">{TEXT_IMAGEMAP}:</td>
-	<td class="option_value">
-  <!-- BEGIN imagemapupload -->
-	{UPLOADED_IMAGEMAP} <br>
-  <!-- END imagemapupload -->
+	<td class="option_value" colspan="4">
   <input type="hidden" name="uploaded_imagemap" value="{IMAGEMAP_FILENAME}">
   <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
   <input type="file" name="imagemapName" id="imagemap" size="30" />
+	<input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} />
+  <!-- BEGIN imagemapupload -->
+	<p>{UPLOADED_IMAGEMAP}</p>
+  <!-- END imagemapupload -->
 	</td>
-	<td class="option_value" colspan="3" > <input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} /></td>
 </tr>
 <!-- BEGIN gape -->
 <tr><td class="option_value"><br></td></tr>

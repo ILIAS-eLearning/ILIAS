@@ -137,8 +137,21 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->setCurrentBlock("imageupload");
 			//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
 			$this->tpl->parse("imageupload");
-			$imagepath = $this->object->getImagePathWeb() . $img;
-			$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
+			if (count($this->object->answers))
+			{
+				$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
+				foreach ($this->object->answers as $index => $answer)
+				{
+					$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), "", "", true);
+				}
+				$preview->createPreview();
+				$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
+			}
+			else
+			{
+				$imagepath = $this->object->getImagePathWeb() . $img;
+			}
+			$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath\" alt=\"$img\" border=\"\" />");
 		} 
 		else 
 		{
