@@ -124,7 +124,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //echo "<br>ID:".$_GET["q_id"];
 				$page =& new ilPageObject("qpl", $_GET["q_id"]);
 				$page_gui =& new ilPageObjectGUI($page);
-				$page_gui->setQuestionXML($question->to_xml(false));
+				$page_gui->setQuestionXML($question->to_xml(false, false));
 				//$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");

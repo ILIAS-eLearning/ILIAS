@@ -138,7 +138,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true)
+	function to_xml($a_include_header = true, $a_include_binary = true)
 	{
 		if (!empty($this->domxml))
 		{

@@ -369,23 +369,23 @@ class ASS_ImagemapQuestion extends ASS_Question {
     }
   }
 
-/**
-* Returns a QTI xml representation of the question
-*
-* Returns a QTI xml representation of the question and sets the internal
-* domxml variable with the DOM XML representation of the QTI xml representation
-*
-* @return string The QTI xml representation of the question
-* @access public
-*/
-	function to_xml()
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
+	function to_xml($a_include_header = true, $a_include_binary = true)
 	{
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
 		}
 		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
-		$this->domxml = domxml_open_mem($xml_header);		
+		$this->domxml = domxml_open_mem($xml_header);
 		$root = $this->domxml->document_element();
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
@@ -418,20 +418,23 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		$qtiMatImage = $this->domxml->create_element("matimage");
 		$qtiMatImage->set_attribute("imagtype", "image/jpeg");
 		$qtiMatImage->set_attribute("label", $this->get_image_filename());
-		$qtiMatImage->set_attribute("embedded", "base64");
-		$imagepath = $this->getImagePath() . $this->get_image_filename();
-		$fh = fopen($imagepath, "rb");
-		if ($fh == false)
+		if ($a_include_binary)
 		{
-			global $ilErr;
-			$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
-			return;
+			$qtiMatImage->set_attribute("embedded", "base64");
+			$imagepath = $this->getImagePath() . $this->get_image_filename();
+			$fh = fopen($imagepath, "rb");
+			if ($fh == false)
+			{
+				global $ilErr;
+				$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
+				return;
+			}
+			$imagefile = fread($fh, filesize($imagepath));
+			fclose($fh);
+			$base64 = base64_encode($imagefile);
+			$qtiBase64Data = $this->domxml->create_text_node($base64);
+			$qtiMatImage->append_child($qtiBase64Data);
 		}
-		$imagefile = fread($fh, filesize($imagepath));
-		fclose($fh);				
-		$base64 = base64_encode($imagefile);
-		$qtiBase64Data = $this->domxml->create_text_node($base64);
-		$qtiMatImage->append_child($qtiBase64Data);
 		$qtiMaterial->append_child($qtiMatImage);
 		$qtiRenderHotspot->append_child($qtiMaterial);
 		// add answers
@@ -517,7 +520,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$qtiResprocessing->append_child($qtiRespcondition);
 		}
 		$qtiIdent->append_child($qtiResprocessing);
-		
+
 		// PART III: qti itemfeedback
 		foreach ($this->answers as $index => $answer)
 		{
@@ -545,7 +548,16 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			$qtiItemfeedback->append_child($qtiFlowmat);
 			$qtiIdent->append_child($qtiItemfeedback);
 		}
-		return $this->domxml->dump_mem(true);
+
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
+
 	}
 
 /**

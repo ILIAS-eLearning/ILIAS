@@ -30,6 +30,7 @@
 <xsl:param name="pg_title"/>
 <xsl:param name="pg_id"/>
 <xsl:param name="ref_id"/>
+<xsl:param name="parent_id"/>
 <xsl:param name="link_params"/>
 <xsl:param name="download_script"/>
 <xsl:param name="pg_frame"/>
@@ -1483,18 +1484,49 @@
 				</xsl:for-each>
 			</table>
 		</xsl:when>
-
-
 	</xsl:choose>
 </xsl:template>
+
+
+<!-- imagemaps -->
+<xsl:template match="response_xy">
+	<xsl:choose>
+		<xsl:when test = "@ident = 'IM'">
+			<table class="nobackground">
+			<tr><td class="nobackground" align="center">
+			<map name="qmap">
+			<xsl:for-each select="render_hotspot/response_label">
+			<area nohref="1">
+				<xsl:attribute name="shape">
+				<xsl:value-of select="@rarea"/>
+				</xsl:attribute>
+				<xsl:attribute name="coords">
+				<xsl:value-of select="."/>
+				</xsl:attribute>
+			</area>
+			</xsl:for-each>
+			</map>
+			<img border="0" usemap="#qmap">
+				<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="render_hotspot/material/matimage/@label"/></xsl:attribute>
+			</img>
+			</td></tr>
+			</table>
+		</xsl:when>
+	</xsl:choose>
+</xsl:template>
+
 
 <!-- t&a: dump qti data -->
 <xsl:template match="questestinterop"/>
 
-<!-- t&a: text -->
+<!-- t&a: dump qti data -->
+<xsl:template match="material"/>
+
+<!-- t&a: text
 <xsl:template match="mattext">
-	<xsl:apply-templates/>
-</xsl:template>
+	ee<xsl:apply-templates/>
+</xsl:template>-->
+
 
 <!-- t&a: response_str -->
 <xsl:template match="response_str">

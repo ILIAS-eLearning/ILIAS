@@ -403,6 +403,7 @@ class ilPageObjectGUI
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'med_disabled_path' => $med_disabled_path,
+						 'parent_id' => $this->obj->getParentId(),
 						 'download_script' => $this->sourcecode_download_script,
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"));
