@@ -285,6 +285,185 @@ class ASS_ImagemapQuestion extends ASS_Question {
   }
 
 /**
+* Returns a QTI xml representation of the question
+*
+* Returns a QTI xml representation of the question and sets the internal
+* domxml variable with the DOM XML representation of the QTI xml representation
+*
+* @return string The QTI xml representation of the question
+* @access public
+*/
+	function to_xml()
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$this->domxml = domxml_open_mem($xml_header);		
+		$root = $this->domxml->document_element();
+		// qti ident
+		$qtiIdent = $this->domxml->create_element("item");
+		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
+		$root->append_child($qtiIdent);
+		// add qti comment
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		// PART I: qti presentation
+		$qtiPresentation = $this->domxml->create_element("presentation");
+		$qtiPresentation->set_attribute("label", $this->getTitle());
+		// add flow to presentation
+		$qtiFlow = $this->domxml->create_element("flow");
+		// add material with question text to presentation
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatText = $this->domxml->create_element("mattext");
+		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiFlow->append_child($qtiMaterial);
+		// add answers to presentation
+		$qtiResponseXy = $this->domxml->create_element("response_xy");
+		$qtiResponseXy->set_attribute("ident", "IM");
+		$qtiResponseXy->set_attribute("rcardinality", "Single");
+		$qtiRenderHotspot = $this->domxml->create_element("render_hotspot");
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatImage = $this->domxml->create_element("matimage");
+		$qtiMatImage->set_attribute("imagtype", "image/jpeg");
+		$qtiMatImage->set_attribute("label", $this->get_image_filename());
+		$qtiMatImage->set_attribute("embedded", "base64");
+		$imagepath = $this->getImagePath() . $this->get_image_filename();
+		$fh = fopen($imagepath, "rb");
+		if ($fh == false)
+		{
+			global $ilErr;
+			$ilErr->raiseError($this->lng->txt("error_open_image_file"), $ilErr->WARNING);
+			return;
+		}
+		$imagefile = fread($fh, filesize($imagepath));
+		fclose($fh);				
+		$base64 = base64_encode($imagefile);
+		$qtiBase64Data = $this->domxml->create_text_node($base64);
+		$qtiMatImage->append_child($qtiBase64Data);
+		$qtiMaterial->append_child($qtiMatImage);
+		$qtiRenderHotspot->append_child($qtiMaterial);
+		// add answers
+		foreach ($this->answers as $index => $answer)
+		{
+			$qtiResponseLabel = $this->domxml->create_element("response_label");
+			$qtiResponseLabel->set_attribute("ident", $index);
+			switch ($answer->get_area())
+			{
+				case "rect":
+					$qtiResponseLabel->set_attribute("rarea", "Rectangle");
+					break;
+				case "circle":
+					$qtiResponseLabel->set_attribute("rarea", "Ellipse");
+					break;
+				case "poly":
+					$qtiResponseLabel->set_attribute("rarea", "Bounded");
+					break;
+			}
+			$qtiResponseLabelCoords = $this->domxml->create_text_node($answer->get_coords());
+			$qtiResponseLabel->append_child($qtiResponseLabelCoords);
+			$qtiRenderHotspot->append_child($qtiResponseLabel);
+		}
+		$qtiResponseXy->append_child($qtiRenderHotspot);
+		$qtiFlow->append_child($qtiResponseXy);
+		$qtiPresentation->append_child($qtiFlow);
+		$qtiIdent->append_child($qtiPresentation);
+
+		// PART II: qti resprocessing
+		$qtiResprocessing = $this->domxml->create_element("resprocessing");
+		$qtiOutcomes = $this->domxml->create_element("outcomes");
+		$qtiDecvar = $this->domxml->create_element("decvar");
+		$qtiOutcomes->append_child($qtiDecvar);
+		$qtiResprocessing->append_child($qtiOutcomes);
+		// add response conditions
+		foreach ($this->answers as $index => $answer)
+		{
+			$qtiRespcondition = $this->domxml->create_element("respcondition");
+			if ($this->response == RESPONSE_MULTIPLE)
+			{
+				$qtiRespcondition->set_attribute("continue", "Yes");
+			}
+			// qti conditionvar
+			$qtiConditionvar = $this->domxml->create_element("conditionvar");
+			$qtiVarinside = $this->domxml->create_element("varinside");
+			$qtiVarinside->set_attribute("respident", "IM");
+			switch ($answer->get_area())
+			{
+				case "rect":
+					$qtiVarinside->set_attribute("areatype", "Rectangle");
+					break;
+				case "circle":
+					$qtiVarinside->set_attribute("areatype", "Ellipse");
+					break;
+				case "poly":
+					$qtiVarinside->set_attribute("areatype", "Bounded");
+					break;
+			}
+			$qtiVarinsideText = $this->domxml->create_text_node($answer->get_coords());
+			$qtiVarinside->append_child($qtiVarinsideText);
+			$qtiConditionvar->append_child($qtiVarinside);
+			// qti setvar
+			$qtiSetvar = $this->domxml->create_element("setvar");
+			$qtiSetvar->set_attribute("action", "Set");
+			$qtiSetvarText = $this->domxml->create_text_node($answer->get_points());
+			$qtiSetvar->append_child($qtiSetvarText);
+			// qti displayfeedback
+			$qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
+			$qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
+			$linkrefid = "";
+			if ($answer->is_true())
+			{
+				$linkrefid = "True";
+			}
+			  else
+			{
+				$linkrefid = "False_$index";
+			}
+			$qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
+			$qtiRespcondition->append_child($qtiConditionvar);
+			$qtiRespcondition->append_child($qtiSetvar);
+			$qtiRespcondition->append_child($qtiDisplayfeedback);
+			$qtiResprocessing->append_child($qtiRespcondition);
+		}
+		$qtiIdent->append_child($qtiResprocessing);
+		
+		// PART III: qti itemfeedback
+		foreach ($this->answers as $index => $answer)
+		{
+			$qtiItemfeedback = $this->domxml->create_element("itemfeedback");
+			$linkrefid = "";
+			if ($answer->is_true())
+			{
+				$linkrefid = "True";
+			}
+			  else
+			{
+				$linkrefid = "False_$index";
+			}
+			$qtiItemfeedback->set_attribute("ident", $linkrefid);
+			$qtiItemfeedback->set_attribute("view", "All");
+			// qti flow_mat
+			$qtiFlowmat = $this->domxml->create_element("flow_mat");
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMattext = $this->domxml->create_element("mattext");
+			// Insert response text for right/wrong answers here!!!
+			$qtiMattextText = $this->domxml->create_text_node("");
+			$qtiMattext->append_child($qtiMattextText);
+			$qtiMaterial->append_child($qtiMattext);
+			$qtiFlowmat->append_child($qtiMaterial);
+			$qtiItemfeedback->append_child($qtiFlowmat);
+			$qtiIdent->append_child($qtiItemfeedback);
+		}
+		return $this->domxml->dump_mem(true);
+	}
+
+/**
 * Gets the imagemap question
 *
 * Gets the question string of the ASS_ImagemapQuestion object
