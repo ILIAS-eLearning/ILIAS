@@ -598,7 +598,7 @@ class ilUtil
 		{
 			$m = $m - $begin;
 		}
-	
+
 		return($m);
 	}
 
@@ -725,6 +725,62 @@ class ilUtil
 
 		return $a_str;
 	}
+
+	/**
+	* Copies content of a directory $a_sdir recursively to a directory $a_tdir
+	* @param	string	$a_sdir		source directory
+	* @param	string	$a_tdir		target directory
+	*
+	* @return	boolean	TRUE for sucess, FALSE otherwise
+	* @access	public
+	*/
+	function rCopy ($a_sdir, $a_tdir)
+	{
+		// check if arguments are directories
+		if (!@is_dir($a_sdir) or
+			!@is_dir($a_tdir))
+		{
+			return FALSE;
+		}
+
+		// read a_sdir, copy files and copy directories recursively
+		$dir = opendir($a_sdir);
+
+		while($file = readdir($dir))
+		{
+	    	if ($file != "." and
+				$file != "..")
+			{
+				// directories
+	         	if (@is_dir($a_sdir."/".$file))
+				{
+					if (!@is_dir($a_tdir."/".$file))
+					{
+						if (!mkdir($a_tdir."/".$file, 0775))
+							return FALSE;
+
+						chmod($a_tdir."/".$file, 0775);
+					}
+
+					if (!$this->rCopy($a_sdir."/".$file,$a_tdir."/".$file))
+					{
+						return FALSE;
+					}
+				}
+
+				// files
+				if (@is_file($a_sdir."/".$file))
+				{
+	            	if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
+					{
+						return FALSE;
+					}
+				}
+			}
+		}
+		return TRUE;
+	}
+
 
 } // END class.util
 ?>

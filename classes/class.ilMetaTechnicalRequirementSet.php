@@ -21,77 +21,47 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-require_once "classes/class.ilObject.php";
-
 /**
-* Class ilObjMediaObject
+* Class ilMetaTechnicalRequirementSet
+*
+* Handles a set of technical requirement
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* $Id$
+* @version $Id$
 *
-* @extends ilObject
-* @package ilias-core
+* @package application
 */
-class ilObjMediaObject extends ilObject
+class ilMetaTechnicalRequirementSet
 {
-
-	var $meta_data;
+	var $requirements;
 
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjMediaObject($a_id = 0, $a_call_by_reference = false)
+	function ilMetaTechnicalRequirementSet()
 	{
-		$this->type = "mob";
-
-		if($a_call_by_reference)
-		{
-			$this->ilias->raiseError("Can't instantiate media object via reference id.",$this->ilias->error_obj->FATAL);
-		}
-
-		parent::ilObject($a_id, false);
-	}
-
-	function setRefId()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function getRefId()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function putInTree()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function createReference()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
 	/**
-	* assign meta data object
+	* add a requirement
+	*
+	* @param	object $a_requirement	requirement object of class ilMetaTechnicalRequirement
 	*/
-	function assignMetaData(&$a_meta_data)
+	function addRequirement(&$a_requirement)
 	{
-		$this->meta_data =& $a_meta_data;
+		$this->requirements[] =& $a_requirement;
 	}
 
 	/**
-	* get meta data object
+	* get all requirements of the set
+	*
+	* @return	array	arrray of requirements objects (class ilMetaTechnicalRequirement)
 	*/
-	function &getMetaData()
+	function &getRequirements()
 	{
-		return $this->meta_data;
+		return $this->requirements;
 	}
 
-
-} // END class.ilObjMediaObject
+}
 ?>
