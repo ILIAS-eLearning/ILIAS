@@ -2671,3 +2671,5 @@ UPDATE style_parameter SET value='0px' WHERE tag='div' AND class='Page' and para
 DELETE FROM style_parameter WHERE tag='div' AND class='LMNavigation' and parameter='padding';
 DELETE FROM style_parameter WHERE tag='div' AND class='LMNavigation' and parameter='border-spacing';
 
+<#168>
+UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='style';
