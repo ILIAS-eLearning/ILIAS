@@ -10,6 +10,13 @@
 .Image#lo_view {
 }
 
+.ImageTable#lo_view {
+}
+
+.ImageCell#lo_view {
+	text-align:center;
+}	
+
 .ImageCaption#lo_view {
 	background-color:#eeeeee;
 }	

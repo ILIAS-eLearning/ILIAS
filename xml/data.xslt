@@ -20,62 +20,92 @@
 		<xsl:when test="MetaData/General/@AggregationLevel=1">
 			<xsl:choose>
 				<xsl:when test="./MetaData/Technical/@Format='image-gif'">
-					<img class="Image" id="lo_view">
-					<xsl:attribute name="src">
-						<xsl:value-of select="MetaData/Technical/Location"/>
-					</xsl:attribute>	
-					<xsl:attribute name="alt">
-						<xsl:value-of select="MetaData/General/Description"/>
-					</xsl:attribute>	
-					</img>
-					<div class="ImageCaption" id="lo_view">
-						<xsl:text>Abbildung</xsl:text>
-					<xsl:number count="LearningObject"/>
-					<xsl:text>: </xsl:text>
-					<xsl:value-of select="MetaData/General/Title"/>
-				</div>
-				<div class="ImageText" id="lo_view">
-					<xsl:apply-templates select="MetaData/General/Description"/>
-				</div>
+					<table class="ImageTable" id="lo_view">
+						<tr>
+							<td class="ImageCell" id="lo_view">
+								<img class="Image" id="lo_view">
+									<xsl:attribute name="src">
+										<xsl:value-of select="MetaData/Technical/Location"/>
+									</xsl:attribute>	
+									<xsl:attribute name="alt">
+										<xsl:value-of select="MetaData/General/Description"/>
+									</xsl:attribute>	
+								</img>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageCaption" id="lo_view">
+								<xsl:text>Abbildung</xsl:text>
+								<xsl:number count="LearningObject"/>
+								<xsl:text>: </xsl:text>
+								<xsl:value-of select="MetaData/General/Title"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageText" id="lo_view">
+								<xsl:apply-templates select="MetaData/General/Description"/>
+							</td>
+						</tr>
+					</table>
 				</xsl:when>
 				<xsl:when test="./MetaData/Technical/@Format='image-jpeg'">
-					<img class="Image" id="lo_view">
-					<xsl:attribute name="src">
-						<xsl:value-of select="MetaData/Technical/Location"/>
-					</xsl:attribute>	
-					<xsl:attribute name="alt">
-						<xsl:value-of select="MetaData/General/Description"/>
-					</xsl:attribute>	
-					</img>
-					<div class="ImageCaption" id="lo_view">
-						<xsl:text>Abbildung</xsl:text>
-					<xsl:number count="LearningObject"/>
-					<xsl:text>: </xsl:text>
-					<xsl:value-of select="MetaData/General/Title"/>
-				</div>
-				<div class="ImageText" id="lo_view">
-					<xsl:apply-templates select="MetaData/General/Description"/>
-				</div>
+					<table class="ImageTable" id="lo_view">
+						<tr>
+							<td class="ImageCell" id="lo_view">
+								<img class="Image" id="lo_view">
+									<xsl:attribute name="src">
+										<xsl:value-of select="MetaData/Technical/Location"/>
+									</xsl:attribute>	
+									<xsl:attribute name="alt">
+										<xsl:value-of select="MetaData/General/Description"/>
+									</xsl:attribute>	
+								</img>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageCaption" id="lo_view">
+								<xsl:text>Abbildung</xsl:text>
+								<xsl:number count="LearningObject"/>
+								<xsl:text>: </xsl:text>
+								<xsl:value-of select="MetaData/General/Title"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageText" id="lo_view">
+								<xsl:apply-templates select="MetaData/General/Description"/>
+							</td>
+						</tr>
+					</table>
 				</xsl:when>
-				<xsl:when test="./MetaData/Technical/@Format='image-png'">
-					<img class="Image" id="lo_view">
-					<xsl:attribute name="src">
-						<xsl:value-of select="MetaData/Technical/Location"/>
-					</xsl:attribute>	
-					<xsl:attribute name="alt">
-						<xsl:value-of select="MetaData/General/Description"/>
-					</xsl:attribute>	
-					</img>
-					<div class="ImageCaption" id="lo_view">
-						<xsl:text>Abbildung</xsl:text>
-					<xsl:number count="LearningObject"/>
-					<xsl:text>: </xsl:text>
-					<xsl:value-of select="MetaData/General/Title"/>
-				</div>
-				<div class="ImageText" id="lo_view">
-					<xsl:apply-templates select="MetaData/General/Description"/>
-				</div>
-				</xsl:when>							
+				<xsl:when test="./MetaData/Technical/@Format='image-jpeg'">
+					<table class="ImageTable" id="lo_view">
+						<tr>
+							<td class="ImageCell" id="lo_view">
+								<img class="Image" id="lo_view">
+									<xsl:attribute name="src">
+										<xsl:value-of select="MetaData/Technical/Location"/>
+									</xsl:attribute>	
+									<xsl:attribute name="alt">
+										<xsl:value-of select="MetaData/General/Description"/>
+									</xsl:attribute>	
+								</img>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageCaption" id="lo_view">
+								<xsl:text>Abbildung</xsl:text>
+								<xsl:number count="LearningObject"/>
+								<xsl:text>: </xsl:text>
+								<xsl:value-of select="MetaData/General/Title"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="ImageText" id="lo_view">
+								<xsl:apply-templates select="MetaData/General/Description"/>
+							</td>
+						</tr>
+					</table>
+				</xsl:when>
 				<xsl:when test="MetaData/Technical/@Format='image/svg+xml'">
 					<xsl:copy-of select="document(MetaData/Technical/Location)/*"/>
 					<div class="ImageCaption" id="lo_view">
