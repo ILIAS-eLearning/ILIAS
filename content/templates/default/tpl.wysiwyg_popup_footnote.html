@@ -16,8 +16,16 @@
 	for (i=0;i<opener.fussnoten.length;i++) 
 	{
 		j=i+1;
-		document.write( "["+j+"]&nbsp;<input type='text' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\" size=40><br>");
-		document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
+		if(opener.fussnoten[i]!="") {
+			document.write( "["+j+"]&nbsp;<input type='text' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\" size=40>");
+			document.write( "[<a href='#' onClick=\"if(confirm('{DELETE_QUESTION}')) {deleteFootnote("+i+");}\">X</a>]");
+			document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
+			document.write( "<br>");
+		} else {
+			document.write( "<input type='hidden' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");	
+			document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
+		}
+		
 	}
 </script>
 
@@ -69,6 +77,29 @@ function refreshFootnotes() {
 	window.close();
 
 }
+
+function deleteFootnote(i) 
+{
+	TX = opener.editor.getHTML();
+	
+	j=i+1;
+	TX = TX.replace("<span class=\"footnote\" value=\""+opener.fussnoten[i]+"\">["+j+"]</span>",opener.fussnoten[i]);
+	TX = TX.replace("<span value=\""+opener.fussnoten[i]+"\" class=\"footnote\">["+j+"]</span>",opener.fussnoten[i]);
+	
+	of = new Array();
+	for(j=0;j<opener.fussnoten.length;j++) 
+	{
+		//if (i!=j) of[of.length] = opener.fussnoten[j];
+		if (i==j) opener.fussnoten[j]="";
+	}
+	//opener.fussnoten = of;
+	//opener.fnCount = opener.fussnoten.length;
+	
+	opener.editor.setHTML(TX);
+	opener.refreshFootnotelist();
+	window.close();
+}
+
 </script>
 
 </body>

@@ -128,7 +128,11 @@ class ilWysiwygUtil
 		$this->tpl->setVariable("TXT_INSERT_NEW_FOOTNOTES", $this->lng->txt("cont_insert_new_footnote"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		
+		$this->tpl->setVariable("DELETE_QUESTION", $this->lng->txt("cont_confirm_delete"));
+		
 	}
+	
 	
 	
 	function showHeader() 

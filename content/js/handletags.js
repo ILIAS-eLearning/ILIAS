@@ -119,9 +119,77 @@ function nurTag(nTag) {
 
 function addTag(Text,tagName,className) {
 
+	// ----------------------------------------------------------------------
+	// Hier werden doppelte geschachtelte Tags entfernt.
+	T1 = splitTags(Text);
+	T2 = new Array();
+	
+	da = new Array();
+	da2 = new Array();
+	
+	for(i=0;i<T1.length;i++) {
+		nr = "-";
+		if (T1[i].substr(0,1)=="<") {
+			if (T1[i].substr(0,2)=="</") {
+			
+				nr = da2[da2.length-1];
+				if(nr==0) T2.push(T1[i]);
+				da.pop();
+				da2.pop();
+			} else {
+				
+				nr = 0;
+				for(j=0;j<da.length;j++) {
+					if(da[j] == T1[i]) nr++;
+				}
+				
+				da.push(T1[i]);
+				da2.push(nr);
+				if(nr==0) T2.push(T1[i]);
+			}
+		
+		} else {
+			T2.push(T1[i]);
+		
+		}
+	}
+
+	Text = "";
+	for(i=0;i<T2.length;i++) {
+		Text += T2[i];
+	}
+	// ----------------------------------------------------------------------
+	
 	Vor = tt_bis(Text,startMarker);
 	Hinter = tt_hinter(Text,endMarker);
 	Zwischen = tt_zwischen(Text,startMarker,endMarker); 
+	
+	//alert(Zwischen);
+	
+	//alert(Text);
+	
+	//alert(Vor+"\n"+Zwischen+"\n"+Hinter);
+	
+	while(Zwischen.substr(0,1)=="<" && Zwischen.substr(0,2)!="</") {
+		Z1 = Zwischen.substring(0,Zwischen.indexOf(">")+1);
+		Z2 = Zwischen.substring(Zwischen.indexOf(">")+1,Zwischen.length);
+		Vor += Z1;
+		Zwischen = Z2;
+	}
+
+	//alert(Vor+"\n"+Zwischen+"\n"+Hinter);
+	while (Zwischen.substr(Zwischen.length-1,1)==">") {
+		ip = Zwischen.lastIndexOf("<");
+		if (Zwischen.substr(ip,2)=="</") {
+			Z1 = Zwischen.substring(0,ip);
+			Z2 = Zwischen.substring(ip,Zwischen.length);
+			
+			Zwischen = Z1;
+			Hinter = Z2+Hinter;
+		} else break;
+	}
+
+	//alert(Vor+"\n"+Zwischen+"\n"+Hinter);
 	
 	//addLine(Vor);
 	
