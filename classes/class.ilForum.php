@@ -418,7 +418,6 @@ class ilForum
 			$query = "DELETE FROM frm_threads ".
 					 "WHERE thr_pk = '".$p_node["tree"]."'";					 
 			$this->ilias->db->query($query);
-			
 			// update num_threads
 			$query2 = "UPDATE frm_data ".
 					 "SET ".
@@ -429,7 +428,7 @@ class ilForum
 			// delete all posts of this thread
 			$query3 = "DELETE FROM frm_posts ".
 					 "WHERE pos_thr_fk = '".$p_node["tree"]."'";					 
-			$this->ilias->db->query($query3);				
+			$this->ilias->db->query($query3);
 		}
 		else
 		{
@@ -930,7 +929,7 @@ class ilForum
 	{
 		require_once("./classes/class.ilObjUser.php");
 		$tmp_user = new ilObjUser($a_row->pos_usr_id);
-		$fullname = $tmp_user->getLogin();
+		$fullname = $tmp_user->getFullname();
 
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
