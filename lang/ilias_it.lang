@@ -409,6 +409,7 @@ common#:#nothing_checked#:#Funny, no checkbox checked.###20 Mar 2003 new variabl
 common#:#obj#:#obj
 common#:#obj_not_found#:#object_not_found
 common#:#obj_owner#:#This Object is owned by
+common#:#obj_type#:#Object Type###01 Apr 2003 new variable
 common#:#objects#:#oggetti
 common#:#objf#:#objf
 common#:#of#:#di
@@ -518,6 +519,7 @@ common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#startpage#:##startpage
 common#:#status#:#stato
 common#:#step#:#passo
+common#:#stop_inheritance#:#Stop inheritance###01 Apr 2003 new variable
 common#:#street#:#via
 common#:#structure#:#struttura
 common#:#subcat_name#:##subcategory name

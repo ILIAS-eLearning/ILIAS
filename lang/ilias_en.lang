@@ -409,6 +409,7 @@ common#:#nothing_checked#:#Funny, no checkbox checked.
 common#:#obj#:#Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_owner#:#This Object Is Owned by
+common#:#obj_type#:#Object Type
 common#:#objects#:#Objects
 common#:#objf#:#Object Folder
 common#:#of#:#Of
@@ -518,6 +519,7 @@ common#:#smtp#:#SMTP
 common#:#startpage#:#Startpage
 common#:#status#:#Status
 common#:#step#:#Step
+common#:#stop_inheritance#:#Stop inheritance
 common#:#street#:#Street
 common#:#structure#:#Structure
 common#:#subcat_name#:#Subcategory Name
@@ -576,5 +578,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#obj_type#:#Object Type
-common#:#stop_inheritance#:#Stop inheritance
