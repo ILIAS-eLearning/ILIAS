@@ -666,7 +666,8 @@ class ASS_Question extends PEAR
 	*/
 	function createPageObject()
 	{
-		$qpl_id = ilObject::_lookupObjectId($this->getRefId());
+//		$qpl_id = ilObject::_lookupObjectId($this->getRefId());
+		$qpl_id = $this->getObjId();
 
 		$this->page = new ilPageObject("qpl", 0);
 		$this->page->setId($this->getId());
