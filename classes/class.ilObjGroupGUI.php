@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.89 2004/08/09 14:49:01 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.90 2004/08/10 13:47:31 shofmann Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -230,6 +230,18 @@ class ilObjGroupGUI extends ilObjectGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 
+	/**
+	* canceledObject is called when operation is canceled, method links back
+	* @access	public
+	*/
+	function cancelMemberObject()
+	{
+		$return_location = "members";
+				
+		sendInfo($this->lng->txt("action_aborted"),true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
+	}
+	
 	/**
 	* save group object
 	* @access	public
@@ -1694,8 +1706,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","members");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->setVariable("BTN_NAME","searchUserForm");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -1742,8 +1754,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","members");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->setVariable("BTN_NAME","searchUserForm");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
@@ -1792,8 +1804,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","members");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("cancel"));
+		$tpl->setVariable("BTN_NAME","searchUserForm");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("back"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
