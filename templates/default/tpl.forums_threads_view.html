@@ -42,11 +42,27 @@
  <!-- BEGIN reply_cell -->
  {SPACER}
  &nbsp;<b>></b>{REPLY_BUTTON}&nbsp;
+ 
  <!-- BEGIN edit_cell -->
  &nbsp;<b>></b>{EDIT_BUTTON}&nbsp;
  <!-- END edit_cell -->
+ 
+  <!-- BEGIN del_cell -->
+ &nbsp;<b>></b>{DEL_BUTTON}&nbsp;
+ <!-- END del_cell -->
  <br>
  <!-- END reply_cell -->
+ 
+ <!-- BEGIN kill_cell -->
+ <form name="formular2" action="{DEL_FORMACTION}" method="post">
+ {KILL_SPACER}<a name="{KILL_ANKER}"></a>
+ <p><b><font color="red">{TXT_KILL}</font></b></p>
+ <input type="submit" name="cancel" value="{CANCEL_BUTTON}">
+ &nbsp;&nbsp;
+ <input type="submit" name="confirm" value="{CONFIRM_BUTTON}"> 
+ </form>
+ <br>
+ <!-- END kill_cell -->
  
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
