@@ -1651,6 +1651,7 @@ content#:#start export#:#Start Export
 dateplaner#:#Language_file#:#english
 dateplaner#:#application#:#Dateplaner
 dateplaner#:#title#:#Ilias dateplaner
+dateplaner#:#app_#:#group dates inbox
 dateplaner#:#app_inbox#:#group dates inbox
 dateplaner#:#app_day#:#dayview
 dateplaner#:#app_week#:#weekview

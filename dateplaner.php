@@ -95,7 +95,22 @@ require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.Interface.php');
 	$DP_StyleFname	= $Interface->getStyleFname();		// style(-sheet)-name including path, selected by the user 
 	$DP_GroupIds	= $Interface->getGroupIds();		// GroupIDs of the current UserID (stub)
 	$DP_dlI			= $Interface->getDpDBHandler ();	// dateplaner database handler
+	$locator		= $Interface->showLocator($tpl, $lng,$app); // Locate for ilias3
 	$app			= $_REQUEST["app"];					// dateplaner application
+
+		/*
+
+		$tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
+		$tpl->setCurrentBlock("locator_item");
+		$tpl->setVariable("LINK_ITEM","./search.php");
+		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("ITEM",$lng->txt("mail_search_word"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("locator");
+		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+		$tpl->parseCurrentBlock();*/
+
 
 // include DP Header 
 require	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.dp.header.php');
@@ -107,6 +122,7 @@ include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.session.php');
 // uncoment for ilias 2.3.8 Session Handler 
 //db_session_write(session_id(),session_encode());
 /* --------------  end session initialisation ---------------------*/
+
 
 
 /*dateplaner functions*/

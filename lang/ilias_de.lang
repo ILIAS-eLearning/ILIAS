@@ -1568,7 +1568,8 @@ content#:#start export#:#Export starten
 dateplaner#:#Language_file#:#german
 dateplaner#:#application#:#Terminplaner
 dateplaner#:#title#:#Ilias Terminplaner
-dateplaner#:#app_inbox#:#Gruppen Termin Eingang
+dateplaner#:#app_#:#Gruppen Termine Eingang
+dateplaner#:#app_inbox#:#Gruppen Termine Eingang
 dateplaner#:#app_day#:#Tagesansicht
 dateplaner#:#app_week#:#Wochenansicht
 dateplaner#:#app_month#:#Monatsansicht
