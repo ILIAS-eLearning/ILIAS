@@ -64,6 +64,71 @@ class ilObjDlBook extends ilObjContentObject
 		return true;
 	}
 
+    function exportRekursiv($obj_id, $depth, $left, $right) {
+        
+		// Jetzt alle lm_data anhand der obj_id auslesen.
+		$query = "SELECT  * 
+                  FROM lm_tree, lm_data
+                  WHERE lm_tree.lm_id = $obj_id 
+                  AND   lm_tree.child = lm_data.obj_id 
+                  AND   ( lm_data.type =  'st' OR lm_data.type =  'pg' )
+                  AND lm_tree.depth = $depth
+                  AND lm_tree.lft>$left and lm_tree.rgt<$right
+                  ORDER BY lm_tree.lft";
+        $result = $this->ilias->db->query($query);
+        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+		{
+			if ($row["type"] == "st") 
+			{
+				$xml .= "<StructureObject>";
+                
+				$nested = new ilNestedSetXML();
+				$xml .= $nested->export($row["obj_id"],"st");
+				$xml .= "\n";
+
+                $xml .= $this->exportRekursiv($obj_id, $depth+1, $row["lft"], $row["rgt"]);
+                
+				$xml .= "</StructureObject>";
+			}            
+
+            if ($row["type"] == "pg") 
+            {
+                
+                $query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
+				$result2 = $this->ilias->db->query($query);
+		
+				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				
+				$PO = $row2["content"]."\n";
+
+				if (stristr($PO,"MediaObject")) 
+                {
+
+                    $dom = domxml_open_mem($PO);
+                    $xpc = xpath_new_context($dom);
+                    $path = "//MediaObject/MediaAlias";
+                    $res =& xpath_eval($xpc, $path);
+                    for($i = 0; $i < count($res->nodeset); $i++)
+                    {
+                        $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
+                        $mob_id = $id_arr[count($id_arr) - 1];
+                        $this->mob_ids[$mob_id] = true;
+                    }
+                }
+                
+				$nested = new ilNestedSetXML();
+				$mdxml = $nested->export($row["obj_id"],"pg");
+
+				$PO = str_replace("<PageObject>","<PageObject>\n$mdxml\n",$PO);
+				
+				$xml .= $PO;                
+                
+            }
+            
+        }
+        
+        return($xml);
+    }
 
 	/**
 	*	exports the digi-lib-object into a xml structure
@@ -71,21 +136,10 @@ class ilObjDlBook extends ilObjContentObject
 	function export($ref_id) 
 	{
 
-		$export_dir = $this->getExportDirectory();
-		if ($export_dir==false) 
-		{
-			$this->createExportDirectory();
-			
-			$export_dir = $this->getExportDirectory();
-			if ($export_dir==false) 
-			{
-				$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
-			}
-		}
-		
 		include_once("./classes/class.ilNestedSetXML.php");
-		
+		// ------------------------------------------------------
 		// anhand der ref_id die obj_id ermitteln.
+		// ------------------------------------------------------
 		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$ref_id."' AND object_reference.obj_id=object_data.obj_id ";
         $result = $this->ilias->db->query($query);
 
@@ -93,100 +147,160 @@ class ilObjDlBook extends ilObjContentObject
 		
 		$obj_id = $objRow["obj_id"];
 
-		// Jetzt alle lm_data anhand der obj_id auslesen.
-		$query = "SELECT * FROM lm_data WHERE lm_id='".$obj_id."' ";
-        $result = $this->ilias->db->query($query);
-
+        $this->mob_ids = array();
+        
+		// ------------------------------------------------------
+        // start xml-String
+		// ------------------------------------------------------
 		$xml = "<?xml version=\"1.0\"?>\n<!DOCTYPE ContentObject SYSTEM \"ilias_co.dtd\">\n<ContentObject Type=\"LibObject\">\n";
 		
+		// ------------------------------------------------------
+        // get global meta-data
+		// ------------------------------------------------------
 		$nested = new ilNestedSetXML();
-		$co = $nested->export($obj_id,"dbk");
-		$xml .= $co."\n";
+		$xml .= $nested->export($obj_id,"dbk")."\n";
+		 
+		// ------------------------------------------------------
+        // get all book-xml-data recursiv
+		// ------------------------------------------------------
 
-		$inStruture = false;
-		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+		$query = "SELECT  * 
+                  FROM lm_tree, lm_data
+                  WHERE lm_tree.lm_id = $obj_id 
+                  AND   lm_tree.child = lm_data.obj_id 
+                  AND   ( lm_data.type =  'du' )
+                  AND lm_tree.depth = 1
+                  ORDER BY lm_tree.lft";
+        $result = $this->ilias->db->query($query);
+        $treeData = $result->fetchRow(DB_FETCHMODE_ASSOC);
+        
+        $xml .= $this->exportRekursiv($obj_id,2, $treeData["lft"], $treeData["rgt"]);
+        
+		// ------------------------------------------------------
+        // get or create export-directory
+		// ------------------------------------------------------
+		$export_dir = $this->getExportDirectory($obj_id);
+		if ($export_dir==false) 
 		{
-			// vd($row);
+			$this->createExportDirectory($obj_id);
 			
-			// StructureObject
-			if ($row["type"] == "st") 
+			$export_dir = $this->getExportDirectory($obj_id);
+			if ($export_dir==false) 
 			{
-				
-				if ($inStructure) 
-				{
-					$xml .= "</StructureObject>\n";
-				}
-				
-				$xml .= "<StructureObject>\n";
-				$inStructure = true;
-				
-				$nested = new ilNestedSetXML();
-				$xml .= $nested->export($row["obj_id"],"st");
-				$xml .= "\n";
-				
-				
+				$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
 			}
-			
-			//PageObject
-			if ($row["type"] == "pg") 
-			{
-				
-				$query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
-				$result2 = $this->ilias->db->query($query);
-		
-				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
-				
-				$PO = $row2["content"]."\n";
-				
-				$nested = new ilNestedSetXML();
-				$mdxml = $nested->export($row["obj_id"],"pg");
+		}
+		// ------------------------------------------------------
+        // get mediaobject-xml-data
+		// ------------------------------------------------------
+        $mob_ids = $this->mob_ids;
+        if (is_array($mob_ids) && count($mob_ids)>0) {
+            reset ($mob_ids);
+            while (list ($key, $val) = each ($mob_ids)) {
 
-				$PO = str_replace("<PageObject>","<PageObject>\n$mdxml\n",$PO);
-				
-				$xml .= $PO;
-				
-			}
-			
-			
-		}
-		
-		if ($inStructure) 
-		{
-			$xml .= "\n</StructureObject>\n";
-		}
-	
+                $xml .= "<MediaObject>";
+                    
+                $query = "SELECT * FROM media_item WHERE mob_id='".$key."' ";
+                //vd($query);
+                $first = true;
+                $result = $this->ilias->db->query($query);
+                while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+                {
+                    if($first) {
+                        //vd($row[purpose]);
+                        $nested = new ilNestedSetXML();
+                        $metaxml = $nested->export($key,"mob");
+                        $metaxml = preg_replace("/Entry=\"(.*?)\"/","Entry=\"il__mob_".$key."\"",$metaxml);
+                        
+                        $metaxml2 = "<Technical>";
+                        $metaxml2 .= "<Format>".$row["format"]."</Format>";
+                        $metaxml2 .= "<Size>14559</Size>";
+                        $metaxml2 .= "<Location Type=\"".$row["location_type"]."\">".$row["location"]."</Location>";
+                        $metaxml2 .= "</Technical>";
+                        
+                        $metaxml = str_replace("</MetaData>",$metaxml2."</MetaData>",$metaxml);
+                        
+                        $xml .= $metaxml;
+                        
+                        $first = false;
+                    }
+                    
+                    $xml .= "<MediaItem Purpose=\"".$row["purpose"]."\">";
+                    $xml .= "<Location Type=\"".$row["location_type"]."\">".$row["location"]."</Location>";
+                    $xml .= "<Format>".$row["format"]."</Format>";
+                    $xml .= "<Layout Width=\"".$row["width"]."\" Height=\"".$row["height"]."\"/>";
+                    $xml .= "</MediaItem>";
+                    
+                }
+                $xml .= "</MediaObject>";
+            }
+        }
+        
+        
+		// ------------------------------------------------------
+        // get bib-xml-data
+		// ------------------------------------------------------
 		$nested = new ilNestedSetXML();
 		$bib = $nested->export($obj_id,"bib");
 		
 		$xml .= $bib."\n";
 	
+		// ------------------------------------------------------
+        // xml-ending
+		// ------------------------------------------------------
 		$xml .= "</ContentObject>";		
 		
-		// TODO: Handle file-output
-		
-		
-		
-		/*
-		echo "<pre>";
-		echo htmlspecialchars($xml);
-		echo "</pre>";
-		*/
+		// ------------------------------------------------------
+        // filename and directory-creation
+		// ------------------------------------------------------
 		$fileName = $objRow["title"];
 		$fileName = str_replace(" ","_",$fileName);
-		
+        
 		if (!file_exists($export_dir."/".$fileName)) 
 		{
 			@mkdir($export_dir."/".$fileName);
 			@chmod($export_dir."/".$fileName,0755);
 		}
+		if (!file_exists($export_dir."/".$fileName."/objects")) 
+		{
+			@mkdir($export_dir."/".$fileName."/objects");
+			@chmod($export_dir."/".$fileName."/objects",0755);
+		}
 		
+		// ------------------------------------------------------
+        // copy mob-files
+		// ------------------------------------------------------
+        $mob_ids = $this->mob_ids;
+        if (is_array($mob_ids) && count($mob_ids)>0) {
+            reset ($mob_ids);
+            while (list ($key, $val) = each ($mob_ids)) {
+            
+                if (!file_exists($export_dir."/".$fileName."/objects/mm".$key)) 
+                {
+                    @mkdir($export_dir."/".$fileName."/objects/mm".$key);
+                    @chmod($export_dir."/".$fileName."/objects/mm".$key,0755);
+                }
+                
+                $mobdir = "./data/mobs/mm_".$key;
+                ilUtil::copyfiles($mobdir, $export_dir."/".$fileName."/objects/mm".$key);
+            }
+        }
 		
+		// ------------------------------------------------------
+        // save xml-file
+		// ------------------------------------------------------
 		$fp = fopen($export_dir."/".$fileName."/".$fileName.".xml","wb");
 		fwrite($fp,$xml);
 		fclose($fp);
 		
+		// ------------------------------------------------------
+        // zip all files
+		// ------------------------------------------------------
 		ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
 		
+		// ------------------------------------------------------
+        // deliver files
+		// ------------------------------------------------------
 		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -201,7 +315,7 @@ class ilObjDlBook extends ilObjContentObject
 		{
 			header ("Content-Disposition: inline; filename=".$fileName.".zip" );
 		}
-		header ("Content-length:".(string)(strlen ($xml)) );
+		header ("Content-length:".(string)( filesize($export_dir."/".$fileName.".zip")) );
 		
 		readfile( $export_dir."/".$fileName.".zip" );
 		
