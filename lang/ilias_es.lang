@@ -1177,6 +1177,7 @@ common#:#user#:#user
 common#:#user_added#:#User added###02 Apr 2003 new variable
 common#:#user_assignment#:#User Assignment###04 Aug 2003 new variable
 common#:#user_deleted#:#User deleted###10 Jul 2003 new variable
+common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#User Language###20 Mar 2003 new variable
 common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
 common#:#userdata#:#userdata###29 Oct 2003 content changed

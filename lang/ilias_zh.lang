@@ -1194,6 +1194,7 @@ common#:#user#:#用户
 common#:#user_added#:#用户已增加
 common#:#user_assignment#:#用户指派
 common#:#user_deleted#:#用户已删除
+common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#用户语言
 common#:#user_not_chosen#:#您没有选择一个组成员！
 common#:#userdata#:#用户数据

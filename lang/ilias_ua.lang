@@ -1177,6 +1177,7 @@ common#:#user#:#Користувач
 common#:#user_added#:#Користувач доданий
 common#:#user_assignment#:#Призначення Користувача
 common#:#user_deleted#:#Користувач Видалений
+common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#Мова Користувача
 common#:#user_not_chosen#:#Ви не вибрали члена групи!
 common#:#userdata#:#Дані користувача

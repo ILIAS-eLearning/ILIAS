@@ -1177,6 +1177,7 @@ common#:#user#:#Użytkownik
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
+common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#userdata#:#Dane użytkownika
