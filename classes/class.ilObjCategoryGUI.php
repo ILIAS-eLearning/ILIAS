@@ -685,7 +685,6 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		global $rbacsystem;
 
-		$this->ctrl->setReturn($this,'listUsers');
 		#$_SESSION['filtered_users'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_users'];
 
 		if(!$rbacsystem->checkAccess("cat_admin_users",$this->object->getRefId()))
@@ -759,8 +758,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 			}
 			*/
 			// role assignment
-			$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_id);
-			$f_result[$counter][]	= '[<a href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','roleassignment').'">'.
+			$this->ctrl->setParameter($this,'obj_id',$user_id);
+			$f_result[$counter][]	= '[<a href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
 				$this->lng->txt('edit').'</a>]';
 			
 			unset($tmp_obj);
@@ -769,6 +768,21 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$this->__showUsersTable($f_result,$editable);
 		
 		return true;
+	}
+
+	function assignRolesObject()
+	{
+		global $rbacreview;
+
+		if(!isset($_GET['obj_id']))
+		{
+			sendInfo('no_user_selected');
+			$this->listUsersObject();
+
+			return true;
+		}
+		
+		#$assignable_roles = $this->
 	}
 
 	// PRIVATE
