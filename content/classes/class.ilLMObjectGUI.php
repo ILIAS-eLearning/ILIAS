@@ -116,7 +116,6 @@ class ilLMObjectGUI
 				$target = $childs[count($childs) - 1]["obj_id"];
 			}
 		}
-
 		$tree->insertNode($this->obj->getId(), $parent_id, $target);
 	}
 
