@@ -105,10 +105,10 @@ class ilMainMenuGUI
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			$this->tpl->setCurrentBlock("desktopbutton");
-			$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/mail.gif", false));
+			$this->tpl->setVariable("IMG_DESK", ilUtil::getImagePath("navbar/desk.gif", false));
 			$this->tpl->setVariable("IMG_SPACE_DESK", ilUtil::getImagePath("spacer.gif", false));
-			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("mail"));
-			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("mail_frameset.php"));
+			$this->tpl->setVariable("TXT_PERSONAL_DESKTOP", $lng->txt("personal_desktop"));
+			$this->tpl->setVariable("SCRIPT_DESK", $this->getScriptTarget("usr_personaldesktop.php"));
 			$this->tpl->setVariable("TARGET_DESK", $this->target);
 			$this->tpl->parseCurrentBlock();
 
@@ -193,7 +193,7 @@ class ilMainMenuGUI
 							"SCRIPT_FEEDB"	=> "feedback.php",
 							"SCRIPT_LOGOUT"	=> "logout.php" );
 
-		foreach($scripts as $var => $script)
+		foreach ($scripts as $var => $script)
 		{
 			$this->tpl->setVariable($var, $this->getScriptTarget($script));
 		}
@@ -202,7 +202,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
-		$this->tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
+		//$this->tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
 		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
 		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
 		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
