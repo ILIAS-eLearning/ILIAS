@@ -263,7 +263,7 @@ class Interface
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$tpl->parseCurrentBlock();
 		$locator = '
-		<div class="il_Locator" style="position:absolute; top:0px; left: 0px; width=100%; hight = 10px;" >
+		<div class="il_Locator" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 10px;">
 		<table border="0" cellpadding="0" cellspacing="0" width="100%" >
 			<tr><td>'.$tpl->get().'</td>
 				<td align="right">
