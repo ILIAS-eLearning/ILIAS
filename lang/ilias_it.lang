@@ -597,6 +597,8 @@ mail#:#mail_recipient_not_valid#:#The recipient is not valid###16 Apr 2003 new v
 mail#:#mail_s#:#Mail(s)###16 Apr 2003 new variable
 mail#:#mail_s_unread#:#Unread Mail(s)###16 Apr 2003 new variable
 mail#:#mail_saved#:#The message is saved###16 Apr 2003 new variable
+mail#:#mail_search_addressbook#:#search in addressbook###30 Apr 2003 new variable
+mail#:#mail_search_system#:#search in system###30 Apr 2003 new variable
 mail#:#mail_select_one_entry#:#You have to select one entry###16 Apr 2003 new variable
 mail#:#mail_select_one_file#:#You have to select one file###16 Apr 2003 new variable
 mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###16 Apr 2003 new variable
@@ -605,7 +607,5 @@ mail#:#mail_sure_delete_file#:#The file will be removed permanently###16 Apr 200
 mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###16 Apr 2003 new variable
 mail#:#mail_to_search#:#To search###16 Apr 2003 new variable
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###16 Apr 2003 new variable
-mail#:#search_addressbook#:#Addressbook search###16 Apr 2003 new variable
 mail#:#search_bc_recipient#:#Search BC Recipient###16 Apr 2003 new variable
 mail#:#search_cc_recipient#:#Search CC Recipient###16 Apr 2003 new variable
-mail#:#search_system#:#System search###16 Apr 2003 new variable
