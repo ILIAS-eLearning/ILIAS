@@ -722,7 +722,6 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
-content#:#cont_change_type#:#Change Type
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -744,6 +743,7 @@ content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_bottom#:#Bottom
 content#:#cont_caption#:#Caption
+content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
