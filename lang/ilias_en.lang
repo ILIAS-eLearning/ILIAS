@@ -528,6 +528,7 @@ content#:#cont_content#:#Content
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#st#:#Chapter
+content#:#cont_meta_data#:#Meta Data
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_available#:#Available Forums
@@ -624,3 +625,245 @@ mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#mail_folder_deleted#:#The folder has been deleted
+meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AL#:#Albania
+meta#:#meta_c_DZ#:#Algeria
+meta#:#meta_c_AS#:#American Samoa
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AQ#:#Antarctica
+meta#:#meta_c_AG#:#Antigua And Barbuda
+meta#:#meta_c_AR#:#Argentina
+meta#:#meta_c_AM#:#Armenia
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AU#:#Australia
+meta#:#meta_c_AT#:#Austria
+meta#:#meta_c_AZ#:#Azerbaijan
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BE#:#Belgium
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BO#:#Bolivia
+meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BR#:#Brazil
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BG#:#Bulgaria
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_KH#:#Cambodia
+meta#:#meta_c_CM#:#Cameroon
+meta#:#meta_c_CA#:#Canada
+meta#:#meta_c_CV#:#Cape Verde
+meta#:#meta_c_KY#:#Cayman Islands
+meta#:#meta_c_CF#:#Central African Republic
+meta#:#meta_c_TD#:#Chad
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CN#:#China
+meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands
+meta#:#meta_c_CO#:#Colombia
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_CG#:#Congo
+meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_HR#:#Croatia
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CY#:#Cyprus
+meta#:#meta_c_CZ#:#Czech Republic
+meta#:#meta_c_DK#:#Denmark
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Dominican Republic
+meta#:#meta_c_TP#:#East Timor
+meta#:#meta_c_EC#:#Ecuador
+meta#:#meta_c_EG#:#Egypt
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_GQ#:#Equatorial Guinea
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_EE#:#Estonia
+meta#:#meta_c_ET#:#Ethiopia
+meta#:#meta_c_FK#:#Falkland Islands
+meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FI#:#Finland
+meta#:#meta_c_FR#:#France
+meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_GF#:#French Guiana
+meta#:#meta_c_PF#:#French Polynesia
+meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GE#:#Giorgia
+meta#:#meta_c_DE#:#Germany
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GR#:#Greece
+meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HU#:#Hungary
+meta#:#meta_c_IS#:#Iceland
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_ID#:#Indonesia
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IQ#:#Iraq
+meta#:#meta_c_IE#:#Ireland
+meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IT#:#Italy
+meta#:#meta_c_JM#:#Jamaica
+meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_JO#:#Jordan
+meta#:#meta_c_KZ#:#Kazakhstan
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LV#:#Latvia
+meta#:#meta_c_LB#:#Lebanon
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LU#:#Luxembourg
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MK#:#Macedonia
+meta#:#meta_c_MG#:#Madagascar
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MV#:#Maldives
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritania
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_MX#:#Mexico
+meta#:#meta_c_FM#:#Micronesia
+meta#:#meta_c_MD#:#Moldova
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MN#:#Mongolia
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MA#:#Morocco
+meta#:#meta_c_MZ#:#Mozambique
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NL#:#Netherlands
+meta#:#meta_c_AN#:#Netherlands Antilles
+meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NZ#:#New Zealand
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NF#:#Norfolk Island
+meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_NO#:#Norway
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PG#:#Papua New Guinea
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PH#:#Philippines
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PL#:#Poland
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_QA#:#Qatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Romania
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Rwanda
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_SA#:#Saudi Arabia
+meta#:#meta_c_CH#:#Switzerland
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SC#:#Seychelles
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_SK#:#Slovakia
+meta#:#meta_c_SI#:#Slovenia
+meta#:#meta_c_SB#:#Solomon Islands
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_ZA#:#South Africa
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_ES#:#Spain
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_SE#:#Sweden
+meta#:#meta_c_SY#:#Syrian Arab Republic
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TJ#:#Tajikistan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TR#:#Turkey
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_AE#:#United Arab Emirates
+meta#:#meta_c_GB#:#United Kingdom
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_VA#:#Vatican City State
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VG#:#Virgin Islands (British)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_EH#:#Western Sahara
+meta#:#meta_c_YE#:#Yemen
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Other Country
+meta#:#meta_title#:#Title
+meta#:#meta_language#:#Language
+meta#:#meta_identifier#:#Identifier
+meta#:#meta_general#:#General
