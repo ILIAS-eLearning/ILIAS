@@ -142,6 +142,7 @@ assessment#:#ass_questions#:#问题
 assessment#:#ass_size#:#大小###19 Oct 2004 new variable
 assessment#:#available_points#:#分值
 assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#由
 assessment#:#cancel_test#:#取消考试
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable

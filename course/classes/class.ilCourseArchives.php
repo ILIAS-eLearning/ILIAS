@@ -288,6 +288,7 @@ class ilCourseArchives
 				continue;
 			}
 			
+			// must return absolute path to zip file
 			if($abs_file_name = $tmp_obj->getXMLZip())
 			{
 				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';

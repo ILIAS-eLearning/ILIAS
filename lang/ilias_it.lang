@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file italian
@@ -124,7 +124,8 @@ assessment#:#ass_questions#:#Domande
 assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
-assessment#:#by#:#con
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
@@ -733,7 +734,7 @@ common#:#approve_date#:#Approvato il
 common#:#approve_recipient#:#Login ID di chi ha approvato
 common#:#archive#:#Archivio
 common#:#are_you_sure#:#Sei sicuro?
-common#:#articels_unread#:#Articoli da leggere:
+common#:#articels_unread#:#Articoli da leggere:###14 Feb 2005 content changed
 common#:#as_of#:#di
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
 common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable

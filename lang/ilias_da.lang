@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file 
 *
 * @module		language file Danish
@@ -121,6 +121,7 @@ assessment#:#ass_questions#:#Sp&oslash;rgsm&aring;l
 assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#available_points#:#Tilg&aelig;ngelige point
 assessment#:#average_reached_points#:#Gennemsnitlig n&aring;et point
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
 assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettighedder til at &aelig;ndre i denne test!

@@ -4,6 +4,7 @@
 
           Author: Boris H. Schuermann
           Send any questions to loeffelholz@xh9.net (Wolf von Loeffelholz)
+
           $Id$
 
 
@@ -243,7 +244,7 @@ stored in:
 
 or for ILIAS 3 in:
 
-    ilias-3.3.0_beta2.tar.gz
+    ilias-3.3.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -954,7 +955,7 @@ must be specified in the ILIAS 3 system settings.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.3.0_beta2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.3.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -1372,7 +1373,7 @@ options in the ILIAS system settings.
 3.2  Updating ILIAS 3
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3.0.0 beta version or
-higher to ILIAS 3.3.0 Beta2.
+higher to ILIAS 3.3.0.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -1415,7 +1416,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.3.0_beta2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.3.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must

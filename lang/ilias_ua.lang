@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file ukrainian
@@ -124,6 +124,7 @@ assessment#:#ass_questions#:#Питання
 assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
 assessment#:#average_reached_points#:#Середньо досяжні пунктиe
+assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
 assessment#:#cannot_edit_test#:#Ви не володієте достатніми правами для редагування теста!
