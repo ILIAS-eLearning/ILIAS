@@ -565,3 +565,11 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
+common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
+common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
+common#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+common#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+common#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
+common#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
+common#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
