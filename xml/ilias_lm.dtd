@@ -257,7 +257,7 @@
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
 >
-<!ELEMENT Item (Paragraph+)>
+<!ELEMENT Item (%text;)*>
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
 <!-- Only a minimum of style elements and attributes defined -->
