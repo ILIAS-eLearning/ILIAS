@@ -3812,5 +3812,110 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	}
 */
+
+	function exportObject()
+	{
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			if ($_POST["cmd"]["export"])
+			{
+				ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+			}
+			$add_parameter = $this->getAddParameter();
+			if (!defined("ILIAS_MODULE"))
+			{
+				define("ILIAS_MODULE", "assessment");
+			}
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_export.html", true);
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORMACTION", $add_parameter);
+			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			sendInfo("cannot_export_test");
+		}
+	}
+	
+	/**
+	* display dialogue for importing tests
+	*
+	* @access	public
+	*/
+	function importObject()
+	{
+		$this->getTemplateFile("import", "svy");
+		$this->tpl->setCurrentBlock("option_qpl");
+		require_once("./survey/classes/class.ilObjSurvey.php");
+		$svy = new ilObjSurvey();
+		$questionpools =& $svy->getAvailableQuestionpools(true);
+		if (count($questionpools) == 0)
+		{
+		}
+		else
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("option_spl");
+				$this->tpl->setVariable("OPTION_VALUE", $key);
+				$this->tpl->setVariable("TXT_OPTION", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
+		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?&ref_id=".$_GET["ref_id"]."&cmd=gateway&new_type=".$this->type);
+		$this->tpl->setVariable("BTN_NAME", "upload");
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
+		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+
+	}
+
+	/**
+	* display status information or report errors messages
+	* in case of error
+	*
+	* @access	public
+	*/
+	function uploadObject()
+	{
+		if ($_POST["spl"] < 1)
+		{
+			sendInfo($this->lng->txt("svy_select_questionpools"));
+			$this->importObject();
+			return;
+		}
+		include_once("./survey/classes/class.ilObjSurvey.php");
+		$newObj = new ilObjSurvey();
+		$newObj->setType($_GET["new_type"]);
+		$newObj->setTitle("dummy");
+		$newObj->setDescription("dummy");
+		$newObj->create(true);
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+
+		// copy uploaded file to import directory
+		$newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
+
+		/* update title and description in object data */
+		if (is_object($newObj->meta_data))
+		{
+			$newObj->meta_data->read();
+			$newObj->meta_data->setTitle($newObj->getTitle());
+			$newObj->meta_data->setDescription($newObj->getDescription());
+			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
+			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
+		}
+
+		$newObj->update();
+		$newObj->saveToDb();
+		ilUtil::redirect("adm_object.php?".$this->link_params);
+	}
+
 } // END class.ilObjSurveyGUI
 ?>

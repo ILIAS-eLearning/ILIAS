@@ -292,7 +292,7 @@ class ilObjTest extends ilObject
 		$this->introduction = "";
 		$this->questions = array();
 		$this->sequence_settings = TEST_FIXED_SEQUENCE;
-		$this->score_reporting = REPORT_AFTER_QUESTION;
+		$this->score_reporting = REPORT_AFTER_TEST;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
 		$this->starting_time = "";
@@ -2569,13 +2569,12 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Move questions to another position
+* Creates an instance of a question with a given question id
 *
-* Move questions to another position
+* Creates an instance of a question with a given question id
 *
-* @param array $move_questions An array with the question id's of the questions to move
-* @param integer $target_index The question id of the target position
-* @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
+* @param integer $question_id The question id
+* @return object The question instance
 * @access public
 */
   function &_instanciateQuestion($question_id) {

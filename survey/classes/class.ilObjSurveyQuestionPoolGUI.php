@@ -626,6 +626,85 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	/**
+	* display the import form to import questions into the questionpool
+	*/
+		function importObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_import_question.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
+		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
+		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("FORM_ACTION", $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* imports question(s) into the questionpool
+	*/
+	function uploadObject()
+	{
+		// check if file was uploaded
+		$source = $_FILES["qtidoc"]["tmp_name"];
+		$error = 0;
+		if (($source == 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK)
+		{
+//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		// check correct file type
+		if (strcmp($_FILES["qtidoc"]["type"], "text/xml") != 0)
+		{
+//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		if (!$error)
+		{
+			// import file into questionpool
+			$fh = fopen($source, "r") or die("");
+			$xml = fread($fh, filesize($source));
+			fclose($fh) or die("");
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					$question = "";
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case NOMINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyNominalQuestion();
+								break;
+							case ORDINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyOrdinalQuestion();
+								break;
+							case METRIC_QUESTION_IDENTIFIER:
+								$question = new SurveyMetricQuestion();
+								break;
+							case TEXT_QUESTION_IDENTIFIER:
+								$question = new SurveyTextQuestion();
+								break;
+						}
+						if ($question)
+						{
+							$question->setObjId($this->object->getId());
+							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
+							{
+								$question->saveToDb();
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	* Displays the question browser
 	* @access	public
 	*/
@@ -633,6 +712,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   {
     global $rbacsystem;
 
+		if ($_POST["cmd"]["import"])
+		{
+			$this->importObject();
+			return;
+		}
+		
+		if ($_POST["cmd"]["upload"])
+		{
+			$this->uploadObject();
+		}
+		
     if ($_GET["preview"]) {
       $this->outPreviewForm($_GET["preview"]);
       return;
@@ -791,6 +881,51 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       }
     }
   
+		if (strlen($_POST["cmd"]["export"]) > 0) {
+      // export button was pressed
+			if (count($checked_questions) > 0)
+			{
+				$questiontitle = "";
+				$xml = "";
+				foreach ($checked_questions as $key => $value)
+				{
+					//$question =& $this->object->createQuestion("", $value);
+					$questiontype = $this->object->getQuestiontype($value);
+					switch ($questiontype)
+					{
+						case "qt_nominal":
+							$question = new SurveyNominalQuestion();
+							break;
+						case "qt_ordinal":
+							$question = new SurveyOrdinalQuestion();
+							break;
+						case "qt_metric":
+							$question = new SurveyMetricQuestion();
+							break;
+						case "qt_text":
+							$question = new SurveyTextQuestion();
+							break;
+					}
+					$question->loadFromDb($value);
+					$questiontitle = $question->getTitle();
+					$xml .= $question->to_xml();
+				}
+				if (count($checked_questions) > 1)
+				{
+					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
+					$questiontitle = $this->object->getTitle();
+				}
+				$questiontitle = preg_replace("/\s/", "_", $questiontitle);
+				$questiontitle = preg_replace("/[^a-zA-z0-9_]/", "", $questiontitle);
+				ilUtil::deliverData($xml, "$questiontitle.xml");
+				exit();
+			}
+			else
+			{
+				sendInfo($this->lng->txt("qpl_export_select_none"));
+			}
+    }
+  
 		if (strlen($_POST["cmd"]["paste"]) > 0) {
       // paste button was pressed
 			if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
@@ -858,6 +993,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
       $this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+      $this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
       $this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
 			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
 			{
@@ -990,6 +1126,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->setCurrentBlock("CreateQuestion");
 			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
+			$this->tpl->setVariable("QUESTION_IMPORT", $this->lng->txt("import"));
 			$this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
 			$this->tpl->parseCurrentBlock();
 		}
