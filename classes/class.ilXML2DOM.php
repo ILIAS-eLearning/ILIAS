@@ -124,6 +124,22 @@ class XML2DOM
 		xml_parser_free($xml_parser);
 	}
 
+	function clean(&$attr)
+	{
+		if(is_array($attr))
+		{
+			foreach($attr as $key => $value)
+			{
+				$attr[$key] = preg_replace("/&(?!amp;|lt;|gt;|quot;)/","&amp;",$attr[$key]);
+				$attr[$key] = preg_replace("/\"/","&quot;",$attr[$key]);
+				$attr[$key] = preg_replace("/</","&lt;",$attr[$key]);
+				$attr[$key] = preg_replace("/>/","&gt;",$attr[$key]);
+			}
+		}
+		return $attr;
+	}
+				
+
 	function startElement($a_parser, $a_name, $a_attrs)
 	{
 		if (!is_object($this->xmlStruct))
@@ -134,6 +150,8 @@ class XML2DOM
 		}
 		else
 		{
+			$a_attrs = $this->clean($a_attrs);
+			#var_dump("<pre>",++$counter," ",$a_name," -> ",$a_attrs,"<pre>");
 			$GLOBALS["lastObj"]->append($a_name, $a_attrs);
 		}
 	}

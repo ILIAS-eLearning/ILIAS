@@ -146,6 +146,7 @@ class ilNestedSetXML
         $Q = "INSERT INTO NestedSetTemp (ns_book_fk,ns_type,ns_tag_fk,ns_l,ns_r) VALUES ('".$this->obj_id."','".$this->obj_type."','".$pk."',".$this->LEFT.",".$this->RIGHT.") ";
         $this->db->query($Q);
         
+		$this->clean($attrs);
         if (is_array($attrs) && count($attrs)>0)
 		{
             reset ($attrs);
@@ -747,7 +748,10 @@ class ilNestedSetXML
 				}
 				else
 				{
-					$meta[$key] = preg_replace("/&/","&amp;",$meta[$key]);
+					$meta[$key] = preg_replace("/&(?!amp;|lt;|gt;|quot;)/","&amp;",$meta[$key]);
+					$meta[$key] = preg_replace("/\"/","&quot;",$meta[$key]);
+					$meta[$key] = preg_replace("/</","&lt;",$meta[$key]);
+					$meta[$key] = preg_replace("/>/","&gt;",$meta[$key]);
 				}
 			}
 		}
@@ -1267,23 +1271,6 @@ class ilNestedSetXML
 	function updateFromDom()
 	{
 		$this->deleteAllDbData();
-		$root = $this->dom->document_element();
-		foreach($root->child_nodes() as $node)
-		{
-			foreach($node->child_nodes() as $subnode)
-			{
-				if($subnode->node_name() == "Title")
-				{
-					foreach($subnode->child_nodes() as $node)
-					{
-						if($node->node_type() == XML_TEXT_NODE)
-						{
-						}
-					}
-				}
-			}
-		}
-
 		$xml = $this->dom->dump_mem(0);
 		$this->import($xml,$this->obj_id,$this->obj_type);
 

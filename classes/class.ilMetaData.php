@@ -79,6 +79,15 @@ class ilMetaData
 			$this->read();
 		}
 	}
+	
+	function clean($a_data)
+	{
+		$a_data = preg_replace("/&(?!amp;|lt;|gt;|quot;)/","&amp;",$a_data);
+		$a_data = preg_replace("/</","lt&;",$a_data);
+		$a_data = preg_replace("/>/","gt&;",$a_data);
+
+		return $a_data;
+	}
 
 	function setObject(&$a_obj)
 	{
@@ -103,6 +112,7 @@ class ilMetaData
 			$this->getType() == "lm" ||
 			$this->getType() == "glo" ||
 			$this->getType() == "mob" ||
+			$this->getType() == "crs" ||
 			$this->getType() == "slm" ||
 			$this->getType() == "htlm" ||
 			$this->getType() == "tst" ||
@@ -146,6 +156,10 @@ class ilMetaData
 			$metaData["description"] = "";
 		}
 
+		// SUBSTITUTE '&' => '&amp;'
+		$metaData["title"] = $this->clean($metaData["title"]);
+		$metaData["description"] = $this->clean($metaData["description"]);
+
 		$xml = '
 			<MetaData>
 				<General Structure="Hierarchical">
@@ -179,6 +193,7 @@ class ilMetaData
 		if ($this->getType() == "pg" ||
 			$this->getType() == "st" ||
 			$this->getType() == "lm" ||
+			$this->getType() == "crs" ||
 			$this->getType() == "glo" ||
 			$this->getType() == "gdf" ||
 			$this->getType() == "dbk" ||
@@ -198,6 +213,7 @@ class ilMetaData
 				{
 					$p .= "/" . $this->section;
 				}
+
 				$this->nested_obj->updateDomNode($p, $this->meta);
 				$this->nested_obj->updateFromDom();
 
@@ -455,7 +471,6 @@ class ilMetaData
 		{
 			$a_title = "NO TITLE";
 		}
-
 		$this->title = $a_title;
 	}
 
