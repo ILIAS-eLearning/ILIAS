@@ -32,58 +32,59 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity###16 Mar 2004 new variable
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###16 Mar 2004 new variable
-administration#:#analyzing#:#Analyzing...###16 Mar 2004 new variable
-administration#:#clean#:#Clean up###16 Mar 2004 new variable
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###16 Mar 2004 new variable
-administration#:#cleaning#:#Cleaning...###16 Mar 2004 new variable
-administration#:#cleaning_final#:#Final cleaning...###16 Mar 2004 new variable
-administration#:#closing_gaps#:#Closing gaps in tree...###16 Mar 2004 new variable
-administration#:#disabled#:#disabled###16 Mar 2004 new variable
-administration#:#done#:#Done###16 Mar 2004 new variable
-administration#:#found#:#found.###16 Mar 2004 new variable
-administration#:#found_none#:#none found.###16 Mar 2004 new variable
-administration#:#log_scan#:#Log scan results###16 Mar 2004 new variable
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###16 Mar 2004 new variable
-administration#:#nothing_to_purge#:#Nothing to purge...###16 Mar 2004 new variable
-administration#:#nothing_to_remove#:#Nothing to remove...###16 Mar 2004 new variable
-administration#:#nothing_to_restore#:#Nothing to restore...###16 Mar 2004 new variable
-administration#:#options#:#Options###16 Mar 2004 new variable
-administration#:#purge_missing#:#Purge missing objects###16 Mar 2004 new variable
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###16 Mar 2004 new variable
-administration#:#purge_trash#:#Purge deleted objects###16 Mar 2004 new variable
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###16 Mar 2004 new variable
-administration#:#purging#:#Purging...###16 Mar 2004 new variable
-administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
-administration#:#purging_trash#:#Purging trash...###16 Mar 2004 new variable
-administration#:#purging_unbound_objs#:#Purging unbound objects...###16 Mar 2004 new variable
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...###16 Mar 2004 new variable
-administration#:#removing_invalid_refs#:#Removing invalid references...###16 Mar 2004 new variable
-administration#:#restore_missing#:#Restore missing objects###16 Mar 2004 new variable
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###16 Mar 2004 new variable
-administration#:#restore_trash#:#Restore deleted objects###16 Mar 2004 new variable
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###16 Mar 2004 new variable
-administration#:#restoring#:#Restoring...###16 Mar 2004 new variable
-administration#:#restoring_missing_objs#:#Restoring missing objects...###16 Mar 2004 new variable
-administration#:#restoring_trash#:#Restoring trash...###16 Mar 2004 new variable
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###16 Mar 2004 new variable
-administration#:#scan_completed#:#Scan completed###16 Mar 2004 new variable
-administration#:#scan_details#:#Scan details###16 Mar 2004 new variable
-administration#:#scan_modes#:#Scan modes used###16 Mar 2004 new variable
-administration#:#scan_only#:#Scan only###16 Mar 2004 new variable
-administration#:#scanning_system#:#Scanning system...###16 Mar 2004 new variable
-administration#:#searching_deleted_objs#:#Searching for deleted objects...###16 Mar 2004 new variable
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###16 Mar 2004 new variable
-administration#:#searching_invalid_refs#:#Searching for invalid references...###16 Mar 2004 new variable
-administration#:#searching_missing_objs#:#Searching for missing objects...###16 Mar 2004 new variable
-administration#:#searching_unbound_objs#:#Searching for unbound objects...###16 Mar 2004 new variable
-administration#:#skipped#:#skipped###16 Mar 2004 new variable
-administration#:#start_scan#:#Start!###16 Mar 2004 new variable
-administration#:#systemcheck#:#Systemcheck###16 Mar 2004 new variable
-administration#:#view_last_log#:#View last Scanlog###16 Mar 2004 new variable
-administration#:#view_log#:#View details###16 Mar 2004 new variable
+administration#:#analyze_data#:#Analysiere Datenintegrität
+administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nichtzugeordneten Objekten
+administration#:#analyzing#:#Analysiert...
+administration#:#clean#:#Räume auf
+administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
+administration#:#cleaning#:#Bereinigen
+administration#:#cleaning_final#:#Endgültig bereinigen...
+administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
+administration#:#disabled#:#Deaktiviert
+administration#:#done#:#Erledigt
+administration#:#found#:#Gefunden
+administration#:#found_none#:#Nicht gefunden
+administration#:#log_scan#:#Untersuchungsergebnisse festhalten
+administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' des Datenverzeichnisses des Mandanten speichern
+administration#:#nothing_to_purge#:#Nichts zu eliminieren...
+administration#:#nothing_to_remove#:#Nichts zu entfernen...
+administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
+administration#:#options#:#Optionen
+administration#:#purge_missing#:#Entferne fehlende Objekte
+administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
+administration#:#purge_trash#:#Eliminiere gelöschte Objekte
+administration#:#purge_trash_desc#:#Entferne alle Objekte im Papierkorb aus dem System
+administration#:#purging#:#Eliminiert...
+administration#:#purging_missing_objs#:#Eliminiert fehlende Objekte...
+administration#:#purging_trash#:#Leert Papierkorb...
+administration#:#purging_unbound_objs#:#Eliminiert nichtzugeordnete Objekte
+administration#:#removing_invalid_childs#:#Entfernt ungültige Einträge in der Baumstruktur...
+administration#:#removing_invalid_refs#:#Entfernt ungültige Referenzen...
+administration#:#restore_missing#:#Stelle verlorene Objekte wieder her
+administration#:#restore_missing_desc#:#Stelle verlorene und nichtzugeordnete Objekte wieder her und lege sie in den Rettungsordner.
+administration#:#restore_trash#:#Stelle gelöschte Objekte wieder her
+administration#:#restore_trash_desc#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
+administration#:#restoring#:#Wiederhergestellt...
+administration#:#restoring_missing_objs#:#Stelle verlorene Objekte wieder her
+administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
+administration#:#restoring_unbound_objs#:#Stellt nichtzugeordnete Objekte und Teilobjekte wieder her...
+administration#:#scan_completed#:#Untersuchung beendet
+administration#:#scan_details#:#Details der Untersuchung
+administration#:#scan_modes#:#Benutze Untersuchungsmodi
+administration#:#scan_only#:#Untersuche nur
+administration#:#scanning_system#:#Untersuche System...
+administration#:#searching_deleted_objs#:#Sucht nach gelöschten Objekten...
+administration#:#searching_invalid_childs#:#Sucht nach ungültigen Einträgen in Baumstruktur...
+administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
+administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
+administration#:#searching_unbound_objs#:#Sucht for nichtzugeordneten Objekten...
+administration#:#skipped#:#ausgelassen
+administration#:#start_scan#:#Start!
+administration#:#systemcheck#:#Systemcheck
+administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
+administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
@@ -276,27 +277,27 @@ assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
-chat#:#chat_add_ip#:#Bitte geben Sie die Server-Ip ein.
+chat#:#chat_add_ip#:#Bitte geben Sie die Server-IP ein.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
-chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
-chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
+chat#:#chat_aqua#:#aqua
+chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#schwarz
 chat#:#chat_blue#:#blau
-chat#:#chat_bold#:#Fett
+chat#:#chat_bold#:#fett
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
-chat#:#chat_drop_user#:#User kicked###16 Mar 2004 new variable
+chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
-chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
+chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
 chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
-chat#:#chat_html_export#:#HTML export###05 Mar 2004 new variable
+chat#:#chat_html_export#:#Export als HTML
 chat#:#chat_ilias#:#Ilias Chat Modul
 chat#:#chat_inactive#:#Inaktiv
 chat#:#chat_input#:#Eingabe
@@ -306,15 +307,15 @@ chat#:#chat_invitation_subject#:#Einladung zum Chat
 chat#:#chat_invite_user#:#Benutzer einladen
 chat#:#chat_italic#:#Kursiv
 chat#:#chat_level_all#:#Alles
-chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
+chat#:#chat_level_debug#:#Korrektur
 chat#:#chat_level_error#:#Fehler
-chat#:#chat_level_fatal#:#Fatal###05 Mar 2004 new variable
-chat#:#chat_level_info#:#Info###05 Mar 2004 new variable
-chat#:#chat_lime#:#lime###05 Mar 2004 new variable
-chat#:#chat_maroon#:#maroon###05 Mar 2004 new variable
+chat#:#chat_level_fatal#:#Schwerwiegend
+chat#:#chat_level_info#:#Info
+chat#:#chat_lime#:#lime
+chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderator Passwort
-chat#:#chat_navy#:#navy###05 Mar 2004 new variable
+chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
@@ -325,7 +326,7 @@ chat#:#chat_olive#:#oliv
 chat#:#chat_online_users#:#Benutzer (online)
 chat#:#chat_private_message#:#Private Nachricht
 chat#:#chat_public_room#:#Öffentlicher Chatraum
-chat#:#chat_purple#:#purple###05 Mar 2004 new variable
+chat#:#chat_purple#:#purpur
 chat#:#chat_red#:#rot
 chat#:#chat_refresh#:#Zurücksetzen
 chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
@@ -336,31 +337,31 @@ chat#:#chat_rooms#:#Chaträume
 chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
 chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
-chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Server Ip###05 Mar 2004 new variable
+chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1 oder 192.168.1.2)
+chat#:#chat_server_ip#:#Server IP
 chat#:#chat_server_logfile#:#Pfad zur Logdatei
-chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
+chat#:#chat_server_loglevel#:#Loglevel
 chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
-chat#:#chat_server_port#:#Server Port###05 Mar 2004 new variable
+chat#:#chat_server_port#:#Server Port
 chat#:#chat_server_settings#:#Chatserver Einstellungen
 chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
 chat#:#chat_silver#:#silber
-chat#:#chat_status#:#Status###05 Mar 2004 new variable
+chat#:#chat_status#:#Status
 chat#:#chat_status_saved#:#Der Status wurde geändert
-chat#:#chat_tahoma#:#Tahoma###05 Mar 2004 new variable
-chat#:#chat_teal#:#teal###05 Mar 2004 new variable
-chat#:#chat_times#:#Times###05 Mar 2004 new variable
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#teal
+chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
 chat#:#chat_to_chat_body#:#Zum Chat
 chat#:#chat_type#:#Schriftart
 chat#:#chat_underlined#:#Unterstrichen
-chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
+chat#:#chat_user_dropped#:#User kicked
 chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
 chat#:#chat_yellow#:#gelb
-chat#:#chats#:#Chats###05 Mar 2004 new variable
+chat#:#chats#:#Chats
 chat#:#my_chats#:#Meine Chats
-common#:#3rd_party_software#:#Drittanbieter-Software###11 Apr 2004 content changed
+common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
 common#:#absolute_path#:#Absoluter Pfad
@@ -368,7 +369,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
-common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#activation#:#Aktivierung
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
@@ -397,7 +398,7 @@ common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign#:#Zuordnen
-common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
+common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
@@ -407,13 +408,13 @@ common#:#attend#:#Teilnehmen
 common#:#author#:#Autor
 common#:#authors#:#Autoren
 common#:#available_languages#:#Verfügbare Sprachen
-common#:#average_time#:#Average time###16 Mar 2004 new variable
+common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
-common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
-common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
-common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#benchmark#:#Benchmark
+common#:#benchmark_settings#:#Benchmark Einstellungen
+common#:#benchmarks#:#Benchmarks
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
@@ -433,21 +434,21 @@ common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte S
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
 common#:#cat#:#Kategorie
-common#:#cat_a#:#eine Kategorie###13 Jan 2004 content changed
+common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
-common#:#cat_create_chat#:#Neuen Chat anlegen###18 Feb 2004 content changed
+common#:#cat_create_chat#:#Neuen Chat anlegen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 common#:#cat_create_exc#:#Neue Übung anlegen
 common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
-common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
+common#:#cat_create_htlm#:#Lege HTML-Lernmodul an
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
-common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
+common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -459,19 +460,19 @@ common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
-common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
+common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#cc#:#CC
-common#:#cen#:#Centra Event###03 Apr 2004 new variable
-common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
-common#:#cen_added#:#Centra Event hinzugefügt
-common#:#cen_delete#:#Centra Event löschen
-common#:#cen_edit#:#Centra Event bearbeiten
-common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
-common#:#cen_save#:#Centra Event abspeichern
+common#:#cen#:#Centra-Ereignis
+common#:#cen_add#:#Füge Centra-Ereignis
+common#:#cen_added#:#Centra-Ereignis hinzugefügt
+common#:#cen_delete#:#Centra-Ereignis löschen
+common#:#cen_edit#:#Centra-Ereignis bearbeiten
+common#:#cen_new#:#Neues Centra-Ereignis
+common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
-common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra-Räume
-common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server
 common#:#chac_edit_permission#:#Rechteeinstellungen ändern
 common#:#chac_read#:#Lesezugriff auf Chateinstellungen
 common#:#chac_visible#:#Chateinstellungen sind sichtbar
@@ -516,7 +517,7 @@ common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#Container
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
 common#:#copy_of#:#Kopie von
@@ -546,8 +547,8 @@ common#:#crs_new#:#Neuer Kurs
 common#:#crs_read#:#Kurs lesen
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
-common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
-common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#cumulative_time#:#Kumulative Zeit
+common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -586,7 +587,7 @@ common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
-common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
+common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#deleted#:#Gelöscht
@@ -667,7 +668,7 @@ common#:#exc_visible#:#Übung ist sichtbar
 common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
-common#:#export#:#Export###20 Mar 2004 new variable
+common#:#export#:#Export
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/übungskapitel
@@ -731,14 +732,14 @@ common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_create#:#Neues Forum anlegen
 common#:#frm_delete#:#Forum löschen
-common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur###30 Mar 2004 content changed
+common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_edit_permission#:#Rechteeinstellungen ändern
-common#:#frm_edit_post#:#Forumbeiträge anlegen###30 Mar 2004 content changed
+common#:#frm_edit_post#:#Forumbeiträge anlegen
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
 common#:#frm_visible#:#Forum ist sichtbar
-common#:#frm_write#:#Forum bearbeiten###30 Mar 2004 content changed
+common#:#frm_write#:#Forum bearbeiten
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
@@ -782,15 +783,15 @@ common#:#group_no_registration#:#keine Registrierung erforderlich
 common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden über Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
-common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
+common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br />Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
+common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br />Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
 common#:#group_registration_expiration_date#:#Ablaufdatum
 common#:#group_registration_expiration_time#:#Ablaufzeit
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
 common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
-common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
+common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
@@ -805,8 +806,8 @@ common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten S
 common#:#grp_back#:#Zurück
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_file#:#Neue Datei hochladen###17 Apr 2004 content changed
-common#:#grp_create_fold#:#Neuen Ordner anlegen###17 Apr 2004 content changed
+common#:#grp_create_file#:#Neue Datei hochladen
+common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
@@ -847,15 +848,15 @@ common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
-common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
-common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
-common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
-common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm#:#HTML-Lernmodul
+common#:#htlm_add#:#HTML-Lernmodul hinzufügen
+common#:#htlm_delete#:#HTML-Lernmodul löschen
+common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
+common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
+common#:#htlm_new#:#Neues HTML-Lernmodul
+common#:#htlm_read#:#HTML-Lernmodul ansehen
+common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
+common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
@@ -869,7 +870,7 @@ common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_lm#:#Import Lernmodul
-common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
+common#:#import_root_user#:#Root User importieren
 common#:#import_slm#:#Import SCORM-Datei
 common#:#import_users#:#Benutzer importieren
 common#:#in#:#in
@@ -917,15 +918,15 @@ common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#kb#:#KByte
 common#:#keywords#:#Schlüsselwörter
-common#:#lang_cs#:#Czech###17 Mar 2004 new variable
+common#:#lang_cs#:#Tschechisch
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
-common#:#lang_dk#:#Dänisch
+common#:#lang_da#:#Dänisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
 common#:#lang_fi#:#Finnisch
 common#:#lang_fr#:#Französisch
-common#:#lang_gr#:#Neugriechisch
+common#:#lang_el#:#Neugriechisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_ja#:#Japanisch
@@ -935,12 +936,13 @@ common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_pt#:#Portugisisch
-common#:#lang_se#:#Schwedisch
+common#:#lang_sv#:#Schwedisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainisch
 common#:#lang_version#:#1
+common#:#lang_vi#:#Vietnamesisch
 common#:#lang_xx#:#benutzerdefiniert
 common#:#lang_zh#:#Chinesisch
 common#:#langfile_found#:#Sprachdatei gefunden
@@ -1017,7 +1019,7 @@ common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen ändern
 common#:#mail_folders#:#Mail-Ordner
-common#:#mail_import#:#Import###31 Mar 2004 new variable
+common#:#mail_import#:#Import
 common#:#mail_import_file#:#ILIAS 2 Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
@@ -1043,55 +1045,55 @@ common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
-common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
-common#:#max_time#:#Maximum time###09 Apr 2004 new variable
+common#:#max_number_rec#:#Maximale Zahl der Einträge
+common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
-common#:#mep#:#Media Pool###22 Mar 2004 new variable
-common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
-common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
-common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
-common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
-common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
-common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
-common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
-common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
-common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
+common#:#mep#:#Media-Pool
+common#:#mep_add#:#Media-Pool hinzufügen
+common#:#mep_added#:#Media-Pool hinzugefügt
+common#:#mep_delete#:#Media-Pool gelöscht
+common#:#mep_edit#:#Eigenschaften des Media-Pools bearbeiten
+common#:#mep_edit_permission#:#Rechteeinstellungen ändern
+common#:#mep_new#:#Neuer Media-Pool
+common#:#mep_read#:#Inhalt des Media-Pools lesen
+common#:#mep_visible#:#Media-Pool ist sichtbar
+common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
-common#:#min_time#:#Minimum time###09 Apr 2004 new variable
+common#:#min_time#:#Mindestzeit
 common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Monat
-common#:#month_01_long#:#January###17 Mar 2004 new variable
-common#:#month_01_short#:#Jan###17 Mar 2004 new variable
-common#:#month_02_long#:#February###17 Mar 2004 new variable
-common#:#month_02_short#:#Feb###17 Mar 2004 new variable
-common#:#month_03_long#:#March###17 Mar 2004 new variable
-common#:#month_03_short#:#Mar###17 Mar 2004 new variable
-common#:#month_04_long#:#April###17 Mar 2004 new variable
-common#:#month_04_short#:#Apr###17 Mar 2004 new variable
-common#:#month_05_long#:#May###17 Mar 2004 new variable
-common#:#month_05_short#:#May###17 Mar 2004 new variable
-common#:#month_06_long#:#June###17 Mar 2004 new variable
-common#:#month_06_short#:#Jun###17 Mar 2004 new variable
-common#:#month_07_long#:#July###17 Mar 2004 new variable
-common#:#month_07_short#:#Jul###17 Mar 2004 new variable
-common#:#month_08_long#:#August###17 Mar 2004 new variable
-common#:#month_08_short#:#Aug###17 Mar 2004 new variable
-common#:#month_09_long#:#September###17 Mar 2004 new variable
-common#:#month_09_short#:#Sep###17 Mar 2004 new variable
-common#:#month_10_long#:#October###17 Mar 2004 new variable
-common#:#month_10_short#:#Oct###17 Mar 2004 new variable
-common#:#month_11_long#:#November###17 Mar 2004 new variable
-common#:#month_11_short#:#Nov###17 Mar 2004 new variable
-common#:#month_12_long#:#December###17 Mar 2004 new variable
-common#:#month_12_short#:#Dec###17 Mar 2004 new variable
+common#:#month_01_long#:#Januar
+common#:#month_01_short#:#Jan
+common#:#month_02_long#:#Februar
+common#:#month_02_short#:#Feb
+common#:#month_03_long#:#März
+common#:#month_03_short#:#Mär
+common#:#month_04_long#:#April
+common#:#month_04_short#:#Apr
+common#:#month_05_long#:#Mai
+common#:#month_05_short#:#Mai
+common#:#month_06_long#:#Juni
+common#:#month_06_short#:#Jun
+common#:#month_07_long#:#Juli
+common#:#month_07_short#:#Jul
+common#:#month_08_long#:#August
+common#:#month_08_short#:#Aug
+common#:#month_09_long#:#September
+common#:#month_09_short#:#Sep
+common#:#month_10_long#:#Oktober
+common#:#month_10_short#:#Okt
+common#:#month_11_long#:#November
+common#:#month_11_short#:#Nov
+common#:#month_12_long#:#Dezember
+common#:#month_12_short#:#Dez
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
@@ -1188,7 +1190,7 @@ common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
-common#:#no_chat_in_personal_list#:#No chats in personal list###16 Mar 2004 new variable
+common#:#no_chat_in_personal_list#:#Es ist kein Chat abonniert.
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
@@ -1205,14 +1207,14 @@ common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
-common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
+common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
-common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
+common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###16 Mar 2004 new variable
+common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
@@ -1222,7 +1224,7 @@ common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
-common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#obj_htlm#:#HTML-Lernmodul
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul
@@ -1232,8 +1234,8 @@ common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
-common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Multimedia Objekt###06 Apr 2004 content changed
+common#:#obj_mep#:#Media-Pool
+common#:#obj_mob#:#Medienobjekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
@@ -1242,8 +1244,8 @@ common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_qpl#:#Fragen-Pool
-common#:#obj_recf#:#Restored Objects###16 Mar 2004 new variable
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###16 Mar 2004 new variable
+common#:#obj_recf#:#Wiederhergestellte Objekte
+common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Rollenverwaltung
@@ -1268,7 +1270,7 @@ common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
 common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_cat#:#Kategorien
-common#:#objs_chat#:#Chats###12 Apr 2004 new variable
+common#:#objs_chat#:#Chats
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
@@ -1279,12 +1281,12 @@ common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
 common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
-common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
+common#:#objs_htlm#:#HTML-Lernmodule
 common#:#objs_lm#:#Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
-common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
-common#:#objs_mob#:#Multimedia Objekte###06 Apr 2004 content changed
+common#:#objs_mep#:#Media-Pools
+common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
 common#:#objs_qpl#:#Fragenpools
@@ -1391,7 +1393,7 @@ common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
 common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
-common#:#remove#:#Entfernen###25 Mar 2004 content changed
+common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
@@ -1443,7 +1445,7 @@ common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Nachricht speichern
 common#:#save_refresh#:#Speichern und aktualisieren
 common#:#save_return#:#Speichern und zurückkehren
-common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
+common#:#save_settings#:#Einstellungen speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
@@ -1473,7 +1475,7 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
-common#:#show#:#Show###16 Mar 2004 new variable
+common#:#show#:#Zeige
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
@@ -1552,7 +1554,7 @@ common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
 common#:#unsubscribe#:#Abo beenden
-common#:#unzip#:#Unzip###07 Apr 2004 new variable
+common#:#unzip#:#Entzippen
 common#:#up#:#Hoch
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
@@ -1630,7 +1632,7 @@ content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
+content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
@@ -1638,8 +1640,8 @@ content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
-content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
-content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
+content#:#cont_api_adapter#:#API Adapter Name
+content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
@@ -1648,7 +1650,7 @@ content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
+content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
 content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
@@ -1657,9 +1659,9 @@ content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
 content#:#cont_chapters#:#Kapitel
 content#:#cont_characteristic#:#Art
-content#:#cont_choose_cont_obj#:#Wählen Sie das Content Object
+content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
-content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
+content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
@@ -1674,11 +1676,11 @@ content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
-content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
+content#:#cont_copy_to_clipboard#:#Ins Clipboard kopiereen
 content#:#cont_create_dir#:#Verzeichnis anlegen
-content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
-content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
-content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_create_export_file#:#Export-Datei anlegen
+content#:#cont_create_folder#:#Ordner anlegen
+content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
@@ -1690,24 +1692,24 @@ content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
-content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
-content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
+content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bearbeiten
 content#:#cont_edit_mob_files#:#Objektdateien
-content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
+content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
-content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
-content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
+content#:#cont_enable_media#:#Medienobjekte aktiv
+content#:#cont_export_files#:#Datei exportieren
 content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_format#:#Format
-content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
+content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#Link auswählen
@@ -1734,32 +1736,32 @@ content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Schlagwort
 content#:#cont_link#:#Link
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
+content#:#cont_link_area#:#Link-Bereich
 content#:#cont_link_ext#:#Link (extern)
 content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interner Link
 content#:#cont_link_type#:#Linktyp
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
+content#:#cont_list_files#:#Liste Dateien auf
 content#:#cont_list_properties#:#Listen-Eigenschaften
 content#:#cont_lk_chapter#:#Kapitel
 content#:#cont_lk_chapter_new#:#Kapitel (Neuer Frame)
-content#:#cont_lk_media_faq#:#Media-Objekt (FAQ Frame)
-content#:#cont_lk_media_inline#:#Media-Objekt (Inline)
-content#:#cont_lk_media_media#:#Media-Objekt (Media Frame)
-content#:#cont_lk_media_new#:#Media-Objekt (Neuer Frame)
+content#:#cont_lk_media_faq#:#Medienobjekt (FAQ Frame)
+content#:#cont_lk_media_inline#:#Medienobjekt (Inline)
+content#:#cont_lk_media_media#:#Medienobjekt (Media Frame)
+content#:#cont_lk_media_new#:#Medienobjekt (Neuer Frame)
 content#:#cont_lk_page#:#Seite
 content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
 content#:#cont_lk_page_new#:#Seite (Neuer Frame)
 content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
-content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
+content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
-content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
-content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
+content#:#cont_media_source#:#Medienquelle
+content#:#cont_mep_structure#:#Struktur Media-Pool
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
@@ -1771,17 +1773,17 @@ content#:#cont_new_area#:#Neuer Link-Bereich
 content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei
-content#:#cont_new_media_obj#:#Neues Media-Objekt
+content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
-content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
+content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
-content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
+content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_online#:#Online
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
@@ -1812,8 +1814,8 @@ content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
-content#:#cont_select_max_one_item#:#Bitte wählen Sie nur einen Punkt aus.
+content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
+content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
@@ -1825,18 +1827,18 @@ content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
-content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
+content#:#cont_set_edit_mode#:#Bearbeitungsmodus setzen
 content#:#cont_set_link#:#Verweis ändern
 content#:#cont_set_shape#:#Form ändern
-content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
+content#:#cont_set_start_file#:#Startdatei festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_size#:#Größe
-content#:#cont_source#:#Quelle###01 Apr 2004 content changed
+content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Kapitel-Titel
-content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_startfile#:#Startdatei
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
@@ -1858,35 +1860,35 @@ content#:#cont_update#:#Update
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
-content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
-content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Clipboard von
+content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
+content#:#cont_validate_file#:#Datei validieren
 content#:#cont_version#:#version
-content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
+content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
+content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
 content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
 content#:#read offline#:#Offline lesen
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
-dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB#:#Schreibfehler in Datenbank
 dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
 dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <BR> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
@@ -1894,17 +1896,17 @@ dateplaner#:#ERROR_STARTDATE#:#Falsche Eingaben bei Termin Startdatum. Format: d
 dateplaner#:#ERROR_STARTTIME#:#Falsche Eingaben bei Termin Startuhrzeit. Format: hh:mm
 dateplaner#:#ERROR_TS#:#Falsches Datumsformat
 dateplaner#:#Fr_long#:#Freitag
-dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
-dateplaner#:#Language_file#:#german
+dateplaner#:#Fr_short#:#Fr
+dateplaner#:#Language_file#:#Deutsch
 dateplaner#:#Listbox_long#:#Terminliste
 dateplaner#:#Mo_long#:#Montag
-dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
+dateplaner#:#Mo_short#:#Mo
 dateplaner#:#Month_long#:#Monatsansicht
 dateplaner#:#Sa_long#:#Samstag
-dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
+dateplaner#:#Sa_short#:#Sa
 dateplaner#:#Su_long#:#Sonntag
 dateplaner#:#Su_short#:#So
-dateplaner#:#Text#:#Text###16 Mar 2004 new variable
+dateplaner#:#Text#:#Text
 dateplaner#:#Th_long#:#Donnerstag
 dateplaner#:#Th_short#:#Do
 dateplaner#:#Tu_long#:#Dienstag
@@ -1934,8 +1936,8 @@ dateplaner#:#changedDates#:#Geänderte Gruppen Termine
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#created#:#erstellt am
 dateplaner#:#date#:#Termin
-dateplaner#:#date_format#:#d.m.Y H:i ###07 Apr 2004 content changed
-dateplaner#:#date_format_middle#:#d/m/y###07 Apr 2004 content changed
+dateplaner#:#date_format#:#T.M.J H:i 
+dateplaner#:#date_format_middle#:#T/M/J
 dateplaner#:#del_all#:#alle Termine löschen
 dateplaner#:#del_one#:#einmalig löschen
 dateplaner#:#delete#:#löschen
@@ -1945,14 +1947,14 @@ dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
 dateplaner#:#dv_button_cancel#:#Abbrechen
 dateplaner#:#dv_button_delete#:#Löschen
 dateplaner#:#dv_button_insert#:#Einfügen
-dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
+dateplaner#:#dv_button_update#:#Aktualisieren
 dateplaner#:#dv_date_begin#:#Termin Beginn:
 dateplaner#:#dv_date_end#:#Termin Ende:
 dateplaner#:#dv_date_hm#:#Stunde:Minute
 dateplaner#:#dv_enddate#:#Enddatum:
 dateplaner#:#dv_groupselect#:#Gruppenauswahl:
 dateplaner#:#dv_groupview#:#Gruppentermin:
-dateplaner#:#dv_groupview_text#:#Gruppe:<br> 
+dateplaner#:#dv_groupview_text#:#Gruppe:<br /> 
 dateplaner#:#dv_keywords#:#Keyword:
 dateplaner#:#dv_keywordselect#:#Keywordauswahl:
 dateplaner#:#dv_message#:#Mitteilung:
@@ -1964,12 +1966,12 @@ dateplaner#:#dv_rotation_date#:#Turnus Termine:
 dateplaner#:#dv_rotation_end#:#Turnus Ende:
 dateplaner#:#dv_shorttext#:#Kurztext:
 dateplaner#:#dv_startdate#:#Startdatum:
-dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
+dateplaner#:#dv_text#:#Text:
 dateplaner#:#dv_whole_day#:#Ganztägig:
 dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
 dateplaner#:#end_date#:#Termin Ende
 dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###TEST
+dateplaner#:#error_minical_img#:#Kann keinen 'GD-picture-stream' erzeugen
 dateplaner#:#execute#:#Aktionen ausführen
 dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
@@ -1977,29 +1979,29 @@ dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
-dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
+dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
+dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
-dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_further#:#<br /> <b>weitere Informationen durch klicken.</b>
 dateplaner#:#help_group#:#Gruppentermine Auswahl
-dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_inbox#:#Terminplaner Inbox
 dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
 dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
 dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
-dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br>TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
 dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
 dateplaner#:#help_list#:#Terminplaner Terminliste
 dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
 dateplaner#:#help_month#:#Terminplaner Monatsansicht
 dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
 dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
-dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br>Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
 dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
@@ -2008,21 +2010,21 @@ dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
 dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
 dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
-dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
+dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
-dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]###14 Apr 2004 content changed
-dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
+dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
+dateplaner#:#help_text#:#Text
 dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
 dateplaner#:#help_week#:#Terminplaner Wochenansicht
 dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
 dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
-dateplaner#:#inbox#:#Eingang###16 Mar 2004 new variable
+dateplaner#:#inbox#:#Eingang
 dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
 dateplaner#:#k_alldates#:#alle Termine
 dateplaner#:#keep#:#unverändert
@@ -2032,14 +2034,14 @@ dateplaner#:#last_change#:#letzte Änderung am
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#Februar
 dateplaner#:#long_03#:#März
-dateplaner#:#long_04#:#April###16 Mar 2004 new variable
+dateplaner#:#long_04#:#April
 dateplaner#:#long_05#:#Mai
 dateplaner#:#long_06#:#Juni
 dateplaner#:#long_07#:#Juli
-dateplaner#:#long_08#:#August###16 Mar 2004 new variable
-dateplaner#:#long_09#:#September###16 Mar 2004 new variable
+dateplaner#:#long_08#:#August
+dateplaner#:#long_09#:#September
 dateplaner#:#long_10#:#Oktober
-dateplaner#:#long_11#:#November###16 Mar 2004 new variable
+dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#Dezember
 dateplaner#:#main_dates#:#Normale Termine
 dateplaner#:#menue#:#Menü
@@ -2071,19 +2073,19 @@ dateplaner#:#r_year#:#jedes Jahr
 dateplaner#:#readimportfile#:#Einlesen
 dateplaner#:#rotation#:#Turnus
 dateplaner#:#rotation_dates#:#Turnus Termine
-dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
-dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
-dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
+dateplaner#:#semester_name#:#Semester Name
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Feb
 dateplaner#:#short_03#:#Mär
-dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
+dateplaner#:#short_04#:#Apr
 dateplaner#:#short_05#:#Mai
-dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
-dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
-dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
-dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
-dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
-dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
-dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
+dateplaner#:#short_06#:#Jun
+dateplaner#:#short_07#:#Jul
+dateplaner#:#short_08#:#Aug
+dateplaner#:#short_09#:#Sep
+dateplaner#:#short_10#:#Okt
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dez
 dateplaner#:#shorttext#:#Kurztext
 dateplaner#:#singleDate#:#Einzeltermin
 dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
@@ -2208,10 +2210,10 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
-meta#:#meta_accessibility_restrictions#:#Zugangseinschränkungen
+meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Hinzufügen
-meta#:#meta_annotation#:#Erläuterung
+meta#:#meta_annotation#:#Anmerkung
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Autor
 meta#:#meta_browser#:#Browser
@@ -2476,7 +2478,7 @@ meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
 meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational_level#:#Ausbildungsstufe
-meta#:#meta_educational_objective#:#Erzieherisches Ziel
+meta#:#meta_educational_objective#:#Ausbildungsziel
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
@@ -2488,9 +2490,9 @@ meta#:#meta_final#:#Endfassung
 meta#:#meta_format#:#Format
 meta#:#meta_general#:#Allgemein
 meta#:#meta_graph#:#Graph
-meta#:#meta_has_format#:#Hat Format
-meta#:#meta_has_part#:#Hat Teil
-meta#:#meta_has_version#:#Hat Version
+meta#:#meta_has_format#:#...hat Format...
+meta#:#meta_has_part#:#..hat Teil von...
+meta#:#meta_has_version#:#..hat Version...
 meta#:#meta_hierarchical#:#Hierarchisch
 meta#:#meta_high#:#Hoch
 meta#:#meta_higher_education#:#Hochschulbildung
@@ -2503,12 +2505,12 @@ meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
 meta#:#meta_interactivity_type#:#Art der Interaktivität
 meta#:#meta_is_based_on#:#Basiert auf
-meta#:#meta_is_basis_for#:#Ist Basis für
-meta#:#meta_is_format_of#:#Ist Format von
-meta#:#meta_is_part_of#:#Ist Teil von
-meta#:#meta_is_referenced_by#:#Ist referenziert von
-meta#:#meta_is_required_by#:#Wird benötigt von
-meta#:#meta_is_version_of#:#Ist Version von
+meta#:#meta_is_basis_for#:#...ist Voraussetzung für...
+meta#:#meta_is_format_of#:#...ist Format von...
+meta#:#meta_is_part_of#:#...ist Teil von...
+meta#:#meta_is_referenced_by#:#...ist referenziert von...
+meta#:#meta_is_required_by#:#...wird benötigt von...
+meta#:#meta_is_version_of#:#...ist Version von...
 meta#:#meta_keyword#:#Schlagwort
 meta#:#meta_kind#:#Art
 meta#:#meta_l_aa#:#afar
@@ -2652,7 +2654,7 @@ meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
 meta#:#meta_learner#:#Lernender
-meta#:#meta_learning_resource_type#:#Art der Lernhilfsmittel
+meta#:#meta_learning_resource_type#:#Art des Lernmittels
 meta#:#meta_lecture#:#Lektüre
 meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear
@@ -2661,11 +2663,11 @@ meta#:#meta_location#:#Standort
 meta#:#meta_low#:#niedrig
 meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#Manager
-meta#:#meta_maximum_version#:#Maximale Version
+meta#:#meta_maximum_version#:#Maximum-Version
 meta#:#meta_medium#:#Mittel
 meta#:#meta_meta_metadata#:#Meta-Metadaten
-meta#:#meta_metadatascheme#:#Metadaten Schema
-meta#:#meta_minimum_version#:#Minimale Version
+meta#:#meta_metadatascheme#:#Metadaten-Schema
+meta#:#meta_minimum_version#:#Minimal-Version
 meta#:#meta_mixed#:#Gemischt
 meta#:#meta_ms_windows#:#MS-Windows
 meta#:#meta_multi_os#:#Multi-OS
@@ -2674,17 +2676,17 @@ meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
 meta#:#meta_no#:#Nein
-meta#:#meta_no_annotation#:#Keine Metadaten für den Erläuterungen Bereich vorhanden.
-meta#:#meta_no_classification#:#Keine Metadaten für den Klassifizierungsbereich vorhanden.
-meta#:#meta_no_educational#:#Keine Metadaten für den erzieherischen Bereich vorhanden.
-meta#:#meta_no_lifecycle#:#Keine Metadaten für den Lebenszyklus Bereich vorhanden.
-meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Meta-Metadaten Bereich vorhanden.
-meta#:#meta_no_relation#:#Keine Metadate für den Beziehungen Bereich vorhanden.
-meta#:#meta_no_rights#:#Keine Metadaten für den Rechte Bereich vorhanden.
-meta#:#meta_no_technical#:#Keine Metadaten für den technischen Bereich vorhanden.
+meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden.
+meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden.
+meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Ausbildung' vorhanden.
+meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden.
+meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden.
+meta#:#meta_no_relation#:#Keine Metadate für den Bereich 'Beziehungen' vorhanden.
+meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
+meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
 meta#:#meta_none#:#Keins
 meta#:#meta_operating_system#:#Betriebssystem
-meta#:#meta_or_composite#:#Oder zusammengefasst
+meta#:#meta_or_composite#:#...oder zusammengefasst...
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
 meta#:#meta_pc_dos#:#PC-DOS
@@ -2701,7 +2703,7 @@ meta#:#meta_requirement#:#Anforderung
 meta#:#meta_requires#:#Benötigt
 meta#:#meta_resource#:#Ressource
 meta#:#meta_revised#:#Überarbeitete Fassung
-meta#:#meta_rights#:#Rechte
+meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
 meta#:#meta_school#:#Schule
 meta#:#meta_security_level#:#Sicherheitsstufe
@@ -2716,7 +2718,7 @@ meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxonomie
-meta#:#meta_taxon_path#:#Taxonomie Pfad
+meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_title#:#Titel
@@ -2738,7 +2740,7 @@ search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
 search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
-search#:#search_delete_sure#:#Sind Sie, daß dieses Objekt und sein Inhalt gelöscht werden sollen
+search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
 search#:#search_group#:#Gruppen
 search#:#search_in_result#:#In den Resultaten suchen
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
