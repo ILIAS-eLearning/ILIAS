@@ -37,9 +37,9 @@
 administration#:#analyze_data#:#Аналіз Інтеграції даних
 administration#:#analyze_desc#:#Сканування системи на пошкоджені/невірні/пропущені/вільні об'єкти.
 administration#:#analyzing#:#Аналіз...
-administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
-administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
-administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!###17 Nov 2004 new variable
+administration#:#analyzing_tree_structure#:#Аналіх древоподібної структури...
+administration#:#check_tree#:#Перевірка древоподібної структури
+administration#:#check_tree_desc#:#Перевірка густини записів у древоподібній структурі. В залежності від розмірів дерева це може зайняти деякий час!
 administration#:#clean#:#Очистка
 administration#:#clean_desc#:#Видалення невірних посилань та входжень. Закрийти проміжківа у деревоподібній структурі.
 administration#:#cleaning#:#Очистка...
@@ -55,7 +55,7 @@ administration#:#nothing_to_purge#:#Нічого для очищення...
 administration#:#nothing_to_remove#:#Нічого для переміщення...
 administration#:#nothing_to_restore#:#Нічого для відновлення...
 administration#:#options#:#Опції
-administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
+administration#:#passwd_auto_generate#:#Пересилка/Генерація Пароля
 administration#:#purge_missing#:#Знищити відсутні об'єкти
 administration#:#purge_missing_desc#:#Перемістити усі відсутні та вільні об'єкти з системи.
 administration#:#purge_trash#:#Очистка видалених об'єктів
@@ -66,7 +66,7 @@ administration#:#purging_trash#:#Очистка смітника...
 administration#:#purging_unbound_objs#:#Очистка вільних об'єктів...
 administration#:#removing_invalid_childs#:#Переміщенні невірних входжень дерев...
 administration#:#removing_invalid_refs#:#Переміщення невірних посилань...
-administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
+administration#:#removing_invalid_rolfs#:#Видалення невірних папок з ролями...
 administration#:#restore_missing#:#Відновлення відсутніх об'єктів
 administration#:#restore_missing_desc#:#Відновлення відстуніх та вільних об'єктів в RecoveryFolder.
 administration#:#restore_trash#:#Відновлення видалених об'єктів
@@ -77,20 +77,20 @@ administration#:#restoring_trash#:#Відновлення смітника...
 administration#:#restoring_unbound_objs#:#Відновлення вільних об'єктів & підоб'єктів...
 administration#:#scan_completed#:#Сканування завершене
 administration#:#scan_details#:#Деталі сканування
-administration#:#scan_modes#:#Scan modes used###05 Nov 2004 new variable
+administration#:#scan_modes#:#Сканування вижваних режимів
 administration#:#scan_only#:#Тільки сканування
 administration#:#scanning_system#:#Сканування системи...
 administration#:#searching_deleted_objs#:#Пошук видалених об'єктів...
 administration#:#searching_invalid_childs#:#Пошук невірних входжень в дерево...
 administration#:#searching_invalid_refs#:#Пошук невірних посилань...
-administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...###17 Nov 2004 new variable
+administration#:#searching_invalid_rolfs#:#Пошук невірних папок з ролями...
 administration#:#searching_missing_objs#:#Пошук відсутніх об'єктів...
 administration#:#searching_unbound_objs#:#Пошук вільних об'єктів...
 administration#:#skipped#:#пропущений
 administration#:#start_scan#:#Почати!
 administration#:#stop_scan#:#Зупинити!
 administration#:#systemcheck#:#Перевірка системи
-administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.###17 Nov 2004 new variable
+administration#:#tree_corrupt#:#Дерево пошкоджене! Дивіться лог сканування для більш детальної інформації.
 administration#:#view_last_log#:#Подивитись останній Сканлог
 administration#:#view_log#:#Подивитись деталі
 assessment#:#0_unlimited#:#(0 = безлімітний)
@@ -103,7 +103,7 @@ assessment#:#add_area#:#Додати область
 assessment#:#add_gap#:#Додати текст з проміжком
 assessment#:#add_imagemap#:#Додати карту зображення
 assessment#:#add_matching_pair#:#Додати співпадаючу пару
-assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
+assessment#:#add_questionpool#:#Додати пул питань
 assessment#:#add_solution#:#Додати запропоноване рішення
 assessment#:#all_available_question_pools#:#Увесь доступний фонд питань
 assessment#:#answer#:#Відповідь
@@ -122,11 +122,11 @@ assessment#:#ass_file#:#Файл
 assessment#:#ass_questions#:#Питання
 assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
-assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
+assessment#:#average_reached_points#:#Середньо досяжні пунктиe
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
-assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
-assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
+assessment#:#cannot_edit_test#:#Ви не володієте достатніми правами для редагування теста!
+assessment#:#cannot_export_qpl#:#Ви не володієте достатніми правами для експорту пулу питань!
 assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
 assessment#:#cannot_maintain_test#:#Ви не володієте достатніми правами для підтрики тесту!
 assessment#:#cannot_save_metaobject#:#Ви не володієте достатніми правами дла збереження метаданих!
@@ -136,11 +136,11 @@ assessment#:#checkbox_unchecked#:#Неперевірений
 assessment#:#circle#:#Коло
 assessment#:#circle_click_center#:#Будь ласка клікнітьо на центр бажаної області.
 assessment#:#circle_click_circle#:#Будь ласка клікніть на точку кола бажаної області.
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
+assessment#:#close_text_hint#:#Ви маєте визначити проміжок для введення <gap></gap> в позицію в тексті що ви вибрали. Натисніть кнопку 'Створити проміжки' для додавання форми що редагується для кожного проміжку.
 assessment#:#cloze_text#:#Закрити текст
 assessment#:#code#:#Код
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
-assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###12 Nov 2004 new variable
+assessment#:#confirm_delete_all_user_data#:#Ви впервені що ви бажаєте видалити усі дані користувача по цьому тесту?
+assessment#:#confirm_sync_questions#:#Питання що ви змінили це копія, яка була створена для використання в активному опитуванні. Чи бажаєте ви змінити оригінальне питання також?
 assessment#:#coordinates#:#Координати
 assessment#:#correct_solution_is#:#Вірне рішення є
 assessment#:#counter#:#Лічильник
@@ -149,7 +149,7 @@ assessment#:#create_gaps#:#Створити проміжок
 assessment#:#create_imagemap#:#Створити карту зображення
 assessment#:#create_new#:#Створити новий
 assessment#:#delete_area#:#Видалити область
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
+assessment#:#description_maxchars#:#Якщо нічого не введено максимальна кількість символів для цієї текстової відповіді необмежена.
 assessment#:#detail_ending_time_reached#:#Ви досялги кінцевого часу теста. Тест не є доступним з %s
 assessment#:#detail_max_processing_time_reached#:#Ви досягли максимально допустимого часу проходження теста!
 assessment#:#detail_starting_time_not_reached#:#Ви не досялги початковго часу теста. Тест буде доступний %s
@@ -157,7 +157,7 @@ assessment#:#direct_feedback#:#Перевірте ваше рішення
 assessment#:#duplicate#:#Дублювати
 assessment#:#duplicate_matching_values_selected#:#Ви вибрали подвійно співпадаючі значення!
 assessment#:#duplicate_order_values_entered#:#Ви ввели подвійний порядок значень!
-assessment#:#duplicate_tst#:#Duplicate test###05 Nov 2004 new variable
+assessment#:#duplicate_tst#:#Дублювати тест
 assessment#:#ects_allow_ects_grades#:#Показати ECTS рівень додатково до отриманої оцінки
 assessment#:#ects_fill_out_all_values#:#БУдь ласка введіть значення для кожного ECTS рівня!
 assessment#:#ects_grade#:#ECTS рівень
@@ -191,21 +191,21 @@ assessment#:#error_importing_question#:#Відбулась помилка при
 assessment#:#error_open_image_file#:#Помилка відкриття графічного файлу!
 assessment#:#error_open_java_file#:#Помилка відкриття java аплета!
 assessment#:#error_save_image_file#:#Помилка зберігання графічного файла!
-assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
+assessment#:#eval_all_users#:#Оцінка для усіх користувачів
 assessment#:#eval_choice_result#:#Вибір зі значенням %s є %s. Ви досягли %s балів.
 assessment#:#eval_cloze_result#:#Проміжок номер %s зі значенням %s є %s. Ви досягли %s балів.
-assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
+assessment#:#eval_concatenation#:#Об'єднання
 assessment#:#eval_data#:#Дата Оцінки
-assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
-assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
+assessment#:#eval_found_selected_groups#:#Вибрані групи
+assessment#:#eval_found_selected_users#:#Вибрані користувачі
 assessment#:#eval_imagemap_result#:#Вибір карти зображення є %s. Ви отримали %s балів.
 assessment#:#eval_java_result#:#Відповідь зі значенням %s є %s. Ви отримали %s балів.
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###05 Nov 2004 new variable
 assessment#:#eval_matching_result#:#Співпадаюча пара %s - %s є %s. Ви отримали %s балів.
 assessment#:#eval_order_result#:#Команда зі значенням %s є %s. Ви отримали %s балів.
-assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
-assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
-assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_groups#:#Групи
+assessment#:#eval_search_term#:#Пошуковий термін
+assessment#:#eval_search_users#:#Користувачі
 assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
 assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
@@ -231,7 +231,7 @@ assessment#:#filter_show_questionpools#:#Показати фонди питан�
 assessment#:#gap#:#Проміжок
 assessment#:#gap_definition#:#Визначення проміжка
 assessment#:#gap_selection#:#Вибір проміжку
-assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
+assessment#:#glossary_term#:#Термін глосарію
 assessment#:#height#:#Висота
 assessment#:#imagemap#:#Карта зображення
 assessment#:#imagemap_file#:#Файл з картою зображення
