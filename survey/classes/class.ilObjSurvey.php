@@ -657,7 +657,6 @@ class ilObjSurvey extends ilObject
 		{
 			array_push($questions, $row["question_id"]);
 			$title = $row["title"];
-			$this->insertQuestion($row["question_id"]);
 		}
 		$this->createQuestionblock($title, $questions);
 	}
@@ -3544,7 +3543,7 @@ class ilObjSurvey extends ilObject
             $images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
-            $order = " ORDER BY TIMESTAMP $value";
+            $order = " ORDER BY survey_question.TIMESTAMP $value";
             $images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
 					case "qpl":

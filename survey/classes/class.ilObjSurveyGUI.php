@@ -1335,7 +1335,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter() . "&browsetype=" . $_GET["browsetype"]);
+		$this->ctrl->setParameterByClass(get_class($this), "browsetype", $_GET["browsetype"]);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1891,7 +1892,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($question_id)
 		{
@@ -1909,7 +1910,85 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 	}
+
+/**
+* Insert questions or question blocks into the survey after confirmation
+*
+* Insert questions or question blocks into the survey after confirmation
+*
+* @access public
+*/
+	function confirmInsertQuestionObject()
+	{
+		// insert questions from test after confirmation
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/id_(\d+)/", $key, $matches)) {
+				if ($_GET["browsetype"] == 1)
+				{
+					$this->object->insertQuestion($matches[1]);
+				}
+				else
+				{
+					$this->object->insertQuestionBlock($matches[1]);
+				}
+			}
+		}
+		$this->object->saveCompletionStatus();
+		sendInfo($this->lng->txt("questions_inserted"), true);
+		$this->ctrl->redirect($this, "questions");
+	}
 	
+/**
+* Cancels insert questions or question blocks into the survey
+*
+* Cancels insert questions or question blocks into the survey
+*
+* @access public
+*/
+	function cancelInsertQuestionObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+
+/**
+* Saves an edited heading in the survey questions list
+*
+* Saves an edited heading in the survey questions list
+*
+* @access public
+*/
+	function saveHeadingObject()
+	{
+		if ($_POST["heading"])
+		{
+			$insertbefore = $_POST["insertbefore"];
+			if (!$insertbefore)
+			{
+				$insertbefore = $_POST["insertbefore_original"];
+			}
+			$this->object->saveHeading($_POST["heading"], $insertbefore);
+			$this->ctrl->redirect($this, "questions");
+		}
+		else
+		{
+			sendInfo($this->lng->txt("error_add_heading"));
+			$this->addHeadingObject();
+			return;
+		}
+	}
+	
+/**
+* Cancels saving a heading in the survey questions list
+*
+* Cancels saving a heading in the survey questions list
+*
+* @access public
+*/
+	function cancelHeadingObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+
 /**
 * Creates the questions form for the survey object
 *
@@ -1955,25 +2034,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_GET["qbdown"] > 0)
 		{
 			$this->object->moveDownQuestionblock($_GET["qbdown"]);
-		}
-		
-		if ($_POST["cmd"]["saveHeading"])
-		{
-			if ($_POST["heading"])
-			{
-				$insertbefore = $_POST["insertbefore"];
-				if (!$insertbefore)
-				{
-					$insertbefore = $_POST["insertbefore_original"];
-				}
-				$this->object->saveHeading($_POST["heading"], $insertbefore);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("error_add_heading"));
-				$this->addHeadingObject();
-				return;
-			}
 		}
 		
 		if ($_POST["cmd"]["addHeading"])
@@ -2251,25 +2311,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->questionBrowser();
 				return;
 			}
-		}
-
-		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
-		{
-			// insert questions from test after confirmation
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					if ($_GET["browsetype"] == 1)
-					{
-						$this->object->insertQuestion($matches[1]);
-					}
-					else
-					{
-						$this->object->insertQuestionBlock($matches[1]);
-					}
-				}
-			}
-			$this->object->saveCompletionStatus();
-			sendInfo($this->lng->txt("questions_inserted"));
 		}
 
 		if (strlen($_POST["cmd"]["confirm_remove"]) > 0)
@@ -4314,7 +4355,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "survey.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("svy_export_files"));
 
@@ -4651,7 +4692,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "survey.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
