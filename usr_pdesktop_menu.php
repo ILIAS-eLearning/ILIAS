@@ -34,6 +34,8 @@
 */
 require_once "./include/inc.header.php";
 
+global $ilias_locator;
+
 // get skin = path to the specific template
 $template_path = $ilias->tplPath.$ilias->account->getPref("skin");
 // menu bar for the personal desktop
@@ -253,9 +255,9 @@ if ($_GET["cmd"] == "mail")
 }#########################cmd=mail
 
 
-// menu bar for search, feedback,groups and forum
+// menu bar for search, feedback and repository
 if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or 
-    ($_GET["cmd"] == "groups" ) or ($_GET["cmd"] == "forum" ))
+    ($_GET["cmd"] == "repos" ))
 {
 	//add template for content within the linkbar
 	$tpl->addBlockfile("CONTENT", "content", "tpl.content_start.html");
@@ -285,20 +287,22 @@ if (($_GET["cmd"] == "search" ) or ($_GET["cmd"] == "feedback" ) or
 	
 	if ($_GET["cmd"] == "search" )
 	{
+	// navigate locator
+	$ilias_locator->navigate(1,$lng->txt("search"),"search.php","bottom");
+	
 	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Suchen.gif");
 	}
 	
 	if ($_GET["cmd"] == "feedback" )
 	{
+	// navigate locator
+	$ilias_locator->navigate(1,$lng->txt("feedback"),"feedback.php","bottom");
+	
 	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Feedback.gif");
 	}
 	
-	if ($_GET["cmd"] == "groups" )
-	{
-	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/gruppen.gif");
-	}
-	
-	if ($_GET["cmd"] == "forum" )
+
+	if ($_GET["cmd"] == "repos" )
 	{
 	$tpl->setVariable("SHOW_PAGE_IMAGE_SRC",$template_path."/images/layout/Forum.gif");
 	}
