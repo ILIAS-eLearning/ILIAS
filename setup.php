@@ -93,7 +93,7 @@ if ($ini_exists)
 if ($db_exists)
 {
 	$passwd_exists = $mySetup->checkPasswordExists();
-	require_once "./classes/class.DBUpdate.php";
+	require_once "./classes/class.ilDBUpdate.php";
 }
 
 if ($_SESSION["auth_setup"] == "yes")

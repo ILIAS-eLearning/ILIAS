@@ -9,7 +9,7 @@
 * @version $Id$
 * @package application
 */
-class DBUpdate
+class ilDBUpdate
 {
 	/**
 	* db update file
@@ -31,7 +31,7 @@ class DBUpdate
 	/**
 	* constructor
 	*/
-	function DBUpdate()
+	function ilDBUpdate()
 	{
 	    global $mySetup;
 		$this->db = $mySetup->db;	
