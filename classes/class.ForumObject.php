@@ -131,7 +131,10 @@ class ForumObject extends Object
 	
 	
 	/**
-	* delete forum and all contents	
+	* delete forum and all its contents	
+	* @param	int		a_obj_id
+	* @param	int		a_parent_id
+	* @param	int		a_tree_id (optional)
 	* @access public
 	*/
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
@@ -160,7 +163,7 @@ class ForumObject extends Object
 			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = '".$thrData["thr_pk"]."'";
 			$this->ilias->db->query($query);
 			
-			// delete thread
+			// delete threads
 			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
 			$this->ilias->db->query($query);
 		}
@@ -177,6 +180,10 @@ class ForumObject extends Object
 	
 	/**
 	* copy all entries of a forum object !!! IT MUST RETURN THE NEW OBJECT ID !!
+	* @param	int		a_obj_id
+	* @param	int		a_parent
+	* @param	int		a_dest_id
+	* @param	int		a_dest_parent
 	* @access	public
 	* @return new object id
 	*/
