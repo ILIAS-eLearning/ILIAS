@@ -75,14 +75,42 @@ Wir stellen Ihnen die einzelnen Funktionen im Folgenden detailliert vor.<br />
 <br />
 <a name="#chapter31"></a><h2>3.1&nbsp;Voraussetzungen</h2><br />
 <br />
-ILIAS3 benötigt einige Voraussetzungen auf dem Server-Rechner, um ordnungsgemäß zu laufen. Sie benötigen einen Webserver (empfohlen: Apache), eine aktuelle PHP-Version (ab Version 4.2.3) und die aktuellste PEAR-Version (PHP-Framework, Funktions-Bibliothek), eine SQL-Datenbank (empfohlen MySQL). Weiterhin sollten die Mailfunktionen von PHP aus verfügbar sein. Auf die Softwareseitigen Komponenten sollen an dieser Stelle nicht weiter eingegangen werden. Bitte schauen Sie in die entsprechenden Dokumentationen der einzelnen Komponenten. Die aktuellste PEAR-Version finden Sie unter <a href="http://pear.php.net" target="_blank" target="_new">http://pear.php.net</a>.<br />
-<a name="#chapter32"></a><h2>3.2&nbsp;Installation von ILIAS3</h2><br />
+ILIAS3 benötigt einige Voraussetzungen auf dem Server-Rechner, um ordnungsgemäß zu laufen. Sie benötigen einen Webserver (empfohlen: Apache), eine aktuelle PHP-Version (ab Version 4.2.3) und die aktuellste PEAR-Version (PHP-Framework, Funktions-Bibliothek), eine SQL-Datenbank (empfohlen MySQL). Weiterhin sollten die Mailfunktionen von PHP aus verfügbar sein. An dieser Stelle betrachten wir die Installation der PEAR-Komponenten und die Installation von ILIAS3 selbst.<br />
+<br />
+Auf die anderen Komponenten (Apache, z.B. mySQL, usw) soll an dieser Stelle nicht weiter eingegangen werden. Bitte schauen Sie in die entsprechenden Dokumentationen der einzelnen Komponenten. <br />
+<br />
+<a name="#chapter32"></a><h2>3.2&nbsp;Installation</h2><br />
+<br />
+<br />
+<a name="#chapter321"></a><h3>3.2.1&nbsp;Installation von PEAR</h3><br />
+<br />
+Die Dokumentation von PEAR finden Sie unter <a href="http://pear.php.net" target="_blank" target="_new">http://pear.php.net</a>. Die Module selbst bekommen Sie aus dem CVS. Bitte loggen Sie sich dazu in das Pear-cvs ein:<br />
+<br />
+cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> login<br />
+<br />
+Das Passwort ist phpfi.<br />
+<br />
+Jetzt können Sie das DB-Modul mithilfe von <br />
+<br />
+cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> co pear/DB<br />
+<br />
+auschecken. Bitte kopieren Sie den Inhalt des DB-Verzeichnisses in Ihr pear-Verzeichnis auf dem Webserver, so dass Sie die DB.php und das DB-Verzeichnis überschreiben.<br />
+<br />
+Das Auth Modul bekommen sie schließlich mithilfe von<br />
+<br />
+cvs -d :pserver:<a href="mailto:cvsread@cvs.pear.net:/repository" target="_new">cvsread@cvs.pear.net:/repository</a> co pear/Auth<br />
+<br />
+Bitte kopieren Sie auch hier das Auth-Verzeichnis so, dass der Auth-Ordner direkt im pear-Verzeichnis liegt.<br />
+<br />
+Bitte verwechseln Sie nicht das pear-Verzeichnis mit dem PEAR-Verzeichnis. das PEAR-Verzeichnis ist ein Unterordner ihrer PEAR-Bibliothek im pear-Verzeichnis.<br />
+<br />
+<a name="#chapter322"></a><h3>3.2.2&nbsp;Installation von ILIAS3</h3><br />
 Éntpacken Sie das mitgelieferte Archiv in das gewünschte Web-Verzeichnis unter ihrem Webroot (z.B. /var/www/ilias3/, im Folgenden abgekürzt mit …/ilias3/).<br />
 Rufen Sie unter ihrem Internetbrowser die Datei setup.php auf. <br />
 <tt></tt><br />
 Folgen Sie den Anweisungen auf dem Bildschirm für eine automatische Installation von ILIAS3. <br />
 <br />
-<a name="#chapter321"></a><h3>3.2.1&nbsp;Manuelles Setup</h3><br />
+<a name="#chapter3221"></a><h4>3.2.2.1&nbsp;Manuelles Setup</h4><br />
 Für den Fall, dass es nicht möglich ist, ILIAS3 automatisch zu installieren (INI-Datei schreiben nicht möglich, Datenbankzugangsdaten nicht griffbereit) können Sie auch ein manuelles Setup durchführen.<br />
 Schreiben der Ini-Datei<br />
 Kopieren Sie die Datei ilias.master.inc.php nach ilias.inc.php. Passen Sie dort die Daten, insbesondere Datenbankzugangsdaten an Ihr System an.<br />
@@ -90,7 +118,7 @@ Einrichtung der Datenbank<br />
 Erstellen Sie eine Datenbank mit dem Namen, den Sie auch in der INI-Datei eingetragen haben. Spielen Sie in diese Datenbank das SQL-Datenbank-Template im sql-Unterverzeichnis Ihrer ILIAS3-Installation ein.<br />
 Sprachdateien<br />
 Das Sprachkonzept unterliegt einem Mechanismus, der Schreibrechte auf das Sprachenverzeichnis …/ilias3/lang benötigt. Bitte ermöglichen Sie Schreibzugriff für den Webserver.<br />
-<a name="#chapter322"></a><h3>3.2.2&nbsp;Abschluss der Installation</h3><br />
+<a name="#chapter3222"></a><h4>3.2.2.2&nbsp;Abschluss der Installation</h4><br />
 Falls Ihre Installation erfolgreich war, zeigt Ihnen das ILIAS3-Setup durch folgenden Bildschirm an:<br />
 <tt></tt><br />
 Sie können sich nun auf der Startseite von ILIAS3 (also z.B. <a href="http://localhost/ilias3/" target="_blank" target="_new">http://localhost/ilias3/</a>) unter folgendem Benutzernamen anmelden:<br />
@@ -100,8 +128,8 @@ chmod 000 setup.php<br />
 den Zugriff Dritter auf die Setup-Datei.<br />
 Sie haben jetzt die Möglichkeit ILIAS3 zu administrieren, Benutzer anzulegen, etc.<br />
 <br />
-<a name="#chapter323"></a><h3>3.2.3&nbsp;Anlegen von Benutzern</h3><br />
-<a name="#chapter324"></a><h3>3.2.4&nbsp;Erstellen von Lerneinheiten</h3><br />
+<a name="#chapter3223"></a><h4>3.2.2.3&nbsp;Anlegen von Benutzern</h4><br />
+<a name="#chapter3224"></a><h4>3.2.2.4&nbsp;Erstellen von Lerneinheiten</h4><br />
 <br />
 <br />
 <br />
