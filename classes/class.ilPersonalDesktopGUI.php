@@ -476,8 +476,12 @@ class ilPersonalDesktopGUI
 			$i++;
 			$this->tpl->setCurrentBlock("tbl_tst_row");
 			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TST_LINK", $tst_item["link"]);
-			$this->tpl->setVariable("TST_TITLE", $tst_item["title"]);
+			if ($tst_item["starting_time_not_reached"] == 1) {
+				$this->tpl->setVariable("TST_TITLE_UNLINKED", $tst_item["title"]);
+			} else {
+				$this->tpl->setVariable("TST_LINK", $tst_item["link"]);
+				$this->tpl->setVariable("TST_TITLE", $tst_item["title"]);
+			}
 			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=tst&id=".$tst_item["id"]);
 			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
 	    $this->lng->loadLanguageModule("assessment");

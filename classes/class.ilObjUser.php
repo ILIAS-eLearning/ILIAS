@@ -1681,7 +1681,7 @@ class ilObjUser extends ilObject
 				if ($whereclause) {
 					$status_array = array();
 					$whereclause = "WHERE ($whereclause) AND ";
-					$q = sprintf("SELECT tst_tests.ref_fi as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active $whereclause tst_tests.test_id = tst_active.test_fi AND tst_active.user_fi = %s",
+					$q = sprintf("SELECT tst_tests.test_type_fi, tst_tests.starting_time, tst_tests.ref_fi as id, tst_tests.nr_of_tries, tst_active.tries FROM tst_tests, tst_active $whereclause tst_tests.test_id = tst_active.test_fi AND tst_active.user_fi = %s",
 						$this->ilias->db->quote($ilUser->id)
 					);
 					$item_set = $this->ilias->db->query($q);
@@ -1691,6 +1691,17 @@ class ilObjUser extends ilObject
 					foreach ($items as $key => $value) {
 						$items[$key]["nr_of_tries"] = $status_array[$value["id"]]->nr_of_tries;
 						$items[$key]["used_tries"] = $status_array[$value["id"]]->tries;
+						if ($status_array[$value["id"]]->test_type_fi == 1) {
+							// assessment test. check starting time
+							if ($status_array[$value["id"]]->starting_time) {
+								preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $status_array[$value["id"]]->starting_time, $matches);
+								$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+								$now = mktime();
+								if ($now < $epoch_time) {
+									$items[$key]["starting_time_not_reached"] = 1;
+								}
+							}
+						}
 					}
 				}
 				break;

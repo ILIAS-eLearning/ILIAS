@@ -187,7 +187,13 @@ body { margin:0px; }
   </tr>
 <!-- BEGIN tbl_tst_row -->
   <tr class="{ROWCOL}">
-	<td class="std"><a href="{TST_LINK}" class="navigation" target="bottom">{TST_TITLE}</a>
+	<td class="std">
+<!-- BEGIN linked_test -->
+	<a href="{TST_LINK}" class="navigation" target="bottom">{TST_TITLE}</a>
+<!-- END linked_test -->
+<!-- BEGIN unlinked_test -->
+	{TST_TITLE_UNLINKED}
+<!-- END unlinked_test -->
 	&nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 	</td>
 	<td class="std">{TST_STATUS_IMAGE}</td>
