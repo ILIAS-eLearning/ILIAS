@@ -53,15 +53,19 @@ $inhalt1[] = array($inc_type ,"usr_profile.php",$lng->txt("personal_profile"),"b
 if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 {
 	// user calendar
-/*	$inc_type = $script_name == "tabinactive";
-	$inhalt1[] = array(inc_type,"cal_month_overview.php",$lng->txt("calendar"),"bottom","usr_pdesktop_menu.php?cmd=cal","left");
-	
-	// user agreement
+	$inc_type = ($script_name == "inbox.php")
+		? "tabactive"
+		: "tabinactive";
+	$inhalt1[] = array($inc_type,"modules/dateplaner/inbox.php",$lng->txt("calendar"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+
+/*	// user agreement
 	$inc_type = $script_name == "usr_agreement.php" ? "tabactive" : "tabinactive";
 	$inhalt1[] = array($inc_type,"usr_agreement.php",$lng->txt("usr_agreement"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 */
 	// user bookmarks
-	$inc_type = $script_name == "usr_bookmarks.php" ? "tabactive" : "tabinactive";
+	$inc_type = ($script_name == "usr_bookmarks.php")
+		? "tabactive"
+		: "tabinactive";
 	$inhalt1[] = array($inc_type,"usr_bookmarks.php",$lng->txt("bookmarks"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
 
 }
