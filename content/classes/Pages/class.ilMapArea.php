@@ -501,7 +501,7 @@ class ilMapArea
 			$p = 1;
 		}
 
-		$anz = $this->countCoords($coords);
+		$anz = ilMapArea::countCoords($coords);
 
 		if ($anz < (3 - $p))
 		{
