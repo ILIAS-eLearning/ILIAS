@@ -1583,7 +1583,7 @@ class ilObjectGUI
 		}
 		else
 		{
-			ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+			ilUtil::redirect($this->getReturnLocation("cancel",$this->ctrl->getTargetScript()."?".$this->link_params));
 		}
 	}
 
