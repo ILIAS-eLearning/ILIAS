@@ -142,51 +142,25 @@ class ilLanguage
 
 		$this->loaded_modules = array();
 
-		// if no ilias.ini.php was found set default values (->for setup-routine)
-		// DEPRECATED
-		if (basename($_SERVER["PHP_SELF"]) == "setup.php")
+		$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
+
+		// if no directory was found fall back to default lang dir
+		if (!is_dir($this->lang_path))
 		{
-			$this->lang_path = getcwd()."/lang";
-			$this->lang_default = "en";
-
-			$txt = file($this->lang_path."/setup_".$this->lang_key.".lang");
-
-			$this->lang_name = $txt[0];
-
-			if (is_array($txt))
-			{
-				foreach ($txt as $row)
-				{
-					if ($row[0] != "#")
-					{
-						$a = explode($this->separator,trim($row));
-						$this->text[trim($a[0])] = trim($a[1]);
-					}
-				}
-			}
+			$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
 		}
-		else
+
+		$this->lang_default = $this->ilias->ini->readVariable("language","default");
+		$this->lang_user = $this->ilias->account->prefs["language"];
+		
+		$langs = $this->getInstalledLanguages();
+		
+		if (!in_array($this->lang_key,$langs))
 		{
-			$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
-
-			// if no directory was found fall back to default lang dir
-			if (!is_dir($this->lang_path))
-			{
-				$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
-			}
-
-			$this->lang_default = $this->ilias->ini->readVariable("language","default");
-			$this->lang_user = $this->ilias->account->prefs["language"];
-			
-			$langs = $this->getInstalledLanguages();
-			
-			if (!in_array($this->lang_key,$langs))
-			{
-				$this->lang_key = $this->lang_default;
-			}
-
-			$this->loadLanguageModule("common");
+			$this->lang_key = $this->lang_default;
 		}
+
+		$this->loadLanguageModule("common");
 
 		return true;
 	}
