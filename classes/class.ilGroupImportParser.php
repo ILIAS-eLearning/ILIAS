@@ -68,7 +68,7 @@ class ilGroupImportParser extends ilSaxParser
 	}
 	function __popParentId()
 	{
-		unset($this->parent[count($this->parent) - 1]);
+		array_pop($this->parent);
 
 		return true;
 	}
@@ -200,8 +200,12 @@ class ilGroupImportParser extends ilSaxParser
 	// PRIVATE
 	function __save()
 	{
-		$this->__initGroupObject();
+		if($this->group_imported)
+		{
+			return true;
+		}
 
+		$this->__initGroupObject();
 		
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
@@ -221,9 +225,10 @@ class ilGroupImportParser extends ilSaxParser
 		// ASSIGN ADMINS/MEMBERS
 		$this->__assignMembers();
 
-
-
 		$this->__pushParentId($this->group_obj->getRefId());
+
+		
+		$this->group_imported = true;
 	
 		return true;
 	}
@@ -264,11 +269,6 @@ class ilGroupImportParser extends ilSaxParser
 
 		if($this->import_file_obj->findObjectFile($this->file["id"]))
 		{
-			var_dump("<pre>",mime_content_type($this->import_file_obj->getObjectFile()),"<pre>");
-			if(function_exists("mime_content_type"))
-			{
-			}
-
 			$this->file_obj->copy($this->import_file_obj->getObjectFile(),$this->file["fileName"]);
 		}
 
