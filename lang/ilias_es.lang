@@ -44,6 +44,10 @@ common#:#add#:#add###16 Apr 2003 content changed
 common#:#add_author#:#add author###20 Mar 2003 new variable
 common#:#add_member#:#add member###20 Mar 2003 new variable
 common#:#add_translation#:#Add translation###01 Sep 2003 new variable
+common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
+common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
+common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
 common#:#administrate#:#administrate###20 Mar 2003 new variable
 common#:#administration#:#administration###20 Mar 2003 new variable
 common#:#administrator#:#administrator###20 Mar 2003 new variable
@@ -93,8 +97,23 @@ common#:#cat#:#cat
 common#:#cat_a#:#a category###06 Aug 2003 new variable
 common#:#cat_add#:#Add Category###06 Aug 2003 new variable
 common#:#cat_added#:#Category added###16 Jul 2003 new variable
+common#:#cat_create#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
+common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
+common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
+common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
+common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
+common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
 common#:#cat_edit#:#Edit Category###01 Sep 2003 new variable
+common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#cat_new#:#New Category###06 Aug 2003 new variable
+common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
+common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
+common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#categories
 common#:#cc#:#cc
 common#:#censorship#:#censorship###13 May 2003 new variable
@@ -143,9 +162,21 @@ common#:#crs_a#:#a Course###06 Aug 2003 new variable
 common#:#crs_add#:#Add Course###06 Aug 2003 new variable
 common#:#crs_added#:#Course added###16 Jul 2003 new variable
 common#:#crs_available#:#available courses
+common#:#crs_create#:#Create Course###13 Jan 2004 new variable
+common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
+common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
 common#:#crs_edit#:#Edit Course###01 Sep 2003 new variable
+common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
+common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
 common#:#crs_management_system#:#course management system
 common#:#crs_new#:#New Course###06 Aug 2003 new variable
+common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
+common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
+common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
 common#:#current_password#:#current password
 common#:#cut#:#cut
 common#:#cutPage#:#Cut###19 Sep 2003 new variable
@@ -167,7 +198,13 @@ common#:#dbk#:#Digilib Book###02 Oct 2003 new variable
 common#:#dbk_a#:#a Digilib Book###02 Oct 2003 new variable
 common#:#dbk_add#:#Add Digilib Book###02 Oct 2003 new variable
 common#:#dbk_added#:#Digilib Book added###02 Oct 2003 new variable
+common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
+common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
+common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#dbk_new#:#New Digilib Book###02 Oct 2003 new variable
+common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
+common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
+common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#default
 common#:#default_language#:#Default Language###20 Mar 2003 new variable
 common#:#default_role#:#Default Role###05 Nov 2003 new variable
@@ -218,10 +255,13 @@ common#:#exc_add#:#Add Exercise###07 Nov 2003 new variable
 common#:#exc_added#:#Exercise added###07 Nov 2003 new variable
 common#:#exc_ask_delete#:#Delete file?###06 Nov 2003 new variable
 common#:#exc_assign_usr#:#Assign User###06 Nov 2003 new variable
+common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
 common#:#exc_date_not_valid#:#The date is not valid###06 Nov 2003 new variable
 common#:#exc_deassign_members#:#Delete member(s)###06 Nov 2003 new variable
+common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
 common#:#exc_edit#:#New exercise created###06 Nov 2003 new variable
 common#:#exc_edit_exercise#:#Edit exercise###06 Nov 2003 new variable
+common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#exc_edit_until#:#Edit until###06 Nov 2003 new variable
 common#:#exc_files#:#Files###06 Nov 2003 new variable
 common#:#exc_groups#:#Groups###07 Nov 2003 new variable
@@ -233,6 +273,7 @@ common#:#exc_new#:#New exercise###07 Nov 2003 new variable
 common#:#exc_no_members_assigned#:#No members assigned###06 Nov 2003 new variable
 common#:#exc_notices#:#Notices###06 Nov 2003 new variable
 common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
+common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
 common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
 common#:#exc_search_for#:#Search for###07 Nov 2003 new variable
 common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
@@ -243,6 +284,8 @@ common#:#exc_status_saved#:#Exercise updated###06 Nov 2003 new variable
 common#:#exc_status_solved#:#Solved###06 Nov 2003 new variable
 common#:#exc_upload_error#:#Error uploading file###06 Nov 2003 new variable
 common#:#exc_users#:#Users###07 Nov 2003 new variable
+common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
+common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
 common#:#excs#:#Exercises###17 Dec 2003 new variable
 common#:#execute#:#execute
 common#:#export_html#:#export as html file###09 May 2003 new variable
@@ -281,8 +324,16 @@ common#:#frm#:#frm
 common#:#frm_a#:#a Forum###06 Aug 2003 new variable
 common#:#frm_add#:#Add Forum###06 Aug 2003 new variable
 common#:#frm_added#:#Forum added###06 Aug 2003 new variable
+common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
+common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
+common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
 common#:#frm_edit#:#Edit Forum###01 Sep 2003 new variable
+common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
 common#:#frm_new#:#New Forum###06 Aug 2003 new variable
+common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
+common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
+common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
 common#:#from#:#from:###25 Mar 2003 content changed
 common#:#fullname#:#Fullname###20 Aug 2003 new variable
 common#:#functions#:#functions
@@ -296,7 +347,15 @@ common#:#glo#:#Glossary###15 Aug 2003 new variable
 common#:#glo_a#:#a Glossary###01 Oct 2003 new variable
 common#:#glo_add#:#Add Glossary###22 Sep 2003 new variable
 common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
+common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
+common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
+common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
+common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
 common#:#glo_new#:#New Glossary###22 Sep 2003 new variable
+common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
+common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
+common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
 common#:#glossaries#:#Glossaries###16 Nov 2003 new variable
 common#:#glossary#:#glossary
 common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
@@ -334,7 +393,15 @@ common#:#grp#:#grp
 common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
+common#:#grp_create#:#Create Group###13 Jan 2004 new variable
+common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
+common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
+common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
+common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
+common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
 common#:#grp_edit#:#Edit Group###01 Sep 2003 new variable
+common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
 common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
@@ -342,14 +409,19 @@ common#:#grp_err_last_member#:#Last member could not be removed, please delete g
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
+common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
+common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
 common#:#grp_mem_change_status#:#Change member status###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Dismiss member from group###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Send member a message###02 Oct 2003 new variable
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.###17 Oct 2003 new variable
 common#:#grp_new#:#New Group###06 Aug 2003 new variable
+common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
 common#:#grp_register#:#Register###21 Nov 2003 new variable
 common#:#grp_registration_completed#:#Registration completed###21 Nov 2003 new variable
+common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
+common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
 common#:#guest#:#Guest###20 Aug 2003 new variable
 common#:#guests#:#Guests###20 Aug 2003 new variable
 common#:#help#:#help
@@ -450,6 +522,10 @@ common#:#last_visit#:#Last visit###07 Feb 2003 new variable
 common#:#lastname#:#lastname###29 Oct 2003 content changed
 common#:#launch#:#launch
 common#:#ldap#:#LDAP
+common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
+common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
+common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
 common#:#learning_objects#:#Learning Objects###04 Aug 2003 new variable
 common#:#learning_resources#:#Learning Resources###29 Oct 2003 new variable
 common#:#level#:#level
@@ -463,9 +539,20 @@ common#:#lm#:#Learning Module###14 May 2003 new variable
 common#:#lm_a#:#a Learning module###06 Aug 2003 new variable
 common#:#lm_add#:#Add Learning Module###06 Aug 2003 new variable
 common#:#lm_added#:#LearningModule added###16 Jul 2003 new variable
+common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
+common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
+common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
+common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
 common#:#lm_new#:#New Learning Module###06 Aug 2003 new variable
+common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
+common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
+common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
 common#:#lng#:#idioma
-common#:#lngf#:#idiomaf
+common#:#lngf#:#idiomaf###13 Jan 2004 content changed
+common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
+common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
 common#:#lo#:#learning object
 common#:#lo_available#:#Overview learning modules & courses###07 Feb 2003 content changed
 common#:#lo_categories#:#lo categories
@@ -495,6 +582,7 @@ common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
 common#:#mail_delete_error_file#:#Error deleting file###04 Apr 2003 new variable
 common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
+common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#mail_folders#:#Mail Folders###04 Aug 2003 new variable
 common#:#mail_intern_enable#:#Enable###25 Mar 2003 new variable
 common#:#mail_mails_of#:#Mails of###25 Mar 2003 new variable
@@ -504,12 +592,17 @@ common#:#mail_maxsize_mail#:#Max. mail size###25 Mar 2003 new variable
 common#:#mail_maxtime_attach#:#Max. days to keep attachments###25 Mar 2003 new variable
 common#:#mail_maxtime_mail#:#Max. days to keep mails ###25 Mar 2003 new variable
 common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
+common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
 common#:#mail_search_no#:#No entries found###28 Mar 2003 new variable
 common#:#mail_search_word#:#Search word###25 Mar 2003 new variable
 common#:#mail_select_one#:#You have to select one mail.###25 Mar 2003 new variable
 common#:#mail_send_error#:#Error sending mail###25 Mar 2003 new variable
 common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
+common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
 common#:#mail_system#:#System Message###03 Apr 2003 new variable
+common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
+common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
+common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
 common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
 common#:#mails#:#mails
 common#:#mark_all_read#:#mark all as read
@@ -635,6 +728,7 @@ common#:#obj_adm_desc#:#Main system settings folder containing all panels to adm
 common#:#obj_cat#:#Category###15 May 2003 new variable
 common#:#obj_crs#:#Course###15 May 2003 new variable
 common#:#obj_dbk#:#Digilib Book###02 Oct 2003 new variable
+common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
 common#:#obj_file#:#File###15 May 2003 new variable
 common#:#obj_fold#:#Folder###02 Oct 2003 new variable
 common#:#obj_frm#:#Forum###15 May 2003 new variable
@@ -642,7 +736,6 @@ common#:#obj_glo#:#Glossary###15 Aug 2003 new variable
 common#:#obj_grp#:#Group###15 May 2003 new variable
 common#:#obj_ldap#:#LDAP Settings###28 Oct 2003 new variable
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.###28 Oct 2003 new variable
-common#:#obj_le#:#Learning Module###15 May 2003 new variable
 common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
 common#:#obj_lng#:#Language###15 May 2003 new variable
 common#:#obj_lngf#:#Language Administration###15 May 2003 new variable
@@ -650,6 +743,7 @@ common#:#obj_lngf_desc#:#Manage your system languages here.###01 Oct 2003 new va
 common#:#obj_lo#:#LearningObject###15 May 2003 new variable
 common#:#obj_mail#:#Mail Settings###15 May 2003 new variable
 common#:#obj_mail_desc#:#Configure global mail settings here.###01 Oct 2003 new variable
+common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
 common#:#obj_not_found#:#object_not_found
 common#:#obj_note#:#Note###15 May 2003 new variable
 common#:#obj_notf#:#Note Administration###15 May 2003 new variable
@@ -674,6 +768,10 @@ common#:#obj_usrf#:#User Administration###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Manage user accounts here.###01 Oct 2003 new variable
 common#:#objects#:#objects
 common#:#objf#:#objf###02 Oct 2003 content changed
+common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
+common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
+common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
 common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
 common#:#objs_delete#:#Delete objects###02 Oct 2003 new variable
 common#:#of#:#de
@@ -782,14 +880,26 @@ common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
 common#:#role_edit#:#Edit Role###30 Oct 2003 new variable
 common#:#role_new#:#New Role###30 Oct 2003 new variable
 common#:#roles#:#roles
-common#:#rolf#:#rolf
+common#:#rolf#:#rolf###13 Jan 2004 content changed
 common#:#rolf_added#:#Role Folder added###16 Jul 2003 new variable
+common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
+common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
+common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
+common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
 common#:#rolt#:#rolt
 common#:#rolt_a#:#a Role Template###30 Oct 2003 new variable
 common#:#rolt_add#:#Add Role Template###30 Oct 2003 new variable
 common#:#rolt_added#:#Role template added###02 Apr 2003 new variable
 common#:#rolt_edit#:#Edit Role Template###30 Oct 2003 new variable
 common#:#rolt_new#:#New Role Template###30 Oct 2003 new variable
+common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
+common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
+common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
+common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
 common#:#salutation#:#salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -834,6 +944,14 @@ common#:#show_structure#:#enable structuredview###29 Oct 2003 new variable
 common#:#signature#:#signature
 common#:#slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#slm_added#:#SCORM LearningModule added###16 Jul 2003 new variable
+common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
+common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#sort_by_this_column#:#Sort by this column###30 May 2003 new variable
 common#:#st_a#:#a chapter###18 Sep 2003 new variable
@@ -911,7 +1029,13 @@ common#:#usr_edit#:#Edit User###30 Oct 2003 new variable
 common#:#usr_new#:#New User###30 Oct 2003 new variable
 common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
 common#:#usr_style#:#usr style
-common#:#usrf#:#usrf
+common#:#usrf#:#usrf###13 Jan 2004 content changed
+common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
+common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
+common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
+common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
+common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
 common#:#validate#:#Validate###04 Mar 2003 new variable
 common#:#value#:#value###26 Mar 2003 new variable
 common#:#version#:#version
