@@ -2561,14 +2561,46 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$counter = 0;
 		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
+		$this->tpl->setCurrentBlock("headercell");
+		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
+		$this->tpl->parseCurrentBlock();
+		$char = "A";
 		foreach ($questions as $question_id => $question_data)
 		{
 			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $question_data["title"]);
+			$this->tpl->setVariable("TEXT_HEADER_CELL", $char);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("legendrow");
+			$this->tpl->setVariable("TEXT_KEY", $char++);
+			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		foreach ($eval as $user_id => $resultset)
 		{
+			$this->tpl->setCurrentBlock("bodycell");
+			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
+			$this->tpl->parseCurrentBlock();
+			foreach ($questions as $question_id => $question_data)
+			{
+				if (count($resultset["answers"][$question_id]))
+				{
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->setVariable("TEXT_BODY_CELL", "answers");
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("bodycell");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->setVariable("TEXT_BODY_CELL", $this->lng->txt("skipped"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->parse("row");
+			$counter++;
 		}
 		if (!$print)
 		{
@@ -2589,6 +2621,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TEXT_LEGEND", $this->lng->txt("legend"));
+		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
 		$this->tpl->parseCurrentBlock();
 		if ($print)

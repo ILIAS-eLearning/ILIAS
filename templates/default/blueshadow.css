@@ -23,6 +23,11 @@ a.menu:hover {
 	color:#DDDDFF;
 }
 
+a.offline, a.offline:visited
+{
+	font-style: italic;
+}
+
 input {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 }

@@ -979,6 +979,11 @@ class ilRepositoryGUI
 
 				}
 
+				if (strcmp($lr_data["type"], "lm") == 0)
+				{
+					$contentObj = new ilObjContentObject($lr_data["ref_id"]);
+					$contentObj->readProperties();
+				}
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" ||
 					$lr_data["type"] == "alm" || $lr_data["type"] == "hlm" ||
@@ -992,6 +997,13 @@ class ilRepositoryGUI
 					if ($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
 					{
 						$tpl->setCurrentBlock("lres_read");
+						if (strcmp($lr_data["type"], "lm") == 0)
+						{
+							if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]) && !$contentObj->getOnline())
+							{
+								$tpl->setVariable("R_CLASS", " class=\"offline\"");
+							}
+						}
 						$tpl->setVariable("VIEW_LINK", $read_link);
 
 						if (($isBuyable && ilPaymentObject::_hasAccess($lr_data["ref_id"]) == false) ||
@@ -1061,9 +1073,25 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tbl_content");
 				}
 
-
-				$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"].".gif"));
-				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
+				require_once("./content/classes/class.ilObjContentObject.php");
+				if (strcmp($lr_data["type"], "lm") == 0)
+				{
+					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]) && !$contentObj->getOnline())
+					{
+						$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"]."_offline".".gif"));
+						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]) . " (" . $this->lng->txt("offline") . ")");
+					}
+					else
+					{
+						$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"].".gif"));
+						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
+					}
+				}
+				else
+				{
+					$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"].".gif"));
+					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
+				}
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->parseCurrentBlock();
