@@ -95,16 +95,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
-				//if ($cmd != "preview" && $cmd != "assessment")
-				//{
-				//	$this->getQuestionTemplate($q_gui, $q_type);
-				//}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
-				//if ($cmd != "preview" && $cmd != "assessment")
-				//{
-				//	$this->tpl->setCurrentBlock("adm_content");
-				//	$this->tpl->parseCurrentBlock();
-				//}
 				break;
 
 			case "ass_clozetestgui":
@@ -172,7 +163,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 
 		$this->ctrl->setCmdClass(get_class($q_gui));
-		$this->ctrl->setCmd("createForm");
+		$this->ctrl->setCmd("editQuestion");
 
 		$ret =& $this->executeCommand();
 		return $ret;

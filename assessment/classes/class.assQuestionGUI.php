@@ -105,21 +105,6 @@ class ASS_QuestionGUI
 		return "";
 	}
 
-	/**
-	* Creates an output of the edit form for the question
-	*
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function showEditForm()
-	{
-	}
-
-	function createForm()
-	{
-		$this->showEditForm();
-	}
 
 	/**
 	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
@@ -305,12 +290,12 @@ class ASS_QuestionGUI
 	*/
 	function &_getQuestionGUI($question_type, $question_id = -1)
 	{
+
 		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = ASS_Question::getQuestionTypeFromDb($question_id);
 //echo ":".$question_type;
 		}
-
 		switch ($question_type)
 		{
 			case "qt_multiple_choice_sr":

@@ -571,23 +571,25 @@ class ASS_ClozeTest extends ASS_Question {
 		return $this->domxml->dump_mem(true);
 	}
 
-/**
-* Evaluates the text gap solutions from the cloze text
-*
-* Evaluates the text gap solutions from the cloze text. A single or multiple text gap solutions
-* could be entered using the following syntax in the cloze text:
-* solution1 [, solution2, ..., solutionN] enclosed in the text gap selector *[]
-*
-* @param string $cloze_text The cloze text with all gaps and gap gaps
-* @access public
-* @see $cloze_text
-*/
-  function set_cloze_text($cloze_text = "") {
-    $this->cloze_text = $cloze_text;
-    preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
-    foreach ($matches[2] as $key => $value) {
-      $cloze_words = split(",", $value);
-      $answer_array = array();
+	/**
+	* Evaluates the text gap solutions from the cloze text
+	*
+	* Evaluates the text gap solutions from the cloze text. A single or multiple text gap solutions
+	* could be entered using the following syntax in the cloze text:
+	* solution1 [, solution2, ..., solutionN] enclosed in the text gap selector *[]
+	*
+	* @param string $cloze_text The cloze text with all gaps and gap gaps
+	* @access public
+	* @see $cloze_text
+	*/
+	function set_cloze_text($cloze_text = "")
+	{
+		$this->cloze_text = $cloze_text;
+		preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
+		foreach ($matches[2] as $key => $value)
+		{
+			$cloze_words = split(",", $value);
+			$answer_array = array();
 			$name = "";
 			if (preg_match("/name\=\"(.*?)\"/", $matches[1][$key], $param))
 			{
@@ -622,17 +624,21 @@ class ASS_ClozeTest extends ASS_Question {
 			{
 				$shuffle = 1;
 			}
-			if ($type == CLOZE_TEXT) {
+			if ($type == CLOZE_TEXT)
+			{
 				$default_correctness = TRUE;
-			} else {
+			}
+			else
+			{
 				$default_correctness = FALSE;
 			}
-      foreach ($cloze_words as $index => $text) {
-        array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, $type, $name, $shuffle));
-      }
-      array_push($this->gaps, $answer_array);
-    }
-  }
+			foreach ($cloze_words as $index => $text)
+			{
+				array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, $type, $name, $shuffle));
+			}
+			array_push($this->gaps, $answer_array);
+		}
+	}
 
 /**
 * Returns the cloze text
