@@ -94,7 +94,7 @@ class ilObjectGUI
 			$this->link_params = "ref_id=".$this->ref_id;
 			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 		}
-
+		
 		//prepare output
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
@@ -312,7 +312,7 @@ class ilObjectGUI
 			exit; // und wech...
 		}
 
-		// ONLY PASTE IF CMD WAS 'cut'
+		// PASTE IF CMD WAS 'cut' (TODO: Could be merged with 'link' routine below in some parts)
 		if ($_SESSION["clipboard"]["cmd"] == "cut")
 		{
 			// TODO:i think this can be substituted by $this->object ????
@@ -354,75 +354,182 @@ class ilObjectGUI
 					$not_allowed_subobject[] = $obj_data->getType();
 				}
 			}
-		}
 
 //////////////////////////
 // process checking results
 		
-		if (count($exists))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
-		}
+			if (count($exists))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		if (count($is_child))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
-									 $this->ilias->error_obj->MESSAGE);
-		}
+			if (count($is_child))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
+										 $this->ilias->error_obj->MESSAGE);
+			}
 
-		if (count($not_allowed_subobject))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
-									 $this->ilias->error_obj->MESSAGE);
-		}
+			if (count($not_allowed_subobject))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+										 $this->ilias->error_obj->MESSAGE);
+			}
 
-		if (count($no_paste))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
-		}
-
+			if (count($no_paste))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
+										 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+			}
 /////////////////////////////////////////
 // everything ok: now paste the objects to new location
 
-		foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
-		{
-
-			// get node data
-			$top_node = $tree->getNodeData($ref_id);
-			
-			// get subnodes of top nodes
-			$subnodes[$ref_id] = $tree->getSubtree($top_node);
-			
-			// delete old tree entries
-			$tree->deleteTree($top_node);
-		}
-
-		// now move all subtrees to new location
-		foreach($subnodes as $key => $subnode)
-		{
-			//first paste top_node....
-			$rbacadmin->revokePermission($key);
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
-			$obj_data->putInTree($_GET["ref_id"]);
-			$obj_data->setPermissions($_GET["ref_id"]);
-			
-			// ... remove top_node from list....
-			array_shift($subnode);
-				
-			// ... insert subtree of top_node if any subnodes exist
-			if (count($subnode) > 0)
+			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-				foreach ($subnode as $node)
+
+				// get node data
+				$top_node = $tree->getNodeData($ref_id);
+			
+				// get subnodes of top nodes
+				$subnodes[$ref_id] = $tree->getSubtree($top_node);
+			
+				// delete old tree entries
+				$tree->deleteTree($top_node);
+			}
+
+			// now move all subtrees to new location
+			foreach($subnodes as $key => $subnode)
+			{
+				//first paste top_node....
+				$rbacadmin->revokePermission($key);
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->setPermissions($_GET["ref_id"]);
+			
+				// ... remove top_node from list....
+				array_shift($subnode);
+				
+				// ... insert subtree of top_node if any subnodes exist
+				if (count($subnode) > 0)
 				{
-					$rbacadmin->revokePermission($node["child"]);
-					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-					$obj_data->putInTree($node["parent"]);
-					$obj_data->setPermissions($node["parent"]);
+					foreach ($subnode as $node)
+					{
+						$rbacadmin->revokePermission($node["child"]);
+						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+						$obj_data->putInTree($node["parent"]);
+						$obj_data->setPermissions($node["parent"]);
+					}
 				}
 			}
-		}
+		} // END IF 'cut & paste'
 		
+		// PASTE IF CMD WAS 'linkt' (TODO: Could be merged with 'cut' routine above)
+		if ($_SESSION["clipboard"]["cmd"] == "link")
+		{
+			// TODO:i think this can be substituted by $this->object ????
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+	
+			// this loop does all checks
+			foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+
+				// CHECK ACCESS
+				if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
+				{
+					$no_paste[] = $ref_id;
+				}
+
+				// CHECK IF REFERENCE ALREADY EXISTS
+				if ($_GET["ref_id"] == $obj_data->getRefId())
+				{
+					$exists[] = $ref_id;
+					break;
+				}
+
+				// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+				// TODO: FUNCTION IST NOT LONGER NEEDED IN THIS WAY. WE ONLY NEED TO CHECK IF
+				// THE COMBINATION child/parent ALREADY EXISTS
+
+				//if ($tree->isGrandChild(1,0))
+				//if ($tree->isGrandChild($id, $_GET["ref_id"]))
+				//{
+			//		$is_child[] = $ref_id;
+				//}
+
+				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
+				$obj_type = $obj_data->getType();
+			
+				if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
+				{
+					$not_allowed_subobject[] = $obj_data->getType();
+				}
+			}
+
+//////////////////////////
+// process checking results
+		
+			if (count($exists))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			if (count($is_child))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
+										 $this->ilias->error_obj->MESSAGE);
+			}
+
+			if (count($not_allowed_subobject))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
+										 $this->ilias->error_obj->MESSAGE);
+			}
+
+			if (count($no_paste))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
+										 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+			}
+/////////////////////////////////////////
+// everything ok: now paste the objects to new location
+
+			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+			{
+
+				// get node data
+				$top_node = $tree->getNodeData($ref_id);
+			
+				// get subnodes of top nodes
+				$subnodes[$ref_id] = $tree->getSubtree($top_node);
+			}
+
+			// now move all subtrees to new location
+			foreach($subnodes as $key => $subnode)
+			{
+				//first paste top_node....
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+				$obj_data->createReference();
+				$obj_data->putInTree($_GET["ref_id"]);
+				$obj_data->setPermissions($_GET["ref_id"]);
+			
+				// ... remove top_node from list....
+				array_shift($subnode);
+				
+				// ... insert subtree of top_node if any subnodes exist
+				if (count($subnode) > 0)
+				{
+					foreach ($subnode as $node)
+					{
+						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+						$obj_data->createReference();
+						// TODO: $node["parent"] is wrong in case of new reference!!!!
+						$obj_data->putInTree($node["parent"]);
+						$obj_data->setPermissions($node["parent"]);
+					}
+				}
+			}
+		} // END IF 'link & paste'
+				
 		// clear clipboard
 		$this->clearObject();
 		
@@ -511,7 +618,6 @@ class ilObjectGUI
 				$no_cut[] = $ref_id;
 			}
 
-			//$object = getObjectByReference($ref_id);
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
 			$actions = $objDefinition->getActions($object->getType());
 
@@ -534,13 +640,13 @@ class ilObjectGUI
 									 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// SAVE OBJECT
-		foreach ($_POST["id"] as $ref_id)
+		// WRITE TO CLIPBOARD
+		$clipboard["parent"] = $_GET["ref_id"];
+		$clipboard["cmd"] = key($_POST["cmd"]);
+		
+		foreach($_POST["id"] as $ref_id)
 		{
-			//$tree->saveNode($ref_id);
-			// TODO: Should the linked object save in db temporary?
-			$clipboard[$ref_id]["parent"] = $_GET["ref_id"];
-			$clipboard[$ref_id]["cmd"] = $_POST["cmd"];
+			$clipboard["ref_ids"][] = $ref_id;
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
@@ -1488,6 +1594,11 @@ class ilObjectGUI
 								{
 									$val = "<font color=\"green\">+</font>  ".$val;
 								}
+
+								if ($cmd == "link" and $key == "title")
+								{
+									$val = "<font color=\"black\"><</font> ".$val;
+								}
 							}
 						}
 					}
@@ -1563,11 +1674,9 @@ class ilObjectGUI
 	*/
 	function deleteObject()
 	{
-		global $lng;
-
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
@@ -1579,11 +1688,11 @@ class ilObjectGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);			
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);			
 			}
 			else
 			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 			}
 
 			$this->data["data"]["$id"] = array(
@@ -1593,8 +1702,8 @@ class ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
-								  "confirm"  => $lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancel"  => $this->lng->txt("cancel"),
+								  "confirm"  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
@@ -1647,7 +1756,6 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
 
 	/**
 	* show trash content of object
