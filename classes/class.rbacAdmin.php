@@ -255,18 +255,27 @@ class RbacAdmin
 	* @access	public
 	* @param	integer		object id of role
 	* @param	array		array of operation ids
-	* @param	integer		object id
-	* @param	integer		obj id of parent object
+	* @param	integer		reference id of object
 	* @return	boolean
 	*/
-	function grantPermission($a_rol_id,$a_ops,$a_obj_id,$a_parent_id)
+	function grantPermission($a_rol_id,$a_ops,$a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_ops) or !isset($a_ref_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::grantPermission(): Missing parameter! ".
+							"role_id: ".$a_rol_id." ref_id: ".$a_ref_id." operations: ".var_dump($a_ops),$this->ilias->error_obj->WARNING);
+		}
+
+		if (!is_array($a_ops))
+		{
+			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
+		}
 		// Serialization des ops_id Arrays
 		$ops_ids = addslashes(serialize($a_ops));
 
 		$q = "INSERT INTO rbac_pa ".
 			 "VALUES ".
-			 "('".$a_rol_id."','".$ops_ids."','".$a_obj_id."','".$a_parent_id."')";
+			 "('".$a_rol_id."','".$ops_ids."','".$a_obj_id."')";
 		$this->ilias->db->query($q);
 
 		return true;
@@ -275,13 +284,18 @@ class RbacAdmin
 	/**
 	* Revokes permissions of object
 	* @access	public
-	* @param	integer		object_id
-	* @param	integer		object_id of parent object
+	* @param	integer		reference id of object
 	* @param	integer		role_id (optional: if you want to revoke permissions of object only for a specific role)
 	* @return	boolean
 	*/
-	function revokePermission($a_obj_id, $a_parent_id, $a_rol_id = 0)
+	function revokePermission($a_ref_id,$a_rol_id = 0)
 	{
+		if (!isset($a_ref_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::revokePermission(): Missing parameter! ".
+							"ref_id: ".$a_ref_id,$this->ilias->error_obj->WARNING);
+		}
+
 		if ($a_rol_id)
 		{
 			$and1 = " AND rol_id = '".$a_rol_id."'";
@@ -292,8 +306,7 @@ class RbacAdmin
 		}
 
 		$q = "DELETE FROM rbac_pa ".
-			 "WHERE obj_id = '".$a_obj_id."' ".
-			 "AND set_id = '".$a_parent_id."' ".
+			 "WHERE obj_id = '".$a_ref_id."' ";
 			 $and1;
 		$this->ilias->db->query($q);
 
@@ -601,16 +614,15 @@ class RbacAdmin
 	* get role ids of all parent roles, if last parameter is set true
 	* you get also all parent templates
 	* @access	private
-	* @param	integer		object id of start node
-	* @param	integer		object id of start parent
+	* @param	integer		object id of end node
 	* @param	boolean		true for role templates (default: false)
 	* @return	string 
 	*/
-	function getParentRoleIds($a_end_node,$a_templates = false)
+	function getParentRoleIds($a_endnode_id,$a_templates = false)
 	{
 		global $tree;
 		
-		$pathIds  = $tree->getPathId($a_end_node);
+		$pathIds  = $tree->getPathId($a_endnode_id);
 		
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;

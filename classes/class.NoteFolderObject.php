@@ -3,8 +3,8 @@
 * Class NoteFolderObject
 *
 * @author M.Maschke
-* @version $Id: 
-* 
+* @version $Id$
+*  
 * @extends Object
 * @package ilias-core
 */
@@ -15,7 +15,6 @@ class NoteFolderObject extends Object
 	var $m_tree;
 	
 	var $m_notefId ;
-	
 	
 	/**
 	* Constructor
@@ -29,7 +28,6 @@ class NoteFolderObject extends Object
 		$this->m_usr_id = $user_id;
 	}
 
-
 	/**
 	* create new note folder object
 	*
@@ -40,11 +38,11 @@ class NoteFolderObject extends Object
 		parent::create();
 
 		$this->m_tree = new tree(0,0,$this->m_usr_id);
+		
+		// TODO: method needs revision
 		$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
-
 	}
 
-	
 	/**
 	* add note to notefolder 
 	* 
@@ -63,10 +61,10 @@ class NoteFolderObject extends Object
 		{
 			foreach($grp_members as $member)
 			{	
-				$myTree = new tree(0, 0, 0, $member); 
+				$myTree = new tree(0, 0, $member); 
 
 				//get parent_id of usersettingfolder...	
-				$rootid =  $myTree->getRootID($member);
+				$rootid =  $myTree->getRootId();
 	
 				$node_data = $myTree->getNodeDataByType("notf");
 
@@ -75,16 +73,15 @@ class NoteFolderObject extends Object
 			}
 		}
 		//insert the note in ones own notefolder
-		$myTree = new tree(0, 0, 0, $this->m_usr_id); 
+		$myTree = new tree(0, 0, $this->m_usr_id); 
 	
 		//get parent_id of usersettingfolder...	
-		$rootid =  $myTree->getRootID($this->m_usr_id);
+		$rootid =  $myTree->getRootId();
 	
 		$node_data = $myTree->getNodeDataByType("notf");
 
 		$myTree->insertNode($note_id, $node_data[0]["obj_id"], $rootid["child"]);
 	} 
-
 
 	/**
 	* delete one specific note 
@@ -97,11 +94,11 @@ class NoteFolderObject extends Object
 		global $rbacsystem;
 		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
 
-		foreach($notes as $note)
+		foreach ($notes as $note)
 		{
 			//delete note in note_data, only owner can delete notes 
 			$note_obj = getObject($note);
-			if($note_obj["owner"] == $this->m_usr_id)
+			if ($note_obj["owner"] == $this->m_usr_id)
 			{
 				$query = "DELETE FROM note_data WHERE note_id ='".$note."'";
 				$res = $this->ilias->db->query($query);
@@ -111,9 +108,8 @@ class NoteFolderObject extends Object
 
 			//get note_data of note folder
 			$node_data1 = $myTree->getNodeDataByType("notf");		
-			$note_data2 = $myTree->getNodeData($note, $node_data1[0]["obj_id"]);	
+			$note_data2 = $myTree->getNodeData($note);	
 			$myTree->deleteTree($note_data2);				
-
 		}
 	}
 
@@ -152,7 +148,7 @@ class NoteFolderObject extends Object
 	function viewNote($note_id)
 	{
 		$note = array();
-		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
+		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, $this->m_usr_id); 	
 	
 		$nodes = $myTree->getNodeDataByType("note");
 		$node_data["child"] = $note_id;

@@ -214,6 +214,24 @@ function createNewReference ($a_obj_id)
 	return getLastInsertId();
 }
 
+/*
+* count how often an obejct is referenced
+* return at least one if the object exists
+* return 0 if object could not be found
+* @access	public
+* @param	integer	object id
+* @return 	integer	number of references
+*/
+function countReferencesOfObject ($a_obj_id)
+{
+	global $ilias;
+	
+	$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
+		 "WHERE obj_id = '".$a_obj_id."'";
+	$row = $ilias->db->getRow($q);
+
+	return $row->num;
+}
 
 /**
 * get list of object, optional only a list of a particular type

@@ -53,30 +53,8 @@ class NoteObject extends Object
 	{
 		global $rbacadmin, $rbacsystem;		// not used (see below)
 		
-		// The following code is deprecated.
-		// Shortening text is done by function createNewObject itself
-		/*
-		if(strlen($lo_title) > 70)
-		{
-			$lo_title 				= substr($lo_title,0,67);		//title in object_data has only 70digits
-			$lo_title			   .= "...";
-		}
-		$FNoteObject["title"] 	= $lo_title;
-		if(strlen($note_text) > 40)
-		{
-			$note_text  			= substr($note_text,0,37);
-			$note_text			   .= "...";
-		}
-		$FNoteObject["desc"]  	= $note_text;
-		*/
 		$note_id = createNewObject("note",$lo_title,$note_text);
 
-/*		
-		//get own role id
-		$my_roleId = $rbacadmin->assignedRoles(
-		//enter permissions of new note object
-		$rbacadmin->grantPermission($note_id,
-*/
 		return $note_id;	
 	}
 
@@ -85,7 +63,7 @@ class NoteObject extends Object
 	* 
 	* @param	integer id of note object
 	* @param	integer id of referenced LO
-	* @param	text	text
+	* @param	string	text
 	* @access	public
 	*/
 	function saveNote($obj_id, $ref_lo, $lo_title, $text, $rate)
@@ -102,15 +80,6 @@ class NoteObject extends Object
 	{
 		$create_date = date("Y-m-d G:i:s");	// not used
 		
-		// deprecated
-		/*
-		if(strlen($note_text) > 40)
-		{
-			$obj_title   			= substr($note_text,0,37);
-			$obj_title			   .= "...";
-		}
-		*/
-	
 		//update table note_data
 		$q = "UPDATE note_data SET text='".$note_text."', question='".$rate["question"]."', ".
 			 "important='".$rate["important"]."', good='".$rate["good"]."', ".
@@ -121,11 +90,6 @@ class NoteObject extends Object
 		$this->setTitle($note_text);
 		$this->setDescription($note_text);
 		$this->update();
-		
-		// deprecated
-		//$query_od = "UPDATE object_data SET description='".$obj_title."' WHERE obj_id='".$obj_id."'";
-		//$res2 = $this->ilias->db->query($query_od);
-		
 	}
 	function edit()
 	{
@@ -134,5 +98,5 @@ class NoteObject extends Object
 	function owner()
 	{
 	}
-}
+} //END class.NoteObject
 ?>

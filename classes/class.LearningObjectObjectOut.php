@@ -46,39 +46,38 @@ class LearningObjectObjectOut extends ObjectOut
 
 		$this->data["cols"] = array("", "view", "title", "description", "last_change");
 		
-		if ($lotree->getChilds($_GET["lo_id"], $a_order, $a_direction))
-		{
-			foreach ($lotree->Childs as $key => $val)
-		    {
-				// visible
-				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
-				//{
-				//	continue;
-				//}
-		
-				//visible data part
-				$this->data["data"][] = array(
-					"type" => "<img src=\"".$tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
-				);
+		$lo_childs = $lotree->getChilds($_GET["lo_id"], $a_order, $a_direction);
 
-				//control information
-				$this->data["ctrl"][] = array(
-					"type" => $val["type"],
-					"obj_id" => $_GET["obj_id"],
-					"parent" => $_GET["parent"],
-					"parent_parent" => $val["parent_parent"],
-					"lm_id" => $_GET["lm_id"],
-					"lo_id" => $val["child"],
-					"lo_parent" => $val["parent"]
-				);
-				
-		    } //foreach
-		} //if 
+		foreach ($lo_childs as $key => $val)
+	    {
+			// visible
+			//if (!$rbacsystem->checkAccess("visible",$val["id"]))
+			//{
+			//	continue;
+			//}
+	
+			//visible data part
+			$this->data["data"][] = array(
+				"type" => "<img src=\"".$tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+				"title" => $val["title"],
+				"description" => $val["desc"],
+				"last_change" => $val["last_update"]
+			);
+
+			//control information
+			$this->data["ctrl"][] = array(
+				"type" => $val["type"],
+				"obj_id" => $_GET["obj_id"],
+				"parent" => $_GET["parent"],
+				"parent_parent" => $val["parent_parent"],
+				"lm_id" => $_GET["lm_id"],
+				"lo_id" => $val["child"],
+				"lo_parent" => $val["parent"]
+			);
+	    } //foreach
 
 		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
+		
 		parent::displayList();
 	}
 	/**
@@ -134,11 +133,11 @@ class LearningObjectObjectOut extends ObjectOut
 
 		if ($a_parent_parent)
 		{
-			$path = $a_tree->getPathFull($a_parent, $a_parent_parent);
+			$path = $a_tree->getPathFull($a_parent);
 		}
 		else
 		{
-			$path = $a_tree->getPathFull($a_obj_id, $a_parent);
+			$path = $a_tree->getPathFull($a_obj_id);
 		}
 
 		//check if object isn't in tree, this is the case if parent_parent is set

@@ -395,7 +395,7 @@ class Object
 		{
 			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 			$ops = $rbacreview->getOperations($parRol["obj_id"], $object["type"], $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id, $a_dest_id);
+			$rbacadmin->grantPermission($parRol["obj_id"],$ops, $new_id);
 		}
 		return $new_id;
 	}
@@ -416,7 +416,7 @@ class Object
 		foreach($a_post_data as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $tree->getNodeData($id,$a_obj_id);
+			$node_data = $tree->getNodeData($id);
 			$subtree_nodes = $tree->getSubTree($node_data);
 
 			$all_node_data[] = $node_data;
@@ -425,7 +425,7 @@ class Object
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
 			foreach($subtree_nodes as $node)
 			{
-				if(!$rbacsystem->checkAccess('read',$node["obj_id"],$node["parent"]))
+				if(!$rbacsystem->checkAccess('read',$node["obj_id"]))
 				{
 					$no_copy[] = $node["obj_id"];
 					$perform_copy = false;
@@ -445,7 +445,7 @@ class Object
 		// SAVE SUBTREE
 		foreach($a_post_data as $id)
 		{
-			$tree->saveSubtree($id,$a_obj_id,1);
+			$tree->saveSubTree($id);
 			$clipboard[$id]["parent"] = $a_obj_id;
 			$clipboard[$id]["cmd"] = $a_post_cmd;
 		}
@@ -470,9 +470,9 @@ class Object
 			}
 
 			$obj_data = getObject($id);
-			$data = $tree->getNodeData($id,$a_obj_id);
+			$data = $tree->getNodeData($id);
 			// CHECK ACCESS
-			if(!$rbacsystem->checkAccess('create',$a_obj_id,$a_parent_id,$obj_data["type"]))
+			if(!$rbacsystem->checkAccess('create',$a_obj_id,$obj_data["type"]))
 			{
 				$no_paste[] = $id;
 			}
@@ -482,7 +482,7 @@ class Object
 				$exists[] = $id;
 			}
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if($tree->isGrandChild($id,$object["parent"],$a_obj_id,$a_parent_id))
+			if ($tree->isGrandChild($id,$a_obj_id))
 			{
 				$is_child[] = $id;
 			}
@@ -662,12 +662,12 @@ class Object
 
 		if ($rbacsystem->checkAccess('edit permission',$this->id))
 		{
-			$rbacadmin->revokePermission($this->id, $_GET["parent"]);
+			$rbacadmin->revokePermission($this->id);
 			
 			foreach ($a_perm as $key => $new_role_perms)
 			{
 				// $key enthaelt die aktuelle Role_Id
-				$rbacadmin->grantPermission($key,$new_role_perms, $this->id, $_GET["parent"]);
+				$rbacadmin->grantPermission($key,$new_role_perms, $this->id);
 			}
 		}
 		else
@@ -707,7 +707,7 @@ class Object
 				}
 				// CHECK ACCESS 'write' of role folder
 				$rolf_data = $rbacadmin->getRoleFolderOfObject($this->id);
-				if ($rbacsystem->checkAccess('write',$rolf_data["child"],$this->id))
+				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
 					$parentRoles = $rbacadmin->getParentRoleIds();
 					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
@@ -754,7 +754,7 @@ class Object
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
 					$ops = $rbacreview->getOperations($parRol["obj_id"],'rolf',$parRol["parent"]);
-					$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id,$_GET["ref_id"]);
+					$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
 				}
 			}
 			else
@@ -764,7 +764,7 @@ class Object
 		}
 
 		// CHECK ACCESS 'write' of role folder
-		if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["ref_id"]))
+		if ($rbacsystem->checkAccess('write',$rolf_id))
 		{
 			$new_obj_id = createNewObject("role",$_POST["Flocal_role"],"No description");
 			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["ref_id"],'y');
@@ -811,14 +811,14 @@ class Object
 		
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
-		// IF THERE IS NO REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		// TODO: obsolte when ref_id is introduced
-		if(!$tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
+		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
+		if (countReferencesOfObject($a_obj_id) == 1)
 		{
 			deleteObject($a_obj_id);
 		}
+
 		// DELETE PERMISSION ENTRIES IN RBAC_PA
-		$rbacadmin->revokePermission($a_obj_id,$a_parent_id);
+		$rbacadmin->revokePermission($a_obj_id);
 
 		return true;
 	}
@@ -885,7 +885,7 @@ class Object
 
 		foreach ($objects as $key => $object)
 		{
-			if ($rbacsystem->checkAccess("create", $this->id, $obj->parent, $key))
+			if ($rbacsystem->checkAccess("create", $this->id, $key))
 			{
 				$data[$key] = $object;
 			} //if

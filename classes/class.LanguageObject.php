@@ -100,7 +100,7 @@ class LanguageObject extends Object
 	{
 		global $rbacsystem, $rbacreview;
 
-		if ($rbacsystem->checkAccess('write',$this->parent,$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$this->parent) || $this->id == $_SESSION["AccountId"])
 		{
 			$data = array();
 			$lng2 = new Language($this->id);

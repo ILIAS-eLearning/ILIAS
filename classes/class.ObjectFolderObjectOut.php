@@ -3,7 +3,7 @@
 * Class ObjectFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ObjectFolderObjectOut.php,v 1.3 2003/02/26 13:44:10 shofmann Exp $
+* $Id$Id: class.ObjectFolderObjectOut.php,v 1.4 2003/03/10 10:55:41 shofmann Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -37,6 +37,7 @@ class ObjectFolderObjectOut extends ObjectOut
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
 		$head_cols = array("", "type", "name", "description", "last_change");
+
 		foreach ($head_cols as $key)
 		{
 			if ($key != "")
@@ -55,60 +56,56 @@ class ObjectFolderObjectOut extends ObjectOut
 
 			$this->tpl->parseCurrentBlock();
 		}
-		if ($rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"]))
+
+		if ($rbacsystem->checkAccess("read", $_GET["obj_id"]))
 		{
 			if ($list = getObjectList("typ",$_GET["order"],$_GET["direction"]))
 			{
 				foreach ($list as $key => $obj)
 				{
-/*
-		if ($tree->getChilds($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
-		{
-			foreach ($tree->Childs as $key => $child)
-		    {*/
-				$num++;
+					$num++;
 
-				// color changing
-				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+					// color changing
+					$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 
-				// surpress checkbox for particular object types
-				if (!$this->objDefinition->hasCheckbox($obj["type"]))
-				{
-					$this->tpl->touchBlock("empty_cell");
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
-					$this->tpl->setVariable("CSS_ROW", $css_row);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->parseCurrentBlock();
-
-				//data
-				$data = array("type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_type_b.gif\" border=\"0\">",
-					"name" => $obj["title"],
-					"description" => $obj["desc"],
-					"last_change" => Format::formatDate($obj["last_update"]));
-
-				foreach ($data as $key => $val)
-				{
-					//build link
-					$link = "adm_object.php?";
-
-					if ($_GET["type"] == "lo" && $key == "type")
+					// surpress checkbox for particular object types
+					if (!$this->objDefinition->hasCheckbox($obj["type"]))
 					{
-						$link = "lo_view.php?";
+						$this->tpl->touchBlock("empty_cell");
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("checkbox");
+						$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+						$this->tpl->setVariable("CSS_ROW", $css_row);
+						$this->tpl->parseCurrentBlock();
 					}
 
-					$link.= "&type=typ&obj_id=".$obj["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"];
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
 
-					if ($key == "title" || $key == "type")
+					//data
+					$data = array("type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_type_b.gif\" border=\"0\">",
+							"name" => $obj["title"],
+							"description" => $obj["desc"],
+							"last_change" => Format::formatDate($obj["last_update"]));
+
+					foreach ($data as $key => $val)
 					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
+						//build link
+						$link = "adm_object.php?";
+
+						if ($_GET["type"] == "lo" && $key == "type")
+						{
+							$link = "lo_view.php?";
+						}
+
+						$link.= "&type=typ&obj_id=".$obj["obj_id"]."&parent=".$_GET["obj_id"]."&parent_parent=".$_GET["parent"];
+
+						if ($key == "title" || $key == "type")
+						{
+							$this->tpl->setCurrentBlock("begin_link");
+							$this->tpl->setVariable("LINK_TARGET", $link);
 
 						if ($_GET["type"] == "lo" && $key == "type")
 						{
@@ -124,14 +121,12 @@ class ObjectFolderObjectOut extends ObjectOut
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
-
 				} //foreach
 
 				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
-				} //for
-			}
+			} //for
 		} //if is_array
 		else
 		{
@@ -145,8 +140,6 @@ class ObjectFolderObjectOut extends ObjectOut
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
-
 	}
-
 } // END class.ObjectFolderObjectOut
 ?>

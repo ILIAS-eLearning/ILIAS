@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.36 2003/03/13 17:48:30 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.37 2003/03/13 21:24:48 akill Exp $
 *
 * @package ilias-core
 */
@@ -342,7 +342,6 @@ class ObjectOut
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
 
-
 		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		{
 			// create and insert object in objecttree
@@ -535,6 +534,7 @@ class ObjectOut
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
+
 		foreach ($this->data["cols"] as $key)
 		{
 			if ($key != "")
@@ -657,29 +657,31 @@ class ObjectOut
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
-		if ($tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]))
-		{
-			foreach ($tree->Childs as $key => $val)
-		    {
-				// visible
-				if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
-				{
-					continue;
-				}
-				//visible data part
-				$this->data["data"][] = array(
-					"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => Format::formatDate($val["last_update"])
-				);
-				//control information
-				$this->data["ctrl"][] = array(
-					"type" => $val["type"],
-					"ref_id" => $val["ref_id"]
-				);
-		    } //foreach
-		} //if
+
+		$childs = $tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
+
+//var_dump($childs);
+//exit;
+		foreach ($childs as $key => $val)
+	    {
+			// visible
+			if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
+			{
+				continue;
+			}
+			//visible data part
+			$this->data["data"][] = array(
+				"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
+				"title" => $val["title"],
+				"description" => $val["desc"],
+				"last_change" => Format::formatDate($val["last_update"])
+			);
+			//control information
+			$this->data["ctrl"][] = array(
+				"type" => $val["type"],
+				"ref_id" => $val["ref_id"]
+			);
+	    } //foreach
 
 		$this->displayList();
 	}

@@ -269,12 +269,12 @@ class RoleObject extends Object
 				}
 				else
 				{
-					$node_data = $tree->getParentNodeData($_GET["parent"],$_GET["parent_parent"]);
+					$node_data = $tree->getParentNodeData($_GET["parent"]);
 					$object_id = $node_data["obj_id"];
 					$parent = $node_data["parent"];
 				}
 				// GET ALL SUBNODES
-				$node_data = $tree->getNodeData($object_id,$parent);
+				$node_data = $tree->getNodeData($object_id);
 				$subtree_nodes = $tree->getSubTree($node_data);
 
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
@@ -318,8 +318,8 @@ class RoleObject extends Object
 					{
 						if($type == $node["type"])
 						{
-							$rbacadmin->revokePermission($node["obj_id"],$node["parent"],$this->id);
-							$rbacadmin->grantPermission($this->id,$a_perm,$node["obj_id"],$node["parent"]);
+							$rbacadmin->revokePermission($node["obj_id"],$this->id);
+							$rbacadmin->grantPermission($this->id,$a_perm,$node["obj_id"]);
 						}
 					}
 				}

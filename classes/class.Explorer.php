@@ -68,6 +68,11 @@ class Explorer
 	{
 		global $ilias;
 
+		if (!isset($a_target) or !is_string($a_target))
+		{
+			$this->ilias->raiseError(get_class($this)."::Constructor(): No target given!",$this->ilias->error_obj->WARNING);
+		}
+
 		$this->ilias =& $ilias;
 		$this->output = "";
 		$this->expanded = array();
@@ -78,15 +83,18 @@ class Explorer
 	}
 
 	/**
-	* Creates output for explorer view in admin menue
+	* set the varname in Get-string
 	* recursive method
 	* @access	public
-	* @param	integer		parent_node_id where to start from (default=0, 'root')
-	* @param	integer		depth level where to start (default=1)
-	* @return	string
+	* @param	string		varname containing Ids to be used in GET-string
 	*/
 	function setTargetGet($a_target_get)
 	{
+		if (!isset($a_target_get) or !is_string($a_target_get))
+		{
+			$this->ilias->raiseError(get_class($this)."::setTargetGet(): No target given!",$this->ilias->error_obj->WARNING);
+		}
+
 		$this->target_get = $a_target_get;
 	}
 
@@ -98,13 +106,19 @@ class Explorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-
-	function setOutput($a_parent, $a_depth = 1)
+	function setOutput($a_parent_id, $a_depth = 1)
 	{
+		if (!isset($a_parent_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
 
-		if ($objects =  $this->tree->getChilds($a_parent,"title"))
+		$objects = $this->tree->getChilds($a_parent_id,"title");
+		
+		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
 
@@ -114,21 +128,21 @@ class Explorer
 				//ask for FILTER
 				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
-					if ($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+					if ($rbacsystem->checkAccess('visible',$object["ref_id"]))
 					{
-						if ($object["child"] != 1)
+						if ($object["ref_id"] != 1)
 						{
-							$data = $this->tree->getParentNodeData($object["child"],$object["parent"]);
+							$data = $this->tree->getParentNodeData($object["ref_id"]);
 							$parent_index = $this->getIndex($data);
 						}
 
-						$this->format_options["$counter"]["parent"] = $object["parent"];
-						$this->format_options["$counter"]["child"] = $object["child"];
-						$this->format_options["$counter"]["title"] = $object["title"];
-						$this->format_options["$counter"]["type"] = $object["type"];
-						$this->format_options["$counter"]["depth"] = $tab;
-						$this->format_options["$counter"]["container"] = false;
-						$this->format_options["$counter"]["visible"]	  = true;
+						$this->format_options["$counter"]["parent"]		= $object["parent"];
+						$this->format_options["$counter"]["child"]		= $object["ref_id"];
+						$this->format_options["$counter"]["title"]		= $object["title"];
+						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["depth"]		= $tab;
+						$this->format_options["$counter"]["container"]	= false;
+						$this->format_options["$counter"]["visible"]	= true;
 
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
@@ -137,14 +151,14 @@ class Explorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["id"] != 1 and (!in_array($object["parent"],$this->expanded)
+						if ($object["ref_id"] != 1 and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
 
 						// if object exists parent is container
-						if ($object["id"] != 1)
+						if ($object["ref_id"] != 1)
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
@@ -161,7 +175,7 @@ class Explorer
 						++$counter;
 
 						// Recursive
-						$this->setOutput($object["id"],$a_depth);
+						$this->setOutput($object["ref_id"],$a_depth);
 					} //if
 				} //if FILTER
 			} //foreach
@@ -199,33 +213,41 @@ class Explorer
 	/**
 	* Creates output
 	* recursive method
-	* @access	public
+	* @access	private
 	* @param	integer
-	* @param	integer
+	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_child,$a_option)
+	function formatObject($a_node_id,$a_option)
 	{
+		if (!isset($a_node_id) or !is_array($a_option))
+		{
+			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+		}
+
 		$tpl = new Template("tpl.tree.html", true, true);
 		
 		foreach ($a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
 			{
-				$target = $this->createTarget('+',$a_child);
+				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
 				$tpl->parseCurrentBlock();
 			}
+
 			if ($picture == 'minus')
 			{
-				$target = $this->createTarget('-',$a_child);
+				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
 				$tpl->parseCurrentBlock();
 			}
+
 			if ($picture == 'blank' or $picture == 'winkel' 
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
@@ -237,13 +259,14 @@ class Explorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=".$a_child);
+		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=".$a_node_id);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
 		{
 			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
 		}
+
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
@@ -256,27 +279,31 @@ class Explorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_child)
+	function createTarget($a_type,$a_node_id)
 	{
+		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::createTarget(): Missing parameter or wrong datatype! ".
+									"type: ".$a_type." node_id:".$a_node_id,$this->ilias->error_obj->WARNING);
+		}
+
 		// SET expand parameter:
 		//     positive if object is expanded
 		//     negative if object is compressed
-		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
+		$a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
 
-//		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_child.
-//			"&amp;ref_id=".$_GET["ref_id"];
-		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_child;
+		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_node_id;
 	}
 
 	/**
 	* set target
 	* frame or not frame?
-	* @param string
-	* @access public
+	* @param	string
+	* @access	public
 	*/	
-	function setFrameTarget($target)
+	function setFrameTarget($a_target)
 	{
-		$this->frameTarget = $target;
+		$this->frameTarget = $a_target;
 	}
 	
 	/**

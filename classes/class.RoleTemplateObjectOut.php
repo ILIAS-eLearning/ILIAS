@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.3 2003/03/12 16:52:25 akill Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.4 2003/03/13 21:24:57 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -32,7 +32,7 @@ class RoleTemplateObjectOut extends ObjectOut
 
 
 		// CHECK ACCESS 'write' to role folder
-		if ($rbacsystem->checkAccess('write', $_GET["ref_id"], $_GET["parent"]))
+		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{

@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.14 2003/03/12 20:23:01 akill Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.15 2003/03/13 11:03:54 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -29,6 +29,7 @@ class LearningModuleObjectOut extends ObjectOut
 		global $rbacsystem, $tree, $tpl;
 
 		$lotree = new Tree($_GET["ref_id"],ROOT_FOLDER_ID,$_GET["ref_id"]);
+
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
@@ -36,36 +37,34 @@ class LearningModuleObjectOut extends ObjectOut
 
 		$this->data["cols"] = array("", "view", "title", "description", "last_change");
 
-		if ($lotree->getChilds($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
-		{
-			foreach ($lotree->Childs as $key => $val)
-		    {
-				// visible
-				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
-				//{
-				//	continue;
-				//}
+		$lo_childs = $lotree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
-				//visible data part
-				$this->data["data"][] = array(
-					"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
-				);
+		foreach ($lo_childs as $key => $val)
+	    {
+			// visible
+			//if (!$rbacsystem->checkAccess("visible",$val["id"]))
+			//{
+			//	continue;
+			//}
+			//visible data part
+			$this->data["data"][] = array(
+				"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+				"title" => $val["title"],
+				"description" => $val["desc"],
+				"last_change" => $val["last_update"]
+			);
 
-				//control information
-				$this->data["ctrl"][] = array(
-					"type" => $val["type"],
-					"obj_id" => $_GET["obj_id"],
-					"parent" => $_GET["parent"],
-					"parent_parent" => $val["parent_parent"],
-					"lm_id" => $_GET["obj_id"],
-					"lo_id" => $val["child"]
-				);
+			//control information
+			$this->data["ctrl"][] = array(
+				"type" => $val["type"],
+				"obj_id" => $_GET["obj_id"],
+				"parent" => $_GET["parent"],
+				"parent_parent" => $val["parent_parent"],
+				"lm_id" => $_GET["obj_id"],
+				"lo_id" => $val["child"]
+			);
+	    } //foreach
 
-		    } //foreach
-		} //if
 		parent::displayList();
 	}
 

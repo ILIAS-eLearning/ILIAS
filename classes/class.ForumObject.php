@@ -150,10 +150,10 @@ class ForumObject extends Object
 	{		
 		global $tree;
 		
-		// IF THERE IS NO REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		if ($tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
+		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
+		if (countReferencesOfObject($a_obj_id) == 1)
 		{
-			return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);		
+			return parent::deleteObject($a_obj_id);
 		}
 		
 		$this->Forum->setWhereCondition("top_frm_fk = ".$a_obj_id);			

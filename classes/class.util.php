@@ -273,30 +273,32 @@ class TUtil
 	* @param	string	type or 'all' to get all objects
 	* @param	string	permissions to check e.g. 'visible','read' 
 	*/
-	function getObjectsByOperations($a_type,$a_operation,$a_node = ROOT_FOLDER_ID)
+	function getObjectsByOperations($a_type,$a_operation,$a_node_id = ROOT_FOLDER_ID)
 	{
 		global $tree, $rbacsystem;
 		static $objects = array();
 
 		$all = $a_type == 'all' ? true : false;
 
-		if ($childs = $tree->getChilds($a_node))
+		$childs = $tree->getChilds($a_node_id);
+
+		if (count($childs) > 0)
 		{
 			foreach ($childs as $child)
 			{
 				// CHECK IF CONTAINER OBJECT IS VISIBLE
-				if ($rbacsystem->checkAccess('visible',$child["ref_id"],$a_type))
+				if ($rbacsystem->checkAccess('visible',$child["child"],$a_type))
 				{
 					if ($all or $child["type"] == $a_type)
 					{
 						// NOW CHECK FOR ASKED OPERATION
-						if ($rbacsystem->checkAccess($a_operation,$child["ref_id"],$a_type))
+						if ($rbacsystem->checkAccess($a_operation,$child["child"],$a_type))
 						{
 							$objects[] = $child;
 						}
 					}
 
-					TUtil::getObjectsByOperations($a_type,$a_operation,$child["ref_id"]);
+					TUtil::getObjectsByOperations($a_type,$a_operation,$child["child"]);
 				}
 			}
 		}
@@ -409,8 +411,7 @@ class TUtil
 			return false;
 		}
 	}
-	
-	
+
 	/**
 	* makeClickable
 	* In Texten enthaltene URLs und Mail-Adressen klickbar machen
