@@ -24,9 +24,10 @@ class LearningObjectObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function LearningObjectObject($a_id)
+	function LearningObjectObject($a_id="")
 	{
 		require_once "classes/class.domxml.php";
+		$this->domxml = new domxml();
 		$this->Object($a_id);
 	}
 	
