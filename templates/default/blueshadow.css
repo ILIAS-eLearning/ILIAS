@@ -57,8 +57,23 @@ table.fullwidth {
 	border-width:1px;
 }
 
+table.fullwidth_invisible {
+	color:#222222;
+	background-color:#b9c0d5;
+	width:100%;
+	border-spacing:0px;
+}
+
 td.std {
 	padding:4px;
+}
+
+.tbltitle {
+	color:#222222;
+	font-size:16px;
+	font-weight:bold;
+	background-color: #C0C0C0;
+	background-image: url(blueshadow/images/cellpic5.gif)
 }
 
 .tblheader {
@@ -71,6 +86,21 @@ tr.tblheader {
 	color:#000000;
 	font-size:13px;
 	font-weight:bold;
+	background-color:#e3e3e3;
+	background-image:url(blueshadow/images/cellpic1.gif);
+	background-repeat:repeat-x;
+}
+
+.tblfooter {
+	color: #000000;
+	font-size:13px;
+	font-weight:normal;
+}
+
+tr.tblfooter {
+	color:#000000;
+	font-size:13px;
+	font-weight:normal;
 	background-color:#e3e3e3;
 	background-image:url(blueshadow/images/cellpic1.gif);
 	background-repeat:repeat-x;
@@ -381,4 +411,10 @@ span.ilEmph
 span.ilComment
 {
 	color: blue;
+}
+
+/* ------------------ blind image - spacer gif -------------- 
+   please use this style class always when using this blind image */
+img.spacer {
+	display:block;
 }
