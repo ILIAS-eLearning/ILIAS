@@ -445,7 +445,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true)
+	function to_xml($a_include_header = true, $obligatory_state = "")
 	{
 		if (!empty($this->domxml))
 		{
@@ -482,6 +482,10 @@ class SurveyMetricQuestion extends SurveyQuestion {
 		$qtiFieldLabelText = $this->domxml->create_text_node("obligatory");
 		$qtiFieldLabel->append_child($qtiFieldLabelText);
 		$qtiFieldEntry = $this->domxml->create_element("fieldentry");
+		if (strcmp($obligatory_state, "") != 0)
+		{
+			$this->setObligatory($obligatory_state);
+		}
 		$qtiFieldEntryText = $this->domxml->create_text_node(sprintf("%d", $this->getObligatory()));
 		$qtiFieldEntry->append_child($qtiFieldEntryText);
 		$qtiMetadatafield->append_child($qtiFieldLabel);
