@@ -570,13 +570,14 @@ class ilTree
 		{
 			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON T2.child=".$this->table_obj_reference.".".$this->ref_pk." ".
 						"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
+			$select_obj_id = $this->table_obj_data.".obj_id,";
 		}
 		else
 		{
 			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON T2.child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 
-		$q = "SELECT ".$this->table_obj_data.".title,".$this->table_obj_data.".type,T2.child,(T2.rgt - T2.lft) AS sort_col ".
+		$q = "SELECT ".$select_obj_id.$this->table_obj_data.".title,".$this->table_obj_data.".type,T2.child,(T2.rgt - T2.lft) AS sort_col ".
 			 "FROM ".$this->table_tree." AS T1, ".$this->table_tree." AS T2, ".$this->table_tree." AS T3 ".
 			 $leftjoin.
 			 "WHERE T1.child = '".$a_startnode_id."' ".
@@ -816,7 +817,28 @@ class ilTree
 	function fetchNodeData($a_row)
 	{
 		$data = $a_row;
+
 		$data["desc"] = $a_row["description"];
+
+		// multilingual support for categories
+		if ($data["type"] == "cat")
+		{
+			$q = "SELECT title,description FROM object_translation ".
+				 "WHERE obj_id = ".$data["obj_id"]." ".
+				 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+				 "AND NOT lang_default = 1";
+			$r = $this->ilias->db->query($q);
+			
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+			if ($row)
+			{
+				$data["title"] = $row->title;
+				$data["description"] = $row->description;
+				$data["desc"] = $row->description;
+			}
+		}
+		
 		/*
 		$data = array(
 					"ref_id"		=> $a_row->ref_id,

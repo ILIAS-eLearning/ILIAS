@@ -1099,11 +1099,10 @@ class ilObjectGUI
 	{
 		session_unregister("saved_post");
 		
-		sendInfo($this->lng->txt("msg_cancel_delete"),true);
+		sendInfo($this->lng->txt("msg_cancel"),true);
 		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-
 	}
 
 	/**
@@ -1214,7 +1213,7 @@ class ilObjectGUI
 			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
 
-			$this->getTemplateFile("edit");
+			$this->getTemplateFile("edit",$new_type);
 
 			foreach ($data["fields"] as $key => $val)
 			{
@@ -1234,6 +1233,20 @@ class ilObjectGUI
 		}
 	}
 
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	* 
+	*/
+	function cancelObject()
+	{
+		session_unregister("saved_post");
+		
+		sendInfo($this->lng->txt("msg_cancel"),true);
+		
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
+	}
 	/**
 	* save object
 	*

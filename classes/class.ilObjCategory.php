@@ -47,6 +47,31 @@ class ilObjCategory extends ilObject
 		$this->type = "cat";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+	
+	/**
+	* read object data from db into object
+	* @param	boolean
+	* @access	public
+	*/
+	function read($a_force_db = false)
+	{
+		parent::read();
+		
+		// multilingual support for categories
+		$q = "SELECT title,description FROM object_translation ".
+			 "WHERE obj_id= ".$this->getId()." ".
+			 "AND lang_code = '".$this->ilias->account->getPref("language")."' ".
+			 "AND NOT lang_default = 1";
+		$r = $this->ilias->db->query($q);
+			
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		if ($row)
+		{
+			$this->title = $row->title;
+			$this->desc = $row->description;
+		}
+	}
 
 	/**
 	* copy all properties and subobjects of a category.
@@ -83,6 +108,36 @@ class ilObjCategory extends ilObject
 		// put here category specific stuff
 		
 		return true;
+	}
+	
+	/**
+	* get all translations from this category
+	* 
+	* @access	public
+	* @return	array 
+	*/
+	function getTranslations()
+	{
+		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId();
+		$r = $this->ilias->db->query($q);
+		
+		$num = 0;
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data["Fobject"][$num]= array("title"	=> $row->title,
+										  "desc"	=> $row->description,
+										  "lang"	=> $row->lang_code
+										  );
+			if ($row->lang_default == 1)
+			{
+				$data["default_language"] = $num;			
+			}
+			
+			$num++;
+		}
+				
+		return $data ? $data : array();	
 	}
 } // END class.ilObjCategory
 ?>

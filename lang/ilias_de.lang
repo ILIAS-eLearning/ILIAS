@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -38,6 +38,7 @@ common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
+common#:#remove_translation#:#Übersetzung entfernen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
@@ -80,11 +81,17 @@ common#:#by#:#durch
 common#:#cancel#:#Abbrechen
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
+common#:#add_translation#:#Übersetzung hinzufügen
+common#:#translation#:#Übersetzung
 common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_new#:#Neue Kategorie
+common#:#cat_edit#:#Kategorie bearbeiten
+common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
+common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
+common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
@@ -373,7 +380,7 @@ common#:#migrate#:#Migrieren
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
-common#:#msg_cancel_delete#:#Aktion abgebrochen
+common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_clear_clipboard#:#Zwischenablage gelösch
 common#:#msg_cloned#:#Objekt(e) kopiert.
@@ -818,7 +825,8 @@ forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
-forum#:#forums_respond#:#Beitrag beantworten
+forum#:#forums_respond#:#Antworten
+forum#:#forums_quote#:#Zitieren
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema

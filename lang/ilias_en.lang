@@ -38,6 +38,7 @@ common#:#access#:#Access
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
+common#:#remove_translation#:#Remove translation
 common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
@@ -84,9 +85,13 @@ common#:#cat#:#Category
 common#:#cat_a#:#a category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
-common#:#cat_new#:#New Category
+common#:#cat_new#:#New category
+common#:#cat_edit#:#Edit Category
 common#:#categories#:#Categories
 common#:#cc#:#CC
+common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
+common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
+common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#censorship#:#censorship
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
@@ -302,6 +307,8 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
+common#:#add_translation#:#Add translation
+common#:#translation#:#Translation
 common#:#learning_objects#:#Learning Objects
 common#:#level#:#Level
 common#:#link#:#Link
@@ -373,7 +380,7 @@ common#:#migrate#:#Migrate
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
-common#:#msg_cancel_delete#:#Action cancelled
+common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
@@ -823,7 +830,8 @@ forum#:#forums_post_modified#:#Article has been modified
 forum#:#forums_post_new_entry#:#New article has been inscribed
 forum#:#forums_posts#:#All articles
 forum#:#forums_posts_not_available#:#Articles Not Available
-forum#:#forums_respond#:#Respond to an Article
+forum#:#forums_respond#:#Post Reply
+forum#:#forums_quote#:#Quote
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Topic
 forum#:#forums_thread_articles#:#Articles to the topic
