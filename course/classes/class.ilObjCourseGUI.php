@@ -108,8 +108,16 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->initCourseContentInterface();
-			$this->cci_view();
+			if($rbacsystem->checkAccess("write", $this->ref_id) or
+			   $this->object->isActivated(false))
+			{
+				$this->initCourseContentInterface();
+				$this->cci_view();
+			}
+			else
+			{
+				$this->archiveObject();
+			}
 		}
 	}
 
@@ -542,16 +550,83 @@ class ilObjCourseGUI extends ilObjectGUI
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
 
+
 	// ARCHIVE METHODS
-	function archiveObject($a_show_confirm = false)
+	function archiveObject()
+	{
+		global $rbacsystem;
+
+
+		// MINIMUM ACCESS LEVEL = 'write'
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		$edit_perm = $rbacsystem->checkAccess('write',$this->object->getRefId());
+		$download_perm = ($rbacsystem->checkAccess('write',$this->object->getRefId()) or 
+						  $this->object->getArchiveType() == $this->object->ARCHIVE_DOWNLOAD) 
+			? true : false;
+
+		$this->object->initCourseArchiveObject();
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive.html",true);
+
+		
+		if($edit_perm)
+		{
+			$this->__showButton('archiveAdmin',$this->lng->txt("crs_edit_archive"));
+		}
+
+		if(!count($archives = $this->object->archives_obj->getPublicArchives()))
+		{
+			sendInfo("crs_no_archives_available");
+			return true;
+		}
+		
+		$counter = 0;
+		foreach($archives as $id => $archive_data)
+		{
+			if($download_perm)
+			{
+				$f_result[$counter][]	= ilUtil::formCheckbox(0,"archives[]",$id);
+			}
+			$f_result[$counter][]	= $archive_data["archive_name"];
+			$f_result[$counter][]	= strftime("%Y-%m-%d %R",$archive_data["archive_date"]);
+			$f_result[$counter][]	= $archive_data["archive_size"];
+			switch($archive_data["archive_type"])
+			{
+				case $this->object->archives_obj->ARCHIVE_XML:
+					$type = $this->lng->txt("crs_xml");
+					break;
+
+				case $this->object->archives_obj->ARCHIVE_HTML:
+					$type = $this->lng->txt("crs_html");
+					break;
+
+				case $this->object->archives_obj->ARCHIVE_PDF:
+					$type = $this->lng->txt("crs_pdf");
+					break;
+			}
+			$f_result[$counter][]	= $type;
+			
+			++$counter;
+		}
+		$this->__showArchivesTable($f_result,$download_perm);
+
+		return true;
+	}		
+
+
+	function archiveAdminObject($a_show_confirm = false)
 	{
 		global $rbacsystem;
 
 
 		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
 
+
 		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -559,9 +634,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->initCourseArchiveObject();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html",true);
+
 		$this->__showButton('addXMLArchive',$this->lng->txt("crs_add_archive_xml"));
 		$this->__showButton('addHTMLArchive',$this->lng->txt("crs_add_archive_html"));
 		$this->__showButton('addPDFArchive',$this->lng->txt("crs_add_archive_pdf"));
+
 
 		if($a_show_confirm)
 		{
@@ -572,7 +649,6 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 		}
-
 
 		if(!count($archives = $this->object->archives_obj->getArchives()))
 		{
@@ -605,7 +681,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			
 			++$counter;
 		}
-		$this->__showArchivesTable($f_result);
+		$this->__showArchivesAdminTable($f_result);
 
 		return true;
 	}
@@ -617,21 +693,21 @@ class ilObjCourseGUI extends ilObjectGUI
 		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
 
 		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 		if(!count($_POST['archives']))
 		{
 			sendInfo($this->lng->txt('crs_no_archive_selected'));
-			$this->archiveObject();
+			$this->archiveAdminObject();
 
 			return false;
 		}
 		if(count($_POST['archives']) > 1)
 		{
 			sendInfo($this->lng->txt('crs_select_one_archive'));
-			$this->archiveObject();
+			$this->archiveAdminObject();
 
 			return false;
 		}
@@ -649,13 +725,13 @@ class ilObjCourseGUI extends ilObjectGUI
 		if(!$_POST["archives"])
 		{
 			sendInfo($this->lng->txt("crs_no_archives_selected"));
-			$this->archiveObject(false);
+			$this->archiveAdminObject(false);
 		}
 		else
 		{
 			$_SESSION["crs_archives"] = $_POST["archives"];
 			sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
-			$this->archiveObject(true);
+			$this->archiveAdminObject(true);
 		}
 
 		return true;
@@ -666,7 +742,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if(!$_SESSION["crs_archives"])
 		{
 			sendInfo($this->lng->txt("crs_no_archives_selected"));
-			$this->archiveObject(false);
+			$this->archiveAdminObject(false);
 		}
 		else
 		{
@@ -676,7 +752,7 @@ class ilObjCourseGUI extends ilObjectGUI
 				$this->object->archives_obj->delete($archive_id);
 			}
 			sendInfo($this->lng->txt('crs_archives_deleted'));
-			$this->archiveObject(false);
+			$this->archiveAdminObject(false);
 			unset($_SESSION["crs_archives"]);
 		}
 	}
@@ -699,7 +775,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->archives_obj->addXML();
 		
 		sendInfo($this->lng->txt("crs_added_new_archive"));
-		$this->archiveObject();
+		$this->archiveAdminObject();
 
 		return true;
 	}
@@ -1553,7 +1629,8 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($rbacsystem->checkAccess('write',$this->ref_id) or
+			$this->object->isActivated(false))
 		{
 			$tabs_gui->addTarget("view_content",
 								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
@@ -1580,12 +1657,12 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
 		}
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($rbacsystem->checkAccess('write',$this->ref_id) or 
+			$this->object->isArchived())
 		{
 			$tabs_gui->addTarget("archives",
 								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));
 		}
-
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
@@ -1984,7 +2061,85 @@ class ilObjCourseGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __showArchivesTable($a_result_set)
+	function __showArchivesTable($a_result_set,$a_download_perm)
+	{
+		$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		// SET FORMAACTION
+		$tpl->setCurrentBlock("tbl_form_header");
+
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tpl->parseCurrentBlock();
+
+		if($a_download_perm)
+		{
+			$tpl->setCurrentBlock("tbl_action_row");
+			$tpl->setVariable("COLUMN_COUNTS",5);
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
+			#$tpl->setCurrentBlock("tbl_action_btn");
+			#$tpl->setVariable("BTN_NAME","deleteArchives");
+			#$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+			#$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("tbl_action_btn");
+			$tpl->setVariable("BTN_NAME","downloadArchives");
+			$tpl->setVariable("BTN_VALUE",$this->lng->txt("download"));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("tbl_action_row");
+			$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+			$tpl->parseCurrentBlock();
+		}
+		$tbl->setTitle($this->lng->txt("crs_header_archives"),"icon_crs_b.gif",$this->lng->txt("crs_header_archives"));
+
+		if($a_download_perm)
+		{
+			$header_names = array('',
+								  $this->lng->txt("file_name"),
+								  $this->lng->txt("create_date"),
+								  $this->lng->txt("size"),
+								  $this->lng->txt("archive_type"));
+
+			$header_vars = array("",
+								 "name",
+								 "type",
+								 "date",
+								 "size");
+			$column_width = array("4%","26%","20%","10%","20%");
+		}
+		else
+		{
+			$header_names = array($this->lng->txt("file_name"),
+								  $this->lng->txt("create_date"),
+								  $this->lng->txt("size"),
+								  $this->lng->txt("archive_type"));
+
+			$header_vars = array("name",
+								 "type",
+								 "date",
+								 "size");
+			$column_width = array("28%","22%","10%","20%");
+		}
+		
+		$tbl->setHeaderNames($header_names);
+		$tbl->setHeaderVars($header_vars,
+							array("ref_id" => $this->object->getRefId(),
+								  "cmd" => "archive",
+								  "cmdClass" => "ilobjcoursegui",
+								  "cmdNode" => $_GET["cmdNode"]));
+		$tbl->setColumnWidth($column_width);
+
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set,"archive");
+		$tbl->render();
+
+		$this->tpl->setVariable("ARCHIVE_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
+	function __showArchivesAdminTable($a_result_set)
 	{
 		#$actions = array("deleteArchivesObject"	=> $this->lng->txt("crs_delete_archive"));
 
