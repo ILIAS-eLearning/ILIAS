@@ -235,7 +235,7 @@ class ilLMPresentationGUI
 		$pg_obj =& new ilPageObject($page_id);
 		$pg_obj->setLMId($this->lm->getId());
 		$builded = $pg_obj->buildDom();
-		$content = $pg_obj->getXMLFromDom(false, true);
+		$content = $pg_obj->getXMLFromDom(false, true, true);
 
 		$pg_title = $pg_obj->getPresentationTitle($this->lm->getPageHeader());
 
