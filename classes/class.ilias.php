@@ -28,7 +28,7 @@ class ILIAS extends PEAR
 
     /**
     *  database handle
-    *  @var object
+    *  @var object database
     *  @access private
     */
     var $db = "";
@@ -42,7 +42,7 @@ class ILIAS extends PEAR
 
     /**
     *  user account
-    *  @var object
+    *  @var object user
     *  @access public
 	*/
     var $account = "";
@@ -56,7 +56,7 @@ class ILIAS extends PEAR
 		
     /**
     *  auth handler
-    *  @var object
+    *  @var object auth
     *  @access public
     */
     var $auth = "";
@@ -97,7 +97,6 @@ class ILIAS extends PEAR
 	* 
 	* setup ILIAS global object
 	* 
-	* @param void
 	* @return boolean
 	*/
     function ILIAS()
@@ -144,7 +143,6 @@ class ILIAS extends PEAR
     /**
     * destructor
 	* 
-	* @param void
     * @return boolean
     */
     function _ILIAS()

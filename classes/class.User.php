@@ -37,11 +37,9 @@ class User extends PEAR
      *
      * setup an user object
      *
-     * @param object		database handler
-     * @param integer	user ID
-     * @return void
+     * @param object database handler
+     * @param integer UserID
      */
-
     function User(&$dbhandle, $AUsrId = "")
     {
 
@@ -60,8 +58,6 @@ class User extends PEAR
      * loads a record "user" from database
      *
      * @access private
-     * @param void
-     * @return void
      */
 
      function getUserdata ()
@@ -108,7 +104,6 @@ class User extends PEAR
 	  *
 	  * @access private
 	  * @param array		userdata
-	  * @return void	
 	  */
 	 function setUserdata ($AUserdata)
 	 {
@@ -119,7 +114,6 @@ class User extends PEAR
 	  * returns a 2char-language-string
 	  *
 	  * @access public
-	  * @param void
 	  * @return string language
 	  */
 	 function getLanguage ()
@@ -135,7 +129,6 @@ class User extends PEAR
 	  *
 	  * public method
 	  *
-	  * @param     void
 	  */
 	 function saveAsNew ()
 	 {
@@ -162,7 +155,6 @@ class User extends PEAR
 	  *
 	  * public method
 	  *
-	  * @param     void
 	  */
 	function update ()
 	{
@@ -182,6 +174,9 @@ class User extends PEAR
 		 return true;
 	 }
 
+    /**
+    * @param string
+    */
 	 function delete ($AUsrId = "")
 	 {
 		 if (empty($AUsrId))
@@ -255,7 +250,6 @@ class User extends PEAR
 	 /**
 	  * get unread mail
 	  *
-	  * @param void
 	  * @return array mails
 	  * @access public
 	  */
@@ -283,7 +277,6 @@ class User extends PEAR
 	 /**
 	  * get last read lessons
 	  *
-	  * @param void
 	  * @return array lessons
 	  * @access public
 	  */
@@ -311,7 +304,6 @@ class User extends PEAR
 	 /**
 	  * get all lessons
 	  *
-	  * @param void
 	  * @return array lessons
 	  * @access public
 	  */
@@ -346,7 +338,6 @@ class User extends PEAR
 	 /**
 	  * get courses the user has access to
 	  *
-	  * @param void
 	  * @return array lessons
 	  * @access public
 	  */
@@ -373,7 +364,6 @@ class User extends PEAR
 	 /**
 	  * get own bookmarks
 	  *
-	  * @param void
 	  * @return array bookmarks
 	  * @access public
 	  */
@@ -395,7 +385,6 @@ class User extends PEAR
 	 /**
 	  * get literature bookmarks
 	  *
-	  * @param void
 	  * @return array lessons
 	  * @access public
 	  */
@@ -418,7 +407,6 @@ class User extends PEAR
 	  * set first name
 	  * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setFirstName($str)
 	 {
@@ -429,7 +417,6 @@ class User extends PEAR
 	  * set last name
 	  * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setLastName($str)
 	 {
@@ -441,7 +428,6 @@ class User extends PEAR
 
   * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setGender($str)
 	 {
@@ -452,7 +438,6 @@ class User extends PEAR
 	  * set title
 	  * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setTitle($str)
 	 {
@@ -463,7 +448,6 @@ class User extends PEAR
 	  * set email
 	  * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setEmail($str)
 	 {
@@ -474,7 +458,6 @@ class User extends PEAR
 	  * set language
 	  * @access public
 	  * @param string str
-	  * @return void
 	  */
 	 function setLanguage($str)
 	 {

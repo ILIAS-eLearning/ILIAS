@@ -36,8 +36,6 @@ class Element {
     /**
     * constructor
 	* 
-    * @param void
-	* @return void
     */
     function Element() {
 		// empty
@@ -48,7 +46,6 @@ class Element {
     * @see $data
     * @access public
 	* @param array	$data	element data
-	* @return void
     */
     function set($data) {
         // Has to be overwritten by object class
@@ -59,8 +56,6 @@ class Element {
     * get data array
     * @see $data
     * @access public
-	* @param void
-	* @return void
     */
     function get() {
         // Has to be overwritten by object class	
@@ -96,7 +91,6 @@ class Element {
     * @see $dbHandle
 	* @access public
     * @param string database handle
-	* @return void
     */
     function setDbHandle($AdbHandle) {
         if ($AdbHandle == "") {
@@ -110,7 +104,6 @@ class Element {
     * get database handle
     * @see $dbHandle
     * @access public
-	* @param void
     * @return object database handle
     */
     function getDbHandle() {

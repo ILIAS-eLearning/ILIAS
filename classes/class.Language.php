@@ -59,7 +59,6 @@ class Language
 	/**
 	 * get all languages in the system
 	 *
-	 * @param void
 	 * @return array langs
 	 * @access public
 	 */
