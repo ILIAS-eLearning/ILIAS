@@ -295,35 +295,139 @@
 <xsl:template name="EditMenu">
 	<xsl:param name="hier_id"/>
 	<xsl:param name="edit"/>
-
+	
+	
+	<xsl:if test = "$javascript = 'enable'">
+	<div style="position:absolute;left:0;top:0;visibility:hidden;">
+		<xsl:attribute name="id">contextmenu_<xsl:value-of select="$hier_id"/></xsl:attribute>
+		<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
+			<table cellspacing="0" cellpadding="2" border="0">
+			<xsl:call-template name="EditMenuItems">
+				<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+			</xsl:call-template>
+			</table>
+		</td></tr></table>
+	</div>
+	</xsl:if>
+	
 	<xsl:if test="$javascript = 'disable'">
 	<select size="1" class="ilEditSelect">
 		<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
-		<xsl:if test="$edit = 'y'">
-			<option value="edit"><xsl:value-of select="//LVs/LV[@name='ed_edit']/@value"/></option>
-		</xsl:if>
-		<xsl:if test="$edit = 'p'">
-			<option value="edit"><xsl:value-of select="//LVs/LV[@name='ed_edit_prop']/@value"/></option>
-		</xsl:if>
-		<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
-		<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
-		<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
-		<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
-		<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
-		<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
-		<xsl:if test="$edit = 'y' or $edit = 'p'">
-			<option value="delete"><xsl:value-of select="//LVs/LV[@name='ed_delete']/@value"/></option>
-			<option value="moveAfter"><xsl:value-of select="//LVs/LV[@name='ed_moveafter']/@value"/></option>
-			<option value="moveBefore"><xsl:value-of select="//LVs/LV[@name='ed_movebefore']/@value"/></option>
-		</xsl:if>
-		<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
+		<xsl:call-template name="EditMenuItems">
+			<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+		</xsl:call-template>
 	</select>
 	<input class="ilEditSubmit" type="submit">
 		<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 		<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>]</xsl:attribute>
 	</input>
 	</xsl:if>
+	
 </xsl:template>
+
+<!-- Edit Menu Items -->
+<xsl:template name="EditMenuItems">
+	<xsl:param name="edit"/>
+
+	<xsl:if test="$edit = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">edit</xsl:with-param>
+			<xsl:with-param name="langvar">ed_edit</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	<xsl:if test="$edit = 'p'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">edit</xsl:with-param>
+			<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- insert paragraph -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_par</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_par</xsl:with-param>
+	</xsl:call-template>
+	
+	<!-- insert code -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_src</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
+	</xsl:call-template>
+	
+	<!-- insert table -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_tab</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_table</xsl:with-param>
+	</xsl:call-template>
+	
+	<!-- insert media object -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_mob</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
+	</xsl:call-template>
+	
+	<!-- insert list -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_list</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
+	</xsl:call-template>
+	
+	<!-- insert file list -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_flst</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
+	</xsl:call-template>
+	
+	<xsl:if test="$edit = 'y' or $edit = 'p'">
+	
+		<!-- delete -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">delete</xsl:with-param>
+			<xsl:with-param name="langvar">ed_delete</xsl:with-param>
+		</xsl:call-template>
+		
+		<!-- move after -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">moveAfter</xsl:with-param>
+			<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
+		</xsl:call-template>
+		
+		<!-- move before -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">moveBefore</xsl:with-param>
+			<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
+		</xsl:call-template>
+		
+	</xsl:if>
+	
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
+		<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param>
+	</xsl:call-template>
+	
+</xsl:template>
+
+<!-- Edit Menu Item-->
+<xsl:template name="EditMenuItem">
+	<xsl:param name="command"/>
+	<xsl:param name="langvar"/>
+	
+	<xsl:if test = "$javascript = 'disable'">
+		<option>
+			<xsl:attribute name="value"><xsl:value-of select="$command"/></xsl:attribute>
+			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+		</option>
+	</xsl:if>
+	<xsl:if test = "$javascript = 'enable'">
+		<tr>
+			<td onMouseOver="M_in(this);" onMouseOut="M_out(this);">
+			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>');</xsl:attribute>
+			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+			</td>
+		</tr>
+	</xsl:if>
+</xsl:template>
+
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
@@ -365,13 +469,16 @@
 	</xsl:choose>
 
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit' and $javascript='disable'">
+	<xsl:if test="$mode = 'edit'">
 		<br />
 		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+		<br />
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
+		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">y</xsl:with-param>
