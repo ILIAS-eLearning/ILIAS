@@ -93,9 +93,9 @@ class RbacAdmin extends PEAR
 									"WHERE usr_id='".$id."'");
 		}
 		return true;
-    }
+	}
 /**
- * updates user data in table user_data
+ * updates user data in table user_data & object_data
  * @access public
  * @param array Array with user data
  * @return bool true false
@@ -103,16 +103,26 @@ class RbacAdmin extends PEAR
 	function updateUser($a_userdata)
 	{
 		$query = "UPDATE user_data ".
-			"SET ".
-			"login = '".$a_userdata["Login"]."',".
-//			"passwd = '".$a_userdata["Passwd"]."',".
-			"firstname = '".$a_userdata["FirstName"]."',".
-			"surname = '".$a_userdata["SurName"]."',".
-			"title = '".$a_userdata["Title"]."',".
-			"gender = '".$a_userdata["Gender"]."',".
-			"email = '".$a_userdata["Email"]."'".
-			" WHERE usr_id = '".$a_userdata["Id"]."'";
+				 "SET ".
+				 "login = '".$a_userdata["Login"]."',".
+				 "firstname = '".$a_userdata["FirstName"]."',".
+				 "surname = '".$a_userdata["SurName"]."',".
+				 "title = '".$a_userdata["Title"]."',".
+				 "gender = '".$a_userdata["Gender"]."',".
+				 "email = '".$a_userdata["Email"]."'".
+				 " WHERE usr_id = '".$a_userdata["Id"]."'";
 		$res = $this->db->query($query);
+
+		$fullname = User::buildFullName($a_userdata["Title"],$a_userdata["FirstName"],$a_userdata["SurName"]);
+
+		$query = "UPDATE object_data ".
+				 "SET ".
+				 "title = '".$fullname."', ".
+				 "description = '', ".
+				 "last_update = now() ".
+				 "WHERE obj_id = '".$a_userdata["Id"]."'";
+		$res = $this->db->query($query);
+		
 		return true;
 	}
 /**
