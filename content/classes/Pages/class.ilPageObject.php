@@ -278,6 +278,12 @@ class ilPageObject
 						$file_list->setNode($cont_node);
 						$file_list->setHierId($a_hier_id);
 						return $file_list;
+
+					// note: assessment handling is forwarded to assessment gui classes
+					case "Question":
+						require_once("assessment/classes/class.assQuestionGUI.php");
+						$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+						return $q_gui;
 				}
 				break;
 

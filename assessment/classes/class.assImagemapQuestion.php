@@ -148,26 +148,28 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		}
 	}
 
-/**
-* Saves a ASS_ImagemapQuestion object to a database
-*
-* Saves a ASS_ImagemapQuestion object to a database (experimental)
-*
-* @param object $db A pear DB object
-* @access public
-*/
-  function saveToDb($original_id = "")
-  {
-    global $ilias;
+	/**
+	* Saves a ASS_ImagemapQuestion object to a database
+	*
+	* Saves a ASS_ImagemapQuestion object to a database (experimental)
+	*
+	* @param object $db A pear DB object
+	* @access public
+	*/
+	function saveToDb($original_id = "")
+	{
+		global $ilias;
+
 		$complete = 0;
-		if ($this->isComplete()) {
+		if ($this->isComplete())
+		{
 			$complete = 1;
 		}
 
-    $db = & $ilias->db;
+		$db = & $ilias->db;
 
-    $estw_time = $this->getEstimatedWorkingTime();
-    $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+		$estw_time = $this->getEstimatedWorkingTime();
+		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 		if ($original_id)
 		{
 			$original_id = $db->quote($original_id);
@@ -176,76 +178,89 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		{
 			$original_id = "NULL";
 		}
-    if ($this->id == -1) {
-      // Neuen Datensatz schreiben
-      $now = getdate();
-      $question_type = 6;
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, image_file, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $db->quote($question_type),
-        $db->quote($this->obj_id),
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->owner),
-        $db->quote($this->question),
-        $db->quote($estw_time),
-        $db->quote($this->points),
-        $db->quote($this->image_filename),
+
+		if ($this->id == -1)
+		{
+			// Neuen Datensatz schreiben
+			$now = getdate();
+			$question_type = 6;
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, image_file, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($question_type),
+				$db->quote($this->obj_id),
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->owner),
+				$db->quote($this->question),
+				$db->quote($estw_time),
+				$db->quote($this->points),
+				$db->quote($this->image_filename),
 				$db->quote("$complete"),
-        $db->quote($created),
+				$db->quote($created),
 				$original_id
-      );
-      $result = $db->query($query);
-      if ($result == DB_OK) {
-        $this->id = $db->getLastInsertId();
-        // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-        if ($this->getTestId() > 0) {
-          $this->insertIntoTest($this->getTestId());
-        }
-      }
-    } else {
-      // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, image_file = %s, complete = %s WHERE question_id = %s",
-        $db->quote($this->title),
-        $db->quote($this->comment),
-        $db->quote($this->author),
-        $db->quote($this->question),
-        $db->quote($estw_time),
-        $db->quote($this->points),
-        $db->quote($this->image_filename),
+			);
+			$result = $db->query($query);
+			if ($result == DB_OK)
+			{
+				$this->id = $db->getLastInsertId();
+
+				// create page object of question
+				$this->createPageObject();
+
+				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				if ($this->getTestId() > 0)
+				{
+					$this->insertIntoTest($this->getTestId());
+				}
+			}
+		}
+		else
+		{
+			// Vorhandenen Datensatz aktualisieren
+			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, image_file = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->title),
+				$db->quote($this->comment),
+				$db->quote($this->author),
+				$db->quote($this->question),
+				$db->quote($estw_time),
+				$db->quote($this->points),
+				$db->quote($this->image_filename),
 				$db->quote("$complete"),
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-    }
-    if ($result == DB_OK) {
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
-      // Antworten schreiben
-      // alte Antworten löschen
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
-        $db->quote($this->id)
-      );
-      $result = $db->query($query);
-      // Anworten wegschreiben
-      foreach ($this->answers as $key => $value) {
-        $answer_obj = $this->answers[$key];
-        //print "id:".$this->id." answer tex:".$answer_obj->get_answertext()." answer_obj->get_order():".$answer_obj->get_order()." answer_obj->get_coords():".$answer_obj->get_coords()." answer_obj->get_area():".$answer_obj->get_area();
-        $query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-          $db->quote($this->id),
-          $db->quote($answer_obj->get_answertext()),
-          $db->quote($answer_obj->get_points()),
-          $db->quote($answer_obj->get_order()),
-          $db->quote($answer_obj->get_correctness()),
-          $db->quote($answer_obj->get_coords()),
-          $db->quote($answer_obj->get_area())
-        );
-        $answer_result = $db->query($query);
-      }
-    }
-  }
-	
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+		}
+
+		if ($result == DB_OK)
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
+			// Antworten schreiben
+			// alte Antworten löschen
+			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+				$db->quote($this->id)
+			);
+			$result = $db->query($query);
+			// Anworten wegschreiben
+			foreach ($this->answers as $key => $value)
+			{
+				$answer_obj = $this->answers[$key];
+				//print "id:".$this->id." answer tex:".$answer_obj->get_answertext()." answer_obj->get_order():".$answer_obj->get_order()." answer_obj->get_coords():".$answer_obj->get_coords()." answer_obj->get_area():".$answer_obj->get_area();
+				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
+					$db->quote($this->id),
+					$db->quote($answer_obj->get_answertext()),
+					$db->quote($answer_obj->get_points()),
+					$db->quote($answer_obj->get_order()),
+					$db->quote($answer_obj->get_correctness()),
+					$db->quote($answer_obj->get_coords()),
+					$db->quote($answer_obj->get_area())
+					);
+				$answer_result = $db->query($query);
+				}
+		}
+	}
+
 /**
 * Duplicates an ASS_ImagemapQuestion
 *

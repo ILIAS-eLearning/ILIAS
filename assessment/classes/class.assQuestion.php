@@ -28,6 +28,7 @@ require_once "./assessment/classes/class.assJavaAppletGUI.php";
 require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
 require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
+require_once "./content/classes/Pages/class.ilPageObject.php";
 
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
@@ -658,6 +659,22 @@ class ASS_Question extends PEAR
 	function setObjId($obj_id = 0)
 	{
 		$this->obj_id = $obj_id;
+	}
+
+	/**
+	* create page object of question
+	*/
+	function createPageObject()
+	{
+		$qpl_id = ilObject::_lookupObjectId($this->getRefId());
+
+		$this->page = new ilPageObject("qpl", 0);
+		$this->page->setId($this->getId());
+		$this->page->setParentId($qpl_id);
+		$this->page->setXMLContent("<PageObject><PageContent>".
+			"<Question QRef=\"il__qst_".$this->getId()."\"/>".
+			"</PageContent></PageObject>");
+		$this->page->create();
 	}
 
 	/**

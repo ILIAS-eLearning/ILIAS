@@ -119,7 +119,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", "content");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -323,7 +323,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$std_item =& $this->object->getMediaItem("Standard");
 
 		// edit media alias template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", "content");
 
 		// deduce size button
 		if ($std_item->getLocationType() == "LocalFile" &&
@@ -610,7 +610,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			: $mob_dir;
 
 		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", "content");
 
 		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
 		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
@@ -630,7 +630,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", "content");
 
 		$num = 0;
 
@@ -1034,7 +1034,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_usage_row.html", true);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_usage_row.html", "content");
 
 		$num = 0;
 
@@ -1181,7 +1181,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		//$this->initMapParameters();
 		$this->handleMapParameters();
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", "content");
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -1464,7 +1464,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$coords = $_SESSION["il_map_edit_coords"];
 		$cnt_coords = ilMapArea::countCoords($coords);
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", "content");
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 

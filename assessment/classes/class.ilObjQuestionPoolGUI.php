@@ -28,6 +28,7 @@
 * @author Helmut Schottmüller <hschottm@tzi.de>
 * $Id$
 *
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_MultipleChoiceGUI, ASS_ClozeTestGUI, ASS_MatchingQuestionGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ASS_OrderingQuestionGUI, ASS_ImagemapQuestionGUI, ASS_JavaAppletGUI
 *
@@ -67,7 +68,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		if ($a_prepare_output)
 		{
+			include_once("classes/class.ilObjStyleSheet.php");
 			$this->prepareOutput();
+			$this->tpl->setCurrentBlock("ContentStyle");
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+			$this->tpl->parseCurrentBlock();
+
+			// syntax style
+			$this->tpl->setCurrentBlock("SyntaxStyle");
+			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+			$this->tpl->parseCurrentBlock();
+
 		}
 //echo "<br>ilObjQuestionPool_End of constructor.";
 	}
@@ -92,7 +105,48 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 //echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
+			case "ilpageobjectgui":
+
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->object->setObjId($this->object->getId());
+				$question =& $q_gui->object;
+				$this->ctrl->saveParameter($this, "q_id");
+
+				include_once("content/classes/Pages/class.ilPageObjectGUI.php");
+				$this->lng->loadLanguageModule("content");
+				//if ($this->ctrl->getCmdClass() == "ilpageobjectgui")
+				//{
+				//	$gloss_loc->display();
+				//}
+				$this->setPageEditorTabs();
+				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+				$this->ctrl->setReturn($this, "questions");
+//echo "<br>ID:".$_GET["q_id"];
+				$page =& new ilPageObject("qpl", $_GET["q_id"]);
+				$page_gui =& new ilPageObjectGUI($page);
+				$page_gui->setQuestionXML($question->to_xml(false));
+				//$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
+				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setOutputMode("edit");
+				//$page_gui->setLocator($gloss_loc);
+				//$page_gui->setHeader($question->getTitle());
+				//$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
+				//	"&amp;ref_id=".$_GET["ref_id"]);
+				/*
+				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
+						array("edit", "view"),
+						array("cont_preview", "preview"),
+						array("meta_data", "editDefinitionMetaData")
+						));*/
+				$page_gui->setPresentationTitle($question->getTitle());
+				//$page_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($page_gui);
+
+				break;
+
+
 			case "ass_multiplechoicegui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -100,6 +154,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_clozetestgui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -107,6 +162,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_orderingquestiongui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -114,6 +170,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_matchingquestiongui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -121,6 +178,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_imagemapquestiongui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -128,6 +186,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			case "ass_javaappletgui":
+				$this->setAdminTabs($_POST["new_type"]);
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
@@ -135,6 +194,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 
 			default:
+				$this->setAdminTabs($_POST["new_type"]);
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
@@ -750,22 +810,23 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 				{
 					$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
 
+					$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
 					$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 					if ($this->object->isInUse($data["question_id"]))
 					{
-						$this->ctrl->setParameterByClass($class, "locked", "1");
+						//$this->ctrl->setParameterByClass($class, "locked", "1");
 						//$link = $this->ctrl->getLinkTarget("
 						$this->tpl->setVariable("TXT_EDIT", $img_locked);
 						$this->tpl->setVariable("LINK_EDIT",
-							$this->ctrl->getLinkTargetByClass($class, "editQuestion"));
+							$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
 						//$this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "&locked=1\">" . $img_locked . "</a>");
 					}
 					else
 					{
-						$this->ctrl->setParameterByClass($class, "locked", "");
+						//$this->ctrl->setParameterByClass($class, "locked", "");
 						$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("LINK_EDIT",
-							$this->ctrl->getLinkTargetByClass($class, "editQuestion"));
+							$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
 						//$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
 					}
 				}
@@ -1264,6 +1325,67 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 		$ilias_locator->output(true);
 	}
 
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+
+		$this->setLocator();
+
+	}
+
+
+	/**
+	* output tabs
+	*/
+	function setPageEditorTabs()
+	{
+
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getPageEditorTabs($tabs_gui);
+
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+
+	}
+
+	/**
+	* get tabs
+	*/
+	function getPageEditorTabs(&$tabs_gui)
+	{
+		// edit page
+		$tabs_gui->addTarget("edit",
+			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
+			"ilPageObjectGUI");
+
+		// preview page
+		$tabs_gui->addTarget("cont_preview",
+			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
+			"ilPageObjectGUI");
+
+		// properties
+		/*
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+			get_class($this));*/
+
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getLinkTarget($this, "questions"), "questions",
+			"ilObjQuestionPoolGUI");
+
+	}
 
 } // END class.ilObjQuestionPoolGUI
 ?>

@@ -78,6 +78,7 @@ class ilPageObjectGUI
 		$this->output_mode = "presentation";
 		$this->setPageObject($a_page_object);
 		$this->output2template = true;
+		$this->question_xml = "";
 
 		// USED FOR TRANSLATIONS
 		$this->template_output_var = "PAGE_CONTENT";
@@ -187,6 +188,16 @@ class ilPageObjectGUI
 	function getLinkXML()
 	{
 		return $this->link_xml;
+	}
+
+	function setQuestionXML($question_xml)
+	{
+		$this->question_xml = $question_xml;
+	}
+
+	function getQuestionXML()
+	{
+		return $this->question_xml;
 	}
 
 	function setTemplateTargetVar($a_variable)
@@ -316,7 +327,7 @@ class ilPageObjectGUI
 			if($this->getOutputMode() == "edit")
 			{
 //echo ":".$this->getTemplateTargetVar().":";
-				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
+				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
 					"disable" => $this->lng->txt("cont_disable_media"));
@@ -330,11 +341,11 @@ class ilPageObjectGUI
 			{
 				if($this->getOutputSubmode() == 'translation')
 				{
-					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_translation_content.html", true);
+					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_translation_content.html", "content");
 				}
 				else
 				{
-					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
+					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", "content");
 				}
 			}
 			if ($this->getOutputMode() != "presentation")
@@ -351,7 +362,8 @@ class ilPageObjectGUI
 		}
 
 		$this->obj->addSourceCodeHighlighting();
-		$content = $this->obj->getXMLFromDom(false, true, true, $this->getLinkXML());
+		$content = $this->obj->getXMLFromDom(false, true, true,
+			$this->getLinkXML().$this->getQuestionXML());
 
 		// check validation errors
 		if($builded !== true)

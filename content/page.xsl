@@ -72,6 +72,7 @@
 			<xsl:call-template name="getFirstPageNumber" />
 			</xsl:attribute>
 		</input>
+
 		<xsl:call-template name="showCitationSelect">
 			<xsl:with-param name="pos" select="0" />
 		</xsl:call-template>
@@ -285,7 +286,7 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<xsl:param name="par_counter" select="-1" />
-	
+
 	<xsl:choose>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<p>
@@ -1219,7 +1220,7 @@
 						<xsl:choose>						
 						
 							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">								
-							<!-- alias parameters -->			
+							<!-- alias parameters -->
 		          					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
             								<xsl:if test="@Name != 'code'">
           									<param>
@@ -1348,6 +1349,190 @@
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>
 
+<!-- Question -->
+<xsl:template match="Question">
+	<div class="ilc_Question">
+
+	<xsl:call-template name="EditReturnAnchors"/>
+
+	<xsl:call-template name="ShowQuestion"/>
+	<!-- <xsl:apply-templates/> -->
+
+	<!-- command selectbox -->
+	<xsl:if test="$mode = 'edit'">
+		<br />
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		</input>
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		<option value="edit">edit</option>
+		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_src">insert Sourcecode</option>
+		<option value="insert_tab">insert Table</option>
+		<option value="insert_mob">insert Media</option>
+		<option value="insert_list">insert List</option>
+		<option value="insert_flst">insert File List</option>
+		<option value="moveAfter">move after</option>
+		<option value="moveBefore">move before</option>
+		<option value="pasteFromClipboard">paste from clipboard</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
+		</input>
+	</xsl:if>
+
+	</div>
+</xsl:template>
+
+<!-- ShowQuestion-->
+<xsl:template name="ShowQuestion">
+	<xsl:for-each select="//questestinterop/item/presentation/flow">
+		<xsl:apply-templates/>
+	</xsl:for-each>
+</xsl:template>
+
+<!-- t&a: response_lid (multiple choice) -->
+<xsl:template match="response_lid">
+	<xsl:choose>
+
+		<!-- multiple choice single response -->
+		<xsl:when test = "@ident = 'MCSR'">
+			<table class="nobackground">
+				<xsl:for-each select="render_choice/response_label">
+					<tr>
+						<td class="nobackground" width="15">
+							<input type="radio" name="multiple_choice_result">
+							<xsl:attribute name="value">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:attribute name="id">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							</input>
+						</td>
+						<td class="nobackground" width="left">
+							<label>
+							<xsl:attribute name="for">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:value-of select="material/mattext"/>
+							</label>
+						</td>
+					</tr>
+				</xsl:for-each>
+			</table>
+		</xsl:when>
+
+		<!-- multiple choice single response -->
+		<xsl:when test = "@ident = 'MCMR'">
+			<table class="nobackground">
+				<xsl:for-each select="render_choice/response_label">
+					<tr>
+						<td class="nobackground" width="15">
+							<input type="checkbox">
+							<xsl:attribute name="name">
+							multiple_choice_result_<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:attribute name="value">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:attribute name="id">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							</input>
+						</td>
+						<td class="nobackground" width="left">
+							<label>
+							<xsl:attribute name="for">
+							<xsl:value-of select="@ident"/>
+							</xsl:attribute>
+							<xsl:value-of select="material/mattext"/>
+							</label>
+						</td>
+					</tr>
+				</xsl:for-each>
+			</table>
+		</xsl:when>
+	</xsl:choose>
+</xsl:template>
+
+<!-- t&a: dump qti data -->
+<xsl:template match="questestinterop"/>
+
+<!-- t&a: text -->
+<xsl:template match="mattext">
+	<xsl:apply-templates/>
+</xsl:template>
+
+<!-- t&a: response_str -->
+<xsl:template match="response_str">
+	<xsl:choose>
+		<!-- multiple choice single response -->
+		<xsl:when test = "./render_fib">
+			<input type="text" value="" size="20">
+				<xsl:attribute name="name">
+				<xsl:value-of select="../@ident"/>
+				</xsl:attribute>
+			</input>
+		</xsl:when>
+		<xsl:otherwise>
+			<select>
+				<xsl:attribute name="name">
+				<xsl:value-of select="@ident"/>
+				</xsl:attribute>
+				<option value="-1" selected="selected">-- please select --</option>
+				<xsl:for-each select="render_choice/response_label">
+					<option>
+					<xsl:attribute name="value">
+					<xsl:value-of select="@ident"/>
+					</xsl:attribute>
+					<xsl:apply-templates/>
+					</option>
+				</xsl:for-each>
+			</select>
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
+
+<!-- t&a: response_grp -->
+<xsl:template match="response_grp">
+	<table class="nobackground">
+	<xsl:for-each select="render_choice/response_label">
+		<xsl:if test='@match_max'>
+			<tr>
+			<td class="nobackground"><xsl:apply-templates/></td>
+			<td class="nobackground">matches</td>
+			<td class="nobackground">
+			<select>
+				<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
+				<xsl:variable name="mgrp">
+					<xsl:value-of select="@match_group"/>
+				</xsl:variable>
+				<option value="-1" selected="selected">-- please select --</option>
+				<xsl:for-each select="../response_label">
+					<xsl:if test="contains($mgrp, concat(',',@ident,',')) or
+						starts-with($mgrp, concat(@ident,',')) or
+						$mgrp = @ident or
+						substring($mgrp, string-length($mgrp) - string-length(@ident)) = concat(',',@ident)">
+						<option>
+						<xsl:attribute name="value">
+						<xsl:value-of select="@ident"/>
+						</xsl:attribute>
+						<xsl:apply-templates/>
+						</option>
+					</xsl:if>
+				</xsl:for-each>
+			</select>
+			</td>
+			</tr>
+		</xsl:if>
+	</xsl:for-each>
+	</table>
+</xsl:template>
 
 <!--
 <xsl:template match="Item/Paragraph">

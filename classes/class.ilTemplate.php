@@ -513,7 +513,14 @@ class ilTemplate extends ilTemplateX
 			$base = "./";
 			if ($a_in_module)
 			{
-				$base.= ILIAS_MODULE."/";
+				if ($a_in_module === true)
+				{
+					$base.= ILIAS_MODULE."/";
+				}
+				else
+				{
+					$base.= $a_in_module."/";
+				}
 			}
 			$base .= "templates/";
 			$fname = $base.$ilias->account->skin."/".basename($a_tplname);

@@ -141,13 +141,14 @@ class ASS_MultipleChoice extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml()
+	function to_xml($a_include_header = true)
 	{
 		if (!empty($this->domxml))
 		{
 			$this->domxml->free();
 		}
-		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		$xml_header .= "<questestinterop></questestinterop>\n";
 		$this->domxml = domxml_open_mem($xml_header);
 		$root = $this->domxml->document_element();
 		// qti ident
@@ -305,7 +306,14 @@ class ASS_MultipleChoice extends ASS_Question
 			$qtiItemfeedback->append_child($qtiFlowmat);
 			$qtiIdent->append_child($qtiItemfeedback);
 		}
-		return $this->domxml->dump_mem(true);
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
 	}
 
 	/**
@@ -368,9 +376,14 @@ class ASS_MultipleChoice extends ASS_Question
 				$original_id
 			);
 			$result = $db->query($query);
+			
 			if ($result == DB_OK)
 			{
 				$this->id = $this->ilias->db->getLastInsertId();
+
+				// create page object of question
+				$this->createPageObject();
+
 				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{

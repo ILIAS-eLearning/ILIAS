@@ -613,7 +613,8 @@ class ilCtrl
 	*/
 	function redirectByClass($a_class, $a_cmd = "")
 	{
-		$a_class = strtolower($a_class);
+		// $a_class may be an array
+		//$a_class = strtolower($a_class);
 
 //echo "<br>class:".get_class($a_gui_obj).":";
 		$script = $this->getLinkTargetByClass($a_class, $a_cmd);

@@ -266,6 +266,12 @@ class ilPageEditorGUI
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
+		// redirect to assessment
+		if (substr($ctype, 0, 3) == "qt_")
+		{
+			$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
+		}
+
 //echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
 
 		switch($next_class)
@@ -372,6 +378,7 @@ class ilPageEditorGUI
 				break;
 
 			default:
+
 				if ($cmd == "pasteFromClipboard")
 				{
 					$ret =& $this->pasteFromClipboard($hier_id);
