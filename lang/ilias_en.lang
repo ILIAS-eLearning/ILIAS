@@ -1972,6 +1972,7 @@ content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Browsed
 content#:#cont_sc_stat_completed#:#Completed
 content#:#cont_sc_stat_failed#:#Failed
+content#:#cont_sc_stat_running#:#Running
 content#:#cont_sc_stat_incomplete#:#Incomplete
 content#:#cont_sc_stat_not_attempted#:#Not attempted
 content#:#cont_sc_stat_passed#:#Passed
