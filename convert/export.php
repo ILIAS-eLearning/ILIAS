@@ -1,8 +1,5 @@
 <?php
 
-//pear DB abstraction layer
-require_once ("DB.php");
-
 /**
 * Export of content from ILIAS2 to ILIAS3 using DOMXML
 *
@@ -13,6 +10,10 @@ require_once ("DB.php");
 */
 
 // *** = dirty/buggy --> to be modified/extended
+
+//include files from PEAR
+require_once "PEAR.php";
+require_once "DB.php";
 
 class ILIAS2export 
 {
@@ -1129,5 +1130,4 @@ else
 			"</body>".
 		"</html>";
 }
-
 ?>
