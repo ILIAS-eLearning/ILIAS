@@ -79,7 +79,6 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function update()
 	{
-		$this->updateMetaData();
 		if (!parent::update())
 		{			
 			return false;
