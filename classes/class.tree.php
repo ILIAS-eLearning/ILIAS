@@ -262,7 +262,7 @@ class Tree
 		// set order_clause if sort order parameter is given
 		if (!empty($a_order))
 		{
-			$order_clause = "ORDER BY '".$a_order."'".$a_direction;
+			$order_clause = "ORDER BY ".$a_order." ".$a_direction;
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
