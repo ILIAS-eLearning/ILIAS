@@ -1,14 +1,12 @@
 {RELOAD}
 <h1>{TXT_PAGEHEADLINE}</h1>
 {BUTTONS}
+
 <!-- BEGIN message -->
 	<p><font color="red">{MSG}</font></p>
 <!-- END message -->
-<form method="POST"action="{ACTION}">
-<input type=hidden name="act" value="confirm_u_entry">
-<input type=hidden name="u_id" value="1">
-<input type=hidden name="type" value="4">
-<input type=hidden name="back" value="index.php">
+<form method="POST" action="{FORMACTION}">
+
 <table cellpadding=3 cellspacing=0 BORDER=0>
 <tr class="tblheader">
   <td colspan=2><b>{TXT_USR_DATA}</b></td>
@@ -47,8 +45,8 @@
         <td><input type="text" name="usr_street" maxlength=64 size=32 value="{STREET}"></td>
 </tr>
 <tr class="tblrow1">
-        <td align="right" valign="middle"><b>{TXT_ZIPCODE}</b></td>
-        <td><input type="text" name="usr_zipcode" maxlength=64 size=32 value="{ZIPCODE}"></td>
+        <td align="right" valign="middle"><b>{TXT_ZIP}</b></td>
+        <td><input type="text" name="usr_zip" maxlength=64 size=32 value="{ZIP}"></td>
 </tr>
 <tr class="tblrow2">
         <td align="right" valign="middle"><b>{TXT_CITY}</b></td>
@@ -97,6 +95,16 @@
 <!-- BEGIN selectskin -->   
    <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
 <!-- END selectskin -->
+   </select>
+   </td>
+</tr>
+<tr class="tblrow2">
+  <td align="right"><b>{TXT_USR_STYLE}</b></td>
+  <td>
+   <select name="usr_style">
+<!-- BEGIN selectstyle -->   
+   <option value="{STYLEVALUE}" {STYLESELECTED}>{STYLEOPTION}</option>
+<!-- END selectstyle -->
    </select>
    </td>
 </tr>

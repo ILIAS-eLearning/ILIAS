@@ -1,6 +1,5 @@
 <!-- $Id$ -->
 <!-- @author Eva Wenzl <ewenzl@databay.de> -->
-
 <h1>{TXT_PAGEHEADLINE}</h1>
 
 {BUTTONS}
@@ -11,15 +10,15 @@
     <tr class="tblheader">
       <td align="center">{TXT_ID}</td>
       <td align="center">{TXT_TITLE}</td>
-      <td colspan=2 align="center"><a href="ed_page.php?cmd=na&amp;le=5&amp;inst=1"><img vspace=0 border=0 src="./images/editor/new.gif" width=16 height=16></a></td>
+      <td colspan=2 align="center"><a href="ed_page.php?cmd=na&amp;le=5&amp;inst=1"><img border=0 src="{TPLPATH}/images/new.gif" width=16 height=16></a></td>
       <td align="center">{TXT_STATUS}</td>
     </tr>
         <!-- BEGIN row -->
     <tr class="{ROWCOL}">
       <td align="center" valign="top">{ID}</td>
       <td valign="top">{TITLE}</td>
-      <td valign="top"><a href="ed_page.php?id=6&amp;inst=1" onMouseOver="window.status='&Auml;ndern';return true;"><img vspace=0 border=0 src="./images/layout/change.gif" width=16 height=16 alt="&Auml;ndern" title="&Auml;ndern" ></a></td>
-      <td valign="top"><a href="/projekte/uni-koeln/ilias/ed_pagelist.php?cmd=d&amp;pg_id=6&amp;pg_inst=1&amp;le_id=5" onMouseOver="window.status='L&ouml;schen';return true;" onClick="return confirm('WARNUNG: Das Objekt und damit verkn&uuml;pfte Inhalte werden unwideruflich gel&ouml;scht !');" ><img vspace=0 border=0 src="./images/layout/delete.gif" width=16 height=16 alt="L&ouml;schen" title="L&ouml;schen" ></a></td>
+      <td valign="top"><a href="{LINK_EDIT}" onMouseOver="window.status='{TXT_CHANGE}';return true;"><img border=0 src="{TPLPATH}/images/change.gif" width=16 height=16 alt="{TXT_CHANGE}"></a></td>
+      <td valign="top"><a href="{LINK_DEL}" onMouseOver="window.status='{TXT_DELETE}';return true;" onClick="return confirm('{TXT_ARE_YOU_SURE}');" ><img border=0 src="{TPLPATH}/images/delete.gif" width=16 height=16 alt="{TXT_DELETE}"></a></td>
       <td>{STATUS}</td>
     </tr>
     <!-- END row -->
