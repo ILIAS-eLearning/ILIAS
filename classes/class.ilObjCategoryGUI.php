@@ -92,6 +92,9 @@ class ilObjCategoryGUI extends ilObjectGUI
 				}
 			}
 			
+			// stripslashes in form output?
+			$strip = isset($_SESSION["translation_post"]) ? true : false;
+			
 			$data = $_SESSION["translation_post"];
 			
 			if (!is_array($data["Fobject"]))
@@ -173,8 +176,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 				$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
 				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"]));
-				$this->tpl->setVariable("DESC", ilUtil::prepareFormOutput($val["desc"]));
+				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
+				$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
 				$this->tpl->setVariable("NUM", $key);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -245,14 +248,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$default = 0;
 			}
 			
-			$newObj->setTitle($val["title"]);
-			$newObj->setDescription($val["desc"]);
-			
-			$q = "INSERT INTO object_translation ".
-				 "(obj_id,title,description,lang_code,lang_default) ".
-				 "VALUES ".
-				 "(".$newObj->getId().",'".$newObj->getTitle()."','".$newObj->getDescription()."','".$val["lang"]."',".$default.")";
-			$this->ilias->db->query($q);
+			$newObj->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
 		}
 
 		// always send a message
@@ -275,129 +271,130 @@ class ilObjCategoryGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// for lang selection include metadata class
+		include_once "./classes/class.ilMetaData.php";
+
+		$this->getTemplateFile("edit",$new_type);
+			
+		$array_push = true;
+
+		if ($_SESSION["error_post_vars"])
+		{
+			$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
+			$_GET["mode"] = "session";
+			$array_push = false;
+		}
+			
+		// load from db if edit category is called the first time
+		if (($_GET["mode"] != "session"))
+		{
+			$data = $this->object->getTranslations();
+			$_SESSION["translation_post"] = $data;
+			$array_push = false;
+		}	// remove a translation from session
+		elseif ($_GET["entry"] != 0)
+		{
+			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array()); 
+
+			if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
+			{
+				$_SESSION["translation_post"]["default_language"] = "";
+			}
+		}
+
+		$data = $_SESSION["translation_post"];
+
+		// add additional translation form
+		if (!$_GET["entry"] and $array_push)
+		{
+			$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
+		}
 		else
 		{
-			// for lang selection include metadata class
-			include_once "./classes/class.ilMetaData.php";
+			$count = count($data["Fobject"]);
+		}
+		
+		// stripslashes in form?
+		$strip = isset($_SESSION["translation_post"]) ? true : false;
 
-			$this->getTemplateFile("edit",$new_type);
-			
-			$array_push = true;
-
-			if ($_SESSION["error_post_vars"])
+		foreach ($data["Fobject"] as $key => $val)
+		{
+			// add translation button
+			if ($key == $count -1)
 			{
-				$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
-				$_GET["mode"] = "session";
-				$array_push = false;
+				$this->tpl->setCurrentBlock("addTranslation");
+				$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
+				$this->tpl->parseCurrentBlock();
+			}
+				
+			// remove translation button
+			if ($key != 0)
+			{
+				$this->tpl->setCurrentBlock("removeTranslation");
+				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
+				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
+				$this->tpl->parseCurrentBlock();
 			}
 			
-			// load from db if edit category is called the first time
-			if (($_GET["mode"] != "session"))
-			{
-				$data = $this->object->getTranslations();
-				$_SESSION["translation_post"] = $data;
-				$array_push = false;
-			}	// remove a translation from session
-			elseif ($_GET["entry"] != 0)
-			{
-				array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array()); 
+			// lang selection
+			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
+			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
 
-				if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
+			$languages = ilMetaData::getLanguages();
+
+			foreach ($languages as $code => $language)
+			{
+				$this->tpl->setCurrentBlock("lg_option");
+				$this->tpl->setVariable("VAL_LG", $code);
+				$this->tpl->setVariable("TXT_LG", $language);
+	
+				if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
 				{
-					$_SESSION["translation_post"]["default_language"] = "";
+					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
 				}
+				elseif ($code == $val["lang"])
+				{
+					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
+				}
+	
+				$this->tpl->parseCurrentBlock();
 			}
-
-			$data = $_SESSION["translation_post"];
-
-			// add additional translation form
-			if (!$_GET["entry"] and $array_push)
+				
+			// object data
+			$this->tpl->setCurrentBlock("obj_form");
+			
+			if ($key == 0)
 			{
-				$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 			}
 			else
 			{
-				$count = count($data["Fobject"]);
+				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
 			}
-
-			foreach ($data["Fobject"] as $key => $val)
+			
+			if ($key == $data["default_language"])
 			{
-				// add translation button
-				if ($key == $count -1)
-				{
-					$this->tpl->setCurrentBlock("addTranslation");
-					$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// remove translation button
-				if ($key != 0)
-				{
-					$this->tpl->setCurrentBlock("removeTranslation");
-					$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-					$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// lang selection
-				$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
-				$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
-	
-				$languages = ilMetaData::getLanguages();
-	
-				foreach($languages as $code => $language)
-				{
-					$this->tpl->setCurrentBlock("lg_option");
-					$this->tpl->setVariable("VAL_LG", $code);
-					$this->tpl->setVariable("TXT_LG", $language);
-		
-					if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
-					{
-						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-					}
-					elseif ($code == $val["lang"])
-					{
-						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-					}
-	
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// object data
-				$this->tpl->setCurrentBlock("obj_form");
-				
-				if ($key == 0)
-				{
-					$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
-				}
-				
-				if ($key == $data["default_language"])
-				{
-					$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
-				}
-		
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-				$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-				$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
-				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"]));
-				$this->tpl->setVariable("DESC", ilUtil::prepareFormOutput($val["desc"]));
-				$this->tpl->setVariable("NUM", $key);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
 			}
-
-			// global
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-			$this->tpl->setVariable("CMD_SUBMIT", "update");
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+			$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
+			$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+			$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
+			$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
+			$this->tpl->setVariable("NUM", $key);
+			$this->tpl->parseCurrentBlock();
 		}
+
+		// global
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
 	/**
@@ -448,9 +445,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 			$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
 
 			// first delete all translation entries...
-			$q = "DELETE FROM object_translation WHERE obj_id= ".$this->object->getId();
-			$this->ilias->db->query($q);
-			
+			$this->object->removeTranslations();
+
 			// ...and write new translations to object_translation
 			foreach ($data["Fobject"] as $key => $val)
 			{
@@ -463,19 +459,12 @@ class ilObjCategoryGUI extends ilObjectGUI
 					$default = 0;
 				}
 				
-				$this->object->setTitle($val["title"]);
-				$this->object->setDescription($val["desc"]);
-				
-				$q = "INSERT INTO object_translation ".
-					 "(obj_id,title,description,lang_code,lang_default) ".
-					 "VALUES ".
-					 "(".$this->object->getId().",'".ilUtil::addSlashes($this->object->getTitle())."','".ilUtil::addSlashes($this->object->getDescription())."','".$val["lang"]."',".$default.")";
-				$this->ilias->db->query($q);
+				$this->object->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
 			}
 
 			// update object data entry with default translation
-			$this->object->setTitle($_POST["Fobject"]["title"]);
-			$this->object->setDescription($_POST["Fobject"]["desc"]);
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 			$this->update = $this->object->update();
 		}
 
