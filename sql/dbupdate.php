@@ -586,3 +586,13 @@ while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 	$res4 = $this->db->query($query);
 }
 ?>
+<#22>
+CREATE TABLE addressbook (
+  addr_id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  login varchar(40) default NULL,
+  firstname varchar(40) default NULL,
+  lastname varchar(40) default NULL,
+  email varchar(40) default NULL,
+  PRIMARY KEY  (addr_id)
+) TYPE=MyISAM;
