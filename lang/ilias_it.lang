@@ -94,7 +94,7 @@ assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
 assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_imagemap#:#Aggiungi immagine con mappa
-assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
+assessment#:#add_matching_pair#:#Aggiungi coppia da associare
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
 assessment#:#answer_picture#:#Rispondi alla figura
@@ -115,7 +115,7 @@ assessment#:#coordinates#:#Coordinate
 assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_imagemap#:#Crea una immaggine con mappa
-assessment#:#create_new#:#Nuova
+assessment#:#create_new#:#Nuova domanda
 assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
@@ -138,7 +138,7 @@ assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
 assessment#:#fill_out_all_matching_pairs#:#Per favore, completa tutte le coppie di risposte prima di aggiungerne un'altra!
 assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un'altra risposta!
-assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
+assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere un'altra coppia!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#fill_out_all_required_fields_upload_image#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload dell'immagine a mappa!
@@ -159,10 +159,10 @@ assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
 assessment#:#mark_schema#:#Schema voti
-assessment#:#match_terms_and_definitions#:#Accoppia termini e definizioni
-assessment#:#match_terms_and_pictures#:#Accoppia termini e figure
-assessment#:#matches#:#corrispondenti
-assessment#:#matching_pair#:#Coppia corrispondente
+assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
+assessment#:#match_terms_and_pictures#:#Associa termini e figure
+assessment#:#matches#:#corrisponde a
+assessment#:#matching_pair#:#Coppia -> termine
 assessment#:#material#:#Materiale
 assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
@@ -199,13 +199,13 @@ assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande d
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qpl_questions_deleted#:#Domande eliminate
-assessment#:#qt_cloze#:#Da completare
-assessment#:#qt_imagemap#:#Con immagine a mappa
-assessment#:#qt_javaapplet#:#Con applet java
-assessment#:#qt_matching#:#A corrispondenza
-assessment#:#qt_multiple_choice_mr#:#A scelta multipla (risposta multipla)
-assessment#:#qt_multiple_choice_sr#:#A scelta multipla (risposta singola)
-assessment#:#qt_ordering#:#Ad ordinamento
+assessment#:#qt_cloze#:#con risposta da completare
+assessment#:#qt_imagemap#:#con immagine a mappa
+assessment#:#qt_javaapplet#:#con applet java
+assessment#:#qt_matching#:#con risposte da associare
+assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
+assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
+assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
@@ -225,13 +225,13 @@ assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
-assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
+assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
 assessment#:#set_filter#:#Imposta filtro
-assessment#:#shape#:#Shape###19 Jun 2004 new variable
+assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
 assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Inizio tag
-assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
+assessment#:#starting_time_not_reached#:#Non &#232; ancora arrivato il momento per iniziare!
 assessment#:#symbol#:#Simbolo
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
@@ -1233,8 +1233,8 @@ common#:#month_11_long#:#Novembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dicembre
 common#:#month_12_short#:#Dic
-common#:#move#:#Muovi
-common#:#moveChapter#:#Muovi
+common#:#move#:#Sposta
+common#:#moveChapter#:#Sposta
 common#:#movePage#:#Sposta
 common#:#move_to#:#Inserisci in cartella
 common#:#msg_cancel#:#Esecuzione annullata
@@ -1429,7 +1429,7 @@ common#:#objs_grp#:#Gruppi
 common#:#objs_htlm#:#Moduli HTML
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
-common#:#objs_lo#:#Unit&#224; didattica
+common#:#objs_lo#:#Unit&#224; didattiche
 common#:#objs_mep#:#Librerie multimediali
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
@@ -1654,8 +1654,8 @@ common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
 common#:#spl_read#:#Accedere in lettura alle raccolte di domande
-common#:#spl_visible#:#Raccolte di domande sono visibili
-common#:#spl_write#:#Modificare una raccolta di domande
+common#:#spl_visible#:#Vedere le raccolte di domande
+common#:#spl_write#:#Modificare le raccolta di domande
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
@@ -1857,7 +1857,7 @@ content#:#cont_choose_media_source#:#Scegli una sorgente multimediale
 content#:#cont_citation_err_one#:#Devi scegliere una edizione.
 content#:#cont_citation_selection_not_valid#:#Questa scelta non &#232; valida.
 content#:#cont_citations#:#Citazioni
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
+content#:#cont_clean_frames#:#Ripulisci i frame addizioali di navigazione
 content#:#cont_click_br_corner#:#Per favore, clicca nell&#039;angolo inferiore destro dell'area desiderata.
 content#:#cont_click_center#:#Per favore, clicca nel centro dell'area desiderata.
 content#:#cont_click_circle#:#Per favore, clicca in una circonferenza dell'area desiderata.
@@ -1874,14 +1874,14 @@ content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_mob#:#Crea un oggetto multimediale
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
-content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
-content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
+content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni i tipo 'normal')
+content#:#cont_credit_off#:#Senza crediti
+content#:#cont_credit_on#:#Con crediti
 content#:#cont_credits#:#Ringraziamenti
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
-content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
+content#:#cont_def_lesson_mode#:#Modalit&#224; della lezione normale
 content#:#cont_def_organization#:#Organizzazione predefinita
 content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
@@ -2018,8 +2018,8 @@ content#:#cont_rvalue#:#Valori
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Visione
+content#:#cont_sc_less_mode_normal#:#Normale
 content#:#cont_sc_stat_browsed#:#Visto
 content#:#cont_sc_stat_completed#:#Completato
 content#:#cont_sc_stat_failed#:#Fallito
@@ -2744,13 +2744,13 @@ meta#:#meta_l_am#:#amharic
 meta#:#meta_l_ar#:#arabo
 meta#:#meta_l_as#:#assamese
 meta#:#meta_l_ay#:#aymara
-meta#:#meta_l_az#:#azerbaijani
+meta#:#meta_l_az#:#azerbaigiano
 meta#:#meta_l_ba#:#bashkir
-meta#:#meta_l_be#:#byelorusso
+meta#:#meta_l_be#:#bielorusso
 meta#:#meta_l_bg#:#bulgaro
 meta#:#meta_l_bh#:#bihari
 meta#:#meta_l_bi#:#bislama
-meta#:#meta_l_bn#:#bengali;bangla
+meta#:#meta_l_bn#:#bengalese
 meta#:#meta_l_bo#:#tibetano
 meta#:#meta_l_br#:#bretone
 meta#:#meta_l_ca#:#catalano
@@ -2766,7 +2766,7 @@ meta#:#meta_l_eo#:#esperanto
 meta#:#meta_l_es#:#spagnolo
 meta#:#meta_l_et#:#estone
 meta#:#meta_l_eu#:#basco
-meta#:#meta_l_fa#:#persiano (farsi)
+meta#:#meta_l_fa#:#persiano
 meta#:#meta_l_fi#:#finnico
 meta#:#meta_l_fj#:#fiji
 meta#:#meta_l_fo#:#faroese
@@ -2805,10 +2805,10 @@ meta#:#meta_l_la#:#latino
 meta#:#meta_l_ln#:#lingala
 meta#:#meta_l_lo#:#laothian
 meta#:#meta_l_lt#:#lituano
-meta#:#meta_l_lv#:#latvian;lettish
+meta#:#meta_l_lv#:#latvian
 meta#:#meta_l_mg#:#malagasy
 meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_mk#:#macedone
 meta#:#meta_l_ml#:#malayalam
 meta#:#meta_l_mn#:#mongolo
 meta#:#meta_l_mo#:#moldavo
@@ -2825,7 +2825,7 @@ meta#:#meta_l_om#:#afan (oromo)
 meta#:#meta_l_or#:#oriya
 meta#:#meta_l_pa#:#punjabi
 meta#:#meta_l_pl#:#polacco
-meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_ps#:#pashto
 meta#:#meta_l_pt#:#portoghese
 meta#:#meta_l_qu#:#quechua
 meta#:#meta_l_rm#:#rhaeto-romance
@@ -2837,9 +2837,9 @@ meta#:#meta_l_sa#:#sanskrit
 meta#:#meta_l_sd#:#sindhi
 meta#:#meta_l_sg#:#sangho
 meta#:#meta_l_sh#:#serbo-croato
-meta#:#meta_l_si#:#singhalese
+meta#:#meta_l_si#:#cingalese
 meta#:#meta_l_sk#:#slovacco
-meta#:#meta_l_sl#:#slovenian
+meta#:#meta_l_sl#:#sloveno
 meta#:#meta_l_sm#:#samoan
 meta#:#meta_l_sn#:#shona
 meta#:#meta_l_so#:#somalo
@@ -2847,7 +2847,7 @@ meta#:#meta_l_sq#:#albanese
 meta#:#meta_l_sr#:#serbo
 meta#:#meta_l_ss#:#siswati
 meta#:#meta_l_st#:#sesotho
-meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_su#:#sudanese
 meta#:#meta_l_sv#:#svedese
 meta#:#meta_l_sw#:#swahili
 meta#:#meta_l_ta#:#tamil
@@ -2864,10 +2864,10 @@ meta#:#meta_l_ts#:#tsonga
 meta#:#meta_l_tt#:#tatar
 meta#:#meta_l_tw#:#twi
 meta#:#meta_l_ug#:#uigur
-meta#:#meta_l_uk#:#ukraino
+meta#:#meta_l_uk#:#ucraino
 meta#:#meta_l_ur#:#urdu
-meta#:#meta_l_uz#:#uzbeko
-meta#:#meta_l_vi#:#vietnamese
+meta#:#meta_l_uz#:#uzbeco
+meta#:#meta_l_vi#:#vietnamita
 meta#:#meta_l_vo#:#volapuk
 meta#:#meta_l_wo#:#wolof
 meta#:#meta_l_xh#:#xhosa
@@ -3020,7 +3020,7 @@ survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
-survey#:#create_new#:#Crea nuova
+survey#:#create_new#:#Nuova domanda
 survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#accordo
 survey#:#dc_always#:#sempre
@@ -3086,7 +3086,7 @@ survey#:#duplicate#:#Duplica
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
 survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
 survey#:#end_date#:#Termine ultimo
-survey#:#enter_phrase_title#:#Per favore inserisci il titolo del questionario
+survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del questionario
 survey#:#enter_value#:#Inserisci un valore
 survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
@@ -3124,8 +3124,8 @@ survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore
 survey#:#mode#:#Valore pi&#249; selezionato
 survey#:#mode_nr_of_selections#:#Nr di selezioni
 survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
-survey#:#multiple_choice_multiple_response#:#Scelta multipla (risposta multipla)
-survey#:#multiple_choice_single_response#:#Scelta multipla (risposta singola)
+survey#:#multiple_choice_multiple_response#:#A scelta multipla (risposta multipla)
+survey#:#multiple_choice_single_response#:#A scelta multipla (risposta singola)
 survey#:#next_question_rows#:#Domande %d - %d di %d >>
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
 survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
@@ -3140,7 +3140,7 @@ survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazio
 survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
 survey#:#no_user_phrases_defined#:#Non ci sono frasi definite dagli utenti disponibili!
 survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
-survey#:#non_ratio#:#Non-frazionario
+survey#:#non_ratio#:#con risposta intera
 survey#:#not_finished#:#non terminato
 survey#:#not_started#:#non iniziato
 survey#:#obligatory#:#obbligatorio
@@ -3170,13 +3170,13 @@ survey#:#qpl_questions_pasted#:#Domande incollate
 survey#:#qpl_savephrase_empty#:#Per favore, indica il titolo!
 survey#:#qpl_savephrase_exists#:#Questo titolo esiste gi&#224;! Per favore, definisci un altro titolo.
 survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di domande se vuoi aprirlo!
-survey#:#qt_metric#:#Risposta numerica
-survey#:#qt_nominal#:#Risposta predefinita
-survey#:#qt_ordinal#:#Risposta a ordinamento
-survey#:#qt_text#:#Risposta con testo
+survey#:#qt_metric#:#con risposta numerica
+survey#:#qt_nominal#:#con risposte predefinite
+survey#:#qt_ordinal#:#con risposte da ordinare
+survey#:#qt_text#:#con risposta libera
 survey#:#question_has_constraints#:#Vincoli
 survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
-survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
+survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, stai attento che devi cancellare la domanda anche dalla raccolta di domande se non vuoi pi&#249; tenerla!
 survey#:#question_type#:#Tipo di domanda
 survey#:#questionblock#:#Blocco di domande
 survey#:#questionblock_has_constraints#:#Vincoli
@@ -3185,15 +3185,15 @@ survey#:#questions#:#Domande
 survey#:#questions_inserted#:#Domande inserite!
 survey#:#questions_removed#:#Domande e/o blocco di domande cancellate!
 survey#:#questiontype#:#Tipo di domanda
-survey#:#ratio_absolute#:#Frazionario assoluto
-survey#:#ratio_non_absolute#:#Frazionario non assoluto
+survey#:#ratio_absolute#:#con risposta frazionaria (assoluta)
+survey#:#ratio_non_absolute#:#con risposta frazionaria (non assoluta)
 survey#:#remove_question#:#Cancella
 survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
 survey#:#reset_filter#:#Azzera il filtro
 survey#:#resume_survey#:#Annulla il filtro
 survey#:#save_phrase#:#Salva come frase
 survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!
-survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, per favore indica il titolo. Accedi alla frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.
+survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, devi specificare il titolo. Verr&#224; mostrata la frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.
 survey#:#search_field_all#:#Ricerca in tutti i campi
 survey#:#search_for#:#Ricerca per
 survey#:#search_groups#:#Gruppi
@@ -3205,27 +3205,27 @@ survey#:#search_users#:#Utenti
 survey#:#select_prior_question#:#Seleziona la domanda precedente
 survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
 survey#:#select_relation#:#Seleziona una relazione
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
-survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
+survey#:#select_target_position_for_move#:#Per favore, seleziona la posizione di destinazione nella quale spostare le categorie e premi uno dei pulsanti Inserisci!
+survey#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella quale spostare le domande e premi uno dei pulsanti Inserisci!
 survey#:#select_value#:#Seleziona un valore
 survey#:#set_filter#:#Imposta filtro
 survey#:#start_date#:#Giorno di esecuzione
-survey#:#start_survey#:#Comincia l'esame
+survey#:#start_survey#:#Inizia il questionario
 survey#:#subtype#:#Sottotipo
-survey#:#survey_finish#:#salva e finisci l'esame >>>
-survey#:#survey_finished#:#L'esame &#232; finito. Grazie per la tua partecipazione!
-survey#:#survey_next#:#salva e vai avanti >>>
-survey#:#survey_offline_message#:#Non puoi invitare partecipanti. L'esame &#232; offline!
-survey#:#survey_online_warning#:#L'esame &#232; online. Non puoi modificare le domande!
-survey#:#survey_previous#:#<<< salva e torna indietro
+survey#:#survey_finish#:#Salva e finisci il questionario >>>
+survey#:#survey_finished#:#Il questionario &#232; finito. Grazie per la tua partecipazione!
+survey#:#survey_next#:#Salva e vai avanti >>>
+survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il questionario &#232; offline!
+survey#:#survey_online_warning#:#Il questionario &#232; online. Non puoi modificare le domande!
+survey#:#survey_previous#:#<<< Salva e torna indietro
 survey#:#survey_questions#:#Domande
-survey#:#survey_skip_finish#:#salta e finisci l'esame >>>
-survey#:#survey_skip_next#:#salta e vai alla pagina successiva >>>
-survey#:#survey_skip_previous#:#<<< salta e torna alla pagina precedente
-survey#:#survey_skip_start#:#<<< salta e torna alla pagina iniziale
-survey#:#survey_start#:#<<< salva e vai alla pagina iniziale
+survey#:#survey_skip_finish#:#Salta e finisci il questionario >>>
+survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
+survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente
+survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
+survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
-survey#:#unfold#:#Aperrto
+survey#:#unfold#:#Apri blocco di domande
 survey#:#unlimited_users#:#Illimitato
 survey#:#uploaded_material#:#Materiale Uploadato
 survey#:#upper_limit#:#Limite superiore
