@@ -300,6 +300,7 @@ class ilPageObjectGUI
 		if($this->outputToTemplate())
 		{
 			$this->tpl->setVariable($this->getTemplateOutputVar(), $output);
+            return $output;
 		}
 		else
 		{
