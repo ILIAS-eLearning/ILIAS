@@ -139,17 +139,53 @@ class ilMediaAliasItem
 
 	/**
 	* set parameter
+	*
+	* note: parameter tags are simply appended to the item node, so if
+	* current element definition (MediaAliasItem (Layout?, Caption?, Parameter*)>)
+	* changes, adoptions may be necessary
 	*/
-	function setParameter($a_name, $a_value)
+	function setParameters($a_par_array)
 	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
+		$res =& xpath_eval($xpc, $path);
+		$par_arr = array();
+		for($i=0; $i < count($res->nodeset); $i++)
+		{
+			$par_node =& $res->nodeset[$i];
+			$par_node->unlink_node($par_node);
+		}
+
+		if (is_array($a_par_array))
+		{
+			foreach($a_par_array as $par => $val)
+			{
+				$par_node =& $this->dom->create_element("Parameter");
+				$par_node =& $this->item_node->append_child($par_node);
+				$par_node->set_attribute("Name", $par);
+				$par_node->set_attribute("Value", $val);
+			}
+		}
 	}
+
 
 	/**
 	* get all parameters
 	*/
-	function getParameters()
+	function getParameterString()
 	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
+		$res =& xpath_eval($xpc, $path);
+		$par_arr = array();
+		for($i=0; $i < count($res->nodeset); $i++)
+		{
+			$par_node =& $res->nodeset[$i];
+			$par_arr[] = $par_node->get_attribute("Name")."=\"".$par_node->get_attribute("Value")."\"";
+		}
+		return implode($par_arr, ", ");
 	}
+
 
 	/**
 	* get a single parameter
