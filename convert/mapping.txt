@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-13, Matthias Rulinski
+2003-01-15, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -375,7 +375,7 @@ LEARNUNIT (id)
 Changes to the DTD:
 -------------------
 
-Paragraph -> new attribute: Characteristic (Example | Citation | Mnemonic) #IMPLIED
+Paragraph -> new attribute:	Characteristic (Example | Citation | Mnemonic) #IMPLIED
 Contribute -> attribute Role: double entry for validator
 Title -> (%titletext;)* --> (#PCDATA)
 Description -> (%simpletext;)* --> (#PCDATA)
@@ -383,9 +383,16 @@ Taxon -> (Entry) --> (#PCDATA), new attribute: Language (%langcode;) #REQUIRED
 Entry -> removed (not needed at all)
 Educational -> Language+ removed (obsolete)
 Definition -> (Paragraph+) --> (Paragraph | LearningObject)+
-Answer -> new attribute: Status (Right | Wrong) #IMPLIED
+Answer -> new attribute: Solution (Right | Wrong) #IMPLIED
 Paragraph -> extended attribute: Characteristic (Headline | Example | Citation | Mnemonic) #IMPLIED
 Content -> (Paragraph | LearningObject) --> (Paragraph | LearningObject)
 Text -> removed (not needed at all)
 Headline -> removed (not needed at all)
 TableData -> new attribute: Width CDATA #IMPLIED
+operatingsystem -> removed #PCDATA from entity
+browser -> removed #PCDATA from entity
+LearningObject -> new Element:	<!ELEMENT Parameter (ParameterName, ParameterValue)+>
+								<!ELEMENT ParameterName (#PCDATA)>
+								<!ELEMENT ParameterValue (#PCDATA)>
+operatingsystem -> replaced entitiy
+browser -> replaced entitiy
