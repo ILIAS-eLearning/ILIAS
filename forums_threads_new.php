@@ -15,6 +15,7 @@ $lng->loadLanguageModule("forum");
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new ilForum();
 $frm->setForumId($forumObj->getId());
+$frm->setForumRefId($forumObj->getRefId());
 
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 $topicData = $frm->getOneTopic();

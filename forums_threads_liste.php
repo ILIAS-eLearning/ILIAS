@@ -15,6 +15,7 @@ $lng->loadLanguageModule("forum");
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new ilForum();
 $frm->setForumId($forumObj->getId());
+$frm->setForumRefId($forumObj->getRefId());
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");

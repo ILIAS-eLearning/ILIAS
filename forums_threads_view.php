@@ -15,6 +15,7 @@ $lng->loadLanguageModule("forum");
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new ilForum();
 $frm->setForumId($forumObj->getId());
+$frm->setForumRefId($forumObj->getRefId());
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
