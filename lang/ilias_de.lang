@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -1929,9 +1929,9 @@ dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
-dateplaner#:#help_enddate#:#Enddatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd//mm/yyyy]
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
@@ -1964,7 +1964,7 @@ dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
-dateplaner#:#help_startdate#:#Startdatum - Syntax[dd//mm/yyyy]
+dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
 dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.

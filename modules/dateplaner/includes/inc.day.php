@@ -528,15 +528,10 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
         		$Stunde = ($time-$time%60)/60 ;
         		$Viertel= $time%60;
         		if ($Viertel==0) $Viertel="00";
-			
-			//$dayString=$dayString. $Stunde.":".$Viertel;
 			$ttd->ttd($timestamp);
 			$new_ts = mktime ( $Stunde , $Viertel , 0, $ttd->monthnumber_long , $ttd->day_of_month, $ttd->year_long );
 			$dayString=$dayString."<a href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$new_ts."&PHPSESSID=$PHPSESSID','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" TITLE=\"".$DP_language[new_doc]."\"  >".$Stunde.":".$Viertel."
 			</a>";	
-
-
-
 			$dayString=$dayString. "</span></TD>";  
 		}
 		for($i=0; $i<=$stream; $i++){
@@ -564,7 +559,7 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
 						$DateValues[text] = $arrayPadded[$i][$streamCounter[$i]][4];
 
 						$DateValues = parseDataForOutput ($DateValues);
-						$dayString=$dayString."</a> -- <b>".$DateValues[shorttext]."</b>";
+						$dayString=$dayString."</a> - <b>".$DateValues[shorttext]."</b>";
 						$dayString=$dayString."<BR>".$DateValues[text];
 						$dayString=$dayString."</span></TD>";
 						$streamCounter[$i]++;
