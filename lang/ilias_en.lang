@@ -3016,7 +3016,7 @@ crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
-crs#:#crs_member_blocked#:#Mitglied (blocked)
+crs#:#crs_member_blocked#:#Member (blocked)
 crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
@@ -3025,7 +3025,7 @@ crs#:#crs_members_title#:#Course members
 crs#:#crs_move_down#:#Move down
 crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
-crs#:#crs_moved_objective#:#Moved learing objective.
+crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
 crs#:#crs_new_subscription#:#New course subscription
 crs#:#crs_new_subscription_body#:#A new user has been subscribed
