@@ -218,6 +218,7 @@ assessment#:#tst_resume_test#:#Podsumowanie testu
 assessment#:#tst_score_reporting#:#Raport punktacji
 assessment#:#tst_score_reporting_date#:#Data raportu punktacji
 assessment#:#tst_score_type#:#Typ raportu punktacji
+assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_sequence#:#Sekwencja
 assessment#:#tst_sequence_fixed#:#Sekwencja pytań została ustawiona
 assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu
@@ -1296,7 +1297,7 @@ common#:#registered_user#:#zarejestrowany użytkownik
 common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
 common#:#registration_expired#:#Termin rejestracji minął...
-common#:#remove#:#Wyklucz
+common#:#remove#:#Wyklucz###25 Mar 2004 content changed
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
 common#:#reply#:#Odpowiedz

@@ -218,6 +218,7 @@ assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
 assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
 assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
@@ -1296,7 +1297,7 @@ common#:#registered_user#:#Utilisateur abonné
 common#:#registered_users#:#Utilisateurs abonnés
 common#:#registration#:#Nouvel enregistrement de compte
 common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
-common#:#remove#:#Annuler
+common#:#remove#:#Annuler###25 Mar 2004 content changed
 common#:#remove_translation#:#Supprimer la traduction
 common#:#rename#:#Renommer
 common#:#reply#:#Répondre
