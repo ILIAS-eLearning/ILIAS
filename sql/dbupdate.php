@@ -1173,4 +1173,11 @@ CREATE TABLE meta_techn_loc (
 	tech_id int NOT NULL,
 	location varchar(150),
 	INDEX (tech_id)
-) TYPE=MyISAM;
+);
+
+<#52>
+DROP TABLE IF EXISTS learning_module;
+CREATE TABLE learning_module(
+	id					int				NOT NULL	PRIMARY KEY,
+	default_layout		varchar(100)	NOT NULL	DEFAULT 'toc2win'
+);
