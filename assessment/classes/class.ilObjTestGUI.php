@@ -1607,13 +1607,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$questionpools =& $this->object->get_qpl_titles();
+		$total = $this->object->evalTotalPersons();
 		if ($query_result->numRows() > 0)
 		{
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_ID", $data->question_id);
-				if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					$q_id = $data->question_id;
 					$qpl_ref_id = $this->object->_getRefIdFromObjId($data->obj_fi);
 					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data->title . "</a>");
@@ -1622,7 +1623,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 
-				if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					if ($data->question_id != $this->object->questions[1])
 					{
 						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
@@ -1646,7 +1647,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		} else {
-			if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
@@ -1655,7 +1656,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM qpl_question_type";
 			$query_result = $this->ilias->db->query($query);
@@ -1675,7 +1676,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+		if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
@@ -3673,6 +3674,13 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->tpl->setCurrentBlock("status_list");
 			$this->tpl->setVariable("TEXT_MISSING_ELEMENTS", $this->lng->txt("tst_status_missing_elements"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$total = $this->object->evalTotalPersons();
+		if ($total > 0)
+		{
+			$this->tpl->setCurrentBlock("list_element");
+			$this->tpl->setVariable("TEXT_ELEMENT", sprintf($this->lng->txt("tst_in_use_edit_questions_disabled"), $total));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
