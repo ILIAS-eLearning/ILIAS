@@ -54,12 +54,30 @@ class ilLMObjectGUI
 		$this->content_object =& $a_content_obj;
 	}
 
+	function add_meta()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->obj);
+		$meta_gui->meta_obj->add($_GET["meta_name"], $_GET["meta_path"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"], $_GET["meta_language"]);
+	}
+
+	function delete_meta()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->obj);
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $_GET["meta_index"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"], $_GET["meta_language"]);
+	}
+
 	function choose_meta_section()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"], $_POST["meta_language"]);
 	}
 
 	function edit_meta()
