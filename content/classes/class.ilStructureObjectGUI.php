@@ -159,7 +159,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// SHOW VALID ACTIONS
 			$this->tpl->setVariable("NUM_COLS", 3);
 			//$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
-			$acts = array("delete" => "delete", "cutPage" => "cutPage");
+			$acts = array("delete" => "delete", "cutPage" => "cutPage",
+				"copyPage" => "copyPage");
 //echo ":".$this->checkClipboardContentType().":<br>";
 			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
@@ -441,6 +442,33 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	}
 
 	/**
+	* copy page
+	*/
+	function copyPage()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		ilEditClipboard::storeContentObject("pg",$_POST["id"][0],"copy");
+
+		sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+
+		$this->ctrl->redirect($this, "view");
+	}
+
+	/**
 	* paste page
 	*/
 	function pastePage()
@@ -456,6 +484,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		// paste selected object
 		$id = ilEditClipboard::getContentObjectId();
+
+		// copy page, if action is copy
+		if (ilEditClipboard::getAction() == "copy")
+		{
+			$lm_page = new ilLMPageObject($this->content_object, $id);
+			$new_page =& $lm_page->copy();
+			$id = $new_page->getId();
+		}
+
 		if(!$tree->isInTree($id))
 		{
 			if(!isset($_POST["id"]))

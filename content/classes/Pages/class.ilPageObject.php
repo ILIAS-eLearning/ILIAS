@@ -859,6 +859,14 @@ class ilPageObject
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
 
+	function &copy()
+	{
+		$page_object =& new ilPageObject($this->getParentType());
+		$page_object->setParentId($this->getParentId());
+		$page_object->setXMLXContent($this->getXMLContent());
+	}
+
+
 	/**
 	* updates page object with current xml content
 	*/

@@ -47,6 +47,18 @@ class ilEditClipboard
 		}
 	}
 
+	function getAction()
+	{
+		if (isset($_SESSION["ilEditClipboard"]))
+		{
+			return $_SESSION["ilEditClipboard"]["action"];
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	function getContentObjectId()
 	{
 		if (isset($_SESSION["ilEditClipboard"]))
@@ -55,9 +67,10 @@ class ilEditClipboard
 		}
 	}
 
-	function storeContentObject($a_type, $a_id)
+	function storeContentObject($a_type, $a_id, $a_action = "cut")
 	{
-		$_SESSION["ilEditClipboard"] = array("type" => $a_type, "id" => $a_id);
+		$_SESSION["ilEditClipboard"] = array("type" => $a_type,
+			"id" => $a_id, "action" => $a_action);
 	}
 
 	function clear()

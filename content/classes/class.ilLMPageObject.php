@@ -125,6 +125,25 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object->delete();
 	}
 
+	function &copy()
+	{
+
+		$meta =& new ilMetaData();
+		$lm_page =& new ilLMPageObject($this->getContentObject());
+		$lm_page->assignMetaData($meta);
+		$lm_page->setTitle($this->getTitle());
+		$lm_page->setLMId($this->getLMId());
+		$lm_page->setType($this->getType());
+		$lm_page->setDescription($this->getDescription());
+		$lm_page->create();
+
+		$page =& $lm_page->getPageObject();
+		$page->setXMLContent($this->page_object->getXMLContent());
+		$page->updateFromXML();
+
+		return $lm_page;
+	}
+
 	/**
 	*
 	*/
