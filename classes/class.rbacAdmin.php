@@ -9,32 +9,30 @@ include_once "classes/class.Object.php";
  * @version $Id$
  * @package rbac
  */
-class RbacAdmin
+class RbacAdmin extends PEAR
 {
     var $db;			//  Database Handle
 
-    var $Errno; 
-    var $Error;
+	var $error_class;
 
+/**
+ * Constructor 
+ * @access public
+ * 
+ */
     function RbacAdmin(&$dbhandle)
     {
+		$this->PEAR();
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+
         $this->db =& $dbhandle;
-		$this->Errno = 0; 
-		$this->Error = "";
     }
 /**
+ * Checks if a role exists
  * @access public
- * @params void
- * @return type String
- */
-    function getErrorMessage()
-    {
-        return $this->Error;
-    }
-/**
- * @access public
- * @params String (Titel der Rolle)
- * @return type 1,0,-1(Fehler)
+ * @param string
+ * @return array 
  */
     function roleExists($a_title)
     {
@@ -43,19 +41,23 @@ class RbacAdmin
 								"' AND type = 'role'");
         if (DB::isError($res))
         {
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
-		return $res->fetchRow() ? 1 : 0;
+		while($res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$id[] = $row->obj_id;
+		}
+		return count($id);
     }
 /**
  * Inserts userdata in user_data table
  * @access public
- * @params array user data set
+ * @param  array 
  * @return bool true/false
  */
 	function addUser($a_data)
     {
+
 		$passwd = md5($a_data["Passwd"]);
 		$query = "INSERT INTO user_data ".
 			"(usr_id,login,passwd,firstname,surname,title,gender,email,last_login,last_update,create_date) ".
@@ -66,15 +68,15 @@ class RbacAdmin
 		$res = $this->db->query($query);
         if (DB::isError($res))
         {
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return true;
     }
 /**
+ * Deletes a user from object_data, rbac_pa, rbac_ua and user_data
  * @access public
- * @params Array(int) Array der zu löschenden obj_id
- * @return type true false
+ * @param array
+ * @return boolean true/false
  */
     function deleteUser($a_usr_id)
     {
@@ -85,37 +87,34 @@ class RbacAdmin
 									"WHERE obj_id='".$id."'");
 			if (DB::isError($res))
 			{
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 			$res = $this->db->query("DELETE FROM rbac_pa ".
 									"WHERE obj_id='".$id."'");
 			if (DB::isError($res))
 			{
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 			$res = $this->db->query("DELETE FROM rbac_ua ".
 									"WHERE usr_id='".$id."'");
 			if (DB::isError($res))
 			{
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 			$res = $this->db->query("DELETE FROM user_data ".
 									"WHERE usr_id='".$id."'");
 			if (DB::isError($res))
 			{
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 		}
 		return true;
     }
-/** 
+/**
+ * updates user data in table user_data
  * @access public
- * @params Array(user_daten) Array der User Daten
- * @return type true false
+ * @param array Array with user data
+ * @return bool true false
  */
 	function updateUser($a_userdata)
 	{
@@ -132,16 +131,16 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if (DB::isError($res))
 		{
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return true;
 	}
 /**
- * Anlegen des Rolle in object_data, rbac_ua, rbac_pa
+ * Creates a role, inserts data in object_data, rbac_ua, rbac_pa
  * @access public
- * @params string,string (Titel, Beschreibung)
- * @return type int (neue obj_id) sonst -1
+ * @param string title
+ * @param string description
+ * @return  int new obj_id
  */
     function addRole($a_title,$a_description)
     {
@@ -149,9 +148,7 @@ class RbacAdmin
 
 		if($this->roleExists($a_title))
 		{
-			$this->Errno = 1;
-			$this->Error = "Role Title already exists";
-			return 0;
+			return $this->raiseError("Role Title already exists",$this->error_class->WARNING);
 		}
 		// Anlegen der Rolle in object_data
 		$query = "INSERT INTO object_data (type,title,description,owner,create_date,last_update) ".
@@ -160,9 +157,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 
 		// Eintrag in rbac_ua
@@ -170,15 +165,12 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$row = $res->fetchRow();
 		if(!$this->assignUser($row[0]))
 		{
-			$this->Error = "Fehler bei User Assignment";
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->WARNING);
 		}
 
 		// Eintrag der Permissions in rbac_pa
@@ -192,9 +184,10 @@ class RbacAdmin
 		return $row[0];
 	}
 	/**
+	 * Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
 	 * @access public
-	 * @params int (Objekt ID und )
-	 * @return type 1,-1 (Fehler)
+	 * @param int Object Id
+	 * @return bool true/false
 	 */
     function deleteRole($a_obj_id)
     {
@@ -202,48 +195,40 @@ class RbacAdmin
 						 "WHERE obj_id = '".$a_obj_id ."'");
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$this->db->query("DELETE FROM rbac_pa ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$this->db->query("DELETE FROM rbac_templates ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$this->db->query("DELETE FROM rbac_ua ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$this->db->query("DELETE FROM rbac_fa ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return 1;
     }
 /**
+ * Deletes a local role and entries in rbac_fa and rbac_templates
  * @access public
- * @params int (Objekt ID und )
- * @return type 1,-1 (Fehler)
+ * @param int Object Id of role
+ * @param int Obkect of parent object
+ * @return bool true/false
  */
 	function deleteLocalRole($a_rol_id,$a_parent)
 	{
@@ -253,9 +238,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		$query = "DELETE FROM rbac_templates ".
 			"WHERE rol_id = '".$a_rol_id."' ".
@@ -263,16 +246,15 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return true;
 	}
 /**
+ * Get parent roles in a path
  * @access public
- * @params int (Objekt ID)
- * @return type 1,-1 (Fehler)
+ * @param array Path Id
+ * @return bool true/false
  */
 	function getParentRoles($a_path,$a_child = "")
 	{
@@ -301,9 +283,7 @@ class RbacAdmin
 			$res = $this->db->query($query);
 			if(DB::isError($res))
 			{
-				$this->Errno = 2;
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -319,9 +299,11 @@ class RbacAdmin
 		return $parentRoles;
 	}
 /**
+ * Assigns a user to a role
  * @access public
- * @params int,int (RoleID, UsrID default sonst aktueller Benutzer) 
- * @return 1,-1 (Fehler) 
+ * @param int object id of role
+ * @param int object id of user
+ * @return bool true/false
  */
     function assignUser($a_rol_id,$a_usr_id = 0)
     {
@@ -336,16 +318,16 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return 1;
     }
 /**
+ * Deassigns a user from a role
  * @access public
- * @params int,int (RoleId und UserId)
- * @return 1,-1(Fehler)
+ * @param int object id of role
+ * @param int user id
+ * @return bool true/false
  */
     function deassignUser($a_rol_id,$a_usr_id)
     {
@@ -355,16 +337,18 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return 1;
     }
 /**
+ * Grants permissions to an object
  * @access public
- * @params int,array(int),int,int (RoleId,OpsID,OBjektID und SetID)
- * @return 1,-1 (Fehler)
+ * @param int object id of role
+ * @param array array of operations
+ * @param int object id
+ * @param int obj id of parent object
+ * @return bool true/false
  */
     function grantPermission($a_rol_id,$a_ops_id,$a_obj_id,$a_setid)
     {
@@ -374,16 +358,17 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 	    }
 		return 1;
     }
 /**
+ * Revokes permissions of object
  * @access public
- * @params int,array(int,int) (OBjektID und RoleId)
- * @return 1,-1 (Fehler)
+ * @param int object id
+ * @param int role id
+ * @param int id of parent object
+ * @return bool true/false
  */
     function revokePermission($a_obj_id,$a_rol_id = "",$a_set_id = "")
     {
@@ -404,16 +389,17 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return 1;
     }
 /**
+ * Return template permissions of an role
  * @access public
- * @params int,string (RoleID und Object Type)  
- * @return int[] (OperationID aus rbac_templates sonst 0)
+ * @param int role id
+ * @param string
+ * @param int
+ * @return array Operation ids
  */
     function getRolePermission($a_rol_id,$a_type,$a_parent)
     {
@@ -426,9 +412,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		} 
 		if(!$res->numRows())
 			return $ops_id;
@@ -439,40 +423,43 @@ class RbacAdmin
 		return $ops_id;
     }
 /**
+ * Copies template permissions
  * @access public
- * @params int int (RoleFolderId Destination Source)  
- * @return 1,-1 (Fehler)
+ * @param int role id source
+ * @param int parent id source
+ * @param int role id destination
+ * @param int parent id destination
+ * @return bool 
  */
-	function copyRolePermission($a_rol_id,$a_from,$a_to)
+	function copyRolePermission($a_rol_id,$a_from,$a_to,$a_dest_rol_id = '')
 	{
+		$a_dest_rol_id = $a_dest_rol_id ? $a_dest_rol_id : $a_rol_id;
 		$query = "SELECT * FROM rbac_templates ".
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_from."'";
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		} 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "INSERT INTO rbac_templates ".
-				"VALUES('".$a_rol_id."','".$row->type."','".$row->ops_id."','".$a_to."')";
+				"VALUES('".$a_dest_rol_id."','".$row->type."','".$row->ops_id."','".$a_to."')";
 			$result = $this->db->query($query);
 			if(DB::isError($result))
 			{
-				$this->Errno = 2;
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			} 
 		}
 		return true;
 	}
 /**
+ * Deletes a template
  * @access public
- * @params int,string,int[] (RoleID RoleFolderId)  
- * @return 1,-1 (Fehler)
+ * @param int role id
+ * @param int parent object id
+ * @return bool
  */
 	function deleteRolePermission($a_rol_id,$a_parent)
 	{
@@ -482,16 +469,18 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		} 
 		return true;
 	}
 /**
+ * Inserts template permissions in rbac_templates
  * @access public
- * @params int,string,int[] (RoleID und Object Type und OperationID)  
- * @return 1,-1 (Fehler)
+ * @param int rol id
+ * @param string
+ * @param array operation ids
+ * @param parent object id
+ * @return bool
  */
     function setRolePermission($a_rol_id,$a_type,$a_ops_id,$a_parent)
     {
@@ -505,17 +494,16 @@ class RbacAdmin
 			$res = $this->db->query($query);
 			if(DB::isError($res))
 			{
-				$this->Errno = 2;
-				$this->Error = $res->getMessage();
-				return -1;
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 			}
 		}
 		return 1;
     }
 /**
+ * Returns parent id of an object (obsolete)
  * @access public
- * @params int (ObjectId eines Objektes)  
- * @return array(int) (Array mit setIDs)
+ * @param int object id 
+ * @return array parent ids
  */
     function getSetIdByObject($a_obj_id)
     {
@@ -525,9 +513,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return $set_id;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -536,9 +522,10 @@ class RbacAdmin
 		return $set_id;
     }
 /**
+ * Returns a list of roles in an container
  * @access public
- * @params int (ObjectId des RoleFolders)  
- * @return array(int) (Array mit setIDs)
+ * @param int object id
+ * @return array set ids
  */
 	function getRoleListByObject($a_parent)
 	{
@@ -552,9 +539,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -570,9 +555,12 @@ class RbacAdmin
 		return $role_list;
 	}
 /**
+ * Assigns a role to an role folder
  * @access public
- * @params int (ObjectId des RoleFolders)  
- * @return array(int) (Array mit setIDs)
+ * @param int object id of role
+ * @param parent object id
+ * @param string asignable('y','n')
+ * @return bool
  */
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = 'y')
 	{
@@ -581,16 +569,15 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return true;
 	}
 /**
  * Check if its possible to assign users
  * @access public
- * @params int,int  (ObjectId of RoleFolder and objectId of role)  
+ * @param int object id
+ * @param int parent id
  * @return bool 
  */
 	function isAssignable($a_rol_id,$a_parent)
@@ -605,9 +592,10 @@ class RbacAdmin
 		}
 	}
 /**
+ * gets data of an role
  * @access public
- * @params int (ObjectId einer Rolle)  
- * @return array(int) (Array mit setIDs)
+ * @param int object id  
+ * @return array array of set ids
  */
 	function getRoleData($a_obj_id)
 	{
@@ -619,9 +607,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -637,9 +623,10 @@ class RbacAdmin
 		return $role_list;
 	}
 /**
+ * returns an array with role ids assigned to a role folder
  * @access public
- * @params int (ObjectId des RoleFolders)  
- * @return array(int) (Array mit setIDs)
+ * @param int role id
+ * @return array object ids of role folders
  */
 	function getFoldersAssignedToRole($a_rol_id)
 	{
@@ -650,9 +637,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -661,9 +646,10 @@ class RbacAdmin
 		return $parent;
 	}
 /**
+ * return an array with role ids
  * @access public
- * @params int (ObjectId of RoleFolder)  
- * @return array(int) (Array with rol_ids)
+ * @param int parent id  
+ * @return array Array with rol_ids
  */
 	function getRolesAssignedToFolder($a_parent)
 	{
@@ -672,9 +658,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -683,9 +667,10 @@ class RbacAdmin
 		return $rol_id ? $rol_id : array();
 	}
 /**
+ * all role folder ids
  * @access public
- * @params int (ObjectId des RoleFolders)  
- * @return array(int) (Array mit setIDs)
+ * @param int object id of role folder  
+ * @return array
  */
 	function getRoleFolder()
 	{
@@ -695,9 +680,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -706,9 +689,10 @@ class RbacAdmin
 		return $parent;
 	}
 /**
+ * returns the data of a role folder assigned to an object
  * @access public
- * @params int (ObjectId des Parent Objects)  
- * @return int array(Id und parentID des RoleFolders) sonst false
+ * @param int parent id
+ * @return array
  */
 	function getRoleFolderOfObject($a_parent)
 	{
@@ -721,9 +705,7 @@ class RbacAdmin
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			$this->Errno = 2;
-			$this->Error = $res->getMessage();
-			return -1;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -733,9 +715,10 @@ class RbacAdmin
 		return $rol_data;
 	}
 /**
+ * return id of parent object
  * @access public
- * @params int (ObjectId des ROleFolders)  
- * @return int (ObjectId) sonst false
+ * @param int  
+ * @return int
  */
 	function getParentObject($a_child)
 	{
@@ -748,9 +731,10 @@ class RbacAdmin
 		return $parent;
 	}
 /**
+ * all possible operations of a type
  * @access public
- * @params int (TypeId des Objektes)  
- * @return array(int) (OperationId) sonst false
+ * @param int 
+ * @return array
  */
 	function getOperationsOnType($a_typ_id)
 	{

@@ -7,7 +7,6 @@
  * @package ilias-layout
  */
 include_once "include/ilias_header.inc";
-
 //check for auth
 if ($ilias->auth->getAuth())
 {

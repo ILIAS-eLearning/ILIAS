@@ -17,6 +17,7 @@ else
 {
 	//echo "no parent!";
 }
+
 $methode = $cmd."Object"; 
 switch ($type)
 {

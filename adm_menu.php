@@ -15,6 +15,7 @@ require_once "classes/class.ilias.php";
 include_once "function.library.php";
 include_once "classes/class.util.php";
 include_once "classes/class.tree.php";
+include_once "classes/class.ErrorHandling.php";
 
 $ilias =& new ILIAS;
 

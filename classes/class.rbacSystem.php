@@ -10,16 +10,19 @@ include_once "classes/class.Object.php";
  * @version $Id$ 
  * @package rbac
  */
-class RbacSystem
+class RbacSystem extends PEAR
 {
     var $db; // Database Handle
+	var $error_class;
 
-    var $Errno = 0; 
-    var $Error = "";
 
 // PUBLIC METHODS
     function RbacSystem(&$dbhandle)
     {
+		$this->PEAR();
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+
         $this->db =& $dbhandle;
     }
 // @access public
@@ -74,7 +77,10 @@ class RbacSystem
 
 		
 		$res = $this->db->query($query);
-		
+		if(DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
+		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			//echo $row->ops_id."<br>";
@@ -113,7 +119,10 @@ class RbacSystem
 			"AND set_id = '".$a_parent."'";
 		
 		$res = $this->db->query($query);
-		
+		if(DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
+		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
@@ -135,7 +144,10 @@ class RbacSystem
 
 		
 		$res = $this->db->query($query);
-		
+		if(DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
+		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			//echo $row->ops_id."<br>";
@@ -158,7 +170,10 @@ class RbacSystem
 			$and;
 		
 		$res = $this->db->query($query);
-		
+		if(DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
+		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));

@@ -6,25 +6,19 @@
  * @package rbac
  * 
  */
-class RbacReview
+class RbacReview extends PEAR
 {
     var $db; // Database Handle
 
-    var $Errno = 0; 
-    var $Error = "";
+	var $error_class;
 
     function RbacReview(&$dbhandle)
     {
+		$this->PEAR();
+		$this->error_class = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+
         $this->db =& $dbhandle;
-    }
-/** 
- * @access public
- * @params void
- * @return type String
- */
-    function getErrorMessage()
-    {
-        return $this->Error;
     }
 /**
  * @access public
@@ -38,16 +32,11 @@ class RbacReview
         $res = $this->db->query("SELECT usr_id FROM rbac_ua WHERE rol_id = $Arol_id");
         if (DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }
         while($row = $res->fetchRow())
         {
 		    array_push($usr,$row[0]);
-        }
-        if(!count($usr))
-        {
-		    $this->Errno = 1;
-		    $this->Error = "No such Role!";
         }
         return $usr;
     }
@@ -55,7 +44,9 @@ class RbacReview
     {
 		$res = $this->db->query("SELECT * FROM user_data WHERE usr_id='".$Ausr_id."'");	
 		if (DB::isError($res))		
-			die ($res->getMessage());
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
+		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{	
 			$arr = array(
@@ -80,21 +71,19 @@ class RbacReview
     function assignedRoles($Ausr_id)
     {
         $rol = array();
-	       
         $res = $this->db->query("SELECT rol_id FROM rbac_ua WHERE usr_id = '".$Ausr_id . "'");
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
-        while($row = $res->fetchRow())
+        while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
-		    array_push($rol,$row[0]);
+		    $rol[] = $row->rol_id;
         }
-        if(!count($rol))
-        {
-		    $this->Errno = 1;
-		    $this->Error = "No such User!";
-        }
+		if(!count($rol))
+		{
+			return $this->raiseError("No such user",$this->error_class->WARNING);
+		}
         return $rol;
     }
 /**
@@ -107,7 +96,7 @@ class RbacReview
         $res = $this->db->query("SELECT title FROM object_data JOIN rbac_ua WHERE object_data.obj_id = rbac_ua.rol_id AND rbac_ua.usr_id = '".$Ausr_id . "'");
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
         while($row = $res->fetchRow())
         {
@@ -115,8 +104,7 @@ class RbacReview
         }
         if(!count($rol))
         {
-		    $this->Errno = 1;
-		    $this->Error = "No such User!";
+			return $this->raiseError("No such role",$this->error_class->WARNING);
         }
         return $role_title;
     }
@@ -136,7 +124,7 @@ class RbacReview
         $res = $this->db->query($query);
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
         while($row = $res->fetchRow())
         {
@@ -144,8 +132,7 @@ class RbacReview
         }
         if(!count($ops))
         {
-		    $this->Errno = 1;
-		    $this->Error = "No such Role or Object!";
+			return $this->raiseError("No such Role or Object!",$this->error_class->WARNING);
         }
         return $ops;
 
@@ -163,7 +150,7 @@ class RbacReview
         $res = $this->db->query($query);
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
         while($row = $res->fetchRow())
         {
@@ -171,8 +158,7 @@ class RbacReview
         }
         if(!count($ops))
         {
-		    $this->Errno = 1;
-		    $this->Error = "No such User!";
+			return $this->raiseError("No such user",$this->error_class->WARNING);
         }
         return $ops;
     }
@@ -203,7 +189,7 @@ class RbacReview
         $res = $this->db->query($query);
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
         {
@@ -211,8 +197,7 @@ class RbacReview
         }
         if(!count($ops))
         {
-		    $this->Errno = 1;
-		    $this->Error = "No such Role or Object!";
+			return $this->raiseError("No such role or object",$this->error_class->WARNING);
         }
         return $ops ? $ops : array();
     }
@@ -231,14 +216,13 @@ class RbacReview
 			"AND parent = '".$Aparent."'";
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
 		$res  = $this->db->query($query);
-		if($res->numRows == 0)
-		{
-			$this->Error = 1;
-			$this->Errno = "No such type or no template entry";
-		}
+//		if($res->numRows == 0)
+//		{
+//			return $this->raiseError("No such type or template entry",$this->error_class->WARNING);
+//		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops[] = $row->ops_id;
@@ -259,7 +243,7 @@ class RbacReview
         $res = $this->db->query($query);
         if(DB::isError($res))
         {
-		    die ($res->getMessage());
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
         }    
         while($row = $res->fetchRow())
         {
@@ -267,8 +251,7 @@ class RbacReview
         }
         if(!count($ops))
         {
-		    $this->Errno = 1;
-		    $this->Error = "No such User or Object!";
+			return $this->raiseError("No such user",$this->error_class->WARNING);
         }
         return $ops;
     }
@@ -286,7 +269,7 @@ class RbacReview
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
-			return false;
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
 		}
 		return true;
 	}

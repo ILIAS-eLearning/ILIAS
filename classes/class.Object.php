@@ -15,8 +15,13 @@ class Object
  * @params object ilias
  *
  */
+	var $ilias;
+	var $SYSTEM_FOLDER_ID;
+	var $ROOT_FOLDER_ID;
+
 	function Object(&$a_ilias)
 	{
+
 		$this->ilias = $a_ilias;
 		$this->SYSTEM_FOLDER_ID = "9";
 		$this->ROOT_FOLDER_ID = "1";
@@ -45,9 +50,7 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to create Object" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to create object",$this->ilias->error_class->WARNING);
 			exit();
 		}
 	}
@@ -77,9 +80,7 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to create object";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to create object",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
@@ -109,15 +110,15 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to edit the object";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_class->WARNING);
 			exit();
 		}
 			
 	}
 	function updateObject()
 	{
+		$rbacsystem = new RbacSystemH($this->ilias->db);
+
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
@@ -125,9 +126,7 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS
-			$_SESSION["Error_Message"] = "No permission to edit the object";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_class->WARNING);
 			exit();
 		}
 	}
@@ -196,9 +195,7 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS permission
-			$_SESSION["Error_Message"] = "No permission to change permissions";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		// if exists rolefolder:
@@ -239,9 +236,7 @@ class Object
 		}
 		else
 		{
-			// No Access to change permission on object
-			$_SESSION["Error_Message"] = "No permission to change permission";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to change permission",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		// Wenn die Vererbung der Rollen Templates unterbrochen werden soll,
@@ -277,9 +272,7 @@ class Object
 					}
 					else
 					{
-						// No Access to change permission on object
-						$_SESSION["Error_Message"] = "No permission to create Role Folder";
-						header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+						$this->ilias->raiseError("No permission to create Role Folder",$this->ilias->error_class->WARNING);
 						exit();
 					}
 				}
@@ -307,9 +300,7 @@ class Object
 				}
 				else
 				{
-					// NO ACCESS to write to role folder
-					$_SESSION["Error_Message"] = "No permission to write to Role Folder";
-					header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+					$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 					exit();
 				}
 			}
@@ -346,9 +337,7 @@ class Object
 			}
 			else
 			{
-				// NO ACCESS TO CREATE ROLE  FOLDER
-				$_SESSION["Error_Message"] = "No permission to create Role Folder";
-				header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+				$this->ilias->raiseError("No permission to create role folder",$this->ilias->error_class->WARNING);
 				exit();
 			}
 		}
@@ -362,9 +351,7 @@ class Object
 		}
 		else
 		{
-			// NO ACCESS TO WRITE TO ROLE  FOLDER
-			$_SESSION["Error_Message"] = "No permission to write to  Role Folder";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		header("location:object.php?cmd=perm&obj_id=$new_obj_id&parent=$rolf_id");
@@ -417,8 +404,7 @@ class Object
 			{
 				if(in_array($ops_id,$ops_valid))
 				{
-					// IT'S NOT POSSIBLE TO DEASSIGN PERMISSIONS
-					var_dump("<pre>","hallo","</pre");
+					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_class->WARNING);
 				}
 			}
 		}

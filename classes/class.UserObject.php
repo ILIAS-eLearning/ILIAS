@@ -65,9 +65,7 @@ class UserObject extends Object
 		}
 		else
 		{
-			// NO ACCESS TO WRITE TO USER FOLDER
-			$_SESSION["Error_Message"] = "No permission to write to user folder" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_class->WARNING);
 			exit();
 		}
 	}
@@ -77,7 +75,7 @@ class UserObject extends Object
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"].$_GET["parent"]))
+		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			// create object
 			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
@@ -90,9 +88,7 @@ class UserObject extends Object
 		}
 		else
 		{
-			// NO ACCESS TO WRITE TO USER FOLDER
-			$_SESSION["Error_Message"] = "No permission to write to user folder" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
@@ -109,8 +105,7 @@ class UserObject extends Object
 		}
 		else
 		{
-			$_SESSION["Error_Message"] = "No permission to delete User";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		header("Location: content_user.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
@@ -164,8 +159,7 @@ class UserObject extends Object
 		}
 		else
 		{
-			$_SESSION["Error_Message"] = "No permission to edit user folder";
-			header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
+			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_class->WARNING);
 			exit();
 		}
 	}
@@ -185,8 +179,7 @@ class UserObject extends Object
 		}
 		else
 		{
-			$_SESSION["Error_Message"] = "No permission to delete User";
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_class->WARNING);
 			exit();
 		}
 		header("Location: content_user.php?obj_id=$_GET[parent]&parent=$this->SYSTEM_FOLDER_ID");

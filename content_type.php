@@ -53,6 +53,5 @@ else
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
 }
-
 include_once "include/ilias_footer.inc";
 ?>
