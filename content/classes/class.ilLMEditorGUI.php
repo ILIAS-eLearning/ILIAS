@@ -26,6 +26,7 @@ require_once ("content/classes/class.ilLMObjectFactory.php");
 require_once ("classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
+require_once ("content/classes/class.ilParagraphGUI.php");
 
 /**
 * GUI class for learning module editor
@@ -84,18 +85,25 @@ class ilLMEditorGUI
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
 				$this->lm_obj =& new ilObjLearningModule($this->lm_id, false);
-
 				$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
-				$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle());
 
-				if($cmd == "create")
+				$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle());
+				$type = ($cmd == "create") ? $_POST["new_type"] : $obj->getType();
+				if(($_GET["cont_cnt"] > 0) || ($type == "par"))
 				{
-					$type = $_POST["new_type"];
-					$obj = NULL;
+			 		$content =& $obj->getContent();
+					$cont_obj =& $content[$_GET["cont_cnt"] - 1];
+					switch(get_class($cont_obj))
+					{
+						case "ilparagraph":
+							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj);
+							$par_gui->$cmd();
+							break;
+					}
 				}
 				else
 				{
-					switch ($obj->getType())
+					switch ($type)
 					{
 						case "pg":
 							$pg_gui =& new ilPageObjectGUI($this->lm_obj);
