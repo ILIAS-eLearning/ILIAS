@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.92 2004/08/10 14:32:33 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.93 2004/08/18 08:48:18 smeyer Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -997,9 +997,16 @@ class ilObjGroupGUI extends ilObjectGUI
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$user->getLogin();
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$user->getId();
 			$member_functions = "<a href=\"$link_change\">$val_change</a>";
-
+			if (strcmp($_GET["check"], "all") == 0)
+			{
+				$checked = 1;
+			}
+			else
+			{
+				$checked = 0;
+			}
 			$this->data["data"][$user->getId()]= array(
-				"check"		=> ilUtil::formCheckBox(0,"user_id[]",$user->getId()),
+				"check"		=> ilUtil::formCheckBox($checked,"user_id[]",$user->getId()),
 				"username"	=> $user->getLogin(),
 				"fullname"	=> $user->getFullname(),
 				"subject"	=> $applicant->subject,
@@ -1010,7 +1017,6 @@ class ilObjGroupGUI extends ilObjectGUI
 				unset($member_functions);
 				unset($user);
 		}
-
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,"post"));
 
@@ -1027,6 +1033,10 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setCurrentBlock("tbl_action_plain_select");
+		$this->tpl->setVariable("SELECT_ACTION", "<a href=\"" . $this->ctrl->getLinkTarget($this,"ShownewRegistrations") . "&check=all\">" . $this->lng->txt("check_all") . "</a>" . " / " . "<a href=\"" . $this->ctrl->getLinkTarget($this,"ShownewRegistrations") . "&check=none\">" . $this->lng->txt("uncheck_all") . "</a>");
+		$this->tpl->parseCurrentBlock();
 
 		if (isset($this->data["data"]))
 		{
@@ -1043,7 +1053,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		// create table
 		include_once "./classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI($output);
-
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));

@@ -673,6 +673,7 @@ common#:#chat_read#:#Read/Write access to chat
 common#:#chat_visible#:#Chat is visible
 common#:#chat_write#:#Edit chat
 common#:#check#:#Check
+common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
@@ -1899,6 +1900,7 @@ common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all
 common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
