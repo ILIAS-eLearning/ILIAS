@@ -64,7 +64,7 @@ function db_session_close()
 */
 function db_session_read($session_id)
 {
-	global $pear_session_db,$ilias;
+	global $ilias;
 
 	$q = "SELECT data FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
 	$r = $ilias->db->query($q);
@@ -81,11 +81,12 @@ function db_session_read($session_id)
 */
 function db_session_write($session_id, $data)
 {
-	global $ilias;
+	global $pear_session_db,$ilias;
 
+	//var_dump("<pre>",session_decode($data),"</pre>");exit;
 	$expires = time() + get_cfg_var("session.gc_maxlifetime");
 	$q = "REPLACE INTO usr_session (session_id, expires, data, ctime,user_id) ".
-		 "VALUES('".addslashes($session_id)."', $expires, '".addslashes($data).
+		 "VALUES('".addslashes($session_id)."','".$expires."','".addslashes($data).
 		 "','".time()."','".$_SESSION["AccountId"]."')";
 	$ilias->db->query($q);	 
 		 
