@@ -1765,6 +1765,9 @@ common#:#msg_no_perm_modify_user#:#You have no permission to modify user data
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
+common#:#msg_no_perm_read#:#You have no permission to access this item.
+common#:#no_access_item#:#You have no permission to access this item.
+common#:#no_access_item_public#:#This item cannot be accessed in the public section.
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
