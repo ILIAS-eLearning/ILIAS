@@ -2426,7 +2426,7 @@ class ilObjCourseGUI extends ilObjectGUI
 								  "language",
 								  "size"),
 							array("ref_id" => $this->object->getRefId(),
-								  "cmd" => "archive",
+								  "cmd" => "archiveAdmin",
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"]));
 		$tbl->setColumnWidth(array("4%","26%","20%","10%","20%"));
