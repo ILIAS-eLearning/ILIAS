@@ -30,7 +30,7 @@ class Explorer
 	* @access public
 	*/
 	var $format_options;
-	
+
 	/**
 	* tree
 	* @var object Tree
@@ -51,7 +51,7 @@ class Explorer
 	* @access public
 	*/
 	var $expanded;
-	
+
 	/**
 	* Constructor
 	* @access	public
@@ -60,15 +60,15 @@ class Explorer
 	function Explorer($a_target)
 	{
 		global $ilias;
-		
+
 		$this->ilias =& $ilias;
 		$this->output = "";
 		$this->expanded = array();
-		$this->target = $a_target;		
+		$this->target = $a_target;
 		$this->tree = new Tree(ROOT_FOLDER_ID);
 		$this->frameTarget = "content";
 	}
-	
+
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
@@ -86,7 +86,7 @@ class Explorer
 		if ($objects =  $this->tree->getChilds($a_parent,"title"))
 		{
 			$tab = ++$a_depth - 2;
-			
+
 			// Maybe call a lexical sort function for the child objects
 			foreach ($objects as $key => $object)
 			{
@@ -95,20 +95,20 @@ class Explorer
 				{
 					if ($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 					{
-						if ($object["id"] != 1)
+						if ($object["ref_id"] != 1)
 						{
-							$data = $this->tree->getParentNodeData($object["id"],$object["parent"]);
+							$data = $this->tree->getParentNodeData($object["ref_id"],$object["parent"]);
 							$parent_index = $this->getIndex($data);
 						}
 
 						$this->format_options["$counter"]["parent"] = $object["parent"];
-						$this->format_options["$counter"]["ref_id"] = $object["id"];
+						$this->format_options["$counter"]["ref_id"] = $object["ref_id"];
 						$this->format_options["$counter"]["title"] = $object["title"];
 						$this->format_options["$counter"]["type"] = $object["type"];
 						$this->format_options["$counter"]["depth"] = $tab;
 						$this->format_options["$counter"]["container"] = false;
 						$this->format_options["$counter"]["visible"]	  = true;
-	
+
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
 						{
@@ -116,12 +116,12 @@ class Explorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["id"] != 1 and (!in_array($object["parent"],$this->expanded) 
+						if ($object["id"] != 1 and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
-						
+
 						// if object exists parent is container
 						if ($object["id"] != 1)
 						{
@@ -156,9 +156,9 @@ class Explorer
 	function getOutput()
 	{
 		$this->format_options[0]["tab"] = array();
-		
+
 		$depth = $this->tree->getMaximumDepth();
-		
+
 		for ($i=0;$i<$depth;++$i)
 		{
 			$this->createLines($i);
@@ -329,7 +329,7 @@ class Explorer
 	{
 		foreach ($this->format_options as $key => $value)
 		{
-			if (($value["ref_id"] == $a_data["ref_id"]) 
+			if (($value["ref_id"] == $a_data["ref_id"])
 			   && ($value["parent"] == $a_data["parent"]))
 			{
 				return $key;

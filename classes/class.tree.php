@@ -235,12 +235,12 @@ class Tree
 		{
 			$leafs[] = $this->fetchNodeData($row);
 		}
-		
+
 		$this->Leafs = $leafs;
-		
+
 		return $leafs;
 	}
-	
+
 	/**
 	* get subnodes of given node
 	* @access	public
@@ -253,19 +253,19 @@ class Tree
 	{
 		// number of childs
 		$count = 0;
-		
+
 		// init order_clause
 		$order_clause = "";
-		
+
 		// init childs
 		$this->Childs = array();
-		
+
 		// set order_clause if sort order parameter is given
 		if (!empty($a_order))
 		{
 			$order_clause = "ORDER BY '".$a_order."'".$a_direction;
 		}
-		
+
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
@@ -275,12 +275,14 @@ class Tree
 		$r = $this->ilias->db->query($q);
 
 		$count = $r->numRows();
-		
+
 		if ($count > 0)
 		{
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->Childs[] = $this->fetchNodeData($row);
+				//$this->Childs[] = $this->fetchNodeData($row);
+				$tmp = $this->fetchNodeData($row);
+				$this->Childs[] = $tmp;
 			}
 
 			// mark the last child node (important for display)
@@ -629,7 +631,7 @@ class Tree
 		$r = $this->ilias->db->query($q);
 
 		$count = $r->numRows();
-		
+
 		if ($r->numRows() > 0)
 		{
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -772,7 +774,7 @@ class Tree
 	function fetchNodeData($a_row)
 	{
 		$data = array(
-					"ref_id"		=> $a_row->obj_id,
+					"ref_id"		=> $a_row->ref_id,
 					"type"			=> $a_row->type,
 					"title"			=> $a_row->title,
 					"description"	=> $a_row->description,
@@ -786,11 +788,11 @@ class Tree
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
 					"desc"			=> $a_row->description,
-					"id"			=> $a_row->obj_id		
+					"id"			=> $a_row->obj_id
 					);
 		return $data ? $data : array();
 	}
-	
+
 	/**
 	* get data of parent node from tree and object_data
 	* @access	public
