@@ -257,6 +257,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->tpl->setVariable("TXT_PAGESTO",$this->lng->txt("to") );
 		
 		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("start export") );
+        $this->tpl->setVariable("BTN_C_VALUE",$this->lng->txt("cancel") );
 		
 		$this->tpl->setVariable("EXPORT_ACTION","lm_presentation.php?cmd=offlineexport&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		
