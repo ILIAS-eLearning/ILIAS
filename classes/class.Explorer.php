@@ -46,6 +46,13 @@ class Explorer
 	var $target;
 
 	/**
+	* target get parameter
+	* @var string
+	* @access public
+	*/
+	var $target_get;
+
+	/**
 	* expanded
 	* @var array
 	* @access public
@@ -65,8 +72,22 @@ class Explorer
 		$this->output = "";
 		$this->expanded = array();
 		$this->target = $a_target;
-		$this->tree = new Tree(ROOT_FOLDER_ID);
+		$this->target_get = 'ref_id';
 		$this->frameTarget = "content";
+		$this->tree = new Tree(ROOT_FOLDER_ID);
+	}
+
+	/**
+	* Creates output for explorer view in admin menue
+	* recursive method
+	* @access	public
+	* @param	integer		parent_node_id where to start from (default=0, 'root')
+	* @param	integer		depth level where to start (default=1)
+	* @return	string
+	*/
+	function setTargetGet($a_target_get)
+	{
+		$this->target_get = $a_target_get;
 	}
 
 	/**
@@ -95,14 +116,14 @@ class Explorer
 				{
 					if ($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 					{
-						if ($object["ref_id"] != 1)
+						if ($object["child"] != 1)
 						{
-							$data = $this->tree->getParentNodeData($object["ref_id"],$object["parent"]);
+							$data = $this->tree->getParentNodeData($object["child"],$object["parent"]);
 							$parent_index = $this->getIndex($data);
 						}
 
 						$this->format_options["$counter"]["parent"] = $object["parent"];
-						$this->format_options["$counter"]["ref_id"] = $object["ref_id"];
+						$this->format_options["$counter"]["child"] = $object["child"];
 						$this->format_options["$counter"]["title"] = $object["title"];
 						$this->format_options["$counter"]["type"] = $object["type"];
 						$this->format_options["$counter"]["depth"] = $tab;
@@ -166,9 +187,9 @@ class Explorer
 
 		foreach ($this->format_options as $key => $options)
 		{
-			if ($options["visible"] or $key == 0 )
+			if ($options["visible"] and $key != 0)
 			{
-				$this->formatObject($options["ref_id"],$options);
+				$this->formatObject($options["child"],$options);
 			}
 		}
 
@@ -183,7 +204,7 @@ class Explorer
 	* @param	integer
 	* @return	string
 	*/
-	function formatObject($a_ref_id,$a_option)
+	function formatObject($a_child,$a_option)
 	{
 		$tpl = new Template("tpl.tree.html", true, true);
 		
@@ -191,7 +212,7 @@ class Explorer
 		{
 			if ($picture == 'plus')
 			{
-				$target = $this->createTarget('+',$a_ref_id);
+				$target = $this->createTarget('+',$a_child);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
@@ -199,7 +220,7 @@ class Explorer
 			}
 			if ($picture == 'minus')
 			{
-				$target = $this->createTarget('-',$a_ref_id);
+				$target = $this->createTarget('-',$a_child);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
@@ -216,7 +237,7 @@ class Explorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("LINK_TARGET", $this->target."?ref_id=".$a_ref_id);
+		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=".$a_child);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
@@ -235,15 +256,16 @@ class Explorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_ref_id)
+	function createTarget($a_type,$a_child)
 	{
 		// SET expand parameter:
 		//     positive if object is expanded
 		//     negative if object is compressed
-		$a_ref_id = $a_type == '+' ? $a_ref_id : -(int) $a_ref_id;
+		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
 
-		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_ref_id.
-			"&amp;ref_id=".$_GET["ref_id"];
+//		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_child.
+//			"&amp;ref_id=".$_GET["ref_id"];
+		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_child;
 	}
 
 	/**
@@ -329,7 +351,7 @@ class Explorer
 	{
 		foreach ($this->format_options as $key => $value)
 		{
-			if (($value["ref_id"] == $a_data["ref_id"])
+			if (($value["child"] == $a_data["child"])
 			   && ($value["parent"] == $a_data["parent"]))
 			{
 				return $key;
