@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.6 2003/07/03 10:37:02 shofmann Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.7 2003/07/15 08:23:56 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -84,7 +84,6 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("forum_added"),true);
-		
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}

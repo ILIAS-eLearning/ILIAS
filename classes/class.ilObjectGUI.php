@@ -1152,7 +1152,7 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]));
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
@@ -1167,8 +1167,10 @@ class ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
@@ -1487,9 +1489,9 @@ class ilObjectGUI
 
 	/**
 	* get form action for command (command is method name without "Object", e.g. "perm")
-	* @param	string		$a_cmd		command
-	* @param	string		$a_cmd		default formaction (is returned, if no special
-	*									formaction was set)
+	* @param	string		$a_cmd			command
+	* @param	string		$a_formaction	default formaction (is returned, if no special
+	*										formaction was set)
 	* @access	public
 	* @return	string
 	*/
@@ -1508,9 +1510,9 @@ class ilObjectGUI
 	/**
 	* set specific form action for command
 	*
-	* @param	string		$a_cmd		command
-	* @param	string		$a_cmd		default formaction (is returned, if no special
-	*									formaction was set)
+	* @param	string		$a_cmd			command
+	* @param	string		$a_formaaction	default formaction (is returned, if no special
+	*										formaction was set)
 	* @access	public 
 	*/
 	function setFormAction($a_cmd, $a_formaction)
@@ -1521,7 +1523,7 @@ class ilObjectGUI
 	/**
 	* get return location for command (command is method name without "Object", e.g. "perm")
 	* @param	string		$a_cmd		command
-	* @param	string		$a_cmd		default return location (is returned, if no special
+	* @param	string		$a_location	default return location (is returned, if no special
 	*									return location was set)
 	* @access	public 
 	*/
@@ -1540,7 +1542,7 @@ class ilObjectGUI
 	/**
 	* set specific return location for command
 	* @param	string		$a_cmd		command
-	* @param	string		$a_cmd		default return location (is returned, if no special
+	* @param	string		$a_location	default return location (is returned, if no special
 	*									return location was set)
 	* @access	public 
 	*/

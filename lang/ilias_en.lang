@@ -46,6 +46,7 @@ common#:#role_assignment#:#Role Assignment
 common#:#err_session_expired#:#Your session is expired!
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
+common#:#usr_agreement_empty#:#The agreement contains no text.
 common#:#add#:#Add
 common#:#search_user#:#Search User
 common#:#search_new#:#New Search
