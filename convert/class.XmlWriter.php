@@ -133,10 +133,10 @@ class XmlWriter
 	}
 	
 	// private
-	function xmlFormat($xml)
+	function xmlFormatData($data)
 	{
 		// regular expression for tags
-		$formatedXml = preg_replace_callback("|<[^>]*>[^<]*|", array($this, "xmlFormatElement"), $xml);
+		$formatedXml = preg_replace_callback("|<[^>]*>[^<]*|", array($this, "xmlFormatElement"), $data);
 		
 		return $formatedXml;
 	}
@@ -151,6 +151,9 @@ class XmlWriter
 		// ***
 		static $indent;
 		
+		// linebreak (default)
+		$nl = "\n";
+		
 		// ***
 		$tab = str_repeat(" ", $indent * 2);
 		
@@ -162,10 +165,15 @@ class XmlWriter
 		}
 		elseif (substr($found, -2, 1) == "/" or // opening and closing, comment, ...
 				strpos($found, "/>") or
-				substr($found, 0, 2) == "<?" or
 				substr($found, 0, 2) == "<!") 
 		{
 			// do not change indent
+		}
+		elseif (substr($found, 0, 2) == "<?") 
+		{
+			// do not change indent
+			// no linebreak
+			$nl = "";
 		}
 		else // opening tag
 		{
@@ -178,7 +186,7 @@ class XmlWriter
 			$found = str_replace(">", ">\n".str_repeat(" ", ($indent + 0) * 2), $found);
 		}
 		
-		return "\n".$tab.$found;
+		return $nl.$tab.$found;
 	}
 	
 	// write xml header
@@ -212,8 +220,6 @@ class XmlWriter
 	// takes an array of attributes (name => value)
 	function xmlStartTag ($tag, $attrs = NULL, $empty = FALSE)
 	{
-		$this->xmlStr .= "<".$tag.">";
-		
 		// write first part of the starttag
 		$this->xmlStr .= "<".$tag;
 		
@@ -247,7 +253,7 @@ class XmlWriter
 	// write comment
 	function xmlComment ($comment)
 	{
-		$this->xmlStr .= "<-- ".$comment." -->";
+		$this->xmlStr .= "<!--".$comment."-->";
 	}
 	
 	// write data (element's content)
@@ -256,14 +262,16 @@ class XmlWriter
 		// encode
 		if ($encode)
 		{
-		    $this->xmlStr .= $this->xmlEncodeData($data);
+		    $data = $this->xmlEncodeData($data);
 		}
 		
 		// escape
 		if ($escape)
 		{
-	    	$this->xmlStr .= $this->xmlEscapeData($data);
+	    	 $data = $this->xmlEscapeData($data);
 	    }
+		
+		$this->xmlStr .= $data;
 	}
 	
 	// write basic element (not including any other elements, just textual content!!!)
@@ -278,7 +286,7 @@ class XmlWriter
 			$this->xmlStartTag($tag, $attrs);
 			
 			// write text
-			$this->xmlData($data, $escape, $encode)
+			$this->xmlData($data, $escape, $encode);
 			
 			// write endtag
 			$this->xmlEndTag($tag);
@@ -294,22 +302,26 @@ class XmlWriter
 	function xmlDumpFile($file, $format = TRUE)
 	{
 		// open file
-		if (!($fp = fopen($file,"w+")))
+		if (!($fp = @fopen($file,"w+")))
 		{
-			die ("ERROR: Could not open ".$file." for writing."); // ***
+			die ("ERROR: Could not open \"".$file."\" for writing."); // ***
 		}
 		
 		// set file permissions
-		chmod($file,0770);
+		chmod($file, 0770);
 		
 		// format xml data
 		if ($format)
 		{
-			$this->xmlStr = $this->xmlFormat($this->xmlStr);
+			$xmlStr = $this->xmlFormatData($this->xmlStr);
+		}
+		else
+		{
+			$xmlStr = $this->xmlStr;
 		}
 		
 		// write xml data into the file
-		fwrite($fp, $this->xmlStr);
+		fwrite($fp, $xmlStr);
 		
 		// close file
 		fclose($fp);
@@ -321,10 +333,14 @@ class XmlWriter
 		// format xml data
 		if ($format)
 		{
-			$this->xmlStr = $this->xmlFormat($this->xmlStr);
+			$xmlStr = $this->xmlFormatData($this->xmlStr);
+		}
+		else
+		{
+			$xmlStr = $this->xmlStr;
 		}
 		
-		return $this->xmlStr;
+		return $xmlStr;
 	}
 }
 
