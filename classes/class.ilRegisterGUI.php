@@ -73,7 +73,7 @@ class ilRegisterGUI
 
 		if (empty($cmd))
 		{
-			$cmd = "checkStatus";
+			$cmd = "cancel";
 		}
 
 		$this->cmd = $cmd;
