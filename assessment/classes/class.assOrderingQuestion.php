@@ -138,7 +138,7 @@ class ASS_OrderingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false)
 	{
 		if (!empty($this->domxml))
 		{
@@ -191,9 +191,19 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$qtiRenderChoice->set_attribute("shuffle", "no");
 		}
-		// add answers
-		foreach ($this->answers as $index => $answer)
+
+		// shuffle
+		$akeys = array_keys($this->answers);
+		if ($this->getshuffle() && $a_shuffle)
 		{
+			$akeys = $this->pcArrayShuffle($akeys);
+		}
+
+		// add answers
+		foreach ($akeys as $index)
+		{
+			$answer = $this->answers[$index];
+
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $index);
 			$qtiMaterial = $this->domxml->create_element("material");
