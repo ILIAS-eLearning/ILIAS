@@ -32,13 +32,13 @@
 * @package assessment
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once("classes/class.ilMetaData.php");
-require_once "class.SurveyNominalQuestion.php";
-require_once "class.SurveyTextQuestion.php";
-require_once "class.SurveyMetricQuestion.php";
-require_once "class.SurveyOrdinalQuestion.php";
-require_once "class.SurveyQuestion.php";
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilMetaData.php";
+require_once "./survey/classes/class.SurveyNominalQuestion.php";
+require_once "./survey/classes/class.SurveyTextQuestion.php";
+require_once "./survey/classes/class.SurveyMetricQuestion.php";
+require_once "./survey/classes/class.SurveyOrdinalQuestion.php";
+require_once "./survey/classes/class.SurveyQuestion.php";
 
 class ilObjSurveyQuestionPool extends ilObject
 {

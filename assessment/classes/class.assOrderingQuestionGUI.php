@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestionGUI.php";
-require_once "class.assOrderingQuestion.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once "./assessment/classes/class.assOrderingQuestion.php";
 
 /**
 * Ordering question GUI representation
@@ -119,6 +119,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 			
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
+			$anchor = "#answer_" . ($thisanswer->get_order() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->get_order());
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
@@ -152,6 +153,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 			//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
+			$anchor = "#answer_" . ($this->object->get_answer_count() + 1);
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
 			$this->tpl->setVariable("VALUE_ORDER", $this->object->get_max_solution_order() + 1);
@@ -199,7 +201,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("ACTION_ORDERING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_ordering");
+		$this->tpl->setVariable("ACTION_ORDERING_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_ordering$anchor");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
   }

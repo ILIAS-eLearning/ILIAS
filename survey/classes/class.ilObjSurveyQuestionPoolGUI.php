@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyNominalQuestionGUI.php";
-require_once "class.SurveyTextQuestionGUI.php";
-require_once "class.SurveyMetricQuestionGUI.php";
-require_once "class.SurveyOrdinalQuestionGUI.php";
+require_once "./survey/classes/class.SurveyNominalQuestionGUI.php";
+require_once "./survey/classes/class.SurveyTextQuestionGUI.php";
+require_once "./survey/classes/class.SurveyMetricQuestionGUI.php";
+require_once "./survey/classes/class.SurveyOrdinalQuestionGUI.php";
 
 /**
 * Class ilObjSurveyQuestionPoolGUI
@@ -37,8 +37,8 @@ require_once "class.SurveyOrdinalQuestionGUI.php";
 * @package assessment
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "classes/class.ilMetaDataGUI.php";
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilMetaDataGUI.php";
 
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 {

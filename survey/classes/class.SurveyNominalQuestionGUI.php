@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.SurveyNominalQuestion.php";
+require_once "./survey/classes/class.SurveyNominalQuestion.php";
 
 /**
 * Nominal survey question GUI representation

@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestion.php";
-require_once "class.assAnswerCloze.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assAnswerCloze.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");

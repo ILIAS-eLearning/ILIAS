@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestion.php";
-require_once "class.assAnswerOrdering.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assAnswerOrdering.php";
 
 define ("OQ_PICTURES", 0);
 define ("OQ_TERMS", 1);

@@ -21,7 +21,7 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestion.php";
+require_once "./assessment/classes/class.assQuestion.php";
 
 /**
 * Basic GUI class for assessment questions

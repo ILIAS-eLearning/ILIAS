@@ -22,12 +22,12 @@
 */
 
 require_once "PEAR.php";
-require_once "class.assClozeTestGUI.php";
-require_once "class.assImagemapQuestionGUI.php";
-require_once "class.assJavaAppletGUI.php";
-require_once "class.assMatchingQuestionGUI.php";
-require_once "class.assMultipleChoiceGUI.php";
-require_once "class.assOrderingQuestionGUI.php";
+require_once "./assessment/classes/class.assClozeTestGUI.php";
+require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
+require_once "./assessment/classes/class.assJavaAppletGUI.php";
+require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
+require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
+require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);

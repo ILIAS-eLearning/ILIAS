@@ -33,14 +33,14 @@
 * @package survey
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "classes/class.ilMetaDataGUI.php";
-require_once "classes/class.ilUtil.php";
-require_once "classes/class.ilSearch.php";
-require_once "classes/class.ilObjUser.php";
-require_once "classes/class.ilObjGroup.php";
-require_once "class.SurveySearch.php";
-require_once 'classes/Spreadsheet/Excel/Writer.php';
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./classes/class.ilMetaDataGUI.php";
+require_once "./classes/class.ilUtil.php";
+require_once "./classes/class.ilSearch.php";
+require_once "./classes/class.ilObjUser.php";
+require_once "./classes/class.ilObjGroup.php";
+require_once "./survey/classes/class.SurveySearch.php";
+require_once './classes/Spreadsheet/Excel/Writer.php';
 
 class ilObjSurveyGUI extends ilObjectGUI
 {

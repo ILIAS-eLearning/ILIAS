@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestionGUI.php";
-require_once "class.assClozeTest.php";
+require_once "./assessment/classes/class.assQuestionGUI.php";
+require_once "./assessment/classes/class.assClozeTest.php";
 
 /**
 * Cloze test question GUI representation

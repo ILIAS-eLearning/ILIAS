@@ -21,8 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "class.assQuestion.php";
-require_once "class.assAnswerMatching.php";
+require_once "./assessment/classes/class.assQuestion.php";
+require_once "./assessment/classes/class.assAnswerMatching.php";
 
 define ("MT_TERMS_PICTURES", 0);
 define ("MT_TERMS_DEFINITIONS", 1);
