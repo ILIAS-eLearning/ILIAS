@@ -403,7 +403,7 @@ class ilPageObject extends ilLMObject
         include_once("./classes/class.ilNestedSetXML.php");
         $nested = new ilNestedSetXML();
         $bibs_xml = $nested->export($row["obj_id"], "bib");
-        
+
         return $bibs_xml;
     }
 
