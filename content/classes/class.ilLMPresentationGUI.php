@@ -618,6 +618,14 @@ class ilLMPresentationGUI
 
 	function ilPage(&$a_page_node)
 	{
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		require_once("content/classes/class.ilLMPageObject.php");
+		$page_id = $this->getCurrentPageId();
+		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+		$page_object_gui =& new ilPageObjectGUI($page_object);
+
+		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
+
 		// read link targets
 		$childs =& $a_page_node->child_nodes();
 		foreach($childs as $child)
@@ -629,24 +637,64 @@ class ilLMPresentationGUI
 		}
 		$targets = "<LinkTargets>$targets</LinkTargets>";
 
+		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
+		$lm_pg_obj->setLMId($this->lm->getId());
+		//$pg_obj->setParentId($this->lm->getId());
+		$page_object_gui->setLinkTargets($targets);
+
+		// determine target frames for internal links
+		//$pg_frame = $_GET["frame"];
+		$page_object_gui->setLinkFrame($_GET["frame"]);
+		$page_object_gui->setOutputMode("presentation");
+
+		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
+		//$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
+		//	$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
+		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
+		return $page_object_gui->presentation();
+
+		/*
+		// read link targets
+		$childs =& $a_page_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if($child->node_name() == "LinkTarget")
+			{
+				$targets.= $this->layout_doc->dump_node($child);
+			}
+		}
+		$targets = "<LinkTargets>$targets</LinkTargets>";
+
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+		*/
+		/*
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setCurrentBlock("ilPage");
+		$this->tpl->setCurrentBlock("ilPage");*/
 
-		$page_id = $this->getCurrentPageId();
+		//$page_id = $this->getCurrentPageId();
 
-		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
+		//$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
+		/*
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		$pg_obj =& new ilPageObject($this->lm->getType(), $page_id);
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		$pg_obj->setParentId($this->lm->getId());
+		//$pg_obj->setLinkParams("ref_id=".$this->lm->getRefId());
 		$builded = $pg_obj->buildDom();
 		$content = $pg_obj->getXMLFromDom(false, true, true, $targets);
 
@@ -681,8 +729,8 @@ class ilLMPresentationGUI
 		$output = str_replace("&amp;", "&", $output);
 //echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
-		
-		return($output);
+
+		return($output);*/
 	}
 
 	function ilMedia()

@@ -25,7 +25,7 @@
 <xsl:param name="mode"/>
 <xsl:param name="pg_title"/>
 <xsl:param name="pg_id"/>
-<xsl:param name="ref_id"/>
+<xsl:param name="link_params"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
@@ -199,15 +199,15 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:if test="@Type = 'PageObject' or @Type = 'GlossaryItem'">
+		<xsl:if test="@Type = 'PageObject' or @Type = 'GlossaryItem' or @Type = 'StructureObject'">
 			<xsl:if test="$mode = 'edit'">
-				<xsl:attribute name="href">lm_edit.php?cmd=view&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+				<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$mode = 'preview'">
-				<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+				<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$mode = 'presentation'">
-				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 		</xsl:if>
 		<xsl:apply-templates/>
@@ -589,7 +589,7 @@
 	<xsl:param name="cmobid"/>
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1 and $mode != 'fullscreen'">
 		<a target="_new">
-		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
+		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 		<img border="0" align="right">
 		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 		</img>

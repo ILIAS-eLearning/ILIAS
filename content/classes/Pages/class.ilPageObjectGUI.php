@@ -46,6 +46,7 @@ class ilPageObjectGUI
 	var $return_location;
 	var $target_var;
 	var $output2template;
+	var $link_params;
 
 	/**
 	* Constructor
@@ -128,6 +129,36 @@ class ilPageObjectGUI
 		return $this->presentation_title;
 	}
 
+	function setLinkParams($l_params = "")
+	{
+		$this->link_params = $l_params;
+	}
+
+	function getLinkParams()
+	{
+		return $this->link_params;
+	}
+
+	function setLinkFrame($l_frame = "")
+	{
+		$this->link_frame = $l_frame;
+	}
+
+	function getLinkFrame()
+	{
+		return $this->link_frame;
+	}
+
+	function setLinkTargets($l_targets = "")
+	{
+		$this->link_targets = $l_targets;
+	}
+
+	function getLinkTargets()
+	{
+		return $this->link_targets;
+	}
+
 	function setTemplateTargetVar($a_variable)
 	{
 		$this->target_var = $a_variable;
@@ -158,7 +189,7 @@ class ilPageObjectGUI
 		{
 			$this->obj->addHierIDs();
 		}
-		$content = $this->obj->getXMLFromDom(false, true, true);
+		$content = $this->obj->getXMLFromDom(false, true, true, $this->link_targets);
 
 		// check validation errors
 		if($builded !== true)
@@ -184,7 +215,11 @@ class ilPageObjectGUI
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
+			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params);
+
+		if($this->link_frame != "")		// todo other link types
+			$params["pg_frame"] = $this->link_frame;
+
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 //echo xslt_error($xh);
 		xslt_free($xh);
@@ -222,6 +257,16 @@ class ilPageObjectGUI
 	{
 		global $tree;
 		$this->setOutputMode("edit");
+		return $this->showPage();
+	}
+
+	/*
+	* presentation
+	*/
+	function presentation()
+	{
+		global $tree;
+		$this->setOutputMode("presentation");
 		return $this->showPage();
 	}
 
