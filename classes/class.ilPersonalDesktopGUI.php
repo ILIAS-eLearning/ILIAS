@@ -175,8 +175,8 @@ class ilPersonalDesktopGUI
 				{
 					$tpl->setCurrentBlock("continue_link");
 					$tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
-					//$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
-					$tpl->setVariable("TARGET_CONTINUE", "bottom");
+					$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
+					//$tpl->setVariable("TARGET_CONTINUE", "bottom");
 					$tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
 					$tpl->setVariable("IMG_CONTINUE", ilUtil::getImagePath("nav_arr_R.gif"));
 					$tpl->parseCurrentBlock();
@@ -271,8 +271,8 @@ class ilPersonalDesktopGUI
 					$tpl->setCurrentBlock("show_link");
 					$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
 					$tpl->setVariable("LINK_SHOW", $item["link"]);
-					//$tpl->setVariable("TARGET_SHOW", $item["target"]);
-					$tpl->setVariable("TARGET_SHOW", "bottom");
+					$tpl->setVariable("TARGET_SHOW", $item["target"]);
+					//$tpl->setVariable("TARGET_SHOW", "bottom");
 					$tpl->parseCurrentBlock();
 				}
 				else

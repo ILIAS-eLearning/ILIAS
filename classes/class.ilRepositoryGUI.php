@@ -1142,11 +1142,9 @@ class ilRepositoryGUI
 					{
 						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $read_link);
-						if ($lr_data["type"] == "sahs") {
-							$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
-						} else {
-							$tpl->setVariable("VIEW_TARGET", "bottom");
-						}
+						$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
+						//$tpl->setVariable("VIEW_TARGET", "bottom");
+						
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
 						$tpl->parseCurrentBlock();
