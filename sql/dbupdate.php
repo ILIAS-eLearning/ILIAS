@@ -1751,13 +1751,43 @@ CREATE TABLE `tst_tests` (
   UNIQUE KEY `test_id` (`test_id`),
   KEY `test_id_2` (`test_id`)
 ) TYPE=MyISAM COMMENT='Tests in ILIAS Assessment';
+
 <#110>
 ALTER  TABLE  `tst_mark`  ADD  `passed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `minimum_level` ;
+
 <#111>
 ALTER  TABLE  `qpl_questions`  ADD  `matching_type` ENUM(  '0',  '1'  )  AFTER  `end_tag` ;
+
 <#112>
 INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("6", "qt_imagemap");
+
 <#113>
 ALTER  TABLE  `qpl_questions`  ADD  `imagemap_file` VARCHAR( 100  )  AFTER  `materials` , ADD  `image_file` VARCHAR( 100  )  AFTER  `imagemap_file` ;
+
 <#114>
+
+<#115>
+#
+# Table structure for table 'qpl_answers'
+#
+
+DROP TABLE IF EXISTS `qpl_answers`;
+CREATE TABLE `qpl_answers` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` char(100) NOT NULL default '',
+  `points` double NOT NULL default '0',
+  `aorder` int(10) unsigned NOT NULL default '0',
+  `correctness` enum('0','1') NOT NULL default '0',
+  `solution_order` int(10) unsigned NOT NULL default '0',
+  `matchingtext` char(100) default NULL,
+  `matching_order` int(10) unsigned default NULL,
+  `gap_id` int(10) unsigned NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  UNIQUE KEY `answer_id` (`answer_id`),
+  KEY `answer_id_2` (`answer_id`)
+) TYPE=MyISAM;
+
+<#116>
 ALTER  TABLE  `qpl_answers`  ADD  `coords` TEXT AFTER  `gap_id` , ADD  `area` VARCHAR( 20  )  AFTER  `coords` ;
