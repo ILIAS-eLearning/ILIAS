@@ -495,7 +495,7 @@ echo "Object->create() (type:".$this->type."): No title given! A title is requir
 	{
 		if (!isset($this->id))
 		{
-			$message = "perm::createNewReference(): No obj_id given!";
+			$message = "ilObject::createNewReference(): No obj_id given!";
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
