@@ -128,11 +128,11 @@ assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#by#:#przez
 assessment#:#cancel_test#:#Anuluj Test
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
+assessment#:#cannot_execute_test#:#Nie masz wystarczających uprawnień do uruchomienia tego testu!
 assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
 assessment#:#cannot_export_test#:#Nie masz wystarczających uprawnień do eksportu testu!
 assessment#:#cannot_maintain_test#:#Nie masz wystarczających uprawnień do utworzenia testu!
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+assessment#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do odczytu puli pytań!
 assessment#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień dla zachowania meta danych!
 assessment#:#change_solution#:#Zmień sugerowaną odpowiedź
 assessment#:#checkbox_checked#:#Wybrany
@@ -413,7 +413,7 @@ assessment#:#tst_mark_passed#:#Wykonany
 assessment#:#tst_mark_short_form#:#Krótka forma
 assessment#:#tst_maximum_points#:#Maksimum punktów
 assessment#:#tst_missing_author#:#Nie podałeś autora we właściwościach testu! Podaj  autora.
-assessment#:#tst_missing_marks#:#Nie masz chematu zaznaczeń w teście! Dodaj conajmniej prosty schemat do testu.
+assessment#:#tst_missing_marks#:#Nie masz schematu zaznaczeń w teście! Dodaj conajmniej prosty schemat do testu.
 assessment#:#tst_missing_questions#:#Nie masz żadnych pytań w teście! Dodaj conajmniej jedno pytanie do testu.
 assessment#:#tst_missing_title#:#Nie podałeś tytułu testu! Skocz do sekcji metadanych i podaj tytuł.
 assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
@@ -934,7 +934,7 @@ common#:#condition_update#:#Zapisz
 common#:#conditions_updated#:#Warunki zostały zachowane
 common#:#confirm#:#Zatwierdź
 common#:#confirmation#:#Zatwierdzenie
-common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
+common#:#conflict_handling#:#Obsługa konfliktu
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
 common#:#container#:#Kontener
@@ -1432,7 +1432,7 @@ common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
 common#:#if_no_title_then_url#:#Pozostaw puste dla wyświetlenia URL
-common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
+common#:#ignore_on_conflict#:#Ignoruj przy konflikcie
 common#:#ilias_version#:#Wersja ILIAS
 common#:#ilinc_classrooms#:#Klasa iLinc
 common#:#ilinc_courses#:#Kursy iLinc
@@ -1442,13 +1442,13 @@ common#:#import#:#Import
 common#:#import_alm#:#Import pakietu AICC
 common#:#import_categories#:#Import kategorii
 common#:#import_dbk#:#Import Książki Cyfrowej
-common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
+common#:#import_failure_log#:#Błąd w logu importu
 common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości.
 common#:#import_forum_finished#:#Forum zostało zaimportowane.
 common#:#import_glossary#:#Import Słownika
-common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
+common#:#import_grp_finished#:#Zaimportowano grupę bez błędów
 common#:#import_hlm#:#Import pakietu HACP
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_qpl#:#Import testowej puli pytań
@@ -1458,7 +1458,7 @@ common#:#import_spl#:#Import Puli Pytań Ankiety
 common#:#import_svy#:#Import Ankiety
 common#:#import_tst#:#Import Testu
 common#:#import_users#:#Import Użytkowników
-common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
+common#:#import_warning_log#:#Log ostrzeżeń importu
 common#:#imported#:#zaimportowany
 common#:#in#:#w
 common#:#in_use#:#Język użytkownika
@@ -1479,12 +1479,12 @@ common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_night#:#Dobranoc
 common#:#ingmedia_hello#:#Cześć
 common#:#ingmedia_info_about_work1#:#Na
-common#:#ingmedia_info_about_work2#:#, ostatnio tu pracowałeś. Możesz kontynuować to klikając tu:
+common#:#ingmedia_info_about_work2#:#, ostatnio tu pracowałeś. Możesz kontynuować tę operację klikając tu:
 common#:#ingmedia_level_zero#:#Poziom wyżej
 common#:#ingmedia_pers_dates#:#Dane osobowe
 common#:#ingmedia_reg_fo#:#Zarejestrowane fora
 common#:#ingmedia_reg_le#:#Zarejestrowane LE
-common#:#ingmedia_use_info1#:#Tu możesz zmienić swoje dane osobowe. Oprócz nazwy użytkownika INGMEDIA i hasła nie musisz wypełniać innych pól. Pamiętaj, że zapomniane hasło może być tylko otrzymane za pomocą poczty elektronicznej (!).
+common#:#ingmedia_use_info1#:#W tym miejscu możesz zmienić swoje dane osobowe. Oprócz nazwy użytkownika INGMEDIA i hasła nie musisz wypełniać innych pól. Pamiętaj, że zapomniane hasło może być tylko otrzymane za pomocą poczty elektronicznej (!).
 common#:#ingmedia_use_info2#:#Nie można stosować znaków specjalnych (takich jak , ; . = - * + #) w twojej nazwie użytkownika INGMEDIA i haśle. Aby móc używać platformy INGMEDIA musisz zaakceptować zasady użytkowania.
 common#:#ingmedia_use_info3#:#Wybierz jedno z połączeń z listy.
 common#:#ingmedia_use_title#:#Zmień dane użytkownika.
@@ -1770,7 +1770,7 @@ common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
-common#:#msg_no_perm_read#:#You have no permission to access this item.###08 Mar 2005 new variable
+common#:#msg_no_perm_read#:#Nie masz uprawnień do dostępu do tej pozycji.
 common#:#msg_no_perm_read_lm#:#Nie masz uprawnień do czytania tego Modułu Nauczania.
 common#:#msg_no_perm_read_track#:#Nie masz uprawnień do danych śledzenia.
 common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następujących obiektów:
@@ -1826,8 +1826,8 @@ common#:#news#:#Wieści
 common#:#next#:#następny
 common#:#nickname#:#Login
 common#:#no#:#Nie
-common#:#no_access_item#:#You have no permission to access this item.###08 Mar 2005 new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###08 Mar 2005 new variable
+common#:#no_access_item#:#Nie masz uprawnień do dostepu do tej pozycji.
+common#:#no_access_item_public#:#Ta pozycja nie może być dostępna w sekcji publicznej.
 common#:#no_access_link_object#:#Nie możesz dołaczyć tego obiektu.
 common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
 common#:#no_chat_in_personal_list#:#Brak czatów na prywatnej liście
@@ -1872,7 +1872,7 @@ common#:#obj_auth_desc#:#Konfiguruj tryb identyfikacji (lokalnie, LDAP, ...)
 common#:#obj_cat#:#Kategoria
 common#:#obj_cen#:#Zdarzenie Centra
 common#:#obj_chac#:#Ustawienia czatu
-common#:#obj_chac_desc#:#Tu skonfiguruj serwer czat. Włącz/Wyłacz czat.
+common#:#obj_chac_desc#:#W tym miejscu skonfiguruj serwer czat. Włącz/Wyłacz czat.
 common#:#obj_chat#:#Czat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
@@ -2316,7 +2316,7 @@ common#:#svy_delete#:#Usuń ankietę
 common#:#svy_edit_permission#:#Zmiana uprawnień dostępu
 common#:#svy_invite#:#Zaproś użytkowników do ankiety
 common#:#svy_new#:#Nowa ankieta
-common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
+common#:#svy_no_content#:#Brak dostępnych ankiet
 common#:#svy_participate#:#Branie udziału w ankiecie
 common#:#svy_read#:#Prawo czytania ankiety
 common#:#svy_upload_file#:#Załaduj plik
@@ -2389,7 +2389,7 @@ common#:#tst_add#:#Dodaj test
 common#:#tst_delete#:#Usuń Test
 common#:#tst_edit_permission#:#Zmień ustawienia uprawnień
 common#:#tst_new#:#Nowy test
-common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
+common#:#tst_no_content#:#Brak dostępnych testów
 common#:#tst_read#:#Prawo czytania testu
 common#:#tst_upload_file#:#Załaduj plik
 common#:#tst_visible#:#Test jest widoczny
@@ -2400,7 +2400,7 @@ common#:#txt_registered#:#Zostałeś zarejestrowany w systemie ILIAS. Kliknij na
 common#:#txt_submitted#:#Twoje zgłoszenie założenia konta w ILIAS-ie zostało przyjęte.  Zgłoszenie to zostanie rozpatrzone przez administratora systemu, i konto powinno być uaktywnione w ciągu 48 godzin. Nie możesz się logować dopóki twoje konto nie zostanie uaktywnione.
 common#:#typ#:#Definicja typu obiektu
 common#:#type#:#Typ
-common#:#type_your_message_here#:#Tu wpisz swoją wiadomość
+common#:#type_your_message_here#:#W tym miejscu wpisz swoją wiadomość
 common#:#uid#:#UID
 common#:#unambiguousness#:#Niedwuznaczność
 common#:#uncheck_all#:#Odznacz wszystko
@@ -2415,7 +2415,7 @@ common#:#up#:#W górę
 common#:#update#:#Edytuj
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
-common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
+common#:#update_on_conflict#:#Uaktualnij przy konflikcie
 common#:#upload#:#Wyślij
 common#:#upload_error_file_not_found#:#Błąd załadowania: Nie znaleziono pliku.
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
@@ -2441,9 +2441,9 @@ common#:#user_cant_receive_mail#:#użytkownik nie może używać systemu poczty 
 common#:#user_comment#:#Komentarz użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
-common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
+common#:#user_import_failed#:#Błędny import użytkowników.
 common#:#user_imported#:#Zakończony import użytkowników.
-common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
+common#:#user_imported_with_warnings#:#Import użytkowników zakończony z ostrzeżeniami.
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#user_profile_other#:#Inne informacje
@@ -2479,30 +2479,30 @@ common#:#usrf_read#:#Prawo czytania kont użytkowników
 common#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
 common#:#usrf_visible#:#Konta użytkowników są widoczne
 common#:#usrf_write#:#Edycja kont użytkowników
-common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
-common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
-common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#usrimport_action_failed#:#Akcja %1$s błędna.
+common#:#usrimport_action_ignored#:#Zignorowano akcję %1$s.
+common#:#usrimport_action_replaced#:#Wymieniona akcja %1$s przez %2$s.
+common#:#usrimport_cant_delete#:#Nie można wykonać akcji "Usuń". Brak takiego użytkownika w bazie.
+common#:#usrimport_cant_insert#:#Nie można wykonać akcji "Wstaw". Taki użytkownik już istnieje w bazie.
+common#:#usrimport_cant_update#:#Nie można wykonać akcji "Uaktualnij". Brak takiego użytkownika w bazie.
+common#:#usrimport_conflict_handling_info#:#Kiedy jest wybrane "Ignoruj przy konflikcie", ILIAS ignoruje akcję, jeśli ona nie może być wykonana (np. akcja "Wstaw" nie jest wykonana, jeśli już istnieje w bazie danych użytkownik o tym samym loginie.)\nKiedy jest wybrane "Uaktualnij przy konflikcie", ILIAS uaktualnia bazę danych jeśli akcja nie może zostać wykonana. (np. akcja "Wstaw" jest zastępowana przez akcję "Uaktualnij", jeśli już istnieje w bazie danych użytkownik o takim samym loginie).
+common#:#usrimport_global_role_for_action_required#:#Conajmniej jedna globalna rola musi być określona dla akcji "%1$s".
+common#:#usrimport_login_is_not_unique#:#Login nie jest unikalny.
+common#:#usrimport_xml_attribute_missing#:#Brak Atrybutu "%2$s" w elemencie "%1$s".
+common#:#usrimport_xml_attribute_value_illegal#:#Wartość "%3$s" atrybutu "%2$s" w elemencie "%1$s" jest niedozwolona.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Wartość "%3$s" atrybutu "%2$s" w elemencie "%1$s" jest nieodpowiednia dla akcji "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Zawartość "%2$s" elementu "%1$s" jest niedozwolona.
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" musi być określony dla akcji "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" jest nieodpowiedni dla akcji "%2$s".
 common#:#validate#:#Zatwierdź
 common#:#value#:#Wartość
 common#:#vcard#:#Wizytówka
 common#:#vcard_download#:#Pobierz wizytówkę
 common#:#vendors#:#Sprzedawcy
-common#:#verification_failed#:#Verification failed###09 Mar 2005 new variable
-common#:#verification_failure_log#:#Verification failure log###09 Mar 2005 new variable
-common#:#verification_log#:#Verification log###09 Mar 2005 new variable
-common#:#verification_warning_log#:#Verification warning log###09 Mar 2005 new variable
+common#:#verification_failed#:#Błędna weryfikacja
+common#:#verification_failure_log#:#Log błędu weryfikacji
+common#:#verification_log#:#Log weryfikacji
+common#:#verification_warning_log#:#Log ostrzeżenia weryfikacji
 common#:#version#:#Wersja
 common#:#versions#:#Wersje
 common#:#view#:#Widok
@@ -2694,7 +2694,7 @@ content#:#cont_files#:#Pliki
 content#:#cont_fix_tree#:#Napraw strukturę
 content#:#cont_fix_tree_confirm#:#Wykonuj tę komendę tylko jeśli struktura drzewa tego modułu nauczania jest uszkodzona, np. jeśli pusta pozycja jest widoczna w widoku eksploratora.
 content#:#cont_format#:#Format
-content#:#cont_format_error#:#Ta operacja nie jest tu dozwolona!
+content#:#cont_format_error#:#Ta operacja nie jest w tym miejscu dozwolona!
 content#:#cont_free_pages#:#Wolne strony
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
@@ -3005,10 +3005,10 @@ crs#:#crs_export#:#Eksport kursu
 crs#:#crs_file_name#:#Nazwa pliku
 crs#:#crs_from#:#Od:
 crs#:#crs_grouping#:#Grupowanie kursu
-crs#:#crs_grouping_assign#:#Change assignment###08 Mar 2005 new variable
+crs#:#crs_grouping_assign#:#Zmień przydział
 crs#:#crs_grouping_delete_sure#:#Czy chcesz usunąć następującą grupę kursów?
 crs#:#crs_grouping_deleted#:#Usunięto grupę kursów.
-crs#:#crs_grouping_modified_assignment#:#Changed assignment.###08 Mar 2005 new variable
+crs#:#crs_grouping_modified_assignment#:#Zmieniono przydział.
 crs#:#crs_grouping_select_one#:#Wybierz grupę kursów.
 crs#:#crs_groupings#:#Grupowanie Kurs
 crs#:#crs_groupings_ask_delete#:#Usuń grupę kursów
@@ -3136,7 +3136,7 @@ crs#:#crs_objectives_reset_sure#:#Możesz usunąć wszystkie rezultaty kursu. <b
 crs#:#crs_objectives_reseted#:#Rezultaty wyczyszczone.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opcje
-crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
+crs#:#crs_other_groupings#:#Grupowanie innych kursów
 crs#:#crs_other_resources#:#Inne zasoby
 crs#:#crs_passed#:#Wykonane
 crs#:#crs_password_not_valid#:#Twoje hasło jest nieważne
@@ -3354,7 +3354,7 @@ dateplaner#:#help_properties_alt_l#:#Wybierz klucz w oknie dialogowym.<br />Zmie
 dateplaner#:#help_properties_del#:#Usunięcie klucza
 dateplaner#:#help_properties_del_l#:#Wybierz klucz w oknie dialogowym. Kliknij przycisk aby usunąć klucz.
 dateplaner#:#help_properties_import#:#Import pliku CSV z Outlooka
-dateplaner#:#help_properties_import_l#:#Tu może być wybrany plik CSV, który zawiera terminy z Outlooka. Te terminy zostaną zaimportowane do terminarza.
+dateplaner#:#help_properties_import_l#:#W tym miejscu może być wybrany plik CSV, który zawiera terminy z Outlooka. Te terminy zostaną zaimportowane do terminarza.
 dateplaner#:#help_properties_new#:#Dodaje, klucz maks. 20 znaków
 dateplaner#:#help_properties_new_l#:#Dodaj klucz do pola \"nowy\". maks. 20 znaków.
 dateplaner#:#help_properties_time#:#Czas wyświetlania dla widoku dnia/tygodnia
@@ -3362,13 +3362,13 @@ dateplaner#:#help_properties_time_l#:#Standardowy czas wyświetlania widoku dnia
 dateplaner#:#help_rotation#:#Cykl
 dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
 dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
-dateplaner#:#help_shorttext_l#:#Tu można podać krótki opis terminu.
+dateplaner#:#help_shorttext_l#:#W tym miejscu można podać krótki opis terminu.
 dateplaner#:#help_startdate#:#Data początkowa - format[dd/mm/rrrr]
 dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br /> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
 dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.
 dateplaner#:#help_text#:#Tekst
-dateplaner#:#help_text_l#:#Tu można podać tekst opisujący termin.
+dateplaner#:#help_text_l#:#W tym miejscu można podać tekst opisujący termin.
 dateplaner#:#help_week#:#Terminarz - widok tygodnia
 dateplaner#:#help_week_l#:#W widoku tygodnia są wyświetlone wszystkie terminy wybranego tygodnia
 dateplaner#:#hour#:#godzina
@@ -4432,8 +4432,8 @@ survey#:#cannot_export_survey#:#Nie posiadasz wystarczających uprawnień dla ek
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!
 survey#:#cannot_manage_phrases#:#Nie masz prawa zapisu do zarządzania frazą!
 survey#:#cannot_participate_survey#:#Nie masz uprawnień do uczestnictwa w przeglądzie!
-survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
-survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
+survey#:#cannot_read_questionpool#:#Nie masz wystarczających uprawnień do czytania puli pytań!
+survey#:#cannot_read_survey#:#Nie masz wystarczających uprawnień do czytania danych ankiety!
 survey#:#cannot_save_metaobject#:#Nie masz wystarczających uprawnień do zapisu meta  danych!
 survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot; ponieważ brak pytań w teście!
 survey#:#category#:#Kategoria
