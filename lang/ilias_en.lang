@@ -31,6 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+commo#:#dataset#:#Dataset
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -82,6 +83,7 @@ common#:#change#:#Change
 common#:#change_existing_objects#:#Change existing Objects
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
+common#:#change_sort_direction#:#Change sort direction
 common#:#changed_to#:#changed to
 common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
@@ -340,6 +342,7 @@ common#:#new_group#:#New Group
 common#:#new_language#:#New Language
 common#:#new_mail#:#New mail!
 common#:#news#:#News
+common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_checkbox#:#No checkbox checked!
@@ -422,6 +425,7 @@ common#:#please_enter_title#:#Please enter a title.
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Presentation Options
+common#:#previous#:#previous
 common#:#print#:#Print
 common#:#profile_changed#:#Your profile has changed
 common#:#pub_section#:#Public Section
@@ -486,6 +490,7 @@ common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#signature#:#Signature
 common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Sort by this column
 common#:#startpage#:#Startpage
 common#:#status#:#Status
 common#:#step#:#Step
@@ -1037,8 +1042,3 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
-common#:#previous#:#previous
-common#:#next#:#next
-common#:#sort_by_this_column#:#Sort by this column
-common#:#change_sort_direction#:#Change sort direction
-commo#:#dataset#:#Dataset
