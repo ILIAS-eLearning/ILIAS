@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.75 2004/01/31 17:05:52 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.76 2004/02/05 10:24:16 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -103,7 +103,27 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol);
+		$keys = array_keys($rol);
+
+		// set pre defined user role to default
+		if (in_array(4,$keys))
+		{
+			$default_role = 4;
+		}
+		else
+		{
+			if (count($keys) > 1 and in_array(2,$keys))
+			{
+				$key = key($keys[2]);
+				unset($keys[$key]);
+			}
+			
+			$default_role = array_shift($keys);
+		}
+		
+		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
+
+		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
 
 		$data = array();
 		$data["fields"] = array();
@@ -126,7 +146,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = "";
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
-		$data["fields"]["default_role"] = $role;
+		$data["fields"]["default_role"] = $roles;
 
 		$this->getTemplateFile("edit","usr");
 
