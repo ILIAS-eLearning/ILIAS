@@ -71,6 +71,23 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
+		
+		if ($_GET["offset"] == "")
+		{
+			$_GET["offset"] = 0;
+		}
+		
+		$_GET["offset"] = intval($_GET["offset"]);
+		$_GET["limit"] = intval($_GET["limit"]);
+
+		if ($_GET["limit"] == 0)
+		{
+			$_GET["limit"] = 10;	// TODO: move to user settings
+		}
+		if (empty($_GET["sort_by"]))
+		{
+			$_GET["sort_by"]= "title";
+		}
 
 		// get the object
 		$this->assignObject();
@@ -390,9 +407,9 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$maxcount = count($cont_arr);
+		$maxcount = count($cont_arr);		
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		$cont_arr = array_slice($cont_arr,$offset,$limit);
+		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
 
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
@@ -496,8 +513,8 @@ class ilGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer
@@ -773,8 +790,8 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHeaderVars(array("typ","title","description","last_change"));
 		$tbl->setColumnWidth(array("3%","16%","22%","*"));
 		$tbl->setMaxcount($maxcount);
-		$tbl->setOffset($offset);
-		$tbl->setLimit($limit);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setTitle($this->lng->txt("objs_delete"),"icon_grp_b.gif",$this->lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -926,7 +943,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
-		$output = array_slice($this->data["data"],$offset,$limit);
+		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 		// create table
 		$tbl = new ilTableGUI($output);
@@ -954,8 +971,8 @@ class ilGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1449,8 +1466,8 @@ class ilGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1601,7 +1618,7 @@ class ilGroupGUI extends ilObjectGUI
 					$offset = 0;	// TODO: move to user settings
 				}
 
-				$output = array_slice($this->data["data"],$offset,$limit);
+				$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
 				// create table
 				include_once "./classes/class.ilTableGUI.php";
@@ -1617,8 +1634,8 @@ class ilGroupGUI extends ilObjectGUI
 				// control
 				$tbl->setOrderColumn($_GET["sort_by"]);
 				$tbl->setOrderDirection($_GET["sort_order"]);
-				$tbl->setLimit($limit);
-				$tbl->setOffset($offset);
+				$tbl->setLimit($_GET["limit"]);
+				$tbl->setOffset($_GET["offset"]);
 				$tbl->setMaxCount(count($this->data["data"]));
 
 				$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1649,7 +1666,7 @@ class ilGroupGUI extends ilObjectGUI
 			unset($_SESSION["status"]);
 			unset($_SESSION["saved_post"]);
 		}
-		//echo ($this->link_params);
+		
 		header("Location: group.php?cmd=show_content&".$this->link_params);
 	}
 
