@@ -82,6 +82,10 @@ administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
+common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
+common#:#err_ldap_search_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie BaseDN und Search base
+common#:#err_ldap_user_not_found#:#Benutzer konnte nicht gefunden werden! Bitte überprüfen Sie das Attribut für den Loginnamen und die Objectclass
+common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
@@ -176,6 +180,7 @@ assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
+common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten
 assessment#:#matching_pair#:#Zuordnungspaar
 assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
