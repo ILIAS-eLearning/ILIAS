@@ -78,12 +78,13 @@ class ilLMObject
 		}
 
 		$this->type = $this->data_record["type"];
+		$this->setImportId($this->data_record["import_id"]);
 
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
 	}
 
 	/**
-	* 
+	*
 	*/
 	function setTitle($a_title)
 	{
@@ -136,12 +137,23 @@ class ilLMObject
 		return $this->id;
 	}
 
+	function getImportId()
+	{
+		return $this->meta_data->getImportIdentifierEntryID();
+	}
+
+	function setImportId($a_id)
+	{
+		$this->meta_data->setImportIdentifierEntryID($a_id);
+	}
+
+
 	function create()
 	{
 
 		// insert object data
-		$query = "INSERT INTO lm_data (title, type, lm_id) ".
-			"VALUES ('".$this->getTitle()."','".$this->getType()."', ".$this->getLMId().")";
+		$query = "INSERT INTO lm_data (title, type, lm_id, import_id) ".
+			"VALUES ('".$this->getTitle()."','".$this->getType()."', ".$this->getLMId().",'".$this->getImportId()."')";
 		$this->ilias->db->query($query);
 		$this->setId(getLastInsertId());
 
@@ -170,6 +182,7 @@ class ilLMObject
 	{
 		// update object data
 		$query = "UPDATE lm_data SET title = '".$this->getTitle()."'".
+			", import_id = '".$this->getImportId()."'".
 			" WHERE obj_id= '".$this->getId()."'";
 		$this->ilias->db->query($query);
 

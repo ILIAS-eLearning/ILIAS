@@ -61,6 +61,7 @@ class ilObject
 	var $owner;
 	var $create_date;
 	var $last_update;
+	var $import_id;
 
 	/**
 	* indicates if object is a referenced object
@@ -216,10 +217,11 @@ class ilObject
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
 		$this->last_update = $obj["last_update"];
-		
+		$this->setImportId($obj["import_id"]);
+
 		// multilingual support systemobjects (sys) & categories (db)
 		$translation_type = $objDefinition->getTranslationType($this->type);
-		
+
 		if ($translation_type == "sys")
 		{
 			$this->title = $this->lng->txt("obj_".$this->type);
@@ -352,6 +354,28 @@ class ilObject
 	}
 
 	/**
+	* get import id
+	*
+	* @access	public
+	* @return	string	import id
+	*/
+	function getImportId()
+	{
+		return $this->import_id;
+	}
+
+	/**
+	* set import id
+	*
+	* @access	public
+	* @param	string		$a_import_id		import id
+	*/
+	function setImportId($a_import_id)
+	{
+		$this->import_id = $a_import_id;
+	}
+
+	/**
 	* get object owner
 	*
 	* @access	public
@@ -454,10 +478,10 @@ class ilObject
 		$this->desc = addslashes(ilUtil::shortenText($this->getDescription(), $this->max_desc, $this->add_dots));
 
 		$q = "INSERT INTO object_data ".
-			 "(type,title,description,owner,create_date,last_update) ".
+			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
 			 "('".$this->type."','".$this->getTitle()."','".$this->getDescription()."',".
-			 "'".$this->ilias->account->getId()."',now(),now())";
+			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
 		$this->ilias->db->query($q);
 
 		$this->id = getLastInsertId();
@@ -471,7 +495,7 @@ class ilObject
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
 		$this->create_date = $obj_rec["create_date"];
-		
+
 		// set owner for new objects
 		$this->setOwner($this->ilias->account->getId());
 
@@ -490,6 +514,7 @@ class ilObject
 			"SET ".
 			"title = '".$this->getTitle()."',".
 			"description = '".$this->getDescription()."', ".
+			"import_id = '".$this->getImportId()."', ".
 			"last_update = now() ".
 			"WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
@@ -514,7 +539,7 @@ class ilObject
 	function putInTree($a_parent_ref)
 	{
 		global $tree;
-		
+
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 	}
 
@@ -527,7 +552,7 @@ class ilObject
 	function setPermissions($a_parent_ref)
 	{
 		global $rbacadmin, $rbacreview;
-		
+
 		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
 
 		foreach ($parentRoles as $parRol)
@@ -711,7 +736,7 @@ class ilObject
 	* notifys an object about an event occured
 	* Based on the event passed, each object may decide how it reacts.
 	* TODO: add optional array to pass parameters
-	* 
+	*
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
