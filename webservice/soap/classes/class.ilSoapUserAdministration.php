@@ -511,7 +511,13 @@ class ilSoapUserAdministration
 		{
 			$user_data['time_limit_unlimited'] = 1;
 		}
-		$user_obj->assignData($user_data);
+
+		// set Password if it is given
+		if(strlen($user_data['passwd']))
+		{
+			$user_obj->setPasswd($user_data['passwd'],IL_PASSWD_PLAIN);
+		}
+		$user_obj->assignData($user_data,IL_NO_PASSWD);
 
 		if(isset($user_data['user_language']))
 		{
