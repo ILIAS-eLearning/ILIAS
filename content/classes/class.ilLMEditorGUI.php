@@ -30,7 +30,7 @@ require_once ("content/classes/class.ilObjDlBookGUI.php");
 require_once ("content/classes/class.ilLMPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
-require_once ("content/classes/Pages/class.ilMediaItem.php");
+//require_once ("content/classes/Pages/class.ilMediaItem.php");
 require_once ("classes/class.ilObjStyleSheet.php");
 require_once ("content/classes/class.ilEditClipboard.php");
 
@@ -66,15 +66,54 @@ class ilLMEditorGUI
 	*/
 	function ilLMEditorGUI()
 	{
-		global $ilias, $tpl, $lng, $objDefinition;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+
+		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 
 		// initiate variables
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		$this->objDefinition = $objDefinition;
+		$this->objDefinition =& $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
+	}
+
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+		if ($next_class != "")
+		{
+			$cmd = $this->ctrl->getCmd();
+			switch($next_class)
+			{
+				case "illmpageobjectgui":
+					$this->ctrl->setReturn($this, "view");
+
+					$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+					//$this->tree = new ilTree($this->lm_obj->getId());
+					//$this->tree->setTableNames('lm_tree','lm_data');
+					//$this->tree->setTreeTablePK("lm_id");
+					//$this->main_header($this->lng->txt($this->lm_obj->getType()).": ".$this->lm_obj->getTitle(),$this->lm_obj->getType());
+
+					if(!empty($_GET["obj_id"]))		// we got a page or structure object
+					{
+						$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
+					}
+					$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
+					if (is_object($obj))
+					{
+						$pg_gui->setLMPageObject($obj);
+					}
+					$ret =& $pg_gui->executeCommand();
+					$this->tpl->show();
+					return;
+					break;
+			}
+		}
 
 		$hier_id = $_GET["hier_id"];
 		if(isset($_POST["new_hier_id"]))
@@ -116,6 +155,11 @@ class ilLMEditorGUI
 		}
 
 //echo ":hier_id_c:$hier_id:";
+
+		if ($cmd == "view" && $this->ctrl->getRedirectSource() == "ilinternallinkgui")
+		{
+			$cmd = "explorer";
+		}
 		switch($cmd)
 		{
 			case "explorer":
@@ -188,6 +232,7 @@ class ilLMEditorGUI
 							{
 								$pg_gui->setLMPageObject($obj);
 							}
+
 							$pg_gui->$cmd();
 							break;
 
@@ -226,6 +271,11 @@ class ilLMEditorGUI
 		}
 	}
 
+	function _forwards()
+	{
+		return array("ilLMPageObjectGUI", "ilStructureObjectGUI",
+			"ilObjDlBookGUI", "ilMetaDataGUI", "ilObjLearningModuleGUI");
+	}
 
 	/**
 	* output main frameset of editor
@@ -340,126 +390,15 @@ class ilLMEditorGUI
 		$contObjLocator->setObject($this->obj);
 		$contObjLocator->setContentObject($this->lm_obj);
 		$contObjLocator->display();
-
-		/*
-		global $lng;
-
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		if(!empty($this->obj_id) && $this->tree->isInTree($this->obj_id))
-		{
-//echo "dL0a:".$this->obj_id.":";
-			$path = $this->tree->getPathFull($this->obj_id);
-//echo "dL0b"; exit;
-		}
-		else
-		{
-			$path = $this->tree->getPathFull($this->tree->getRootId());
-			if (!empty($this->obj_id))
-			{
-				$path[] = array("child" => $this->obj_id, "title" => $this->obj->getTitle());
-			}
-		}
-//echo "dL1"; exit;
-		$modifier = 1;
-
-		foreach ($path as $key => $row)
-		{
-			if ($key < count($path)-$modifier)
-			{
-				$this->tpl->touchBlock("locator_separator");
-			}
-
-			$this->tpl->setCurrentBlock("locator_item");
-			if ($row["child"] == 1)
-			{
-				$title = $this->lm_obj->getTitle();
-				$cmd = "properties";
-			}
-			else
-			{
-				$title = $row["title"];
-				$cmd = "view";
-			}
-			$this->tpl->setVariable("ITEM", $title);
-			$obj_str = ($row["child"] == 1)
-				? ""
-				: "&obj_id=".$row["child"];
-			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=$cmd&ref_id=".
-				$this->ref_id.$obj_str);
-			$this->tpl->parseCurrentBlock();
-
-		}*/
-
-		/*
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$this->tpl->parseCurrentBlock();
-		}*/
-
-		/*
-		$this->tpl->setCurrentBlock("locator");
-
-		$this->tpl->parseCurrentBlock();*/
 	}
 
 	function setAdminTabs($a_type)
 	{
 		include_once("classes/class.ilTabsGUI.php");
-
+//echo "HH";
 		$tabs_gui =& new ilTabsGUI;
-
-		$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
-			$_GET["obj_id"]);
-		$tabs_gui->setObjectType($a_type);
-		$tabs_gui->display();
-
-		/*
-		$tabs = array();
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		$d = $this->objDefinition->getProperties($a_type);
-
-		foreach ($d as $key => $row)
-		{
-			$tabs[] = array($row["lng"], $row["name"]);
-		}
-
-		if (isset($_GET["obj_id"]))
-		{
-			$object_link = "&obj_id=".$_GET["obj_id"];
-		}
-
-		foreach ($tabs as $row)
-		{
-			$i++;
-
-			if ($row[1] == $_GET["cmd"])
-			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
-			}
-			else
-			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
-			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
-				$_GET["obj_id"]."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
-		}*/
+		$tabs_gui->getTargetsByObjectType($this, $a_type);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 

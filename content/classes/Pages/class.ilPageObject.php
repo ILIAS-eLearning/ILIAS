@@ -227,13 +227,13 @@ class ilPageObject
 						return $tab;
 
 					case "MediaObject":
-						require_once("content/classes/Pages/class.ilMediaObject.php");
+						require_once("content/classes/Media/class.ilObjMediaObject.php");
 //echo "ilPageObject::getContentObject:nodename:".$child_node->node_name().":<br>";
 						$mal_node =& $child_node->first_child();
 //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
 						$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
 						$mob_id = $id_arr[count($id_arr) - 1];
-						$mob =& new ilMediaObject($mob_id);
+						$mob =& new ilObjMediaObject($mob_id);
 						$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
@@ -609,10 +609,10 @@ class ilPageObject
 
 		// get xml of corresponding media objects
 		$mobs_xml = "";
-		require_once("content/classes/Pages/class.ilMediaObject.php");
+		require_once("content/classes/Media/class.ilObjMediaObject.php");
 		foreach($mob_ids as $mob_id => $dummy)
 		{
-			$mob_obj =& new ilMediaObject($mob_id);
+			$mob_obj =& new ilObjMediaObject($mob_id);
 			$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
 		}
 		return $mobs_xml;
@@ -934,11 +934,11 @@ class ilPageObject
 			}
 		}
 
-		include_once("content/classes/Pages/class.ilMediaObject.php");
-		ilMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
+		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
 		foreach($usages as $mob_id => $val)
 		{
-			ilMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
+			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
 		}
 	}
 

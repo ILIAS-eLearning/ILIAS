@@ -46,7 +46,30 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
 
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
+	/**
+	* insert new file item
+	*/
 	function newFileItem()
 	{
 		include_once("classes/class.ilObjFile.php");
@@ -71,12 +94,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function newItemAfterForm()
 	{
+		$this->setTabs();
+
 		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
 
@@ -93,6 +116,9 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
 	}
 
+	/**
+	* insert new file item after another item
+	*/
 	function newItemAfter()
 	{
 		$this->newFileItem();
@@ -101,7 +127,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -114,12 +140,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function newItemBeforeForm()
 	{
+		$this->setTabs();
+
 		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->displayValidationError();
 
@@ -147,7 +173,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -162,7 +188,32 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
 	}
 
 }

@@ -23,7 +23,16 @@
 
 //require_once ("classes/class.ilDOMUtil.php");
 require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-
+require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+require_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+require_once ("content/classes/Pages/class.ilPCTableGUI.php");
+require_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
+require_once ("content/classes/Pages/class.ilPCListGUI.php");
+require_once ("content/classes/Pages/class.ilPCListItemGUI.php");
+require_once ("content/classes/Pages/class.ilPCFileListGUI.php");
+require_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
+require_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+require_once ("classes/class.ilTabsGUI.php");
 
 /**
 * Page Editor GUI class
@@ -43,6 +52,7 @@ class ilPageEditorGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $ctrl;
 	var $objDefinition;
 	var $page;
 	var $target_script;
@@ -57,15 +67,26 @@ class ilPageEditorGUI
 	*/
 	function ilPageEditorGUI(&$a_page_object)
 	{
-		global $ilias, $tpl, $lng, $objDefinition;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
 
 		// initiate variables
 		$this->ilias =& $ilias;
+		$this->ctrl =& $ilCtrl;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->objDefinition = $objDefinition;
 
 		$this->page =& $a_page_object;
+
+		$this->ctrl->saveParameter($this, "hier_id");
+	}
+
+	function _forwards()
+	{
+		return array("ilPCParagraphGUI", "ilPCTableGUI",
+		"ilPCTableDataGUI", "ilPCMediaObjectGUI", "ilPCListGUI",
+		"ilPCListItemGUI", "ilPCFileListGUI", "ilPCFileItemGUI",
+		"ilObjMediaObjectGUI");
 	}
 
 	function setTargetScript($a_target_script)
@@ -113,17 +134,10 @@ class ilPageEditorGUI
 		ilUtil::redirect($this->getReturnLocation());
 	}
 
-	function executeCommand()
+	function &executeCommand()
 	{
 //echo "execute";
-		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
-		{
-			return;
-		}
-
-		$cmd = (empty($_GET["cmd"]))
-			? $cmd = key($_POST["cmd"])
-			: $_GET["cmd"];
+		$cmd = $this->ctrl->getCmd();
 
 		$hier_id = $_GET["hier_id"];
 		if(isset($_POST["new_hier_id"]))
@@ -137,30 +151,12 @@ class ilPageEditorGUI
 			? $_GET["new_type"]
 			: $_POST["new_type"];
 
-
-		if ($cmd == "edpost" || $_GET["hier_id"])
+		if (substr($cmd, 0, 5) == "exec_")
 		{
-			$type = "content";
-			if (isset($_GET["hier_id"]))
-			{
-				if($cmd == "edpost")
-				{
-					$cmd = key($_POST["cmd"]);
-					$hier_id = $_GET["hier_id"];
-				}
-			}
-			else
-			{
-				$cmd = explode("_", key($_POST["cmd"]));
-				unset($cmd[0]);
-				$hier_id = implode($cmd, "_");
-				$cmd = $_POST["command".$hier_id];
-			}
-		}
-
-		if ($cmd == "post")
-		{
-			$cmd = key($_POST["cmd"]);
+			$cmd = explode("_", key($_POST["cmd"]));
+			unset($cmd[0]);
+			$hier_id = implode($cmd, "_");
+			$cmd = $_POST["command".$hier_id];
 		}
 
 		$this->page->buildDom();
@@ -183,8 +179,10 @@ class ilPageEditorGUI
 			$ctype = $cont_obj->getType();
 		}
 
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
 
 		if ($ctype != "mob" || !is_object ($cont_obj))
 		{
@@ -198,90 +196,125 @@ class ilPageEditorGUI
 			$this->returnToContext();
 		}
 
-//echo "2"; exit;
-//echo "type:$type:cmd:$cmd:ctype:$ctype:<br>";
 		$this->cont_obj =& $cont_obj;
 
-		switch($ctype)
+		// special command / command class handling
+		$this->ctrl->setParameter($this, "hier_id", $hier_id);
+		$this->ctrl->setCmd($cmd);
+		$next_class = $this->ctrl->getNextClass($this);
+
+		if ($next_class == "")
+		{
+			switch($ctype)
+			{
+				case "par":
+					$this->ctrl->setCmdClass("ilPCParagraphGUI");
+					break;
+
+				case "tab":
+					$this->ctrl->setCmdClass("ilPCTableGUI");
+					break;
+
+				case "td":
+					$this->ctrl->setCmdClass("ilPCTableDataGUI");
+					break;
+
+				case "mob":
+					$this->ctrl->setCmdClass("ilPCMediaObjectGUI");
+					break;
+
+				case "list":
+					$this->ctrl->setCmdClass("ilPCListGUI");
+					break;
+
+				case "li":
+					$this->ctrl->setCmdClass("ilPCListItemGUI");
+					break;
+
+				case "flst":
+					$this->ctrl->setCmdClass("ilPCFileListGUI");
+					break;
+
+				case "flit":
+					$this->ctrl->setCmdClass("ilPCFileItemGUI");
+					break;
+			}
+			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+//echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
+
+		switch($next_class)
 		{
 			// Paragraph
-			case "par":
-				require_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+			case "ilpcparagraphgui":
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
-				$par_gui->setTargetScript($this->getTargetScript());
-				$par_gui->setReturnLocation($this->getReturnLocation());
-				$par_gui->$cmd();
+				$ret =& $par_gui->executeCommand();
 				break;
 
 			// Table
-			case "tab":
-				require_once ("content/classes/Pages/class.ilPCTableGUI.php");
+			case "ilpctablegui":
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
-				$tab_gui->setTargetScript($this->getTargetScript());
-				$tab_gui->setReturnLocation($this->getReturnLocation());
-				$tab_gui->$cmd();
+				$ret =& $tab_gui->executeCommand();
 				break;
 
 			// Table Cell
-			case "td":
-				require_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
+			case "ilpctabledatagui":
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
-				$td_gui->setTargetScript($this->getTargetScript());
-				$td_gui->setReturnLocation($this->getReturnLocation());
-				$td_gui->$cmd();
+				$ret =& $td_gui->executeCommand();
 				break;
 
-			// Media Object
-			case "mob":
+			// PC Media Object
+			case "ilpcmediaobjectgui":
+			case "ilobjmediaobjectgui":
+				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
+				$tabs_gui =& new ilTabsGUI();
 				if (is_object ($cont_obj))
 				{
+					$pcmob_gui->getTabs($tabs_gui);
 					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
 						$cont_obj->getTitle());
 					$this->displayLocator("mob");
-					$this->setAdminTabs("mob", $hier_id);
+					$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
+					$mob_gui->getTabs($tabs_gui);
 				}
-
-				require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-				$mob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
-				$mob_gui->setTargetScript($this->getTargetScript());
-				$mob_gui->setReturnLocation($this->getReturnLocation());
-				$mob_gui->$cmd();
+				else
+				{
+					$pcmob_gui->getTabs($tabs_gui, true);
+				}
+				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+				if ($next_class == "ilpcmediaobjectgui")
+				{
+					$pcmob_gui->executeCommand();
+				}
+				else
+				{
+					$ret =& $mob_gui->executeCommand();
+				}
 				break;
 
 			// List
-			case "list":
-				require_once ("content/classes/Pages/class.ilPCListGUI.php");
+			case "ilpclistgui":
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
-				$list_gui->setTargetScript($this->getTargetScript());
-				$list_gui->setReturnLocation($this->getReturnLocation());
-				$list_gui->$cmd();
+				$ret =& $list_gui->executeCommand();
 				break;
 
 			// List Item
-			case "li":
-				require_once ("content/classes/Pages/class.ilPCListItemGUI.php");
+			case "ilpclistitemgui":
 				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
-				$list_item_gui->setTargetScript($this->getTargetScript());
-				$list_item_gui->setReturnLocation($this->getReturnLocation());
-				$list_item_gui->$cmd();
+				$ret =& $list_item_gui->executeCommand();
 				break;
 
 			// File List
-			case "flst":
-				require_once ("content/classes/Pages/class.ilPCFileListGUI.php");
+			case "ilpcfilelistgui":
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
-				$file_list_gui->setTargetScript($this->getTargetScript());
-				$file_list_gui->setReturnLocation($this->getReturnLocation());
-				$file_list_gui->$cmd();
+				$ret =& $file_list_gui->executeCommand();
 				break;
 
 			// File List Item
-			case "flit":
-				require_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
+			case "ilpcfileitemgui":
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
-				$file_item_gui->setTargetScript($this->getTargetScript());
-				$file_item_gui->setReturnLocation($this->getReturnLocation());
-				$file_item_gui->$cmd();
+				$ret =& $file_item_gui->executeCommand();
 				break;
 
 		}
@@ -305,28 +338,10 @@ class ilPageEditorGUI
 		}
 	}
 
-	/**
-	* output main header (title and locator)
-	*/
-	/*
-	function main_header($a_header_title, $a_type)
-	{
-		global $lng;
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->setVariable("HEADER", $a_header_title);
-		$this->displayLocator();
-		$this->setAdminTabs($a_type);
-	}*/
-
 	function setAdminTabs($mode = "pg", $a_hier_id = "")
 	{
-		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
 
-		$tabs_gui =& new ilTabsGUI;
-
-		/*$tabs_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
-			$_GET["obj_id"]);*/
 		$tabs_gui->setTargetScript($this->getTargetScript());
 
 		if ($mode != "mob")
@@ -343,38 +358,6 @@ class ilPageEditorGUI
 				$tabs_gui->setTabs(array());
 			}
 		}
-		else
-		{
-			$tabs_gui->setTargetScript(
-				ilUtil::appendUrlParameterString($tabs_gui->getTargetScript(),
-				"hier_id=".$a_hier_id));
-			$tabs[] = array("cont_mob_inst_prop", "editAlias");
-			$tabs[] = array("cont_mob_prop", "edit");
-			$tabs[] = array("cont_mob_files", "editFiles");
-			$tabs[] = array("cont_mob_usages", "showUsages");
-			if (is_object($this->cont_obj))
-			{
-				$st_item =& $this->cont_obj->getMediaItem("Standard");
-				if (is_object($st_item))
-				{
-					$format = $st_item->getFormat();
-					if (substr($format, 0, 5) == "image")
-					{
-						$tabs[] = array("cont_map_areas", "editMapAreas");
-					}
-				}
-			}
-			$tabs[] = array("cont_back", "returnToContext");
-			/*
-			$tabs_gui->setTabs(array(array("cont_mob_inst_prop", "editAlias"),
-				array("cont_mob_prop", "edit"),
-				array("cont_mob_files", "editFiles"),
-				array("cont_mob_usages", "showUsages"),
-				array("cont_back", "returnToContext")
-				));*/
-			$tabs_gui->setTabs($tabs);
-		}
-		$tabs_gui->display();
 	}
 
 }

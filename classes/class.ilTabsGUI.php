@@ -79,6 +79,8 @@ class ilTabsGUI
 		$this->tabs = $a_tabs;
 	}
 
+
+
 	function display()
 	{
 
@@ -141,6 +143,64 @@ class ilTabsGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	function getTargetsByObjectType(&$a_gui_obj, $a_type)
+	{
+		global $ilCtrl;
+
+		$d = $this->objDefinition->getProperties($a_type);
+
+		foreach ($d as $key => $row)
+		{
+			$this->addTarget($row["lng"],
+				$ilCtrl->getLinkTarget($a_gui_obj, $row["name"]),
+				$row["name"], get_class($a_gui_obj));
+		}
+	}
+
+	function addTarget($a_text, $a_link, $a_cmd = "", $a_cmdClass = "", $a_frame = "")
+	{
+		$a_cmdClass = strtolower($a_cmdClass);
+
+		$this->target[] = array("text" => $a_text, "link" => $a_link,
+			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass);
+	}
+
+	function getHTML()
+	{
+		global $ilCtrl, $lng;
+
+		$cmd = $ilCtrl->getCmd();
+		$cmdClass = $ilCtrl->getCmdClass();
+
+		$tpl = new ilTemplate("tpl.tabs.html", true, true);
+
+		foreach ($this->target as $target)
+		{
+			$i++;
+			if ($target["cmd"] == $cmd &&
+				($target["cmdClass"] == $cmdClass || $cmdClass == ""))
+			{
+				$tabtype = "tabactive";
+			}
+			else
+			{
+				$tabtype = "tabinactive";
+			}
+
+			$tpl->setCurrentBlock("tab");
+			$tpl->setVariable("TAB_TYPE", $tabtype);
+			$tpl->setVariable("TAB_LINK", $target["link"]);
+			$tpl->setVariable("TAB_TEXT", $lng->txt($target["text"]));
+			$tpl->setVariable("TAB_TARGET", $target["frame"]);
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
+
+
 
 }
 ?>

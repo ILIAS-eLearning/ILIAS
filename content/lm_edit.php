@@ -44,9 +44,13 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
-// editor GUI class does the rest
 require_once "./content/classes/class.ilLMEditorGUI.php";
+$ilCtrl->setTargetScript("lm_edit.php");
+$ilCtrl->getCallStructure("ilLMEditorGUI");
+
+// editor GUI class does the rest
 $lm_editor_gui =& new ilLMEditorGUI();
+$lm_editor_gui->executeCommand();
 
 //$tpl->show();
 

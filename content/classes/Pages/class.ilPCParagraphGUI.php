@@ -48,22 +48,45 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 
 	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
+	/**
 	* edit paragraph form
 	*/
 	function edit()
 	{
+		// set tabs
+		$this->setTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
-			$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ILINK",
+				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 		}
 
@@ -100,8 +123,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"par_characteristic",$char,false,true);
 		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
 
-
-//echo "cmd:".key($_POST["cmd"]).":<br>";
 		if (key($_POST["cmd"]) == "update")
 		{
 			$s_text = stripslashes($_POST["par_content"]);
@@ -130,17 +151,19 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilUser;
 
+		// set tabs
+		$this->setTabs();
+
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=edpost"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
-			$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+			$this->tpl->setVariable("LINK_ILINK",
+				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 		}
 
@@ -229,6 +252,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
+		global $ilBench;
+
+		$ilBench->start("Editor","Paragraph_update");
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
@@ -239,14 +265,18 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($this->updated !== true)
 		{
 //echo "Did not update!";
+			$ilBench->stop("Editor","Paragraph_update");
 			$this->edit();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
+
+		$ilBench->stop("Editor","Paragraph_update");
+
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
@@ -275,12 +305,37 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			ilUtil::redirect($this->getReturnLocation());
+			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
 			$this->insert();
 		}
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
 	}
 
 
