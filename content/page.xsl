@@ -974,7 +974,7 @@
 	<xsl:param name="location_mode"/>
 	<xsl:param name="curType"/>
 	<xsl:choose>
-		<xsl:when test="$media_mode = 'disable' and $mode='edit'">
+		<xsl:when test="($media_mode = 'disable' and $mode='edit') or $mode='table_edit'">
 			<img border="0">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>

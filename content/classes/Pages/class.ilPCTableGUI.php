@@ -104,7 +104,8 @@ class ilPCTableGUI extends ilPageContentGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'table_edit');
+		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
+		$params = array ('mode' => 'table_edit', 'med_disabled_path' => $med_disabled_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
