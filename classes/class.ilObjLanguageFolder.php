@@ -191,6 +191,7 @@ class ilObjLanguageFolder extends ilObject
 			}
 		}
 
+		chdir($tmpPath);
 		// Insert languages with files new found into table language
 		$languages = $this->addNewLanguages($languages);
 
@@ -202,8 +203,6 @@ class ilObjLanguageFolder extends ilObject
 		{
 			$languages[$lang_key]["name"] = $lng->txt("lang_".$lang_key);
 		}
-
-		chdir($tmpPath);
 
 		$this->languages = $languages;
 		return $this->languages;
@@ -227,7 +226,7 @@ class ilObjLanguageFolder extends ilObject
 			{
 				if ($lang_data["info"] == "new_language")
 				{
-					require_once("../classes/class.ilObjLanguage.php");
+					include_once("./classes/class.ilObjLanguage.php");
 					$lngObj =& new ilObjLanguage();
 					$lngObj->setTitle($lang_key);
 					$lngObj->setDescription("not_installed");
