@@ -223,6 +223,181 @@ class ilObjCourseGUI extends ilObjectGUI
 			
 	}
 
+	function listStructureObject()
+	{
+		include_once './course/classes/class.ilCourseStart.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_list_starter.html","course");
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		if(!count($starter = $crs_start->getStartObjects()))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selectStarter'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_add_starter'));
+			$this->tpl->parseCurrentBlock();
+
+			sendInfo($this->lng->txt('crs_no_starter_created'));
+
+			return true;
+		}
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_start_objects'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("HEADER_OPT",$this->lng->txt('options'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('crs_add_starter'));
+
+		$counter = 0;
+		foreach($starter as $start_id => $data)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($data['item_ref_id']);
+
+			if(strlen($tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_STARTER",$tmp_obj->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("starter_row");
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("STARTER_TITLE",$tmp_obj->getTitle());
+
+			$this->ctrl->setParameter($this,'del_starter',$start_id);
+			$this->tpl->setVariable("DELETE_LINK",$this->ctrl->getLinkTarget($this,'deleteStarter'));
+			$this->tpl->setVariable("DELETE_IMG",ilUtil::getImagePath('delete.gif'));
+			$this->tpl->setVariable("DELETE_ALT",$this->lng->txt('delete'));
+ 			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function deleteStarterObject()
+	{
+		include_once './course/classes/class.ilCourseStart.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
+		$crs_start->delete((int) $_GET['del_starter']);
+	
+		sendInfo($this->lng->txt('crs_starter_deleted'));
+		$this->listStructureObject();
+		
+		return true;
+	}
+		
+
+	function selectStarterObject()
+	{
+		include_once './course/classes/class.ilCourseStart.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html","course");
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('back'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_crs.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs'));
+		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_select_starter'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('crs_add_starter'));
+
+		
+		$this->object->initCourseItemObject();
+		$counter = 0;
+		foreach($crs_start->getPossibleStarters($this->object->items_obj) as $item_ref_id)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($item_ref_id);
+
+			if(strlen($tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("description");
+				$this->tpl->setVariable("DESCRIPTION_STARTER",$tmp_obj->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("starter_row");
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("CHECK_STARTER",ilUtil::formCheckbox(0,'starter[]',$item_ref_id));
+			$this->tpl->setVariable("STARTER_TITLE",$tmp_obj->getTitle());
+ 			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function addStarterObject()
+	{
+		include_once './course/classes/class.ilCourseStart.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(!count($_POST['starter']))
+		{
+			sendInfo($this->lng->txt('crs_select_one_object'));
+			$this->selectStarterObject();
+
+			return false;
+		}
+
+		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
+		$added = 0;
+		foreach($_POST['starter'] as $item_ref_id)
+		{
+			if(!$crs_start->exists($item_ref_id))
+			{
+				++$added;
+				$crs_start->add($item_ref_id);
+			}
+		}
+		if($added)
+		{
+			sendInfo($this->lng->txt('crs_added_starters'));
+			$this->listStructureObject();
+
+			return true;
+		}
+		else
+		{
+			sendInfo($this->lng->txt('crs_starters_already_assigned'));
+			$this->selectStarterObject();
+
+			return false;
+		}
+	}
 	function editObject()
 	{
 		global $rbacsystem;
@@ -244,6 +419,11 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'listStructure'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('crs_crs_structure'));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1903,7 +2083,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			else
 			{
 				$tabs_gui->addTarget('view_content',
-									 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+									 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
 			}
 		}
 		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())

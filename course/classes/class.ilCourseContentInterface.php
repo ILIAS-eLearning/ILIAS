@@ -130,13 +130,27 @@ class ilCourseContentInterface
 	{
 		include_once "./classes/class.ilRepositoryExplorer.php";
 		include_once "./payment/classes/class.ilPaymentObject.php";
+		include_once './course/classes/class.ilCourseStart.php';
 
 		global $rbacsystem;
 		global $ilias;
+		global $ilUser;
 
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 		$enabled_objectives = $this->cci_course_obj->enabledObjectiveView();
 		$view_objectives = ($enabled_objectives and ($this->cci_ref_id == $this->cci_course_obj->getRefId()));
+
+		// Jump to start objects if there is one
+		$start_obj =& new ilCourseStart($this->cci_course_obj->getRefId(),$this->cci_course_obj->getId());
+		if(count($this->starter = $start_obj->getStartObjects()) and 
+		   !$start_obj->isFullfilled($ilUser->getId()) and 
+		   !$write_perm)
+		{
+			$this->cci_start_objects();
+
+			return true;
+		}
+
 
 		// Jump to objective view if selected or user is only member
 		if(($view_objectives and !$write_perm) or ($_SESSION['crs_viewmode'] == 'objectives' and $write_perm))
@@ -498,9 +512,133 @@ class ilCourseContentInterface
 
 		return true;
 	}
+	
+	function cci_start_objects()
+	{
+		include_once './course/classes/class.ilCourseLMHistory.php';
+		include_once './classes/class.ilRepositoryExplorer.php';
+
+		global $rbacsystem,$ilias,$ilUser;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html","course");
+		#$this->__showButton('view',$this->lng->txt('refresh'));
+		
+		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
+		$this->tpl->setVariable("TBL_TITLE_START",$this->lng->txt('crs_table_start_objects'));
+		$this->tpl->setVariable("HEADER_NR",$this->lng->txt('crs_nr'));
+		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
+		$this->tpl->setVariable("HEADER_EDITED",$this->lng->txt('crs_objective_accomplished'));
+
+
+		$lm_continue =& new ilCourseLMHistory($this->cci_ref_id,$ilUser->getId());
+		$continue_data = $lm_continue->getLMHistory();
+
+		$counter = 0;
+		foreach($this->starter as $start)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($start['item_ref_id']);
+
+			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_obj->getId());
+
+			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_obj->getRefId(),$tmp_obj->getType());
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$tmp_obj->getRefId(),$tmp_obj->getId());
+			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+
+			// Tmp fix for tests
+			$obj_frame = $tmp_obj->getType() == 'tst' ? 'bottom' : $obj_frame;
+
+			$contentObj = false;
+
+			if(ilRepositoryExplorer::isClickable($tmp_obj->getType(),$tmp_obj->getRefId(),$tmp_obj->getId()))
+			{
+				$this->tpl->setCurrentBlock("start_read");
+				$this->tpl->setVariable("READ_TITLE_START",$tmp_obj->getTitle());
+				$this->tpl->setVariable("READ_TARGET_START",$obj_frame);
+				$this->tpl->setVariable("READ_LINK_START", $obj_link.'&crs_show_result='.$this->cci_ref_id);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("start_visible");
+				$this->tpl->setVariable("VISIBLE_LINK_START",$tmp_obj->getTitle());
+				$this->tpl->parseCurrentBlock();
+			}
+			// add to desktop link
+			if(!$ilias->account->isDesktopItem($tmp_obj->getRefId(),$tmp_obj->getType()) and 
+			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
+			{
+				if ($rbacsystem->checkAccess('read',$tmp_obj->getRefId()))
+				{
+					$this->tpl->setCurrentBlock("start_desklink");
+					$this->tpl->setVariable("DESK_LINK_START", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+											"&item_ref_id=".$tmp_obj->getRefId()."&type=".$tmp_obj->getType());
+
+					$this->tpl->setVariable("TXT_DESK_START", $this->lng->txt("to_desktop"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			// CONTINUE LINK
+			if(isset($continue_data[$tmp_obj->getRefId()]))
+			{
+				$this->tpl->setCurrentBlock("start_continuelink");
+				$this->tpl->setVariable("CONTINUE_LINK_START",'./content/lm_presentation.php?ref_id='.$tmp_obj->getRefId().'&obj_id='.
+										$continue_data[$tmp_obj->getRefId()]['lm_page_id']);
+
+				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
+					'bottom' :
+					'ilContObj'.$cont_data[$obj_id]['obj_page_id'];
+					
+				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
+				$this->tpl->setVariable("TXT_CONTINUE_START",$this->lng->txt('continue_work'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// Description
+			if(strlen($tmp_obj->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("start_description");
+				$this->tpl->setVariable("DESCRIPTION_START",$tmp_obj->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+
+			switch($tmp_obj->getType())
+			{
+				case 'tst':
+					include_once './assessment/classes/class.ilObjTest.php';
+					$accomplished = ilObjTest::_checkCondition($tmp_obj->getId(),'finished','') ? 'accomplished' : 'not_accomplished';
+					break;
+
+				default:
+					$accomplished = isset($continue_data[$tmp_obj->getRefId()]) ? 'accomplished' : 'not_accomplished';
+					break;
+			}
+			$this->tpl->setCurrentBlock("start_row");
+			$this->tpl->setVariable("EDITED_IMG",ilUtil::getImagePath('crs_'.$accomplished.'.gif'));
+			$this->tpl->setVariable("EDITED_ALT",$this->lng->txt('crs_objective_'.$accomplished));
+			$this->tpl->setVariable("ROW_CLASS",'option_value');
+			$this->tpl->setVariable("ROW_CLASS_CENTER",'option_value_center');
+			$this->tpl->setVariable("OBJ_NR_START",++$counter.'.');
+			$this->tpl->parseCurrentBlock();
+		}			
+		return true;
+	}
+
 	function cci_objectives()
 	{
-		global $rbacsystem;
+		include_once "./course/classes/class.ilCourseStart.php";
+
+		global $rbacsystem,$ilUser;
+
+		// Jump to start objects if there is one
+		$start_obj =& new ilCourseStart($this->cci_course_obj->getRefId(),$this->cci_course_obj->getId());
+		if(count($this->starter = $start_obj->getStartObjects()) and !$start_obj->isFullfilled($ilUser->getId()))
+		{
+			$this->cci_start_objects();
+
+			return true;
+		}
+
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
 		$this->__showButton('cciObjectivesAskReset',$this->lng->txt('crs_reset_results'));
