@@ -139,11 +139,10 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
 		//$title = $this->object->getTitle();
-		$locatorscript = "group.php?cmd=choose_view&";
 		infoPanel();
 		sendInfo();
 		$this->setAdminTabs($tabs, $addtab);
-		$this->setLocator($locatorscript);
+		$this->setLocator();
 	}
 
 	/**
@@ -423,7 +422,7 @@ class ilGroupGUI extends ilObjectGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("groups"));
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("group_details"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->parseCurrentBlock();
 
@@ -2001,24 +2000,23 @@ class ilGroupGUI extends ilObjectGUI
 
 	/**
 	* set Locator
-	*
-	* @param	object	tree object
-	* @param	integer	reference id
-	* @param	scriptanme that is used for linking; if not set group.php is used
 	* @access	public
 	*/
-	function setLocator($scriptname="group.php?")
+	function setLocator()
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-		$path = $this->grp_tree->getPathFull($_GET["ref_id"]);
 
-		// this is a stupid workaround for a bug in PEAR:IT
 		$modifier = 1;
 
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 1;
-		}
+		$path = $this->grp_tree->getPathFull($_GET["ref_id"]);
+
+		$this->tpl->touchBlock("locator_separator");
+
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->lng->txt("groups"));
+		$this->tpl->setVariable("LINK_ITEM", "grp_list.php");
+		$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+		$this->tpl->parseCurrentBlock();
 
 		foreach ($path as $key => $row)
 		{
@@ -2026,11 +2024,10 @@ class ilGroupGUI extends ilObjectGUI
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
-
+			
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
-			//$this->tpl->setVariable("LINK_TARGET", $target);
-			$this->tpl->setVariable("LINK_ITEM", $scriptname."ref_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM", "group.php?ref_id=".$row["child"]);
 			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 			$this->tpl->parseCurrentBlock();
 		}

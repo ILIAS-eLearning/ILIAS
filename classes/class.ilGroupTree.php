@@ -126,7 +126,7 @@ class ilGroupTree extends ilTree
 		//init variables
 		if (empty($a_root_id))
 		{
-			$a_root_id = ROOT_FOLDER_ID;
+			$a_root_id = $a_tree_id;
 		}
 
 		$this->tree_id		  = $a_tree_id;

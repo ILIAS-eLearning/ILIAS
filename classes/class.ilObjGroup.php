@@ -341,13 +341,13 @@ class ilObjGroup extends ilObject
 			$this->m_grpStatus = 2;
 		}
 
-		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getId()."'";
+		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getRefId()."'";
 		$res		= $this->ilias->db->query($sql_query1);
 
 		if($res->numRows() == 0)
-			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$this->m_grpStatus.")";
+			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getRefId().",".$this->m_grpStatus.")";
 		else
-			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getId()."'";
+			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getRefId()."'";
 
 		$res = $this->ilias->db->query($sql_query);
 	}
@@ -359,7 +359,7 @@ class ilObjGroup extends ilObject
 	*/
 	function getGroupStatus()
 	{
-		$sql_query = "SELECT status FROM grp_data WHERE grp_id=".$this->getId();
+		$sql_query = "SELECT status FROM grp_data WHERE grp_id=".$this->getRefId();
 		$res = $this->ilias->db->query($sql_query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		if($res->numRows() == 0)
@@ -704,10 +704,10 @@ class ilObjGroup extends ilObject
 			return false;
 		}
 		
-		$query = "DELETE FROM grp_tree WHERE tree=".$this->getId();
+		$query = "DELETE FROM grp_tree WHERE tree=".$this->getRefId();
 		$this->ilias->db->query($query);
 		
-		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getId();
+		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getRefId();
 		$this->ilias->db->query($query);
 		
 		

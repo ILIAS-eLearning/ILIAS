@@ -24,7 +24,6 @@
 require_once "./classes/class.ilTableGUI.php";
 require_once "./classes/class.ilGroupGUI.php";
 
-
 /**
 * Course and Learning Module List GUI Class
 *
@@ -57,13 +56,15 @@ class ilGroupListGUI
 		$this->rbacsystem = $rbacsystem;
 
 		$cmd = $_GET["cmd"];
-		if($cmd == "")
+
+		if ($cmd == "")
 		{
 			$cmd = "view";
 		}
-		if($cmd == "post")
+
+		if ($cmd == "post")
 		{
-			if(isset($_POST["cmd"]["action"]))
+			if (isset($_POST["cmd"]["action"]))
 			{
 				$cmd = $_POST["action_type"];
 			}
@@ -127,7 +128,7 @@ class ilGroupListGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("learning_objects"));
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("groups"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "grp_list.php?cmd=explorer&expand=".$_GET["expand"]);
 		$this->tpl->parseCurrentBlock();
@@ -138,7 +139,6 @@ class ilGroupListGUI
 	/**
 	* displays list of groups that are located under the node given by ref_id
 	*/
-
 	function displayList()
 	{
 
@@ -167,6 +167,7 @@ class ilGroupListGUI
 		{
 			$limit = 10;	// TODO: move to user settings
 		}
+
 		if ($offset == "")
 		{
 
@@ -238,6 +239,7 @@ class ilGroupListGUI
 						}
 					}
 				}
+				
 				break;
 		}
 
@@ -246,7 +248,6 @@ class ilGroupListGUI
 		include_once "./include/inc.sort.php";
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($cont_arr,$offset,$limit);
-
 
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
@@ -292,7 +293,6 @@ class ilGroupListGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-
 		$tbl->setTitle($this->lng->txt("groups_overview"),"icon_grp_b.gif",$this->lng->txt("groups_overview"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
@@ -312,8 +312,6 @@ class ilGroupListGUI
 		$this->tpl->show();
 	}
 
-	
-
 	function create()
 	{
 		header("Location: obj_location_new.php?new_type=".$_POST["new_type"]."&from=lo_list.php");
@@ -322,13 +320,14 @@ class ilGroupListGUI
 
 	function edit()
 	{
-		if(!is_array($_POST["items"]))
+		if (!is_array($_POST["items"]))
 		{
 			$this->message .= $this->lng->txt("select_one");
 			$this->view();
 			return;
 		}
-		foreach($_POST["items"] as $item)
+
+		foreach ($_POST["items"] as $item)
 		{
 			header("location: ./content/lm_edit.php?ref_id=$item");
 			exit;
@@ -337,9 +336,8 @@ class ilGroupListGUI
 
 	function export()
 	{
-		
 		//  select min one element
-		if(!is_array($_POST["items"]) || count($_POST["items"])==0 )
+		if (!is_array($_POST["items"]) || count($_POST["items"])==0 )
 		{
 			$this->message .= $this->lng->txt("select_one");
 			$this->view();
@@ -347,22 +345,23 @@ class ilGroupListGUI
 		}
 		
 		// select max one element
-		if(count($_POST["items"])>1)
+		if (count($_POST["items"])>1)
 		{
 			$this->message .= $this->lng->txt("select_one");
 			$this->view();
 			return;
 		}
 		
-		if($_POST["items"])
+		if ($_POST["items"])
 		{
 			
-			foreach($_POST["items"] as $item)
+			foreach ($_POST["items"] as $item)
 			{
 				/**
 				*	exports just dbk-objects.
 				*/
 				$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
+
 				if ($tmp_obj->getType() == "dbk" ) {
 					require_once "content/classes/class.ilObjDlBook.php";
 					$dbk =& new ilObjDlBook($this->id, true);
@@ -372,20 +371,21 @@ class ilGroupListGUI
 				// DO SOMETHING $item = ref_id of selected object
 			}
 		}
+
 		$this->view();
 	}
 
 	function addToDesk()
 	{
-		if($_GET["ref_id"] and $_GET["type"])
+		if ($_GET["ref_id"] and $_GET["type"])
 		{
 			$this->ilias->account->addDesktopItem($_GET["ref_id"],$_GET["type"]);
 		}
 		else
 		{
-			if($_POST["items"])
+			if ($_POST["items"])
 			{
-				foreach($_POST["items"] as $item)
+				foreach ($_POST["items"] as $item)
 				{
 					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($item);
 					$this->ilias->account->addDesktopItem($item, $tmp_obj->getType());
@@ -393,6 +393,7 @@ class ilGroupListGUI
 				}
 			}
 		}
+
 		$this->view();
 	}
 
@@ -407,7 +408,6 @@ class ilGroupListGUI
 	*/
 	function getContextPath($a_endnode_id, $a_startnode_id = 0)
 	{
-
 		$path = "";
 
 		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);
@@ -425,7 +425,6 @@ class ilGroupListGUI
 
 		return $path;
 	}
-
 
 	/**
 	* show possible subobjects (pulldown menu)
@@ -537,25 +536,13 @@ class ilGroupListGUI
 			}
 			else
 			{
-				$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
+				$this->tpl->setVariable("ITEM", $this->lng->txt("groups_overview"));
 			}
-			$this->tpl->setVariable("LINK_ITEM", "lo_list.php?cmd=displayList&ref_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM", "grp_list.php");
 			//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
 
 			$this->tpl->parseCurrentBlock();
-
 		}
-
-		/*
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("LINK_ITEM", "lo_list.php?ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
-			$this->tpl->parseCurrentBlock();
-		}*/
 
 		$this->tpl->setCurrentBlock("locator");
 
