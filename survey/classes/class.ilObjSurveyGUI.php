@@ -1840,6 +1840,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->object->moveDownQuestionblock($_GET["qbdown"]);
 		}
+		
+		if ($_POST["cmd"]["saveObligatory"])
+		{
+			$obligatory_states = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/obligatory_(\d+)/", $key, $matches))
+				{
+					$obligatory[$matches[1]] = 1;
+				}
+			}
+			$this->object->setObligatoryStates($obligatory);
+		}
+		
 		if ($_POST["cmd"]["insert_before"] or $_POST["cmd"]["insert_after"])
 		{
 			// get all questions to move
@@ -2144,13 +2158,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			if (count($checked_questions) + count($checked_questionblocks) > 0) {
-//				$total = $this->object->evalTotalPersons();
-//				if ($total) {
-					// the test was executed previously
-//					sendInfo(sprintf($this->lng->txt("remove_questions_and_results"), $total));
-//				} else {
-					sendInfo($this->lng->txt("remove_questions"));
-//				}
+				sendInfo($this->lng->txt("remove_questions"));
 				$this->removeQuestionsForm($checked_questions, $checked_questionblocks);
 				return;
 			} else {
@@ -2310,7 +2318,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
 				$this->tpl->setVariable("CONSTRAINTS", $this->lng->txt("constraints"));
