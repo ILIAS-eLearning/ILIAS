@@ -28,39 +28,6 @@
 <script src="./js/functions.js" language="JavaScript" type="text/javascript"></script>
 <script src="./js/wz_dragdrop.js" language="JavaScript" type="text/javascript"></script>
 
-<div id="wcontextmenu" style="position:absolute;left:0;top:0;visibility:hidden;">
-<table border=1 cellspacing=0 cellpadding=0 bgcolor=white ><tr><td>
-
-    <table cellspacing=0 cellpadding=2 border=0>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'edit');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Bearbeiten</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_par');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Absatz einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_src');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Code einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_tab');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Tabelle einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_mob');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Medien einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_list');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Liste einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="doActionForm('cmd[exec]', 'command', 'insert_flst');" onMouseOver="M_in(this);" onMouseOut="M_out(this);">Dateiliste einf&uuml;gen</td>
-        </tr>
-        <tr>
-            <td onClick="if (confirm('Wirklich l&ouml;schen ?')) {doActionForm('cmd[exec]', 'command', 'delete');}" onMouseOver="M_in(this);" onMouseOut="M_out(this);">L&ouml;schen</td>
-        </tr>
-    </table>
-
-</td></tr></table>
-</div>
-
 <!-- content of this layer will be changed to create a form to submit the action of the selected menuitem -->
 <div id="actionForm"></div>
 
@@ -74,28 +41,15 @@ var actionUrl = "{FORMACTION}";
 
 <script language="JavaScript" type="text/javascript">
 
-    SET_DHTML("contextmenu","actionForm","dragdropsymbol");
+    SET_DHTML("actionForm","dragdropsymbol");
 
 	<!-- BEGIN add_dhtml -->
-	obj = document.getElementById("{CONTEXTMENU}");
-	if (obj)
-	{
 		ADD_DHTML("{CONTEXTMENU}");
-	}
+		dd.elements.{CONTEXTMENU}.setDraggable(false); 
 	<!-- END add_dhtml -->
 	
-	/*
-    for (i=0;i<100;i++) {
-        obj = document.getElementById("contextmenu_"+i);
-        if (obj) {
-            ADD_DHTML("contextmenu_"+i);
-        }
-    }
-    obj = document.getElementById("contextmenu_pg");
-    if (obj) {
-        ADD_DHTML("contextmenu_pg");
-    }*/
-    
+	dd.elements.dragdropsymbol.moveTo(-1000,-1000);
+	
     /*  Nur test
     for (i=0;i<100;i++) {
         obj = document.getElementById("CONTENT"+i);
