@@ -523,6 +523,9 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("VALUE_MATCHING_AUTHOR", $this->question->get_author());
     $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
+		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));
+		$this->tpl->setVariable("TEXT_TYPE_TERMS_DEFINITIONS", $this->lng->txt("match_terms_and_definitions"));
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -992,28 +995,21 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_matching_question() {
     foreach ($this->question->matchingpairs as $key => $value) {
-      $array_answer[$value->get_order()] = $value->get_answertext();
       $array_matching[$value->get_matchingtext_order()] = $value->get_matchingtext();
     }
-    asort($array_answer);
     asort($array_matching);
     
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
     $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
-      $this->tpl->setCurrentBlock("answer_combo");
-      foreach ($array_answer as $answer_key => $answer_value) {
-        $this->tpl->setVariable("COMBO_ANSWER_VALUE", $answer_value);
-        $this->tpl->setVariable("COMBO_ANSWER", $answer_key);
-        $this->tpl->parseCurrentBlock();
-      }
       $this->tpl->setCurrentBlock("matching_combo");
       foreach ($array_matching as $match_key => $match_value) {
         $this->tpl->setVariable("COMBO_MATCHING_VALUE", $match_value);
         $this->tpl->setVariable("COMBO_MATCHING", $match_key);
         $this->tpl->parseCurrentBlock();
       }
-      $this->tpl->setVariable("COUNTER", $key);
+      $this->tpl->setVariable("COUNTER", $value->get_order());
+      $this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_answertext() . "</strong>");
       $this->tpl->setVariable("TEXT_MATCHES", "matches");
       $this->tpl->parse("matching_question");
     }

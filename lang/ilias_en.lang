@@ -51,6 +51,8 @@ assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
 assessment#:#last_update#:#Last update
 assessment#:#mark_schema#:#Mark schema
+assessment#:#match_terms_and_definitions#:#Match terms and definitions
+assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
 assessment#:#no_questions_available#:#There are no questions available!

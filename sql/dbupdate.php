@@ -1753,3 +1753,5 @@ CREATE TABLE `tst_tests` (
 ) TYPE=MyISAM COMMENT='Tests in ILIAS Assessment';
 <#110>
 ALTER  TABLE  `tst_mark`  ADD  `passed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `minimum_level` ;
+<#111>
+ALTER  TABLE  `qpl_questions`  ADD  `matching_type` ENUM(  '0',  '1'  )  AFTER  `end_tag` ;
