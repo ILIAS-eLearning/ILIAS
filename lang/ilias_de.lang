@@ -32,6 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
+common#:#home#:#Zur Startseite
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen

@@ -32,6 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
+common#:#home#:#Home
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted
@@ -331,7 +332,7 @@ common#:#login_exists#:#There is already a user with this loginname! Please choo
 common#:#login_time#:#Current online time
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
-common#:#logout_text#:#You logged out. Your session has been closed.
+common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
