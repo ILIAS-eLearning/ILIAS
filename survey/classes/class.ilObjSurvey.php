@@ -1302,19 +1302,29 @@ class ilObjSurvey extends ilObject
 * Creates a question block for the question pool
 *
 * @param string $title The title of the question block
+* @param boolean $obligatory True, if the question block is obligatory, otherwise false
 * @param array $questions An array with the database id's of the question block questions
 * @access public
 */
-	function createQuestionblock($title, $questions)
+	function createQuestionblock($title, $obligatory, $questions)
 	{
 		// if the selected questions are not in a continous selection, move all questions of the
 		// questionblock at the position of the first selected question
 		$this->moveQuestions($questions, $questions[0], 0);
+		if ($obligatory)
+		{
+			$obligatory = 1;
+		}
+		else
+		{
+			$obligatory = 0;
+		}
 		
 		// now save the question block
 		global $ilUser;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, obligatory, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$this->ilias->db->quote($title),
+			$this->ilias->db->quote("$obligatory"),
 			$this->ilias->db->quote($ilUser->id)
 		);
 		$result = $this->ilias->db->query($query);

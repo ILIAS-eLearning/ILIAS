@@ -277,11 +277,31 @@ class SurveyOrdinalQuestionGUI {
 */
 	function outWorkingForm()
 	{
+		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+			$category = $this->object->getCategory($i);
+			$this->tpl->setCurrentBlock("ordinal_row");
+			$this->tpl->setVariable("TEXT_ORDINAL", $category);
+			$this->tpl->setVariable("VALUE_ORDINAL", $i);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("question_data_ordinal");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
 		$this->tpl->parseCurrentBlock();
 	}
 
+/**
+* Creates a preview of the question
+*
+* Creates a preview of the question
+*
+* @access private
+*/
+	function outPreviewForm()
+	{
+		$this->tpl->addBlockFile("ORDINAL", "ordinal", "tpl.il_svy_out_ordinal.html", true);
+		$this->outWorkingForm();
+	}
+	
 /**
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 *

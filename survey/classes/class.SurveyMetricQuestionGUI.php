@@ -252,6 +252,19 @@ class SurveyMetricQuestionGUI {
 	}
 
 /**
+* Creates a preview of the question
+*
+* Creates a preview of the question
+*
+* @access private
+*/
+	function outPreviewForm()
+	{
+		$this->tpl->addBlockFile("METRIC", "metric", "tpl.il_svy_out_metric.html", true);
+		$this->outWorkingForm();
+	}
+
+/**
 * Sets the other data i.e. materials uris of a question from a posted create/edit form
 *
 * Sets the other data i.e. materials uris of a question from a posted create/edit form

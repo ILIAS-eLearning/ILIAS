@@ -175,6 +175,19 @@ class SurveyTextQuestionGUI {
 	}
 
 /**
+* Creates a preview of the question
+*
+* Creates a preview of the question
+*
+* @access private
+*/
+	function outPreviewForm()
+	{
+		$this->tpl->addBlockFile("TEXT", "text", "tpl.il_svy_out_text.html", true);
+		$this->outWorkingForm();
+	}
+
+/**
 * Evaluates a posted edit form and writes the form data in the question object
 *
 * Evaluates a posted edit form and writes the form data in the question object

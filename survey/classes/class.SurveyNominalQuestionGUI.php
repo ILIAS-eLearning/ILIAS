@@ -233,11 +233,41 @@ class SurveyNominalQuestionGUI {
 */
 	function outWorkingForm()
 	{
+		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
+			$category = $this->object->getCategory($i);
+			if ($this->object->getSubtype() == SUBTYPE_MCSR)
+			{
+				$this->tpl->setCurrentBlock("nominal_row_sr");
+				$this->tpl->setVariable("TEXT_NOMINAL", $category);
+				$this->tpl->setVariable("VALUE_NOMINAL", $i);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("nominal_row_mr");
+				$this->tpl->setVariable("TEXT_NOMINAL", $category);
+				$this->tpl->setVariable("VALUE_NOMINAL", $i);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		$this->tpl->setCurrentBlock("question_data_nominal");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
 		$this->tpl->parseCurrentBlock();
 	}
 	
+/**
+* Creates a preview of the question
+*
+* Creates a preview of the question
+*
+* @access private
+*/
+	function outPreviewForm()
+	{
+		$this->tpl->addBlockFile("NOMINAL", "nominal", "tpl.il_svy_out_nominal.html", true);
+		$this->outWorkingForm();
+	}
 
 /**
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
