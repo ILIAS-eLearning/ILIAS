@@ -34,6 +34,12 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilMetaData.php");
+require_once "class.assClozeTestGUI.php";
+require_once "class.assImagemapQuestionGUI.php";
+require_once "class.assJavaAppletGUI.php";
+require_once "class.assMatchingQuestionGUI.php";
+require_once "class.assMultipleChoiceGUI.php";
+require_once "class.assOrderingQuestionGUI.php";
 
 class ilObjQuestionPool extends ilObject
 {
@@ -295,11 +301,37 @@ class ilObjQuestionPool extends ilObject
       );
       $result = $this->ilias->db->query($query);
 			$question = new ASS_Question();
-			$question->set_id($question_id);
+			$question->setId($question_id);
 			$question->remove_all_question_references();
 			// delete the question in the tst_test_question table (list of test questions)
 			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 			$deleteresult = $this->ilias->db->query($querydelete);
+    } else {
+      return;
+    }
+  }
+	
+/**
+* Returns the question type of a question with a given id
+* 
+* Returns the question type of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question type string
+* @access private
+*/
+  function getQuestiontype($question_id) 
+  {
+    if ($question_id < 1)
+      return;
+      
+    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
+      $this->ilias->db->quote($question_id)
+    );
+    $result = $this->ilias->db->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			return $data->type_tag;
     } else {
       return;
     }
@@ -320,11 +352,10 @@ class ilObjQuestionPool extends ilObject
 			$this->ilias->db->quote($question_id)
 		);
     $result = $this->ilias->db->query($query);
-    $question_gui =& new ASS_QuestionGUI();
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-    	$question =& $question_gui->create_question("", $row->question_fi);
-			$reached = $question->get_reached_points($row->user_fi, $row->test_fi);
+    	$question =& $this->create_question("", $row->question_fi);
+			$reached = $question->object->get_reached_points($row->user_fi, $row->test_fi);
 			$max = $question->get_maximum_points();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
@@ -425,5 +456,42 @@ class ilObjQuestionPool extends ilObject
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->solution_count;
 	}
+
+  function &createQuestion($question_type, $question_id = -1) {
+    if ((!$question_type) and ($question_id > 0)) {
+			$question_type = $this->getQuestiontype($question_id);
+    }
+    switch ($question_type) {
+      case "qt_multiple_choice_sr":
+        $question =& new ASS_MultipleChoiceGUI();
+        $question->object->set_response(RESPONSE_SINGLE);
+        break;
+      case "qt_multiple_choice_mr":
+        $question =& new ASS_MultipleChoiceGUI();
+        $question->object->set_response(RESPONSE_MULTIPLE);
+        break;
+      case "qt_cloze":
+        $question =& new ASS_ClozeTestGUI();
+        break;
+      case "qt_matching":
+        $question =& new ASS_MatchingQuestionGUI();
+        break;
+      case "qt_ordering":
+        $question =& new ASS_OrderingQuestionGUI();
+        break;
+      case "qt_imagemap":
+        $question =& new ASS_ImagemapQuestionGUI();
+        break;
+			case "qt_javaapplet":
+				$question =& new ASS_JavaAppletGUI();
+				break;
+    }
+		if ($question_id > 0)
+		{
+			$question->object->loadFromDb($question_id);
+		}
+		return $question;
+  }
+	
 } // END class.ilObjQuestionPool
 ?>

@@ -545,7 +545,7 @@ class XMLNestedSet
 		unset($xml2sql);
 	}
 	
-	function load_from_db($db, $xml_object_id) {
+	function loadFromDb($db, $xml_object_id) {
 		$sql2xml = new SQL2XML($db, $xml_object_id);
 		if ($this->doc) {
 			$this->doc->free();

@@ -61,7 +61,7 @@ $result = $ilDB->query($q);
 $taken_array = array();
 while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 	$test = new ilObjTestGUI("", $row->ref_fi, true, false);
-	$test->object->load_from_db();
+	$test->object->loadFromDb();
 	$array_result =& $test->object->get_test_result($ilUser->id);
 	$mark = $test->object->mark_schema->get_matching_mark(100*($array_result["test"]["total_reached_points"]/$array_result["test"]["total_max_points"]));
 //	$array_result["test"]["nr_of_tries"] = $row->nr_of_tries;
