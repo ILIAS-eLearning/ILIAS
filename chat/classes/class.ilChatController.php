@@ -89,6 +89,15 @@ class ilChatController
 			{
 				$_GET["cmd"] = key($_POST["cmd"]);
 			}
+			// Workaround for Internet Explorer (IE). If a user presses
+			// the Enter in the message input field, IE does not send a
+			// "cmd" parameter. We fill in the command "input", because
+			// we can safely assume that the user intended to post the 
+			// message.
+			else if (! $_POST["cmd"] && $_POST["message"])
+			{
+				$_GET["cmd"] = 'input';
+			}
 			else
 			{
 				$_GET["cmd"] = 'cancel';
