@@ -55,7 +55,7 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	//if not authenticated display login screen
 	if (!$ilias->auth->getAuth())
 	{
-		header("location: login.php?from=".urlencode($_SERVER['REQUEST_URI']));
+		header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
 	}
 }
 
