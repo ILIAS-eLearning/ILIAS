@@ -108,7 +108,9 @@ common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
 common#:#cat_create_lm#:#Create Learning Module
+common#:#cat_create_qpl#:#Create Question Pool
 common#:#cat_create_slm#:#Create SCORM Learning Module
+common#:#cat_create_tst#:#Create Test
 common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
