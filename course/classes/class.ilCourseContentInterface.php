@@ -190,7 +190,7 @@ class ilCourseContentInterface
 				}
 				else
 				{
-					$txt = $this->lng->txt("until").": ".strftime("%c",$cont_data["activation_end"]);
+					$txt = $this->lng->txt("until").": ".strftime("%Y-%m-%d %R",$cont_data["activation_end"]);
 				}
 				$tpl->setVariable("ACTIVATION_END",$txt);
 

@@ -4080,3 +4080,13 @@ CREATE TABLE `crs_subscribers` (
   `sub_time` int(11) NOT NULL default '0',
   PRIMARY KEY  (`usr_id`,`obj_id`)
 ) TYPE=MyISAM;
+<#240>
+CREATE TABLE `crs_archives` (
+  `archive_id` int(11) NOT NULL auto_increment,
+  `course_id` int(11) NOT NULL default '0',
+  `archive_name` varchar(255) NOT NULL default '',
+  `archive_type` tinyint(2) NOT NULL default '0',
+  `archive_date` int(11) default NULL,
+  `archive_size` int(11) default NULL,
+  PRIMARY KEY  (`archive_id`)
+) TYPE=MyISAM;

@@ -37,6 +37,8 @@ require_once "./classes/class.ilObject.php";
 class ilObjCourse extends ilObject
 {
 	var $members_obj;
+	var $archives_obj;
+	var $items_obj;
 
 	/**
 	* Constructor
@@ -63,12 +65,9 @@ class ilObjCourse extends ilObject
 		$this->type = "crs";
 		$this->ilObject($a_id,$a_call_by_reference);
 
-		if($a_id == 0)
+		if($a_id != 0)
 		{
-			$this->__initMetaObject(false);
-		}
-		else
-		{
+			$this->__initMetaObject();
 			$this->initCourseMemberObject();
 		}
 	}
@@ -500,9 +499,21 @@ class ilObjCourse extends ilObject
 	*/
 	function updateMetaData()
 	{
+		$this->__initMetaObject();
+
 		$this->meta_data->update();
-		$this->setTitle($this->meta_data->getTitle());
-		$this->setDescription($this->meta_data->getDescription());
+		if ($this->meta_data->section != "General")
+		{
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
 		parent::update();
 	}
 
@@ -518,6 +529,11 @@ class ilObjCourse extends ilObject
 	function __initMetaObject($a_with_id = true)
 	{
 		include_once "./classes/class.ilMetaData.php";
+
+		if(is_object($this->meta_data))
+		{
+			return true;
+		}
 
 		switch($a_with_id)
 		{
@@ -650,6 +666,18 @@ class ilObjCourse extends ilObject
 		}
 		return true;
 	}
+
+	function initCourseArchiveObject()
+	{
+		include_once "./course/classes/class.ilCourseArchives.php";
+
+		if(!is_object($this->archives_obj))
+		{
+			$this->archives_obj =& new ilCourseArchives($this);
+		}
+		return true;
+	}
+		
 
 
 	// RBAC METHODS
