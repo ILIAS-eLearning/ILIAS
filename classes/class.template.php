@@ -55,7 +55,7 @@ class Template extends IntegratedTemplateExtension {
 			else
 			{
 				//choose default skin
-			    $fname .= "default/";
+			    $fname .= $ilias->ini->readVariable("layout","defaultskin")."/";
 				
 			}
 			$fname .= basename($file);
