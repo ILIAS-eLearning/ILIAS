@@ -201,7 +201,139 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 
+	function AccessDenied()
+	{
+		global $ilias, $rbacsystem;
+		$grpObj = new ilObjGroup($_GET["ref_id"],true);
+		$grp	=& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
+		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
+		$_SESSION["status"] 	= 0;
+
+		$tab[0] = array ();
+		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
+		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] = $this->lng->txt("group_access");
+
+		if($grpObj->getGroupStatus() == 0) //open
+		{
+			$stat = "offene Gruppe";
+			$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, das Sie der gewünschten Gruppe beitreten.
+				<br>Als Gruppenmitglied haben Sie folgende Vorteile:
+				<br>- Sie werden über Aktualisierungen informiert
+				<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.
+ 				<br><br>Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.";
+		}
+		else
+		{
+			$msg = "Die von Ihnen angewählte Gruppe ist geschlossen, dass heißt eine Mitgliedschaft ist zur Zeit nicht möglich!";
+			$stat = "geschlossene Gruppe";
+		}
+
+		$this->prepareOutput(false, $tab);
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
+		$this->tpl->addBlockFile("CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
+		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
+		$this->tpl->setVariable("TXT_MESSAGE",$msg);
+
+		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("grp_name").":");
+		$this->tpl->setVariable("GRP_NAME",$grp->getTitle());
+		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("grp_desc").":");
+		$this->tpl->setVariable("GRP_DESC",$grp->getDescription());
+		$this->tpl->setVariable("TXT_GRP_OWNER",$this->lng->txt("owner").":");
+		$this->tpl->setVariable("GRP_OWNER",$grp->getOwner());
+		$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("grp_status").":");
+		$this->tpl->setVariable("GRP_STATUS", $stat);
+
+		$this->tpl->parseCurrentBlock();
+
+/*
+		$this->tpl->setVariable("TXT_COL1","Beschreibung:");
+		$this->tpl->setVariable("TXT_COL2",$grp->getDescription());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TXT_COL1","Zugang:");
+		$this->tpl->setVariable("TXT_COL2",$stat);
+		$this->tpl->parseCurrentBlock();
+*/
+
+//	G R O U P  D E T A I L S
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_details"));
+		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
+		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
+
+		$cont_arr = $this->getContent();
+		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
+
+		$maxcount = count($cont_arr);
+		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
+		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
+
+		//check if user got "write" permissions; if so $access is set true to prevent further database queries in this function
+		 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
+
+		$cont_num = count($cont_arr);
+
+		// render table content data
+		if ($cont_num > 0)
+		{
+			$num = 0;
+			foreach ($cont_arr as $cont_data)
+			{
+				//temporary solution later rolf should be viewablle for grp admin
+				if ($cont_data["type"] != "rolf")
+				{
+					$this->tpl->setCurrentBlock("tbl_content");
+					$newuser = new ilObjUser($cont_data["owner"]);
+					// change row color
+					$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+					$num++;
+
+					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
+
+					$this->tpl->setVariable("TITLE", $cont_data["title"]);
+//					$this->tpl->setVariable("LINK_TARGET", $link_target);
+					$this->tpl->setVariable("IMG", $obj_icon);
+					$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+					$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+					$this->tpl->setVariable("OWNER", $newuser->getFullName());
+					$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("no_content");
+			$this->tpl->setVariable("TXT_MSG_NO_CONTENT",$this->lng->txt("group_any_objects"));
+			$this->tpl->parseCurrentBlock("no_content");
+		}
+
+		// create table
+		$tbl = new ilTableGUI();
+		// buttons in bottom-bar
+		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
+		$tbl->setHeaderVars(array("title","description","status","last_change","context"), array("cmd"=>"accessDenied", "ref_id"=>$_GET["ref_id"]));
+		$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $this->lng->txt("group_details"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		// render table
+		$tbl->render();
+		$this->tpl->show();
+	}
+/*
 	function AccessDenied()
 	{
 		global $ilias;
@@ -215,7 +347,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
 		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] = $this->lng->txt("grp_access");
+		$tab[0]["tab_text"] = $this->lng->txt("group_access");
 
 
 		if($grpObj->getGroupStatus() == 0) //open
@@ -255,6 +387,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 
 	}
+*/
 	/**
 	* calls current view mode (tree frame or list)
 	*/
@@ -269,7 +402,7 @@ class ilGroupGUI extends ilObjectGUI
 		else if(!isset($_SESSION["grp_viewmode"]))
 			$_SESSION["grp_viewmode"] = "flat";	//default viewmode
 
-		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]) || !$this->object->isMember())
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
@@ -294,7 +427,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->view();
 	}
 
-	
+
 	function explorer()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
@@ -378,7 +511,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));		
+		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 
 		//build form
 		$grp_status = $this->object->getGroupStatus();
@@ -395,6 +528,28 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->show();
+	}
+
+	function getContent()
+	{
+		global $rbacsystem;
+		$cont_arr = array();
+		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
+
+//		print_r($this->object);
+		if (count($objects) > 0)
+		{
+			foreach ($objects as $key => $object)
+			{
+				//if ($rbacsystem->checkAccess('visible',$this->object["ref_id"]) or $this->object["type"] == "fold" )
+				if ($rbacsystem->checkAccess('visible',$this->object->getRefId()) or $this->object->getType() == "fold" )
+				{
+					$cont_arr[$key] = $object;
+					//var_dump($cont_arr[$key]);
+				}
+			}
+		}
+		return $cont_arr;
 	}
 
 	/*
@@ -462,7 +617,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 		// set offset & limit
-
+/*
 		$cont_arr = array();
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
@@ -477,6 +632,8 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 		}
+*/
+		$cont_arr = $this->getContent();
 
 		$maxcount = count($cont_arr);
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
