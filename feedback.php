@@ -29,11 +29,11 @@ if ($_POST["msg_send"])
 	{
 		if (mail($recipient, "ILIAS 3 Feedback", $_POST["msg_content"]))
 		{
-			$tpl->setVariable("MSG", $lng->txt("mail_not_sent"));	
+			$tpl->setVariable("MSG", $lng->txt("mail_sent"));
 		}
 		else
 		{
-			$tpl->setVariable("MSG", $lng->txt("mail_sent"));
+			$tpl->setVariable("MSG", $lng->txt("mail_not_sent"));
 		}
 	}
 }
