@@ -1204,8 +1204,12 @@ class ilObjectGUI
 		if (count($not_deletable))
 		{
 			$not_deletable = implode(',',$not_deletable);
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-									 $not_deletable,$this->ilias->error_obj->MESSAGE);
+			session_unregister("saved_post");
+			sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
+			ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+//			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
+//									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
 
 		// DELETE THEM
@@ -1222,7 +1226,9 @@ class ilObjectGUI
 			}
 			else
 			{
-				$this->ilias->raiseError($this->lng->txt("no_perm_delete"),$this->ilias->error_obj->MESSAGE);
+				session_unregister("saved_post");
+				sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
+				ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 			}
 		}
 		else
