@@ -42,7 +42,6 @@ class ilSCORMExplorer extends ilExplorer
 	 * @access private
 	 */
 	var $slm_obj;
-	var $api;
 
 	/**
 	* Constructor
@@ -59,12 +58,6 @@ class ilSCORMExplorer extends ilExplorer
 		$this->checkPermissions(false);
 		$this->outputIcons(true);
 		$this->setOrderColumn("");
-		$this->api = 1;
-	}
-
-	function setAPI($a_api_nr)
-	{
-		$this->api = $a_api_nr;
 	}
 
 	/**
@@ -88,6 +81,7 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+		echo "formatHeader fertig <br>";
 	}
 
 
@@ -107,12 +101,12 @@ class ilSCORMExplorer extends ilExplorer
 			? $a_child
 			: -(int) $a_child;
 
-		$s=($this->api == 2) ? "2" : "";
-		return $_SERVER["PATH_INFO"]."?cmd=explorer$s&ref_id=".$this->slm_obj->getRefId()."&scexpand=".$a_child;
+		return $_SERVER["PATH_INFO"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&scexpand=".$a_child;
 	}
 
 	function setOutput($a_parent_id, $a_depth = 0)
 	{
+
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
 
@@ -311,7 +305,7 @@ class ilSCORMExplorer extends ilExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.scorm_tree.html", true, true, true);
+		$tpl = new ilTemplate("tpl.sahs_tree.html", true, true, true);
 
 	 	if ($a_option["type"]=="sos")
 			return;
@@ -319,36 +313,38 @@ class ilSCORMExplorer extends ilExplorer
 		if ($a_option["type"]=="srs")
 			return;
 
-		foreach ($a_option["tab"] as $picture)
-		{
-			if ($picture == 'plus')
+		if (is_array($a_option["tab"])) { //test if there are any tabs
+			foreach ($a_option["tab"] as $picture)
 			{
-				$target = $this->createTarget('+',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
-				$tpl->parseCurrentBlock();
-			}
-
-			if ($picture == 'minus')
-			{
-				$target = $this->createTarget('-',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
-				$tpl->parseCurrentBlock();
-			}
-
-			if ($picture == 'blank' or $picture == 'winkel'
-			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
-			{
-				$picture = 'blank';
-				$tpl->setCurrentBlock("lines");
-				$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
-				$tpl->parseCurrentBlock();
+				if ($picture == 'plus')
+				{
+					$target = $this->createTarget('+',$a_node_id);
+					$tpl->setCurrentBlock("expander");
+					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+					$tpl->parseCurrentBlock();
+				}
+	
+				if ($picture == 'minus')
+				{
+					$target = $this->createTarget('-',$a_node_id);
+					$tpl->setCurrentBlock("expander");
+					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+					$tpl->parseCurrentBlock();
+				}
+	
+				if ($picture == 'blank' or $picture == 'winkel'
+				   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+				{
+					$picture = 'blank';
+					$tpl->setCurrentBlock("lines");
+					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
-
+		
 		if ($this->output_icons)
 		{
 			if ($this->isClickable($a_option["type"], $a_node_id))
@@ -408,7 +404,7 @@ class ilSCORMExplorer extends ilExplorer
 				}
 				else
 				{
-					$call = "IliasLaunchSco";
+					$call = "IliasLaunchSahs";
 				}
 
 				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));

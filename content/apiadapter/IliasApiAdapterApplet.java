@@ -28,7 +28,7 @@ public	class IliasApiAdapterApplet
 	private String  IliasStudentName;
 	private String  IliasRefId;
 
-	private String  IliasScoId;
+	private String  IliasSahsId;
 	private String  IliasNextObjId;
 
 	private boolean isLaunched  = false;
@@ -58,7 +58,7 @@ public	class IliasApiAdapterApplet
 		try {
 			getAppletContext().showDocument (
 				new URL(getCodeBase()+s),
-				"scorm_content"
+				"sahs_content"
 			);
 		} catch (Exception e) {}
 	}
@@ -67,7 +67,7 @@ public	class IliasApiAdapterApplet
 	 * Methods for Ilias to call via Liveconnect
 	 */
 
-	public	final void IliasLaunchSco (String sco_id) {
+	public	final void IliasLaunchSahs (String sahs_id) {
 		/*
 		if (System.currentTimeMillis() < clickTime + 1000) {
 			say ("Click ignored.");
@@ -75,33 +75,34 @@ public	class IliasApiAdapterApplet
 		}
 		*/
 		if (isLaunching) {
-			say ("SCO " +IliasScoId +" is launching.");
+			say ("SAHS " +IliasSahsId +" is launching.");
 			return;
 		}
-		if (isLaunched && sco_id.equals(IliasScoId)) {
-			say ("SCO " +sco_id +" is already running.");
+		if (isLaunched && sahs_id.equals(IliasSahsId)) {
+			say ("SAHS " +sahs_id +" is already running.");
 			return;
 		}
 		IliasScoCmi.clear();
 
-		say ("Launching sco " +sco_id);
+		say ("Launching sahs " +sahs_id);
 
 		if (isLaunched) {
-			say ("Sco "+IliasScoId +" will be unloaded.");
-			IliasNextObjId = sco_id;
+			say ("SAHS "+IliasSahsId +" will be unloaded.");
+			IliasNextObjId = sahs_id;
 			IliasLaunchContent (
-				 "../scorm_presentation.php?cmd=unloadSco"
-				  +"&sco_id="  + IliasScoId
+				 "../sahs_presentation.php?cmd=unloadSahs"
+				  +"&sahs_id="  + IliasSahsId
+				  +"&ref_id="  + IliasRefId
 			);
 		} else {
 			isLaunching = true;
 			//clickTime = System.currentTimeMillis();
 			IliasNextObjId = null;
-			IliasScoId     = sco_id;
+			IliasSahsId     = sahs_id;
 			IliasLaunchContent (
-				 "../scorm_presentation.php?cmd=launchSco"
+				 "../sahs_presentation.php?cmd=launchSahs"
 				  +"&ref_id="  + IliasRefId
-				  +"&sco_id="  + IliasScoId
+				  +"&sahs_id="  + IliasSahsId
 			);
 		}
 	}
@@ -112,11 +113,11 @@ public	class IliasApiAdapterApplet
 		if (l != null) IliasScoCmi.put (l, r);
 	}
 
-	public	final void IliasAbortSco (String sco_id) {
-		if (!IliasScoId.equals (sco_id)) return;
+	public	final void IliasAbortSahs (String sahs_id) {
+		if (!IliasSahsId.equals (sahs_id)) return;
 		isLaunching = false;
 		if (!isLaunched) return;
-		say ("Warning: sco " +sco_id +" did not call LMSFinish()");
+		say ("Warning: sahs " +sahs_id +" did not call LMSFinish()");
 		IliasFinish (false);
 		core.reset();
 	}
@@ -135,8 +136,8 @@ public	class IliasApiAdapterApplet
 		if (commit) IliasCommit(); // Stupid "implicit commit"
 		isLaunched = false;
 		IliasLaunchContent (
-			"../scorm_presentation.php?cmd=finishSco"
-			  +"&sco_id="  + IliasScoId
+			"../sahs_presentation.php?cmd=finishSahs"
+			  +"&sahs_id="  + IliasSahsId
 			  +"&ref_id="  + IliasRefId
 			  +"&status="  + core.sysGet("cmi.core.lesson_status")
 			  +"&totime="  + core.sysGet("cmi.core.total_time")
@@ -148,18 +149,18 @@ public	class IliasApiAdapterApplet
 		if (isLaunching) return;
 		say ("Launching asset: " +id);
 		if (isLaunched) {
-			say ("Sco "+IliasScoId +" will be unloaded.");
+			say ("SAHS "+IliasSahsId +" will be unloaded.");
 			IliasNextObjId = id;
 			IliasLaunchContent (
-				 "../scorm_presentation.php?cmd=unloadSco"
-				  +"&sco_id="  + IliasScoId
+				 "../sahs_presentation.php?cmd=unloadSahs"
+				  +"&sahs_id="  + IliasSahsId
 			);
 		} else {
 			//clickTime = System.currentTimeMillis();
 			IliasNextObjId = null;
-			IliasScoId     = null;
+			IliasSahsId     = null;
 			IliasLaunchContent (
-				 "../scorm_presentation.php?cmd=launchAsset"
+				 "../sahs_presentation.php?cmd=launchAsset"
 				  +"&ref_id="  + IliasRefId
 				  +"&asset_id="  + id
 			);
@@ -167,7 +168,7 @@ public	class IliasApiAdapterApplet
 	}
 
 	private final String IliasCommit () {
-		if (IliasScoId == null) return "false";
+		if (IliasSahsId == null) return "false";
 
 		core.transEnd();
 		StringBuffer P = new StringBuffer();
@@ -201,11 +202,10 @@ public	class IliasApiAdapterApplet
 		try {
 			po = (HttpURLConnection) ( new java.net.URL (
 				getCodeBase().toString()
-				+ "../scorm_server.php"
+				+ "../sahs_server.php"
 				+ "?cmd=store" 
-				+ "&api=2" 
 				+ "&user_id="+IliasStudentId
-				+ "&sco_id=" +IliasScoId
+				+ "&sahs_id=" +IliasSahsId
 				+ "&ref_id=" +IliasRefId
 			)).openConnection();
 

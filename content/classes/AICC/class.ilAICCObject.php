@@ -129,6 +129,13 @@ class ilAICCObject
 	{
 		$this->alm_id = $a_alm_id;
 	}
+	
+	function prepForStore($string) {
+		if (!get_magic_quotes_runtime()) {
+    	$string = addslashes($string);
+    }
+    return $string;
+	}
 
 	function read()
 	{
@@ -146,11 +153,11 @@ class ilAICCObject
 
 	function create()
 	{
-		$q = "INSERT INTO aicc_object (title, type, alm_id, description, developer_id, system_id) VALUES (";
-		$q.="'".$this->getTitle()."', ";
-		$q.="'".$this->getType()."', ";
+		$q = "INSERT INTO aicc_object (title, type, slm_id, description, developer_id, system_id) VALUES (";
+		$q.="'".$this->prepForStore($this->getTitle())."', ";
+		$q.="'".$this->prepForStore($this->getType())."', ";
 		$q.="'".$this->getALMId()."', ";
-		$q.="'".$this->getDescription()."', ";
+		$q.="'".$this->prepForStore($this->getDescription())."', ";
 		$q.="'".$this->getDeveloperId()."', ";
 		$q.="'".$this->getSystemId()."') ";
 		$this->ilias->db->query($q);
@@ -160,10 +167,10 @@ class ilAICCObject
 	function update()
 	{
 		$q = "UPDATE aicc_object SET ";
-		$q.="title = '".$this->getTitle()."', ";
-		$q.="type = '".$this->getType()."', ";
-		$q.="alm_id = '".$this->getALMId()."', ";
-		$q.="description = '".$this->getDescription()."', ";
+		$q.="title = '".$this->prepForStore($this->getTitle())."', ";
+		$q.="type = '".$this->prepForStore($this->getType())."', ";
+		$q.="slm_id = '".$this->getALMId()."', ";
+		$q.="description = '".$this->prepForStore($this->getDescription())."', ";
 		$q.="developer_id = '".$this->getDeveloperId()."', ";
 		$q.="system_id = '".$this->getSystemId()."' ";
 		$q.="WHERE obj_id = '".$this->getId()."'";

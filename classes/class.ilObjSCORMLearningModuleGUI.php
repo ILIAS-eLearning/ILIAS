@@ -102,14 +102,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","content/sahs_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/scorm_edit.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","content/sahs_edit.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
@@ -127,13 +127,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		// view link
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "sahs_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
 		// scorm lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_properties.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sahs_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
@@ -430,9 +430,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	*/
 	function perm()
 	{
-		$this->setFormAction("permSave", "scorm_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
+		$this->setFormAction("permSave", "sahs_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
-		$this->setFormAction("addRole", "scorm_edit.php?ref_id=".$_GET["ref_id"].
+		$this->setFormAction("addRole", "sahs_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
 		$this->permObject();
 	}
@@ -443,7 +443,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	function permSave()
 	{
 		$this->setReturnLocation("permSave",
-			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->permSaveObject();
 	}
 
@@ -453,7 +453,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	function addRole()
 	{
 		$this->setReturnLocation("addRole",
-			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+			"sahs_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->addRoleObject();
 	}
 
@@ -794,7 +794,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.scorm_edit_frameset.html", false, false, "content");
+		$this->tpl = new ilTemplate("tpl.sahs_edit_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->ref_id);
 		$this->tpl->show();
 	}
@@ -851,9 +851,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
 				}
-				if($row["type"] == "slm")
+				if($row["type"] == "slm" || $row["type"] == "alm" || $row["type"] == "hlm")
 				{
-					$this->tpl->setVariable("LINK_ITEM", "scorm_edit.php?ref_id=".$row["child"]);
+					$this->tpl->setVariable("LINK_ITEM", "sahs_edit.php?ref_id=".$row["child"]."&type=".$row["type"]);
 				}
 				else
 				{
@@ -923,7 +923,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$tabs_gui->addTarget("properties",
 			$this->ctrl->getLinkTarget($this, "properties"), "properties",
 			get_class($this));
-
+		
 		// file system gui tabs
 		if (is_object($this->fs_gui))
 		{

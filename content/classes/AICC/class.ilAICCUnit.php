@@ -147,8 +147,7 @@ class ilAICCUnit extends ilAICCObject
 	{
 		$this->au_password = $a_au_password;
 	}
-
-
+	
 	function read()
 	{
 		parent::read();
@@ -178,17 +177,17 @@ class ilAICCUnit extends ilAICCObject
 									max_score, core_vendor, system_vendor, file_name, mastery_score,
 									web_launch, au_password) VALUES (";
 		$q.="'".$this->getId()."', ";
-		$q.="'".$this->getAUType()."', ";
-		$q.="'".$this->getCommand_line()."', ";
-		$q.="'".$this->getMaxTimeAllowed()."', ";
-		$q.="'".$this->getTimeLimitAction()."', ";
-		$q.="'".$this->getMaxScore()."', ";
-		$q.="'".$this->getCoreVendor()."', ";
-		$q.="'".$this->getSystemVendor()."', ";
-		$q.="'".$this->getFilename()."', ";
-		$q.="'".$this->getMasteryScore()."', ";
-		$q.="'".$this->getWebLaunch()."', ";
-		$q.="'".$this->getAUPassword()."')";
+		$q.="'".$this->prepForStore($this->getAUType())."', ";
+		$q.="'".$this->prepForStore($this->getCommand_line())."', ";
+		$q.="'".$this->prepForStore($this->getMaxTimeAllowed())."', ";
+		$q.="'".$this->prepForStore($this->getTimeLimitAction())."', ";
+		$q.="'".$this->prepForStore($this->getMaxScore())."', ";
+		$q.="'".$this->prepForStore($this->getCoreVendor())."', ";
+		$q.="'".$this->prepForStore($this->getSystemVendor())."', ";
+		$q.="'".$this->prepForStore($this->getFilename())."', ";
+		$q.="'".$this->prepForStore($this->getMasteryScore())."', ";
+		$q.="'".$this->prepForStore($this->getWebLaunch())."', ";
+		$q.="'".$this->prepForStore($this->getAUPassword())."')";
 
 		$this->ilias->db->query($q);
 	}
@@ -198,17 +197,17 @@ class ilAICCUnit extends ilAICCObject
 		parent::update();
 		
 		$q = "UPDATE aicc_units SET ";
-		$q.="type='".$this->getAUType()."', ";
-		$q.="command_line='".$this->getCommand_line()."', ";
-		$q.="max_time_allowed='".$this->getMaxTimeAllowed()."', ";
-		$q.="time_limit_action='".$this->getTimeLimitAction()."', ";
-		$q.="max_score='".$this->getMaxScore()."', ";
-		$q.="core_vendor='".$this->getCoreVendor()."', ";
-		$q.="system_vendor='".$this->getSystemVendor()."', ";
-		$q.="file_name='".$this->getFilename()."', ";
-		$q.="mastery_score='".$this->getMasteryScore()."', ";
-		$q.="web_launch='".$this->getWebLaunch()."', ";
-		$q.="au_password='".$this->getAUPassword()."' ";		
+		$q.="type='".$this->prepForStore($this->getAUType())."', ";
+		$q.="command_line='".$this->prepForStore($this->getCommand_line())."', ";
+		$q.="max_time_allowed='".$this->prepForStore($this->getMaxTimeAllowed())."', ";
+		$q.="time_limit_action='".$this->prepForStore($this->getTimeLimitAction())."', ";
+		$q.="max_score='".$this->prepForStore($this->getMaxScore())."', ";
+		$q.="core_vendor='".$this->prepForStore($this->getCoreVendor())."', ";
+		$q.="system_vendor='".$this->prepForStore($this->getSystemVendor())."', ";
+		$q.="file_name='".$this->prepForStore($this->getFilename())."', ";
+		$q.="mastery_score='".$this->prepForStore($this->getMasteryScore())."', ";
+		$q.="web_launch='".$this->prepForStore($this->getWebLaunch())."', ";
+		$q.="au_password='".$this->prepForStore($this->getAUPassword())."' ";		
 		$q.="WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
@@ -221,11 +220,11 @@ class ilAICCUnit extends ilAICCObject
 
 		$q = "DELETE FROM aicc_units WHERE obj_id =".$ilDB->quote($this->getId());
 		$ilDB->query($q);
-/*
+
 		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sc_item_id = ".$ilDB->quote($this->getId());
+			"sco_id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
-*/
+
 	}
 
 	/**
@@ -236,52 +235,30 @@ class ilAICCUnit extends ilAICCObject
 	function getTrackingDataOfUser($a_user_id = 0)
 	{
 		global $ilDB, $ilUser;
-/*
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
 		}
 
 		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
+			"sco_id = '".$this->getId()."' AND ".
+			"user_id = '".$a_user_id."'";
 
 		$track_set = $ilDB->query($q);
-
-		return $track_set->fetchRow(DB_FETCHMODE_ASSOC);
-*/
-	}
-
-	function getAllTrackingData()
-	{
-		global $ilDB, $ilUser;
-/*
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."'";
-
-		$track_set = $ilDB->query($q);
-
-		$data = array();
-		while($row = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$trdata = array();
+		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$user =& new ilObjUser($row["usr_id"]);
-			$row["user_lastname"] = $user->getLastname();
-			$row["user_firstname"] = $user->getFirstname();
-			$data[] = $row;
-			unset($user);
+			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
 
-		return $data;
-*/
+		return $trdata;
 	}
-
-	function getCumulativeTrackingData()
+	
+	function insertTrackData($a_lval, $a_rval, $a_ref_id)
 	{
-/*
-		$q = "SELECT count(*) FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
-*/
+		require_once("content/classes/SCORM/class.ilObjSCORMTracking.php");
+		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
 	}
 
 }

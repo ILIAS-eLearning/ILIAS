@@ -39,49 +39,19 @@ class ilAICCBlockGUI extends ilAICCObjectGUI
 	function ilAICCBlockGUI($a_id)
 	{
 		parent::ilAICCObjectGUI();
-		$this->sc_object =& new ilAICCBlock($a_id);
-		$files =& $this->sc_object->getFiles();
+		$this->ac_object =& new ilAICCBlock($a_id);
 	}
 
 	function view()
 	{
+
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.aicc_obj.html", true);
-		$this->displayParameter($this->lng->txt("cont_import_id"),
-			$this->sc_object->getImportId());
-		$this->displayParameter($this->lng->txt("cont_resource_type"),
-			$this->sc_object->getResourceType());
-		$this->displayParameter($this->lng->txt("cont_scorm_type"),
-			$this->sc_object->getScormType());
-		$this->displayParameter($this->lng->txt("cont_href"),
-			$this->sc_object->getHref());
-		$this->displayParameter($this->lng->txt("cont_xml_base"),
-			$this->sc_object->getXmlBase());
-		$this->tpl->setCurrentBlock("partable");
-		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_resource"));
+		
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.aicc_block.html", true);
+		$this->tpl->setVariable("BLOCK_TITLE", $this->ac_object->getTitle() );
+		$this->tpl->setVariable("BLOCK_DESCRIPTION", $this->ac_object->getDescription() );
 		$this->tpl->parseCurrentBlock();
-
-		// files
-		$files =& $this->sc_object->getFiles();
-		for ($i=0; $i<count($files); $i++)
-		{
-			$this->displayParameter($this->lng->txt("cont_href"),
-				$files[$i]->getHRef());
-		}
-		$this->tpl->setCurrentBlock("partable");
-		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_files"));
-		$this->tpl->parseCurrentBlock();
-
-		// dependencies
-		$deps =& $this->sc_object->getDependencies();
-		for ($i=0; $i<count($deps); $i++)
-		{
-			$this->displayParameter($this->lng->txt("cont_id_ref"),
-				$deps[$i]->getIdentifierRef());
-		}
-		$this->tpl->setCurrentBlock("partable");
-		$this->tpl->setVariable("TXT_OBJECT_TYPE", $this->lng->txt("cont_dependencies"));
-		$this->tpl->parseCurrentBlock();
+		
 	}
 }
 ?>

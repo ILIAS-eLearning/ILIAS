@@ -22,31 +22,53 @@
 */
 
 /**
-* edit scorm modules
+* scorm learning module presentation script
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-
-define("ILIAS_MODULE", "content");
 chdir("..");
+
+$cmd = ($_GET["cmd"] == "")
+	? $_POST["cmd"]
+	: $_GET["cmd"];
+
 require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
 
-// check write permission
-if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-{
-	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
-}
+	$ref_id=$_GET["ref_id"];
+	
+	//read type of cbt
+	$q = "SELECT type FROM object_data od, object_reference oref WHERE oref.ref_id=$ref_id AND oref.obj_id=od.obj_id";
+	$lm_set = $ilias->db->query($q);
+	$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+	$type=$lm_rec["type"];	
 
-// scorm GUI class does the rest
-require_once "./classes/class.ilObjSCORMLearningModuleGUI.php";
-$ilCtrl->setTargetScript("scorm_edit.php");
+	switch ($type) {
+		case "slm":
+					//SCORM
+					require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+					$track = new ilObjSCORMTracking();
+					$track->$cmd();
+					break;
+		case "alm":
+					//AICC
+					require_once "./content/classes/AICC/class.ilObjAICCTracking.php";
+					$track = new ilObjAICCTracking();
+					$track->$cmd();
+					break;
+		case "hlm":
+					//HACP
+					require_once "./content/classes/HACP/class.ilObjHACPTracking.php";
+					$track = new ilObjHACPTracking();
+					$track->$cmd();
+					break;
+		default:
+					//unknown type
+					$ilias->raiseError($lng->txt("unknown type in sahs_server"),$ilias->error_obj->MESSAGE);
+	}
 
-$ilCtrl->getCallStructure("ilObjSCORMLearningModuleGUI");
-$scorm_gui =& new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true, false);
-$scorm_gui->executeCommand();
+exit;
 
 ?>

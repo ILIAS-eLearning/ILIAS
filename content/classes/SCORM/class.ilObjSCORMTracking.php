@@ -85,9 +85,9 @@ class ilObjSCORMTracking
 			$user_id = $ilUser->getId();
 		}
 
-		$sco_id = ($_GET["sco_id"] != "")
-			? $_GET["sco_id"]
-			: $_POST["sco_id"];
+		$sahs_id = ($_GET["sahs_id"] != "")
+			? $_GET["sahs_id"]
+			: $_POST["sahs_id"];
 
 		// writing to scorm test log
 		$f = fopen("content/scorm.log", "a");
@@ -102,58 +102,58 @@ class ilObjSCORMTracking
 			{
 				$q = "SELECT * FROM scorm_tracking WHERE ".
 					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sco_id).
+					" AND sco_id = ".$ilDB->quote($sahs_id).
 					" AND lvalue = ".$ilDB->quote($insert["left"]);
 				$set = $ilDB->query($q);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					fwrite($f, "Error Insert, left value already exists. L:".$insert["left"].",R:".
-						$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 				else
 				{
 					$q = "INSERT INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
 						$ilDB->quote($_GET["ref_id"]).",".
 						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Insert - L:".$insert["left"].",R:".
-						$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 			}
 			foreach($this->update as $update)
 			{
 				$q = "SELECT * FROM scorm_tracking WHERE ".
 					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sco_id).
+					" AND sco_id = ".$ilDB->quote($sahs_id).
 					" AND lvalue = ".$ilDB->quote($update["left"]);
 				$set = $ilDB->query($q);
 				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
 						$ilDB->quote($_GET["ref_id"]).",".
 						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
 					$ilDB->query($q);
 					fwrite($f, "Update - L:".$update["left"].",R:".
-						$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 				else
 				{
 					fwrite($f, "ERROR Update, left value does not exist. L:".$update["left"].",R:".
-						$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 			}
 		}
 		fclose($f);
 	}
 
-	function _insertTrackData($a_sco_id, $a_lval, $a_rval, $a_ref_id)
+	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_ref_id)
 	{
 		global $ilDB, $ilUser;
 
 		$q = "INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, ref_id) ".
-			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sco_id).
+			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sahs_id).
 			",".$ilDB->quote($a_lval).",".$ilDB->quote($a_rval).
 			",".$ilDB->quote($a_ref_id).")";
 		$ilDB->query($q);
