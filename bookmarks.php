@@ -1,16 +1,17 @@
 <?php
 /**
- * bookmark view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias-layout
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
-include("./classes/class.Bookmarks.php");
+* bookmark view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package application
+*/
+require_once "./include/ilias_header.inc";
+require_once "./include/inc.main.php";
+require_once "./classes/class.Bookmarks.php";
 
-$myBm = new Bookmarks($ilias->db, $ilias->account->Id);
+$myBm = new Bookmarks($ilias->account->Id);
 
 if ($_GET["cmd"] != "")
 {
@@ -22,8 +23,9 @@ if ($_GET["cmd"] != "")
 		case "edit":
 			break;
 	}
+
 	header("location: bookmarks.php");
-	exit();
+	exit;
 }
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
@@ -65,5 +67,4 @@ foreach ($bm as $row)
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>
