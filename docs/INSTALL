@@ -38,6 +38,11 @@ Contents:
 
 1. I N T R O D U C T I O N
 
+IMPORTANT NOTE: This is an alpha version of ILIAS 3. It is for test purposes 
+only. We do not assure that any data that is generated with this release will 
+be usable or migrated to future releases of ILIAS 3. Do not use this release for 
+productive operations. All data may be lost with the next release.
+
 ILIAS is a web-based open source platform for education and training, developed
 with the server-side scripting language PHP. It uses the MySQL database and the
 Apache web server. The main target operating system is Linux. However, ILIAS may
@@ -109,10 +114,6 @@ The following directories need to be created manually:
     mkdir /opt/ilias/src
     mkdir /opt/ilias/src/tarballs	
     mkdir /opt/ilias/iliasdata
-    mkdir /opt/ilias/iliasdata/files
-    mkdir /opt/ilias/iliasdata/offline
-    mkdir /opt/ilias/iliasdata/import
-    mkdir /opt/ilias/iliasdata/export
 
 Copy all source tar files to /opt/ilias/src/tarballs. GNU-Tar will extract the
 source files into separate directories in /opt/ilias/src:
@@ -362,9 +363,10 @@ components:
 		
     Please change /opt/ilias/config/php.ini according to your needs.
 
-    IMPORTANT: In PHP versions later than 4.1 the default value for the php.ini
-    parameter 'register_globals' is set to 'off'. At the time being, ILIAS will
-    only work if 'register_globals' is enabled.
+    // Is it registers_globals necessary for ILIAS 3?
+    // IMPORTANT: In PHP versions later than 4.1 the default value for the php.ini
+    // parameter 'register_globals' is set to 'off'. At the time being, ILIAS will
+    // only work if 'register_globals' is enabled.
     
     Setting an approriate value for 'session.gc_maxlifetime' is also important.
     It determines how many seconds an ILIAS session may be inactive before it is
@@ -469,24 +471,7 @@ components:
 
         http://www.yourserver.com/ilias/setup.php
      
-    Please follow the
-
-    After importing the template file it is necessary to run a migration script
-    in order make sure that recent changes in the database structure are also
-    incorporated into your database. For this purpose please access the file
-    'www.yourserver.com/ilias/sql/migration/db_migration.php' with your web
-    browser and identify yourself with the ILIAS superuser account:
-	
-        User ID: root
-        Password: homer
-
-    The migration process is performed immediately after authentication. 
-    Afterwards you may proceede to the next step.
-
-    The database migration is especially important when UPGRADING to a new
-    ILIAS release. In this case the database structure of your installation is
-    likely to be out of date. Running the migration script will ensure that the
-    new version of the ILIAS software works with your existing ILIAS database. 
+    Please follow the instructions of the setup program.
 
 
 (c) Initial login
@@ -497,13 +482,6 @@ components:
 
         User ID: root
         Password: homer
-
-    Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
-
-    The ILIAS superuser account should only be used for system installation,
-    upgrades and other special occasions. Please create your own personal
-    administrator account and use it for all regular administrative tasks.
-
 
 
 2.4  Installing optional third-party software
