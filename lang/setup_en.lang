@@ -57,6 +57,7 @@ choose_language#:#choose your language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password
 city#:#City, State
+clean_command#:#Clean Command
 client#:#Client
 client_access_mode_changed#:#Client's access mode changed
 client_data#:#Client Information
@@ -326,7 +327,6 @@ save#:#Save
 save_error#:#Save Error!
 saved_successfully#:#Saved successfully
 scan_command#:#Scan Command
-clean_command#:#Clean Command
 select_client#:#Select a Client
 server_info#:#Server Information
 server_software#:#Server software

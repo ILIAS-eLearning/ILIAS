@@ -56,6 +56,7 @@ choose_language#:#pasirinkite kalbą
 choose_languages#:#Pasirinkite papildomas kalbas ir/arba pašalinkite.
 choose_password#:#Pasirinkite slaptažodį
 city#:#City###21 Nov 2003 new variable
+clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#Client###05 Jan 2003 new variable
 client_access_mode_changed#:#Client's access mode changed###05 Jan 2003 new variablev
 client_data#:#Client Information###21 Nov 2003 new variable

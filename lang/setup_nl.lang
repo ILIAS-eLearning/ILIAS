@@ -57,6 +57,7 @@ choose_language#:#A.u.b. kies uw taal
 choose_languages#:#A.u.b. kies extra talen en/of verwijder gekozen talen.
 choose_password#:#A.u.b. uw wachtwoord invullen
 city#:#Stad
+clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#Cliënt
 client_access_mode_changed#:#Cliënt-toegangs-modus is gewijzigd
 client_data#:#Cliënt-informatie
