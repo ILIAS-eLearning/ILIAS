@@ -3,7 +3,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.3 2003/04/18 18:22:08 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.4 2003/05/08 17:56:49 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -105,19 +105,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$settings["ldap_port"] = $_POST["ldap_port"];
 				$settings["ldap_basedn"] = $_POST["ldap_basedn"];
 
-				// mail server
-				$settings["mail_server"] = $_POST["mail_server"];
-				$settings["mail_port"] = $_POST["mail_port"];
-
-				// internal mail
-				$settings["mail_intern_enable"] = $_POST["mail_intern_enable"];
-				$settings["mail_allow_smtp"] = $_POST["mail_allow_smtp"];
-				$settings["mail_maxsize_mail"] = $_POST["mail_maxsize_mail"];
-				$settings["mail_maxsize_attach"] = $_POST["mail_maxsize_attach"];
-				$settings["mail_maxsize_box"] = $_POST["mail_maxsize_box"];
-				$settings["mail_maxtime_mail"] = $_POST["mail_maxtime_mail"];
-				$settings["mail_maxtime_attach"] = $_POST["mail_maxtime_attach"];
-
 				// contact
 				$settings["admin_firstname"] = $_POST["admin_firstname"];
 				$settings["admin_lastname"] = $_POST["admin_lastname"];
@@ -167,19 +154,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilias->setSetting("ldap_server",$_POST["ldap_server"]);
 				$ilias->setSetting("ldap_port",$_POST["ldap_port"]);
 				$ilias->setSetting("ldap_basedn",$_POST["ldap_basedn"]);
-
-				// mail server
-				$ilias->setSetting("mail_server",$_POST["mail_server"]);
-				$ilias->setSetting("mail_port",$_POST["mail_port"]);
-
-				// internal mail
-				$ilias->setSetting("mail_intern_enable",$_POST["mail_intern_enable"]);
-				$ilias->setSetting("mail_allow_smtp",$_POST["mail_allow_smtp"]);
-				$ilias->setSetting("mail_maxsize_mail",$_POST["mail_maxsize_mail"]);
-				$ilias->setSetting("mail_maxsize_attach",$_POST["mail_maxsize_attach"]);
-				$ilias->setSetting("mail_maxsize_box",$_POST["mail_maxsize_box"]);
-				$ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
-				$ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
 
 				// contact
 				$ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -251,21 +225,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_LDAP_SERVER", $lng->txt("server"));
 		$tpl->setVariable("TXT_LDAP_PORT", $lng->txt("port"));
 		$tpl->setVariable("TXT_LDAP_BASEDN", $lng->txt("basedn"));
-
-		// mail server
-		$tpl->setVariable("TXT_MAIL_SMTP", $lng->txt("mail")." (".$lng->txt("smtp").")");
-		$tpl->setVariable("TXT_MAIL_SERVER", $lng->txt("server"));
-		$tpl->setVariable("TXT_MAIL_PORT", $lng->txt("port"));
-
-		// internal mail
-		$tpl->setVariable("TXT_MAIL_INTERN", $lng->txt("mail")." (".$lng->txt("internal_system").")");
-		$tpl->setVariable("TXT_MAIL_INTERN_ENABLE", $lng->txt("mail_intern_enable"));
-		$tpl->setVariable("TXT_MAIL_ALLOW_SMTP", $lng->txt("mail_allow_smtp"));
-		$tpl->setVariable("TXT_MAIL_MAXSIZE_MAIL", $lng->txt("mail_maxsize_mail"));
-		$tpl->setVariable("TXT_MAIL_MAXSIZE_ATTACH", $lng->txt("mail_maxsize_attach"));
-		$tpl->setVariable("TXT_MAIL_MAXSIZE_BOX", $lng->txt("mail_maxsize_box"));
-		$tpl->setVariable("TXT_MAIL_MAXTIME_MAIL", $lng->txt("mail_maxtime_mail"));
-		$tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $lng->txt("mail_maxtime_attach"));
 
 		// contact
 		$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
@@ -397,27 +356,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
 		$tpl->setVariable("LDAP_PORT",$settings["ldap_port"]);
 		$tpl->setVariable("LDAP_BASEDN",$settings["ldap_basedn"]);
-
-		// mail server
-		$tpl->setVariable("MAIL_SERVER",$settings["mail_server"]);
-		$tpl->setVariable("MAIL_PORT",$settings["mail_port"]);
-
-		// internal mail
-		if ($settings["mail_intern_enable"] == "y")
-		{
-			$tpl->setVariable("MAIL_INTERN_ENABLE","checked=\"checked\"");
-		}
-
-		if ($settings["mail_allow_smtp"] == "y")
-		{
-			$tpl->setVariable("MAIL_ALLOW_SMTP","checked=\"checked\"");
-		}
-
-		$tpl->setVariable("MAIL_MAXSIZE_MAIL", $settings["mail_maxsize_mail"]);
-		$tpl->setVariable("MAIL_MAXSIZE_ATTACH", $settings["mail_maxsize_attach"]);
-		$tpl->setVariable("MAIL_MAXSIZE_BOX", $settings["mail_maxsize_box"]);
-		$tpl->setVariable("MAIL_MAXTIME_MAIL", $settings["mail_maxtime_mail"]);
-		$tpl->setVariable("MAIL_MAXTIME_ATTACH", $settings["mail_maxtime_attach"]);
 
 		// contact
 		$tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
