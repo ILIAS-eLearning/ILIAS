@@ -125,7 +125,7 @@ class XmlWriter
 	* Escapes reserved characters
 	* @param	string	input text
 	* @return	string	escaped text
-	* @access	private
+	* @access	public
 	*/
 	function xmlEscapeData($data)
 	{
@@ -419,10 +419,10 @@ class XmlWriter
 			is_integer($data))
 		{
 			// write starttag
-			$this->xmlStartTag($tag, $attrs);
+			$this->xmlStartTag($tag, $attrs, FALSE, $encode, $escape);
 			
 			// write text
-			$this->xmlData($data, $escape, $encode);
+			$this->xmlData($data, $encode, $escape);
 			
 			// write endtag
 			$this->xmlEndTag($tag);
@@ -430,7 +430,7 @@ class XmlWriter
 		else // no data
 		{
 			// write starttag (= empty tag)
-			$this->xmlStartTag($tag, $attrs, TRUE);
+			$this->xmlStartTag($tag, $attrs, TRUE, $encode, $escape);
 		}
 	}
 	
