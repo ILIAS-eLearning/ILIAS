@@ -249,7 +249,13 @@
 <!-- PageContent -->
 <xsl:template match="PageContent">
 	<xsl:if test="$mode = 'edit'">
-		<div class="il_editarea"  onMouseOver="doMouseOver(this.id);" onMouseOut="doMouseOut(this.id);" onClick="doMouseClick(event,this.id);">
+		<xsl:variable name="content_type" select="name(./*[1])"/>
+		<div class="il_editarea">
+		<xsl:if test="$javascript = 'enable'">
+			<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
+			<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+			<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
+		</xsl:if>
         <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
 		<xsl:apply-templates>
 			<xsl:with-param name="par_counter" select ="position()" />
@@ -359,7 +365,7 @@
 	</xsl:choose>
 
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<br />
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
@@ -582,12 +588,14 @@
 					<xsl:call-template name="EditReturnAnchors"/>
 					<xsl:if test="$mode = 'edit' or $mode = 'table_edit'">
 						<!-- checkbox -->
-						<input type="checkbox" name="target[]">
-							<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
-							</xsl:attribute>
-						</input>
+						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
+							<input type="checkbox" name="target[]">
+								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+								</xsl:attribute>
+							</input>
+						</xsl:if>
 						<!-- insert select list -->
-						<xsl:if test="$mode = 'edit'">
+						<xsl:if test="$mode = 'edit' and $javascript = 'disable'">
 							<select size="1" class="ilEditSelect">
 								<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 								</xsl:attribute>
@@ -626,7 +634,7 @@
 	</xsl:for-each>
 	</table>
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript = 'disable'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
@@ -681,7 +689,7 @@
 		</ul>
 	</xsl:if>
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
@@ -701,7 +709,7 @@
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<!-- checkbox -->
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
@@ -742,7 +750,7 @@
 		<xsl:apply-templates/>
 	</table>
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
@@ -773,7 +781,7 @@
 			</span>
 		</xsl:if>
 		<!-- <xsl:value-of select="@HierId"/> -->
-		<xsl:if test="$mode = 'edit'">
+		<xsl:if test="$mode = 'edit' and $javascript='disable'">
 			<!-- checkbox -->
 			<br />
 			<select size="1" class="ilEditSelect">
@@ -1024,7 +1032,7 @@
 		</xsl:choose>
 
 		<!-- command selectbox -->
-		<xsl:if test="$mode = 'edit'">
+		<xsl:if test="$mode = 'edit' and $javascript='disable'">
 			<tr><td>
 				<!-- <xsl:value-of select="../../@HierId"/> -->
 				<input type="checkbox" name="target[]">
@@ -1368,7 +1376,7 @@
 	<!-- <xsl:apply-templates/> -->
 
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<br />
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
