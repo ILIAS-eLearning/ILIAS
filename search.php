@@ -1,6 +1,6 @@
 <?php
 require_once "./include/inc.header.php";
-require_once "./classes/class.Search.php";
+require_once "./classes/class.ilSearch.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.search.html");
 
@@ -8,7 +8,7 @@ sendInfo("Attention: Search function doesn't work in this release.");
 
 if ($_POST["search"] != "")
 {
-	$mySearch = new Search();
+	$mySearch = new ilSearch();
 	$mySearch->setArea($_POST["area"]);
 	$mySearch->setText($_POST["searchtext"]);
 	$mySearch->setOptions($_POST["options"]);

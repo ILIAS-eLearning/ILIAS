@@ -7,7 +7,7 @@
 * 
 * @package application
 */
-class Search
+class ilSearch
 {
 	/**
 	* ilias object
@@ -55,7 +55,7 @@ class Search
 	* Constructor
 	* @access	public
 	*/
-	function Search()
+	function ilSearch()
 	{
 		global $ilias;
 		
@@ -82,7 +82,7 @@ class Search
 		$w .= " OR firstname LIKE '%".$this->text."%'";
 		$w .= " OR lastname LIKE '%".$this->text."%'";
 		$w .= " OR email LIKE '%".$this->text."%'";
-		
+
 		$query = "SELECT * FROM usr_data WHERE ".$w;	
 		$res = $this->ilias->db->query($query);
 		
