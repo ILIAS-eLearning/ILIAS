@@ -1,164 +1,260 @@
 <?php
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Name: class.tree.php
-// Appl: ILIAS 3
-// Vers: 0.7
-// Func: data representation in hierachical trees using the Nested Set Model by Joe Celco
-//
-// (c) 2002 Sascha Hofmann
-//
-// Autor: Sascha Hofmann
-//        Hohenstaufenring 23, 50674 K÷ln
-//        +49-179-1305023
-//        saschahofmann@gmx.de
-//
-// Last change: 22.Jan.2002
-//
-// Description:
-// coming soon....
-//
-////////////////////////////////////////////////////////////////////////////////
-
 /**
-* data representation in hierarchical trees using the nested set model by Joe Celco
+* Tree class
+* data representation in hierachical trees using the Nested Set Model by Joe Celco
+*
 * @author Sascha Hofmann <shofmann@databay.de>
-* @version $Id$
+* @author Stefan Meyer <smeyer@databay.de>
 * @package ilias-core
+* @version $Id$
 */
+
 class Tree extends PEAR
 {
-    var $db;                    // database object
+	/**
+	* database handle
+	* @var object
+	* @access private
+	*/
+	var $db;
 
-    var $ParId;                 // points to actual position in tree (node)
-    var $RootId;                // points to root node (may be a subtree!)
-    var $TreeId;                // to use different trees in one db-table
-    
-    var $Path = array();        // contains the path from root to node
-    var $Childs = array();      // contains all subnodes of node
-    var $Leafs = array();       // contains leaf nodes of tree
-	var $maxlvl = "";			// max level of tree for display
+	/**
+	* points to actual position in tree (node)
+	* @var integer
+	* @access public
+	*/
+	var $node_id;
 
-    // constructor
-    function Tree($AParId = 0, $ARootId = 1, $ATreeId = 1)
-    {
-        global $ilias;
-        $this->db =& $ilias->db; 
-        $this->RootId = $ARootId;
-		$this->ParId = $AParId;
-        $this->TreeId = $ATreeId;
-    }
+	/**
+	* parent of current node. This information is needed for multi-refering the same child in the tree
+	* @var integer
+	* @access public
+	*/
+	var $parent_id;
 
+	/**
+	* points to root node (may be a subtree)
+	* @var integer
+	* @access public
+	*/
+	var $root_id;
 
-    // get the root node (always 1)
-    function getRoot()
-    {
-        $query = "SELECT * FROM tree
-                  LEFT JOIN object_data ON tree.child=object_data.obj_id
-                  WHERE lft=1
-                  AND tree = '".$this->TreeId."'";
+	/**
+	* to use different trees in one db-table
+	* @var integer
+	* @access public
+	*/
+	var $tree_id;
 
-        $res = $this->db->query($query);
-        
-        $data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-        
+	/**
+	* contains the path from root to current node (node_id)
+	* @var array
+	* @access public
+	*/
+	var $Path;
+	
+	/**
+	* contains all subnodes of node (node_id)
+	* @var array
+	* @access public
+	*/
+	var $Childs;
+
+	/**
+	* contains leaf nodes of tree
+	* @var array
+	* @access public
+	*/
+	var $Leafs;
+
+	/**
+	* max level of tree for display
+	* @var integer
+	* @access private
+	*/
+	var $maxlvl;
+
+	/**
+	* local error object
+	* @var object
+	* @access private
+	*/
+	var $error_obj;
+	
+	/**
+	* constructor
+	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_parent_id	parent_id
+	* @param	integer	$a_root_id		root_id (optional)
+	* @param	integer	$a_tree_id		tree_id (optional)
+	*/
+	function Tree($a_node_id, $a_parent_id, $a_root_id = 1, $a_tree_id = 1)
+	{
+		global $ilias;
+
+		// set db-handler
+		$this->db =& $ilias->db;
 		
-        $root = array(
-                      "id"  => $data["obj_id"],
-                      "title" => $data["title"]
-                      );
-        
-        return $root;
-    }
+		// init error-handler
+		$this->PEAR();
+		$this->error_obj = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
+		
+		//init variables
+		$this->node_id		= $a_node_id;
+		$this->parent_id	= $a_parent_id;
+		$this->root_id		= $a_root_id;
+		$this->tree_id		= $a_tree_id;
+	}
 
-    // get leaf-nodes of a tree
-    function getLeafs()
-    {
-        $query = "SELECT * FROM tree
-                  LEFT JOIN object_data ON tree.child=object_data.obj_id
-                  WHERE lft = (rgt -1)
-                  AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
+	/**
+	* get leaf-nodes of tree
+	* @access	public
+	* @return	object	error object in case of an error
+	*/
+	function getLeafs()
+	{
+		$query = "SELECT * FROM tree ".
+				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+				 "WHERE lft = (rgt -1) ".
+				 "AND tree = '".$this->tree_id."'";
+		
+		$res = $this->db->query($query);
+		
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
 
-        if ($res->numRows() > 0)
-        {
-            while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            {
-                $this->Leafs[] = array(
-                                       "id"    => $data["obj_id"],
-                                       "title" => $data["title"]
-                                       );
-            }
-            
-            return true;
-        }
+		if ($res->numRows() > 0)
+		{
+			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$this->Leafs[] = array(
+										"id"	=> $data["obj_id"],
+										"title"	=> $data["title"]
+										);
+			}
+		}
+		else
+		{
+			// No Leafs found? An error occured
+			return $this->raiseError("Error: No Leafs found!",$this->error_obj->WARNING);
+		}
+	}
 
-        // error occured (so ein „rger...)
-        return false;
-    }
-
-    // get subnodes of given parent node
-    function getChilds($AParId = "")
-    {
-        // to reset the content
+	
+	/**
+	* get subnodes of given node
+	* @param	integer	$a_node_id		node_id (optional)
+	* @access	public
+	* @return	boolean	true when node has childs, otherwise false
+	*/
+	function getChilds($a_node_id = "")
+	{
+		// number of childs
+		$count = 0;
+		
+		// init childs
 		$this->Childs = array();
 		
-        if (!empty($AParId))
-        {
-            $this->ParId = $AParId;
-        }
+		if (empty($a_node_id))
+		{
+			$a_node_id = $this->node_id;
+		}
 		
-		$query = "SELECT * FROM tree
-                  LEFT JOIN object_data ON tree.child=object_data.obj_id
-                  WHERE parent = '".$this->ParId."' 
-                  AND tree = '".$this->TreeId."'";
+		$query = "SELECT * FROM tree ".
+				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+				 "WHERE parent = '".$a_node_id."' ".
+				 "AND tree = '".$this->tree_id."'";
+				 
+		$res = $this->db->query($query);
 
-        $res = $this->db->query($query);
-        
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
 		$count = $res->numRows();
 		
-		if ($res->numRows() > 0)
-        {
-            while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            {
+		if ($count > 0)
+		{
+			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
 				$this->Childs[] = array(
-                                        "id"  		 => $data["obj_id"],
-                                        "title" 	 => $data["title"],
-										"desc"		 => $data["description"],
-										"type"		 => $data["type"],
-										"last_update"=> $data["last_update"],
-										"parent"	 => $data["parent"],
-										"lft"		 => $data["lft"],
-										"rgt"		 => $data["rgt"]
-                                        );
-            }
+										"tree"			=> $row->tree,
+										"child"			=> $row->child,
+										"parent"		=> $row->parent,
+										"lft"			=> $row->lft,
+										"rgt"			=> $row->rgt,
+										"obj_id"		=> $row->obj_id,
+										"type"			=> $row->type,
+										"title"			=> $row->title,
+										"description"	=> $row->description,
+										"owner"			=> $row->owner,
+										"create_date"	=> $row->create_date,
+										"last_update"	=> $row->last_update,
+										"desc"			=> $row->description,
+										"id"			=> $row->obj_id										
+										);
+										// last both entries for compatibility-reasons
+			}
 
+			// mark the last child node (important for display)
 			$this->Childs[$count - 1]["last"] = true;
-            
-            return $this->Childs;
-        }
 
-        return false;
-    }
-	function getAllChildsByType($Aparent,$Atype)
+			return $this->Childs;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	* get subnodes of given node by type 
+	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_parent_id	parent_id
+	* @param	string	$a_type			object type definition
+	* @access	public
+	* @return	array	childs by type
+	*/
+	function getAllChildsByType($a_node_id,$a_parent_id,$a_type)
 	{
-		$data = array();
+		$data = array();	// node_data
+		$row = "";			// fetched row
+		$left = "";			// tree_left
+		$right = "";		// tree_right
 
 		$query = "SELECT * FROM tree ".
-			"WHERE child = '".$Aparent."'";
+				 "WHERE child = '".$a_node_id."' ".
+				 "AND parent = '".$a_parent_id."'";
+
 		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$left = $row->lft;
 			$right = $row->rgt;
 		}
 		$query = "SELECT * FROM tree ".
-			"LEFT JOIN object_data ON tree.child = object_data.obj_id ".
-			"WHERE object_data.type = '".$Atype."' ".
-			"AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
-			"AND tree.rgt BETWEEN '".$left."' AND '".$right."'";
+				 "LEFT JOIN object_data ON tree.child = object_data.obj_id ".
+				 "WHERE object_data.type = '".$a_type."' ".
+				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
+				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."'";
+
 		$res = $this->db->query($query);
+		
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = array(
@@ -175,261 +271,454 @@ class Tree extends PEAR
 				"create_date" => $row->create_date,
 				"last_update" => $row->last_update);
 		}
+		
 		return $data;
 	}
-    // insert node under parent node
-    function insertNode($AObjId,$AParId = "",$a_depth)
-	
-    {
-        if (!empty($AParId))
-        {
-            $this->ParId = $AParId;
-        }
 
-        // get left value
-        $query = "SELECT * FROM tree
-                  WHERE child = '".$this->ParId.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        $data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-        
-        $left = $data["lft"];
-        $lft = $left + 1;
-        $rgt = $left + 2;
-        
-        // spread tree
-        $query = "UPDATE tree SET
-                  lft = CASE
-                  WHEN lft > $left
-                  THEN lft + 2
-                  ELSE lft
-                  END,
-                  rgt = CASE
-                  WHEN rgt > $left
-                  THEN rgt + 2
-                  ELSE rgt
-                  END
-                  WHERE tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-
-        // insert node
-        $query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth)
-                  VALUES ('".$this->TreeId."','".$AObjId."','".$this->ParId."','".$lft."','".$rgt."','".$a_depth."')";
-        $res = $this->db->query($query);
-
-    }
-
-    // delete parent node
-    function deleteNode($AParId = "")
-    {
-        if (!empty($AParId))
-        {
-            $this->ParId = $AParId;
-        }
-        
-        // get left & right value of node to be deleted
-        $query = "SELECT * FROM tree
-                  WHERE child = '".$this->ParId.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        $data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-        $left = $data["lft"];
-        $right = $data["rgt"];
-        $new_parent = $data["parent"];
-
-        // has to be checked by other functions!!!!
-        // delete the kat
-        $res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$this->ParId."'");
-
-        // delete node
-        $query = "DELETE FROM tree
-                  WHERE child = '".$this->ParId.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-
-        // close up the gap
-        $query = "UPDATE tree SET
-                  lft = CASE
-                  WHEN lft BETWEEN '".$left."' AND '".$right."' THEN lft - 1
-                  WHEN lft > '".$right."' THEN lft - 2
-                  ELSE lft
-                  END,
-                  rgt = CASE
-                  WHEN rgt BETWEEN '".$left."' AND '".$right."' THEN rgt - 1
-                  WHEN rgt > '".$right."' THEN rgt -2
-                  ELSE rgt
-                  END,
-                  parent = CASE
-                  WHEN parent = '".$this->ParId."' THEN $new_parent
-                  ELSE parent
-                  END
-                  WHERE tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        
-        $this->ParId = $new_parent;
-    }
-
-
-    // delete parent node and its subtree
-    function deleteTree($AParId = "")
-    {
-        if (!empty($AParId))
-        {
-            $this->ParId = $AParId;
-        }
-
-        // get left & right value (for subtree nodes)
-        $query = "SELECT * FROM tree
-                  WHERE child = '".$this->ParId.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        $data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-        $left = $data["lft"];
-        $right = $data["rgt"];
-        $diff = $right - $left + 1;
-
-        // save parent
-        $new_parent = $data["parent"];
-
-        //before deletion fetch kat_ids
-        $query = "SELECT child FROM tree
-                  WHERE lft BETWEEN '".$left."' AND '".$right.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        
-        // delete the kats
-        while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-        {
-            $delete[] = $data["child"];
-        }
-        foreach ($delete as $val)
-        {
-            $res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
-			$res = $this->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
-			$res = $this->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
-			$res = $this->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
-        }
-
-        // delete subtree
-        $query = "DELETE FROM tree
-                  WHERE lft BETWEEN '".$left."' AND '".$right.
-                  "' AND tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-
-        // close gaps
-        $query = "UPDATE tree SET
-                  lft = CASE
-                  WHEN lft > '".$left.
-                  "' THEN lft - $diff
-                  ELSE lft
-                  END,
-                  rgt = CASE
-                  WHEN rgt > '".$left.
-                  "' THEN rgt - '".$diff.
-                  "' ELSE rgt
-                  END
-                  WHERE tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
-        
-        $this->ParId = $new_parent;
-    }
-
-
-    // get path from given startnode to given endnode
-    function getPath ($AEndNode = "",$AStartNode = "")
-    {
-        if(empty($AEndNode))
-        {
-            $AEndNode = $this->ParId;
-        }
-
-        if(empty($AStartNode))
-        {
-            $AStartNode = $this->RootId;
-        }
-
-        $query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col
-                  FROM tree AS T1, tree AS T2, tree AS T3
-                  LEFT JOIN object_data ON T2.child=object_data.obj_id
-                  WHERE T1.child = '".$AStartNode.
-                  "' AND T3.child = '".$AEndNode.
-                  "' AND T2.lft BETWEEN T1.lft AND T1.rgt
-                  AND T3.lft BETWEEN T2.lft AND T2.rgt
-                  AND T2.tree = '".$this->TreeId.
-                  "' ORDER BY sort_col DESC";
-        $res = $this->db->query($query);
-        
-        if ($res->numRows() > 0)
-        {
-        	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            {
-                $this->Path[] = array(
-                               "id"    => $data["child"],
-                               "title" => $data["title"],
-							   "parent"=> $data["parent"]
-                               );
-            }
-            return true;
-        }
-        
-        // error occured
-        return false;
-    }
-
-	function showPathId($AEndNode,$AStartNode)
+	/**
+	* insert node under parent node 
+	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_parent_id	parent_id (optional)
+	* @access	public
+	* @return	object	$error	error object on error
+	*/
+	function insertNode($a_node_id,$a_parent_id = "")
 	{
-		$id = array();
+		$left = "";			// first tree_left
+		$lft = "";			// second tree_left
+		$rgt = "";			// second tree_right
+	
+		if (empty($a_parent_id))
+		{
+			$a_parent_id = $this->parent_id;
+		}
 
-        $query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col
-                  FROM tree AS T1, tree AS T2, tree AS T3
-                  LEFT JOIN object_data ON T2.child=object_data.obj_id
-                  WHERE T1.child = '".$AStartNode.
-                  "' AND T3.child = '".$AEndNode.
-                  "' AND T2.lft BETWEEN T1.lft AND T1.rgt
-                  AND T3.lft BETWEEN T2.lft AND T2.rgt
-                  AND T2.tree = '".$this->TreeId.
-                  "' ORDER BY sort_col DESC";
-        $res = $this->db->query($query);
-        
-        if ($res->numRows() > 0)
-        {
-        	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            {
-				$id[] = $data["child"];
-			}
-            return $id;
-        }
-        
-        // error occured
-        return false;
+		// get left value
+		$query = "SELECT * FROM tree ".
+				 "WHERE child = '".$a_parent_id."' ".
+				 "AND tree = '".$this->tree_id."'";
+
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+
+		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$left = $data["lft"];
+		$lft = $left + 1;
+		$rgt = $left + 2;
+
+		// spread tree
+		$query = "UPDATE tree SET ".
+				 "lft = CASE ".
+				 "WHEN lft > ".$left." ".
+				 "THEN lft + 2 ".
+				 "ELSE lft ".
+				 "END, ".
+				 "rgt = CASE ".
+				 "WHEN rgt > ".$left." ".
+				 "THEN rgt + 2 ".
+				 "ELSE rgt ".
+				 "END ".
+				 "WHERE tree = '".$this->tree_id."'";
+
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
+		// insert node
+		$query = "INSERT INTO tree (tree,child,parent,lft,rgt) ".
+				 "VALUES ".
+				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."')";
+				 
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
 	}
 
-    // check consistence of tree
-    function checkTree()
-    {
-        $query = "SELECT lft,rgt FROM tree
-                  WHERE tree = '".$this->TreeId."'";
-        $res = $this->db->query($query);
+	/**
+	* delete node under parent node 
+	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_parent_id	parent_id (optional)
+	* @access	public
+	* @return	object	$error	error object on error
+	*/
+	function deleteNode($a_node_id = "",$a_parent_id = "")
+	{
+		$left = "";				// tree_left
+		$right = "";			// tree_right
+		$new_parent = "";		// new parent_id
 
-        while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-        {
-            $lft[] = $data["lft"];
-            $rgt[] = $data["rgt"];
-        }
-            
-        $all = array_merge($lft,$rgt);
-        $uni = array_unique($all);
-            
-        if (count($all) != count($uni))
-        {
-            echo "Error in Tree!";
-            exit;
-        }
-    }
+		if (empty($a_node_id))
+		{
+			$a_node_id = $this->node_id;
+		}
+		
+		if (empty($a_parent_id))
+		{
+			$a_parent_id = $this->parent_id;
+		}
 
-	// builds an array of tree for output
+		// get left & right value of the node to be deleted
+		$query = "SELECT * FROM tree ".
+				 "WHERE child = '".$a_node_id."' ".
+				 "AND tree = '".$this->tree_id."'";
+				 
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
+		while($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($data["parent"] == $a_parent_id)
+			{
+				$left = $data["lft"];
+				$right = $data["rgt"];
+				$new_parent = $data["parent"];
+				break;
+			}
+		}
+
+		// has to be checked by other functions!!!!
+		// delete the kat
+		if ($res->numRows() == 1)
+		{
+			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$a_node_id."'");
+			
+		 	if (DB::isError($res))
+			{
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			}
+		}
+
+		// delete node
+		$query = "DELETE FROM tree ".
+				 "WHERE child = '".$a_node_id."' ".
+				 "AND parent = '".$a_parent_id."' ".
+				 "AND tree = '".$this->tree_id."'";
+
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+
+		// close up the gap
+		$query = "UPDATE tree SET ".
+				 "lft = CASE ".
+				 "WHEN lft BETWEEN '".$left."' AND '".$right."' THEN lft - 1 ".
+				 "WHEN lft > '".$right."' THEN lft - 2 ".
+				 "ELSE lft ".
+				 "END, ".
+				 "rgt = CASE ".
+				 "WHEN rgt BETWEEN '".$left."' AND '".$right."' THEN rgt - 1 ".
+				 "WHEN rgt > '".$right."' THEN rgt -2 ".
+				 "ELSE rgt ".
+				 "END, ".
+				 "parent = CASE ".
+				 "WHEN parent = '".$a_node_id."' THEN '".$new_parent."' ".
+				 "ELSE parent ".
+				 "END ".
+				 "WHERE tree = '".$this->tree_id."'";
+
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}		
+		
+		$this->node_id = $new_parent;
+	}
+
+	/**
+	* move a node into another position within the tree 
+	* @param	integer	$a_node_id		node_id
+	* @param	integer	$a_parent_id	parent_id
+	* @param	integer	$a_target_id	node_id of parent node where the node is moved to
+	* @access	public
+	* @return	void
+	*/
+	function moveNode ($a_node_id,$a_parent_id,$a_target_id)
+	{
+		$this->insertNode($a_node_id,$a_target_id);
+		$this->deleteNode($a_node_id,$a_parent_id);
+	}
+
+	/**
+	* delete node and the whole subtree under this node 
+	* @param	integer	$a_node_id		node_id (optional)
+	* @param	integer	$a_parent_id	parent_id (optional)
+	* @access	public
+	* @return	object	$error	error object on error
+	*/
+	function deleteTree($a_node_id = "", $a_parent_id = "")
+	{
+		$left = "";			// tree_left
+		$right = "";			// tree_right
+		$diff = "";			// difference between lft & rgt
+		$new_parent = "";		// new parent_id
+
+
+		if (empty($a_node_id))
+		{
+			$a_node_id = $this->node_id;
+		}
+		
+		if (empty($a_parent_id))
+		{
+			$a_parent_id = $this->parent_id;
+		}
+
+		// get left & right value (for subtree nodes)
+		$query = "SELECT * FROM tree ".
+				 "WHERE child = '".$a_node_id."' ".
+				 "AND parent = '".$a_parent_id."' ".
+				 "AND tree = '".$this->tree_id."'";
+		
+		$res = $this->db->query($query);
+		
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}	
+		
+		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$left = $data["lft"];
+		$right = $data["rgt"];
+		$diff = $right - $left + 1;
+
+		// save parent
+		$new_parent = $data["parent"];
+
+		//before deletion fetch all child_ids
+		$query = "SELECT child FROM tree ".
+				 "WHERE lft BETWEEN '".$left."' AND '".$right."' ".
+				 "AND tree = '".$this->tree_id."'";
+		
+		$res = $this->db->query($query);
+		
+		if (DB::isError($res))
+		{
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}	
+
+		// delete the the childs from tree
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$delete[] = $data["child"];
+		}
+		
+		foreach ($delete as $val)
+		{
+			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
+			
+			if (DB::isError($res))
+			{
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			}
+				
+			$res = $this->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
+
+			if (DB::isError($res))
+			{
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			}
+			
+			$res = $this->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
+
+			if (DB::isError($res))
+			{
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			}
+
+			$res = $this->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
+
+			if (DB::isError($res))
+			{
+				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+			}
+		}
+
+		// delete subtree
+		$query = "DELETE FROM tree ".
+				 "WHERE lft BETWEEN '".$left."' AND '".$right." '".
+				 "AND tree = '".$this->tree_id."'";
+		
+		$res = $this->db->query($query);
+
+		// close gaps
+		$query = "UPDATE tree SET ".
+				 "lft = CASE ".
+				 "WHEN lft > '".$left." '".
+				 "THEN lft - '".$diff." '".
+				 "ELSE lft ".
+				 "END, ".
+				 "rgt = CASE ".
+				 "WHEN rgt > '".$left." '".
+				 "THEN rgt - '".$diff." '".
+				 "ELSE rgt ".
+				 "END ".
+				 "WHERE tree = '".$this->tree_id."'";
+
+		$res = $this->db->query($query);
+
+		if (DB::isError($res))
+		{	
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+
+		$this->parent_id = $new_parent;
+	}
+
+	/**
+	* get path from a given startnode to a given endnode
+	* if startnode is not given the rootnode is startnode
+	* if endnode is not given the current node is endnode
+	* @param	integer	$a_endnode		node_id of endnode (optional)
+	* @param	integer	$a_startnode	node_id of startnode (optional)
+	* @access	private
+	* @return	object	$res			query result
+	*/
+	function fetchPath ($a_endnode = "",$a_startnode = "")
+	{
+		if(empty($a_endnode))
+		{
+			$a_endnode = $this->node_id;
+		}
+
+		if(empty($a_startnode))
+		{
+			$a_startnode = $this->root_id;
+		}
+
+		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
+				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
+				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
+				 "WHERE T1.child = '".$a_startnode." '".
+				 "AND T3.child = '".$a_endnode." '".
+				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
+				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
+				 "AND T2.tree = '".$this->tree_id." '".
+				 "ORDER BY sort_col DESC";
+
+		$res = $this->db->query($query);
+		
+		if (DB::isError($res))
+		{	
+			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_obj->FATAL);
+		}
+		
+		if ($res->numRows() > 0)
+		{
+			return $res;
+		}
+		else
+		{
+			return $this->raiseError("Error: No path found!",$this->error_obj->WARNING);
+		}
+	}
+
+	/**
+	* get path from a given startnode to a given endnode
+	* if startnode is not given the rootnode is startnode
+	* if endnode is not given the current node is endnode
+	* @param	integer	$a_endnode		node_id of endnode (optional)
+	* @param	integer	$a_startnode	node_id of startnode (optional)
+	* @access	public
+	* @return	array	$this->Path		ordered path info (id,title,parent) from start to end
+	*/
+	function getPathFull ($a_endnode = "", $a_startnode = "")
+	{
+		$res = $this->fetchPath($a_endnode,$a_startnode);
+		
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->Path[] = array(
+							   "id"		=> $data["child"],
+							   "title"	=> $data["title"],
+							   "parent"	=> $data["parent"]
+							   );
+		}
+	
+		return $this->Path;
+	}	
+
+	/**
+	* get path from a given startnode to a given endnode
+	* if startnode is not given the rootnode is startnode
+	* if endnode is not given the current node is endnode
+	* @param	integer	$a_endnode		node_id of endnode (optional)
+	* @param	integer	$a_startnode	node_id of startnode (optional)
+	* @access	public
+	* @return	array	$id				all path ids from startnode to endnode
+	*/
+	function getPathId ($a_endnode = "", $a_startnode = "")
+	{
+		$res = $this->fetchPath($a_endnode,$a_startnode);
+		
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$id[] = $data["child"];
+		}
+		
+		return $id;
+	}
+
+	/**
+	* check consistence of tree
+	* @access	public
+	* @return	boolean		true if tree is ok; otherwise throws error object
+	*/
+	function checkTree()
+	{
+		$query = "SELECT lft,rgt FROM tree ".
+				 "WHERE tree = '".$this->tree_id."'";
+				 
+		$res = $this->db->query($query);
+
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$lft[] = $data["lft"];
+			$rgt[] = $data["rgt"];
+		}
+			
+		$all = array_merge($lft,$rgt);
+		$uni = array_unique($all);
+			
+		if (count($all) != count($uni))
+		{
+			return $this->raiseError("Error: Tree is corrupted!!",$this->error_obj->WARNING);
+		}
+		
+		return true;
+	}
+
+	/**
+	* builds an array of a flattened tree for output purposes
+	* @param	array	$nodes		tree information
+	* @param	integer	$start		node_id of current startnode
+	* @param	integer	$level		level of current node
+	* @param	string	$open		information about opened folders (optional; is set automatically)
+	* @param	array	$out		end result of recursion (optional, is set automatically)
+	* @param	array	$tabarr		information about the needed tabstops for each node (optional, is set automatically)
+	* @access	public
+	* @return	array 	$out		complete tree in a flat structure to display all elements sequently
+	*/
 	function display($nodes,$start,$level,$open="",$out="",$tabarr="") {
 
 		global $PHP_SELF;
@@ -473,7 +762,6 @@ class Tree extends PEAR
 			{
 				foreach ($childs as $child)
 				{
-
 					// prevent node_data to be filled with wrong nodes
 					unset($node_data);
 					
@@ -593,83 +881,132 @@ class Tree extends PEAR
 		return $out;
 	}	
 
-	// fetch all expanded nodes & their childs
+	/**
+	* fetch all expanded nodes & their childs
+	* @param	array	$nodes		tree information
+	* @access	public
+	* @return	array 	$knoten		all expanded nodes & their childs
+	*/
 	function buildTree ($nodes)
 	{
 		foreach ($nodes as $val)
 		{
 			$knoten[$val] = $this->getChilds($val);
 		}
-		
+	
 		return $knoten;		
-	}	
+	}
+
+	/**
+	* builds a string in HTML to output path information
+	* @param	array	$a_path			full path information
+	* @param	string	$a_scriptname	scriptname to use for hyperlinks
+	* @access	public
+	* @return	string 	$path			HTML-formatted string
+	*/
+	function showPath($a_path,$a_scriptname)
+	{
+		foreach ($a_path as $key => $val)
+		{
+			if ($key < (count($a_path) - 1))
+			{
+				$path .= "[<a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+			}
+			else
+			{
+				$path .= "[<b><a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a></b>]";;
+			}
+
+			if ($key < (count($a_path) - 1))
+			{
+				$path .= " :: ";
+			}
+		}
+
+		return $path;
+	}
+	
+	/**
+	* get all childs from a node by depth
+	* @param	integer	$a_depth		tree-level
+	* @param	integer	$a_parent		node_id
+	* @access	public
+	* @return	array 	$childs			childs
+	*/
 	function getChildsByDepth($a_depth,$a_parent)
 	{
-        // to reset the content
+		// to reset the content
 		$this->Childs = array();
 		
 		$query = "SELECT * FROM tree ".
-			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-			"WHERE depth = '".$a_depth."' ".
-			"AND parent = '".$a_parent."' ".
-            "AND tree = '".$this->TreeId."'";
+				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+				 "WHERE depth = '".$a_depth."' ".
+				 "AND parent = '".$a_parent."' ".
+				 "AND tree = '".$this->tree_id."'";
 
-        $res = $this->db->query($query);
-        
+		$res = $this->db->query($query);
+
 		$count = $res->numRows();
 		
 		if ($res->numRows() > 0)
-        {
-            while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-            {
+		{
+			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			{
 				$this->Childs[] = array(
-                                        "id"  		 => $data["obj_id"],
-                                        "title" 	 => $data["title"],
-										"desc"		 => $data["description"],
-										"type"		 => $data["type"],
-										"last_update"=> $data["last_update"],
-										"parent"	 => $data["parent"],
-										"lft"		 => $data["lft"],
-										"rgt"		 => $data["rgt"]
-                                        );
-            }
+										"tree"			=> $row->tree,
+										"child"			=> $row->child,
+										"parent"		=> $row->parent,
+										"lft"			=> $row->lft,
+										"rgt"			=> $row->rgt,
+										"obj_id"		=> $row->obj_id,
+										"type"			=> $row->type,
+										"title"			=> $row->title,
+										"description"	=> $row->description,
+										"owner"			=> $row->owner,
+										"create_date"	=> $row->create_date,
+										"last_update"	=> $row->last_update,
+										"desc"			=> $row->description,
+										"id"			=> $row->obj_id										
+										);
+			}
 
 			$this->Childs[$count - 1]["last"] = true;
-            
-            return $this->Childs;
-        }
 
-        return false;
+			return $this->Childs;
+		}
+
+		return false;
 	}
-/**
- * Return the maximum depth in tree
- * @access public
- * @return int
- *
- */
+	
+	/**
+	* Return the maximum depth in tree
+	* @access public
+	* @return int
+	*/
 	function getMaximumDepth()
 	{
 		$query = "SELECT MAX(depth) FROM tree";
 		$res = $this->db->query($query);
+		
 		while($row = $res->fetchRow())
 		{
 			return $row[0];
 		}
 	}
-/**
- * Return depth of an object
- * @access public
- * @param int
- * @param int
- * @return int
- * 
- */
+	
+	/**
+	* Return depth of an object
+	* @access public
+	* @param int
+	* @param int
+	* @return int
+	*/
 	function getDepth($a_child,$a_parent,$a_tree=1)
 	{
 		$query = "SELECT depth FROM tree ".
-			"WHERE child = '".$a_child."' ".
-			"AND parent = '".$a_parent."' ".
-			"AND tree = '".$a_tree."'";
+				 "WHERE child = '".$a_child."' ".
+				 "AND parent = '".$a_parent."' ".
+				 "AND tree = '".$a_tree."'";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -677,5 +1014,6 @@ class Tree extends PEAR
 			return $row->depth;
 		}
 	}
-}
+
+} // END class.tree.php
 ?>
