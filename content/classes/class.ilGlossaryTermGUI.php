@@ -205,6 +205,7 @@ class ilGlossaryTermGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
@@ -298,6 +299,7 @@ class ilGlossaryTermGUI
 			$def = $defs[$j];
 			$page =& new ilPageObject("gdf", $def["id"]);
 			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
@@ -384,6 +386,7 @@ class ilGlossaryTermGUI
 		$page =& new ilPageObject("gdf", $definition->getId());
 		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateOutput(false);
+		$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
 
 		$this->tpl->setCurrentBlock("definition");
