@@ -1368,7 +1368,7 @@ class ilForum
 	{
 		global $lng;
 
-		if($a_id)
+		if($a_id and ilObjectFactory::getInstanceByObjId($a_id,false))
 		{
 			$query = "SELECT * FROM usr_data WHERE usr_id = '".$a_id."'";
 			$res = $this->ilias->db->query($query);
