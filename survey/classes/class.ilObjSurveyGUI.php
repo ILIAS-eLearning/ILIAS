@@ -78,11 +78,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getCallingScript()
 	{
-		$module = $this->object->getModule($this->type);
-		$module_dir = ($module == "")
-			? ""
-			: $module."/";
-		return $module . "survey.php";
+		return "survey.php";
 	}
 	
 	/**
@@ -131,6 +127,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
 
+/**
+* Returns the calling script of the GUI class
+*
+* @access	public
+*/
+	function getCallingScript()
+	{
+		/*global $objDefinition;
+		$module = $objDefinition->getModule($this->type);
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+		return $module_dir . "survey.php";*/
+		return "survey.php";
+	}
+	
 /**
 * Returns the GET parameters for the survey object URLs
 *
