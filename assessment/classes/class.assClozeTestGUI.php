@@ -283,6 +283,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
+		$this->tpl->setVariable("TEXT_CLOSE_HINT", htmlspecialchars($this->lng->txt("close_text_hint")));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
