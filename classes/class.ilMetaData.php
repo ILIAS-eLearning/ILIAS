@@ -78,6 +78,7 @@ class ilMetaData
 		}
 	}
 
+	
 	function read()
 	{
 //echo "<b>".$this->id."</b><br>";
@@ -86,6 +87,18 @@ class ilMetaData
 		$meta_set = $this->ilias->db->query($query);
 		$meta_rec = $meta_set->fetchRow(DB_FETCHMODE_ASSOC);
 
+		// Metadaten aus der Nested-Set-Struktur ermitteln.
+		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm") 
+		{
+			include_once("./classes/class.ilNestedSetXML.php");
+			$nested = new ilNestedSetXML();
+			$nested->init($this->id, $this->getType());
+			if ( $nested->initDom() ) {
+				$meta_rec["title"] = $nested->getFirstDomContent("//MetaData/General/Title");
+			}
+
+		} 
+		
 		$this->setTitle($meta_rec["title"]);
 		$this->setDescription($meta_rec["description"]);
 		$this->setLanguage($meta_rec["language"]);
@@ -286,6 +299,23 @@ class ilMetaData
 		$this->ilias->db->query($query);
 		$this->updateKeywords();
 		$this->updateTechnicalSections();
+		
+		
+		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm") 
+		{
+
+			include_once("./classes/class.ilNestedSetXML.php");
+			$nested = new ilNestedSetXML();
+			$nested->init($this->id, $this->getType());
+			if ($nested->initDom() ) {
+
+				$node = $nested->getFirstDomNode("//MetaData/General/Title");
+				$c = $node->children();
+				$c[0]->set_content($this->getTitle());
+				
+				$nested->updateFromDom();
+			}
+		} 		
 	}
 
 
