@@ -15,10 +15,12 @@ if (!$rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
 	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 }
 
+$ilias->error_obj->sendInfo("Not available in this release.",$ilias->error_obj->MESSAGE);
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.editor.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-
+/*
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","???.php");
 $tpl->setVariable("BTN_TXT", $lng->txt("test_intern"));
@@ -69,6 +71,6 @@ $tpl->setVariable("TXT_ONLINE_VERSION", $lng->txt("online_version"));
 $tpl->setVariable("TXT_OFFLINE_VERSION", $lng->txt("offline_version"));
 $tpl->setVariable("TXT_PUBLISHED", $lng->txt("published"));
 $tpl->parseCurrentBlock();
-
+*/
 $tpl->show();
 ?>

@@ -17,6 +17,8 @@ if ($folder == "")
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
 
+$ilias->error_obj->sendInfo("Mailing functions doesn't work properly in this release.",$ilias->error_obj->MESSAGE);
+
 //get mails from user
 $myMails = new UserMail($ilias->account->Id);
 
