@@ -123,7 +123,6 @@ $objDefinition->startParsing();
 
 // current user account
 $ilias->account = new ilObjUser();
-
 // create references for subobjects in ilias object
 $ilDB =& $ilias->db;
 $ilUser =& $ilias->account;
@@ -157,9 +156,11 @@ if ($ilias->auth->getAuth())
 		$ilias->account->refreshLogin();
 	}
 }
-elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php" and $script != "view_usr_agreement.php" and $script!= "register.php")
+elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php" 
+		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
 {
 	header("Location: index.php?reload=true");
+	exit;
 }
 
 //init language
