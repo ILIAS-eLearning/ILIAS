@@ -47,7 +47,7 @@ class ilHistoryGUI
 	/**
 	* get history table
 	*/
-	function getHistoryTable()
+	function getHistoryTable($a_header_params)
 	{
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI(0, false);
@@ -58,7 +58,11 @@ class ilHistoryGUI
 			$this->lng->txt("action"), $this->lng->txt("user"), $this->lng->txt("info")));
 		$tbl->setColumnWidth(array("20%", "20%", "20%", "40%"));
 		$cols = array("date", "action", "user", "info");
-		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "history");
+		if ($a_header_params == "")
+		{
+			$a_header_params = array();
+		}
+		$header_params = $a_header_params;
 		$tbl->setHeaderVars($cols, $header_params);
 
 		// table variables

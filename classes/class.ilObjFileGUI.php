@@ -301,7 +301,12 @@ class ilObjFileGUI extends ilObjectGUI
 		require_once("classes/class.ilHistoryGUI.php");
 		
 		$hist_gui =& new ilHistoryGUI($this->object->getId());
-		$hist_html = $hist_gui->getHistoryTable();
+		
+		// not nice, should be changed, if ilCtrl handling
+		// has been introduced to administration
+		$hist_html = $hist_gui->getHistoryTable(
+			array("ref_id" => $_GET["ref_id"], "cmd" => "history",
+			"cmdClass" =>$_GET["cmdClass"], "cmdNode" =>$_GET["cmdNode"]));
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}

@@ -32,10 +32,15 @@ class ilHistory
 {
 
 	/**
-	* create new history entry
+	* Creates a new history entry for an object. The information text parameters
+	* have to be separated by comma. The information text has to be stored
+	* in a langage variable "hist_<object_type>_<action>". This text can contain
+	* placeholders %1, %2, ... for each parameter. The placehoders are replaced
+	* by the parameters in ilHistoryGUI->getHistoryTable().
 	*
 	* @param	int			$a_obj_id		object id
 	* @param	string		$a_action		action
+	* @param	string		$a_info_params	information text parameters, separated by comma
 	*/
 	function _createEntry($a_obj_id, $a_action, $a_info_params)
 	{
@@ -59,7 +64,7 @@ class ilHistory
 	* @param	int		$a_obj_id		object id
 	*
 	* @return	array	array of history entries (arrays with keys
-	*					"date", "user_id", "obj_id", "action")
+	*					"date", "user_id", "obj_id", "action", "info_params")
 	*/
 	function _getEntriesForObject($a_obj_id)
 	{
