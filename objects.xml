@@ -101,7 +101,9 @@
 	<subobj name="crs">crs</subobj>
 	<subobj name="mob" max="1">mob</subobj>
 	<subobj name="fold">fold</subobj>
+	<subobj name="file">file</subobj>
 	<property name="view">view_content</property>
+	<property name="owner">show_owner</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
@@ -128,8 +130,9 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="fold">fold</subobj>
+	<subobj name="fold" module="1">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -289,5 +292,12 @@
 </object>
 <object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0">
 	<property name="view">cont_content</property>
+</object>
+<object name="file" class_name="File" checkbox="1" inherit="0" translate="0">
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="clear">clear</action>
 </object>
 </objects>
