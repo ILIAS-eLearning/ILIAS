@@ -361,8 +361,8 @@ class ilPageObjectGUI
 		$output = str_replace("&amp;", "&", $output);
 
 		// prevent curly brackets from being swallowed up by template engine
-		$output = str_replace("{", "&#123;", $output);
-		$output = str_replace("{", "&#125;", $output);
+		//$output = str_replace("{", "&#123;", $output);
+		//$output = str_replace("}", "&#125;", $output);
 //echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
 		// remove all newlines (important for code / pre output)
