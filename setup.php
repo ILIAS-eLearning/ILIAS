@@ -266,7 +266,7 @@ switch ($_GET["step"])
 
 		if ($db_exists)
 		{
-			$myDB = new DBUpdate();
+			$myDB = new ilDBUpdate();
 
 			if ($myDB->getDBVersionStatus())
 			{
@@ -736,7 +736,7 @@ switch ($_GET["step"])
 		}
 		else
 		{
-			$myDB = new DBUpdate();		
+			$myDB = new ilDBUpdate();		
 			$myDB->applyUpdate();
 			
 			if ($myDB->updateMsg != "no_changes")
