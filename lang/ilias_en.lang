@@ -427,3 +427,4 @@ common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
 common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
 common#:#info_deleted#:#Object(s) deleted
+common#:#forums_thread_articles#:#articles to the thread
