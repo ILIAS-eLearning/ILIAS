@@ -609,6 +609,7 @@ class ilNestedSetXML
 	{
 		$newDOM = new XML2DOM($xml);
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
+
 		if (count($nodes) > 0)
 		{
 			$newDOM->insertNode($this->dom, $nodes[$index]);
@@ -734,6 +735,24 @@ class ilNestedSetXML
 		}
 	}	
 	
+	function clean(&$meta)
+	{
+		if(is_array($meta))
+		{
+			foreach($meta as $key => $value)
+			{
+				if(is_array($meta[$key]))
+				{
+					$this->clean($meta[$key]);
+				}
+				else
+				{
+					$meta[$key] = preg_replace("/&/","&amp;",$meta[$key]);
+				}
+			}
+		}
+		return true;
+	}
 	/**
 	*	updates dom node
     *
@@ -744,9 +763,8 @@ class ilNestedSetXML
 	*/
 	function updateDomNode($xPath, $meta, $no = 0)
 	{
-
+		$this->clean($meta);
 		$update = false;
-
 		if ($xPath == "//Bibliography")
 		{
 			$nodes = $this->getXpathNodes($this->dom, $xPath . "/BibItem[" . ($no+1) . "]");
@@ -1135,7 +1153,7 @@ class ilNestedSetXML
 					$xPath = "//MetaData";
 				}
 				$this->addXMLNode($xPath, $xml);
-#				echo htmlspecialchars($this->dom->dump_mem(0));
+				#echo htmlspecialchars($this->dom->dump_mem(0));
 			}
 			return true;
 		}
@@ -1248,8 +1266,24 @@ class ilNestedSetXML
 	*/
 	function updateFromDom()
 	{
-
 		$this->deleteAllDbData();
+		$root = $this->dom->document_element();
+		foreach($root->child_nodes() as $node)
+		{
+			foreach($node->child_nodes() as $subnode)
+			{
+				if($subnode->node_name() == "Title")
+				{
+					foreach($subnode->child_nodes() as $node)
+					{
+						if($node->node_type() == XML_TEXT_NODE)
+						{
+						}
+					}
+				}
+			}
+		}
+
 		$xml = $this->dom->dump_mem(0);
 		$this->import($xml,$this->obj_id,$this->obj_type);
 

@@ -58,7 +58,7 @@ class ilMetaDataGUI
 	}
 
 
-	function setObject($a_obj)
+	function setObject(&$a_obj)
 	{
 		$this->obj =& $a_obj;
 		$this->meta_obj =& $this->obj->getMetaData();
@@ -1313,7 +1313,8 @@ class ilMetaDataGUI
 		{
 			$a_section = "General";
 		}
-		$sections = array("General", "Lifecycle", "Meta-Metadata", "Technical", "Educational", "Rights", "Relation", "Annotation", "Classification");
+		$sections = array("General", "Lifecycle", "Meta-Metadata", "Technical", 
+						  "Educational", "Rights", "Relation", "Annotation", "Classification");
 		if (in_array($a_section, $sections))
 		{
 			$func = "fill" . str_replace("-", "", $a_section);
