@@ -2204,6 +2204,8 @@ common#:#signature#:#Сігнатура
 common#:#size#:#Size###29 Nov 2004 new variable
 common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
+common#:#soap_user_administration#:#External user administration (SOAP)###28 Jan 2005 new variable
+common#:#soap_user_administration_desc#:#If enabled, all user accounts can be administrated by an external SOAP-Client.###28 Jan 2005 new variable
 common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
 common#:#spl_add#:#Add question pool###07 May 2004 new variable
@@ -2404,6 +2406,7 @@ common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
+common#:#webservices#:#Webservices###28 Jan 2005 new variable
 common#:#week#:#Тиждень
 common#:#welcome#:#Ласкаво Просимо
 common#:#who_is_online#:#Хто щє онлайн?
