@@ -891,10 +891,11 @@ common#:#rolf_added#:#Cartella di ruolo aggiunta
 common#:#rolf_create_role#:#Creare un ruolo
 common#:#rolf_create_rolt#:#Creare un template di ruolo
 common#:#rolf_delete#:#Cancellare un ruolo o un template di ruolo
-common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo
+common#:#rolf_edit_permission#:#Modificare le impostazioni dei permessi dei ruoli o dei template di ruolo###22 Jan 2004 content changed
+common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
 common#:#rolf_read#:#Accedere in lettura ai ruoli ed ai template di ruolo
 common#:#rolf_visible#:#Vedere i ruoli ed i template di ruolo
-common#:#rolf_write#:#Modificare i ruoli o i template di ruolo
+common#:#rolf_write#:#Modificare i ruoli o i template di ruolo###22 Jan 2004 content changed
 common#:#rolt#:#Template di ruolo
 common#:#rolt_a#:#a template di ruolo
 common#:#rolt_add#:#Aggiungi template di ruolo
@@ -1038,7 +1039,8 @@ common#:#usr_style#:#Stile dell&#039;utente
 common#:#usrf#:#Cartella utente
 common#:#usrf_create_user#:#Creare un nuovo utente
 common#:#usrf_delete#:#Cancellare un utente
-common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
+common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti###22 Jan 2004 content changed
+common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
 common#:#usrf_read#:#Accedere in lettura alla registrazione utente
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti

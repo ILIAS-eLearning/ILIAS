@@ -34,7 +34,6 @@
 // to the corresponding mode!
 <!-- language file start -->
 common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Dec 2003
-content changedcommon#:#DD.MM.YYYY#:#DD.MM.YYYY###13 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###13 Jan 2004 new variable
 common#:#absolute_path#:#Абсолютний Шлях
 common#:#accept_usr_agreement#:#Прийняти угоду користувача?
@@ -892,6 +891,7 @@ common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variabl
 common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
 common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
 common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
 common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
 common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
 common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
@@ -1039,6 +1039,7 @@ common#:#usrf#:#Папка Користувача###13 Jan 2004 content changed
 common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
 common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
 common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
 common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
 common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
 common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
