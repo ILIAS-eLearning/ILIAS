@@ -99,7 +99,7 @@ class Object
 		{
 			// create and insert object in objecttree
 			$this->id = createNewObject($a_new_type, $a_data);
-			$tree->insertNode($this->id,$a_obj_id);
+			$tree->insertNode($this->id,$a_obj_id,$a_parent);
 
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
@@ -370,7 +370,7 @@ class Object
 				$role_obj["title"] = 'Role Folder';
 				$role_obj["desc"] = 'Automatisch generierter Role Folder';
 				$rolf_id = createNewObject("rolf",$role_obj);
-				$tree->insertNode($rolf_id,$_GET["obj_id"]);
+				$tree->insertNode($rolf_id,$_GET["obj_id"],$_GET["parent"]);
 				// Suche aller Parent Rollen im Baum
 				$parentRoles = $rbacadmin->getParentRoleIds();
 				

@@ -167,16 +167,18 @@ class LearningModuleObject extends Object
 			}
 		}
 
-		$lm_tree->insertNode(key($a_nodes[0]));
+		$parent_id = $this->id;
+		$lm_tree->insertNode(key($a_nodes[0]),$parent_id,0);
 		
 		// traverse array to build tree structure by inserting nodes to db-table tree
 		foreach ($a_nodes as $key => $nodes)
 		{
+			$parent_parent_id = $parent_id;
 			$parent_id = key($nodes);
 
 			foreach (array_reverse($nodes[$parent_id]) as $child_id)
 			{
-				$lm_tree->insertNode($child_id,$parent_id);
+				$lm_tree->insertNode($child_id,$parent_id,$parent_parent_id);
 			}
 		}
 	}

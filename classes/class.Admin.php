@@ -209,7 +209,7 @@ class Admin
 					}
 
 					// Eintragen des Objektes in Tree
-					$tree->insertNode($obj_id,$_GET["obj_id"]);
+					$tree->insertNode($obj_id,$_GET["obj_id"],$_GET["parent"]);
 			
 					// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
 					$parentRoles = $rbacadmin->getParentRoleIds();
@@ -229,7 +229,7 @@ class Admin
 					if ($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$obj_type))
 					{
 						// Eintragen des Objektes in Tree
-						$tree->insertNode($obj_id,$_GET["obj_id"]);
+						$tree->insertNode($obj_id,$_GET["obj_id"],$_GET["parent"]);
 		
 						// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
 						$parentRoles = $rbacadmin->getParentRoleIds();
@@ -246,7 +246,6 @@ class Admin
 						$this->ilias->raiseError("No permission to create object",$this->ilias->error_obj->MESSAGE);
 					}
 				}
-//				$tree->moveNode($clipboard["obj_list"][0],$clipboard["parent"],$_GET["parent"]);
 
 				$_SESSION["clipboard"] = "";
 				session_unregister("clipboard");
