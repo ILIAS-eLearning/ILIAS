@@ -41,7 +41,7 @@ $lng->loadLanguageModule("forum");
 if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 {
 	$tplEx = new ilTemplate("tpl.forums_export_print.html",true,true);
-	$tplEx->setVariable("CSSPATH"$tpl->tplPath);
+	$tplEx->setVariable("CSSPATH",$tpl->tplPath);
 	
 	// Thread drucken
 	if ($_GET["print_thread"] > 0)
