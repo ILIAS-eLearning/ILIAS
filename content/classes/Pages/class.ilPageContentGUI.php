@@ -136,6 +136,15 @@ class ilPageContentGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// strip "c" "r" of table ids from hierarchical id
+		$first_hier_character = substr($_POST["target"][0], 0, 1);
+		if ($first_hier_character == "c" ||
+			$first_hier_character == "r" ||
+			$first_hier_character == "i")
+		{
+			$_POST["target"][0] = substr($_POST["target"][0], 1);
+		}
 
 		// move
 		$updated = $this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
@@ -172,6 +181,15 @@ class ilPageContentGUI
 		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// strip "c" "r" of table ids from hierarchical id
+		$first_hier_character = substr($_POST["target"][0], 0, 1);
+		if ($first_hier_character == "c" ||
+			$first_hier_character == "r" ||
+			$first_hier_character == "i")
+		{
+			$_POST["target"][0] = substr($_POST["target"][0], 1);
 		}
 
 		// move
