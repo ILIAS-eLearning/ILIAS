@@ -302,33 +302,51 @@ class ilObjSurveyQuestionPool extends ilObject
 */
   function removeQuestion($question_id) 
   {
-/*    if ($question_id < 1)
+    if ($question_id < 1)
       return;
       
-    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE question_id = %s AND qpl_question_type.question_type_id = qpl_questions.question_type_fi",
-      $this->ilias->db->db->quote($question_id)
-    );
-    $result = $this->ilias->db->db->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-        $this->ilias->db->db->quote($question_id)
-      );
-      $result = $this->ilias->db->db->query($query);
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_id = %s",
-        $this->ilias->db->db->quote($question_id)
-      );
-      $result = $this->ilias->db->db->query($query);
-			$question = new ASS_Question();
-			$question->set_id($question_id);
-			$question->remove_all_question_references();
-			// delete the question in the tst_test_question table (list of test questions)
-			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->db->quote($question_id));
-			$deleteresult = $this->ilias->db->query($querydelete);
-    } else {
-      return;
-    }
-*/  }
+		$query = sprintf("DELETE FROM survey_answer WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_questionblock WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_survey_question WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM survey_question WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$directory = CLIENT_WEB_DIR . "/survey/" . $_GET["ref_id"] . "/$question_id";
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
+	}
 
 /**
 * Returns the question type of a question with a given id

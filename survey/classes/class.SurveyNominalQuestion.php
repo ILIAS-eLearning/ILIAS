@@ -125,6 +125,21 @@ class SurveyNominalQuestion extends SurveyQuestion {
 	}
 	
 /**
+* Adds a category to the question at a given index
+*
+* Adds a category to the question at a given index
+*
+* @param string $categoryname The name of the category
+* @param integer $index The index of the category
+* @access public
+* @see $categories
+*/
+	function addCategoryWithIndex($categoryname, $index) 
+	{
+		$this->categories[$index] = $categoryname;
+	}
+
+/**
 * Adds a category to the question
 *
 * Adds a category to the question
@@ -136,6 +151,20 @@ class SurveyNominalQuestion extends SurveyQuestion {
 	function addCategory($categoryname) 
 	{
 		array_push($this->categories, $categoryname);
+	}
+	
+/**
+* Adds a category array to the question
+*
+* Adds a category array to the question
+*
+* @param array $categories An array with categories
+* @access public
+* @see $categories
+*/
+	function addCategoryArray($categories) 
+	{
+		$this->categories = array_merge($this->categories, $categories);
 	}
 	
 /**

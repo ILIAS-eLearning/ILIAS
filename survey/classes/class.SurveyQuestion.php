@@ -323,14 +323,14 @@ class SurveyQuestion {
 * @see $materials
 */  function setMaterialsfile($materials_filename, $materials_tempfilename="", $materials_name="") {
 		if (!empty($materials_filename)) {
-			$materialspath = $this->get_materials_path();
+			$materialspath = $this->getMaterialsPath();
 			if (!file_exists($materialspath)) {
 				ilUtil::makeDirParents($materialspath);
 			}
 			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
 				print "image not uploaded!!!! ";
 			} else {
-				$this->add_materials($materials_filename, $materials_name);
+				$this->addMaterials($materials_filename, $materials_name);
 			}
 		}
 	}
@@ -347,8 +347,8 @@ class SurveyQuestion {
   function deleteMaterial($materials_name = "") {
 	foreach ($this->materials as $key => $value) {
 		if (strcmp($key, $materials_name)==0) {
-			if (file_exists($this->get_materials_path().$value)) {
-				unlink($this->get_materials_path().$value);
+			if (file_exists($this->getMaterialsPath().$value)) {
+				unlink($this->getMaterialsPath().$value);
 			}
 			unset($this->materials[$key]);
 		}
@@ -671,53 +671,46 @@ class SurveyQuestion {
 */
   function saveMaterialsToDb()
   {
-/*  	global $ilias;
-    $db = & $ilias->db->db;
-
-  	if ($this->id > 0) {
-      	$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
-      		$db->quote($this->id)
-      	);
- 	    $result = $db->query($query);
-		if (!empty($this->materials)) {
-			foreach ($this->materials as $key => $value) {
-				$query = sprintf("INSERT INTO qpl_question_material (question_id, materials, materials_file) VALUES (%s, %s, %s)",
-					$db->quote($this->id),
-					$db->quote($key),
-					$db->quote($value)
-				);
-				$result = $db->query($query);
+		if ($this->id > 0) 
+		{
+			$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
+				$this->ilias->db->quote($this->id)
+			);
+			$result = $this->ilias->db->query($query);
+			if (!empty($this->materials)) {
+				foreach ($this->materials as $key => $value) {
+					$query = sprintf("INSERT INTO survey_question_material (question_fi, materials, materials_file) VALUES (%s, %s, %s)",
+						$this->ilias->db->quote($this->id),
+						$this->ilias->db->quote($key),
+						$this->ilias->db->quote($value)
+					);
+					$result = $this->ilias->db->query($query);
+				}
 			}
 		}
-    }
-*/  }
+	}
 
 /**
 * Loads materials uris from a database
 *
 * Loads materials uris from a database
 *
-* @param object $db A pear DB object
-* @param integer $question_id A unique key which defines the multiple choice survey in the database
+* @param integer $question_id A unique key which defines the survey question in the database
 * @access public
 */
   function loadMaterialFromDb($question_id)
   {
-/*    global $ilias;
-    $db = & $ilias->db->db;
-
-    $query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
-      $db->quote($question_id)
+    $query = sprintf("SELECT * FROM survey_question_material WHERE question_fi = %s",
+      $this->ilias->db->quote($question_id)
     );
-    $result = $db->query($query);
+    $result = $this->ilias->db->query($query);
     if (strcmp(get_class($result), db_result) == 0) {
     	$this->materials = array();
     	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        	$this->add_materials($data->materials_file, $data->materials);
-
-        }
-    }
-*/  }
+				$this->addMaterials($data->materials_file, $data->materials);
+			}
+		}
+	}
 
 
 /**

@@ -2923,6 +2923,7 @@ survey#:#last_update#:#Last update
 survey#:#material_file#:#Material file
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
+survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
 survey#:#no_questions_available#:#There are no questions available!
 survey#:#preview#:#Preview
 survey#:#qt_metric#:#Metric question
@@ -2934,3 +2935,15 @@ survey#:#questiontype#:#Question type
 survey#:#reset_filter#:#Reset filter
 survey#:#set_filter#:#Set filter
 survey#:#survey_questions#:#Questions
+survey#:#category_delete_select_none#:#Please check at least one category to delete it!
+survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
+survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
+survey#:#uploaded_material#:#Uploaded Material
+survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
+survey#:#insert_before#:#Insert before
+survey#:#insert_after#:#Insert after
+survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
+survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
+survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
+survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
+survey#:#qpl_questions_deleted#:#Question(s) deleted.
