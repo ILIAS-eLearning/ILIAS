@@ -126,6 +126,13 @@ class ilExplorer
 	var $expand_variable;
 
 	/**
+	* array ($type => clickable (empty means true, "n" means false)
+	* @var array
+	* @access private
+	*/
+	var $is_clickable;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -238,6 +245,45 @@ class ilExplorer
 	function outputIcons($a_icons)
 	{
 		$this->output_icons = $a_icons;
+	}
+
+
+	/**
+	* (de-)activates links for a certain object type
+	*
+	* @param	string		$a_type			object type
+	* @param	boolean		$a_clickable	true/false
+	*/
+	function setClickable($a_type, $a_clickable)
+	{
+		if($a_clickable)
+		{
+			$this->is_clickable[$a_type] = "";
+		}
+		else
+		{
+			$this->is_clickable[$a_type] = "n";
+		}
+	}
+
+
+	/**
+	* check if links for certain object type are activated
+	*
+	* @param	string		$a_type			object type
+	*
+	* @return	boolean		true if linking is activated
+	*/
+	function isClickable($a_type)
+	{
+		if($this->is_clickable[$a_type] == "n")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 
@@ -422,17 +468,29 @@ class ilExplorer
 			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setCurrentBlock("row");
-		$target = (strpos($this->target, "?") === false) ?
-			$this->target."?" : $this->target."&";
-		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-		$tpl->setVariable("TITLE", $a_option["title"]);
 
-		if ($this->frameTarget != "")
+		if($this->isClickable($a_option["type"]))	// output link
 		{
-			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			$tpl->setCurrentBlock("link");
+			$target = (strpos($this->target, "?") === false) ?
+				$this->target."?" : $this->target."&";
+			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			$tpl->setVariable("TITLE", $a_option["title"]);
+
+			if ($this->frameTarget != "")
+			{
+				$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else			// output text only
+		{
+			$tpl->setCurrentBlock("text");
+			$tpl->setVariable("OBJ_TITLE", $a_option["title"]);
+			$tpl->parseCurrentBlock();
 		}
 
+		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
