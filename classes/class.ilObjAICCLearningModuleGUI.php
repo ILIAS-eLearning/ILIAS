@@ -102,21 +102,21 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","content/aicc_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","content/scorm_edit.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","content/aicc_edit.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
-	* scorm module properties
+	* aicc module properties
 	*/
 	function properties()
 	{
@@ -127,13 +127,13 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 
 		// view link
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "aicc_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
-		// scorm lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_properties.html", true);
+		// aicc lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.aicc_properties.html", true);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
@@ -177,7 +177,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 
 
 	/**
-	* no manual SCORM creation, only import at the time
+	* no manual AICC creation, only import at the time
 	*/
 	function createObject()
 	{
@@ -185,7 +185,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
-	* display dialogue for importing SCORM package
+	* display dialogue for importing AICC package
 	*
 	* @access	public
 	*/
@@ -224,6 +224,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
 
+
 		$file = pathinfo($_FILES["aiccfile"]["name"]);
 		$name = substr($file["basename"], 0,
 			strlen($file["basename"]) - strlen($file["extension"]) - 1);
@@ -231,7 +232,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 		{
 			$name = $this->lng->txt("no_title");
 		}
-		
+
 		//$maxFileSize=ini_get('upload_max_filesize');
 
 		// create and insert object in objecttree
@@ -274,7 +275,124 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 				$this->ilias->raiseError("<b>Validation Error(s):</b><br>".implode("<br>", $cifModule->errorText), $this->ilias->error_obj->WARNING);
 			}
 		}
+		
+		$cifModule->writeToDatabase($newObj->getId());
+/*
 
+
+include_once("classes/class.ilObjAICCLearningModule.php");
+		$cifModule=new AICC_CourseInterchangeFiles();
+		$cifModule->findFiles("data/66666666/lm_data/lm_194");
+		$cifModule->readFiles();
+		if (!empty($cifModule->errorText)) {
+			$this->ilias->raiseError("<b>Error reading LM-File(s):</b><br>".implode("<br>", $cifModule->errorText), $this->ilias->error_obj->WARNING);
+		}
+		$alm_id="194";
+		
+		$sql="DELETE FROM aicc_tree WHERE alm_id=$alm_id";
+		$this->ilias->db->query($sql);
+		$sql="DELETE FROM aicc_course  ";//WHERE alm_id=$alm_id";
+		$this->ilias->db->query($sql);
+		$sql="DELETE FROM aicc_object WHERE alm_id=$alm_id";
+		$this->ilias->db->query($sql);
+		$sql="DELETE FROM aicc_units ";//WHERE alm_id=$alm_id";
+		$this->ilias->db->query($sql);
+		
+		include_once("content/classes/AICC/class.ilAICCTree.php");
+		include_once("content/classes/AICC/class.ilAICCCourse.php");
+		include_once("content/classes/AICC/class.ilAICCUnit.php");
+		include_once("content/classes/AICC/class.ilAICCBlock.php");
+		
+		//write course to database
+		$course=new ilAICCCourse();
+		$course->setALMId($alm_id);
+		$course->setSystemId("root");
+		$course->setTitle($cifModule->data["crs"]["course"]["course_title"]);
+		$course->setDescription($cifModule->data["crs"]["course_description"]["description"]);
+		
+		$course->setCourseCreator($cifModule->data["crs"]["course"]["course_creator"]);
+		$course->setCourseId($cifModule->data["crs"]["course"]["course_id"]);
+		$course->setCourseSystem($cifModule->data["crs"]["course"]["course_system"]);
+		$course->setCourseTitle($cifModule->data["crs"]["course"]["course_title"]);
+		$course->setLevel($cifModule->data["crs"]["course"]["level"]);
+		$course->setMaxFieldsCst($cifModule->data["crs"]["course"]["max_fields_cst"]);
+		$course->setMaxFieldsOrt($cifModule->data["crs"]["course"]["max_fields_ort"]);
+		$course->setTotalAUs($cifModule->data["crs"]["course"]["total_aus"]);
+		$course->setTotalBlocks($cifModule->data["crs"]["course"]["total_blocks"]);
+		$course->setTotalComplexObj($cifModule->data["crs"]["course"]["total_complex_obj"]);
+		$course->setTotalObjectives($cifModule->data["crs"]["course"]["total_objectives"]);
+		$course->setVersion($cifModule->data["crs"]["course"]["version"]);
+		$course->setMaxNormal($cifModule->data["crs"]["course_behavior"]["max_normal"]);
+		$course->setDescription($cifModule->data["crs"]["course_description"]["description"]);
+		$course->create();	
+		$identifier["root"]=$course->getId();
+		
+		//all blocks
+		foreach ($cifModule->data["cst"] as $row) {
+			$system_id=strtolower($row["block"]);
+			if ($system_id!="root") {
+				$unit=new ilAICCBlock();
+				$description=$cifModule->getDescriptor($system_id);
+				$unit->setALMId($alm_id);
+				$unit->setType("sbl");
+				$unit->setTitle($description["title"]);
+				$unit->setDescription($description["description"]);
+				$unit->setDeveloperId($description["developer_id"]);
+				$unit->setSystemId($description["system_id"]);
+				$unit->create();
+				$identifier[$system_id]=$unit->getId();
+			}
+		}
+	
+		//write assignable units to database
+		foreach ($cifModule->data["au"] as $row) {
+			$sysid=strtolower($row["system_id"]);
+			$unit=new ilAICCUnit();
+			
+			$unit->setAUType($row["type"]);
+			$unit->setCommand_line($row["command_line"]);
+			$unit->setMaxTimeAllowed($row["max_time_allowed"]);
+			$unit->setTimeLimitAction($row["time_limit_action"]);
+			$unit->setMaxScore($row["max_score"]);
+			$unit->setCoreVendor($row["core_vendor"]);
+			$unit->setSystemVendor($row["system_vendor"]);
+			$unit->setFilename($row["file_name"]);
+			$unit->setMasteryScore($row["mastery_score"]);
+			$unit->setWebLaunch($row["web_launch"]);
+			$unit->setAUPassword($row["au_password"]);
+				
+			$description=$cifModule->getDescriptor($sysid);
+			$unit->setALMId($alm_id);
+			$unit->setType("sau");
+			$unit->setTitle($description["title"]);
+			$unit->setDescription($description["description"]);
+			$unit->setDeveloperId($description["developer_id"]);
+			$unit->setSystemId($description["system_id"]);
+			$unit->create();
+			$identifier[$sysid]=$unit->getId();	
+			//echo "unit->create system_id=$sysid=".$unit->getId()."<br>";
+		}
+		
+		//write tree
+		$this->sc_tree =& new ilAICCTree($alm_id);
+		$this->sc_tree->addTree($alm_id, $identifier["root"]);
+		
+		//writing members
+		foreach ($cifModule->data["cst"] as $row) {
+			$members=$row["member"];
+			if (!is_array($members))
+				$members=array($members);
+			$parentid=$identifier[strtolower($row["block"])];
+
+			foreach($members as $member) {
+				$memberid=$identifier[strtolower($member)];
+				echo "insert node memberid=$memberid    parentid=$parentid<br>";
+				$this->sc_tree->insertNode($memberid, $parentid);
+			}
+		}		
+	
+		echo "fertig.<br>";
+*/
 	}
 
 	function upload()
@@ -335,9 +453,9 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 	*/
 	function perm()
 	{
-		$this->setFormAction("permSave", "scorm_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
+		$this->setFormAction("permSave", "aicc_edit.php?cmd=permSave&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
-		$this->setFormAction("addRole", "scorm_edit.php?ref_id=".$_GET["ref_id"].
+		$this->setFormAction("addRole", "aicc_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=addRole");
 		$this->permObject();
 	}
@@ -348,7 +466,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 	function permSave()
 	{
 		$this->setReturnLocation("permSave",
-			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+			"aicc_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->permSaveObject();
 	}
 
@@ -358,7 +476,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 	function addRole()
 	{
 		$this->setReturnLocation("addRole",
-			"scorm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+			"aicc_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		$this->addRoleObject();
 	}
 
@@ -699,7 +817,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
-		$this->tpl = new ilTemplate("tpl.scorm_edit_frameset.html", false, false, "content");
+		$this->tpl = new ilTemplate("tpl.aicc_edit_frameset.html", false, false, "content");
 		$this->tpl->setVariable("REF_ID",$this->ref_id);
 		$this->tpl->show();
 	}
@@ -758,7 +876,7 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 				}
 				if($row["type"] == "alm")
 				{
-					$this->tpl->setVariable("LINK_ITEM", "scorm_edit.php?ref_id=".$row["child"]);
+					$this->tpl->setVariable("LINK_ITEM", "aicc_edit.php?ref_id=".$row["child"]);
 				}
 				else
 				{
@@ -856,20 +974,6 @@ class ilObjAICCLearningModuleGUI extends ilObjectGUI
 			get_class($this));
 	}
 
-
-function getAllFiles($dir, $arr=array()) {
-	$handle=opendir($dir); 
-	while ($file = readdir ($handle)) { 
- 	  if ($file != "." && $file != "..") { 
-   		if (is_dir($dir.$file))
-   			$arr=$this->getAllFiles($dir.$file."/", $arr);
-    	else
-    		$arr[]=$dir."/".$file;
-   	} 
-	}
-	closedir($handle); 	
-	return $arr;
-}
 
 } // END class.ilObjAICCLearningModule
 ?>

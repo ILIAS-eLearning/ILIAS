@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("include/inc.convertcharset.php");
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
@@ -328,22 +329,24 @@ class ilObjAICCLearningModule extends ilObject
 		// delete data directory
 		ilUtil::delDir($this->getDataDirectory());
 
-		// delete scorm learning module record
+		// delete aicc learning module record
 		$q = "DELETE FROM aicc_lm WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
-/*
-		// remove all scorm objects and scorm tree
-		include_once("content/classes/SCORM/class.ilSCORMTree.php");
-		include_once("content/classes/SCORM/class.ilSCORMObject.php");
-		$sc_tree = new ilSCORMTree($this->getId());
-		$items = $sc_tree->getSubTree($sc_tree->getNodeData($sc_tree->readRootId()));
-		foreach($items as $item)
-		{
-			$sc_object =& ilSCORMObject::_getInstance($item["obj_id"]);
-			$sc_object->delete();
-		}
-		$sc_tree->removeTree($sc_tree->getTreeId());
-*/
+		
+		// delete aicc data
+		// this is highly dependent on the database
+		$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.alm_id=".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		
+		$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.alm_id=".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		
+		$q = "DELETE FROM aicc_tree WHERE alm_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		
+		$q = "DELETE FROM aicc_object WHERE alm_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+
 
 		// always call parent delete function at the end!!
 		return true;
@@ -491,6 +494,13 @@ class AICC_CourseInterchangeFiles {
 		$this->data=$this->arraykeys_tolower($this->data);
 	}
 	
+	function getDescriptor($system_id) {
+		foreach ($this->data["des"] as $row) {
+			if (strcasecmp ($row["system_id"],$system_id)==0)
+				return $row;
+		}
+	}
+	
 	function validate() {
 		$this->checkRequiredKeys();
 		$this->checkStructure();
@@ -596,7 +606,6 @@ class AICC_CourseInterchangeFiles {
 		return $data;
 	}
 	
-			
 	function readCSVFile($filename) {
 		$row=1;
 		$handle = fopen($filename, "r");
@@ -609,11 +618,11 @@ class AICC_CourseInterchangeFiles {
 					if (array_key_exists($header[$col], $data2)) {
 						$value=$data2[$header[$col]];
 						if (!is_array($value))
-							$data2[$header[$col]]=array($value, $data[$col]);
+							$data2[$header[$col]]=array($value, iso_to_utf8($data[$col]));
 						else
-							$data2[$header[$col]][]=$data[$col];
+							$data2[$header[$col]][]=iso_to_utf8($data[$col]);
 					} else
-						$data2[$header[$col]]=$data[$col];
+						$data2[$header[$col]]=iso_to_utf8($data[$col]);
 				}
 				$rows[]=$data2;	
 			}
@@ -646,6 +655,99 @@ class AICC_CourseInterchangeFiles {
 				$arr[$k]=$this->arraykeys_tolower($v);
 		}
 		return $arr;
+	}
+	
+	function writeToDatabase($alm_id) {
+		include_once("content/classes/AICC/class.ilAICCTree.php");
+		include_once("content/classes/AICC/class.ilAICCCourse.php");
+		include_once("content/classes/AICC/class.ilAICCUnit.php");
+		include_once("content/classes/AICC/class.ilAICCBlock.php");
+		
+		//write course to database
+		$course=new ilAICCCourse();
+		$course->setALMId($alm_id);
+		$course->setSystemId("root");
+		$course->setTitle($this->data["crs"]["course"]["course_title"]);
+		$course->setDescription($this->data["crs"]["course_description"]["description"]);
+		
+		$course->setCourseCreator($this->data["crs"]["course"]["course_creator"]);
+		$course->setCourseId($this->data["crs"]["course"]["course_id"]);
+		$course->setCourseSystem($this->data["crs"]["course"]["course_system"]);
+		$course->setCourseTitle($this->data["crs"]["course"]["course_title"]);
+		$course->setLevel($this->data["crs"]["course"]["level"]);
+		$course->setMaxFieldsCst($this->data["crs"]["course"]["max_fields_cst"]);
+		$course->setMaxFieldsOrt($this->data["crs"]["course"]["max_fields_ort"]);
+		$course->setTotalAUs($this->data["crs"]["course"]["total_aus"]);
+		$course->setTotalBlocks($this->data["crs"]["course"]["total_blocks"]);
+		$course->setTotalComplexObj($this->data["crs"]["course"]["total_complex_obj"]);
+		$course->setTotalObjectives($this->data["crs"]["course"]["total_objectives"]);
+		$course->setVersion($this->data["crs"]["course"]["version"]);
+		$course->setMaxNormal($this->data["crs"]["course_behavior"]["max_normal"]);
+		$course->setDescription($this->data["crs"]["course_description"]["description"]);
+		$course->create();	
+		$identifier["root"]=$course->getId();
+		
+		//all blocks
+		foreach ($this->data["cst"] as $row) {
+			$system_id=strtolower($row["block"]);
+			if ($system_id!="root") {
+				$unit=new ilAICCBlock();
+				$description=$this->getDescriptor($system_id);
+				$unit->setALMId($alm_id);
+				$unit->setType("sbl");
+				$unit->setTitle($description["title"]);
+				$unit->setDescription($description["description"]);
+				$unit->setDeveloperId($description["developer_id"]);
+				$unit->setSystemId($description["system_id"]);
+				$unit->create();
+				$identifier[$system_id]=$unit->getId();
+			}
+		}
+	
+		//write assignable units to database
+		foreach ($this->data["au"] as $row) {
+			$sysid=strtolower($row["system_id"]);
+			$unit=new ilAICCUnit();
+			
+			$unit->setAUType($row["type"]);
+			$unit->setCommand_line($row["command_line"]);
+			$unit->setMaxTimeAllowed($row["max_time_allowed"]);
+			$unit->setTimeLimitAction($row["time_limit_action"]);
+			$unit->setMaxScore($row["max_score"]);
+			$unit->setCoreVendor($row["core_vendor"]);
+			$unit->setSystemVendor($row["system_vendor"]);
+			$unit->setFilename($row["file_name"]);
+			$unit->setMasteryScore($row["mastery_score"]);
+			$unit->setWebLaunch($row["web_launch"]);
+			$unit->setAUPassword($row["au_password"]);
+				
+			$description=$this->getDescriptor($sysid);
+			$unit->setALMId($alm_id);
+			$unit->setType("sau");
+			$unit->setTitle($description["title"]);
+			$unit->setDescription($description["description"]);
+			$unit->setDeveloperId($description["developer_id"]);
+			$unit->setSystemId($description["system_id"]);
+			$unit->create();
+			$identifier[$sysid]=$unit->getId();	
+		}
+		
+		//write tree
+		$tree =& new ilAICCTree($alm_id);
+		$tree->addTree($alm_id, $identifier["root"]);
+		
+		//writing members
+		foreach ($this->data["cst"] as $row) {
+			$members=$row["member"];
+			if (!is_array($members))
+				$members=array($members);
+			$parentid=$identifier[strtolower($row["block"])];
+
+			foreach($members as $member) {
+				$memberid=$identifier[strtolower($member)];
+				$tree->insertNode($memberid, $parentid);
+			}
+		}		
 	}
 	
 }
