@@ -4889,3 +4889,6 @@ REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,27);
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,28);
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,42);
 REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,43);
+
+<#321>
+UPDATE settings SET value = '3.2.0 2004-10-20' WHERE keyword = 'ilias_version' LIMIT 1;
