@@ -49,6 +49,7 @@ assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
 assessment#:#filter#:#Filtr
 assessment#:#gap_selection#:#Wybór odstępu
+assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -67,11 +68,13 @@ assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
 assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
 assessment#:#qt_cloze#:#Uzupełnij pytanie
+assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#Pasujące pytanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie porządkowe
 assessment#:#question_type#:#Typ pytania
+assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#select_gap#:#Wybierz odstęp
@@ -1213,6 +1216,7 @@ content#:#HTML export#:#Eksport HTML
 content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#all#:#Wszystko
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Koło
 content#:#cont_Citation#:#Cytat
@@ -1232,6 +1236,7 @@ content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_add_area#:#Dodaj powierzchnię
 content#:#cont_add_definition#:#Dodaj definicję
+content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
@@ -1276,6 +1281,7 @@ content#:#cont_definition#:#Definicja
 content#:#cont_definitions#:#Definicje
 content#:#cont_del_assignment#:#Usuń przydział
 content#:#cont_dependencies#:#Zależności
+content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
@@ -1295,6 +1301,7 @@ content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
 content#:#cont_get_link#:#podaj łącznik
+content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href

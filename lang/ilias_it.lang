@@ -49,6 +49,7 @@ assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
 assessment#:#filter#:#Filtro
 assessment#:#gap_selection#:#Selezione vuota
+assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -67,11 +68,13 @@ assessment#:#qpl_edit_select_multiple#:#Seleziona solo una domanda da modificare
 assessment#:#qpl_edit_select_none#:#Seleziona la domanda da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la domanda da esportare
 assessment#:#qt_cloze#:#Domanda con risposta da completare
+assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#Domanda a corrispondenza
 assessment#:#qt_multiple_choice_mr#:#Domanda a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#Domanda a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#Domanda con risposte da ordinare
 assessment#:#question_type#:#Tipo di domanda
+assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Annulla filtro
 assessment#:#select_gap#:#Seleziona spazio
@@ -1213,6 +1216,7 @@ content#:#HTML export#:#Esporta HTML
 content#:#PDF export#:#Esporta PDF
 content#:#Pages#:#Pagine
 content#:#all#:#Tutti
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alfbetico A, B, ...
 content#:#cont_Circle#:#Cerchio
 content#:#cont_Citation#:#Citazione
@@ -1232,6 +1236,7 @@ content#:#cont_Roman#:#Romani I, II, ...
 content#:#cont_Unordered#:#Non ordinato
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_definition#:#Aggiungi definizione
+content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
@@ -1276,6 +1281,7 @@ content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
 content#:#cont_del_assignment#:#Assegnamento cancellato
 content#:#cont_dependencies#:#Dipendenze
+content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
@@ -1295,6 +1301,7 @@ content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
 content#:#cont_get_link#:#restituisci il collegamento
+content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#Altezza
 content#:#cont_how_published#:#Come pubblicato
 content#:#cont_href#:#href

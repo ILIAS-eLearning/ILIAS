@@ -74,8 +74,8 @@ assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_type#:#Question Type
-assessment#:#remove_question#:#Remove
 assessment#:#region#:#Region
+assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
@@ -1216,6 +1216,7 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
+content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
@@ -1231,11 +1232,11 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#cont_Additional#:#Additional
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_definition#:#Add Definition
+content#:#cont_add_fullscreen#:#Add Fullscreen
 content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
@@ -1280,6 +1281,7 @@ content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitions
 content#:#cont_del_assignment#:#Delete assignment
 content#:#cont_dependencies#:#Dependencies
+content#:#cont_derive_from_obj#:#Derive from Object
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_edit_area#:#Edit Area
@@ -1299,6 +1301,7 @@ content#:#cont_format#:#Format
 content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_get_link#:#get link
+content#:#cont_get_orig_size#:#Set original size
 content#:#cont_height#:#Height
 content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
@@ -1382,6 +1385,7 @@ content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
+content#:#cont_remove_fullscreen#:#Remove Fullscreen
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
@@ -1390,10 +1394,6 @@ content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
 content#:#cont_sc_title#:#title
 content#:#cont_school#:#School
-content#:#cont_get_orig_size#:#Set original size
-content#:#cont_derive_from_obj#:#Derive from Object
-content#:#cont_remove_fullscreen#:#Remove Fullscreen
-content#:#cont_add_fullscreen#:#Add Fullscreen
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#Please select one item only
 content#:#cont_select_max_one_term#:#Select one term only

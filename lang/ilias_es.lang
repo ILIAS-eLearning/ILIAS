@@ -49,6 +49,7 @@ assessment#:#export#:#Export###05 Feb 2004 new variable
 assessment#:#false#:#False###05 Feb 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
+assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -67,11 +68,13 @@ assessment#:#qpl_edit_select_multiple#:#Please check only one question for editi
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
+assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
 assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
 assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
@@ -1213,6 +1216,7 @@ content#:#HTML export#:#HTML Export###22 Sep 2003 new variable
 content#:#PDF export#:#PDF Export###22 Sep 2003 new variable
 content#:#Pages#:#Pages###22 Sep 2003 new variable
 content#:#all#:#All###22 Sep 2003 new variable
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
 content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
@@ -1232,6 +1236,7 @@ content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
 content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
+content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#Term added###16 Aug 2003 new variable
 content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
@@ -1276,6 +1281,7 @@ content#:#cont_definition#:#Definition###01 Sep 2003 new variable
 content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
 content#:#cont_del_assignment#:#Delete assignment###26 Sep 2003 new variable
 content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
+content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Details###19 Sep 2003 new variable
 content#:#cont_dir_file#:#Directory/File###22 Oct 2003 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
@@ -1295,6 +1301,7 @@ content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###27 Oct 2003 new variable
 content#:#cont_fullscreen#:#Fullscreen###04 Aug 2003 new variable
 content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#Height###08 Jul 2003 new variable
 content#:#cont_how_published#:#How published###19 Sep 2003 new variable
 content#:#cont_href#:#href###04 Aug 2003 new variable

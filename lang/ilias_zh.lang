@@ -66,6 +66,7 @@ assessment#:#export#:#导出
 assessment#:#false#:#否
 assessment#:#filter#:#过滤程序
 assessment#:#gap_selection#:#间隔选择
+assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#上次更新
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -84,11 +85,13 @@ assessment#:#qpl_edit_select_multiple#:#请只选择一个问题进行编辑
 assessment#:#qpl_edit_select_none#:#请选择一个问题进行编辑
 assessment#:#qpl_export_select_none#:#请至少选择一个问题导出
 assessment#:#qt_cloze#:#填充测验问题
+assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#匹配问题
 assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
 assessment#:#question_type#:#问题类型
+assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#重置过滤程序
 assessment#:#select_gap#:#选择间隔
@@ -1230,6 +1233,7 @@ content#:#HTML export#:#HTML导出t
 content#:#PDF export#:#PDF导出
 content#:#Pages#:#页
 content#:#all#:#全部
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#按照字母次序 A, B, ...
 content#:#cont_Circle#:#圆
 content#:#cont_Citation#:#引用
@@ -1249,6 +1253,7 @@ content#:#cont_Roman#:#罗马数字 I, II, ...
 content#:#cont_Unordered#:#未排序的
 content#:#cont_add_area#:#增加区域
 content#:#cont_add_definition#:#增加定义
+content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#术语已增加
 content#:#cont_all_definitions#:#全部定义
 content#:#cont_all_pages#:#全部页
@@ -1293,6 +1298,7 @@ content#:#cont_definition#:#定义
 content#:#cont_definitions#:#定义
 content#:#cont_del_assignment#:#删除指派
 content#:#cont_dependencies#:#依属
+content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#详细情况
 content#:#cont_dir_file#:#目录/文件
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
@@ -1312,6 +1318,7 @@ content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。
 content#:#cont_fullscreen#:#全屏幕
 content#:#cont_get_link#:#获取链接
+content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#高
 content#:#cont_how_published#:#如何发行的
 content#:#cont_href#:#href

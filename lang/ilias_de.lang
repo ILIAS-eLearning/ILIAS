@@ -49,6 +49,7 @@ assessment#:#export#:#Export###05 Feb 2004 new variable
 assessment#:#false#:#False###05 Feb 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
+assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -67,11 +68,13 @@ assessment#:#qpl_edit_select_multiple#:#Please check only one question for editi
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
 assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
+assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
 assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
 assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
 assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
@@ -1213,6 +1216,7 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
+content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
@@ -1232,6 +1236,7 @@ content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
+content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
@@ -1276,6 +1281,7 @@ content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
 content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Abhängigkeiten
+content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
@@ -1295,6 +1301,7 @@ content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#get link
+content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
