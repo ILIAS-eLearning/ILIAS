@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.13 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.14 2003/03/12 20:23:01 akill Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -61,7 +61,7 @@ class LearningModuleObjectOut extends ObjectOut
 					"parent" => $_GET["parent"],
 					"parent_parent" => $val["parent_parent"],
 					"lm_id" => $_GET["obj_id"],
-					"lo_id" => $val["id"]
+					"lo_id" => $val["child"]
 				);
 
 		    } //foreach

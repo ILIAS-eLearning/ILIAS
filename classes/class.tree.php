@@ -246,7 +246,7 @@ class Tree
 	* @access	public
 	* @param	integer		node_id
 	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
-	* @param	string		sort direction, optional (passible values: 'DESC' or 'ASC'; defalut is 'ASC')
+	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
 	* @return	boolean		true when node has childs, otherwise false
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
@@ -775,6 +775,7 @@ class Tree
 	{
 		$data = array(
 					"ref_id"		=> $a_row->ref_id,
+					"obj_id"		=> $a_row->obj_id,
 					"type"			=> $a_row->type,
 					"title"			=> $a_row->title,
 					"description"	=> $a_row->description,
@@ -787,8 +788,7 @@ class Tree
 					"lft"			=> $a_row->lft,
 					"rgt"			=> $a_row->rgt,
 					"depth"			=> $a_row->depth,
-					"desc"			=> $a_row->description,
-					"id"			=> $a_row->obj_id
+					"desc"			=> $a_row->description
 					);
 		return $data ? $data : array();
 	}

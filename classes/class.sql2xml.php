@@ -561,7 +561,7 @@ class sql2xml
 		// todo: i need the parent parent at this place!
 		if ($this->lo_parent != $this->lm_id)
 		{
-			$up["id"] = $this->lo_parent;
+			$up["child"] = $this->lo_parent;
 			$up["parent"] = "missing";
 		}
 		
@@ -574,13 +574,13 @@ class sql2xml
 			{
 				if ($key > 0)
 				{
-					$prev["id"] = $node_data[$key-1]["child"];
+					$prev["child"] = $node_data[$key-1]["child"];
 					$prev["parent"] = $node_data[$key-1]["parent"];
 				}
 				
 				if (count($node_data) > $key + 1)
 				{
-					$next["id"] = $node_data[$key+1]["child"];
+					$next["child"] = $node_data[$key+1]["child"];
 					$next["parent"] = $node_data[$key+1]["parent"];
 				}
 				else
@@ -591,7 +591,7 @@ class sql2xml
 					if (count($subnode_data) > 0)
 					{
 						// fetch first child
-						$next["id"] = $subnode_data[0]["child"];
+						$next["child"] = $subnode_data[0]["child"];
 						$next["parent"] = $subnode_data[0]["parent"];
 					}
 				}
@@ -605,17 +605,17 @@ class sql2xml
 		
 		if ($prev)
 		{
-			$navbar .= "<td>".$this->img_url($prev["id"],$prev["parent"],$this->img_link("arr_left.gif"))."</td>";
+			$navbar .= "<td>".$this->img_url($prev["child"],$prev["parent"],$this->img_link("arr_left.gif"))."</td>";
 		}
 		
 		if ($up)
 		{
-			$navbar .= "<td>".$this->img_url($up["id"],$up["parent"],$this->img_link("arr_up.gif"))."</td>";
+			$navbar .= "<td>".$this->img_url($up["child"],$up["parent"],$this->img_link("arr_up.gif"))."</td>";
 		}
 		
 		if ($next)
 		{
-			$navbar .= "<td>".$this->img_url($next["id"],$next["parent"],$this->img_link("arr_right.gif"))."</td>";
+			$navbar .= "<td>".$this->img_url($next["child"],$next["parent"],$this->img_link("arr_right.gif"))."</td>";
 		}
 		
 		$navbar .= "</tr></table>";
