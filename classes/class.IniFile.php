@@ -158,7 +158,7 @@ class IniFile
     	}
 
 		//write php tags (security issue)
-    	$result = fwrite($fp, "<?php /*");
+    	$result = fwrite($fp, "<?php /*\n");
 
     	$groups = $this->readGroups();
     	$group_cnt = count($groups);
