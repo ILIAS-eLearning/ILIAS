@@ -533,6 +533,8 @@ common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
 common#:#passwd#:#Password
+common#:#moveChapter#:#Move
+common#:#pasteChapter#:#Paste
 common#:#passwd_invalid#:#The new password is invalid! Please choose another password.
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
@@ -734,6 +736,9 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#cutPage#:#Cut
+common#:#pastePage#:#Paste
+content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -822,6 +827,7 @@ content#:#cont_page_header#:#Page Header
 content#:#cont_pages#:#Pages
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
+content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_personal_clipboard#:#Personal Clipboard
 content#:#cont_pg_content#:#Page Content
 content#:#cont_pg_title#:#Page Title
