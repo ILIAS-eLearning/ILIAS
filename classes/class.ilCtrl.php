@@ -221,7 +221,7 @@ class ilCtrl
 			$script = $this->getTargetScript();
 			$script = $this->getUrlParameters($ret_class, $script);
 			$script = ilUtil::appendUrlParameterString($script,
-				"cmdClass=".$ret_class."cmd=".$this->return[$ret_class]);
+				"cmdClass=".$ret_class."&cmd=".$this->return[$ret_class]);
 			ilUtil::redirect($script);
 		}
 	}
