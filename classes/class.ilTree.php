@@ -904,7 +904,10 @@ class ilTree
 		$data["desc"] = $a_row["description"];  // for compability
 
 		// multilingual support systemobjects (sys) & categories (db)
-		$translation_type = $objDefinition->getTranslationType($data["type"]);
+		if (is_object($objDefinition))
+		{
+			$translation_type = $objDefinition->getTranslationType($data["type"]);
+		}
 		
 		if ($translation_type == "sys")
 		{

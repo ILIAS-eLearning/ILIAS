@@ -1619,9 +1619,18 @@ class ilSetupGUI extends ilSetup
 	*/
 	function displayDatabase()
 	{
+		global $ilErr;
+
 		$this->checkDisplayMode("setup_database");
 
 		include_once "../classes/class.ilDBUpdate.php";
+		include_once "../classes/class.ilRbacAdmin.php";
+		include_once "../classes/class.ilRbacAdminH.php";
+		include_once "../classes/class.ilRbacReview.php";
+		include_once "../classes/class.ilRbacReviewH.php";
+		include_once "../classes/class.ilRbacSystem.php";
+		include_once "../classes/class.ilRbacSystemH.php";
+		include_once "../classes/class.ilTree.php";
 
 		// checkings
 		if ($_POST["form"]["db_flag"] == 1)
@@ -1695,6 +1704,7 @@ class ilSetupGUI extends ilSetup
 		{
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
+			$ilDB =& $this->client->db;
 
 			$dbupdate = new ilDBUpdate($this->client->db);
 
