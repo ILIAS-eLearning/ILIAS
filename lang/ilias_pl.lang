@@ -528,6 +528,21 @@ common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
 common#:#attachments#:#Załączniki
 common#:#attend#:#Obsługa
+common#:#auth_configure#:#configure...###24 Jul 2004 new variable
+common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
+common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
+common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
+common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
+common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
+common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
+common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.###24 Jul 2004 new variable
+common#:#auth_script#:#Custom###24 Jul 2004 new variable
+common#:#auth_script_desc#:#Authenticate users via external script###24 Jul 2004 new variable
+common#:#auth_select#:#Select authentication mode###24 Jul 2004 new variable
+common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new variable
+common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
 common#:#available_languages#:#Dostępne języki
@@ -1384,6 +1399,8 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#obj_auth#:#Authentication###24 Jul 2004 new variable
+common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)###24 Jul 2004 new variable
 common#:#obj_cat#:#Kategoria
 common#:#obj_cen#:#Zdarzenie Centra
 common#:#obj_chac#:#Ustawienia czatu
