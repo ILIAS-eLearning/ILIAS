@@ -260,6 +260,11 @@ class ilLMObject
 	{
 		global $ilDB;
 
+		$query = "UPDATE lm_data SET ".
+			" lm_id = ".$ilDB->quote($this->getLMId()).
+			" WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($query);
+
 		$this->updateMetaData();
 
 	}

@@ -1491,6 +1491,26 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$id = $new_page->getId();
 			}
 		}
+		
+		// cut is not be possible in "all pages" form yet
+		if (ilEditClipboard::getAction() == "cut")
+		{
+			// check wether page belongs not to lm
+			if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+				!= $this->object->getID())
+			{
+				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
+				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_page = new ilLMPageObject($lm_obj, $id);
+				$lm_page->setLMId($this->object->getID());
+				$lm_page->update();
+				$page =& $lm_page->getPageObject();
+				$page->buildDom();
+				$page->setParentId($this->object->getID());
+				$page->update();
+			}
+		}
+
 
 		ilEditClipboard::clear();
 		$this->ctrl->redirect($this, "pages");

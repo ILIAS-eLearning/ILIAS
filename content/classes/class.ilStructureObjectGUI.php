@@ -526,6 +526,24 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				$id = $new_page->getId();
 			}
 		}
+		
+		if (ilEditClipboard::getAction() == "cut")
+		{
+			// check wether page belongs not to lm
+			if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+				!= $this->content_object->getID())
+			{
+				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
+				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_page = new ilLMPageObject($lm_obj, $id);
+				$lm_page->setLMId($this->content_object->getID());
+				$lm_page->update();
+				$page =& $lm_page->getPageObject();
+				$page->buildDom();
+				$page->setParentId($this->content_object->getID());
+				$page->update();
+			}
+		}
 
 		if(!$tree->isInTree($id))
 		{
