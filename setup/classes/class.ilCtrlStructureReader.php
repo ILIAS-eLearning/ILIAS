@@ -82,7 +82,10 @@ class ilCtrlStructureReader
 				// directories
 				if (@is_dir($a_cdir."/".$file))
 				{
-					$this->read($a_cdir."/".$file);
+					if ($a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/data")
+					{
+						$this->read($a_cdir."/".$file);
+					}
 				}
 
 				// files

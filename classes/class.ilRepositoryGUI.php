@@ -286,8 +286,7 @@ class ilRepositoryGUI
 						$cmd = $this->ctrl->getCmd("ShowList");
 					}
 					//$next_class = "";
-				}
-				
+				}				
 				// check read access for category
 				if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
 				{
@@ -3347,6 +3346,9 @@ class ilRepositoryGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* execute administration command
+	*/
 	function executeAdminCommand()
 	{
 		$cmd = $this->cmd;

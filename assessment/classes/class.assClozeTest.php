@@ -34,8 +34,7 @@ define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
 *
 * ASS_ClozeText is a class for cloze tests using text or select gaps.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
-* @version	$Id$
+* @author		Helmut Schottmüller <hschottm@tzi.de>* @version	$Id$
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment
 */
@@ -504,7 +503,7 @@ class ASS_ClozeTest extends ASS_Question
 		$root = $this->domxml->document_element();
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
 		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
 		// add qti comment

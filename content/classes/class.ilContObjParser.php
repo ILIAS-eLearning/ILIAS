@@ -86,6 +86,7 @@ class ilContObjParser extends ilSaxParser
 	var $map_area;			// current map area
 	var $in_bib_item;		// are we currently within BibItem? true/false
 	var $link_targets;		// stores all objects by import id
+	var $qst_mapping;
 
 	/**
 	* Constructor
@@ -117,10 +118,15 @@ class ilContObjParser extends ilSaxParser
 		$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->inside_code = false;
+		$this->qst_mapping = array();
+		$this->coType = $this->content_object->getType();
 
-		$this->lm_tree = new ilTree($this->content_object->getId());
-		$this->lm_tree->setTreeTablePK("lm_id");
-		$this->lm_tree->setTableNames('lm_tree','lm_data');
+		if ($this->coType != "tst")
+		{
+			$this->lm_tree = new ilTree($this->content_object->getId());
+			$this->lm_tree->setTreeTablePK("lm_id");
+			$this->lm_tree->setTableNames('lm_tree','lm_data');
+		}
 		//$this->lm_tree->addTree($a_lm_id, 1); happens in ilObjLearningModuleGUI
 
 	}
@@ -349,6 +355,14 @@ class ilContObjParser extends ilSaxParser
 			}
 		}
 	}
+	
+	/**
+	* set question import ident to pool/test question id mapping
+	*/
+	function setQuestionMapping($a_map)
+	{
+		$this->qst_mapping = $a_map;
+	}
 
 
 	/*
@@ -454,20 +468,30 @@ class ilContObjParser extends ilSaxParser
 
 			case "PageObject":
 				$this->in_page_object = true;
-				$this->lm_page_object =& new ilLMPageObject($this->content_object);
-				$this->page_object =& new ilPageObject($this->content_object->getType());
-				$this->lm_page_object->setLMId($this->content_object->getId());
-				$this->lm_page_object->assignPageObject($this->page_object);
-				$this->current_object =& $this->lm_page_object;
+				$this->cur_qid = "";
+				if ($this->coType != "tst")
+				{
+					$this->lm_page_object =& new ilLMPageObject($this->content_object);
+					$this->page_object =& new ilPageObject($this->content_object->getType());
+					$this->lm_page_object->setLMId($this->content_object->getId());
+					$this->lm_page_object->assignPageObject($this->page_object);
+					$this->current_object =& $this->lm_page_object;
+				}
+				else
+				{
+					$this->page_object =& new ilPageObject("qpl");
+				}
 				break;
 
 			case "PageAlias":
-				$this->lm_page_object->setAlias(true);
-				$this->lm_page_object->setOriginID($a_attribs["OriginId"]);
+				if ($this->coType != "tst")
+				{
+					$this->lm_page_object->setAlias(true);
+					$this->lm_page_object->setOriginID($a_attribs["OriginId"]);
+				}
 				break;
 
 			case "MediaObject":
-//echo "<br>---NEW MEDIAOBJECT---<br>";
 				$this->in_media_object = true;
 				$this->media_object =& new ilObjMediaObject();
 				break;
@@ -574,11 +598,14 @@ class ilContObjParser extends ilSaxParser
 				if(!$this->in_media_object)
 				{
 //echo "<br><b>assign to current object</b>";
-					$this->current_object->assignMetaData($this->meta_data);
-					if (strtolower(get_class($this->current_object)) == "ilobjlearningmodule")
+					if ($this->coType != "tst")
 					{
-						$this->meta_data->setId($this->content_object->getId());
-						$this->meta_data->setType("lm");
+						$this->current_object->assignMetaData($this->meta_data);
+						if (strtolower(get_class($this->current_object)) == "ilobjlearningmodule")
+						{
+							$this->meta_data->setId($this->content_object->getId());
+							$this->meta_data->setType("lm");
+						}
 					}
 				}
 				else
@@ -640,6 +667,11 @@ class ilContObjParser extends ilSaxParser
 					$this->map_area->setHref($a_attribs["Href"]);
 					$this->map_area->setExtTitle($a_attribs["Title"]);
 				}
+				break;
+				
+			// Question
+			case "Question":
+				$this->cur_qid = $a_attribs["QRef"];
 				break;
 
 			// TECHNICAL
@@ -799,24 +831,49 @@ class ilContObjParser extends ilSaxParser
 			case "PageObject":
 
 				$this->in_page_object = false;
-				if (!$this->lm_page_object->isAlias())
+				if ($this->coType != "tst")
 				{
-//echo "ENDPageObject ".$this->page_object->getImportId().":<br>";
-					//$this->page_object->createFromXML();
-					$this->page_object->updateFromXML();
-					$this->pg_mapping[$this->lm_page_object->getImportId()]
-						= $this->lm_page_object->getId();
-
-					// collect pages with internal links
-					if ($this->page_object->containsIntLink())
+					if (!$this->lm_page_object->isAlias())
 					{
-//echo "<br>Page contains Int Link:".$this->page_object->getId();
-						$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
+						//$this->page_object->createFromXML();
+						$this->page_object->updateFromXML();
+						$this->pg_mapping[$this->lm_page_object->getImportId()]
+							= $this->lm_page_object->getId();
+	
+						// collect pages with internal links
+						if ($this->page_object->containsIntLink())
+						{
+							//echo "<br>Page contains Int Link:".$this->page_object->getId();
+							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
+						}
+						if ($this->page_object->needsImportParsing())
+						{
+							//echo "<br>Page needs import parsing:".$this->page_object->getId();
+							$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
+						}
 					}
-					if ($this->page_object->needsImportParsing())
+				}
+				else
+				{
+					$xml = $this->page_object->getXMLContent();
+					if ($this->cur_qid != "")
 					{
-//echo "<br>Page needs import parsing:".$this->page_object->getId();
-						$this->pages_to_parse["lm:".$this->page_object->getId()] = "lm:".$this->page_object->getId();
+						$ids = $this->qst_mapping[$this->cur_qid];
+						
+						// question pool question
+						$page = new ilPageObject("qpl", $ids["pool"]);
+						$page->setXMLContent(str_replace($this->cur_qid, 
+							"il__qst_".$ids["pool"], $xml));
+						$page->updateFromXML();
+						unset($page);
+						
+						// test question
+						$page = new ilPageObject("qpl", $ids["test"]);
+						$page->setXMLContent(str_replace($this->cur_qid, 
+							"il__qst_".$ids["test"], $xml));
+						$page->updateFromXML();
+						unset($page);
+						
 					}
 				}
 
@@ -1130,8 +1187,16 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "Title":
-				$this->current_object->setTitle(trim($this->chr_data));
-				$this->meta_data->setTitle(trim($this->chr_data));
+				if (!$this->in_media_object)
+				{
+					$this->current_object->setTitle(trim($this->chr_data));
+					$this->meta_data->setTitle(trim($this->chr_data));
+				}
+				else
+				{
+					$this->media_object->setTitle(trim($this->chr_data));
+					$this->meta_data->setTitle(trim($this->chr_data));
+				}
 				break;
 
 			case "Language":

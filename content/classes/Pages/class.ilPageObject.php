@@ -1431,6 +1431,22 @@ class ilPageObject
 			}
 		}
 		unset($xpc);
+		
+		// insert inst id into 
+		$xpc = xpath_new_context($this->dom);
+		$path = "//Question";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$qref = $res->nodeset[$i]->get_attribute("QRef");
+			if (substr($qref, 0, 4) == "il__")
+			{
+				$new_id = "il_".$a_inst."_".substr($qref, 4, strlen($origin_id) - 4);
+				$res->nodeset[$i]->set_attribute("QRef", $new_id);
+			}
+		}
+		unset($xpc);
+
 	}
 
 	/**
