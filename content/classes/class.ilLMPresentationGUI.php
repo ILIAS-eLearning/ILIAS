@@ -76,6 +76,16 @@ class ilLMPresentationGUI
 		$this->$cmd();
 	}
 
+	function export() {
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				$this->lm_gui->export();
+				break;
+		}
+		
+	}
+	
 	function attrib2arr(&$a_attributes)
 	{
 		$attr = array();
