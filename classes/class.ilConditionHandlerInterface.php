@@ -333,8 +333,8 @@ class ilConditionHandlerInterface
 			{
 				echo 'ilConditionHandler: Target object does not exist';
 			}
-			$this->setTargetObjId($target_obj->getId());
-			$this->setTargetType($target_obj->getType());
+			$this->ch_obj->setTargetObjId($target_obj->getId());
+			$this->ch_obj->setTargetType($target_obj->getType());
 		}
 		$this->ch_obj->setTargetRefId($this->getTargetRefId());
 		$this->ch_obj->setTargetObjId($this->getTargetId());
