@@ -357,8 +357,13 @@ class ilObjContentObject extends ilObject
 	* (data_dir/lm_data/lm_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createExportDirectory($ref_id="")
+	function createExportDirectory($ref_id = "")
 	{
+        if ($ref_id == "")
+		{
+			$ref_id = $this->getRefId();
+		}
+
 		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
@@ -366,7 +371,6 @@ class ilObjContentObject extends ilObject
 				.") not writeable.",$this->ilias->error_obj->FATAL);
 		}
 		// create learning module directory (data_dir/lm_data/lm_<id>)
-        if ($ref_id=="") $ref_id = $this->getId();
 		$lm_dir = $lm_data_dir."/lm_".$ref_id;
 		if(!@is_dir($lm_dir))
 		{
@@ -393,9 +397,12 @@ class ilObjContentObject extends ilObject
 	/**
 	* get export directory of lm
 	*/
-	function getExportDirectory($ref_id="")
+	function getExportDirectory($ref_id = "")
 	{
-        if ($ref_id=="") $ref_id = $this->getId();
+        if ($ref_id == "")
+		{
+			$ref_id = $this->getRefId();
+		}
 		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$ref_id."/export";
 		if(@is_dir($export_dir))
 		{
@@ -406,8 +413,8 @@ class ilObjContentObject extends ilObject
 			return false;
 		}
 	}
-	
-	
+
+
 	/**
 	* copy all properties and subobjects of a learning module.
 	*
@@ -757,5 +764,129 @@ class ilObjContentObject extends ilObject
 //echo "checked";
 	}
 
-} // END class.ilObjContentObject
+
+	/**
+	* export object to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXML(&$a_xml_writer)
+	{
+		$attrs = array();
+		switch($this->getType())
+		{
+			case "lm":
+				$attrs["Type"] = "LearningModule";
+				break;
+
+			case "dbk":
+				$attrs["Type"] = "LibObject";
+				break;
+		}
+		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		// StructureObjects
+		$this->exportXMLStructureObjects($a_xml_writer);
+
+		// PageObjects
+		$this->exportXMLPageObjects($a_xml_writer);
+
+		// MediaObjects
+		$this->exportXMLMediaObjects($a_xml_writer);
+
+		// Glossary
+		// not implemented
+
+		// Bibliography
+		// not implemented
+
+		// Layout
+		// not implemented
+
+		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+
+	/**
+	* export structure objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLStructureObjects(&$a_xml_writer)
+	{
+		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "st")
+			{
+				continue;
+			}
+
+			$structure_obj = new ilStructureObject($this, $child["obj_id"]);
+			$structure_obj->exportXML($a_xml_writer);
+			unset($structure_obj);
+		}
+	}
+
+
+	/**
+	* export page objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLPageObjects(&$a_xml_writer)
+	{
+		$pages = ilLMPageObject::getPageList($this->getId());
+		foreach ($pages as $page)
+		{
+			// export xml to writer object
+			$page_obj = new ilLMPageObject($this, $page["obj_id"]);
+			$page_obj->exportXML($a_xml_writer);
+
+			// collect media objects
+			$mob_ids = $page_obj->getMediaObjectIDs();
+			foreach($mob_ids as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
+			unset($page_obj);
+		}
+	}
+
+	/**
+	* export media objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMediaObjects(&$a_xml_writer)
+	{
+		foreach ($this->mob_ids as $mob_id)
+		{
+			$media_obj = new ilMediaObject($mob_id);
+			$media_obj->exportXML($a_xml_writer);
+			unset($media_obj);
+		}
+	}
+
+}
 ?>

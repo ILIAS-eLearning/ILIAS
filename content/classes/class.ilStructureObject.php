@@ -85,5 +85,45 @@ class ilStructureObject extends ilLMObject
 		parent::delete();
 	}
 
+		/**
+	* export object to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXML(&$a_xml_writer)
+	{
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("StructureObject", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		// StructureObjects
+		$this->exportXMLPageObjects($a_xml_writer);
+
+		// PageObjects
+		$this->exportXMLStructureObjects($a_xml_writer);
+
+		// Layout
+		// not implemented
+
+		$a_xml_writer->xmlEndTag("StructureObject");
+	}
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+
 }
 ?>
