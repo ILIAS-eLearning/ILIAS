@@ -31,11 +31,15 @@
 </tr>
 <tr class="std">
 	<td class="option">
-	{TXT_HTML_IMPORT}*
+	<select name="import_type">
+		<option value="html">{TXT_HTML_IMPORT} *</option>
+		<option value="spreadsheet">{TXT_SPREADSHEET} **</option>
+	</select>
 	</td>
 	<td class="option_value">
-		<TEXTAREA name="htmltable" id="htmltable" rows="10" cols="50"></TEXTAREA><br>
-		<span class="asterisk">*</span><span class="small"> {TXT_HTML_IMPORT_INFO}</span>
+		<TEXTAREA name="import_table" id="htmltable" rows="10" cols="50"></TEXTAREA><br />
+		<span class="asterisk">*</span><span class="small"> {TXT_HTML_IMPORT_INFO}</span><br />
+		<span class="asterisk">**</span><span class="small"> {TXT_SPREADSHEET_IMPORT_INFO}</span>
 	</td>
 </tr>
 <!-- BEGIN commands -->
