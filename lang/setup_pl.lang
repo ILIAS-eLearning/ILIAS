@@ -56,7 +56,7 @@ choose_language#:#Wybierz język
 choose_languages#:#Wybierz dodatkowe języki lub usuń wybrane języki.
 choose_password#:#Wybierz hasło
 city#:#Miasto
-clean_command#:#Clean Command###07 Jan 2005 new variable
+clean_command#:#Komenda czyszcząca
 client#:#Klient
 client_access_mode_changed#:#Zmieniono prawa dostępu klienta
 client_data#:#Informacje o kliencie
