@@ -218,6 +218,7 @@ class ilGroupGUI extends ilObjectGUI
 		global $ilias, $rbacsystem;
 		$grpObj = new ilObjGroup($_GET["ref_id"],true);
 		$grp	=& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+		$owner  = new ilObjUser($grp->getOwner());
 
 		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
 		$_SESSION["status"] 	= 0;
@@ -231,7 +232,7 @@ class ilGroupGUI extends ilObjectGUI
 		if($grpObj->getGroupStatus() == 0) //open
 		{
 			$stat = "offene Gruppe";
-			$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, das Sie der gewünschten Gruppe beitreten.
+			$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten.
 				<br>Als Gruppenmitglied haben Sie folgende Vorteile:
 				<br>- Sie werden über Aktualisierungen informiert
 				<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.
@@ -249,25 +250,16 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
 		$this->tpl->setVariable("TXT_MESSAGE",$msg);
 
-		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("grp_name").":");
+		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name").":");
 		$this->tpl->setVariable("GRP_NAME",$grp->getTitle());
-		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("grp_desc").":");
+		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("group_desc").":");
 		$this->tpl->setVariable("GRP_DESC",$grp->getDescription());
 		$this->tpl->setVariable("TXT_GRP_OWNER",$this->lng->txt("owner").":");
-		$this->tpl->setVariable("GRP_OWNER",$grp->getOwner());
-		$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("grp_status").":");
+		$this->tpl->setVariable("GRP_OWNER",$owner->getFullname());
+		$this->tpl->setVariable("TXT_GRP_STATUS",$this->lng->txt("group_status").":");
 		$this->tpl->setVariable("GRP_STATUS", $stat);
 
 		$this->tpl->parseCurrentBlock();
-
-/*
-		$this->tpl->setVariable("TXT_COL1","Beschreibung:");
-		$this->tpl->setVariable("TXT_COL2",$grp->getDescription());
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("TXT_COL1","Zugang:");
-		$this->tpl->setVariable("TXT_COL2",$stat);
-		$this->tpl->parseCurrentBlock();
-*/
 
 //	G R O U P  D E T A I L S
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_details"));
@@ -345,61 +337,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 		$this->tpl->show();
 	}
-/*
-	function AccessDenied()
-	{
-		global $ilias;
-		$grpObj = new ilObjGroup($_GET["ref_id"],true);
-		$grp	=& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
-		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
-		$_SESSION["status"] 	= 0;
-
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
-		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
-		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-		$tab[0]["tab_text"] = $this->lng->txt("group_access");
-
-
-		if($grpObj->getGroupStatus() == 0) //open
-		{
-			$stat = "offene Gruppe";
-			$msg = "Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, das Sie der gewünschten Gruppe beitreten.
-				<br>Als Gruppenmitglied haben Sie folgende Vorteile:
-				<br>- Sie werden über Aktualisierungen informiert
-				<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.
- 				<br><br>Sie können Ihre Mitgliedschaft einfach durch anklicken des folgenden Symbols: Mitgliedschaft aufheben.";
-		}
-		else
-		{
-			$msg = "Die von Ihnen angewählte Gruppe ist geschlossen, dass heißt eine Mitgliedschaft ist zur Zeit nicht möglich!";
-			$stat = "geschlossene Gruppe";
-		}
-		$this->prepareOutput(false, $tab);
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
-
-		$this->tpl->addBlockFile("CONTENT", "message", "tpl.grp_accessdenied.html");
-		$this->tpl->setVariable("TXT_HEADER","Zugriff verweigert!");
-		$this->tpl->setVariable("TXT_MESSAGE",$msg);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("tblcontent");
-		$this->tpl->setVariable("TXT_COL1","Gruppenname:");
-		$this->tpl->setVariable("TXT_COL2",$grp->getTitle());
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("TXT_COL1","Beschreibung:");
-		$this->tpl->setVariable("TXT_COL2",$grp->getDescription());
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("TXT_COL1","Zugang:");
-		$this->tpl->setVariable("TXT_COL2",$stat);
-		$this->tpl->parseCurrentBlock();
-
-
-
-		$this->tpl->show();
-
-	}
-*/
+	
 	/**
 	* calls current view mode (tree frame or list)
 	*/
@@ -548,7 +486,6 @@ class ilGroupGUI extends ilObjectGUI
 		$cont_arr = array();
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
-//		print_r($this->object);
 		if (count($objects) > 0)
 		{
 			foreach ($objects as $key => $object)
@@ -703,7 +640,8 @@ class ilGroupGUI extends ilObjectGUI
 
 					if ($cont_data["type"] == "lm" || $cont_data["type"] == "frm" )
 					{
-						$link_target = "_top";
+						$link_target = "_parent";
+//						$link_target = "_top";
 					}
 					else
 					{
@@ -713,11 +651,6 @@ class ilGroupGUI extends ilObjectGUI
 					$obj_link = $this->getURLbyType($cont_data);
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-
-					if ($access and $cont_data["type"] != "fold" and $cont_data["type"] != "file")
-					{
-						$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
-					}
 					$this->tpl->setVariable("TITLE", $cont_data["title"]);
 					$this->tpl->setVariable("LO_LINK", $obj_link);
 					$this->tpl->setVariable("LINK_TARGET", $link_target);
@@ -948,7 +881,7 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$ref_IDs="n")
 	{
-		$num =0;
+		$num = 0;
 		$this->prepareOutput(false);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("objs_delete"));
 		sendInfo ($this->lng->txt($info));
@@ -972,7 +905,6 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		if (is_array($user_id))
-
 		{
 			$maxcount = count ($user_id);
 			foreach ($user_id as $id)
