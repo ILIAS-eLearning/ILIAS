@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.9 2003/06/05 15:18:18 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.10 2003/06/11 08:41:44 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -110,7 +110,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* 
 	* 
 	*/
-	function confirmObject()
+	function confirmedDeleteObject()
 	{
 		global $rbacsystem;
 
@@ -123,13 +123,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		else
 		{
-			require_once("class.ilObjUser.php");
-			
 			// FOR ALL SELECTED OBJECTS
 			foreach ($_SESSION["saved_post"] as $id)
 			{
-				$user = new ilObjUser($id);
-				$user->delete();
+				// instatiate correct object class (usr)
+				$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+				$obj->delete();
 			}
 			
 			// Feedback
@@ -154,7 +153,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),
@@ -163,8 +162,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancel"  => $this->lng->txt("cancel"),
-								  "confirm"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
+								  "confirmedDelete"  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
