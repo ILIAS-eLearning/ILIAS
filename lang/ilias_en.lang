@@ -3202,3 +3202,8 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
+assessment#:#insert_after#:#Insert after
+assessment#:#insert_before#:#Insert before
+assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
+assessment#:#no_target_selected_for_move#:#You must select a target position!

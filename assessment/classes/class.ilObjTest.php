@@ -679,9 +679,36 @@ class ilObjTest extends ilObject
       $result = $db->query($query);
     }
     if ($result == DB_OK) {
+			$this->saveQuestionsToDb();
       $this->mark_schema->saveToDb($this->test_id);
     }
   }
+
+/**
+* Saves the test questions to the database
+*
+* Saves the test questions to the database
+*
+* @access public
+* @see $questions
+*/
+	function saveQuestionsToDb() {
+		// delete existing category relations
+    $query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		// create new category relations
+		foreach ($this->questions as $key => $value) {
+			$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($value),
+				$this->ilias->db->quote($key)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+
 
 /**
 * Loads a ilObjTest object from a database
@@ -2292,5 +2319,45 @@ class ilObjTest extends ilObject
 		return $question;
   }
 
+/**
+* Move questions to another position
+*
+* Move questions to another position
+*
+* @param array $move_questions An array with the question id's of the questions to move
+* @param integer $target_index The question id of the target position
+* @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
+* @access public
+*/
+	function moveQuestions($move_questions, $target_index, $insert_mode)
+	{
+		$array_pos = array_search($target_index, $this->questions);
+		if ($insert_mode == 0)
+		{
+			$part1 = array_slice($this->questions, 0, $array_pos);
+			$part2 = array_slice($this->questions, $array_pos);
+		}
+		else if ($insert_mode == 1)
+		{
+			$part1 = array_slice($this->questions, 0, $array_pos + 1);
+			$part2 = array_slice($this->questions, $array_pos + 1);
+		}
+		foreach ($move_questions as $question_id)
+		{
+			if (!(array_search($question_id, $part1) === FALSE))
+			{
+				unset($part1[array_search($question_id, $part1)]);
+			}
+			if (!(array_search($question_id, $part2) === FALSE))
+			{
+				unset($part2[array_search($question_id, $part2)]);
+			}
+		}
+		$part1 = array_values($part1);
+		$part2 = array_values($part2);
+		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
+		$this->saveQuestionsToDb();
+	}
+	
 } // END class.ilObjTest
 ?>
