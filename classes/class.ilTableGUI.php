@@ -324,6 +324,8 @@ class ilTableGUI
 		// table title help
 		if ($this->enabled["help"] && $this->enabled["title"])
 		{
+			echo $this->help_page;
+			
 			$this->tpl->setCurrentBlock("tbl_header_title_help");
 			$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath($this->help_icon));
 			$this->tpl->setVariable("TBL_HELP_LINK",$this->help_page);
@@ -346,7 +348,7 @@ class ilTableGUI
 			if ($key == $this->order_column)
 			{ 
 				$this->tpl->setCurrentBlock("tbl_order_image");
-				$this->tpl->setVariable("IMG_ORDER_DIR",$this->order_direction."_order.png");
+				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 		
