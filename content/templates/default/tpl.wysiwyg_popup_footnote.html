@@ -12,11 +12,13 @@
 <form method="post" name="footnotes">
 <ul>
 
-<script>	
+<script>
+	var foundf=0;
 	for (i=0;i<opener.fussnoten.length;i++) 
 	{
 		j=i+1;
 		if(opener.fussnoten[i]!="") {
+			foundf++;
 			document.write( "["+j+"]&nbsp;<input type='text' name='fn"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\" size=40>");
 			document.write( "[<a href='#' onClick=\"if(confirm('{DELETE_QUESTION}')) {deleteFootnote("+i+");}\">X</a>]");
 			document.write( "<input type='hidden' name='fnold"+i+"' value=\""+opener.fussnoten[i].replace("\"","&quot;")+"\">");
@@ -27,21 +29,25 @@
 		}
 		
 	}
+	
 </script>
 
 </ul>
-<input type="button" value="{BTN_SUBMIT}" onClick="refreshFootnotes();">
+<script>
+if(foundf>0) document.write("<input type='button' value='{BTN_SUBMIT}' onClick='refreshFootnotes();'>");
+</script>
+
 </form>
 	
-<form name='form'>
+<form name='form' >
 <hr size=1>
 {TXT_INSERT_NEW_FOOTNOTES}:<br>
-<input type='text' size=30 style='width:100%' name='fn'>
+<input type='text' size=30 style='width:100%' name='fn' onKeyUp="if (document.form.fn.value!='') document.form.savenew.disabled=false; else document.form.savenew.disabled=true; ">
 <p>
 <table cellspacing=0 cellpadding=0 width="100%">
 	<tr>
 		<td>
-			<input 	type='button' 
+			<input 	name="savenew" disabled type='button' 
 					value='{BTN_SUBMIT}' 
 					onClick="opener.addFussnote(document.form.fn.value);
 							 opener.refreshFootnotelist();
