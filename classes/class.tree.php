@@ -255,7 +255,7 @@ class Tree
 
 		$res = $this->ilias->db->query($query);
 	
-		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"])+1;
+		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"]) + 1;
 		
 		// insert node
 		$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
@@ -854,6 +854,7 @@ class Tree
 
 	/**
 	* remove an existing tree
+	*
 	* @param	integer		a_tree_id: tree to be removed
 	* @return	boolean		true on success
 	* @access	public
@@ -870,12 +871,13 @@ class Tree
 		
 		return true;
 	}
+
 	/**
 	* get number of references of a specific object
+ 	* @param	integer	tree_id
+ 	* @param	integer	obj_id
+	* @return	integer
 	* @access	public
- 	* @param	int tree_id
- 	* @param	int obj_id
-	* @return	int 
 	*/
 	function countTreeEntriesOfObject($a_tree_id,$a_obj_id)
 	{
@@ -885,6 +887,16 @@ class Tree
 
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
+	}
+	
+	/**
+	* set parent id
+ 	* @param	integer	parent id
+	* @access	public
+	*/
+	function setParentId($a_parent_id,)
+	{
+		$this->parent_id = $a_parent_id;
 	}
 } // END class.tree
 ?>
