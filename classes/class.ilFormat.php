@@ -389,5 +389,60 @@ class ilFormat
 	
 		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
 	}
+
+	/*
+	* calculates the difference between 2 unix timestamps and
+	* returns a proper formatted output
+	* 
+	* @param	integer	unix timestamp1
+	* @param	integer	unix timestamp2
+	* @return	string	time difference in hh:mm:ss
+	*/
+	function dateDiff($a_ts1,$a_ts2)
+	{
+		$r = $a_ts2 - $a_ts1;
+		
+		$dd = floor($r/86400);
+
+		if ($dd <= 9)
+			$dd = "0".$dd;
+
+		$r = $r % 86400;
+		
+		$hh = floor($r/3600);
+		
+		if ($hh <= 9)
+			$hh = "0".$hh;
+		
+		$r = $r % 3600;
+		
+		$mm = floor($r/60) ;
+		
+		if ($mm <= 9)
+			$mm = "0".$mm;
+		
+		$r = $r % 60;
+		$ss = $r;
+
+		if ($ss <= 9)
+			$ss = "0".$ss;
+
+		return $hh.":".$mm.":".$ss;
+	}
+
+	/**
+	* converts datetime to a unix timestamp
+	*
+	* @param	string	datetime
+	* @return	integer	unix timestamp  
+	*/
+	function datetime2unixTS($a_datetime)
+	{
+		$arrDT = explode(" ", $a_datetime);
+		$arrD = explode("-", $arrDT[0]);
+		$arrT = explode(":", $arrDT[1]);
+
+		return mktime($arrT[0], $arrT[1], $arrT[2], $arrD[1], $arrD[2], $arrD[0]);
+	}
 }
 ?>
