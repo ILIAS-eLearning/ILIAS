@@ -4638,3 +4638,7 @@ crs#:#crs_learning_materials#:#Learning materials
 crs#:#crs_objective_accomplished#:#Accomplished
 crs#:#crs_objective_pretest#:#Self assessment
 crs#:#crs_objective_result#:#After test
+common#:#last_access#:#Last access:
+crs#:#learners_view#:#Learners view
+crs#:#edit_content#:#Edit content
+common#:#not_accessed#:#Not accessed

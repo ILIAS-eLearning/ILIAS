@@ -5580,3 +5580,12 @@ CREATE TABLE IF NOT EXISTS `crs_objective_results` (
   `points` int(11) NOT NULL default '0',
   PRIMARY KEY  (`res_id`)
 ) TYPE=MyISAM;
+<#397>
+CREATE TABLE IF NOT EXISTS `crs_lm_history` (
+  `usr_id` int(11) NOT NULL default '0',
+  `crs_ref_id` int(11) NOT NULL default '0',
+  `lm_ref_id` int(11) NOT NULL default '0',
+  `lm_page_id` int(11) NOT NULL default '0',
+  `last_access` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`crs_ref_id`,`lm_ref_id`)
+) TYPE=MyISAM;

@@ -152,10 +152,6 @@ class ilCourseContentInterface
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 		if($write_perm)
 		{
-			if($view_objectives)
-			{
-				$this->__showButton('cciObjectives',$this->lng->txt('crs_show_objectives_view'));
-			}
 			$items = $this->cci_course_obj->items_obj->getAllItems();
 		}
 		else
@@ -506,10 +502,6 @@ class ilCourseContentInterface
 	{
 		global $rbacsystem;
 
-		if($write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id))
-		{
-			$this->__showButton('cciObjectivesEdit',$this->lng->txt('crs_edit_content'));
-		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objective_view.html","course");
 		$this->__showButton('cciObjectivesAskReset',$this->lng->txt('crs_reset_results'));
 
@@ -839,10 +831,11 @@ class ilCourseContentInterface
 
 	function __showLearningMaterials()
 	{
-		global $rbacsystem,$ilias;
+		global $rbacsystem,$ilias,$ilUser;
 
 		include_once './course/classes/class.ilCourseObjectiveLM.php';
 		include_once './classes/class.ilRepositoryExplorer.php';
+		include_once './course/classes/class.ilCourseLMHistory.php';
 
 		if(!count($lms = $this->__getAllLearningMaterials()))
 		{
@@ -852,6 +845,9 @@ class ilCourseContentInterface
 		{
 			$objectives_lm_obj =& new ilCourseObjectiveLM($this->details_id);
 		}
+
+		$lm_continue =& new ilCourseLMHistory($this->cci_ref_id,$ilUser->getId());
+		$continue_data = $lm_continue->getLMHistory();
 
 		$this->tpl->addBlockfile('LM_BLOCK','lm_block','tpl.crs_objectives_view_lm_table.html','course');
 		$this->tpl->setVariable("TBL_TITLE_LMS",$this->lng->txt('crs_learning_materials'));
@@ -915,6 +911,40 @@ class ilCourseContentInterface
 				}
 			}
 
+			// CONTINUE LINK
+			if(isset($continue_data["$lm_id"]))
+			{
+				$this->tpl->setCurrentBlock("lm_continuelink");
+				$this->tpl->setVariable("CONTINUE_LINK_LMS",'./content/lm_presentation.php?ref_id='.$lm_id.'&obj_id='.
+										$cont_data[$lm_id]['lm_page_id']);
+
+				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
+					'bottom' :
+					'ilContObj'.$cont_data[$lm_id]['lm_page_id'];
+					
+				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
+				$this->tpl->setVariable("TXT_CONTINUE_LMS",$this->lng->txt('continue_work'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// Description
+			if(strlen($tmp_lm->getDescription()))
+			{
+				$this->tpl->setCurrentBlock("lms_description");
+				$this->tpl->setVariable("DESCRIPTION_LMS",$tmp_lm->getDescription());
+				$this->tpl->parseCurrentBlock();
+			}
+			// LAST ACCESS
+			$this->tpl->setVariable("TEXT_INFO_LMS",$this->lng->txt('last_access'));
+			if(isset($continue_data["$lm_id"]))
+			{
+				$this->tpl->setVariable("INFO_LMS",date('Y-m-d H:i:s',$continue_data["$lm_id"]['last_access']));
+			}
+			else
+			{
+				$this->tpl->setVariable("INFO_LMS",$this->lng->txt('not_accessed'));
+			}
+			
 			$this->tpl->setCurrentBlock("lm_row");
 			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
 
@@ -1234,7 +1264,6 @@ class ilCourseContentInterface
 				$this->suggested["$objective_id"] = $tmp_obj_res->isSuggested($objective_id);
 			}
 		}
-
 	}
 
 	function __readStatus()
