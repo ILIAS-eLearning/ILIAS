@@ -3706,6 +3706,8 @@ survey#:#upper_limit#:#Upper limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
+survey#:#warning_question_not_complete#:#The question is not complete!
+survey#:#warning_survey_not_complete#:#The survey is not complete!
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase

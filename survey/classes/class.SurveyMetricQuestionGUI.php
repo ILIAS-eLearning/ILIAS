@@ -29,7 +29,7 @@ require_once "./survey/classes/class.SurveyMetricQuestion.php";
 * The SurveyMetricQuestionGUI class encapsulates the GUI representation
 * for metric survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyMetricQuestionGUI.php
 * @modulegroup   Survey
@@ -134,7 +134,6 @@ class SurveyMetricQuestionGUI {
 		}
 		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("questiontype"));
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_metric");

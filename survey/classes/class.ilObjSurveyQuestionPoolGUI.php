@@ -374,19 +374,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		
     if (strlen($_POST["cmd"]["save"]) > 0) {
-      // Save and back to question pool
-      if (!$missing_required_fields) {
-        $question->object->saveToDb();
-	      $this->cancelAction($question->object->getId());
-        exit();
-      } else {
-        sendInfo($this->lng->txt("fill_out_all_required_fields"));
-      }
-    }
-    if (strlen($_POST["cmd"]["apply"]) > 0) {
       // Save and continue editing
       if (!$missing_required_fields) {
         $question->object->saveToDb();
+				sendInfo($this->lng->txt("msg_obj_modified"));
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
       }
@@ -898,6 +889,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("checkable");
 			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 			$this->tpl->parseCurrentBlock();
+			if ($data["complete"] == 0)
+			{
+				$this->tpl->setCurrentBlock("qpl_warning");
+				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
+				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("QTab");
 			if ($editable) {
 				$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
