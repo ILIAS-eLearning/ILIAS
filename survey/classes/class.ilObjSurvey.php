@@ -849,47 +849,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 	/**
-	* get description of content object
-	*
-	* @return	string		description
-	*/
-	function getDescription()
-	{
-//		return parent::getDescription();
-		return $this->meta_data->getDescription();
-	}
-
-	/**
-	* set description of content object
-	*/
-	function setDescription($a_description)
-	{
-		parent::setDescription($a_description);
-		$this->meta_data->setDescription($a_description);
-	}
-
-	/**
-	* get title of glossary object
-	*
-	* @return	string		title
-	*/
-	function getTitle()
-	{
-		//return $this->title;
-		return parent::getTitle();
-		//return $this->meta_data->getTitle();
-	}
-
-	/**
-	* set title of glossary object
-	*/
-	function setTitle($a_title)
-	{
-		parent::setTitle($a_title);
-		$this->meta_data->setTitle($a_title);
-	}
-
-	/**
 	* set anonymize status
 	*/
 	function setAnonymize($a_anonymize)
@@ -4021,6 +3980,15 @@ class ilObjSurvey extends ilObject
 		return $result;
 	}
 	
+	/**
+	* Set the title and the description of the meta data
+	*/
+	function updateTitleAndDescription()
+	{
+		$this->initMeta();
+		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
+	}
+
 	/**
 	* update meta data only
 	*/

@@ -227,6 +227,24 @@ class ilMetaData
 		}
 	}
 
+	function updateTitleAndDescription($title, $description)
+	{
+		if ( $this->__initNestedSet() )
+		{
+			$p = "//MetaData/General";
+			if ($this->section != "")
+			{
+				$p .= "/" . $this->section;
+			}
+			$this->nested_obj->replaceDomContent($p, "Title", 0, array("value" => $title));
+			$this->nested_obj->replaceDomContent($p, "Description", 0, array("value" => $description));
+			$this->nested_obj->updateFromDom();
+		}
+		$this->setTitle($title);
+		$this->setDescription($description);
+		$this->update();
+	}
+	
 	/**
 	* delete meta data node
 	*/
