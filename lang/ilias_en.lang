@@ -1105,7 +1105,7 @@ forum#:#forums_count_thr#:#Number of Threads
 forum#:#forums_delete_file#:#Delete attachment
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
-forum#:#forums_info_censor2_post#:#Are you sure you want to continue to hide this article?
+forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_last_post#:#Last Article
