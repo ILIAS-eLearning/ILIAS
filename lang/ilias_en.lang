@@ -493,6 +493,12 @@ common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#ldap_configure#:#Configure LDAP Authentication
+common#:#ldap_tls#:#Use LDAP TLS
+common#:#ldap_server#:#LDAP Server URL
+common#:#ldap_basedn#:#LDAP BaseDN
+common#:#ldap_search_base#:#LDAP Search base
+common#:#ldap_port#:#LDAP Port
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
@@ -858,6 +864,10 @@ common#:#file_version#:#Version Provided in File
 common#:#file_visible#:#File is visible
 common#:#file_write#:#Edit File
 common#:#files#:#Files
+common#:#err_invalid_port#:#Invalid port number
+common#:#auth_mode_changed_to#:#Authentication mode changed to
+common#:#auth_mode#:#Authentication mode
+common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#firstname#:#First name
