@@ -212,6 +212,7 @@ common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
 common#:#import#:#Import
 common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
+common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
 common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
@@ -565,10 +566,16 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+content#:#cont_Additional#:#Additional###23 Jun 2003 new variable
+content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
+content#:#cont_Example#:#Example###23 Jun 2003 new variable
+content#:#cont_Headline#:#Headline###23 Jun 2003 new variable
+content#:#cont_Mnemonic#:#Mnemonic###23 Jun 2003 new variable
 content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
 content#:#cont_caption#:#Caption###11 Jun 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
+content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
