@@ -1093,6 +1093,8 @@ class ilUtil
 	{
 		$current_dir = opendir($a_dir);
 
+		$dirs = array();
+		$files = array();
 		while($entry = readdir($current_dir))
 		{
 			if(is_dir($a_dir."/".$entry))

@@ -570,18 +570,43 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
 
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("cont_files"));
+		// determine directory
+		$cur_subdir = $_GET["cdir"];
+		if($_GET["newdir"] == "..")
+		{
+			$cur_subdir = substr($cur_subdir, 0, strrpos($cur_subdir, "/"));
+		}
+		else
+		{
+			if (!empty($_GET["newdir"]))
+			{
+				if (!empty($cur_subdir))
+				{
+					$cur_subdir = $cur_subdir."/".$_GET["newdir"];
+				}
+				else
+				{
+					$cur_subdir = $_GET["newdir"];
+				}
+			}
+		}
+		$cur_subdir = str_replace(".", "", $cur_subdir);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+
+		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
-			$this->lng->txt("cont_size")));
+			$this->lng->txt("cont_size"), $this->lng->txt("cont_purpose")));
 
-		$cols = array("", "", "dir_file", "size");
+		$cols = array("", "", "dir_file", "size", "purpose");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
 			"cmd" => "editFiles");
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "1%", "49%", "49%"));
+		$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -591,7 +616,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 		//$tbl->setMaxCount(30);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		/*
 		// delete button
@@ -615,8 +640,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		//require_once("./content/classes/class.ilObjMediaObject.php");
 		//$cont_obj =& new ilObjContentObject($content_obj, true);
 
-		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
-		$cur_dir = $mob_dir;
 		$entries = ilUtil::getDir($cur_dir);
 
 		//$objs = sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
@@ -629,14 +652,49 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$i=0;
 			foreach($entries as $entry)
 			{
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
+				if(($entry["entry"] == ".") || ($entry["entry"] == ".." && empty($cur_subdir)))
+				{
+					continue;
+				}
+
 				//$this->tpl->setVariable("ICON", $obj["title"]);
-				$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
-				$this->tpl->setVariable("TXT_SIZE", $entry["size"]);
-				//$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+				if($entry["type"] == "dir")
+				{
+					$this->tpl->setCurrentBlock("FileLink");
+					$this->tpl->setVariable("LINK_FILENAME",
+						"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+						"&hier_id=".$_GET["hier_id"]."&cmd=editFiles&cdir=".$cur_subdir."&newdir=".
+						rawurlencode($entry["entry"]));
+					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("File");
+					$this->tpl->setVariable("TXT_FILENAME2", $entry["entry"]);
+					$this->tpl->parseCurrentBlock();
+				}
 
 				$this->tpl->setCurrentBlock("tbl_content");
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", $entry["size"]);
+				//$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
+				$compare = (!empty($cur_subdir))
+					? $cur_subdir."/".$entry["entry"]
+					: $entry["entry"];
+				$purpose = array();
+				if ($std_item->getLocation() == $compare)
+				{
+					$purpose[] = $this->lng->txt("cont_std_view");
+				}
+				if ($full_item->getLocation() == $compare)
+				{
+					$purpose[] = $this->lng->txt("cont_fullscreen");
+				}
+				$this->tpl->setVariable("TXT_PURPOSE", implode($purpose, ", "));
+
 				$this->tpl->parseCurrentBlock();
 			}
 		} //if is_array
