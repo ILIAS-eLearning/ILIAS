@@ -1011,7 +1011,7 @@ class ilGroupGUI extends ilObjectGUI
 			$data["password"] = $this->grp_object->getPassword();
 			$datetime = $this->grp_object->getExpirationDateTime();
 			$data["expirationdate"] = $datetime[0];//$this->grp_object->getExpirationDateTime()[0];
-			$data["expirationtime"] = $datetime[1];//$this->grp_object->getExpirationDateTime()[1];
+			$data["expirationtime"] = substr($datetime[1],0,5);//$this->grp_object->getExpirationDateTime()[1];
 		}
 		else
 		{
@@ -1099,11 +1099,11 @@ class ilGroupGUI extends ilObjectGUI
 	  		case "frm":
 
 				require_once "classes/class.ilForum.php";
-				
+
 				$frm = new ilForum();
 				$frm->setWhereCondition("top_frm_fk = ".$cont_data["obj_id"]);
-				$topicData = $frm->getOneTopic();		
-			
+				$topicData = $frm->getOneTopic();
+
 				if ($topicData["top_num_threads"] > 0)
 				{
 					$thr_page = "liste";
@@ -1116,7 +1116,7 @@ class ilGroupGUI extends ilObjectGUI
 				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["ref_id"];
 				break;
 
-			
+
 
 			case "lm":
 				$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
@@ -2380,6 +2380,10 @@ class ilGroupGUI extends ilObjectGUI
 					$this->grp_object->setGroupStatus($_POST["group_status"]);
 				}
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
+				if(!ilUtil::isPassword($_POST["password"]))
+				{
+					$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+				}
 				$this->grp_object->setPassword($_POST["password"]);
 				$this->grp_object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 				$this->update = $this->grp_object->update();
