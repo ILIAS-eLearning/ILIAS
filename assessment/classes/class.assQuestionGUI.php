@@ -589,20 +589,13 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
         $this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
         $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
+				$this->tpl->setVariable("TEXT_REGION", $this->lng->txt("region"));
+				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
         if ($answer->is_true()) {
           $this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
         }
         $this->tpl->setVariable("COORDINATES", $answer->get_coords());
         $this->tpl->setVariable("AREA", $answer->get_area());
-        $this->tpl->parseCurrentBlock();
-      }
-
-      if (strlen($_POST["cmd"]["add"]) > 0) {
-        // Template f¸r neue Antwort erzeugen
-        $this->tpl->setCurrentBlock("answers");
-        $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->question->get_answer_count() + 1);
-        $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
-        $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
         $this->tpl->parseCurrentBlock();
       }
 
@@ -965,7 +958,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function set_question_data_from_imagemap_question_template() {
-   $result = 0;
+		$result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
 
@@ -1011,6 +1004,7 @@ class ASS_QuestionGUI extends PEAR {
 				$this->question->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 			}
 		}
+		return $result;
   }
 
 /**

@@ -49,6 +49,7 @@ assessment#:#export#:#Export
 assessment#:#false#:#False
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
+assessment#:#imagemap#:#Image map
 assessment#:#last_update#:#Last update
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
@@ -74,6 +75,7 @@ assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_type#:#Question Type
 assessment#:#remove_question#:#Remove
+assessment#:#region#:#Region
 assessment#:#reset_filter#:#Reset filter
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
