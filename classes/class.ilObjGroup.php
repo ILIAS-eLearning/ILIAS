@@ -88,7 +88,7 @@ class ilObjGroup extends ilObject
 		{
 			$this->obj_grpId = $a_id;
 		}*/
-
+		
 		$this->tree = $tree;
 
 	}
@@ -634,7 +634,7 @@ class ilObjGroup extends ilObject
 
 	function createNewGroupTree($objGrpId,$objGrpRefId)
 	{
-		require_once "class.ilTree.php";
+		
 		
 		$grp_tree = new ilTree($objGrpId);
 		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
@@ -751,10 +751,14 @@ class ilObjGroup extends ilObject
 		{
 			return false;
 		}
-
-		// put here group specific stuff
-
-		// always call parent delete function at the end!!
+		
+		$query = "DELETE FROM grp_tree WHERE tree=".$this->getId();
+		$this->ilias->db->query($query);
+		
+		$query = "DELETE FROM grp_data WHERE grp_id=".$this->getId();
+		$this->ilias->db->query($query);
+		
+		
 		return true;
 	}
 
