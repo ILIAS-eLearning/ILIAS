@@ -132,6 +132,129 @@ class ASS_OrderingQuestion extends ASS_Question
 	}
 
 	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		$root = $this->domxml->document_element();
+		$item = $root->first_child();
+		$this->setTitle($item->get_attribute("title"));
+		$this->gaps = array();
+		$comment = $item->first_child();
+		if (strcmp($comment->node_name(), "qticomment") == 0)
+		{
+			$this->setComment($comment->get_content());
+		}
+		$itemnodes = $item->child_nodes();
+		$materials = array();
+		$images = array();
+		$shuffle = "";
+		foreach ($itemnodes as $index => $node)
+		{
+			switch ($node->node_name())
+			{
+				case "presentation":
+					$flow = $node->first_child();
+					$flownodes = $flow->child_nodes();
+					foreach ($flownodes as $idx => $flownode)
+					{
+						if (strcmp($flownode->node_name(), "material") == 0)
+						{
+							$mattext = $flownode->first_child();
+							$this->set_question($mattext->get_content());
+						}
+						elseif (strcmp($flownode->node_name(), "response_lid") == 0)
+						{
+							$ident = $flownode->get_attribute("ident");
+							if (strcmp($ident, "OQT") == 0)
+							{
+								$this->set_ordering_type(OQ_TERMS);
+							}
+							elseif (strcmp($ident, "OQP") == 0)
+							{
+								$this->set_ordering_type(OQ_PICTURES);
+							}
+							$render_choice = $flownode->first_child();
+							if (strcmp($render_choice->node_name(), "render_choice") == 0)
+							{
+								$shuffle = $render_choice->get_attribute("shuffle");
+								$labels = $render_choice->child_nodes();
+								foreach ($labels as $lidx => $response_label)
+								{
+									$material = $response_label->first_child();
+									if ($this->get_ordering_type() == OQ_PICTURES)
+									{
+										$matimage = $material->first_child();
+										$filename = $matimage->get_attribute("label");
+										$image = base64_decode($matimage->get_content());
+										$images["$filename"] = $image;
+										$materials[$response_label->get_attribute("ident")] = $filename;
+									}
+									else
+									{
+										$mattext = $material->first_child();
+										$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+									}
+								}
+							}
+						}
+					}
+					break;
+				case "resprocessing":
+					$resproc_nodes = $node->child_nodes();
+					foreach ($resproc_nodes as $index => $respcondition)
+					{
+						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						{
+							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+							$this->add_answer($materials[$respcondition_array["conditionvar"]["value"]], $respcondition_array["setvar"]["points"], count($this->answers), $respcondition_array["conditionvar"]["index"]);
+						}
+					}
+					break;
+			}
+		}
+		if (count($images))
+		{
+			$this->saveToDb();
+			foreach ($images as $filename => $image)
+			{
+				if ($filename)
+				{
+					$imagepath = $this->getImagePath();
+					if (!file_exists($imagepath))
+					{
+						ilUtil::makeDirParents($imagepath);
+					}
+					$imagepath .=  $filename;
+					$fh = fopen($imagepath, "wb");
+					if ($fh == false)
+					{
+						global $ilErr;
+						$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->WARNING);
+						return;
+					}
+					$imagefile = fwrite($fh, $image);
+					fclose($fh);
+					// create thumbnail file
+					$thumbpath = $imagepath . "." . "thumb.jpg";
+					ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+				}
+			}
+		}
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -364,18 +487,18 @@ class ASS_OrderingQuestion extends ASS_Question
 			$question_type = 5;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, ordering_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->ordering_type),
-				$db->quote($this->points),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$db->quote($question_type . ""),
+				$db->quote($this->obj_id . ""),
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->owner . ""),
+				$db->quote($this->question . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->ordering_type . ""),
+				$db->quote($this->points . ""),
+				$db->quote($complete . ""),
+				$db->quote($created . ""),
 				$original_id
 			);
 			$result = $db->query($query);
@@ -397,15 +520,15 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->ordering_type),
-				$db->quote($this->points),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->question . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->ordering_type . ""),
+				$db->quote($this->points . ""),
+				$db->quote($complete . ""),
+				$db->quote($this->id . "")
 			);
 			$result = $db->query($query);
 		}

@@ -93,7 +93,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function editQuestion()
+	function editQuestion($ok = true)
 	{
 		$this->getQuestionTemplate("qt_ordering");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
@@ -147,7 +147,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($this->ctrl->getCmd() == "addItem")
+		if (($this->ctrl->getCmd() == "addItem") and ($ok))
 		{
 			if ($this->object->get_ordering_type() == OQ_PICTURES)
 			{
@@ -237,7 +237,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{
 			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answers"));
+			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 			$ok = false;
 		}
 		else
@@ -256,7 +256,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 
 		$this->writePostData();
-		$this->editQuestion();
+		$this->editQuestion($ok);
 	}
 
 	/**
