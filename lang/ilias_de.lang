@@ -139,8 +139,6 @@ common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
-common#:#flatview#:#Flache Ansichtcommon
-common#:#folder#:#Ordner
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
@@ -457,4 +455,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#zzz#:#Zzzzzzz###04 Mar 2003 new variable
