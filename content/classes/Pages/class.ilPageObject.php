@@ -1386,16 +1386,23 @@ class ilPageObject
 	* Highligths Text with given ProgLang
 	*/
 	
-	function highlightText($a_text, $proglang)
+	function highlightText($a_text, $proglang, $autoindent)
 	{
 		
 		if (!$this->hasHighlighter($proglang)) {
 			$proglang="plain";
 		}
 
-			require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
-			$classname =  "HFile_$proglang";
-			$highlighter = new Core(new $classname(), new Output_css());
+		require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
+		$classname =  "HFile_$proglang";
+		$h_instance = new $classname();
+		if ($autoindent == "n") {
+			$h_instance ->notrim   = 1;
+			$h_instance ->indent   = array ("");
+			$h_instance ->unindent = array ("");
+		}
+
+		$highlighter = new Core($h_instance, new Output_css());	
 		$a_text = $highlighter->highlight_text(html_entity_decode($a_text));
 
 			$a_text = str_replace("&","&amp;",$a_text);
@@ -1430,6 +1437,7 @@ class ilPageObject
 			$subchar = $context_node->get_attribute('SubCharacteristic');
 			$showlinenumbers = $context_node->get_attribute('ShowLineNumbers');
 			$downloadtitle = $context_node->get_attribute('DownloadTitle');
+			$autoindent = $context_node->get_attribute('AutoIndent');
 
 			$content = "";
 
@@ -1452,8 +1460,9 @@ class ilPageObject
 			$rownums = count(split ("\n",$content));
 
 			$plain_content = html_entity_decode($content);
-
-			$content = $this->highlightText($plain_content, $subchar);
+			$plain_content = preg_replace ("/\&#x([1-9a-f]{2});?/ise","chr (base_convert (\\1, 16, 10))",$plain_content);
+			$plain_content = preg_replace ("/\&#(\d+);?/ise","chr (\\1)",$plain_content);
+			$content = $this->highlightText($plain_content, $subchar, $autoindent);
 
 			$rows  	 = htmlentities ("<TR valign=\"top\">");
 			$rownumbers = "<TD nowrap=\"nowrap\" class=\"ilc_LineNumbers\"><PRE>";
