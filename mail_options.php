@@ -96,11 +96,10 @@ $tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 
 $tpl->setCurrentBlock("content");
 
-
 // CONFIRM DELETE
 if(isset($_POST["cmd"]["delete"]))
 {
-	$tpl->setCurrentBlock("confirm");
+	$tpl->setCurrentBlock("confirm_delete");
 	$tpl->setVariable("ACTION_DELETE","mail_frameset.php?mobj_id=$_GET[mobj_id]");
 	$tpl->setVariable("TXT_DELETE_CONFIRM",$lng->txt("confirm"));
 	$tpl->setVariable("TXT_DELETE_CANCEL",$lng->txt("cancel"));
