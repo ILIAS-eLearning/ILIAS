@@ -21,9 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-define("IL_AFTER_PRED", 1);
-define("IL_BEFORE_SUCC", 0);
-
 
 /**
 * Class ilPageContent

@@ -21,13 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/class.ilLMEditorExplorer.php");
 require_once ("content/classes/class.ilLMObjectFactory.php");
 //require_once ("classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilLearningModule.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
-require_once ("content/classes/class.ilParagraphGUI.php");
 require_once ("content/classes/class.ilLearningModuleGUI.php");
 require_once ("content/classes/class.ilMetaDataGUI.php");
 
@@ -72,10 +70,10 @@ class ilLMEditorGUI
 		$this->lm_id = $_GET["lm_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		$cont_cnt = $_GET["cont_cnt"];		// Position of content object (starting with 1)
-		if(isset($_POST["new_cont_cnt"]))
+		$hier_id = $_GET["hier_id"];		// Position of content object (starting with 1)
+		if(isset($_POST["new_hier_id"]))
 		{
-			$cont_cnt = $_POST["new_cont_cnt"];
+			$hier_id = $_POST["new_hier_id"];
 		}
 
 		$cmd = (empty($_GET["cmd"]))
@@ -94,17 +92,17 @@ class ilLMEditorGUI
 		if ($cmd == "edpost")
 		{
 			$type = "content";
-			if (isset($_GET["cont_cnt"]))
+			if (isset($_GET["hier_id"]))
 			{
 				$cmd = key($_POST["cmd"]);
-				$cont_cnt = $_GET["cont_cnt"];
+				$hier_id = $_GET["hier_id"];
 			}
 			else
 			{
 				$cmd = explode("_", key($_POST["cmd"]));
 				unset($cmd[0]);
-				$cont_cnt = implode($cmd, "_");
-				$cmd = $_POST["command".$cont_cnt];
+				$hier_id = implode($cmd, "_");
+				$cmd = $_POST["command".$hier_id];
 			}
 		}
 
@@ -133,10 +131,14 @@ class ilLMEditorGUI
 					}
 					else
 					{
-				 		$cont_obj =& $obj->getContent($cont_cnt);
-						//$cont_obj =& $content[$cont_cnt - 1];
+						$obj->buildDom();
+						$obj->addHierIDs();
+				 		$cont_obj =& $obj->getContentObject($hier_id);
+						//$cont_obj =& $content[$hier_id - 1];
+						$com = explode("_", $cmd);
+						$cmd = $com[0];
 						$ctype = ($cmd == "insert" || $cmd == "create")
-							? "par"
+							? $com[1]
 							: $cont_obj->getType();
 					}
 				}
@@ -153,9 +155,17 @@ class ilLMEditorGUI
 					switch($ctype)
 					{
 						case "par":
-							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $cont_cnt);
+							require_once ("content/classes/class.ilParagraphGUI.php");
+							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
 							$par_gui->$cmd();
 							break;
+
+						case "tab":
+							require_once ("content/classes/class.ilLMTableGUI.php");
+							$tab_gui =& new ilLMTableGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
+							$tab_gui->$cmd();
+							break;
+
 					}
 				}
 				else
@@ -225,6 +235,7 @@ class ilLMEditorGUI
 		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
+		require_once ("content/classes/class.ilLMEditorExplorer.php");
 		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId(),$this->lm_obj);
 		$exp->setTargetGet("obj_id");
 

@@ -42,12 +42,14 @@ class ilLMTable extends ilPageContent
 	var $rowcnt;		// counter for total row and col number
 	var $colcnt;
 	var $cell;			// content array
+	var $dom;
+	var $node;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTable()
+	function ilLMTable(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("tab");
@@ -57,8 +59,20 @@ class ilLMTable extends ilPageContent
 		$this->rowcnt = 0;
 		$this->colcnt = 0;
 		$this->cell = array();
+		$this->dom =& $a_dom;
 	}
 
+	function setNode(&$a_node)
+	{
+		$this->node =& $a_node;
+	}
+
+	function &getNode()
+	{
+		return $this->node;
+	}
+
+	/*
 	function newCol()
 	{
 		$this->col++;
@@ -105,8 +119,9 @@ class ilLMTable extends ilPageContent
 		{
 			return $this->cell[$this->row][$this->col][$a_nr];
 		}
-	}
+	}*/
 
+	/*
 	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
 		$ed_id = ($a_incl_ed_ids)
@@ -145,14 +160,15 @@ class ilLMTable extends ilPageContent
 		$xml.= "</Table>";
 
 		return $xml;
-	}
+	}*/
 
 	/**
 	* get content object by hierarchical id
 	*/
-	function &getContent($a_cont_cnt)
+	/*
+	function &getContent($a_hier_id)
 	{
-		$cnt = explode("_", $a_cont_cnt);
+		$cnt = explode("_", $a_hier_id);
 		if(isset($cnt[1]))		// content is within a container (e.g. table)
 		{
 			$container_obj =& $this->getContent($cnt[0]);
@@ -165,8 +181,9 @@ class ilLMTable extends ilPageContent
 			$co_object =& $this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]];
 			return $co_object;
 		}
-	}
+	}*/
 
+	/*
 	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_AFTER_PRED)
 	{
 		$pos = explode("_", $a_pos);
@@ -214,11 +231,12 @@ class ilLMTable extends ilPageContent
 				$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + $a_mode] =& $a_cont_obj;
 			}
 		}
-	}
+	}*/
 
 	/**
 	* delete content object at position $a_pos
 	*/
+	/*
 	function deleteContent($a_pos)
 	{
 		$pos = explode("_", $a_pos);
@@ -242,13 +260,14 @@ class ilLMTable extends ilPageContent
 			}
 			array_pop($this->cell[$tpos["row"]][$tpos["col"]]);
 		}
-	}
+	}*/
 
 
 	/**
 	* converts a sequential content position into row, column
 	* and content position within the cell
 	*/
+	/*
 	function seq2TablePos($a_seq_pos)
 	{
 		$current = 0;
@@ -272,7 +291,7 @@ class ilLMTable extends ilPageContent
 				}
 			}
 		}
-	}
+	}*/
 
 	/*
 	function setLanguage($a_lang)
