@@ -177,7 +177,7 @@ class ASS_OrderingQuestion extends ASS_Question {
     $qtiRenderextension  = $this->domxml->create_element("render_extension");
     $qtiIms_render_object  = $this->domxml->create_element("ims_render_object");
     // shuffle output
-    if (get_shuffle() == 1)
+    if ($this->get_shuffle() == 1)
     {
       $qtiIms_render_object->set_attribute("shuffle", "yes");
     } else {
@@ -185,7 +185,7 @@ class ASS_OrderingQuestion extends ASS_Question {
     }
     // add answers
     $qtiFlow_label = $this->domxml->create_element("flow_label");
-    if (get_ordering_type() == 1)
+    if ($this->get_ordering_type() == 1)
     {
       foreach ($this->answers as $index => $answer)
       {
@@ -197,7 +197,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $qtiMatText->append_child($qtiMatTextText);
         $qtiMaterial->append_child($qtiMatText);
         $qtiResponselabel->append_child($qtiMaterial);
-        $qtiFLow_label->append_child($qtiResponselabel);
+        $qtiFlow_label->append_child($qtiResponselabel);
       }
     }
     else
@@ -212,15 +212,15 @@ class ASS_OrderingQuestion extends ASS_Question {
         $qtiMatText->append_child($qtiMatTextText);
         $qtiMaterial->append_child($qtiMatText);
         $qtiResponselabel->append_child($qtiMaterial);
-        $qtiFLow_label->append_child($qtiResponselabel);
+        $qtiFlow_label->append_child($qtiResponselabel);
       }
     }
-    $qtiIms_render_object->append_child($qtiFLow_label);
+    $qtiIms_render_object->append_child($qtiFlow_label);
     $qtiRenderextension->append_child($qtiIms_render_object);
     $qtiResponselid->append_child($qtiRenderextension);
     $qtiFlow->append_child($qtiResponselid);
     $qtiPresentation->append_child($qtiFlow);
-    $qtiItem->append_child($qtiPresentation);
+    $qtiIdent->append_child($qtiPresentation);
     
     // PART II: qti resprocessing
     $qtiResprocessing = $this->domxml->create_element("resprocessing");
@@ -254,23 +254,7 @@ class ASS_OrderingQuestion extends ASS_Question {
     // qti displayfeedback
     $qtiDisplayfeedback = $this->domxml->create_element("displayfeedback");
     $qtiDisplayfeedback->set_attribute("feedbacktype", "Response");
-    $linkrefid = "";
-    if ($answer->is_true())
-    {
-      if ($this->response == RESPONSE_SINGLE)
-      {
-        $linkrefid = "True";
-      }
-      else
-      {
-        $linkrefid = "True_$index";
-      }
-    }
-    else
-    {
-      $linkrefid = "False_$index";
-    }
-    $qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
+//    $qtiDisplayfeedback->set_attribute("linkrefid", $linkrefid);
     $qtiRespcondition->append_child($qtiDisplayfeedback);
     $qtiResprocessing->append_child($qtiRespcondition);
     $qtiIdent->append_child($qtiResprocessing);
@@ -279,23 +263,7 @@ class ASS_OrderingQuestion extends ASS_Question {
     foreach ($this->answers as $index => $answer)
     {
       $qtiItemfeedback = $this->domxml->create_element("itemfeedback");
-      $linkrefid = "";
-      if ($answer->is_true())
-      {
-        if ($this->response == RESPONSE_SINGLE)
-        {
-          $linkrefid = "True";
-        }
-        else
-        {
-          $linkrefid = "True_$index";
-        }
-      }
-      else
-      {
-        $linkrefid = "False_$index";
-      }
-      $qtiItemfeedback->set_attribute("ident", $linkrefid);
+//      $qtiItemfeedback->set_attribute("ident", $linkrefid);
       $qtiItemfeedback->set_attribute("view", "All");
       // qti flow_mat
       $qtiFlowmat = $this->domxml->create_element("flow_mat");
