@@ -550,12 +550,14 @@ mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to addressbook
+mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The Bc recipient is not valid
 mail#:#mail_bc_search#:#BC search
 mail#:#mail_cc_not_valid#:#The Cc recipient is not valid
 mail#:#mail_cc_search#:#CC search
+mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_change_to_folder#:#Switch to folder:
 mail#:#mail_check_your_email_addr#:#Your email address is not valid
 mail#:#mail_compose#:#Compose Message
@@ -572,6 +574,7 @@ mail#:#mail_folder_exists#:#A folder already exists with this name
 mail#:#mail_folder_name#:#Folder name
 mail#:#mail_folder_name_changed#:#The folder is renamed
 mail#:#mail_folder_options#:#Folder Options
+mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
@@ -582,6 +585,7 @@ mail#:#mail_move_error#:#Error moving mail(s)
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail(s) have been moved
 mail#:#mail_moved_to_trash#:#Mail(s) have been moved to trash
+mail#:#mail_new_file#:#Add new file:
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
@@ -602,7 +606,3 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
-mail#:#mail_change_to_folder#:#Switch to folder:
-mail#:#mail_new_file#:#Add new file:
-mail#:#mail_add_type#:#Please add the type of mail you want to send
-mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:

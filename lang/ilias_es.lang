@@ -550,6 +550,7 @@ mail#:#mail_add_recipient#:#Please enter a recipient###16 Apr 2003 new variable
 mail#:#mail_add_subfolder#:#Add Subfolder###18 Apr 2003 new variable
 mail#:#mail_add_subject#:#Please enter a subject###16 Apr 2003 new variable
 mail#:#mail_add_to_addressbook#:#Add to addressbook###16 Apr 2003 new variable
+mail#:#mail_add_type#:#Please add the type of mail you want to send###25 Apr 2003 new variable
 mail#:#mail_addr_entries#:#Entries###16 Apr 2003 new variable
 mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
 mail#:#mail_bc_not_valid#:#The Bc recipient is not valid###16 Apr 2003 new variable
@@ -572,6 +573,7 @@ mail#:#mail_folder_exists#:#A folder already exists with this name###16 Apr 2003
 mail#:#mail_folder_name#:#Folder name###16 Apr 2003 new variable
 mail#:#mail_folder_name_changed#:#The folder is renamed###16 Apr 2003 new variable
 mail#:#mail_folder_options#:#Folder Options###16 Apr 2003 new variable
+mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:###25 Apr 2003 new variable
 mail#:#mail_global_options#:#Global options###16 Apr 2003 new variable
 mail#:#mail_insert_folder_name#:#Please insert a folder name###16 Apr 2003 new variable
 mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
