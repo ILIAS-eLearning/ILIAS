@@ -17,7 +17,6 @@
 	<td class="option">{TEXT_QUESTION}:</td>
 	<td class="option_value" colspan="4"><textarea name="question" id="question" cols="80" rows="10">{VALUE_QUESTION}</textarea></td>
 </tr>
-<!-- BEGIN post_save -->
 {OTHER_QUESTION_DATA}
 <tr>
 	<td class="option">{TEXT_SOLUTION_HINT}:</td>
@@ -43,13 +42,9 @@
 	<td class="option_value" colspan="3" > <input name="cmd[uploadingJavaapplet]" type="submit" class="submit" id="upload_javaapplet" value={VALUE_JAVAAPPLET_UPLOAD} /></td>
 </tr>
 <tr>
-	<td class="option">{TEXT_POINTS}:</td>
+	<td class="option">{TEXT_POINTS}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="4"><input type="text" name="applet_points" value="{VALUE_APPLET_POINTS}" size="3" /></td>
 </tr>
-<!-- END post_save -->
-<!-- BEGIN pre_save -->
-<tr><td colspan="5" class="std">{APPLY_MESSAGE}</td></tr>
-<!-- END pre_save -->
 <!-- BEGIN appletcode -->
 <tr><td colspan="5" class="std">{APPLET_ATTRIBUTES}</td></tr>
 <tr>

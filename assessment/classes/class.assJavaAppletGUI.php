@@ -92,105 +92,99 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->getQuestionTemplate("qt_javaapplet");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-
-		if ($this->object->getId() > 0)
+		if ($this->error)
 		{
-			// call to other question data i.e. estimated working time block
-			$this->outOtherQuestionData();
-			// image block
-			$this->tpl->setCurrentBlock("post_save");
+			sendInfo($this->error);
+		}
+		// call to other question data i.e. estimated working time block
+		$this->outOtherQuestionData();
+		// image block
+		$this->tpl->setCurrentBlock("post_save");
 
-			$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-			if ($this->object->getSolutionHint())
-			{
-				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
-			}
-			else
-			{
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
-			}
-			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
-			
-			// java applet block
-			$javaapplet = $this->object->getJavaAppletFilename();
-			$this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
-			if (!empty($javaapplet))
-			{
-				$this->tpl->setVariable("JAVAAPPLET_FILENAME", $javaapplet);
-				$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("change"));
-				$this->tpl->setCurrentBlock("javaappletupload");
-				$this->tpl->setVariable("UPLOADED_JAVAAPPLET", $javaapplet);
-				$this->tpl->parse("javaappletupload");
-			}
-			else
-			{
-				$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
-			}
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("available_points"));
-			$this->tpl->setVariable("VALUE_APPLET_POINTS", sprintf("%d", $this->object->getPoints()));
-			$this->tpl->parseCurrentBlock();
-
-			if ($javaapplet)
-			{
-				$emptyname = 0;
-				for ($i = 0; $i < $this->object->getParameterCount(); $i++)
-				{
-					// create template for existing applet parameters
-					$this->tpl->setCurrentBlock("delete_parameter");
-					$this->tpl->setVariable("VALUE_DELETE_PARAMETER", $this->lng->txt("delete"));
-					$this->tpl->setVariable("DELETE_PARAMETER_COUNT", $i);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("applet_parameter");
-					$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_parameter") . " " . ($i+1));
-					$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
-					$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-					$param = $this->object->getParameter($i);
-					$this->tpl->setVariable("PARAM_NAME_VALUE", $param["name"]);
-					$this->tpl->setVariable("PARAM_VALUE_VALUE", $param["value"]);
-					$this->tpl->setVariable("PARAM_COUNTER", $i);
-					$this->tpl->parseCurrentBlock();
-					if (!$param["name"])
-					{
-						$emptyname = 1;
-					}
-				}
-				if ($this->ctrl->getCmd() == "addParameter")
-				{
-					if ($emptyname == 0)
-					{
-						// create template for new applet parameter
-						$this->tpl->setCurrentBlock("applet_parameter");
-						$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_new_parameter"));
-						$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
-						$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-						$this->tpl->setVariable("PARAM_COUNTER", $this->object->getParameterCount());
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						sendInfo($this->lng->txt("too_many_empty_parameters"));
-					}
-				}
-				$this->tpl->setCurrentBlock("appletcode");
-				$this->tpl->setVariable("APPLET_ATTRIBUTES", $this->lng->txt("applet_attributes"));
-				$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
-				$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
-				$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
-				$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
-				$this->tpl->setVariable("VALUE_CODE", $this->object->getJavaCode());
-				$this->tpl->setVariable("VALUE_WIDTH", $this->object->getJavaWidth());
-				$this->tpl->setVariable("VALUE_HEIGHT", $this->object->getJavaHeight());
-				$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_parameters"));
-				$this->tpl->setVariable("VALUE_ADD_PARAMETER", $this->lng->txt("add_applet_parameter"));
-				$this->tpl->parseCurrentBlock();
-			}
+		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+		if ($this->object->getSolutionHint())
+		{
+			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("pre_save");
-			$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_javaapplet"));
+			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+		}
+		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
+		
+		// java applet block
+		$javaapplet = $this->object->getJavaAppletFilename();
+		$this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
+		if (!empty($javaapplet))
+		{
+			$this->tpl->setVariable("JAVAAPPLET_FILENAME", $javaapplet);
+			$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("change"));
+			$this->tpl->setCurrentBlock("javaappletupload");
+			$this->tpl->setVariable("UPLOADED_JAVAAPPLET", $javaapplet);
+			$this->tpl->parse("javaappletupload");
+		}
+		else
+		{
+			$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
+		}
+		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("available_points"));
+		$this->tpl->setVariable("VALUE_APPLET_POINTS", sprintf("%d", $this->object->getPoints()));
+		$this->tpl->parseCurrentBlock();
+
+		if ($javaapplet)
+		{
+			$emptyname = 0;
+			for ($i = 0; $i < $this->object->getParameterCount(); $i++)
+			{
+				// create template for existing applet parameters
+				$this->tpl->setCurrentBlock("delete_parameter");
+				$this->tpl->setVariable("VALUE_DELETE_PARAMETER", $this->lng->txt("delete"));
+				$this->tpl->setVariable("DELETE_PARAMETER_COUNT", $i);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("applet_parameter");
+				$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_parameter") . " " . ($i+1));
+				$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
+				$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
+				$param = $this->object->getParameter($i);
+				$this->tpl->setVariable("PARAM_NAME_VALUE", $param["name"]);
+				$this->tpl->setVariable("PARAM_VALUE_VALUE", $param["value"]);
+				$this->tpl->setVariable("PARAM_COUNTER", $i);
+				$this->tpl->parseCurrentBlock();
+				if (!$param["name"])
+				{
+					$emptyname = 1;
+				}
+			}
+			if ($this->ctrl->getCmd() == "addParameter")
+			{
+				if ($emptyname == 0)
+				{
+					// create template for new applet parameter
+					$this->tpl->setCurrentBlock("applet_parameter");
+					$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_new_parameter"));
+					$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
+					$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
+					$this->tpl->setVariable("PARAM_COUNTER", $this->object->getParameterCount());
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					sendInfo($this->lng->txt("too_many_empty_parameters"));
+				}
+			}
+			$this->tpl->setCurrentBlock("appletcode");
+			$this->tpl->setVariable("APPLET_ATTRIBUTES", $this->lng->txt("applet_attributes"));
+			$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
+			$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
+			$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
+			$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
+			$this->tpl->setVariable("VALUE_CODE", $this->object->getJavaCode());
+			$this->tpl->setVariable("VALUE_WIDTH", $this->object->getJavaWidth());
+			$this->tpl->setVariable("VALUE_HEIGHT", $this->object->getJavaHeight());
+			$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_parameters"));
+			$this->tpl->setVariable("VALUE_ADD_PARAMETER", $this->lng->txt("add_applet_parameter"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -209,8 +203,15 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "qt_javaapplet");
-		$this->tpl->setVariable("ACTION_JAVAAPPLET_QUESTION",
-			$this->ctrl->getFormaction($this));
+		$formaction = $this->ctrl->getFormaction($this);
+		if ($this->object->getId() > 0)
+		{
+			if (!preg_match("/q_id\=\d+/", $formaction))
+			{
+				$formaction = str_replace("q_id=", "q_id=" . $this->object->getId(), $formaction);
+			}
+		}
+		$this->tpl->setVariable("ACTION_JAVAAPPLET_QUESTION", $formaction);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -224,8 +225,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	*/
 	function uploadingJavaApplet()
 	{
-		$this->writePostData();
-		$this->object->saveToDb();
+		$result = $this->writePostData();
+		if ($result == 0)
+		{
+			$this->object->saveToDb();
+		}
 		$this->editQuestion();
 	}
 
@@ -292,9 +296,8 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 
-		if ($_POST["id"] > 0)
+		if ($result == 0)
 		{
-			// Question is already saved, appledcode can be uploaded
 			//setting java applet
 			if (empty($_FILES['javaappletName']['tmp_name']))
 			{
@@ -302,6 +305,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			}
 			else
 			{
+				if ($this->object->getId() < 1)
+				{
+					$saved = 1;
+					$this->object->saveToDb();
+				}
 				$this->object->setJavaAppletFilename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
 			if ($this->object->getJavaAppletFilename())
@@ -323,6 +331,11 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 					$this->object->removeParameter($_POST["param_name_$matches[1]"]);
 				}
 			}
+		}
+		if ($saved)
+		{
+			$this->object->saveToDb();
+			$this->error .= $this->lng->txt("question_saved_for_upload");
 		}
 		return $result;
 	}
@@ -373,6 +386,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	{
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{
+			$this->error .= $this->lng->txt("fill_out_all_required_fields");
 			return false;
 		}
 		return true;
@@ -383,10 +397,9 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	{
 		if ($_POST["cmd"]["addSuggestedSolution"])
 		{
-			$this->writePostData();
-			if (!$this->checkInput())
+			$result = $this->writePostData();
+			if ($result != 0)
 			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
 				$this->editQuestion();
 				return;
 			}

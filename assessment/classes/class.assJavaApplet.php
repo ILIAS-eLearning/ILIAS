@@ -204,8 +204,8 @@ class ASS_JavaApplet extends ASS_Question
 		$fh = @fopen($javapath, "rb");
 		if ($fh == false)
 		{
-			global $ilErr;
-			$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->WARNING);
+			//global $ilErr;
+			//$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->WARNING);
 			return;
 		}
 		$javafile = fread($fh, filesize($javapath));
@@ -529,7 +529,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->points > 0))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->points != ""))
 		{
 			return true;
 		}
