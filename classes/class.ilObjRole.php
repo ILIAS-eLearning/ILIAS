@@ -54,9 +54,9 @@ class ilObjRole extends ilObject
 	*/
 	function delete()
 	{
-		global $tree, $rbacadmin;
+		global $tree, $rbacadmin, $rbacreview;
 		
-		if ($rbacadmin->isAssignable($this->getId(),$_GET["ref_id"]))
+		if ($rbacreview->isAssignable($this->getId(),$_GET["ref_id"]))
 		{
 			// IT'S THE BASE ROLE
 			$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
@@ -81,10 +81,10 @@ class ilObjRole extends ilObject
 	*/
 	function update()
 	{
-		global $rbacsystem, $rbacadmin;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// check if role title is unique
-		if ($rbacadmin->roleExists($this->getTitle()))
+		if ($rbacreview->roleExists($this->getTitle()))
 		{
 			$this->ilias->raiseError("A role with the name '".$this->getTitle().
 				 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);

@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.6 2003/06/05 07:45:43 smeyer Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.7 2003/06/11 08:41:44 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -51,7 +51,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $rbacreview;
 		
 		//prepare objectlist
 		$this->data = array();
@@ -59,7 +59,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("type", "operation", "description", "status");
 
-		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
 
 		if ($list = getOperationList("",$_GET["order"], $_GET["direction"]))
 		{
@@ -220,7 +220,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	{
 		global $rbacadmin,$rbacreview;
 
-		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
 		foreach ($_POST["id"] as $ops_id => $status)
 		{
 			if ($status == 'enabled')
@@ -252,7 +252,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacadmin, $tpl;
+		global $rbacsystem, $rbacadmin, $tpl, $rbacreview;
 
 		// TODO: maybe we can skip this check
 		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]))
@@ -268,7 +268,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("type", "operation", "description", "status");
 
-		$ops_valid = $rbacadmin->getOperationsOnType($this->obj_id);
+		$ops_valid = $rbacreview->getOperationsOnType($this->obj_id);
 
 		if ($ops_arr = getOperationList('', $a_order, $a_direction))
 		{

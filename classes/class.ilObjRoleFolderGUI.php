@@ -52,7 +52,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem, $rbacadmin, $tpl;
+		global $rbacsystem, $rbacadmin, $rbacreview, $tpl;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -66,7 +66,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
 
-		if ($list = $rbacadmin->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
+		if ($list = $rbacreview->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
 		{
 			foreach ($list as $key => $val)
 			{

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.24 2003/06/04 14:07:06 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.25 2003/06/11 08:41:44 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -53,7 +53,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacadmin;
+		global $rbacsystem,$rbacadmin, $rbacreview;
 
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
@@ -64,7 +64,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		else
 		{
 			// check if role title is unique
-			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 			{
 				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
@@ -139,9 +139,9 @@ class ilObjRoleGUI extends ilObjectGUI
 				// BEGIN CHECK_PERM
 				foreach ($obj_data as $data)
 				{
-					if (in_array($operations["ops_id"],$rbacadmin->getOperationsOnType($data["obj_id"])))
+					if (in_array($operations["ops_id"],$rbacreview->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacadmin->getRolePermission($this->object->getId(), $data["title"], $_GET["ref_id"]);
+						$selected = $rbacreview->getOperationsOfRole($this->object->getId(), $data["title"], $_GET["ref_id"]);
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -174,7 +174,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$output["message_table"] = $lng->txt("change_existing_objects");
 
 			// USER ASSIGNMENT
-			if ($rbacadmin->isAssignable($this->object->getId(),$_GET["ref_id"]))
+			if ($rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
 			{
 				require_once "./classes/class.ilObjUser.php";
 				
@@ -198,7 +198,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
 
 			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
+			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 
 			// sort output for correct color changing
 			ksort($parent_role_ids);
@@ -428,12 +428,12 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		global $rbacadmin, $rbacsystem;
+		global $rbacadmin, $rbacsystem, $rbacreview;
 
 		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
+			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
 										   $_GET["ref_id"],$_GET["obj_id"]);
 		}
@@ -456,7 +456,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		// TODO: get rid of $_GET variables
 		 
-		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
+		if ($rbacreview->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
 		{
 			if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 			{
@@ -493,7 +493,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $rbacadmin;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
@@ -503,7 +503,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		else
 		{
 			// check if role title is unique
-			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
+			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 			{
 				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
