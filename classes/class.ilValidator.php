@@ -1011,6 +1011,34 @@ restore starts here
 		// start purge process
 		return $this->purgeObjects($a_nodes);
 	}
+
+	/**
+	* Removes all missing objects from system
+	* 
+	* @access	public
+	* @param	array	list of nodes to delete
+	* @return	boolean	true on success
+	* @see		this::purgeObjects()
+	* @see		this::findMissingObjects()
+	*/
+	function purgeMissingObjects($a_nodes = NULL)
+	{
+		// check mode: purge
+		if ($this->mode["purge"] !== true)
+		{
+			return false;
+		}
+
+		$this->writeScanLogLine("\npurgeMissingObjects:");
+
+		if ($a_nodes === NULL and isset($this->missing_objects))
+		{
+			$a_nodes = $this->missing_objects;
+		}
+
+		// start purge process
+		return $this->purgeObjects($a_nodes);
+	}
 	
 	/**
 	* removes objects from system
@@ -1033,7 +1061,8 @@ restore starts here
 		// start delete process
 		foreach ($a_nodes as $node)
 		{
-			$node_obj =& $ilias->obj_factory->getInstanceByRefId($node["child"],false);
+			$ref_id = ($node["child"]) ? $node["child"] : $node["ref_id"];
+			$node_obj =& $ilias->obj_factory->getInstanceByRefId($ref_id,false);
 			
 			if ($node_obj === false)
 			{
@@ -1042,7 +1071,7 @@ restore starts here
 			}
 
 			$node_obj->delete();
-			ilTree::_removeEntry($node["tree"],$node["child"]);
+			ilTree::_removeEntry($node["tree"],$ref_id);
 			
 			$this->writeScanLogLine("Object '".$node_obj->getId()."' deleted");
 		}

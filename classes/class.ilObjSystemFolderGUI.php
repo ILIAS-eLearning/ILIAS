@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.30 2004/04/08 18:41:40 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.31 2004/04/08 20:49:03 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -802,6 +802,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 		else
 		{
+			$scan_log .= "<br />".$this->lng->txt("purging_missing_objs");
+			if ($validator->purgeMissingObjects())
+			{
+				$scan_log .= strtolower($this->lng->txt("done"));
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("nothing_to_purge").$this->lng->txt("skipped");
+			}
+
 			$scan_log .= "<br />".$this->lng->txt("purging_unbound_objs");
 			if ($validator->purgeUnboundObjects())
 			{
