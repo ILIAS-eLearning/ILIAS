@@ -70,6 +70,16 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 
 }
 
+include_once "./tracking/classes/class.ilUserTracking.php";
+$tracking = new ilUserTracking();
+$lm = $tracking->searchTitle($_SESSION["AccountId"]);
+if((count($lm) > 0) and (DEVMODE))
+{	
+	$inc_type = ($script_name == "tracking.php")
+		? "tabactive"
+		: "tabinactive";
+	$inhalt1[] = array($inc_type,"tracking.php",$lng->txt("usertracking"),"bottom","usr_pdesktop_menu.php?cmd=highest_level","left");
+}
 		  
 for ( $i=0; $i<sizeof($inhalt1); $i++)
 {
