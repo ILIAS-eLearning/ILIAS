@@ -453,7 +453,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="pays" class_name="PaymentSettings" module="payment" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+<object name="pays" class_name="PaymentSettings" module="payment" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="generalSettings">general_settings</property>
 	<property name="statistic">statistic</property>
 	<property name="vendors">vendors</property>
