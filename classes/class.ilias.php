@@ -62,7 +62,7 @@ class ILIAS extends PEAR
 	* @var string
 	* @access private
 	*/
-	var $tplPath = "";
+	var $tplPath = "./templates/";
 
 	/**
 	* user account
@@ -84,14 +84,6 @@ class ILIAS extends PEAR
 	* @access public
 	*/
 	var $auth;
-
-	/**
-	* operation list
-	* @var array
-	* @access private
-	*/
-	var $operations;
-
 
  	/**
 	* system settings
@@ -116,6 +108,22 @@ class ILIAS extends PEAR
 	var $obj_factory;
 
 	/**
+	* styles
+	*
+	* @var	array	list of stylesheets
+	* @access	public
+	*/
+	var $styles;
+
+	/**
+	* skins (template sets)
+	*
+	* @var	array	list of skins
+	* @access	public
+	*/
+	var $skins;
+	
+	/**
 	* Constructor
 	* setup ILIAS global object
 	* @access	public
@@ -136,11 +144,11 @@ class ILIAS extends PEAR
 		if ($this->ini->ERROR != "")
 		{
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
-			exit;
+			exit();
 		}
 
 		// set constants
-		define("DEBUG",$this->ini->readVariable("system","DEBUG"));
+		define ("DEBUG",$this->ini->readVariable("system","DEBUG"));
 		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID'));
 		define ("SYSTEM_FOLDER_ID",$this->ini->readVariable('system','SYSTEM_FOLDER_ID'));
 		define ("ROLE_FOLDER_ID",$this->ini->readVariable('system','ROLE_FOLDER_ID'));
@@ -164,9 +172,6 @@ class ILIAS extends PEAR
 									'usernamecol' => $this->ini->readVariable("auth", "usercol"),
 									'passwordcol' => $this->ini->readVariable("auth", "passcol")
 									);
-		// set tplPath
-		//$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
-		$this->tplPath = "./templates/";
 
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
@@ -193,7 +198,7 @@ class ILIAS extends PEAR
 		}
 		
 		return true;
-		}
+	}
 
 	/**
 	* read one value from settingstable
@@ -220,7 +225,7 @@ class ILIAS extends PEAR
 	/**
 	* read all values from settingstable
 	* @access	public
-	* @return	array	value
+	* @return	array	keyword/value pairs
 	*/
 	function getAllSettings()
 	{
@@ -236,28 +241,30 @@ class ILIAS extends PEAR
 	}
 
 	/**
-	* write one value to settingstable
+	* write one value to db-table settings
 	* @access	public
 	* @param	string		keyword
 	* @param	string		value
-	* @return	integer		value
+	* @return	boolean		true on success
 	* 
 	* TODO: change to replace-statement
 	*/
-	function setSetting($key, $value)
+	function setSetting($a_key, $a_val)
 	{
-		$sql = "DELETE FROM settings WHERE keyword='".$key."'";
+		$sql = "DELETE FROM settings WHERE keyword='".$a_key."'";
 		$r = $this->db->query($sql);
 
-		$sql = "INSERT INTO settings (keyword, value) VALUES ('".$key."','".$value."')";
+		$sql = "INSERT INTO settings (keyword, value) VALUES ('".$a_key."','".$a_val."')";
 		$r = $this->db->query($sql);
+
 		return true;
 	}
 
 	/**
 	* skin system: get all available skins from template directory
+	* and store them in $this->skins
 	* @access	public
-	* @return	array
+	* @return	boolean	false if no skin was found
 	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
 	function getSkins()
@@ -266,13 +273,14 @@ class ILIAS extends PEAR
 
 		//open directory for reading and search for subdirectories
 		//$tplpath = $this->ini->readVariable("server", "tpl_path");
-		$tplpath = "./templates";
-		if ($dp = @opendir($tplpath))
+		//$tplpath = "./templates";
+
+		if ($dp = @opendir($this->tplPath))
 		{
 			while (($file = readdir($dp)) != false)
 			{
 				//is the file a directory?
-				if (is_dir($tplpath."/".$file) && $file != "." && $file != ".." && $file != "CVS")
+				if (is_dir($this->tplPath.$file) && $file != "." && $file != ".." && $file != "CVS")
 				{
 					$skins[] = array(
 						"name" => $file
@@ -284,26 +292,29 @@ class ILIAS extends PEAR
 		{
 			return false;
 		}
+
 		$this->skins = $skins;
+
 		return true;
 	}
 
 	/**
 	* skin system: get all available styles from current templates
+	* and store them in $this->styles
 	* @access	public
 	* @param	string	name of template set/directory name
-	* @return	array	filenames of styleheets
+	* @return	boolean	false if no style was found
 	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
-	function getStyles($skin)
+	function getStyles($a_skin)
 	{
 		$styles = array();
 
 		//open directory for reading and search for subdirectories
 		//$tplpath = $this->ini->readVariable("server", "tpl_path")."/".$skin;
-		$tplpath = "./templates/".$skin;
+		//$tplpath = "./templates/".$a_skin;
 
-		if ($dp = @opendir($tplpath))
+		if ($dp = @opendir($this->tplPath.$a_skin))
 		{
 			while (($file = readdir($dp)) != false)
 			{
@@ -328,25 +339,29 @@ class ILIAS extends PEAR
 	
 	/**
 	* get first available stylesheet from skindirectory
-	* @param string
-	* @access public
+	* @param	string
+	* @return	string	style name
+	* @access	public
 	*/
-	function getFirstStyle($skin)
+	function getFirstStyle($a_skin)
 	{
 		if (!is_array($this->styles))
 		{
-			$this->getStyles($skin);
+			$this->getStyles($a_skin);
 		}
+
 		return $this->styles[0]["name"];
 	}
 	
 	/**
-	* check if a templatename exists on the server
-	* @param string
+	* check if a template name exists on the server
+	* @param	string	template name
+	* @return	boolean	true if file exists
+	* @access	public
 	*/
-	function checkTemplate($name)
+	function checkTemplate($a_name)
 	{
-		return file_exists($this->tplPath."/".$name);
+		return file_exists($this->tplPath.$a_name);
 	}
-} // END class.ILIAS
+} // END class.ilias
 ?>

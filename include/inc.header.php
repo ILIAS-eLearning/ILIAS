@@ -74,7 +74,7 @@ session_save_path("/tmp");
 session_start();
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
-if($_SESSION["message"])
+if ($_SESSION["message"])
 {
 	$_POST = $_SESSION["post_vars"];
 }
@@ -82,9 +82,10 @@ if($_SESSION["message"])
 // load main class
 $ilias = new ILIAS();
 
+// put debugging functions here
 if (DEBUG)
 {
-	require_once "include/inc.debug.php";
+	include_once "include/inc.debug.php";
 }
 
 //authenticate
@@ -93,13 +94,11 @@ $ilias->auth->start();
 // start logging
 $log = new ilLog("ilias.log");
 
-//load object definitions
+// load object definitions
 $objDefinition = new ilObjectDefinition();
 $objDefinition->startParsing();
-//var_dump("<pre>",$objDefinition->obj_data,"</pre");
-//instantiate user object
 
-// Current user account
+// current user account
 $ilias->account = new ilObjUser();
 
 //but in login.php and index.php don't check for authentication
@@ -117,6 +116,7 @@ if ($script != "login.php" && $script != "index.php")
 	if (empty($_SESSION["AccountId"]))
 	{
 		$_SESSION["AccountId"] = $ilias->account->checkUserId($_SESSION["AccountId"]);
+  
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
@@ -142,10 +142,6 @@ if ($script != "login.php" && $script != "index.php")
 	$rbacsystem = new ilRbacSystemH();
 	$rbacadmin = new ilRbacAdminH();
 	$rbacreview = new ilRbacReviewH();
-
-	// TODO: rbacAdmin should only start when using admin-functions.
-	// At the moment the method in the 3 main classes are not separated properly
-	// to do this. All rbac-classes need to be cleaned up
 
 	// init ref_id on first start ref_id is set to ROOT_FOLDER_ID
 	$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
@@ -177,8 +173,6 @@ if ($script != "login.php" && $script != "index.php")
 
 // load style sheet depending on user's settings
 $location_stylesheet = ilUtil::getStyleSheetLocation();
-//echo "loc:".$location_stylesheet.":<br>";
-
 $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 $tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
 
@@ -189,7 +183,7 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 	$folder_id = $mbox->getInboxFolder();
 
 	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".
-									htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
+												htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
 									"img"	=> "icon_mail.gif"
 									);
