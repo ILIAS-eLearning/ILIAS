@@ -106,10 +106,10 @@ class Explorer extends PEAR
 					}
 					// Recursive
 					$this->setOutput($a_depth,$object["id"]);
-				}
-			}
-		}
-	}
+				} //if
+			} //foreach
+		} //if
+	} //function
 
 	/**
 	* Creates output
@@ -256,6 +256,7 @@ class Explorer extends PEAR
 			}
 		}
 	}
+	
 /**
  *
  * @access private

@@ -6,8 +6,8 @@
 </head>
 
 <frameset cols="175,*">
-<frame src="lesson_menu.php?expand=1" name="tree" marginwidth="0" marginheight="0" scrolling="auto">
-<frame src="lesson_content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto">
+<frame src="lo_menu.php?expand=1" name="tree" marginwidth="0" marginheight="0" scrolling="auto">
+<frame src="lo_content.php" name="content" marginwidth="0" marginheight="0" scrolling="auto">
 <noframes>
 The administration interface requires a <b>frames-capable</b> web browser.
 </noframes>
