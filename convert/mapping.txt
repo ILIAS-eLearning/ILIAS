@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-09, Matthias Rulinski
+2003-01-13, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -52,12 +52,49 @@ METADATA (id, typ, parent)
 
 
 MULTIMEDIA ***
-META ('mm')
-multimedia (copy mm object files)
 
-FILE ***
-META ('file')
-file (copy files)
+	METADATA ('mm')
+	
+	multimedia (*** copy mm object files)
+		id
+		inst
+		typ
+		file
+		deleted
+		defparam
+		verweis
+		startklasse
+		width
+		height
+		caption
+		orig_size
+		full_view
+		full_orig_size
+		full_width
+		full_height
+		full_file
+		st_type
+		full_type
+		full_ref
+	
+	mmtyp ***
+		typ
+		info
+		active
+	
+	(*** el_multimedia)
+
+
+FILE
+(ILIAS2 File (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1)
+
+	METADATA ('file')
+	
+	file (*** copy files)
+		id					-->		used in METADATA
+		file				-->		*** meta (location)
+		deleted
+		version				-->		*** meta
 
 
 ELEMENT (id, parent)
@@ -127,8 +164,7 @@ ELEMENT (id, parent)
 									2 right, wrapped by element (text, image, imagemap) on the left)
 									3 left
 									4 right
-		 
-		 
+	
 	table_cell
 		 row				-->		***
 		 col				-->		***
@@ -187,11 +223,33 @@ ELEMENT (id, parent)
 		mright				-->		(Status of the answer)
 									y right
 									n wrong
-		
+	
 	el_multimedia
+		id
+		inst
+		width
+		height
+		paras
+		plugin
+		align
+		mm_id
+		mm_inst
+		derive_size
+		derive_full_size
+		derive_caption
+		derive_defparam
+		caption
+		full_width
+		full_height
 	
 	el_filelist
+		sort				-->		***
+	
 	filelist_entry
+		file_id				-->		Reference.Reference_to (file_file_id) ***
+		c_date				-->		***
+		new					-->		***
+		nr					-->		Reference (File nr) ***
 	
 	el_sourcecode
 	(*** sourcecode_lang)
