@@ -55,6 +55,7 @@ common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
+common#:#application_completed#:#Anmeldung beendet
 common#:#application_date#:#Anmeldedatum
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
@@ -656,7 +657,7 @@ common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
-common#:#objs_confirm#:#Bestätige Löschen
+common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
