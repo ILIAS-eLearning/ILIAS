@@ -758,6 +758,7 @@ common#:#obj_objf#:#Définition d'objet
 common#:#obj_objf_desc#:#Gestion des types d'objets ILIAS et des permissions sur les objets (réservé aux experts).
 common#:#obj_owner#:#Le propriétaire de cet objet est 
 common#:#obj_pg#:#Page
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#Rôle
 common#:#obj_rolf#:#Rôles
 common#:#obj_rolf_desc#:#Gérez vos rôles ici.
@@ -767,6 +768,7 @@ common#:#obj_rolt#:#Modèle de rôle
 common#:#obj_root#:#root###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM LM###31 Jan 2004 content changed
 common#:#obj_st#:#Chapitre
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Définition de type d'objet
 common#:#obj_type#:#Type d'objet
 common#:#obj_uset#:#Paramètres d'utilisateur
@@ -852,7 +854,16 @@ common#:#publication#:#Publication
 common#:#publication_date#:#Date de publication
 common#:#published#:#Publié
 common#:#publishing_organisation#:#Organisation de publication
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#Question
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#Quitter
 common#:#quote#:#Citation
 common#:#read#:#Lire
@@ -990,6 +1001,7 @@ common#:#system_language#:#Langue système
 common#:#system_message#:#Message système
 common#:#term#:#Terme
 common#:#test_intern#:#Test Interne
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#Heure
 common#:#title#:#Titre
 common#:#to#:#à
@@ -1001,6 +1013,14 @@ common#:#tpl_path#:#Chemin des modèles
 common#:#translation#:#Traduction
 common#:#trash#:#Corbeille
 common#:#treeview#:#Arborescence
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Parcourez jusqu'à l'endroit où vous voulez ajouter
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Vous vous êtes abonné à ILIAS avec succès.  Veuillez cliquer sur le bouton ci-dessous pour vous connecter à ILIAS avec votre compte utilisateur.
@@ -1355,6 +1375,10 @@ mail#:#mail_folder_name_changed#:#Le dossier a été renommé
 mail#:#mail_folder_options#:#Options de dossier
 mail#:#mail_following_rcp_not_valid#:#Les destinataires suivants ne sont pas valides :
 mail#:#mail_global_options#:#Options globales
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
 mail#:#mail_intern#:#Interne
@@ -1369,6 +1393,7 @@ mail#:#mail_moved_to_trash#:#Le(s) message(s) a(ont) été déplacé(s) dans la 
 mail#:#mail_new_file#:#Ajouter nouveau fichier :
 mail#:#mail_no_attach_allowed#:#Les messages système ne peuvent pas contenir de pièce jointe
 mail#:#mail_no_attachments_found#:#Aucune pièce jointe trouvée
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved###26 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide

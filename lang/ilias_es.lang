@@ -758,6 +758,7 @@ common#:#obj_objf#:#Object Administration###15 May 2003 new variable
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)###01 Oct 2003 new variable
 common#:#obj_owner#:#This Object is owned by###04 Jun 2003 content changed
 common#:#obj_pg#:#Page###15 Aug 2003 new variable
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#Role###15 May 2003 new variable
 common#:#obj_rolf#:#Role Administration###15 May 2003 new variable
 common#:#obj_rolf_desc#:#Manage your roles here.###01 Oct 2003 new variable
@@ -767,6 +768,7 @@ common#:#obj_rolt#:#Role Template###15 May 2003 new variable
 common#:#obj_root#:#root###15 May 2003 new variable
 common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#obj_st#:#Chapter###15 Aug 2003 new variable
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Objecttype Definition###15 May 2003 new variable
 common#:#obj_type#:#Object Type###01 Apr 2003 new variable
 common#:#obj_uset#:#User Settings###15 May 2003 new variable
@@ -852,7 +854,16 @@ common#:#publication#:#publication
 common#:#publication_date#:#publication date
 common#:#published#:#published
 common#:#publishing_organisation#:#publishing organisation
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#question
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#quit
 common#:#quote#:#Quote###25 Mar 2003 new variable
 common#:#read#:#read
@@ -990,6 +1001,7 @@ common#:#system_language#:#system language
 common#:#system_message#:#system message
 common#:#term#:#Term###16 Aug 2003 new variable
 common#:#test_intern#:#test intern
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#time
 common#:#title#:#title
 common#:#to#:#to:###04 Apr 2003 content changed
@@ -1001,6 +1013,14 @@ common#:#tpl_path#:#template path
 common#:#translation#:#Translation###01 Sep 2003 new variable
 common#:#trash#:#trash
 common#:#treeview#:#Tree view###07 Feb 2003 new variable
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add###06 Aug 2003 new variable
 common#:#txt_add_object_instruction2#:#.###06 Aug 2003 new variable
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAs with your useraccount.###19 Aug 2003 new variable
@@ -1355,6 +1375,10 @@ mail#:#mail_folder_name_changed#:#The folder is renamed###16 Apr 2003 new variab
 mail#:#mail_folder_options#:#Folder Options###16 Apr 2003 new variable
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:###25 Apr 2003 new variable
 mail#:#mail_global_options#:#Global options###16 Apr 2003 new variable
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Please insert a folder name###16 Apr 2003 new variable
 mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
 mail#:#mail_intern#:#Internal###26 Apr 2003 new variable
@@ -1369,6 +1393,7 @@ mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###16 Apr 2003 new 
 mail#:#mail_new_file#:#Add new file:###24 Apr 2003 new variable
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###16 Apr 2003 new variable
 mail#:#mail_no_attachments_found#:#No attachments found###16 Apr 2003 new variable
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#Options:###16 Apr 2003 new variable
 mail#:#mail_options_saved#:#Options saved###25 Nov 2003 new variable
 mail#:#mail_recipient_not_valid#:#The recipient is not valid###16 Apr 2003 new variable

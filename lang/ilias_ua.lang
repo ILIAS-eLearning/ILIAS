@@ -756,6 +756,7 @@ common#:#obj_objf#:#Визначення об'єкта
 common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
 common#:#obj_owner#:#Цей Об'єкт належить
 common#:#obj_pg#:#Сторінка
+common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
 common#:#obj_role#:#Роль
 common#:#obj_rolf#:#Ролі
 common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
@@ -765,6 +766,7 @@ common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM LM
 common#:#obj_st#:#Глава
+common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
 common#:#obj_uset#:#Настройки Користувача
@@ -850,7 +852,16 @@ common#:#publication#:#Публікація
 common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
 common#:#publishing_organisation#:#Організація що Публікує
+common#:#qpl#:#Question pool###04 Feb 2004 new variable
+common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
+common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
+common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
+common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
+common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
+common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
 common#:#question#:#Питання
+common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#Вихід
 common#:#quote#:#Цитата
 common#:#read#:#Читати
@@ -988,6 +999,7 @@ common#:#system_language#:#Сисемна Мова
 common#:#system_message#:#Системне Повідомлення
 common#:#term#:#Термін
 common#:#test_intern#:#Тест Intern
+common#:#tests#:#Tests###04 Feb 2004 new variable
 common#:#time#:#Час
 common#:#title#:#Назва
 common#:#to#:#
@@ -999,6 +1011,14 @@ common#:#tpl_path#:#Шлях до Шаблона
 common#:#translation#:#Переклад
 common#:#trash#:#Смітник
 common#:#treeview#:#Огляд у вигляді дерева
+common#:#tst#:#Test###04 Feb 2004 new variable
+common#:#tst_add#:#Add test###04 Feb 2004 new variable
+common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
+common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
+common#:#tst_new#:#New test###04 Feb 2004 new variable
+common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
+common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
+common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.
@@ -1353,6 +1373,10 @@ mail#:#mail_folder_name_changed#:#Папка була переіменована
 mail#:#mail_folder_options#:#Опції Папки
 mail#:#mail_following_rcp_not_valid#:#Наступний одержувач є некорректним:
 mail#:#mail_global_options#:#Глобальні опції
+mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
+mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
+mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
+mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
 mail#:#mail_insert_folder_name#:#Будь ласка вставте ім'я папки
 mail#:#mail_insert_query#:#Будь ласка вставте запит
 mail#:#mail_intern#:#Внутрішній
@@ -1367,6 +1391,7 @@ mail#:#mail_moved_to_trash#:#Пошта була переміщена в смі�
 mail#:#mail_new_file#:#Додати новий файл:
 mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
 mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
+mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
 mail#:#mail_options_of#:#Опції
 mail#:#mail_options_saved#:#Опції збережені
 mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
