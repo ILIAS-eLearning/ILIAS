@@ -558,6 +558,21 @@ common#:#at_location#:#地点为
 common#:#attachment#:#附件
 common#:#attachments#:#附件
 common#:#attend#:#Attend###03 Apr 2004 new variable
+common#:#auth_configure#:#configure...###24 Jul 2004 new variable
+common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
+common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
+common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
+common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
+common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
+common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
+common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
+common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
+common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.###24 Jul 2004 new variable
+common#:#auth_script#:#Custom###24 Jul 2004 new variable
+common#:#auth_script_desc#:#Authenticate users via external script###24 Jul 2004 new variable
+common#:#auth_select#:#Select authentication mode###24 Jul 2004 new variable
+common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new variable
+common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#作者
 common#:#authors#:#作者
 common#:#available_languages#:#可用的语言
@@ -1417,6 +1432,8 @@ common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
 common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#obj_auth#:#Authentication###24 Jul 2004 new variable
+common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)###24 Jul 2004 new variable
 common#:#obj_cat#:#类别
 common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
