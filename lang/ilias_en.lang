@@ -3106,6 +3106,7 @@ survey#:#insert_before#:#Insert before
 survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
 survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
 survey#:#introduction#:#Introduction
+survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
 survey#:#invitation_mode#:#Invitation mode
 survey#:#invite_participants#:#Invite participants
@@ -3113,6 +3114,7 @@ survey#:#invited_groups#:#Invited groups
 survey#:#invited_users#:#Invited users
 survey#:#last_update#:#Last update
 survey#:#lower_limit#:#Lower limit
+survey#:#manage_phrases#:#Manage phrases
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
@@ -3135,6 +3137,7 @@ survey#:#no_questions_available#:#There are no questions available!
 survey#:#no_search_results#:#There are no search results!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
+survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#not_finished#:#not completed
@@ -3150,13 +3153,16 @@ survey#:#percentage_of_entered_values#:#Percentage of users that entered this va
 survey#:#percentage_of_selections#:#Percentage of users that selected this category
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
+survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!
 survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
+survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!
 survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?
+survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
 survey#:#qpl_questions_pasted#:#Question(s) pasted.
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!
@@ -3228,9 +3234,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#manage_phrases#:#Manage phrases
-survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
-survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
-survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.
