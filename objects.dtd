@@ -1,1 +1,28 @@
+<!ENTITY % objecttype "adm | cat | crs | file | frm | grp | le | lo | lng | lngf | mail | objf | role | rolf | rolt | usr | usrf">
+
 <!ELEMENT objects (object*)>
+<!ATTLIST objects
+	xmlns #PCDATA #REQUIRED
+	version #PCDATA #REQUIRED
+>
+
+<!ELEMENT object (subobj*, property*, action*)>
+<!ATTLIST object
+	name (%objecttype;) #REQUIRED
+>
+
+<!ELEMENT subobj (%objecttype;)>
+<!ATTLIST subobj
+	name (%objecttype;) #REQUIRED
+	max CDATA #IMPLIED
+>
+
+<!ELEMENT property (%properties;)>
+<!ATTLIST property
+	name (%objecttype;) #REQUIRED
+>
+
+<!ELEMENT action (%actions;)>
+<!ATTLIST action
+	name (%objecttype;) #REQUIRED
+>
