@@ -72,7 +72,7 @@ class ilGlossaryDefinition
 		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setTermId($def_rec["term_id"]);
-		$this->setPageId($def_rec["language"]);
+		//$this->setPageId($def_rec["language"]);
 
 		$this->page_object =& new ilPageObject("gdf", $this->id);
 	}

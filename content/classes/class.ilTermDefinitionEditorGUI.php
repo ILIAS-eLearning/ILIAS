@@ -53,7 +53,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->glossary =& new ilObjGlossary($_GET["ref_id"], true);
-		$this->definition =& new ilGlossaryDefinition($_GET["def_id"]);
+		$this->definition =& new ilGlossaryDefinition($_GET["def"]);
 		$this->term =& new ilGlossaryTerm($this->definition->getTermId());
 	}
 
@@ -64,17 +64,29 @@ class ilTermDefinitionEditorGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 
 		$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm());
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->definition->getPageObject());
+		$page_gui->setTemplateTargetVar("ADM_CONTENT");
+		$page_gui->setOutputMode("edit");
 		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
-			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
-		$page_gui->showPageEditor();
+			$this->glossary->getRefId()."&def=".$this->definition->getId()."&cmd=view");
+
+		if($_GET["mode"] == "page_edit")
+		{
+			$page_gui->showPageEditor();
+		}
+		else
+		{
+			$cmd = $_GET["cmd"];
+//echo "cmd:".$_GET["cmd"].":<br>";
+			$page_gui->$cmd();
+		}
 
 	}
 
