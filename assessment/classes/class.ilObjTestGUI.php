@@ -575,7 +575,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-}
+	}
+	
+	function runObject() {
+	}
 	
 	/**
 	* set Locator
