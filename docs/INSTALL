@@ -1027,15 +1027,12 @@ must be specified in the ILIAS 3 system settings.
 
     Web based configuration:
 
-    - Edit the file ilias.ini.php in the main directory of your ILIAS installation.
+    - Edit the file ilias.ini.php in the main directory of your ILIAS installation. And add the following lines at the end of the file:
     [cron]
-    web_enabled = "0"
+    web_enabled = "1"
     web_pass = "my_secret"
-
-    Set the value of web_enabled to "1".
-    Set another password.
-
-    Now you can point your browser to "http://www.your_ilias.de?web_pass=my_secret"
+    
+    Now you can point your browser to "http://www.your_ilias.de/setup/cron.php?web_pass=my_secret"
     
     Note: 
     cron.php can be executed only once a day. If you want to execute it again (e.g for testing), you have to remove the file
