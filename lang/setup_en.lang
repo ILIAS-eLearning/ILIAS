@@ -141,3 +141,72 @@ version#:#Version
 webspace_dir#:#webspace data path
 with#:#with
 wrong_password#:#Wrong password!
+path_to_convert#:#Path to Convert
+path_to_zip#:#Path to Zip
+path_to_unzip#:#Path to Unzip
+path_to_java#:#Path to Java
+path_to_htmldoc#:#Path to HTMLdoc
+convert_path#:#Path to Convert
+zip_path#:#Path to Zip
+unzip_path#:#Path to Unzip
+java_path#:#Path to Java
+htmldoc_path#:#Path to HTMLdoc
+log_path#:#Path to Logfile
+datadir_path#:#Path to Data Directory
+change_basic_settings#:#Change basic settings
+logging#:#Logging
+details#:#Details
+status#:#Status
+access#:#Access
+set_default_client#:#Set Default Client
+step#:#Step
+create_new_client#:#Create new client
+save#:#Save
+settings_saved#:#Settings saved
+settings_changed#:#Settings changed
+next#:#Next
+prev#:#Previous
+database_create#:#Create database
+setup_contact_data#:#Setup Contact Information
+client_data#:#Client Information
+client_name#:#Name
+client_info#:#Description
+client_institution#:#Institution
+contact_data#:#Contact Information
+firstname#:#Firstname
+lastname#:#Lastname
+title#:#Title
+position#:#Position
+institution#:#Institution
+street#:#Street
+zipcode#:#Zipcode
+city#:#City
+country#:#Country
+phone#:#Phone
+email#:#Email
+saved_successfully#:#Saved successfully
+input_error#:#Input error
+email_not_valid#:#Email is not valid
+nic_registration#:#NIC Registration
+finish#:#Finish setup
+finish_setup#:#Finishing setup
+id#:#ID
+name#:#Name
+ilias_nic#:#NIC Registration
+overview#:#Overview
+client_id#:#Client ID
+ilias_nic_id#:#NIC ID
+access_status#:#Access status
+server_info#:#Server Information
+host#:#Host
+ip_address#:#IP address
+port#:#port
+server_software#:#Server software
+http_path#:#HTTP path
+absolute_path#:#Absolute path
+3rd_party_software#:#3rd party software
+required_field#:#required fields
+ilias_setup#:#ILIAS3 setup
+setup_basic_settings#:#Setup basic settings
+setup_pass#:#Setup password
+setup_pass2#:#Retype setup Password
