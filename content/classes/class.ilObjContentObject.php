@@ -650,7 +650,7 @@ class ilObjContentObject extends ilObject
 			case 'meta':
 				// FILTER ALL DBK OBJECTS
 				$in		= $search_obj->getInStatement("r.ref_id");
-				$where	= $search_obj->getWhereCondition("like",array("xv.tag_value"));
+				$where	= $search_obj->getWhereCondition("fulltext",array("xv.tag_value"));
 
 				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
 					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".

@@ -996,4 +996,5 @@ CREATE TABLE dp_properties (
   PRIMARY KEY  (ID)
 ) TYPE=MyISAM COMMENT='Tabelle für UserEinstellungen';
 
-
+<#77>
+ALTER TABLE xmlvalue ADD FULLTEXT ( tag_value );
