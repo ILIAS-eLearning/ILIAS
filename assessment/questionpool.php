@@ -85,8 +85,10 @@ if (empty($cmd)) // if no cmd is given default to first property
 
 if ($_GET["cmd"] == "post")
 {
-	$cmd = key($_POST["cmd"]);
-	//unset($_GET["cmd"]);
+	if (is_array($_POST["cmd"]))
+	{
+		$cmd = key($_POST["cmd"]);
+	}
 }
 
 // determine object type

@@ -36,20 +36,20 @@ require_once "./assessment/classes/class.ilImagemapPreview.php";
 * @module   class.assImagemapQuestionGUI.php
 * @modulegroup   Assessment
 */
-class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
-/**
-* ASS_ImagemapQuestionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the ASS_ImagemapQuestionGUI object.
-*
-* @param integer $id The database id of a image map question object
-* @access public
-*/
-  function ASS_ImagemapQuestionGUI(
-		$id = -1
-  )
-
-  {
+class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
+{
+	/**
+	* ASS_ImagemapQuestionGUI constructor
+	*
+	* The constructor takes possible arguments an creates an instance of the ASS_ImagemapQuestionGUI object.
+	*
+	* @param integer $id The database id of a image map question object
+	* @access public
+	*/
+	function ASS_ImagemapQuestionGUI(
+			$id = -1
+	)
+	{
 		$this->ASS_QuestionGUI();
 		$this->object = new ASS_ImagemapQuestion();
 		if ($id >= 0)
@@ -58,18 +58,32 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		}
 	}
 
-/**
-* Returns the question type string
-*
-* Returns the question type string
-*
-* @result string The question type string
-* @access public
-*/
+	/**
+	* Returns the question type string
+	*
+	* Returns the question type string
+	*
+	* @result string The question type string
+	* @access public
+	*/
 	function getQuestionType()
 	{
 		return "qt_imagemap";
 	}
+
+	function getCommand($cmd)
+	{
+		if (isset($_POST["imagemap"]) ||
+		isset($_POST["imagemap_x"]) ||
+		isset($_POST["imagemap_y"]))
+		{
+			$this->ctrl->setCmd("getCoords");
+			$cmd = "getCoords";
+		}
+
+		return $cmd;
+	}
+
 
 	/**
 	* Creates an output of the edit form for the question
@@ -83,7 +97,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->getQuestionTemplate("qt_imagemap");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 		$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
-		if (($_POST["cmd"]["addarea"] or $_GET["editmap"]) and (!$_POST["cmd"]["back"]) and (!$_POST["cmd"]["saveshape"]))
+		if (($this->ctrl->getCmd() == "addArea" or $_GET["editmap"]) and (!$_POST["cmd"]["back"]) and ($this->ctrl->getCmd() != "saveShape"))
 		{
 			foreach ($this->object->coords as $key => $value)
 			{
@@ -314,14 +328,15 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->parseCurrentBlock();
 	}
 
-/**
-* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
-*
-* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
-*
-* @access private
-*/
-  function outOtherQuestionData() {
+	/**
+	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	*
+	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
+	*
+	* @access private
+	*/
+	function outOtherQuestionData()
+	{
 		$colspan = " colspan=\"3\"";
 
 		if (!empty($this->object->materials))
@@ -334,7 +349,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			}
 			$this->tpl->setCurrentBlock("materiallist_block");
 			$i = 1;
-			foreach ($this->object->materials as $key => $value) 
+			foreach ($this->object->materials as $key => $value)
 			{
 				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
 				$this->tpl->setVariable("MATERIAL_VALUE", $key);
@@ -360,10 +375,53 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function getCoords()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	function saveShape()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	function addArea()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
 	function uploadingImage()
 	{
 		$this->writePostData();
 		$this->editQuestion();
+	}
+
+	function uploadingImagemap()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	/**
+	* apply changes
+	*/
+	function apply()
+	{
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	/**
+	* save question to db and return to question pool
+	*/
+	function save()
+	{
+		$this->writePostData();
+		$this->object->saveToDb();
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -398,7 +456,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			{
 				array_push($this->object->coords, $_POST["imagemap_x"] . "," . $_POST["imagemap_y"]);
 			}
-			if ($_POST["cmd"]["saveshape"])
+			if ($this->ctrl->getCmd() == "saveShape")
 			{
 				$coords = "";
 				switch ($_POST["newarea"])
@@ -421,7 +479,10 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		}
 		else
 		{
-			if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
+			if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+			{
+				$result = 1;
+			}
 
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -436,7 +497,8 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			{
 				// Question is already saved, so imagemaps and images can be uploaded
 				//setting image file
-				if (empty($_FILES['imageName']['tmp_name'])) {
+				if (empty($_FILES['imageName']['tmp_name']))
+				{
 					$this->object->set_image_filename(ilUtil::stripSlashes($_POST["uploaded_image"]));
 				}
 				else
@@ -496,7 +558,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				{
 					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_image"));
 				}
-					else if (($_POST["cmd"]["uploadingImagemap"]) and (!empty($_FILES['imagemapName']['tmp_name'])))
+				else if (($_POST["cmd"]["uploadingImagemap"]) and (!empty($_FILES['imagemapName']['tmp_name'])))
 				{
 					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
 				}
@@ -518,40 +580,40 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				}
 			}
 		}
-		if ($_POST["cmd"]["addarea"])
+		if ($this->ctrl->getCmd == "addArea")
 		{
 			$this->object->saveToDb();
 		}
 		return $result;
-  }
+	}
 
-/**
-* Creates the question output form for the learner
-*
-* Creates the question output form for the learner
-*
-* @access public
-*/
+	/**
+	* Creates the question output form for the learner
+	*
+	* Creates the question output form for the learner
+	*
+	* @access public
+	*/
 	function outWorkingForm($test_id = "", $is_postponed = false, &$formaction)
 	{
 		global $ilUser;
 
-    $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
+		$this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
 		$solutions = array();
 		$postponed = "";
-		if ($test_id) 
+		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
 		}
-		if ($is_postponed) 
+		if ($is_postponed)
 		{
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
-		if (!empty($this->object->materials)) 
+		if (!empty($this->object->materials))
 		{
 			$i=1;
 			$this->tpl->setCurrentBlock("material_preview");
-			foreach ($this->object->materials as $key => $value) 
+			foreach ($this->object->materials as $key => $value)
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
@@ -563,9 +625,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-    $this->tpl->setCurrentBlock("imagemapblock");
-    $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->getTitle());
-    $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->object->get_question());
+		$this->tpl->setCurrentBlock("imagemapblock");
+		$this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->getTitle());
+		$this->tpl->setVariable("IMAGEMAP_QUESTION", $this->object->get_question());
 		$imagepath = "";
 		$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 		foreach ($this->object->answers as $index => $answer)
@@ -579,7 +641,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 				$href = $formaction . "&selimage=" . $answer->get_order();
 			}
 			$visible = false;
-			if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1))) 
+			if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1)))
 			{
 				if ($solutions[0]->value1 == $index)
 				{
@@ -592,21 +654,21 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI {
 		$preview->createPreview();
 		$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
 		$this->tpl->setVariable("IMAGEMAP", $preview->getImagemap($this->object->getTitle()));
-    $this->tpl->setVariable("IMAGE", $imagepath);
-    $this->tpl->setVariable("IMAGEMAP_NAME", $this->object->getTitle() . $postponed);
-    $this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("IMAGE", $imagepath);
+		$this->tpl->setVariable("IMAGEMAP_NAME", $this->object->getTitle() . $postponed);
+		$this->tpl->parseCurrentBlock();
 	}
 
-/**
-* Creates a preview of the question
-*
-* Creates a preview of the question
-*
-* @access private
-*/
+	/**
+	* Creates a preview of the question
+	*
+	* Creates a preview of the question
+	*
+	* @access private
+	*/
 	function outPreviewForm()
 	{
-    $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
+		$this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
 		$empty = $_SERVER['PHP_SELF'] . "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"] . "&preview=" . $_GET["preview"];
 		$this->outWorkingForm("", "", $empty);
 	}
