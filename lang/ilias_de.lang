@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Import Lernmodul
 common#:#import_qpl#:#Import Fragenpool (Test)
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
 common#:#spl_read#:#Lesezugriff auf Fragenpool
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Fragenpool ist sichtbar
 common#:#spl_write#:#Fragenpool kann bearbeitet werden
 common#:#st_a#:#ein Kapitel
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition a
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen

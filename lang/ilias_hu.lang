@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Tananyag importja
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Root felhasználó importja
 common#:#import_sahs#:#Import SCORM/AICC Package###05 Nov 2004 new variable
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Felhasználók importja
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Kérdésgyűjtemény törlése
 common#:#spl_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#spl_new#:#Új kérdésgyűjtemény
 common#:#spl_read#:#Olvasási elérés a kérdésgyűjteményhez
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#A kérdésgyűjtemény látható
 common#:#spl_write#:#Kérdésgyűjtemény szerkesztése
 common#:#st_a#:#egy fejezet
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Biztosan be akarja szúrni az alábbi kérd
 survey#:#ask_insert_questions#:#Biztosan be akarja szúrni az alábbi kérdés(eke)t a felmérésbe?
 survey#:#back#:#<< Vissza
 survey#:#browse_for_questions#:#Kérdések keresése
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Nincs írási jogosultsága a felmérés karbantartásához!
 survey#:#cannot_manage_phrases#:#Nincs írási jogosultsága a mondatok menedzseléséhez!
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Válasszon ki egy célpozíciót a ka
 survey#:#select_target_position_for_move_question#:#Válasszon ki gy célpozíciót a kérdés(ek) áthelyezéséhez és nyomjonja meg egyik beszúrás gombot!
 survey#:#select_value#:#Érték kiválasztása
 survey#:#set_filter#:#Szűrő beállítása
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Kezdődátum
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###05 Nov 2004 new variable
 survey#:#start_survey#:#Felmérés kezdete

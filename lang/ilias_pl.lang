@@ -1301,6 +1301,7 @@ common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_sahs#:#Import SCORM/AICC Package###05 Nov 2004 new variable
+common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
 common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
 common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Użytkowników
@@ -2062,6 +2063,7 @@ common#:#spl_delete#:#Usuń pulę pytań
 common#:#spl_edit_permission#:#Zmiana uprawnień dostępu
 common#:#spl_new#:#Nowa pula pytań
 common#:#spl_read#:#Prawo czytania puli pytań
+common#:#spl_upload_file#:#Upload file###08 Nov 2004 new variable
 common#:#spl_visible#:#Pula pytań jest widoczna
 common#:#spl_write#:#Edycja puli pytań
 common#:#st_a#:#rozdział
@@ -3794,6 +3796,7 @@ survey#:#ask_insert_questionblocks#:#Czy chcesz wstawić wybrany blok pytań do 
 survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
 survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!###08 Nov 2004 new variable
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!###05 Nov 2004 new variable
 survey#:#cannot_maintain_survey#:#Nie masz uprawnień do uruchomienia przeglądu!
 survey#:#cannot_manage_phrases#:#Nie masz prawa zapisu do zarządzania frazą!
@@ -4017,6 +4020,7 @@ survey#:#select_target_position_for_move#:#Wybierz pozycję docelową dla przesu
 survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową dla przesunięcia pytania i naciśnij jeden z przycisków wstawiających!
 survey#:#select_value#:#wybierz wartość
 survey#:#set_filter#:#Ustaw filtr
+survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Data startowa
 survey#:#start_date_not_reached#:#Nie możesz wystartować przeglądu dopóki nie zostanie osiągnięta data początkowa!
 survey#:#start_survey#:#Rozpocznij ankietę
