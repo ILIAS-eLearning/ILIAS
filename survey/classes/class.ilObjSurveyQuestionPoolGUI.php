@@ -120,7 +120,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 */
 	function cancelAction($question_id = "") 
 	{
-		header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+		$this->ctrl->redirect($this, "questions");
 	}
 
 /**
@@ -789,7 +789,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "$sort&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -807,8 +807,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $_SERVER['PHP_SELF'] . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "$sort&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -833,7 +833,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("CreateQuestion");
 			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
 			$this->tpl->setVariable("QUESTION_IMPORT", $this->lng->txt("import"));
-			$this->tpl->setVariable("ACTION_QUESTION_ADD", $_SERVER["PHP_SELF"] . $add_parameter);
+			$this->tpl->setVariable("ACTION_QUESTION_ADD", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
     // define the sort column parameters
@@ -855,12 +855,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     
     $this->tpl->setCurrentBlock("adm_content");
     // create table header
-    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sortcolumns["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-    $this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[description]=" . $sortcolumns["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
-    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sortcolumns["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sortcolumns["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
+    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[title]=" . $sortcolumns["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+    $this->tpl->setVariable("QUESTION_DESCRIPTION", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[description]=" . $sortcolumns["description"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["description"]);
+    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[type]=" . $sortcolumns["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[author]=" . $sortcolumns["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[created]=" . $sortcolumns["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[updated]=" . $sortcolumns["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
     $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
     $this->tpl->parseCurrentBlock();
@@ -1698,7 +1699,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadSplObject(false);
-		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+		$this->ctrl->redirect($this, "questions");
 	}
 
 	/**
