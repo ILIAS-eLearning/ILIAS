@@ -1415,3 +1415,15 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+content#:#cont_new_assignment#:#New assignment
+content#:#cont_del_assignment#:#Delete assignment
+content#:#cont_translations#:#Translation(s)
+content#:#cont_translations_assigned#:#The translation(s) have been assigned
+content#:#cont_no_object_found#:#Could not find any object with this title
+content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
+content#:#cont_insert_search#:#Please insert a search term
+content#:#cont_select_one_translation#:#Please select one translation
+content#:#cont_assignments_deleted#:#The assignments have been deleted
+content#:#cont_select_translation#:#Please select the assignment from the list above
+common#:#assign#:#Assign
+content#:#cont_assign_translation#:#Assign translation
