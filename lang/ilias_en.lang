@@ -2674,8 +2674,8 @@ crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
-crs#:#crs_member_blocked#:#Mitglied (blocked)
-crs#:#crs_member_unblocked#:#Member (unblocked)
+crs#:#crs_member_blocked#:#Mitglied (unblocked)
+crs#:#crs_member_unblocked#:#Member (blocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
 crs#:#crs_members_print_title#:#Course members
@@ -2690,7 +2690,7 @@ crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
 crs#:#crs_no_groups_selected#:#Please select a group
-crs#:#crs_no_items_found#:#No items
+crs#:#crs_no_items_found#:#There are no course items
 crs#:#crs_no_language#:#No language
 crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course
