@@ -279,11 +279,12 @@ class Tree
 	{
 	    $subtree = array();
 	
-		$query = "SELECT * FROM tree ".
-				 "LEFT JOIN object_data ON object_data.obj_id = tree.child ".
-				 "WHERE tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-				 "AND tree = '".$this->tree_id."'";
-		
+		$query = "SELECT * FROM tree, object_data ".
+			"WHERE object_data.obj_id = tree.child ".
+			"AND tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+			"AND tree.tree = '".$this->tree_id."' ".
+			"ORDER BY tree.lft";
+
 		$res = $this->ilias->db->query($query);
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
