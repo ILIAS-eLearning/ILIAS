@@ -209,6 +209,7 @@ assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_file#:#Imagemap Datei
@@ -2229,6 +2230,8 @@ common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#validate#:#Validieren
 common#:#value#:#Wert
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Verkäufer
 common#:#version#:#Version
 common#:#view#:#Zeigen

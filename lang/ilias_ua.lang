@@ -209,6 +209,7 @@ assessment#:#filter_show_questionpools#:#Показати фонди питан�
 assessment#:#gap#:#Проміжок
 assessment#:#gap_definition#:#Визначення проміжка
 assessment#:#gap_selection#:#Вибір проміжку
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Висота
 assessment#:#imagemap#:#Карта зображення
 assessment#:#imagemap_file#:#Файл з картою зображення
@@ -2233,6 +2234,8 @@ common#:#usrf_visible#:#Акаунти користувача є видимі
 common#:#usrf_write#:#Редагувати акаунти користувача
 common#:#validate#:#Перевірити достовірність
 common#:#value#:#Значення
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Vendors###31 Aug 2004 new variable
 common#:#version#:#Версія
 common#:#view#:#Огляд

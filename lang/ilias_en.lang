@@ -125,7 +125,6 @@ assessment#:#change_solution#:#Change suggested solution
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
-assessment#:#glossary_term#:#Glossary term
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#cloze_text#:#Close text
@@ -210,6 +209,7 @@ assessment#:#filter_show_questionpools#:#Show questionpools
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
+assessment#:#glossary_term#:#Glossary term
 assessment#:#height#:#Height
 assessment#:#imagemap#:#Image map
 assessment#:#imagemap_file#:#Image map file
@@ -1932,8 +1932,6 @@ common#:#require_street#:#Require street
 common#:#require_zipcode#:#Require zip code
 common#:#required_field#:#Required
 common#:#reset#:#Reset
-common#:#vcard#:#Visiting card
-common#:#vcard_download#:#Download visiting card
 common#:#resources#:#Resources
 common#:#retype_password#:#Retype Password
 common#:#right#:#Right
@@ -2236,6 +2234,8 @@ common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
 common#:#validate#:#Validate
 common#:#value#:#Value
+common#:#vcard#:#Visiting card
+common#:#vcard_download#:#Download visiting card
 common#:#vendors#:#Vendors
 common#:#version#:#Version
 common#:#view#:#View

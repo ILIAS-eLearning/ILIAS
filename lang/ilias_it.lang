@@ -209,6 +209,7 @@ assessment#:#filter_show_questionpools#:#Mostra le raccolte di domande
 assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
+assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#imagemap_file#:#File con immagine a mappa
@@ -2231,6 +2232,8 @@ common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
 common#:#validate#:#Valida
 common#:#value#:#Valore
+common#:#vcard#:#Visiting card###30 Oct 2004 new variable
+common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Venditori
 common#:#version#:#Versione
 common#:#view#:#Anteprima
