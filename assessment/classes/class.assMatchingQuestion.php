@@ -343,11 +343,19 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$qtiResponseGrp->set_attribute("ident", "MQP");
 			$qtiResponseGrp->set_attribute("rcardinality", "Multiple");
+			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				$qtiResponseGrp->set_attribute("output", "javascript");
+			}
 		}
 		else
 		{
 			$qtiResponseGrp->set_attribute("ident", "MQT");
 			$qtiResponseGrp->set_attribute("rcardinality", "Multiple");
+			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				$qtiResponseGrp->set_attribute("output", "javascript");
+			}
 		}
 		$qtiRenderChoice = $this->domxml->create_element("render_choice");
 
@@ -423,9 +431,8 @@ class ASS_MatchingQuestion extends ASS_Question
 		}
 
 		// add matchingtext
-		foreach ($pkeys as $index)
+		foreach ($this->matchingpairs as $index => $matchingpair)
 		{
-			$matchingpair = $this->matchingpairs[$index];
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $matchingpair->getTermId());
 			$qtiMaterial = $this->domxml->create_element("material");
@@ -1115,7 +1122,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
 			{
-				if ($value >= 0)
+				if ((strcmp($value, "") != 0) && ($value != -1))
 				{
 					array_push($matching_values, $value);
 				}

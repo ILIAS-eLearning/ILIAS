@@ -1563,54 +1563,186 @@
 
 <!-- t&a: response_grp -->
 <xsl:template match="response_grp">
-	<table class="nobackground">
-
-	<!-- matching -->
-	<xsl:for-each select="render_choice/response_label">
-		<xsl:if test='@match_max'>
-			<tr>
-			<td class="nobackground">
-				<xsl:if test = "material/mattext">
-					<b><xsl:value-of select="material/mattext"/></b>
-				</xsl:if>
-				<xsl:if test = "material/matimage">
-					<a target="_new">
-						<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
-						<img border="0">
-							<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
-						</img>
-					</a>
-				</xsl:if>
-			</td>
-			<td class="nobackground"><xsl:value-of select="//LVs/LV[@name='matches']/@value"/></td>
-			<td class="nobackground">
-			<select>
-				<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
-
-				<xsl:variable name="mgrp"><xsl:value-of select="@match_group"/></xsl:variable>
-				<xsl:variable name="clabel"><xsl:value-of select="@ident"/></xsl:variable>
-
-				<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
-				<xsl:for-each select="../response_label">
-					<xsl:if test="contains($mgrp, concat(',',@ident,',')) or
-						starts-with($mgrp, concat(@ident,',')) or
-						$mgrp = @ident or
-						substring($mgrp, string-length($mgrp) - string-length(@ident)) = concat(',',@ident)">
-						<option>
-						<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
-						<xsl:attribute name="dummy">match<xsl:value-of select="$clabel"/>_<xsl:value-of select="@ident"/></xsl:attribute>
-						<xsl:value-of select="material/mattext"/>
-						</option>
+	<xsl:choose>
+		<xsl:when test="@output='javascript'">
+			<script type="text/javascript" src="wz_dragdrop.js"></script>
+			<xsl:for-each select="render_choice/response_label">
+					<xsl:if test="@match_max">
+						<input type="hidden">
+								<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:attribute name="id">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:attribute name="value">initial_value_<xsl:value-of select="@ident"/></xsl:attribute>
+						</input>
 					</xsl:if>
-				</xsl:for-each>
-			</select>
-			</td>
-			</tr>
-		</xsl:if>
-	</xsl:for-each>
-	</table>
+			</xsl:for-each>
+			<table border="0" width="100%">
+			<tr><td colspan="2" align="right">
+			  <a>
+			      <xsl:attribute name="href">javascript:resetValues();</xsl:attribute>
+					<xsl:choose><xsl:when test="//render_choice/response_label/material/matimage"><xsl:value-of select="//LVs/LV[@name='reset_pictures']/@value"/></xsl:when><xsl:otherwise><xsl:value-of select="//LVs/LV[@name='reset_definitions']/@value"/></xsl:otherwise></xsl:choose>
+			  </a>
+			</td></tr>
+			<!-- matching -->
+		  <xsl:variable name="count" select="count(//response_label) div 2"></xsl:variable>
+			<xsl:for-each select="render_choice/response_label">
+		       	<tr>
+		       	    <xsl:choose>
+		       	        <xsl:when test="@match_max"></xsl:when>
+		       	        <xsl:otherwise>
+		        			<td align="left">
+				        		<xsl:if test="material/mattext">
+		        					<div class="textbox">
+		        						<xsl:attribute name="id">term_<xsl:value-of select="@ident"/></xsl:attribute>
+		                                <xsl:value-of select="material/mattext"/>
+		        					</div>
+				        		</xsl:if>
+		        			</td>
+		                    <xsl:call-template name="termtaker">
+		                       <xsl:with-param name="i" select="position() - $count"></xsl:with-param>
+		                    </xsl:call-template>
+		       	        </xsl:otherwise>
+		       	    </xsl:choose>
+		       	</tr>
+			</xsl:for-each>
+			</table>
+			<p><xsl:value-of select="//LVs/LV[@name='matching_question_javascript_hint']/@value"/></p>
+			<script type="text/javascript">
+			SET_DHTML(CURSOR_MOVE
+			<xsl:for-each select="render_choice/response_label">
+			    <xsl:choose>
+			        <xsl:when test="@match_max">
+			                ,&quot;definition_<xsl:value-of select="@ident"/>&quot;
+			        </xsl:when>
+			        <xsl:otherwise>
+			                ,&quot;term_<xsl:value-of select="@ident"/>&quot; + NO_DRAG
+			        </xsl:otherwise>
+			    </xsl:choose>
+			</xsl:for-each>
+			);
+			  
+				function resetValues()
+				{
+					<xsl:for-each select="render_choice/response_label">
+							<xsl:if test="@match_max">
+								dd.elements.definition_<xsl:value-of select="@ident"/>.moveTo(dd.elements.definition_<xsl:value-of select="@ident"/>.defx, dd.elements.definition_<xsl:value-of select="@ident"/>.defy);
+								<xsl:choose>
+									<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
+									<xsl:otherwise>dd.elements.definition_<xsl:value-of select="@ident"/>.write('<xsl:value-of select="material/mattext"/>');</xsl:otherwise>
+								</xsl:choose>
+								document.test_output.sel_matching_<xsl:value-of select="@ident"/>.value = -1;
+							</xsl:if>
+					</xsl:for-each>
+				}
+				
+		    function my_DropFunc()
+				{
+			<xsl:for-each select="//render_choice/response_label">
+					<xsl:variable name="title"><xsl:value-of select="material/mattext"/></xsl:variable>
+			    <xsl:choose>
+			        <xsl:when test="@match_max">
+			            if (dd.obj.name == 'definition_<xsl:value-of select="@ident"/>')
+		                {
+												<xsl:variable name="ident"><xsl:value-of select="@ident"/></xsl:variable>
+		                    <xsl:for-each select="//render_choice/response_label">
+		                        <xsl:choose>
+		                            <xsl:when test="@match_max"></xsl:when>
+		                            <xsl:otherwise>
+		if (((dd.obj.y + (dd.obj.h / 2)) &gt; dd.elements.term_<xsl:value-of select="@ident"/>.y)	&amp;&amp; ((dd.obj.y + (dd.obj.h / 2)) &lt; dd.elements.term_<xsl:value-of select="@ident"/>.y+dd.elements.term_<xsl:value-of select="@ident"/>.h)	&amp;&amp; (dd.obj.x + dd.obj.w &lt; dd.obj.defx))
+		{
+		    dd.obj.moveTo(dd.elements.term_<xsl:value-of select="@ident"/>.x + 250, dd.elements.term_<xsl:value-of select="@ident"/>.y);
+		<xsl:choose>
+			<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
+			<xsl:otherwise>dd.obj.write("&lt;strong&gt;<xsl:value-of select="$title"/>&lt;/strong&gt;");</xsl:otherwise>
+		</xsl:choose>
+				document.test_output.sel_matching_<xsl:value-of select="$ident"/>.value = '<xsl:value-of select="@ident"/>';
+		}
+		                            </xsl:otherwise>
+		                        </xsl:choose>
+		                    </xsl:for-each>
+			            }
+			        </xsl:when>
+			    </xsl:choose>
+			</xsl:for-each>
+		    }
+				
+				// solution_script
+			</script>
+		</xsl:when>
+		<xsl:otherwise>
+			<table class="nobackground">
+		
+			<!-- matching -->
+			<xsl:for-each select="render_choice/response_label">
+				<xsl:if test='@match_max'>
+					<tr>
+					<td class="nobackground">
+						<xsl:if test = "material/mattext">
+							<b><xsl:value-of select="material/mattext"/></b>
+						</xsl:if>
+						<xsl:if test = "material/matimage">
+							<a target="_new">
+								<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+								<img border="0">
+									<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+								</img>
+							</a>
+						</xsl:if>
+					</td>
+					<td class="nobackground"><xsl:value-of select="//LVs/LV[@name='matches']/@value"/></td>
+					<td class="nobackground">
+					<select>
+						<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
+		
+						<xsl:variable name="mgrp"><xsl:value-of select="@match_group"/></xsl:variable>
+						<xsl:variable name="clabel"><xsl:value-of select="@ident"/></xsl:variable>
+		
+						<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
+						<xsl:for-each select="../response_label">
+							<xsl:if test="contains($mgrp, concat(',',@ident,',')) or
+								starts-with($mgrp, concat(@ident,',')) or
+								$mgrp = @ident or
+								substring($mgrp, string-length($mgrp) - string-length(@ident)) = concat(',',@ident)">
+								<option>
+								<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:attribute name="dummy">match<xsl:value-of select="$clabel"/>_<xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:value-of select="material/mattext"/>
+								</option>
+							</xsl:if>
+						</xsl:for-each>
+					</select>
+					</td>
+					</tr>
+				</xsl:if>
+			</xsl:for-each>
+			</table>
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
+<xsl:template name="termtaker">
+    <xsl:param name="i"></xsl:param>
+    <xsl:for-each select="//render_choice/response_label">
+        <xsl:if test="@match_max">
+            <xsl:if test="position() = $i">
+                <td align="right">
+        			<xsl:if test = "material/mattext">
+    					<div class="textbox">
+    						<xsl:attribute name="id">definition_<xsl:value-of select="@ident"/></xsl:attribute>
+    					    <xsl:value-of select="material/mattext"/>
+    					</div>
+    				</xsl:if>
+    				<xsl:if test = "material/matimage">
+    					<img border="0">
+    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+    						<xsl:attribute name="name">definition_<xsl:value-of select="@ident"/></xsl:attribute>
+    					</img>
+    				</xsl:if>
+                </td>
+            </xsl:if>
+        </xsl:if>
+    </xsl:for-each>
+</xsl:template>    
+    
 <!-- dump language variable data -->
 <xsl:template match="LV"/>
 <xsl:template match="LVs"/>
