@@ -30,17 +30,18 @@ class ilTemplate extends IntegratedTemplateExtension
 	* @param	string	$file templatefile (mit oder ohne pfad)
 	* @param	boolean	$flag1 wie in IntegratedTemplate
 	* @param	boolean	$flag1 wie in IntegratedTemplate
-	* @param	string	$module ILIAS module
+	* @param	boolean	$in_module		should be set to true, if template file is in module subdirectory
 	* @param	array	$vars zu ersetzenden Variablen
 	* @access	public
 	*/
-	function ilTemplate($file,$flag1,$flag2,$module="",$vars="DEFAULT")
+	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")
 	{
 		global $ilias;
 
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 
+		/*
 		if (strpos($file,"/") === false)
 		{
 			//$fname = $ilias->tplPath;
@@ -59,7 +60,8 @@ class ilTemplate extends IntegratedTemplateExtension
 		else
 		{
 			$fname = $file;
-		}
+		}*/
+		$fname = $this->getTemplatePath($file, $in_module);
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
@@ -70,8 +72,10 @@ class ilTemplate extends IntegratedTemplateExtension
 			return false;
 		}
 
-		$this->IntegratedTemplateExtension(dirname($fname));
-		$this->loadTemplatefile(basename($fname), $flag1, $flag2);
+		//$this->IntegratedTemplateExtension(dirname($fname));
+		$this->IntegratedTemplateExtension();
+		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
+		$this->loadTemplatefile($fname, $flag1, $flag2);
 
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
@@ -151,7 +155,7 @@ class ilTemplate extends IntegratedTemplateExtension
 				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
 				{
 					$count++;
-					
+
 					$this->setVariable($key, $val);
 				}
 			}
@@ -191,13 +195,13 @@ class ilTemplate extends IntegratedTemplateExtension
 		$this->setCurrentBlock($block);
 		$count = $this->fillVars();
 		$this->parseCurrentBlock();
-		
+
 		if ($count == 0)
 		{
 			parent::touchBlock($block);
 		}
 	}
-	
+
 	/**
 	* überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
 	* @access	public
@@ -264,7 +268,7 @@ class ilTemplate extends IntegratedTemplateExtension
 			{
 				$result[$select["field"]] = $select["text"];
 			}
-			
+
 			$this->replace($result);
 			$this->parseCurrentBlock($block);
 		}
@@ -328,7 +332,7 @@ class ilTemplate extends IntegratedTemplateExtension
 	{
 		return array_key_exists($a_topic, $this->blockvariables[$a_block]);
 	}
-	
+
 	/**
 	* check if there is a NAVIGATION-topic
 	* @access	public
@@ -338,7 +342,7 @@ class ilTemplate extends IntegratedTemplateExtension
 	{
 		return $this->checkTopic("__global__", "NAVIGATION");
 	}
-	
+
 	/**
 	* check if there is a TREE-topic
 	* @access	public
@@ -358,14 +362,15 @@ class ilTemplate extends IntegratedTemplateExtension
 	{
 		return file_exists($this->tplPath."/".$filename);
 	}
-	
+
+
 	/**
 	* overwrites ITX::addBlockFile
 	* @access	public
 	* @param	string
 	* @param	string
-	* @param	string
-	* @param	boolean			should be set to true, if template file is in module subdirectory
+	* @param	string		$tplname		template name
+	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
 	* @return	boolean/string
 	*/
 	function addBlockFile($var, $block, $tplname, $in_module = false)
@@ -375,21 +380,50 @@ class ilTemplate extends IntegratedTemplateExtension
 			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
 		}
 
-		if(!$in_module)
+		$tplfile = $this->getTemplatePath($tplname, $module);
+
+		if (file_exists($tplfile) == false)
 		{
-			$tpl_file = $this->tplPath."/".$tplname;
-		}
-		else
-		{
-			$tpl_file = ILIAS_MODULE."/templates/".$tplname;
-		}
-		if (file_exists($tpl_file) == false)
-		{
-			echo "<br/>Template '".$tpl_file."' doesn't exist! aborting...";
+			echo "<br/>Template '".$tplfile."' doesn't exist! aborting...";
 			return false;
 		}
 
-		return parent::addBlockFile($var, $block, $tplname);
+		return parent::addBlockFile($var, $block, $tplfile);
+	}
+
+	/**
+	* builds a full template path with template and module name
+	*
+	* @param	string		$a_tplname		template name
+	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
+	*
+	* @return	string		full template path
+	*/
+	function getTemplatePath($a_tplname, $a_in_module = false)
+	{
+		global $ilias;
+
+		if (strpos($a_tplname,"/") === false)
+		{
+			//$fname = $ilias->tplPath;
+			$base = "./";
+			if ($a_in_module)
+			{
+				$base.= ILIAS_MODULE."/";
+			}
+			$base .= "templates/";
+			$fname = $base.$ilias->account->skin."/".basename($a_tplname);
+			//echo "looking for :$fname:<br>";
+			if(!file_exists($fname))
+			{
+				$fname = $base."default/".basename($a_tplname);
+			}
+		}
+		else
+		{
+			$fname = $a_tplname;
+		}
+		return $fname;
 	}
 }
 ?>
