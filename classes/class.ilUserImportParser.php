@@ -196,6 +196,14 @@ class ilUserImportParser extends ilSaxParser
 						// checks passed. save user
 						$this->userObj->setTitle($this->userObj->getFullname());
 						$this->userObj->setDescription($this->userObj->getEmail());
+
+						// default time limit settings
+						$userObj->setTimeLimitOwner(0);
+						$userObj->setTimeLimitUnlimited(1);
+						$userObj->setTimeLimitFrom(time());
+						$userObj->setTimeLimitUntil(time());
+
+
 						$this->userObj->create();
 
 						//insert user data in table user_data
