@@ -159,6 +159,7 @@ common#:#cat_add#:#Aggiungi categoria
 common#:#cat_added#:#Categoria aggiunta
 common#:#cat_create#:#Crea una categoria
 common#:#cat_create_cat#:#Creare una categoria
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Creare un corso
 common#:#cat_create_dbk#:#Creare un libro digitale
 common#:#cat_create_exc#:#Creare un esercizio
@@ -179,6 +180,10 @@ common#:#cat_write#:#Modifica categoria
 common#:#categories#:#Categorie
 common#:#cc#:#cc
 common#:#censorship#:#Moderatore
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia l&#039;assegnazione attiva
 common#:#change_assignment#:#Cambia l&#039;assegnazione
@@ -190,6 +195,11 @@ common#:#changed_to#:#cambiata in
 common#:#chapter#:#Capitolo
 common#:#chapter_number#:#Numero del capitolo
 common#:#chapter_title#:#Titolo del capitolo
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Controlla
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
@@ -428,6 +438,7 @@ common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario
 common#:#group_access_denied#:#Vietato l&#039;accesso
 common#:#group_any_objects#:#Nessun oggetto nel gruppo
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Descrizione del gruppo
 common#:#group_details#:#Dettagli gruppo
 common#:#group_filesharing#:#Condivisione file al gruppo
@@ -798,6 +809,8 @@ common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
 common#:#obj_cat#:#Categoria
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Corso
 common#:#obj_dbk#:#Libro digitale
 common#:#obj_exc#:#Esercizio

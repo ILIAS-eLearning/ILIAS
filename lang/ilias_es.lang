@@ -159,6 +159,7 @@ common#:#cat_add#:#Add Category###06 Aug 2003 new variable
 common#:#cat_added#:#Category added###16 Jul 2003 new variable
 common#:#cat_create#:#Create Category###13 Jan 2004 new variable
 common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
 common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
 common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
@@ -179,6 +180,10 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#categories
 common#:#cc#:#cc
 common#:#censorship#:#censorship###13 May 2003 new variable
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#change
 common#:#change_active_assignment#:#Change active assignment###07 Aug 2003 new variable
 common#:#change_assignment#:#change assignment###04 Aug 2003 new variable
@@ -190,6 +195,11 @@ common#:#changed_to#:#changed to###20 Mar 2003 new variable
 common#:#chapter#:#chapter
 common#:#chapter_number#:#chapter number
 common#:#chapter_title#:#chapter title
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#check
 common#:#check_langfile#:#Please check your language file.###26 Mar 2003 new variable
 common#:#check_languages#:#Check Languages###12 Jun 2003 new variable
@@ -428,6 +438,7 @@ common#:#glossary#:#glossary
 common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
 common#:#group_access_denied#:#Access Denied###01 Nov 2003 new variable
 common#:#group_any_objects#:#No Subobjects avilable ###12 Jun 2003 new variable
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Group Description###29 Oct 2003 new variable
 common#:#group_details#:#Group Details###12 Jun 2003 new variable
 common#:#group_filesharing#:#group file sharing
@@ -798,6 +809,8 @@ common#:#obj#:#obj
 common#:#obj_adm#:#System Settings###15 May 2003 new variable
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###01 Oct 2003 new variable
 common#:#obj_cat#:#Category###15 May 2003 new variable
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Course###15 May 2003 new variable
 common#:#obj_dbk#:#Digilib Book###02 Oct 2003 new variable
 common#:#obj_exc#:#Exercise###13 Jan 2004 new variable

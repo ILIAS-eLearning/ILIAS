@@ -159,6 +159,7 @@ common#:#cat_add#:#Додати Категорію
 common#:#cat_added#:#Категорію додано
 common#:#cat_create#:#Створити Категорію
 common#:#cat_create_cat#:#Створити Категорію
+common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Створити Курс
 common#:#cat_create_dbk#:#Створити Електронну книжку
 common#:#cat_create_exc#:#Створити Вправу
@@ -179,6 +180,10 @@ common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
 common#:#cc#:#CC
 common#:#censorship#:#Цензура
+common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
+common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
+common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
 common#:#change#:#Змінити
 common#:#change_active_assignment#:#Змінити активне призначення
 common#:#change_assignment#:#Змінити призначення
@@ -190,6 +195,11 @@ common#:#changed_to#:#змінити на
 common#:#chapter#:#Глава
 common#:#chapter_number#:#Номер Глави
 common#:#chapter_title#:#Назва Глави
+common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
+common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
+common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
+common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
+common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#Перевірити
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
@@ -428,6 +438,7 @@ common#:#glossary#:#Глосарій
 common#:#glossary_added#:#Глосарій доданий
 common#:#group_access_denied#:#В Доступі Відмовлено
 common#:#group_any_objects#:#Жоден підоб'єкт не є доступним
+common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#group_desc#:#Опис Групи
 common#:#group_details#:#Деталі Групи
 common#:#group_filesharing#:#Спільне Використання Файлу Групи
@@ -798,6 +809,8 @@ common#:#obj#:#Об'єкт
 common#:#obj_adm#:#Системні Настройки
 common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
 common#:#obj_cat#:#Категорія
+common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat###18 Feb 2004 new variable
 common#:#obj_crs#:#Курс
 common#:#obj_dbk#:#Digilib Книга
 common#:#obj_exc#:#Вправа
