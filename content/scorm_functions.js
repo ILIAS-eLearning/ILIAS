@@ -1,44 +1,72 @@
-function init(){
-
-  API=this.frames[0].window.document.APIAdapter;
-  
-}
 
 function LMSGetValue(dataModelElement){
-
- return API.LMSGetValue(dataModelElement);
+ //alert("get");
+ return window.document.APIAdapter.LMSGetValue(dataModelElement);
 }
+
+
 
 function LMSSetValue(dataModelElement,elemValue){
-alert("called");
-retval=API.LMSSetValue(dataModelElement,elemValue);
-alert(retval);
-return retval;
+
+
+
+return window.document.APIAdapter.LMSSetValue(dataModelElement,elemValue);
+
+//alert(retval);
+
+//return retval;
+
  //return obj.LMSSetValue(dataModelElement,elemValue);
+
 }
+
+
 
 function LMSInitialize(inString){
 
- return API.LMSInitialize(inString);
+
+ return window.document.APIAdapter.LMSInitialize(inString);
+
 }
+
+
 
 function LMSFinish(inString){
 
- return API.LMSFinish(inString);
+
+//alert("finish");
+ return window.document.APIAdapter.LMSFinish(inString);
+
 }
+
+
 
 function LMSCommit(inString){
- return API.LMSCommit(inString);
+
+ return window.document.APIAdapter.LMSCommit(inString);
+
 }
+
+
 
 function LMSGetLastError(){
- return API.LMSGetLastError();
+
+ return window.document.APIAdapter.LMSGetLastError();
+
 }
+
+
 
 function LMSGetErrorString(errorNumber){
- return API.LMSGetErrorString(errorNumber);
+
+ return window.document.APIAdapter.LMSGetErrorString(errorNumber);
+
 }
 
+
+
 function LMSGetDiagnostics(inString){
- return API.LMSGetDiagnostics(inString);
+
+return window.document.APIAdapter.LMSGetDiagnostics(inString);
+
 }
