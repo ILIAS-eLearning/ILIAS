@@ -113,7 +113,6 @@ class ilTermDefinitionEditorGUI
 				}
 				$this->setTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
-//echo "MK";
 				$this->ctrl->setReturn($this, "listDefinitions");
 				$page =& $this->definition->getPageObject();
 				$page->addUpdateListener($this, "saveShortText");
@@ -122,6 +121,8 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);
 				$page_gui->setHeader($this->term->getTerm());
+				$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
+					"&amp;ref_id=".$_GET["ref_id"]);
 				/*
 				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
 						array("edit", "view"),

@@ -236,6 +236,16 @@ class ilPageObjectGUI
 		$this->tabs = $a_tabs;
 	}
 
+	function setFileDownloadLink($a_download_link)
+	{
+		$this->file_download_link = $a_download_link;
+	}
+
+	function getFileDownloadLink()
+	{
+		return $this->file_download_link;
+	}
+
 	/**
 	* execute command
 	*/
@@ -344,6 +354,7 @@ class ilPageObjectGUI
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
+						 'file_download_link' => $this->getFileDownloadLink(),
 						 'med_disabled_path' => $med_disabled_path,
 						 'bib_id' => $this->getBibId(),'citation' => (int) $this->isEnabledCitation(),
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"));

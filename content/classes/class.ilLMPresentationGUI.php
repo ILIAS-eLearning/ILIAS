@@ -968,6 +968,8 @@ class ilLMPresentationGUI
 		//$pg_frame = $_GET["frame"];
 		$page_object_gui->setLinkFrame($_GET["frame"]);
 		$page_object_gui->setOutputMode("presentation");
+		$page_object_gui->setFileDownloadLink("lm_presentation.php?cmd=downloadFile".
+			"&amp;ref_id=".$this->lm->getRefId());
 
 		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
 		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
@@ -1443,6 +1445,9 @@ class ilLMPresentationGUI
 		return true;
 	}
 
+	/**
+	* download file of file lists
+	*/
 	function downloadFile()
 	{
 		$file = explode("_", $_GET["file_id"]);
