@@ -95,15 +95,15 @@ administration#:#view_last_log#:#Zeige letztes Scan Log
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
-assessment#:#add_answer#:#Antwort anfügen
-assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
-assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
-assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
-assessment#:#add_area#:#Region anfügen
-assessment#:#add_gap#:#Lückentext anfügen
+assessment#:#add_answer#:#Antwort hinzufügen
+assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort hinzufügen
+assessment#:#add_answer_yn#:#Ja-/Nein-Antwort hinzufügen
+assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
+assessment#:#add_area#:#Region hinzufügen
+assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
-assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
-assessment#:#add_questionpool#:#Add questionpool###06 Dec 2004 new variable
+assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
+assessment#:#add_questionpool#:#Fragenpool hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -295,7 +295,7 @@ assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
-assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
+assessment#:#questions_from#:#Fragen aus
 assessment#:#radio_set#:#Ausgewählt
 assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
@@ -336,13 +336,13 @@ assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
-assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
+assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!###29 Nov 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?###29 Nov 2004 content changed
+assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Versuche zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
@@ -358,9 +358,9 @@ assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bear
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
-assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test anfügen wollen!
-assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test anfügen wollen?
-assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Anfügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) anfügen wollen?
+assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
+assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test hinzufügen wollen?
+assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_introduction#:#Einführung
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
@@ -375,7 +375,7 @@ assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angege
 assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
 assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
-assessment#:#tst_no_more_available_questionpools#:#There are no more questionpools available###06 Dec 2004 new variable
+assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
@@ -391,11 +391,11 @@ assessment#:#tst_question_type#:#Fragentyp
 assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
-assessment#:#tst_random_qpl_unselected#:#There is at least one unselected questionpool! You don't need to add a new questionpool.###06 Dec 2004 new variable
-assessment#:#tst_random_questionpools#:#Source questionpools###06 Dec 2004 new variable
+assessment#:#tst_random_qpl_unselected#:#Bei mindestens einem Kombinationsfeld wurde noch kein Fragenpool ausgewählt. Sie müssen daher keinen weiteren Eintrag hinzufügen.
+assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
-assessment#:#tst_random_test#:#Random test###05 Dec 2004 new variable
-assessment#:#tst_random_test_description#:#If checked, the questions of the test will be generated by a random generator###05 Dec 2004 new variable
+assessment#:#tst_random_test#:#Zufallstest
+assessment#:#tst_random_test_description#:#Wenn ausgewählt, werden die Fragen des Tests mit einem Zufallsgenerator zusammengestellt
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
@@ -411,7 +411,7 @@ assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
-assessment#:#tst_select_random_questions#:#Select the questionpool(s) and the amount of questions for the random test###06 Dec 2004 new variable
+assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
@@ -451,8 +451,8 @@ assessment#:#tst_status_not_entered#:#unbearbeitet
 assessment#:#tst_status_ok#:#Der Status des Tests ist in Ordnung. Es gibt keine fehlenden Elemente.
 assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
-assessment#:#tst_total_questions#:#Total amount of questions###06 Dec 2004 new variable
-assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###06 Dec 2004 new variable
+assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
+assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
@@ -1929,7 +1929,7 @@ common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#qpl#:#Fragenpool für Test
-common#:#qpl_add#:#Fragenpool anfügen
+common#:#qpl_add#:#Fragenpool hinzufügen
 common#:#qpl_delete#:#Fragenpool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
 common#:#qpl_new#:#Neuer Fragenpool für Test
@@ -2119,7 +2119,7 @@ common#:#size#:#Size###29 Nov 2004 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
-common#:#spl_add#:#Fragenpool anfügen
+common#:#spl_add#:#Fragenpool hinzufügen
 common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
@@ -2149,7 +2149,7 @@ common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#sure_delete_selected_users#:#Sind sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
 common#:#svy#:#Umfrage
-common#:#svy_add#:#Umfrage anfügen
+common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_invite#:#Nutzerinnen zu einer Umfrage einladen
@@ -2219,7 +2219,7 @@ common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#tst#:#Test
-common#:#tst_add#:#Test anfügen
+common#:#tst_add#:#Test hinzufügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
@@ -3986,10 +3986,10 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-survey#:#add_category#:#Kategorie anfügen
+survey#:#add_category#:#Kategorie hinzufügen
 survey#:#add_heading#:#Überschrift hinzufügen
-survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Kategorien anfügen wollen.
-survey#:#add_phrase#:#Phrase anfügen
+survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Kategorien hinzufügen wollen.
+survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymize_survey#:#Umfragedaten anonymisieren
@@ -3997,8 +3997,8 @@ survey#:#anonymize_survey_explanation#:#Wenn aktiviert, werden alle Teilnehmerin
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
-survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage anfügen wollen?
-survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage anfügen wollen?
+survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Frageblöcke der Umfrage hinzufügen wollen?
+survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage hinzufügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
@@ -4013,7 +4013,7 @@ survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
+survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraints#:#Beschränkungen
@@ -4101,10 +4101,10 @@ survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Beenden
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
-survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
-survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###29 Nov 2004 new variable
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###29 Nov 2004 new variable
-survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien hinzufügen können!
+survey#:#fill_out_all_required_fields_delete_category#:#Bitte füllen Sie alle benötigten Felder aus, bevor Sie Kategorien löschen!
+survey#:#fill_out_all_required_fields_move_category#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie Kategorien verschieben!
+survey#:#fill_out_all_required_fields_save_phrase#:#Bitte füllen Sie alle benötigen Felder aus, bevor Sie eine Phrase speichern!
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
@@ -4120,8 +4120,8 @@ survey#:#horizontal#:#horizontal
 survey#:#import_question#:#Frage(n) importieren
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
-survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage anfügen wollen!
-survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage anfügen wollen!
+survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage hinzufügen wollen!
+survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage hinzufügen wollen!
 survey#:#introduction#:#Einleitung
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#invitation#:#Einladung
@@ -4138,11 +4138,11 @@ survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
-survey#:#menuback#:#Back###29 Nov 2004 new variable
-survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
+survey#:#menuback#:#Zurück
+survey#:#menubacktosurvey#:#Zurück zur Umfrage
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
-survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!###02 Dec 2004 new variable
-survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!###02 Dec 2004 new variable
+survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragentyp nicht erlaubt!
+survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -4178,7 +4178,7 @@ survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworte
 survey#:#orientation#:#Ausrichtung
 survey#:#percentage_of_entered_values#:#Prozentsatz der Nutzerinnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_selections#:#Prozentsatz der Nutzerinnen, die diese Katgorie ausgewählt haben
-survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
+survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#predefined_users#:#Vordefinierte Nutzerinnengruppe
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fraen %d - %d von %d
@@ -4232,7 +4232,7 @@ survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
 survey#:#search_users#:#Nutzerinnen
 survey#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
-survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
+survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
 survey#:#select_questionpool_short#:#Fragenpool für Umfrage
@@ -4249,20 +4249,20 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s
 survey#:#subtype#:#Untertyp
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
-survey#:#survey_finish#:#Umfrage beenden >>>###29 Nov 2004 content changed
+survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
-survey#:#survey_next#:#Weiter >>>###29 Nov 2004 content changed
+survey#:#survey_next#:#Weiter >>>
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
-survey#:#survey_previous#:#<<< Zurück###29 Nov 2004 content changed
+survey#:#survey_previous#:#<<< Zurück
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Zur Startseite###29 Nov 2004 content changed
+survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
