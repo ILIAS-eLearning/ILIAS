@@ -1909,37 +1909,250 @@
 
 		<!-- ordering -->
 		<xsl:when test = "@ident = 'OQT' or @ident = 'OQP'">
-			<table class="nobackground">
-				<xsl:for-each select="render_choice/response_label">
-					<tr>
-						<td class="nobackground" width="30">
-							<input type="text" size="2">
+			<xsl:choose>
+				<xsl:when test="@output='javascript'">
+					<table border="0" width="100%">
+					<tr><td align="right">
+						<a>
+								<xsl:attribute name="href">javascript:resetValues();</xsl:attribute>
+							<xsl:choose><xsl:when test="//render_choice/response_label/material/matimage"><xsl:value-of select="//LVs/LV[@name='reset_pictures']/@value"/></xsl:when><xsl:otherwise><xsl:value-of select="//LVs/LV[@name='reset_definitions']/@value"/></xsl:otherwise></xsl:choose>
+						</a>
+					</td></tr>
+					</table>
+					<script type="text/javascript" src="wz_dragdrop.js"></script>
+					<xsl:for-each select="render_choice/response_label">
+					<input type="hidden">
 							<xsl:attribute name="name">order_<xsl:value-of select="@ident"/></xsl:attribute>
 							<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
-							<xsl:attribute name="dummy">ord<xsl:value-of select="@ident"/></xsl:attribute>
-							</input>
-						</td>
-						<td class="nobackground" width="left">
-							<label>
-							<xsl:attribute name="for">
-							<xsl:value-of select="@ident"/>
-							</xsl:attribute>
-							<xsl:if test = "material/mattext">
-								<xsl:value-of select="material/mattext"/>
-							</xsl:if>
-							<xsl:if test = "material/matimage">
-								<a target="_new">
-									<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
-									<img border="0">
-										<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
-									</img>
-								</a>
-							</xsl:if>
-							</label>
-						</td>
-					</tr>
-				</xsl:for-each>
-			</table>
+							<xsl:attribute name="value">initial_value_<xsl:value-of select="@ident"/></xsl:attribute>
+					</input>
+					</xsl:for-each>
+					<table class="nobackground">
+					<xsl:for-each select="render_choice/response_label">
+						<tr>
+							<td>
+								<xsl:if test = "material/mattext">
+									<div class="textbox">
+										<xsl:attribute name="id">orderobject_<xsl:value-of select="@ident"/>
+										</xsl:attribute>
+									<xsl:value-of select="material/mattext"/>
+									</div>
+								</xsl:if>
+								<xsl:if test = "material/matimage">
+									<div class="imagebox">
+										<xsl:attribute name="id">orderobject_<xsl:value-of select="@ident"/></xsl:attribute>
+										<table border="0">
+										<tr><td align="left">
+										<img border="0">
+											<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+										</img>
+										</td>
+										<td valign="top">
+											<a target="_new">
+												<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+												<img border="0">
+													<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
+												</img>
+											</a>
+										</td>
+										</tr>
+										</table>
+									</div>
+								</xsl:if>
+							</td>
+						</tr>
+					</xsl:for-each>
+					</table>
+					<p><xsl:value-of select="//LVs/LV[@name='ordering_question_javascript_hint']/@value"/></p>
+					<script type="text/javascript">
+					SET_DHTML(CURSOR_MOVE	<xsl:for-each select="render_choice/response_label">,&quot;orderobject_<xsl:value-of select="@ident"/>&quot;
+					</xsl:for-each>
+					);
+
+					function resetValues()
+					{
+						<xsl:for-each select="render_choice/response_label">
+							dd.elements.orderobject_<xsl:value-of select="@ident"/>.moveTo(dd.elements.orderobject_<xsl:value-of select="@ident"/>.defx, dd.elements.orderobject_<xsl:value-of select="@ident"/>.defy);
+						</xsl:for-each>
+					}
+
+					function getTopPosition()
+					{
+						var topposition = 0;
+						var tmparr = new Array();
+						var c = 0;
+						for (var j = 0; j &lt; dd.elements.length; j++)
+						{
+							tmparr[c] = new Array(dd.elements[j].defy, dd.elements[j].h);
+							c++;
+						}
+						tmparr.sort(
+							function(a,b)
+							{
+								return a[0]-b[0];
+							}
+						);
+						topposition = tmparr[0][0];
+						return topposition;
+					}
+					
+					function getInitialSpace()
+					{
+						var initialspace = 0;
+						var tmparr = new Array();
+						var c = 0;
+						for (var j = 0; j &lt; dd.elements.length; j++)
+						{
+							tmparr[c] = new Array(dd.elements[j].defy, dd.elements[j].h);
+							c++;
+						}
+						tmparr.sort(
+							function(a,b)
+							{
+								return a[0]-b[0];
+							}
+						);
+						initialspace = tmparr[1][0]-(tmparr[0][0]+tmparr[0][1]);
+						return initialspace;
+					}
+					
+					function my_DropFunc()
+					{
+						var topposition = getTopPosition();
+						var initialspace = getInitialSpace();
+						for (var i = 0; i &lt; dd.elements.length; i++)
+						{
+							if (dd.obj.name != dd.elements[i].name)
+							{
+								if (
+									((dd.obj.x + (dd.obj.w/2)) &gt; dd.elements[i].x) &amp;&amp; 
+									((dd.obj.x + (dd.obj.w/2)) &lt; (dd.elements[i].x + dd.elements[i].w)) &amp;&amp;
+									((dd.obj.y + (dd.obj.h/2)) &gt; dd.elements[i].y) &amp;&amp;
+									((dd.obj.y + (dd.obj.h/2)) &lt; (dd.elements[i].y + dd.elements[i].h))
+								)
+								{
+									var fixedelements = new Array();
+									var varelements = new Array();
+									var fcounter = 0;
+									var counter = 0;
+									for (var j = 0; j &lt; dd.elements.length; j++)
+									{
+										if (dd.elements[j].name != dd.obj.name)
+										{
+											if (dd.elements[j].y &lt; dd.elements[i].y)
+											{
+												var arr = new Array(dd.elements[j].name, dd.elements[j].y.toString());
+												fixedelements[fcounter] = arr;
+												fcounter++;
+											}
+											else
+											{
+												var arr = new Array(dd.elements[j].name, dd.elements[j].y.toString());
+												varelements[counter] = arr;
+												counter++;
+											}
+										}
+									}
+									varelements.sort(
+										function(a,b)
+										{
+											return a[1]-b[1];
+										}
+									);
+									fixedelements.sort(
+										function(a,b)
+										{
+											return a[1]-b[1];
+										}
+									);
+									var ypos = topposition;
+									var orderpos = 1;
+									for (var j = 0; j &lt; fixedelements.length; j++)
+									{
+										dd.elements[fixedelements[j][0]].moveTo(dd.elements[i].x, ypos);
+										ypos = dd.elements[fixedelements[j][0]].y + dd.elements[fixedelements[j][0]].h + initialspace;
+										setOrderPos(dd.elements[fixedelements[j][0]].name, orderpos);
+										orderpos++;
+									}
+									dd.obj.moveTo(dd.elements[i].x, ypos);
+									ypos = dd.obj.y + dd.obj.h + initialspace;
+									setOrderPos(dd.obj.name, orderpos);
+									orderpos++;
+									for (var j = 0; j &lt; varelements.length; j++)
+									{
+										dd.elements[varelements[j][0]].moveTo(dd.elements[i].x, ypos);
+										ypos = dd.elements[varelements[j][0]].y + dd.elements[varelements[j][0]].h + initialspace;
+										setOrderPos(dd.elements[varelements[j][0]].name, orderpos);
+										orderpos++;
+									}
+								}
+							}
+						}
+					}
+					
+					function setOrderPos(objname, position)
+					{
+						var idxobj = objname.lastIndexOf("_");
+						var idobj = objname.substr(idxobj+1, 1);
+						<xsl:for-each select="render_choice/response_label">
+						if (idobj == <xsl:value-of select="@ident"/>)
+						{
+							document.test_output.order_<xsl:value-of select="@ident"/>.value = position;
+						}
+						</xsl:for-each>
+					}
+					
+					function setSolution(arr)
+					{
+						var topposition = getTopPosition();
+						var initialspace = getInitialSpace();
+						var ypos = topposition;
+						var element = "";
+						for (var i = 0; i &lt; arr.length; i++)
+						{
+							element = "orderobject_" + arr[i];
+							dd.elements[element].moveTo(dd.elements[element].defx, ypos);
+							ypos = dd.elements[element].y + dd.elements[element].h + initialspace;
+						}
+					}
+					
+					// solution_script
+					</script>
+				</xsl:when>
+				<xsl:otherwise>
+					<table class="nobackground">
+					<xsl:for-each select="render_choice/response_label">
+						<tr>
+							<td class="nobackground" width="30">
+								<input type="text" size="2">
+								<xsl:attribute name="name">order_<xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:attribute name="id"><xsl:value-of select="@ident"/></xsl:attribute>
+								<xsl:attribute name="dummy">ord<xsl:value-of select="@ident"/></xsl:attribute>
+								</input>
+							</td>
+							<td class="nobackground" width="left">
+								<label>
+								<xsl:attribute name="for">
+								<xsl:value-of select="@ident"/>
+								</xsl:attribute>
+								<xsl:if test = "material/mattext">
+									<xsl:value-of select="material/mattext"/>
+								</xsl:if>
+								<xsl:if test = "material/matimage">
+									<a target="_new">
+										<xsl:attribute name="href"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/></xsl:attribute>
+										<img border="0">
+											<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:call-template name="replace-qtiident"><xsl:with-param name="original"><xsl:value-of select="//questestinterop/item/@ident"/></xsl:with-param><xsl:with-param name="substring">qst_</xsl:with-param></xsl:call-template>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
+										</img>
+									</a>
+								</xsl:if>
+								</label>
+							</td>
+						</tr>
+					</xsl:for-each>
+					</table>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:when>
 	</xsl:choose>
 </xsl:template>

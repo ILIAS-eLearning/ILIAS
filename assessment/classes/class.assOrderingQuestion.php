@@ -353,11 +353,19 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			$qtiResponseLid->set_attribute("ident", "OQP");
 			$qtiResponseLid->set_attribute("rcardinality", "Ordered");
+			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				$qtiResponseLid->set_attribute("output", "javascript");
+			}
 		}
 			else
 		{
 			$qtiResponseLid->set_attribute("ident", "OQT");
 			$qtiResponseLid->set_attribute("rcardinality", "Ordered");
+			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				$qtiResponseLid->set_attribute("output", "javascript");
+			}
 		}
 		$solution = $this->getSuggestedSolution(0);
 		if (count($solution))
