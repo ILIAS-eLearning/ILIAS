@@ -185,10 +185,10 @@ class ilvCard
 */
 	function escape($string) 
 	{
-		$string = preg_replace("/(?<!\\\);/", "\;", $string);
-		$string = preg_replace("/(?<!\\\)\\\/", "\\", $string);
-		$string = preg_replace("/(?<!\\\),/", "\,", $string);
-		$string = preg_replace("/\n/","\n", $string);
+		$string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
+		$string = preg_replace("/(?<!\\\\);/", "\\;", $string);
+		$string = preg_replace("/(?<!\\\\),/", "\\,", $string);
+		$string = preg_replace("/\n/","\\n", $string);
 		return $string;
 	}
 	
