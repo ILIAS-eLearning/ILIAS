@@ -3883,3 +3883,55 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+payment#:#paya_sell_object#:#Sell object
+payment#:#paya_no_objects_assigned#:#There are no sellable objects.
+payment#:#paya_buyable#:#Buyable
+payment#:#paya_not_buyable#:#Not buyable
+payment#:#paya_expires#:#Expire payment
+payment#:#paya_pay_method_not_specified#:#Not specified
+payment#:#paya_no_object_selected#:#Please select one object.
+payment#:#paya_edit_details#:#Edit details
+payment#:#paya_edit_prices#:#Edit prices
+payment#:#paya_vendor#:#Vendor
+payment#:#paya_count_purchaser#:#Number of purchasers
+payment#:#paya_pay_method#:#Pay method
+payment#:#paya_select_pay_method_first#:#Please select one pay method first.
+payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
+payment#:#paya_no_price_available#:#No prices available
+payment#:#paya_add_price#:#Add new price
+payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?
+payment#:#paya_delete_price#:#Delete price
+payment#:#paya_months#:#Month
+payment#:#currency_euro#:#Euro
+payment#:#currency_cent#:#Cent
+payment#:#paya_update_price#:#Update prices
+payment#:#duration#:#Duration
+payment#:#price_a#:#Price
+payment#:#paya_add_price_title#:#New price
+payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers
+payment#:#paya_added_new_price#:#Created new price
+payment#:#paya_no_prices_selected#:#Please select one price
+payment#:#paya_deleted_last_price#:#The last price has been deleted.
+payment#:#paya_insert_only_numbers#:#Please insert only integers.
+payment#:#paya_updated_prices#:#Updated prices
+payment#:#paya_edit_prices_first#:#Please edit the prices first.
+payment#:#paya_details_updated#:#Details updated.
+payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.
+payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.
+payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.
+payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.
+payment#:#paya_err_adding_object#:#Error adding object
+payment#:#paya_edit_pay_method#:#Edit pay method
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
+payment#:#paya_transaction#:#Transaction
+payment#:#paya_order_date#:#Order date
+payment#:#paya_payed#:#Payed
+payment#:#paya_access#:#Access
+payment#:#paya_updated_booking#:#Updated statistic.
+payment#:#paya_error_update_booking#:#Error saving statistic data.
+payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?
+payment#:#pay_deleted_booking#:#The entry has been deleted.
+payment#:#paya_customer#:#Customer
+payment#:#paya_payed_access#:#Payed/Access
+payment#:#update#:#Update

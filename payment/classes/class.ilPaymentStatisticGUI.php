@@ -28,6 +28,7 @@
 *
 * @package core
 */
+include_once './payment/classes/class.ilPaymentObject.php';
 
 class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 {
@@ -35,6 +36,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 	var $lng;
 	var $user_obj;
+	var $pobject = null;
 
 	function ilPaymentStatisticGUI(&$user_obj)
 	{
@@ -45,6 +47,8 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		$this->ilPaymentBaseGUI();
 
 		$this->user_obj =& $user_obj;
+
+		$this->pobject =& new ilPaymentObject($this->user_obj);
 
 	}
 	/**
@@ -127,7 +131,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		return $this->__showStatisticTable($f_result);
 
 	}
-	function editStatistic()
+	function editStatistic($a_show_confirm_delete = false)
 	{
 		if(!isset($_GET['booking_id']))
 		{
@@ -136,6 +140,154 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 
 			return true;
 		}
+
+		$this->showButton('showStatistics',$this->lng->txt('back'));
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit_statistic.html',true);
+		$this->ctrl->setParameter($this,'booking_id',(int) $_GET['booking_id']);
+
+		// confirm delete
+		if($a_show_confirm_delete)
+		{
+			$this->tpl->setCurrentBlock("confirm_delete");
+			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+			$this->tpl->setVariable("CONFIRM_CMD",'performDelete');
+			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('confirm'));
+			$this->tpl->parseCurrentBlock();
+		}
+			
+
+		$this->__initBookingObject();
+		$bookings = $this->booking_obj->getBookings();
+		$booking = $bookings[(int) $_GET['booking_id']];
+
+		// get customer_obj
+		$tmp_user =& ilObjectFactory::getInstanceByObjId($booking['customer_id']);
+
+
+
+		$this->tpl->setVariable("STAT_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr_b.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
+		$this->tpl->setVariable("TITLE",$tmp_user->getFullname());
+		$this->tpl->setVariable("DESCRIPTION",$tmp_user->getLogin());
+
+		// TXT
+		$this->tpl->setVariable("TXT_TRANSACTION",$this->lng->txt('paya_transaction'));
+		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
+		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
+		$this->tpl->setVariable("TXT_ORDER_DATE",$this->lng->txt('paya_order_date'));
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
+		$this->tpl->setVariable("TXT_PRICE",$this->lng->txt('price_a'));
+		$this->tpl->setVariable("TXT_PAYED",$this->lng->txt('paya_payed'));
+		$this->tpl->setVariable("TXT_ACCESS",$this->lng->txt('paya_access'));
+
+		$this->tpl->setVariable("TRANSACTION",$booking['transaction']);
+
+		$tmp_vendor =& ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
+
+		$this->tpl->setVariable("VENDOR",$tmp_vendor->getFullname().' ['.$tmp_vendor->getLogin().']');
+
+		switch($booking['b_pay_method'])
+		{
+			case $this->pobject->PAY_METHOD_BILL:
+				$this->tpl->setVariable("PAY_METHOD",$this->lng->txt('pays_bill'));
+				break;
+
+			case $this->pobject->PAY_METHOD_BMF:
+				$this->tpl->setVariable("PAY_METHOD",$this->lng->txt('pays_bmf'));
+				break;
+
+			default:
+				$this->tpl->setVariable("PAY_METHOD",$this->lng->txt('paya_pay_method_not_specified'));
+				break;
+		}
+		$this->tpl->setVariable("ORDER_DATE",date('Y m d H:i:s',$booking['order_date']));
+		$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
+		$this->tpl->setVariable("PRICE",$booking['price']);
+		
+		$yes_no = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
+
+		$this->tpl->setVariable("PAYED",ilUtil::formSelect((int) $booking['payed'],'payed',$yes_no,false,true));
+		$this->tpl->setVariable("ACCESS",ilUtil::formSelect((int) $booking['access'],'access',$yes_no,false,true));
+
+		// buttons
+		$this->tpl->setVariable("INPUT_CMD",'updateStatistic');
+		$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('save'));
+
+		$this->tpl->setVariable("DELETE_CMD",'deleteStatistic');
+		$this->tpl->setVariable("DELETE_VALUE",$this->lng->txt('delete'));
+	}
+
+	function updateStatistic()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+		$this->__initBookingObject();
+
+		$this->booking_obj->setBookingId((int) $_GET['booking_id']);
+		$this->booking_obj->setAccess((int) $_POST['access']);
+		$this->booking_obj->setPayed((int) $_POST['payed']);
+		
+		if($this->booking_obj->update())
+		{
+			sendInfo($this->lng->txt('paya_updated_booking'));
+
+			$this->showStatistics();
+			return true;
+		}
+		else
+		{
+			sendInfo($this->lng->txt('paya_error_update_booking'));
+			$this->showStatistics();
+			
+			return true;
+		}
+	}
+
+	function deleteStatistic()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+		sendInfo($this->lng->txt('paya_sure_delete_stat'));
+
+		$this->editStatistic(true);
+
+		return true;
+	}
+
+	function performDelete()
+	{
+		if(!isset($_GET['booking_id']))
+		{
+			sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+
+		$this->__initBookingObject();
+		$this->booking_obj->setBookingId((int) $_GET['booking_id']);
+		if(!$this->booking_obj->delete())
+		{
+			die('Error deleting booking');
+		}
+		sendInfo($this->lng->txt('pay_deleted_booking'));
+
+		$this->showStatistics();
+
+		return true;
 	}
 
 	// PRIVATE
@@ -168,15 +320,15 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 		*/
 
 		$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays_b.gif",$this->lng->txt("paya_statistic"));
-		$tbl->setHeaderNames(array($this->lng->txt("transaction"),
+		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("paya_vendor"),
 								   $this->lng->txt("paya_customer"),
 								   $this->lng->txt("paya_order_date"),
-								   $this->lng->txt("paya_duration"),
-								   $this->lng->txt("paya_price"),
+								   $this->lng->txt("duration"),
+								   $this->lng->txt("price_a"),
 								   $this->lng->txt("paya_payed_access"),
-								   $this->lng->txt("paya_options")));
+								   $this->lng->txt("edit")));
 
 		$tbl->setHeaderVars(array("transaction",
 								  "title",

@@ -177,7 +177,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("PATH",$this->__getHTMLPath($this->pobject->getRefId()));
 		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("VENDOR",$this->__showVendorSelector($this->pobject->getVendorId()));
-		$this->tpl->setVariable("TXT_COUNT_PURCHASER",$this->lng->txt('pay_count_purchaser'));
+		$this->tpl->setVariable("TXT_COUNT_PURCHASER",$this->lng->txt('paya_count_purchaser'));
 		$this->tpl->setVariable("COUNT_PURCHASER",ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']));
 		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('status'));
 		$this->tpl->setVariable("STATUS",$this->__showStatusSelector());
@@ -191,11 +191,27 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function editPayMethod()
 	{
-		sendInfo('paya_select_pay_method_first');
-		$this->editDetails();
+		$this->__initPaymentObject((int) $_GET['pobject_id']);
 
+		switch($this->pobject->getPayMethod())
+		{
+			case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
+				sendInfo($this->lng->txt('paya_select_pay_method_first'));
+				$this->editDetails();
+				
+				return true;
+			case $this->pobject->PAY_METHOD_BMF:
+				sendInfo($this->lng->txt('paya_no_settings_necessary'));
+
+				$this->editDetails();
+				
+				return true;
+		}
+		
+		$this->editDetails();
+		
 		return true;
-	}
+	}	
 	function editPrices($a_show_delete = false)
 	{
 		include_once './payment/classes/class.ilPaymentPrices.php';
@@ -323,7 +339,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$tmp_obj =& ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 
-		$tbl->setTitle($tmp_obj->getTitle().' ('.$this->lng->txt('paya_prices').')',
+		$tbl->setTitle($tmp_obj->getTitle().' ('.$tmp_obj->getDescription().')',
 					   "icon_".$tmp_obj->getType()."_b.gif",
 					   $this->lng->txt("objs_".$tmp_obj->getType()));
 		$tbl->setHeaderNames(array('',
@@ -380,11 +396,11 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("DESCRIPTION",$this->lng->txt('paya_add_price_title'));
 		
 		// TODO show curency selector
-		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('paya_currency_euro'));
-		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('paya_currency_cent'));
+		$this->tpl->setVariable("TXT_PRICE_A",$this->lng->txt('currency_euro'));
+		$this->tpl->setVariable("TXT_PRICE_B",$this->lng->txt('currency_cent'));
 		
-		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('paya_duration'));
-		$this->tpl->setVariable("TXT_PRICE",$this->lng->txt('paya_price'));
+		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
+		$this->tpl->setVariable("TXT_PRICE",$this->lng->txt('price_a'));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("ADD",$this->lng->txt('paya_add_price'));
 
@@ -535,7 +551,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		}
 		if($error)
 		{
-			sendInfo('paya_insert_only_numbers');
+			sendInfo($this->lng->txt('paya_insert_only_numbers'));
 
 			$this->editPrices();
 			return false;
@@ -582,7 +598,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			switch((int) $_POST['pay_method'])
 			{
 				case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
-					sendInfo($this->lng->txt('paya_edit_pay_method_first'));
+					sendInfo($this->lng->txt('paya_select_pay_method_first'));
 					$this->editDetails();
 
 					return false;
@@ -593,7 +609,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 					$bill_vendor =& new ilPaymentBillVendor((int) $_GET['pobject_id']);
 					if(!$bill_vendor->validate())
 					{
-						sendInfo($this->lng->txt('paya_edit_pay_method_first'));
+						sendInfo($this->lng->txt('paya_select_pay_method_first'));
 						$this->editDetails();
 						
 						return false;
@@ -672,7 +688,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('description'));
 		$this->tpl->setVariable("TXT_OWNER",$this->lng->txt('owner'));
 		$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path'));
-		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('pays_vendor'));
+		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
 		$this->tpl->setVariable("BTN1_NAME",'showObjects');
 		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt('cancel'));
 		$this->tpl->setVariable("BTN2_NAME",'addObject');
@@ -848,13 +864,13 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$tpl->parseCurrentBlock();
 		*/
 
-		$tbl->setTitle($this->lng->txt("paya_objects"),"icon_pays_b.gif",$this->lng->txt("paya_objects"));
+		$tbl->setTitle($this->lng->txt("objects"),"icon_pays_b.gif",$this->lng->txt("objects"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),
-								   $this->lng->txt("paya_status"),
+								   $this->lng->txt("status"),
 								   $this->lng->txt("paya_pay_method"),
 								   $this->lng->txt("paya_vendor"),
-								   $this->lng->txt("paya_count_purchasers"),
-								   $this->lng->txt("paya_options")));
+								   $this->lng->txt("paya_count_purchaser"),
+								   $this->lng->txt("options")));
 		$tbl->setHeaderVars(array("title",
 								  "status",
 								  "pay_method",
@@ -897,8 +913,5 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		return true;
 	}
-
-		
-	
 }
 ?>

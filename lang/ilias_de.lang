@@ -3879,3 +3879,55 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+payment#:#paya_sell_object#:#Objekt verkaufen
+payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
+payment#:#paya_buyable#:#Kaufbar
+payment#:#paya_not_buyable#:#Nicht kaufbar
+payment#:#paya_expires#:#Bezahlung auslaufen lassen
+payment#:#paya_pay_method_not_specified#:#Nicht festgelegt
+payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
+payment#:#paya_edit_details#:#Details bearbeiten
+payment#:#paya_edit_prices#:#Preise bearbeiten
+payment#:#paya_vendor#:#Verkäufer
+payment#:#paya_count_purchaser#:#Anzahl Käufer
+payment#:#paya_pay_method#:#Bezahlart
+payment#:#paya_select_pay_method_first#:#Bitte legen Sie zuerst die Bezahlart fest.
+payment#:#paya_no_settings_necessary#:#Bei der ausgewählten Bezahlart sind keine weiteren Einstellungen nötig
+payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
+payment#:#paya_add_price#:#Neuen Preis anlegen
+payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wirklich gelöscht werden?
+payment#:#paya_delete_price#:#Preis löschen
+payment#:#paya_months#:#Monate
+payment#:#currency_euro#:#Euro
+payment#:#currency_cent#:#Cent
+payment#:#paya_update_price#:#Preise aktualisieren
+payment#:#duration#:#Dauer
+payment#:#price_a#:#Preis
+payment#:#paya_add_price_title#:#Neuer Preis
+payment#:#paya_price_not_valid#:#Die Angaben sind nicht gültig. Bitte geben Sie ausschliesslich Ganzzahlen ein
+payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
+payment#:#paya_no_prices_selected#:#Bitte wählen Sie mindestens einen Preis aus
+payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
+payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
+payment#:#paya_updated_prices#:#Die Preise wurden aktualisiert.
+payment#:#paya_edit_prices_first#:#Bitte bearbeiten Sie zuerst die Preise.
+payment#:#paya_details_updated#:#Die Änderungen wurden übernommen.
+payment#:#paya_select_object_to_sell#:#Bitte wählen Sie das zu verkaufende Objekt aus.
+payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
+payment#:#paya_object_not_purchasable#:#Dieses Objekt kann nicht verkauft werden.
+payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbeiten Sie nun die Bezahlart und Preise
+payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
+payment#:#paya_edit_pay_method#:#Bezahlart bearbeiten
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_booking_id_given#:#Fehler kein Datensatz angegeben
+payment#:#paya_transaction#:#Transaktion
+payment#:#paya_order_date#:#Bestelldatum
+payment#:#paya_payed#:#Bezahlt
+payment#:#paya_access#:#Zugriff
+payment#:#paya_updated_booking#:#Der Datensatz wurde aktualisiert.
+payment#:#paya_error_update_booking#:#Fehler beim Speichern.
+payment#:#paya_sure_delete_stat#:#Sind Sie sicher, dass dieser Datensatz gelöscht werden soll?
+payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
+payment#:#paya_customer#:#Käufer
+payment#:#paya_payed_access#:#Bezahlt/Zugriff
+payment#:#update#:#Aktualisieren
