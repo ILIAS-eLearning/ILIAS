@@ -30,18 +30,10 @@
 *
 * @package ilias
 */
+
 require_once "./include/inc.header.php";
 
-// added by ratana ty to read image directory
-// for upload file
-require_once "./classes/class.ilSetup.php";
-// TODO: use $ilias->ini->getVariable instead using setup class to fetch webspace_path
-// Read from ini file webspace dir ./docss
-require_once "classes/class.ilSetup.php";
-$mySetup = new ilSetup();
-$mySetup->readIniFile();
-$webspace_dir = $mySetup->getWebspacePath();
-
+$webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
 
 //$image_dir = $webspace_dir."/usr_images";
 
@@ -369,7 +361,7 @@ foreach ($languages as $lang_key)
 	$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
 	$tpl->setVariable("LANGSHORT", $lang_key);
 
-	if ($ilias->account->prefs["language"] == $lang_key)
+	if ($ilias->account->getLanguage() == $lang_key)
 	{
 		$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 	}
@@ -469,7 +461,7 @@ $tpl->setVariable("PHONE", $ilias->account->getPhone());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 $tpl->setVariable("HOBBY", $ilias->account->getHobby());		// here
 
-require_once "./classes/class.ilObjRole.php";
+include_once "./classes/class.ilObjRole.php";
 $roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
 $tpl->setVariable("DEFAULT_ROLE",$roleObj->getTitle());
 

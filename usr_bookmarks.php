@@ -36,6 +36,12 @@ require_once "./include/inc.header.php";
 // main
 //
 
+// catch hack attempts
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+{
+	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+}
+
 // determine post or get command
 /*
 echo "POST: ";

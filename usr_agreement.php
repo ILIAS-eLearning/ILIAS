@@ -33,6 +33,12 @@
 
 require_once "./include/inc.header.php";
 
+// catch hack attempts
+if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+{
+	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+}
+
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
