@@ -131,11 +131,11 @@ ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS version
 info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
 info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
-info_text_lang#:#Please choose additional languages and/or remove selected languages.
-info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this
-info_text_nic2#:#to send an email with your installation infos to ilias-info@uni-koeln.de.
+info_text_lang#:#Please choose additional languages and/or remove selected languages. The default language specified the language for new user accounts or users which haven't selected a prefered language yet.
+info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations. Registration is voluntary. If you don't want to register select 'skip registration' (You may register later at any time).<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please send an
+info_text_nic2#:#with your installation infos to ilias-info@uni-koeln.de. Enter the nic-id you will receive in an response email into the appropiate field and select 'emial registration'.
 info_text_nic3#:#You registered already your installation. Your nic-id is
-info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas
+info_text_password#:#Here you may change the master password for the setup programm.
 info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
 ini_client_id_invalid#:#The client ID you entered contains invalid characers
@@ -336,3 +336,14 @@ zip_path_comment#:#required for exporting learning modules
 zipcode#:#Zipcode
 unknown_command#:#Unknown command
 db_needs_update#:#Database needs update
+default_language#:#Default language
+sort_by_this_column#:#Sort by this column
+feedback_recipient#:#Feedback recipient
+error_recipient#:#Error recipient
+change_sort_direction#:#Change sort direction
+info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asteriks must be filled out. All informationen are stored in your database. On the next screen you may register your installation at our ILIAS-NIC server, whereby this data are transmitted to this server.
+info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.
+info_text_ini#:#Please choose a client ID. Allowed are any letter (execpt umlauts) and number. The client ID must be in one word.<br/>Next you enter your database connection data. Setup establishes a test connection to verify your settings and to test if the database exists. If not, setup tries to create a database wih the given name. If you have not the permission to create databases on the  databaseserver, please ask the systemadministrator to create one for you.
+info_text_db#:#The database doesn't exists or is empty. Click the button below to create your database.
+info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.
+info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!

@@ -1938,7 +1938,7 @@ class ilSetupGUI extends ilSetup
 			
 			$email_subject = rawurlencode("NIC registration request");
 			$email_body = base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
-			$email_link = "<a href=\"mailto:ilias-info@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">link</a>";
+			$email_link = "<a href=\"mailto:ilias-info@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">".$this->lng->txt("email")."</a>";
 			
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
 
@@ -2058,14 +2058,14 @@ class ilSetupGUI extends ilSetup
 
 		if ($this->validateSetup())
 		{
-			$txt_info = "Congratulations! Your client setup were successful. Click on \"Login\" to enter your ILIAS installation.";
+			$txt_info = $this->lng->txt("info_text_finish1");
 			$this->setButtonNext("login","login");
 			$this->client->setSetting("setup_ok",1);
 			$this->client->status["finish"]["status"] = true;
 		}
 		else
 		{
-			$txt_info = "Some settings are still missing or incorrect. Please look at the process chart what has to be done!";
+			$txt_info = $this->lng->txt("info_text_finish2");
 		}
 		
 		// output
