@@ -720,6 +720,19 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_link_select#:#Internal Link
+content#:#cont_link_type#:#Link Type
+content#:#cont_lk_chapter#:#Chapter
+content#:#cont_lk_chapter_new#:#Chapter (New Frame)
+content#:#cont_lk_page#:#Page
+content#:#cont_lk_page_faq#:#Page (FAQ Frame)
+content#:#cont_lk_page_new#:#Page (New Frame)
+content#:#cont_lk_term#:#Glossary Term
+content#:#cont_lk_term_new#:#Glossary Term (New Frame)
+content#:#cont_lk_media_inline#:#Media (Inline)
+content#:#cont_lk_media_media#:#Media (Media Frame)
+content#:#cont_lk_media_faq#:#Media (FAQ Frame)
+content#:#cont_lk_media_new#:#Media (New Frame)
 content#:#cont_Additional#:#Additional
 content#:#cont_internal_link#:#internal link
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
