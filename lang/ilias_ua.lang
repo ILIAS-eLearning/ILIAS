@@ -124,7 +124,7 @@ assessment#:#ass_questions#:#Питання
 assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
 assessment#:#average_reached_points#:#Середньо досяжні пунктиe
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
+assessment#:#backtocallingtest#:#Назад до визоваючого тесту
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
 assessment#:#cannot_edit_test#:#Ви не володієте достатніми правами для редагування теста!
@@ -185,8 +185,8 @@ assessment#:#ects_range_error_d#:#Будь ласка введіть значе�
 assessment#:#ects_range_error_e#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня E!
 assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень, якщо провалений учасник досяг хоча б
 assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
+assessment#:#edit_content#:#Редагувати вміст
+assessment#:#edit_properties#:#Релагувати властивості
 assessment#:#end_tag#:#Кігцевий тег
 assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
 assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!
@@ -1304,79 +1304,79 @@ common#:#grp_create_glo#:#Створити Глосарій
 common#:#grp_create_hlm#:#Створити HACP Учбовий Модуль
 common#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
 common#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
-common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
-common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
-common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#grp_create_mep#:#Створити Медіа Пул
+common#:#grp_create_qpl#:#Створити Пул питань для Теста
+common#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+common#:#grp_create_spl#:#Створити Пул Питань для Опитування
+common#:#grp_create_svy#:#Створити Опитування
+common#:#grp_create_tst#:#Створити Тест
 common#:#grp_delete#:#Видалити Групу
-common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.###02 Sep 2004 content changed
-common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи.###19 Jun 2004 content changed
+common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити наступних користувачів з групи?
+common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи?
 common#:#grp_edit#:#Редагувати Групу
 common#:#grp_edit_permission#:#Змінити настройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Кожна група потребує принаймні одного адміністратора
-common#:#grp_err_error#:#Трапилась помилка###14 Sep 2004 content changed
+common#:#grp_err_error#:#Трапилась помилка
 common#:#grp_err_last_member#:#Останній член не може бути видалений, будь ласка видаліть усю групу натомість.
 common#:#grp_err_member_could_not_be_removed#:#Член не може бути видалений. Будь ласка перевірте усі залежності для цього користувача.
 common#:#grp_err_no_permission#:#Ви не володієте правами для цієї операції.
 common#:#grp_err_registration_data#:#Будь ласка введіть пароль, дату закінчення та час для дійсного періоду реєстрації !
-common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
+common#:#grp_header_edit_members#:#Редагувати членів
 common#:#grp_join#:#Користувач може приєднатись до групи
 common#:#grp_leave#:#Користувач може залишити групу
-common#:#grp_list_users#:#List users###11 Aug 2004 new variable
+common#:#grp_list_users#:#Список користувачів
 common#:#grp_mem_change_status#:#Змінити статус члена
 common#:#grp_mem_leave#:#Виключити члена з групи
 common#:#grp_mem_send_mail#:#Послати члену повідомлення
-common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
-common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_assigned#:#Кандидати призначені членами групи
+common#:#grp_msg_applicants_removed#:#Кандидати видалені зі списку.
+common#:#grp_msg_member_assigned#:#Користувачів призначено членами групи
 common#:#grp_msg_membership_annulled#:#Членство анульоване
 common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
 common#:#grp_new#:#Нова Група
-common#:#grp_new_search#:#New search###04 Sep 2004 new variable
-common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
-common#:#grp_no_results_found#:#No results found###04 Sep 2004 new variable
-common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
-common#:#grp_options#:#Options###04 Sep 2004 new variable
+common#:#grp_new_search#:#Новий пошук
+common#:#grp_no_groups_selected#:#Не вибрано жодної групи
+common#:#grp_no_results_found#:#Не знайдено жодного результату
+common#:#grp_no_roles_selected#:#Жодної ролі не вибрано
+common#:#grp_options#:#Опції
 common#:#grp_read#:#Доступ на читання до Групи
 common#:#grp_register#:#Зареєструватись
 common#:#grp_registration_completed#:#Реєстрація закінчена
-common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
-common#:#grp_search_members#:#User search###11 Aug 2004 new variable
+common#:#grp_search_enter_search_string#:#Будь ласка введіть строку пошуку
+common#:#grp_search_members#:#Пошук користувача
 common#:#grp_visible#:#Група видима
 common#:#grp_write#:#Редагувати Групу
 common#:#guest#:#Гість
 common#:#guests#:#Гості
-common#:#header_title#:#Header Title###03 May 2004 new variable
+common#:#header_title#:#Назва Заголовку
 common#:#help#:#Допомога
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#сховати
 common#:#hide_details#:#сховати деталі
 common#:#hide_structure#:#Заборонити Структурований-Огляд
-common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
-common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
-common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
-common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
-common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
-common#:#history#:#History###29 Nov 2004 new variable
-common#:#hits_per_page#:#Hits/Page###16 Sep 2004 new variable
-common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
-common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
-common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
-common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
+common#:#hist_dbk:pg_create#:#Сторінка створена
+common#:#hist_dbk:pg_cut#:#Сторінка вирізана з глави "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Сторінка встевлена в главу "%1" [%2]
+common#:#hist_dbk:pg_update#:#Сторінка змінена
+common#:#hist_file_create#:#Файл створений, ім'я файлу "%1".
+common#:#hist_file_replace#:#Файл замінений, нове ім'я файлу "%1", нова версія %2.
+common#:#hist_lm:pg_create#:#Сторінка створена
+common#:#hist_lm:pg_cut#:#Сторінка вирізана з глави "%1" [%2]
+common#:#hist_lm:pg_paste#:#Сторінка вставлена в главу "%1" [%2]
+common#:#hist_lm:pg_update#:#Сторінка змінена
+common#:#hist_no_entries#:#Немає записів в історії.
+common#:#history#:#Історія
+common#:#hits_per_page#:#Хіти/Сторінка
+common#:#hlm#:#HACP Учбовий Модуль
+common#:#hlm_added#:#HACP Учбовий Модуль доданий
+common#:#hlm_create#:#Стоврити HACP Учбовий Модуль
+common#:#hlm_delete#:#Видалити HACP Учбовий Модуль
+common#:#hlm_edit_permission#:#Змінити настройки прав
+common#:#hlm_join#:#Підписатись на HACP Учбовий Модуль
+common#:#hlm_leave#:#Відписатись від HACP Учбового Модуля
+common#:#hlm_read#:#Доступ на читання до HACP Учбового Модуля
+common#:#hlm_visible#:#HACP Учбовий Модуль є видимим
+common#:#hlm_write#:#Редагувати HACP Учбовий Модуль
 common#:#hobby#:#Інтереси/Хоббі
 common#:#home#:#Дім
 common#:#host#:#Хост
