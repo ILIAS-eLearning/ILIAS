@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.20 2003/05/15 08:26:04 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.21 2003/05/15 13:04:17 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -153,16 +153,18 @@ class ilObjRoleGUI extends ilObjectGUI
 			// USER ASSIGNMENT
 			if ($rbacadmin->isAssignable($this->object->getId(),$_GET["ref_id"]))
 			{
-				$users = getObjectList("usr","title","ASC");
+				require_once "./classes/class.ilObjUser.php";
+				
+				// TODO: NEED ANOTHER METHOD SINCE SEARCHING WITH LIKE IS TOO SLOW
+				$user_ids = ilObjUser::searchUsers("");
 				$assigned_users = $rbacreview->assignedUsers($this->object->getId());
-
-				foreach ($users as $key => $user)
+				foreach ($user_ids as $key => $user)
 				{
 					$output["users"][$key]["css_row_user"] = $key % 2 ? "tblrow1" : "tblrow2";
-					$checked = in_array($user["obj_id"],$assigned_users);
-					$box = ilUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
+					$checked = in_array($user["usr_id"],$assigned_users);
+					$box = ilUtil::formCheckBox($checked,"user[]",$user["usr_id"]);
 					$output["users"][$key]["check_user"] = $box;
-					$output["users"][$key]["username"] = $user["title"];
+					$output["users"][$key]["username"] = $user["login"];
 				}
 
 				$output["message_bottom"] = $lng->txt("assign_user_to_role");
