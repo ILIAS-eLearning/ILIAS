@@ -134,7 +134,7 @@ class ilLMEditorGUI
 					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
 //echo "1b";
 					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
-//echo "1c"; exit;
+//echo "1c";
 					if($type != "content")
 					{
 						$type = ($cmd == "create" || $cmd == "save")
