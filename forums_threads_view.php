@@ -199,7 +199,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 					if ($_GET["cmd"] == "showreply")
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
 					else
-						$tpl->setVariable("FORM_MESSAGE", $node["message"]);
+						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
 						
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
