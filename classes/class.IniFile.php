@@ -6,8 +6,8 @@
  * Description:
  *
  * A Simpe Ini File Implementation to keep settings 
- * in a simple file instead of in a DB
- *
+ * in a simple file instead of in a DB 
+ * 
  * Usage Examples: 
  * $ini = new IniFile("./ini.ini");
  * Read entire group in an associative array
@@ -23,10 +23,10 @@
  * //Save the file
  * $ini->save_data();
  * 
- * @package application
- * @author Mircho Mirev <?@?.com>
+ * @author Mircho Mirev <mircho@macropoint.com>
  * @author Peter Gabriel <peter@gabriel-online.net>
  * @version $Id$
+ * @package application 
  */
 class IniFile
 {

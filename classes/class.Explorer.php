@@ -58,8 +58,8 @@ class Explorer extends PEAR
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
-	* @param	integer	$a_depth	depth level where to start (default=1)
-	* @param	integer	$a_parent	parent_node_id where to start from (default=0, 'root')
+	* @param	integer	parent_node_id where to start from (default=0, 'root')
+	* @param	string	depth level where to start (default=1)
 	* @access	public
 	* @return	string
 	*/

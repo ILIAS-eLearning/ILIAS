@@ -11,10 +11,6 @@
 include_once("./include/ilias_header.inc");
 include_once("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
-
-//$tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("personal_desktop"));
-
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","usr_profile.php");
@@ -98,8 +94,8 @@ if (count($lessonsLastVisited)>0)
                 $tpl->setCurrentBlock("tbl_lo_row");
                 $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
                 $tpl->setVAriable("LO_TIME", $row["datetime"]);
-                $tpl->setVAriable("LO_LINK_LO", "lesson.php?id=".$row["id"]);
-                $tpl->setVAriable("LO_LINK_LO_PAGE", "lesson.php?id=".$row["id"]."&amp;page=".$row["pageid"]);
+                $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["id"]);
+                $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["id"]."&amp;page=".$row["pageid"]);
                 $tpl->setVAriable("LO_TITLE", $row["title"]);
                 $tpl->setVAriable("LO_PAGE", $row["page"]);
                 $tpl->parseCurrentBlock();
