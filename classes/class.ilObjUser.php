@@ -1113,5 +1113,42 @@ class ilObjUser extends ilObject
 		}
 		return $ids ? $ids : array();
 	}
+
+	/*
+	* get the memberships(group_ids) of groups that are subscribed to the current user object
+	* @access	public
+	*/
+	function getMembershipsOfGroups()
+	{
+		global $rbacreview, $rbacadmin, $ilias, $tree;
+
+		$group_memberships = array();
+
+		// get all roles which the user is assigned to
+		$roles = $rbacreview->assignedRoles($this->getId());
+
+		foreach($roles as $role)
+		{
+			//get all rolefolders of the relevant roles
+			$rolef = $rbacadmin->getFoldersAssignedToRole($role);
+
+			foreach($rolef as $folder)
+			{
+				//get the node which the role folder is assigned to
+				$node = $tree->getParentNodeData($folder["parent"]);
+
+				if( isset($node["child"]) && (strcmp($node["type"],"grp") == 0))
+				{
+					//get the data of the object containig the relevant rolefolders
+					$object = $ilias->obj_factory->getInstanceByRefId($node["child"]);
+					array_push($group_memberships,$object->getId());
+				}
+
+			}
+
+		}
+		return $group_memberships;
+	}
+
 } // END class ilObjUser
 ?>
