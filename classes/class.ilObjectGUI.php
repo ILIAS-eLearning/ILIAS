@@ -2294,7 +2294,7 @@ class ilObjectGUI
 		// first check if role title is unique
 		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 

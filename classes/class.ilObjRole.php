@@ -90,8 +90,8 @@ class ilObjRole extends ilObject
 	*/
 	function assignData($a_data)
 	{
-		$this->setTitle($a_data["title"]);
-		$this->setDescription($a_data["desc"]);
+		$this->setTitle(ilUtil::stripSlashes($a_data["title"]));
+		$this->setDescription(ilUtil::stripslashes($a_data["desc"]));
 		$this->setAllowRegister($a_data["allow_register"]);
 	}
 

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.52 2003/08/26 09:46:14 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.53 2003/10/15 14:20:11 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -64,8 +64,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->getTemplateFile("edit","role");
 
 			// fill in saved values in case of error
-			$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
-			$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
+			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 
 			$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
@@ -104,7 +104,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		// check if role title is unique
 		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 		
@@ -662,7 +662,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			// check if role title is unique
 			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
 										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
@@ -699,15 +699,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			if ($_SESSION["error_post_vars"])
 			{
 				// fill in saved values in case of error
-				$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
-				$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
+				$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 				
 				$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 			}
 			else
 			{
-				$this->tpl->setVariable("TITLE",$this->object->getTitle());
-				$this->tpl->setVariable("DESC",$this->object->getDescription());
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
+				$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($this->object->getDescription()));
 				
 				$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 			}

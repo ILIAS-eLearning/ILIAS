@@ -62,7 +62,7 @@ class ilObjFile extends ilObject
 	function create()
 	{
 		parent::create();
-		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".$this->getFileName()."','".$this->getFileType()."')";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".addslashes($this->getFileName())."','".$this->getFileType()."')";
 		$this->ilias->db->query($q);
 	}
 
@@ -90,7 +90,7 @@ class ilObjFile extends ilObject
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-		$this->setFileName($row->file_name);
+		$this->setFileName(ilUtil::stripSlashes($row->file_name));
 		$this->setFileType($row->file_type);
 		$this->setFilePath($this->getDirectory());
 	}

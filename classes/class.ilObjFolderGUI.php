@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.8 2003/09/30 17:16:01 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.9 2003/09/30 17:44:20 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -92,7 +92,7 @@ class ilObjFolderGUI extends ilObjectGUI
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				$this->tpl->parseCurrentBlock();
 			}
 

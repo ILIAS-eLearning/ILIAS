@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.45 2003/10/27 21:57:56 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.46 2003/10/28 11:26:49 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -85,7 +85,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 
 			if ($this->prepare_output)
 			{
@@ -259,7 +259,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach ($data as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -528,6 +528,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 		unset($_SESSION["saved_post"]);
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
+		exit();
 	}
 
 

@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.22 2003/08/18 12:42:14 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.23 2003/08/19 11:01:23 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,7 +67,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// check if rolt title is unique
 		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 
@@ -353,7 +353,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			// check if role title is unique
 			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
 										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
