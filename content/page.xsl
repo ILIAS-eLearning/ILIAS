@@ -413,37 +413,57 @@
 				</xsl:if>
 				<xsl:apply-templates/>
 			</a>
+
 		</xsl:when>
 		<!-- inline mob vri -->
 		<xsl:when test="@Type = 'MediaObject' and not(@TargetFrame)">
-			<object>
-
-			<!-- data / Location -->
 			<xsl:variable name="cmobid" select="@Target"/>
-			<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
-			<xsl:if test="$curType = 'LocalFile'">
-				<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$curType = 'Reference'">
-				<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-			</xsl:if>
-			<!-- type / Format -->
-			<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/></xsl:attribute>
 
-			<!-- width and height -->
-			<xsl:choose>
-				<xsl:when test="@Width != '' or @Height != ''">
-					<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="@Height"/></xsl:attribute>
-				</xsl:when>
-				<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Layout[1]/@Width != '' or
-					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Layout[1]/@Height != ''">
-					<xsl:attribute name="width"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Layout[1]/@Width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Layout[1]/@Height"/></xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
+			<!-- determine location type (LocalFile, Reference) -->
+			<xsl:variable name="curType">
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location/@Type"/>
+			</xsl:variable>
 
-			</object>
+			<!-- determine format (mime type) -->
+			<xsl:variable name="type">
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Format"/>
+			</xsl:variable>
+
+			<!-- determine location -->
+			<xsl:variable name="data">
+				<xsl:if test="$curType = 'LocalFile'">
+					<xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+				</xsl:if>
+				<xsl:if test="$curType = 'Reference'">
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+				</xsl:if>
+			</xsl:variable>
+
+			<!-- determine size mode (alias, mob or none) -->
+			<xsl:variable name="sizemode">mob</xsl:variable>
+
+			<!-- determine width -->
+			<xsl:variable name="width">
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Width"/>
+			</xsl:variable>
+
+			<!-- determine height -->
+			<xsl:variable name="height">
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Height"/>
+			</xsl:variable>
+
+			<xsl:call-template name="MOBTag">
+				<xsl:with-param name="data" select="$data" />
+				<xsl:with-param name="type" select="$type" />
+				<xsl:with-param name="width" select="$width" />
+				<xsl:with-param name="height" select="$height" />
+				<xsl:with-param name="curPurpose" >Standard</xsl:with-param>
+				<xsl:with-param name="cmobid" select="$cmobid" />
+				<xsl:with-param name="location_mode">standard</xsl:with-param>
+				<xsl:with-param name="curType" select="$curType" />
+				<xsl:with-param name="inline">y</xsl:with-param>
+			</xsl:call-template>
+
 		</xsl:when>
 	</xsl:choose>
 </xsl:template>
@@ -988,6 +1008,7 @@
 	<xsl:param name="curPurpose"/>
 	<xsl:param name="location_mode"/>
 	<xsl:param name="curType"/>
+	<xsl:param name="inline">n</xsl:param>
 	<xsl:choose>
 		<xsl:when test="($media_mode = 'disable' and $mode='edit') or $mode='table_edit'">
 			<img border="0">
@@ -1011,6 +1032,9 @@
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
 						<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test = "$inline = 'y'">
+						<xsl:attribute name="align">middle</xsl:attribute>
 					</xsl:if>
 				</img>
 			</xsl:if>
