@@ -344,3 +344,5 @@ info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlau
 info_text_db#:#Dei Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank anzulegen.
 info_text_finish1#:#Gratulation! Die Installtion war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
+info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
+info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus.
