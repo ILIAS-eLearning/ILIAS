@@ -5266,4 +5266,6 @@ CREATE TABLE `survey_material` (
 PRIMARY KEY ( `material_id` ) ,
 INDEX ( `question_fi` )
 );
+<#372>
+ALTER TABLE `survey_material` ADD `material_title` VARCHAR( 255 ) AFTER `import_id` ;
 
