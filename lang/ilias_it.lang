@@ -106,8 +106,8 @@ assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
 assessment#:#ass_questions#:#Domande
 assessment#:#by#:#da
-assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
-assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
+assessment#:#checkbox_checked#:#Selezionato
+assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
 assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area desiderata.
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
@@ -122,12 +122,12 @@ assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l'esecuzione del test!
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
-assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
+assessment#:#direct_feedback#:#Controlla la tua soluzione
 assessment#:#duplicate#:#Duplica
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
-assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
+assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_data#:#Dati di valutazione
@@ -156,7 +156,7 @@ assessment#:#gap_selection#:#Selezione vuota
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#imagemap_source#:#Immagine a mappa
-assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
+assessment#:#import_question#:#Importa domande
 assessment#:#insert_after#:#Inserisci dopo
 assessment#:#insert_before#:#Inserisci prima
 assessment#:#internal_links#:#Link interno
@@ -183,7 +183,7 @@ assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arri
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
-assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
+assessment#:#percentage_solved#:#Hai risolto il %.2f percento di questa domanda!
 assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
 assessment#:#polygon#:#Poligono
@@ -218,10 +218,10 @@ assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
-assessment#:#radio_set#:#Set###17 Aug 2004 new variable
-assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
-assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
-assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
+assessment#:#radio_set#:#Seleziona
+assessment#:#radio_unset#:#Deseleziona
+assessment#:#random_accept_sample#:#Accetta esempio
+assessment#:#random_another_sample#:#Prendi un altro esempio
 assessment#:#random_selection#:#Selezione casuale
 assessment#:#rectangle#:#Rettangolo
 assessment#:#rectangle_click_br_corner#:#Per favore clicca sull'angolo inferiore destro dell'area desiderata.
@@ -295,17 +295,17 @@ assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dal quale sc
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_remove_questions#:#Sei sicuro che vuoi eliminare le seguenti domande dal test?
 assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
-assessment#:#tst_report_after_question#:#Esegui un resoconto del punteggio dopo la risposta ad ogni domanda
-assessment#:#tst_report_after_test#:#Esegui un resoconto del punteggio dopo aver completato il test
+assessment#:#tst_report_after_question#:#Esegui un rapporto con il punteggio dopo ogni risposta
+assessment#:#tst_report_after_test#:#Esegui un rapporto con il punteggio al termine del test
 assessment#:#tst_result_congratulations#:#Congratulazioni! Hai superato il test
 assessment#:#tst_result_sorry#:#Mi dispiace! Non hai superato il test
 assessment#:#tst_results#:#Risultati del test
 assessment#:#tst_resume_test#:#Riprendi il test
-assessment#:#tst_score_reporting#:#Rapporto del punteggio
-assessment#:#tst_score_reporting_date#:#Data del rapporto del punteggio
-assessment#:#tst_score_type#:#Tipo del rapporto del punteggio
+assessment#:#tst_score_reporting#:#Rapporto con i risultati
+assessment#:#tst_score_reporting_date#:#Data del rapporto
+assessment#:#tst_score_type#:#Tipo del rapporto
 assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
-assessment#:#tst_sequence#:#Sequenza
+assessment#:#tst_sequence#:#Tipo di sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
 assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; saltare alcune domande ed eseguirle alla fine del test
 assessment#:#tst_sequence_properties#:#Propriet&#224; della sequenza
@@ -344,7 +344,7 @@ assessment#:#unlock#:#Sbloccato
 assessment#:#unlock_question#:#Questa domanda &#232; stata utilizzata in almeno un test e ci sono %s risultati salvati. Se scegli di sbloccare questa domanda, tutti i risultati dei test degli utenti interessati saranno cancellati non appena viene salvata. Se vuoi utilizzare una versione modificata della domanda senza eliminare i risultati dei test precedenti, puoi duplicare la domanda all'interno della raccolta e modificare quella versione.
 assessment#:#upload_imagemap#:#Upload una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
-assessment#:#when#:#when###17 Aug 2004 new variable
+assessment#:#when#:#quando
 assessment#:#width#:#Larghezza
 assessment#:#working_time#:#Tempo di esecuzione
 bibitem#:#bibitem_add#:#Aggiungi
@@ -498,8 +498,8 @@ common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
-common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
-common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 new variable
+common#:#account_expires_body#:#La tua iscrizione &#232; limitata, scadr&#224; il:
+common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
 common#:#activate_tracking#:#Attiva il tracciamento
@@ -507,11 +507,11 @@ common#:#activation#:#Attivazione
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
 common#:#add_author#:#Aggiungi autore
-common#:#add_condition#:#Create new association###14 Aug 2004 new variable
+common#:#add_condition#:#Crea una condizione
 common#:#add_member#:#Aggiungi membro
 common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
-common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
+common#:#added_new_condition#:#Creata nuova condizione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
@@ -543,7 +543,7 @@ common#:#answers#:#Risposta
 common#:#any_language#:#Tutte le lingue
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
-common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#applied_users#:#Utenti iscritti
 common#:#appointment#:#Appuntamento
 common#:#appointment_list#:#Lista appuntamenti
 common#:#archive#:#Archivio
@@ -558,7 +558,7 @@ common#:#attachment#:#Allegato
 common#:#attachments#:#Allegati
 common#:#attend#:#Frequenta
 common#:#auth_configure#:#configura...
-common#:#auth_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
 common#:#auth_local#:#Database ILIAS
@@ -568,13 +568,13 @@ common#:#auth_mode_changed_to#:#Modalit&#224; di autenticazione modificata in
 common#:#auth_mode_not_changed#:#(Nessuna modifica)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Autenticazione degli utenti tramite server RADIUS
-common#:#auth_read#:#Impostazioni per l'autenticazione###10 Aug 2004 content changed
-common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.###10 Aug 2004 content changed
+common#:#auth_read#:#Accedere in lettura alla modalit&#224; di autenticazione
+common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.
 common#:#auth_script#:#Personale
 common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
 common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
-common#:#auth_visible#:#Vedere le modalit&#224; di autenticazione
-common#:#auth_write#:#Modificare le modalit&#224; di autenticazione
+common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
+common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
@@ -691,27 +691,26 @@ common#:#close#:#Chiudi
 common#:#comma_separated#:#Separati da virgola
 common#:#comment#:#Commento
 common#:#compose#:#Scrivi
-common#:#condition#:#Condition###14 Aug 2004 new variable
-common#:#condition_already_assigned#:#Object already assigned.###14 Aug 2004 new variable
-common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.###14 Aug 2004 new variable
-common#:#condition_deleted#:#Condition deleted.###25 Aug 2004 new variable
-common#:#condition_passed#:#Passed###14 Aug 2004 new variable
-common#:#condition_precondition#:#Preconditions:###14 Aug 2004 new variable
-common#:#condition_select_object#:#Please select one object.###14 Aug 2004 new variable
-common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new variable
-common#:#condition_update#:#Save###14 Aug 2004 new variable
-common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
+common#:#condition#:#Condizione
+common#:#condition_already_assigned#:#L'oggetto &#232; gi&#224; stato assegnato.
+common#:#condition_circle_created#:#Questa associazione non &#232; possibile, perch&#232; si &#232; creata una dipendenza circolare.
+common#:#condition_passed#:#Superato
+common#:#condition_precondition#:#Condizioni preliminari:
+common#:#condition_select_object#:#Per favore, scegli almeno un oggetto.
+common#:#condition_select_one#:#-Per favore scegli una condizione-
+common#:#condition_update#:#Salva
+common#:#conditions_updated#:#Condizioni salvate
 common#:#confirm#:#Conferma
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
 common#:#context#:#Contesto
 common#:#continue_work#:#Continua
-common#:#copied_object#:#Copied object###07 Aug 2004 new variable
+common#:#copied_object#:#Oggetto copiato
 common#:#copy#:#Copia
 common#:#copyPage#:#Copia
 common#:#copy_of#:#Copia di
-common#:#copy_to#:#to###07 Aug 2004 new variable
+common#:#copy_to#:#a
 common#:#count#:#Conta
 common#:#country#:#Nazione
 common#:#course#:#Corso
@@ -723,7 +722,7 @@ common#:#crs#:#Corso
 common#:#crs_a#:#un corso
 common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
-common#:#crs_archives#:#Archives###07 Aug 2004 new variable
+common#:#crs_archives#:#Archivi di corsi
 common#:#crs_available#:#Corsi disponibili
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
@@ -738,14 +737,14 @@ common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#crs_join#:#Iscrivere al corso
 common#:#crs_leave#:#Cancellare dal corso
 common#:#crs_management_system#:#Sistema di gestione corsi
-common#:#crs_member_not_passed#:#Not passed###14 Aug 2004 new variable
-common#:#crs_member_passed#:#Passed###14 Aug 2004 new variable
+common#:#crs_member_not_passed#:#Non superato
+common#:#crs_member_passed#:#Superato
 common#:#crs_new#:#Nuovo corso
-common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
+common#:#crs_no_content#:#Senza contenuto
 common#:#crs_read#:#Accedere in lettura al corso
-common#:#crs_status_blocked#:#[Access refused]###14 Aug 2004 new variable
-common#:#crs_status_pending#:#[Waiting for registration]###14 Aug 2004 new variable
-common#:#crs_subscribers_assigned#:#Assigned new user(s)###14 Aug 2004 new variable
+common#:#crs_status_blocked#:#[Accesso negato]
+common#:#crs_status_pending#:#[In attesa della registrazione]
+common#:#crs_subscribers_assigned#:#Nuovo utente iscritto
 common#:#crs_visible#:#Vedere il corso
 common#:#crs_write#:#Modificare il corso
 common#:#cumulative_time#:#Tempo totale
@@ -821,7 +820,7 @@ common#:#enumerate#:#Elenca
 common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_count_param#:#Causa: errato numero dei parametri.
-common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
+common#:#err_enter_current_passwd#:#Per favore scrivi la tua password attuale
 common#:#err_in_line#:#Errore nella linea
 common#:#err_invalid_port#:#Porta non valida
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
@@ -859,7 +858,7 @@ common#:#exc_no_members_assigned#:#Nessun membro assegnato
 common#:#exc_notices#:#Note
 common#:#exc_obj#:#Esercizio
 common#:#exc_read#:#Accedere in lettura all&#039;esercizio
-common#:#exc_roles#:#Roles###11 Aug 2004 new variable
+common#:#exc_roles#:#Ruoli
 common#:#exc_save_changes#:#Salva
 common#:#exc_search_for#:#Ricerca
 common#:#exc_select_one_file#:#Per favore, scegli un file solamente.
@@ -902,7 +901,7 @@ common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
-common#:#fold#:#Cartella
+common#:#fold#:#Cartelle
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
@@ -1016,7 +1015,7 @@ common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
 common#:#grp_back#:#Indietro
-common#:#grp_count_members#:#Number of members###11 Aug 2004 new variable
+common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_alm#:#Creare moduli AICC
 common#:#grp_create_chat#:#Creare Chat
@@ -1043,10 +1042,10 @@ common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminat
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.
 common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data e l'ora di scadenza di un periodo di registrazione valido !
-common#:#grp_header_edit_members#:#Edit members###11 Aug 2004 new variable
+common#:#grp_header_edit_members#:#Modifica membri
 common#:#grp_join#:#Iscrivere al gruppo
 common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
-common#:#grp_list_users#:#List users###11 Aug 2004 new variable
+common#:#grp_list_users#:#Elenco utenti
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
@@ -1056,12 +1055,12 @@ common#:#grp_msg_member_assigned#:#Utenti ammessi come membri del gruppo
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
-common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
-common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
+common#:#grp_no_groups_selected#:#Nessun gruppo selezionato
+common#:#grp_no_roles_selected#:#Nessun ruolo selezionato
 common#:#grp_read#:#Accedere in lettura al gruppo
 common#:#grp_register#:#Registra
 common#:#grp_registration_completed#:#Registrazione completata
-common#:#grp_search_members#:#User search###11 Aug 2004 new variable
+common#:#grp_search_members#:#Ricerca utenti
 common#:#grp_visible#:#Vedere il gruppo
 common#:#grp_write#:#Modificare il gruppo
 common#:#guest#:#Ospite
@@ -1202,16 +1201,16 @@ common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#Configura la modalit&#224; di autenticazione LDAP
 common#:#ldap_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
-common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
+common#:#ldap_login_key#:#Attributi del nome utente (login)
+common#:#ldap_passwd#:#La tua password attuale
 common#:#ldap_port#:#Porta LDAP
 common#:#ldap_read#:#Accedere in lettura alle impostazioni del LDAP
-common#:#ldap_search_base#:#Ricerca basatat su LDAP
+common#:#ldap_search_base#:#Ricerca basata su LDAP
 common#:#ldap_server#:#Url del server LDAP
 common#:#ldap_tls#:#Usa canale TLS di LDAP
-common#:#ldap_v2#:#LDAPv2###07 Aug 2004 new variable
-common#:#ldap_v3#:#LDAPv3###07 Aug 2004 new variable
-common#:#ldap_version#:#LDAP protokoll version###07 Aug 2004 new variable
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
+common#:#ldap_version#:#Versione LDAP
 common#:#ldap_visible#:#Le impostazioni LDAP sono visibili
 common#:#ldap_write#:#Modificare le impostazioni LDAP
 common#:#learning module#:#Modulo
@@ -1274,37 +1273,37 @@ common#:#mail_delete_error_file#:#Errore nella cancellazione del file
 common#:#mail_e_sent#:#Inviate
 common#:#mail_edit_permission#:#Modificare le impostazioni dei permessi della posta
 common#:#mail_folders#:#Cartelle di posta
-common#:#mail_import#:#Importazione
-common#:#mail_import_file#:#File di eportazione di ILIAS 2
+common#:#mail_import#:#Importazione della posta
+common#:#mail_import_file#:#File di importazione da ILIAS 2
 common#:#mail_intern_enable#:#Abilita
-common#:#mail_mail_visible#:#L'utente pu&#242; usare la posta di sistema
+common#:#mail_mail_visible#:#Usare la posta di sistema
 common#:#mail_mails_of#:#Posta
 common#:#mail_maxsize_attach#:#Dimensione massima degli allegati
 common#:#mail_maxsize_box#:#Dimensione massima della mailbox
 common#:#mail_maxsize_mail#:#Dimensione massima delle mail
 common#:#mail_maxtime_attach#:#Numero di giorni massimo di permanenza di un allegato
 common#:#mail_maxtime_mail#:#Numero di giorni massimo di permanenza di una mail
-common#:#mail_not_sent#:#Mail non inviata!
+common#:#mail_not_sent#:#eMail non inviata!
 common#:#mail_read#:#Accedere in lettura alle impostazioni della posta
 common#:#mail_search_no#:#Nessuna voce trovata
 common#:#mail_search_word#:#Ricerca parola
-common#:#mail_select_one#:#Devi scegliere una mail.
-common#:#mail_send_error#:#Errore nell&#039;invio della mail
-common#:#mail_sent#:#Mail inviata con successo!
-common#:#mail_smtp_mail#:#Inviare mail via SMTP
+common#:#mail_select_one#:#Devi scegliere una eMail.
+common#:#mail_send_error#:#Errore nell&#039;invio della eMail
+common#:#mail_sent#:#eMail inviata con successo!
+common#:#mail_smtp_mail#:#Inviare eMail via SMTP
 common#:#mail_system#:#Messaggio di sistema
 common#:#mail_system_message#:#Inviare messaggi internamente
 common#:#mail_visible#:#Vedere le impostazioni della posta
 common#:#mail_write#:#Modificare le impostazioni della posta
 common#:#mail_z_local#:#Cartelle utente
-common#:#mails#:#Mail
+common#:#mails#:#eMail
 common#:#manage_tracking_data#:#Gestione dati di tracciamento
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#max_number_rec#:#Numero massimo di record
 common#:#max_time#:#Tempo massimo
-common#:#member#:#Membro
-common#:#members#:#Membri
+common#:#member#:#Iscritto
+common#:#members#:#Iscritti
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
 common#:#mep#:#Libreria multimediale
 common#:#mep_add#:#Aggiungi libreria multimediale
@@ -1425,7 +1424,7 @@ common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. 
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato
 common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato
-common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui �stato assegnato, accesso illimitato a tutti gli oggetti e tutte le funzioni.
+common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui &#232; stato assegnato, l'accesso illimitato a tutti gli oggetti e tutte le funzioni.
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:
@@ -1448,7 +1447,7 @@ common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
-common#:#no_access_link_object#:#You are not allowed to link this object###07 Aug 2004 new variable
+common#:#no_access_link_object#:#Non puoi collegare questo oggetto
 common#:#no_bm_in_personal_list#:#Nessun segnalibro definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
@@ -1463,7 +1462,7 @@ common#:#no_objects#:#Nessun oggetto
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
-common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
+common#:#no_users_applied#:#Per favore scegli un utente.
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
@@ -1585,7 +1584,7 @@ common#:#online_version#:#Versione online
 common#:#operation#:#Operazione
 common#:#optimize#:#Ottimizza
 common#:#options#:#Opzioni
-common#:#options_for_subobjects#:#Options for subobjects###07 Aug 2004 new variable
+common#:#options_for_subobjects#:#Opzioni per i sotto-oggetti
 common#:#order_by#:#Ordina per
 common#:#other#:#Altro
 common#:#overview#:#Visione generale
@@ -1613,7 +1612,7 @@ common#:#path_to_unzip#:#Percorso di UNZIP
 common#:#path_to_zip#:#Percorso di ZIP
 common#:#pathes#:#Percorsi
 common#:#payment_system#:#Sistema a pagamento
-common#:#per_object#:#Access per object###29 Jul 2004 new variable
+common#:#per_object#:#Permessi sull'oggetto
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
 common#:#permission_denied#:#Permesso negato
@@ -1638,7 +1637,7 @@ common#:#please_enter_target#:#Per favore, specifica l&#039;oggetto.
 common#:#please_enter_title#:#Per favore, inserisci un titolo.
 common#:#port#:#Porta
 common#:#position#:#Posizione
-common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
+common#:#preconditions#:#Condizioni preliminari
 common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente
 common#:#print#:#Stampa
@@ -1677,8 +1676,8 @@ common#:#registered_since#:#Registrato dal
 common#:#registered_user#:#utente registrato
 common#:#registered_users#:#utenti registrati
 common#:#registration#:#Nuova registrazione
-common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
-common#:#registration_expired#:#Periodo di prova della registrazione terminato...
+common#:#registration_disabled#:#Disponibili solamente in caso di utilizzo di autenticazione locale
+common#:#registration_expired#:#Periodo della registrazione di prova terminato...
 common#:#remove#:#Elimina
 common#:#remove_personal_picture#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
@@ -1750,7 +1749,7 @@ common#:#select#:#Seleziona
 common#:#select_all#:#Seleziona tutto
 common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
-common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
+common#:#select_object_to_copy#:#Per favore scegli l'oggetto che vuoi copiare
 common#:#selected#:#Selezionati
 common#:#selected_items#:#Elementi selezionati
 common#:#send#:#Invia
@@ -1770,7 +1769,7 @@ common#:#settings#:#Impostazioni
 common#:#show#:#Mostra
 common#:#show_details#:#Mostra dettagli
 common#:#show_list#:#Mostra lista
-common#:#show_members#:#Mostra membri
+common#:#show_members#:#Mostra iscritti
 common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
@@ -1854,15 +1853,15 @@ common#:#tests#:#Test
 common#:#time#:#Ora
 common#:#time_d#:#Giorno
 common#:#time_h#:#Ora
-common#:#time_limit#:#Access###14 Aug 2004 new variable
-common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected users.###14 Aug 2004 new variable
-common#:#time_limit_applied_users#:#Applied users###14 Aug 2004 new variable
-common#:#time_limit_no_users_selected#:#Please select an user.###14 Aug 2004 new variable
-common#:#time_limit_not_valid#:#The period is not valid.###14 Aug 2004 new variable
-common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.###14 Aug 2004 new variable
-common#:#time_limit_reached#:#Your access period is expired.###14 Aug 2004 new variable
-common#:#time_limit_users_updated#:#User data updated###14 Aug 2004 new variable
-common#:#time_limits#:#Access###14 Aug 2004 new variable
+common#:#time_limit#:#Scadenza
+common#:#time_limit_add_time_limit_for_selected#:#Per favore specifica la data di scadenza dell'accesso per gli utenti selezionati.
+common#:#time_limit_applied_users#:#Utenti applicati
+common#:#time_limit_no_users_selected#:#Per favore scegli un utente.
+common#:#time_limit_not_valid#:#Il periodo non &#232; valido.
+common#:#time_limit_not_within_owners#:#Il tuo accesso &#232; limitato. E'stato superato il periodo consentito.
+common#:#time_limit_reached#:#Il tuo periodo di accesso &#232; terminato.
+common#:#time_limit_users_updated#:#Dati utente aggiornati
+common#:#time_limits#:#Accesso
 common#:#time_segment#:#Intervallo di tempo
 common#:#title#:#Titolo
 common#:#to#:#A:
@@ -1901,7 +1900,7 @@ common#:#uid#:#uid
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
-common#:#unread#:#Non letto
+common#:#unread#:#non lette
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
 common#:#up#:#Su
@@ -2058,36 +2057,36 @@ content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
 content#:#cont_disable_media#:#Disabilita Multimedia
 content#:#cont_download_title#:#Download titolo
-content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
-content#:#cont_ed_align_left#:#align: left###16 Aug 2004 new variable
-content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variable
-content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
-content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
-content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
-content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
-content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
-content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
-content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
-content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
-content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
-content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
-content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
-content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
-content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
-content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
-content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
-content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
-content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
-content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
-content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
-content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
-content#:#cont_ed_new_col_before#:#new column before###16 Aug 2004 new variable
-content#:#cont_ed_new_item_after#:#new item after###16 Aug 2004 new variable
-content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
-content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
-content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
-content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
-content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
+content#:#cont_ed_align_center#:#allineam: centrato
+content#:#cont_ed_align_left#:#allineam: a sinistra
+content#:#cont_ed_align_left_float#:#allineam: left float###16 Aug 2004 new variable
+content#:#cont_ed_align_right#:#allineam: a destra
+content#:#cont_ed_align_right_float#:#allineam: right float###16 Aug 2004 new variable
+content#:#cont_ed_class#:#Stile
+content#:#cont_ed_copy_clip#:#copia negli appunti
+content#:#cont_ed_delete#:#elimina
+content#:#cont_ed_delete_col#:#elimina colonna
+content#:#cont_ed_delete_item#:#elimina elemento
+content#:#cont_ed_delete_row#:#elimina riga
+content#:#cont_ed_edit#:#modifica
+content#:#cont_ed_edit_prop#:#modifica propriet&#224;
+content#:#cont_ed_go#:#Invia
+content#:#cont_ed_insert_code#:#inserisci Codice
+content#:#cont_ed_insert_filelist#:#inserisci Lista di file
+content#:#cont_ed_insert_list#:#inserisci Lista
+content#:#cont_ed_insert_media#:#inserisci Media
+content#:#cont_ed_insert_par#:#inserisci Paragr.
+content#:#cont_ed_insert_table#:#inserisci Tabella
+content#:#cont_ed_moveafter#:#sposta dopo
+content#:#cont_ed_movebefore#:#sposta prima
+content#:#cont_ed_new_col_after#:#nuova colonna dopo
+content#:#cont_ed_new_col_before#:#nuova colonna prima
+content#:#cont_ed_new_item_after#:#nuovo elemento dopo
+content#:#cont_ed_new_item_before#:#nuovo elemento prima
+content#:#cont_ed_new_row_after#:#nuova riga dopo
+content#:#cont_ed_new_row_before#:#nuova riga prima
+content#:#cont_ed_paste_clip#:#incolla dagli appunti
+content#:#cont_ed_width#:#Larghezza
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -2159,7 +2158,7 @@ content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
-content#:#cont_matches#:#matches###16 Aug 2004 new variable
+content#:#cont_matches#:#corrispondenze
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
@@ -2199,7 +2198,7 @@ content#:#cont_parameters#:#Parametri
 content#:#cont_personal_clipboard#:#Appunti personali
 content#:#cont_pg_content#:#Contenuto pagina
 content#:#cont_pg_title#:#Titolo pagina
-content#:#cont_please_select#:#please select###16 Aug 2004 new variable
+content#:#cont_please_select#:#per favore scegli
 content#:#cont_prereq_type#:#tipo di prerequisiti
 content#:#cont_prerequisites#:#prerequisiti
 content#:#cont_preview#:#Anteprima
@@ -2302,170 +2301,169 @@ content#:#read offline#:#Leggi offline
 content#:#select_a_file#:#Per favore seleziona un file.
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
-crs#:#crs_accept_subscriber#:#Course subscription###07 Aug 2004 new variable
-crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.###07 Aug 2004 new variable
-crs#:#crs_access_password#:#Password###07 Aug 2004 new variable
-crs#:#crs_activation#:#Activation###07 Aug 2004 new variable
-crs#:#crs_add_archive_html#:#Add HTML-Archive###07 Aug 2004 new variable
-crs#:#crs_add_archive_xml#:#Add XML-Archive###07 Aug 2004 new variable
-crs#:#crs_add_html_archive#:#Add HTML archive###14 Aug 2004 new variable
-crs#:#crs_add_member#:#Add members###07 Aug 2004 new variable
-crs#:#crs_add_subscribers#:#Add subscriber###07 Aug 2004 new variable
-crs#:#crs_added#:#Added new course###07 Aug 2004 new variable
-crs#:#crs_added_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_added_member_body#:#You have been accepted to this course.###07 Aug 2004 new variable
-crs#:#crs_added_new_archive#:#A new archive has been added###07 Aug 2004 new variable
-crs#:#crs_admin#:#Administrator###07 Aug 2004 new variable
-crs#:#crs_admin_no_notify#:#Administrator (no notification)###07 Aug 2004 new variable
-crs#:#crs_admin_notify#:#Administrator (notification)###07 Aug 2004 new variable
-crs#:#crs_archive#:#Archives###07 Aug 2004 new variable
-crs#:#crs_archive_disabled#:#Disabled###07 Aug 2004 new variable
-crs#:#crs_archive_download#:#Download###07 Aug 2004 new variable
-crs#:#crs_archive_lang#:#Language###07 Aug 2004 new variable
-crs#:#crs_archive_read#:#Read access###07 Aug 2004 new variable
-crs#:#crs_archive_select_type#:#Archive access type###07 Aug 2004 new variable
-crs#:#crs_archive_type#:#Archive type###07 Aug 2004 new variable
-crs#:#crs_archive_type_disabled#:#No access###07 Aug 2004 new variable
-crs#:#crs_archives_deleted#:#The archive(s) have been deleted###07 Aug 2004 new variable
-crs#:#crs_auto_fill#:#Auto fill###07 Aug 2004 new variable
-crs#:#crs_blocked#:#Access refused###07 Aug 2004 new variable
-crs#:#crs_blocked_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_blocked_member_body#:#Your membership has been terminated.###07 Aug 2004 new variable
-crs#:#crs_cancel_subscription#:#Course deregistration###18 Aug 2004 new variable
-crs#:#crs_cancel_subscription_body#:#A user has unsubscribed from the course.###18 Aug 2004 new variable
-crs#:#crs_contact#:#Contact###07 Aug 2004 new variable
-crs#:#crs_contact_consultation#:#Consultation###07 Aug 2004 new variable
-crs#:#crs_contact_email#:#Email###07 Aug 2004 new variable
-crs#:#crs_contact_name#:#Name###07 Aug 2004 new variable
-crs#:#crs_contact_phone#:#Telephone###07 Aug 2004 new variable
-crs#:#crs_contact_responsibility#:#Responsibility###07 Aug 2004 new variable
-crs#:#crs_content#:#Course content###07 Aug 2004 new variable
-crs#:#crs_copy_cat_not_allowed#:#It is not possible to copy categories###25 Aug 2004 new variable
-crs#:#crs_count_members#:#Number of members###07 Aug 2004 new variable
-crs#:#crs_create_date#:#Create date###07 Aug 2004 new variable
-crs#:#crs_dates#:#Dates###07 Aug 2004 new variable
-crs#:#crs_delete_member#:#Delete members###07 Aug 2004 new variable
-crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course###07 Aug 2004 new variable
-crs#:#crs_delete_subscribers#:#Delete subscriber###07 Aug 2004 new variable
-crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users###07 Aug 2004 new variable
-crs#:#crs_details#:#Course details###07 Aug 2004 new variable
-crs#:#crs_dismiss_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_dismiss_member_body#:#You membership has been terminated###07 Aug 2004 new variable
-crs#:#crs_edit_archive#:#Edit Archives###07 Aug 2004 new variable
-crs#:#crs_end#:#End###07 Aug 2004 new variable
-crs#:#crs_export#:#Course export###07 Aug 2004 new variable
-crs#:#crs_file_name#:#File name###07 Aug 2004 new variable
-crs#:#crs_from#:#From:###07 Aug 2004 new variable
-crs#:#crs_header_archives#:#Course archives###07 Aug 2004 new variable
-crs#:#crs_header_delete_members#:#Delete members###07 Aug 2004 new variable
-crs#:#crs_header_edit_members#:#Edit members###07 Aug 2004 new variable
-crs#:#crs_header_members#:#Course members###07 Aug 2004 new variable
-crs#:#crs_html#:#HTML###07 Aug 2004 new variable
-crs#:#crs_info_reg#:#Information for registration###07 Aug 2004 new variable
-crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.###07 Aug 2004 new variable
-crs#:#crs_info_reg_deactivated#:#There is no registration possible###07 Aug 2004 new variable
-crs#:#crs_info_reg_direct#:#It is necessary to register to this course###07 Aug 2004 new variable
-crs#:#crs_info_reg_password#:#Registration needs a valid password.###07 Aug 2004 new variable
-crs#:#crs_list_users#:#List users###07 Aug 2004 new variable
-crs#:#crs_max_members_reached#:#The maximum number of members has been reached###07 Aug 2004 new variable
-crs#:#crs_mem_change_status#:#Change status###07 Aug 2004 new variable
-crs#:#crs_mem_send_mail#:#Send mail###07 Aug 2004 new variable
-crs#:#crs_member#:#Member###07 Aug 2004 new variable
-crs#:#crs_member_blocked#:#Mitglied (unblocked)###07 Aug 2004 new variable
-crs#:#crs_member_unblocked#:#Member (blocked)###07 Aug 2004 new variable
-crs#:#crs_member_updated#:#The member has been updated###07 Aug 2004 new variable
-crs#:#crs_members_deleted#:#Deleted members###07 Aug 2004 new variable
-crs#:#crs_members_print_title#:#Course members###07 Aug 2004 new variable
-crs#:#crs_members_title#:#Course members###07 Aug 2004 new variable
-crs#:#crs_move_down#:#Move down###07 Aug 2004 new variable
-crs#:#crs_move_up#:#Move up###07 Aug 2004 new variable
-crs#:#crs_moved_item#:#Moved course item###07 Aug 2004 new variable
-crs#:#crs_new_search#:#New search###07 Aug 2004 new variable
-crs#:#crs_new_subscription#:#New course subscription###07 Aug 2004 new variable
-crs#:#crs_new_subscription_body#:#A new user has been subscribed###07 Aug 2004 new variable
-crs#:#crs_no_archive_selected#:#No archives selected###07 Aug 2004 new variable
-crs#:#crs_no_archives_available#:#There are no archives available###07 Aug 2004 new variable
-crs#:#crs_no_archives_selected#:#Please select an archive###07 Aug 2004 new variable
-crs#:#crs_no_groups_selected#:#Please select a group###07 Aug 2004 new variable
-crs#:#crs_no_items_found#:#There are no course items###07 Aug 2004 new variable
-crs#:#crs_no_language#:#No language###07 Aug 2004 new variable
-crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variable
-crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
-crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
-crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
-crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
-crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
-crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable
-crs#:#crs_no_valid_member_id_given#:#No valid member Id###07 Aug 2004 new variable
-crs#:#crs_not_available#:#-Not available-###07 Aug 2004 new variable
-crs#:#crs_notify#:#Notify for new registrations###07 Aug 2004 new variable
-crs#:#crs_number_users_added#:#The following number of users has been assigned to the course###07 Aug 2004 new variable
-crs#:#crs_offline#:#Offline###07 Aug 2004 new variable
-crs#:#crs_options#:#Options###07 Aug 2004 new variable
-crs#:#crs_passed#:#Passed###14 Aug 2004 new variable
-crs#:#crs_password_not_valid#:#Your password is not valid###07 Aug 2004 new variable
-crs#:#crs_pdf#:#PDF###07 Aug 2004 new variable
-crs#:#crs_print_list#:#Print list###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_deactivated#:#Registration is disabled###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.###07 Aug 2004 new variable
-crs#:#crs_reg_subscription_start_later#:#The registration time starts later###07 Aug 2004 new variable
-crs#:#crs_reg_until#:#Registration date###07 Aug 2004 new variable
-crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course###07 Aug 2004 new variable
-crs#:#crs_reg_user_already_subscribed#:#You have already subscribed to this course###07 Aug 2004 new variable
-crs#:#crs_reg_user_blocked#:#You are blocked from this course###07 Aug 2004 new variable
-crs#:#crs_registration#:#Course registration###07 Aug 2004 new variable
-crs#:#crs_reject_subscriber#:#Course subscription###07 Aug 2004 new variable
-crs#:#crs_reject_subscriber_body#:#Your subscription has been declined.###07 Aug 2004 new variable
-crs#:#crs_role#:#Role###07 Aug 2004 new variable
-crs#:#crs_role_status#:#Role / Status###07 Aug 2004 new variable
-crs#:#crs_search_enter_search_string#:#Please enter a search string###07 Aug 2004 new variable
-crs#:#crs_search_for#:#Search for###07 Aug 2004 new variable
-crs#:#crs_search_members#:#User search###07 Aug 2004 new variable
-crs#:#crs_search_str#:#Search term###07 Aug 2004 new variable
-crs#:#crs_select_archive_language#:#Please select a language for the archive###07 Aug 2004 new variable
-crs#:#crs_select_one_archive#:#Please select one archive###07 Aug 2004 new variable
-crs#:#crs_settings#:#Course settings###07 Aug 2004 new variable
-crs#:#crs_settings_saved#:#Settings saved###07 Aug 2004 new variable
-crs#:#crs_size#:#File size###07 Aug 2004 new variable
-crs#:#crs_sort_activation#:#Sort by activation###07 Aug 2004 new variable
-crs#:#crs_sort_manual#:#Sort manuell###07 Aug 2004 new variable
-crs#:#crs_sort_title#:#Sort by title###07 Aug 2004 new variable
-crs#:#crs_sortorder#:#Sort###07 Aug 2004 new variable
-crs#:#crs_start#:#Start###07 Aug 2004 new variable
-crs#:#crs_status#:#Status###07 Aug 2004 new variable
-crs#:#crs_status_changed#:#Course status###07 Aug 2004 new variable
-crs#:#crs_status_changed_body#:#Your course status has been changed.###07 Aug 2004 new variable
-crs#:#crs_structure#:#Course structure###07 Aug 2004 new variable
-crs#:#crs_subscribers#:#Subscriptions###07 Aug 2004 new variable
-crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)###07 Aug 2004 new variable
-crs#:#crs_subscription#:#Subscription###07 Aug 2004 new variable
-crs#:#crs_subscription_max_members#:#Maximum of members###07 Aug 2004 new variable
-crs#:#crs_subscription_notify#:#Notify for subscriptions###07 Aug 2004 new variable
-crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation###07 Aug 2004 new variable
-crs#:#crs_subscription_options_deactivated#:#Deactivated###07 Aug 2004 new variable
-crs#:#crs_subscription_options_direct#:#Direct subscription###07 Aug 2004 new variable
-crs#:#crs_subscription_options_password#:#Subscription with password###07 Aug 2004 new variable
-crs#:#crs_subscription_successful#:#You have been subscribed to this course###07 Aug 2004 new variable
-crs#:#crs_subscription_type#:#Subscription type###07 Aug 2004 new variable
-crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives###07 Aug 2004 new variable
-crs#:#crs_syllabus#:#Syllabus###07 Aug 2004 new variable
-crs#:#crs_time#:#Subscription time###07 Aug 2004 new variable
-crs#:#crs_to#:#To:###07 Aug 2004 new variable
-crs#:#crs_tutor#:#Tutor###07 Aug 2004 new variable
-crs#:#crs_tutor_no_notify#:#Tutor (no notification)###07 Aug 2004 new variable
-crs#:#crs_tutor_notify#:#Tutor (notification)###07 Aug 2004 new variable
-crs#:#crs_unblocked#:#Free entrance###07 Aug 2004 new variable
-crs#:#crs_unblocked_member#:#Course membership###07 Aug 2004 new variable
-crs#:#crs_unblocked_member_body#:#Your membership has been restored###07 Aug 2004 new variable
-crs#:#crs_unlimited#:#Unlimited###07 Aug 2004 new variable
-crs#:#crs_unsubscribe#:#Unsubscribe###07 Aug 2004 new variable
-crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course###07 Aug 2004 new variable
-crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course###07 Aug 2004 new variable
-crs#:#crs_users_added#:#Added user to the course###07 Aug 2004 new variable
-crs#:#crs_users_already_assigned#:#The user is already assigned to this course###07 Aug 2004 new variable
-crs#:#crs_xml#:#XML###07 Aug 2004 new variable
-crs_#:#crs_archives#:#Archives###07 Aug 2004 new variable
+crs#:#crs_accept_subscriber#:#Iscrizione al corso
+crs#:#crs_accept_subscriber_body#:#Sei stato assegnato a questo corso.
+crs#:#crs_access_password#:#Password
+crs#:#crs_activation#:#Attivazione
+crs#:#crs_add_archive_html#:#Aggiungi Archivio-HTML
+crs#:#crs_add_archive_xml#:#Aggiungi Archivio-XML
+crs#:#crs_add_html_archive#:#Aggiungi archivio HTML
+crs#:#crs_add_member#:#Aggiungi iscritto
+crs#:#crs_add_subscribers#:#Aggiungi iscritto
+crs#:#crs_added#:#Aggiunto nuovo corso
+crs#:#crs_added_member#:#Iscritti al corso
+crs#:#crs_added_member_body#:#Sei stato accettato a questo corso.
+crs#:#crs_added_new_archive#:#Aggiunto un nuovo archivio
+crs#:#crs_admin#:#Amministratore
+crs#:#crs_admin_no_notify#:#Amministratore (senza notifica)
+crs#:#crs_admin_notify#:#Amministratore (notificato)
+crs#:#crs_archive#:#Archivi
+crs#:#crs_archive_disabled#:#Disabilitato
+crs#:#crs_archive_download#:#Anche download
+crs#:#crs_archive_lang#:#Lingua
+crs#:#crs_archive_read#:#In lettura
+crs#:#crs_archive_select_type#:#Tipo di accesso
+crs#:#crs_archive_type#:#Tipo di archivi
+crs#:#crs_archive_type_disabled#:#Accesso disabilitato
+crs#:#crs_archives_deleted#:#Gli archivi sono stati eliminati 
+crs#:#crs_auto_fill#:#Riempimento automatico
+crs#:#crs_blocked#:#Accesso rifiutao
+crs#:#crs_blocked_member#:#Iscrizioni al corso
+crs#:#crs_blocked_member_body#:#La tua iscrizione al corso &#232; terminata.
+crs#:#crs_cancel_subscription#:#Cancellazioni dal Corso
+crs#:#crs_cancel_subscription_body#:#Un utente si &#232; cancellato dal corso.
+crs#:#crs_contact#:#Contatti
+crs#:#crs_contact_consultation#:#Consultazione
+crs#:#crs_contact_email#:#eMail
+crs#:#crs_contact_name#:#Nome
+crs#:#crs_contact_phone#:#Telefono
+crs#:#crs_contact_responsibility#:#Responsibilit&#224;
+crs#:#crs_content#:#Contenuto del corso
+crs#:#crs_count_members#:#Numero di iscritti
+crs#:#crs_create_date#:#Crea scadenza
+crs#:#crs_dates#:#Scadenze
+crs#:#crs_delete_member#:#Elimina iscritti
+crs#:#crs_delete_members_sure#:#Vuoi eliminare l'iscrizione dei seguenti membri da questo corso
+crs#:#crs_delete_subscribers#:#Elimina iscritti
+crs#:#crs_delete_subscribers_sure#:#Vuoi eliminare i seguenti utenti
+crs#:#crs_details#:#Dettagli del corso
+crs#:#crs_dismiss_member#:#Iscritti al corso
+crs#:#crs_dismiss_member_body#:#La tua iscrizione &#232; terminata
+crs#:#crs_edit_archive#:#Modifica Archivi
+crs#:#crs_end#:#Fine periodo
+crs#:#crs_export#:#Esportazione corso
+crs#:#crs_file_name#:#Nome file
+crs#:#crs_from#:#Da:
+crs#:#crs_header_archives#:#Archivi del corso
+crs#:#crs_header_delete_members#:#Elimina iscritti
+crs#:#crs_header_edit_members#:#Modifica iscritti
+crs#:#crs_header_members#:#Iscritti al corso
+crs#:#crs_html#:#HTML
+crs#:#crs_info_reg#:#Informazioni per l'iscrizione
+crs#:#crs_info_reg_confirmation#:#L'iscrizione a questo corso &#232; vincolata all'accettazione dell'amministratore. Riceverai un messaggio quando l'iscrizione verr&#224; confermata.
+crs#:#crs_info_reg_deactivated#:#Non &#232; possibile iscriversi
+crs#:#crs_info_reg_direct#:#E' necessaria l'iscrizione a questo corso
+crs#:#crs_info_reg_password#:#Per l'iscrizione occorre una password valida.
+crs#:#crs_list_users#:#Elenco degli utenti
+crs#:#crs_max_members_reached#:#E'stato raggiunto il numero massimo di iscritti
+crs#:#crs_mem_change_status#:#Modifica lo stato
+crs#:#crs_mem_send_mail#:#Invia eMail
+crs#:#crs_member#:#Iscritti
+crs#:#crs_member_blocked#:#Iscritto (non-bloccato)
+crs#:#crs_member_unblocked#:#Iscritto (bloccato)
+crs#:#crs_member_updated#:#L'iscritto &#232; stato aggiornato
+crs#:#crs_members_deleted#:#Eliminati iscritti
+crs#:#crs_members_print_title#:#Iscritti al corso
+crs#:#crs_members_title#:#Iscritti al corso
+crs#:#crs_move_down#:#Sposta in basso
+crs#:#crs_move_up#:#Sposta in alto
+crs#:#crs_moved_item#:#Sposta corso
+crs#:#crs_new_search#:#Nuova ricerca
+crs#:#crs_new_subscription#:#Nuova iscrizione al corso
+crs#:#crs_new_subscription_body#:#Un nuovo utente &#232; stato iscritto
+crs#:#crs_no_archive_selected#:#Nessun archivio &#232; stato scelto
+crs#:#crs_no_archives_available#:#Non ci sono archivi disponibili
+crs#:#crs_no_archives_selected#:#Per favore scegli uin archivio
+crs#:#crs_no_groups_selected#:#Per favore scegli un gruppo
+crs#:#crs_no_items_found#:#Non ci sono corsi
+crs#:#crs_no_language#:#Nessuna lingua
+crs#:#crs_no_member_selected#:#Per favore scegli almeno un iscritto
+crs#:#crs_no_members_assigned#:#Non ci sono iscritti a questo corso
+crs#:#crs_no_notify#:#Nessuna notifica per nuove registrazioni
+crs#:#crs_no_results_found#:#Nessun risultato
+crs#:#crs_no_subscribers_selected#:#Pe favore scegli un utente
+crs#:#crs_no_users_added#:#Nessun membro aggiunto
+crs#:#crs_no_users_selected#:#Non hai scelto alcun utente
+crs#:#crs_no_valid_member_id_given#:#Nessun Id utente valido
+crs#:#crs_not_available#:#-Non disponibile-
+crs#:#crs_notify#:#Notifica per nuova registrazione
+crs#:#crs_number_users_added#:#Il seguente numero di utenti &#232; stato iscritto al corso
+crs#:#crs_offline#:#Offline
+crs#:#crs_options#:#Opzioni
+crs#:#crs_passed#:#Superato
+crs#:#crs_password_not_valid#:#La tua password non &#232; valida
+crs#:#crs_pdf#:#PDF
+crs#:#crs_print_list#:#Stampa elenco
+crs#:#crs_reg_subscription_deactivated#:#La registrazione &#232; disabilitata
+crs#:#crs_reg_subscription_end_earlier#:#La registrazione &#232; terminata
+crs#:#crs_reg_subscription_max_members_reached#:#Il massimo numero di utenti &#232; stato raggiunto.
+crs#:#crs_reg_subscription_start_later#:#Il periodo di registrazione inizier&#224; successivamente
+crs#:#crs_reg_until#:#Scadenza registrazione
+crs#:#crs_reg_user_already_assigned#:#Sei gi&#224; stato assegnato a questo corso
+crs#:#crs_reg_user_already_subscribed#:#Ti sei gi&#224; iscritto a questo corso
+crs#:#crs_reg_user_blocked#:#La tua iscrizione a questo corso non pu&#242; essere modificata
+crs#:#crs_registration#:#Iscrizione al corso
+crs#:#crs_reject_subscriber#:#Iscrizione al corso
+crs#:#crs_reject_subscriber_body#:#La tua richiesta di iscrizione &#232; stata rifiutata.
+crs#:#crs_role#:#Ruolo
+crs#:#crs_role_status#:#Ruolo / Stato
+crs#:#crs_search_enter_search_string#:#Per favore indica una stringa da ricercare
+crs#:#crs_search_for#:#Ricerca per
+crs#:#crs_search_members#:#Ricerca utente
+crs#:#crs_search_str#:#Ricerca termine
+crs#:#crs_select_archive_language#:#Per favore scegli una lingua per l'archivio
+crs#:#crs_select_one_archive#:#Per favore scegli un archivio
+crs#:#crs_settings#:#Impostazione del corso
+crs#:#crs_settings_saved#:#Impostazioni salvate
+crs#:#crs_size#:#Dimensioni file
+crs#:#crs_sort_activation#:#Ordine per attivazione
+crs#:#crs_sort_manual#:#Ordina manualmente
+crs#:#crs_sort_title#:#Ordina per titolo
+crs#:#crs_sortorder#:#Ordina
+crs#:#crs_start#:#Inizio periodo
+crs#:#crs_status#:#Stato
+crs#:#crs_status_changed#:#Stato corso
+crs#:#crs_status_changed_body#:#Lo stato del tuo corso &#232; stato modificato.
+crs#:#crs_structure#:#Struttura del corso
+crs#:#crs_subscribers#:#Iscrizioni
+crs#:#crs_subscribers_deleted#:#Iscritti eliminati
+crs#:#crs_subscription#:#Iscrizione
+crs#:#crs_subscription_max_members#:#Numero massimo di iscritti
+crs#:#crs_subscription_notify#:#Notifica in caso di iscrizioni
+crs#:#crs_subscription_options_confirmation#:#Iscrizioni con conferma
+crs#:#crs_subscription_options_deactivated#:#Disabilitata
+crs#:#crs_subscription_options_direct#:#Iscrizione diretta
+crs#:#crs_subscription_options_password#:#Iscrizione con password
+crs#:#crs_subscription_successful#:#Sei stato iscritto a questo corso
+crs#:#crs_subscription_type#:#Tipo di iscrizione
+crs#:#crs_sure_delete_selected_archives#:#Sei sicuro di voler eliminare gli archivi selezionati
+crs#:#crs_syllabus#:#Sommario
+crs#:#crs_time#:#Data di iscrizione
+crs#:#crs_to#:#A:
+crs#:#crs_tutor#:#Tutor
+crs#:#crs_tutor_no_notify#:#Tutor (senza-notifica)
+crs#:#crs_tutor_notify#:#Tutor (con-notifica)
+crs#:#crs_unblocked#:#Ingresso libero
+crs#:#crs_unblocked_member#:#Iscritti al corso
+crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata
+crs#:#crs_unlimited#:#Senza limite
+crs#:#crs_unsubscribe#:#Annulla iscrizione
+crs#:#crs_unsubscribe_sure#:#Vuoi annullare l'iscrizione per questo corso
+crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso
+crs#:#crs_users_added#:#Iscritto utente a questo corso
+crs#:#crs_users_already_assigned#:#L'utente &#232; gi&#224; iscritto a questo corso
+crs#:#crs_xml#:#XML
+crs_#:#crs_archives#:#Archivi
 dateplaner#:#DateText#:#Messaggi
 dateplaner#:#Day_long#:#Vista giornaliera
 dateplaner#:#ERROR_DATE_EXISTS#:#Questo appuntamento esiste gi&#224;.
@@ -2726,7 +2724,7 @@ forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta
-mail#:#also_as_email#:#Anche tramite email
+mail#:#also_as_email#:#Anche tramite eMail
 mail#:#bc#:#BC
 mail#:#forward#:#Inoltra
 mail#:#linebreak#:#Interruzione
@@ -2734,7 +2732,7 @@ mail#:#mail_add_recipient#:#Per favore, specifica il destinatario
 mail#:#mail_add_subfolder#:#Aggiungi cartella
 mail#:#mail_add_subject#:#Per favore, specifica l&#039;oggetto
 mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica
-mail#:#mail_add_type#:#Per favore, specifica il tipo di mail che vuoi inviare
+mail#:#mail_add_type#:#Per favore, specifica il tipo di eMail che vuoi inviare
 mail#:#mail_addr_entries#:#Indirizzi
 mail#:#mail_attachments#:#Allegati
 mail#:#mail_bc_not_valid#:#Il campo BC non &#232; valido
@@ -2743,11 +2741,11 @@ mail#:#mail_byte#:#Byte
 mail#:#mail_cc_not_valid#:#Il campo CC non &#232; valido
 mail#:#mail_cc_search#:#Cerca nel campo CC
 mail#:#mail_change_to_folder#:#Spostare nella cartella:
-mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &#232; valido
-mail#:#mail_compose#:#Scrivi Messaggio
-mail#:#mail_deleted#:#Le mail sono state cancellate
+mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di eMail non &#232; valido
+mail#:#mail_compose#:#Scrivi eMail
+mail#:#mail_deleted#:#Le eMail sono state cancellate
 mail#:#mail_deleted_entry#:#Le voci sono state cancellate
-mail#:#mail_email_forbidden#:#Non hai permessi per inviare email
+mail#:#mail_email_forbidden#:#Non hai permessi per inviare eMail
 mail#:#mail_entry_added#:#Aggiunta nuova voce
 mail#:#mail_entry_changed#:#La voce &#232; stata cambiata
 mail#:#mail_file_name#:#Nome del file
@@ -2761,41 +2759,41 @@ mail#:#mail_folder_name_changed#:#La cartella &#232; stata rinominata
 mail#:#mail_folder_options#:#Opzioni cartella
 mail#:#mail_following_rcp_not_valid#:#I seguenti destinatari non sono validi:
 mail#:#mail_global_options#:#Opzioni globali
-mail#:#mail_incoming#:#Mail in arrivo
+mail#:#mail_incoming#:#eMail in arrivo
 mail#:#mail_incoming_both#:#locali ed esterne
 mail#:#mail_incoming_local#:#solamente locali
 mail#:#mail_incoming_smtp#:#invia all&#039;indirizzo
 mail#:#mail_insert_folder_name#:#Per favore, inserisci il nome della cartella
 mail#:#mail_insert_query#:#Per favore, inserisci il criterio
 mail#:#mail_intern#:#Interna
-mail#:#mail_mark_read#:#Segna la email come letta
-mail#:#mail_mark_unread#:#Segna la email come non letta
+mail#:#mail_mark_read#:#Segna la eMail come letta
+mail#:#mail_mark_unread#:#Segna la eMail come non letta
 mail#:#mail_maxsize_attachment_error#:#Il limite per l&#039;upload &#232;:
 mail#:#mail_message_send#:#Il messaggio &#232; stato inviato
-mail#:#mail_move_error#:#Errore spostando la email
-mail#:#mail_move_to#:#Sposta le email in
-mail#:#mail_moved#:#Le email sono state spostate
-mail#:#mail_moved_to_trash#:#Le email sono state spostate nel cestino
+mail#:#mail_move_error#:#Errore spostando la eMail
+mail#:#mail_move_to#:#Sposta le eMail in
+mail#:#mail_moved#:#Le eMail sono state spostate
+mail#:#mail_moved_to_trash#:#Le eMail sono state spostate nel cestino
 mail#:#mail_new_file#:#Aggiungi un nuovo file:
 mail#:#mail_no_attach_allowed#:#I messaggi di sistema non possono contenere allegati
 mail#:#mail_no_attachments_found#:#Non sono stati trovati allegati
-mail#:#mail_no_permissions_write_smtp#:#Non hai permessi per scrivere mail all&#039;esterno
+mail#:#mail_no_permissions_write_smtp#:#Non hai permessi per scrivere eMail all&#039;esterno
 mail#:#mail_options_of#:#Opzioni:
 mail#:#mail_options_saved#:#Opzioni salvate
 mail#:#mail_recipient_not_valid#:#Il destinatario non &#232; valido
-mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Mail non lette
-mail#:#mail_saved#:#La mail &#232; stata salvata
+mail#:#mail_s#:#eMail
+mail#:#mail_s_unread#:#eMail non lette
+mail#:#mail_saved#:#La eMail &#232; stata salvata
 mail#:#mail_search_addressbook#:#Cerca nella rubrica
 mail#:#mail_search_system#:#Cerca nel sistema
 mail#:#mail_select_one_entry#:#Devi selezionare almeno una voce
 mail#:#mail_select_one_file#:#Devi selezionare almeno un file
-mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le mail selezionate
+mail#:#mail_sure_delete#:#Sei sicuro di voler eliminare le eMail selezionate
 mail#:#mail_sure_delete_entry#:#Sei sicuro di voler eliminare le voci selezionate
 mail#:#mail_sure_delete_file#:#Sei sicuro di voler eliminare il file selezionato
 mail#:#mail_sure_delete_folder#:#Sei sicuro di voler eliminare la cartella selezionata
 mail#:#mail_to_search#:#Ricerca in
-mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di email valido
+mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di eMail valido
 mail#:#search_bc_recipient#:#Ricerca destinatario in BC
 mail#:#search_cc_recipient#:#Ricerca destinatario in CC
 meta#:#meta_accessibility_restrictions#:#Restrizioni nell&#039;accesso
@@ -3312,7 +3310,7 @@ meta#:#meta_technical#:#Tecnico
 meta#:#meta_title#:#Titolo
 meta#:#meta_training#:#Apprendimento
 meta#:#meta_type#:#Tipo
-meta#:#meta_typical_age_range#:#Intervallo di et�consigliato
+meta#:#meta_typical_age_range#:#Intervallo di et?consigliato
 meta#:#meta_typical_learning_time#:#Tempo di apprendimento consigliato
 meta#:#meta_unavailable#:#Non disponibile
 meta#:#meta_unix#:#Unix
