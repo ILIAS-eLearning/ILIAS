@@ -236,20 +236,20 @@ class ilLMPresentationGUI
 
 				}
 
-                if($_POST["type"] == "xml")
-                {
-                    //vd($_GET["ref_id"]);
-                    $tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+				if($_POST["type"] == "xml")
+				{
+					//vd($_GET["ref_id"]);
+					$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
-                    if ($tmp_obj->getType() == "dbk" ) 
-                    {
-                        require_once "content/classes/class.ilObjDlBook.php";
-                        $dbk =& new ilObjDlBook($_GET["ref_id"]);
-                        $dbk->export();
-                    }
+					if ($tmp_obj->getType() == "dbk" )
+					{
+						require_once "content/classes/class.ilObjDlBook.php";
+						$dbk =& new ilObjDlBook($_GET["ref_id"]);
+						$dbk->export();
+					}
 
-                }
-                else if($_POST["type"] == "print")
+				}
+				else if($_POST["type"] == "print")
 				{
 					echo $html;
 				}
@@ -927,11 +927,11 @@ class ilLMPresentationGUI
 
 
 	function getLayoutLinkTargets()
-	{		
-		
+	{
+
 		if (!is_object($this->layout_doc))
 			return array ();
-			
+
 		$xpc = xpath_new_context($this->layout_doc);
 
 		$path = "/ilLayout/ilLinkTargets/LinkTarget";
@@ -1045,7 +1045,7 @@ class ilLMPresentationGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						if ($lm_id == $this->lm->getId())
+						if ($lm_id == $this->lm->getId() || $targetframe != "None")
 						{
 							$ltarget = $a_layoutframes[$targetframe]["Frame"];
 							$nframe = ($ltarget == "")
