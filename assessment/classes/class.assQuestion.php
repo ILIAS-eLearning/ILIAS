@@ -1397,6 +1397,11 @@ class ASS_Question
 			$result = $db->query($query);
 		}
 	}
+	
+	function getAnswerFeedback()
+	{
+		// define method in parent classes
+	}
 }
 	
 ?>

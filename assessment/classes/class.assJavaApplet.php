@@ -336,11 +336,6 @@ class ASS_JavaApplet extends ASS_Question
 			$item = $root->first_child();
 			$this->setTitle($item->get_attribute("title"));
 			$this->gaps = array();
-			$comment = $item->first_child();
-			if (strcmp($comment->node_name(), "qticomment") == 0)
-			{
-				$this->setComment($comment->get_content());
-			}
 			$itemnodes = $item->child_nodes();
 			$materials = array();
 			$images = array();
@@ -349,6 +344,13 @@ class ASS_JavaApplet extends ASS_Question
 			{
 				switch ($node->node_name())
 				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (!(preg_match("/ILIAS Version\=/is", $comment, $matches) or preg_match("/Questiontype\=/is", $comment, $matches)))
+						{
+							$this->setComment($comment);
+						}
+						break;
 					case "duration":
 						$iso8601period = $node->get_content();
 						if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))

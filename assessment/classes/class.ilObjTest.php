@@ -3596,12 +3596,12 @@ class ilObjTest extends ilObject
 	*
 	* Imports a test from XML into the ILIAS database
 	*
-	* @return boolean True, if the import succeeds, false otherwise
+	* @return array import results
 	* @access public
 	*/
 	function importObject($source, $questionpool_id)
 	{
-
+		$ilias_version = "";
 		$error = 0;
 		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
 		{
@@ -3630,8 +3630,33 @@ class ilObjTest extends ilObject
 				return $error;
 			}
 
-			if (preg_match("/(<assessment[^>]*>.*?<\/assessment>)/si", $xml, $matches))
+			$assessment_part = "";
+			if (preg_match("/ILIAS Version\=(\d+)\.(\d+)\.?(\d?)/", $xml, $matches))
 			{
+				$major_version = $matches[1];
+				unset($matches[0]);
+				$ilias_version = join($matches, ".");
+				if ($major_version == 2)
+				{
+					$this->setTestType(TYPE_SELF_ASSESSMENT);
+					global $lng;
+					$lng->loadLanguageModule("assessment");
+					$this->setTitle($lng->txt("imported_test"));
+					$assessment_part = $this->to_xml();
+					if (preg_match("/(<assessment[^>]*>.*?<\/assessment>)/si", $assessment_part, $matches))
+					{
+						$assessment_part = $matches[1];
+					}
+				}
+			}
+
+			$found_assessment = preg_match("/(<assessment[^>]*>.*?<\/assessment>)/si", $xml, $matches);
+			if ($found_assessment or $assessment_part)
+			{
+				if ((!$found_assessment) and ($assessment_part))
+				{
+					$matches[1] = $assessment_part;
+				}
 				// read test properties
 				$succeeded = $this->from_xml($matches[1]);
 
@@ -3713,7 +3738,11 @@ class ilObjTest extends ilObject
 			}
 		}
 //echo "<br>"; var_dump($this->import_mapping);
-		return $error;
+		$result = array(
+			"error" => $error,
+			"version" => $ilias_version
+		);
+		return $result;
 	}
 	
 	/**
