@@ -91,7 +91,6 @@ assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
-assessment#:#add_answerblock#:#Aggiungi blocco di risposte
 assessment#:#add_applet_parameter#:#Aggiungi parametri dell'applet
 assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
@@ -104,7 +103,6 @@ assessment#:#answer_is_right#:#La soluzione &#232; giusta.
 assessment#:#answer_is_wrong#:#La soluzione &#232; sbagliata.
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Testo della risposta
-assessment#:#answerblock#:#Blocco di risposte
 assessment#:#applet_attributes#:#Attributi dell'applet
 assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
@@ -171,7 +169,6 @@ assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che fallisc
 assessment#:#ects_use_fx_grade_part2#:#percentuale dei punti totali.
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
-assessment#:#enhanced#:#Modalit&#224; avanzata
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
 assessment#:#error_image_upload_wrong_format#:#Per favore indica un formato di immagine valida! I formati consentiti sono gif, jpeg e png.
 assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
@@ -282,7 +279,6 @@ assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#question_no_answerblocks#:#Non ci sono blocchi di risposte definiti
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda

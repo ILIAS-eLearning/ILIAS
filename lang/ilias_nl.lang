@@ -91,7 +91,6 @@ assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Voeg goede/verkeerde antwoorden toe
 assessment#:#add_answer_yn#:#Voeg ja/nee antwoorden toe
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Voeg applet-parameter toe
 assessment#:#add_area#:#Toevoegen gebieden
 assessment#:#add_gap#:#Voeg gat-tekst toe
@@ -104,7 +103,6 @@ assessment#:#answer_is_right#:#Uw oplossing is goed
 assessment#:#answer_is_wrong#:#Uw oplossing is fout
 assessment#:#answer_picture#:#Antwoord-figuur
 assessment#:#answer_text#:#Antwoord-tekst
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#Nieuwe parameter
 assessment#:#applet_parameter#:#Parameter
@@ -170,7 +168,6 @@ assessment#:#ects_use_fx_grade#:#Gebruik de 'FX' schaal, wanneer de niet succesv
 assessment#:#ects_use_fx_grade_part2#:#percentage van het totaal aantal punten.
 assessment#:#end_tag#:#Eind-tag
 assessment#:#ending_time_reached#:#De eind-tijd is bereikt
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Er is een fout opgetreden bij het importeren van de vraag(vragen) uit het door u geselecteerde bestand!
@@ -277,7 +274,6 @@ assessment#:#qt_matching#:#Overeenkomende vraag
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één antwoord)
 assessment#:#qt_ordering#:#Bestel-vraag
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploadenbestand. Als u de verwerking van deze vraag nu annuleert moet u de vraag in de vraagpool, als u deze niet wilt bewaren, zelf verwijderen !
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type

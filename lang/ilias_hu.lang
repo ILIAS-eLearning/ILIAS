@@ -91,7 +91,6 @@ assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Válasz hozzáadása
 assessment#:#add_answer_tf#:#Igaz/hamis válaszok hozzáadása
 assessment#:#add_answer_yn#:#Igen/nem válaszokat hozzáadása
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Applet-paraméterek hozzáadása
 assessment#:#add_area#:#Terület hozzáadása
 assessment#:#add_gap#:#Kiegészítendő szöveg hozzáadása
@@ -101,7 +100,6 @@ assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemé
 assessment#:#answer#:#Válasz
 assessment#:#answer_picture#:#Válaszkép
 assessment#:#answer_text#:#Válaszszöveg
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet-attribútumok
 assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
@@ -126,7 +124,6 @@ assessment#:#detail_starting_time_not_reached#:#Nem érte el a teszt kitöltés�
 assessment#:#duplicate#:#Másodpéldány létrehozása
 assessment#:#end_tag#:#Zárócímke
 assessment#:#ending_time_reached#:#Elérte a befejezési időt
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_open_image_file#:#Hiba történt egy képfájl megnyitásakor!
 assessment#:#eval_choice_result#:#A % értékeivel a választás %. Ön % pontot kapott.
 assessment#:#eval_cloze_result#:#% kitöltendő helyek száma a % értékekkel %. Ön % pontot kapott.
@@ -216,7 +213,6 @@ assessment#:#qt_matching#:#Párosító kérdés
 assessment#:#qt_multiple_choice_mr#:#Többszörös választásos kérdés (többszörös válasz)
 assessment#:#qt_multiple_choice_sr#:#Többszörös választásos kérdés (egyszeres válasz)
 assessment#:#qt_ordering#:#Sorrendbe rakó kérdés
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#A kérdés automatikusan mentésre került, hogy a lefoglalja a merevlemezhelyet a felöltött fájl számára. Ha most bezárja ezt az űrlapot, törölnie kell a kérdést a kérdésgyűjteményből, ha nem akarja megtartani!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#kérdéstípus

@@ -159,7 +159,6 @@ assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants on
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
-assessment#:#enhanced#:#Mode enrichi
 assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son répertoire de destination.
 assessment#:#error_image_upload_wrong_format#:#Veuillez téléverser un fichier image valide. Les formats d'images acceptés sont gif, jpeg et png.
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
