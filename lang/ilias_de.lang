@@ -1409,6 +1409,8 @@ common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
 common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
+common#:#insert_object_here#:#Objekt hier einfügen
+common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#insert#:#Einfügen
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
@@ -1485,7 +1487,7 @@ common#:#learning module#:#Lernmodul
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
-common#:#link#:#verknüpfen
+common#:#link#:#Verknüpfen
 common#:#link_check#:#Link überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Email über nicht gültige Links dieser Lerneinheit informiert.

@@ -616,7 +616,16 @@ class ilObjectGUI
 	function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log;
-
+		
+		if ($this->ctrl->getTargetScript() == "repository.php")
+		{
+			$_SESSION["clipboard"] = "";
+			$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+			$_SESSION["clipboard"]["cmd"] = $_SESSION["il_rep_clipboard"][0]["act"];
+			$_SESSION["clipboard"]["ref_ids"] = array($_SESSION["il_rep_clipboard"][0]["ref_id"]);
+			//var_dump("rep",$_SESSION["clipboard"]);exit;
+		}
+//var_dump("adm",$_SESSION["clipboard"]);exit;
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
 		{
 			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
@@ -937,7 +946,8 @@ class ilObjectGUI
 			sendInfo($this->lng->txt("msg_linked"),true);		
 		}
 		
-		ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
+		ilUtil::redirect($this->getReturnLocation("paste",$this->ctrl->getLinkTarget($this)),get_class($this));
+		//ilUtil::redirect($this->getReturnLocation("paste","adm_object.php?ref_id=".$_GET["ref_id"]));
 
 	} // END PASTE
 
@@ -949,12 +959,16 @@ class ilObjectGUI
 	function clearObject()
 	{ 	
 		unset($_SESSION["clipboard"]);
-		
+		unset($_SESSION["il_rep_clipboard"]);
+		//var_dump($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
+
+		// only redirect if clipboard was cleared
 		if (isset($_POST["cmd"]["clear"]))
 		{
 			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
-			
-			ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
+
+			//ilUtil::redirect($this->getReturnLocation("clear","adm_object.php?ref_id=".$_GET["ref_id"]));
+			ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 		}
 	}
 
@@ -2931,6 +2945,135 @@ class ilObjectGUI
         $_SESSION["tbl_limit"] = $_POST["hitsperpage"];
         $_GET["limit"] = $_POST["hitsperpage"];
 	}
+	
+	/**
+	 * display objects in clipboard (only repository clipboard!!!!)
+	 * by using session variable 'il_rep_clipboard'
+	 * 
+	 */
+	function clipboardObject()
+	{
+		global $ilErr,$ilLog;
 
+		// function should not be called if clipboard is empty
+		if (empty($_SESSION['il_rep_clipboard']) or !is_array($_SESSION['il_rep_clipboard']))
+		{
+			$message = sprintf('%s::clipboardObject(): Illegal access. Clipboard variable is empty!', get_class($this));
+			$ilLog->write($message,$ilLog->FATAL);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->WARNING);
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.rep_clipboard.html");
+
+		// FORMAT DATA
+		$counter = 0;
+		$f_result = array();
+		
+		foreach($_SESSION['il_rep_clipboard'] as $data)
+		{
+			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id'],false))
+			{
+				continue;
+			}
+
+			//$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
+			$f_result[$counter][] = $this->lng->txt("obj_".$tmp_obj->getType());
+			$f_result[$counter][] = $tmp_obj->getTitle();
+			//$f_result[$counter][] = $tmp_obj->getDescription();
+			$f_result[$counter][] = ($data['act'] == 'cut') ? $this->lng->txt("move") :$this->lng->txt($data['act']);
+
+			unset($tmp_obj);
+			++$counter;
+		}
+
+		$this->__showClipboardTable($f_result,"clipboardObject");
+
+		return true;
+	}
+	
+	function &__initTableGUI()
+	{
+		include_once "./classes/class.ilTableGUI.php";
+
+		return new ilTableGUI(0,false);
+	}
+	
+	/**
+	 * standard implementation for tables
+	 * use 'from' variable use different initial setting of table 
+	 * 
+	 */
+	function __setTableGUIBasicData(&$tbl,&$result_set,$a_from = "")
+	{
+		switch ($a_from)
+		{
+			case "clipboardObject":
+				$offset = $_GET["offset"];
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				$tbl->disable("footer");
+				break;
+
+			default:
+				$offset = $_GET["offset"];
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				break;
+		}
+
+		$tbl->setOrderColumn($order);
+		$tbl->setOrderDirection($direction);
+		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->setData($result_set);
+	}
+	
+	function __showClipboardTable($a_result_set,$a_from = "")
+	{
+    	$tbl =& $this->__initTableGUI();
+		$tpl =& $tbl->getTemplateObject();
+
+		$tpl->setCurrentBlock("tbl_form_header");
+		$tpl->setVariable("FORMACTION",$this->ctrl->getTargetScript()."?".$this->link_params."&cmd=post");
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","paste");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("insert_object_here"));
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("tbl_action_btn");
+		$tpl->setVariable("BTN_NAME","clear");
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("clear_clipboard"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("tbl_action_row");
+		$tpl->setVariable("COLUMN_COUNTS",3);
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.gif"));
+		$tpl->parseCurrentBlock();
+		
+		$tbl->setTitle($this->lng->txt("clipboard"),"icon_typ_b.gif",$this->lng->txt("clipboard"));
+		$tbl->setHeaderNames(array($this->lng->txt('obj_type'),
+								   $this->lng->txt('title'),
+								   $this->lng->txt('action')));
+		$tbl->setHeaderVars(array('type',
+                                  'title',
+								  'act'),
+							array('ref_id' => $this->object->getRefId(),
+								  'cmd' => 'clipboard',
+								  'cmdClass' => $_GET['cmdClass'],
+								  'cmdNode' => $_GET['cmdNode']));
+
+		$tbl->setColumnWidth(array("","80%","19%"));
+
+
+		$this->__setTableGUIBasicData($tbl,$a_result_set,$a_from);
+		$tbl->render();
+		
+		$this->tpl->setVariable("RESULT_TABLE",$tbl->tpl->get());
+
+		return true;
+	}
 } // END class.ilObjectGUI
 ?>

@@ -107,6 +107,13 @@ class ilObjCategoryGUI extends ilObjectGUI
 								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
 		}
 
+		// show clipboard in repository
+		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
+		{
+			$tabs_gui->addTarget("clipboard",
+				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
+		}
+			
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
 			$tabs_gui->addTarget("show_owner",
@@ -796,7 +803,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 			unset($tmp_obj);
 			++$counter;
 		}
-		$this->__showUsersTable($f_result,$editable);
+		$this->__showUsersTable($f_result,"listUsersObject",$editable);
 		
 		return true;
 	}
@@ -914,7 +921,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 			unset($role_obj);
 			++$counter;
 		}
-		$this->__showRolesTable($f_result);
+		$this->__showRolesTable($f_result,"assignRolesObject");
 	}
 
 	function assignSaveObject()
@@ -1008,7 +1015,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 	}
 
 
-	function __showRolesTable($a_result_set)
+	function __showRolesTable($a_result_set,$a_from = "")
 	{
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -1019,7 +1026,6 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,'obj_id',$_GET['obj_id']);
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
-
 
 		// SET FOOTER BUTTONS
 		$tpl->setVariable("COLUMN_COUNTS",4);
@@ -1054,7 +1060,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$tbl->setColumnWidth(array("4%","35%","45%","16%"));
 
 		$this->set_unlimited = true;
-		$this->__setTableGUIBasicData($tbl,$a_result_set,true);
+		$this->__setTableGUIBasicData($tbl,$a_result_set,$a_from,true);
 		$tbl->render();
 
 		$this->tpl->setVariable("ROLES_TABLE",$tbl->tpl->get());
@@ -1062,7 +1068,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		return true;
 	}		
 
-	function __showUsersTable($a_result_set,$footer = true)
+	function __showUsersTable($a_result_set,$a_from = "",$a_footer = true)
 	{
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
@@ -1074,7 +1080,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		$tpl->parseCurrentBlock();
 
 
-		if($footer)
+		if($a_footer)
 		{
 			// SET FOOTER BUTTONS
 			$tpl->setVariable("COLUMN_COUNTS",6);
@@ -1109,7 +1115,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 								  "cmdNode" => $_GET["cmdNode"]));
 		$tbl->setColumnWidth(array("4%","20%","20%","20%","20%","20%"));
 
-		$this->__setTableGUIBasicData($tbl,$a_result_set,true);
+		$this->__setTableGUIBasicData($tbl,$a_result_set,$a_from,true);
 		$tbl->render();
 
 		$this->tpl->setVariable("USERS_TABLE",$tbl->tpl->get());
@@ -1117,18 +1123,36 @@ class ilObjCategoryGUI extends ilObjectGUI
 		return true;
 	}		
 
-	function __setTableGUIBasicData(&$tbl,&$result_set,$footer = true)
+	function __setTableGUIBasicData(&$tbl,&$result_set,$a_from = "",$a_footer = true)
 	{
-
-		$offset = $_GET["offset"];
-		// init sort_by (unfortunatly sort_by is preset with 'title'
-		if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
+		switch ($a_from)
 		{
-			$_GET["sort_by"] = "login";
+			case "listUsersObject":
+			case "assignRolesObject":
+				$offset = $_GET["offset"];
+				// init sort_by (unfortunatly sort_by is preset with 'title'
+				if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
+				{
+					$_GET["sort_by"] = "login";
+				}
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				break;
+			
+			case "clipboardObject":
+				$offset = $_GET["offset"];
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				$tbl->disable("footer");
+				break;
+				
+			default:
+				$offset = $_GET["offset"];
+				$order = $_GET["sort_by"];
+				$direction = $_GET["sort_order"];
+				break;
 		}
-		$order = $_GET["sort_by"];
-		$direction = $_GET["sort_order"];
-	
+
 		$tbl->setOrderColumn($order);
 		$tbl->setOrderDirection($direction);
 		$tbl->setOffset($offset);
@@ -1142,7 +1166,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 		$tbl->setMaxCount(count($result_set));
 
-		if($footer)
+		if($a_footer)
 		{
 			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		}
