@@ -610,14 +610,20 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_GET["tab"] == 0) {
 			// show introduction page
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
+			$this->tpl->setCurrentBlock("info_row");
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type"));
+			print "Hallo: " . $this->object->get_test_type();
+			print_r($this->object->test_types);
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->get_test_type()]));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("info");
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
 			$this->tpl->setCurrentBlock("adm_content");
 			$introduction = $this->object->get_introduction();
-			$introduction = preg_replace("/\n/i", "<br />", $introduction);
+			$introduction = preg_replace("/0n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&tab=1");
-			$additional = "<p>Here you will see additional information for the test, like date, test type, max. points etc.</p>";
-			$this->tpl->setVariable("ADDITIONAL_INFO", "$additional");
 			$this->tpl->parseCurrentBlock();
 		} elseif ($_GET["tab"] == 1) {
 			// show questions
@@ -634,7 +640,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} else {
 			$tab1 = $this->lng->txt("question") . " $sequence";
 		}
-		$tabs = array($this->lng->txt("tst_introduction"), $tab1);
+		$tabs = array($this->lng->txt("tst_introduction"), $tab1, $this->lng->txt("goblin"));
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		foreach ($tabs as $key => $value) {
 			$this->tpl->setCurrentBlock("tab");
