@@ -1,0 +1,32 @@
+<div class="il_Header"><h1>{TXT_GROUPS}</h1></div>
+{INFOPANEL}
+{BUTTONS}
+{MESSAGE}
+<!-- BEGIN tblheader -->
+<table class="fullwidth" CELLPADDING=2 CELLSPACING=0 BORDER=0>
+<tr class="tblheader" valign="top">
+  <!-- <td></td> -->
+  <td class="std"><b>{TXT_NAME}</b></td>
+  <td class="std"><b>{TXT_DESC}</b></td>
+  <td class="std"><b>{TXT_ROLE_IN_GROUP}</b></td>
+  <td class="std"><b>{TXT_OWNER}</b></td>
+  <td class="std"><b>{TXT_CONTEXT}</b></td>
+</tr>
+<!-- END tblheader -->
+<!-- BEGIN tblcontent -->
+<tr >
+  <!-- <td>{CHECKBOX}</td>  
+   	wenn administrative faehigkeiten zur gruppenansicht hinzugefuegt werden 
+	kommentar hier und oben wegnehmen	  
+  -->
+    <td valign ="top"class="{ROWCOL}"><a HREF="{GRP_LINK}" TARGET="bottom">{GRP_NAME}</a></td>
+ 
+  <td valign ="top"class="{ROWCOL}" nowrap="nowrap">{GRP_DESC}</td>
+  <td valign ="top"class="{ROWCOL}">{GRP_ROLE}</td>
+  <td valign ="top"class="{ROWCOL}">{GRP_OWNER}</td>
+  <td valign ="top"class="{ROWCOL}">{GRP_CONTEXT}</td>
+</tr>
+<!-- END tblcontent -->
+
+</table>
+
