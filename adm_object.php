@@ -14,8 +14,6 @@ if (!isset($_GET["type"]))
     $_GET["type"] = $obj["type"];
 }
 
-//vd($_GET);
-//vd($_POST);
 
 //prepare output of administration view
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -56,11 +54,14 @@ if ($_POST["cmd"] != "")
 	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 }
 
-$objData = $ilias->getObjDefinition($_GET["type"]);
+$myObj = new ObjectDefinition();
+$objData = $myObj->getDefinition($_GET["type"]);
 
 //if no cmd is given default to first property
 if ($_GET["cmd"] == "")
-	$_GET["cmd"] = $objData["properties"][0]["attrs"]["CMD"];
+{
+	$_GET["cmd"] = $myObj->getFirstProperty($_GET["type"]);
+}
 
 $methode = $_GET["cmd"]."Object";
 
@@ -172,8 +173,10 @@ if ($_GET["message"])
 //*************************admin tabs***********************+
 $tabs = array();
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-foreach ($objData["properties"] as $row)
-	$tabs[] = array($row["name"], $row["attrs"]["CMD"]);
+$data = $myObj->getProperties($_GET["type"]);
+
+foreach ($data as $key => $row)
+	$tabs[] = array($row["lng"], $row["name"]);
 
 foreach ($tabs as $row)
 {
@@ -427,19 +430,20 @@ switch($_GET["cmd"])
 
 		$operations = array();
 
-		foreach ($objData["actions"] as $row)
+		$data = $myObj->getActions($_GET["type"]);
+		foreach ($data as $row)
 		{
-			if (!in_array($row, $notoperations))
+			if (!in_array($row["name"], $notoperations))
 			{
 				$operations[] = $row;
 			}
 		}
 
 		if (count($operations)>0) {
-			foreach ($operations as $op)
+			foreach ($operations as $val)
 			{
 				$tpl->setCurrentBlock("operation_btn");
-				$tpl->setVariable("BTN_VALUE", $lng->txt($op));
+				$tpl->setVariable("BTN_VALUE", $lng->txt($val["lng"]));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("operation");
@@ -447,13 +451,12 @@ switch($_GET["cmd"])
 		}		
 		
 		//***************allowed subobjects ****************************
-		
-		//$data = $obj->getSubObjects();
-		foreach ($objData["subobjects"] as $row)
+		$data = $myObj->getSubObjects($_GET["type"]);
+		foreach ($data as $row)
 		{
 			//@todo max value abfragen und entsprechend evtl aus der liste streichen
 		    $count = 0;
-			if ($row["attrs"]["MAX"] > 0)
+			if ($row["max"] > 0)
 			{
 				//how many elements are present?
 				for ($i=0; $i<count($obj->objectList["ctrl"]); $i++)
@@ -464,7 +467,7 @@ switch($_GET["cmd"])
 					}
 				}
 			}
-			if ($row["attrs"]["MAX"] == "" || $count < $row["attrs"]["MAX"])
+			if ($row["max"] == "" || $count < $row["max"])
 			{
 				$subobj[] = $row["name"];
 			}
@@ -482,8 +485,6 @@ switch($_GET["cmd"])
 			$tpl->setVariable("TXT_ADD", $lng->txt("add"));
 			$tpl->parseCurrentBlock();
 		}
-		
-		
 } // switch
 
 if ($_GET["cmd"] == "view" && $obj->type == "adm")
