@@ -748,11 +748,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	function addSuggestedSolution()
 	{
 		$addForGap = -1;
-		foreach ($_POST["cmd"] as $key => $value)
+		if (array_key_exists("cmd", $_POST))
 		{
-			if (preg_match("/addSuggestedSolution_(\d+)/", $key, $matches))
+			foreach ($_POST["cmd"] as $key => $value)
 			{
-				$addForGap = $matches[1];
+				if (preg_match("/addSuggestedSolution_(\d+)/", $key, $matches))
+				{
+					$addForGap = $matches[1];
+				}
 			}
 		}
 		if ($addForGap > -1)
