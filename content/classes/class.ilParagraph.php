@@ -203,9 +203,10 @@ class ilParagraph extends ilPageContent
 		$a_text = eregi_replace("\[code\]","<Code>",$a_text);
 		$a_text = eregi_replace("\[\/code\]","</Code>",$a_text);
 
+		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(link$ws(page$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
+		while (eregi("\[(iln$ws(page$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			if (isset($attribs["page"]))
@@ -214,10 +215,33 @@ class ilParagraph extends ilPageContent
 			}
 			else
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "[error: link".$found[1]."]",$a_text);
+				$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
 			}
 		}
-		$a_text = eregi_replace("\[\/link\]","</IntLink>",$a_text);
+		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
+
+		// external link
+		$ws= "[ \t\r\f\v\n]*";
+//echo "1";
+		//while (eregi("\[(xln$ws(url$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
+		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
+		{
+//echo "2";
+//echo "found2:".addslashes($found[2])."<br>"; exit;
+			$attribs = ilUtil::attribsToArray($found[2]);
+//echo "url:".$attribs["url"]."<br>"; exit;
+			if (isset($attribs["url"]))
+			{
+//echo "3";
+				$a_text = eregi_replace("\[".$found[1]."\]", "<ExtLink Href=\"".$attribs["url"]."\">", $a_text);
+			}
+			else
+			{
+				$a_text = eregi_replace("\[".$found[1]."\]", "[error: xln".$found[1]."]",$a_text);
+			}
+		}
+		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
+
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
 
@@ -245,6 +269,8 @@ class ilParagraph extends ilPageContent
 		$a_text = eregi_replace("</Quotation>","[/quot]",$a_text);
 		$a_text = eregi_replace("<Code[^>]*>","[code]",$a_text);
 		$a_text = eregi_replace("</Code>","[/code]",$a_text);
+
+		// internal links
 		while (eregi("<IntLink($any)>", $a_text, $found))
 		{
 			$found[0];
@@ -253,15 +279,24 @@ class ilParagraph extends ilPageContent
 			{
 				case "PageObject":
 					$target = explode("_", $attribs["Target"]);
-					$a_text = eregi_replace("<IntLink".$found[1].">","[link page=\"".$target[1]."\"]",$a_text);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target[1]."\"]",$a_text);
 					break;
 
 				default:
-					$a_text = eregi_replace("<IntLink".$found[1].">","[link]",$a_text);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln]",$a_text);
 					break;
 			}
 		}
-		$a_text = eregi_replace("</IntLink>","[/link]",$a_text);
+		$a_text = eregi_replace("</IntLink>","[/iln]",$a_text);
+
+		// external links
+		while (eregi("<ExtLink($any)>", $a_text, $found))
+		{
+			$found[0];
+			$attribs = ilUtil::attribsToArray($found[1]);
+			$a_text = eregi_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
+		}
+		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
 
 
 		// br to linefeed

@@ -159,6 +159,15 @@
 </xsl:template>
 
 
+<!-- ExtLink -->
+<xsl:template match="ExtLink">
+	<a class="ilc_ExtLink" target="_new">
+		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+		<xsl:apply-templates/>
+	</a>
+</xsl:template>
+
+
 <!-- Tables -->
 <xsl:template match="Table">
 	<!-- <xsl:value-of select="@HierId"/> -->
