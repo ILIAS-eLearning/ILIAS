@@ -126,6 +126,7 @@ assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
+assessment#:#locked#:#locked###27 Apr 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -272,6 +273,8 @@ assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
+assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
+assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###16 Mar 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Aktiv
