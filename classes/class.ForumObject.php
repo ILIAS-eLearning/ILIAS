@@ -112,8 +112,7 @@ class ForumObject extends Object
 		$result = $this->ilias->db->query($q);
 		//echo "roleID: ".$roleID." owner: ".$frm_data["owner"]."<br>";
 		// assign moderator
-		$rbacadmin->assignUser($roleObj->getRefId(), $this->getOwner(), "n");
-
+		$rbacadmin->assignUser($roleObj->getId(), $this->getOwner(), "n");
 	}
 
 	/**
