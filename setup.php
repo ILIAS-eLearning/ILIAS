@@ -25,7 +25,7 @@ $REVISION = "$Revision$";
 $VERSION = substr(substr($REVISION,2),0,-2);
 
 //instantiate template - later in the program please use own Templateclass
-$tpl = new IntegratedTemplate("./templates");
+$tpl = new IntegratedTemplate("./templates/default");
 $tpl->loadTemplatefile("tpl.setup.html", false, true);
 
 $log = new Log("ilias.log");
