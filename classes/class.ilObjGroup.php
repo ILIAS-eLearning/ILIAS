@@ -926,67 +926,15 @@ class ilObjGroup extends ilObject
 		}
 	}
 	
-	
-
-
-	function newGrpTree($a_ref_id,$a_params)
+	function newGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
 	{  	
+		if (empty($a_parent_non_rbac_id))
+		{
+			$a_parent_non_rbac_id = $a_ref_id;
+		}
 		
 		$object =& $this->ilias->obj_factory->getInstanceByRefId($a_params);
-		$this->insertGroupNode($object->getRefId(), $a_ref_id  ,$this->getRefId(),$object->getId());
-		
-		
-		
-		/*$grp_tree = new ilTree($this->getRefId());
-		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
-
-
-		$grp_tree = new ilTree($this->getId());
-		$grp_tree->setTableNames("grp_tree","object_data");
-
-		
-		//if  grp object not in grp_table first put it in
-		if(!$grp_tree->isInTree($this->getRefId()))
-		{
-			//$this->createNewGroupTree($this->getRefId());
-		}
-		//else condition will be executed only if the Object already exists in the grp_tree table
-		else
-		{ 
-			if ($a_parent_non_rbac_id > 0)
-			{	 
-				$childrenNodes = $this->tree->getChilds($this->getRefId()); 
-
-				foreach ($childrenNodes as $child)
-				{
-					if (!$this->getRefId() == $grp_tree->getParentId($child["ref_id"]))
-					{	
-						$this->insertGroupNode($child["ref_id"],$a_parent_non_rbac_id,$this->getId(),$child["obj_id"]);
-						
-					}
-				}
-				
-			}
-			else
-			{ 
-				$childrenNodes = $this->tree->getChilds($_GET["ref_id"]); 
-
-				foreach ( $childrenNodes as $child)
-				{
-					$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-					//echo "ref_id:".$a_ref_id;
-					if( !$object->getRefId()==$grp_tree->getParentId($child["ref_id"]) )
-					{	
-						$this->insertGroupNode($child["ref_id"],$object->getRefId(),$this->getId(),$child["obj_id"]);
-						//echo $child["obj_id"]."-".$object->getId()."-".$this->getId()."-".$child["ref_id"];
-					}
-				}
-			}
-
-			
-		}*/
-		
-
+		$this->insertGroupNode($object->getRefId(),$a_parent_non_rbac_id,$this->getRefId(),$object->getId());
 	}
 	
 	function copyGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params)
@@ -1179,9 +1127,9 @@ class ilObjGroup extends ilObject
 			case "new":
 				
 				//avoids error during saving a new grp object
-				if ($a_params!= $this->getRefId())
+				if ($a_params != $this->getRefId())
 				{
-					$this->newGrpTree($a_ref_id,$a_params);
+					$this->newGrpTree($a_ref_id,$a_parent_non_rbac_id,$a_params);
 				}
 
 				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;

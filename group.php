@@ -41,18 +41,9 @@ require_once "./classes/class.ilGroupGUI.php";
 // for security
 unset($id);
 
-//determine call mode for object classes
-//TODO: don't use same var $id for both
-if (isset($_GET["obj_id"]))
-{
-	$call_by_reference = false;
-	$id = $_GET["obj_id"];
-}
-else
-{
-	$call_by_reference = true;
-	$id = $_GET["ref_id"];
-}
+$call_by_reference = true;
+$id = $_GET["ref_id"];
+
 
 // exit if no valid ID was given
 if (!isset($_GET["ref_id"]))
@@ -60,18 +51,9 @@ if (!isset($_GET["ref_id"]))
 	$ilias->raiseError("No valid ID given! Action aborted",$this->ilias->error_obj->MESSAGE);
 }
 
-
-
 if (!isset($_GET["type"]))
 {
-	if ($call_by_reference)
-	{
-		$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	}
-	else
-	{
-		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-	}
+	$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
 	$_GET["type"] = $obj->getType();
 }
@@ -129,19 +111,34 @@ if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 //			echo ("modul:  ".$module);
 //			echo ("objtype: ".$obj_type);
 
-			if ( $obj_type == "crs" or $obj_type=="frm" or $obj_type=="lm" or $obj_type=="slm" or $obj_type=="glo" or $obj_type == "fold")
-			{
-				$module_dir = ($module == "")
-					? ""
-					: $module."/";
-				$class_constr = "ilObj".$class_name."GUI";
-				//echo "class kons ".$class_constr." module_dir ".$module_dir;
-				require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-				$obj = new $class_constr($data, $id, $call_by_reference);
-				$method= $cmd."Object";
-				$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-				$obj->$method();
-			}
+$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+
+switch ($obj->getType())
+{
+	case "crs":
+	case "frm":
+	case "lm":
+	case "slm":
+	case "glo":
+		// nix
+		break;
+
+	case "fold":
+	case "file":
+		$_GET["ref_id"] = $obj->getGroupId();
+		break;
+}
+
+			$module_dir = ($module == "")
+				? ""
+				: $module."/";
+			$class_constr = "ilObj".$class_name."GUI";
+			//echo "class kons ".$class_constr." module_dir ".$module_dir;exit;
+			require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+			$obj = new $class_constr($data, $id, $call_by_reference,false);
+			$method= $cmd."Object";
+			$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->$method();
 		}
 }
 else
@@ -150,8 +147,5 @@ else
 
 	exit();
 }
-
-
-
 ?>
 
