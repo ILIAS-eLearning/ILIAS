@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.3 2003/03/31 09:04:53 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.4 2003/04/11 15:03:49 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,32 +68,9 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		parent::displayList();
 	}
 
-
-	/**
-	* Overwritten method from class.Object.php
-	* It handles all button commands from Learning Modules
-	*
-	* @access public
-	*/
-	function gatewayObject()
+	function exportObject()
 	{
-		global $lng;
-
-		switch(key($_POST["cmd"]))
-		{
-			case "import":
-				return $this->importObject();
-				break;
-
-			case "export":
-				return;
-				break;
-
-			case "upload":
-				return $this->uploadObject();
-				break;
-		}
-		parent::gatewayObject();
+		return;
 	}
 
 	/**

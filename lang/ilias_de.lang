@@ -79,7 +79,7 @@ common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#change#:#ändern
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
-common#:#change_language#:#Benutzersprache ändern
+common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
 common#:#changed_to#:#gewechselt zu
@@ -88,7 +88,7 @@ common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
-common#:#check_language#:#Sprache checken
+common#:#checkLanguage#:#Sprache checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
@@ -472,7 +472,7 @@ common#:#server_software#:#Server Software
 common#:#set#:#Setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
-common#:#set_system_language#:#Systemsprache ändern
+common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen

@@ -143,9 +143,9 @@
 	<action name="install">install</action>
 	<action name="uninstall">uninstall</action>
 	<action name="refresh">refresh</action>
-	<action name="setsyslang">set_system_language</action>
-	<action name="setuserlang">change_language</action>
-	<action name="checklang">check_language</action>
+	<action name="setsyslang">setSystemLanguage</action>
+	<action name="setuserlang">setUserLanguage</action>
+	<action name="checklang">checkLanguage</action>
 </object>
 <object name="mail" class_name="" checkbox="0">
 	<property name="edit">edit_properties</property>

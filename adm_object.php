@@ -56,14 +56,18 @@ if (!isset($_GET["type"]))
 	$_GET["type"] = $obj->getType();
 }
 
-//if no cmd is given default to first property
-if (!isset($_GET["cmd"]))
+// determine command
+if (($cmd = $_GET["cmd"]) == "gateway")
 {
-	$_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
+	$cmd = key($_POST["cmd"]);
+}
+if (empty($cmd)) // if no cmd is given default to first property
+{
+	$cmd = $objDefinition->getFirstProperty($_GET["type"]);
 }
 
-// CREATE OBJECT CALLS 'createObject' METHOD OF THE NEW OBJECT
-if ($_POST["new_type"] && (key($_POST["cmd"]) == "create"))
+// determine object type
+if ($_POST["new_type"] && ($cmd == "create"))
 {
 	$obj_type = $_POST["new_type"];
 }
@@ -76,92 +80,14 @@ else
 	$obj_type = $_GET["type"];
 }
 
-$method = $_GET["cmd"]."Object";
-// build object instance
-// e.g: cmd = 'view' type = 'frm'
-// => $obj = new ForumObject(); $obj->viewObject()
+// call gui object method
+$method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
-//$class_constr = "ilObj".$class_name;
-//require_once("./classes/class.ilObj".$class_name.".php");
-//$obj = new $class_constr($id,$call_by_reference);
-// call object method
-/*
-switch ($_GET["cmd"])
-{
-	// no more view() here! all calls moved to "out" class
-	case "view":
-		break;
-
-	// no more save() here! all calls moved to "out" class
-	case "save":
-		break;
-
-	// no more update() here! all calls moved to "out" class
-	case "update":
-		break;
-
-	// no more edit() here! all calls moved to "out" class
-	case "edit":
-		break;
-
-	// no more create() here! all calls moved to "out" class
-	case "create":
-		break;
-
-	// no more perm() here! all calls moved to "out" class
-	case "perm":
-		break;
-
-	// no more permsave() here! all calls moved to "out" class
-	case "permSave":
-		break;
-
-	// functions that shouldnt be called here
-	case "delete":
-	case "clone":
-		echo "delete or clone called !!!!!!!!!!!!!!";
-		// shouldn't be called here, just a test
-		break;
-
-	// no more gateway() here! all calls moved to "out" class
-	case "gateway":
-		break;
-
-	// no more addRole() here! all calls moved to "out" class
-	case "addRole":
-		break;
-
-	// no more owner() here! all calls moved to "out" class
-	case "owner":
-		break;
-
-	case "adoptPermSave":
-	case "assignSave":
-	case "trash":
-	case "activeRoleSave":
-		break;
-
-	default:
-//echo "hier!!! ".$_GET["cmd"]."!"; exit;
-		$data = $obj->$method();
-		break;
-}*/
-
-// CALL METHOD OF GUI OBJECT
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./classes/class.ilObj".$class_name."GUI.php");
 //echo "$class_constr().$method<br>"; //exit;
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->$method();
 
-// display basicdata formular
-// TODO: must be changed for clientel processing
-if ($_GET["cmd"] == "view" && $_GET["type"] == "adm")
-{
-	$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
-	$tpl->setCurrentBlock("systemsettings");
-	require_once "./include/inc.basicdata.php";
-	$tpl->parseCurrentBlock();
-}
 $tpl->show();
 ?>
