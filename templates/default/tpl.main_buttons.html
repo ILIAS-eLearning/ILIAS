@@ -10,64 +10,11 @@
 </head>
 <body>
 
-<style>
+<style type="text/css">
 body { margin:0px; }
 </style>
 
-<script language="Javascript" type="text/javascript">
-<![CDATA[
-<!--
-if (document.images)
-{
-        imag = new Array();
-        imag[0]  = "{TPLPATH}/images/navbar/desk.gif";
-        imag[1]  = "{TPLPATH}/images/navbar/course.gif";
-        imag[2]  = "{TPLPATH}/images/navbar/bookma.gif";
-        imag[3]  = "{TPLPATH}/images/navbar/search.gif";
-        imag[4]  = "{TPLPATH}/images/navbar/literat.gif";
-        imag[5]  = "{TPLPATH}/images/navbar/mail.gif";
-        imag[6]  = "{TPLPATH}/images/navbar/newsgr.gif";
-        imag[7]  = "{TPLPATH}/images/navbar/groups.gif";
-        imag[8]  = "{TPLPATH}/images/navbar/help.gif";
-        imag[9]  = "{TPLPATH}/images/navbar/feedb.gif";
-        imag[10] = "{TPLPATH}/images/navbar/logout.gif";
-        imag[11] = "{TPLPATH}/images/navbar/desk_o.gif";
-        imag[12] = "{TPLPATH}/images/navbar/course_o.gif";
-        imag[13] = "{TPLPATH}/images/navbar/bookma_o.gif";
-        imag[14] = "{TPLPATH}/images/navbar/search_o.gif";
-        imag[15] = "{TPLPATH}/images/navbar/literat_o.gif";
-        imag[16] = "{TPLPATH}/images/navbar/mail_o.gif";
-        imag[17] = "{TPLPATH}/images/navbar/newsgr_o.gif";
-        imag[18] = "{TPLPATH}/images/navbar/groups_o.gif";
-        imag[19] = "{TPLPATH}/images/navbar/help_o.gif";
-        imag[20] = "{TPLPATH}/images/navbar/feedb_o.gif";
-        imag[21] = "{TPLPATH}/images/navbar/logout_o.gif";
-        imag[22] = "{TPLPATH}/images/navbar/login.gif";
-        imag[23] = "{TPLPATH}/images/navbar/login_o.gif";
-        imag[24] = "{TPLPATH}/images/navbar/editor.gif";
-        imag[25] = "{TPLPATH}/images/navbar/editor_o.gif";
-        imag[26] = "{TPLPATH}/images/navbar/admin.gif";
-        imag[27] = "{TPLPATH}/images/navbar/admin_o.gif";
-        im = new Array();
-        for (var i = 0; i < imag.length; i++)
-        {
-                im[i] = new Image();
-                im[i].src = imag[i];
-        }
-        function swtch(num,imgname)
-        {
-                imgname.src = im[num].src;
-				window.status = '';
-        }
-        function swtchon(num,imgname,text)
-        {
-                imgname.src = im[num].src;
-				window.status = text;
-        }
-
-}
-//-->
-]]>
+<script type="text/javascript" src="{TPLPATH}/buttons.js">
 </script>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -78,47 +25,47 @@ if (document.images)
   <td width="1%" height="1"></td>
 </tr>
 <tr class="btnbar">
-  <td><img src="{TPLPATH}/images/spacer.gif" border="0" width="10" height="1"></td>
+  <td><img src="{TPLPATH}/images/spacer.gif" border="0" width="10" height="1" /></td>
   <td width="100%">
     <table cellpadding="0" cellspacing="0" border="0">
     <tr>
       <td colspan="6"><img border="0" src="{TPLPATH}/images/spacer.gif" width="1" height="4" /></td>
     </tr>
     <tr>
-      <td><a href="usr_personaldesktop.php" target="bottom" onMouseOver="swtchon(11,desk,'Personal Desktop');" onMouseOut="swtch(0,desk)">
+      <td><a href="usr_personaldesktop.php" target="bottom" onmouseover="swtchon(11,desk,'Personal Desktop');" onmouseout="swtch(0,desk)">
 	    <img border="0" src="{TPLPATH}/images/navbar/desk.gif" width="32" height="32" alt="{TXT_PERSONAL_DESKTOP}" name="desk" /></a>
 	  </td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="lo.php" target="bottom" onMouseOver="swtchon(12,courses,'Courses Overview');" onMouseOut="swtch(1,courses)">
+      <td><a href="lo.php" target="bottom" onmouseover="swtchon(12,courses,'Courses Overview');" onmouseout="swtch(1,courses)">
 	    <img border="0" src="{TPLPATH}/images/navbar/course.gif" width="32" height="32" alt="{TXT_LO_OVERVIEW}" name="courses" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="bookmarks.php" target="bottom" onMouseOver="swtchon(13,bookmarks,'Bookmarks');" onMouseOut="swtch(2,bookmarks)">
+      <td><a href="bookmarks.php" target="bottom" onmouseover="swtchon(13,bookmarks,'Bookmarks');" onmouseout="swtch(2,bookmarks)">
 	    <img border="0" src="{TPLPATH}/images/navbar/bookma.gif" width="32" height="32" alt="{TXT_BOOKMARKS}" name="bookmarks" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="search.php?act=index_suche&co_id=&co_inst=&lowcat=" target="bottom" onMouseOver="swtchon(14,srch,'Search Engine');" onMouseOut="swtch(3,srch)">
+      <td><a href="search.php?act=index_suche&co_id=&co_inst=&lowcat=" target="bottom" onmouseover="swtchon(14,srch,'Search Engine');" onmouseout="swtch(3,srch)">
 	    <img border="0" src="{TPLPATH}/images/navbar/search.gif" width="32" height="32" alt="{TXT_SEARCH}" name="srch" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="literature.php?act=&amp;back=index.php" target="bottom" onMouseOver="swtchon(15,literat,'Literature');" onMouseOut="swtch(4,literat)">
+      <td><a href="literature.php?act=&amp;back=index.php" target="bottom" onmouseover="swtchon(15,literat,'Literature');" onmouseout="swtch(4,literat)">
 	    <img border="0" src="{TPLPATH}/images/navbar/literat.gif" width="32" height="32" alt="{TXT_LITERATURE}" name="literat" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="mail.php" target="bottom" onMouseOver="swtchon(16,mail,'_mails');" onMouseOut="swtch(5,mail)">
+      <td><a href="mail.php" target="bottom" onmouseover="swtchon(16,mail,'_mails');" onmouseout="swtch(5,mail)">
 	    <img border="0" src="{TPLPATH}/images/navbar/mail.gif" width="32" height="32" alt="{TXT_MAIL}" name="mail" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="forums.php" target="bottom" onMouseOver="swtchon(17,newsgr,'_forums');" onMouseOut="swtch(6,newsgr)">
+      <td><a href="forums.php" target="bottom" onmouseover="swtchon(17,newsgr,'_forums');" onmouseout="swtch(6,newsgr)">
 	    <img border="0" src="{TPLPATH}/images/navbar/newsgr.gif" width="32" height="32" alt="{TXT_FORUMS}" name="newsgr" /></a></td>
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="groups.php" target="bottom" onMouseOver="swtchon(18,groups,'_groups');" onMouseOut="swtch(7,groups)">
+      <td><a href="groups.php" target="bottom" onmouseover="swtchon(18,groups,'_groups');" onmouseout="swtch(7,groups)">
 	    <img border="0" src="{TPLPATH}/images/navbar/groups.gif" width="32" height="32" alt="{TXT_GROUPS}" name="groups" /></a></td>
 
 <!-- BEGIN userisauthor -->
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="editor.php" target="bottom" onMouseOver="swtchon(25,editor,'Editor');" onMouseOut="swtch(24,editor)">
+      <td><a href="editor.php" target="bottom" onmouseover="swtchon(25,editor,'Editor');" onmouseout="swtch(24,editor)">
 	    <img border="0" src="{TPLPATH}/images/navbar/editor.gif" width="32" height="32" alt="{TXT_EDITOR}" name="editor" /></a></td>
 <!-- END userisauthor -->
 
 <!-- BEGIN userisadmin -->
       <td><img border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="admin.php" target="bottom" onMouseOver="swtchon(27,admin,'Administration');" onMouseOut="swtch(26,admin)">
+      <td><a href="admin.php" target="bottom" onmouseover="swtchon(27,admin,'Administration');" onmouseout="swtch(26,admin)">
 	    <img border="0" src="{TPLPATH}/images/navbar/admin.gif" width="32" height="32" alt="{TXT_ADMINISTRATION}" name="admin" /></a></td>
 <!-- END userisadmin -->
     </tr>
@@ -131,16 +78,16 @@ if (document.images)
     <table cellpadding="0" cellspacing="0" border="0">
     <tr>
       <td><img  border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="help.php" target="bottom" onMouseOver="swtch(19,help,'Help');" onMouseOut="swtch(8,help)" TARGET="_iliashelp">
+      <td><a href="help.php" target="bottom" onmouseover="swtch(19,help,'Help');" onmouseout="swtch(8,help)" TARGET="_iliashelp">
 	    <img  border="0" src="{TPLPATH}/images/navbar/help.gif" width="32" height="32" alt="{TXT_HELP}" name="help" /></a></td>
       <td><img  border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="feedback.php" target="bottom" onMouseOver="swtchon(20,feed,'Feedback');" onMouseOut="swtch(9,feed)">
+      <td><a href="feedback.php" target="bottom" onmouseover="swtchon(20,feed,'Feedback');" onmouseout="swtch(9,feed)">
 	    <img  border="0" src="{TPLPATH}/images/navbar/feedb.gif" width="32" height="32" alt="{TXT_FEEDBACK}" name="feed" /></a></td>
       <td><img  border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="logout.php" target="_top" onMouseOver="swtch(21,logout,'Logout');" onMouseOut="swtch(10,logout)">
+      <td><a href="logout.php" target="_top" onmouseover="swtch(21,logout,'Logout');" onmouseout="swtch(10,logout)">
 	    <img  border="0" src="{TPLPATH}/images/navbar/logout.gif" width="32" height="32" alt="{TXT_LOGOUT}" name="logout" /></a></td>
       <td><img  border="0" src="{TPLPATH}/images/spacer.gif" width="5" /></td>
-      <td><a href="http://www.ilias.uni-koeln.de" target="_blank" onMouseOver="window.status='ILIAS open source';return true;" onMouseOut="window.status='';">
+      <td><a href="http://www.ilias.uni-koeln.de" target="_blank" onmouseover="window.status='ILIAS open source';return true;" onmouseout="window.status='';">
 	    <img  border="0" src="{TPLPATH}/images/navbar/ilias.gif" width="32" height="32" alt="ILIAS open source" /></a></td>
       <td><small>&nbsp;</small></td>
     </tr>
