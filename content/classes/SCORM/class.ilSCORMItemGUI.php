@@ -21,111 +21,39 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once ("content/classes/SCORM/class.ilSCORMItem.php");
+require_once ("content/classes/SCORM/class.ilSCORMResource.php");
+require_once ("classes/class.ilObjSCORMLearningModule.php");
 
 /**
-* Parent object for all SCORM objects, that are stored in table scorm_object
+* GUI class for SCORM Items
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends ilSCORMObject
+* @extends ilSCORMItemGUI
 * @package content
 */
-class ilSCORMObject
+class ilSCORMItemGUI
 {
-	var $id;
-	var $title;
-	var $type;
-	var $slm_id;
-
-
-	/**
-	* Constructor
-	*
-	* @param	int		$a_id		Object ID
-	* @access	public
-	*/
-	function ilSCORMObject($a_id = 0)
+	function ilSCORMItemGUI($a_id)
 	{
-		global $ilias;
+		$this->sc_object =& new ilSCORMItem($a_id);
+	}
 
-		$this->ilias =& $ilias;
-		$this->id = $a_id;
-		if ($a_id > 0)
+	function view()
+	{
+		// get ressource identifier
+		$id_ref = $this->sc_object->getIdentifierRef();
+		if ($id_ref != "")
 		{
-			$this->read();
+			$resource =& new ilSCORMResource();
+			$resource->readByIdRef($id_ref, $this->sc_object->getSLMId());
+
+			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+
+			header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
 		}
 	}
-
-	function getId()
-	{
-		return $this->id;
-	}
-
-	function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
-
-	function getType()
-	{
-		return $this->type;
-	}
-
-	function setType($a_type)
-	{
-		$this->type = $a_type;
-	}
-
-	function getTitle()
-	{
-		return $this->title;
-	}
-
-	function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-
-	function getSLMId()
-	{
-		return $this->slm_id;
-	}
-
-	function setSLMId($a_slm_id)
-	{
-		$this->slm_id = $a_slm_id;
-	}
-
-	function read()
-	{
-		$q = "SELECT * FROM scorm_object WHERE obj_id = '".$this->getId()."'";
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setTitle($obj_rec["title"]);
-		$this->setType($obj_rec["type"]);
-		$this->setSLMId($obj_rec["slm_id"]);
-	}
-
-	function create()
-	{
-		$q = "INSERT INTO scorm_object (title, type, slm_id) VALUES ".
-			"('".$this->getTitle()."', '".$this->getType()."',".
-			"'".$this->getSLMId()."')";
-		$this->ilias->db->query($q);
-		$this->setId(getLastInsertId());
-	}
-
-	function update()
-	{
-		$q = "UPDATE scorm_object SET ".
-			"title = '".$this->getTitle()."', ".
-			"type = '".$this->getType()."', ".
-			"slm_id = '".$this->getSLMId()."' ".
-			"WHERE obj_id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
-	}
-
 }
 ?>

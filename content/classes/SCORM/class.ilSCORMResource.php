@@ -135,7 +135,7 @@ class ilSCORMResource extends ilSCORMObject
 	{
 		parent::read();
 
-		$q = "SELECT * FROM sc_resource WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM sc_resource WHERE obj_id = '".$this->getId()."'";
 
 		$obj_set = $this->ilias->db->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -167,6 +167,20 @@ class ilSCORMResource extends ilSCORMObject
 			$this->addDependency($res_dependency);
 		}
 
+	}
+
+	function readByIdRef($a_id_ref, $a_slm_id)
+	{
+		$q = "SELECT ob.obj_id AS id FROM sc_resource AS res, scorm_object as ob ".
+		"WHERE ob.obj_id = res.obj_id ".
+		"AND res.import_id = '$a_id_ref'".
+		"AND ob.slm_id = '$a_slm_id'";
+		$id_set = $this->ilias->db->query($q);
+		if ($id_rec = $id_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->setId($id_rec["id"]);
+			$this->read();
+		}
 	}
 
 	function create()
