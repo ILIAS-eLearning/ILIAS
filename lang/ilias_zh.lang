@@ -73,8 +73,10 @@ assessment#:#no_questions_available#:#There are no questions available!###05 Feb
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
 assessment#:#preview#:#Preview###07 Feb 2004 new variable
+assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
+assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
