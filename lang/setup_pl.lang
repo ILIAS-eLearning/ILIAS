@@ -47,7 +47,7 @@ change_basic_settings#:#Zmień ustawienia podstawowe
 change_password#:#Zmień hasło
 change_sort_direction#:#Zmień kierunek sortowania
 check_failed_convert#:#Nieudany test convert
-check_failed_htmldoc#:#Nieudany test HTMLdoc###26 May 2004 content changed
+check_failed_htmldoc#:#Nieudany test HTMLdoc
 check_failed_java#:#Nieudany test java
 check_failed_unzip#:#Nieudany test unzip
 check_failed_zip#:#Nieudany test zip
@@ -135,8 +135,8 @@ finish#:#Dokończ instalowanie
 finish_initial_setup_first#:#Najpierw dokończ instalację
 finish_setup#:#Kończenie instalowania
 firstname#:#Imię
-fop_path#:#Path to FOP###26 May 2004 new variable
-fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
+fop_path#:#Ścieżka do FOP
+fop_path_comment#:#wymagany do tworzenia dokumentów PDF
 hide_clientlist#:#Ukryj wybór klienta
 host#:#Serwer
 htmldoc_path#:#Ściezka do HTMLdoc
@@ -257,7 +257,7 @@ no_db_update_file#:#dbupdate.php nie został odnaleziony!
 no_password#:#Nie podano hasła
 no_path_convert#:#Nie podano ścieżki do convert
 no_path_datadir#:#Nie podano katalogu danych
-no_path_fop#:#No FOP path given###26 May 2004 new variable
+no_path_fop#:#Nie podano ścieżki do FOP
 no_path_given#:#Nie podano ścieżki
 no_path_htmldoc#:#Nie podano Scieżki do HTMLdoc
 no_path_java#:#Nie podano Scieżki do java
@@ -287,7 +287,7 @@ password_same#:#Stare i nowe hasła są takie same!
 password_set#:#Hasło zostało zapisane.
 path_not_set#:#Ścieżka nieustawiona
 path_to_convert#:#Ścieżka do Convert
-path_to_fop#:#Path to FOP###26 May 2004 new variable
+path_to_fop#:#Ścieżka do FOP
 path_to_htmldoc#:#Ścieżka do HTMLdoc
 path_to_java#:#Ścieżka do Java
 path_to_unzip#:#Ścieżka do Unzip
