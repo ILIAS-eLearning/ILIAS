@@ -191,7 +191,6 @@ class RoleObject extends Object
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
 			header("Location: content.php?obj_id=$_GET[parent]&parent=$_GET[parent_parent]");
-			exit();
 		}
 		else
 		{
@@ -398,11 +397,10 @@ class RoleObject extends Object
 	function adoptPermSaveObject()
 	{
 		global $rbacadmin, $rbacsystem;
-
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"]);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
 		}
 		else

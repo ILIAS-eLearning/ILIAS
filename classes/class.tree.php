@@ -523,12 +523,12 @@ class Tree extends PEAR
 		if(!empty($a_startnode) && empty($a_startparent))
 		{
 			$this->ilias->raiseError("function fetchPath(start,startparent,end,endparent) needs one more Argument",
-									 $this->ilias->error_object->WARNING);
+									 $this->ilias->error_object->FATAL);
 		}
 		if (empty($a_startnode))
 		{
 			$a_startnode = $this->root_id;
-			$a_startparent = 0;
+			$a_startparent = '0';
 		}
 
 		if (empty($a_endparent))
@@ -556,7 +556,7 @@ class Tree extends PEAR
 		}
 		else
 		{
-			$this->ilias->raiseError("Error: No path found!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("Error: No path found!",$this->ilias->error_obj->FATAL);
 		}
 	}
 
