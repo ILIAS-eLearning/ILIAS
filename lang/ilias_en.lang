@@ -3350,3 +3350,162 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+crs#:#crs_details#:#Course details
+crs#:#crs_syllabus#:#Syllabus
+crs#:#crs_contact#:#Contact
+crs#:#crs_contact_name#:#Name
+crs#:#crs_contact_responsibility#:#Responsibility
+crs#:#crs_contact_email#:#Email
+crs#:#crs_contact_phone#:#Telephone
+crs#:#crs_contact_consultation#:#Consultation
+crs#:#crs_dates#:#Dates
+crs#:#crs_activation#:#Activation
+crs#:#crs_subscription#:#Subscription
+crs#:#crs_archive#:#Archives
+crs#:#crs_not_available#:#-Not available-
+crs#:#crs_from#:#From:
+crs#:#crs_to#:#To:
+crs#:#crs_unlimited#:#Unlimited
+crs#:#crs_archive_disabled#:#Disabled
+crs#:#crs_settings#:#Course settings
+crs#:#crs_start#:#Start
+crs#:#crs_end#:#End
+crs#:#crs_offline#:#Offline
+crs#:#crs_subscription_type#:#Subscription type
+crs#:#crs_subscription_max_members#:#Maximum of members
+crs#:#crs_subscription_notify#:#Notify for subscriptions
+crs#:#crs_subscription_options_deactivated#:#Deactivated
+crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation
+crs#:#crs_subscription_options_direct#:#Direct subscription
+crs#:#crs_subscription_options_password#:#Subscription with password
+crs#:#crs_sortorder#:#Sort
+crs#:#crs_sort_manual#:#Sort manuell
+crs#:#crs_sort_title#:#Sort by title
+crs#:#crs_sort_activation#:#Sort by activation
+crs#:#crs_archive_select_type#:#Archive access type
+crs#:#crs_archive_type_disabled#:#No access
+crs#:#crs_archive_read#:#Read access
+crs#:#crs_archive_download#:#Download
+crs#:#crs_added#:#Added new course
+crs#:#crs_no_archives_available#:#There are no archives available
+crs#:#crs_edit_archive#:#Edit Archives
+crs#:#crs_xml#:#XML
+crs#:#crs_html#:#HTML
+crs#:#crs_pdf#:#PDF
+crs#:#crs_add_archive_xml#:#Add XML-Archive
+crs#:#crs_add_archive_html#:#Add HTML-Archive
+crs#:#crs_no_archive_selected#:#No archives selected
+crs#:#crs_select_one_archive#:#Please select one archive
+crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
+crs#:#crs_archives_deleted#:#The archive(s) have been deleted
+crs#:#crs_select_archive_language#:#Please select a language for the archive
+crs#:#crs_added_new_archive#:#A new archive has been added
+crs#:#crs_no_members_assigned#:#There are no members assigned to this course
+crs#:#crs_admin#:#Administrator
+crs#:#crs_tutor#:#Tutor
+crs#:#crs_member#:#Member
+crs#:#crs_notify#:#Notify for new registrations
+crs#:#crs_no_notify#:#No notify for new registrations
+crs#:#crs_blocked#:#Access refused
+crs#:#crs_unblocked#:#Free entrance
+crs#:#crs_no_valid_member_id_given#:#No valid member Id
+crs#:#crs_member_unblocked#:#Member (blocked)
+crs#:#crs_member_blocked#:#Mitglied (unblocked)
+crs#:#crs_tutor_notify#:#Tutor (notification)
+crs#:#crs_tutor_no_notify#:#Tutor (no notification)
+crs#:#crs_admin_notify#:#Administrator (notification)
+crs#:#crs_admin_no_notify#:#Administrator (no notification)
+crs#:#crs_max_members_reached#:#The maximum number of members has been reached
+crs#:#crs_member_updated#:#The member has been updated
+crs#:#crs_no_users_selected#:#You did not select any user
+crs#:#crs_users_added#:#Added user to the course
+crs#:#crs_users_already_assigned#:#The user is already assigned to this course
+crs#:#crs_search_str#:#Search term
+crs#:#crs_search_for#:#Search for
+crs#:#crs_number_users_added#:#The following number of users has been assigned to the course
+crs#:#crs_no_users_added#:#No members added
+crs#:#crs_no_subscribers_selected#:#Please select a user
+crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
+crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
+crs#:#crs_unsubscribe#:#Unsubscribe
+crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course
+crs#:#crs_no_member_selected#:#Please select one member
+crs#:#crs_delete_members_sure#:#Do you want to delete the following members from this course
+crs#:#crs_members_deleted#:#Deleted members
+crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
+crs#:#crs_search_members#:#User search
+crs#:#crs_search_enter_search_string#:#Please enter a search string
+crs#:#crs_no_results_found#:#No results found
+crs#:#crs_no_groups_selected#:#Please select a group
+crs#:#crs_new_search#:#New search
+crs#:#crs_role#:#Role
+crs#:#crs_status#:#Status
+crs#:#crs_members_title#:#Course members
+crs#:#crs_subscribers#:#Subscriptions
+crs#:#crs_time#:#Subscription time
+crs#:#crs_members_print_title#:#Course members
+crs#:#crs_role_status#:#Role / Status
+crs#:#crs_header_edit_members#:#Edit members
+crs#:#crs_list_users#:#List users
+crs_#:#crs_archives#:#Archives
+crs#:#crs_no_archives_selected#:#Please select an archive
+crs#:#crs_no_items_found#:#There are no course items
+crs#:#crs_move_up#:#Move up
+crs#:#crs_move_down#:#Move down
+crs#:#crs_count_members#:#Number of members
+crs#:#crs_header_delete_members#:#Delete members
+crs#:#crs_header_archives#:#Course archives
+crs#:#crs_file_name#:#File name
+crs#:#crs_create_date#:#Create date
+crs#:#crs_size#:#File size
+crs#:#crs_archive_lang#:#Language
+crs#:#crs_archive_type#:#Archive type
+crs#:#crs_delete_member#:#Delete members
+crs#:#crs_add_member#:#Add members
+crs#:#crs_options#:#Options
+crs#:#crs_add_subscribers#:#Add subscriber
+crs#:#crs_delete_subscribers#:#Delete subscriber
+crs#:#crs_auto_fill#:#Auto fill
+crs#:#crs_no_language#:#No language
+crs#:#crs_settings_saved#:#Settings saved
+crs#:#crs_header_members#:#Course members
+crs#:#crs_print_list#:#Print list
+crs#:#crs_mem_send_mail#:#Send mail
+crs#:#crs_mem_change_status#:#Change status
+crs#:#crs_content#:#Course content
+crs#:#crs_moved_item#:#Moved course item
+crs#:#crs_structure#:#Course structure
+crs#:#crs_export#:#Course export
+crs#:#crs_reject_subscriber#:#Course subscription
+crs#:#crs_reject_subscriber_body#:#Your subscription has been declined.
+crs#:#crs_accept_subscriber#:#Course subscription
+crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.
+crs#:#crs_dismiss_member#:#Course membership
+crs#:#crs_dismiss_member_body#:#You membership has been terminated
+crs#:#crs_blocked_member#:#Course membership
+crs#:#crs_blocked_member_body#:#Your membership has been terminated.
+crs#:#crs_unblocked_member#:#Course membership
+crs#:#crs_unblocked_member_body#:#Your membership has been restored
+crs#:#crs_added_member#:#Course membership
+crs#:#crs_added_member_body#:#You have been accepted to this course.
+crs#:#crs_status_changed#:#Course status
+crs#:#crs_status_changed_body#:#Your course status has been changed.
+crs#:#crs_new_subscription#:#New course subscription
+crs#:#crs_new_subscription_body#:#A new user has been subscribed
+crs#:#crs_subscription_successful#:#You have been subscribed to this course
+crs#:#crs_password_not_valid#:#Your password is not valid
+crs#:#crs_registration#:#Course registration
+crs#:#crs_info_reg#:#Information for registration
+crs#:#crs_info_reg_deactivated#:#There is no registration possible
+crs#:#crs_info_reg_confirmation#:#This course needs confimation by a course administrator. You will get a message if you have been assigned to the course.
+crs#:#crs_info_reg_direct#:#It is necessary to register to this course
+crs#:#crs_info_reg_password#:#Registration needs a valid password.
+crs#:#crs_reg_until#:#Registration date
+crs#:#crs_access_password#:#Password
+crs#:#crs_reg_user_blocked#:#You are blocked from this course
+crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course
+crs#:#crs_reg_user_already_subscribed#:#You have already subscribed to this course
+crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
+crs#:#crs_reg_subscription_start_later#:#The registration time starts later
+crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
+crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.

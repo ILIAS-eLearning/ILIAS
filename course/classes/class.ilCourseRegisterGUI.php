@@ -102,7 +102,7 @@ class ilCourseRegisterGUI
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
-					sendInfo("crs_subscription_successful",true);
+					sendInfo($this->lng->txt("crs_subscription_successful"),true);
 					$this->ctrl->returnToParent($this);
 				}
 				else
@@ -117,7 +117,7 @@ class ilCourseRegisterGUI
 				if($this->course_obj->members_obj->addSubscriber($this->user_id))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
-					sendInfo("crs_subscription_successful",true);
+					sendInfo($this->lng->txt("crs_subscription_successful"),true);
 					$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->course_id));
 					$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 				}
@@ -134,14 +134,14 @@ class ilCourseRegisterGUI
 
 				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
 				{
-					sendInfo("crs_password_not_valid",true);
+					sendInfo($this->lng->txt("crs_password_not_valid"),true);
 					$this->showRegistrationForm();
 				}
 				else if($this->course_obj->members_obj->add($tmp_obj,$this->course_obj->members_obj->ROLE_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilObjUser::updateActiveRoles($this->user_id);
-					sendInfo("crs_subscription_successful",true);
+					sendInfo($this->lng->txt("crs_subscription_successful"),true);
 					$this->ctrl->returnToParent($this);
 				}
 				else

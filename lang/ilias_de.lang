@@ -212,8 +212,6 @@ assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
-assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
-assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
@@ -3444,10 +3442,10 @@ crs#:#crs_members_title#:#Kursmitglieder
 crs#:#crs_subscribers#:#Anmeldungen
 crs#:#crs_time#:#Datum der Anmeldung
 crs#:#crs_members_print_title#:#Kursmitglieder
-crs#:#crs_role_status#:#Roole/Status
+crs#:#crs_role_status#:#Rolle/Status
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_list_users#:#Benutzer auflisten
-crs_#:#crs_archives#:#Archives
+crs_#:#crs_archives#:#Archive
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
 crs#:#crs_move_up#:#Nach oben verschieben
@@ -3456,7 +3454,7 @@ crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_header_delete_members#:#Mitglieder löschen
 crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_file_name#:#Dateiname
-crs#:#crs_create_date#:#Erstellungdatum
+crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_archive_lang#:#Sprache
 crs#:#crs_archive_type#:#Archivtyp
