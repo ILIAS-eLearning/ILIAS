@@ -57,10 +57,12 @@ class domxml
 		$num = func_num_args();
 		$args = func_get_args();
 		
-		if (($num == 1) && is_object($args[0])) {
+		if (($num == 1) && is_object($args[0]))
+		{
 			$this->doc = $args[0];
 		}
-		else {
+		else
+		{
 			$this->initNewDocument($args[0],$args[1],$args[2]);
 		}
 	}
@@ -87,8 +89,19 @@ class domxml
 		if (!$a_charset) {
 			$a_charset = "UTF-8";
 		}
+
+		// create the xml string (workaround for domxml_new_doc) ***
+		$xmlHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>". // *** ISO-8859-1
+					 "<root />"; // dummy node
 		
-		$this->doc = new_xmldoc($a_version);
+		// create a domxml document object
+		$this->doc = domxml_open_mem($xmlHeader); // *** Fehlerabfrage
+		
+		// delete dummy node 
+		$root = $this->doc->document_element();
+		$root->unlink_node();
+		
+		//$this->doc = new_xmldoc($a_version);
 		$this->setEncoding($a_encoding);
 		$this->setCharset($a_charset);
 	}
@@ -211,7 +224,6 @@ class domxml
 	* 					right	(int) = right value (for traversing tree in relational DB))
 	* The key is the internal id of the domDocument. Also the ids of other nodes are internal references.
 	* The array is written to $this->tree. Use $this->buildTree() to return the variable.
-	* attributes are NOT converted yet!
 	*
 	* @param	object		domNode
 	* @param	integer		left value (optional; only needed for recursion))
@@ -235,12 +247,20 @@ class domxml
 		} 
 
 		$node2 = (array)$node;
+		
+		// init structure data
+		// provides additional information about document structure
+		// bitwise:
+		// 1: has attributes
+		// 2: has text element 
+		$this->tree[$node2[0]]["struct"] = 0;
 
 		if ($parent = $node->parent_node()) {
 			$parent = (array)$parent;
 		} 
 
-		if ($first = $node->first_child()) {
+		if ($first = $node->first_child())
+		{
 			$first = (array)$first;
 		} 
 
@@ -263,31 +283,39 @@ class domxml
 		$this->tree[$node2[0]]["left"] = $left;
 		$left++;
 
-		foreach ($node->child_nodes() as $child) {
+		// write attributes to sub-array
+		if ($node->has_attributes())
+		{
+			$data = "";
+			
+			foreach ($node->attributes() as $attribute)
+			{
+				$data[$attribute->name] = $attribute->value;
+			}
+
+			$this->tree[$node2[0]]["attr_list"] = $data;
+			$this->tree[$node2[0]]["struct"] += 1;
+		}
+
+		// check if one child is a text_node
+		foreach ($node->child_nodes() as $child)
+		{
+			if ($child->node_type() == XML_TEXT_NODE)
+			{
+				$this->tree[$node2[0]]["struct"] += 2;
+				break;
+			}
+		}
+		
+		// recursive call
+		// please don't merge this loop with the one above together! 
+		foreach ($node->child_nodes() as $child)
+		{
 			$this->transform($child, $left, $lvl);
-		} 
+		}
 		
 		$this->tree[$node2[0]]["right"] = $left;
 		$left++;
-
-		/**
-		* if ($child->has_attributes())
-		* {
-		* foreach ($child->attributes() as $attribute)
-		* {
-		* $attribute2 = (array)$attribute;
-		* //echo "<b>ATTR: ".$attribute->name."</b>";
-		* //echo " (".$attribute2[0].")<br>";
-		* $tree[$attribute2[0]]["name"] = $attribute->name;
-		* 
-		* $tree[$attribute2[0]]["left"] = $left;
-		* $left++;
-		* $tree[$attribute2[0]]["right"] = $left;
-		* $left++;
-		* //echo "<pre>";var_dump($attribute);echo "</pre>";
-		* }
-		* }
-		*/
 	}
 
 	/**
@@ -306,7 +334,8 @@ class domxml
 			$a_node = $this->doc;
 		}
 		
-		$this->transform($a_node);
+		$this->transform($a_node,1);
+		
 		return $this->tree;
 	}
 
@@ -468,6 +497,27 @@ class domxml
 	function createElement ($a_node)
 	{
 		return $this->doc->create_element($a_node);
+	}
+
+	function addElement ($a_parent, $a_node)
+	{
+		$node = $this->doc->create_element($a_node);
+		$node = $a_parent->append_child($node);
+		
+		return $node;
+	}
+		
+	/**
+	* wrapper for create_element
+	* Main purpose of this method is to simplify access
+	* of DOM-Functions.
+	* @param	object	domNode
+	* @return	object	domNode
+	* @access	public 
+	*/
+	function createText ($a_text)
+	{
+		return $this->doc->create_text_node($a_text);
 	}
 
 	/**

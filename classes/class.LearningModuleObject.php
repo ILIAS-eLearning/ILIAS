@@ -20,6 +20,51 @@ class LearningModuleObject extends Object
 	{
 		$this->Object();
 	}
+	
+	function viewObject()
+	{
+		global $rbacsystem, $tree, $tpl;
+		
+		$lotree = new Tree($_GET["obj_id"],0,0,$_GET["obj_id"]);
+		//prepare objectlist
+		$this->objectList = array();
+		$this->objectList["data"] = array();
+		$this->objectList["ctrl"] = array();
+
+		$this->objectList["cols"] = array("", "view", "title", "description", "last_change");
+		
+		if ($lotree->getChilds($this->id, $_GET["order"], $_GET["direction"]))
+		{
+			foreach ($lotree->Childs as $key => $val)
+		    {
+				// visible
+				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				//{
+				//	continue;
+				//}
+		
+				//visible data part
+				$this->objectList["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+
+				//control information
+				$this->objectList["ctrl"][] = array(
+					"type" => $val["type"],
+					"obj_id" => $_GET["obj_id"],
+					"parent" => $_GET["parent"],
+					"parent_parent" => $val["parent_parent"],
+					"lm_id" => $_GET["obj_id"],
+					"lo_id" => $val["id"]
+				);
+				
+		    } //foreach
+		} //if 
+		return $this->objectList;
+	}
 
 	function importObject()
 	{
@@ -103,7 +148,7 @@ class LearningModuleObject extends Object
 					$element->unlink_node();
 					
 					// create a new domDocument containing the isolated LearningObject in $subtree
-					$lo = new LearningObject();
+					$lo = new LearningObjectObject();
 					$node  = $lo->domxml->appendChild($subtree);
 				
 					// get LO informationen (title & description)
@@ -132,7 +177,7 @@ class LearningModuleObject extends Object
 		//$xmldoc->domxml->dump_file("c:/htdocs/ilias3/xml/file".$n.".xml");
 		
 		// insert the remaining root-LO into DB
-		$lo = new LearningObject($domxml->doc);
+		$lo = new LearningObjectObject($domxml->doc);
 		$obj_data = $lo->getInfo();
 		$lo_id = createNewObject("lo",$obj_data);
 		$lotree = $lo->domxml->buildTree();

@@ -4,13 +4,11 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.4 2002/12/12 15:33:25 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.5 2002/12/16 15:17:07 smeyer Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
 */
-
-require_once("classes/class.ObjectOut.php");
 
 class LearningModuleObjectOut extends ObjectOut
 {
@@ -23,7 +21,7 @@ class LearningModuleObjectOut extends ObjectOut
 	{
 		$this->ObjectOut($a_data);
 	}
-	
+
 	/**
 	* display dialogue for importing XML-LeaningObjects
 	*
