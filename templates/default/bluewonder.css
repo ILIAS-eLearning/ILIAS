@@ -93,8 +93,12 @@ a.btn {
         font-size:x-small;
 }
 
-a.btn:hover, a.btn:visited {
+a.btn:hover {
         color:#ccccff;
+}
+
+a.btn:visited {
+        color:#000022;
 }
 
 a.tblheader:visited, a.tblheader:hover {
