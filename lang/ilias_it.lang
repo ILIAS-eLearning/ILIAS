@@ -1107,6 +1107,7 @@ common#:#no_date#:#Manca la data
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Nessuna risorsa nella lista personale.
 common#:#no_objects#:#Nessun oggetto
 common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Utente aggiunto
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Nuovo utente
 common#:#usr_skin_style#:#Tema / Stile
 common#:#usr_style#:#Stile dell&#039;utente

@@ -1107,6 +1107,7 @@ common#:#no_date#:#Немає дати
 common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
 common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
 common#:#no_import_available#:#Імпорт не доступний для цього типу
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
 common#:#no_objects#:#Немає об'єктів
 common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Користувач доданий
 common#:#usr_agreement#:#Угода Користувача
 common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Новий Користувач
 common#:#usr_skin_style#:#Скін / Стиль
 common#:#usr_style#:#Стиль Користувача
