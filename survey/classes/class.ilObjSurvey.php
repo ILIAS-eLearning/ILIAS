@@ -1609,13 +1609,13 @@ class ilObjSurvey extends ilObject
 	function &getVariables($question_id)
 	{
 		$result_array = array();
-		$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.category_fi = survey_category.category_id AND survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
+		$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable LEFT JOIN survey_category ON survey_variable.category_fi = survey_category.category_id WHERE survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result_array[$row->sequence] = $row->title;
+			$result_array[$row->sequence] = $row;
 		}
 		return $result_array;
 	}
