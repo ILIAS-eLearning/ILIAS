@@ -1,0 +1,60 @@
+<table class="fullwidth">
+<form action="{FORMACTION}" name="post" method="post"  enctype="multipart/form-data">
+<tr class="tblheader">
+	<td class="std" colspan="6">
+		{TXT_ACTION}
+	</td>
+</tr>
+<tr>
+	<td class="option" width="1" colspan="1">
+		{TXT_LANGUAGE}
+	</td>
+	<td class="option_value" width="1"  colspan="2">
+		{SELECT_LANGUAGE}
+	</td>
+</tr>
+<tr class="tblheader">
+	<td class="option" width="1">
+		{TXT_SUBCHARACTERISTIC}
+	</td>
+	<td class="option_value" width="1">
+		{SELECT_SUBCHARACTERISTIC}&nbsp;<input type="checkbox" name="par_showlinenumbers" {SHOWLINENUMBERS}/>{TXT_SHOWLINENUMBERS}
+	</td>
+	<!--<td class="option_value" width="1" nowrap="true">
+		<input type="checkbox" name="par_isexample" {ISEXAMPLE}/>Is Example
+	</td>-->
+</tr>
+
+<tr class="std">
+<td class="std" colspan="5">
+<textarea name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="option">	
+		{TXT_DOWNLOADTITLE}
+	</td>
+	<td class="option_value"  colspan="5">	
+		<input name="par_downloadtitle" size="40" type="text" value="{DOWNLOAD_TITLE_VALUE}"/>
+	</td>
+</tr>
+<!--</form>-->
+<!-- END commands -->
+<tr>
+	<td class="option">				
+			{TXT_IMPORTFILE}
+	</td>
+	<td class="option_value"  colspan="5">				
+			<input name="userfile" size="40" type="file">&nbsp;<input class="submit" type="submit" name="cmd[{UPLOAD_BTN_NAME}]" value="{TXT_UPLOAD_BTN}">		
+	</td>
+</tr>
+<tr>
+	<td class="submit"  colspan="5">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+
+<input type="hidden" name="MAX_FILE_SIZE" value="30000">
+</form>
+</table>

@@ -117,6 +117,7 @@ class ilTermDefinitionEditorGUI
 				$page =& $this->definition->getPageObject();
 				$page->addUpdateListener($this, "saveShortText");
 				$page_gui =& new ilPageObjectGUI($page);
+				$page_gui->setSourcecodeDownloadScript("glossary_presentation.php?ref_id=".$_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				$page_gui->setLocator($gloss_loc);

@@ -24,6 +24,9 @@
 //require_once("content/classes/class.ilLMObject.php");
 require_once("content/classes/Pages/class.ilPageContent.php");
 require_once("content/classes/Pages/class.ilPCParagraph.php");
+require_once("syntax_highlight/php/Beautifier/Init.php");
+require_once("syntax_highlight/php/Output/Output_css.php");
+
 
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
@@ -1371,6 +1374,147 @@ class ilPageObject
 		unset($xpc);
 	}
 
+	/**
+	* Highligths Text with given ProgLang
+	*/
+	
+	function highlightText($a_text, $proglang)
+	{
+		
+		if ($this->hasHighlighter($proglang)) {
+			require_once("syntax_highlight/php/HFile/HFile_$proglang.php");
+			$classname =  "HFile_$proglang";
+			$highlighter = new Core(new $classname(), new Output_css());
+		
+			$a_text = $highlighter->highlight_text($a_text);
+		
+			// mask html
+			$a_text = str_replace("&","&amp;",$a_text);
+			$a_text = str_replace("<","&lt;",$a_text);
+			$a_text = str_replace(">","&gt;",$a_text);
+		} 
+		
+		return $a_text;
+	}
+	
+	function hasHighlighter ($hfile_ext) {
+		return file_exists ("syntax_highlight/php/HFile/HFile_$hfile_ext.php");		
+	}
+
+	/**
+	* depending on the SubCharacteristic and ShowLineNumbers
+	* attribute the line numbers and html tags for the syntax
+	* highlighting will be inserted using the dom xml functions
+	*/
+	
+	function addSourceCodeHighlighting()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//Paragraph[@Characteristic = 'Code'][@SubCharacteristic != ''] | //Paragraph[@Characteristic = 'Code-Example'][@SubCharacteristic != '']";
+
+		$res = & xpath_eval($xpc, $path);
+				
+		
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$context_node = $res->nodeset[$i];
+			$n = $context_node->parent_node();
+			$char = $context_node->get_attribute('Characteristic');
+			$subchar = $context_node->get_attribute('SubCharacteristic');
+			$showlinenumbers = $context_node->get_attribute('ShowLineNumbers');
+			$downloadtitle = $context_node->get_attribute('DownloadTitle');
+			
+			if (empty($subchar) || !$this->hasHighlighter ($subchar))
+				continue;
+
+			$content = "";
+
+
+			// get XML Content
+			$childs = $context_node->child_nodes();
+
+			for($j=0; $j<count($childs); $j++)
+			{								
+				$content .= $this->dom->dump_node($childs[$j]);							
+			}
+	
+			while ($context_node->has_child_nodes ()) {
+				$node_del = $context_node->first_child ();
+				$context_node->remove_child ($node_del);
+			}
+					
+			$content = str_replace("<br />", "<br/>", $content );
+			$content = str_replace("<br/>", "\n", $content);			
+			$rownums = count(split ("\n",$content));
+									
+			$plain_content = html_entity_decode($content);
+
+			$content = $this->highlightText($plain_content, $subchar);
+
+			$table	="&lt;TR&gt;&lt;TD&gt;&lt;PRE&gt;";
+	 		$row  	="%s\n";
+	
+			$rownumbers="";
+	
+			for ($j=0; $j < $rownums; $j++)  
+			{	$indentno      = strlen($rownums) - strlen($j+1) + 2;
+				$rownumeration = str_repeat("&amp;nbsp;",$indentno).($j+1)."&amp;nbsp;&amp;nbsp;&amp;nbsp;";
+				$rownumbers   .= sprintf($row,(strcmp($showlinenumbers,"n")==0)?"&amp;nbsp;":$rownumeration);
+			}
+			$rows = $rownumbers."&lt;/PRE&gt;&lt;/TD&gt;&lt;TD&gt;&lt;PRE&gt;".$content."&lt;/PRE&gt;&lt;/TD&gt;";
+			
+			if (!ereg("^&lt;/TR&gt;",$rows))
+	  			$rows .= "&lt;/TR&gt;";
+	
+	
+	
+			$newcontent = $table .$rows;
+			
+			$newcontent = str_replace("\n", "<br />", $newcontent);			
+	
+			$context_node->set_content($newcontent);							
+		}
+				
+	}
+	
+	function send_paragraph ($par_id, $filename) {		
+		$this->builddom();
+		
+		$mydom = $this->dom;
+			
+		$xpc = xpath_new_context($mydom);
+		
+		$path = "//PageContent[position () = $par_id]/Paragraph";
+		
+		$res = & xpath_eval($xpc, $path);
+		
+		if (count ($res->nodeset) != 1)
+			die ("Should not happen");
+
+		$context_node = $res->nodeset[0];
+		
+		// get plain text
+		
+		$childs = $context_node->child_nodes();
+			
+		for($j=0; $j<count($childs); $j++)
+		{								
+			$content .= $mydom->dump_node($childs[$j]);							
+		}
+			
+		$content = str_replace("<br />", "\n", $content);
+		$content = str_replace("<br/>", "\n", $content);			
+		
+		$plain_content = html_entity_decode($content);		
+		
+		
+		$file_type = "application/octet-stream";
+		header("Content-type: ".$file_type);
+		header("Content-disposition: attachment; filename=\"$filename\"");
+		echo $plain_content;
+		exit();
+	}
+	
 	/**
 	* get fo page content
 	*/
