@@ -219,7 +219,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:if test="@Type = 'PageObject' or @Type = 'GlossaryItem' or @Type = 'StructureObject'">
+		<xsl:if test="@Type = 'PageObject' or @Type = 'StructureObject'">
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
@@ -228,6 +228,14 @@
 			</xsl:if>
 			<xsl:if test="$mode = 'presentation'">
 				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test="@Type = 'GlossaryItem'">
+			<xsl:if test="$mode = 'edit' or $mode = 'preview'">
+				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$mode = 'presentation'">
+				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 		</xsl:if>
 		<xsl:apply-templates/>

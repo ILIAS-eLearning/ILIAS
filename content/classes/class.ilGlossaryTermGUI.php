@@ -115,6 +115,61 @@ class ilGlossaryTermGUI
 		$this->term->update();
 	}
 
+	function output()
+	{
+		require_once("content/classes/class.ilGlossaryDefinition.php");
+		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
+		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
+
+		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm()."hbh");
+
+		for($j=0; $j<count($defs); $j++)
+		{
+			$def = $defs[$j];
+			$page =& new ilPageObject("gdf", $def["id"]);
+			$page_gui =& new ilPageObjectGUI($page);
+			//$page_gui->setOutputMode("edit");
+			//$page_gui->setPresentationTitle($this->term->getTerm());
+			$page_gui->setTemplateOutput(false);
+			$output = $page_gui->preview();
+
+			if (count($defs) > 1)
+			{
+				$this->tpl->setCurrentBlock("definition_header");
+						$this->tpl->setVariable("TXT_DEFINITION",
+				$this->lng->txt("cont_definition")." ".($j+1));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($j > 0)
+			{
+				$this->tpl->setCurrentBlock("up");
+				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
+				$this->tpl->setVariable("LINK_UP",
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($j+1 < count($defs))
+			{
+				$this->tpl->setCurrentBlock("down");
+				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
+				$this->tpl->setVariable("LINK_DOWN",
+					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("definition");
+			$this->tpl->setVariable("PAGE_CONTENT", $output);
+			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$this->tpl->setVariable("LINK_EDIT",
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("LINK_DELETE",
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 }
 
 ?>
