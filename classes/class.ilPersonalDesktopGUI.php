@@ -476,10 +476,26 @@ class ilPersonalDesktopGUI
 			$i++;
 			$this->tpl->setCurrentBlock("tbl_tst_row");
 			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TST_LINK", "assessment/test.php?ref_id=".$tst_item["id"]."&cmd=run");
+			$this->tpl->setVariable("TST_LINK", $tst_item["link"]);
 			$this->tpl->setVariable("TST_TITLE", $tst_item["title"]);
 			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=tst&id=".$tst_item["id"]);
 			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
+	    $this->lng->loadLanguageModule("assessment");
+			$status_image = "";
+			if (!isset($tst_item["used_tries"])) {
+				// test is new
+				$status_image = $this->lng->txt("tst_status_not_entered");
+			} elseif ($tst_item["used_tries"] == 0) {
+				// test is not completed
+				$status_image = $this->lng->txt("tst_status_progress");
+			} elseif (($tst_item["nr_of_tries"] > 0) and ($tst_item["used_tries"] == $tst_item["nr_of_tries"])) {
+				// test is completed
+				$status_image = $this->lng->txt("tst_status_completed");
+			} else {
+				// test is completed but can be completed again
+				$status_image = $this->lng->txt("tst_status_completed_more_tries_possible");
+			}
+			$this->tpl->setVariable("TST_STATUS_IMAGE", $status_image);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -494,6 +510,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->setCurrentBlock("tbl_tst");
 		$this->tpl->setVariable("TXT_TST_HEADER",$this->lng->txt("my_tsts"));
 		$this->tpl->setVariable("TXT_TST_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_TST_STATUS",$this->lng->txt("status"));
 		$this->tpl->parseCurrentBlock();
 
 	}

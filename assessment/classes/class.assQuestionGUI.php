@@ -1473,7 +1473,6 @@ class ASS_QuestionGUI extends PEAR {
     asort($array_matching);
 
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
-    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
 		if (!empty($this->question->materials)) {
 			$i=1;
 			$this->tpl->setCurrentBlock("material_preview");
@@ -1539,7 +1538,6 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
-    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
 		if (!empty($this->question->materials)) {
 			$i=1;
 			$this->tpl->setCurrentBlock("material_preview");
@@ -1591,7 +1589,6 @@ class ASS_QuestionGUI extends PEAR {
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
     $this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
-    $this->tpl->addBlockFile("MATERIAL_DOWNLOAD", "material", "tpl.il_as_execute_material.html", true);
 		if (!empty($this->question->materials)) {
 			$i=1;
 			$this->tpl->setCurrentBlock("material_preview");
