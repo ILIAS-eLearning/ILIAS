@@ -3883,16 +3883,20 @@ class ilObjSurvey extends ilObject
 		}
 		if (!$error)
 		{
-			// import file as a test
-			$fh = fopen($source, "r");
+			// import file as a survey
+			$import_dir = $this->getImportDirectory();
+			$importfile = tempnam($import_dir, "survey_import");
+			move_uploaded_file($source, $importfile);
+			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
 //			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->MESSAGE);
 				$error = 1;
 				return $error;
 			}
-			$xml = fread($fh, filesize($source));
+			$xml = fread($fh, filesize($importfile));
 			$result = fclose($fh);
+			unlink($importfile);
 			if (!$result)
 			{
 //			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
@@ -3901,7 +3905,7 @@ class ilObjSurvey extends ilObject
 			}
 			if (preg_match("/(<survey[^>]*>.*?<\/survey>)/si", $xml, $matches))
 			{
-				// read test properties
+				// read survey properties
 				$import_results = $this->from_xml($matches[1]);
 				if ($import_results === false)
 				{
@@ -4427,6 +4431,10 @@ class ilObjSurvey extends ilObject
 	{
 		$import_dir = ilUtil::getDataDir()."/svy_data".
 			"/svy_".$this->getId()."/import";
+		if (!is_dir($import_dir))
+		{
+			ilUtil::makeDirParents($import_dir);
+		}
 		if(@is_dir($import_dir))
 		{
 			return $import_dir;
