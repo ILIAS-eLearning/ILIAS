@@ -1,25 +1,25 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
-{BUTTONS}
-{MESSAGE}
 <form name="form" action="{FORMACTION}" method="post">
-
-<h3>{TXT_FOLDER_NEW}</h3>
-
-<table cellspacing=0 cellpadding=2 border=0>
-<tr class="tblrow2">
-  <td><b>&nbsp;{TXT_NAME}</b></td>
-  <td>&nbsp;<input type=text maxlength=255 name="name" value="{NAME}">&nbsp;</td>
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_FOLDER_NEW}</td>
 </tr>
-<tr class="tblrow1">
-  <td>&nbsp;{TXT_CREATE_IN_FOLDER}</td>
-  <td>&nbsp;<select name="in_folder" size=1>
-  <option value="top">{TXT_TOP}</option>
+<tr>
+	<td class="option">{TXT_NAME}</td>
+	<td class ="option_value"><input type=text maxlength=255 name="name" value="{NAME}"></td>
+</tr>
+<tr>
+	<td class="option">{TXT_CREATE_IN_FOLDER}</td>
+	<td class="option_value"><select name="in_folder" size=1>
+	<option value="top">{TXT_TOP}</option>
 <!-- BEGIN selfolders -->
-  <option value="{SEL_VALUE}" {SEL_SELECTED}>{SEL_OPTION}</option>
+	<option value="{SEL_VALUE}" {SEL_SELECTED}>{SEL_OPTION}</option>
 <!-- END selfolders -->
-  </select></td>
+	</select></td>
+</tr>
+<tr>
+	<td class="submit" colspan="2">
+	<input class="submit" type="submit" name="submit" value="{TXT_SAVE}">
+	</td>
 </tr>
 </table>
-  <br>
-  <input type=submit name="submit" value="{TXT_SAVE}">
 </FORM>

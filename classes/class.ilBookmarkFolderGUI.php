@@ -7,6 +7,9 @@
 *
 * @package application
 */
+
+require_once ("./classes/class.ilBookmarkFolder.php");
+
 class ilBookmarkFolderGUI
 {
 	/**
@@ -25,6 +28,7 @@ class ilBookmarkFolderGUI
 	var $tpl;
 	var $lng;
 
+	var $tree;
 	var $id;
 	var $data;
 
@@ -98,8 +102,56 @@ class ilBookmarkFolderGUI
 
 	}
 
-	function save()
+	/**
+	* display create bookmark folder form
+	*/
+	function create()
 	{
+		global $tpl, $lng;
+
+		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
+		//$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		//$tpl->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
+		//$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmark_new"));
+		$tpl->setVariable("TXT_URL", $lng->txt("url"));
+		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+
+		// folder selection list
+		/*
+		$folders = $bookmarks->getFolders();
+		foreach ($folders as $folder)
+		{
+			$tpl->setCurrentBlock("selfolders");
+			$tpl->setVariable("SEL_OPTION", $folder["name"]);
+			$tpl->setVariable("SEL_VALUE", $folder["id"]);
+			$tpl->parseCurrentBlock();
+		} */
+
+		$tpl->setVariable("TXT_TOP", $lng->txt("top"));
+		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
+		$tpl->setVariable("TXT_FOLDER", $lng->txt("folder"));
+		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
+		$tpl->setVariable("FORMACTION", "bookmarks.php?cmd=createBookmarkfolder");
+		//$tpl->parseCurrentBlock();
+
+		//$tpl->setVariable("PAGECONTENT",$tpl->get());
+		//$tpl->show();
+	}
+
+
+	/**
+	* insert new bookmark folder into db
+	*/
+	function createBookmarkfolder()
+	{
+		$bmf = new ilBookmarkFolder();
+		$bmf->setName($_POST["name"]);
+		$bmf->setParent($this->id);
+		$bmf->create();
+
+		$this->display();
 	}
 
 
@@ -234,7 +286,109 @@ class ilBookmarkFolderGUI
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
 
+		// SHOW VALID ACTIONS
+		$this->showActions();
+
+		// SHOW POSSIBLE SUB OBJECTS
+		$this->showPossibleSubObjects();
+
 	}
+
+
+	/**
+	* display copy, paste, ... actions
+	*/
+	function showActions()
+	{
+		global $objDefinition;
+
+		$notoperations = array();
+		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
+		if (empty($_SESSION["clipboard"]))
+		{
+			$notoperations[] = "paste";
+			$notoperations[] = "clear";
+		}
+		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
+		if ($_SESSION["clipboard"])
+		{
+			$notoperations[] = "cut";
+			$notoperations[] = "copy";
+			$notoperations[] = "link";
+		}
+
+		$operations = array();
+
+		$d = $objDefinition->getActions("bmf");
+
+		foreach ($d as $row)
+		{
+			if (!in_array($row["name"], $notoperations))
+			{
+				$operations[] = $row;
+			}
+		}
+
+		if (count($operations)>0)
+		{
+			foreach ($operations as $val)
+			{
+				$this->tpl->setCurrentBlock("operation_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("operation");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* display subobject addition selection
+	*/
+	function showPossibleSubObjects()
+	{
+		global $objDefinition;
+
+		$d = $objDefinition->getSubObjects("bmf");
+
+		if (count($d) > 0)
+		{
+			foreach ($d as $row)
+			{
+			    $count = 0;
+				if ($row["max"] > 0)
+				{
+					//how many elements are present?
+					for ($i=0; $i<count($this->data["ctrl"]); $i++)
+					{
+						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+						{
+						    $count++;
+						}
+					}
+				}
+				if ($row["max"] == "" || $count < $row["max"])
+				{
+					$subobj[] = $row["name"];
+				}
+			}
+		}
+
+		if (is_array($subobj))
+		{
+			//build form
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
+
+			$this->tpl->setCurrentBlock("add_obj");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "bookmarks.php?cmd=create&bmf_id=".$_GET["bmf_id"]);
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
 
 }
 ?>

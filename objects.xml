@@ -226,15 +226,17 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_note</action>
 </object>
-<object name="favf" class_name="BookmarkFolder" checkbox="0">
-	<subobj name="fav">fav</subobj>
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="owner">show_owner</property>
-	<action name="add">add_favorite</action>
-	<action name="delete">delete_favorite</action>
+<object name="bmf" class_name="BookmarkFolder" checkbox="1">
+	<subobj name="bmf">bmf</subobj>
+	<subobj name="bm">bm</subobj>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
-<object name="fav" class_name="Bookmark" checkbox="1">
+<object name="bm" class_name="Bookmark" checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
