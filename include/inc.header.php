@@ -38,7 +38,7 @@ require_once "classes/class.ilLog.php";
 require_once "classes/class.rbacAdmin.php";
 require_once "classes/class.rbacSystem.php";
 require_once "classes/class.rbacReview.php";
-require_once "classes/class.rbacAdminH.php";
+require_once "classes/class.ilRbacAdminH.php";
 require_once "classes/class.rbacSystemH.php";
 require_once "classes/class.rbacReviewH.php";
 
@@ -112,7 +112,7 @@ if ($script != "login.php" && $script != "index.php")
 
 	// init rbac
 	$rbacsystem = new RbacSystemH();
-	$rbacadmin = new RbacAdminH();
+	$rbacadmin = new ilRbacAdminH();
 	$rbacreview = new RbacReviewH();
 
 	// TODO: rbacAdmin should only start when using admin-functions.
