@@ -2828,3 +2828,13 @@ while ($gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC))
 	$this->db->query($query);
 }
 ?>
+
+<#184>
+CREATE TABLE scorm_tracking2
+(
+	user_id INT NOT NULL,
+	sco_id INT NOT NULL,
+	lvalue VARCHAR(64),
+	rvalue TEXT,
+	PRIMARY KEY(user_id, sco_id)
+);

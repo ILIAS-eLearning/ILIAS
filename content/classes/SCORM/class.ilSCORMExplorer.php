@@ -42,6 +42,7 @@ class ilSCORMExplorer extends ilExplorer
 	 * @access private
 	 */
 	var $slm_obj;
+	var $api;
 
 	/**
 	* Constructor
@@ -52,14 +53,19 @@ class ilSCORMExplorer extends ilExplorer
 	function ilSCORMExplorer($a_target, &$a_slm_obj)
 	{
 		parent::ilExplorer($a_target);
-		$this->slm_obj =& $a_slm_obj;		
+		$this->slm_obj =& $a_slm_obj;
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
-		$this->root_id = $this->tree->readRootId();						
-		$this->checkPermissions(false);		
+		$this->root_id = $this->tree->readRootId();
+		$this->checkPermissions(false);
 		$this->outputIcons(false);
 		$this->setOrderColumn("");
+		$this->api = 1;
 	}
 
+	function setAPI($a_api_nr)
+	{
+		$this->api = $a_api_nr;
+	}
 
 	/**
 	* overwritten method from base class
@@ -365,13 +371,21 @@ class ilSCORMExplorer extends ilExplorer
 			//$target = (strpos($this->target, "?") === false) ?
 			//	$this->target."?" : $this->target."&";
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
-				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+				if ($this->api == 1)
+				{
+					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+				}
+				else
+				{
+					$tpl->setVariable("ONCLICK", " onclick=\"test\"");
+				}
+
 			}
 			$tpl->parseCurrentBlock();
 		}
