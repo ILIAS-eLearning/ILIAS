@@ -34,6 +34,15 @@ function initForm()
 	{
 		document.form.externaltitle.value = opener.editor.getSelectedHTML();
 		if(document.form.externaltitle.value=="&nbsp;") document.form.externaltitle.value = "";
+		P = document.form.externaltitle.value;
+		for(i=0;i<100;i++) {
+			P = P.replace("&nbsp;","");
+			P = P.replace("<P>","");
+			P = P.replace("</P>","");
+			P = P.replace("<BR>","");
+			P = P.replace("<BR />","");
+		}
+		document.form.externaltitle.value = P;
 		document.form.externalurl.focus();
 	}
 	window.focus();		
