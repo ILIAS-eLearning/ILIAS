@@ -133,3 +133,6 @@ VALUES (
 # new column in `frm_posts`
 ALTER TABLE `frm_posts` ADD `update_user` INT NOT NULL ;
 
+<#9>
+#  delete operation create of root folder and add operation delete
+UPDATE rbac_ta SET ops_id='6' WHERE typ_id='33' AND ops_id='5';
