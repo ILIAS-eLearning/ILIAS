@@ -115,8 +115,10 @@ assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
 assessment#:#create_new#:#Twórz nowe
 assessment#:#delete_area#:#Usuń obszar
+assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#duplicate#:#Kopiuj
 assessment#:#end_tag#:#Znacznik Końca
+assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
@@ -224,6 +226,7 @@ assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
+assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
 assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
 assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
