@@ -90,8 +90,8 @@ administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
-administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan log für Details
-administration#:#view_last_log#:#Zeige letztes Scan Log
+administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
+administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
@@ -119,7 +119,7 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
 assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
-assessment#:#ass_question#:#Question###17 Jan 2005 new variable
+assessment#:#ass_question#:#Frage
 assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
@@ -411,9 +411,9 @@ assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte we
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_more_available_questionpools#:#Es stehen keine weiteren Fragenpools zur Verfügung!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
-assessment#:#tst_no_questionpools_for_random_test#:#You have not added a questionpool for this random test! Please select at least one questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questionpools_for_random_test#:#Sie haben keinen Fragenpool für diesen Zufallstest ausgewählt! Bitte wählen Sie mindestens einen Fragenpool aus.
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
-assessment#:#tst_no_questions_for_random_test#:#You have taken no questions from the questionspools for this random test! Please take at least one question by setting the amount of questions for an added questionpool.###17 Jan 2005 new variable
+assessment#:#tst_no_questions_for_random_test#:#Sie haben für diesen Zufallstest keine Fragen aus den Fragenpools ausgewählt! Bitte wählen Sie mindestens eine Frage aus.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_no_tries#:#keine
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
@@ -572,8 +572,8 @@ bibitem#:#bibitem_year#:#Jahr
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
-chat#:#chat_add_external_ip#:#Please add the server's external IP.###21 Jan 2005 new variable
-chat#:#chat_add_internal_ip#:#Please add the server's internal IP.###21 Jan 2005 new variable
+chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
+chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
 chat#:#chat_aqua#:#aqua
@@ -634,8 +634,8 @@ chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
 chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
 chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1 oder 192.168.1.2)
-chat#:#chat_server_external_ip#:#Server external IP###21 Jan 2005 new variable
-chat#:#chat_server_internal_ip#:#Server internal IP###21 Jan 2005 new variable
+chat#:#chat_server_external_ip#:#Externe Server IP
+chat#:#chat_server_internal_ip#:#Interne Server IP
 chat#:#chat_server_logfile#:#Pfad zur Logdatei
 chat#:#chat_server_loglevel#:#Loglevel
 chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
@@ -733,14 +733,14 @@ common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#articels_unread#:#Ungelesene Beiträge:
 common#:#as_of#:#Stand
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###26 Jan 2005 new variable
-common#:#assessment_log_datetime#:#Date/Time###26 Jan 2005 new variable
-common#:#assessment_log_for_test#:#For test###26 Jan 2005 new variable
-common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!###26 Jan 2005 new variable
-common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###26 Jan 2005 new variable
-common#:#assessment_log_question#:#Question###26 Jan 2005 new variable
-common#:#assessment_log_select_test#:#--- Please select a test ---###26 Jan 2005 new variable
-common#:#assessment_log_text#:#Log message###26 Jan 2005 new variable
+common#:#assessment_log#:#Test&Assessment-Protokoll für einen bestimmten Zeitraum anlegen
+common#:#assessment_log_datetime#:#Datum/Zeit
+common#:#assessment_log_for_test#:#Zum Testen
+common#:#assessment_log_no_log#:#Es ist kein Protokoll für den gewählten Test und Zeitraum vorhanden
+common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumswahl zu öffnen (erfordert JavaScript!)
+common#:#assessment_log_question#:#Frage
+common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
+common#:#assessment_log_text#:#Protokoll-Nachricht
 common#:#assessment_settings#:#Test&Assessment Adminstration
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration
@@ -1034,7 +1034,7 @@ common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
-common#:#disable#:#disable###26 Jan 2005 new variable
+common#:#disable#:#ausschalten
 common#:#disabled#:#Ausgeschaltet
 common#:#domain#:#Domäne
 common#:#down#:#Runter
@@ -1241,7 +1241,7 @@ common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#global#:#Global
-common#:#global_settings#:#Global settings###26 Jan 2005 new variable
+common#:#global_settings#:#Globale Einstellungen
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
@@ -1348,7 +1348,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
-common#:#hide#:#hide###26 Jan 2005 new variable
+common#:#hide#:#ausblenden
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hist_dbk:pg_create#:#Seite angelegt
@@ -2202,7 +2202,7 @@ common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
 common#:#size#:#Größe
-common#:#skin_style#:#Default Skin / Style###26 Jan 2005 new variable
+common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Externe Benutzerverwaltung (SOAP)
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, können alle Benutzerzugänge über einen externen SOAP-Client verwaltet werden.
@@ -2380,10 +2380,10 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
-common#:#usr_settings_header_profile#:#User profile settings###26 Jan 2005 new variable
-common#:#usr_settings_header_profile_profile#:#Personal profile setting###26 Jan 2005 new variable
-common#:#usr_settings_saved#:#Global user settings saved successfully!###26 Jan 2005 new variable
+common#:#usr_settings_explanation_profile#:#Klicken Sie in die bestehenden Checkboxen um bestimmte Einstellungen im Persönlichen Profil für alle Anwender zu aktivieren oder zu deaktivieren. Deaktivierte oder ausgeblendete Einstellungen können nur in der Systemadministration von ILIAS bearbeitet werden.
+common#:#usr_settings_header_profile#:#Einstellungen Benutzerprofil
+common#:#usr_settings_header_profile_profile#:#Einstellungen Persönliches Profil
+common#:#usr_settings_saved#:#Globale Benutzereinstellungen erfolgreich gespeichert
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten
@@ -2406,7 +2406,7 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
-common#:#webservices#:#Webservices###28 Jan 2005 new variable
+common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
