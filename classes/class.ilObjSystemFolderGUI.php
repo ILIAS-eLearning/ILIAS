@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.13 2003/10/27 16:27:56 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.14 2003/10/29 13:56:48 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -60,7 +60,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->objectList = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-		$this->data["cols"] = array("type", "title", "description", "last_change");
+		$this->data["cols"] = array("type", "title", "last_change");
 
 		$childs = $tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
@@ -75,8 +75,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
-										"title" => $val["title"],
-										"description" => $val["desc"],
+										"title" => $val["title"]."#separator#".$val["desc"],
+										//"description" => $val["desc"],
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
@@ -443,6 +443,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		$tbl->setColumnWidth(array("15","75%","25%"));
 		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -490,6 +491,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 							$n++;
 						}
 					}
+					
+					if ($key == "title")
+					{
+						$name_field = explode("#separator#",$val);
+					}
 
 					if ($key == "title" || $key == "type")
 					{
@@ -507,7 +513,19 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					if ($key == "title")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+				
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");

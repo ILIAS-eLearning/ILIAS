@@ -360,6 +360,12 @@ span.il_Helptext {
 	font-weight:normal;
 }
 
+.subtitle {
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+}
+
 
 /* ----------------- normal links ------------- */
 

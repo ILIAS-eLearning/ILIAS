@@ -197,6 +197,12 @@ div.invisible_border {
 	font-weight:normal;
 }
 
+.subtitle {
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+}
+
 .moderator_small {
 	text-decoration:none;
 	font-size:11px;
