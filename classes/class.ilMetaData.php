@@ -157,7 +157,7 @@ class ilMetaData
 			</MetaData>
 		';
 		$this->nested_obj->import($xml, $this->getID(), $this->getType());
-		
+
 		return $metaData;
 	}
 

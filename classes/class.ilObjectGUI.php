@@ -192,7 +192,7 @@ class ilObjectGUI
 	function assignObject()
 	{
 		// TODO: it seems that we always have to pass only the ref_id
-//echo "assign:".get_class($this).":<br>";
+//echo "assign:".get_class($this).":".$this->id.":<br>";
 		if ($this->id != 0)
 		{
 			if ($this->call_by_reference)
