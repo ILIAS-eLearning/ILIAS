@@ -511,6 +511,8 @@ common#:#salutation_m#:#Herr
 common#:#save#:#Speichern
 common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Nachricht speichern
+common#:#save_refresh#:#Save and Refresh###11 Jul 2003 new variable
+common#:#save_return#:#Save and Return###11 Jul 2003 new variable
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
