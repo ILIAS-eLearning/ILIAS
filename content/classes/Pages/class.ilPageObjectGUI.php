@@ -41,10 +41,12 @@ class ilPageObjectGUI
 	var $lng;
 	var $obj;
 	var $output_mode;
+	var $output_submode;
 	var $presentation_title;
 	var $target_script;
 	var $return_location;
 	var $target_var;
+	var $template_output_var;
 	var $output2template;
 	var $link_params;
 	var $bib_id;
@@ -64,6 +66,9 @@ class ilPageObjectGUI
 		$this->output_mode = "presentation";
 		$this->setPageObject($a_page_object);
 		$this->output2template = true;
+
+		// USED FOR TRANSLATIONS
+		$this->template_output_var = "PAGE_CONTENT";
 	}
 
 	function setBibId($a_id)
@@ -179,6 +184,28 @@ class ilPageObjectGUI
 	{
 		return $this->target_var;
 	}
+	
+	function setTemplateOutputVar($a_value)
+	{
+		// USED FOR TRANSLATION PRESENTATION OF dbk OBJECTS
+		$this->template_output_var = $a_value;
+	}
+	
+	function getTemplateOutputVar()
+	{
+		return $this->template_output_var;
+	}
+
+	function setOutputSubmode($a_mode)
+	{
+		// USED FOR TRANSLATION PRESENTATION OF dbk OBJECTS
+		$this->output_submode = $a_mode;
+	}
+
+	function getOutputSubmode()
+	{
+		return $this->output_submode;
+	}
 
 	/*
 	* display content of page
@@ -196,7 +223,14 @@ class ilPageObjectGUI
 			}
 			else
 			{
-				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
+				if($this->getOutputSubmode() == 'translation')
+				{
+					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_translation_content.html", true);
+				}
+				else
+				{
+					$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
+				}
 			}
 			$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
 		}
@@ -252,7 +286,7 @@ class ilPageObjectGUI
 		// output
 		if($this->outputToTemplate())
 		{
-			$this->tpl->setVariable("PAGE_CONTENT", $output);
+			$this->tpl->setVariable($this->getTemplateOutputVar(), $output);
 		}
 		else
 		{
