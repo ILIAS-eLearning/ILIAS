@@ -164,12 +164,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 //echo ":".$this->checkClipboardContentType().":<br>";
 			if(ilEditClipboard::getContentObjectType() == "pg")
 			{
-				// check wether page belongs to lm
-				if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
-					== $this->content_object->getID())
-				{
-					$acts["pastePage"] = "pastePage";
-				}
+				$acts["pastePage"] = "pastePage";
 			}
 			$this->setActions($acts);
 			$this->showActions();
@@ -493,9 +488,23 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// copy page, if action is copy
 		if (ilEditClipboard::getAction() == "copy")
 		{
-			$lm_page = new ilLMPageObject($this->content_object, $id);
-			$new_page =& $lm_page->copy();
-			$id = $new_page->getId();
+			// check wether page belongs to lm
+			if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
+				== $this->content_object->getID())
+			{
+				$lm_page = new ilLMPageObject($this->content_object, $id);
+				$new_page =& $lm_page->copy();
+				$id = $new_page->getId();
+			}
+			else
+			{
+				// get page from other content object into current content object
+				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
+				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
+				$lm_page = new ilLMPageObject($lm_obj, $id);
+				$new_page =& $lm_page->copyToOtherContObject($this->content_object);
+				$id = $new_page->getId();
+			}
 		}
 
 		if(!$tree->isInTree($id))
