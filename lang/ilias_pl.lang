@@ -33,35 +33,35 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#Oprogramowanie innych firm###09 Jan 2004 content changed
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
-common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
+common#:#3rd_party_software#:#Oprogramowanie innych firm
+common#:#DD.MM.YYYY#:#DD.MM.RRRR
+common#:#HH:MM#:#GG:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
-common#:#access#:#Akces
+common#:#access#:#Dostęp
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
-common#:#active_roles#:#Aktywnne stanowiska
+common#:#active_roles#:#Aktywnne role
 common#:#add#:#Dodaj
-common#:#add_author#:#dodaj autora
-common#:#add_member#:#dodaj członka
-common#:#add_translation#:#dodaj tłumaczenie
-common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
-common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
-common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
+common#:#add_author#:#Dodaj autora
+common#:#add_member#:#Dodaj członka
+common#:#add_translation#:#Dodaj tłumaczenie
+common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
+common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
+common#:#adm_visible#:#Ustawienia systemowe są widoczne
+common#:#adm_write#:#Edycja podstawowych ustawień systemu
 common#:#administrate#:#Administruj
 common#:#administration#:#Administracja
 common#:#administrator#:#Administrator
 common#:#adopt#:#Przejmij
-common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu stanowiska
+common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu
 common#:#all_objects#:#Wszystkie obiekty
 common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
 common#:#and#:#i
 common#:#announce#:#Ogłoś
 common#:#announce_changes#:#Ogłoś zmiany
 common#:#answers#:#Odpowiedzi
-common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
+common#:#application_completed#:#Aplikacja jest kompletna
 common#:#application_date#:#Data utworzenia aplikacji
 common#:#appointment#:#Umówiony termin
 common#:#appointment_list#:#Lista umówionych spotkań
@@ -69,13 +69,13 @@ common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
 common#:#assign#:#Przydziel
 common#:#assign_lo_forum#:#Przydziel forum (PN)
-common#:#assign_user_to_role#:#Przydziel użytkownikowi stanowisko
+common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
 common#:#attachments#:#Załączniki
 common#:#author#:#Autor
 common#:#authors#:#Autorzy
-common#:#available_languages#:#dostępne języki
+common#:#available_languages#:#Dostępne języki
 common#:#back#:#Powrót
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dane podstawowe
@@ -96,26 +96,26 @@ common#:#cancel#:#Anuluj
 common#:#cannot_uninstall_language_in_use#:#Nie możesz odinstalować używanego języka!
 common#:#cannot_uninstall_systemlanguage#:#Nie możesz odinstalować języka systemu!
 common#:#cat#:#Kategoria
-common#:#cat_a#:#kategoria###13 Jan 2004 content changed
+common#:#cat_a#:#kategoria
 common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
-common#:#cat_create#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
-common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
-common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
-common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
-common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
+common#:#cat_create#:#Twórz Kategorię
+common#:#cat_create_cat#:#Twórz Kategorię
+common#:#cat_create_crs#:#Twórz Kurs
+common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
+common#:#cat_create_exc#:#Twórz Ćwiczenie
+common#:#cat_create_frm#:#Twórz Forum
+common#:#cat_create_glo#:#Twórz Słownik
+common#:#cat_create_grp#:#Twórz Grupę
+common#:#cat_create_lm#:#Twórz Moduł Nauczania
+common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
+common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
-common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#cat_new#:#Nowa kategoria###13 Jan 2004 content changed
-common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
-common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
-common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
+common#:#cat_edit_permission#:#Zmień ustawienia uprawnień
+common#:#cat_new#:#Nowa kategoria
+common#:#cat_read#:#Prawo czytania Kategorii
+common#:#cat_visible#:#Kategoria jest widoczna
+common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
@@ -133,11 +133,11 @@ common#:#chapter_title#:#Tytuł rozdziału
 common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
-common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
-common#:#choose_language#:#wybierz swój język
-common#:#choose_location#:#wybierz miejsce
+common#:#choose_language#:#Wybierz swój język
+common#:#choose_location#:#Wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
@@ -145,7 +145,7 @@ common#:#client_id#:#ID Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
 common#:#comma_separated#:#Odzielony przecinkiem
-common#:#comment#:#komentarz
+common#:#comment#:#Komentarz
 common#:#compose#:#Utwórz nową
 common#:#confirm#:#Zatwierdź
 common#:#cont_object#:#Obiekt
@@ -164,21 +164,21 @@ common#:#crs_a#:#Kurs
 common#:#crs_add#:#Dodaj kurs
 common#:#crs_added#:#Kurs został dodany
 common#:#crs_available#:#Dostępne kursy
-common#:#crs_create#:#Create Course###13 Jan 2004 new variable
-common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
+common#:#crs_create#:#Twórz Kurs
+common#:#crs_create_frm#:#Twórz Forum
+common#:#crs_create_glo#:#Twórz Słownik
+common#:#crs_create_lm#:#Twórz Moduł Nauczania
+common#:#crs_create_slm#:#Twórz Moduł Nauczania SCORM
+common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
-common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
-common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
+common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
+common#:#crs_join#:#Subskrybuj Kurs
+common#:#crs_leave#:#Rezygnuję z subskrybcji kursu
 common#:#crs_management_system#:#System zarządzania kursami
 common#:#crs_new#:#Nowy kurs
-common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
-common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
-common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
+common#:#crs_read#:#Prawo czytania Kursu
+common#:#crs_visible#:#Kurs jest widoczny
+common#:#crs_write#:#Edycja Kursu
 common#:#current_password#:#Aktualne hasło
 common#:#cut#:#Wytnij
 common#:#cutPage#:#Wytnij
@@ -186,7 +186,7 @@ common#:#database#:#Baza danych
 common#:#database_version#:#Wersja biezącej bazy danych
 common#:#dataset#:#Zestaw Danych
 common#:#date#:#Data
-common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
+common#:#dateplaner#:#Planer
 common#:#day#:#Dzień
 common#:#days#:#Dni
 common#:#db_host#:#Serwer bazy danych
@@ -196,22 +196,22 @@ common#:#db_pass#:#Hasło do bazy danych
 common#:#db_type#:#Typ bazy danych
 common#:#db_user#:#Użytkownik bazy danych
 common#:#db_version#:#Wersja bazy danych
-common#:#dbk#:#Książka Digilib
-common#:#dbk_a#:#Książka Digilib
-common#:#dbk_add#:#Dodaj Książkę Digilib
-common#:#dbk_added#:#Książka Digilib została dodana
-common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
-common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
-common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#dbk_new#:#Nowa książka Digilib
-common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
-common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
-common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
+common#:#dbk#:#Książka Cyfrowa
+common#:#dbk_a#:#Książka Cyfrowa
+common#:#dbk_add#:#Dodaj Książkę Cyfrową
+common#:#dbk_added#:#Książka Cyfrowa została dodana
+common#:#dbk_create#:#Twórz Książkę Cyfrową
+common#:#dbk_delete#:#Usuń Książkę Cyfrową
+common#:#dbk_edit_permission#:#Zmień ustawienia uprawnień
+common#:#dbk_new#:#Nowa Książka Cyfrowa
+common#:#dbk_read#:#Prawo czytania Książki Cyfrowej
+common#:#dbk_visible#:#Książka Cyfrowa jest widoczna
+common#:#dbk_write#:#Edycja Książki Cyfrowej
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
-common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
-common#:#default_role#:#Domyślne stanowisko
-common#:#default_roles#:#Domyślne stanowiska
+common#:#default_perm_settings#:#Domyślne uprawnienia
+common#:#default_role#:#Domyślna rola
+common#:#default_roles#:#Domyślne role
 common#:#default_skin#:#Domyślna skórka
 common#:#default_skin_style#:#Domyślna Skórka / Styl
 common#:#default_style#:#Domyślny styl
@@ -230,7 +230,7 @@ common#:#download#:#Pobierz
 common#:#drafts#:#Szkice
 common#:#drop#:#Drop
 common#:#edit#:#Edytuj
-common#:#edit_data#:#edytuj dane
+common#:#edit_data#:#Edytuj dane
 common#:#edit_operations#:#Edytuj operacje
 common#:#edit_properties#:#Edytuj właściwości
 common#:#edit_stylesheet#:#Edytuj styl
@@ -249,8 +249,8 @@ common#:#err_in_line#:#Bląd w linii
 common#:#err_no_langfile_found#:#Nie znaleziono pliku językowego!
 common#:#err_no_param#:#Brak parametru!
 common#:#err_over_3_param#:#Więcej niż 3 parametry!
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
-common#:#err_session_expired#:#YTwoja sesja się zakończyła!
+common#:#err_role_not_assignable#:#W tym miejscu nie możesz przydzielić użytkowników do tej roli.
+common#:#err_session_expired#:#Twoja sesja się zakończyła!
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
 common#:#error_recipient#:#Odbiorca błędu
@@ -259,13 +259,13 @@ common#:#exc_add#:#Dodaj ćwiczenie
 common#:#exc_added#:#Ćwiczenie zostało dodane
 common#:#exc_ask_delete#:#Usunąć plik?
 common#:#exc_assign_usr#:#Przydziel użytkownika
-common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
+common#:#exc_create#:#Twórz ćwiczenie
 common#:#exc_date_not_valid#:#Data jest nieprawidłowa
 common#:#exc_deassign_members#:#Usuń członka(ów)
-common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
+common#:#exc_delete#:#Usuń ćwiczenie
 common#:#exc_edit#:#Nowe ćwiczenie zostało utworzone
 common#:#exc_edit_exercise#:#Edytuj ćwiczenie
-common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#exc_edit_permission#:#Zmień ustawienia uprawnień
 common#:#exc_edit_until#:#Edytuj aż do
 common#:#exc_files#:#Pliki
 common#:#exc_groups#:#Grupy
@@ -277,10 +277,10 @@ common#:#exc_new#:#Nowe ćwiczenie
 common#:#exc_no_members_assigned#:#Brak przydzielonych członków
 common#:#exc_notices#:#Uwagi
 common#:#exc_obj#:#Ćwiczenie
-common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
+common#:#exc_read#:#Dostęp do ćwiczenia
 common#:#exc_save_changes#:#Zachowaj
 common#:#exc_search_for#:#Szukaj
-common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
+common#:#exc_select_one_file#:#Wybierz dokładnie jeden plik.
 common#:#exc_send_exercise#:#Wyślij ćwiczenie
 common#:#exc_sent#:#Ćwiczenie zostało wysłane do wybranego użytkownika.
 common#:#exc_status_returned#:#Zwrócone
@@ -288,12 +288,12 @@ common#:#exc_status_saved#:#Ćwiczenie zostało uaktualnione
 common#:#exc_status_solved#:#Rozwiązane
 common#:#exc_upload_error#:#Błąd podczas wysyłania ćwiczenia.
 common#:#exc_users#:#Użytkownicy
-common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
-common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
-common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#exc_visible#:#Ćwiczenie jest widoczne
+common#:#exc_write#:#Edycja ćwiczenia
+common#:#excs#:#Ćwiczenia
 common#:#execute#:#Wykonaj
-common#:#export_html#:#eksportuj jako plik html
-common#:#export_xml#:#eksportuj jako plik xml
+common#:#export_html#:#Eksportuj jako plik html
+common#:#export_xml#:#Eksportuj jako plik xml
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
 common#:#fax#:#Faks
 common#:#feedback#:#Informacja systemowa
@@ -306,7 +306,7 @@ common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
 common#:#file_valid#:#Plik ważny!
-common#:#file_version#:#Versja podana w pliku
+common#:#file_version#:#Wersja podana w pliku
 common#:#files_location#:#Miejsce plików
 common#:#fill_out_all_required_fields#:#Wypęłnij wszystkie konieczne pola
 common#:#firstname#:#Imię
@@ -316,9 +316,9 @@ common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
 common#:#fold_new#:#Nowy Folder
-common#:#folder#:#folder###11 Dec 2003 new variable
+common#:#folder#:#Folder
 common#:#folders#:#Foldery
-common#:#force_accept_usr_agreement#:#Musisz zaakceptować zgodę użytkownika.
+common#:#force_accept_usr_agreement#:#Musisz zaakceptować zasady użytkowania.
 common#:#forename#:#Nazwisko
 common#:#form_empty_fields#:#Wypełnij te pola:
 common#:#forum#:#Forum
@@ -326,18 +326,18 @@ common#:#forums#:#Fora
 common#:#forums_overview#:#Przegląd forów
 common#:#frm#:#Forum
 common#:#frm_a#:#Forum
-common#:#frm_add#:#dodaj Forum
+common#:#frm_add#:#Dodaj Forum
 common#:#frm_added#:#Forum dodane
-common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
-common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
-common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
+common#:#frm_create#:#Twórz Forum
+common#:#frm_delete#:#Usuń Forum
+common#:#frm_delete_post#:#Usuń wiadomość
 common#:#frm_edit#:#Edytuj Forum
-common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
+common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
+common#:#frm_edit_post#:#Edytuj wiadomość
 common#:#frm_new#:#Nowe Forum
-common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
-common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
-common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
+common#:#frm_read#:#Prawo czytania Forum
+common#:#frm_visible#:#Forum jest widoczne
+common#:#frm_write#:#Edycja Forum
 common#:#from#:#Od
 common#:#fullname#:#Pełna nazwa
 common#:#functions#:#Funkcje
@@ -350,16 +350,16 @@ common#:#generate#:#Generuj
 common#:#glo#:#Słownik
 common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownia
-common#:#glo_added#:#Słownik został dodany###13 Jan 2004 content changed
-common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
-common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
-common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
-common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
-common#:#glo_new#:#Nowy słownik
-common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
-common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
-common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
+common#:#glo_added#:#Słownik został dodany
+common#:#glo_create#:#Twórz Słownik
+common#:#glo_delete#:#Usuń Słownik
+common#:#glo_edit_permission#:#Zmień ustawienia uprawnień
+common#:#glo_join#:#Subskrybuj Słownik
+common#:#glo_leave#:#Rezygnuję z subskrybcji Słownika
+common#:#glo_new#:#Nowy Słownik
+common#:#glo_read#:#Prawo czytania Słownika
+common#:#glo_visible#:#Słownik jest widoczny
+common#:#glo_write#:#Edycja Słownika
 common#:#glossaries#:#Słowniki
 common#:#glossary#:#Słownik
 common#:#glossary_added#:#Słownik został dodany
@@ -397,35 +397,35 @@ common#:#grp#:#Grupa
 common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
-common#:#grp_create#:#Create Group###13 Jan 2004 new variable
-common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
-common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
-common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
+common#:#grp_create#:#Twórz Grupę
+common#:#grp_create_file#:#Użytkownik może przysyłać pliki
+common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
+common#:#grp_create_frm#:#Twórz Forum
+common#:#grp_create_lm#:#Twórz Moduł Nauczania
+common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
+common#:#grp_delete#:#Usuń Grupę
 common#:#grp_edit#:#Edytuj Grupę
-common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#grp_edit_permission#:#Zmień ustawienia uprawnień
 common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
-common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Każda grupa musi mieć conajmniej jednego administratora grupy.
+common#:#grp_err_error#:#Wystąpił błąd
 common#:#grp_err_last_member#:#Ostatni członek grupy nie może być usunięty, usuń raczej grupę.
 common#:#grp_err_member_could_not_be_removed#:#Członek grupy nie może być usunięty. Sprawdź wszystkie zależności dotyczące tego użytkownika.
 common#:#grp_err_no_permission#:#Nie masz uprawnień do wykonania tej operacji.
 common#:#grp_err_registration_data#:#Podaj hasło, datę i czas ważności dla okresu rejestracji!
-common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
-common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
+common#:#grp_join#:#Użytkownik może wstąpić do grupy
+common#:#grp_leave#:#Użytkownik może opuścić grupę
 common#:#grp_mem_change_status#:#Zmień status członka
 common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
-common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
+common#:#grp_msg_membership_annulled#:#Członkostwo anulowane
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
-common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
+common#:#grp_read#:#Prawo czytania Grupy
 common#:#grp_register#:#Zarejestruj się
 common#:#grp_registration_completed#:#Rejestracja dokonana
-common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
-common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
+common#:#grp_visible#:#Grupa jest widoczna
+common#:#grp_write#:#Edycja Grupy
 common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#help#:#Pomoc
@@ -460,13 +460,13 @@ common#:#ingmedia_good_morning#:#Dzień dobry
 common#:#ingmedia_good_night#:#Dobranoc
 common#:#ingmedia_hello#:#Cześć
 common#:#ingmedia_info_about_work1#:#Na
-common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
+common#:#ingmedia_info_about_work2#:#, ostatnio tu pracowałeś. Możesz kontynuować to klikając tu:
 common#:#ingmedia_level_zero#:#Poziom wyżej
 common#:#ingmedia_pers_dates#:#Dane osobowe
 common#:#ingmedia_reg_fo#:#Zarejestrowane fora
 common#:#ingmedia_reg_le#:#Zarejestrowane LE
 common#:#ingmedia_use_info1#:#Tu możesz zmienić swoje dane osobowe. Oprócz nazwy użytkownika INGMEDIA i hasła nie musisz wypełniać innych pól. Pamiętaj, że zapomniane hasło może być tylko otrzymane za pomocą poczty elektronicznej (!).
-common#:#ingmedia_use_info2#:#Nie można stosować znaków specjalnych (takich jak , ; . = - * + #) w twojej nazwie użytkownika INGMEDIA i haśle. Aby móc używać platformy INGMEDIA musisz zaakceptować zgodę użytkownika.
+common#:#ingmedia_use_info2#:#Nie można stosować znaków specjalnych (takich jak , ; . = - * + #) w twojej nazwie użytkownika INGMEDIA i haśle. Aby móc używać platformy INGMEDIA musisz zaakceptować zasady użytkowania.
 common#:#ingmedia_use_info3#:#Wybierz jedno z połączeń z listy.
 common#:#ingmedia_use_title#:#Zmień dane użytkownika.
 common#:#ingmedia_user_agree#:#Zgoda
@@ -488,32 +488,32 @@ common#:#is_already_your#:#jest już twój
 common#:#item#:#Pozycja
 common#:#kb#:#KB
 common#:#keywords#:#Klucze
-common#:#lang_cz#:#Czech###11 Dec 2003 new variable
-common#:#lang_dateformat#:#y-m-d
+common#:#lang_cz#:#Czeski
+common#:#lang_dateformat#:#r-m-d
 common#:#lang_de#:#Niemiecki
 common#:#lang_dk#:#Duński
 common#:#lang_en#:#Angielski
 common#:#lang_es#:#Hiszpański
-common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
+common#:#lang_fi#:#Fiński
 common#:#lang_fr#:#Francuski
-common#:#lang_gr#:#Greek###11 Dec 2003 new variable
+common#:#lang_gr#:#Grecki
 common#:#lang_id#:#Indonezyjski
 common#:#lang_it#:#Włoski
-common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
-common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
-common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
+common#:#lang_ja#:#Japoński
+common#:#lang_lt#:#Litewski
+common#:#lang_nl#:#Duński
 common#:#lang_no#:#Norweski
 common#:#lang_path#:#Ścieżka języka
 common#:#lang_pl#:#Polski
-common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
+common#:#lang_pt#:#Portugalski
 common#:#lang_se#:#Szwedzki
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#G:m:s
-common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
+common#:#lang_ua#:#Ukraiński
 common#:#lang_version#:#1
 common#:#lang_xx#:#Inny
-common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
+common#:#lang_zh#:#Uproszczony Chiński
 common#:#langfile_found#:#Plik językowy został odnaleziony
 common#:#language#:#Język
 common#:#language_not_installed#:#nie jest zainstalowany. Najpierw zainstaluj ten język.
@@ -526,43 +526,43 @@ common#:#last_visit#:#Ostania wizyta
 common#:#lastname#:#Nazwisko
 common#:#launch#:#Uruchom
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
-common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
-common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
+common#:#ldap_edit_permission#:#Zmień uprawnienia dostępu
+common#:#ldap_read#:#Prawo czytania ustawień LDAP
+common#:#ldap_visible#:#Ustawienia LDAP są widoczne
+common#:#ldap_write#:#Edycja ustawień LDAP
 common#:#learning_objects#:#Przedmioty Nauczania (PN)
 common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
 common#:#link#:#Łącznik
-common#:#linked_pages#:#Strony połaczone
+common#:#linked_pages#:#Strony połączone
 common#:#list_of_pages#:#Lista stron
 common#:#list_of_questions#:#Lista pytań
 common#:#literature#:#Literatura
 common#:#literature_bookmarks#:#Zakładki literatury
 common#:#lm#:#Moduł nauczania
-common#:#lm_a#:#Moduł nauczania###13 Jan 2004 content changed
+common#:#lm_a#:#Moduł nauczania
 common#:#lm_add#:#Dodaj moduł nauczania
-common#:#lm_added#:#Moduł nauczania został dodany###13 Jan 2004 content changed
-common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
-common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
-common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
-common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
+common#:#lm_added#:#Moduł nauczania został dodany
+common#:#lm_create#:#Twórz Moduł Nauczania
+common#:#lm_delete#:#Usuń Moduł Nauczania
+common#:#lm_edit_permission#:#Zmień prawa dostępu
+common#:#lm_join#:#Subskrybuj Moduł Nauczania
+common#:#lm_leave#:#Rezygnuję z subskrybcji Modułu Nauczania
 common#:#lm_new#:#Nowy moduł nauczania
-common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
-common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
-common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
+common#:#lm_read#:#Prawo czytania Modułu Nauczania
+common#:#lm_visible#:#Moduł Nauczania jest widoczny
+common#:#lm_write#:#Edycja Modułu Nauczania
 common#:#lng#:#Język
-common#:#lngf#:#Folder języka###13 Jan 2004 content changed
-common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
-common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
+common#:#lngf#:#Folder języka
+common#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
+common#:#lngf_read#:#Prawo czytania ustawień Języka
+common#:#lngf_visible#:#Ustawienia Języka są widoczne
 common#:#lo#:#Przedmiot Nauczania (PN)
 common#:#lo_available#:#Przegląd modułów nauczania i kursów
 common#:#lo_categories#:#Kategorie (PN)
 common#:#lo_edit#:#Edytuj przedmiot nauczania
 common#:#lo_new#:#Nowy przedmiot nauczania
-common#:#lo_no_content#:#Brak dostepnych zasobów nauczania
+common#:#lo_no_content#:#Brak dostępnych zasobów nauczania
 common#:#lo_other_langs#:#PN w innym języku
 common#:#lo_overview#:#Przegląd PN
 common#:#locator#:#Wybrana czynność:
@@ -586,7 +586,7 @@ common#:#mail_d_drafts#:#Szkice
 common#:#mail_delete_error#:#Błąd podczas usuwania
 common#:#mail_delete_error_file#:#Błąd usuwania pliku
 common#:#mail_e_sent#:#Wysłane
-common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#mail_edit_permission#:#Zmień ustawienia uprawnień
 common#:#mail_folders#:#Foldery pocztowe
 common#:#mail_intern_enable#:#Wybierz
 common#:#mail_mails_of#:#Poczta
@@ -596,17 +596,17 @@ common#:#mail_maxsize_mail#:#Maks. rozmiar wiadomości
 common#:#mail_maxtime_attach#:#Maks. okres trzymania załączników (dni)
 common#:#mail_maxtime_mail#:#Maks. okres trzymania wiadomości (dni)
 common#:#mail_not_sent#:#poczta nie została wysłana!
-common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
+common#:#mail_read#:#Prawo czytania ustawień poczty
 common#:#mail_search_no#:#Nie znaleziono pozycji
 common#:#mail_search_word#:#Szukaj słowa
 common#:#mail_select_one#:#Musisz wybrać jedną wiadomość
 common#:#mail_send_error#:#Błąd wysyłania wiadomości
 common#:#mail_sent#:#Wiadomość została wysłana!
-common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
+common#:#mail_smtp_mail#:#Użytkownik może wysłać pocztę poprzez SMTP
 common#:#mail_system#:#Wiadomość systemowa
-common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
-common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
-common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
+common#:#mail_system_message#:#Użytkownik może wysłać wewnętrzną wiadomość systemową
+common#:#mail_visible#:#Ustawienia poczty są widoczne
+common#:#mail_write#:#Edycja ustawień poczty
 common#:#mail_z_local#:#Foldery użytkownika
 common#:#mails#:#Wiadomości
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
@@ -623,7 +623,7 @@ common#:#mob#:#Obiekt multimedialny
 common#:#module#:#moduł
 common#:#modules#:#Moduły
 common#:#month#:#Miesiąc
-common#:#move#:#Move###16 Dec 2003 new variable
+common#:#move#:#Przesuń
 common#:#moveChapter#:#Przesuń rozdział
 common#:#movePage#:#Przesuń stronę
 common#:#move_to#:#Przesuń do
@@ -634,19 +634,19 @@ common#:#msg_cloned#:#Wybrane obiety zostały skopiowane
 common#:#msg_copy_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: Kopiuj).
 common#:#msg_cut_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: Wytnij).
 common#:#msg_cut_copied#:#Wybrane obiekty zostały przesunnięte.
-common#:#msg_deleted_role#:#Stanowisko zostało usunięte.
-common#:#msg_deleted_roles#:#stanowiska zostały usunięte.
-common#:#msg_deleted_roles_rolts#:#Stanowiska i szablony stanowisk zostały usunięte.
-common#:#msg_deleted_rolt#:#Szablon stanowiska został usunięty.
-common#:#msg_deleted_rolts#:#Szablony stanowisk zostały usunięte.
+common#:#msg_deleted_role#:#Rola została usunięta.
+common#:#msg_deleted_roles#:#Role zostały usunięte.
+common#:#msg_deleted_roles_rolts#:#Role i szablony ról zostały usunięte.
+common#:#msg_deleted_rolt#:#Szablon roli został usunięty.
+common#:#msg_deleted_rolts#:#Szablony ról zostały usunięte.
 common#:#msg_error_copy#:#Błąd kopiowania
 common#:#msg_failed#:#Niestety, błędna akcja.
-common#:#msg_is_last_role#:#Pozbawiłeś następujących użytkowników ich stanowiska.
+common#:#msg_is_last_role#:#Pozbawiłeś następujących użytkowników ich ról.
 common#:#msg_link_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: łączenie).
 common#:#msg_linked#:#Wybrane obiekty zostały połączone.
 common#:#msg_may_not_contain#:#Ten obiekt nie może zawierać obiektów typu:
-common#:#msg_min_one_active_role#:#Każdy użytkownik musi posiadać conajmniej jedno aktywne stanowisko!
-common#:#msg_min_one_role#:#Każdy użytkownik musi posiadać conajmniej jedno stanowisko!
+common#:#msg_min_one_active_role#:#Każdy użytkownik musi posiadać conajmniej jedną aktywną rolę!
+common#:#msg_min_one_role#:#Każdy użytkownik musi posiadać conajmniej jedną rolę!
 common#:#msg_multi_language_selected#:#Wybrałeś ten sam język dla różnych tłumaczeń!
 common#:#msg_no_default_language#:#Domyślny język nie został wybrany! Musisz zdefiniować jedno tłumaczenie jako tłumaczenie domyślne.
 common#:#msg_no_delete_yourself#:#Nie możesz usunąć swojego konta.
@@ -655,22 +655,22 @@ common#:#msg_no_perm_copy#:#Nie masz uprawnień do tworzenia kopii następujący
 common#:#msg_no_perm_create#:#Nie masz uprawnień do tworzenia następujących obiektów:
 common#:#msg_no_perm_create_object1#:#Nie masz uprawnień do tworzenia
 common#:#msg_no_perm_create_object2#:#w tym miejscu!
-common#:#msg_no_perm_create_role#:#Nie masz uprawnień do dodawania stanowisk.
-common#:#msg_no_perm_create_rolf#:#Nie masz uprawnień do tworzenia folderu stanowiska. Nie możesz tutaj przerwać dziedziczenia stanowisk lub dodać lokalnego stanowiska.
-common#:#msg_no_perm_create_rolt#:#Nie masz uprawnień do dodawania szablonu stanowiska.
+common#:#msg_no_perm_create_role#:#Nie masz uprawnień do dodawania ról.
+common#:#msg_no_perm_create_rolf#:#Nie masz uprawnień do tworzenia folderu roli. Nie możesz tutaj przerwać dziedziczenia ról lub dodać lokalnej roli.
+common#:#msg_no_perm_create_rolt#:#Nie masz uprawnień do dodawania szablonu roli.
 common#:#msg_no_perm_create_user#:#Nie masz uprawnień do dodawania uzytkowników.
 common#:#msg_no_perm_cut#:#Nie masz uprawnień do wycinania następujących obiektów:
 common#:#msg_no_perm_delete#:#Nie masz uprawnień do usuwania następujących obiektów:
 common#:#msg_no_perm_link#:#Nie masz uprawnień do tworzenia połączenia z następującymi obiektami:
-common#:#msg_no_perm_modify_role#:#Nie masz uprawnień do modyfikacji stanowisk.
-common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów stanowisk.
+common#:#msg_no_perm_modify_role#:#Nie masz uprawnień do modyfikacji ról.
+common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów ról.
 common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
 common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
 common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
 common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następujących obiektów:
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
-common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Stanowiska.
+common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Roli.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
 common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
@@ -682,20 +682,20 @@ common#:#msg_obj_exists#:#Tem obiekt już istnieje w tym folderze.
 common#:#msg_obj_modified#:#Zmiany zostały zachowane.
 common#:#msg_perm_adopted_from1#:#Ustawienia uprawnień zostały przejęte od
 common#:#msg_perm_adopted_from2#:#(Ustawienia zostały zachowane!)
-common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącego stanowiska/szablonu stanowiska.
+common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącej roli/szablonu roli.
 common#:#msg_removed#:#Obiekty zostały usunięte z systemu.
-common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwą
+common#:#msg_role_exists1#:#Rola/szablon roli z nazwą
 common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
-common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz inną nazwę.
-common#:#msg_roleassignment_active_changed#:#Zmieniono przydział aktywnych stanowisk.
-common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych stanowisk zostanie przywrócony do zapamiętanych ustawień.
-common#:#msg_roleassignment_changed#:#Przydział stanowisk został zmieniony.
-common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie może być usunięte.
-common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień stanowiska systemowego nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do stanowiska systemowego posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie Ról. Wybierz inną nazwę.
+common#:#msg_roleassignment_active_changed#:#Zmieniono przydział aktywnych ról.
+common#:#msg_roleassignment_active_changed_comment#:#Te ustawienia nie są pamiętane w profilu użytkownika! Jeśli użytkownik się przeloguje to przydział aktywnych ról zostanie przywrócony do zapamiętanych ustawień.
+common#:#msg_roleassignment_changed#:#Przydział ról został zmieniony.
+common#:#msg_sysrole_not_deletable#:#Systemowa Rola nie może być usunięta.
+common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień roli systemowej nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do roli systemowej posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
 common#:#msg_trash_empty#:#Brak usuniętych obiektów.
 common#:#msg_undeleted#:#Obiekty zostały przywrócone.
-common#:#msg_user_last_role1#:#Nastepującym użytkownikom przydzielono tylko to stanowisko:
-common#:#msg_user_last_role2#:#Aby usunąć to stanowisko usuń tych użytkowników lub przydziel im inne stanowisko.
+common#:#msg_user_last_role1#:#Nastepującym użytkownikom przydzielono tylko tę rolę:
+common#:#msg_user_last_role2#:#Aby usunąć tę rolę usuń tych użytkowników lub przydziel im inne role.
 common#:#msg_userassignment_changed#:#Przydział użytkowników został zmieniony.
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Moje zakładki
@@ -717,11 +717,11 @@ common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
 common#:#no_checkbox#:#Nie wybrano opcji!
 common#:#no_date#:#Brak daty.
 common#:#no_frm_in_personal_list#:#Brak forów na liście osobistej.
-common#:#no_grp_in_personal_list#:#Brah grup w liście prywatnej.
+common#:#no_grp_in_personal_list#:#Brak grup w liście prywatnej.
 common#:#no_import_available#:#Import nie jest dostepny dla typu
 common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na liście osobistej.
 common#:#no_objects#:#Brak obiektów
-common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
+common#:#no_permission_to_join#:#Nie możesz przystąpić do tej grupy!
 common#:#no_title#:#Brak tytułu
 common#:#none#:#Brak
 common#:#normal#:#Normalny
@@ -732,9 +732,9 @@ common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_crs#:#Kurs
-common#:#obj_dbk#:#Książka Digilib
-common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
-common#:#obj_file#:#plik
+common#:#obj_dbk#:#Książka Cyfrowa
+common#:#obj_exc#:#Ćwiczenie
+common#:#obj_file#:#Plik
 common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
@@ -748,7 +748,7 @@ common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
 common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
 common#:#obj_mail_desc#:#Konfiguracja globalnych ustawień poczty elektronicznej.
-common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
+common#:#obj_mob#:#Obiekt Multimedialny
 common#:#obj_not_found#:#Obiekt nie został odnaleziony.
 common#:#obj_note#:#Notatka
 common#:#obj_notf#:#Notatka administracyjna
@@ -756,13 +756,13 @@ common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
-common#:#obj_role#:#Stanowisko
-common#:#obj_rolf#:#Stanowiska
-common#:#obj_rolf_desc#:#Zarządzanie stanowiskami.
-common#:#obj_rolf_local#:#Lokalne stanowiska
-common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych stanowisk.
-common#:#obj_rolt#:#Szablon stanowiska
-common#:#obj_root#:#root###13 Jan 2004 content changed
+common#:#obj_role#:#Rola
+common#:#obj_rolf#:#Role
+common#:#obj_rolf_desc#:#Zarządzanie rolami.
+common#:#obj_rolf_local#:#Lokalne role
+common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
+common#:#obj_rolt#:#Szablon roli
+common#:#obj_root#:#korzeń
 common#:#obj_slm#:#SCORM (MN)
 common#:#obj_st#:#Rozdział
 common#:#obj_typ#:#Definicja typu obiektu
@@ -773,10 +773,10 @@ common#:#obj_usrf#:#Konta użytkowników
 common#:#obj_usrf_desc#:#Zarządzanie kontami użytkowników.
 common#:#objects#:#Obiekty
 common#:#objf#:#Folder obiektu
-common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
-common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
-common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
+common#:#objf_edit_permission#:#Zmień ustawienia uprawnień
+common#:#objf_read#:#Prawo czytania definicji obiektów
+common#:#objf_visible#:#Definicje obiektów są widoczne
+common#:#objf_write#:#Edycja definicji obiektów
 common#:#objs_confirm#:#Potwierdź usunięcie
 common#:#objs_delete#:#Usuń obiekty
 common#:#of#:#z
@@ -818,7 +818,7 @@ common#:#payment_system#:#System płatności
 common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
 common#:#permission_denied#:#Dostęp zabroniony
-common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#permission_settings#:#Ustawienia uprawnień dostępu
 common#:#personal_data#:#Dane osobowe
 common#:#personal_desktop#:#Pulpit osobisty
 common#:#personal_picture#:#Osobista fotografia
@@ -864,7 +864,7 @@ common#:#registered_since#:#Zarejestrowany od
 common#:#registered_user#:#zarejestrowany użytkownik
 common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
-common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
+common#:#registration_expired#:#Termin rejestracji minął...
 common#:#remove#:#Wyklucz
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
@@ -876,37 +876,37 @@ common#:#resources#:#Źródła
 common#:#retype_password#:#Powtórz hasło
 common#:#right#:#Prawo
 common#:#rights#:#Prawa
-common#:#role#:#Stanowisko
-common#:#role_a#:#stanowisko
-common#:#role_add#:#Dodaj stanowisko
-common#:#role_add_local#:#Dodaj lokalne stanowisko
-common#:#role_added#:#Stanowisko dodane
-common#:#role_assignment#:#Przydział stanowiska
-common#:#role_deleted#:#Stanowisko usunięte
-common#:#role_edit#:#Edytuj stanowisko
-common#:#role_new#:#Nowe stanowisko
-common#:#roles#:#Stanowiska
-common#:#rolf#:#Folder stanowiska###13 Jan 2004 content changed
-common#:#rolf_added#:#Folder stanowiska został dodany
-common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
-common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
-common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
-common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
-common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
-common#:#rolt#:#Szablon stanowiska
-common#:#rolt_a#:#Szablon stanowiska
-common#:#rolt_add#:#dodaj szablon stanowiska
-common#:#rolt_added#:#Szablon stanowiska został dodany
-common#:#rolt_edit#:#Edytuj szablon stanowiska
-common#:#rolt_new#:#Nowy szablon stanowiska
-common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
-common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
-common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
-common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
+common#:#role#:#Rola
+common#:#role_a#:#rola
+common#:#role_add#:#Dodaj rolę
+common#:#role_add_local#:#Dodaj lokalną rolę
+common#:#role_added#:#Rola dodana
+common#:#role_assignment#:#Przydział ról
+common#:#role_deleted#:#Rola usunięta
+common#:#role_edit#:#Edytuj rolę
+common#:#role_new#:#Nowa rola
+common#:#roles#:#Role
+common#:#rolf#:#Folder roli
+common#:#rolf_added#:#Folder roli został dodany
+common#:#rolf_create_role#:#Twórz definicję Roli
+common#:#rolf_create_rolt#:#Twórz nowy szablon Roli
+common#:#rolf_delete#:#Usuń Role/Szablony ról
+common#:#rolf_edit_permission#:#Zmień usawienia uprawnie�
+common#:#rolf_edit_userassignment#:#Change userassignment of Roles###25 Jan 2004 new variable
+common#:#rolf_read#:#Prawo czytania Ról/Szablonów ról
+common#:#rolf_visible#:#Role/Szablony ról są widoczne
+common#:#rolf_write#:#Edycja Ról/Szablonów ról
+common#:#rolt#:#Szablon roli
+common#:#rolt_a#:#Szablon roli
+common#:#rolt_add#:#Dodaj szablon roli
+common#:#rolt_added#:#Szablon roli został dodany
+common#:#rolt_edit#:#Edytuj szablon roli
+common#:#rolt_new#:#Nowy szablon roli
+common#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
+common#:#root_edit_permission#:#Zmień ustawienia uprawnień
+common#:#root_read#:#Prawo czytania systemu ILIAS
+common#:#root_visible#:#System ILIAS jest widoczny
+common#:#root_write#:#Edycja danych korzenia systemu ILIAS
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
@@ -949,20 +949,20 @@ common#:#show_members#:#Wyświetl użytkowników
 common#:#show_owner#:#Pokaż właściciela
 common#:#show_structure#:#Włącz widok strukturalny
 common#:#signature#:#Podpis
-common#:#slm#:#SCORM (MN)###13 Jan 2004 content changed
-common#:#slm_added#:#Moduł Nauczania SCORM został dodany.###13 Jan 2004 content changed
-common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm#:#SCORM (MN)
+common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
+common#:#slm_create#:#Twórz Moduł Nauczania SCORM
+common#:#slm_delete#:#Usuń Moduł Nauczania SCORM
+common#:#slm_edit_permission#:#Zmień ustawienia uprawnień
+common#:#slm_join#:#Subskrybuj Moduł Nauczania SCORM
+common#:#slm_leave#:#Rezygnuję z subskrybcji Mudułu Nauczania SCORM
+common#:#slm_read#:#Prawo czytania Modułu Nauczania SCORM
+common#:#slm_visible#:#Moduł Nauczania SCORM jest widoczny
+common#:#slm_write#:#Edycja Modułu Nauczania SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
 common#:#st_a#:#rozdział
-common#:#st_add#:#dodaj rozdział
+common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany
 common#:#st_edit#:#Edytuj rozdział
 common#:#st_new#:#Nowy rozdział
@@ -990,7 +990,7 @@ common#:#test_intern#:#Test wewnętrzny
 common#:#time#:#Czas
 common#:#title#:#Tytuł
 common#:#to#:#Do
-common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
+common#:#to_client_list#:#Do wyboru klienta
 common#:#to_desktop#:#Subskrybuj
 common#:#today#:#Dzisiaj
 common#:#total#:#Razem
@@ -1021,29 +1021,29 @@ common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_language#:#Język użytkownika
-common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
+common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy
 common#:#users_online#:#Użytkownicy zalogowani
 common#:#usr#:#Użytkownik
 common#:#usr_a#:#Użytkownik
-common#:#usr_add#:#dodaj użytkownika
+common#:#usr_add#:#Dodaj użytkownika
 common#:#usr_added#:#Użytkownik został dodany
-common#:#usr_agreement#:#Zgoda użytkownika
-common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
+common#:#usr_agreement#:#Zasady użytkowania
+common#:#usr_agreement_empty#:#Zasady Użytkowania nie zawierają tekstu.
 common#:#usr_edit#:#Edytuj użytkownika
 common#:#usr_new#:#Nowy użytkownik
-common#:#usr_skin_style#:#Skin / Style###17 Dec 2003 new variable
+common#:#usr_skin_style#:#Skórka / Styl
 common#:#usr_style#:#Styl użytkownika
-common#:#usrf#:#Folder użytkownika###13 Jan 2004 content changed
-common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
-common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
-common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
-common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
-common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
-common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
+common#:#usrf#:#Folder użytkownika
+common#:#usrf_create_user#:#Twórz nowe konto użytkownika
+common#:#usrf_delete#:#Usuń konta użytkowników
+common#:#usrf_edit_permission#:#Zmień ustawienia uprawnie�
+common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###25 Jan 2004 new variable
+common#:#usrf_read#:#Prawo czytania kont użytkowników
+common#:#usrf_visible#:#Konta użytkowników są widoczne
+common#:#usrf_write#:#Edycja kont użytkowników
 common#:#validate#:#Zatwierdź
 common#:#value#:#Wartość
 common#:#version#:#Wersja
@@ -1051,22 +1051,22 @@ common#:#view#:#Widok
 common#:#view_content#:#Zawartość widoku
 common#:#visible_layers#:#Widoczne poziomy
 common#:#visits#:#Wizyty
-common#:#week#:#Tydzie�
-common#:#welcome#:#Welcome###17 Dec 2003 new variable
+common#:#week#:#Tydzień
+common#:#welcome#:#Witamy
 common#:#who_is_online#:#Kto jest na linii?
 common#:#with#:#z
 common#:#write#:#Zapisz
 common#:#yes#:#Tak
-common#:#you_may_add_local_roles#:#Możesz dodać lokalne stanowisko
+common#:#you_may_add_local_roles#:#Możesz dodać lokalną rolę
 common#:#your_message#:#Twoja wiadomość
-common#:#zip#:#Postal Code###17 Dec 2003 new variable
+common#:#zip#:#Kod pocztowy
 common#:#zipcode#:#Kod pocztowy
 content#:#HTML export#:#Eksport HTML
 content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#all#:#Wszystko
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#Koło
 content#:#cont_Citation#:#Cytat
 content#:#cont_Example#:#Przykład
 content#:#cont_Headline1#:#Nagłówek 1
@@ -1076,14 +1076,14 @@ content#:#cont_List#:#Lista
 content#:#cont_LocalFile#:#Plik lokalny
 content#:#cont_Mnemonic#:#Pamięciowy
 content#:#cont_Number#:#Liczba
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:#Wielobok
+content#:#cont_Rect#:#Wielokąt
 content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
-content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
-content#:#cont_add_definition#:#dodaj definicję
+content#:#cont_add_area#:#Dodaj powierzchnię
+content#:#cont_add_definition#:#Dodaj definicję
 content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
@@ -1110,7 +1110,7 @@ content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
-content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
+content#:#cont_coords#:#Koordynaty
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
@@ -1139,9 +1139,9 @@ content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
-content#:#cont_import_id#:#identifier
-content#:#cont_insert_file_item#:#Insert File Item###17 Dec 2003 new variable
+content#:#cont_imagemap#:#Mapa bitowa
+content#:#cont_import_id#:#identyfikator
+content#:#cont_insert_file_item#:#Wstaw plik
 content#:#cont_insert_file_list#:#Wstaw listę plików
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
@@ -1155,7 +1155,7 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
 content#:#cont_keyword#:#Słowo kluczowe
-content#:#cont_link#:#Link###14 Jan 2004 new variable
+content#:#cont_link#:# Łącznik
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
 content#:#cont_list_properties#:#Lista właściwości
@@ -1172,7 +1172,7 @@ content#:#cont_lk_term#:#Hasło słownika
 content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
 content#:#cont_lm_properties#:#Właściwiści modułu nauczania
 content#:#cont_manifest#:#Manifest
-content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
+content#:#cont_map_areas#:#Pole Łącznikowe
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_mob_files#:#Pliki obiektowe
@@ -1181,7 +1181,7 @@ content#:#cont_mob_prop#:#Właściwości obiektu
 content#:#cont_mob_usages#:#Użycie
 content#:#cont_month#:#Miesiąc
 content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu
-content#:#cont_name#:#Name###14 Jan 2004 new variable
+content#:#cont_name#:#Nazwa
 content#:#cont_new_assignment#:#Nowy przydział
 content#:#cont_new_dir#:#Nowy katalog
 content#:#cont_new_file#:#Nowy plik
@@ -1218,15 +1218,15 @@ content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
 content#:#cont_roman#:#Rzymskie i, ii, ...
-content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_saved_map_data#:#Zachowana mapa danych
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM
 content#:#cont_select_max_one_item#:#Wybierz tylko jedną pozycję.
 content#:#cont_select_max_one_term#:#Wybierz tylko jeden termin.
-content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
+content#:#cont_select_one_edition#:#Wybierz conajmniej jedną edycję.
 content#:#cont_select_one_translation#:#wybierz jedno tłumaczenie.
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
+content#:#cont_select_one_translation_warning#:#Nie można pokazać więcej niż jednego tłumaczenia.
 content#:#cont_select_term#:#Wybierz termin
 content#:#cont_select_translation#:#Wybierz przydział z listy powyżej
 content#:#cont_series#:#Serie
@@ -1235,12 +1235,12 @@ content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
 content#:#cont_set_width#:#Ustaw szerokość
-content#:#cont_shape#:#Shape###14 Jan 2004 new variable
+content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_source#:#Źródło
-content#:#cont_st_title#:#Tytuł rozdziału 
+content#:#cont_st_title#:#Tytuł rozdziału
 content#:#cont_std_is_in_dir#:#Usunięcie nie jest możliwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
@@ -1258,7 +1258,7 @@ content#:#cont_toc#:#Spis treści
 content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
-content#:#cont_update#:#Update###15 Jan 2004 new variable
+content#:#cont_update#:#Uaktualnij
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja
@@ -1331,7 +1331,7 @@ mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidłowy
 mail#:#mail_cc_search#:#Szukaj CC
 mail#:#mail_change_to_folder#:#Przejdź do folderu:
 mail#:#mail_check_your_email_addr#:#Twój adres email nie jest prawidłowy.
-mail#:#mail_compose#:#Napisz wiadomość 
+mail#:#mail_compose#:#Napisz wiadomość
 mail#:#mail_deleted#:#Wiadomości zostały usunięte.
 mail#:#mail_deleted_entry#:#Pozycje zostały usunięte.
 mail#:#mail_email_forbidden#:#Nie możesz wysyłać poczty.
@@ -1352,7 +1352,7 @@ mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
 mail#:#mail_insert_query#:#Wstaw zapytanie
 mail#:#mail_intern#:#Wewnętrzny
 mail#:#mail_mark_read#:#Zaznacz wiadomości jako przeczytane
-mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane 
+mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane
 mail#:#mail_maxsize_attachment_error#:#Limit wysyłania to:
 mail#:#mail_message_send#:#Wiadomość została wysłana.
 mail#:#mail_move_error#:#Błąd podczas przesuwania wiadomości
@@ -1375,7 +1375,7 @@ mail#:#mail_select_one_file#:#Musisz wybrać jeden plik
 mail#:#mail_sure_delete#:#Jesteś pewien, że chcesz usunąć zaznaczone wiadomości?
 mail#:#mail_sure_delete_entry#:#Jesteś pewien, że chcesz usunąć nasępujące pozycje?
 mail#:#mail_sure_delete_file#:#Plik został ostatecznie usunięty.
-mail#:#mail_sure_delete_folder#:#Folder wraz z całą zawartością został ostatecznie usunięty. 
+mail#:#mail_sure_delete_folder#:#Folder wraz z całą zawartością został ostatecznie usunięty.
 mail#:#mail_to_search#:#Szukanie odbiorcy
 mail#:#mail_user_addr_n_valid#:#Następujący użytkownicy nie mają prawidłowych adresów poczty elektronicznej.
 mail#:#search_bc_recipient#:#Szukaj odbiorcy BC
@@ -1458,7 +1458,7 @@ meta#:#meta_c_FK#:#Wyspy Falklandy
 meta#:#meta_c_FM#:#Mikronezja
 meta#:#meta_c_FO#:#Wyspy Faroe
 meta#:#meta_c_FR#:#Francja
-meta#:#meta_c_FX#:#France, Metropolia
+meta#:#meta_c_FX#:#Francja, Metropolia
 meta#:#meta_c_GA#:#Gabon
 meta#:#meta_c_GB#:#Wielka Brytania
 meta#:#meta_c_GD#:#Grenada
@@ -1589,7 +1589,7 @@ meta#:#meta_c_SY#:#Syryjska Republika Arabska
 meta#:#meta_c_SZ#:#Suazi
 meta#:#meta_c_TC#:#Wyspy Turks i Caicos
 meta#:#meta_c_TD#:#Czad
-meta#:#meta_c_TF#:#Frencuskie Terytorium Południowe
+meta#:#meta_c_TF#:#Francuskie Terytorium Południowe
 meta#:#meta_c_TG#:#Togo
 meta#:#meta_c_TH#:#Tajlandia
 meta#:#meta_c_TJ#:#Tadżykistan
@@ -1631,7 +1631,7 @@ meta#:#meta_choose_language#:#Wybierz język
 meta#:#meta_choose_section#:#Wybierz sekcję
 meta#:#meta_classification#:#Klasyfikacja
 meta#:#meta_collection#:#Kolekcja
-meta#:#meta_competency#:#Kompetecje
+meta#:#meta_competency#:#Kompetencje
 meta#:#meta_context#:#Contekst
 meta#:#meta_contribute#:#Weź udział
 meta#:#meta_copyright_and_other_restrictions#:#Prawa autorskie i inne restrykcje
@@ -1648,7 +1648,7 @@ meta#:#meta_duration#:#Czas trwania
 meta#:#meta_easy#:#Łatwy
 meta#:#meta_education#:#Edukacja
 meta#:#meta_educational_level#:#Poziom edukacyjny
-meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_educational_objective#:#Obiekt Edukacyjny
 meta#:#meta_entity#:#Istnienie
 meta#:#meta_entry#:#Pozycja
 meta#:#meta_exam#:#Egzamin
@@ -1662,7 +1662,7 @@ meta#:#meta_general#:#Ogólne
 meta#:#meta_graph#:#Wykres
 meta#:#meta_has_format#:#Ma Format
 meta#:#meta_has_part#:#Ma część
-meta#:#meta_has_version#:#MA wersję
+meta#:#meta_has_version#:#Ma wersję
 meta#:#meta_hierarchical#:#Hierarchicznie
 meta#:#meta_high#:#Wysokość
 meta#:#meta_higher_education#:#Nauczanie wyższe
@@ -1671,7 +1671,7 @@ meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identyfikator
 meta#:#meta_index#:#Indeks
 meta#:#meta_installation_remarks#:#Uwagi instalacyjne
-meta#:#meta_intended_end_user_role#:#Stanowisko użytkownika końcowego
+meta#:#meta_intended_end_user_role#:#Rola użytkownika końcowego
 meta#:#meta_interactivity_level#:#Poziom interaktywności
 meta#:#meta_interactivity_type#:#Typ interaktywności
 meta#:#meta_is_based_on#:#Jest oparty na
@@ -1874,7 +1874,7 @@ meta#:#meta_requires#:#Wymaga
 meta#:#meta_resource#:#Źródło
 meta#:#meta_revised#:#Zrewidowany
 meta#:#meta_rights#:#Prawa
-meta#:#meta_role#:#stanowisko
+meta#:#meta_role#:#rola
 meta#:#meta_school#:#Szkoła
 meta#:#meta_security_level#:#Poziom bezpieczeństwa
 meta#:#meta_self_assessment#:#Samo oszacowanie
@@ -1910,38 +1910,38 @@ search#:#search_concatenation#:#Powiązanie
 search#:#search_content#:#Zawartość strony
 search#:#search_dbk_content#:#Biblioteka cyfrowa (zawartość)
 search#:#search_dbk_meta#:#Biblioteka cyfrowa (meta dane)
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
-search#:#search_group#:#Groups###11 Dec 2003 new variable
+search#:#search_delete_sure#:#Obiekt i jego zawartość zostanie usunięty bezpowrotnie
+search#:#search_group#:#Grupy
 search#:#search_in_result#:#Szukaj w wynikach
 search#:#search_lm_content#:#Materiały nauczania (zawartość)
 search#:#search_lm_meta#:#Materiały nauczania (meta dane)
 search#:#search_meta#:#Meta dane
 search#:#search_minimum_three#:#Element szukany musi mieć conajmniej trzy znaki.
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
-search#:#search_no_category#:#nie wybrałeś żadnej kategorii przeszukania.
+search#:#search_move_folder_not_allowed#:#Folder nie może być przesunięty
+search#:#search_move_to#:#Przesuń do:
+search#:#search_my_search_results#:#Rezultaty wyszukania
+search#:#search_new_folder#:#Nowy folder
+search#:#search_no_category#:#nie wybrałeś żadnej kategorii wyszukania.
 search#:#search_no_match#:#Twoje szukanie nie dało żadnych rezultatów.
-search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
+search#:#search_no_results_saved#:#Brak zachowanych rezultatów.
 search#:#search_no_search_term#:#Nie wybrałeś żadnego terminu do szukania.
-search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
+search#:#search_no_selection#:#Nie dokonałeś wyboru.
+search#:#search_object_renamed#:#Obiekt przemianowany.
+search#:#search_objects_deleted#:#Obiekt(y) usunięte.
+search#:#search_objects_moved#:#Obiekty przesunięte.
+search#:#search_one_action#:#Wybierz akcję.
+search#:#search_rename_title#:#Zmień tytuł
+search#:#search_results_saved#:#Zachowano rezultaty wyszukania
+search#:#search_save_as_select#:#Zachowaj jako:
 search#:#search_search_for#:#Szukaj
-search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
-search#:#search_search_results#:#Search results###11 Dec 2003 new variable
+search#:#search_search_no_results_saved#:#Brak zachowanych rezultatów wyszukania
+search#:#search_search_results#:#Rezultaty wyszukania
 search#:#search_search_term#:#Poszukiwany termin
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
+search#:#search_select_exactly_one_object#:#Musisz wybrać dokładnie jeden obiekt
+search#:#search_select_one#:#Wybierz jeden folder
+search#:#search_select_one_action#:#--Wybierz jedną akcję--
+search#:#search_select_one_folder_select#:#--Wybierz jeden folder--
+search#:#search_select_one_result#:#Wybierz conajmniej jeden rezultat wyszukania
+search#:#search_select_one_select#:#--Wybierz jeden folder--
 search#:#search_show_result#:#Pokaż
 search#:#search_user#:#Użytkownicy
