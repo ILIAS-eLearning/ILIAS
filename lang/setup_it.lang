@@ -19,7 +19,7 @@ delete#:#eliminare
 err_create_database_failed#:#creazione banca-dati fallita
 err_wrong_login#:#wrong login
 ilias_version#:#versione ILIAS
-inifile#:#inifile
+inifile#:#ini-file
 inst_name#:#nome per l´istallazione
 install#:#istallare
 installed#:#istallato

@@ -19,7 +19,7 @@ delete#:#löschen
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
 ilias_version#:#ILIAS Version
-inifile#:#Ini-Datei
+inifile#:#ini-Datei
 inst_name#:#Installationsname
 install#:#installieren
 installed#:#installiert
