@@ -245,8 +245,9 @@ class ilObjSurvey extends ilObject
 	}
 	
 	function createReference() {
-		parent::createReference();
+		$result = parent::createReference();
 		$this->saveToDb();
+		return $result;
 	}
 
 /**
