@@ -88,6 +88,7 @@ class ilObjSCORMLearningModule extends ilObject
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setAPIAdapterName($lm_rec["api_adapter"]);
+		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
 
 	}
 
@@ -126,7 +127,8 @@ class ilObjSCORMLearningModule extends ilObject
 
 		$q = "UPDATE scorm_lm SET ".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" api_adapter = '".$this->getAPIAdapterName()."'".
+			" api_adapter = '".$this->getAPIAdapterName()."',".
+			" api_func_prefix = '".$this->getAPIFunctionsPrefix()."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 
@@ -147,6 +149,22 @@ class ilObjSCORMLearningModule extends ilObject
 	function setAPIAdapterName($a_api)
 	{
 		$this->api_adapter = $a_api;
+	}
+
+	/**
+	* get api functions prefix
+	*/
+	function getAPIFunctionsPrefix()
+	{
+		return $this->api_func_prefix;
+	}
+
+	/**
+	* set api functions prefix
+	*/
+	function setAPIFunctionsPrefix($a_prefix)
+	{
+		$this->api_func_prefix = $a_prefix;
 	}
 
 	/**

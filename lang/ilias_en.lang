@@ -1626,6 +1626,7 @@ content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_api_adapter#:#API Adapter Name
+content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
