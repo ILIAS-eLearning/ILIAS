@@ -136,3 +136,14 @@ ALTER TABLE `frm_posts` ADD `update_user` INT NOT NULL ;
 <#9>
 #  delete operation create of root folder and add operation delete
 UPDATE rbac_ta SET ops_id='6' WHERE typ_id='33' AND ops_id='5';
+
+<#10>
+#  set missing primary key an auto increment flag for some lo_tables
+ALTER TABLE `lo_attribute_name_leaf` DROP PRIMARY KEY , ADD PRIMARY KEY ( `leaf_id` ); 
+ALTER TABLE `lo_attribute_name_leaf` CHANGE `leaf_id` `leaf_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `lo_attribute` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `attribute_id` );
+ALTER TABLE `lo_attribute` CHANGE `attribute_id` `attribute_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `lo_attribute_namespace_leaf` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `leaf_id` );
+ALTER TABLE `lo_attribute_namespace_leaf` CHANGE `leaf_id` `leaf_id` INT( 11 ) DEFAULT '0' NOT NULL AUTO_INCREMENT;
