@@ -476,3 +476,5 @@ common#:#languages_already_installed#:#Funny. Chosen language(s) are already ins
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#uninstalled#:#uninstalled.
+common#:#mail_sent#:#Mail successfully sent!
+common#:#mail_not_sent#:#Mail not sent!

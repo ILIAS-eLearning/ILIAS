@@ -79,6 +79,10 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$settings["ldap_port"] = $_POST["ldap_port"];
 		$settings["ldap_basedn"] = $_POST["ldap_basedn"];
 
+		$settings["mail_enable"] = $_POST["mail_enable"];
+		$settings["mail_server"] = $_POST["mail_server"];
+		$settings["mail_port"] = $_POST["mail_port"];
+
 		$settings["admin_firstname"] = $_POST["admin_firstname"];
 		$settings["admin_lastname"] = $_POST["admin_lastname"];
 		$settings["admin_title"] = $_POST["admin_title"];
@@ -114,6 +118,10 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$ilias->setSetting("ldap_server",$_POST["ldap_server"]);
 		$ilias->setSetting("ldap_port",$_POST["ldap_port"]);
 		$ilias->setSetting("ldap_basedn",$_POST["ldap_basedn"]);
+
+		$ilias->setSetting("mail_enable",$_POST["mail_enable"]);
+		$ilias->setSetting("mail_server",$_POST["mail_server"]);
+		$ilias->setSetting("mail_port",$_POST["mail_port"]);
 
 		$ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
 		$ilias->setSetting("admin_lastname",$_POST["admin_lastname"]);
@@ -177,10 +185,15 @@ $tpl->setVariable("TXT_GROUP_FILE_SHARING", $lng->txt("group_filesharing"));
 $tpl->setVariable("TXT_CRS_MANAGEMENT_SYSTEM", $lng->txt("crs_management_system"));
 
 $tpl->setVariable("TXT_LDAP", $lng->txt("ldap"));
-$tpl->setVariable("TXT_ENABLE", $lng->txt("enable"));
-$tpl->setVariable("TXT_SERVER", $lng->txt("server"));
-$tpl->setVariable("TXT_PORT", $lng->txt("port"));
-$tpl->setVariable("TXT_BASEDN", $lng->txt("basedn"));
+$tpl->setVariable("TXT_LDAP_ENABLE", $lng->txt("enable"));
+$tpl->setVariable("TXT_LDAP_SERVER", $lng->txt("server"));
+$tpl->setVariable("TXT_LDAP_PORT", $lng->txt("port"));
+$tpl->setVariable("TXT_LDAP_BASEDN", $lng->txt("basedn"));
+
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+$tpl->setVariable("TXT_MAIL_ENABLE", $lng->txt("enable"));
+$tpl->setVariable("TXT_MAIL_SERVER", $lng->txt("server"));
+$tpl->setVariable("TXT_MAIL_PORT", $lng->txt("port"));
 
 $tpl->setVariable("TXT_CONTACT_INFORMATION", $lng->txt("contact_information"));
 $tpl->setVariable("TXT_MUST_FILL_IN", $lng->txt("must_fill_in"));
@@ -227,11 +240,30 @@ $tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
 $tpl->setVariable("FEEDBACK_RECIPIENT",$settings["feedback_recipient"]);
 $tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
 
-if ($settings["pub_section"]=="y") $tpl->setVariable("PUB_SECTION","checked");
-if ($settings["news"]=="y") $tpl->setVariable("NEWS","checked");
-if ($settings["payment_system"]=="y") $tpl->setVariable("PAYMENT_SYSTEM","checked");
-if ($settings["group_file_sharing"]=="y") $tpl->setVariable("GROUP_FILE_SHARING","checked");
-if ($settings["crs_enable"]=="y") $tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked");
+if ($settings["pub_section"]=="y")
+{
+	$tpl->setVariable("PUB_SECTION","checked=\"checked\"");
+}
+
+if ($settings["news"]=="y")
+{
+	$tpl->setVariable("NEWS","checked=\"checked\"");
+}
+
+if ($settings["payment_system"]=="y")
+{
+	$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
+}
+
+if ($settings["group_file_sharing"]=="y")
+{
+	$tpl->setVariable("GROUP_FILE_SHARING","checked=\"checked\"");
+}
+
+if ($settings["crs_enable"]=="y")
+{
+	$tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked=\"checked\"");
+}
 
 // skin selection
 $ilias->getSkins();
@@ -281,11 +313,22 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
-if ($settings["ldap_enable"]=="y") $tpl->setVariable("LDAP_ENABLE","checked");
+if ($settings["ldap_enable"] == "y")
+{
+	$tpl->setVariable("LDAP_ENABLE","checked=\"checked\"");
+}
 
 $tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
 $tpl->setVariable("LDAP_PORT",$settings["ldap_port"]);
 $tpl->setVariable("LDAP_BASEDN",$settings["ldap_basedn"]);
+
+if ($settings["mail_enable"] == "y")
+{
+	$tpl->setVariable("MAIL_ENABLE","checked=\"checked\"");
+}
+
+$tpl->setVariable("MAIL_SERVER",$settings["mail_server"]);
+$tpl->setVariable("MAIL_PORT",$settings["mail_port"]);
 
 $tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
 $tpl->setVariable("ADMIN_LASTNAME",$settings["admin_lastname"]);
