@@ -35,7 +35,6 @@
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -55,7 +54,6 @@
 	<subobj name="lm">lm</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -72,7 +70,6 @@
 <object name="crs" class_name="Course" checkbox="1" inherit="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm">lm</subobj>
-	<subobj name="file" max="1">file</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -86,13 +83,6 @@
 	<action name="link">link</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
-</object>
-<object name="file" class_name="" checkbox="1" inherit="1">
-	<property name="view">view_content</property>
-	<property name="edit">edit_properties</property>
-	<property name="perm">perm_settings</property>
-	<property name="owner">show_owner</property>
-	<action name="delete">delete</action>
 </object>
 <object name="fold" class_name="Folder" checkbox="0" inherit="0">
 	<subobj name="frm">frm</subobj>
@@ -126,7 +116,6 @@
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="crs">crs</subobj>
-	<subobj name="file" max="1">file</subobj>
 	<subobj name="fold">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
