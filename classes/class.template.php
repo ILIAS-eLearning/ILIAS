@@ -308,6 +308,11 @@ class Template extends IntegratedTemplateExtension
 	
 	function addBlockFile($var, $block, $tplname)
 	{
+		if (DEBUG)
+		{
+			echo "Template '".$this->tplPath."/".$tplname."'<br>";
+		}
+		
 		if (file_exists($this->tplPath."/".$tplname) == false)
 		{
 		    echo "Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...<br>";

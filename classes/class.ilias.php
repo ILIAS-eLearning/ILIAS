@@ -83,7 +83,7 @@ class ILIAS extends PEAR
 	* @access public
 	*/
 	var $error_obj;
-
+	
 	/**
 	* Constructor
 	* setup ILIAS global object
@@ -100,12 +100,14 @@ class ILIAS extends PEAR
 		$this->ini = new IniFile($this->INI_FILE);
 		$this->ini->read();
 
-		//check for error
+		// if no ini-file found switch to setup routine
 		if ($this->ini->ERROR != "")
 		{
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
 			exit;
 		}
+		
+		define(DEBUG,$this->ini->readVariable("system","DEBUG"));
 		
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
