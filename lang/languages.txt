@@ -43,7 +43,7 @@ lastname	lastname	Nachname	cognome	lastname
 lesson	lesson	Lerneinheit	lezione	lesson
 lessons	lessons	Lerneinheiten	lezioni	lessons
 login	login	Login	login	login
-login_to_ilias	login to ILIAS	bei ILIAS anmelden	login to ILIAS	login_to_ilias
+login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login_to_ilias
 mail	mail	Mail	messaggio	mail
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	mail_s_unread
 mails	mails	Mails	messaggi 	mails
