@@ -213,11 +213,19 @@ class SurveyQuestion {
 * Returns TRUE if the question title exists in the database
 *
 * @param string $title The title of the question
+* @param string $questionpool_reference The reference id of a container question pool
 * @return boolean The result of the title check
 * @access public
 */
-  function questionTitleExists($title) {
-    $query = sprintf("SELECT question_id FROM survey_question WHERE title = %s",
+  function questionTitleExists($title, $questionpool_reference = "") {
+		$refwhere = "";
+		if (strcmp($questionpool_reference, "") != 0)
+		{
+			$refwhere = sprintf(" AND ref_fi = %s",
+				$this->ilias->db->quote($questionpool_reference)
+			);
+		}
+    $query = sprintf("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
       $this->ilias->db->quote($title)
     );
     $result = $this->ilias->db->query($query);
@@ -639,18 +647,29 @@ class SurveyQuestion {
 *
 * Duplicates the question in the database
 *
+* @param integer $questionpool_reference The reference id of the questionpool in which the question should be stored
 * @access public
 */
-  function duplicate() {
+  function duplicate($questionpool_reference = "") {
     $clone = $this;
     $clone->setId(-1);
-    $counter = 2;
-    while ($this->questionTitleExists($clone->getTitle() . " ($counter)")) {
-      $counter++;
-    }
-    $clone->setTitle($clone->getTitle() . " ($counter)");
+    if ($this->questionTitleExists($clone->getTitle(), $questionpool_reference)) {
+			$counter = 2;
+			while ($this->questionTitleExists($clone->getTitle() . " ($counter)", $questionpool_reference)) {
+				$counter++;
+			}
+			$clone->setTitle($clone->getTitle() . " ($counter)");
+		}
+		else
+		{
+			$clone->setTitle($clone->getTitle());
+		}
     $clone->setOwner($this->ilias->account->id);
     $clone->setAuthor($this->ilias->account->fullname);
+		if (strcmp($questionpool_reference, "") != 0)
+		{
+			$clone->setRefId($questionpool_reference);
+		}
     $clone->saveToDb();
 }
 
