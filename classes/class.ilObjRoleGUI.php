@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.66 2004/01/12 16:30:53 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.67 2004/01/15 15:48:30 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -516,7 +516,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!$rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("err_role_not_assignable"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
@@ -727,6 +727,11 @@ class ilObjRoleGUI extends ilObjectGUI
 	function userassignmentObject ()
 	{
 		global $rbacreview;
+		
+		if (!$rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("err_role_not_assignable"),$this->ilias->error_obj->MESSAGE);
+		}
 		
 		$obj_str = "&obj_id=".$this->obj_id;
 				
