@@ -2397,6 +2397,7 @@ class ilObjectGUI
 		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
 		if (empty($_SESSION["clipboard"]))
 		{
+			$notoperations[] = "copy";			// disable copy operation!
 			$notoperations[] = "paste";
 			$notoperations[] = "clear";
 		}
