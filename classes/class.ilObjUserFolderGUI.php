@@ -53,6 +53,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->type = "usrf";
 
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+				
 	}
 
 	function &executeCommand()
@@ -85,6 +86,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		$_SESSION["user_filter"] = (isset($_POST["user_filter"]))?$_POST["user_filter"]:"1";
+		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -97,7 +100,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->data["cols"] = array("", "login", "firstname", "lastname", "email");
 		
-		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email"));
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email"), $_SESSION["user_filter"]);
 
 		foreach ($usr_data as $val)
 		{
@@ -154,6 +157,23 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
 			$this->tpl->parseCurrentBlock();
 		}
+					    
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
+		
+		$this->tpl->setCurrentBlock("filter");
+		$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
+		$this->tpl->setVariable("SELECT_FILTER",$this->__buildUserFilterSelect());
+		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FILTER_NAME",'view');
+		$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
+		$this->tpl->parseCurrentBlock();
+		
+		/*$this->tpl->addBlockfile("FILTER", "filter", "tpl.usr_filter.html");
+		
+		$this->tpl->setVariable("FORM_ACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=importUserForm");
+		$this->tpl->setVariable("FILTER_SELECT", $this->__buildUserFilterSelect());
+		$this->tpl->setVariable("BTN_SET_TXT", $this->lng->txt("set"));*/
 
 		$this->displayList();
 	} //function
@@ -168,8 +188,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once "./classes/class.ilTableGUI.php";
 
+		
 		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		$this->tpl->addBlockfile("USR_TABLE", "user_table", "tpl.table.html");
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
@@ -1428,6 +1449,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		return new ilTableGUI(0,false);
 	}
+
 	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
 	{
 		$offset = $_GET["offset"];
@@ -1443,6 +1465,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
 	}
+
 	function __getDateSelect($a_type,$a_varname,$a_selected)
     {
         switch($a_type)
@@ -1603,5 +1626,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
 	}
+	
+	
+	/**
+	*	build select form to distinguish between active and non-active users
+	*/
+	function __buildUserFilterSelect()
+	{
+		$action[-1] = $this->lng->txt('all_users');
+		$action[1] = $this->lng->txt('active_users_only');
+		$action[0] = $this->lng->txt('inactive_users_only');
+
+		return  ilUtil::formSelect($_SESSION['user_filter'],"user_filter",$action,false,true);
+	}
+
 } // END class.ilObjUserFolderGUI
 ?>
