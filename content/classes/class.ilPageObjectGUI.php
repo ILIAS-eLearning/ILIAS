@@ -101,7 +101,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'edit');
+		$params = array ('mode' => 'edit', 'ref_id' => $this->lm_obj->getRefId());
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -131,7 +131,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$content = $this->obj->getXMLContent();
 
 		// convert bb code to xml
-		$this->obj->bbCode2XML($content);
+		//$this->obj->bbCode2XML($content);
 
 		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
@@ -141,7 +141,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'preview');
+		$params = array ('mode' => 'preview', 'ref_id' => $this->lm_obj->getRefId());
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);

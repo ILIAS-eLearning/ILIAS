@@ -230,7 +230,12 @@ class ilLMPresentationGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'preview', 'pg_title' => $pg_title);
+
+		// determine target frames for internal links
+		$pg_frame = $_GET["frame"];
+
+		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title,
+			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);

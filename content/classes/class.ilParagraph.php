@@ -174,9 +174,10 @@ class ilParagraph extends ilPageContent
 
 	function input2xml($a_text)
 	{
+		$a_text = stripslashes($a_text);
+
 		// note: the order of the processing steps is crucial
 		// and should be the same as in xml2output() in REVERSE order!
-
 		$a_text = trim($a_text);
 
 		// mask html
@@ -191,9 +192,9 @@ class ilParagraph extends ilPageContent
 		// bb code to xml
 		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$this->getLanguage()."\">",$a_text);
 		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
-		$a_text = eregi_replace("\[emp]","<Emph>",$a_text);
+		$a_text = eregi_replace("\[emp\]","<Emph>",$a_text);
 		$a_text = eregi_replace("\[\/emp\]","</Emph>",$a_text);
-		$a_text = eregi_replace("\[str]","<Strong>",$a_text);
+		$a_text = eregi_replace("\[str\]","<Strong>",$a_text);
 		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);
 		$a_text = eregi_replace("\[fn\]","<Footnote>",$a_text);
 		$a_text = eregi_replace("\[\/fn\]","</Footnote>",$a_text);
@@ -202,10 +203,26 @@ class ilParagraph extends ilPageContent
 		$a_text = eregi_replace("\[code\]","<Code>",$a_text);
 		$a_text = eregi_replace("\[\/code\]","</Code>",$a_text);
 
+		//$any = "[^\]]*";	// this doesn't work :-(
+		$ws= "[ \t\r\f\v\n]*";
+		while (eregi("\[(link$ws(page$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			if (isset($attribs["page"]))
+			{
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[page]."\" Type=\"PageObject\">", $a_text);
+			}
+			else
+			{
+				$a_text = eregi_replace("\[".$found[1]."\]", "[error: link".$found[1]."]",$a_text);
+			}
+		}
+		$a_text = eregi_replace("\[\/link\]","</IntLink>",$a_text);
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
 
 		//$a_text = nl2br($a_text);
+		//$a_text = addslashes($a_text);
 		return $a_text;
 	}
 
@@ -215,6 +232,7 @@ class ilParagraph extends ilPageContent
 		// and should be the same as in input2xml() in REVERSE order!
 
 		// xml to bb code
+		$any = "[^>]*";
 		$a_text = eregi_replace("<Comment[^>]*>","[com]",$a_text);
 		$a_text = eregi_replace("</Comment>","[/com]",$a_text);
 		$a_text = eregi_replace("<Emph>","[emp]",$a_text);
@@ -227,6 +245,24 @@ class ilParagraph extends ilPageContent
 		$a_text = eregi_replace("</Quotation>","[/quot]",$a_text);
 		$a_text = eregi_replace("<Code[^>]*>","[code]",$a_text);
 		$a_text = eregi_replace("</Code>","[/code]",$a_text);
+		while (eregi("<IntLink($any)>", $a_text, $found))
+		{
+			$found[0];
+			$attribs = ilUtil::attribsToArray($found[1]);
+			switch($attribs["Type"])
+			{
+				case "PageObject":
+					$target = explode("_", $attribs["Target"]);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[link page=\"".$target[1]."\"]",$a_text);
+					break;
+
+				default:
+					$a_text = eregi_replace("<IntLink".$found[1].">","[link]",$a_text);
+					break;
+			}
+		}
+		$a_text = eregi_replace("</IntLink>","[/link]",$a_text);
+
 
 		// br to linefeed
 		$a_text = str_replace("<br />", "\n", $a_text);

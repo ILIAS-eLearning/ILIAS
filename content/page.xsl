@@ -16,6 +16,8 @@
 <!-- PageObject -->
 <xsl:param name="mode"/>
 <xsl:param name="pg_title"/>
+<xsl:param name="ref_id"/>
+<xsl:param name="pg_frame"/>
 <xsl:template match="PageObject">
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
@@ -110,6 +112,24 @@
 
 <!-- Footnote (Links) -->
 <xsl:template match="Footnote"><a class="ilc_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
+	</a>
+</xsl:template>
+
+<!-- IntLink -->
+<xsl:template match="IntLink">
+	<a class="ilc_IntLink">
+		<xsl:if test="@Type = 'PageObject'">
+			<xsl:if test="$mode = 'edit'">
+				<xsl:attribute name="href">lm_edit.php?cmd=view&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$mode = 'preview'">
+				<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$mode = 'presentation'">
+				<xsl:attribute name="href">lm_presentation.php?cmd=layout&amp;frame=<xsl:value-of select="$pg_frame"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+		<xsl:apply-templates/>
 	</a>
 </xsl:template>
 
