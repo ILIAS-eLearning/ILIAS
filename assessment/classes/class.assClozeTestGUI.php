@@ -663,26 +663,31 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 
 	function fillAnswerblockOptions($select_id)
 	{
+		$matched_value = preg_match("/(\d+)_(\d+)/", $select_id, $matches);
+		
 		foreach ($this->object->gaps as $key => $value)
 		{
-			foreach ($value as $answer_id => $answer_obj)
+			if (($key == $matches[1]) or (!$matched_value))
 			{
-				$this->tpl->setCurrentBlock("option_value");
-				$this->tpl->setVariable("ANSWER_ID", $key . "_" . $answer_obj->get_order());
-				$this->tpl->setVariable("ANSWER_TEXT", $answer_obj->get_name() . "." . $answer_obj->get_answertext());
-				if (preg_match("/(\d+)_(\d+)/", $select_id, $matches))
+				foreach ($value as $answer_id => $answer_obj)
 				{
-					if (($matches[1] == $key) and ($matches[2] == $answer_obj->get_order()))
+					$this->tpl->setCurrentBlock("option_value");
+					$this->tpl->setVariable("ANSWER_ID", $key . "_" . $answer_obj->get_order());
+					$this->tpl->setVariable("ANSWER_TEXT", $answer_obj->get_name() . "." . $answer_obj->get_answertext());
+					if ($matched_value)
 					{
-						$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+						if (($matches[1] == $key) and ($matches[2] == $answer_obj->get_order()))
+						{
+							$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+						}
 					}
+					$this->tpl->parseCurrentBlock();
 				}
+				$this->tpl->setCurrentBlock("option_value");
+				$this->tpl->setVariable("ANSWER_ID", "-1");
+				$this->tpl->setVariable("ANSWER_TEXT", "----------------------");
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("option_value");
-			$this->tpl->setVariable("ANSWER_ID", "-1");
-			$this->tpl->setVariable("ANSWER_TEXT", "----------------------");
-			$this->tpl->parseCurrentBlock();
 		}
 	}
 }

@@ -251,6 +251,10 @@ class ASS_QuestionGUI
 			{
 				$points[$matches[1]] = $value;
 			}
+			if (preg_match("/feedback_(\d+)/", $key, $matches))
+			{
+				$feedbacks[$matches[1]] = $value;
+			}
 		}
 		$this->object->setEnhancedData($connections, $booleans, $points, $feedbacks);
 		$this->object->saveToDb();
@@ -289,10 +293,26 @@ class ASS_QuestionGUI
 		return $ret;
 	}
 	
-	function fillAnswerblockOptions()
+	function fillAnswerblockOptions($select_id)
 	{
+		$matched_value = preg_match("/(\d+)_(\d+)/", $select_id, $matches);
+		
+		foreach ($this->object->answers as $key => $value)
+		{
+			$this->tpl->setCurrentBlock("option_value");
+			$this->tpl->setVariable("ANSWER_ID", "0_" . $value->get_order());
+			$this->tpl->setVariable("ANSWER_TEXT", $value->get_answertext());
+			if ($matched_value)
+			{
+				if ($matches[2] == $value->get_order())
+				{
+					$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 	}
-	
+
 	function enhancedMode()
 	{
 		$color_class = array("tblrow1", "tblrow2");
@@ -338,7 +358,14 @@ class ASS_QuestionGUI
 					$answer_index++;
 				}
 				// new line for additional connections
-				$this->fillAnswerblockOptions();
+				if (count($answerblock->connections) > 0)
+				{
+					$this->fillAnswerblockOptions($answerblock->getSubquestionIndex() . "_9999999999");
+				}
+				else
+				{
+					$this->fillAnswerblockOptions();
+				}
 				$this->tpl->setCurrentBlock("answerblock_row");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$answerblock_index % 2]);
 				$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
@@ -356,6 +383,8 @@ class ASS_QuestionGUI
 					$this->tpl->setVariable("ANSWERBLOCK_INDEX", $answerblock->getAnswerblockIndex());
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 					$this->tpl->setVariable("POINTS_ANSWERBLOCK", sprintf("%d", $answerblock->getPoints()));
+					$this->tpl->setVariable("TEXT_FEEDBACK", $this->lng->txt("feedback"));
+					$this->tpl->setVariable("FEEDBACK_ANSWERBLOCK", $answerblock->getFeedback());
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("table_row");
