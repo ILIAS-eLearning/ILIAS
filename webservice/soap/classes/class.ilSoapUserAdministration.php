@@ -40,37 +40,43 @@ function login($client,$username,$password)
 	return $sua->login($client,$username,$password);
 }
 
-function logout($client,$sid)
+function logout($sid)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->logout($client,$sid);
+	return $sua->logout($sid);
+}
+function lookupUser($sid,$user_name)
+{
+	$sua =& new ilSoapUserAdministration();
+
+	return $sua->lookupUser($sid,$user_name);
 }
 
-function lookup($client,$sid,$user_id)
+function getUser($sid,$user_id)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->lookup($client,$sid,$user_id);
+	return $sua->getUser($sid,$user_id);
 }
 
-function update($client,$sid,$user_data)
+function updateUser($sid,$user_data)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->update($client,$sid,$user_data);
+	return $sua->updateUser($sid,$user_data);
 }
-function add($client,$sid,$user_data,$global_role_id)
+function addUser($sid,$user_data,$global_role_id)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->add($client,$sid,$user_data,$global_role_id);
+	return $sua->addUser($sid,$user_data,$global_role_id);
 }
-function delete($client,$sid,$user_id)
+function deleteUser($sid,$user_id)
 {
 	$sua =& new ilSoapUserAdministration();
 
-	return $sua->delete($client,$sid,$user_id);
+	return $sua->deleteUser($sid,$user_id);
 }
 
 class ilSoapUserAdministration
@@ -113,11 +119,13 @@ class ilSoapUserAdministration
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-		return $this->sauth->getSid();
+		return $this->sauth->getSid().'::'.$client;
 	}
 
-	function logout($client,$sid)
+	function logout($sid)
 	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
 		$this->__initAuthenticationObject();
 
 		$this->sauth->setClient($client);
@@ -131,9 +139,31 @@ class ilSoapUserAdministration
 		
 		return true;
 	}
-
-	function lookup($client,$sid,$user_id)
+	
+	function lookupUser($sid,$user_name)
 	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
+		$this->__initAuthenticationObject();
+
+		$this->sauth->setClient($client);
+		$this->sauth->setSid($sid);
+
+		if(!strlen($user_name))
+		{
+			return $this->__raiseError('No username given. Aborting','Client');
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		return (int) ilObjUser::getUserIdByLogin($user_name);
+	}
+
+	function getUser($sid,$user_id)
+	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
 		$this->__initAuthenticationObject();
 
 		$this->sauth->setClient($client);
@@ -160,8 +190,11 @@ class ilSoapUserAdministration
 		return $this->__raiseError('User does not exist','Client');
 	}		
 
-	function update($client,$sid,$user_data)
+	function updateUser($sid,$user_data)
 	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
+
 		$this->__initAuthenticationObject();
 
 		$this->sauth->setClient($client);
@@ -186,7 +219,7 @@ class ilSoapUserAdministration
 		$user_old = $this->__readUserData($user_obj);
 		$user_new = $this->__substituteUserData($user_old,$user_data);
 
-		if(!$this->__validateUserData($user_data))
+		if(!$this->__validateUserData($user_data,false))
 		{
 			return $this->__raiseError($this->__getMessage(),'Client');
 		}
@@ -199,8 +232,9 @@ class ilSoapUserAdministration
 	}		
 
 
-	function add($client,$sid,$user_data,$global_role_id)
+	function addUser($sid,$user_data,$global_role_id)
 	{
+		list($sid,$client) = $this->__explodeSid($sid);
 
 		$this->__initAuthenticationObject();
 
@@ -291,8 +325,10 @@ class ilSoapUserAdministration
 		return $new_user->getId();
 	}
 
-	function delete($client,$sid,$user_id)
+	function deleteUser($sid,$user_id)
 	{
+		list($sid,$client) = $this->__explodeSid($sid);
+
 		$this->__initAuthenticationObject();
 
 		$this->sauth->setClient($client);
@@ -334,6 +370,12 @@ class ilSoapUserAdministration
 		
 		
 	// PRIVATE
+	function __explodeSid($sid)
+	{
+		return explode('::',$sid);
+	}
+
+
 	function __setMessage($a_str)
 	{
 		$this->message = $a_str;
@@ -348,7 +390,7 @@ class ilSoapUserAdministration
 		$this->message .= $a_str;
 	}
 
-	function __validateUserData(&$user_data,$check_complete = false)
+	function __validateUserData(&$user_data,$check_complete = true)
 	{
 		$this->__setMessage('');
 		
