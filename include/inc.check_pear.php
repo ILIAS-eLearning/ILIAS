@@ -34,13 +34,13 @@ include_once("PEAR.php");
 include_once("Auth/Auth.php");
 
 // wrapper for php 4.3.2 & higher
-@include_once "HTML/IT.php";
+@include_once "HTML/ITX.php";
 $tpl_class_name = "IntegratedTemplate";
 
-if (!class_exists(IntegratedTemplate))
+if (!class_exists(IntegratedTemplateExtension))
 {
-	include_once "HTML/Template/IT.php";
-	$tpl_class_name = "HTML_Template_IT";
+	include_once "HTML/Template/ITX.php";
+	$tpl_class_name = "HTML_Template_ITX";
 }
 
 $include_paths = ini_get("include_path");
