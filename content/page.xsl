@@ -30,6 +30,7 @@
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
 <xsl:param name="bib_id" />
+<xsl:param name="citation" />
 <xsl:template match="PageObject">
 	<!--<xsl:value-of select="@HierId"/>-->
 	<xsl:if test="$pg_title != ''">
@@ -50,9 +51,24 @@
 		</input>
 		<br/>
 	</xsl:if>
-	<xsl:apply-templates/>
-
-	<!-- Footnote List -->
+      <xsl:if test="$citation = 1">
+        <xsl:if test="count(//PageTurn) &gt; 0">
+          <input type="checkbox" name="pgt_id[0]">
+            <xsl:attribute name="value">
+              <xsl:call-template name="getFirstPageNumber" />
+            </xsl:attribute>
+          </input>
+          <xsl:call-template name="showCitationSelect">
+            <xsl:with-param name="pos" select="0" />
+          </xsl:call-template>
+          <xsl:text> </xsl:text>
+          <a class="ilc_PageTurnLink">
+            <xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any" />
+          </xsl:attribute>[Page <xsl:call-template name="getFirstPageNumber" />]</a>
+        </xsl:if>
+      </xsl:if>
+    <xsl:apply-templates/>
+    <!-- Footnote List -->
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
 		<xsl:for-each select="//Footnote">
@@ -67,27 +83,65 @@
 	</xsl:if>
 
 	<!-- Pageturn List -->
-	<xsl:if test="count(//PageTurn) > 0">
-		<hr />
-		<xsl:for-each select="//PageTurn">
-          <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
-          <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-          <xsl:if test="contains($entry_two,$entry_one)">
-			<div class="ilc_PageTurn">
-			<a>
+    <xsl:if test="count(//PageTurn) > 0">
+      <hr />
+      <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+      <xsl:if test="$citation = 1">
+        <div class="ilc_PageTurn">
+          <a>
+            <xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
+            <span class="ilc_Strong">[Page <xsl:call-template name="getFirstPageNumber" />] </span>
+          </a>
+          <xsl:call-template name="searchEdition">
+            <xsl:with-param name="Entry">
+              <xsl:for-each select="//PageTurn[contains($entry_two,./BibItemIdentifier/@Entry)]">
+                <xsl:if test="position() = 1">
+                  <xsl:value-of select=".//@Entry" />
+                </xsl:if>
+              </xsl:for-each>
+            </xsl:with-param>
+          </xsl:call-template>
+        </div>
+      </xsl:if>
+      <xsl:for-each select="//PageTurn">
+        <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
+        <xsl:if test="contains($entry_two,$entry_one)">
+          <div class="ilc_PageTurn">
+            <a>
               <xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
-              <span class="ilc_Strong">[<xsl:number count="PageTurn" level="multiple"/>.pageturn] </span>
+              <span class="ilc_Strong">[Page <xsl:value-of select="@Number" />] </span>
             </a>
             <xsl:call-template name="searchEdition">
-                <xsl:with-param name="Entry">
-                  <xsl:value-of select="$entry_one" />
-                </xsl:with-param>
+              <xsl:with-param name="Entry">
+                <xsl:value-of select="$entry_one" />
+              </xsl:with-param>
             </xsl:call-template>
-			</div>
-          </xsl:if>
-		</xsl:for-each>
-	</xsl:if>
+          </div>
+        </xsl:if>
+      </xsl:for-each>
+      <xsl:if test="$citation = 1">
+        <xsl:call-template name="showCitationSubmit" />
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
 
+<!-- SHOW SELECTBOX OF CITATIONS -->
+<xsl:template name="showCitationSelect">
+  <xsl:param name="pos" />
+  <xsl:text> </xsl:text>
+  <select class="ilEditSelect">
+    <xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
+    <option value="from">From</option>
+    <option value="to">To</option>
+    <option value="f">F</option>
+    <option value="ff">FF</option>
+  </select>
+</xsl:template>
+
+<!-- SHOW CITATION SUBMIT BUTTON -->
+<xsl:template name="showCitationSubmit">
+  <br />
+  <input class="ilEditSubmit" type="submit" name="cmd[citation]" value="Citate" />
 </xsl:template>
 
 <!-- GET BIB ITEM ENTRY BY BIB ID -->
@@ -99,15 +153,35 @@
   </xsl:for-each>
 </xsl:template>
 
+<!-- GET PREDECESSOR OF FIRST PAGE NUMBER USED FOR CITATION -->
+<xsl:template name="getFirstPageNumber">
+  <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+  <xsl:for-each select="//PageTurn[contains($entry_two,./BibItemIdentifier/@Entry)]">
+    <xsl:if test="position() = 1">
+      <xsl:choose>
+        <xsl:when test="@NumberingType = 'Roman'">
+          <xsl:number format="i" value="@Number - 1" />
+        </xsl:when>
+        <xsl:when test="@NumberingType = 'Arabic'">
+          <xsl:number format="1"  value="@Number - 1" />
+        </xsl:when>
+        <xsl:when test="@NumberingType = 'Alpanumeric'">
+          <xsl:number format="A" value="@Number - 1" />
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:for-each>
+</xsl:template> 
+
 <!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
 <xsl:template name="searchEdition">
-    <xsl:param name="Entry"/>
-    <xsl:for-each select="//Bibliography/BibItem">
-      <xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
-        <xsl:if test="$entry_cmp=$Entry">
-            <xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
-        </xsl:if>
-    </xsl:for-each>
+  <xsl:param name="Entry"/>
+  <xsl:for-each select="//Bibliography/BibItem">
+    <xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
+    <xsl:if test="$entry_cmp=$Entry">
+      <xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
+    </xsl:if>
+  </xsl:for-each>
 </xsl:template>
 
 <!-- Bibliography-Tag nie ausgeben -->
@@ -194,8 +268,24 @@
   <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
   <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
   <xsl:if test="contains($entry_two,$entry_one)">
+    <xsl:if test="$citation = 1">
+      <br />
+      <input type="checkbox">
+        <xsl:attribute name="name">
+          <xsl:text>pgt_id[</xsl:text><xsl:number count="PageTurn" level="multiple" /><xsl:text>]</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+          <xsl:value-of select="./@Number" />
+        </xsl:attribute>
+      </input>
+      <xsl:call-template name="showCitationSelect">
+        <xsl:with-param name="pos">
+          <xsl:number level="multiple" count="PageTurn" />
+        </xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
     <a class="ilc_PageTurnLink">
-      <xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:number count="PageTurn" level="any"/>.pageturn]</a>
+      <xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[Page <xsl:value-of select="@Number" />]</a>
     </xsl:if>
   </xsl:template>
 
