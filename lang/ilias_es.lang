@@ -161,6 +161,7 @@ common#:#dbk_added#:#Digilib Book added###02 Oct 2003 new variable
 common#:#dbk_new#:#New Digilib Book###02 Oct 2003 new variable
 common#:#default#:#default
 common#:#default_language#:#Default Language###20 Mar 2003 new variable
+common#:#default_role#:#Default Role###05 Nov 2003 new variable
 common#:#default_roles#:#Default Roles###01 Nov 2003 new variable
 common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
 common#:#default_style#:#Default Style###20 Mar 2003 new variable
