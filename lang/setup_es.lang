@@ -42,3 +42,15 @@ lang_no#:#Noruego
 lang_pl#:#Polaco
 lang_se#:#Sueco
 lang_xx#:#Custom
+change#:#change
+change_password#:#Change password
+logout#:#logout
+set_oldpasswd#:#Please enter old password
+set_newpasswd#:#Please enter new password
+submit#:#Submit
+reset#:#Reset
+logged_out#:#You logged out.
+file_does_not_exist#:#File does not exist.
+not_connected_to_db#:#You are not connected to database.
+database_ready#:#database is ready.
+enter_password#:#Please enter desired password

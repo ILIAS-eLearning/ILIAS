@@ -1,8 +1,9 @@
 <?php
 
-require_once("./classes/class.IniFile.php");
-require_once("./classes/class.util.php");
-require_once("DB.php");
+require_once "./classes/class.IniFile.php";
+require_once "./classes/class.util.php";
+require_once "./classes/class.perm.php";
+require_once "DB.php";
 
 /**
 * Setup class
@@ -43,13 +44,6 @@ class Setup
 	 *  @access public
 	*/
     var $dsn = "";
-	
-    /**
-	 *  database handle
-	 *  @var object DB
-	 *  @access private
-	 */
-    var $db;
 	
     /**
 	 *  ini-object
@@ -385,6 +379,33 @@ class Setup
 		$a = file_exists($this->INI_FILE);
 		return $a;		
     }
+	
+	function checkPasswordExists()
+	{
+		$password = $this->getPassword();
+		
+		if ($password)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function checkPassword ($a_password)
+	{
+		$query = "SELECT value FROM settings ".
+				 "WHERE keyword = 'setup_passwd' ".
+				 "AND value = '".$a_password."'";
+		$res = $this->db->query($query);
+		
+		if ($res->numRows() == 1)
+		{
+			return true;
+		}
+		
+		return false;
+	}
     
 	/**
 	* check for writable directory
@@ -527,19 +548,234 @@ class Setup
 		chdir($tmpPath);
 		return $languages;
 	}
+	
+	function installLanguages()
+	{
+		$action = false;
+		
+		if (empty($_POST["id"]))
+		{
+			$_POST["id"] = array();
+		}
+		
+		// remove previous checked (->installed) languages
+		$installed_langs = $this->getInstalledLanguages();
+		
+		if (count($installed_langs > 0))
+		{
+			foreach ($installed_langs as $lang_key)
+			{
+				if (!in_array($lang_key,$_POST["id"]))
+				{
+					$this->flushLanguage($lang_key);
+					$query = "DELETE FROM object_data ".
+							 "WHERE type = 'lng' ".
+							 "AND title = '".$lang_key."'";
+					$this->db->query($query);
+					
+					$action = true;
+				}
+			}
+		}
 
-    /**
-    * destructor
+		foreach ($_POST["id"] as $lang_key => $lang_data)
+		{
+			if ($this->checkLanguage($lang_key))
+			{
+				// lang-file is ok. Flush data in db and...
+				$this->flushLanguage($lang_key);
+		
+				// ...re-insert data from lang-file
+				$this->insertLanguage($lang_key);
+	
+				$query = "INSERT INTO object_data ".
+						 "(type,title,description,owner,create_date,last_update) ".
+						 "VALUES ".
+						 "('lng','".$lang_key."','installed',".
+						 "'-1',now(),now())";
+				$res = $this->db->query($query);
+				
+				$action = true;
+			}
+		}
+		
+		return $action;
+	}
+	
+	// get already installed languages
+	function getInstalledLanguages()
+	{
+		$arr = array();
+		
+		$query = "SELECT * FROM object_data ".
+				 "WHERE type = 'lng' ".
+				 "AND description = 'installed'";
+		$res = $this->db->query($query);
+		
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$arr[] = $row->title;
+		}
+		
+		return $arr;
+	}
+
+	/**
+	* validate the logical structure of a lang-file
+	*
+	* This function checks if a lang-file of a given lang_key exists,
+	* the file has a header and each lang-entry consist of exact three elements
+	* (module,identifier,value)
+	*
+	* @param	string		$lang_key	international language key (2 digits)
+	*
+	* @return	string		$info_text	message about results of check OR "1" if all checks successfully passed
+	*/
+	function checkLanguage ($a_lang_key)
+	{
+		global $lng;
+		
+		$tmpPath = getcwd();
+		chdir ($lng->lang_path);
+	
+		// compute lang-file name format
+		$lang_file = "ilias_".$a_lang_key.".lang";
+	
+		// file check
+		if (!is_file($lang_file))
+		{
+			return false;		
+		}
+	
+		// header check
+		if (!$content = $this->cut_header(file($lang_file))) {
+			return false;
+		}
+	
+		// check (counting) elements of each lang-entry
+		foreach ($content as $key => $val)
+		{
+			$separated = explode ($lng->separator,trim($val));
+			$num = count($separated);
+	
+			if ($num != 3) {
+				return false;
+			}
+		}
+
+		chdir($tmpPath);
+
+		// no error occured
+		return true;
+	}
+	
+	/**
+	* remove lang-file haeder information from '$content'
+	*
+	* This function seeks for a special keyword where the language information starts.
+	* if found it returns the plain language information, otherwise returns false
+	*
+	* @param	string	$content	expect an ILIAS lang-file
+	*
+	* @return	string	$content	content without header info OR false if no valid header was found
+	*/
+	function cut_header ($content) {
+		foreach ($content as $key => $val) {
+			if (trim($val) == "<!-- language file start -->") {
+				return array_slice($content,$key +1);
+			}
+	 	}
+	 	
+	 	return false;
+	}
+
+	/**
+	* remove one or all languagee from database 
+	*
+	* sub-function: to uninstall a language use function uninstallLanguage()
+	* if $lang_key ist not given all installed languages are removed from database
 	* 
-    * @return boolean
-    */
-    function _Setup()
+	* @param	string	$lang_key	international language key (2 digits)
+	*
+	* @return	void
+	*/
+	function flushLanguage ($a_lang_key)
+	{
+		$query = "DELETE FROM lng_data WHERE lang_key='".$a_lang_key."'";
+		$this->db->query($query);
+	}
+
+	//TODO: remove redundant checks here!
+	/**
+	* insert language data form file in database
+	*
+	* @param	string	$lang_key	international language key (2 digits)
+	*
+	* @return	void
+	*/
+	function insertLanguage ($lang_key)
+	{
+		global $lng;
+
+		$tmpPath = getcwd();
+		chdir($lng->lang_path);
+
+		$lang_file = "ilias_".$lang_key.".lang";
+		
+		if ($lang_file)
+		{
+			// remove header first
+			if ($content = $this->cut_header(file($lang_file))) {
+				foreach ($content as $key => $val) {
+					$separated = explode ($lng->separator,trim($val));
+					$num = count($separated);
+	
+					$query = "INSERT INTO lng_data ".
+						 	 "(module,identifier,lang_key,value) ".
+						 	 "VALUES ".
+						 	 "('".$separated[0]."','".$separated[1]."','".$lang_key."','".addslashes($separated[2])."')";
+					$this->db->query($query);
+				}
+			}
+		}
+
+		chdir($tmpPath);
+	}
+
+	function getPassword ()
+	{
+		$query = "SELECT value FROM settings ".
+				 "WHERE keyword = 'setup_passwd'";
+		$res = $this->db->query($query);
+		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		return $row->value;
+	}
+
+	function setPassword ($a_password)
+	{
+		$query = "REPLACE INTO settings ".
+				 "(keyword,value) ".
+				 "VALUES ".
+				 "('setup_passwd','".$a_password."')";
+		$this->db->query($query);
+		
+		return true;
+	}
+	
+	/**
+	* destructor
+	* 
+	* @return boolean
+	*/
+	function _Setup()
 	{
 		if ($this->readVariable("db","type") != "")
 		{
 			$this->db->disconnect();
-        }
+		}
 		return true;
-    }
+	}
 } // END class.Setup
 ?>

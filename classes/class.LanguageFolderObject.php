@@ -762,19 +762,13 @@ class LanguageFolderObject extends Object
 	* sub-function: to uninstall a language use function uninstallLanguage()
 	* if $lang_key ist not given all installed languages are removed from database
 	* 
-	* @param	string	$lang_key	(optional) international language key (2 digits)
+	* @param	string	$lang_key	international language key (2 digits)
 	*
 	* @return	void
 	*/
-	function flushLanguage ($lang_key="") {
-	
-		$clause = "";
-	
-		if (!empty($lang_key)) {
-			$clause = " WHERE lang_key='".$lang_key."'";
-		}
-		
-		$query = "DELETE FROM lng_data".$clause;
+	function flushLanguage ($a_lang_key)
+	{
+		$query = "DELETE FROM lng_data WHERE lang_key='".$a_lang_key."'";
 		$this->ilias->db->query($query);
 	}
 
@@ -805,13 +799,13 @@ class LanguageFolderObject extends Object
 						 	 "(module,identifier,lang_key,value) ".
 						 	 "VALUES ".
 						 	 "('".$separated[0]."','".$separated[1]."','".$lang_key."','".addslashes($separated[2])."')";
-					$res = $this->ilias->db->query($query);
+					$this->ilias->db->query($query);
 				}
 					$query = "UPDATE object_data SET ".
 						 	 "last_update = now() ".
 							 "WHERE title = '".$lang_key."' ".
 							 "AND type = 'lng'";
-					$res = $this->ilias->db->query($query);
+					$this->ilias->db->query($query);
 			}
 		}
 

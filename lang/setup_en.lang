@@ -32,14 +32,26 @@ set_offline#:#set offline
 setup#:#setup
 setup_ready#:#setup is ready
 setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
-common#:#lang_de#:#German
-common#:#lang_dk#:#Danish
-common#:#lang_en#:#English
-common#:#lang_es#:#Spanish
-common#:#lang_fr#:#French
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italian
-common#:#lang_no#:#Norwegisch
-common#:#lang_pl#:#Polish
-common#:#lang_se#:#Swedish
-common#:#lang_xx#:#Custom
+lang_de#:#German
+lang_dk#:#Danish
+lang_en#:#English
+lang_es#:#Spanish
+lang_fr#:#French
+lang_id#:#Indonesian
+lang_it#:#Italian
+lang_no#:#Norwegisch
+lang_pl#:#Polish
+lang_se#:#Swedish
+lang_xx#:#Custom
+change#:#change
+change_password#:#Change password
+logout#:#logout
+set_oldpasswd#:#Please enter old password
+set_newpasswd#:#Please enter new password
+submit#:#Submit
+reset#:#Reset
+logged_out#:#You logged out.
+file_does_not_exist#:#File does not exist.
+not_connected_to_db#:#You are not connected to database.
+database_ready#:#database is ready.
+enter_password#:#Please enter desired password

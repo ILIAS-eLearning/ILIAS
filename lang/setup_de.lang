@@ -25,7 +25,7 @@ install#:#installieren
 installed#:#installiert
 language#:#Sprache
 languages#:#Sprachen
-login#:#Login
+login#:#einloggen
 login_to_ilias#:#bei ILIAS anmelden
 password#:#Passwort
 setup#:#setup
@@ -42,3 +42,15 @@ lang_fr#:#Franz&ouml;sisch
 lang_it#:#Italienisch
 lang_id#:#Indonesisch
 lang_xx#:#benutzerdefiniert
+change#:#ändern
+change_password#:#Passwort ändern
+logout#:#ausloggen
+set_oldpasswd#:#Bitte altes Passwort eingeben
+set_newpasswd#:#Bitte neues Passwort eingeben
+submit#:#Abschicken
+reset#:#Zurücksetzen
+logged_out#:#Sie sind nun ausgeloggt.
+file_does_not_exist#:#Datei existiert nicht.
+not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
+database_ready#:#Datenbank ist eingerichtet.
+enter_password#:#Bitte geben Sie das gewünschte Passwort ein

@@ -37,6 +37,8 @@ $log = new Log("ilias.log");
 //instantiate setup-class
 $mySetup = new Setup();
 
+session_start();
+
 //reload setupscript if $step is empty
 if ($_GET["step"] == "")
 {
@@ -56,7 +58,7 @@ $languages = $mySetup->getLanguages($lng->lang_path);
 foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
-	$tpl->setVariable("LINK_LANG", "./setup.php?lang=".$lang_key."&amp;step=".$_GET["step"]);
+	$tpl->setVariable("LINK_LANG", "./setup.php?step=".$_GET["step"]."&amp;lang=".$lang_key);
 	$tpl->setVariable("LANG_DESC", strtoupper($lang_key));
 	$tpl->parseCurrentBlock();
 }
@@ -67,27 +69,443 @@ $tpl->setVariable("TXT_SETUP", $lng->txt("setup"));
 $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
 $tpl->setVariable("VERSION", $VERSION);
 
-// password
-if ($_GET["step"] == 5)
+
+// confirm change password
+if ($_GET["step"] == 12)
 {
-	// show menu link
-	$tpl->setCurrentBlock("step5");
-	$tpl->setVariable("TXT_PASSWORD5", $lng->txt("password"));
-	$tpl->setVariable("TXT_STEP5", $lng->txt("setup"));
-	$tpl->setVariable("LINK_STEP5", "setup.php?step=begin&lang=".$_GET["lang"]);
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif ($_SESSION["auth_setup"] != "yes")
+	{
+		$msg = "<br/>You are not logged in. Please log in first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (empty($_POST["passwdold"]) || empty($_POST["passwdnew"]))
+	{
+		$msg = "<br/>Please fill out both fields.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->checkPassword($_POST["passwdold"]))
+	{
+		$msg = "<br/>Entered wrong password!";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$mySetup->setPassword($_POST["passwdnew"]);
+		
+		$msg = "<br/>Password changed.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
+
+// change password form
+if ($_GET["step"] == 11)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif ($_SESSION["auth_setup"] != "yes")
+	{
+		$msg = "<br/>You are not logged in. Please log in first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		// show menu link
+		$tpl->setCurrentBlock("changepasswd");
+		$tpl->setVariable("TXT_SET_OLDPASSWD", $lng->txt("set_oldpasswd"));
+		$tpl->setVariable("TXT_SET_NEWPASSWD", $lng->txt("set_newpasswd"));
+		$tpl->setVariable("TXT_TITLE", $lng->txt("change_password"));
+		$tpl->setVariable("LANG", $_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
+
+// logout
+if ($_GET["step"] == 10)
+{
+	session_destroy();
+	unset($_SESSION);
+	
+	$msg = "<br/>".$lng->txt("logged_out");
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("message");
+	$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+	$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 }
 
+// check passwd
+if ($_GET["step"] == 9)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->checkPassword($_POST["passwd"]))
+	{
+		$msg = "<br/>Wrong password given.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$auth_setup = "yes";
+		session_register("auth_setup");
+		
+		header ("Location: setup.php?step=begin&lang=".$_GET["lang"]);
+		exit();
+
+	}
+}
+
+if ($mySetup->readIniFile() && $mySetup->connect() && $mySetup->checkPasswordExists())
+{
+	if ($_SESSION["auth_setup"] != "yes")
+	{
+		// show login screen
+		$_GET["step"] = 8;
+	}
+}
+
+// login screen
+if ($_GET["step"] == 8)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$tpl->setCurrentBlock("login");
+		$tpl->setVariable("TXT_TITLE", $lng->txt("login"));
+		$tpl->setVariable("TXT_ENTER_PASSWD", $lng->txt("enter_password"));
+		$tpl->setVariable("LANG", $_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
+
+
+// write password
+if ($_GET["step"] == 7)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$mySetup->setPassword($_POST["passwd"]);
+		$auth_setup = "yes";
+		session_register("auth_setup");
+		
+		$msg = "<br/>Password was set.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
+
+
+// password
+if ($_GET["step"] == 6)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		// show menu link
+		$tpl->setCurrentBlock("step6");
+		$tpl->setVariable("TXT_PASSWORD5", $lng->txt("password"));
+		$tpl->setVariable("TXT_STEP6", $lng->txt("setup"));
+		$tpl->setVariable("LINK_STEP6", "setup.php?step=begin&lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
+
+// installing languages
+if ($_GET["step"] == 5)
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		if ($mySetup->installLanguages())
+		{
+			$msg = "languages installed.";
+		}
+		else
+		{
+			$msg = "An error occurred!";
+		}
+		
+		// show menu link
+		$tpl->setCurrentBlock("step5");
+		$tpl->setVariable("TXT_LANGUAGES5", $lng->txt("languages"));
+		$tpl->setVariable("TXT_MESSAGE", $lng->txt($msg));
+		$tpl->setVariable("TXT_STEP5", $lng->txt("setup"));
+		$tpl->setVariable("LINK_STEP5", "setup.php?step=begin&lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+}
 
 //languages
 if ($_GET["step"] == 4)
 {
-	// show menu link
-	$tpl->setCurrentBlock("step4");
-	$tpl->setVariable("TXT_LANGUAGES4", $lng->txt("languages"));
-	$tpl->setVariable("TXT_STEP4", $lng->txt("setup"));
-	$tpl->setVariable("LINK_STEP4", "setup.php?step=begin&lang=".$_GET["lang"]);
-	$tpl->parseCurrentBlock();
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		$languages = $mySetup->getLanguages($lng->lang_path);
+		$installed_langs = $mySetup->getInstalledLanguages();
+		$tpl->setCurrentBlock("language_row");
+		foreach ($languages as $lang_key)
+		{
+			if ($lang_key != "en")
+			{		
+				$tpl->setCurrentBlock("language_row");
+				$tpl->setVariable("ARR_LANG_KEY", "id[".$lang_key."]");
+				$tpl->setVariable("TXT_LANG", $lng->txt("lang_".$lang_key));
+				if (in_array($lang_key,$installed_langs))
+				{
+					$tpl->setVariable("TXT_OK", ($OK));
+					$tpl->setVariable("CHECKED", ("checked=\"checked\""));		
+				}
+				$tpl->setVariable("TXT_REMARK", $lang_remark);
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		// show menu link
+		$tpl->setCurrentBlock("step4");
+		$tpl->setVariable("LANG", $_GET["lang"]);
+		$tpl->setVariable("TXT_LANG", $lng->txt("lang_en"));
+		$tpl->setVariable("TXT_OK", $OK);
+		$tpl->setVariable("TXT_REMARK", "(English is installed by default and cannot be deleted)");		
+		$tpl->setVariable("TXT_LANGUAGES4", $lng->txt("languages"));
+		$tpl->setVariable("TXT_STEP4", $lng->txt("setup"));
+		$tpl->setVariable("LINK_STEP4", "setup.php?step=begin&lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
 }
 
 //third step of installation process
@@ -99,38 +517,43 @@ if ($_GET["step"] == 3)
 			$msg = "<br/>Please set up your ini-file first.";
 			$tpl->setCurrentBlock("message");
 			$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
-			$tpl->parseCurrentBlock();	
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+			$tpl->parseCurrentBlock();
 		}
-		//output
-		
+	
 		//try to connect to the database
 		//if connection is successful and database is present the user may advance to login
-		if ($mySetup->installDatabase() == true)
+		elseif ($mySetup->installDatabase() == true)
 		{
 			//user may now login
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("TXT_ERR", $lng->txt("setup_ready"));
+			$tpl->setVariable("TXT_ERR", $lng->txt("database_ready"));
 			$tpl->parseCurrentBlock();
 
-			$tpl->setCurrentBlock("step3");
-			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
-			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
-			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error));
-			$tpl->parseCurrentBlock();
-
 			$tpl->setCurrentBlock("step3");
 			$tpl->setVariable("TXT_DATABASE3", $lng->txt("database"));
-			$tpl->setVariable("TXT_STEP3", $lng->txt("setup"));
-			$tpl->setVariable("LINK_STEP3", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+			$tpl->parseCurrentBlock();
+		
+			$tpl->setCurrentBlock("message");
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
-
 }
 
 //second step of installation process
@@ -301,8 +724,7 @@ if ($_GET["step"] == "begin")
 	$tpl->parseCurrentBlock();
 
 	//languages
-	
-	$msg = "";
+	$msg = $OK;
 
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "3");
@@ -312,18 +734,24 @@ if ($_GET["step"] == "begin")
 	$tpl->parseCurrentBlock();
 
 	//password
-	//if (count($langs) > 0)
-	//	$msg = $OK.", ".count($langs). " ".$lng->txt("languages");
-	//else
-	//{
-	//	$msg = "";
-	//	$ok = false;
-	//}
+	if ($_SESSION["auth_setup"] == "yes")
+	{
+		$msg = $OK;
+		$text = $lng->txt("change_password");
+		$num = 11;
+	}
+	else
+	{
+		$msg = "";
+		$ok = false;
+		$text = $lng->txt("setup")." ".$lng->txt("password");
+		$num = 6;
+	}
 
 	$tpl->setCurrentBlock("link");
 	$tpl->setVariable("NR", "4");
-	$tpl->setVariable("TXT_LINK", $lng->txt("setup")." ".$lng->txt("password"));
-	$tpl->setVariable("LINK", "setup.php?step=5&lang=".$_GET["lang"]);
+	$tpl->setVariable("TXT_LINK", $text);
+	$tpl->setVariable("LINK", "setup.php?step=".$num."&lang=".$_GET["lang"]);
 	$tpl->setVariable("STATUS", $msg);
 	$tpl->parseCurrentBlock();
 	
@@ -410,5 +838,14 @@ if ($_GET["step"] == "preliminaries")
 	}
 }
 
+if ($_SESSION["auth_setup"] == "yes")
+{
+	$tpl->setCurrentBlock("logout");
+	$tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+	$tpl->setVariable("LANG", $_GET["lang"]);
+	$tpl->parseCurrentBlock();
+}
+
+$tpl->setVariable("LANG", $_GET["lang"]);
 $tpl->show();
 ?>

@@ -11,6 +11,9 @@
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 
+// destroy possible setup session
+session_destroy();
+
 //check for auth
 if ($ilias->auth->getAuth())
 {
