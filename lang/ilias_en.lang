@@ -965,6 +965,14 @@ common#:#exc_edit_exercise#:#Edit exercise
 common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit until
 common#:#exc_files#:#Files
+common#:#exc_files_returned#:#Returned files
+common#:#deliver#:#Deliver exercise
+common#:#enter_filename_deliver#:#Enter exercise to deliver
+common#:#filename#:#Filename
+common#:#message_no_delivered_files#:#You don't have delivered a file!
+common#:#already_delivered_files#:#Already delivered files
+common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!
+common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!
 common#:#exc_groups#:#Groups
 common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
