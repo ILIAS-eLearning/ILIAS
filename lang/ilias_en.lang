@@ -54,8 +54,6 @@ common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
-common#:#registered_user#:#registered User
-common#:#registered_users#:#registered Users
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
@@ -109,8 +107,6 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
-common#:#learning_resources#:#Learning Resources
-common#:#repository#:#Repository
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
 common#:#chg_language#:#Change Language
@@ -278,7 +274,6 @@ common#:#group_status_closed#:#Closed
 common#:#group_status_public#:#Public
 common#:#groups#:#Groups
 common#:#groups_overview#:#Groups Overview
-common#:#unsubscribe#:#unsubscribe
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
@@ -377,6 +372,7 @@ common#:#lastname#:#Last name
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
 common#:#learning_objects#:#Learning Objects
+common#:#learning_resources#:#Learning Resources
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#linked_pages#:#Linked Pages
@@ -401,6 +397,7 @@ common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
 common#:#locator#:#Locator:
 common#:#login#:#Login
+common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
 common#:#login_time#:#Time online
@@ -519,9 +516,9 @@ common#:#msg_user_last_role1#:#The following users are assigned to this role onl
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#Userassigment changed
 common#:#multimedia#:#Multimedia
+common#:#my_bms#:#My Bookmarks
 common#:#my_frms#:#My Forums
 common#:#my_grps#:#My Groups
-common#:#my_bms#:#My Bookmarks
 common#:#my_los#:#My Learning Objects
 common#:#name#:#Name
 common#:#new#:#New
@@ -534,11 +531,11 @@ common#:#news#:#News
 common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
+common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
-common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_import_available#:#Import not available for type
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_objects#:#No objects
@@ -671,11 +668,14 @@ common#:#refresh_list#:#Refresh List
 common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asteriks are required information).
 common#:#registered_since#:#Registered since
+common#:#registered_user#:#registered User
+common#:#registered_users#:#registered Users
 common#:#registration#:#New account registration
 common#:#remove#:#Dismiss
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#reply#:#Reply
+common#:#repository#:#Repository
 common#:#required_field#:#Required Field
 common#:#reset#:#Reset
 common#:#resources#:#Resources
@@ -784,6 +784,7 @@ common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
+common#:#unsubscribe#:#unsubscribe
 common#:#up#:#Up
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
@@ -813,7 +814,6 @@ common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
 common#:#week#:#Week
-common#:#login_as#:#Logged in as
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
 common#:#write#:#Write
