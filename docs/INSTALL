@@ -244,7 +244,7 @@ stored in:
 
 or for ILIAS 3 in:
 
-    ilias-3.4.0_beta1a.tar.gz
+    ilias-3.4.0_beta2.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -467,6 +467,10 @@ components:
 
 
 (a) MySQL database
+
+    IMPORTANT NOTE: ILIAS has been tested on several 4.0.x version but it will
+    not run on 4.1.x or 5.x version of MySQL due to fundamental changes in
+    these versions.
 
     Configure & make:
 
@@ -955,7 +959,7 @@ must be specified in the ILIAS 3 system settings.
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta1a.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta2.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -1378,7 +1382,7 @@ options in the ILIAS system settings.
 3.2  Updating ILIAS 3
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3.0.0 beta version or
-higher to ILIAS 3.4.0 Beta 1a.
+higher to ILIAS 3.4.0 Beta 2.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -1410,7 +1414,7 @@ these files.
     rm *.php *.xml *.dtd *.css
     rm -r classes content css docs images include java lang layouts
     rm -r modules setup sql templates xml assessment chat tracking
-    rm -r survey syntax_highlight course payment webservice ilink
+    rm -r survey syntax_highlight course payment webservice ilinc
 
 You may ignore any 'no such file or directory' errors because depending on
 your current ILIAS installation some of the directories above may not exist on
@@ -1421,7 +1425,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta1a.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.4.0_beta2.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -1433,7 +1437,7 @@ copy various files and directories to your ILIAS web directory:
     cp -rp css docs images include java lang layouts /opt/ilias/www/htdocs/ilias/
     cp -rp modules payment setup sql survey /opt/ilias/www/htdocs/ilias/
     cp -rp syntax_highlight templates tracking xml /opt/ilias/www/htdocs/ilias/
-	cp -rp webservice ilink /opt/ilias/www/htdocs/ilias/
+	cp -rp webservice ilinc /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
