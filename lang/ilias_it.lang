@@ -96,7 +96,7 @@ assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
-assessment#:#answer#:#Rispondi
+assessment#:#answer#:#Risposta
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Testo della risposta
 assessment#:#applet_attributes#:#Attributi dell'applet
@@ -112,10 +112,10 @@ assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferen
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
 assessment#:#coordinates#:#Coordinate
-assessment#:#create_date#:#Creata
+assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_imagemap#:#Crea una immaggine con mappa
-assessment#:#create_new#:#Crea nuovo
+assessment#:#create_new#:#Nuova
 assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
@@ -181,8 +181,8 @@ assessment#:#polygon#:#Poligono
 assessment#:#polygon_click_next_or_save#:#Per favore clicca sul punto successivo del poligono o salva l'area. (Non &#232; necessario cliccare di nuovo sul punto di partenza del poligono !)
 assessment#:#polygon_click_next_point#:#Per favore clicca sul punto successivo del poligono.
 assessment#:#polygon_click_starting_point#:#Per favore clicca sul punto di partenza del poligono.
-assessment#:#postpone#:#Postponi la domanda
-assessment#:#postponed#:#postposta
+assessment#:#postpone#:#Eseguo la domanda alla fine
+assessment#:#postponed#:#non eseguita
 assessment#:#preview#:#Anteprima
 assessment#:#previous_question_rows#:#<< Domande %d - %d di %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazione per la domanda selezionata. La domanda non &#232; mai stata usata in un test.
@@ -199,13 +199,13 @@ assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande d
 assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
 assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qpl_questions_deleted#:#Domande eliminate
-assessment#:#qt_cloze#:#Domanda con risposta da completare
-assessment#:#qt_imagemap#:#Domanda con immagine a mappa
-assessment#:#qt_javaapplet#:#Domanda con applet java
-assessment#:#qt_matching#:#Domanda a corrispondenza
-assessment#:#qt_multiple_choice_mr#:#Domanda a scelta multipla (risposta multipla)
-assessment#:#qt_multiple_choice_sr#:#Domanda a scelta multipla (risposta singola)
-assessment#:#qt_ordering#:#Domanda con risposte da ordinare
+assessment#:#qt_cloze#:#Da completare
+assessment#:#qt_imagemap#:#Con immagine a mappa
+assessment#:#qt_javaapplet#:#Con applet java
+assessment#:#qt_matching#:#A corrispondenza
+assessment#:#qt_multiple_choice_mr#:#A scelta multipla (risposta multipla)
+assessment#:#qt_multiple_choice_sr#:#A scelta multipla (risposta singola)
+assessment#:#qt_ordering#:#Ad ordinamento
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
@@ -241,7 +241,7 @@ assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
-assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo
 assessment#:#tst_eval_total_finished#:#Test di valutazione completati
 assessment#:#tst_eval_total_finished_average_time#:#Tempo medio di esecuzione per i test completati
@@ -292,7 +292,7 @@ assessment#:#tst_score_type#:#Tipo del rapporto del punteggio
 assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
 assessment#:#tst_sequence#:#Sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
-assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; posporre la domanda alla fine del test
+assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; saltare alcune domande ed eseguirle alla fine del test
 assessment#:#tst_sequence_properties#:#Propriet&#224; della sequenza
 assessment#:#tst_session_settings#:#Impostazioni della sessione
 assessment#:#tst_show_results#:#Mostra i risultati del test
@@ -319,7 +319,7 @@ assessment#:#tst_status_completed_more_tries_possible#:#(completato)
 assessment#:#tst_status_not_entered#:#non inserito
 assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_type#:#Tipo del test
-assessment#:#tst_types#:#Tipi di test
+assessment#:#tst_types#:#Tipo di test
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
@@ -922,8 +922,8 @@ common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi esser
 common#:#group_reset#:#Azzeramento del gruppo
 common#:#group_status#:#Stato del gruppo
 common#:#group_status_closed#:#Chiuso
-common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Open: il gruppo &#232; visibile; gli utenti possono iscriversi. <br/> Closed: il gruppo non &#232; visible ai non-membri; gli utenti devono essere invitati da un membro per poterne far parte.
-common#:#group_status_public#:#Pubblico
+common#:#group_status_desc#:#Determina lo stato iniziale del gruppo usando i permessi impostati per il template di ruolo 'il_grp_status_closed' o 'il_grp_status_open' <br/>Aperto: il gruppo &#232; visibile; gli utenti possono iscriversi. <br/> Chiuso: il gruppo non &#232; visible ai non-membri; gli utenti devono essere invitati da un membro per poterne far parte.
+common#:#group_status_public#:#Aperto
 common#:#groups#:#Gruppi
 common#:#groups_overview#:#Descrizione gruppi
 common#:#grp#:#Gruppo
@@ -1047,7 +1047,7 @@ common#:#inst_id#:#ID dell&#039;installazione
 common#:#inst_info#:#Informazioni sull&#039;installazione
 common#:#inst_name#:#Nome dell&#039;installazione
 common#:#install#:#Installa
-common#:#installed#:#Installato
+common#:#installed#:#Installata
 common#:#institution#:#Istituzione
 common#:#internal_system#:#Sistema interno
 common#:#ip_address#:#Indirizzo IP
@@ -1235,7 +1235,7 @@ common#:#month_12_long#:#Dicembre
 common#:#month_12_short#:#Dic
 common#:#move#:#Muovi
 common#:#moveChapter#:#Muovi
-common#:#movePage#:#Muovi
+common#:#movePage#:#Sposta
 common#:#move_to#:#Inserisci in cartella
 common#:#msg_cancel#:#Esecuzione annullata
 common#:#msg_changes_ok#:#Modifiche effettuate
@@ -1328,7 +1328,7 @@ common#:#news#:#Novit&#224;
 common#:#next#:#Successivo
 common#:#nickname#:#Soprannome
 common#:#no#:#No
-common#:#no_bm_in_personal_list#:#Nessun preferito definito.
+common#:#no_bm_in_personal_list#:#Nessun segnalibro definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data
@@ -1345,7 +1345,7 @@ common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
-common#:#not_installed#:#Non installato
+common#:#not_installed#:#Non installata
 common#:#not_logged_in#:#Non sei entrato in ILIAS3
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
@@ -1438,9 +1438,9 @@ common#:#objs_qpl#:#Raccolte di domande
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
 common#:#objs_slm#:#Moduli SCORM
-common#:#objs_spl#:#Raccolte di domande (verifiche)
+common#:#objs_spl#:#Raccolte di domande (questionari)
 common#:#objs_st#:#Capitoli
-common#:#objs_svy#:#Verifiche
+common#:#objs_svy#:#Questionari
 common#:#objs_tst#:#Test
 common#:#objs_type#:#Tupi di oggetti
 common#:#objs_usr#:#Utenti
@@ -1648,7 +1648,7 @@ common#:#slm_visible#:#Vedere il modulo SCORM
 common#:#slm_write#:#Modificare il modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
-common#:#spl#:#Raccolta di domande (verifica)
+common#:#spl#:#Raccolta di domande (questionario)
 common#:#spl_add#:#Aggiungi raccolta di domande
 common#:#spl_delete#:#Eliminare una raccolta di domande
 common#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1671,20 +1671,20 @@ common#:#subcat_name#:#Nome sottocategoria
 common#:#subchapter_new#:#Nuovo paragrafo
 common#:#subject#:#Oggetto
 common#:#subject_module#:#Argomento del modulo
-common#:#submit#:#Invia
+common#:#submit#:#Conferma
 common#:#subobjects#:#Sotto categorie
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
-common#:#svy#:#Verifica
-common#:#svy_add#:#Aggiungi verifica
-common#:#svy_delete#:#Eliminare una verifica
+common#:#svy#:#Questionario
+common#:#svy_add#:#Aggiungi questionario
+common#:#svy_delete#:#Eliminare il questionario
 common#:#svy_edit_permission#:#Modificare le impostazioni dei permessi 
-common#:#svy_invite#:#Invitare utenti alla verifica
-common#:#svy_new#:#Nuova verifica
-common#:#svy_participate#:#Participare alla verifica
-common#:#svy_read#:#Accedere in lettura alla verifica
-common#:#svy_visible#:#Vedere la verifica
-common#:#svy_write#:#Modificare una verifica
+common#:#svy_invite#:#Invitare utenti al questionario
+common#:#svy_new#:#Nuovo questionario
+common#:#svy_participate#:#Participare al questionario
+common#:#svy_read#:#Accedere in lettura al questionario
+common#:#svy_visible#:#Vedere il questionario
+common#:#svy_write#:#Modificare un questionario
 common#:#system#:#Sistema
 common#:#system_check#:#Controllo sistema
 common#:#system_choose_language#:#Lingua di sistema scelta
@@ -1723,7 +1723,7 @@ common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
 common#:#tst#:#Test
 common#:#tst_add#:#Aggiungi test
-common#:#tst_delete#:#eliminare un test
+common#:#tst_delete#:#Eliminare il test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tst_new#:#Nuovo test
 common#:#tst_read#:#Accedere in lettura al test
@@ -1954,7 +1954,7 @@ content#:#cont_lk_media_new#:#Media (Nuovo Frame)
 content#:#cont_lk_page#:#Pagina
 content#:#cont_lk_page_faq#:#Pagina (Frame FAQ)
 content#:#cont_lk_page_new#:#Pagina (Nuovo frame)
-content#:#cont_lk_survey#:#Verifica
+content#:#cont_lk_survey#:#Esame
 content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
 content#:#cont_lm_menu#:#Menu
@@ -2150,7 +2150,7 @@ dateplaner#:#app_month#:#Vista mensile
 dateplaner#:#app_properties#:#Propriet&#224;
 dateplaner#:#app_week#:#Vista settimanale
 dateplaner#:#application#:#Agenda
-dateplaner#:#apply#:#Salva
+dateplaner#:#apply#:#Conferma
 dateplaner#:#back#:#Indietro
 dateplaner#:#begin_date#:#Inizio appuntamento:
 dateplaner#:#busytime#:#Tempo occupato del gruppo
@@ -3001,14 +3001,14 @@ search#:#search_show_result#:#Mostra
 search#:#search_user#:#Utenti
 survey#:#add_category#:#Aggiungi categoria
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
-survey#:#add_phrase#:#Aggiungi frase
+survey#:#add_phrase#:#Aggiungi una frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
-survey#:#already_completed_survey#:#Hai gi&#224; completato la verifica! Non puoi eseguirla di nuovo!
+survey#:#already_completed_survey#:#Hai gi&#224; completato il questionario! Non puoi eseguirlo di nuovo.
 survey#:#answer#:#Risposta
-survey#:#apply#:#Esegui
+survey#:#apply#:#Conferma
 survey#:#arithmetic_mean#:#Valore aritmetico
-survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nella verifica?
-survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande alla verifica?
+survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blocchi di domande nel questionario?
+survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel questionario?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
 survey#:#category#:#Categoria
@@ -3020,7 +3020,7 @@ survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
-survey#:#create_new#:#Nuova creazione
+survey#:#create_new#:#Crea nuova
 survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#accordo
 survey#:#dc_always#:#sempre
@@ -3034,8 +3034,8 @@ survey#:#dc_good#:#buono
 survey#:#dc_manytimes#:#molte volte
 survey#:#dc_morenegative#:#pi&#249; negativo
 survey#:#dc_morepositive#:#pi&#249; positivo
-survey#:#dc_mostcertainly#:#pi&#249; sicuro
-survey#:#dc_mostcertainlynot#:#meno sicuro
+survey#:#dc_mostcertainly#:#molto sicuro
+survey#:#dc_mostcertainlynot#:#molto insicuro
 survey#:#dc_must#:#deve
 survey#:#dc_mustnot#:#non deve
 survey#:#dc_neutral#:#neutro
@@ -3047,48 +3047,48 @@ survey#:#dc_rarely#:#raramente
 survey#:#dc_should#:#dovrebbe
 survey#:#dc_shouldnot#:#non dovrebbe
 survey#:#dc_sometimes#:#talvolta
-survey#:#dc_stronglyagree#:#sicuramente d'accordo
-survey#:#dc_stronglydesired#:#sicuramente desiderato
-survey#:#dc_stronglydisagree#:#sicuramente non d'accordo
-survey#:#dc_stronglyundesired#:#sicuramente non desideratro
+survey#:#dc_stronglyagree#:#molto d'accordo
+survey#:#dc_stronglydesired#:#fortemente desiderato
+survey#:#dc_stronglydisagree#:#molto in disaccordo
+survey#:#dc_stronglyundesired#:#fortemente non desiderato
 survey#:#dc_true#:#vero
 survey#:#dc_undecided#:#indeciso
-survey#:#dc_undesired#:#indesiderato
+survey#:#dc_undesired#:#non desiderato
 survey#:#dc_varying#:#variante
 survey#:#dc_verygood#:#molto buono
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definisci un blocco di domande
-survey#:#disinvite#:#Annulla invito
+survey#:#disinvite#:#Annulla l'invito
 survey#:#display_all_available#:#Mostra tutto
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)###23 May 2004 new variable
-survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)###23 May 2004 new variable
-survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
+survey#:#dp_standard_attitude_agree5#:#Giudizio standard (molto d'accordo -d'accordo-indeciso-in disaccordo-molto in disaccordo)
+survey#:#dp_standard_attitude_agree_disagree#:#Giudizio standard (d'accordo-disaccordo)
+survey#:#dp_standard_attitude_agree_undecided_disagree#:#Giudizio standard (d'accordo-indeciso-in disaccordo)
+survey#:#dp_standard_attitude_desired5#:#Giudizio standard (fortemente desiderato -desiderato-indifferente-non desiderato-fortemente non desiderato)
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Giudizio standard (desiderato-indifferente-non desiderato)
+survey#:#dp_standard_attitude_desired_undesired#:#Giudizio standard (desiderato-non desiderato)
+survey#:#dp_standard_attitude_good5#:#Giudizio standard (molto buono-buono-sufficiente-insufficiente-molto insufficiente)
+survey#:#dp_standard_attitude_good_fair_notacceptable#:#Giudizio standard (buono-sufficiente-insufficiente)
+survey#:#dp_standard_attitude_good_notacceptable#:#Giudizio standard (buono-insufficiente)
+survey#:#dp_standard_attitude_must5#:#Giudizio standard (deve-dovrebbe-indeciso-non dovrebbe-non deve)
+survey#:#dp_standard_attitude_shold_shouldnot#:#Giudizio standard (dovrebbe-non dovrebbe)
+survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Giudizio standard (dovrebbe-indeciso-non dovrebbe)
+survey#:#dp_standard_behaviour_certainly5#:#Comportamento standard (molto sicuro-pi&#249; positivo-indeciso-pi&#249; negativo-molto negativo)
+survey#:#dp_standard_behaviour_yes_no#:#Comportamento standard (si-no)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Comportamento standard (si-indeciso-no)
+survey#:#dp_standard_beliefs_always5#:#Affidabilit&#224; standard (sempre-molte volte-qualche volta-raramente-mai)
+survey#:#dp_standard_beliefs_always_never#:#Affidabilit&#224; standard (sempre-mai)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Affidabilit&#224; standard (sempre-qualche volta-mai)
+survey#:#dp_standard_beliefs_true5#:#Affidabilit&#224; standard (sicuramente vero-vero-indeciso-falso-sicuramente falso)
+survey#:#dp_standard_beliefs_true_false#:#Affidabilit&#224; standard (vero-falso)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Affidabilit&#224; standard (vero-indeciso-falso)
 survey#:#dp_standard_numbers#:#Numeri standard
-survey#:#duplicate#:#Duplicata
+survey#:#duplicate#:#Duplica
 survey#:#edit_ask_continue#:#Vuoi continuare e modificare questa domanda?
 survey#:#edit_constraints_introduction#:#Hai scelto le seguenti domande/blocchi di domande per modificare i vincoli
 survey#:#end_date#:#Termine ultimo
-survey#:#enter_phrase_title#:#Per favore inserisci il titolo
+survey#:#enter_phrase_title#:#Per favore inserisci il titolo del questionario
 survey#:#enter_value#:#Inserisci un valore
-survey#:#evaluation#:#Prova
+survey#:#evaluation#:#Di prova
 survey#:#evaluation_access#:#Accesso di prova
 survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Esci
@@ -3103,21 +3103,21 @@ survey#:#given_answers#:#Risposte fornite
 survey#:#harmonic_mean#:#Significato armonico
 survey#:#insert_after#:#Inserisci dopo
 survey#:#insert_before#:#Inserisci prima
-survey#:#insert_missing_question#:#Per favore, seleziona almeno una domanda da inserire nella verifica!
-survey#:#insert_missing_questionblock#:#Per favore, seleziona almeno un blocco di domande da inserire nella verifica!
+survey#:#insert_missing_question#:#Per favore, seleziona almeno una domanda da inserire nel questionario!
+survey#:#insert_missing_questionblock#:#Per favore, seleziona almeno un blocco di domande da inserire nel questionario!
 survey#:#introduction#:#Introduzione
-survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.###28 Jun 2004 new variable
+survey#:#introduction_manage_phrases#:#Gestisci le tue frasi che sono disponibili per tutte le domande che hai modificato/creato.
 survey#:#invitation#:#Invito
-survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
-survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
-survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
-survey#:#invited_users#:#Invited users###27 May 2004 new variable
-survey#:#last_update#:#Last update###21 May 2004 new variable
-survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
-survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
-survey#:#material_file#:#Material file###21 May 2004 new variable
-survey#:#maximum#:#Maximum value###22 May 2004 new variable
-survey#:#median#:#Median###02 Jun 2004 new variable
+survey#:#invitation_mode#:#Modalit&#224; ad invito
+survey#:#invite_participants#:#Invita participanti
+survey#:#invited_groups#:#Gruppi invitati
+survey#:#invited_users#:#Utenti invitati
+survey#:#last_update#:#Data ultima modifica
+survey#:#lower_limit#:#Limite inferiore
+survey#:#manage_phrases#:#Gestione frasi
+survey#:#material_file#:#File materiale
+survey#:#maximum#:#Valore massimo
+survey#:#median#:#Medio
 survey#:#metric_question_out_of_bounds#:#Il valore che hai inserito non &#232; compreso tra i valori minimo e massimo!
 survey#:#minimum#:#Valore minimo
 survey#:#missing_upper_or_lower_limit#:#Per favore, inserisci i limiti inferiore e superiore!
@@ -3126,7 +3126,7 @@ survey#:#mode_nr_of_selections#:#Nr di selezioni
 survey#:#mode_text#:#Valore pi&#249; selezionato (Testo)
 survey#:#multiple_choice_multiple_response#:#Scelta multipla (risposta multipla)
 survey#:#multiple_choice_single_response#:#Scelta multipla (risposta singola)
-survey#:#next_question_rows#:#Questions %d - %d of %d >>###29 Jun 2004 new variable
+survey#:#next_question_rows#:#Domande %d - %d di %d >>
 survey#:#no_available_constraints#:#Non sono stati definiti i vincoli!
 survey#:#no_category_selected_for_deleting#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#no_category_selected_for_move#:#Per favore, scegli almeno una categoria da spostare!
@@ -3138,9 +3138,9 @@ survey#:#no_questions_available#:#Non ci sono domande disponibili!
 survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
 survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
 survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
-survey#:#no_user_phrases_defined#:#There are no user defined phrases available!###28 Jun 2004 new variable
+survey#:#no_user_phrases_defined#:#Non ci sono frasi definite dagli utenti disponibili!
 survey#:#nominal_question_not_checked#:#Per favore, seleziona una delle risposte disponibili!
-survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
+survey#:#non_ratio#:#Non-frazionario
 survey#:#not_finished#:#non terminato
 survey#:#not_started#:#non iniziato
 survey#:#obligatory#:#obbligatorio
@@ -3154,85 +3154,85 @@ survey#:#percentage_of_entered_values#:#Percentuale di utenti che hanno indicato
 survey#:#percentage_of_selections#:#Percentuale di utenti che hanno scelto questa categoria
 survey#:#predefined_users#:#Utenti predefiniti
 survey#:#preview#:#Anteprima
-survey#:#previous_question_rows#:#<< Questions %d - %d of %d###29 Jun 2004 new variable
-survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?###28 Jun 2004 new variable
+survey#:#previous_question_rows#:#<< Domande %d - %d di %d
+survey#:#qpl_confirm_delete_phrases#:#Sei sicuro di voler cancellare le seguenti frasi?
 survey#:#qpl_confirm_delete_questions#:#Sei sicuro di voler cancellare le seguenti domande?
 survey#:#qpl_copy_select_none#:#Per favore, scegli almeno una domanda da copiare!
 survey#:#qpl_define_questionblock_select_missing#:#Per favore, seleziona almeno due domande se vuoi definire un blocco!
-survey#:#qpl_delete_phrase_select_none#:#Please check at least one phrase to delete it###28 Jun 2004 new variable
-survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le la(e) domanda(e)!
+survey#:#qpl_delete_phrase_select_none#:#Per favore, seleziona almeno una frase da cancellare
+survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le domande!
 survey#:#qpl_delete_select_none#:#Per favore, seleziona almeno una domanda da cancellare!
 survey#:#qpl_duplicate_select_none#:#Per favore, seleziona almeno una domanda da duplicare!
 survey#:#qpl_past_questions_confirmation#:#Sei sicuro di voler incollare le seguenti domande nella raccolta?
-survey#:#qpl_phrases_deleted#:#Phrases(s) deleted.###28 Jun 2004 new variable
-survey#:#qpl_questions_deleted#:#Question(s) deleted.###22 May 2004 new variable
-survey#:#qpl_questions_pasted#:#Question(s) pasted.###07 Jun 2004 new variable
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!###07 Jun 2004 new variable
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.###07 Jun 2004 new variable
-survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!###23 May 2004 new variable
-survey#:#qt_metric#:#Metric question###21 May 2004 new variable
-survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
-survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
-survey#:#qt_text#:#Text question###21 May 2004 new variable
-survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
-survey#:#question_type#:#Question type###21 May 2004 new variable
-survey#:#questionblock#:#Question block###25 May 2004 new variable
-survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
-survey#:#questions#:#Questions###10 Jun 2004 new variable
-survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable
-survey#:#questions_removed#:#Question(s) and/or question block(s) removed!###25 May 2004 new variable
-survey#:#questiontype#:#Question type###21 May 2004 new variable
-survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
-survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
-survey#:#remove_question#:#Remove###24 May 2004 new variable
-survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
-survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
-survey#:#resume_survey#:#Resume the survey###new variable 18 June 2004
-survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
-survey#:#search_field_all#:#Search in all fields###10 Jun 2004 new variable
-survey#:#search_for#:#Search for###27 May 2004 new variable
-survey#:#search_groups#:#Groups###27 May 2004 new variable
-survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
-survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
-survey#:#search_term#:#Search term###27 May 2004 new variable
-survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
-survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
-survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
-survey#:#select_relation#:#Select a relation###26 May 2004 new variable
+survey#:#qpl_phrases_deleted#:#Frasi cancellate
+survey#:#qpl_questions_deleted#:#Domande cancellate
+survey#:#qpl_questions_pasted#:#Domande incollate
+survey#:#qpl_savephrase_empty#:#Per favore, indica il titolo!
+survey#:#qpl_savephrase_exists#:#Questo titolo esiste gi&#224;! Per favore, definisci un altro titolo.
+survey#:#qpl_unfold_select_none#:#Per favore seleziona almeno un blocco di domande se vuoi aprirlo!
+survey#:#qt_metric#:#Risposta numerica
+survey#:#qt_nominal#:#Risposta predefinita
+survey#:#qt_ordinal#:#Risposta a ordinamento
+survey#:#qt_text#:#Risposta con testo
+survey#:#question_has_constraints#:#Vincoli
+survey#:#question_obligatory#:#Questa domanda &#232; obbligatoria!
+survey#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul harddisk per il file. Se cancelli il form adesso, If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
+survey#:#question_type#:#Tipo di domanda
+survey#:#questionblock#:#Blocco di domande
+survey#:#questionblock_has_constraints#:#Vincoli
+survey#:#questionblocks#:#Blocco di domande
+survey#:#questions#:#Domande
+survey#:#questions_inserted#:#Domande inserite!
+survey#:#questions_removed#:#Domande e/o blocco di domande cancellate!
+survey#:#questiontype#:#Tipo di domanda
+survey#:#ratio_absolute#:#Frazionario assoluto
+survey#:#ratio_non_absolute#:#Frazionario non assoluto
+survey#:#remove_question#:#Cancella
+survey#:#remove_questions#:#Sei sicuro di voler cancellare le seguenti domande e/o blocchi di domande dal test?
+survey#:#reset_filter#:#Azzera il filtro
+survey#:#resume_survey#:#Annulla il filtro
+survey#:#save_phrase#:#Salva come frase
+survey#:#save_phrase_categories_not_checked#:#Per favore, seleziona almento due categorie da salvare nella nuova frase!
+survey#:#save_phrase_introduction#:#Se vuoi salvare le categorie sotto come frase predefinita, per favore indica il titolo. Accedi alla frase predefinita ogni volta che aggiungi una frase ad una domanda ad ordinamento.
+survey#:#search_field_all#:#Ricerca in tutti i campi
+survey#:#search_for#:#Ricerca per
+survey#:#search_groups#:#Gruppi
+survey#:#search_invitation#:#Ricerca utenti o gruppi da invitare
+survey#:#search_questions#:#Ricerca le domande
+survey#:#search_term#:#Ricerca il termine
+survey#:#search_type_all#:#Ricerca in tutti i tipi di domande
+survey#:#search_users#:#Utenti
+survey#:#select_prior_question#:#Seleziona la domanda precedente
+survey#:#select_questionpool#:#Per favore, scegli la raccolta di domande nella quale salvare la domanda da creare
+survey#:#select_relation#:#Seleziona una relazione
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
-survey#:#select_value#:#Select a value###26 May 2004 new variable
-survey#:#set_filter#:#Set filter###21 May 2004 new variable
-survey#:#start_date#:#Start date###23 May 2004 new variable
-survey#:#start_survey#:#Start survey###25 May 2004 new variable
-survey#:#subtype#:#Subtype###04 Jun 2004 new variable
-survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
-survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
-survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
-survey#:#survey_questions#:#Questions###21 May 2004 new variable
-survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
-survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
-survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
-survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
-survey#:#unfold#:#Unfold###23 May 2004 new variable
-survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
-survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
-survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Jun 2004 new variable
-survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
-survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
-survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
-survey#:#values#:#Values###04 Jun 2004 new variable
-survey#:#view_phrase#:#View phrase###new variable 18 June 2004
-survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
+survey#:#select_value#:#Seleziona un valore
+survey#:#set_filter#:#Imposta filtro
+survey#:#start_date#:#Giorno di esecuzione
+survey#:#start_survey#:#Comincia l'esame
+survey#:#subtype#:#Sottotipo
+survey#:#survey_finish#:#salva e finisci l'esame >>>
+survey#:#survey_finished#:#L'esame &#232; finito. Grazie per la tua partecipazione!
+survey#:#survey_next#:#salva e vai avanti >>>
+survey#:#survey_offline_message#:#Non puoi invitare partecipanti. L'esame &#232; offline!
+survey#:#survey_online_warning#:#L'esame &#232; online. Non puoi modificare le domande!
+survey#:#survey_previous#:#<<< salva e torna indietro
+survey#:#survey_questions#:#Domande
+survey#:#survey_skip_finish#:#salta e finisci l'esame >>>
+survey#:#survey_skip_next#:#salta e vai alla pagina successiva >>>
+survey#:#survey_skip_previous#:#<<< salta e torna alla pagina precedente
+survey#:#survey_skip_start#:#<<< salta e torna alla pagina iniziale
+survey#:#survey_start#:#<<< salva e vai alla pagina iniziale
+survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
+survey#:#unfold#:#Aperrto
+survey#:#unlimited_users#:#Illimitato
+survey#:#uploaded_material#:#Materiale Uploadato
+survey#:#upper_limit#:#Limite superiore
+survey#:#upper_limit_must_be_greater#:#IL limite superiore deve essere maggiore del limite inferiore!
+survey#:#users_answered#:#Utenti che hanno risposto
+survey#:#users_skipped#:#Utenti che hanno saltato
+survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
+survey#:#values#:#Valori
+survey#:#view_phrase#:#Vedi frase
+survey#:#warning_question_in_use#:#Attenzione! La domanda che vuoi modificare &#232; &#232; attualmente usata dai questionari indicati sotto. Se decidi di continuare e salvare/confermare la domanda, tutte le risposte dei questionari elencati sotto saranno cancellate. Se vuoi cambiare la domanda e usarla in un altro questionario, per favore scegli di duplicarla in modo da creare una nuova istanza della stessa.
