@@ -95,6 +95,7 @@ HTMLArea.Config = function () {
 
 	// style included in the iframe document
 	this.pageStyle = "";
+	this.pageStyleLink = "";
 
 	// set to true if you want Word code to be cleaned upon Paste
 	this.killWordOnPaste = false;
@@ -741,6 +742,7 @@ HTMLArea.prototype.generate = function () {
 			html += "<head>\n";
 			if (editor.config.baseURL)
 				html += '<base href="' + editor.config.baseURL + '" />';
+			html += editor.config.pageStyleLink;
 			html += "<style> html,body { border: 0px; } " +
 				editor.config.pageStyle + "</style>\n";
 			html += "</head>\n";

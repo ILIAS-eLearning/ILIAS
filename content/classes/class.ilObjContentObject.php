@@ -578,6 +578,21 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	* lookup style sheet ID
+	*/
+	function _lookupStyleSheetId($a_cont_obj_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT stylesheet FROM content_object ".
+			" WHERE id = '".$a_cont_obj_id."'";
+		$res = $ilDB->query($q);
+		$sheet = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $sheet["stylesheet"];
+	}
+
+	/**
 	* get page header mode (IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER)
 	*/
 	function getPageHeader()
