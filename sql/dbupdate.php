@@ -3447,3 +3447,5 @@ INSERT  INTO  `survey_phrase` (`phrase_id` ,  `title` ,  `defaultvalue` ,  `owne
 
 <#208>
 ALTER TABLE scorm_tracking2 ADD COLUMN ref_id INT NOT NULL DEFAULT '0';
+<#209>
+ALTER  TABLE  `survey_question`  ADD  `original_id` INT DEFAULT  '0' NOT  NULL  AFTER  `created` ;
