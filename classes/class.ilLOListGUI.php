@@ -167,12 +167,15 @@ class ilLOListGUI
 		$this->tpl->parseCurrentBlock();
 
 		// set locator
+		$this->setLocator();
+		/*
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
 		$this->tpl->setVariable("LINK_ITEM", "lo_list.php");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
+		$this->tpl->parseCurrentBlock();*/
 
 		// display infopanel if something happened
 		infoPanel();
@@ -437,6 +440,82 @@ class ilLOListGUI
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	/**
+	* set Locator
+	*
+	* @param	object	tree object
+	* @param	integer	reference id
+	* @access	public
+	*/
+	function setLocator()
+	{
+		$a_tree =& $this->tree;
+		$a_id = $_GET["ref_id"];
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $a_tree->getPathFull($a_id);
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
+		}
+
+		foreach ($path as $key => $row)
+		{
+			if ($key < count($path)-$modifier)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			if ($row["child"] != $a_tree->getRootId())
+			{
+				$this->tpl->setVariable("ITEM", $row["title"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("ITEM", $this->lng->txt("lo_available"));
+			}
+			$this->tpl->setVariable("LINK_ITEM", "lo_list.php?cmd=displayList&ref_id=".$row["child"]);
+			//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
+
+			$this->tpl->parseCurrentBlock();
+
+		}
+
+		/*
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("LINK_ITEM", "lo_list.php?ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$this->tpl->setCurrentBlock("locator");
+
+		if (DEBUG)
+		{
+			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
+		}
+
+		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+		if ($_GET["cmd"] == "confirmDeleteAdm")
+		{
+			$prop_name = "delete_object";
+		}
+
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+		$this->tpl->parseCurrentBlock();
 	}
 
 }
