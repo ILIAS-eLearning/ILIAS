@@ -372,7 +372,7 @@
 </xsl:template>
 
 <!-- List Item -->
-<xsl:template match="Item">
+<xsl:template match="ListItem">
 	<li>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->

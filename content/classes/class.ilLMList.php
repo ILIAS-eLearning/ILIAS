@@ -69,7 +69,7 @@ class ilLMList extends ilPageContent
 	{
 		for ($i=1; $i<=$a_nr; $i++)
 		{
-			$new_item =& $this->dom->create_element("Item");
+			$new_item =& $this->dom->create_element("ListItem");
 			$new_item =& $this->list_node->append_child($new_item);
 		}
 	}
@@ -80,7 +80,7 @@ class ilLMList extends ilPageContent
 		{
 			case "Unordered":
 				$this->list_node->set_attribute("Type", "Unordered");
-				if($this->list_node->has_attribute("NumberingType")
+				if ($this->list_node->has_attribute("NumberingType"))
 				{
 					$this->list_node->remove_attribute("NumberingType");
 				}
