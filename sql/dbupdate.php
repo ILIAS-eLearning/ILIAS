@@ -1205,9 +1205,6 @@ CREATE TABLE style (
 <#57>
 #adding permission settings for role templates
 <?php
-$query = "DELETE FROM rbac_ta WHERE type='rolt'";
-$this->db->query($query);
-
 $query = "SELECT * FROM object_data WHERE type='typ' AND title='rolt'";
 $res = $this->db->query($query);
 $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -1225,6 +1222,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('$rolt_id','".$row->ops_id."')";
 	$this->db->query($query);
 }
+
+$query = "DELETE FROM rbac_templates WHERE type='rolt'";
+$this->db->query($query);
 
 $query = "SELECT * FROM rbac_templates WHERE type='role'";
 $res = $this->db->query($query);
