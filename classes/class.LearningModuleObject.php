@@ -49,57 +49,12 @@ class LearningModuleObject extends Object
 		parent::gatewayObject();
 	}
 
-	function viewObject($a_order, $a_direction)
-	{
-		global $rbacsystem, $tree, $tpl;
-		
-		$lotree = new Tree($this->id,0,0,$this->id);
-		//prepare objectlist
-		$this->objectList = array();
-		$this->objectList["data"] = array();
-		$this->objectList["ctrl"] = array();
-
-		$this->objectList["cols"] = array("", "view", "title", "description", "last_change");
-		
-		if ($lotree->getChilds($this->id, $a_order, $a_direction))
-		{
-			foreach ($lotree->Childs as $key => $val)
-		    {
-				// visible
-				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
-				//{
-				//	continue;
-				//}
-		
-				//visible data part
-				$this->objectList["data"][] = array(
-					"type" => "<img src=\"".$tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
-				);
-
-				//control information
-				$this->objectList["ctrl"][] = array(
-					"type" => $val["type"],
-					"obj_id" => $this->id,
-					"parent" => $_GET["parent"],
-					"parent_parent" => $val["parent_parent"],
-					"lm_id" => $this->id,
-					"lo_id" => $val["id"]
-				);
-				
-		    } //foreach
-		} //if 
-		return $this->objectList;
-	}
-
 	function importObject()
 	{
 		// nothing to do. just display the dialogue in Out
 		return;
 	}
-	
+
 	/**
 	* extents inherited saveObject method by
 	* creating a tree entry for each LearningModule

@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.7 2003/01/30 14:57:01 smeyer Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.8 2003/02/06 15:34:16 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -14,7 +14,7 @@ class LearningModuleObjectOut extends ObjectOut
 {
 	/**
 	* Constructor
-	* 
+	*
 	* @access public
 	*/
 	function LearningModuleObjectOut($a_data)
@@ -22,10 +22,56 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->ObjectOut($a_data);
 	}
 
+	function viewObject()
+	{
+		global $rbacsystem, $tree, $tpl;
+
+		$lotree = new Tree($this->id,0,0,$this->id);
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+
+		$this->data["cols"] = array("", "view", "title", "description", "last_change");
+
+		if ($lotree->getChilds($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
+		{
+			foreach ($lotree->Childs as $key => $val)
+		    {
+				// visible
+				//if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				//{
+				//	continue;
+				//}
+
+				//visible data part
+				$this->data["data"][] = array(
+					"type" => "<img src=\"".$this->tpl->tplPath."/images/enlarge.gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+
+				//control information
+				$this->data["ctrl"][] = array(
+					"type" => $val["type"],
+					"obj_id" => $_GET["obj_id"],
+					"parent" => $_GET["parent"],
+					"parent_parent" => $val["parent_parent"],
+					"lm_id" => $this->id,
+					"lo_id" => $val["id"]
+				);
+
+		    } //foreach
+		} //if
+		parent::displayList();
+	}
+
+
 	/**
 	* Overwritten method from class.Object.php
 	* It handles all button commands from Learning Modules
-	* 
+	*
 	* @access public
 	*/
 	function gatewayObject()
