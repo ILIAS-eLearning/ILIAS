@@ -592,6 +592,7 @@ class ilObjStyleSheet extends ilObject
 			"cursor" => array("auto", "default", "crosshair", "pointer", "move",
 				"n-resize", "ne-resize", "e-resize", "se-resize", "s-resize", "sw-resize",
 				"w-resize", "nw-resize", "text", "wait", "help"),
+			"clear" => array ("non","left","right","both")
 		);
 
 		return $pars;
