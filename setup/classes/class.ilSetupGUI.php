@@ -1701,7 +1701,8 @@ class ilSetupGUI extends ilSetup
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("fill_out_all_required_fields");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				//$this->raiseError($message,$this->error_obj->MESSAGE);
+				sendInfo($message);
 			}
 			
 			// admin email
@@ -1709,7 +1710,8 @@ class ilSetupGUI extends ilSetup
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				sendInfo($message);
+				//$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
 			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
@@ -1810,7 +1812,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_EMAIL", $this->lng->txt("email"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
-		//$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
 		$this->tpl->setVariable("TXT_SETUP_TITLE","contact information & client data");
 		
 		$this->setButtonPrev("lang");
