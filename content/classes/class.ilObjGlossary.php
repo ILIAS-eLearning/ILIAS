@@ -176,6 +176,217 @@ class ilObjGlossary extends ilObject
 	}
 
 	/**
+	* creates data directory for export files
+	* (data_dir/glo_data/glo_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$glo_data_dir = ilUtil::getDataDir()."/glo_data";
+		ilUtil::makeDir($glo_data_dir);
+		if(!is_writable($glo_data_dir))
+		{
+			$this->ilias->raiseError("Glossary Data Directory (".$glo_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		// create glossary directory (data_dir/glo_data/glo_<id>)
+		$glo_dir = $glo_data_dir."/glo_".$this->getId();
+		ilUtil::makeDir($glo_dir);
+		if(!@is_dir($glo_dir))
+		{
+			$this->ilias->raiseError("Creation of Glossary Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/glo_data/glo_<id>/export)
+		$export_dir = $glo_dir."/export";
+		ilUtil::makeDir($export_dir);
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of lm
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = ilUtil::getDataDir()."/glo_data"."/glo_".$this->getId()."/export";
+
+		return $export_dir;
+	}
+
+	/**
+	* get export files
+	*/
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(glo_)*[0-9]+\.zip\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+		/**
+	* export object to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+	{
+		global $ilBench;
+
+		$attrs = array();
+		$attrs["Type"] = "Glossary";
+		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		// MediaObjects
+		/*
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
+		$ilBench->start("ContentObjectExport", "exportMediaObjects");
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportMediaObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
+
+		// FileItems
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
+		$ilBench->start("ContentObjectExport", "exportFileItems");
+		$this->exportFileItems($a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportFileItems");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");*/
+
+		// Glossary
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Glossary Items");
+		$ilBench->start("GlossaryExport", "exportGlossaryItems");
+		$this->exportXMLGlossaryItems($a_xml_writer, $a_inst, $expLog);
+		$ilBench->stop("GlossaryExport", "exportGlossaryItems");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Glossary Items");
+
+		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+
+	/**
+	* export page objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLGlossaryItems(&$a_xml_writer, $a_inst, &$expLog)
+	{
+		global $ilBench;
+
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("Glossary", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		$terms = $this->getTermList();
+		foreach ($terms as $term)
+		{
+			$ilBench->start("GlossaryExport", "exportGlossaryItem");
+			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
+
+			// export xml to writer object
+			$ilBench->start("GlossaryExport", "exportGlossaryItem_getGlossaryTerm");
+			$glo_term = new ilGlossaryTerm($term["id"]);
+			$ilBench->stop("GlossaryExport", "exportGlossaryItem_getGlossaryTerm");
+			$ilBench->start("GlossaryExport", "exportGlossaryItem_XML");
+			$glo_term->exportXML($a_xml_writer, $a_inst);
+			$ilBench->stop("GlossaryExport", "exportGlossaryItem_XML");
+
+			/*
+			// collect media objects
+			$ilBench->start("GlossaryExport", "exportGlossaryItem_CollectMedia");
+			$mob_ids = $page_obj->getMediaObjectIDs();
+			foreach($mob_ids as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
+			$ilBench->stop("GlossaryExport", "exportGlossaryItem_CollectMedia");
+
+			// collect all file items
+			$ilBench->start("GlossaryExport", "exportGlossaryItem_CollectFileItems");
+			$file_ids = $page_obj->getFileItemIds();
+			foreach($file_ids as $file_id)
+			{
+				$this->file_ids[$file_id] = $file_id;
+			}
+			$ilBench->stop("GlossaryExport", "exportGlossaryItem_CollectFileItems");
+			*/
+
+			unset($glo_term);
+
+			$ilBench->stop("GlossaryExport", "exportGlossaryItem");
+		}
+
+		$a_xml_writer->xmlEndTag("Glossary");
+	}
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "modifyExportIdentifier");
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+
+	/**
+	*
+	*/
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param == "Entry")
+		{
+			$a_value = "il_".IL_INST_ID."_glo_".$this->getId();
+		}
+
+		return $a_value;
+	}
+
+
+
+
+	/**
 	* copy all properties and subobjects of a glossary
 	*
 	* @access	public

@@ -145,7 +145,7 @@ class ilRepositoryGUI
 			$next_class = get_class($obj)."gui";
 			$obj_type = $obj->getType();
 		}*/
-		
+
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($next_class)
@@ -162,18 +162,18 @@ class ilRepositoryGUI
 
 			default:
 
-		if (!isset($obj_type))
-		{
-			$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
-		}
-		
-		// get GUI of current object
-		$class_name = $this->objDefinition->getClassName($obj_type);
-		$module = $this->objDefinition->getModule($obj_type);
-		$module_dir = ($module == "") ? "" : $module."/";
-		$class_constr = "ilObj".$class_name."GUI";
-		include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-		$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
+				if (!isset($obj_type))
+				{
+					$obj_type = ilObject::_lookupType($this->cur_ref_id,true);
+				}
+
+				// get GUI of current object
+				$class_name = $this->objDefinition->getClassName($obj_type);
+				$module = $this->objDefinition->getModule($obj_type);
+				$module_dir = ($module == "") ? "" : $module."/";
+				$class_constr = "ilObj".$class_name."GUI";
+				include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+				$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
 
 				// execute repository cmd
 				if (empty($cmd))
@@ -185,7 +185,7 @@ class ilRepositoryGUI
 				$this->cmd = $cmd;
 				$this->$cmd();
 				break;
-		}		
+		}
 	}
 
 	function prepareOutput()

@@ -375,6 +375,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
+		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
+		$this->tpl->parseCurrentBlock();
 
 
 		// load template for table
@@ -475,6 +480,263 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+
+	/*
+	* list all export files
+	*/
+	function exportList()
+	{
+		global $tree;
+
+		$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file"));
+		$this->tpl->parseCurrentBlock();
+
+		// view last export log button
+		if (is_file($this->object->getExportDirectory()."/export.log"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+
+		$export_files = $this->object->getExportFiles($export_dir);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$tbl->setTitle($this->lng->txt("cont_export_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
+			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "exportList", "cmdClass" => get_class($this));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* export content object
+	*/
+	function export()
+	{
+		require_once("content/classes/class.ilGlossaryExport.php");
+		$glo_exp = new ilGlossaryExport($this->object);
+		$glo_exp->buildExportFile();
+		$this->exportList();
+	}
+
+	/**
+	* download export file
+	*/
+	function downloadExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+
+	/*
+	* list all export files
+	*/
+	function viewExportLog()
+	{
+		global $tree;
+
+		$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_export_files"));
+		$this->tpl->parseCurrentBlock();
+
+		// load files templates
+		$this->tpl->setVariable("ADM_CONTENT",
+			nl2br(file_get_contents($this->object->getExportDirectory()."/export.log")));
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->setTabs();
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFile()
+	{
+		session_unregister("ilExportFiles");
+		$this->ctrl->redirect($this, "exportList");
+	}
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFile()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+			if (@is_dir($exp_dir))
+			{
+				ilUtil::delDir($exp_dir);
+			}
+		}
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/**

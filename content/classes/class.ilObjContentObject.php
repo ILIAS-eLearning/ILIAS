@@ -1057,7 +1057,9 @@ class ilObjContentObject extends ilObject
 		}
 	}
 
-
+	/**
+	* get export files
+	*/
 	function getExportFiles($dir)
 	{
 		// quit if import dir not available

@@ -494,7 +494,7 @@ class ilUtil
 			{
 				$layout_next = $ALayout["next"];
 			}
-		} 
+		}
 
 		// Wenn Hits grösser Limit, zeige Links an
 		if ($AHits > $ALimit)
@@ -1831,11 +1831,17 @@ class ilUtil
 		return $ids ? $ids : array();
 	}
 
+	function getMemString()
+	{
+		$my_pid = getmypid();
+		return ("MEMORY USAGE (% KB PID ): ".`ps -eo%mem,rss,pid | grep $my_pid`);
+	}
+
+
 	function escapeShellArg($a_arg)
 	{
 		return ini_get("safe_mode") == 1 ? $a_arg : escapeshellarg($a_arg);
 	}
-
 
 } // END class.ilUtil
 ?>
