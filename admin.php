@@ -53,7 +53,7 @@ $tpl->setVariable("TXT_ITEM", $lng->txt("basic_data"));
 $tpl->setVariable("LINK","adm_basicdata.php");
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminitem");
-$tpl->setVariable("TXT_ITEM", "_objects");
+$tpl->setVariable("TXT_ITEM", $lng->txt("objects"));
 $tpl->setVariable("LINK","admindex.php");
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("adminitem");
