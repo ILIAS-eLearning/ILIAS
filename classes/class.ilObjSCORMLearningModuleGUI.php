@@ -544,6 +544,164 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
+	* show tracking data
+	*/
+	function showTrackingItems()
+	{
+
+		include_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", true);
+
+		$num = 1;
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("cont_tracking_items"));
+
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+
+		$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
+			"cmdClass" => get_class($this));
+		$cols = array("title");
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("100%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		//$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+		//$this->showActions(true);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		#$tbl->disable("footer");
+
+		$items = $this->object->getTrackingItems();
+
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tbl->setMaxCount(count($items));
+		$items = array_slice($items, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if (count($items) > 0)
+		{
+			foreach ($items as $item)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_ITEM_TITLE", $item->getTitle());
+				$this->ctrl->setParameter($this, "obj_id", $item->getId());
+				$this->tpl->setVariable("LINK_ITEM",
+					$this->ctrl->getLinkTarget($this, "showTrackingItem"));
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* show tracking data
+	*/
+	function showTrackingItem()
+	{
+
+		include_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_item.html", true);
+
+		$num = 4;
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		include_once("content/classes/SCORM/class.ilSCORMItem.php");
+		$sc_item =& new ilSCORMItem($_GET["obj_id"]);
+
+		// title & header columns
+		$tbl->setTitle($sc_item->getTitle());
+
+		$tbl->setHeaderNames(array($this->lng->txt("firstname"),$this->lng->txt("lastname"),
+			$this->lng->txt("cont_status"), $this->lng->txt("cont_credits"),
+			$this->lng->txt("cont_total_time")));
+
+		$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
+			"cmdClass" => get_class($this), "obj_id" => $_GET["obj_id"]);
+		$cols = array("user", "status", "credits", "total_time");
+		$tbl->setHeaderVars($cols, $header_params);
+		//$tbl->setColumnWidth(array("25%",));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		//$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+		//$this->showActions(true);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		#$tbl->disable("footer");
+
+		$tr_data = $sc_item->getAllTrackingData();
+
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tbl->setMaxCount(count($tr_data));
+		$tr_data = array_slice($tr_data, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if (count($tr_data) > 0)
+		{
+			foreach ($tr_data as $data)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("VAL_FIRSTNAME", $data["user_firstname"]);
+				$this->tpl->setVariable("VAL_LASTNAME", $data["user_lastname"]);
+				$this->tpl->setVariable("VAL_STATUS", $data["lesson_status"]);
+				$this->tpl->setVariable("VAL_CREDITS", $data["mastery_score"]);
+				$this->tpl->setVariable("VAL_TOTAL_TIME", $data["total_time"]);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
 	* output main frameset of media pool
 	* left frame: explorer tree of folders
 	* right frame: media pool content
@@ -685,6 +843,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		{
 			$this->fs_gui->getTabs($tabs_gui);
 		}
+
+		// edit meta
+		$tabs_gui->addTarget("cont_tracking_data",
+			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingData",
+			get_class($this));
 
 		// edit meta
 		$tabs_gui->addTarget("meta_data",

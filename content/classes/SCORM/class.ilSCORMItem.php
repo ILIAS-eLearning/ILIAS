@@ -249,6 +249,33 @@ class ilSCORMItem extends ilSCORMObject
 		return $track_set->fetchRow(DB_FETCHMODE_ASSOC);
 	}
 
+	function getAllTrackingData()
+	{
+		global $ilDB, $ilUser;
 
+		$q = "SELECT * FROM scorm_tracking WHERE ".
+			"sc_item_id = '".$this->getId()."'";
+
+		$track_set = $ilDB->query($q);
+
+		$data = array();
+		while($row = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$user =& new ilObjUser($row["usr_id"]);
+			$row["user_lastname"] = $user->getLastname();
+			$row["user_firstname"] = $user->getFirstname();
+			$data[] = $row;
+			unset($user);
+		}
+
+		return $data;
+	}
+
+	function getCumulativeTrackingData()
+	{
+		$q = "SELECT count(*) FROM scorm_tracking WHERE ".
+			"sc_item_id = '".$this->getId()."' AND ".
+			"usr_id = '".$a_user_id."'";
+	}
 }
 ?>

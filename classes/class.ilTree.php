@@ -111,7 +111,7 @@ class ilTree
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
-		
+
 		if (!isset($ilErr))
 		{
 			$ilErr = new ilErrorHandling();
@@ -121,7 +121,7 @@ class ilTree
 		{
 			$this->ilErr =& $ilErr;
 		}
-		
+
 		// lang_code is only required in $this->fetchnodedata
 		if (!is_object($ilUser))
 		{
