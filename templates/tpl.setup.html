@@ -1,0 +1,59 @@
+<!-- $Id$ -->
+<html>
+<head>
+  <title>ILIAS - {TXT_SETUP}</title>
+  <link rel="stylesheet" type="text/css" href="ilias.css">
+</head>
+<body>
+
+<table width="100%">
+  <tr class="head">
+    <td>ILIAS - {TXT_SETUP}</td>
+    <td>{TXT_SETUP} Version 0.9</td>
+  </tr>
+</table>
+
+  <p>{TXT_SETUP_WELCOME}</p>
+
+<!-- BEGIN message -->
+  <p class="msg">{TXT_ERR}</p>
+<!-- END message -->
+
+<form method="post" name="form" action="setup.php">
+<input type="hidden" name="step" value="2">
+
+<table>
+  <tr>
+    <td>{TXT_DB_TYPE}</td>
+    <td><select name="dbtype">
+    <option value="mysql" selected>MySQL</option>
+    <option value="pgsql">PostgreSQL</option>
+    <option value="ibase">InterBase</option>
+    <option value="msql">Mini SQL</option>
+    <option value="mssql"> Microsoft SQL Server</option>
+    <option value="oci8">Oracle 7/8/8i</option>
+    <option value="odbc">ODBC (Open Database Connectivity)</option>
+    <option value="sybase">SyBase</option><option value="ifx">Informix</option>
+    <option value="fbsql">FrontBase</option></select></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_HOST}</td>
+    <td><input type="text" size=40 name="dbhost" value="{DB_HOST}"></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_NAME}</td>
+    <td><input type="text" size=40 name="dbname" value="{DB_NAME}"></td>
+  </tr>
+  <tr>
+    <td>{TXT_USER}</td>
+    <td><input type="text" name="dbuser" value="{DB_USER}"></td>
+  </tr>
+  <tr>
+    <td>{TXT_PASSWORD}</td>
+    <td><input type="text" name="dbpass" value="{DB_PASS}"></td>
+  </tr>
+</table>
+
+<input type="submit" name="butSubmit" value="{TXT_SUBMIT}">&nbsp;<input type="reset" name="butReset" value="{TXT_RESET}"></form>
+</body>
+</html>
