@@ -67,6 +67,7 @@ class ilSearchResultExplorer extends ilExplorer
 		$this->order_column = "title";
 		$this->setSessionExpandVariable("sea_expand");
 
+		$this->setFilterMode(IL_FM_POSITIV);
 		$this->addFilter("seaf");
 		#$this->addFilter("sea");
 		$this->setFiltered(true);
