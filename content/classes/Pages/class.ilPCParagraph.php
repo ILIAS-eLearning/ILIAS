@@ -501,7 +501,7 @@ echo htmlentities($a_text);*/
 
 		// this is needed to allow html like <tag attribute="value">... in paragraphs
 		$a_text = str_replace("&quot;", "\"", $a_text);
-		//$a_text = str_replace("&amp;", "&", $a_text); 		// comment = allow &gt; as < in paragraphs
+		$a_text = str_replace("&amp;", "&", $a_text); 		// comment = allow &gt; as < in paragraphs
 		//$a_text = str_replace("--amp--", "&amp;", $a_text);
 		return $a_text;
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
