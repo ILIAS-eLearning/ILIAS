@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.18 2003/01/10 15:06:24 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.19 2003/01/13 13:38:15 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -113,31 +113,51 @@ class ObjectOut
 		}	
 	}
 
-	function setLocator()
+	function setLocator($a_tree = "", $a_obj_id = "", $a_parent = "", $a_parent_parent = "")
 	{
+		if (!is_object($a_tree))
+		{
+			$a_tree =& $this->tree;
+		}
+		
+		if (!($a_obj_id))
+		{
+			$a_obj_id = $_GET["obj_id"]; 
+		}
+		
+		if (!($a_parent))
+		{
+			$a_parent = $_GET["parent"]; 
+		}
+
+		if (!($a_parent_parent))
+		{
+			$a_parent_parent = $_GET["parent_parent"]; 
+		}
+
 		global $lng;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		if ($_GET["parent_parent"])
+		if ($a_parent_parent)
 		{
-			$path = $this->tree->getPathFull($_GET["parent"], $_GET["parent_parent"]);
+			$path = $a_tree->getPathFull($a_parent, $a_parent_parent);
 		}
 		else
 		{
-			$path = $this->tree->getPathFull($_GET["obj_id"], $_GET["parent"]);
+			$path = $a_tree->getPathFull($a_obj_id, $a_parent);
 		}
 
         //check if object isn't in tree, this is the case if parent_parent is set
-		if ($_GET["parent_parent"])
+		if ($a_parent_parent)
 		{
-			$subObj = getObject($_GET["obj_id"]);
+			$subObj = getObject($a_obj_id);
 
 			$path[] = array(
-				"id"	 => $_GET["obj_id"],
+				"id"	 => $a_obj_id,
 				"title"  => $this->lng->txt($subObj["title"]),
-				"parent" => $_GET["parent"],
-				"parent_parent" => $_GET["parent_parent"]
+				"parent" => $a_parent,
+				"parent_parent" => $a_parent_parent
 				);
 		}
 
@@ -153,14 +173,16 @@ class ObjectOut
 							  "&parent=".$row["parent"]."&parent_parent=".$row["parent_parent"]);
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$this->tpl->setCurrentBlock("locator");
 		
 		if (DEBUG)
 		{
-			$debug = "DEBUG: <font color=\"red\">".$_GET["type"]."::".$_GET["obj_id"]."::".$_GET["cmd"]."</font><br>";
+			$debug = "DEBUG: <font color=\"red\">".$_GET["type"]."::".$a_obj_id."::".$_GET["cmd"]."</font><br>";
 		}
 		
 		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$_GET["type"]);
+
 		if($_GET["cmd"] == "confirmDeleteAdm")
 		{
 			$prop_name = "delete_object";
@@ -355,16 +377,30 @@ class ObjectOut
 					//build link
 					$link = "adm_object.php?";
 					
-					foreach ($ctrl as $key => $val2)
+					if ($_GET["type"] == "lo" && $key == "type")
+					$link = "lo_view.php?";
+				
+					foreach ($ctrl as $key2 => $val2)
 					{
-						$link .= $key."=".$val2;
-						if ($key != $ctrl[count($ctrl)-1][$key])
+						$link .= $key2."=".$val2;
+						if ($key2 != $ctrl[count($ctrl)-1][$key2])
 					    	$link .= "&";
 					}
-					$this->tpl->setCurrentBlock("begin_link");
-					$this->tpl->setVariable("LINK_TARGET", $link);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->touchBlock("end_link");
+					
+					if ($key == "title" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						
+						if ($_GET["type"] == "lo" && $key == "type")
+						{
+							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
+						}
+
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
