@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Zaproszony użytkownik do czata.
 chat#:#chat_yellow#:#żółty
 chat#:#chats#:#Czaty
 chat#:#my_chats#:#Moje Czaty
-common#:#3rd_party_software#:#Oprogramowanie innych firm
+common#:#3rd_party_software#:#Oprogramowanie innych firm###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.RRRR
 common#:#HH:MM#:#GG:MM
 common#:#absolute_path#:#Ścieżka bezwzględna
@@ -513,6 +513,7 @@ common#:#compose#:#Utwórz nową
 common#:#confirm#:#Zatwierdź
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Kontekst
 common#:#copy#:#Kopiuj
 common#:#copy_of#:#Kopia
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#Przydziały zostały usunięte
 content#:#cont_back#:#Powrót
 content#:#cont_booktitle#:#Tytuł książki
 content#:#cont_bottom#:#Spód
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Usunięcie pliku pełnoekranowego widoku nie jest możliwe.
 content#:#cont_cant_del_std#:#Usunięcie pliku standardowego widoku nie jest możliwe
 content#:#cont_caption#:#Nagłówek
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Kliknij na lewy górny róg określanej powierz
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
 content#:#cont_coords#:#Koordynaty
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
 content#:#cont_keyword#:#Słowo kluczowe
 content#:#cont_link#:#Łącznik
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Łącznik (zewnętrzny)
 content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Brak
 content#:#cont_nr_cols#:#Liczba kolumn
 content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Typ porządkowy
 content#:#cont_organization#:#Organizacja
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Uaktualnij
 content#:#cont_update_names#:#Uaktualnij nazwy
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#wersja
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Gdzie opublikowane
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Szerokość
 content#:#cont_wysiwyg#:#Zawartość WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Rok
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#pg#:#Strona

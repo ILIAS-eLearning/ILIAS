@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Utente invitato alla chat.
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Le mie Chat
-common#:#3rd_party_software#:#Software di terze parti
+common#:#3rd_party_software#:#Software di terze parti###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
@@ -513,6 +513,7 @@ common#:#compose#:#Scrivi
 common#:#confirm#:#Conferma
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Dati personali
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Contesto
 common#:#copy#:#Copia
 common#:#copy_of#:#Copia di
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate
 content#:#cont_back#:#Indietro
 content#:#cont_booktitle#:#Titolo del libro
 content#:#cont_bottom#:#In fondo
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.
 content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.
 content#:#cont_caption#:#Etichetta
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore s
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
 content#:#cont_coords#:#Coordinate
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Elemento
 content#:#cont_journal#:#Giornaliero
 content#:#cont_keyword#:#Chiave
 content#:#cont_link#:#Collegamento
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Link (esterno)
 content#:#cont_link_int#:#Link (interno)
 content#:#cont_link_select#:#Collegamento interno
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Nessuno
 content#:#cont_nr_cols#:#Numero di colonne
 content#:#cont_nr_items#:#Numero di elementi
 content#:#cont_nr_rows#:#Numero di righe
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Tipo di ordinamento
 content#:#cont_organization#:#Organizzazione
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
 content#:#cont_upload_file#:#Upload del file
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#Versione
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Dove pubblicata
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Larghezza
 content#:#cont_wysiwyg#:#Contenuto WYSIWYG
 content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina

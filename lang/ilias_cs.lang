@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Invited user to chat.###16 Mar 2004 new variable
 chat#:#chat_yellow#:#yellow###16 Mar 2004 new variable
 chat#:#chats#:#Chats###16 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###16 Mar 2004 new variable
-common#:#3rd_party_software#:#Software třetích stran
+common#:#3rd_party_software#:#Software třetích stran###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###16 Mar 2004 new variable
 common#:#HH:MM#:#HH:MM###16 Mar 2004 new variable
 common#:#absolute_path#:#Absolutní cesta
@@ -513,6 +513,7 @@ common#:#compose#:#Vytvořit
 common#:#confirm#:#Potvrdit
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktní informace
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Kontext
 common#:#copy#:#Kopírovat
 common#:#copy_of#:#Kopie
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#Přiřazení byla zrušena
 content#:#cont_back#:#Zpět
 content#:#cont_booktitle#:#Název knihy
 content#:#cont_bottom#:#Dolů
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Není možné smazat celoobrazovkový soubor.
 content#:#cont_cant_del_std#:#Není možné smazat soubor se standardním náhledem.
 content#:#cont_caption#:#Nápis
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Please click on the top left corner of the desi
 content#:#cont_content#:#Obsah
 content#:#cont_content_obj#:#Obsahový objekt
 content#:#cont_coords#:#Coordinates###16 Mar 2004 new variable
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Vytvořit Adresář
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Položka
 content#:#cont_journal#:#Žurnál
 content#:#cont_keyword#:#Klíčové slovo
 content#:#cont_link#:#Link###16 Mar 2004 new variable
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Link (external)###16 Mar 2004 new variable
 content#:#cont_link_int#:#Link (internal)###16 Mar 2004 new variable
 content#:#cont_link_select#:#Interní Odkaz
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Žádný
 content#:#cont_nr_cols#:#Počet sloupců
 content#:#cont_nr_items#:#Počet položek
 content#:#cont_nr_rows#:#Počet řádků
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Online### identical translation
 content#:#cont_order#:#Způsob objednání
 content#:#cont_organization#:#Organizace
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Update###16 Mar 2004 new variable
 content#:#cont_update_names#:#Update Names###16 Mar 2004 new variable
 content#:#cont_upload_file#:#Nahrát soubor
 content#:#cont_url#:#URL### identical translation
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#verze
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#publikováno kde
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Width###16 Mar 2004 new variable
 content#:#cont_wysiwyg#:#Wysiwyg obsah
 content#:#cont_xml_base#:#xml:base### identical translation
 content#:#cont_year#:#Rok
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Stránky od
 content#:#par#:#Odstavec
 content#:#pg#:#Stránka

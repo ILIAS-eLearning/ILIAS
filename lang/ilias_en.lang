@@ -361,7 +361,6 @@ chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
-common#:#container#:#Container
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -514,6 +513,7 @@ common#:#compose#:#Compose
 common#:#confirm#:#Confirm
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
+common#:#container#:#Container
 common#:#context#:#Context
 common#:#copy#:#Copy
 common#:#copy_of#:#Copy of
@@ -1584,7 +1584,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1607,10 +1606,9 @@ content#:#cont_assign_std#:#Assign Standard
 content#:#cont_assign_translation#:#Assign translation
 content#:#cont_assignments_deleted#:#The assignments have been deleted
 content#:#cont_back#:#Back
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of
-content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_booktitle#:#Booktitle
 content#:#cont_bottom#:#Bottom
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
 content#:#cont_caption#:#Caption
@@ -1635,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Please click on the top left corner of the desi
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Coordinates
+content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
@@ -1686,14 +1685,12 @@ content#:#cont_internal#:#internal
 content#:#cont_internal_link#:#internal link
 content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#cont_issn#:#ISSN
-content#:#cont_copy_to_clipboard#:#Copy to clipboard
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Keyword
 content#:#cont_link#:#Link
+content#:#cont_link_area#:#Link Area
 content#:#cont_link_ext#:#Link (external)
 content#:#cont_link_int#:#Link (internal)
 content#:#cont_link_select#:#Internal Link
@@ -1726,7 +1723,6 @@ content#:#cont_month#:#Month
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area
-content#:#cont_link_area#:#Link Area
 content#:#cont_new_assignment#:#New assignment
 content#:#cont_new_dir#:#New Directory
 content#:#cont_new_file#:#New File
@@ -1739,6 +1735,7 @@ content#:#cont_none#:#None
 content#:#cont_nr_cols#:#Number of Columns
 content#:#cont_nr_items#:#Number of Items
 content#:#cont_nr_rows#:#Number of Rows
+content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_online#:#Online
 content#:#cont_order#:#Order Type
 content#:#cont_organization#:#Organization
@@ -1812,6 +1809,8 @@ content#:#cont_update#:#Update
 content#:#cont_update_names#:#Update Names
 content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of
+content#:#cont_users_have_mob_in_clip2#:#user(s).
 content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_where_published#:#Where published
@@ -1819,6 +1818,7 @@ content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page

@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
 chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
 chat#:#chats#:#Chats###05 Mar 2004 new variable
 chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
-common#:#3rd_party_software#:#програмне забезпечення третіх виробників
+common#:#3rd_party_software#:#програмне забезпечення третіх виробників###11 Apr 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Абсолютний Шлях
@@ -513,6 +513,7 @@ common#:#compose#:#Створити
 common#:#confirm#:#Підтвердити
 common#:#cont_object#:#Об'єкт
 common#:#contact_data#:#Контактна Інформація
+common#:#container#:#Container###11 Apr 2004 new variable
 common#:#context#:#Контекст
 common#:#copy#:#Копіювати
 common#:#copy_of#:#Копія
@@ -1607,6 +1608,7 @@ content#:#cont_assignments_deleted#:#Призначення було видал�
 content#:#cont_back#:#Назад
 content#:#cont_booktitle#:#Назва книжки
 content#:#cont_bottom#:#Низ
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.
 content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.
 content#:#cont_caption#:#Заголовок
@@ -1631,6 +1633,7 @@ content#:#cont_click_tl_corner#:#Будь ласка клікніть на ве�
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
 content#:#cont_coords#:#Координати
+content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -1687,6 +1690,7 @@ content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
 content#:#cont_link#:#Посилання
+content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
 content#:#cont_link_ext#:#Посилання (зовнішнє)
 content#:#cont_link_int#:#Посилання (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє Посилання
@@ -1731,6 +1735,7 @@ content#:#cont_none#:#Нічого
 content#:#cont_nr_cols#:#Кількість Колонок
 content#:#cont_nr_items#:#Кількість Пунктів
 content#:#cont_nr_rows#:#Кількість Рядків
+content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
 content#:#cont_online#:#Онлайн
 content#:#cont_order#:#Тип Сортування
 content#:#cont_organization#:#Організація
@@ -1804,6 +1809,8 @@ content#:#cont_update#:#Обновити
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Завантажити Файл
 content#:#cont_url#:#URL
+content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
 content#:#cont_version#:#версія
 content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Де опублікований
@@ -1811,6 +1818,7 @@ content#:#cont_width#:#Ширина
 content#:#cont_wysiwyg#:#Вміст Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Рік
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
 content#:#pages from#:#Сторінки З
 content#:#par#:#Параграф
 content#:#pg#:#Сторінка
