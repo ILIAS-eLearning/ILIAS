@@ -9,3 +9,6 @@ value_str CHAR(40),
 value_int BIGINT,
 PRIMARY KEY (usr_id,keyword)
 );
+<#3>
+# change data type in object_data.type from ENUM to CHAR
+ALTER TABLE object_data CHANGE type type CHAR(4) DEFAULT none NOT NULL 
