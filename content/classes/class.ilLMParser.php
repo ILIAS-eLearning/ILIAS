@@ -335,6 +335,8 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "MediaItem":
+			case "MediaAliasItem":
+				$this->in_media_item = true;
 				$this->media_item =& new ilMediaItem();
 				$this->media_item->setPurpose($a_attribs["Purpose"]);
 				break;
@@ -519,9 +521,9 @@ class ilLMParser extends ilSaxParser
 			{
 				$this->bib_item->appendXMLContent($this->buildTag("end", $a_name));
 			}
-		
+
 		}
-        
+
 		switch($a_name)
 		{
 			case "StructureObject":
@@ -615,6 +617,8 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "MediaItem":
+			case "MediaAliasItem":
+				$this->in_media_item = false;
 				$this->media_object->addMediaItem($this->media_item);
 //echo "adding media item";
 				break;
@@ -650,21 +654,21 @@ class ilLMParser extends ilSaxParser
 					$this->current_object->create();
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
-                    
+
                     // Metadaten eines StructureObjects sichern in NestedSet
                     include_once("./classes/class.ilNestedSetXML.php");
                     $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");                    
+                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");
 				}
                 else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule")
                 {
                     // Metadaten eines ContentObjects sichern in NestedSet
                     include_once("./classes/class.ilNestedSetXML.php");
                     $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"lm");                    
+                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"lm");
                 }
-                
-				
+
+
 				if(get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjdlbook" )
 				{
 					$this->current_object->update();
@@ -672,13 +676,13 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "Bibliography":
-                
+
 				$this->in_bib_item = false;
-				
+
                 $nested = new ilNestedSetXML();
                 $nested->import($this->bib_item->getXMLContent(),$this->lm_object->getId(),"bib");
                 break;
-                
+
 			case "Paragraph":
 				// can't unset paragraph object, because PageObject is still processing
 				break;
@@ -723,13 +727,13 @@ class ilLMParser extends ilSaxParser
 			{
 				$this->page_object->appendXMLContent($a_data);
 			}
-            
-			if ($this->in_meta_data  )	
+
+			if ($this->in_meta_data  )
 			{
 				$this->meta_data->appendXMLContent($a_data);
 			}
 
-			if ($this->in_bib_item  )	
+			if ($this->in_bib_item  )
 			{
 				$this->bib_item->appendXMLContent($a_data);
 			}
@@ -770,7 +774,14 @@ class ilLMParser extends ilSaxParser
 
 				// TECHNICAL: Format
 				case "Format":
-					$this->meta_technical->addFormat($a_data);
+					if($this->in_media_item)
+					{
+						$this->media_item->setFormat($a_data);
+					}
+					if($this->in_meta_data)
+					{
+						$this->meta_technical->addFormat($a_data);
+					}
 					break;
 
 				// TECHNICAL: Size
@@ -782,7 +793,15 @@ class ilLMParser extends ilSaxParser
 				case "Location":
 //echo "Adding a location:".$this->loc_type.":".$a_data.":<br>";
 					// TODO: adapt for files in "real" subdirectories
-					$this->meta_technical->addLocation($this->loc_type, $a_data);
+					if($this->in_media_item)
+					{
+						$this->media_item->setLocationType($this->loc_type);
+						$this->media_item->setLocation($a_data);
+					}
+					if($this->in_meta_data)
+					{
+						$this->meta_technical->addLocation($this->loc_type, $a_data);
+					}
 					break;
 
 				// TECHNICAL: InstallationRemarks
