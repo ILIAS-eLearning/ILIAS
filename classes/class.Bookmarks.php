@@ -132,7 +132,7 @@ class Bookmarks extends PEAR
 
 	/**
 	* get own bookmarks
-	*
+	* @param string
 	* @return array bookmarks
 	* @access public
 	*/

@@ -4,14 +4,15 @@
  * class for explorer view in admin frame
  * @author Stefan Meyer <smeyer@databay.de>
  * @version $Id$
+ * @package ilias-core
  * @todo maybe only container should be visible, because the number oj objects could be to big for recursion
- * @todo implement a sort function
+ * implement a sort function
  */
 class Explorer extends PEAR
 {
 	/**
 	* ilias object
-	* @var object
+	* @var object Ilias
 	* @access public
 	*/
 	var $ilias;
@@ -32,7 +33,7 @@ class Explorer extends PEAR
 	
 	/**
 	* tree
-	* @var object
+	* @var object Tree
 	* @access public
 	*/
 	var $tree;
@@ -40,8 +41,7 @@ class Explorer extends PEAR
 	/**
 	* Constructor
 	* @access public
-	* @param object Ilias object
-	* @param int
+	* @param object Ilias
 	*
 	*/
 	function Explorer(&$a_ilias)
@@ -56,9 +56,10 @@ class Explorer extends PEAR
 	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
+	* @param int
+	* @param int
 	* @access public
 	* @return string
-	* 
 	*/
 	function setOutput($a_depth,$a_parent)
 	{
@@ -109,6 +110,13 @@ class Explorer extends PEAR
 			}
 		}
 	}
+
+	/**
+	* Creates output
+	* recursive method
+	* @access public
+	* @return string
+	*/
 	function getOutput()
 	{
 		$this->format_options[1]["tab"] = array();
@@ -137,6 +145,16 @@ class Explorer extends PEAR
 		}
 		return implode('',$this->output);
 	}
+	
+	
+	/**
+	* Creates output
+	* recursive method
+	* @param int
+	* @param int
+	* @access public
+	* @return string
+	*/
 	function formatObject($a_obj_id,$a_option)
 	{
 		$tmp = '';
@@ -175,6 +193,7 @@ class Explorer extends PEAR
 		$tmp  .= "</table>\n";
 		$this->output[] = $tmp;
 	}
+	
 /**
  * Creates Get Parameter
  * @access private
