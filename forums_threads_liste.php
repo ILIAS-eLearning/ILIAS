@@ -110,7 +110,7 @@ switch ($cmd)
 		$tpl->setVariable("HEADER", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 		include_once("classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
-		$forum_gui->setFormAction("permSave","forums_threads_liste?ref_id=".$_GET["ref_id"].
+		$forum_gui->setFormAction("permSave","forums_threads_liste.php?ref_id=".$_GET["ref_id"].
 			"&cmd=permSave");
 		$forum_gui->permObject();
 		$tpl->show();
@@ -120,7 +120,7 @@ switch ($cmd)
 	case "permSave":
 		include_once("classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
-		$forum_gui->setReturnLocation("permSave","forums_threads_liste?ref_id=".$_GET["ref_id"]);
+		$forum_gui->setReturnLocation("permSave","forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
 		$forum_gui->permSaveObject();
 		exit;
 		break;
@@ -128,7 +128,7 @@ switch ($cmd)
 	case "addRole":
 		include_once("classes/class.ilObjForumGUI.php");
 		$forum_gui = new ilObjForumGUI("", $_GET["ref_id"], true, false);
-		$forum_gui->setReturnLocation("addRole","forums_threads_liste?ref_id=".$_GET["ref_id"]."&cmd=permissions");
+		$forum_gui->setReturnLocation("addRole","forums_threads_liste.php?ref_id=".$_GET["ref_id"]."&cmd=permissions");
 		$forum_gui->addRoleObject();
 		exit;
 		break;
