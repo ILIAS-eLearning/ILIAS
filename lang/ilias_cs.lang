@@ -1681,6 +1681,7 @@ content#:#cont_upload_file#:#Nahrát soubor
 content#:#cont_url#:#URL### identical translation
 content#:#cont_version#:#verze
 content#:#cont_where_published#:#publikováno kde
+content#:#cont_width#:#Width###16 Mar 2004 new variable
 content#:#cont_wysiwyg#:#Wysiwyg obsah
 content#:#cont_xml_base#:#xml:base### identical translation
 content#:#cont_year#:#Rok
@@ -2282,6 +2283,7 @@ meta#:#meta_delete#:#Odstranit
 meta#:#meta_description#:#Popis
 meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficulty#:#Obtížnost
+meta#:#meta_dificult#:#Difficult
 meta#:#meta_draft#:#Koncept
 meta#:#meta_duration#:#Doba trvání
 meta#:#meta_easy#:#Snadné
