@@ -146,7 +146,6 @@ common#:#edit_operations#:#Edit Operations
 common#:#edit_properties#:#Edit Properties
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
-common#:#no_import_available#:#Import not available for type
 common#:#email#:#Email
 common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#enable#:#Enable
@@ -264,7 +263,6 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
-common#:#slm#:#SCORM LM
 common#:#level#:#Level
 common#:#link#:#Link
 common#:#linked_pages#:#Linked Pages
@@ -354,6 +352,7 @@ common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
+common#:#no_import_available#:#Import not available for type
 common#:#no_objects#:#No objects
 common#:#no_title#:#No Title
 common#:#none#:#None
@@ -366,11 +365,10 @@ common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
 common#:#obj_frm#:#Forum
-common#:#obj_lm#:#Learning Module
 common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
+common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
-common#:#obj_slm#:#SCORM LM
 common#:#obj_lngf#:#Language Administration
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
@@ -383,6 +381,7 @@ common#:#obj_role#:#Role
 common#:#obj_rolf#:#Role Administration
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM LM
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
@@ -500,6 +499,7 @@ common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#signature#:#Signature
+common#:#slm#:#SCORM LM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#startpage#:#Startpage

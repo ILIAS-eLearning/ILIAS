@@ -263,7 +263,6 @@ common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#le#:#Lernmodul
 common#:#level#:#Stufe
 common#:#link#:#verknüpfen
 common#:#linked_pages#:#Verknüpft mit den Seiten
@@ -353,6 +352,7 @@ common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
+common#:#no_import_available#:#Import not available for type###18 Jun 2003 new variable
 common#:#no_objects#:#Keine Objekte
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
@@ -367,6 +367,7 @@ common#:#obj_file#:#Datei
 common#:#obj_frm#:#Forum###15 May 2003 new variable
 common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
+common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachenverwaltung
 common#:#obj_lo#:#LearningObject###15 May 2003 new variable
@@ -380,6 +381,7 @@ common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollenverwaltung
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#root###15 May 2003 new variable
+common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
@@ -497,6 +499,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
+common#:#slm#:#SCORM LM###18 Jun 2003 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#startpage#:#Startseite
