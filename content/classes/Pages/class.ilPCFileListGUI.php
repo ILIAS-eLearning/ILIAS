@@ -131,6 +131,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$fileObj->create();
 		// upload file to filesystem
 		$fileObj->createDirectory();
+		$fileObj->raiseUploadError(false);
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
 			$_FILES["Fobject"]["name"]["file"]);
 

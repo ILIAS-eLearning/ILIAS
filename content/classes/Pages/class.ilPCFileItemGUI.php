@@ -80,6 +80,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->create();
+		$fileObj->raiseUploadError(false);
 		// upload file to filesystem
 		$fileObj->createDirectory();
 		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
