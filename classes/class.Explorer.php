@@ -68,6 +68,7 @@ class Explorer
 		$this->expanded = array();
 		$this->target = $a_target;		
 		$this->tree = new Tree(1,0);
+		$this->frameTarget = "content";
 	}
 	
 	/**
@@ -205,19 +206,23 @@ class Explorer
 
 				// create href
 				$tmp .= "<td nowrap align=\"left\"><a href=\"".$target."\"><img src=\"./images/browser/".
-					$picture.".gif\" border=\"0\"></a></td>";
+					$picture.".gif\" border=\"0\"></a></td>\n";
 			}
 			if ($picture == 'blank' or $picture == 'winkel' 
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
 				$tmp .= "<td nowrap align=\"left\"><img src=\"./images/browser/".
-					$picture.".gif\" border=\"0\"></td>";
+					$picture.".gif\" border=\"0\"></td>\n";
 			}
 		}
 
 		$tmp  .= "<td nowrap align=\"left\"><img src=\"./images/icon_".$a_option["type"].".gif\" border=\"0\"></td>\n";
-		$tmp  .= "<td nowrap align=\"left\"><a href=\"".$this->target."?obj_id=".$a_obj_id.
-			"&parent=".$a_option["parent"]."\" target=\"content\">".$a_option["title"]."</a></td>\n";
+		$tmp  .= "<td nowrap align=\"left\"><a href=\"".$this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]."&amp;expand=".$_GET["expand"]."\"";
+		if ($this->frameTarget != "")
+		{
+			 $tmp .= " target=\"".$this->frameTarget."\"";
+		}
+		$tmp .= ">".$a_option["title"]."</a></td>\n";
 		$tmp  .= "</tr>\n";
 		$tmp  .= "</table>\n";
 
@@ -237,7 +242,8 @@ class Explorer
 
 		if ($a_type == '+')
 		{
-			return $_SERVER["REQUEST_URI"]."|".$a_obj_id;
+			return $_SERVER["SCRIPT_NAME"]."?expand=".$_GET["expand"]."|".$a_obj_id.
+				"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
 		}
 
 		if ($a_type == '-')
@@ -247,10 +253,22 @@ class Explorer
 			unset($tmp_expanded["$a_obj_id"]);
 			$tmp_expanded = array_flip($tmp_expanded);
 			
-			return $tmp.implode('|',$tmp_expanded);
+			return $tmp.implode('|',$tmp_expanded).
+				"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
 		}
 	}
 
+	/**
+	* set target
+	* frame or not frame?
+	* @param string
+	* @access public
+	*/	
+	function setFrameTarget($target)
+	{
+		$this->frameTarget = $target;
+	}
+	
 	/**
 	* Creates lines for explorer view
 	* @access	private
