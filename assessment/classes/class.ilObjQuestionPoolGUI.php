@@ -56,7 +56,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id"));
+		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));
 
 		if (!defined("ILIAS_MODULE"))
 		{
@@ -103,13 +103,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($cmd != "createQuestion" && $cmd != "createQuestionForTest"
 			&& $next_class != "ilpageobjectgui")
 		{
-			if ($_GET["test_ref_id"] != "")
+			if (($_GET["test_ref_id"] != "") or ($_GET["calling_test"]))
 			{
+				$ref_id = $_GET["test_ref_id"];
+				if (!$ref_id)
+				{
+					$ref_id = $_GET["calling_test"];
+				}
 				include_once "./classes/class.ilTabsGUI.php";
 				$tabs_gui =& new ilTabsGUI();
 
 				$tabs_gui->addTarget("back",
-					"test.php?ref_id=".$_GET["test_ref_id"]."&cmd=questions", "", "");
+					"test.php?ref_id=$ref_id&cmd=questions", "", "");
 
 				// output tabs
 				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
@@ -1561,6 +1566,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "export");
 	}
-	
+
+	/**
+	* edit question
+	*/
+	function &editQuestionForTestObject()
+	{
+//echo "<br>create--".$_GET["new_type"];
+		$q_gui =& ASS_QuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+		$this->ctrl->setCmdClass(get_class($q_gui));
+		$this->ctrl->setCmd("editQuestion");
+
+		$ret =& $this->executeCommand();
+		return $ret;
+	}
+
 } // END class.ilObjQuestionPoolGUI
 ?>

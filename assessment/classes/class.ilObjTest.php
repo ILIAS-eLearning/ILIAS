@@ -3883,5 +3883,23 @@ class ilObjTest extends ilObject
 		$xml = $nested->dom->dump_mem(0);
 		$nested->import($xml, $newObj->getId(), $newObj->getType());
 	}
+
+	function _getRefIdFromObjId($obj_id)
+	{
+		global $ilDB;
+		
+		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
+			$ilDB->quote($obj_id)
+			
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["ref_id"];
+		}
+		return 0;
+	}
+	
 } // END class.ilObjTest
 ?>

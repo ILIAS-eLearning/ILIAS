@@ -1416,6 +1416,30 @@ class ASS_Question
 			return "";
 		}
 	}
+
+	function syncWithOriginal()
+	{
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
+		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$this->ilias->db->quote($this->original_id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		ilInternalLink::_deleteAllLinksOfSource("qst", $this->original_id);
+		foreach ($this->suggested_solutions as $index => $solution)
+		{
+			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->original_id . ""),
+				$this->ilias->db->quote($solution["internal_link"] . ""),
+				$this->ilias->db->quote($solution["import_id"] . ""),
+				$this->ilias->db->quote($index . "")
+			);
+			$this->ilias->db->query($query);
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				ilInternalLink::_saveLink("qst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+			}
+		}
+	}
 }
 
 ?>

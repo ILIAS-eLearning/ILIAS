@@ -703,6 +703,7 @@ class ASS_JavaApplet extends ASS_Question
 				$this->author = $data->author;
 				$this->points = $data->points;
 				$this->owner = $data->owner;
+				$this->original_id = $data->original_id;
 				$this->javaapplet_filename = $data->image_file;
 				$this->question = $data->question_text;
 				$this->solution_hint = $data->solution_hint;
@@ -1225,6 +1226,40 @@ class ASS_JavaApplet extends ASS_Question
 		}
 	}
 
+	function syncWithOriginal()
+	{
+		global $ilias;
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete())
+			{
+				$complete = 1;
+			}
+			$db = & $ilias->db;
+	
+			$estw_time = $this->getEstimatedWorkingTime();
+			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+	
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->question . ""),
+				$db->quote($this->points . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->shuffle . ""),
+				$db->quote($complete . ""),
+				$db->quote($this->javaapplet_filename . ""),
+				$db->quote($params . ""),
+				$db->quote($this->original_id . "")
+			);
+			$result = $db->query($query);
+
+			parent::syncWithOriginal();
+		}
+	}
 }
 
 ?>

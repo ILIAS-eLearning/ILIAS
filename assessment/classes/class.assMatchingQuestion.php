@@ -709,6 +709,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$this->author = $data->author;
 				$this->solution_hint = $data->solution_hint;
 				$this->obj_id = $data->obj_fi;
+				$this->original_id = $data->original_id;
 				$this->owner = $data->owner;
 				$this->matching_type = $data->matching_type;
 				$this->question = $data->question_text;
@@ -1270,6 +1271,61 @@ class ASS_MatchingQuestion extends ASS_Question
 		return $random_number;
 	}
 
+	function syncWithOriginal()
+	{
+		global $ilias;
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete())
+			{
+				$complete = 1;
+			}
+			$db = & $ilias->db;
+	
+			$estw_time = $this->getEstimatedWorkingTime();
+			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+	
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, matching_type = %s, points = %s, complete = %s WHERE question_id = %s",
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title. ""),
+				$db->quote($this->comment. ""),
+				$db->quote($this->author. ""),
+				$db->quote($this->question. ""),
+				$db->quote($estw_time. ""),
+				$db->quote($this->matching_type. ""),
+				$db->quote($this->points. ""),
+				$db->quote($complete. ""),
+				$db->quote($this->original_id. "")
+			);
+			$result = $db->query($query);
+
+			if ($result == DB_OK)
+			{
+				// write answers
+				// delete old answers
+				$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+					$db->quote($this->original_id)
+				);
+				$result = $db->query($query);
+	
+				foreach ($this->matchingpairs as $key => $value)
+				{
+					$matching_obj = $this->matchingpairs[$key];
+					$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+						$db->quote($this->original_id . ""),
+						$db->quote($matching_obj->getTerm() . ""),
+						$db->quote($matching_obj->getPoints() . ""),
+						$db->quote($matching_obj->getTermId() . ""),
+						$db->quote($matching_obj->getDefinition() . ""),
+						$db->quote($matching_obj->getDefinitionId() . "")
+					);
+					$matching_result = $db->query($query);
+				}
+			}
+			parent::syncWithOriginal();
+		}
+	}
 }
 
 ?>
