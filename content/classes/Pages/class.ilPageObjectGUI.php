@@ -230,9 +230,6 @@ class ilPageObjectGUI
 		return $this->sourcecode_download_script;
 	}
 
-	
-	
-
 	function enableCitation($a_enabled)
 	{
 		$this->citation = $a_enabled;
@@ -393,6 +390,7 @@ class ilPageObjectGUI
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
 		$wb_path = ilUtil::getWebspaceDir("output");
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+//echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),

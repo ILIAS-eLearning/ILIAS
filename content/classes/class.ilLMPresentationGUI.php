@@ -978,6 +978,7 @@ class ilLMPresentationGUI
 		// ADDED FOR CITATION
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
+		$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?ref_id=".$this->lm->getRefId());
 
 		if($_SESSION["tr_id"])
 		{
@@ -997,12 +998,9 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 
 		// track user access to page
-		if(DEVMODE)
-		{
-			require_once "./tracking/classes/class.ilUserTracking.php";
-			ilUserTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
-				$page_id, "pg", "read");
-		}
+		require_once "./tracking/classes/class.ilUserTracking.php";
+		ilUserTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
+			$page_id, "pg", "read");
 
 		$ilBench->stop("ContentPresentation", "ilPage");
 
