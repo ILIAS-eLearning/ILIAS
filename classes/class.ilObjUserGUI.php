@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.43 2003/08/18 18:15:29 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.44 2003/08/22 12:22:59 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -977,7 +977,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
 
-				//var_dump("<pre>",$ctrl,"</pre>");
+				//var_dump("<pre>",$ctrl,"</pre>");exit;
 				// color changing
 				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
 
@@ -996,6 +996,17 @@ class ilObjUserGUI extends ilObjectGUI
 
 				foreach ($data as $key => $val)
 				{
+					//build link
+					$link = "adm_object.php?ref_id=8&obj_id=".$ctrl["obj_id"]."&cmd=perm";
+
+					if ($key == "role" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
 					$this->tpl->setCurrentBlock("text");
 
 					if ($key == "type")
@@ -1005,6 +1016,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 					$this->tpl->setVariable("TEXT_CONTENT", $val);					
 					$this->tpl->parseCurrentBlock();
+
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
 				} //foreach

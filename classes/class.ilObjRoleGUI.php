@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.49 2003/08/22 12:25:37 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.50 2003/08/22 13:01:27 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -883,6 +883,17 @@ class ilObjRoleGUI extends ilObjectGUI
 
 				foreach ($data as $key => $val)
 				{
+					//build link
+					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+
+					if ($key == "name" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
 					$this->tpl->setCurrentBlock("text");
 
 					if ($key == "type")
@@ -1093,6 +1104,17 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 				foreach ($data as $key => $val)
 				{
+					//build link
+					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+
+					if ($key == "login")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
 					$this->tpl->setCurrentBlock("text");
 
 					$this->tpl->setVariable("TEXT_CONTENT", $val);					
