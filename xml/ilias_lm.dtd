@@ -334,13 +334,7 @@
 <!-- Test -->
 <!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
 <!ELEMENT Test (MetaData, TestItem+)>
-<!ATTLIST Test
-	Id ID #IMPLIED
->
 <!ELEMENT TestItem (MetaData, Question, Answer+, Hint*)>
-<!ATTLIST TestItem
-	Id ID #IMPLIED
->
 <!ELEMENT Question (Paragraph | MediaObject)+>
 <!ELEMENT Answer (Paragraph | MediaObject)+>
 <!ATTLIST Answer
@@ -350,14 +344,8 @@
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
 <!ELEMENT Glossary (MetaData, GlossaryItem+)>
-<!ATTLIST Glossary
-	Id ID #IMPLIED
->
 <!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects--> 
 <!ELEMENT GlossaryItem (MetaData, GlossaryTerm, Definition+)>
-<!ATTLIST GlossaryItem
-	Id ID #IMPLIED
->
 <!--GlossaryTerms can be included in Paragraphs -->
 <!ELEMENT GlossaryTerm (%titletext;)*>
 <!ELEMENT Definition (Paragraph | MediaObject)+>
