@@ -243,14 +243,15 @@ class Mail
 	*/
 	function deleteMails($a_mail_ids)
 	{
-		// CREATE IN STATEMENT
-		$in = "(". implode(",",$a_mail_ids) . ")";
-		
-		$query = "DELETE FROM $this->table_mail ".
-			"WHERE user_id = '".$this->user_id."' ".
-			"AND mail_id IN $in";
 
-		$res = $this->ilias->db->query($query);
+		foreach($a_mail_ids as $id)
+		{
+			$query = "DELETE FROM $this->table_mail ".
+				"WHERE user_id = '".$this->user_id."' ".
+				"AND mail_id = '".$id."'";
+			$res = $this->ilias->db->query($query);
+			$this->mfile->deassignAttachmentFromDirectory($id);
+		}
 		return true;
 	}
 

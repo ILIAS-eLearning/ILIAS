@@ -353,5 +353,19 @@ class ilFileDataMail extends ilFileData
 			"path = '".$this->user_id."_".$a_sent_mail_id."'";
 		$res = $this->ilias->db->query($query);
 	}
+	/**
+	* dassign attachments from mail directory
+	* @param int mail_id
+	* @access	public
+	* @return bool
+	*/
+	function deassignAttachmentFromDirectory($a_mail_id)
+	{
+		$query = "DELETE FROM mail_attachment ".
+			"WHERE mail_id = '".$a_mail_id."'";
+		$res = $this->ilias->db->query($query);
+		return true;
+	}
+
 }
 ?>
