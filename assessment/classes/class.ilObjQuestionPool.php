@@ -24,7 +24,7 @@
 /**
 * Class ilObjQuestionPool
 * 
-* @author your name <your email> 
+* @author Helmut Schottmüller <hschottm@tzi.de> 
 * @version $Id$
 *
 * @extends ilObject
