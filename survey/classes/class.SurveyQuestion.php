@@ -1004,7 +1004,7 @@ class SurveyQuestion {
 		$result = $this->ilias->db->query($query);
 
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
-		if (is_dir($directory))
+		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
 			$directory = escapeshellarg($directory);
 			exec("rm -rf $directory");

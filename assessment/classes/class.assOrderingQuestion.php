@@ -1111,7 +1111,7 @@ class ASS_OrderingQuestion extends ASS_Question
 		{
 			require_once "./content/classes/Media/class.ilObjMediaObject.php";
 			$mimetype = ilObjMediaObject::getMimeType($image_tempfilename);
-			if (!preg_match("/^image/", $mimetype))
+			if (!preg_match("/^image/", $mimetype) and (strcmp($mimetype, "") != 0))
 			{
 				$result = 1;
 			}

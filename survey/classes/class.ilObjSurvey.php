@@ -363,6 +363,15 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		
 		$this->deleteAllUserData();
+
+		// delete export files
+		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
+		$directory = $svy_data_dir."/svy_".$this->getId();
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
 	}
 	
 	/**

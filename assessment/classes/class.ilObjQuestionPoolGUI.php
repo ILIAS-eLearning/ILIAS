@@ -1373,8 +1373,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 

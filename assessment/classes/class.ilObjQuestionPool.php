@@ -177,6 +177,15 @@ class ilObjQuestionPool extends ilObject
 				$this->deleteQuestion($question_id);
 			}
 		}
+
+		// delete export files
+		$qpl_data_dir = ilUtil::getDataDir()."/qpl_data";
+		$directory = $qpl_data_dir."/qpl_".$this->getId();
+		if (is_dir($directory))
+		{
+			$directory = escapeshellarg($directory);
+			exec("rm -rf $directory");
+		}
 	}
 
 	/**
