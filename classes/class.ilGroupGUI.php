@@ -351,7 +351,7 @@ class ilGroupGUI extends ilObjectGUI
 	function assignApplicantsObject()
 	{
 		global $ilias;
-		
+
 		$user_ids = $_POST["user_id"];
 		if(isset($user_ids))
 		{
@@ -1055,30 +1055,31 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_CANCEL", "view" );
 		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
-		
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));				
-		
-		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));				
-		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);				
-		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));						
-		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);				
-		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));						
-		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);						
 
-		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("expiration_date"));						
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));						
-		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));								
-		
-		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);				
-		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));		
-		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));				
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration_mode"));
+
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));
+		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));
+		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
+
+		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("group_registration_expiration_date"));
+		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
+		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
+
+		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);
+		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));
+		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));
+//		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("SELECT_GROUPSTATUS", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->show();
 	}
-	
-	
+
+
 
 	/*
 	* function returns specific link-url depending on object-type
@@ -1187,12 +1188,9 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function newMembersObject()
 	{
-
-
-
 		//create additional tabs for tab-bar
 
-		$this->prepareOutput(true, 0);
+		$this->prepareOutput(true);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
 
@@ -1208,7 +1206,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", $this->lng->txt("group_memstat_member"));
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", $this->lng->txt("group_memstat_admin"));
-		$this->tpl->setVariable("TXT_SEARCH", "Search");
+		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
 
 		if(isset($_POST["search_user"]) )
 			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
@@ -1231,7 +1229,6 @@ class ilGroupGUI extends ilObjectGUI
 			}
 			else
 			{
-
 				//INTERIMS SOLUTION
 				$_SESSION["status"] = $_POST["status"];
 				foreach($member_ids as $member)
@@ -1253,8 +1250,8 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 				$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
-				$this->data["buttons"] = array( "assignMember"  => $this->lng->txt("assign"),
-								"canceldelete"  => $this->lng->txt("cancel"));
+				$this->data["buttons"] = array(	"canceldelete"  => $this->lng->txt("cancel"),
+								"assignMember"  => $this->lng->txt("assign"));
 
 				$this->tpl->setCurrentBlock("tbl_action_row");
 				$this->tpl->setVariable("COLUMN_COUNTS",4);
@@ -1291,7 +1288,7 @@ class ilGroupGUI extends ilObjectGUI
 				include_once "./classes/class.ilTableGUI.php";
 				$tbl = new ilTableGUI($output);
 				// title & header columns
-				$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
+				$tbl->setTitle($this->lng->txt("search_result"),"icon_usr_b.gif",$this->lng->txt("member list"));
 				$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 				$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname")));
 				$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"],"search_user"=>$_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"],"status"=>$_POST["status"] ? $_POST["status"] : $_GET["status"]));
@@ -1698,7 +1695,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2]["ftabtype"] = 'tabactive';						//tab is marked
 		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[2]["tab_text"] = 'applicants_list';						//tab -text
-				
+
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 		if (count($objects) > 0)
@@ -1750,15 +1747,17 @@ class ilGroupGUI extends ilObjectGUI
 				unset($user);
 		}
 
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_applicants"));
+//		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_applicants"));
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
+//		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_new_registrations"));
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
 
-		$this->data["buttons"] = array( "AssignApplicants"  => $this->lng->txt("assign"),
-						"Cancel"  => $this->lng->txt("cancel"));
+		$this->data["buttons"] = array( "Cancel"  => $this->lng->txt("cancel"),
+						"AssignApplicants"  => $this->lng->txt("assign"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("TPLPATH",$this->tplPath);
@@ -1794,9 +1793,9 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl = new ilTableGUI($output);
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("group_applicants")." - ".$this->object->getTitle(),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
+		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application date"),$this->lng->txt("functions")));
+		$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("functions")));
 		$tbl->setHeaderVars(array("check","login","fullname","subject","application_date","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
 		$tbl->setColumnWidth(array("5%","20%","20%","40%","15%","5%"));
 
@@ -1946,13 +1945,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		include_once "./include/inc.sort.php";
-/*
-		//$k[0] = "normal";
-		$k[0] = array('normal');
-		var_dump($k);
-		$mail = new ilMail($_SESSION["AccountId"]);
-		print_r($mail->sendMail("root","","","you have been assigned to...","dirnne","",$k));
-*/
+		
 		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
