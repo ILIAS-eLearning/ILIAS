@@ -2545,6 +2545,7 @@ content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_matches#:#matches
 content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.
+content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
