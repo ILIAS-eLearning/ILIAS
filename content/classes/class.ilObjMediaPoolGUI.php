@@ -381,7 +381,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 							? $tree->getRootId()
 							: $_GET["obj_id"];
 						$tree->insertNode($ret->getId(), $parent);
-						$this->listMedia();
+						ilUtil::redirect("mep_edit.php?cmd=listMedia&ref_id=".
+							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 						break;
 
 					default:

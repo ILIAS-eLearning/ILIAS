@@ -130,6 +130,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->object = new ilObjMediaObject();
 		$dummy_meta =& new ilMetaData();
 		$dummy_meta->setObject($this->object);
+
 		$this->object->assignMetaData($dummy_meta);
 		$this->object->setTitle("dummy");
 		$this->object->setDescription("dummy");
@@ -1942,6 +1943,82 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 	}
 
+	/**
+	* edit meta data
+	*/
+	function editMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->getTargetScript(), $_GET["meta_section"]);
+	}
+
+	/**
+	* choose meta section
+	*/
+	function chooseMetaSectionObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->getTargetScript(), $_REQUEST["meta_section"]);
+	}
+
+	/**
+	* delete a meta object
+	*/
+	function deleteMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->getTargetScript(), $_GET["meta_section"]);
+	}
+
+	/**
+	* save meta data
+	*/
+	function saveMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	/**
+	* add meta object
+	*/
+	function addMetaObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$this->getTargetScript(), $meta_section);
+	}
 
 	/**
 	*
@@ -2034,6 +2111,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$tabs[] = array("cont_map_areas", "editMapAreas");
 				}
 			}
+
+			$tabs[] = array("meta_data", "editMeta");
 		}
 		$tabs[] = array("cont_back", "returnToContext");
 

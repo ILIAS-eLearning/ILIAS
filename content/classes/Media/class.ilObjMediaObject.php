@@ -101,12 +101,27 @@ class ilObjMediaObject extends ilObject
 
 	function getTitle()
 	{
-		$title = ($this->meta_data->getTitle() == "NO TITLE")
-			? $this->title
-			: $this->meta_data->getTitle();
-
-		return $title;
+		return $this->meta_data->getTitle();
 	}
+
+	/**
+	* get description of media object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of media object
+	*/
+	function setDescription($a_description)
+	{
+		$this->meta_data->setDescription($a_description);
+	}
+
 
 	/**
 	* assign meta data object
@@ -308,17 +323,36 @@ class ilObjMediaObject extends ilObject
 
 	}
 
+
+	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		if ($this->meta_data->section != "General")
+		{
+			/* this is evil at creation time
+			$meta = $this->meta_data->getElement("Title", "General");
+			$this->meta_data->setTitle($meta[0]["value"]);
+			$meta = $this->meta_data->getElement("Description", "General");
+			$this->meta_data->setDescription($meta[0]["value"]);*/
+		}
+		else
+		{
+			$this->setTitle($this->meta_data->getTitle());
+			$this->setDescription($this->meta_data->getDescription());
+		}
+		parent::update();
+	}
+
+
 	/**
 	* update media object in db
 	*/
 	function update()
 	{
-		parent::update();
-
-		// create meta data
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->update();
+		$this->updateMetaData();
 
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
