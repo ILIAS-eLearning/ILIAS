@@ -1432,7 +1432,6 @@ class ilRepositoryGUI
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$tst_data["ref_id"]));
 				$tpl->setVariable("DESCRIPTION", $tst_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($tst_data["last_update"]));
 				$tpl->parseCurrentBlock();
@@ -1457,10 +1456,10 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("tests"),"icon_tst_b.gif", $this->lng->txt("tests"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
-		$tbl->setHeaderVars(array("", "title"),
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
 			array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("1%", "99%"));
+		$tbl->setColumnWidth(array("100%"));
 
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
@@ -1552,7 +1551,6 @@ class ilRepositoryGUI
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$qpl_data["ref_id"]));
 				$tpl->setVariable("DESCRIPTION", $qpl_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($qpl_data["last_update"]));
 				$tpl->parseCurrentBlock();
@@ -1577,10 +1575,10 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("question_pools"),"icon_qpl_b.gif", $this->lng->txt("question_pools"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
-		$tbl->setHeaderVars(array("", "title"),
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
 			array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("1%", "99%"));
+		$tbl->setColumnWidth(array("100%"));
 
 		// control
 		//$tbl->setOrderColumn($_GET["sort_by"]);
