@@ -32,8 +32,14 @@
 * @package ilias-core
 */
 
+// activate benchmarks
+define ("IL_BENCH_ACTIVE", false);
+
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
+require_once "classes/class.ilBenchmark.php";
+$ilBench = new ilBenchmark();
+$ilBench->start("Core", "Header Include");
 
 // start the StopWatch
 $t_pagestart = ilUtil::StopWatch();
@@ -216,7 +222,7 @@ $styleDefinition->startParsing();
 	I really don't know in which case the following code is needed.
 	If any errors occur due to disabling this, please do
 	not hesitate to mail me... alex.killing@gmx.de
-	
+
 	this function was used for the no_frames template set... shofmann@databay.de
 
 if ($script != "login.php" && $script != "index.php")
@@ -247,4 +253,8 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 									"text"	=> "new_mail"
 									//"img"	=> "icon_mail.gif"
 									);
-}?>
+}
+
+$ilBench->stop("Core", "Header Include");
+$ilBench->save();
+?>

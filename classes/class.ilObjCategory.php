@@ -44,8 +44,14 @@ class ilObjCategory extends ilObject
 	*/
 	function ilObjCategory($a_id = 0,$a_call_by_reference = true)
 	{
+		global $ilBench;
+
+		$ilBench->start("Core", "ilObjCategory_Constructor");
+
 		$this->type = "cat";
 		$this->ilObject($a_id,$a_call_by_reference);
+
+		$ilBench->stop("Core", "ilObjCategory_Constructor");
 	}
 	
 	/**

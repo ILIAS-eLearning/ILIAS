@@ -1967,9 +1967,11 @@ CREATE TABLE `xml_tree` (
   PRIMARY KEY  (`node_id`),
   KEY `xml_id` (`xml_id`)
 ) TYPE=MyISAM;
+
 <#121>
 ALTER TABLE chat_user DROP PRIMARY KEY;
 ALTER TABLE chat_user ADD PRIMARY KEY(usr_id,chat_id,room_id);
+
 <#122>
 <?php
 // register new object type 'recf' for RecoveryFolder
@@ -2003,6 +2005,7 @@ $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
 $query = "INSERT INTO settings (keyword,value) VALUES('recovery_folder_id','".$row->id."')";
 $res = $this->db->query($query);
 ?>
+
 <#123>
 CREATE TABLE `tst_solutions` (
   `solution_id` int(10) unsigned NOT NULL auto_increment,
@@ -2016,8 +2019,10 @@ CREATE TABLE `tst_solutions` (
   UNIQUE KEY `solution_id` (`solution_id`),
   KEY `solution_id_2` (`solution_id`)
 ) TYPE=MyISAM COMMENT='Test and Assessment solutions';
+
 <#124>
 ALTER  TABLE  `tst_solutions`  ADD  `postponed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `value2` ;
+
 <#125>
 CREATE TABLE `tst_active` (
   `active_id` int(10) unsigned NOT NULL auto_increment,
@@ -2031,13 +2036,16 @@ CREATE TABLE `tst_active` (
   UNIQUE KEY `active_id` (`active_id`),
   KEY `active_id_2` (`active_id`)
 ) TYPE=MyISAM ;
+
 <#126>
 ALTER  TABLE  `tst_solutions`  DROP  `postponed` ;
+
 <#127>
 ALTER  TABLE  `tst_active`  ADD  `postponed` text AFTER  `sequence` ;
 
 <#128>
 UPDATE settings SET value = '3.0.0_beta5 2004/03/09' WHERE keyword = 'ilias_version' LIMIT 1;
+
 <#129>
 CREATE TABLE `qpl_question_material` (
   `material_id` int(11) NOT NULL auto_increment,
@@ -2045,6 +2053,7 @@ CREATE TABLE `qpl_question_material` (
   `materials` text,
   UNIQUE KEY `material_id` (`material_id`)
 ) TYPE=MyISAM;
+
 <#130>
 CREATE  TABLE  `tst_times` (
 `times_id` INT NOT  NULL  AUTO_INCREMENT ,
@@ -2052,5 +2061,15 @@ CREATE  TABLE  `tst_times` (
 `started` DATETIME NOT  NULL ,
 `finished` DATETIME NOT  NULL ,
 `TIMESTAMP` TIMESTAMP NOT  NULL ,
-PRIMARY  KEY (  `times_id`  ) 
+PRIMARY  KEY (  `times_id`  )
 ) COMMENT  =  'Editing times of an assessment test';
+
+<#131>
+CREATE TABLE benchmark
+(
+	cdate			DATETIME,
+	module			VARCHAR(200),
+	benchmark		VARCHAR(200),
+	duration		DOUBLE(14,5),
+	INDEX (module, benchmark)
+);
