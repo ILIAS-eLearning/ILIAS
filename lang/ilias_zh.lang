@@ -109,7 +109,6 @@ assessment#:#action#:#动作
 assessment#:#add_answer#:#增加答案
 assessment#:#add_answer_tf#:#添加 正确/错误 答案
 assessment#:#add_answer_yn#:#添加 是/否 答案
-assessment#:#add_answerblock#:#添加答案条
 assessment#:#add_applet_parameter#:#添加 applet 参数
 assessment#:#add_area#:#添加区域
 assessment#:#add_gap#:#添加填空文字
@@ -122,7 +121,6 @@ assessment#:#answer_is_right#:#回答正确
 assessment#:#answer_is_wrong#:#回答错误
 assessment#:#answer_picture#:#回答图片
 assessment#:#answer_text#:#答案文本
-assessment#:#answerblock#:#答案条
 assessment#:#applet_attributes#:#Applet 属性
 assessment#:#applet_new_parameter#:#新参数
 assessment#:#applet_parameter#:#参数
@@ -189,7 +187,6 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
@@ -300,7 +297,6 @@ assessment#:#qt_matching#:#匹配问题
 assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#问题类型

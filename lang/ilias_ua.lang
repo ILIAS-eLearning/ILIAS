@@ -91,7 +91,6 @@ assessment#:#action#:#Дія
 assessment#:#add_answer#:#Додати віповідь
 assessment#:#add_answer_tf#:#Додати відповіді правда/неправда
 assessment#:#add_answer_yn#:#Додати відповіді так/ні
-assessment#:#add_answerblock#:#Додати блок с відповідями
 assessment#:#add_applet_parameter#:#Додати параметри аплету
 assessment#:#add_area#:#Додати область
 assessment#:#add_gap#:#Додати текст з проміжком
@@ -104,7 +103,6 @@ assessment#:#answer_is_right#:#Ваша відповідь вірна
 assessment#:#answer_is_wrong#:#Вага відповідь невірна
 assessment#:#answer_picture#:#Картинка з відповіддю
 assessment#:#answer_text#:#Текст з відповідю
-assessment#:#answerblock#:#Блок с відповідями
 assessment#:#applet_attributes#:#Атрибути аплету
 assessment#:#applet_new_parameter#:#Новий параметр
 assessment#:#applet_parameter#:#Параметр
@@ -171,7 +169,6 @@ assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень,
 assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
 assessment#:#end_tag#:#Кігцевий тег
 assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
-assessment#:#enhanced#:#Розширений режим
 assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!
 assessment#:#error_image_upload_wrong_format#:#Будь ласка завантажте дійсний файл с зображенням! Графічні формати що підтримуються є gif, jpeg and png.
 assessment#:#error_importing_question#:#Відбулась помилка при імпорті питань з вибраного вами файлу!
@@ -282,7 +279,6 @@ assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
-assessment#:#question_no_answerblocks#:#Не визначено жодного блоку відповідей
 assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
 assessment#:#question_short#:#П
 assessment#:#question_type#:#Тип Питання

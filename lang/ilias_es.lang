@@ -92,7 +92,6 @@ assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Añadir respuesta
 assessment#:#add_answer_tf#:#Añadir respuestas verdadero/falso
 assessment#:#add_answer_yn#:#Añadir respuestas Si/No
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Añadir parámetro applet
 assessment#:#add_area#:#Añadir area
 assessment#:#add_gap#:#Añadir texto 'Gap'
@@ -105,7 +104,6 @@ assessment#:#answer_is_right#:#Su solución es correcta
 assessment#:#answer_is_wrong#:#Su solución es errónea
 assessment#:#answer_picture#:#Imagen respuesta
 assessment#:#answer_text#:#Texto respuesta
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Atributos del applet
 assessment#:#applet_new_parameter#:#Nuevo parámetro
 assessment#:#applet_parameter#:#Parámetro
@@ -168,7 +166,6 @@ assessment#:#ects_use_fx_grade#:#Use la nota 'FX', if failed participants reache
 assessment#:#ects_use_fx_grade_part2#:#porcentaje de los puntos totales.
 assessment#:#end_tag#:#Marca de Fin
 assessment#:#ending_time_reached#:#Se ha alcanzado el tiempo límite
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Ocurrió un error moviendo la imagen cargada a su carpeta de destino!
 assessment#:#error_image_upload_wrong_format#:#Por favor cargue un fichero de imagen válido! Los formatos de imagen soportados son gif, jpeg y png
 assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta(s) desde el fichero seleccionado!
@@ -279,7 +276,6 @@ assessment#:#qt_matching#:#Pregunta de tipo 'Unir parejas'
 assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el depósito de preguntas si no quiere guardarla!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de Pregunta
