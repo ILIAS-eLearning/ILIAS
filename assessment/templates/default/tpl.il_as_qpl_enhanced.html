@@ -1,0 +1,55 @@
+<form name="form_enhanced" action="{FORM_ACTION}" method="post">
+<table class="invisible">
+	<tr class="tblheader">
+		<td>{TEXT_ANSWER}</td>
+		<td>{TEXT_ACTION}</td>
+	</tr>
+<!-- BEGIN table_row -->
+<!-- BEGIN answerblock_head -->
+	<tr class="option_value">
+		<td class="option_value" colspan="2">
+		{TEXT_ANSWERBLOCK}
+		</td>
+	</tr>
+<!-- END answerblock_head -->
+<!-- BEGIN answerblock_row -->
+	<tr class="{COLOR_CLASS}">
+		<td class="{COLOR_CLASS}">
+		<select name="bool_{ANSWERBLOCK_INDEX}">
+		<option value="0"></option>
+		<option value="1">{TEXT_NOT}</option>
+		</select>
+		<select>
+		<select name="answer_{ANSWERBLOCK_INDEX}">
+		<option value="-1">{TEXT_SELECT_ANSWER}</option>
+<!-- BEGIN option_value -->
+		<option value="{ANSWER_ID}"{ANSWER_SELECTED}>{ANSWER_TEXT}</option>
+<!-- END option_value -->
+		</select>
+		</td>
+		<td class="{COLOR_CLASS}">
+<!-- BEGIN delete_button -->
+		<input type="submit" class="submit" name="cmd[delete_{ANSWERBLOCK_INDEX}_{ANSWER_INDEX}]" value="{BUTTON_DELETE}" />
+<!-- END delete_button -->
+<!-- BEGIN add_button -->
+		<input type="submit" class="submit" name="cmd[add_{ANSWERBLOCK_INDEX}]" value="{BUTTON_ADD}" />
+<!-- END add_button -->
+		</td>
+	</tr>
+<!-- END answerblock_row -->
+<!-- END table_row -->
+<!-- BEGIN empty_table -->
+	<tr class="tblfooter">
+		<td class="tblfooter" colspan="2">
+		{TEXT_NO_ANSWERBLOCKS}
+		</td>
+	</tr>
+<!-- END empty_table -->
+	<tr class="option_value">
+		<td class="option_value" colspan="2">
+		<input class="submit" type="submit" name="cmd[addAnswerblock]" value="{BUTTON_ADD_ANSWERBLOCK}" />
+		<input class="submit" type="submit" name="cmd[saveEnhanced]" value="{BUTTON_SAVE}" />
+		</td>
+	</tr>
+</table>
+</form>
