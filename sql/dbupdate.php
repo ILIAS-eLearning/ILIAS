@@ -354,4 +354,19 @@ ALTER TABLE `tree` CHANGE `tree` `tree` INT(10) DEFAULT '0' NOT NULL;
 
 <#15>
 #drop unnecessary col
-ALTER TABLE `note_data` DROP COLUMN last_update;
+<?php
+$query = "DESCRIBE note_data";
+$result = $this->db->query($query);
+
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$data[] = $row["Field"];
+}
+
+if (in_array("last_update",$data))
+{
+	$query = "ALTER TABLE note_data DROP COLUMN last_update";
+	$this->db->query($query);
+}
+?>
+
