@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE objects SYSTEM "./objects.dtd">
 <objects xmlns="http://www.w3.org" version="$Id$">
-<object name="root" class_name="RootFolder" chkbox="0">
+<object name="root" class_name="RootFolder" checkbox="0">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
@@ -20,7 +20,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="adm" class_name="SystemFolder" chkbox="0">
+<object name="adm" class_name="SystemFolder" checkbox="0">
 	<subobj name="usrf" max="1">usrf</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="objf" max="1">objf</subobj>
@@ -30,7 +30,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="cat" class_name="Category" chkbox="1">
+<object name="cat" class_name="Category" checkbox="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
@@ -49,7 +49,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="crs" class_name="Course" chkbox="1">
+<object name="crs" class_name="Course" checkbox="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
 	<subobj name="grp">grp</subobj>
@@ -67,14 +67,14 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="file" class_name="" chkbox="1">
+<object name="file" class_name="" checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="frm" class_name="Forum" chkbox="1">
+<object name="frm" class_name="Forum" checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -85,7 +85,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="grp" class_name="Group" chkbox="1">
+<object name="grp" class_name="Group" checkbox="1">
 	<subobj name="frm">frm</subobj>
 	<subobj name="le">le</subobj>
 	<subobj name="crs">crs</subobj>
@@ -103,7 +103,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="le" class_name="LearningModule" chkbox="1">
+<object name="le" class_name="LearningModule" checkbox="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="lo">lo</subobj>
@@ -119,14 +119,14 @@
 	<action name="clear">clear</action>
 	<action name="import">import</action>
 </object>
-<object name="lo" class_name="LearningObject" chkbox="1">
+<object name="lo" class_name="LearningObject" checkbox="1">
 	<property name="view">view_content</property>
 </object>
-<object name="lng" class_name="Language" chkbox="1">
+<object name="lng" class_name="Language" checkbox="1">
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="lngf" class_name="LanguageFolder" chkbox="0">
+<object name="lngf" class_name="LanguageFolder" checkbox="0">
 	<subobj name="lng">lng</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -139,22 +139,22 @@
 	<action name="setuserlang">change_language</action>
 	<action name="checklang">check_language</action>
 </object>
-<object name="mail" class_name="" chkbox="1">
+<object name="mail" class_name="" checkbox="1">
 	<action name="refresh">refresh</action>
 </object>
-<object name="objf" class_name="ObjectFolder" chkbox="0">
+<object name="objf" class_name="ObjectFolder" checkbox="0">
 	<subobj name="typ">typ</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="role" class_name="Role" chkbox="1">
+<object name="role" class_name="Role" checkbox="1">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="rolf" class_name="RoleFolder" chkbox="1">
+<object name="rolf" class_name="RoleFolder" checkbox="1">
 	<subobj name="rolt">rolt</subobj>
 	<subobj name="role">role</subobj>
 	<property name="view">view_content</property>
@@ -163,24 +163,24 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="rolt" class_name="RoleTemplate" chkbox="1">
+<object name="rolt" class_name="RoleTemplate" checkbox="1">
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="typ" class_name="TypeDefinition" chkbox="0">
+<object name="typ" class_name="TypeDefinition" checkbox="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_operations</property>
 </object>
-<object name="usr" class_name="User" chkbox="1">
+<object name="usr" class_name="User" checkbox="1">
 	<subobj name="favf" max="1">favf</subobj>
 	<subobj name="datf" max="1">datf</subobj>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="usrf" class_name="UserFolder" chkbox="0">
+<object name="usrf" class_name="UserFolder" checkbox="0">
 	<subobj name="usr">usr</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -188,7 +188,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="datf" class_name="DateFolder" chkbox="0">
+<object name="datf" class_name="DateFolder" checkbox="0">
 	<subobj name="dat">dat</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -196,13 +196,13 @@
 	<action name="add">add_date</action>
 	<action name="delete">delete_date</action>
 </object>
-<object name="dat" class_name="Date"  chkbox="1">
+<object name="dat" class_name="Date"  checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_date</action>
 </object>
-<object name="notf" class_name="NoteFolder" chkbox="0">
+<object name="notf" class_name="NoteFolder" checkbox="0">
 	<subobj name="note">note</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -210,13 +210,13 @@
 	<action name="add">add_note</action>
 	<action name="delete">delete_note</action>
 </object>
-<object name="note" class_name="Note" chkbox="1">
+<object name="note" class_name="Note" checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_note</action>
 </object>
-<object name="favf" class_name="BookmarkFolder" chkbox="0">
+<object name="favf" class_name="BookmarkFolder" checkbox="0">
 	<subobj name="fav">fav</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -224,7 +224,7 @@
 	<action name="add">add_favorite</action>
 	<action name="delete">delete_favorite</action>
 </object>
-<object name="fav" class_name="Bookmark" chkbox="1">
+<object name="fav" class_name="Bookmark" checkbox="1">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
