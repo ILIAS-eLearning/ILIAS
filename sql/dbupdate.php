@@ -870,7 +870,7 @@ ALTER TABLE int_link MODIFY source_type VARCHAR(10) NOT NULL;
 
 <#68>
 #
-# Tabellenstruktur für Tabelle `search_data`
+# Tabellenstruktur fï¿½r Tabelle `search_data`
 #
 
 CREATE TABLE search_data (
@@ -883,7 +883,7 @@ CREATE TABLE search_data (
 ) TYPE=MyISAM;
 
 #
-# Tabellenstruktur für Tabelle `search_tree`
+# Tabellenstruktur fï¿½r Tabelle `search_tree`
 #
 
 CREATE TABLE search_tree (
@@ -909,7 +909,7 @@ UPDATE settings SET value = '3.0.0_beta2' WHERE keyword = 'ilias_version' LIMIT 
 
 <#71>
 #
-# Tabellenstruktur für Tabelle `dp_changed_dates`
+# Tabellenstruktur fï¿½r Tabelle `dp_changed_dates`
 #
 
 CREATE TABLE dp_changed_dates (
@@ -919,12 +919,12 @@ CREATE TABLE dp_changed_dates (
   status int(15) NOT NULL default '0',
   timestamp int(10) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für Anzeige von Geänderten Termindaten';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r Anzeige von Geï¿½nderten Termindaten';
 # --------------------------------------------------------
 
 <#72>
 #
-# Tabellenstruktur für Tabelle `dp_dates`
+# Tabellenstruktur fï¿½r Tabelle `dp_dates`
 #
 
 CREATE TABLE dp_dates (
@@ -945,7 +945,7 @@ CREATE TABLE dp_dates (
 
 <#73>
 #
-# Tabellenstruktur für Tabelle `dp_keyword`
+# Tabellenstruktur fï¿½r Tabelle `dp_keyword`
 #
 
 CREATE TABLE dp_keyword (
@@ -953,12 +953,12 @@ CREATE TABLE dp_keyword (
   user_ID int(15) NOT NULL default '0',
   keyword varchar(20) NOT NULL default '',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für Schlagwörter';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r Schlagwï¿½rter';
 # --------------------------------------------------------
 
 <#74>
 #
-# Tabellenstruktur für Tabelle `dp_keywords`
+# Tabellenstruktur fï¿½r Tabelle `dp_keywords`
 #
 
 CREATE TABLE dp_keywords (
@@ -966,12 +966,12 @@ CREATE TABLE dp_keywords (
   date_ID int(15) NOT NULL default '0',
   keyword_ID int(15) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für die Zuordnung der Schlagwörter';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r die Zuordnung der Schlagwï¿½rter';
 # --------------------------------------------------------
 
 <#75>
 #
-# Tabellenstruktur für Tabelle `dp_neg_dates`
+# Tabellenstruktur fï¿½r Tabelle `dp_neg_dates`
 #
 
 CREATE TABLE dp_neg_dates (
@@ -980,12 +980,12 @@ CREATE TABLE dp_neg_dates (
   user_ID int(15) NOT NULL default '0',
   timestamp int(14) default NULL,
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für die negativen Termine';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r die negativen Termine';
 # --------------------------------------------------------
 
 <#76>
 #
-# Tabellenstruktur für Tabelle `dp_properties`
+# Tabellenstruktur fï¿½r Tabelle `dp_properties`
 #
 
 CREATE TABLE dp_properties (
@@ -994,7 +994,7 @@ CREATE TABLE dp_properties (
   dv_starttime time NOT NULL default '00:00:00',
   dv_endtime time NOT NULL default '00:00:00',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle für UserEinstellungen';
+) TYPE=MyISAM COMMENT='Tabelle fï¿½r UserEinstellungen';
 
 <#77>
 ALTER TABLE xmlvalue ADD FULLTEXT ( tag_value );
@@ -4328,3 +4328,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 ?>
 
+<#261>
+#
+# Remove materials table for assessment questions
+# The materials are no longer needed because of the
+# filelists in the PageObjects now uses in question text
+#
+
+DROP  TABLE `qpl_question_material`;
