@@ -26,7 +26,7 @@
 * Class ilObjSurveyGUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* $Id$
+* @version  $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -3348,7 +3348,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php")
 	{
-//		global $ilias_locator;
+		//		global $ilias_locator;
 	  $ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{
@@ -3388,7 +3388,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE")) {
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"target=\"bottom\"");
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		} else {
 			foreach ($path as $key => $row)
@@ -3524,7 +3524,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if ($role["link"])
 			{
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-				$this->tpl->setVariable("LINK_ROLE_RULESET","../adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
+				$this->tpl->setVariable("LINK_ROLE_RULESET",$this->getTabTargetScript()."?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
 
@@ -3596,7 +3596,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "../adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
@@ -3606,8 +3606,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION",
-		$this->getFormAction("permSave","../adm_object.php?".$this->link_params."&cmd=permSave"));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("permSave",$this->getTabTargetScript()."?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -3689,9 +3688,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
-
-		ilUtil::redirect($this->getReturnLocation("permSave","survey/survey.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
-
+		ilUtil::redirect($this->getReturnLocation("permSave",$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 	}
 
 	function editMetaObject()
@@ -3699,7 +3696,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"survey.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
 
 		function saveMetaObject()
@@ -3710,7 +3707,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!strcmp($_POST["meta_section"], "General")) {
 			//$this->updateObject();
 		}
-		ilUtil::redirect("survey.php?ref_id=".$_GET["ref_id"]);
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
 
 	// called by administration
@@ -3719,7 +3716,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($a_script == "")
 		{
-			$a_script = "survey.php?ref_id=".$_GET["ref_id"];
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
 		}
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -3729,7 +3726,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	// called by editor
 	function chooseMetaSection()
 	{
-		$this->chooseMetaSectionObject("survey.php?ref_id=".
+		$this->chooseMetaSectionObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
 
@@ -3738,7 +3735,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($a_script == "")
 		{
-			$a_script = "survey.php?ref_id=".$_GET["ref_id"];
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
 		}
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -3761,7 +3758,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function addMeta()
 	{
-		$this->addMetaObject("survey.php?ref_id=".
+		$this->addMetaObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
 
@@ -3770,7 +3767,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		if ($a_script == "")
 		{
-			$a_script = "survey.php?ref_id=".$_GET["ref_id"];
+			$a_script = $this->getTabTargetScript()."?ref_id=".$_GET["ref_id"];
 		}
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -3781,7 +3778,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function deleteMeta()
 	{
-		$this->deleteMetaObject("survey.php?ref_id=".
+		$this->deleteMetaObject($this->getTabTargetScript()."?ref_id=".
 			$this->object->getRefId());
 	}
 
@@ -3824,7 +3821,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$add_parameter = $this->getAddParameter();
 			if (!defined("ILIAS_MODULE"))
 			{
-				define("ILIAS_MODULE", "assessment");
+				define("ILIAS_MODULE", "survey");
 			}
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_export.html", true);
 			$this->tpl->setCurrentBlock("adm_content");

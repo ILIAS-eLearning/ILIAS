@@ -394,6 +394,11 @@ class ilObjectGUI
 		$this->tab_target_script = $a_script;
 	}
 
+	function getTabTargetScript()
+	{
+		return $this->tab_target_script;
+	}
+
 	/**
 	* set possible actions for objects in list. if actions are set
 	* via this method, the values of objects.xml are ignored.
