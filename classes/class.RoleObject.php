@@ -302,7 +302,7 @@ class RoleObject extends Object
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],$_GET["parent_parent"]);
+			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 
 			foreach ($parent_role_ids as $key => $par)
 			{
@@ -402,7 +402,7 @@ class RoleObject extends Object
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
 		}
 		else

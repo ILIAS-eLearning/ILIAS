@@ -227,39 +227,26 @@ class RbacAdmin extends PEAR
  * it delivers also all templates in the path
  * @access public
  * @param array Path Id
- * @param string
  * @param bool 
  * @return bool true/false
  */
-	function getParentRoles($a_path,$a_child = "",$a_templates = false)
+	function getParentRoles($a_path,$a_templates = false)
 	{
 		$parentRoles = array();
 
-		if(!$a_child)
-		{
-			$a_child = $this->getRoleFolder();
-		}
-		// CREATE IN() STATEMENT
+		$a_child = $this->getRoleFolder();
+		
+        // CREATE IN() STATEMENT
 		$in = " IN('";
-		if(count($a_child) > 1)
-		{
-			$in .= implode("','",$a_child);
-		}
-		else
-		{
-			$in .= $a_child[0];
-		}
+		$in .= implode("','",$a_child);
 		$in .= "')";
+		
 		foreach($a_path as $path)
 		{
 			$query = "SELECT * FROM tree ".
 				" WHERE child ".$in.
 				" AND parent = '".$path."'";
 			$res = $this->db->query($query);
-			if(DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				if($a_templates)
@@ -707,12 +694,13 @@ class RbacAdmin extends PEAR
 		return $ops_id ? $ops_id : array();
 	}
 /**
- * get role ids of all parent roles
+ * get role ids of all parent roles, if last parameter is set true
+ * you get also all parent templates
  * @access private
  * @param string object id of start node
  * @return string 
  */
-	function getParentRoleIds($a_start_node = "",$a_start_parent = '')
+	function getParentRoleIds($a_start_node = "",$a_start_parent = '',$a_templates = false)
 	{
 		global $ilias;
 
@@ -723,7 +711,7 @@ class RbacAdmin extends PEAR
 		$pathIds  = $a_tree->getPathId($a_start_node,$a_start_parent);
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 		
-		return $this->getParentRoles($pathIds);
+		return $this->getParentRoles($pathIds,$a_templates);
 	}
 }
 ?>
