@@ -88,6 +88,11 @@ class ilPageEditorGUI
 
 	function executeCommand()
 	{
+		if (empty($_GET["cmd"]) && !is_array($_POST["cmd"]))
+		{
+			return;
+		}
+
 		$cmd = (empty($_GET["cmd"]))
 			? $cmd = key($_POST["cmd"])
 			: $_GET["cmd"];
