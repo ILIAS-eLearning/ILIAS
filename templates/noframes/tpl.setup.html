@@ -3,7 +3,7 @@
 	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<title>ILIAS - {TXT_SETUP}</title>
+	<title>ILIAS3 - {TXT_SETUP}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<link rel="stylesheet" type="text/css" href="ilias.css" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -12,7 +12,7 @@
 
 <table width="100%">
   <tr class="head">
-    <td>ILIAS - {TXT_SETUP}</td>
+    <td><a href="setup.php?step=begin&amp;lang={LANG}">ILIAS3 - {TXT_SETUP}</a></td>
     <td>{TXT_SETUP} Version {VERSION}</td>
 	<td>
 <!-- BEGIN languages -->
@@ -28,21 +28,27 @@
 
 
 <!-- BEGIN step0 -->
-<p>Welcome to ILIAS Setup. This setup-routine helps you
+<p>Welcome to ILIAS setup. This setup-routine helps you
 <ul>
   <li>write the ini-file for your installation</li>
   <li>setup the database</li>
-  <li>install languages</li>
+  <li>install additional languages</li>
+  <li>create a password for accessing setup-routine later again</li>
 </ul>
 </p>
+
+<h3>Environment</h3>
+<p>{TXT_ENV}</p>
+
 <h3>Preliminaries</h3>
-<p>Let us first see, if ilias3 is installable on your system</p>
+<p>Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system</p>
 <table>
 <!-- BEGIN preliminary -->
 <tr>
   <td>&nbsp;-&nbsp;</td>
   <td>&nbsp;{TXT_PRE}&nbsp;</td>
   <td>&nbsp;{STATUS_PRE}&nbsp;</td>
+  <td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
 </tr>
 <!-- END preliminary -->
 </table>
@@ -58,7 +64,7 @@
 
 <!-- BEGIN begininstallation -->
 <h3>Setup Mainmenu</h3>
-<p>This is the main page of ILIAS3-Setup. From here you can step through the installation.</p>
+<p>This is the main page of ILIAS3 setup. From here you can step through the installation.</p>
 <table>
 
 <!-- BEGIN link -->
@@ -73,7 +79,7 @@
 
 <!-- BEGIN ready -->
 <div align="center">
-<p>setup is ready. you may now proceed with the login and check further systemsettings.</p>
+<p>Setup is ready. you may now proceed with the login and check further system settings.</p>
 <p><a href="{LINK_LOGIN}">[ {TXT_LOGIN} ]</a></p>
 </div>
 <!-- END ready -->
@@ -119,8 +125,8 @@
 <!-- BEGIN step2 -->
 <h1>{TXT_INIFILE2}</h1>
 <!-- BEGIN step2_success -->
-		<p>The ini-File has been successfully saved on your host.</p>
-		<p>Your Ini File has this content:</p>
+		<p>The ini-file has been successfully saved on your host.</p>
+		<p>Your ini-file has this content:</p>
 		<p>ILIAS.INI:</p>
 		<table>
 		<tr bgcolor="#eeeeee">
@@ -141,6 +147,25 @@
 	<p><h1>{TXT_DATABASE3}</h1></p>
 	<p><a href="{LINK_STEP3}">[ {TXT_STEP3} ]</a></p>
 <!-- END step3 -->
+
+<!-- BEGIN step4 -->
+<h1>{TXT_LANGUAGES4}</h1>
+<p>Coming soon...<br/>English is pre-installed if you setup your database for the first time.</p>
+<p><a href="{LINK_STEP4}">[ {TXT_STEP4} ]</a></p>
+<!-- END step4 -->
+
+<!-- BEGIN step5 -->
+<h1>{TXT_PASSWORD5}</h1>
+<p>To protect your configuration data against other users you will need a password to access ILIAS3 setup later again.</p>
+<form action="setup.php?setup.php?step=6&amp;lang={LANG}" method="post">
+<p>Please choose a password: 
+<input type="password" name="passwd" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<p><font color="red">Under construction. Password protection doesn't work yet.</font></p>
+<p><a href="{LINK_STEP5}">[ {TXT_STEP5} ]</a></p>
+<!-- END step5 -->
 
 <hr />
 </body>
