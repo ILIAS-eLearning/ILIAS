@@ -174,27 +174,26 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		switch($_GET["mode"])
+		if($_GET["def"] > 0)
 		{
-			case "page_edit":
-				$def_edit =& new ilTermDefinitionEditorGUI();
-				$def_edit->executeCommand();
-				break;
+			$def_edit =& new ilTermDefinitionEditorGUI();
+			$def_edit->executeCommand();
+		}
+		else
+		{
+			$this->prepareOutput();
+			$cmd = $_GET["cmd"];
+			if($cmd == "")
+			{
+				$cmd = "listTerms";
+			}
 
-			default:
-				$cmd = $_GET["cmd"];
-				if($cmd == "")
-				{
-					$cmd = "listTerms";
-				}
+			if ($cmd == "post")
+			{
+				$cmd = key($_POST["cmd"]);
+			}
 
-				if ($cmd == "post")
-				{
-					$cmd = key($_POST["cmd"]);
-				}
-
-				$this->$cmd();
-				break;
+			$this->$cmd();
 		}
 		$this->tpl->show();
 	}
@@ -355,7 +354,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$def->setTermId($_GET["term_id"]);
 		$def->assignMetaData($meta_data);
 		$def->create();
-		header("Location: glossary_edit.php?mode=page_edit&ref_id=".$this->object->getRefId().
+		header("Location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId().
 			"&def=".$def->getId());
 	}
 
