@@ -82,10 +82,11 @@ administration#:#searching_missing_objs#:#Zoek naar vermiste objecten...
 administration#:#searching_unbound_objs#:#Zoek naar ongebonden objecten...
 administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!
+administration#:#stop_scan#:#Stop!###31 May 2004 new variable
 administration#:#systemcheck#:#Systeemcontrole
 administration#:#view_last_log#:#Bekijk laatste scan-log
 administration#:#view_log#:#Bekijk details
-assessment#:#0_unlimited#:#(0 = ongelimiteerd)
+assessment#:#0_unlimited#:#(0 = ongelimiteerd)###31 May 2004 content changed
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Toevoegen goede/foute antwoorden
 assessment#:#add_answer_yn#:#Toevoegen ja/nee antwoorden
@@ -801,6 +802,7 @@ common#:#folder#:#Map
 common#:#folders#:#Mappen
 common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!
 common#:#forename#:#Familienaam
+common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#AUB volgende velden invullen:
 common#:#forum#:#Forum
 common#:#forum_import#:#Forum import###09 Apr 2004 new variable
@@ -2918,6 +2920,7 @@ search#:#search_user#:#Gebruikers
 survey#:#add_category#:#Add category###21 May 2004 new variable
 survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
+survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
@@ -3008,6 +3011,7 @@ survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
+survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
@@ -3050,6 +3054,7 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Remove###24 May 2004 new variable
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
+survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
 survey#:#search_for#:#Search for###27 May 2004 new variable
 survey#:#search_groups#:#Groups###27 May 2004 new variable
 survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
@@ -3068,3 +3073,4 @@ survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
+survey#:#view_phrase#:#View phrase###31 May 2004 new variable

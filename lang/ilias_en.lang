@@ -515,7 +515,6 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
-common#:#forgot_password#:#Forgot password?
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -803,6 +802,7 @@ common#:#folder#:#Folder
 common#:#folders#:#Folders
 common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
+common#:#forgot_password#:#Forgot password?
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
 common#:#forum_import#:#Forum import
@@ -2920,6 +2920,7 @@ search#:#search_user#:#Users
 survey#:#add_category#:#Add category
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
+survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
@@ -3010,6 +3011,7 @@ survey#:#invited_users#:#Invited users
 survey#:#last_update#:#Last update
 survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
+survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
@@ -3052,6 +3054,7 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
 survey#:#remove_question#:#Remove
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?
 survey#:#reset_filter#:#Reset filter
+survey#:#resume_survey#:#Resume the survey
 survey#:#search_for#:#Search for
 survey#:#search_groups#:#Groups
 survey#:#search_invitation#:#Search for users or groups to invite
@@ -3070,7 +3073,4 @@ survey#:#survey_questions#:#Questions
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
-survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
-survey#:#resume_survey#:#Resume the survey
-survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
 survey#:#view_phrase#:#View phrase

@@ -82,10 +82,11 @@ administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
+administration#:#stop_scan#:#Stop!###31 May 2004 new variable
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
-assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#0_unlimited#:#(0 = unbegrenzt)###31 May 2004 content changed
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
@@ -801,6 +802,7 @@ common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
+common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_import#:#Forum Import
@@ -2918,6 +2920,7 @@ search#:#search_user#:#Benutzer
 survey#:#add_category#:#Kategorie anfügen
 survey#:#add_phrase#:#Phrase anfügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
+survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Übernehmen
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
@@ -3008,6 +3011,7 @@ survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
+survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimalwert
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
@@ -3050,6 +3054,7 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
+survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
 survey#:#search_for#:#Search for###27 May 2004 new variable
 survey#:#search_groups#:#Groups###27 May 2004 new variable
 survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
@@ -3068,3 +3073,4 @@ survey#:#survey_questions#:#Fragen
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Hochgeladene Materialien
+survey#:#view_phrase#:#View phrase###31 May 2004 new variable
