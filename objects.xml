@@ -207,6 +207,20 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete_date</action>
 </object>
+<object name="notf" class_name="NoteFolder" chkbox="0">
+	<subobj name="note">note</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+	<action name="add">add_note</action>
+	<action name="delete">delete_note</action>
+</object>
+<object name="note" class_name="Note" chkbox="1">
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete_note</action>
+</object>
 <object name="favf" class_name="BookmarkFolder" chkbox="0">
 	<subobj name="fav">fav</subobj>
 	<property name="view">view_content</property>
