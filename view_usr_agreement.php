@@ -82,6 +82,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement());
 $tpl->setVariable("BACK", $lng->txt("back"));
+$tpl->setVariable("LANG_KEY", $lng->lang_key);
 
 $tpl->show();
 
