@@ -33,7 +33,9 @@ require_once("classes/class.ilObjGroup.php");
 *
 * @author	Martin Rus <mrus@smail.uni-koeln.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
+
 * @version	$Id$
+
 * @package	ilias-core
 */
 
@@ -419,7 +421,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
-				
+
 		//build form
 		$opts = ilUtil::formSelect(0,"group_status_select",$stati,false,true);
 
@@ -668,6 +670,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function confirmedAssignMemberObject($a_userIds="")
 	{
+
 		if (isset($_SESSION["saved_post"]) && isset($_SESSION["status"]))
 		{
 			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
@@ -683,10 +686,10 @@ class ilGroupGUI extends ilObjectGUI
 
 		header("Location: group.php?cmd=view&".$this->link_params);
 	}
-	
+
 	function confirmedLeaveGroupObject()
 	{
-		
+
 		switch($this->object->leaveGroup())
 		{
 			case 0: sendInfo($this->lng->txt("membership_annulled"),true);
@@ -1161,6 +1164,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("assignment_completed"),true);
+
 		}
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 	}
@@ -1182,9 +1186,13 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("group_memstat"));
 
 		if($_POST["status"] == $this->object->getDefaultMemberRole() || !isset($_POST["status"]))
+		{
 			$checked = 0;
+		}
 		else
+		{
 			$checked = 1;
+		}
 		$radio_member = ilUtil::formRadioButton($checked ? 0:1,"status",$this->object->getDefaultMemberRole());
 		$radio_admin = ilUtil::formRadioButton($checked ? 1:0,"status",$this->object->getDefaultAdminRole());
 
@@ -1195,9 +1203,13 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
 
 		if(isset($_POST["search_user"]) )
+		{
 			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		}
 		else if(isset($_GET["search_user"]) )
+		{
 			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
+		}
 
 		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "group.php?type=grp&cmd=newMembersObject&ref_id=".$_GET["ref_id"]."&search_user=".$_POST["search_user"]);
 
@@ -1295,9 +1307,10 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
+
 		$this->tpl->show();
 	}
-	
+
 	function permObject()
 	{
 		global $rbacsystem, $rbacreview;
@@ -2608,12 +2621,13 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		//check Access
+		/*
   		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
-		}
+		}*/
 		$this->prepareOutput(false, 2);
-
+		
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 
 		$admin_ids = $newGrp->getGroupAdminIds();
@@ -2623,7 +2637,7 @@ class ilGroupGUI extends ilObjectGUI
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
-//		$val_role =  "<img src=\"".ilUtil::getImagePath("icon_role_b.gif")."\" alt=\"".$this->lng->txt("grp_role_change")."\" title=\"".$this->lng->txt("grp_role")."\" border=\"0\" vspace=\"0\"/>";
+
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
 		$account_id = $this->ilias->account->getId();
@@ -2641,14 +2655,15 @@ class ilGroupGUI extends ilObjectGUI
 				$link_leave = "group.php?type=grp&cmd=removeMemberObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 
 			//build function
-			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
+			if ($rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
 			{
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
-			if($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId()))
-				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 
-//			$member_functions .="<a href=\"$link_role\">$val_role</a>";
+			if ($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId() ) )
+			{
+				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
+			}
 
 			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
 
