@@ -266,6 +266,20 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
 			// image block
+
+			$internallinks = array(
+				"lm" => $this->lng->txt("obj_lm"),
+				"st" => $this->lng->txt("obj_st"),
+				"pg" => $this->lng->txt("obj_pg")
+			);
+			foreach ($internallinks as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("internallink");
+				$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+				$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("question_data");
 			$img = $this->object->get_image_filename();
 			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
@@ -319,13 +333,13 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$solution_array = $this->object->getSuggestedSolution(0);
 				$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 				$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+				$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
 				$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
 			}
 			else
 			{
-				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 			}
 
 			$this->tpl->setVariable("ADD_AREA", $this->lng->txt("add_area"));

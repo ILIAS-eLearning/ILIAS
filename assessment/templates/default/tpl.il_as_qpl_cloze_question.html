@@ -47,10 +47,15 @@
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
 		{TEXT_VALUE_SOLUTION_HINT}
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
 		<!-- BEGIN textgap_remove_solution -->
 		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
 		<!-- END textgap_remove_solution -->
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
+		<select name="internalLinkType">
+<!-- BEGIN textgap_internallink -->
+		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
+<!-- END textgap_internallink -->
+		</select>
 	</td>
 </tr>
 <!-- END textgap_suggested_solution -->
@@ -78,10 +83,15 @@
 	<td class="option_value" colspan="4">
 		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
 		{TEXT_VALUE_SOLUTION_HINT}
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
-		<!-- BEGIN selectegap_remove_solution -->
+		<!-- BEGIN selectgap_remove_solution -->
 		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END selectegap_remove_solution -->
+		<!-- END selectgap_remove_solution -->
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
+		<select name="internalLinkType">
+<!-- BEGIN selectgap_internallink -->
+		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
+<!-- END selectgap_internallink -->
+		</select>
 	</td>
 </tr>
 <!-- END selectgap_suggested_solution -->
