@@ -62,17 +62,17 @@ if(isset($_POST["cmd"]))
 		
 		case $lng->txt("mail_to_search"):
 			$_SESSION["mail_search"] = 'to';
-			sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_insert_query"));
 			break;
 
 		case $lng->txt("mail_cc_search"):
 			$_SESSION["mail_search"] = 'cc';
-			sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_insert_query"));
 			break;
 
 		case $lng->txt("mail_bc_search"):
 			$_SESSION["mail_search"] = 'bc';
-			sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_insert_query"));
 			break;
 
 		case $lng->txt("edit"):
@@ -82,17 +82,23 @@ if(isset($_POST["cmd"]))
 			header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
 			exit;
 
-		case $lng->txt("search"):
+		case $lng->txt("search_system"):
 			if(!empty($_POST["search"]))
 			{
 				$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 									 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
 									 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
-				header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"]));
+				header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=system");
 				exit();
 			}
-			sendInfo("Bitte geben Sie einen Suchbegriff ein.");
+			sendInfo($lng->txt("mail_insert_query"));
 			break;
+		case $lng->txt("search_addressbook"):
+			$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
+								 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
+								 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+			header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"])."&type=addr");
+			exit();
 	}
 }
 // BUTTONS
@@ -162,7 +168,8 @@ if($_POST["cmd"] == $lng->txt("mail_to_search") or
    $_POST["cmd"] == $lng->txt("search"))
 {
 	$tpl->setCurrentBlock("search");
-	$tpl->setVariable("BUTTON_SEARCH",$lng->txt("search"));
+	$tpl->setVariable("BUTTON_SEARCH_SYSTEM",$lng->txt("search_system"));
+	$tpl->setVariable("BUTTON_SEARCH_ADDRESSBOOK",$lng->txt("search_addressbook"));
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 }
 

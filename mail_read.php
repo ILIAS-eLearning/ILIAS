@@ -15,6 +15,7 @@ require_once "classes/class.Mail.php";
 
 //get the mail from user
 $umail = new Mail($_SESSION["AccountId"]);
+$umail->markRead(array($_GET["mail_id"]));
 
 $mail_data = $umail->getMail($_GET["mail_id"]);
 
@@ -22,11 +23,6 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.mail_read.html");
 
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
 
-
-if($_POST["cmd"])
-{
-	$umail->markRead(array($mail_id));
-}
 // DOWNLOAD FILE
 if($_POST["cmd"])
 {
@@ -67,6 +63,10 @@ $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail_print.php?mail_id=".$_GET["mail_id"]);
 $tplbtn->setVariable("BTN_TXT", $lng->txt("print"));
 $tplbtn->setVariable("BTN_TARGET","target=\"_blank\"");
+$tplbtn->parseCurrentBlock();
+$tplbtn->setCurrentBlock("btn_cell");
+$tplbtn->setVariable("BTN_LINK", "mail_addressbook.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]");
+$tplbtn->setVariable("BTN_TXT", $lng->txt("mail_add_to_addressbook"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]");
@@ -115,7 +115,7 @@ if($mail_data["attachments"])
 {
 	$tpl->setCurrentBlock("attachment");
 	$tpl->setCurrentBlock("a_row");
-	$counter = 0;
+	$counter = 1;
 	foreach($mail_data["attachments"] as $file)
 	{
 		$tpl->setVariable("A_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
@@ -123,7 +123,7 @@ if($mail_data["attachments"])
 		$tpl->setVariable("FILE_NAME",$file);
 		$tpl->parseCurrentBlock();
 	}
-	$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
+	$tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachments"));
 	$tpl->setVariable("TXT_DOWNLOAD",$lng->txt("download"));
 	$tpl->parseCurrentBlock();
 }
