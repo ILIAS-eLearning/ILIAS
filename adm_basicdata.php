@@ -1,12 +1,13 @@
 <?php
 /**
- * editor view
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
+* editor view
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+*
+* @package ilias
+*/
+require_once "./include/ilias_header.inc";
 include("./include/inc.main.php");
 
 $tpl = new Template("tpl.adm_basicdata.html", false, false);
@@ -14,7 +15,7 @@ $tpl = new Template("tpl.adm_basicdata.html", false, false);
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("basic_data"));
 
 //language things
-$tpl->setVariable("TXT_ILIAS_RELEASE", $lng->txt("ilias_version"));
+$tpl->setVariable("ILIAS_RELEASE", $lng->txt("ilias_version"));
 $tpl->setVariable("TXT_DB_VERSION", $lng->txt("db_version"));
 $tpl->setVariable("TXT_INST_ID", $lng->txt("installation_id"));
 $tpl->setVariable("TXT_HOSTNAME", $lng->txt("host"));
@@ -64,6 +65,8 @@ $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
 
 //values
+$tpl->setVariable("ILIAS_RELEASE", $ilias->getSettingsStr("ilias_version"));
+$tpl->setVariable("DB_VERSION", $ilias->getSettingsInt("db_version"));
 $tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"]));
 $tpl->setVariable("ABSOLUTE_PATH", dirname($_SERVER["SCRIPT_FILENAME"]));
 $tpl->setVariable("HOSTNAME", $_SERVER["SERVER_NAME"]);

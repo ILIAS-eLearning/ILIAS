@@ -1,16 +1,19 @@
 <?php
 /**
- * login script for ilias
- * @author Sascha Hofmann <shofmann@databay.de>
- * @author Peter Gabriel <pgabriel@databay.de>
- * @version $Id$
- * @package ilias-layout
- */
-include_once "include/ilias_header.inc";
+* login script for ilias
+* @author Sascha Hofmann <shofmann@databay.de>
+* @author Peter Gabriel <pgabriel@databay.de>
+*
+* @version $Id$
+* @package ilias-layout
+*/
+require_once "include/ilias_header.inc";
+
 //check for auth
 if ($ilias->auth->getAuth())
 {
 	header("location: start.php");
+	exit;
 }
 
 //instantiate login template
@@ -18,7 +21,10 @@ $tplContent = new Template("login.html", true, true);
 
 //language handling
 if ($lang == "")
+{
 	$lang = $ilias->ini->readVariable("language","default");
+}
+
 //instantiate language
 $lng = new Language($lang);
 $langs = $lng->getInstalledLanguages();
@@ -31,7 +37,7 @@ foreach ($langs as $row)
 	$tplContent->setVariable("LANG_IMG", "./lang/".$row["id"].".gif");
 	$tplContent->parseCurrentBlock();
 }
-
+$tplContent->setVariable("ILIAS_RELEASE", $ilias->getSettingsStr("ilias_version"));
 $tplContent->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 $tplContent->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tplContent->setVariable("TXT_PASSWORD", $lng->txt("password"));
@@ -54,6 +60,5 @@ else if (!empty ($ilias->auth->status) && $ilias->auth->status == AUTH_WRONG_LOG
 $tplContent->setVariable(PHP_SELF,$_SERVER['PHP_SELF']);
 $tplContent->setVariable(USERNAME,$username);
 
-include_once "include/ilias_footer.inc";
-
+require_once "include/ilias_footer.inc";
 ?>
