@@ -41,6 +41,22 @@
 class ilObjectFactory
 {
 	/**
+	* check if obj_id exists. To check for ref_ids use ilTree::isInTree()
+	*
+	* @param	int		$obj_id		object id
+	* @return	bool	
+	*/
+	function ObjectIdExists($a_obj_id)
+	{
+		$query = "SELECT * FROM object_data ".
+			"WHERE obj_id = '".$a_obj_id."'";
+
+		$res = $ilias->db->query($query);
+		
+		return $res->numRows() ? true : false;
+	}
+		
+	/**
 	* get an instance of an Ilias object by object id
 	*
 	* @param	int		$obj_id		object id
