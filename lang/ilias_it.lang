@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo

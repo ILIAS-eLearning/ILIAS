@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Geen bookmarken gedefiniëerd.
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#Geen keuze gemaakt!
 common#:#no_date#:#Geen datum
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
 common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
 common#:#no_import_available#:#Importeren niet mogelijk voor type

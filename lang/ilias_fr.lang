@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Pas de signets définis
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#Aucune case cochée
 common#:#no_date#:#Pas de date
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Pas de forums dans la liste personnelle
 common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type

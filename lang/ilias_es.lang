@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#No bookmarks defined.###29 Oct 2003 new variab
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date###25 Mar 2003 new variable
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#No forums in personal list.###19 Aug 2003 new variable
 common#:#no_grp_in_personal_list#:#No groups in personal list.###29 Oct 2003 new variable
 common#:#no_import_available#:#Import not available for type###18 Jun 2003 new variable

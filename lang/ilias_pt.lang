@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Nenhuns marcadores definidos.
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
 common#:#no_date#:#Nenhuma data
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
 common#:#no_import_available#:#Importação não disponível para o tipo

@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Жодної закладинки не виз�
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#Жодного чекбоксу не вибрано!
 common#:#no_date#:#Немає дати
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
 common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
 common#:#no_import_available#:#Імпорт не доступний для цього типу
