@@ -158,6 +158,8 @@ assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che fallisc
 assessment#:#ects_use_fx_grade_part2#:#percentuale dei punti totali.
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#error_open_java_file#:#Errore nell'apertura dell'applet java!
@@ -304,8 +306,11 @@ assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo tes
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
+assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_enter_questionpool#:#Per favore inserisci il nome della raccolta di domande nella quale verr&#224; inserita la domanda
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per utenti anonimi

@@ -158,6 +158,8 @@ assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgef
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#error_open_java_file#:#Feher beim Öffnen eines Java-Applets!
@@ -301,12 +303,14 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
-assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
+assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
+assessment#:#tst_delete_results#:#Test zurück setzen
 assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.

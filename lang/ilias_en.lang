@@ -158,6 +158,8 @@ assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reac
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
+assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
+assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
 assessment#:#error_open_java_file#:#Error opening an java applet!
@@ -304,13 +306,11 @@ assessment#:#tst_all_user_data_deleted#:#All user data of this test has been del
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
-assessment#:#tst_delete_results#:#Reset test
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? 
+assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
+assessment#:#tst_delete_results#:#Reset test
 assessment#:#tst_ending_time#:#Ending time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
