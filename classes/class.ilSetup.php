@@ -15,7 +15,7 @@ require_once "DB.php";
 * @access public
 * @version $Id$
 */
-class Setup
+class ilSetup
 {
 	/**
 	* ini file
@@ -101,7 +101,7 @@ class Setup
 	/**
 	* constructor
 	*/
-	function Setup()
+	function ilSetup()
 	{
 		$this->ini = new ilIniFile($this->INI_FILE);
 	}
@@ -815,7 +815,7 @@ class Setup
 	* 
 	* @return boolean
 	*/
-	function _Setup()
+	function _ilSetup()
 	{
 		if ($this->readVariable("db","type") != "")
 		{
@@ -823,5 +823,5 @@ class Setup
 		}
 		return true;
 	}
-} // END class.Setup
+} // END class.ilSetup
 ?>

@@ -13,7 +13,7 @@
 */
 //include classes - later in the program it will be done by ilias.header.inc
 require_once "include/inc.check_pear.php";
-require_once "classes/class.Setup.php";
+require_once "classes/class.ilSetup.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 require_once "HTML/IT.php";
@@ -35,7 +35,7 @@ umask(0117);
 $log = new ilLog("ilias.log");
 
 //instantiate setup-class
-$mySetup = new Setup();
+$mySetup = new ilSetup();
 
 session_start();
 
