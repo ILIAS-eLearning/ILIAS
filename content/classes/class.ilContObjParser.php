@@ -275,7 +275,7 @@ class ilContObjParser extends ilSaxParser
 					unset($page_object);
 				}
 				// eventually correct links in questions to learning modules
-				if ($type_arr[1] == "qst")
+				if ($type_arr[0] == "qst")
 				{
 					require_once "./assessment/classes/class.assQuestion.php";
 					ASS_Question::_resolveIntLinks($source["id"]);

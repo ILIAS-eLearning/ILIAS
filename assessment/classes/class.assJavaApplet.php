@@ -390,6 +390,19 @@ class ASS_JavaApplet extends ASS_Question
 								{
 									if (strcmp($childnode->get_attribute("label"), "suggested_solution") == 0)
 									{
+										$mattype = $childnode->first_child();
+										if (strcmp($mattype->node_name(), "mattext") == 0)
+										{
+											$suggested_solution = $mattype->get_content();
+											if ($suggested_solution)
+											{
+												if ($this->getId() < 1)
+												{
+													$this->saveToDb();
+												}
+												$this->setSuggestedSolution($suggested_solution, 0, true);
+											}
+										}
 									}
 									elseif (strcmp($childnode->node_name(), "mattext") == 0)
 									{
