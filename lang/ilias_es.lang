@@ -128,12 +128,12 @@ assessment#:#average_reached_points#:#Puntuación media alcanzada
 assessment#:#backtocallingtest#:#Volver al Test origen
 assessment#:#by#:#por
 assessment#:#cancel_test#:#Cancelar el test
-assessment#:#cannot_edit_test#:#¡No posee suficientes permisos para editar el test!
-assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###new variable
+assessment#:#cannot_edit_test#:#¡No posee permisos suficientes para editar el test!
+assessment#:#cannot_execute_test#:#¡No posee permisos suficientes para lanzar el test!
 assessment#:#cannot_export_qpl#:#¡No posee permisos suficientes para exportar el repositorio de preguntas!
 assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar el test!
-assessment#:#cannot_maintain_test#:#¡No tiene los permisos suficientes para mantener el test!
-assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###new variable
+assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!
+assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del repositorio de preguntas!
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
 assessment#:#change_solution#:#Modificar solución recomendada
 assessment#:#checkbox_checked#:#Caja marcada
@@ -764,7 +764,7 @@ common#:#assign_local_role#:#Asignar a rol local
 common#:#assign_user_to_role#:#Asignar usuario al rol
 common#:#assigned_roles#:#Roles asignados
 common#:#assigned_users#:#Usuarios asignados
-common#:#at_least_one_style#:#At least one style must remain activated.###new variable
+common#:#at_least_one_style#:#Al menos un estilo debe quedar activado.
 common#:#at_location#:#-at location-
 common#:#attachment#:#Fichero Adjunto
 common#:#attachments#:#Ficheros Adjuntos
@@ -820,9 +820,9 @@ common#:#cannot_find_xml#:#No se puede encontrar ningun fichero XML
 common#:#cannot_uninstall_language_in_use#:#No puedes desinstalar el idioma actualment en uso!
 common#:#cannot_uninstall_systemlanguage#:#No puedes desinstalar el idioma del sistema!
 common#:#cannot_unzip_file#:#No se pudo descomprimir el fichero
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###new variable
-common#:#cat#:#cat
-common#:#cat_a#:#-una categoria-
+common#:#cant_deactivate_if_users_assigned#:#No puede desactivar un estilo si exiten usuarios asignados al mismo.
+common#:#cat#:#Categoría
+common#:#cat_a#:#una categoria
 common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoria añadida
 common#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
@@ -847,7 +847,7 @@ common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_create_url#:#Crear URL
-common#:#cat_create_webr#:#Create new Web Resource###new variable
+common#:#cat_create_webr#:#Crear nuevo Recurso Web
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -903,8 +903,8 @@ common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los mó
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
 common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
-common#:#check_web_resources#:#Check Web Resources###new variable
-common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active.###new variable
+common#:#check_web_resources#:#Comprobar Enlaces a Recursos Web
+common#:#check_web_resources_desc#:#Si se activa todos los Recursos Web serán comprobados
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
@@ -917,7 +917,7 @@ common#:#cleaning_failed#:#La limpieza falló.
 common#:#clear#:#-clear-
 common#:#clear_clipboard#:#Vaciar portapapeles.
 common#:#client ip#:#Ip Cliente
-common#:#client#:#Client###new variable
+common#:#client#:#Cliente
 common#:#client_id#:#ID de Cliente
 common#:#client_ip#:#Ip Cliente
 common#:#clipboard#:#Portapapeles
@@ -929,8 +929,8 @@ common#:#condition#:#Condición
 common#:#condition_already_assigned#:#Objeto ya asignado
 common#:#condition_circle_created#:#Esta asociación no es posible, ya que los objetos tendrían una dependencia cruzada.
 common#:#condition_deleted#:#Condición eliminada
-common#:#condition_finished#:#Finished###new variable
-common#:#condition_not_finished#:#Not finished###new variable
+common#:#condition_finished#:#Finalizada
+common#:#condition_not_finished#:#No finalizada
 common#:#condition_passed#:#Superado
 common#:#condition_precondition#:#Precondiciones
 common#:#condition_select_object#:#Por favor seleccione un objeto.
@@ -939,11 +939,11 @@ common#:#condition_update#:#Grabar
 common#:#conditions_updated#:#Condiciones grabadas
 common#:#confirm#:#confirmar
 common#:#confirmation#:#Confirmación
-common#:#conflict_handling#:#Conflict handling###new variable
+common#:#conflict_handling#:#Resolución de conflictos
 common#:#cont_object#:#Objeto
 common#:#contact_data#:#Información de Contacto
 common#:#container#:#Contenedor
-common#:#content_styles#:#Content Styles###new variable
+common#:#content_styles#:#Estilos de Contenido
 common#:#context#:#contexto
 common#:#continue_work#:#Continuar
 common#:#copied_object#:#Objeto copiado
@@ -959,14 +959,14 @@ common#:#create#:#create
 common#:#create_date#:#Creado el
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
-common#:#created#:#Create date###new variable
+common#:#created#:#Crear fecha
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
-common#:#crs#:#crs
+common#:#crs#:#Curso
 common#:#crs_a#:#un Curso
 common#:#crs_add#:#Añadir Curso
 common#:#crs_added#:#Curso Añadido
-common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.###new variable
+common#:#crs_all_questions_answered_successfully#:#Ha respondido satisfactoriamente cada pregunta.
 common#:#crs_archives#:#Archivos
 common#:#crs_at_least_one_admin#:#Debe haber al menos un administrador de curso.
 common#:#crs_available#:#Curso disponible
@@ -990,7 +990,7 @@ common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#crs_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#crs_create_svy#:#Crear Encuesta
 common#:#crs_create_tst#:#Crear Test
-common#:#crs_create_webr#:#Create new Web Resource###new variable
+common#:#crs_create_webr#:#Crear nuevo Recurso Web
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_permission#:#Modificar configuración de Permisos
@@ -1012,7 +1012,7 @@ common#:#cur_number_rec#:#Número actual de registros
 common#:#current_password#:#contraseña actual
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
-common#:#daily#:#daily###new variable
+common#:#daily#:#diariamente
 common#:#database#:#Base de Datos
 common#:#database_version#:#versión actual de la base de datos
 common#:#dataset#:#Conjunto de Datos
@@ -1039,7 +1039,7 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
-common#:#def_repository_view#:#Default repository view###new variable
+common#:#def_repository_view#:#Vista de contenidos por defecto
 common#:#default#:#por defecto
 common#:#default_language#:#Idioma por defecto
 common#:#default_perm_settings#:#Permisos por defecto
@@ -1061,10 +1061,10 @@ common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
 common#:#desired_password#:#contraseña deseada
-common#:#desktop_items#:#Personal desktop items###new variable
-common#:#details#:#Details###new variable
+common#:#desktop_items#:#Items del Escritorio Personal
+common#:#details#:#Detalles
 common#:#disable#:#deshabilitar
-common#:#disable_check#:#Disable check###new variable
+common#:#disable_check#:#Deshabilitar comprobación
 common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
 common#:#down#:#-Abajo-
@@ -1073,7 +1073,7 @@ common#:#download_all_returned_files#:#Descargar todos los ficheros -devueltos-.
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
-common#:#edit_content#:#Edit content###new variable
+common#:#edit_content#:#Editar contenido
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
@@ -1233,7 +1233,7 @@ common#:#forum_notify_me#:#Notificarme cuando se envíe una respuesta
 common#:#forum_post_replied#:#Tu envío al foro ha sido respondido
 common#:#forums#:#Foros
 common#:#forums_overview#:#Resumen de Foros
-common#:#frm#:#frm
+common#:#frm#:#Foro de Debate
 common#:#frm_a#:#un Foro
 common#:#frm_add#:#Añadir Foro
 common#:#frm_added#:#Foro añadido
@@ -1313,7 +1313,7 @@ common#:#group_status_desc#:#Determina el estado inicial del grupo usando la con
 common#:#group_status_public#:#Público
 common#:#groups#:#grupos
 common#:#groups_overview#:#Resumen de grupos
-common#:#grp#:#grp
+common#:#grp#:#Grupo
 common#:#grp_a#:#un Grupo
 common#:#grp_add#:#Añadir Grupo
 common#:#grp_add_member#:#Añadir miembro(s)
@@ -1340,7 +1340,7 @@ common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 common#:#grp_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#grp_create_svy#:#Crear Encuesta
 common#:#grp_create_tst#:#Crear Test
-common#:#grp_create_webr#:#Create new Web Resource###new variable
+common#:#grp_create_webr#:#Crear nuevo Recurso Web
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
@@ -1396,9 +1396,9 @@ common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
 common#:#hist_lm:pg_update#:#Página modificada
 common#:#hist_no_entries#:#No hay entradas en la historia.
-common#:#hist_webr_add#:#Added new Web Resource with title: "%1"###new variable
-common#:#hist_webr_delete#:#Deleted Web Resource. Title: "%1"###new variable
-common#:#hist_webr_update#:#Update Web Resource. Title: "%1"###new variable
+common#:#hist_webr_add#:#Añadido nuevo Recurso Web con el título: "%1"
+common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
+common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -1447,7 +1447,7 @@ common#:#id#:#ID
 common#:#identifier#:#identificador
 common#:#if_no_title_then_filename#:#Dejar en blanco para mostrar el nombre de fichero
 common#:#if_no_title_then_url#:#Dejar en blanco para mostrar la URL
-common#:#ignore_on_conflict#:#Ignore on conflict###new variable
+common#:#ignore_on_conflict#:#Ignorar si ocurre un conflicto
 common#:#ilias_version#:#version de ILIAS
 common#:#ilinc_classrooms#:#iLinc Classrooms###new variable
 common#:#ilinc_courses#:#iLinc Courses###new variable
@@ -1457,7 +1457,7 @@ common#:#import#:#importar
 common#:#import_alm#:#Importar paquete  AICC
 common#:#import_categories#:#Importar Categorías
 common#:#import_dbk#:#Importar Libro Digital
-common#:#import_failure_log#:#Import failure log###new variable
+common#:#import_failure_log#:#Fichero de log de fallos en la importación
 common#:#import_file#:#Importar Fichero
 common#:#import_file_not_valid#:#La importación del fichero no es válida
 common#:#import_finished#:#Número de mensajes importados
@@ -1560,8 +1560,8 @@ common#:#languages#:#idiomas
 common#:#languages_already_installed#:#Extraño. Idioma(s) elegido(s) están ya instalados.
 common#:#languages_already_uninstalled#:#Extraño. Idioma(s) elegido(s) ya están desinstalados.
 common#:#languages_updated#:#Todos los idiomas instalados han sido actualizados.
-common#:#last_access#:#Last access:###new variable
-common#:#last_change#:#último cambio
+common#:#last_access#:#Última acceso:
+common#:#last_change#:#última modificación
 common#:#last_update#:#Última Actualización
 common#:#last_visit#:#Última visita
 common#:#lastname#:#apellido
@@ -1698,7 +1698,7 @@ common#:#mep_delete#:#Eliminar Depósito Multimedia
 common#:#mep_edit#:#Editar propiedades de Depósito Multimedia
 common#:#mep_edit_permission#:#Modificar configuración de permisos
 common#:#mep_new#:#Nuevo Depósito Multimedia
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###new variable
+common#:#mep_not_insert_already_exist#:#Los siguientes items no han sido insertados porque ya están en el repositorio multimedia:
 common#:#mep_read#:#Leer contenido del Depósito Multimedia
 common#:#mep_visible#:#Nuevo Depósito Multimedia visible
 common#:#mep_write#:#Editar contenido del Depósito Multimedia
@@ -1738,12 +1738,12 @@ common#:#month_11_long#:#Noviembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Diciembre
 common#:#month_12_short#:#Dic
-common#:#monthly#:#monthly###new variable
+common#:#monthly#:#mensualmente
 common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
 common#:#move_to#:#mover a
-common#:#move_users_to_style#:#Move users to style###new variable
+common#:#move_users_to_style#:#Asignar usuarios al estilo
 common#:#msg_cancel#:#Acción cancelada
 common#:#msg_changes_ok#:#las modificaciones fueron correctamente realizadas
 common#:#msg_clear_clipboard#:#Portapapeles limpiado
@@ -1787,7 +1787,7 @@ common#:#msg_no_perm_modify_rolt#:#No tiene permiso para modificar plantillas de
 common#:#msg_no_perm_modify_user#:#No tiene permiso para modificar datos de usuario
 common#:#msg_no_perm_paste#:#No tiene permiso para pegar el siguiente objeto(s):
 common#:#msg_no_perm_perm#:#No tiene permiso para editar la configuración de permisos
-common#:#msg_no_perm_read#:#You have no permission to access this item.###new variable
+common#:#msg_no_perm_read#:#No tiene permiso para acceder a este item.
 common#:#msg_no_perm_read_lm#:#No tiene permisos para leer este módulo de aprendizaje
 common#:#msg_no_perm_read_track#:#No tiene permisos para acceder a los datos de seguimiento.
 common#:#msg_no_perm_undelete#:#No tiene permiso para restaurar el siguiente objeto(s):
@@ -1832,7 +1832,7 @@ common#:#my_grps#:#Mis Grupos
 common#:#my_los#:#Mis Objetos de Aprendizaje
 common#:#my_tsts#:#Mis Tests
 common#:#name#:#nombre
-common#:#never#:#never###new variable
+common#:#never#:#nunca
 common#:#new#:#nuevo
 common#:#new_appointment#:#Nueva Cita
 common#:#new_folder#:#nueva carpeta
@@ -1844,8 +1844,8 @@ common#:#news#:#noticias
 common#:#next#:#siguiente
 common#:#nickname#:#apodo
 common#:#no#:#no
-common#:#no_access_item#:#You have no permission to access this item.###new variable
-common#:#no_access_item_public#:#This item cannot be accessed in the public section.###new variable
+common#:#no_access_item#:#No tiene permiso para acceder a este item.
+common#:#no_access_item_public#:#Este item no puede ser accedido en la sección pública.
 common#:#no_access_link_object#:#No tiene permisos para enlazar este objeto
 common#:#no_bm_in_personal_list#:#No hay marcadores definidos.
 common#:#no_chat_in_personal_list#:#No hay chats en la lista personal
@@ -1857,7 +1857,7 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
-common#:#no_import_file_found#:#No import file found###new variable
+common#:#no_import_file_found#:#No se encontró el fichero de importación
 common#:#no_invalid_links#:#No se encontraron enlaces inválidos.
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
@@ -1878,7 +1878,7 @@ common#:#not_accessed#:#Not accessed###new variable
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
-common#:#num_users#:#Number of users###new variable
+common#:#num_users#:#Número de usuarios
 common#:#number_of_accesses#:#Número de accesos
 common#:#number_of_records#:#Número de registros
 common#:#obj#:#obj
@@ -1938,8 +1938,8 @@ common#:#obj_root#:#root
 common#:#obj_sahs#:#Módulo de aprendizaje SCORM/AICC
 common#:#obj_spl#:#Repositorio de Preguntas (Encuesta)
 common#:#obj_st#:#Capítulo
-common#:#obj_stys#:#Style Settings ###new variable
-common#:#obj_stys_desc#:#Manage system skin and style settings here###new variable
+common#:#obj_stys#:#Configuración de Estilo
+common#:#obj_stys_desc#:#Gestionar 'skin' del sistema y configuración de estilos
 common#:#obj_svy#:#Encuesta
 common#:#obj_tax#:#Taxonomía
 common#:#obj_taxf#:#Taxonomías
@@ -1954,7 +1954,7 @@ common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
 common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
-common#:#obj_webr#:#Web Resource###new variable
+common#:#obj_webr#:#Recurso Web
 common#:#object#:#Objeto
 common#:#object_added#:#Objeto añadido
 common#:#objects#:#objetos
@@ -1998,7 +1998,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#tipo de Objeto
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Usuarios
-common#:#objs_webr#:#Web Resources###new variable
+common#:#objs_webr#:#Recursos Web
 common#:#of#:#de
 common#:#offline#:#offline
 common#:#offline_version#:#versión offline
@@ -2088,7 +2088,7 @@ common#:#publication#:#publicación
 common#:#publication_date#:#fecha de publicación
 common#:#published#:#publicado
 common#:#publishing_organisation#:#organización de publicación
-common#:#purpose#:#Purpose###new variable
+common#:#purpose#:#Propósito
 common#:#qpl#:#Repositorio de preguntas
 common#:#qpl_add#:#Añadir repositorio de preguntas
 common#:#qpl_delete#:#Eliminar repositorio de preguntas
@@ -2171,15 +2171,15 @@ common#:#role_add#:#Añadir Rol
 common#:#role_add_local#:#Añadir rol local
 common#:#role_add_user#:#Añadir Usuario(s) al rol
 common#:#role_added#:#Rol añadido
-common#:#role_assigned_desk_items#:#Assigned desktop items###new variable
-common#:#role_assigned_desktop_item#:#Created new assignment.###new variable
+common#:#role_assigned_desk_items#:#Items de Escritorio Personal asignados
+common#:#role_assigned_desktop_item#:#Nueva asignación creada.
 common#:#role_assignment#:#Asignación de Rol
 common#:#role_assignment_updated#:#Asignación de roles actualizada.
 common#:#role_count_users#:#Número de usuarios
 common#:#role_deleted#:#Rol eliminado
-common#:#role_deleted_desktop_items#:#Deleted assignment.###new variable
-common#:#role_desk_add#:#Assign desktop item###new variable
-common#:#role_desk_none_created#:#No desktop items assigned to this role.###new variable
+common#:#role_deleted_desktop_items#:#Asignación eliminada.
+common#:#role_desk_add#:#Añadir item al Escritorio Personal
+common#:#role_desk_none_created#:#Este rol no tiene asignado ningun item en el Escritorio Personal
 common#:#role_edit#:#Editar Rol
 common#:#role_header_edit_users#:#Modificar asignación de usuarios
 common#:#role_list_users#:#Listar usuarios
@@ -2188,12 +2188,12 @@ common#:#role_new_search#:#Nueva búsqueda
 common#:#role_no_groups_selected#:#Por favor seleccione un grupo
 common#:#role_no_results_found#:#No se encontraron resultados
 common#:#role_no_roles_selected#:#Por favor seleccione un rol
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###new variable
+common#:#role_no_users_no_desk_items#:#No es posible asignar items al Escritorio Personal, ya que no tiene permiso para asignar usuarios a este rol
 common#:#role_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
 common#:#role_search_users#:#Búsqueda de usuarios
-common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###new variable
-common#:#role_select_one_item#:#Please select one object.###new variable
-common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###new variable
+common#:#role_select_desktop_item#:#Por favor seleccione un item que será asignado al Escritorio Personal de este rol
+common#:#role_select_one_item#:#Por favor seleccione un item.
+common#:#role_sure_delete_desk_items#:#¿Está seguro de que quiere eliminar los siguientes items del Escritorio Personal?
 common#:#role_templates_only#:#Sólo plantillas de rol
 common#:#role_user_deassign#:#Desasignar usuario del rol
 common#:#role_user_edit#:#Editar datos de la cuenta
@@ -2259,7 +2259,7 @@ common#:#sections#:#secciones
 common#:#select#:#Seleccionar
 common#:#select_all#:#seleccionar todo
 common#:#select_file#:#Seleccionar fichero
-common#:#select_max_one_item#:#Please select one item only###new variable
+common#:#select_max_one_item#:#Por favor seleccione únicamente un item 
 common#:#select_mode#:#Seleccionar modo
 common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
@@ -2317,12 +2317,12 @@ common#:#step#:#step
 common#:#stop_inheritance#:#Parar Herencia
 common#:#street#:#calle
 common#:#structure#:#estructura
-common#:#sty#:#Style###new variable
-common#:#style_activation#:#Style Activation###new variable
-common#:#stys_edit_permission#:#Change permission settings###new variable
-common#:#stys_read#:#Read access to style settings###new variable
-common#:#stys_visible#:#Style settings are visible###new variable
-common#:#stys_write#:#Edit style settings###new variable
+common#:#sty#:#Estilo
+common#:#style_activation#:#Activación de Estlo
+common#:#stys_edit_permission#:#Modificar configuración de permisos
+common#:#stys_read#:#Acceso de Lectura a configuración de estilo
+common#:#stys_visible#:#Configuración de estilo visible
+common#:#stys_write#:#Editar configuración de estilo
 common#:#subcat_name#:#nombre de subcategoría
 common#:#subchapter_new#:#nuevo subcapítulo
 common#:#subject#:#asunto
@@ -2338,7 +2338,7 @@ common#:#svy_delete#:#Eliminar encuesta
 common#:#svy_edit_permission#:#Modificar configuración de permisos
 common#:#svy_invite#:#Invitar usuarios a encuesta
 common#:#svy_new#:#Nueva encuesta
-common#:#svy_no_content#:#No surveys available###new variable
+common#:#svy_no_content#:#No hay encuestas disponibles
 common#:#svy_participate#:#Participar en encuesta
 common#:#svy_read#:#Acceso de lectura a la encuesta
 common#:#svy_upload_file#:#Cargar fichero
@@ -2352,9 +2352,9 @@ common#:#system_grp#:#grupo de sistema
 common#:#system_information#:#Información de Sistema
 common#:#system_language#:#idioma de sistema
 common#:#system_message#:#mensaje de sistema
-common#:#system_style_settings#:#System Style Settings###new variable
+common#:#system_style_settings#:#Configuración de Estilos del Sistema
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
-common#:#target#:#Target###new variable
+common#:#target#:#Destino
 common#:#tax#:#Taxonomía
 common#:#tax_add#:#Añadir Taxonomía
 common#:#tax_delete#:#Eliminar taxonomías
@@ -2412,7 +2412,7 @@ common#:#tst_add#:#Añadir Test
 common#:#tst_delete#:#Eliminar Test
 common#:#tst_edit_permission#:#Modificar configuración permisos
 common#:#tst_new#:#Nuevo test
-common#:#tst_no_content#:#No tests available###new variable
+common#:#tst_no_content#:#No hay tests disponibles
 common#:#tst_read#:#Acceso de Lectura al Test
 common#:#tst_upload_file#:#Cargar fichero
 common#:#tst_visible#:#Test visible
@@ -2435,10 +2435,10 @@ common#:#unselected#:#Deseleccionado
 common#:#unsubscribe#:#dar de baja
 common#:#unzip#:#Descomprimir
 common#:#up#:#Arriba
-common#:#update#:#Edit###new variable
+common#:#update#:#Editar
 common#:#update_applied#:#actualización realizada
 common#:#update_language#:#actualizar idioma
-common#:#update_on_conflict#:#Update on conflict###new variable
+common#:#update_on_conflict#:#Actualizar si hay conflicto
 common#:#upload#:#Cargar
 common#:#upload_error_file_not_found#:#Error al cargar: fichero no encontrado
 common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede comenzar a importarlo.
@@ -2464,9 +2464,9 @@ common#:#user_cant_receive_mail#:#el usuario no tiene permiso para usar el siste
 common#:#user_comment#:#comentario de Usuario
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
-common#:#user_import_failed#:#User import failed.###new variable
+common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
-common#:#user_imported_with_warnings#:#User import complete with warnings.###new variable
+common#:#user_imported_with_warnings#:#La importación de usuarios se completó con 'warnings'.
 common#:#user_language#:#Idioma de Usuario
 common#:#user_not_chosen#:#No escogió un miembro de grupo!
 common#:#user_profile_other#:#Otra Información
@@ -2479,14 +2479,12 @@ common#:#users_online#:#Usuarios conectados
 common#:#usertracking#:#Seguimiento de usuarios
 common#:#usr#:#usuario
 common#:#usr_a#:#un Usuario
-common#:#usr_active_only#:#Active Users only###new variable
 common#:#usr_add#:#Añadir Usuario
 common#:#usr_added#:#Usuario añadido
 common#:#usr_agreement#:#acuerdo de usuario
 common#:#usr_agreement_empty#:#El acuerdo de usuario no contiene texto.
 common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#items/página en tablas
-common#:#usr_inactive_only#:#Inactive Users only###new variable
 common#:#usr_new#:#Nuevo Usuario
 common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario
@@ -2494,77 +2492,79 @@ common#:#usr_settings_header_profile_profile#:#Configuración de perfil personal
 common#:#usr_settings_saved#:#¡Configuración de usuario global salvada con éxito!
 common#:#usr_skin_style#:#Tema / Estilo
 common#:#usr_style#:#estilo de usuario
+common#:#usr_active_only#:#Sólo Usuarios Activos
+common#:#usr_inactive_only#:#Sólo Usuarios Inactivos
 common#:#usrf#:#Cuentas de usuario
 common#:#usrf_create_user#:#Crear nueva cuenta de usuario
 common#:#usrf_delete#:#Eliminar cuentas de usuario
 common#:#usrf_edit_permission#:#Modificar configuración de permisos
 common#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###new variable
+common#:#usrf_push_desktop_items#:#Permite añadir items en el escritorio personal.
 common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario
 common#:#usrf_read_users#:#Asignación de rol para administradores locales
 common#:#usrf_visible#:#Cuentas de usuario visibles
 common#:#usrf_write#:#Editar cuentas de usuario
-common#:#usrimport_action_failed#:#Action %1$s failed.###new variable
-common#:#usrimport_action_ignored#:#Ignored action %1$s.###new variable
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###new variable
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###new variable
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###new variable
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###new variable
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###new variable
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###new variable
-common#:#usrimport_login_is_not_unique#:#Login is not unique.###new variable
-common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###new variable
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###new variable
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###new variable
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###new variable
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###new variable
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###new variable
-common#:#valid#:#Valid###new variable
+common#:#usrimport_action_failed#:#Acción %1$s falló
+common#:#usrimport_action_ignored#:#Acción %1$s ignorada
+common#:#usrimport_action_replaced#:#Acción %1$s reemplazada por %2$s
+common#:#usrimport_cant_delete#:#No se puede realizar la acción "Delete". No existe el usuario en la base de datos.
+common#:#usrimport_cant_insert#:#No se puede realizar la acción "Insert. El usuario ya existe en la base de datos.
+common#:#usrimport_cant_update#:#No se puede realizar la acción "Update". No existe el usuario en la base de datos.
+common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora una acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\nCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
+common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción "%1$s".
+common#:#usrimport_login_is_not_unique#:#El Login no es único.
+common#:#usrimport_with_specified_role_not_permitted#:#La Importación con el rol especificado no permitida.
+common#:#usrimport_xml_attribute_missing#:#Atributo "%2$s" en el elemento "%1$s" no existe.
+common#:#usrimport_xml_attribute_value_illegal#:#Valor "%3$s" del atributo "%2$s" en el elemento "%1$s" es ilegal
+common#:#usrimport_xml_attribute_value_inapplicable#:#Valor "%3$s" del atributo "%2$s" en el elemento "%1$s" no es aplicable para la acción "%4$s" 
+common#:#usrimport_xml_element_content_illegal#:#El Contenido "%2$s" del elemento "%1$s" es ilegal
+common#:#usrimport_xml_element_for_action_required#:#Elemento "%1$s" debe ser especificado para la acción "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#Elemento "%1$s" no aplicable para la acción "%2$s".
+common#:#valid#:#Válido
 common#:#validate#:#Validar
 common#:#value#:#valor
 common#:#vcard#:#Tarjeta de visita
 common#:#vcard_download#:#Descargar tarjeta de visita
 common#:#vendors#:#Proveedores
-common#:#verification_failed#:#Verification failed###new variable
-common#:#verification_failure_log#:#Verification failure log###new variable
-common#:#verification_log#:#Verification log###new variable
-common#:#verification_warning_log#:#Verification warning log###new variable
+common#:#verification_failed#:#La verificación falló
+common#:#verification_failure_log#:#Log de fallo Verificación 
+common#:#verification_log#:#Log de Verificación
+common#:#verification_warning_log#:#Log de 'warning' en Verificación
 common#:#version#:#versión
 common#:#versions#:#Versiones
 common#:#view#:#-Ver-
 common#:#view_content#:#ver contenido
 common#:#visible_layers#:#capas visibles
 common#:#visits#:#visitas
-common#:#web_resources#:#Web Resources###new variable
-common#:#webr#:#Web Resource###new variable
-common#:#webr_active#:#Active###new variable
-common#:#webr_add#:#Add Web Resource###new variable
-common#:#webr_add_item#:#Add Web Resource###new variable
-common#:#webr_delete#:#Delete Web Resource###new variable
-common#:#webr_delete_items#:#Delete Web Resource(s)
-common#:#webr_deleted_items#:#Deleted Web Resource(s).
-common#:#webr_disable_check#:#Disable check ###new variable
-common#:#webr_edit#:#Edit Web Resource###new variable
-common#:#webr_edit_item#:#Edit Web Resource###new variable
-common#:#webr_edit_permission#:#Change permission settings###new variable
-common#:#webr_fillout_all#:#Please fill out all required fields.###new variable
-common#:#webr_item_updated#:#Saved modifications###new variable
-common#:#webr_join#:#Subscribe Web Resource###new variable
-common#:#webr_last_check#:#Last check###new variable
-common#:#webr_last_check_table#:#Last check:###new variable
-common#:#webr_leave#:#Unsubscribe Web Resource###new variable
-common#:#webr_modified_items#:#Saved modifications.###new variable
-common#:#webr_never_checked#:#Never checked###new variable
-common#:#webr_new#:#Add new Web Resource###new variable
-common#:#webr_no_items_created#:#No Web Resources created###new variable
-common#:#webr_read#:#Read access to Web Resource###new variable
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_visible#:#Web Resource is visible###new variable
-common#:#webr_write#:#Edit Web Resource###new variable
+common#:#web_resources#:#Recursos Web
+common#:#webr#:#Recurso Web
+common#:#webr_active#:#Activo
+common#:#webr_add#:#Añadir Recurso Web
+common#:#webr_add_item#:#Añadir Recurso Web
+common#:#webr_delete#:#Eliminar Recurso Web
+common#:#webr_delete_items#:#Eliminar Recurso(s) Web
+common#:#webr_deleted_items#:#Recurso(s) Web Eliminado(s).
+common#:#webr_disable_check#:#Deshabilitar comprobación
+common#:#webr_edit#:#Editar Recurso Web
+common#:#webr_edit_item#:#Editar Recurso Web
+common#:#webr_edit_permission#:#Modificar configuración de permisos
+common#:#webr_fillout_all#:#Por favor rellene todos los campos requeridos
+common#:#webr_item_updated#:#Modificaciones guardadas
+common#:#webr_join#:#Suscribirse a Recurso Web
+common#:#webr_last_check#:#Última Comprobación
+common#:#webr_last_check_table#:#Última comprobación:
+common#:#webr_leave#:#Darse de baja en Recurso Web
+common#:#webr_modified_items#:#Modificaciones guardadas
+common#:#webr_never_checked#:#Nunca comprobado
+common#:#webr_new#:#Añadir nuevo Recurso Web
+common#:#webr_no_items_created#:#No se han creado Recursos Web
+common#:#webr_read#:#Acceso de Lectura a Recurso Web
+common#:#webr_sure_delete_items#:#Realmente quiere eliminar el/los siguiente(s) Recurso(s) Web?
+common#:#webr_visible#:#El Recurso Web visible
+common#:#webr_write#:#Editar Recurso Web
 common#:#webservices#:#Servicios Web (SOAP)
 common#:#week#:#Semana
-common#:#weekly#:#weekly###new variable
+common#:#weekly#:#semanalmente
 common#:#welcome#:#Bienvenido
 common#:#who_is_online#:#Who's online?
 common#:#with#:#con
@@ -2659,11 +2659,11 @@ content#:#cont_contents#:#Contenidos
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_object#:#copiar objeto
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
-content#:#cont_copy_to_media_pool#:#Copy to media pool###new variable
+content#:#cont_copy_to_media_pool#:#Copiar a repositorio multimedia
 content#:#cont_create_dir#:#Crear Directorio
 content#:#cont_create_export_file#:#Crear Fichero de Exportación
 content#:#cont_create_export_file_html#:#Crear Fichero de Exportación (HTML)
-content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###new variable
+content#:#cont_create_export_file_scorm#:#Crear Fichero de Exportación (SCORM)
 content#:#cont_create_export_file_xml#:#Crear Fichero de Exportación (XML)
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_html_version#:#Crear Paquete HTML
@@ -2847,12 +2847,12 @@ content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
 content#:#cont_page_header#:#Cabecera de Página
-content#:#cont_page_link#:#Page Link###new variable
+content#:#cont_page_link#:#Enlace a Página
 content#:#cont_page_select_target_now#:#Página marcada para mover. A continuación seleccione destino.
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parámetro
 content#:#cont_parameters#:#Parámetros
-content#:#cont_paste_from_clipboard#:#Paste from clipboard###new variable
+content#:#cont_paste_from_clipboard#:#Pegar desde portapapeles
 content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
@@ -2865,7 +2865,7 @@ content#:#cont_public_access#:#Acceso público
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
-content#:#cont_ref_images#:#Referenced Images###new variable
+content#:#cont_ref_images#:#Imágenes referenciadas
 content#:#cont_reference#:#Referencia
 content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
@@ -2873,9 +2873,9 @@ content#:#cont_repository_item#:#Repository Item###new variable
 content#:#cont_repository_item_links#:#Repository Item Links###new variable
 content#:#cont_reset_definitions#:#Resetear posiciones de definición
 content#:#cont_reset_pictures#:#Resetear posiciones de imagen
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###new variable
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###new variable
-content#:#cont_resize_image#:#Resize images###new variable
+content#:#cont_resize_explanation#:#Si se activa esta opción las imágenes cargadas se redimensionan automáticamente a la anchura y altura especificadas.
+content#:#cont_resize_explanation2#:#Esta función redimensiona imágenes locales a la anchura y altura especificadas.
+content#:#cont_resize_image#:#Redimensionar Imágenes
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
@@ -2936,7 +2936,7 @@ content#:#cont_status#:#Estado
 content#:#cont_std_is_in_dir#:#Eliminación no posible. El fichero de vista estándar está en el directorio.
 content#:#cont_std_view#:#Vista estándar
 content#:#cont_structure#:#estructura
-content#:#cont_style#:#Style###new variable
+content#:#cont_style#:#Estilo
 content#:#cont_subchapters#:#Subcapítulos
 content#:#cont_table#:#Tabla
 content#:#cont_table_border#:#Borde de Tabla
@@ -2997,7 +2997,7 @@ content#:#selected_pages_only#:#sólo esas páginas seleccionadas debajo
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
-crs#:#assigned#:#Assigned###new variable
+crs#:#assigned#:#Asignado
 crs#:#crs_accept_subscriber#:#Suscripción de Curso
 crs#:#crs_accept_subscriber_body#:#Has sido asignado a este curso
 crs#:#crs_access_password#:#Contraseña
@@ -3008,19 +3008,19 @@ crs#:#crs_add_grouping#:#Add course grouping###new variable
 crs#:#crs_add_grp_assignment#:#Assign course(s)###new variable
 crs#:#crs_add_html_archive#:#Añadir Archivo-HTML
 crs#:#crs_add_member#:#Añadir miembros
-crs#:#crs_add_objective#:#Add objective###new variable
-crs#:#crs_add_starter#:#Add start object###new variable
+crs#:#crs_add_objective#:#Añadir objetivo
+crs#:#crs_add_starter#:#Añadir objeto inicial
 crs#:#crs_add_subscribers#:#Añadir suscriptores
 crs#:#crs_added#:#Añadido nuevo curso
 crs#:#crs_added_member#:#Pertenencia al Curso
 crs#:#crs_added_member_body#:#Ha sido aceptado en este curso.
 crs#:#crs_added_new_archive#:#Un nuevo archivo ha sido añadido
-crs#:#crs_added_objective#:#A new learning objective has been created.###new variable
-crs#:#crs_added_starters#:#Assigned start object(s).###new variable
+crs#:#crs_added_objective#:#Se ha creado un nuevo objetivo de aprendizaje.
+crs#:#crs_added_starters#:#objeto(s) inicial(es) asignado(s)
 crs#:#crs_admin#:#Administrador
 crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificacion)
-crs#:#crs_allow_abo#:#Allow subscription of course items###new variable
+crs#:#crs_allow_abo#:#Permitir suscripción de los items del curso
 crs#:#crs_archive#:#Archivos
 crs#:#crs_archive_disabled#:#Deshabilitado
 crs#:#crs_archive_download#:#Descargar
@@ -3036,8 +3036,8 @@ crs#:#crs_blocked_member#:#Pertenencia al Curso
 crs#:#crs_blocked_member_body#:#Tu pertenencia ha finalizado
 crs#:#crs_cancel_subscription#:#Cancelar suscripción al curso
 crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso
-crs#:#crs_change_status#:#Changes status of objective:###new variable
-crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###new variable
+crs#:#crs_change_status#:#Modificar estado del objetivo:
+crs#:#crs_chapter_already_assigned#:#Estos capítulos ya están asignados
 crs#:#crs_contact#:#Contacto
 crs#:#crs_contact_consultation#:#Consultoría
 crs#:#crs_contact_email#:#Email
@@ -3047,27 +3047,27 @@ crs#:#crs_contact_responsibility#:#Responsabilidad
 crs#:#crs_content#:#Contenido del Curso
 crs#:#crs_copy_cat_not_allowed#:#No es posible copiar categorías
 crs#:#crs_count_members#:#Número de miembros
-crs#:#crs_count_questions#:#Number of questions###new variable
+crs#:#crs_count_questions#:#Número de preguntas
 crs#:#crs_create_date#:#Crear fecha
-crs#:#crs_crs_structure#:#Course structure###new variable
+crs#:#crs_crs_structure#:#Estructura de Curso
 crs#:#crs_dates#:#Fechas
-crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###new variable
+crs#:#crs_deassign_lm_sure#:#¿Está seguro de que quiere eliminar esta asignación?
 crs#:#crs_delete_member#:#Eliminar miembros
 crs#:#crs_delete_members_sure#:#¿Quiere eliminar los siguientes miembros de este curso?
-crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?###new variable
+crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?
 crs#:#crs_delete_subscribers#:#Eliminar subscriptor
 crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar los siguientes usuarios?
 crs#:#crs_details#:#Detalles del Curso
 crs#:#crs_dismiss_member#:#Pertenencia al Curso
 crs#:#crs_dismiss_member_body#:#Su pertenencia ha finalizado
 crs#:#crs_edit_archive#:#Editar Archivos
-crs#:#crs_edit_content#:#Edit items###new variable
+crs#:#crs_edit_content#:#Editar items
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportar Curso
 crs#:#crs_file_name#:#Nombre de Fichero
 crs#:#crs_from#:#Desde:
 crs#:#crs_grouping#:#Course grouping###new variable
-crs#:#crs_grouping_assign#:#Change assignment###new variable
+crs#:#crs_grouping_assign#:#Modificar asignación
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###new variable
 crs#:#crs_grouping_deleted#:#Deleted course grouping.###new variable
 crs#:#crs_grouping_modified_assignment#:#Changed assignment.###new variable
@@ -3075,41 +3075,41 @@ crs#:#crs_grouping_select_one#:#Please select a course grouping.###new variable
 crs#:#crs_groupings#:#Course groupings###new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###new variable
 crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.###new variable
-crs#:#crs_grp_assign_crs#:#Assign course###new variable
-crs#:#crs_grp_assigned_courses#:#Assigned courses.###new variable
-crs#:#crs_grp_assigned_courses_info#:#Assigned courses:###new variable
-crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.###new variable
-crs#:#crs_grp_crs_assignment#:#Course assignment###new variable
-crs#:#crs_grp_deassigned_courses#:#Delete assignment###new variable
-crs#:#crs_grp_enter_title#:#Please enter a title.###new variable
-crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###new variable
+crs#:#crs_grp_assign_crs#:#Asignar Curso
+crs#:#crs_grp_assigned_courses#:#Cursos asignados.
+crs#:#crs_grp_assigned_courses_info#:#Cursos asignados:
+crs#:#crs_grp_courses_already_assigned#:#Los cursos seleccionados ya estaba asignados.
+crs#:#crs_grp_crs_assignment#:#Asignación de curso
+crs#:#crs_grp_deassigned_courses#:#Eliminar asignación
+crs#:#crs_grp_enter_title#:#Por favor introduzca un título.
+crs#:#crs_grp_info_reg#:#Únicamente puede registrarse en uno de estos cursos:
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###new variable
-crs#:#crs_grp_modified_grouping#:#Saved modifications.###new variable
-crs#:#crs_grp_no_course_selected#:#Please select one course.###new variable
-crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###new variable
-crs#:#crs_grp_table_assigned_courses#:#Assigned courses###new variable
+crs#:#crs_grp_modified_grouping#:#Modificaciones guardadas.
+crs#:#crs_grp_no_course_selected#:#Por favor seleccione un curso.
+crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
+crs#:#crs_grp_table_assigned_courses#:#Cursos asignados.
 crs#:#crs_header_archives#:#Archivos del Curso
 crs#:#crs_header_delete_members#:#Eliminar miembros
 crs#:#crs_header_edit_members#:#Editar miembros
 crs#:#crs_header_members#:#Miembros del Curso
-crs#:#crs_hide_link_lms#:#Hide learning materials###new variable
-crs#:#crs_hide_link_objectives#:#Hide objectives###new variable
-crs#:#crs_hide_link_or#:#Hide other resources###new variable
-crs#:#crs_hide_link_tst#:#Hide tests###new variable
+crs#:#crs_hide_link_lms#:#Ocultar materiales de aprendizaje
+crs#:#crs_hide_link_objectives#:#Ocultar objetivos
+crs#:#crs_hide_link_or#:#Ocultar otros recursos
+crs#:#crs_hide_link_tst#:#Ocultar tests
 crs#:#crs_html#:#HTML
 crs#:#crs_info_reg#:#Información de registro
 crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
 crs#:#crs_info_reg_deactivated#:#No es posible el registro
 crs#:#crs_info_reg_direct#:#Es necesario registrarse en este curso
 crs#:#crs_info_reg_password#:#El registro necesita una contraseña válida
-crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.###new variable
-crs#:#crs_learning_materials#:#Learning materials###new variable
+crs#:#crs_info_start#:#Por favor, trabaje sobre los items del curso señalados más abajo..<br />Después de haber estudiado todos los objetos marcados en rojo, se activarán nuevos items del curso.
+crs#:#crs_learning_materials#:#Materiales de aprendizaje
 crs#:#crs_list_users#:#Listar usuarios
-crs#:#crs_lm_assignment#:#Learning material assignment###new variable
-crs#:#crs_lm_assignment_deleted#:#Deleted assignment.###new variable
-crs#:#crs_lm_deassign#:#Delete assignment.###new variable
-crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###new variable
-crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.###new variable
+crs#:#crs_lm_assignment#:#Asignación de material de aprendizaje
+crs#:#crs_lm_assignment_deleted#:#Asignación eliminada.
+crs#:#crs_lm_deassign#:#Eliminar asignación
+crs#:#crs_lm_no_assignments_selected#:#Por favor seleccione una asignación.
+crs#:#crs_lms_already_assigned#:#Estos materiales de aprendizaje ya estaban asignados.
 crs#:#crs_max_members_reached#:#El número máximo de miembros ha sido alcanzado
 crs#:#crs_mem_change_status#:#Modificar Estado
 crs#:#crs_mem_send_mail#:#Enviar mail
@@ -3123,33 +3123,33 @@ crs#:#crs_members_title#:#Miembros del Curso
 crs#:#crs_move_down#:#Mover abajo
 crs#:#crs_move_up#:#Mover arriba
 crs#:#crs_moved_item#:#item del curso movido
-crs#:#crs_moved_objective#:#Moved learning objective.###new variable
+crs#:#crs_moved_objective#:#Objetivo de aprendizaje 'movido'
 crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_new_subscription#:#Nueva suscripción a curso
 crs#:#crs_new_subscription_body#:#Se ha suscrito un nuevo usuario
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archives_selected#:#Por favor seleccione un archivo
-crs#:#crs_no_chapter_selected#:#Please select a chapter.###new variable
+crs#:#crs_no_chapter_selected#:#Por favor seleccione un capítulo.
 crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.###new variable
 crs#:#crs_no_groups_selected#:#Por favor seleccione un grupo
 crs#:#crs_no_items_found#:#No hay items de curso
 crs#:#crs_no_language#:#Sin idioma
-crs#:#crs_no_lm_selected#:#Please select one learning material.###new variable
-crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.###new variable
-crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.###new variable
+crs#:#crs_no_lm_selected#:#Por favor seleccione un material de aprendizaje
+crs#:#crs_no_lms_assigned#:#No hay materiales de aprendizaje asignados
+crs#:#crs_no_lms_inside_crs#:#No hay material de aprendizaje en este curso, que pueda ser asignado a este 'objetivo de aprendizaje'.
 crs#:#crs_no_member_selected#:#Por favor seleccione un miembro
-crs#:#crs_no_members_assigned#:#Noi hay miembros asignados a este curso
+crs#:#crs_no_members_assigned#:#No hay miembros asignados a este curso
 crs#:#crs_no_notify#:#No notificar los nuevos registros
-crs#:#crs_no_objective_selected#:#Please select one objective.###new variable
-crs#:#crs_no_objectives_created#:#There are no objectives assigned.###new variable
-crs#:#crs_no_question_selected#:#Please select one question.###new variable
-crs#:#crs_no_questions_assigned#:#There are no questions assigned.###new variable
+crs#:#crs_no_objective_selected#:#Por favor seleccione un objetivo.
+crs#:#crs_no_objectives_created#:#No hay objetivos asignados.
+crs#:#crs_no_question_selected#:#Por favor seleccione una pregunta.
+crs#:#crs_no_questions_assigned#:#No hay preguntas asignadas.
 crs#:#crs_no_results_found#:#No se encontraron resultados
 crs#:#crs_no_roles_selected#:#Por favor seleccione un rol
-crs#:#crs_no_starter_created#:#No start objects assigned to this course.###new variable
+crs#:#crs_no_starter_created#:#No hay objetos iniciales asignados a este curso
 crs#:#crs_no_subscribers_selected#:#Por favor seleccione un usuario
-crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###new variable
+crs#:#crs_no_tests_inside_crs#:#No existen tests en este curso, que puedan ser asignados a este objetivo de aprendizaje
 crs#:#crs_no_users_added#:#No se añadieron miembros
 crs#:#crs_no_users_selected#:#No ha seleccionado ningún usuario
 crs#:#crs_no_valid_member_id_given#:#Id de miembro no válido
@@ -3157,54 +3157,54 @@ crs#:#crs_not_available#:#-No disponible-
 crs#:#crs_notify#:#Notificar nuevos registros
 crs#:#crs_nr#:#Nr.###new variable
 crs#:#crs_number_users_added#:#El siguiente número de usuarios ha sido asignado al curso
-crs#:#crs_objective_accomplished#:#Accomplished###new variable
-crs#:#crs_objective_assign_chapter#:#Assign chapters###new variable
-crs#:#crs_objective_assign_lm#:#Assign learning material###new variable
-crs#:#crs_objective_assign_question#:#Assign question###new variable
-crs#:#crs_objective_deassign_question#:#Delete assignment###new variable
-crs#:#crs_objective_delete_lm_assignment#:#Delete assignment###new variable
-crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100.###new variable
-crs#:#crs_objective_modified#:#Updated learning objective.###new variable
-crs#:#crs_objective_no_title_given#:#Please enter a title.###new variable
-crs#:#crs_objective_not_accomplished#:#Not accomplished###new variable
-crs#:#crs_objective_overview_objectives#:#Overview objectives###new variable
-crs#:#crs_objective_overview_question_assignment#:#Overview question assignment###new variable
-crs#:#crs_objective_pretest#:#Self assessment###new variable
-crs#:#crs_objective_question_assignment#:#Question assignment###new variable
-crs#:#crs_objective_result#:#After test###new variable
-crs#:#crs_objective_updated_test#:#Updated modifications.###new variable
-crs#:#crs_objective_view#:#Objective oriented view###new variable
-crs#:#crs_objectives#:#Learning objectives###new variable
-crs#:#crs_objectives_assign_chapter#:#Assign chapter###new variable
-crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.###new variable
-crs#:#crs_objectives_assigned_lms#:#Assigned learning materials###new variable
-crs#:#crs_objectives_assigned_new_questions#:#Added new assignment.###new variable
-crs#:#crs_objectives_assigned_questions#:#Assigned questions###new variable
-crs#:#crs_objectives_chapter_assignment#:#Chapter assignment###new variable
-crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?###new variable
-crs#:#crs_objectives_deleted#:#Delete learning objectives###new variable
-crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###new variable
-crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam again.###new variable
-crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!###new variable
-crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.###new variable
-crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.###new variable
-crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###new variable
-crs#:#crs_objectives_lm_assignment#:#Learning material assignment###new variable
-crs#:#crs_objectives_max_points#:#Maximum points###new variable
-crs#:#crs_objectives_no_question_selected#:#Please select one question.###new variable
-crs#:#crs_objectives_nr_questions#:#Number of questions###new variable
-crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.###new variable
-crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###new variable
-crs#:#crs_objectives_reseted#:#Reseted results.###new variable
+crs#:#crs_objective_accomplished#:#Objetivo cumplido.
+crs#:#crs_objective_assign_chapter#:#Assignar capítulos
+crs#:#crs_objective_assign_lm#:#Asignar material de aprendizaje
+crs#:#crs_objective_assign_question#:#Asignar pregunta
+crs#:#crs_objective_deassign_question#:#Eliminar asignación
+crs#:#crs_objective_delete_lm_assignment#:#Eliminar asignación
+crs#:#crs_objective_insert_percent#:#Por favor introduzca sólo números entre 0 y 100.
+crs#:#crs_objective_modified#:#Objetivo de aprendizaje actualizado.
+crs#:#crs_objective_no_title_given#:#Por favor introduzca un título.
+crs#:#crs_objective_not_accomplished#:#Objetivo no cumplido
+crs#:#crs_objective_overview_objectives#:#Resumen de objetivos
+crs#:#crs_objective_overview_question_assignment#:#Resumen de asignación de preguntas
+crs#:#crs_objective_pretest#:#Pre-test de Autoevaluación
+crs#:#crs_objective_question_assignment#:#Asignación de preguntas
+crs#:#crs_objective_result#:#Después del test
+crs#:#crs_objective_updated_test#:#Modificaciones actualizadas.
+crs#:#crs_objective_view#:#Vista orientada a objetivos
+crs#:#crs_objectives#:#Objetivos de aprendizaje
+crs#:#crs_objectives_assign_chapter#:#Asignar capítulo
+crs#:#crs_objectives_assigned_lm#:#Los materiales de aprendizaje seleccionados han sido asignados.
+crs#:#crs_objectives_assigned_lms#:#Materiales de aprendizaje asignados
+crs#:#crs_objectives_assigned_new_questions#:#Añadida nueva asignación
+crs#:#crs_objectives_assigned_questions#:#Preguntas asignadas
+crs#:#crs_objectives_chapter_assignment#:#Asignación de capítulos
+crs#:#crs_objectives_deassign_question_sure#:#¿Está seguro de querer eliminar las siguientes preguntas?
+crs#:#crs_objectives_deleted#:#Eliminar objetivos de aprendizaje
+crs#:#crs_objectives_edit_question_assignments#:#Editar asignación de preguntas
+crs#:#crs_objectives_info_final#:#No cumplió todos los objetivos del curso en el examen previo. <br />Por favor seleccione todos los objetivos marcados en rojo, uno tras otro, y revise los materiales de aprendizaje relacionados. <br />Después de haber revisado todos los objetivos marcados en rojo, puede volver a realizar el examen
+crs#:#crs_objectives_info_finished#:#Felicidades, ¡ha cumplido todos los objetivos de este curso!
+crs#:#crs_objectives_info_none#:#La siguiente es una lista de los objetivos del curso.<br /> Por favor seleccione los objetivos uno después de otro y trabaje los materiales de aprendizaje relacionados.
+crs#:#crs_objectives_info_pretest#:#Los siguientes son los resultados de su Pre-test de evaluación. <br />Por favor seleccione los objetivos marcados en rojo, uno tras otro,y trabajo sobre el material de aprendizaje. <br />Después de haber procesado los objetivos marcados en rojo, puede realizar el examen final de este curso, el cual está localizado en la sección "Test" de esta página.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Los siguientes son los resultados de su Pre-test de autoevaluación. <br />De acuerdo a esto, ha completado todos los objetivos de aprendizaje. Puede realizar el examen final de este curso, que está localizado en la sección test de esta página
+crs#:#crs_objectives_lm_assignment#:#Asignación de material de aprendizaje
+crs#:#crs_objectives_max_points#:#Máxima puntuación
+crs#:#crs_objectives_no_question_selected#:#Por favor seleccione una pregunta.
+crs#:#crs_objectives_nr_questions#:#Número de preguntas
+crs#:#crs_objectives_qst_deassigned#:#La asignación de preguntas ha sido eliminada.
+crs#:#crs_objectives_reset_sure#:#¿Quiere eliminar todos los resultados de este curso?.<br />Todos los resultados serán eliminados.
+crs#:#crs_objectives_reseted#:#Resultados reinicializados.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opciones
 crs#:#crs_other_groupings#:#Groupings of other courses###new variable
-crs#:#crs_other_resources#:#Other resources###new variable
+crs#:#crs_other_resources#:#Otros recursos
 crs#:#crs_passed#:#Superado
 crs#:#crs_password_not_valid#:#Su contraseña no es válida
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Imprimir lista
-crs#:#crs_question_assignment#:#Question assignment###new variable
+crs#:#crs_question_assignment#:#Asignación de preguntas
 crs#:#crs_reg_subscription_deactivated#:#Registro deshabilitado
 crs#:#crs_reg_subscription_end_earlier#:#El período de registro ha expirado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
@@ -3216,7 +3216,7 @@ crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
 crs#:#crs_registration#:#Registro de Curso
 crs#:#crs_reject_subscriber#:#Suscripción al Curso
 crs#:#crs_reject_subscriber_body#:#Su suscripción ha sido rechazada
-crs#:#crs_reset_results#:#Reset results###new variable
+crs#:#crs_reset_results#:#Reinicializar resultados
 crs#:#crs_role#:#Rol
 crs#:#crs_role_status#:#Rol / Estado
 crs#:#crs_search_enter_search_string#:#Por favor introduzca una cadena de búsqueda
@@ -3224,29 +3224,29 @@ crs#:#crs_search_for#:#Buscar
 crs#:#crs_search_members#:#Búsqueda de Usuario
 crs#:#crs_search_str#:#Buscar término
 crs#:#crs_select_archive_language#:#Por favor seleccione un idioma para el archivo
-crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.###new variable
-crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.###new variable
+crs#:#crs_select_exactly_one_lm#:#Por favor seleccione exáctamente un módulo de aprendizaje.
+crs#:#crs_select_exactly_one_tst#:#Por favor seleccione exáctamente un test.
 crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.###new variable
 crs#:#crs_select_one_archive#:#Por favor seleccione un archivo
-crs#:#crs_select_one_object#:#Please select one course item.###new variable
-crs#:#crs_select_starter#:#Select start object###new variable
+crs#:#crs_select_one_object#:#Por favor seleccione un item del curso.
+crs#:#crs_select_starter#:#Seleccione un objeto inicial
 crs#:#crs_settings#:#Configuración del Curso
 crs#:#crs_settings_saved#:#Configuración guardada
-crs#:#crs_show_link_lms#:#Show learning materials###new variable
-crs#:#crs_show_link_objectives#:#Show objectives###new variable
-crs#:#crs_show_link_or#:#Show other resources###new variable
-crs#:#crs_show_link_tst#:#Show tests###new variable
-crs#:#crs_show_objectives_view#:#Objective view###new variable
+crs#:#crs_show_link_lms#:#Mostrar materiales de aprendizaje
+crs#:#crs_show_link_objectives#:#Mostrar objetivos
+crs#:#crs_show_link_or#:#Mostrar otros recursos
+crs#:#crs_show_link_tst#:#Mostrar tests
+crs#:#crs_show_objectives_view#:#Vista de objetivos
 crs#:#crs_size#:#Tamaño de fichero
 crs#:#crs_sort_activation#:#Ordenar por activación
 crs#:#crs_sort_manual#:#Ordenación manual
 crs#:#crs_sort_title#:#Ordenar por título
 crs#:#crs_sortorder#:#Ordenar
-crs#:#crs_sortorder_abo#:#Sortorder/Subscription###new variable
+crs#:#crs_sortorder_abo#:#Ordenación por suscripción
 crs#:#crs_start#:#Comienzo
-crs#:#crs_start_objects#:#Start objects###new variable
-crs#:#crs_starter_deleted#:#Removed assignment.###new variable
-crs#:#crs_starters_already_assigned#:#This object was already assigned.###new variable
+crs#:#crs_start_objects#:#Objetos iniciales
+crs#:#crs_starter_deleted#:#Asignación eliminada
+crs#:#crs_starters_already_assigned#:#Este objeto ya ha sido asignado.
 crs#:#crs_status#:#Estado
 crs#:#crs_status_changed#:#Estado del Curso
 crs#:#crs_status_changed_body#:#El estado del curso ha sido modificado
@@ -3262,13 +3262,13 @@ crs#:#crs_subscription_options_direct#:#Suscripción directa
 crs#:#crs_subscription_options_password#:#Suscripción con contraseña
 crs#:#crs_subscription_successful#:#Ha sido suscrito a este curso
 crs#:#crs_subscription_type#:#Tipo de suscripción
-crs#:#crs_suggest_lm#:#Suggest learning materials if:###new variable
+crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
 crs#:#crs_sure_delete_selected_archives#:#¿Está seguro de eliminar los archivos seleccionados?
 crs#:#crs_syllabus#:#Guía de Estudio / Temario
-crs#:#crs_table_start_objects#:#Start objects###new variable
-crs#:#crs_test_status_complete#:#Complete###new variable
-crs#:#crs_test_status_not_complete#:#Not complete###new variable
-crs#:#crs_test_status_random#:#Random test###new variable
+crs#:#crs_table_start_objects#:#Objetos iniciales
+crs#:#crs_test_status_complete#:#Completado
+crs#:#crs_test_status_not_complete#:#No completado
+crs#:#crs_test_status_random#:#Test aleatorio
 crs#:#crs_time#:#Tiempo de suscripción
 crs#:#crs_to#:#A:
 crs#:#crs_tutor#:#Tutor
@@ -3281,12 +3281,12 @@ crs#:#crs_unlimited#:#Ilimitada
 crs#:#crs_unsubscribe#:#Dar de baja
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
 crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
-crs#:#crs_update_objective#:#Edit learning objective###new variable
+crs#:#crs_update_objective#:#Editar objetivo de aprendizaje
 crs#:#crs_users_added#:#Usuario añadido al curso
 crs#:#crs_users_already_assigned#:#El usuario ya está asignado a este curso
 crs#:#crs_xml#:#XML
-crs#:#edit_content#:#Edit content###new variable
-crs#:#learners_view#:#Learners view###new variable
+crs#:#edit_content#:#Editar contenido
+crs#:#learners_view#:#Vista de alumnos
 crs_#:#crs_archives#:#Archivos
 dateplaner#:#DateText#:#Mensaje
 dateplaner#:#Day_long#:#Vista diaria
@@ -4495,8 +4495,8 @@ survey#:#cannot_export_survey#:#No posee suficientes permisos para exportar la e
 survey#:#cannot_maintain_survey#:#No tiene derechos de escritura para mantener la encuesta!
 survey#:#cannot_manage_phrases#:#No tiene derechos de escritura para gestionar las frases!
 survey#:#cannot_participate_survey#:#No tiene derechos para participar en la encuesta!
-survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###new variable
-survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###new variable
+survey#:#cannot_read_questionpool#:#No posee suficientes permisos para leer el contenido del respositorio de preguntas
+survey#:#cannot_read_survey#:#No posee suficiente permisos para leer los datos de la encuesta
 survey#:#cannot_save_metaobject#:#No posee suficientes permisos para modificar los meta datos!
 survey#:#cannot_switch_to_online_no_questions#:#El estado no puede ser modificado a &quot;online&quot; porque no hay preguntas en el test!
 survey#:#category#:#Categoría
