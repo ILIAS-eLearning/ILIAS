@@ -386,7 +386,8 @@ common#:#set#:#set
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
 common#:#set_system_language#:#set system language
-common#:#show_list#:#show listcommon#:#show_owner#:#show owner
+common#:#show_list#:#show list
+common#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
 common#:#status#:#status
