@@ -210,8 +210,10 @@ class ilPCParagraph extends ilPageContent
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(iln$ws((page|chap|term)$ws=$ws([\"0-9])*)$ws(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws)\]", $a_text, $found))
+//echo "a";
+		while (eregi("\[(iln$ws((page|chap|term|media)$ws=$ws([\"0-9])*)$ws(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws)\]", $a_text, $found))
 		{
+//echo $found[0]."<rb>";
 			$attribs = ilUtil::attribsToArray($found[2]);
 			// pages
 			if (isset($attribs["page"]))
@@ -254,10 +256,29 @@ class ilPCParagraph extends ilPageContent
 				}
 				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
 			}
+			// media object
+			else if (isset($attribs["media"]))
+			{
+				if (!empty($found[7]))
+				{
+					$tframestr = " TargetFrame=\"".$found[7]."\" ";
+					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
+				}
+				else
+				{
+					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
+				}
+			}
 			else
 			{
 				$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
 			}
+		}
+		while (eregi("\[(iln$ws((media)$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
+		{
+//echo $found[0]."<rb>";
+			$attribs = ilUtil::attribsToArray($found[2]);
+			$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[page]."\" Type=\"MediaObject\"/>", $a_text);
 		}
 		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
 
@@ -340,6 +361,19 @@ class ilPCParagraph extends ilPageContent
 						? ""
 						: " target=\"".$attribs["TargetFrame"]."\" ";
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln term=\"".$target[1]."\"".$tframestr."]",$a_text);
+					break;
+
+				case "MediaObject":
+					$target = explode("_", $attribs["Target"]);
+					if (empty($attribs["TargetFrame"]))
+					{
+						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target[1]."\"/]",$a_text);
+					}
+					else
+					{
+						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target[1]."\"".
+							" target=\"".$attribs["TargetFrame"]."\"]",$a_text);
+					}
 					break;
 
 				default:
