@@ -353,28 +353,28 @@
 <xsl:template match="MediaAlias">
 
 	<!-- Alignment Part 1 (Left, Center, Right)-->
-	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Left'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Center'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'">
 		<div align="center" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../Layout[1]/@HorizontalAlign = 'Right'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'">
 		<div align="right" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../Layout[1]/@HorizontalAlign = 'RightFloat'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
-	<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
-	<xsl:if test="count(../Layout[1]/@HorizontalAlign) = 0">
+	<xsl:if test="count(../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign) = 0">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
@@ -387,32 +387,32 @@
 
 	<table class="ilc_MobTable">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
-		<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
 			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="../Layout[1]/@HorizontalAlign = 'RightFloat'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'">
 			<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
-		<xsl:if test="../Layout[1]/@HorizontalAlign = 'Left'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'">
 			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="../Layout[1]/@HorizontalAlign = 'Right'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'">
 			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
 
 		<tr><td class="ilc_Mob"><object>
-			<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'File'">
-				<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
-			</xsl:if>
-			<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'Reference'">
-				<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
-			<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
-			<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
+				<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'File'">
+					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'Reference'">
+					<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+				</xsl:if>
+				<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
 		</object></td></tr>
 
 		<!-- mob caption -->

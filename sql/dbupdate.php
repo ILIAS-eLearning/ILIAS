@@ -1315,3 +1315,32 @@ CREATE TABLE meta_techn_format (
 	nr int,
 	INDEX (tech_id)
 );
+
+<#67>
+DROP TABLE IF EXISTS media_object;
+CREATE TABLE media_item
+(
+	id int NOT NULL DEFAULT '0',
+	width VARCHAR(10),
+	height VARCHAR(10),
+	halign ENUM('Left', 'Center', 'Right', 'LeftFloat', 'RightFloat'),
+	caption TEXT,
+	PRIMARY KEY (id)
+);
+
+<#68>
+ALTER TABLE mob_parameter CHANGE mob_id med_item_id INT NOT NULL;
+
+<#69>
+ALTER TABLE media_item ADD COLUMN nr INT NOT NULL;
+ALTER TABLE media_item ADD COLUMN purpose ENUM ('Standard', 'Fullscreen', 'Additional');
+
+<#70>
+ALTER TABLE media_item ADD COLUMN mob_id INT NOT NULL;
+
+<#71>
+ALTER TABLE media_item MODIFY id INT NOT NULL DEFAULT '0' AUTO_INCREMENT;
+
+<#72>
+ALTER TABLE meta_techn_loc ADD COLUMN type ENUM ('LocalFile', 'Reference')
+	NOT NULL DEFAULT 'LocalFile';
