@@ -340,6 +340,21 @@ class ILIAS
 			return false;
 		}
 	}
+	
+	/**
+	* delete one value from settingstable
+	* @access	public
+	* @param	string	keyword
+	* @return	string	value
+	*/
+	function deleteSetting($a_keyword)
+	{
+		$query = "DELETE FROM settings WHERE keyword = '".$a_keyword."'";
+		$this->db->query($query);
+
+		return true;
+	}
+
 
 	/**
 	* read all values from settingstable
