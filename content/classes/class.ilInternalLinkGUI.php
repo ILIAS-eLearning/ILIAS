@@ -173,6 +173,10 @@ class ilInternalLinkGUI
 		return($str);
 	}
 	
+	
+	/**
+	* show link help list
+	*/
 	function showLinkHelp()
 	{
 		global $ilUser;
@@ -231,7 +235,8 @@ class ilInternalLinkGUI
 			"Media" => $this->lng->txt("cont_lk_media_inline"),
 			"Media_Media" => $this->lng->txt("cont_lk_media_media"),
 			"Media_FAQ" => $this->lng->txt("cont_lk_media_faq"),
-			"Media_New" => $this->lng->txt("cont_lk_media_new")
+			"Media_New" => $this->lng->txt("cont_lk_media_new"),
+			"RepositoryItem" => $this->lng->txt("cont_repository_item")
 			);
 
 		// filter link types
@@ -650,8 +655,11 @@ class ilInternalLinkGUI
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->parseCurrentBlock();
 				}
-
-
+				break;
+				
+			// repository item
+			case "RepositoryItem":
+				$tpl->setVariable("LINK_HELP_CONTENT", $this->selectRepositoryItem());
 				break;
 
 		}
@@ -660,6 +668,9 @@ class ilInternalLinkGUI
 		exit;
 	}
 
+	/**
+	* change link type
+	*/
 	function changeLinkType()
 	{
 		$_SESSION["il_link_type"] = $_POST["ltype"];
@@ -667,12 +678,18 @@ class ilInternalLinkGUI
 		$this->showLinkHelp();
 	}
 
+	/**
+	* select media pool folder
+	*/
 	function setMedPoolFolder()
 	{
 		$_SESSION["il_link_mep_obj"] = $_GET["mep_fold"];
 		$this->showLinkHelp();
 	}
 
+	/**
+	* cange target object
+	*/
 	function changeTargetObject($a_type = "")
 	{
 		$_SESSION["il_link_mep_obj"] = "";
@@ -807,6 +824,89 @@ class ilInternalLinkGUI
 		$tpl->show();
 		exit;
 	}
+	
+	/**
+	* select repository item explorer
+	*/
+	function selectRepositoryItem()
+	{
+		$_SESSION["il_link_mep_obj"] = "";
+
+		if(empty($a_type))
+		{
+			$a_type = $_GET["target_type"];
+		}
+
+		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		include_once "content/classes/class.ilIntLinkRepItemExplorer.php";
+		$exp = new ilIntLinkRepItemExplorer(ilUtil::appendUrlParameterString(
+			$this->ctrl->getTargetScript(), "do=set"));
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+		$exp->setExpand($expanded);
+
+		$exp->setTargetGet("sel_id");
+		$this->ctrl->setParameter($this, "target_type", $a_type);
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "showLinkHelp"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("lm");
+		$exp->addFilter("dbk");
+		$exp->addFilter("glo");
+		$exp->addFilter("frm");
+		$exp->addFilter("exc");
+		$exp->addFilter("tst");
+		$exp->addFilter("svy");
+
+		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy');
+		$exp->setSelectableTypes($sel_types);
+
+		/*
+		$exp->setClickable("cat", false);
+		$exp->setClickable("grp", false);
+		$exp->setClickable("fold", false);
+		$exp->setClickable("crs", false);*/
+
+		$exp->setFrameTarget("");
+		$exp->setOutput(0);
+
+		$output = $exp->getOutput();
+//echo "<br><br><br>out:".$output.":<br>";
+
+		$tpl->setCurrentBlock("content");
+		$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_repository_item_links"));
+		$tpl->setVariable("EXPLORER",$output);
+		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("BTN_REFRESH", "showLinkHelp");
+		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
+		$tpl->setVariable("BTN_RESET", "resetLinkList");
+		$tpl->setVariable("TXT_RESET", $this->lng->txt("reset"));
+
+		/*
+		$tpl->setVariable("BTN_STRUCTURE", "resetLinkList");
+		$tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("reset"));*/
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
+		//$tpl->show();
+		//exit;
+	}
+
 
 }
 ?>

@@ -347,7 +347,7 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media)$ws=$ws([\"0-9])*)$ws".
+			"((page|chap|term|media|lm|dbk|glo|frm|exc|tst|svy)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -411,6 +411,23 @@ echo htmlentities($a_text);*/
 						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 				}
 			}
+			// repository items (id is ref_id (will be used internally but will
+			// be replaced by object id for export purposes)
+			else if (isset($attribs["lm"]) || isset($attribs["dbk"]) || isset($attribs["glo"])
+				|| isset($attribs["frm"]) || isset($attribs["exc"]) || isset($attribs["tst"])
+				|| isset($attribs["svy"]) || isset($attribs["obj"]))
+			{
+				$obj_id = (isset($attribs["lm"])) ? $attribs["lm"] : $obj_id;
+				$obj_id = (isset($attribs["dbk"])) ? $attribs["dbk"] : $obj_id;
+				$obj_id = (isset($attribs["glo"])) ? $attribs["glo"] : $obj_id;
+				$obj_id = (isset($attribs["frm"])) ? $attribs["frm"] : $obj_id;
+				$obj_id = (isset($attribs["exc"])) ? $attribs["exc"] : $obj_id;
+				$obj_id = (isset($attribs["tst"])) ? $attribs["tst"] : $obj_id;
+				$obj_id = (isset($attribs["svy"])) ? $attribs["svy"] : $obj_id;
+				$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
+				$a_text = eregi_replace("\[".$found[1]."\]",
+					"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+			}			
 			else
 			{
 				$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
@@ -448,7 +465,7 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
-
+//echo htmlentities($a_text);
 		//$a_text = nl2br($a_text);
 		//$a_text = addslashes($a_text);
 		return $a_text;
@@ -517,6 +534,18 @@ echo htmlentities($a_text);*/
 						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target_id."\"".
 							" target=\"".$attribs["TargetFrame"]."\"]",$a_text);
 					}
+					break;
+
+				case "RepositoryItem":
+					if ($inst_str == "")
+					{
+						$target_type = ilObject::_lookupType($target_id, true);
+					}
+					else
+					{
+						$target_type = "obj";
+					}
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."$target_type=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				default:

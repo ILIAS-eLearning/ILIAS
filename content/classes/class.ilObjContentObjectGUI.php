@@ -2970,7 +2970,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
 		
-		$sel_types = array('lm','glo','frm','exc','tst','svy');
+		$sel_types = array('lm','dbk','glo','frm','exc','tst','svy');
 		$exp->setSelectableTypes($sel_types);
 
 		//$exp->setTargetGet("obj_id");
