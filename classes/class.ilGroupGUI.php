@@ -24,6 +24,7 @@ require_once("include/inc.header.php");
 require_once("classes/class.ilObjGroupGUI.php");
 require_once("classes/class.ilGroupExplorer.php");
 require_once("classes/class.ilTableGUI.php");
+require_once("classes/class.ilTree.php");
 require_once("classes/class.ilObjGroup.php");
 /**
 * Class ilGroupGUI 
@@ -61,9 +62,11 @@ class ilGroupGUI extends ilObjGroupGUI
 
 
 		$this->type ="grp";
+		
 
+		
 
-
+		
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
@@ -75,12 +78,16 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->data = $a_data;
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
+		
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
 		// get the object
 		$this->assignObject();
+		
+		
+		//$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		
 		$this->lng =& $this->object->lng;
 		//$this->setLocator();
@@ -94,9 +101,15 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		//var_dump ($this->object);
 		//echo $this->object->getRefId()."fff";
-		//$this->grp_tree = new ilTree($this->object->getRefId());
-		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		//$this->callbyReference = true;
+		
+		if (isset($_GET["tree_id"]))
+		{
+			$this->grp_tree = new ilTree($_GET["tree_id"]);
+		}else{
+			$this->grp_tree = new ilTree($this->object->getId());
+		}
+		$this->grp_tree->setTableNames("grp_tree","object_data");
+		
 		
 		//echo ($id);
 
@@ -379,15 +392,16 @@ class ilGroupGUI extends ilObjGroupGUI
 	}
 
 	function show_content()
-	{
+	{//var_dump($_POST)."#".var_dump($_GET);
+		
 		global $tree, $tpl, $lng, $rbacsystem;
 
-
+		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		infoPanel();
-		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 		
 		$this->tpl->setCurrentBlock("content");
@@ -419,16 +433,21 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->tpl->parseCurrentBlock();
 
 		$cont_arr = array();
-		$objects = $tree->getChilds($_GET["ref_id"],"title");
-
+		
+		
+		
+		
+		//$objects = $tree->getChilds($_GET["ref_id"],"title");
+		$objects = $this->grp_tree->getChilds($this->object->getId(),"title");
+		
 		if (count($objects) > 0)
 		{
 			foreach ($objects as $key => $object)
 			{
-				if ($rbacsystem->checkAccess('visible',$object["child"]))
-				{
+				//if ($rbacsystem->checkAccess('visible',$object["child"]))
+				//{
 					$cont_arr[$key] = $object;
-				}
+				//}
 			}
 		}
 
@@ -468,7 +487,8 @@ class ilGroupGUI extends ilObjGroupGUI
 				$this->tpl->setVariable("OWNER", $newuser->getFullName());
 				$this->tpl->setVariable("LAST_VISIT", "N/A");
 				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
-				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				//TODO
+				//$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$this->tpl->parseCurrentBlock();
 
 			}
@@ -530,6 +550,19 @@ class ilGroupGUI extends ilObjGroupGUI
 		
 		case "le":
 			$URL = "content/lm_presentation.php?lm_id=".$cont_data["ref_id"];
+		break;
+		
+		case "fold":
+			//TODO
+			if (isset($_GET["tree_id"]))
+			{
+				$URL = "group.php?obj_id=".$cont_data["obj_id"]."&ref_id=".$_GET["ref_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=grp_tree&cmd=show_content";
+		
+			}else{
+			
+				$URL = "group.php?obj_id=".$cont_data["obj_id"]."&ref_id=".$_GET["ref_id"]."&tree_id=".$this->object->getId()."&tree_table=grp_tree&cmd=show_content";
+			}
+		
 		break;
 		}
 
@@ -1389,6 +1422,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function createobject()
 	{
+		//TODO: check the
 		// creates a child object
 		global $rbacsystem;
 

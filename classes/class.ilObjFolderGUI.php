@@ -24,10 +24,10 @@
 
 
 /**
-* Class ilObjForumGUI
+* Class ilObjFolderGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.2 2003/07/07 10:55:00 mrus Exp $
+* @author Martin Rus <develop-ilias@uni-koeln.de> 
+* $Id$Id: class.ilObjFolderGUI.php,v 1.3 2003/07/14 07:50:36 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core

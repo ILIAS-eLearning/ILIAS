@@ -34,7 +34,7 @@
 * @package ilias-core
 */
 
-
+//var_dump($_POST)."#".var_dump($_GET);
 require_once "include/inc.header.php";
 require_once "./classes/class.ilGroupGUI.php";
 
@@ -87,13 +87,13 @@ if (isset($_POST["cmd"]))
 
 //echo "-------------";
 //var_dump($_GET);
-if (isset($_POST["cmd"])or isset($_GET["new_type"]))
+if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 {
 	//echo " post";
 
 		//echo " post new type";
-		if ($_GET["gateway"]== "true")
-		{
+		if ($_GET["gateway"]== "true" && ($_POST["new_type"] != "fold" && $_GET["new_type"] != "fold" ))
+		{//echo "ddd";
 
 			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
 
@@ -119,6 +119,8 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]))
 			{
 				$obj_type = $_GET["new_type"];
 			}
+			//echo "typ".$obj_type;
+			//echo "cmd".$cmd;
 			$class_name = $objDefinition->getClassName($obj_type);
 			if ($obj_type == "lm" or $obj_type == "crs" or $obj_type == "fold" or $obj_type == "file")
 			{
@@ -131,7 +133,7 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]))
 				require_once("./".$module_dir."classes/class.il".$class_name."GUI.php");
 				$obj = new $class_constr($data, $id, $call_by_reference);
 				$method= $cmd."Object";
-//				echo ("hit ".$class_constr.$method);
+				//echo ("hit ".$class_constr.$method);
 				$obj->$method();
 			}
 			else

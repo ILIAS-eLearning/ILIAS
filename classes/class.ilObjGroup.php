@@ -655,12 +655,17 @@ class ilObjGroup extends ilObject
 	*
 	*@param integer obj_id of the new object
 	*@param integer ref_id of the new object
-	*@param integer obj_id of the group;root/tree id of the group
+	*@param integer obj_id of of the parent node
+	+@param integer obj_id of the group (tree_id)
 	*/
 	function insertGroupNode($new_node_obj_id,$new_node_ref_id, $parent_obj_id,$grp_tree )
 	{	
-		$grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
+		$grp_tree->setTreeId($parent_obj_id);
 		
+		//todo überprüfen ob eintrag schon existiert
+		
+		$grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
+			
 		if(isset($new_node_ref_id) && $new_node_ref_id>0)
 		{
 			$q1 = "UPDATE grp_tree SET ref_id=".$new_node_ref_id." WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
@@ -673,12 +678,13 @@ class ilObjGroup extends ilObject
 		{	
 			$q1 = "UPDATE grp_tree SET ref_id=-1 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
 			$this->ilias->db->query($q1);
-			
+		
 			$q2 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
 			$this->ilias->db->query($q2);
 		}
-		
+			
 	}
+	
 	/**
 	* copy all properties and subobjects of a group.
 	* Does not copy the settings in the group's local role folder. Instead a new local role folder is created from
@@ -767,6 +773,31 @@ class ilObjGroup extends ilObject
 		return $rfoldObj;
 	}
 
+
+	/**
+	*checks if the object is already a node of the group's root 
+	*obj_id of the tree/group
+	*obj_id of the node 
+	*/
+	function objectExist($a_tree_id, $a_node_id)
+	{//echo $a_tree_id."------".$a_node_id;
+		$q = "SELECT tree FROM grp_tree ".
+			"WHERE tree = '".$a_tree_id."' ".
+			"AND parent = '".$a_tree_id."' ".
+			"AND child  = '".$a_node_id."'";
+		$r = $this->ilias->db->getRow($q);
+		//echo $q;
+		//echo "r_tree".$r->tree."r_tree";
+		if (isset($r->tree))
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
@@ -783,8 +814,8 @@ class ilObjGroup extends ilObject
 		switch ($a_event)
 		{
 			case "link":
-				var_dump("<pre>",$a_params,"</pre>");
-				echo "Group ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
+				//var_dump("<pre>",$a_params,"</pre>");
+				//echo "Group ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
 			
@@ -810,5 +841,6 @@ class ilObjGroup extends ilObject
 		
 		parent::notify($a_event,$a_ref_id,$a_params);
 	}
+
 } //END class.ilObjGroup
 ?>

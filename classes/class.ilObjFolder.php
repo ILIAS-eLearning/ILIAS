@@ -103,27 +103,38 @@ class ilObjFolder extends ilObject
 		
 	}
 	
-	function putInGrpTree($parent)
+	//todo make it more flexible; it should be useful also for categories  
+	function putInGrpTree($local_table,$parent_id)
 	{  
 		require_once("classes/class.ilTree.php");
 		
 		global $ilias,$lng;
-	
+		
+		
+		//echo "type".$parent_type."type";
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
-		$this->group_id = $a_group_id;
+		//$this->group_id = $a_group_id;
 		
 		$this->table_obj_data = 'object_data';
-		$this->table_tree = 'grp_tree';
-		$this->table_obj_reference = 'object_reference';
+		$this->tree_table = $tree_table;
+		//$this->table_obj_reference = 'object_reference';
 		
-		$this->gtree = new ilTree($parent);
-		$this->gtree->setTableNames($this->table_tree,$this->table_obj_data,$this->table_obj_reference);
+		$this->gtree = new ilTree($tree_id);
+		$this->gtree->setTableNames($this->table_tree,$this->table_obj_data);
 		
 		
-		$this->gtree->insertNode($this->getRefId(), $parent);
+		$local_tree->insertNode($this->getId(), $parent_id);
 		
-}
+	}
+	
+	function setRefId($tree_id,$obj_id,$parent)
+	{
+		$query = "UPDATE grp_tree SET ref_id = -1 WHERE tree=".$tree_id." AND child=".$obj_id." AND parent=".$parent;   
+		$this->ilias->db->query($query);
+	}
+	
+	
 	
 	
 } // END class.FolderObject
