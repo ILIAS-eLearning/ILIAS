@@ -32,15 +32,58 @@
 */
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilObjUser.php";
+// added by ratana ty to read image directory
+// for upload file
+require_once "./classes/class.ilSetup.php";
+//$webspace_dir = "./docss";
+$webspace_dir = "docss";
+//$image_dir = $webspace_dir."/usr_images";
+
+// purpose is to upload file of user
+// function added by ratana ty
+function upload_file() {
+// TODO
+// Check the type of file and then check the size
+// of the file whether we allow people to upload or not
+	global $userfile, $userfile_name, $userfile_size,
+	$userfile_type, $archive_dir, $WINDIR, $webspace_dir,$ilias;
+	global $target_file, $return_path;
+
+	$image_dir = $webspace_dir."/usr_images";
+	if(!@is_dir($image_dir))
+	{
+		mkdir($image_dir);
+		chmod($image_dir, 0770);
+	}
+
+	$path_info = pathinfo($_FILES["userfile"]["name"]);
+	$target_file = $image_dir."/usr_".$ilias->account->getId().
+		".".$path_info["extension"];
+	$store_file = "usr_".$ilias->account->getID().
+		".".$path_info["extension"];
+
+	$ilias->account->setPref("profile_image", $store_file);
+	$ilias->account->update();
+	move_uploaded_file($_FILES["userfile"]["tmp_name"],$target_file);
+
+	// by default after copy it will loss
+	// some permission so set it to readable
+	chmod($target_file, 0770);
+ return $target_file;
+   }
+// End of function upload file
+//
+
+
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-
+//1$tpl->setVariable("IMAGE_PATH","./docss/usr_images"."/".$ilias->account->prefs["profile_image"]);
 
 
 // display infopanel if something happened
 infoPanel();
-
+//http://localhost/ilias3/docss/usr_images/usr_6.jpg
 //display buttons
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_profile.php");
@@ -58,12 +101,25 @@ $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("btn_row");
 $tpl->parseCurrentBlock();
 
+// if data are posted check on upload button
+
+
 //if data are posted
 if ($_GET["cmd"] == "save")
 {
+	if(!empty($_POST["usr_upload"]))
+	{
+	upload_file();
+	//echo "./".$target_file;
+	//exit;
+	//2$tpl->setVariable("IMAGE_PATH", "./".$target_file);
 
+	//3header ("Location: usr_profile.php");
+	//4exit;
+	}
 	//init checking var
 	$form_valid = true;
+
 
 	// testing by ratana ty:
 	// if people check on check box it will
@@ -86,6 +142,15 @@ if ($_GET["cmd"] == "save")
 	else
 	{
 		$ilias->account->setPref("public_institution","n");
+	}
+	//if check on picture upload
+	if (($_POST["chk_upload"])=="on")
+	{
+		$ilias->account->setPref("public_upload","y");
+	}
+	else
+	{
+		$ilias->account->setPref("public_upload","n");
 	}
 
 	// if check on Street
@@ -169,6 +234,8 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setLastName($_POST["usr_lname"]);
 	$ilias->account->setGender($_POST["usr_gender"]);
 	$ilias->account->setTitle($_POST["usr_title"]);
+	// added for upload by ratana ty
+	//$ilias->account->setFile($_POST["usr_file"]);
 	$ilias->account->setInstitution($_POST["usr_institution"]);
 	$ilias->account->setStreet($_POST["usr_street"]);
 	$ilias->account->setZipcode($_POST["usr_zipcode"]);
@@ -201,6 +268,7 @@ if ($_GET["cmd"] == "save")
 
 		// save user data
 		$ilias->account->update();
+		//upload_file();
 
 		// update object_data
 		require_once "classes/class.ilObjUser.php";
@@ -222,8 +290,10 @@ if ($_GET["cmd"] == "save")
 			header ("Location: usr_personaldesktop.php");
 			exit;
 		}
+
 	}
 }
+
 
 //get all languages
 $languages = $lng->getInstalledLanguages();
@@ -291,8 +361,18 @@ $tpl->setVariable("TXT_SALUTATION", $lng->txt("salutation"));
 $tpl->setVariable("TXT_SALUTATION_M", $lng->txt("salutation_m"));
 $tpl->setVariable("TXT_SALUTATION_F",$lng->txt("salutation_f"));
 $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
+// todo
+// capture image name including path ($archive_dir/$filename)
+//$tpl->setVariable("IMAGE_PATH",$return_path);
+//$tpl->setVariable("IMAGE_PATH",'$archive_dir."/".$filename');
+
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
+$tpl->setVariable("TXT_UPLOAD",$lng->txt("upload_picture"));
+$tpl->setVariable("UPLOAD",$lng->txt("upload"));
+$tpl->setVariable("TXT_FILE", $lng->txt("userfile"));
+$tpl->setVariable("USER_FILE", $lng->txt("user_file"));
+
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
 $tpl->setVariable("TXT_ZIPCODE",$lng->txt("zipcode"));
@@ -330,14 +410,19 @@ $tpl->setVariable("DEFAULT_ROLE",$roleObj->getTitle());
 $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
-
-
+// addeding by ratana ty
+$tpl->setVariable("UPLOAD", $lng->txt("upload"));
+// end adding
 // Testing by ratana ty
 // Show check if value in table usr_pref is y
 //
 if($ilias->account->prefs["public_profile"]=="y")
 {
 	$tpl->setVariable("CHK_PUB","checked");
+}
+if($ilias->account->prefs["public_upload"]=="y")
+{
+	$tpl->setVariable("CHK_UPLOAD","checked");
 }
 if($ilias->account->prefs["public_institution"]=="y")
 {
