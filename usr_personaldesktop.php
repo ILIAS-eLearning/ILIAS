@@ -96,6 +96,7 @@ $tpl->touchBlock("btn_row");
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
+$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 //$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
 // SYSTEM MAILS

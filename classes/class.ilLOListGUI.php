@@ -205,6 +205,7 @@ class ilLOListGUI
 			case "flat":
 				$lr_arr = ilUtil::getObjectsByOperations('lm','visible');
 				$lr_arr = ilUtil::getObjectsByOperations('slm','visible');
+				$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
 				break;
 
 			case "tree":
@@ -217,7 +218,8 @@ class ilLOListGUI
 					foreach ($objects as $key => $object)
 					{
 						if ((($object["type"] == "lm") ||
-							($object["type"] == "slm"))
+							($object["type"] == "slm") ||
+							($object["type"] == "crs"))
 							&& $this->rbacsystem->checkAccess('visible',$object["child"]))
 						{
 							$lr_arr[$key] = $object;
@@ -281,6 +283,13 @@ class ilLOListGUI
 					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
 					$this->tpl->setVariable("VIEW_TARGET", "bottom");
+				}
+
+				// scorm learning modules
+				if ($lr_data["type"] == "crs")
+				{
+					$obj_link = "lo_list.php?cmd=displayList&ref_id=".$lr_data["ref_id"];
+					$this->tpl->setVariable("VIEW_LINK", $obj_link);
 				}
 
 				$this->tpl->setVariable("IMG", $obj_icon);
