@@ -197,6 +197,9 @@ class Forum
      		
 		$this->setWhereCondition("1");
 		
+		$result["top_name"] = trim(stripslashes($result["top_name"]));
+		$result["top_description"] = nl2br(stripslashes($result["top_description"]));
+		
 		return $result;	
 	}
 	
@@ -215,6 +218,8 @@ class Forum
      		
 		$this->setWhereCondition("1");
 		
+		$result["thr_subject"] = trim(stripslashes($result["thr_subject"]));
+				
 		return $result;	
 	}
 	
@@ -232,7 +237,8 @@ class Forum
 
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 					
-		$result["pos_date"] = $this->convertDate($result["pos_date"]);
+		$result["pos_date"] = $this->convertDate($result["pos_date"]);		
+		$result["pos_message"] = nl2br(stripslashes($result["pos_message"]));
 					
 		return $result;
 	}
@@ -255,7 +261,7 @@ class Forum
             "pos_top_fk"   	=> $topic,
 			"pos_thr_fk"   	=> $thread,
             "pos_usr_id" 	=> $user,
-            "pos_message"   => strip_tags($message),
+            "pos_message"   => strip_tags(addslashes($message)),
             "pos_date"   	=> date("Y-m-d H:i:s")            
         );
 		
@@ -311,7 +317,7 @@ class Forum
 		$thr_data = array(
             "thr_top_fk"   	=> $topic,
 			"thr_usr_id" 	=> $user,
-            "thr_subject"   => $subject,
+            "thr_subject"   => addslashes($subject),
             "thr_date"   	=> date("Y-m-d H:i:s")            
         );
 		
@@ -348,7 +354,7 @@ class Forum
 	{		
 		$query = "UPDATE frm_posts ".
 				 "SET ".
-				 "pos_message = '".$message."',".
+				 "pos_message = '".addslashes($message)."',".
 				 "pos_update = '".date("Y-m-d H:i:s")."',".
 				 "update_user = '".$_SESSION["AccountId"]."' ".				 
 				 "WHERE pos_pk = '".$pos_pk."'";
@@ -554,6 +560,8 @@ class Forum
 		}			
 		if (strlen($result["pos_message"]) > 40)
 			$result["pos_message"] = substr($result["pos_message"], 0, 37)."...";
+		
+		$result["pos_message"] = stripslashes($result["pos_message"]);
 				
 		// convert date
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);
@@ -873,6 +881,9 @@ class Forum
 					"depth"			=> $a_row->depth,
 					"id"			=> $a_row->fpt_pk		
 					);
+		
+		$data["message"] = stripslashes($data["message"]);
+		
 		return $data ? $data : array();
 	}
 	
@@ -1022,12 +1033,13 @@ class Forum
 				if ($edit == 0)
 				{
 					$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
-					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);
+					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
 				}
 			
 			}		
 		}
 		
+		$text = stripslashes($text);
 		
 		return $text;
 	}
