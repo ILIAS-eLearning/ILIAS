@@ -37,10 +37,12 @@ common#:#users_online#:#Users online
 common#:#login_time#:#Current online time
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
+common#:#user_assignment#:#User Assignment
 common#:#err_session_expired#:#Your session is expired!
 common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add
+common#:#search_user#:#Search User
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
@@ -394,6 +396,7 @@ common#:#msg_undeleted#:#Object(s) undeleted.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#Userassigment changed.
+common#:#change_assignment#:#change assignment
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#New

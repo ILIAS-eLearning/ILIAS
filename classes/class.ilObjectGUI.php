@@ -1392,6 +1392,7 @@ class ilObjectGUI
 		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()) &&
 		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
 		{
+
 			// Check if object is able to contain role folder
 			$child_objects = $rbacreview->getModules($this->object->getType(), $this->object->getRefId());
 
