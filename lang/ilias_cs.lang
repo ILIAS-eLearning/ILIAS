@@ -168,6 +168,7 @@ assessment#:#material_download#:#Material to download###16 Mar 2004 new variable
 assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###16 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
+assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###16 Mar 2004 new variable
 assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
@@ -183,6 +184,7 @@ assessment#:#polygon_click_starting_point#:#Please click on the starting point o
 assessment#:#postpone#:#Postpone question###16 Mar 2004 new variable
 assessment#:#postponed#:#postponed###16 Mar 2004 new variable
 assessment#:#preview#:#Preview###16 Mar 2004 new variable
+assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable

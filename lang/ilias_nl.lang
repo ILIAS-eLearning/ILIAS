@@ -168,6 +168,7 @@ assessment#:#material_download#:#Materiaal om te downloaden
 assessment#:#material_file#:#Materiaal-bestand
 assessment#:#maximum_nr_of_tries_reached#:#U heeft het maximum aantal keer voor deze test bereikt. De test kan niet opnieuw gedaan worden!
 assessment#:#meaning#:#Betekenis
+assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
 assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
@@ -183,6 +184,7 @@ assessment#:#polygon_click_starting_point#:#Please click on the starting point o
 assessment#:#postpone#:#Stel vraag uit
 assessment#:#postponed#:#Uitgesteld
 assessment#:#preview#:#Laten zien
+assessment#:#previous_question_rows#:#<< Questions %d - %d of %d###27 Jun 2004 new variable
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Er is geen taxatie van vragen beschikbaar voor de geselecteerde vraag. De vraag is nooit gebruikt in een test.
 assessment#:#qpl_assessment_of_questions#:#Taxatie van vragen
 assessment#:#qpl_assessment_total_of_answers#:#Totaal antwoorden

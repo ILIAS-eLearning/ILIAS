@@ -168,6 +168,7 @@ assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
+assessment#:#next_question_rows#:#Questions %d - %d of %d >>
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#no_target_selected_for_move#:#You must select a target position!
@@ -183,6 +184,7 @@ assessment#:#polygon_click_starting_point#:#Please click on the starting point o
 assessment#:#postpone#:#Postpone question
 assessment#:#postponed#:#postponed
 assessment#:#preview#:#Preview
+assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of answers
@@ -3226,5 +3228,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
-assessment#:#next_question_rows#:#Questions %d - %d of %d >>
