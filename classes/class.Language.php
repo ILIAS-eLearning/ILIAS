@@ -112,5 +112,72 @@ class Language
 	{
 		return "here is da user agreement";
 	}
+
+	/**
+	 * generate all language files from masterfile
+	 * @access public
+	 */
+	function generateLanguageFiles($langfile)
+	{
+		$l_file = @file("./lang/".$langfile);
+
+		if ($l_file == false)
+		{
+			$this->error = "Input-file '".$langfile."' not found!";
+			return false;
+		} //if
+	
+		for ($i=1; $i<count($l_file); $i++)
+		{
+
+			switch ($i)
+			{
+				case 1:
+					$rows = explode("\t",$l_file[$i]);
+					
+					for ($j=1; $j<count($rows); $j++)
+					{
+						$file[] = @fopen("./lang/".trim($rows[$j]).".lang", "w");
+
+						if ($file[$j-1] == false)
+						{
+							$this->error = "Could not open output-file '".trim($rows[$j]).".lang'";
+							return false;
+						}
+					} //for
+					break;
+					
+				case 2:
+					$rows = explode("\t",$l_file[$i]);
+					for ($j=1; $j<count($rows); $j++)
+					{
+
+						if (fputs($file[$j-1], trim($rows[$j])."\n")==false)
+						{
+							$this->error = "Could not write to file";
+							return false;
+						}
+					}
+					break;
+					
+				default:
+					$rows = explode("\t",$l_file[$i]);
+					for ($j=1; $j<count($rows); $j++)
+					{
+						fputs($file[$j-1], trim($rows[0])."#:#".trim($rows[$j])."\n");
+					}
+
+			} //switch
+		} //for
+		
+		for ($i=0; $i<count($file); $i++)
+		{
+			fclose($file[$i]);
+		} //for
+		
+		return true;
+		
+	} //function
+	
 } //class
 ?>
