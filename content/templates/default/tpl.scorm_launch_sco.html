@@ -4,16 +4,18 @@
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body>
+<body onunload="switch_icon()">
 <script language="JavaScript">
 API=parent.APIFRAME.API;
 parent.API=API; // gut gell?
 
 <!-- BEGIN switch_icon -->
-var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
-if (ico != null) {
-	ico.src   = '{SCO_ICO}';
-	ico.title = '{SCO_ALT}';
+function switch_icon () {
+	var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
+	if (ico != null) {
+		ico.src   = '{SCO_ICO}';
+		ico.title = '{SCO_ALT}';
+	}
 }
 <!-- END switch_icon -->
 
