@@ -119,14 +119,8 @@ $ilias->account = new ilObjUser();
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
-if ($script != "login.php" && $script != "index.php")
+if ($ilias->auth->getAuth())
 {
-	//if not authenticated display login screen
-	//if (!$ilias->auth->getAuth())
-	//{
-	//	header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
-	//	exit;
-	//}
 	//get user id
 	if (empty($_SESSION["AccountId"]))
 	{
@@ -145,10 +139,11 @@ if ($script != "login.php" && $script != "index.php")
 	// load account data of current user
 	$ilias->account->read();
 
-	if ($script == "logout.php")
+	// update last_login date once the user logged in
+	if ($script == "login.php")
 	{
 		$ilias->account->refreshLogin();
-	}
+	}	
 
 	//init language
 	$lng = new ilLanguage($ilias->account->prefs["language"]);
@@ -164,9 +159,6 @@ if ($script != "login.php" && $script != "index.php")
 	// init tree
 	$tree = new ilTree(ROOT_FOLDER_ID);
 }
-
-//var_dump($_SESSION);exit;
-
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
