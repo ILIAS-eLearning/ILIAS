@@ -694,7 +694,7 @@ class ilMediaItem
 	/**
 	* get xml code of media items' areas
 	*/
-	function getMapAreasXML()
+	function getMapAreasXML($a_insert_inst = false, $a_inst = 0)
 	{
 		$xml = "";
 
@@ -712,7 +712,7 @@ class ilMediaItem
 					$target_frame = "Glossary";
 				}
 
-				$xml .= "<IntLink Target=\"".$area->getTarget()."\" Type=\"".
+				$xml .= "<IntLink Target=\"".$area->getTarget($a_insert_inst, $a_inst)."\" Type=\"".
 					$area->getType()."\" TargetFrame=\"".$target_frame."\">";
 				$xml .= $area->getTitle();
 				$xml .="</IntLink>";

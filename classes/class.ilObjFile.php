@@ -180,7 +180,7 @@ class ilObjFile extends ilObject
 		$fileObj->createDirectory();
 		
 		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$fileObj->getFileName());
-		
+
 		unset($fileObj);
 	
 		// ... and finally always return new reference ID!!
@@ -212,5 +212,27 @@ class ilObjFile extends ilObject
 		
 		return true;
 	}
+
+
+	/**
+	* export files of object to target directory
+	* note: target directory must be the export target directory,
+	* "/objects/il_<inst>_file_<file_id>/..." will be appended to this directory
+	*
+	* @param	string		$a_target_dir		target directory
+	*/
+	function export($a_target_dir)
+	{
+		$subdir = "il_".IL_INST_ID."_file_".$this->getId();
+		ilUtil::makeDir($a_target_dir."/objects/".$subdir);
+
+		$filedir = $this->getDirectory();
+		ilUtil::rCopy($filedir, $a_target_dir."/objects/".$subdir);
+	}
+
+
+
+
+
 } // END class.ilObjFile
 ?>

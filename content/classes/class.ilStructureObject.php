@@ -91,7 +91,7 @@ class ilStructureObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer)
+	function exportXML(&$a_xml_writer, $a_inst = 0)
 	{
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("StructureObject", $attrs);
@@ -100,10 +100,10 @@ class ilStructureObject extends ilLMObject
 		$this->exportXMLMetaData($a_xml_writer);
 
 		// StructureObjects
-		$this->exportXMLPageObjects($a_xml_writer);
+		$this->exportXMLPageObjects($a_xml_writer, $a_inst);
 
 		// PageObjects
-		$this->exportXMLStructureObjects($a_xml_writer);
+		$this->exportXMLStructureObjects($a_xml_writer, $a_inst);
 
 		// Layout
 		// not implemented
@@ -121,9 +121,21 @@ class ilStructureObject extends ilLMObject
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "insertInstInMeta");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
 	}
+
+	function insertInstInMeta($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param = "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
+	}
+
 
 
 	/**

@@ -352,8 +352,15 @@ class ilContObjectExport
 		// set xml header
 		$this->xml->xmlHeader();
 
+		// create directories
+		$this->cont_obj->createExportDirectory();
+		ilUtil::makeDir($this->export_dir."/".$this->subdir);
+		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
+
 		// get xml content
-		$this->cont_obj->exportXML($this->xml, $this->inst_id);
+//echo "ContObjExport:".$this->inst_id.":<br>";
+		$this->cont_obj->exportXML($this->xml, $this->inst_id,
+			$this->export_dir."/".$this->subdir);
 
 		// dump xml document to screen (only for debugging reasons)
 		/*
@@ -362,9 +369,6 @@ class ilContObjectExport
 		echo "</PRE>";
 		*/
 
-		// create directories
-		ilUtil::makeDir($this->export_dir."/".$this->subdir);
-		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
 		// dump xml document to file
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
@@ -378,8 +382,8 @@ class ilContObjectExport
 		$this->xml->_XmlWriter;
 
 		// send file to user
-		ilUtil::deliverFile($this->export_dir."/".$this->subdir,
-			$this->export_dir."/".$this->subdir.".zip", $this->subdir.".zip");
+		ilUtil::deliverFile($this->export_dir."/".$this->subdir.".zip",
+			$this->subdir.".zip");
 	}
 
 }

@@ -1234,8 +1234,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		require_once("content/classes/class.ilContObjectExport.php");
 		$cont_exp = new ilContObjectExport($this->object);
-		$cont_exp->export();	// old method
-		//$cont_exp->buildExportFile();
+		//$cont_exp->export();	// old method
+		$cont_exp->buildExportFile();
 	}
 
 

@@ -179,17 +179,9 @@ class ilObjDlBook extends ilObjContentObject
 		// ------------------------------------------------------
         // get or create export-directory
 		// ------------------------------------------------------
-		$export_dir = $this->getExportDirectory($obj_id);
-		if ($export_dir==false)
-		{
-			$this->createExportDirectory($obj_id);
+		$this->createExportDirectory();
+		$export_dir = $this->getExportDirectory();
 
-			$export_dir = $this->getExportDirectory($obj_id);
-			if ($export_dir==false)
-			{
-				$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
-			}
-		}
 		// ------------------------------------------------------
         // get mediaobject-xml-data
 		// ------------------------------------------------------
