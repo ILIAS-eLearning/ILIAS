@@ -104,6 +104,14 @@ class ilLMPresentationGUI
 		$this->ilias->db->query($q);
 	}
 
+    /**
+    *   calls export of digilib-object
+    *   at this point other lm-objects can be exported
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function export()
 	{
 		switch($this->lm->getType())
@@ -114,6 +122,13 @@ class ilLMPresentationGUI
 		}
 	}
 
+    /**
+    *   the different export types are processed here
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function offlineexport() {
 
 		if ($_POST["cmd"]["cancel"] != "")
@@ -132,7 +147,7 @@ class ilLMPresentationGUI
 				$result = $this->ilias->db->query($query);
 				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				$_GET["obj_id"] = $objRow["obj_id"];
-				// vd($objRow);
+
 				$query = "SELECT * FROM lm_data WHERE lm_id='".$objRow["obj_id"]."' AND type='pg' ";
 				$result = $this->ilias->db->query($query);
 
@@ -143,33 +158,29 @@ class ilLMPresentationGUI
 
 					$page++;
 
-					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) {
+					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) 
+                    {
 
-                        if ($showpage>0) {
+                        if ($showpage>0) 
+                        {
                             if($_POST["type"] == "pdf") $output .= "<hr BREAK >\n";
                             if($_POST["type"] == "print") $output .= "<p style=\"page-break-after:always\" />";
                             if($_POST["type"] == "html") $output .= "<br><br><br><br>";
                         }
 						$showpage++;
 
-
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
-                        // $o = $this->layout();
 
                         $output .= "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_PageTitle\">".$this->lm->title."</div><p>";
 						$output .= $o;
 
 						$output .= "\n<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>\n";
 
-
-
 					}
 				}
 
 				$printTpl = new ilTemplate("tpl.print.html", true, true, true);
-
-				//vd(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 
 				if($_POST["type"] == "print")
 				{
@@ -187,16 +198,7 @@ class ilLMPresentationGUI
 				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
 				$printTpl->setVariable("CONTENT",$output);
 
-                // $printTpl->setVariable("BOOKTITLE",$this->lm->title);
-
-				/*
-				echo "<font face=verdana size=1>";
-				echo nl2br(htmlspecialchars($printTpl->get()));
-				echo "</font>";
-				*/
-
 				$html = $printTpl->get();
-
 
 				/**
 				*	Check if export-directory exists
@@ -225,13 +227,15 @@ class ilLMPresentationGUI
                     //vd($_GET["ref_id"]);
                     $tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
-                    if ($tmp_obj->getType() == "dbk" ) {
+                    if ($tmp_obj->getType() == "dbk" ) 
+                    {
                         require_once "content/classes/class.ilObjDlBook.php";
                         $dbk =& new ilObjDlBook($_GET["ref_id"]);
                         $dbk->export();
                     }
 
-                } else if($_POST["type"] == "print")
+                } 
+                else if($_POST["type"] == "print")
 				{
 					echo $html;
 				}
@@ -280,7 +284,16 @@ class ilLMPresentationGUI
 		}
 
 	}
-	function offlineexportform() {
+
+    /**
+    *   draws export-form on screen
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
+	function offlineexportform() 
+    {
 
 		switch($this->lm->getType())
 		{
@@ -292,6 +305,13 @@ class ilLMPresentationGUI
 	}
 	
     
+    /**
+    *   export bibinfo for download or copy/paste
+    *
+    *   @param
+    *   @access public
+    *   @return
+    */
 	function exportbibinfo()
 	{
 		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
