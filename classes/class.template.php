@@ -47,7 +47,6 @@ class Template extends IntegratedTemplateExtension
 		{
             $fname = $file;
         }
-		
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
 		
