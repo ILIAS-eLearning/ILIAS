@@ -224,7 +224,7 @@ function buttonExternalLink()
 	
 function buttonInternalLink() 
 {
-	w = window.open("lm_edit.php?cmd=popup&ptype=xtl","xtl","width=500,height=450,resizable=yes");
+	w = window.open("lm_edit.php?cmd=popup&ptype=itl","itl","width=600,height=800,resizable=yes");
 	setTimeout("w.focus()",500);
 }	
 	
