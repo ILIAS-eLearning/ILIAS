@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ilFrame rows="43,*" frameborder="0" framespacing="0" border="0">
-	<ilFrame name="mainmenu" template="tpl.main_buttons.html" scrolling="no">
-		<ilMainMenu />
-	</ilFrame>
-	<ilFrame name="content" cols="30%,70%">
-		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
-			<ilTOC target_frame="maincontent" />
+<ilLayout>
+	<ilFrame rows="43,*" frameborder="0" framespacing="0" border="0">
+		<ilFrame name="mainmenu" template="tpl.main_buttons.html" scrolling="no">
+			<ilMainMenu />
 		</ilFrame>
-		<ilFrame name="maincontent">
-			<PageObject template="tpl.page.html" template_location="module">
-				<ilPage>
-					<LinkTarget Type="New" Frame="_new" />
-					<LinkTarget Type="FAQ" Frame="_new" />
-					<LinkTarget Type="Glossary" Frame="_new" />
-					<LinkTarget Type="Media" Frame="_new" />
-				</ilPage>
-				<ilLMNavigation />
-				<ilLocator />
-				<ilLMMenu />
-			</PageObject>
+		<ilFrame name="content" cols="30%,70%">
+			<ilFrame name="toc" template="tpl.toc.html" template_location="module">
+				<ilTOC target_frame="maincontent" />
+			</ilFrame>
+			<ilFrame name="maincontent">
+				<StructureObject template="tpl.page.html" template_location="module">
+					<ilPage/>
+					<ilLMNavigation/>
+					<ilLocator/>
+					<ilLMMenu />
+				</StructureObject>
+				<PageObject template="tpl.page.html" template_location="module">
+					<ilPage/>
+					<ilLMNavigation/>
+					<ilLocator/>
+					<ilLMMenu />
+				</PageObject>
+			</ilFrame>
 		</ilFrame>
 	</ilFrame>
-</ilFrame>
+	<ilLinkTargets>
+		<LinkTarget Type="New" Frame="_new"/>
+		<LinkTarget Type="FAQ" Frame="_new"/>
+		<LinkTarget Type="Glossary" Frame="_new"/>
+		<LinkTarget Type="Media" Frame="_new"/>
+	</ilLinkTargets>
+</ilLayout>

@@ -294,6 +294,7 @@ class ilPageObjectGUI
 		$output = str_replace("&lt;","<",$output);
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;", "&", $output);
+//echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
 		// output
 		if($this->outputToTemplate())

@@ -34,11 +34,6 @@
 			</ilFrame>
 		</ilFrame>
 	</ilFrame>
-	<ilFrame name="_new">
-		<MediaObject template="tpl.fullscreen.html" template_location="module">
-			<ilMedia />
-		</MediaObject>
-	</ilFrame>
 	<ilLinkTargets>
 		<LinkTarget Type="New" Frame="_new"/>
 		<LinkTarget Type="FAQ" Frame="topright"/>

@@ -81,29 +81,29 @@ class ilLMPresentationGUI
 		$this->$cmd();
 	}
 
-// ### AA 03.09.01 added page access logger ###
-        /**
-        * logs access to lm objects to enable retrieval of a 'last viewed lm list' and 'return to last lm'
-        * allows only ONE entry per user and lm object
-        *
-        * A.L. Ammerlaan / INGMEDIA FH-Aachen / 2003.09.08
-        */
-        function lmAccess($usr_id,$lm_id,$obj_id)
-        {
-                // first check if an entry for this user and this lm already exist, when so, delete
-                $q = "DELETE FROM lo_access ".
-                         "WHERE usr_id='".$usr_id."' ".
-                         "AND lm_id='".$lm_id."'";
-                $this->ilias->db->query($q);
+	// ### AA 03.09.01 added page access logger ###
+	/**
+	* logs access to lm objects to enable retrieval of a 'last viewed lm list' and 'return to last lm'
+	* allows only ONE entry per user and lm object
+	*
+	* A.L. Ammerlaan / INGMEDIA FH-Aachen / 2003.09.08
+	*/
+	function lmAccess($usr_id,$lm_id,$obj_id)
+	{
+		// first check if an entry for this user and this lm already exist, when so, delete
+		$q = "DELETE FROM lo_access ".
+			"WHERE usr_id='".$usr_id."' ".
+			"AND lm_id='".$lm_id."'";
+		$this->ilias->db->query($q);
 
-                // insert new entry
-                $pg_title = "";
-                $q = "INSERT INTO lo_access ".
-                         "(timestamp,usr_id,lm_id,obj_id,lm_title) ".
-                         "VALUES ".
-                         "(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".$this->lm->getTitle()."')";
-                $this->ilias->db->query($q);
-        }
+		// insert new entry
+		$pg_title = "";
+		$q = "INSERT INTO lo_access ".
+			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
+			"VALUES ".
+			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".$this->lm->getTitle()."')";
+		$this->ilias->db->query($q);
+	}
 
 	function export()
 	{
@@ -315,12 +315,13 @@ class ilLMPresentationGUI
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
 
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
+
 		$this->layout_doc =& $doc;
 
 		$xpc = xpath_new_context($doc);
 
 		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_new"))
-			? "/ilFrame[1]"
+			? "/ilLayout/ilFrame[1]"
 			: "//ilFrame[@name='".$_GET["frame"]."']";
 		$result = xpath_eval($xpc, $path);
 		$found = $result->nodeset;
@@ -340,7 +341,9 @@ class ilLMPresentationGUI
 		}
 		else	// node is frame -> process the content tags
 		{
-			if (empty($attributes["template"]) || !empty($_GET["obj_type"]))
+
+			if ((empty($attributes["template"]) || !empty($_GET["obj_type"]))
+				&& ($_GET["frame"] != "_new"))
 			{
 				// we got a variable content frame (can display different
 				// object types (PageObject, MediaObject, GlossarItem)
@@ -371,8 +374,8 @@ class ilLMPresentationGUI
 				}
 				if (!$found) { echo "ilLMPresentation: No template specified for frame '".
 					$_GET["frame"]."' and object type '".$obj_type."'."; exit; }
-
 			}
+
 			// get template
 			$in_module = ($attributes["template_location"] == "module")
 				? true
@@ -1022,8 +1025,11 @@ class ilLMPresentationGUI
 					// (html framesets don't have names, so we need a wrapper frame)
 					if(!empty($attributes["name"]))
 					{
-						$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-							"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
+						unset($attributes["template"]);
+						unset($attributes["template_location"]);
+						$attributes["src"] = "lm_presentation.php?ref_id=".$this->lm->getRefId().
+							"&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"];
+						$a_content .= $this->buildTag("", "frame", $attributes);
 					}
 					else	// ok, no name means that we can easily output the frameset tag
 					{
@@ -1034,8 +1040,13 @@ class ilLMPresentationGUI
 				}
 				else	// frame with
 				{
-					$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-						"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
+					unset($attributes["template"]);
+					unset($attributes["template_location"]);
+					$attributes["src"] = "lm_presentation.php?ref_id=".$this->lm->getRefId().
+						"&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"];
+					$a_content .= $this->buildTag("", "frame", $attributes);
+					//$a_content .= "<frame name=\"".$attributes["name"]."\" ".
+					//	"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."&obj_id=".$_GET["obj_id"]."\" />\n";
 				}
 			}
 		}
@@ -1044,7 +1055,7 @@ class ilLMPresentationGUI
 	/**
 	* generate a tag with given name and attributes
 	*
-	* @param	string		"start" | "end" for starting or ending tag
+	* @param	string		"start" | "end" | "" for starting or ending tag or complete tag
 	* @param	string		element/tag name
 	* @param	array		array of attributes
 	*/
@@ -1062,6 +1073,9 @@ class ilLMPresentationGUI
 			while (list($k,$v) = each($attr))
 				$tag.= " ".$k."=\"$v\"";
 		}
+
+		if ($type == "")
+			$tag.= "/";
 
 		$tag.= ">\n";
 
