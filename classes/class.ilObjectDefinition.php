@@ -69,11 +69,23 @@ class ilObjectDefinition extends ilSaxParser
 	/**
 	* should the object get a checkbox (needed for 'cut','copy' ...)
 	* 
+	* @param	string	object type
 	* @access	public
 	*/
 	function hasCheckbox($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["checkbox"];
+	}
+	
+	/**
+	* Does object permits stopping inheritance?
+	* 
+	* @param	string	object type
+	* @access	public
+	*/
+	function stopInheritance($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["inherit"];
 	}
 
 	/**
@@ -179,6 +191,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["name"] = $a_attribs["name"];
 				$this->obj_data["$a_attribs[name]"]["class_name"] = $a_attribs["class_name"];
 				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
+				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
