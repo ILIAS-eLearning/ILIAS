@@ -91,7 +91,7 @@ class ilErrorHandling
 		{
 			die (stripslashes($a_error_obj->getMessage()));
 		}
-		
+
 		if ($a_error_obj->getCode() == $this->WARNING)
 		{
 			if ($this->DEBUG_ENV)

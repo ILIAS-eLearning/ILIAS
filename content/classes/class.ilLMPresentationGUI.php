@@ -45,10 +45,11 @@ class ilLMPresentationGUI
 
 	function ilLMPresentationGUI()
 	{
-		global $ilias, $lng;
+		global $ilias, $lng, $tpl;
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
 
@@ -368,6 +369,15 @@ class ilLMPresentationGUI
 		{
 			$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
 			$page_id = $succ_node["obj_id"];
+
+			if ($succ_node["type"] != "pg")
+			{
+				$this->tpl = new ilTemplate("tpl.main.html", true, true);
+				$this->ilias->raiseError($this->lng->txt("cont_no_page"),$this->ilias->error_obj->FATAL);
+				$this->tpl->show();
+				exit;
+//echo "2:".$succ_node["type"].":"; exit;
+			}
 		}
 		return $page_id;
 	}
