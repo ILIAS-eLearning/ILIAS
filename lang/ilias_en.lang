@@ -41,6 +41,7 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation

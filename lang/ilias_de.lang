@@ -41,6 +41,7 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
+common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#permission_settings#:#Rechteeinstellungen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
