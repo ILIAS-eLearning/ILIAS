@@ -243,6 +243,11 @@ class php4DOMElement extends php4DOMNode
 	// ##added
 	function set_content($text)
 	{
+		// the following replace has been added to conform with PHP4.
+		// A set_content("&amp;") brought a get_content() = "&" there,
+		// whereas PHP5 gives a get_content() = "&amp;"
+		$text = str_replace("&amp;", "&", $text);
+		
 		$text_node =& new DOMText();
 		$text_node->appendData($text);
 		if (is_object($this->myDOMNode->firstChild))

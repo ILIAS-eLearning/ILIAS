@@ -116,7 +116,7 @@ class ilPCTable extends ilPageContent
 		str_replace($a_data, "\n\n", "\n");
 		$target_rows = array();
 		$rows = explode("\n", $a_data);
-		
+
 		// get maximum of cols in a row and
 		// put data in target_row arrays
 		foreach($rows as $row)
@@ -127,15 +127,20 @@ class ilPCTable extends ilPageContent
 				: count($cells);
 			$target_rows[] = $cells;
 		}
-		
+
 		// iterate target row arrays and insert data
 		foreach($target_rows as $row)
 		{
 			$aRow = $this->addRow();
 			for ($j=0; $j<$max_cols; $j++)
 			{
-				$this->addCell($aRow, $row[$j], $a_lang);
-			}			
+				// mask html
+				$data = str_replace("&","&amp;", $row[$j]);
+				$data = str_replace("<","&lt;", $data);
+				$data = str_replace(">","&gt;", $data);
+
+				$this->addCell($aRow, $data, $a_lang);
+			}
 		}
 	}
 
