@@ -1771,7 +1771,7 @@ class ilObjUser extends ilObject
 					}
 					break;
 			}
-			if ($a_type == "svy")
+			if ($a_type == "svy" && !empty($foundsurveys)) // fix from jk
 			{
 				$query = sprintf("SELECT survey_finished.state, survey_survey.ref_fi FROM survey_finished, survey_survey WHERE survey_finished.user_fi = %s AND survey_finished.survey_fi = survey_survey.survey_id AND survey_survey.ref_fi IN (%s)",
 					$this->ilias->db->quote($ilUser->id),
