@@ -39,7 +39,7 @@ global $ilias_locator;
 // navigate locator
 if ($_GET["cmd"] == "highest_level" )
 {
-	$ilias_locator->navigate(0,$lng->txt("personal_desktop"),"start.php","bottom");
+	$ilias_locator->navigate(0,$lng->txt("personal_desktop"),"start.php","_top");
 }
 elseif($_GET["cmd"] == "cal" )
 {
