@@ -46,7 +46,9 @@ class TUtil
 	 */
 	function getModules ($ATypeList = "")
     {
-        global $ilias,$rbacadmin;
+        global $ilias;
+
+		$rbacadmin = new RbacAdminH($ilias->db);
         $db = $ilias->db;
         
 		$arr = array();
@@ -67,7 +69,6 @@ class TUtil
         $res = $db->query($query);
         
 		$rolf_exist = false;
-		
 		if (count($rbacadmin->getRoleFolderOfObject($_GET["obj_id"])) > 0)
 		{
 			$rolf_exist = true;
@@ -77,7 +78,7 @@ class TUtil
         {
             while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
             {
-                if (!($rolf_exist) && ($data["type"] == "rolf"))
+                if (!$rolf_exist || ($data["title"] != "rolf"))
 				{
 					$arr[$data["title"]] = $data["description"];
 				}
