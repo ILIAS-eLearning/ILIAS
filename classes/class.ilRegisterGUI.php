@@ -35,11 +35,11 @@ class ilRegisterGUI
 	var $ilias;
 	var $tpl;
 	var $tree;
-	var $rbacsystem;
-	var $cur_ref_id;
-	var $cmd;
-	var $mode;
+	var $objDefinition;
 	var $ctrl;
+	var $cmd;
+	var $ilErr;
+	var $object;
 
 	/**
 	* Constructor
@@ -47,42 +47,21 @@ class ilRegisterGUI
 	*/
 	function ilRegisterGUI()
 	{
-		global $lng, $ilias, $tpl, $tree, $objDefinition, $ilCtrl;
+		global $lng, $ilias, $tpl, $tree, $objDefinition, $ilCtrl, $ilErr;
 
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 		$this->objDefinition =& $objDefinition;
+		$this->ilErr =& $ilErr;
 
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->ctrl->saveParameter($this,array("ref_id"));
+		$this->ctrl->setParameter($this,"user_id",$this->ilias->account->getId());
 
 		// get object of current ref id
 		$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-	}
-
-	
-	function prepareOutput()
-	{
-		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		// output locator
-		$this->setLocator();
-
-		// output message
-		if($this->message)
-		{
-			sendInfo($this->message);
-		}
-
-		// display infopanel if something happened
-		infoPanel();
-
-		// set header
-		$this->setHeader();
 	}
 
 	/**
@@ -91,23 +70,19 @@ class ilRegisterGUI
 	function &executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
-		
+
 		if (empty($cmd))
 		{
 			$cmd = "checkStatus";
 		}
-//vd($cmd);exit;
-		//$this->prepareOutput();
+
 		$this->cmd = $cmd;
 		$this->$cmd();	
 	}
 	
-	function checkStatus()
+	function showRegistrationForm()
 	{
 		$owner = new ilObjUser($this->object->getOwner());
-
-		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
-		$_SESSION["status"] 	= $this->object->getDefaultMemberRole();
 
 		switch ($this->object->getRegistrationFlag())
 		{
@@ -117,12 +92,14 @@ class ilRegisterGUI
 				$readonly ="readonly";
 				$subject ="";
 				$cmd_submit = "subscribe";
+				$txt_submit = $this->lng->txt("grp_register");
 				break;
 
 			case 1:
 				$stat = $this->lng->txt("group_req_registration");
 				$msg  = $this->lng->txt("group_req_registration_msg");
 				$cmd_submit = "apply";
+				$txt_submit = $this->lng->txt("grp_register");
 				$txt_subject =$this->lng->txt("subject").":";
 				$textfield = "<textarea name=\"subject\" value=\"{SUBJECT}\" cols=\"50\" rows=\"5\" size=\"255\"></textarea>";
 				break;
@@ -133,24 +110,33 @@ class ilRegisterGUI
 					$stat = $this->lng->txt("group_req_password");//"Registrierungpasswort erforderlich";
 					$msg = $this->lng->txt("group_password_registration_msg");
 					$txt_subject =$this->lng->txt("password").":";
+					$txt_submit = $this->lng->txt("grp_register");
 					$textfield = "<input name=\"subject\" value=\"{SUBJECT}\" type=\"password\" size=\"40\" maxlength=\"70\" style=\"width:300px;\"/>";
 					$cmd_submit = "apply";
 				}
 				else
 				{
+					$no_cancel = true;
 					$msg = $this->lng->txt("group_password_registration_expired_msg");
 					$msg_send = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=root";
 					$cmd_submit = "cancel";
-					$readonly ="readonly";
+					$txt_submit = $this->lng->txt("grp_back");
+					$readonly = "readonly";
 					$stat = $this->lng->txt("group_registration_expired");
-					sendInfo($this->lng->txt("registration_expired"),true);
+					sendInfo($this->lng->txt("registration_expired"));
 				}
 				break;
 		}
 
+		if ($no_cancel !== true)
+		{
+			$this->tpl->setCurrentBlock("btn_cancel");
+			$this->tpl->setVariable("CMD_CANCEL","cancel");
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->parseCurrentBlock();
+		}
 
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_access"));
-		$this->tpl->addBlockFile("CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("group_access_denied"));
 		$this->tpl->setVariable("TXT_MESSAGE",$msg);
 		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name").":");
@@ -163,66 +149,73 @@ class ilRegisterGUI
 		$this->tpl->setVariable("GRP_STATUS", $stat);
 		$this->tpl->setVariable("TXT_SUBJECT",$txt_subject);
 		$this->tpl->setVariable("SUBJECT",$textfield);
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("grp_register"));
-		$this->tpl->setVariable("CMD_CANCEL","cancel");
+		$this->tpl->setVariable("TXT_SUBMIT",$txt_submit);
 		$this->tpl->setVariable("CMD_SUBMIT",$cmd_submit);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getLinkTarget($this,"post")."&user_id=".$this->ilias->account->getId());
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
 	}
 	
 	function cancel()
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
-		ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
+		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
+		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 	}
 	
 	function subscribe()
 	{
-		if ($this->object->addMember($this->ilias->account->getId(), $this->object->getDefaultMemberRole()))
+		if (!$this->object->addMember($this->ilias->account->getId(), $this->object->getDefaultMemberRole()))
 		{
-			sendInfo($this->lng->txt("grp_registration_completed"),true);
+			$this->ilErr->raiseError($this->lng->txt("err_unknown_error"),$this->ilErr->MESSAGE);
 		}
 		
-		ilUtil::redirect("repository.php?ref_id=".$this->object->getRefId());
+		sendInfo($this->lng->txt("grp_registration_completed"),true);		
+		$this->ctrl->returnToParent($this);
 	}
 	
 	function apply()
 	{
-		if ($this->object->getRegistrationFlag() == 1)
+		switch ($this->object->getRegistrationFlag())
 		{
-			$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
-			$res = $this->ilias->db->query($q);
-
-			if ($res->numRows() > 0)
-			{
-				sendInfo($this->lng->txt("already_applied"),true);
-			}
-			else
-			{
-				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+			// registration
+			case 1:
+				$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->object->getId()." AND user_id=".$this->ilias->account->getId();
 				$res = $this->ilias->db->query($q);
-				sendInfo($this->lng->txt("application_completed"),true);
-			}
-		}
-		else if ($this->object->getRegistrationFlag() == 2)	//PASSWORD REGISTRATION
-		{
-			if (strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible() == true)
-			{
-				$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
-				sendInfo($this->lng->txt("grp_registration_completed"),true);
-			}
-			else if (strcmp($this->object->getPassword(),$_POST["subject"]) != 0 && $this->object->registrationPossible() == true)
-			{
-				sendInfo($this->lng->txt("err_wrong_password"),true);
-			}
-			else
-				sendInfo($this->lng->txt("registration_not_possible"),true);
-			
-		}
+	
+				if ($res->numRows() > 0)
+				{
+					$this->ilErr->raiseError($this->lng->txt("grp_already_applied"),$this->ilErr->MESSAGE);
+				}
+	
+				$q = "INSERT INTO grp_registration VALUES (".$this->object->getId().",".$this->ilias->account->getId().",'".$_POST["subject"]."','".date("Y-m-d H:i:s")."')";
+				$this->ilias->db->query($q);
 
-		ilUtil::redirect("repository.php?ref_id=".$this->getReturnRefId());
+				sendInfo($this->lng->txt("application_completed"),true);
+				$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->getReturnRefId());
+				$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+				break;
+
+			// passwort
+			case 2:
+				if (strcmp($this->object->getPassword(),$_POST["subject"]) != 0 && $this->object->registrationPossible() == true)
+				{
+					$this->ilErr->raiseError($this->lng->txt("err_wrong_password"),$this->ilErr->MESSAGE);
+				}
+
+				if (strcmp($this->object->getPassword(),$_POST["subject"]) == 0 && $this->object->registrationPossible() == true)
+				{
+					$this->object->addMember($this->ilias->account->getId(),$this->object->getDefaultMemberRole());
+					sendInfo($this->lng->txt("grp_registration_completed"),true);
+					$this->ctrl->returnToParent($this);
+				}
+
+				$this->ilErr->raiseError($this->lng->txt("registration_not_possible"),$this->ilErr->MESSAGE);
+				break;
+				
+			default:
+				$this->ilErr->raiseError($this->lng->txt("err_unknown_error"),$this->ilErr->MESSAGE);
+				break;
+		}
 	}
 
 	function getReturnRefId()
@@ -236,7 +229,5 @@ class ilRegisterGUI
 			return $_SESSION["il_rep_ref_id"];
 		}	
 	}
-
-} // END class ilRepository
-
+} // END class.ilRegisterGUI
 ?>

@@ -44,6 +44,8 @@ administration#:#closing_gaps#:#Closing gaps in tree...
 administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 administration#:#found_none#:#none found.
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
@@ -54,6 +56,9 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
+common#:#err_wrong_password#:#Wrong Password
+common#:#grp_back#:#Back
+common#:#err_unknown_error#:#Unknown Error
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
@@ -95,11 +100,13 @@ assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
+common#:#refuse#:#Refuse
 assessment#:#by#:#by
 assessment#:#cloze_text#:#Cloze text
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_new#:#Create new
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
 assessment#:#duplicate#:#Duplicate
 assessment#:#end_tag#:#End tag
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
@@ -272,6 +279,7 @@ assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#working_time#:#Working Time
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.

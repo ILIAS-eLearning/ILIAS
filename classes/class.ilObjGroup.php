@@ -992,10 +992,10 @@ class ilObjGroup extends ilObject
 		global $rbacsystem;
 		
 		// exclude system role from check
-		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		/*if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
 		{
 			return true;		
-		}
+		}*/
 
 		if (!$this->isMember() && $rbacsystem->checkAccess("join", $this->ref_id))
 		{
@@ -1003,11 +1003,6 @@ class ilObjGroup extends ilObject
 		}
 		
 		return true;
-	}
-	
-	function callRegisterGUI($a_return_script)
-	{
-		ilUtil::redirect("group_subscribe.php?ref_id=".$this->getRefId()."&return_to=".$a_return_script);
 	}
 } //END class.ilObjGroup
 ?>
