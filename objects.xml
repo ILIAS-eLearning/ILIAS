@@ -129,7 +129,6 @@
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="crs">crs</subobj>
 	<subobj name="fold" module="1">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="file" module="1">file</subobj>
