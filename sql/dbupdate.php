@@ -884,7 +884,26 @@ $this->db->query($query);
 ?>
 <#35>
 <?php
-$query = "SELECT * FROM object_data,object_reference WHERE object_data.type='mail' AND object_data.obj_id = object_reference.ref_id";
+$query = "SELECT * FROM object_data,object_reference WHERE object_data.type='mail' AND object_data.obj_id = object_reference.obj_id";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+}
+
+$query = "DELETE FROM rbac_pa WHERE obj_id = '".$ref_id."'";
+$res = $this->db->query($query);
+
+// INSERT PERMISSIONS FOR MAIL OBJECT
+$query = "INSERT INTO rbac_pa ". 
+         " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
+var_dump("<pre>",$query,"</pre");
+$res = $this->db->query($query);
+?>
+
+<#36>
+<?php
+$query = "SELECT * FROM object_data,object_reference WHERE object_data.type='mail' AND object_data.obj_id = object_reference.obj_id";
 $res = $this->db->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
@@ -898,4 +917,4 @@ $res = $this->db->query($query);
 $query = "INSERT INTO rbac_pa ". 
          " VALUES('2','a:6:{i:0;s:1:\"1\";i:1;s:1:\"3\";i:2;s:2:\"11\";i:3;s:2:\"12\";i:4;s:1:\"2\";i:5;s:1:\"4\";}','".$ref_id."','".$ref_id."')";
 $res = $this->db->query($query);
-?> 
+?>
