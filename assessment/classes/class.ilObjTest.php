@@ -4656,5 +4656,23 @@ class ilObjTest extends ilObject
 		return $num;
 	}
 	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	*/
+	function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng;
+
+		if ($rbacsystem->checkAccess("read", $a_target))
+		{
+			ilUtil::redirect("assessment/test.php?cmd=run&ref_id=$a_target");
+		}
+		else
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+		}
+	}	
 } // END class.ilObjTest
 ?>

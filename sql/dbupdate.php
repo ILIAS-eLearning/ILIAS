@@ -5273,3 +5273,17 @@ ALTER TABLE content_object ADD COLUMN downloads_active ENUM('y','n') DEFAULT 'n'
 <#374>
 UPDATE object_data SET import_id='' WHERE import_id='Array';
 UPDATE lm_data SET import_id='' WHERE import_id='Array';
+<#375>
+CREATE TABLE `lm_menu` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`lm_id` INT NOT NULL ,
+`link_type` ENUM( 'extern', 'intern' ) ,
+`title` VARCHAR( 200 ) ,
+`target` VARCHAR( 200 ) ,
+`link_ref_id` INT,
+`active` ENUM( 'y', 'n' ) DEFAULT 'n' NOT NULL ,
+PRIMARY KEY ( `id` ) ,
+INDEX ( `link_type` ) ,
+INDEX ( `lm_id` ) ,
+INDEX ( `active` )
+);

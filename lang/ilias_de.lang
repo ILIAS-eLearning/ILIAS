@@ -2476,6 +2476,16 @@ content#:#cont_ed_delete_col#:#Spalte löschen
 content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
 content#:#cont_ed_edit#:#Bearbeiten
+content#:#msg_entry_removed#:#Menüeintrag entfernt
+content#:#msg_entry_updated#:#Menüeintrag aktualisiert
+content#:#msg_entry_added#:#Menüeintrag gespeichert
+content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
+content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
+content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
+content#:#lm_menu_entry_title#:#Titel
+content#:#lm_menu_entry_target#:#Ziel
+content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
+content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#cont_ed_edit_prop#:#Eigenschaften
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen

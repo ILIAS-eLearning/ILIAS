@@ -62,11 +62,31 @@ switch($target_type)
 	case "glo":
 	case "git":
 		require_once("content/classes/class.ilGlossaryTerm.php");
-		ilGlossaryTerm::_goto($target_id);
+		ilGlossaryTerm::_goto($target_id,$target_type);
 		break;
 	case "lm":
 		require_once("./content/classes/class.ilObjContentObject.php");
 		ilObjContentObject::_goto($target_id);
+		break;
+		
+	case "frm":
+		require_once("./classes/class.ilObjForum.php");
+		ilObjForum::_goto($target_id);
+		break;
+		
+	case "exc":
+		require_once("./classes/class.ilObjExercise.php");
+		ilObjExercise::_goto($target_id);
+		break;
+		
+	case "tst":
+		require_once("./assessment/classes/class.ilObjTest.php");
+		ilObjTest::_goto($target_id);
+		break;
+
+	case "svy":
+		require_once("./survey/classes/class.ilObjSurvey.php");
+		ilObjSurvey::_goto($target_id);
 		break;
 }
 
