@@ -191,12 +191,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$question->object->loadFromDb($_GET["edit"]);
 		}
-		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"])
+		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["select_phrase"])
 		{ 
-			// reload the question after canceling the confirmation to delete categories
 			$question->object->loadFromDb($_POST["id"]);
+			if ($_POST["cmd"]["select_phrase"])
+			{
+				$question->object->addPhrase($_POST["phrases"]);
+			}
 		}
-		
 		$question->object->setRefId($_GET["ref_id"]);
 
 		if ($_POST["cmd"]["delete"])
@@ -219,7 +221,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 
     $question_type = $question->getQuestionType();
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"])) {
+    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["select_phrase"])) {
       $missing_required_fields = $question->writePostData();
     }
 
@@ -228,7 +230,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$this->setLocator("", "", "", $question->object->getTitle());
 
-		if ($_POST["cmd"]["confirm_delete"]) {
+		if ($_POST["cmd"]["confirm_delete"]) 
+		{
 			$question->removeCategories();
 		}
 		
@@ -260,7 +263,27 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["delete"])
 		{
-			$question->showDeleteCategoryForm();
+      if (!$missing_required_fields) {
+        $question->object->saveToDb();
+				$question->showDeleteCategoryForm();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+				$question->showEditForm();
+      }
+		}
+		else if ($_POST["cmd"]["add_phrase"])
+		{
+      if (!$missing_required_fields) {
+        $question->object->saveToDb();
+				$question->showAddPhraseForm();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+				$question->showEditForm();
+      }
+		}
+		else if ($_POST["cmd"]["view_phrase"])
+		{
+			$question->showAddPhraseForm();
 		}
 		else
 		{

@@ -87,6 +87,59 @@ class SurveyOrdinalQuestionGUI {
 	}
 
 /**
+* Creates an output for the addition of phrases
+*
+* Creates an output for the addition of phrases
+*
+* @access public
+*/
+  function showAddPhraseForm() 
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", true);
+
+		// set the id to return to the selected question
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "id");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
+		$this->tpl->parseCurrentBlock();
+
+		$phrases =& $this->object->getAvailablePhrases();
+		foreach ($phrases as $phrase_id => $phrase_text)
+		{
+			$this->tpl->setCurrentBlock("phrases");
+			$this->tpl->setVariable("ID_PHRASE", $phrase_id);
+			$this->tpl->setVariable("TEXT_PHRASE", $phrase_text);
+			if ($phrase_id == $_POST["phrases"])
+			{
+				$this->tpl->setVariable("SELECTED_PHRASE", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($_POST["cmd"]["view_phrase"])
+		{
+			$categories =& $this->object->getCategoriesForPhrase($_POST["phrases"]);
+			$i = 1;
+			foreach ($categories as $categoriy_id => $category_text)
+			{
+				$this->tpl->setCurrentBlock("categories");
+				$this->tpl->setVariable("TEXT_CATEGORY", $category_text);
+				$this->tpl->setVariable("VALUE_CATEGORY", $i);
+				$this->tpl->parseCurrentBlock();
+				$i++;
+			}
+		}
+				
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
+		$this->tpl->setVariable("TEXT_VIEW_PHRASE",$this->lng->txt("view_phrase"));
+		$this->tpl->setVariable("TEXT_ADD_PHRASE",$this->lng->txt("add_phrase"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Creates an output for the confirmation to delete categories
 *
 * Creates an output for the confirmation to delete categories
@@ -193,6 +246,7 @@ class SurveyOrdinalQuestionGUI {
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
 		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
 		$this->tpl->setVariable("VALUE_QUESTION", $this->object->getQuestiontext());
+		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
 		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add_category"));
 		$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 		$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
@@ -263,10 +317,7 @@ class SurveyOrdinalQuestionGUI {
 			}
 			if (count($delete_categories))
 			{
-				foreach ($delete_categories as $id)
-				{
-					$this->object->removeCategory($id);
-				}
+				$this->object->removeCategories($delete_categories);
 			}
 			else
 			{

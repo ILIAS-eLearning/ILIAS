@@ -273,10 +273,7 @@ class SurveyNominalQuestionGUI {
 			}
 			if (count($delete_categories))
 			{
-				foreach ($delete_categories as $id)
-				{
-					$this->object->removeCategory($id);
-				}
+				$this->object->removeCategories($delete_categories);
 			}
 			else
 			{
