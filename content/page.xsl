@@ -1935,7 +1935,7 @@
             	    </xsl:if>
 				</xsl:attribute>
 				<xsl:attribute name="coords">
-				<xsl:value-of select="."/>
+				<xsl:value-of select="substring(., 1, string-length(.)-string-length(material))" />
 				</xsl:attribute>
 			    <xsl:attribute name="alt">
 			        <xsl:value-of select="material/mattext"/>
@@ -1954,7 +1954,6 @@
 		</xsl:when>
 	</xsl:choose>
 </xsl:template>
-
 
 <!-- t&a: dump qti data -->
 <xsl:template match="questestinterop"/>
