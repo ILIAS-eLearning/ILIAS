@@ -2,16 +2,16 @@
 <input type="hidden" name="id" value="{CLOZE_ID}">
 <table class="std">
 <tr>
-  <td class="option">{TEXT_TITLE}:</td>
+  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="5"><input name="title" type="text" value="{VALUE_CLOZE_TITLE}" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_AUTHOR}:</td>
+  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="5"><input name="author" type="text" value="{VALUE_CLOZE_AUTHOR}" size="50" /></td></tr>
 <tr>
   <td class="option">{TEXT_COMMENT}:</td>
   <td class="option_value" colspan="5"><input name="comment" type="text" value="{VALUE_CLOZE_COMMENT}" id="comment" size="50" /></td></tr>
 <tr>
-  <td class="option">{TEXT_CLOZE_TEXT}:</td>
+  <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="5"><textarea name="clozetext" cols="50" rows="5" id="clozetext">{VALUE_CLOZE_TEXT}</textarea></td>
 </tr>
 <tr>
@@ -36,6 +36,11 @@
 </tr>
 <!-- END selectgap_value -->
 <!-- END selectgap -->
-<tr><td colspan="6" class="option"><input name="cmd[apply]" type="submit" class="submit" id="applycloze" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="savecloze" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
+<tr><td colspan="6" class="submit">
+<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<div align="right">
+<input name="cmd[apply]" type="submit" class="submit" id="apply_multiple_choice" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_multiple_choice" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</div>
+</td></tr>
 </table>
 </form>
