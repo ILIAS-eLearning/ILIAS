@@ -34,7 +34,7 @@ define("CLOZE_TEST_IDENTIFIER", "CLOZE QUESTION");
 *
 * ASS_ClozeText is a class for cloze tests using text or select gaps.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assClozeTest.php
 * @modulegroup   Assessment

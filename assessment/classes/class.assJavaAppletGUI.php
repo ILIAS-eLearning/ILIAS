@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assJavaApplet.php";
 * The ASS_JavaAppletGUI class encapsulates the GUI representation
 * for java applet questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assJavaAppletGUI.php
 * @modulegroup   Assessment

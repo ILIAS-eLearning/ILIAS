@@ -34,7 +34,7 @@ define ("ORDERING_QUESTION_IDENTIFIER", "ORDERING QUESTION");
 *
 * ASS_OrderingQuestion is a class for ordering questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assOrderingQuestion.php
 * @modulegroup   Assessment

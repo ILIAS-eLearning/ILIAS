@@ -27,7 +27,7 @@ require_once "./assessment/classes/class.assQuestion.php";
 *
 * ASS_JavaApplet is a class for Java Applet Questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assJavaApplet.php
 * @modulegroup   Assessment

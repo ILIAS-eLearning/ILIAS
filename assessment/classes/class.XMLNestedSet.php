@@ -31,7 +31,7 @@ require_once "./assessment/classes/class.SQL2XML.php";
 * a nested set transformation for that tree.
 *
 * @author Sascha Hofmann <shofmann@databay.de>
-* @author	Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version $Id$
 * @module   class.XMLNestedSet.php
 * @modulegroup   Assessment

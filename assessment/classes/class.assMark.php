@@ -27,7 +27,7 @@
 * 
 * A class defining marks for assessment test objects
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut SchottmÃ¼ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMark.php
 * @modulegroup   Assessment

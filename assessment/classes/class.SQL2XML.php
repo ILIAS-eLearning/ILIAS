@@ -25,6 +25,7 @@
 * Class for exporting XML documents stored in a relational database to a domxml representation
 *  
 * @author	Sascha Hofmann <shofmann@databay.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 */
 class SQL2XML

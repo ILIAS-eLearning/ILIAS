@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assMultipleChoice.php";
 * The ASS_MultipleChoiceGUI class encapsulates the GUI representation
 * for multiple choice questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMultipleChoiceGUI.php
 * @modulegroup   Assessment

@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assClozeTest.php";
 * The ASS_ClozeTestGUI class encapsulates the GUI representation
 * for cloze test questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assClozeTestGUI.php
 * @modulegroup   Assessment

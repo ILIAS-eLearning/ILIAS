@@ -31,7 +31,7 @@ require_once "./assessment/classes/class.ilImagemapPreview.php";
 * The ASS_ImagemapQuestionGUI class encapsulates the GUI representation
 * for image map questions.
 *
-* @author		Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assImagemapQuestionGUI.php
 * @modulegroup   Assessment

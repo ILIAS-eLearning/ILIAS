@@ -25,7 +25,7 @@
 /**
 * Class ilObjQuestionPoolGUI
 *
-* @author Helmut Schottm�ller <hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * $Id$
 *
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
