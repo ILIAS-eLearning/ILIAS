@@ -963,7 +963,7 @@ class ilObjUserGUI extends ilObjectGUI
             {
                 if (empty($_POST["Fobject"][$val]))
                 {
-                    $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+                    $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " .
 											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                 }
             }
@@ -1030,7 +1030,7 @@ class ilObjUserGUI extends ilObjectGUI
         $userObj->setTimeLimitUnlimited($_POST["time_limit"]["unlimited"]);
         $userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
         $userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
-		
+
 		$userObj->create();
 
 		//$user->setId($userObj->getId());
@@ -1201,12 +1201,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$start = $this->__toUnix($_POST["time_limit"]["from"]);
 		$end = $this->__toUnix($_POST["time_limit"]["until"]);
-		
+
 		// validate time limit
-        if (!$_POST["time_limit"]["unlimited"]  and 
+        if (!$_POST["time_limit"]["unlimited"]  and
 			( $start > $end))
         {
             $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
@@ -1246,20 +1246,20 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$_POST['Fobject']['time_limit_message'] = $this->object->getTimeLimitMessage();
 		}
-		$this->object->assignData($_POST["Fobject"]);
-
+		$this->object->assignData($_POST["Fobject"], IL_NO_PASSWD);
+echo "<br>gui_update::passwd".$_POST["Fobject"]["passwd"];
 		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
 			$this->object->updateLogin($_POST["Fobject"]["login"]);
 		}
-		
+
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->object->setLanguage($_POST["Fobject"]["language"]);
-		
+
 		//set user skin and style
 		$sknst = explode(":", $_POST["Fobject"]["skin_style"]);
-			
+
 		if ($this->object->getPref("style") != $sknst[1] ||
 			$this->object->getPref("skin") != $sknst[0])
 		{
