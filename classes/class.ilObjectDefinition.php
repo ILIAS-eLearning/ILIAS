@@ -170,13 +170,13 @@ class ilObjectDefinition extends ilSaxParser
 	* 
 	* @access	public
 	*/
-	function getSubObjectsAsString($a_obj_name)
+	function getSubObjectsAsString($a_obj_type)
 	{
 		$string = "";
 		
-		if (is_array($this->obj_data[$a_obj_name]["subobjects"]))
+		if (is_array($this->obj_data[$a_obj_type]["subobjects"]))
 		{
-			$data = array_keys($this->obj_data[$a_obj_name]["subobjects"]);
+			$data = array_keys($this->obj_data[$a_obj_type]["subobjects"]);
 			
 			$string = "'".implode("','", $data)."'";
 		}
