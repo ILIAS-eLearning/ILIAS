@@ -43,6 +43,14 @@ class ilTree
 	*/
 	var $ilias;
 
+
+	/**
+	* Logger object
+	* @var		object	ilias
+	* @access	private
+	*/
+	var $log;
+
 	/**
 	* points to root node (may be a subtree)
 	* @var		integer
@@ -107,7 +115,7 @@ class ilTree
 	*/
 	function ilTree($a_tree_id, $a_root_id = 0)
 	{
-		global $ilDB,$ilErr,$ilUser,$ilias;
+		global $ilDB,$ilErr,$ilUser,$ilias,$ilLog;
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -141,6 +149,9 @@ class ilTree
 		{
 			$this->ilErr->raiseError(get_class($this)."::Constructor(): Wrong parameter count!",$this->ilErr->WARNING);
 		}
+
+		// CREATE LOGGER INSTANCE
+		$this->log =& $ilLog;
 
 		//init variables
 		if (empty($a_root_id))
@@ -410,15 +421,30 @@ class ilTree
 	*/
 	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE)
 	{
+		// CHECK node_id and parent_id > 0 if in main tree
+		if($this->__isMainTree())
+		{
+			if($a_node_id <= 1 or $a_parent_id <= 0)
+			{
+				$message = sprintf('%s::insertNode(): Invalid parameters! $a_node_id: %s $a_parent_id: %s',
+								   get_class($this),
+								   $a_node_id,
+								   $a_parent_id);
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+		}
+			
+
 		if (!isset($a_node_id) or !isset($a_parent_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::insertNode(): Missing parameter! ".
 				"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
 		}
-
 		if ($this->isInTree($a_node_id))
 		{
-			$this->ilErr->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".$this->table_tree."!",$this->ilErr->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".
+									 $this->table_tree."!",$this->ilErr->WARNING);
 		}
 
 		//
@@ -438,7 +464,8 @@ class ilTree
 
 				if ($r->parent == NULL)
 				{
-					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".
+											 $this->table_tree."!",$this->ilErr->WARNING);
 				}
 
 				$left = $r->lft;
@@ -472,7 +499,8 @@ class ilTree
 				
 				if ($r->parent == NULL)
 				{
-					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
+					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
+											 $a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
 				}
 
 				$right = $r->rgt;
@@ -558,6 +586,16 @@ class ilTree
 		{
 			$this->ilErr->raiseError(get_class($this)."::getSubTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
+		if($a_node['lft'] < 1 or $a_node['rgt'] < 2)
+		{
+			$message = sprintf('%s::getSubTree(): Invalid node given! $a_node["lft"]: %s $a_node["rgt"]: %s',
+								   get_class($this),
+								   $a_node['lft'],
+								   $a_node['rgt']);
+
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}				
 
 	    $subtree = array();
 
@@ -766,7 +804,11 @@ class ilTree
 
 		if (count($all) != count($uni))
 		{
-			$this->ilErr->raiseError(get_class($this)."::checkTree(): Tree is corrupted!",$this->ilErr->WARNING);
+			$message = sprintf('%s::checkTree(): Tree is corrupted!',
+							   get_class($this));
+
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		return true;
@@ -949,6 +991,18 @@ class ilTree
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
+		}
+		if($this->__isMainTree())
+		{
+			if($a_node_id < 1)
+			{
+				$message = sprintf('%s::getNodeData(): No valid parameter given! $a_node_id: %s',
+								   get_class($this),
+								   $a_node_id);
+
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
@@ -1147,6 +1201,18 @@ class ilTree
 	*/
 	function addTree($a_tree_id,$a_node_id = -1)
 	{
+		// FOR SECURITY addTree() IS NOT ALLOWED ON MAIN TREE
+		// IF SOMEONE WILL NEED FEATURES LIKE $tree->addTree(2) ON THE MAIN TREE PLEASE CONTACT ME (smeyer@databay.de)
+		if($this->__isMainTree())
+		{
+			$message = sprintf('%s::addTree(): Operation not allowed on main tree! $a_tree_if: %s $a_node_id: %s',
+							   get_class($this),
+							   $a_tree_id,
+							   $a_node_id);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+	
 		if (!isset($a_tree_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::addTree(): No tree_id given! ",$this->ilErr->WARNING);
@@ -1221,6 +1287,15 @@ class ilTree
  	*/
 	function removeTree($a_tree_id)
 	{
+		// OPERATION NOT ALLOWED ON MAIN TREE
+		if($this->__isMainTree())
+		{
+			$message = sprintf('%s::removeTree(): Operation not allowed on main tree! $a_tree_if: %s',
+							   get_class($this),
+							   $a_tree_id);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
 		if (!$a_tree_id)
 		{
 			$this->ilErr->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilErr->MESSAGE);
@@ -1241,9 +1316,13 @@ class ilTree
 	*/
 	function saveSubTree($a_node_id)
 	{
-		if (!isset($a_node_id))
+		if (!$a_node_id)
 		{
-			$this->ilErr->raiseError(get_class($this)."::saveSubTree(): No node_id given!",$this->ilErr->WARNING);
+			$message = sprintf('%s::saveSubTree(): No valid parameter given! $a_node_id: %s',
+							   get_class($this),
+							   $a_node_id);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// GET LEFT AND RIGHT VALUE
@@ -1313,10 +1392,23 @@ class ilTree
 	*/
 	function saveNode($a_node_id,$a_parent_id)
 	{
-		if (!isset($a_node_id) or !isset($a_parent_id))
+		if($this->__isMainTree())
+		{
+			if($a_node_id <= 1 or $a_parent_id <= 0)
+			{
+				$message = sprintf('%s::saveSubTree(): No valid parameter given! $a_node_id: %s $a_parent_id: %s',
+								   get_class($this),
+								   $a_node_id,
+								   $a_parent_id);
+
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+		}
+		if ($a_node_id < 1 or !isset($a_parent_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::saveNode(): Missing parameter! ".
-								"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
+									 "node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilErr->WARNING);
 		}
 
 		// SAVE NODE
@@ -1611,10 +1703,37 @@ class ilTree
 	*/
 	function _removeEntry($a_tree,$a_child,$a_db_table = "tree")
 	{
-		global $ilDB;
+		global $ilDB,$ilLog,$ilErr;
+
+		if($a_db_table === 'tree')
+		{
+			if($a_tree == 1 and $a_child == ROOT_FOLDER_ID)
+			{
+				$message = sprintf('%s::_removeEntry(): Tried to delete root node! $a_tree: %s $a_child: %s',
+								   get_class($this),
+								   $a_tree,
+								   $a_child);
+				$ilLog->write($message,$ilLog->FATAL);
+				$ilErr->raiseError($message,$ilErr->WARNING);
+			}
+		}
 
 		$q = "DELETE from ".$a_db_table." WHERE tree='".$a_tree."' AND child='".$a_child."'";
 		$ilDB->query($q);
 	}
+
+	// PRIVATE METHODS
+	/**
+	* Check if operations are done on main tree
+	*
+ 	* @access	private
+	* @return boolean
+	*/
+	function __isMainTree()
+	{
+		return $this->table_tree === 'tree';
+	}
+	
+
 } // END class.tree
 ?>
