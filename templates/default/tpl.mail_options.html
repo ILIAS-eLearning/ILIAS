@@ -1,48 +1,101 @@
-<h1>{TXT_MAIL}</h1>
-{BUTTONS}
-
-    <form ACTION="{ACTION}" method="post">
-
-    <TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
-    <TR>
-      <TD align="right">{TXT_LINEBREAK}</TD>
-      <TD><SELECT name="msg_cols">
-      <OPTION value=50>50
-      <OPTION value=51>51
-      <OPTION value=52>52
-      <OPTION value=53>53
-      <OPTION value=54>54
-      <OPTION value=55>55
-      <OPTION value=56>56
-      <OPTION value=57>57
-      <OPTION value=58>58
-      <OPTION value=59>59
-      <OPTION SELECTED value=60>60
-      <OPTION value=61>61
-      <OPTION value=62>62
-      <OPTION value=63>63
-      <OPTION value=64>64
-      <OPTION value=65>65
-      <OPTION value=66>66
-      <OPTION value=67>67
-      <OPTION value=68>68
-      <OPTION value=69>69
-      <OPTION value=70>70
-      <OPTION value=71>71
-      <OPTION value=72>72
-      <OPTION value=73>73
-      <OPTION value=74>74</SELECT></TD>
-    </TR>
-       <TR>
-      <TD ALIGN=right valign="top">{TXT_SIGNATURE}</TD>
-      <TD><TEXTAREA name="msg_signature" ROWS=10 COLS=60>{CONTENT}</TEXTAREA></TD>
-    </TR>
-    <tr>
-      <TD>&nbsp;</TD>
-    </TR>
-    <TR>
-      <TD>&nbsp;</TD>
-      <TD><input type=submit value="{TXT_SAVE}" name="gen_g"></TD>
-    </TR>
-    </TABLE>
-	</FORM>
+	  {LOCATOR}
+	  {BUTTONS}
+	  {MESSAGE}
+	<TABLE WIDTH="100%" CELLPADDING=4 CELLSPACING=0 BORDER=0>
+	  <!-- BEGIN confirm -->
+	  <FORM ACTION="{ACTION_DELETE_CONFIRM}" method="post">
+		<TR>
+		  <TD>&nbsp;</TD>
+		  <TD>
+			<input type=submit value="{TXT_DELETE_CONFIRM}" name="cmd">
+			<input type=submit value="{TXT_DELETE_CANCEL}" name="cmd">
+		  </TD>
+		</TR>
+	  </FORM>
+		<!-- END confirm --> 
+		<!-- BEGIN edit -->
+		<tr>
+		  <td>
+			<H3>{FOLDER_OPTIONS}</H3>
+		  </td>
+		</tr>
+		<TR>
+		  <FORM ACTION="{ACTION_FOLDER_EDIT}" method="post">
+			<TR>
+			  <TD align="right">{TXT_NAME}</TD>
+			  <TD>
+				<input type="TEXT" name="folder_name" value="{FOLDER_NAME}" size="32">
+			  </TD>
+			</TR>
+			<TR>
+			  <TD>&nbsp;</TD>
+			  <TD>
+				<TABLE>
+					<TR>
+					  <TD>
+						<input type=submit value="{TXT_RENAME}" name="cmd">
+					  </TD>
+					  <TD>
+						<input type=submit value="{TXT_DELETE}" name="cmd">
+					  </TD>
+					</TR>
+				</TABLE>
+			  </TD>
+			</TR>
+		  </FORM>
+		  <!-- END edit -->
+		  <!-- BEGIN add -->
+		  <FORM ACTION="{ACTION_FOLDER_ADD}" method="post">
+			<TR>
+			  <TD align="right">{TXT_NAME_ADD}</TD>
+			  <TD>
+				<input type="TEXT" name="folder_name_add" size="32">
+			  </TD>
+			</TR>
+			<TR>
+			  <TD>&nbsp;</TD>
+			  <TD>
+				<input type=submit value="{TXT_FOLDER_ADD}" name="cmd">
+			  </TD>
+			</TR>
+		  </FORM>
+		  <!-- END add -->
+		  <!-- BEGIN options -->
+		  <FORM ACTION="{ACTION_GLOBAL}" method="post">
+			<tr>
+			  <td>
+				<H3>{GLOBAL_OPTIONS}</H3>
+			  </td>
+			</tr>
+			<TR>
+			  <TD>&nbsp;</TD>
+			</TR>
+			<TR>
+			  <TD align="right">
+				{TXT_LINEBREAK}
+			  </TD>
+			  <TD>
+				<SELECT name="linebreak">
+				  <!-- BEGIN option_line -->
+				  <option value="{OPTION_VALUE}" {OPTION_SELECTED}>
+					{OPTION_NAME}
+				  </option>
+				  <!-- END option_line -->
+				</SELECT>
+			  </TD>
+			</TR>
+			<TR>
+			  <TD ALIGN=right valign="top">{TXT_SIGNATURE}</TD>
+			  <TD><TEXTAREA name="signature" ROWS=10 COLS=60>{CONTENT}</TEXTAREA></TD>
+			</TR>
+			<tr>
+			  <TD>&nbsp;</TD>
+			</TR>
+			<TR>
+			  <TD>&nbsp;</TD>
+			  <TD><input type=submit value="{TXT_SAVE}" name="cmd"></TD>
+			</TR>
+		  </FORM>
+		  <!-- END options -->
+	</TABLE>
+	
