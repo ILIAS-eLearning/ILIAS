@@ -219,7 +219,7 @@ echo "6";
 //echo "BEGIN_TAG:".$a_name.":<br>";
 		switch($a_name)
 		{
-			case "LearningModule":
+			case "ContentObject":
 				$this->learning_module =& new ilLearningModule($this->lm_id);
 				$this->current_object =& $this->learning_module;
 				break;
