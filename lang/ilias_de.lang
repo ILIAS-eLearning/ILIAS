@@ -847,6 +847,7 @@ content#:#cont_details#:#Details###19 Sep 2003 new variable
 content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
+content#:#cont_edit_mob_files#:#Object Files###21 Oct 2003 new variable
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
