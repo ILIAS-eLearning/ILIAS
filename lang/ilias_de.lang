@@ -33,16 +33,12 @@
 // Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
+common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
-common#:#client_id#:#Client ID
-common#:#server_data#:#Serverdaten 
-common#:#path_to_htmldoc#:#HTMLdoc Befehlszeile
-common#:#db_need_update#:#Datenbank benötigt ein update!
 common#:#action_aborted#:#Aktion abgebrochen
-common#:#path_not_set#:#Pfad nicht gesetzt
-common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -123,6 +119,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
+common#:#client_id#:#Client ID###19 Nov 2003 new variable
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
@@ -159,6 +156,7 @@ common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
+common#:#db_need_update#:#Datenbank benötigt ein update!
 common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
@@ -173,6 +171,7 @@ common#:#default_language#:#Standard-Sprache
 common#:#default_role#:#Standardrolle
 common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
+common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
 common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
@@ -543,8 +542,8 @@ common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
-common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
+common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_search_result#:#Keine Einträge gefunden
@@ -675,8 +674,10 @@ common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
 common#:#path#:#Pfad
+common#:#path_not_set#:#Pfad nicht gesetzt
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
+common#:#path_to_htmldoc#:#HTMLdoc Befehlszeile
 common#:#path_to_java#:#JAVA Befehlszeile
 common#:#path_to_unzip#:#UNZIP Befehlszeile
 common#:#path_to_zip#:#ZIP Befehszeile
@@ -787,6 +788,7 @@ common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
+common#:#server_data#:#Serverdaten 
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
@@ -876,7 +878,6 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
-common#:#default_skin_style#:#Standard Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren

@@ -33,19 +33,14 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#db_need_update#:#Database needs an update!
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
-common#:#server_data#:#Server data 
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#path_not_set#:#Path not set
-common#:#client_id#:#Client ID
-common#:#path_to_htmldoc#:#Path to HTMLdoc
-common#:#3rd_party_software#:#3rd party software
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
@@ -123,6 +118,7 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
+common#:#client_id#:#Client ID
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
 common#:#comma_separated#:#Comma Separated
@@ -159,6 +155,7 @@ common#:#day#:#Day
 common#:#days#:#Days
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
+common#:#db_need_update#:#Database needs an update!
 common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
@@ -173,6 +170,7 @@ common#:#default_language#:#Default Language
 common#:#default_role#:#Default Role
 common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
+common#:#default_skin_style#:#Default Skin / Style
 common#:#default_style#:#Default Style
 common#:#delete#:#Delete
 common#:#delete_all#:#Delete All
@@ -543,8 +541,8 @@ common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templat
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
-common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
+common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_search_result#:#No entries found
@@ -675,8 +673,10 @@ common#:#paste#:#Paste
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
 common#:#path#:#Path
+common#:#path_not_set#:#Path not set
 common#:#path_to_babylon#:#Path to Babylon
 common#:#path_to_convert#:#Path to Convert
+common#:#path_to_htmldoc#:#Path to HTMLdoc
 common#:#path_to_java#:#Path to Java
 common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
@@ -787,6 +787,7 @@ common#:#sent#:#Sent
 common#:#sequence#:#Sequence
 common#:#sequences#:#Sequences
 common#:#server#:#Server
+common#:#server_data#:#Server data 
 common#:#server_software#:#Server Software
 common#:#set#:#Set
 common#:#setSystemLanguage#:#Set System Language
@@ -876,7 +877,6 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_new#:#New User
 common#:#usr_skin_style#:#Skin / Style
-common#:#default_skin_style#:#Default Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
