@@ -72,7 +72,7 @@ class ilForumExplorer extends ilExplorer
 		$this->thread_id = $a_thread_id;
 		$this->forum = new ilForum();
 		$tmp_array = $this->forum->getFirstPostNode($this->thread_id);
-		$this->root_id = $tmp_array["id"];
+		$this->root_id = $tmp_array["child"];
 
 		// max length of user fullname which is shown in explorer view
 		define(FULLNAME_MAXLENGTH,16);

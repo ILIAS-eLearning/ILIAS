@@ -976,6 +976,7 @@ class ilForum
 				 "WHERE pos_pk = pos_fk ".				 
 				 "AND parent_pos = 0 ".
 				 "AND thr_fk = '".$tree_id."'";
+
 		$res = $this->ilias->db->query($query);
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
