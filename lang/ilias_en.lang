@@ -57,6 +57,7 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
+assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
 assessment#:#possible_gap_text#:#Possible gap text
@@ -118,6 +119,7 @@ assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
 assessment#:#tst_sequence_properties#:#Sequence properties
 assessment#:#tst_session_settings#:#Session settings
+assessment#:#tst_show_results#:#Show test results
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
 assessment#:#tst_type#:#Test type
