@@ -976,7 +976,11 @@ class ilObjectGUI
 	function confirmedDeleteObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
-
+	
+		// TODO: move checkings to deleteObject
+		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
+		// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
+		
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
 		{
@@ -1887,6 +1891,8 @@ class ilObjectGUI
 
 	/**
 	* display deletion confirmation screen
+	* only for referenced objects. For user,role & rolt overwrite this function in the appropriate
+	* Object folders classes (ilObjUserFolderGUI,ilObjRoleFolderGUI)
 	*
 	* @access	public
  	*/
@@ -1905,14 +1911,16 @@ class ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-			if ($this->call_by_reference)
-			{
+			// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
+			// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
+			//if ($this->call_by_reference)
+			//{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			}
-			else
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-			}
+			//}
+			//else
+			//{
+			//	$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			//}
 
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),

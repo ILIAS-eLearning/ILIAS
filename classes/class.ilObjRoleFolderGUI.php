@@ -112,7 +112,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	* 
 	* @access	public
 	*/
-	function confirmObject()
+	function confirmedDeleteObject()
 	{
 		global $rbacsystem;
 
@@ -125,13 +125,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 		else
 		{
-			require_once("class.ilObjRole.php");
-			
 			// FOR ALL SELECTED OBJECTS
 			foreach ($_SESSION["saved_post"] as $id)
 			{
-				$role = new ilObjRole($id);
-				$role->delete();
+				// instatiate correct object class (role or rolt)
+				$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+				$obj->delete();
 			}
 			
 			// Feedback
@@ -158,7 +157,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),
@@ -167,8 +166,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancel"  => $this->lng->txt("cancel"),
-								  "confirm"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
+								  "confirmedDelete"  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
