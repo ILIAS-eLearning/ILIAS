@@ -43,7 +43,10 @@ class ilClient
 	var $setup_ok = false;		// if client setup was finished at least once, this is set to true
 	var $nic_status;			// contains received data of ILIAS-NIC server when registering
 
-	// Constructor
+	/**
+	* Constructor
+	* @param	string	client id
+	*/
 	function ilClient($a_client_id = 0)
 	{
 		if ($a_client_id)
@@ -56,6 +59,11 @@ class ilClient
 		$this->client_defaults = ILIAS_ABSOLUTE_PATH."/setup/client.master.ini.php";
 	}
 	
+	/**
+	* init client
+	* load client.ini and set some constants
+	* @return	boolean
+	*/
 	function init()
 	{
 		$this->ini = new ilIniFile($this->ini_file_path);
@@ -88,11 +96,19 @@ class ilClient
 		return true;	
 	}
 	
+	/**
+	* get client id
+	* @return	string	client id
+	*/
 	function getId()
 	{
 		return $this->id;
 	}
 	
+	/**
+	* set client id
+	* @param	string	client id
+	*/
 	function setId($a_client_id)
 	{
 		$this->id = $a_client_id;
@@ -351,8 +367,6 @@ class ilClient
 		$settings = $this->getAllSettings();
 
 		$inst_id = (empty($settings["inst_id"])) ? "0" : $settings["inst_id"];
-		var_dump($inst_id);
-		return;
 
 		// send host information to ilias-nic
 		$url = 	$a_nic_url.
@@ -379,7 +393,7 @@ class ilClient
 				"&contact_email=".rawurlencode($settings["admin_email"]).
 				"&nic_key=".rawurlencode($this->getNICkey()).
 				"&version=".rawurlencode($settings["ilias_version"]);
-
+				
 		return $url;
 	}
 	

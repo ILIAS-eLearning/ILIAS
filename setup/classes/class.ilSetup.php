@@ -38,14 +38,14 @@ class ilSetup extends PEAR
 	var $ini_file_path;	// full path to setup.ini, containing the client list
 	var $error = "";	// error text
 
-	var $ini_ilias_exists = false;
-	var $ini_client_exists = false;
+	var $ini_ilias_exists = false;	// control flag ilias.ini
+	var $ini_client_exists = false; // control flag client.ini
 	
-	var $setup_defaults;
-	var $ilias_nic_server = "http://homer.ilias.uni-koeln.de/ilias-nic/index.php";
+	var $setup_defaults;			// ilias.master.ini
+	var $ilias_nic_server = "http://homer.ilias.uni-koeln.de/ilias-nic/index.php";	// URL to ilias nic server
 
-	var $preliminaries_result = array();
-	var $preliminaries = true;
+	var $preliminaries_result = array();	// preliminaries check results
+	var $preliminaries = true;				//
 
 	/**
 	* sql-template-file
@@ -69,16 +69,19 @@ class ilSetup extends PEAR
 	var $db;
 
 	var $setup_password;		// master setup password
-	var $default_client;
+	var $default_client;		// client id of default client
 	
-	var $safe_mode;
-	var $safe_mode_exec_dir;
+	var $safe_mode;				// safe mode enabled (true) or disabled (false)
+	var $safe_mode_exec_dir;	// contains exec_dir_path 
 	
-	var $auth;
+	var $auth;					// current user is authenticated? (true)
 	var $access_mode;			// if "admin", admin functions are enabled
 
 	/**
 	* constructor
+	* 
+	* @param	boolean		user is authenticated? (true) or not (false)
+	* @param	string		user is admin or common user
 	*/
 	function ilSetup($a_auth,$a_auth_type)
 	{
@@ -127,6 +130,11 @@ class ilSetup extends PEAR
 		}
 	}
 
+	/**
+	* init setup
+	* load settings from ilias.ini if exists and sets some constants
+	* @return	boolean
+	*/
 	function init()
 	{
 		// load data from setup.ini file
@@ -150,7 +158,7 @@ class ilSetup extends PEAR
 	
 	/**
 	* saves client.ini & updates client list in ilias.ini
-	*
+	* @return	boolean
 	*/
 	function saveNewClient()
 	{
@@ -173,12 +181,12 @@ class ilSetup extends PEAR
 	/**
 	* update client.ini & move data dirs
 	* does not work correctly at this time - DISABLED
-	*
+	* @return	boolean
 	*/
 	function updateNewClient($a_old_client_id)
 	{
 		return true;
-		var_dump("<pre>",$this->client,"</pre>");exit;
+		//var_dump("<pre>",$this->client,"</pre>");exit;
 
 		if ($a_old_client_id != $this->client->getId())
 		{
@@ -207,7 +215,7 @@ class ilSetup extends PEAR
 	* execute a query
 	* @param	string
 	* @param	string
-	* @return	boolean	true
+	* @return	boolean	ture if query was processed successfully
 	*/
 	function execQuery($db,$str)
 	{
@@ -236,6 +244,10 @@ class ilSetup extends PEAR
 		return true;
 	}
 
+	/**
+	* create client database
+	* @return	boolean
+	*/
 	function createDatabase()
 	{
 		if ($this->client->checkDatabaseExists())
@@ -270,6 +282,7 @@ class ilSetup extends PEAR
 	
 	/**
 	* set the database data
+	* @return	boolean
 	*/
 	function installDatabase()
 	{
@@ -427,6 +440,10 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+	/**
+	* check authentication status
+	* @return	boolean
+	*/
 	function checkAuth()
 	{
 		if ($_SESSION["auth"] === true)
@@ -455,6 +472,10 @@ class ilSetup extends PEAR
 		return $a;
 	}
 
+	/**
+	* check all prliminaries
+	* @return	boolean
+	*/
 	function checkPreliminaries()
 	{
 		$this->preliminaries_result = $this->queryPreliminaries();
@@ -471,11 +492,20 @@ class ilSetup extends PEAR
 		return true;
 	}
 
+	/**
+	* get setup master password
+	* @return	string
+	*/
 	function getPassword ()
 	{
 		return $this->ini->readVariable("setup","pass");
 	}
 
+	/**
+	* set setup master password
+	* @param	string	password
+	* @return	boolean
+	*/
 	function setPassword ($a_password)
 	{
 		$this->ini->setVariable("setup","pass",md5($a_password));
@@ -489,6 +519,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 	
+	/**
+	* process client login
+	* @param	array
+	* @return	boolean
+	*/
 	function loginAsClient($a_auth_data)
 	{
 		if (empty($a_auth_data["client_id"]))
@@ -544,6 +579,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 
+	/**
+	* process setup admin login
+	* @param	string	password
+	* @return	boolean
+	*/
 	function loginAsAdmin($a_password)
 	{
 		$a_password = md5($a_password);
@@ -558,7 +598,11 @@ class ilSetup extends PEAR
 		return false;
 	}
 
-	// creates a client object in $this->client from clientlist
+	/**
+	* creates a client object in $this->client
+	* @param	string	client id
+	* @return	boolean
+	*/ 
 	function newClient($a_client_id = 0)
 	{
 		if (!$this->isInstalled())
@@ -580,6 +624,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 	
+	/**
+	* coumpute client status
+	* @param	string	client id
+	* @return	array	status information
+	*/
 	function getStatus ($client = 0)
 	{
 		if (!is_object($client))
@@ -620,6 +669,11 @@ class ilSetup extends PEAR
 		return $status;
 	}
 	
+	/**
+	* check if client setup was finished
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkFinish(&$client)
 	{
 		if ($client->getSetting("setup_ok"))
@@ -636,6 +690,11 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 	
+	/**
+	* check client access status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkAccess(&$client)
 	{
 		if ($client->ini->readVariable("client","access") == "1")
@@ -652,6 +711,11 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+	/**
+	* check client ini status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkClientIni(&$client)
 	{
 		if (!$arr["status"] = $client->init())
@@ -666,16 +730,19 @@ class ilSetup extends PEAR
 		return $arr; 
 	}
 	
+	/**
+	* check client db status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkClientDatabase(&$client)
 	{
-//		if (!$arr["status"] = $client->checkDatabaseExists())
 		if (!$arr["status"] = $client->db_exists)
 		{
 			$arr["comment"] = $this->lng->txt("no_database");
 			return $arr;
 		}
 		
-//		if ($arr["status"] = $client->connect())
 		if (!$arr["status"] = $client->db_installed)
 		{
 			$arr["comment"] = $this->lng->txt("db_not_installed");
@@ -700,6 +767,11 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+	/**
+	* check client installed languages status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkClientLanguages(&$client)
 	{
 		$installed_langs = $this->lng->getInstalledLanguages();
@@ -720,6 +792,11 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 	
+	/**
+	* check client contact data status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkClientContact(&$client)
 	{
 		$arr["status"] = true;
@@ -749,6 +826,11 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 	
+	/**
+	* check client nic status
+	* @param	object	client
+	* @return	boolean
+	*/
 	function checkClientNIC(&$client)
 	{
 		$settings = $client->getAllSettings();
@@ -780,22 +862,38 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 	
+	/**
+	* check if client's db is installed
+	* @return	boolean
+	*/
 	function isInstalled()
 	{
 		return $this->ini_ilias_exists;
 	}
 	
+	/**
+	* check if current user is authenticated
+	* @return	boolean
+	*/
 	function isAuthenticated()
 	{
 		return $this->auth;
 	}
 
+	/**
+	* check if current user is admin
+	* @return	boolean
+	*/
 	function isAdmin()
 	{
 		return ($this->access_mode == "admin") ? true : false;
 	}
 	
-	// saves intial settings
+	/**
+	* saves intial settings
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function saveMasterSetup($a_formdata)
 	{
 		$datadir_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["datadir_path"])));
@@ -849,7 +947,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 	
-	// updates settings
+	/**
+	* updates settings
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function updateMasterSettings($a_formdata)
 	{
 		$convert_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["convert_path"]));
@@ -880,7 +982,12 @@ class ilSetup extends PEAR
 
 		return true;
 	}
-	
+
+	/**
+	* check pathes to 3rd party software
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function checkToolsSetup($a_formdata)
 	{
 		// convert path
@@ -981,7 +1088,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 		
-	// datadir path
+	/**
+	* check datadir path
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function checkDataDirSetup($a_formdata)
 	{
 		// remove trailing slash & convert backslashes to forwardslashes
@@ -1023,7 +1134,12 @@ class ilSetup extends PEAR
 
 		return true;
 	}
-	
+
+	/**
+	* check setup password
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function checkPasswordSetup($a_formdata)
 	{
 		if (!$a_formdata["setup_pass"])
@@ -1041,6 +1157,11 @@ class ilSetup extends PEAR
 		return true;
 	}
 	
+	/**
+	* check log path
+	* @param	array	form data
+	* @return	boolean
+	*/
 	function checkLogSetup($a_formdata)
 	{
 		// log path
@@ -1065,6 +1186,10 @@ class ilSetup extends PEAR
 		return true;
 	}
 	
+	/**
+	* get Error message
+	* @return	string	error message
+	*/
 	function getError()
 	{
 		if (empty($this->error))
@@ -1085,7 +1210,7 @@ class ilSetup extends PEAR
 	*/
 	function _ilSetup()
 	{
-		//if ($this->readVariable("db","type") != "")
+		//if ($this->ini->readVariable("db","type") != "")
 		//{
 		//	$this->db->disconnect();
 		//}
