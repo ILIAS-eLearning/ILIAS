@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.33 2004/05/02 19:20:06 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.34 2004/05/06 15:06:50 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1138,6 +1138,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $ilBench;
 
+		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->getTemplateFile("bench");
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cur_mod=".$_GET["cur_mod"]."&cmd=gateway");
 		$this->tpl->setVariable("TXT_BENCH_SETTINGS", $this->lng->txt("benchmark_settings"));
@@ -1243,6 +1248,44 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilBench->clearData();
 		$this->saveBenchSettingsObject();
 
+	}
+	
+	// get tabs
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem;
+
+		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "view"), "view", get_class($this));
+		}
+
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+
+			$tabs_gui->addTarget("system_check",
+				$this->ctrl->getLinkTarget($this, "check"), "check", get_class($this));
+
+			$tabs_gui->addTarget("benchmarks",
+				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
+		}
+
+		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+		}
+
+		if ($this->ctrl->getTargetScript() == "adm_object.php")
+		{
+			$tabs_gui->addTarget("show_owner",
+				$this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
+		}
 	}
 
 } // END class.ilObjSystemFolderGUI
