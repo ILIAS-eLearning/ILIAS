@@ -4748,4 +4748,9 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#306>
 ALTER TABLE `survey_survey` ADD `anonymize` ENUM( '0', '1' ) DEFAULT '0' NOT NULL AFTER `created` ;
+<#307>
+ALTER TABLE `survey_finished` ADD `anonymous_id` VARCHAR( 32 ) NOT NULL AFTER `user_fi` ;
+ALTER TABLE `survey_answer` ADD `anonymous_id` VARCHAR( 32 ) NOT NULL AFTER `user_fi` ;
+<#308>
+ALTER TABLE `survey_finished` DROP `anonymous_id`;
 
