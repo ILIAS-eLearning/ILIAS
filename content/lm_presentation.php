@@ -29,10 +29,13 @@
 *
 * @package content
 */
-require_once "../include/inc.header.php";
+
+define("ILIAS_MODULE", "content");
+chdir("..");
+require_once "./include/inc.header.php";
 
 // learning module presentation class does the rest
-require_once "./content/class.ilLMPresentationGUI.php";
+require_once "./content/classes/class.ilLMPresentationGUI.php";
 $lm_presentation = new ilLMPresentationGUI();
 
 //$tpl->show();
