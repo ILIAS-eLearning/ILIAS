@@ -234,12 +234,10 @@ class ilCourseArchives
 
 	function deleteAll()
 	{
-		$query = "DELETE FROM crs_archives ".
-			"WHERE course_if = '".$this->course_obj->getId()."'";
-
-		$this->ilDB->query($query);
-		
-		return true;
+		foreach($this->getArchives() as $id => $archive)
+		{
+			$this->delete($id);
+		}
 	}
 	
 	function initCourseFilesObject()

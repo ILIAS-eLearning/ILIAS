@@ -342,6 +342,8 @@ class Interface
 	function getGroupIds()
 	{
 		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
+		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+
 		if($IliasArryGroups[0]!="") {
 			$i = 0;
 			foreach ($IliasArryGroups as $Row){
@@ -449,7 +451,9 @@ class Interface
 	function getUserGroups ($userId)
 	{
 	
-		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "write", False, False);
+		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
+		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations ("crs", "read", False,False));
+
 		if($IliasArryGroups[0]!="") {
 	   		$i = 0;
 	   		foreach (@$IliasArryGroups as $Row){
@@ -471,10 +475,27 @@ class Interface
 	*/
 	function getOtherMembers ($groupId, $userId)
 	{
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId($groupId);
+
+		switch($tmp_obj->getType())
+		{
+			case 'grp':
+				$members = $tmp_obj->getGroupMemberIds($groupId);
+				break;
+
+			case 'crs':
+				$tmp_obj->initCourseMemberObject();
+
+				$members = $tmp_obj->members_obj->getAssignedUsers();
+				break;
+		}				
+
+
+
 		//gain access to ilias-variables
-		include_once("./classes/class.ilObjGroup.php");
-		$group = new ilObjGroup($groupId);
-		$members = $group->getGroupMemberIds($groupId);
+		#include_once("./classes/class.ilObjGroup.php");
+		#$group = new ilObjGroup($groupId);
+		#$members = $group->getGroupMemberIds($groupId);
 
 		if($members[0] == $userId and count($members) == 1) {
 			$members = FALSE;
@@ -509,7 +530,7 @@ class Interface
 	{
 			
 		$IliasArryGroups	= ilUtil::GetObjectsByOperations ("grp", "read", False,False);
-
+		$IliasArryGroups = array_merge($IliasArryGroups,ilUtil::GetObjectsByOperations("crs", "read", False,False));
 		if($IliasArryGroups[0]!="") {
 			$i = 0;
 			foreach ($IliasArryGroups as $Row){
@@ -538,12 +559,24 @@ class Interface
 	*/
 	function getNumOfMembers ($group_id)
 	{
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId($group_id);
 
-		//gain access to ilias-variables
-		include_once("./classes/class.ilObjGroup.php");
-		$group = new ilObjGroup($group_id);
-		$members = $group->getGroupMemberIds($group_id);
-		return count($members);
+		switch($tmp_obj->getType())
+		{
+			case 'grp':
+				return count($tmp_obj->getGroupMemberIds());
+
+			case 'crs':
+				$tmp_obj->initCourseMemberObject();
+
+				return count($tmp_obj->members_obj->getAssignedUsers()); 
+		}
+
+		#//gain access to ilias-variables
+		#include_once("./classes/class.ilObjGroup.php");
+		#$group = new ilObjGroup($group_id);
+		#$members = $group->getGroupMemberIds($group_id);
+		#return count($members);
 
 	}//end function
 	
