@@ -106,8 +106,8 @@ assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
-assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
-assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
+assessment#:#checkbox_checked#:#Ausgewählt
+assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
@@ -122,7 +122,7 @@ assessment#:#delete_area#:#Region löschen
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
-assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
+assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
@@ -181,7 +181,7 @@ assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswäh
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
-assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
+assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
 assessment#:#polygon#:#Polygonzug
@@ -216,8 +216,8 @@ assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
-assessment#:#radio_set#:#Set###17 Aug 2004 new variable
-assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
+assessment#:#radio_set#:#Ausgewählt
+assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
@@ -340,7 +340,7 @@ assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#when#:#when###17 Aug 2004 new variable
+assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
 bibitem#:#bibitem_add#:#Hinzufügen

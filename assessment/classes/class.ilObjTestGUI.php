@@ -1297,6 +1297,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
 		$maxprocessingtimereached = 0;
+		if (($this->object->getEnableProcessingTime()) and ($this->object->getCompleteWorkingTime($ilUser->id) > $this->object->getProcessingTimeInSeconds()))
+		{
+			// maximum processing time reached
+			$maxprocessingtimereached = 1;
+		}
 
 		// catch feedback message
 		sendInfo();
@@ -1319,21 +1324,21 @@ class ilObjTestGUI extends ilObjectGUI
 				// but only if the ending time is not reached
 				$question_gui = $this->object->createQuestionGUI("", $this->object->getQuestionIdFromActiveUserSequence($_GET["sequence"]));
 				$question_gui->object->saveWorkingData($this->object->getTestId());
-			}
 
-			if ($_POST["cmd"]["directfeedback"])
-			{
-				$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
-				$this->tpl->setCurrentBlock("question_feedback");
-				$percentage = 0.0;
-				$max_points = $question_gui->object->getMaximumPoints();
-				$reached_points = $question_gui->object->getReachedPoints($ilUser->id, $this->object->getTestId());
-				if ($max_points > 0)
+				if ($_POST["cmd"]["directfeedback"])
 				{
-					$percentage = ($reached_points / $max_points) * 100.0;
+					$this->tpl->addBlockFile("QUESTION_FEEDBACK", "question_feedback", "tpl.il_as_tst_question_feedback.html", true);
+					$this->tpl->setCurrentBlock("question_feedback");
+					$percentage = 0.0;
+					$max_points = $question_gui->object->getMaximumPoints();
+					$reached_points = $question_gui->object->getReachedPoints($ilUser->id, $this->object->getTestId());
+					if ($max_points > 0)
+					{
+						$percentage = ($reached_points / $max_points) * 100.0;
+					}
+					$this->tpl->setVariable("PERCENTAGE_SOLVED", sprintf($this->lng->txt("percentage_solved"), $percentage));
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setVariable("PERCENTAGE_SOLVED", sprintf($this->lng->txt("percentage_solved"), $percentage));
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -1375,108 +1380,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!$this->sequence)
 		{
 			// show introduction page
-			$active = $this->object->getActiveTestUser();
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
-			$this->tpl->setCurrentBlock("info_row");
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
-			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("description") . ":");
-			$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
-			if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)
-			{
-				$seq_setting = "tst_sequence_fixed";
-			}
-			else
-			{
-				$seq_setting = "tst_sequence_postpone";
-			}
-			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
-			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION) {
-				$score_reporting = "tst_report_after_question";
-			} else {
-				$score_reporting = "tst_report_after_test";
-			}
-			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($score_reporting));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
-			$num_of = $this->object->getNrOfTries();
-			if (!$num_of) {
-				$num_of = $this->lng->txt("unlimited");
-			}
-			$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("info");
-			$this->tpl->parseCurrentBlock();
-			$seq = 1;
-			if ($active) {
-				$seq = $active->lastindex;
-			}
-			$add_sequence = "&sequence=$seq";
-			$test_disabled = false;
-			if ($active) {
-				$this->tpl->setCurrentBlock("resume");
-				$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
-				if (($active->tries >= $this->object->getNrOfTries()) and ($this->object->getNrOfTries() != 0)) {
-					$this->tpl->setVariable("DISABLED", " disabled");
-					$test_disabled = true;
-					$add_sequence = "";
-				}
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("results");
-				if (($active->tries < 1) or (!$this->object->canViewResults())) {
-					$this->tpl->setVariable("DISABLED", " disabled");
-				}
-				$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));
-				$this->tpl->parseCurrentBlock();
-				if (!$this->object->canViewResults()) {
-					$this->tpl->setCurrentBlock("report_date_not_reached");
-					preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
-					$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-					$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			else
-			{
-				if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or (!$this->object->getTestType == TYPE_ASSESSMENT))
-				{
-					$this->tpl->setCurrentBlock("start");
-					$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("startingtime");
-					$this->tpl->setVariable("IMAGE_STARTING_TIME", ilUtil::getImagePath("time.gif", true));
-					if (!$this->object->startingTimeReached())
-					{
-						$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
-						$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
-					}
-					else
-					{
-						$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("ending_time_reached"));
-						$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-
-			$this->tpl->setCurrentBlock("adm_content");
-			if ($test_disabled)
-			{
-				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
-			}
-			$introduction = $this->object->getIntroduction();
-			$introduction = preg_replace("/\n/i", "<br />", $introduction);
-			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
-			$this->tpl->parseCurrentBlock();
+			$this->outIntroductionPage($maxprocessingtimereached);
 		}
 		else
 		{
@@ -1484,14 +1388,16 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outTestResults();
+				$this->outIntroductionPage($maxprocessingtimereached);
+		//		$this->outTestResults();
 				return;
 			}
 			if ($maxprocessingtimereached)
 			{
 				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outTestResults();
+				$this->outIntroductionPage($maxprocessingtimereached);
+		//		$this->outTestResults();
 				return;
 			}
 			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
@@ -1541,11 +1447,133 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				// finish test
 				$this->object->setActiveTestUser(1, "", true);
-				$this->outTestResults();
+				$this->outIntroductionPage($maxprocessingtimereached);
+		//		$this->outTestResults();
 			}
 		}
 	}
 
+	/**
+	* Creates the introduction page for a test
+	*
+	* Creates the introduction page for a test
+	*
+	* @access public
+	*/
+	function outIntroductionPage($maxprocessingtimereached = 0)
+	{
+		$add_parameter = $this->getAddParameter();
+		$active = $this->object->getActiveTestUser();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
+		$this->tpl->setCurrentBlock("info_row");
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->getTestType()]));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("description") . ":");
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
+		if ($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)
+		{
+			$seq_setting = "tst_sequence_fixed";
+		}
+		else
+		{
+			$seq_setting = "tst_sequence_postpone";
+		}
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
+		if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION) {
+			$score_reporting = "tst_report_after_question";
+		} else {
+			$score_reporting = "tst_report_after_test";
+		}
+		$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($score_reporting));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
+		$num_of = $this->object->getNrOfTries();
+		if (!$num_of) {
+			$num_of = $this->lng->txt("unlimited");
+		}
+		$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("info");
+		$this->tpl->parseCurrentBlock();
+		$seq = 1;
+		if ($active) {
+			$seq = $active->lastindex;
+		}
+		$add_sequence = "&sequence=$seq";
+		$test_disabled = false;
+		if ($active) {
+			$this->tpl->setCurrentBlock("resume");
+			$this->tpl->setVariable("BTN_RESUME", $this->lng->txt("tst_resume_test"));
+			if ((($active->tries >= $this->object->getNrOfTries()) and ($this->object->getNrOfTries() != 0)) or $maxprocessingtimereached) {
+				$this->tpl->setVariable("DISABLED", " disabled");
+				$test_disabled = true;
+				$add_sequence = "";
+			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("results");
+			if (($active->tries < 1) or (!$this->object->canViewResults())) {
+				$this->tpl->setVariable("DISABLED", " disabled");
+			}
+			$this->tpl->setVariable("BTN_RESULTS", $this->lng->txt("tst_show_results"));
+			$this->tpl->parseCurrentBlock();
+			if (!$this->object->canViewResults()) {
+				$this->tpl->setCurrentBlock("report_date_not_reached");
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
+				$reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+				$this->tpl->setVariable("RESULT_DATE_NOT_REACHED", sprintf($this->lng->txt("report_date_not_reached"), $reporting_date));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or (!$this->object->getTestType == TYPE_ASSESSMENT))
+			{
+				$this->tpl->setCurrentBlock("start");
+				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("startingtime");
+				$this->tpl->setVariable("IMAGE_STARTING_TIME", ilUtil::getImagePath("time.gif", true));
+				if (!$this->object->startingTimeReached())
+				{
+					$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
+					$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
+				}
+				else
+				{
+					$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("ending_time_reached"));
+					$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		if ($test_disabled)
+		{
+			if ($maxprocessingtimereached)
+			{
+				sendInfo($this->lng->txt("detail_max_processing_time_reached"));
+			}
+			else
+			{
+				$this->tpl->setVariable("MAXIMUM_NUMBER_OF_TRIES_REACHED", $this->lng->txt("maximum_nr_of_tries_reached"));
+			}
+		}
+		$introduction = $this->object->getIntroduction();
+		$introduction = preg_replace("/\n/i", "<br />", $introduction);
+		$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
+		$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	/**
 	* Creates the learners output of a question
 	*
