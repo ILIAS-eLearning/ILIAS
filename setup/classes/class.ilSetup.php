@@ -599,8 +599,9 @@ class ilSetup extends PEAR
 		
 		//var_dump($status["db"],$client->db_exists,$client->db_installed);
 		
-		if ($status["db"]["status"] === false)
+		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)
 		{
+			var_dump($status["db"]);
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
@@ -693,6 +694,7 @@ class ilSetup extends PEAR
 		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
 		{
 			$arr["comment"] = $this->lng->txt("db_needs_update");
+			$arr["update"] = true;
 			return $arr;
 		}
 
