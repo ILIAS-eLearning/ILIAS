@@ -54,3 +54,6 @@ ALTER TABLE page_object ADD PRIMARY KEY (page_id, parent_type);
 <#11>
 ALTER TABLE glossary_definition DROP COLUMN page_id;
 ALTER TABLE glossary_definition ADD COLUMN short_text VARCHAR(200) NOT NULL DEFAULT '';
+
+<#12>
+UPDATE settings SET value = '3.0.0_alpha5' WHERE keyword = 'ilias_version' LIMIT 1;
