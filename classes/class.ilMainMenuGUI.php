@@ -218,7 +218,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 
 		// temporary disable dateplaner
-		//$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
+		$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
 
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
