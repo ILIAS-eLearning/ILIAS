@@ -164,6 +164,7 @@ common#:#dbk_new#:#Neues Digilib-Buch
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_roles#:#Standardrollen
+common#:#default_role#:#Standardrolle
 common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_style#:#Standard-Stylesheet
 common#:#delete#:#Löschen
