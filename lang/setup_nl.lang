@@ -82,7 +82,7 @@ database_install#:#Installeren databank
 database_installed#:#Databank geïnstalleerd
 database_is_uptodate#:#Uw databank is bijgewerkt
 database_needs_update#:#Uw databank heeft een update nodig
-database_not_exists_create_first#:#Databank bestaat niet. Creëer eerste een  databank.
+database_not_exists_create_first#:#Databank bestaat niet. Creëer eerste een  databank.###15 Sep 2004 content changed
 database_ready#:#de databank is klaar.
 database_update#:#databank bijwerken
 database_version#:#huidige databank-versie

@@ -594,6 +594,7 @@ common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
+common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
@@ -1073,13 +1074,10 @@ common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_add_member#:#Mitglied(er) hinzufügen
-common#:#role_add_user#:#Benutzer hinzufügen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
 common#:#grp_back#:#Zurück
-common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#grp_count_members#:#Anzahl der Mitglieder
-common#:#role_count_users#:#Benutzeranzahl
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
@@ -1107,17 +1105,12 @@ common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entf
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
 common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit fr die Gültigkeit des Registrierungszeitraums an !
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
-common#:#role_header_edit_users#:#Benutzerzuweisung ändern
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
 common#:#grp_list_users#:#Benutzer auflisten
-common#:#role_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
-common#:#role_user_edit#:#Benutzerdaten bearbeiten
-common#:#role_user_deassign#:#Benutzer aus der Rolle austragen
-common#:#role_user_send_mail#:#Benutzer eine Nachricht senden
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
@@ -1125,21 +1118,15 @@ common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#grp_new_search#:#Neue Suche
-common#:#role_new_search#:#Neue Suche
 common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt###04 Sep 2004 content changed
 common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt###04 Sep 2004 content changed
-common#:#role_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
-common#:#role_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
-common#:#role_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#grp_options#:#Optionen
 common#:#grp_read#:#Lesezugriff auf Gruppe
 common#:#grp_register#:#Anmelden
 common#:#grp_registration_completed#:#Anmeldung abgeschlossen
 common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#role_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#grp_search_members#:#Benutzersuche
-common#:#role_search_users#:#Benutzersuche
 common#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_write#:#Gruppe bearbeiten
 common#:#guest#:#Gast
@@ -1812,12 +1799,25 @@ common#:#role#:#Rolle
 common#:#role_a#:#eine Rolle
 common#:#role_add#:#Rolle anlegen
 common#:#role_add_local#:#Lokale Rolle hinzufügen
+common#:#role_add_user#:#Benutzer hinzufügen
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
 common#:#role_assignment_updated#:#Die Rollenzuweisung wurde geändert.
+common#:#role_count_users#:#Benutzeranzahl
 common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
+common#:#role_header_edit_users#:#Benutzerzuweisung ändern
+common#:#role_list_users#:#Benutzer auflisten
 common#:#role_new#:#Neue Rolle
+common#:#role_new_search#:#Neue Suche
+common#:#role_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
+common#:#role_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
+common#:#role_no_roles_selected#:#Sie haben keine Rolle ausgewählt
+common#:#role_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
+common#:#role_search_users#:#Benutzersuche
+common#:#role_user_deassign#:#Benutzer aus der Rolle austragen
+common#:#role_user_edit#:#Benutzerdaten bearbeiten
+common#:#role_user_send_mail#:#Benutzer eine Nachricht senden
 common#:#roles#:#Rollen
 common#:#roles_of_import_global#:#Globale Rollen in Importdatei
 common#:#roles_of_import_local#:#Lokale Rollen in Importdatei

@@ -595,6 +595,7 @@ common#:#assign_global_role#:#Asignar al rol global
 common#:#assign_lo_forum#:#asignar objeto de aprendizaje Foro
 common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#AsignarUsuario al Rol
+common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
 common#:#at_location#:#-at location-
 common#:#attachment#:#Fichero Adjunto
 common#:#attachments#:#Ficheros Adjuntos
@@ -1801,12 +1802,25 @@ common#:#role#:#rol
 common#:#role_a#:#un Rol
 common#:#role_add#:#Añadir Rol
 common#:#role_add_local#:#Añadir Rol local
+common#:#role_add_user#:#Add User(s) to role###15 Sep 2004 new variable
 common#:#role_added#:#Rol añadido
 common#:#role_assignment#:#Asignación de Rol
 common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
+common#:#role_count_users#:#Number of users###15 Sep 2004 new variable
 common#:#role_deleted#:#Rol eliminado
 common#:#role_edit#:#Editar Rol
+common#:#role_header_edit_users#:#Change userassignment###15 Sep 2004 new variable
+common#:#role_list_users#:#List users###15 Sep 2004 new variable
 common#:#role_new#:#Nuevo Rol
+common#:#role_new_search#:#New search###15 Sep 2004 new variable
+common#:#role_no_groups_selected#:#Please select a group###15 Sep 2004 new variable
+common#:#role_no_results_found#:#No results found###15 Sep 2004 new variable
+common#:#role_no_roles_selected#:#Please select a role###15 Sep 2004 new variable
+common#:#role_search_enter_search_string#:#Please enter a search string###15 Sep 2004 new variable
+common#:#role_search_users#:#User search###15 Sep 2004 new variable
+common#:#role_user_deassign#:#Deassign user from role###15 Sep 2004 new variable
+common#:#role_user_edit#:#Edit account data###15 Sep 2004 new variable
+common#:#role_user_send_mail#:#Send user a message###15 Sep 2004 new variable
 common#:#roles#:#roles
 common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
 common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable

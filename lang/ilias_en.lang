@@ -595,6 +595,7 @@ common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_local_role#:#Assign to local role
 common#:#assign_user_to_role#:#Assign User to Role
+common#:#assigned_users#:#Assigned users
 common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
@@ -1108,15 +1109,6 @@ common#:#grp_header_edit_members#:#Edit members
 common#:#grp_join#:#User may join Group
 common#:#grp_leave#:#User may leave Group
 common#:#grp_list_users#:#List users
-common#:#role_list_users#:#List users
-common#:#role_header_edit_users#:#Change userassignment
-common#:#role_new_search#:#New search
-common#:#role_count_users#:#Number of users
-common#:#role_add_user#:#Add User(s) to role
-common#:#assigned_users#:#Assigned users
-common#:#role_user_edit#:#Edit account data
-common#:#role_user_deassign#:#Deassign user from role
-common#:#role_user_send_mail#:#Send user a message
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
@@ -1130,17 +1122,12 @@ common#:#grp_new_search#:#New search
 common#:#grp_no_groups_selected#:#Please select a group
 common#:#grp_no_results_found#:#No results found
 common#:#grp_no_roles_selected#:#Please select a role
-common#:#role_no_groups_selected#:#Please select a group
-common#:#role_no_results_found#:#No results found
-common#:#role_no_roles_selected#:#Please select a role
 common#:#grp_options#:#Options
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Register
 common#:#grp_registration_completed#:#Registration completed
 common#:#grp_search_enter_search_string#:#Please enter a search string
-common#:#role_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
-common#:#role_search_users#:#User search
 common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
 common#:#guest#:#Guest
@@ -1816,12 +1803,25 @@ common#:#role#:#Role
 common#:#role_a#:#a Role
 common#:#role_add#:#Add Role
 common#:#role_add_local#:#Add local Role
+common#:#role_add_user#:#Add User(s) to role
 common#:#role_added#:#Role added
 common#:#role_assignment#:#Role Assignment
 common#:#role_assignment_updated#:#Role assignment has been updated.
+common#:#role_count_users#:#Number of users
 common#:#role_deleted#:#Role deleted
 common#:#role_edit#:#Edit Role
+common#:#role_header_edit_users#:#Change userassignment
+common#:#role_list_users#:#List users
 common#:#role_new#:#New Role
+common#:#role_new_search#:#New search
+common#:#role_no_groups_selected#:#Please select a group
+common#:#role_no_results_found#:#No results found
+common#:#role_no_roles_selected#:#Please select a role
+common#:#role_search_enter_search_string#:#Please enter a search string
+common#:#role_search_users#:#User search
+common#:#role_user_deassign#:#Deassign user from role
+common#:#role_user_edit#:#Edit account data
+common#:#role_user_send_mail#:#Send user a message
 common#:#roles#:#Roles
 common#:#roles_of_import_global#:#Global roles of import file
 common#:#roles_of_import_local#:#Local roles of import file

@@ -612,6 +612,7 @@ common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#指定学习对象论坛
 common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#为用户指定角色
+common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
 common#:#at_location#:#地点为
 common#:#attachment#:#附件
 common#:#attachments#:#附件
@@ -1818,12 +1819,25 @@ common#:#role#:#角色
 common#:#role_a#:#一个角色
 common#:#role_add#:#增加角色
 common#:#role_add_local#:#增加局部角色
+common#:#role_add_user#:#Add User(s) to role###15 Sep 2004 new variable
 common#:#role_added#:#已增加角色
 common#:#role_assignment#:#角色指派
 common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
+common#:#role_count_users#:#Number of users###15 Sep 2004 new variable
 common#:#role_deleted#:#已删除角色
 common#:#role_edit#:#编辑角色
+common#:#role_header_edit_users#:#Change userassignment###15 Sep 2004 new variable
+common#:#role_list_users#:#List users###15 Sep 2004 new variable
 common#:#role_new#:#新角色
+common#:#role_new_search#:#New search###15 Sep 2004 new variable
+common#:#role_no_groups_selected#:#Please select a group###15 Sep 2004 new variable
+common#:#role_no_results_found#:#No results found###15 Sep 2004 new variable
+common#:#role_no_roles_selected#:#Please select a role###15 Sep 2004 new variable
+common#:#role_search_enter_search_string#:#Please enter a search string###15 Sep 2004 new variable
+common#:#role_search_users#:#User search###15 Sep 2004 new variable
+common#:#role_user_deassign#:#Deassign user from role###15 Sep 2004 new variable
+common#:#role_user_edit#:#Edit account data###15 Sep 2004 new variable
+common#:#role_user_send_mail#:#Send user a message###15 Sep 2004 new variable
 common#:#roles#:#角色
 common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
 common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable

@@ -582,6 +582,7 @@ common#:#assign_global_role#:#Przydziel do globalnej roli
 common#:#assign_lo_forum#:#Przydziel forum (PN)
 common#:#assign_local_role#:#Wybierz lokalną rolę
 common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
+common#:#assigned_users#:#Assigned users###15 Sep 2004 new variable
 common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
 common#:#attachments#:#Załączniki
@@ -1784,12 +1785,25 @@ common#:#role#:#Rola
 common#:#role_a#:#rola
 common#:#role_add#:#Dodaj rolę
 common#:#role_add_local#:#Dodaj lokalną rolę
+common#:#role_add_user#:#Add User(s) to role###15 Sep 2004 new variable
 common#:#role_added#:#Rola dodana
 common#:#role_assignment#:#Przydział ról
 common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
+common#:#role_count_users#:#Number of users###15 Sep 2004 new variable
 common#:#role_deleted#:#Rola usunięta
 common#:#role_edit#:#Edytuj rolę
+common#:#role_header_edit_users#:#Change userassignment###15 Sep 2004 new variable
+common#:#role_list_users#:#List users###15 Sep 2004 new variable
 common#:#role_new#:#Nowa rola
+common#:#role_new_search#:#New search###15 Sep 2004 new variable
+common#:#role_no_groups_selected#:#Please select a group###15 Sep 2004 new variable
+common#:#role_no_results_found#:#No results found###15 Sep 2004 new variable
+common#:#role_no_roles_selected#:#Please select a role###15 Sep 2004 new variable
+common#:#role_search_enter_search_string#:#Please enter a search string###15 Sep 2004 new variable
+common#:#role_search_users#:#User search###15 Sep 2004 new variable
+common#:#role_user_deassign#:#Deassign user from role###15 Sep 2004 new variable
+common#:#role_user_edit#:#Edit account data###15 Sep 2004 new variable
+common#:#role_user_send_mail#:#Send user a message###15 Sep 2004 new variable
 common#:#roles#:#Role
 common#:#roles_of_import_global#:#Globalne role plików importowych
 common#:#roles_of_import_local#:#Lokalne role plików importowanych
