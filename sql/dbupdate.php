@@ -3628,7 +3628,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 				);
 				$insertresult = $this->db->query($insertquery);
 			}
-			
+
 			// copy question materials
 			$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
 				$this->db->quote($question_id)
@@ -3643,13 +3643,13 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 				);
 				$insertresult = $this->db->query($insertquery);
 			}
-			
+
 			$query = sprintf("UPDATE tst_test_question SET question_fi = %s WHERE test_question_id = %s",
 				$this->db->quote($duplicate_id),
 				$this->db->quote($result_row->test_question_id)
 			);
 			$result = $this->db->query($query);
-		
+
 			$query = sprintf("UPDATE tst_solutions SET question_fi = %s WHERE test_fi = %s AND question_fi = %s",
 				$this->db->quote($duplicate_id),
 				$this->db->quote($result_row->test_fi),
@@ -3660,3 +3660,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+
+<#221>
+UPDATE settings SET value = '3.0.1 2004/06/21' WHERE keyword = 'ilias_version' LIMIT 1;
+
