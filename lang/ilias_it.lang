@@ -2034,6 +2034,7 @@ content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
 content#:#cont_TableContent#:#Indice
 content#:#cont_Unordered#:#Non ordinato
+content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_definition#:#Aggiungi termine
