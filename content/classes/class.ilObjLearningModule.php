@@ -372,10 +372,15 @@ echo "Build Tree<br>";
 	*/
 	function delete()
 	{
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
 		// put here learning module specific stuff
 
 		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		return true;
 	}
 
 	function getLayout()
@@ -465,6 +470,46 @@ echo "Build Tree<br>";
 		asort($layouts);
 		return $layouts;
 	}
+	
+	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles()
+	{
+		global $rbacadmin;
+		
+		/*
+		// create a local role folder
+		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of learning module obj_no.".$this->getId());
 
+		// create moderator role and assign role to rolefolder...
+		$roleObj = $rfoldObj->createRole("Subscribersr","Subscribers of learning module obj_no.".$this->getId());
+		$roles[] = $roleObj->getId();
+
+		unset($rfoldObj);
+		unset($roleObj);
+		*/
+
+		return $roles ? $roles : array();
+	}
+
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	* 
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional paramters if required
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id,$a_params = 0)
+	{
+		// object specific event handling
+			
+		parent::notify($a_event,$a_ref_id,$a_params);
+	}
 } // END class.ilObjLearningModule
 ?>
