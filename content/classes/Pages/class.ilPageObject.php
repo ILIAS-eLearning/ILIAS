@@ -1436,7 +1436,6 @@ class ilPageObject
 	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER)
 	{
 		// move mode into container elements is always INSERT_CHILD
-//echo "get node at $a_pos";
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
