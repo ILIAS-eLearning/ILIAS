@@ -479,7 +479,7 @@ class ilObject
 		//$this->ilias->db->query($q);
 		$ilDB->query($q);
 
-		$this->id = getLastInsertId();
+		$this->id = $ilDB->getLastInsertId();
 
 		// the line ($this->read();) messes up meta data handling: meta data,
 		// that is not saved at this time, gets lost, so we query for the dates alone
@@ -588,6 +588,8 @@ class ilObject
 	*/
 	function createReference()
 	{
+		global $ilDB;
+
 		if (!isset($this->id))
 		{
 			$message = "ilObject::createNewReference(): No obj_id given!";
@@ -598,7 +600,7 @@ class ilObject
 			 "(obj_id) VALUES ('".$this->id."')";
 		$this->ilias->db->query($q);
 
-		$this->ref_id = getLastInsertId();
+		$this->ref_id = $ilDB->getLastInsertId();
 
 		return $this->ref_id;
 	}

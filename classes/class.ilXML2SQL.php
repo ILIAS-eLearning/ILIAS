@@ -24,7 +24,7 @@
 
 /**
 * Class for importing XML documents into a relational database
-*  
+*
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
@@ -298,11 +298,8 @@ class ilXML2SQL
 	*/
 	function getLastInsertId ()
 	{
-		$q = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow();
-		return $row[0];
-	}	
+		return $this->ilias->db->getLastInsertId();
+	}
 
 	/**
 	* prepare db insertion with addslashes()
