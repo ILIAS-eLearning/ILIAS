@@ -17,9 +17,25 @@
   <td class="option">{TXT_DESC}</td>
   <td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
 </tr>
+<!--
 <tr>
   <td class="option">{TXT_REGISTRATION}</td>
   <td class="option_value">{CB_REGISTRATION}</td>
+</tr>
+-->
+<tr>
+  <td class="option">{TXT_REGISTRATION}</td>
+  <td class="option_value">{TXT_DISABLEREGISTRATION}{RB_NOREGISTRATION}{TXT_ENABLEREGISTRATION}{RB_REGISTRATION}{TXT_PASSWORDREGISTRATION}{RB_PASSWORDREGISTRATION}</td>
+</tr>
+<tr>
+  <td class="option">{TXT_PASSWORD}</td>
+  <td class="option_value"><input name="password" value="{PASSWORD}" size="25" maxlength="40" style="width:300px;"/></td>  
+</tr>
+<tr>
+  <td class="option">{TXT_EXPIRATIONDATE}</td>
+  <td class="option_value">{TXT_DATE}<input name="expirationdate" value="{EXPIRATIONDATE}" size="10" maxlength="10" />
+      {TXT_TIME}<input name="expirationtime" value="{EXPIRATIONTIME}" size="8" maxlength="8"/>
+  </td>  
 </tr>
 <tr>
   <td class="option">{TXT_GROUP_STATUS}</td>
