@@ -2769,3 +2769,5 @@ search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
 forum#:#forums_subject#:#Subject
+common#:#group_import#:#Group import
+common#:#group_import_file#:#Import file
