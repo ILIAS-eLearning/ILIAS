@@ -130,21 +130,21 @@ assessment#:#direct_feedback#:#Verify your solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
-assessment#:#ects_grade_a_short#:#EXCELLENT
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors
-assessment#:#ects_grade_b_short#:#VERY GOOD
-assessment#:#ects_grade_b#:#above the average standard but with some errors
-assessment#:#ects_grade_c_short#:#GOOD
-assessment#:#ects_grade_c#:#generally sound work with a number of notable errors
-assessment#:#ects_grade_d_short#:#SATISFACTORY
-assessment#:#ects_grade_d#:#fair but with significant shortcomings
-assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_e#:#performance meets the minimum criteria
-assessment#:#ects_grade_f_short#:#FAIL
-assessment#:#ects_grade_f#:#considerable further work is required
-assessment#:#ects_grade_fx_short#:#FAIL
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
+assessment#:#ects_grade_a#:#outstanding performance with only minor errors
+assessment#:#ects_grade_a_short#:#EXCELLENT
+assessment#:#ects_grade_b#:#above the average standard but with some errors
+assessment#:#ects_grade_b_short#:#VERY GOOD
+assessment#:#ects_grade_c#:#generally sound work with a number of notable errors
+assessment#:#ects_grade_c_short#:#GOOD
+assessment#:#ects_grade_d#:#fair but with significant shortcomings
+assessment#:#ects_grade_d_short#:#SATISFACTORY
+assessment#:#ects_grade_e#:#performance meets the minimum criteria
+assessment#:#ects_grade_e_short#:#SUFFICIENT
+assessment#:#ects_grade_f#:#considerable further work is required
+assessment#:#ects_grade_f_short#:#FAIL
+assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
+assessment#:#ects_grade_fx_short#:#FAIL
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.

@@ -107,6 +107,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
+assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#von
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
@@ -130,6 +131,20 @@ assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
+assessment#:#ects_grade_a#:#outstanding performance with only minor errors###20 Sep 2004 new variable
+assessment#:#ects_grade_a_short#:#EXCELLENT###20 Sep 2004 new variable
+assessment#:#ects_grade_b#:#above the average standard but with some errors###20 Sep 2004 new variable
+assessment#:#ects_grade_b_short#:#VERY GOOD###20 Sep 2004 new variable
+assessment#:#ects_grade_c#:#generally sound work with a number of notable errors###20 Sep 2004 new variable
+assessment#:#ects_grade_c_short#:#GOOD###20 Sep 2004 new variable
+assessment#:#ects_grade_d#:#fair but with significant shortcomings###20 Sep 2004 new variable
+assessment#:#ects_grade_d_short#:#SATISFACTORY###20 Sep 2004 new variable
+assessment#:#ects_grade_e#:#performance meets the minimum criteria###20 Sep 2004 new variable
+assessment#:#ects_grade_e_short#:#SUFFICIENT###20 Sep 2004 new variable
+assessment#:#ects_grade_f#:#considerable further work is required###20 Sep 2004 new variable
+assessment#:#ects_grade_f_short#:#FAIL###20 Sep 2004 new variable
+assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded###20 Sep 2004 new variable
+assessment#:#ects_grade_fx_short#:#FAIL###20 Sep 2004 new variable
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
@@ -137,6 +152,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
+assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
