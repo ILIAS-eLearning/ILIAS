@@ -33,6 +33,56 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+administration#:#analyze_data#:#Analyze data Integrity
+administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
+administration#:#analyzing#:#Analyzing...
+administration#:#clean#:#Clean up
+administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
+administration#:#cleaning#:#Cleaning...
+administration#:#cleaning_final#:#Final cleaning...
+administration#:#closing_gaps#:#Closing gaps in tree...
+administration#:#disabled#:#disabled
+administration#:#done#:#Done
+administration#:#found#:#found.
+administration#:#found_none#:#none found.
+administration#:#log_scan#:#Log scan results
+administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
+administration#:#nothing_to_purge#:#Nothing to purge...
+administration#:#nothing_to_remove#:#Nothing to remove...
+administration#:#nothing_to_restore#:#Nothing to restore...
+administration#:#options#:#Options
+administration#:#purge_missing#:#Purge missing objects
+administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
+administration#:#purge_trash#:#Purge deleted objects
+administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
+administration#:#purging#:#Purging...
+administration#:#purging_trash#:#Purging trash...
+administration#:#purging_unbound_objs#:#Purging unbound objects...
+administration#:#removing_invalid_childs#:#Removing invalid tree entries...
+administration#:#removing_invalid_refs#:#Removing invalid references...
+administration#:#restore_missing#:#Restore missing objects
+administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.
+administration#:#restore_trash#:#Restore deleted objects
+administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.
+administration#:#restoring#:#Restoring...
+administration#:#restoring_missing_objs#:#Restoring missing objects...
+administration#:#restoring_trash#:#Restoring trash...
+administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...
+administration#:#scan_completed#:#Scan completed
+administration#:#scan_details#:#Scan details
+administration#:#scan_modes#:#Scan modes used
+administration#:#scan_only#:#Scan only
+administration#:#scanning_system#:#Scanning system...
+administration#:#searching_deleted_objs#:#Searching for deleted objects...
+administration#:#searching_invalid_childs#:#Searching for invalid tree entries...
+administration#:#searching_invalid_refs#:#Searching for invalid references...
+administration#:#searching_missing_objs#:#Searching for missing objects...
+administration#:#searching_unbound_objs#:#Searching for unbound objects...
+administration#:#skippede#:#skipped
+administration#:#start_scan#:#Start!
+administration#:#systemcheck#:#Systemcheck
+administration#:#view_last_log#:#View last Scanlog
+administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
 assessment#:#add_matching_pair#:#Add matching pair
@@ -46,10 +96,17 @@ assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
+assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
+assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
+assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.
+assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
+assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
 assessment#:#export#:#Export
 assessment#:#false#:#False
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
+assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
+assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
 assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!
+assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
@@ -60,6 +117,8 @@ assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
+assessment#:#material#:#Material
+assessment#:#material_download#:#Material to download
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#no_questions_available#:#There are no questions available!
 assessment#:#points#:#Points
@@ -94,26 +153,35 @@ assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
+assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_mark#:#Mark
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
+assessment#:#tst_maximum_points#:#Maximum points
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
+assessment#:#tst_no_taken_tests#:#There are no taken tests!
 assessment#:#tst_nr_of_tries#:#Max. number of tries
+assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_processing_time#:#Max. processing time
+assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
+assessment#:#tst_reached_points#:#Reached points
 assessment#:#tst_report_after_question#:#Report the score after every question is answered
 assessment#:#tst_report_after_test#:#Report the score after completing the whole test
+assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.
+assessment#:#tst_result_sorry#:#Sorry, you failed the test.
 assessment#:#tst_results#:#Test results
 assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
@@ -127,12 +195,18 @@ assessment#:#tst_session_settings#:#Session settings
 assessment#:#tst_show_results#:#Show test results
 assessment#:#tst_start_test#:#Start the test
 assessment#:#tst_starting_time#:#Starting time
+assessment#:#tst_status_completed#:#completed
+assessment#:#tst_status_completed_more_tries_possible#:#(completed)
+assessment#:#tst_status_not_entered#:#not entered
+assessment#:#tst_status_progress#:#in progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
+assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
+assessment#:#uploaded_material#:#Uploaded Material
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
@@ -149,6 +223,7 @@ chat#:#chat_chatroom_rename#:#Edit chatroom
 chat#:#chat_chatrooms#:#Chatrooms
 chat#:#chat_color#:#Font color
 chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
+chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat 
 chat#:#chat_face#:#Font type
 chat#:#chat_fuchsia#:#fuchsia
@@ -934,6 +1009,7 @@ common#:#next#:#next
 common#:#nickname#:#Nickname
 common#:#no#:#No
 common#:#no_bm_in_personal_list#:#No bookmarks defined.
+common#:#no_chat_in_personal_list#:#No chats in personal list
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
@@ -953,6 +1029,7 @@ common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
 common#:#obj_chac#:#Chat settings
+common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
@@ -980,6 +1057,8 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_qpl#:#Question Pool
+common#:#obj_recf#:#Restored Objects
+common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -1677,10 +1756,10 @@ dateplaner#:#dv_button_cancel#:#Cancel
 dateplaner#:#dv_button_update#:#Update
 dateplaner#:#dv_button_delete#:#Delete
 dateplaner#:#dv_groupview#:#Groupdate:
-dateplaner#:#dv_groupview_text#:#Group:<br> 
+dateplaner#:#dv_groupview_text#:#Group:<br>
 dateplaner#:#dv_noKey#:#no Keyword
 dateplaner#:#dv_noGroup#:#no Group
-dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox) 
+dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)
 dateplaner#:#dv_Grouptime#:#free time
 dateplaner#:#dv_preview#:#      <b>! Preview !</b>
 dateplaner#:#r_nonrecurring#:#Once
@@ -1755,7 +1834,7 @@ dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 
 dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date 
+dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date
 dateplaner#:#help_group#:#Groupdates selection
 dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.
 dateplaner#:#help_keyword#:#Keyword selection
