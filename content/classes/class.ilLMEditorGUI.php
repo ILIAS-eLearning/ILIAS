@@ -25,7 +25,9 @@ require_once ("content/classes/class.ilLMObjectFactory.php");
 require_once ("classes/class.ilDOMUtil.php");
 require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilObjLearningModuleGUI.php");
-require_once ("content/classes/class.ilLMPageObjectGUI.php");
+require_once ("content/classes/class.ilObjDlBook.php");
+require_once ("content/classes/class.ilObjDlBookGUI.php");
+require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 require_once ("classes/class.ilObjStyleSheet.php");
@@ -119,7 +121,8 @@ class ilLMEditorGUI
 				break;
 
 			default:
-				$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
+				$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+#				$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -169,10 +172,10 @@ class ilLMEditorGUI
 				}
 				else		// command belongs to learning module
 				{
-					$this->main_header($this->lng->txt("lm").": ".$this->lm_obj->getTitle(),"lm");
+					$this->main_header($this->lng->txt($this->lm_obj->getType()).": ".$this->lm_obj->getTitle(),$this->lm_obj->getType());
 					$type = ($cmd == "create" || $cmd == "save")
 							? $new_type
-							: "lm";
+							: $this->lm_obj->getType();
 				}
 
 //echo "2"; exit;
@@ -253,6 +256,10 @@ class ilLMEditorGUI
 							$st_gui->$cmd();
 							break;
 
+						case "dbk":
+							$lm_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
+							$lm_gui->$cmd();
+							break;
 						case "lm":
 							$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 							$lm_gui->$cmd();
