@@ -299,7 +299,7 @@ class Explorer
 
 			if ($this->format_options[$i]["depth"] > $a_depth+2)
 			{
-				if ($this->is_in_array($i+1,$a_depth))
+				if ($this->is_in_array($i+1,$a_depth+2))
 				{
 					$this->format_options[$i]["tab"]["$a_depth"] = "hoch";
 				}
