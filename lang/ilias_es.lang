@@ -438,6 +438,7 @@ common#:#no_title#:#no title
 common#:#none#:#none
 common#:#normal#:#normal
 common#:#not_installed#:#not installed
+common#:#not_logged_in#:#Your are not logged in###12 Aug 2003 new variable
 common#:#obj#:#obj
 common#:#obj_adm#:#System Settings###15 May 2003 new variable
 common#:#obj_cat#:#Category###15 May 2003 new variable
@@ -532,6 +533,7 @@ common#:#recipient#:#recipient
 common#:#refresh#:#refresh
 common#:#refresh_languages#:#Refresh Languages###12 Jun 2003 new variable
 common#:#refresh_list#:#refresh list
+common#:#register#:#Register###12 Aug 2003 new variable
 common#:#registered_since#:#registered since###25 Mar 2003 content changed
 common#:#rename#:#Rename###28 Mar 2003 new variable
 common#:#reply#:#reply
@@ -657,6 +659,7 @@ common#:#view#:#View###22 Jan 2003 new variable
 common#:#view_content#:#view content
 common#:#visible_layers#:#visible layers
 common#:#visits#:#visits
+common#:#welcome#:#Welcome###12 Aug 2003 new variable
 common#:#who_is_online#:#Who is online?###04 Aug 2003 new variable
 common#:#with#:#with###04 Aug 2003 new variable
 common#:#write#:#write
