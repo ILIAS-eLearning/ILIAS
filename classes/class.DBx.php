@@ -117,9 +117,9 @@ class DBx extends PEAR
 	* @param string
 	* @return object DB
 	*/
-	function getRow($sql)
+	function getRow($sql,$mode = "DB_FETCHMODE_OBJECT")
 	{
-		$r = $this->db->getrow($sql);
+		$r = $this->db->getrow($sql,$mode);
 		
 		if (DB::isError($r))
 		{
