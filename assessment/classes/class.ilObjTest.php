@@ -1840,6 +1840,48 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Returns the estimated working time for the test calculated from the working time of the contained questions
+* 
+* Returns the estimated working time for the test calculated from the working time of the contained questions
+*
+* @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
+* @access public
+*/
+	function get_estimated_working_time() {
+		$time_in_seconds = 0;
+		foreach ($this->questions as $question_id) {
+      $question_type = $this->get_question_type($question_id);
+      switch ($question_type) {
+        case "qt_cloze":
+          $question = new ASS_ClozeTest();
+          break;
+        case "qt_matching":
+          $question = new ASS_MatchingQuestion();
+          break;
+        case "qt_ordering":
+          $question = new ASS_OrderingQuestion();
+          break;
+				case "qt_imagemap":
+					$question = new ASS_ImagemapQuestion();
+					break;
+        case "qt_multiple_choice_sr":
+        case "qt_multiple_choice_mr":
+          $question = new ASS_MultipleChoice();
+          break;
+      }
+      $question->load_from_db($question_id);
+			$est_time = $question->get_estimated_working_time();
+			$time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
+		}
+		$hours = (int)($time_in_seconds / 3600)	;
+		$time_in_seconds = $time_in_seconds - ($hours * 3600);
+		$minutes = (int)($time_in_seconds / 60);
+		$time_in_seconds = $time_in_seconds - ($minutes * 60);
+		$result = array("h" => $hours, "m" => $minutes, "s" => $time_in_seconds);
+		return $result;
+	}
+	
+/**
 * Returns a random selection of questions
 * 
 * Returns a random selection of questions
