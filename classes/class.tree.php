@@ -496,33 +496,6 @@ class Tree
 	}
 
 	/**
-	* builds a string in HTML to output path information
-	* @access	public
-	* @param	array	full path information
-	* @param	string	scriptname to use for hyperlinks
-	* @return	string	HTML-formatted string
-	* @deprecated
-	*/
-	function showPath($a_path,$a_scriptname)
-	{
-		foreach ($a_path as $key => $val)
-		{
-			$path .= "[<a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"];
-			if ($val["parent_parent"] != "") {
-				$path .= "&parent_parent=".$val["parent_parent"];
-			}
-			$path .= "\">".$val["title"]."</a>]";
-
-			if ($key < (count($a_path) - 1))
-			{
-				$path .= " :: ";
-			}
-		}
-
-		return $path;
-	}
-	
-	/**
 	* get all childs from a node by depth
 	* @access	public
 	* @param	integer		tree-level
