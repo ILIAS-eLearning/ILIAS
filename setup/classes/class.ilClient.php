@@ -322,10 +322,12 @@ class ilClient
 	{
 		$settings = $this->getAllSettings();
 
+		$inst_id = (empty($settings["inst_id"])) ? "0" : $settings["inst_id"];
+
 		// send host information to ilias-nic
 		$url = 	$a_nic_url.
 				"?cmd=getid".
-				"&inst_id=".rawurlencode($settings["inst_id"]).
+				"&inst_id=".rawurlencode($inst_id).
 				"&hostname=".rawurlencode($_SERVER["SERVER_NAME"]).
 				"&ipadr=".rawurlencode($_SERVER["SERVER_ADDR"]).
 				"&server_port=".rawurlencode($_SERVER["SERVER_PORT"]).
@@ -345,7 +347,9 @@ class ilClient
 				"&contact_country=".rawurlencode($settings["admin_country"]).
 				"&contact_phone=".rawurlencode($settings["admin_phone"]).
 				"&contact_email=".rawurlencode($settings["admin_email"]).
-				"&nic_key=".rawurlencode($this->getNICkey());
+				"&nic_key=".rawurlencode($this->getNICkey()).
+				"&version=".rawurlencode($settings["ilias_version"]);
+
 		return $url;
 	}
 	
