@@ -457,9 +457,9 @@ class ilNestedSetXML
     
     
     /**
-    *   Ermittelt den Inhalt eines Tags.
+    *   get tag content
     *
-    *   @return     array   Content oder Untergeordnete Tags die zwischen $this->LEFT und $this->RIGHT eingeschlossen sind.
+    *   @return     array   Content or sub-tags inbetween $this->LEFT and $this->RIGHT.
   	*   @access	public
     */
     function getTagValue() 
@@ -1191,7 +1191,7 @@ class ilNestedSetXML
 	}	
 	
 	/**
-	*	returns all contents of this node
+	*	updates content of this node
     *   @param  string  xPath
     *   @param  string  name
     *   @param  integer index   
@@ -1243,7 +1243,7 @@ class ilNestedSetXML
 	}
 
 	/**
-	*	imports xml-data from dom new into nestedSet
+	*	imports new xml-data from dom into nested set
 	*   @access    public
 	*/
 	function updateFromDom()

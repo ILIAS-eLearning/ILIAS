@@ -42,7 +42,6 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
         $this->type = "dbk";
 		parent::ilObjContentObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-
 		# BETTER DO IT HERE THAN IN PARENT CLASS ( PROBLEMS FOR import, create)
 		$this->assignObject();
 		
