@@ -80,14 +80,14 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 		}
 
         // assigned roles are stored in $_SESSION["RoleId"]
-		$rbacreview = new RbacReviewH($ilias->db);
+		$rbacreview = new RbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 	}
 
 	// init rbac
-	$rbacsystem = new RbacSystemH($ilias->db);
-	$rbacadmin = new RbacAdminH($ilias->db);
-	$rbacreview = new RbacReviewH($ilias->db);
+	$rbacsystem = new RbacSystemH();
+	$rbacadmin = new RbacAdminH();
+	$rbacreview = new RbacReviewH();
 
 	// TODO: rbacAdmin should only started when using admin-functions.
 	// At the moment the method in the 3 main classes are not separated properly

@@ -12,40 +12,48 @@
 class RbacAdminH extends RbacAdmin
 {
 	/**
-	* database handle
-	* @param object db
+	* Constructor
+	* @access	public
 	*/
-    function RbacAdminH(&$dbhandle)
-    {
-		$this->RbacAdmin($dbhandle);
-    }
+	function RbacAdminH()
+	{
+		$this->RbacAdmin();
+	}
 
-    /** 
-    * @access public
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
-    function addInheritance()
-    {
-    }
+	function addInheritance()
+	{
+
+	}
 	
-    /**
-	* @access public
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
-    function deleteInheritance()
-    {
-    }
+	function deleteInheritance()
+	{
 
-    /**
-	* @access public
-	*/
-    function addAscendant()
-    {
-    }
+	}
 
-    /**
-	* @access public
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
-    function addDescendant()
-    {
-    }
+	function addAscendant()
+	{
+
+	}
+
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
+	*/
+	function addDescendant()
+	{
+
+	}
 } // END class.RbacAdminH
 ?>
