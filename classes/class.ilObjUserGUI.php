@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.21 2003/06/06 12:33:14 rty Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.22 2003/06/06 14:09:13 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -62,38 +62,299 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 
-	//new method
-	function insertPublicProfile($a_template_var, $a_template_block_name)
-	{
+function public_profile()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_profile'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+function public_upload()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_upload'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+function public_institution()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_institution'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+
+function public_street()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_street'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+
+function public_zip()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_zip'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+function public_city()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_city'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+function public_country()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_country'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+function public_phone()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_phone'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+
+function public_email()
+{
+			global $ilias;
+			// read object data
+			$q = "SELECT * FROM usr_pref ".
+			 	"WHERE usr_id='".$_GET["user"]."'".
+				"AND value ='y'".
+				"AND keyword='public_email'";
+			$result = $ilias->db->query($q);
+
+			// check number of records
+			if ($row = $result->fetchRow())
+			{
+				return $row["2"];
+			}
+}
+
+	// new method
+	// To display information according check box on Destop
+function insertPublicProfile($a_template_var, $a_template_block_name)
+{
 		global $tpl;
-		require_once "classes/class.ilForum.php";
 
 		$tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
 		$tpl->setCurrentBlock($a_template_block_name);
-		//$tpl->setVariable("ROWCOL1", "tblrow1");
-		//$tpl->setVariable("ROWCOL2", "tblrow2");
 
 		// Get name of picture of user
 
 		require_once "classes/class.ilObjUser.php";
-		$userObj = new ilObjUser($_GET["user"]);
-		// End of get picture of user
-		$tpl->setVariable("TXT_NAME","Name");
+  		$userObj = new ilObjUser($_GET["user"]);
+		$tpl->setVariable("ROWCOL1", "tblrow1");
+		$tpl->setVariable("ROWCOL2", "tblrow2");
+		//if (usr_id == $_GET["user"])
 
+ 		// Check from Database if value
+		// of public_profile = "y" show user infomation
+		if($this->public_profile()=="y") {
+  		$tpl->setVariable("TXT_NAME","Name");
 		$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
 		$tpl->setVariable("LASTNAME",$userObj->getLastName());
-		//$tpl->setVariable("TXT_TITLE","Title");
-		//$tpl->setVariable("TITLE",$userObj->getTitle());
-		$tpl->setVariable("TXT_IMAGE","Image");
-		$tpl->setVariable("IMAGE_PATH","./docss/usr_images/".$userObj->getPref("profile_image"));
+		$tpl->setVariable("TXT_TITLE","Title");
+		$tpl->setVariable("TITLE",$userObj->getTitle());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_NAME","Name");
 
+		$tpl->setVariable("FIRSTNAME","N /");
+		$tpl->setVariable("LASTNAME","A");
+		$tpl->setVariable("TXT_TITLE","Title");
+		$tpl->setVariable("TITLE","N/A");
+		}
+
+
+		// Check from Database if value
+		// of image"y" show user infomation
+		// Todo: make path of image flexible
+		if($this->public_upload()=="y") {
+		$tpl->setVariable("TXT_IMAGE","Image");
+$tpl->setVariable("IMAGE_PATH","./docss/usr_images/".$userObj->getPref("profile_image"));
 		//echo "./docss/usr_images/".$userObj->getPref("profile_image");
 		//exit;
+		}
+		else
+		{
+		$tpl->setVariable("TXT_IMAGE","Image");
+		// Todo: point to anonymous picture
+		}
 
-		//$tpl->parseCurrentBlock("profile");
-		$tpl->parseCurrentBlock();
-		//$tpl->show();
-	}
+		// Check from Database if value
+		// "y" show institute information
+		if($this->public_institution()=="y") {
+		$tpl->setVariable("TXT_INSTITUTE","Institution");
+		$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_INSTITUTE","Institution");
+		$tpl->setVariable("INSTITUTE","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show institute information
+		if($this->public_street()=="y") {
+		$tpl->setVariable("TXT_STREET","Street");
+		$tpl->setVariable("STREET",$userObj->getStreet());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_STREET","Street");
+		$tpl->setVariable("STREET","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show zip code information
+		if($this->public_zip()=="y") {
+		$tpl->setVariable("TXT_ZIPCODE","Zip Code");
+		$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_ZIPCODE","Zip Code");
+		$tpl->setVariable("ZIPCODE","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show city information
+		if($this->public_city()=="y") {
+		$tpl->setVariable("TXT_CITY","City");
+		$tpl->setVariable("CITY",$userObj->getCity());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_CITY","City");
+		$tpl->setVariable("CITY","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show country information
+		if($this->public_country()=="y") {
+		$tpl->setVariable("TXT_COUNTRY","Country");
+		$tpl->setVariable("COUNTRY",$userObj->getCountry());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_COUNTRY","Country");
+		$tpl->setVariable("COUNTRY","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show phone information
+		if($this->public_phone()=="y") {
+		$tpl->setVariable("TXT_PHONE","Phone");
+		$tpl->setVariable("PHONE",$userObj->getPhone());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_PHONE","Phone");
+		$tpl->setVariable("PHONE","N / A");
+		}
+
+		// Check from Database if value
+		// "y" show email information
+		if($this->public_email()=="y") {
+		$tpl->setVariable("TXT_EMAIL","Email");
+		$tpl->setVariable("EMAIL",$userObj->getEmail());
+		}
+		else
+		{
+		$tpl->setVariable("TXT_EMAIL","Email");
+		$tpl->setVariable("EMAIL","N / A");
+		}
+	$tpl->parseCurrentBlock($a_template_block_name);
+}
 
 
 	/**
