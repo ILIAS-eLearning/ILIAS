@@ -783,8 +783,11 @@ class ilNestedSetXML
 #			echo $xPath."<br>\n";
 #			echo htmlspecialchars($this->dom->dump_mem(0));
 			$node = $this->getXpathNodes($this->dom,$xPath);
-			$c = $node[0]->children();
-			$content = $c[0]->content;
+			if (is_array($node))
+			{
+				$c = $node[0]->children();
+				$content = $c[0]->content;
+			}
 		}
 		return($content);
 	}	
