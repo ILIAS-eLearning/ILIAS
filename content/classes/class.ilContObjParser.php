@@ -855,10 +855,11 @@ class ilContObjParser extends ilSaxParser
 						$dummy_meta =& new ilMetaData();
 						$this->media_object->assignMetaData($dummy_meta);
 						$this->media_object->setTitle("dummy");
-						$this->media_object->setDescription("dummy");
+//echo "<br>mob create (alias):";
 					}
 					else
 					{
+//echo "<br>mob create (real):";
 						$this->media_object->setTitle($this->meta_data->getTitle());
 					}
 
@@ -866,7 +867,8 @@ class ilContObjParser extends ilSaxParser
 //echo "creating media object:title:".$this->media_object->getTitle().":".
 //	$this->meta_data->getTitle().":<br>";
 					$this->media_object->create();
-//echo "creating media object<br>";
+//echo $this->media_object->getId().":".$this->media_object->getTitle().":".
+//	$this->media_object->meta_data->getTitle().":";
 					// collect mobs with internal links
 					if ($this->media_object->containsIntLink())
 					{
@@ -903,7 +905,9 @@ class ilContObjParser extends ilSaxParser
 						$this->media_object->setDescription($this->meta_data->getDescription());
 
 						$this->media_object->update();
-#echo "update media object :".$this->media_object->getId().":<br>";
+//echo "<br>update media object :".$this->media_object->getId().":".
+//						$this->media_object->getTitle().":".
+//						$this->meta_data->getTitle();
 
 						// collect mobs with internal links
 						if ($this->media_object->containsIntLink())
