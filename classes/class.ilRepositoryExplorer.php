@@ -274,7 +274,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree,$ilDB;
+		global $rbacsystem,$tree,$ilDB,$ilUser;
 
 		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_obj_id))
 		{
@@ -295,7 +295,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 				if(($rbacsystem->checkAccess('join',$a_ref_id) or
 				   $rbacsystem->checkAccess('read',$a_ref_id)) and
-				   !$tmp_obj->members_obj->isBlocked($this->ilias->account->getId()))
+				   !$tmp_obj->members_obj->isBlocked($ilUser->getId()))
 				{
 					return true;
 				}
