@@ -1068,3 +1068,49 @@ INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('23', '15');
 DELETE FROM rbac_ta WHERE typ_id='27';
 DELETE FROM rbac_ta WHERE typ_id='30';
 DELETE FROM rbac_ta WHERE typ_id='23' AND ops_id='5';
+
+<#83>
+# add create operations for most object types
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('16', 'create_cat', 'create new category');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('17', 'create_grp', 'create new group');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('18', 'create_frm', 'create new forum');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('19', 'create_crs', 'create new course');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('20', 'create_lm', 'create new learning module');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('21', 'create_slm', 'create new SCORM learning module');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('22', 'create_glo', 'create new glossary');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('23', 'create_dbk', 'create new digibook');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('24', 'create_exc', 'create new exercise');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('25', 'create_file', 'upload new file');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('26', 'create_fold', 'create new folder');
+
+# assign create-operations to different object types according to defined rules in objects.xml
+# create_cat
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('33', '16');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '16');
+# create grp
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '17');
+# create_frm
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '18');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '18');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('17', '18');
+# create_crs
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '19');
+# create_lm
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '20');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('17', '20');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '20');
+# create_slm
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '21');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('17', '21');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '21');
+# create_glo
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '22');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('17', '22');
+# create_dbk
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '23');
+# create_exc
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('16', '24');
+# create_file
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '25');
+# create_fold
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('15', '26');
