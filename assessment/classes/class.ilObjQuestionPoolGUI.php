@@ -165,7 +165,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
-echo "<br>create--".$_POST["sel_question_types"];
+//echo "<br>create--".$_POST["sel_question_types"];
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 
 		$this->ctrl->setCmdClass(get_class($q_gui));

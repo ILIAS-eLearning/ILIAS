@@ -76,7 +76,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		{
 			$cmd = "delete";
 		}
-
 		return $cmd;
 	}
 
@@ -363,7 +362,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 			}
 		}
 		return $result;
-  }
+	}
 
 	/**
 	* Creates the question output form for the learner
