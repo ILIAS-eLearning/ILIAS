@@ -39,6 +39,7 @@ require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilSearch.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilObjGroup.php";
+require_once "class.SurveySearch.php";
 
 class ilObjSurveyGUI extends ilObjectGUI
 {
@@ -744,6 +745,116 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->parseCurrentBlock();
 	}
 
+/**
+* Creates a form to search questions for inserting
+*
+* Creates a form to search questions for inserting
+*
+* @access public
+*/
+	function searchQuestionsForm()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_search_questions.html", true);
+
+		if ($_POST["cmd"]["search"])
+		{
+			$search = new SurveySearch(ilUtil::stripSlashes($_POST["search_term"]), $_POST["concat"], $_POST["search_field"], $_POST["search_type"]);
+			$search->search();
+			if (count($search->search_results))
+			{
+				$classes = array("tblrow1", "tblrow2");
+				$counter = 0;
+				$titles = $this->object->getQuestionpoolTitles();
+				foreach ($search->search_results as $data)
+				{
+					$this->tpl->setCurrentBlock("result_row");
+					$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+					$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+					$this->tpl->setVariable("QUESTION_POOL", $titles[$data["ref_fi"]]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				$this->tpl->setCurrentBlock("search_results");
+				$this->tpl->setVariable("RESULT_IMAGE", ilUtil::getImagePath("icon_spl_b.gif"));
+				$this->tpl->setVariable("ALT_IMAGE", $this->lng->txt("found_questions"));
+				$this->tpl->setVariable("TEXT_QUESTION_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("TEXT_QUESTION_DESCRIPTION", $this->lng->txt("description"));
+				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("question_type"));
+				$this->tpl->setVariable("TEXT_QUESTION_AUTHOR", $this->lng->txt("author"));
+				$this->tpl->setVariable("TEXT_QUESTION_POOL", $this->lng->txt("obj_spl"));
+				$this->tpl->setVariable("BTN_INSERT", $this->lng->txt("insert"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("FOUND_QUESTIONS", $this->lng->txt("found_questions"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				sendInfo($this->lng->txt("no_search_results"));
+			}
+		}
+		
+		sendInfo();
+		$add_parameter = $this->getAddParameter();
+		$questiontypes = &$this->object->getQuestiontypes();
+		foreach ($questiontypes as $questiontype)
+		{
+			$this->tpl->setCurrentBlock("questiontypes");
+			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $questiontype);
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($questiontype));
+			if (strcmp($_POST["search_type"], $questiontype) == 0)
+			{
+				$this->tpl->setVariable("SELECTED_SEARCH_TYPE", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		switch ($_POST["search_field"])
+		{
+			case "title":
+				$this->tpl->setVariable("CHECKED_TITLE", " selected=\"selected\"");
+				break;
+			case "description":
+				$this->tpl->setVariable("CHECKED_DESCRIPTION", " selected=\"selected\"");
+				break;
+			case "author":
+				$this->tpl->setVariable("CHECKED_AUTHOR", " selected=\"selected\"");
+				break;
+			case "questiontext":
+				$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " selected=\"selected\"");
+				break;
+			case "default":
+				$this->tpl->setVariable("CHECKED_ALL", " selected=\"selected\"");
+				break;
+		}
+		$this->tpl->setVariable("TEXT_SEARCH_TERM", $this->lng->txt("search_term"));
+		$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
+		$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
+		$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
+		$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
+		if ($_POST["concat"] == 1)
+		{
+			$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_SEARCH_FOR", $this->lng->txt("search_for"));
+		$this->tpl->setVariable("SEARCH_FIELD_ALL", $this->lng->txt("search_field_all"));
+		$this->tpl->setVariable("SEARCH_FIELD_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("SEARCH_FIELD_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("SEARCH_FIELD_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("SEARCH_FIELD_QUESTIONTEXT", $this->lng->txt("question"));
+		$this->tpl->setVariable("SEARCH_TYPE_ALL", $this->lng->txt("search_type_all"));
+		$this->tpl->setVariable("BTN_SEARCH", $this->lng->txt("search"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter . "&search_question=1&browsetype=1&insert_question=1");
+		$this->tpl->parseCurrentBlock();
+	}
+	
 /**
 * Creates a confirmation form to insert questions into the survey
 *
@@ -1498,6 +1609,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
+		if (($_POST["cmd"]["search_question"]) or ($_GET["search_question"]) and (!$_POST["cmd"]["insert"]))
+		{
+			$this->searchQuestionsForm();
+			return;
+		}
+
 		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
 			$show_questionbrowser = true;
 			if ($_POST["cmd"]["insert"]) {
@@ -1743,6 +1860,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
     if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
+			$this->tpl->setVariable("BUTTON_SEARCH_QUESTION", $this->lng->txt("search_questions"));
+			$this->tpl->setVariable("TEXT_OR", " " . strtolower($this->lng->txt("or")));
 			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
 			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
 		}
