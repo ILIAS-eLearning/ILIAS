@@ -688,6 +688,11 @@ common#:#role_add#:#Rolle anlegen
 common#:#role_added#:#Rolle angelegt
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
+common#:#usr_a#:#ein Benutzer
+common#:#usr_add#:#Neuer Benutzer
+common#:#usr_added#:#Benutzer angelegt
+common#:#usr_edit#:#Benutzer bearbeiten
+common#:#usr_new#:#Neuer Benutzer
 common#:#role_add_local#:#Lokale Rolle hinzufügen
 common#:#role_assignment#:#Rollenzuweisung
 common#:#role_deleted#:#Rolle gelöscht

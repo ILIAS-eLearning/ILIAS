@@ -688,6 +688,12 @@ common#:#role_add#:#Add Role
 common#:#role_added#:#Role added
 common#:#role_edit#:#Edit Role
 common#:#role_new#:#New Role
+common#:#usr#:#User
+common#:#usr_a#:#a User
+common#:#usr_add#:#Add User
+common#:#usr_added#:#User added
+common#:#usr_edit#:#Edit User
+common#:#usr_new#:#New User
 common#:#role_add_local#:#Add local Role
 common#:#role_assignment#:#Role Assignment
 common#:#role_deleted#:#Role deleted
@@ -808,7 +814,6 @@ common#:#userdata#:#User data
 common#:#username#:#User name
 common#:#users#:#Users
 common#:#users_online#:#Users online
-common#:#usr#:#User
 common#:#usr_agreement#:#User Agreement
 common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_skin#:#User Skin
