@@ -319,7 +319,6 @@ class ASS_MultipleChoice extends ASS_Question {
 	$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
-      $id = $db->nextId('qpl_questions');
       $now = getdate();
       if ($this->response == RESPONSE_SINGLE) {
         $question_type = 1;
@@ -327,8 +326,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $question_type = 2;
       }
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $db->quote($id),
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($question_type),
         $db->quote($this->ref_id),
         $db->quote($this->title),
@@ -344,7 +342,7 @@ class ASS_MultipleChoice extends ASS_Question {
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
-        $this->id = $id;
+        $this->id = $this->ilias->db->getLastInsertId();
         // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
         if ($this->get_test_id() > 0) {
           $this->insert_into_test($this->get_test_id());

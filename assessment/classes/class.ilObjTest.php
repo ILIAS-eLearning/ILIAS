@@ -359,8 +359,58 @@ class ilObjTest extends ilObject
 		}
 		
 		//put here your module specific stuff
+		$this->deleteTest();
 		
 		return true;
+	}
+
+	function deleteTest()
+	{
+		$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		$active_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($active_array, $row["active_id"]);
+		}
+		
+		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+
+		if (count($active_array))
+		{
+			foreach ($active_array as $active_id)
+			{
+				$query = sprintf("DELETE FROM tst_times WHERE active_fi = %s",
+					$this->ilias->db->quote($active_id)
+				);
+				$result = $this->ilias->db->query($query);
+			}
+		}
+		
+		$query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
 	}
 
 	/**
@@ -583,11 +633,9 @@ class ilObjTest extends ilObject
 		}
     if ($this->test_id == -1) {
       // Neuen Datensatz schreiben
-      $id = $db->nextId('tst_tests');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-        $db->quote($id),
+      $query = sprintf("INSERT INTO tst_tests (test_id, ref_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getRefId()),
         $db->quote($this->author), 
         $db->quote($this->test_type),
@@ -604,7 +652,7 @@ class ilObjTest extends ilObject
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
-        $this->test_id = $id;
+        $this->test_id = $this->ilias->db->getLastInsertId();
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
