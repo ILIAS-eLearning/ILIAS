@@ -30,6 +30,7 @@ require_once ("content/classes/class.ilObjDlBookGUI.php");
 require_once ("content/classes/class.ilLMPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
+require_once ("content/classes/Pages/class.ilMediaItem.php");
 require_once ("classes/class.ilObjStyleSheet.php");
 require_once ("content/classes/class.ilEditClipboard.php");
 
@@ -124,6 +125,10 @@ class ilLMEditorGUI
 
 			case "closeLinkHelp":
 				$this->explorer();
+				break;
+
+			case "showImageMap":
+				$this->showImageMap();
 				break;
 
 			default:
@@ -277,6 +282,16 @@ class ilLMEditorGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 
+	}
+
+
+	/**
+	* show image map
+	*/
+	function showImageMap()
+	{
+		$item =& new ilMediaItem($_GET["item_id"]);
+		$item->outputMapWorkCopy();
 	}
 
 

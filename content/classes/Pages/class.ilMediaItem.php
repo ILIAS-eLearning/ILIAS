@@ -50,8 +50,11 @@ class ilMediaItem
 	var $nr;
 	var $mapareas;
 	var $map_cnt;
+	var $map_image;			// image map work copy image
+	var $color1;			// map area line color 1
+	var $color2;			// map area line color 2
 
-	function ilMediaItem()
+	function ilMediaItem($a_id = 0)
 	{
 		global $ilias;
 
@@ -59,6 +62,12 @@ class ilMediaItem
 		$this->parameters = array();
 		$this->mapareas = array();
 		$this->map_cnt = 0;
+
+		if ($a_id != 0)
+		{
+			$this->setId($a_id);
+			$this->read();
+		}
 	}
 
 	/**
@@ -153,7 +162,6 @@ class ilMediaItem
 	/**
 	* read media item data (item id or (mob_id and nr) must be set)
 	*/
-	/*
 	function read()
 	{
 		$item_id = $this->getId();
@@ -172,7 +180,7 @@ class ilMediaItem
 		if ($query != "")
 		{
 			$item_set = $this->ilias->db->query($query);
-			$item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC)
+			$item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 			$this->setLocation($item_rec["location"]);
 			$this->setLocationType($item_rec["location_type"]);
@@ -185,8 +193,26 @@ class ilMediaItem
 			$this->setNr($item_rec["nr"]);
 			$this->setMobId($item_rec["mob_id"]);
 			$this->setId($item_rec["id"]);
+
+			// get item parameter
+			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
+				$this->getId()."'";
+			$par_set = $this->ilias->db->query($query);
+			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$this->setParameter($par_rec["name"], $par_rec["value"]);
+			}
+
+			// get item map areas
+			$max = ilMapArea::_getMaxNr($this->getId());
+			for ($i = 1; $i <= $max; $i++)
+			{
+				$area =& new ilMapArea($this->getId(), $i);
+				$this->addMapArea($area);
+			}
 		}
-	}*/
+
+	}
 
 	/**
 	* read media items into media objects (static)
@@ -212,6 +238,7 @@ class ilMediaItem
 			$media_item->setHAlign($item_rec["halign"]);
 			$media_item->setCaption($item_rec["caption"]);
 			$media_item->setPurpose($item_rec["purpose"]);
+			$media_item->setMobId($item_rec["mob_id"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = '".
@@ -439,7 +466,7 @@ class ilMediaItem
 	*/
 	function getWorkDirectory()
 	{
-		return ilUtil::getDataDir()."/med_items/item_".$this->getId();
+		return ilUtil::getDataDir()."/map_workfiles/item_".$this->getId();
 	}
 
 	/**
@@ -447,9 +474,9 @@ class ilMediaItem
 	*/
 	function createWorkDirectory()
 	{
-		if(!@is_dir(ilUtil::getDataDir()."/med_items"))
+		if(!@is_dir(ilUtil::getDataDir()."/map_workfiles"))
 		{
-			ilUtil::createDirectory(ilUtil::getDataDir()."/med_items");
+			ilUtil::createDirectory(ilUtil::getDataDir()."/map_workfiles");
 		}
 		$work_dir = $this->getWorkDirectory();
 		if(!@is_dir($work_dir))
@@ -468,24 +495,140 @@ class ilMediaItem
 		return $loc_arr[count($loc_arr) - 1];
 	}
 
-
-	function makeMapWorkCopy()
+	/**
+	* get image type of image map work copy
+	*/
+	function getMapWorkCopyType()
 	{
-
+		return ilUtil::getGDSupportedImageType($this->getSuffix());
 	}
 
-	function outputFile($mode, $map_rec)
+	/**
+	*
+	*/
+	function getMapWorkCopyName()
 	{
-		$imtype = ilUtil::getGDSupportedImageType($this->getSuffix());
+		$file_arr = explode("/", $this->getLocation());
+		$file = $file_arr[count($file_arr) - 1];
+		$file_arr = explode(".", $file);
+		unset($file_arr[count($file_arr) - 1]);
+		$file = implode($file_arr, ".");
 
-		if (!empty($imtype))
+		return $this->getWorkDirectory()."/".$file.".".$this->getMapWorkCopyType();
+	}
+
+	/**
+	* get media file directory
+	*/
+	function getDirectory()
+	{
+		return ilMediaObject::_getDirectory($this->getMobId());
+	}
+
+	/**
+	* make map work directory
+	*/
+	function makeMapWorkCopy()
+	{
+		$this->createWorkDirectory();
+		ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
+			$this->getMapWorkCopyName(),
+			$this->getMapWorkCopyType());
+
+		$this->buildMapWorkImage();
+
+		// draw map areas
+		for ($i=0; $i < count($this->mapareas); $i++)
+		{
+			$area =& $this->mapareas[$i];
+			$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+		}
+
+		$this->saveMapWorkImage();
+	}
+
+	/**
+	* output raw map work copy file
+	*/
+	function outputMapWorkCopy()
+	{
+		if ($this->getMapWorkCopyType() != "")
 		{
 			header("Pragma: no-cache");
 			header("Expires: 0");
-			header("Content-type: image/gif");
-			readfile(fname());
+			header("Content-type: image/".strtolower($this->getMapWorkCopyType()));
+			readfile($this->getMapWorkCopyName());
 		}
 		exit;
+	}
+
+	/**
+	* build image map work image
+	*/
+	function buildMapWorkImage()
+	{
+		$im_type = strtolower($this->getMapWorkCopyType());
+
+		switch ($im_type)
+		{
+			case "gif":
+				$this->map_image = ImageCreateFromGIF($this->getMapWorkCopyName());
+				break;
+
+			case "jpg":
+				$this->map_image = ImageCreateFromJPEG($this->getMapWorkCopyName());
+				break;
+
+			case "png":
+				$this->map_image = ImageCreateFromPNG($this->getMapWorkCopyName());
+				break;
+		}
+
+		// try to allocate black and white as color. if this is not possible, get the closest colors
+		if (imagecolorstotal($this->map_image) > 250)
+		{
+			$this->color1 = imagecolorclosest($this->map_image, 0, 0, 0);
+			$this->color2 = imagecolorclosest($this->map_image, 255, 255, 255);
+		}
+		else
+		{
+			$this->color1 = imagecolorallocate($this->map_image, 0, 0, 0);
+			$this->color2 = imagecolorallocate($this->map_image, 255, 255, 255);
+		}
+	}
+
+	/**
+	* save image map work image
+	*/
+	function saveMapWorkImage()
+	{
+		$im_type = strtolower($this->getMapWorkCopyType());
+
+		// save image work-copy and free memory
+		switch ($im_type)
+		{
+			case "gif":
+				ImageGIF($this->map_image, $this->getMapWorkCopyName());
+				break;
+
+			case "jpg":
+				ImageJPEG($this->map_image, $this->getMapWorkCopyName());
+				break;
+
+			case "png":
+				ImagePNG($this->map_image, $this->getMapWorkCopyName());
+				break;
+		}
+
+		ImageDestroy($this->map_image);
+	}
+
+	/**
+	* get image map work image
+	*/
+	function &getMapWorkImage()
+	{
+		return $this->map_image;
 	}
 
 
@@ -496,7 +639,7 @@ class ilMediaItem
 	{
 		$xml = "";
 
-		// create map areas
+		// build xml of map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
 		{
 			$area =& $this->mapareas[$i];
