@@ -719,6 +719,7 @@ common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new 
 common#:#condition_update#:#Save###14 Aug 2004 new variable
 common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#confirmar
+common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Objeto
 common#:#contact_data#:#Información de Contacto
 common#:#container#:#Contenedor
@@ -2132,6 +2133,8 @@ content#:#cont_export_files#:#Exportar Ficheros
 content#:#cont_external#:#externo
 content#:#cont_file#:#Fichero
 content#:#cont_files#:#Ficheros
+content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
+content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formato
 content#:#cont_free_pages#:#Páginas -Libres-
 content#:#cont_full_is_in_dir#:#No es posible eliminar. El fichero de pantalla completa está en el directorio.
@@ -2308,6 +2311,7 @@ content#:#cont_tracking_data#:#Tracking Data###new variable 07 June 2004
 content#:#cont_tracking_items#:#Tracking Items###new variable 07 June 2004
 content#:#cont_translations#:#Translation(s)###26 Sep 2003 new variable
 content#:#cont_translations_assigned#:#The translation(s) have been assigned###26 Sep 2003 new variable
+content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
 content#:#cont_update#:#Actualizar
 content#:#cont_update_names#:#Actualizar Nombres
 content#:#cont_upload_file#:#Cargar Fichero
@@ -3433,6 +3437,7 @@ survey#:#contains#:#Contains###10 Jun 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
+survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!###01 Sep 2004 new variable
 survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
 survey#:#dc_agree#:#agree###23 May 2004 new variable
 survey#:#dc_always#:#always###23 May 2004 new variable

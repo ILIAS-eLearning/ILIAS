@@ -717,6 +717,7 @@ common#:#condition_select_one#:#-Per favore scegli una condizione-
 common#:#condition_update#:#Salva
 common#:#conditions_updated#:#Condizioni salvate
 common#:#confirm#:#Conferma
+common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Contatti
 common#:#container#:#Contenitore
@@ -2132,6 +2133,8 @@ content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
 content#:#cont_file#:#File
 content#:#cont_files#:#File
+content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
+content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formato
 content#:#cont_free_pages#:#Pagine libere
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
@@ -2308,6 +2311,7 @@ content#:#cont_tracking_data#:#Dati tracciati
 content#:#cont_tracking_items#:#Voci tracciate
 content#:#cont_translations#:#Traduzione(i)
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
+content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
 content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
 content#:#cont_upload_file#:#Aggiungi file
@@ -3432,6 +3436,7 @@ survey#:#contains#:#Contiene
 survey#:#continue#:#Avanti >>
 survey#:#create_date#:#Data creazione
 survey#:#create_new#:#Nuova domanda
+survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!###01 Sep 2004 new variable
 survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#accordo
 survey#:#dc_always#:#sempre
