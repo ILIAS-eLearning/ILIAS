@@ -302,6 +302,30 @@ chat#:#chat_user_invited#:#Invited user to chat.
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+common#:#month_01_long#:#January
+common#:#month_02_long#:#February
+common#:#month_03_long#:#March
+common#:#month_04_long#:#April
+common#:#month_05_long#:#May
+common#:#month_06_long#:#June
+common#:#month_07_long#:#July
+common#:#month_08_long#:#August
+common#:#month_09_long#:#September
+common#:#month_10_long#:#October
+common#:#month_11_long#:#November
+common#:#month_12_long#:#December
+common#:#month_01_short#:#Jan
+common#:#month_02_short#:#Feb
+common#:#month_03_short#:#Mar
+common#:#month_04_short#:#Apr
+common#:#month_05_short#:#May
+common#:#month_06_short#:#Jun
+common#:#month_07_short#:#Jul
+common#:#month_08_short#:#Aug
+common#:#month_09_short#:#Sep
+common#:#month_10_short#:#Oct
+common#:#month_11_short#:#Nov
+common#:#month_12_short#:#Dec
 common#:#3rd_party_software#:#3rd party software 
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
