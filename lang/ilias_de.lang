@@ -97,6 +97,8 @@ assessment#:#add_imagemap#:#Imagemap anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
+assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
+assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#applet_attributes#:#Applet-Attribute
@@ -114,6 +116,7 @@ assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umk
 assessment#:#cloze_text#:#Lückentext
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Koordinaten
+assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
@@ -237,6 +240,7 @@ assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
+assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
 assessment#:#shuffle_answers#:#Antworten mischen
@@ -350,7 +354,9 @@ assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
+assessment#:#with_order#:#with order###30 Aug 2004 new variable
 assessment#:#working_time#:#Bearbeitungszeit
+assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points###30 Aug 2004 new variable
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#AV
@@ -1912,6 +1918,7 @@ common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
+common#:#unselected#:#Unselected###30 Aug 2004 new variable
 common#:#unsubscribe#:#Abo beenden
 common#:#unzip#:#Entzippen
 common#:#up#:#Hoch

@@ -97,6 +97,8 @@ assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
+assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
+assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Testo della risposta
 assessment#:#applet_attributes#:#Attributi dell'applet
@@ -114,6 +116,7 @@ assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferen
 assessment#:#cloze_text#:#Testo simile
 assessment#:#code#:#Codice
 assessment#:#coordinates#:#Coordinate
+assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
 assessment#:#create_date#:#Data creazione
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_imagemap#:#Crea una immaggine con mappa
@@ -239,6 +242,7 @@ assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
+assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
 assessment#:#set_filter#:#Imposta filtro
 assessment#:#shape#:#Forma
 assessment#:#shuffle_answers#:#Mescola le risposte
@@ -352,7 +356,9 @@ assessment#:#upload_imagemap#:#Upload una immagine a mappa
 assessment#:#uploaded_material#:#Materiale uploadato
 assessment#:#when#:#quando
 assessment#:#width#:#Larghezza
+assessment#:#with_order#:#with order###30 Aug 2004 new variable
 assessment#:#working_time#:#Tempo di esecuzione
+assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points###30 Aug 2004 new variable
 bibitem#:#bibitem_add#:#Aggiungi
 bibitem#:#bibitem_author#:#Autore
 bibitem#:#bibitem_av#:#Disponibile
@@ -1918,6 +1924,7 @@ common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#non lette
+common#:#unselected#:#Unselected###30 Aug 2004 new variable
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
 common#:#up#:#Su

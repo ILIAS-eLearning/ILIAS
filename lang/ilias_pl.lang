@@ -96,6 +96,8 @@ assessment#:#add_gap#:#Dodaj tekst odstępu
 assessment#:#add_matching_pair#:#dodaj pasującą parę
 assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
 assessment#:#answer#:#Odpowiedź
+assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
+assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
 assessment#:#answer_picture#:#Obrazek odpowiedzi
 assessment#:#answer_text#:#Tekst odpowiedzi
 assessment#:#applet_attributes#:#Atrybuty Apletu
@@ -112,6 +114,7 @@ assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#code#:#Kod
 assessment#:#coordinates#:#Koordynaty
+assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
@@ -227,6 +230,7 @@ assessment#:#save_introduction#:#Zachowaj i skocz do wstępu
 assessment#:#save_next#:#Zachowaj i skocz do następnego pytania
 assessment#:#save_previous#:#Zachowaj i skocz do poprzedniego pytania
 assessment#:#select_gap#:#Wybierz odstęp
+assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#shape#:#Kształt
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
@@ -339,7 +343,9 @@ assessment#:#upload_imagemap#:#Załaduj mapę bitową
 assessment#:#uploaded_material#:#Załadowany Materiał
 assessment#:#when#:#when###17 Aug 2004 new variable
 assessment#:#width#:#Szerokość
+assessment#:#with_order#:#with order###30 Aug 2004 new variable
 assessment#:#working_time#:#Czas Pracy
+assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points###30 Aug 2004 new variable
 bibitem#:#bibitem_add#:#Dodaj
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#ŚR
@@ -1895,6 +1901,7 @@ common#:#uninstall#:#Odinstaluj
 common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
 common#:#unread#:#Nie czytany
+common#:#unselected#:#Unselected###30 Aug 2004 new variable
 common#:#unsubscribe#:#przerwij subskrybcję
 common#:#unzip#:#Unzip
 common#:#up#:#W górę
