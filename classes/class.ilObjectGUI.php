@@ -2420,19 +2420,6 @@ class ilObjectGUI
 				// create a rolefolder
 				$rolfObj = $this->object->createRoleFolder();
 				$rolf_id = $rolfObj->getRefId();
-
-// TODO: this is done by object->createRoleFolder
-				// Suche aller Parent Rollen im Baum
-				/*
-				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
-
-				foreach ($parentRoles as $parRol)
-				{
-					// Es werden die im Baum am 'n�hsten liegenden' Templates ausgelesen
-					$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
-					
-					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
-				}*/
 			}
 		}
 		else
@@ -2450,18 +2437,18 @@ class ilObjectGUI
 		{
 			if ($this->object->getType() == "rolf")
 			{
-				$this->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+				$roleObj = $this->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
 			}
 			else
 			{
 				$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
-				$rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+				$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
 			}
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);
 
-		header("Location: ".$this->getReturnLocation("addRole","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
+		header("Location: ".$this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
 		exit();
 	}
 
@@ -2535,7 +2522,7 @@ class ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		if($this->sub_objects == "")
+		if ($this->sub_objects == "")
 		{
 			$d = $this->objDefinition->getCreatableSubObjects($_GET["type"]);
 		}
@@ -2565,7 +2552,8 @@ class ilObjectGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					$subobj[] = $row["name"];
-					if($row["import"] == "1")	// import allowed?
+
+					if ($row["import"] == "1")	// import allowed?
 					{
 						$import = true;
 					}
