@@ -4109,6 +4109,8 @@ survey#:#median_between#:#between
 survey#:#menuback#:#Back
 survey#:#menubacktosurvey#:#Back to the survey
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
+survey#:#metric_question_floating_point#:#The value you entered is a floating point value. Floating point values are not allowed for this question type!
+survey#:#metric_question_not_a_value#:#The value you entered is not a numeric value!
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!

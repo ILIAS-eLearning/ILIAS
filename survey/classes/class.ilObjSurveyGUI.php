@@ -266,19 +266,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						// there is a metric question -> check input
 						$variables =& $this->object->getVariables($data["question_id"]);
-						if ((($_POST[$data["question_id"] . "_metric_question"] < $variables[0]["value1"]) or (($_POST[$data["question_id"] . "_metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] < 0))))
+						$entered_value = $_POST[$data["question_id"] . "_metric_question"];
+						// replace german notation with international notation
+						$entered_value = str_replace(",", ".", $entered_value);
+						$_POST[$data["question_id"] . "_metric_question"] = $entered_value;
+						if (((($entered_value < $variables[0]->value1) or (($entered_value > $variables[0]->value2) and ($variables[0]->value2 > 0)))) && $data["obligatory"])
 						{
 							// there is an error: value is not in bounds
 							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
 							$error = 1;
 						}
-						if ((strcmp($_POST[$data["question_id"] . "_metric_question"], "") == 0) && ($data["obligatory"]))
+						if (!is_numeric($entered_value) && ($data["obligatory"]))
+						{
+							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_not_a_value");
+							$error = 1;
+						}
+						if ((strcmp($entered_value, "") == 0) && ($data["obligatory"]))
 						{
 							// there is an error: value is not in bounds
 							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_out_of_bounds");
 							$error = 1;
 						}
-						if (($error == 0) && (strcmp($_POST[$data["question_id"] . "_metric_question"], "") != 0))
+						if (($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value)) && ($data["obligatory"]))
+						{
+							$error_messages[$data["question_id"]] = $this->lng->txt("metric_question_floating_point");
+							$error = 1;
+						}
+						if (($error == 0) && (strcmp($entered_value, "") != 0))
 						{
 							$save_answer = 1;
 						}
@@ -465,6 +479,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+					$question_gui->object->setObligatory($data["obligatory"]);
 					$question_gui->outWorkingForm($working_data, $this->object->getShowQuestionTitles(), $error_messages[$data["question_id"]]);
 					$qid = "&qid=" . $data["question_id"];
 					$this->tpl->parse("survey_content");
