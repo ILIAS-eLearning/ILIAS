@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.79 2004/05/14 15:33:48 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.80 2004/05/14 22:01:15 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -590,9 +590,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			// prepare arrays for permission settings below
 			foreach ($valid_nodes as $key => $node)
 			{
-				$node_ids[] = $node["child"];
-				
-				$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+				if(!in_array($node["type"],$to_filter) or $node["type"] == "root")
+				{
+					$node_ids[] = $node["child"];
+					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+				}
 			}
 			
 			// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
