@@ -68,7 +68,6 @@ class ilHTTPS
 
 	function __readProtectedScripts()
 	{
-		$this->protected_scripts[] = 'payment_admin.php';
 		$this->protected_scripts[] = 'login.php';
 
 		return true;
