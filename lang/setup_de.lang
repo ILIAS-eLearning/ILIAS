@@ -29,7 +29,7 @@ login#:#einloggen
 login_to_ilias#:#bei ILIAS anmelden
 password#:#Passwort
 setup#:#setup
-setup_ready#:#Setup wurde erfolgreich beendet
+setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS3 einloggen.
 setup_welcome#:#Willkommen
 lang_de#:#Deutsch
 lang_en#:#Englisch
@@ -53,4 +53,15 @@ logged_out#:#Sie sind nun ausgeloggt.
 file_does_not_exist#:#Datei existiert nicht.
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 database_ready#:#Datenbank ist eingerichtet.
-enter_password#:#Bitte geben Sie das gewünschte Passwort ein
+enter_password#:#Bitte geben Sie das Passwort ein
+choose_password#:#Bitte geben Sie das gewünschte Passwort ein
+languages_installed#:#Sprachen installiert.
+lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
+passwd_set#:#Das Passwort wurde gespeichert.
+passwd_changed#:#Das Passwort wurde geändert.
+setup_menu#:#setup menü
+inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
+inifile_can_write#:#ILIAS3 setup kann eine neue ini-Datei erzeugen.
+en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
+intro_install#:#Das ist das Hauptmenü von ILIAS3 setup. Hier können Sie Schritt für Schritt die Installation von ILIAS3 durchführen.
+setup_mainmenu#:#Setup Hauptmenü

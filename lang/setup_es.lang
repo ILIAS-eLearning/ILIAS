@@ -29,7 +29,7 @@ login#:#login
 login_to_ilias#:#login to ILIAS
 password#:#password
 setup#:#setup
-setup_ready#:#setup is ready
+setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
 setup_welcome#:#Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
 lang_de#:#Aleman
 lang_dk#:#Dinamarqu&eacute;s
@@ -53,4 +53,15 @@ logged_out#:#You logged out.
 file_does_not_exist#:#File does not exist.
 not_connected_to_db#:#You are not connected to database.
 database_ready#:#database is ready.
-enter_password#:#Please enter desired password
+enter_password#:#Please enter password
+choose_password#:#Please choose a password
+languages_installed#:#Languages installed.
+lang_error_occurred#:#Encountered an error. Action aborted.
+passwd_set#:#Das Passwort wurde gespeichert.
+passwd_changed#:#Das Passwort wurde geändert.
+setup_menu#:#setup menü
+inifile_exists#:#An ini-file exists. Note that this Installation process deletes previous settings.
+inifile_can_write#:#ILIAS3 setup can write your ini-file.
+en_by_default#:#(English is installed by default and cannot be deleted).
+intro_install#:#This is the main page of ILIAS3 setup. From here you can step through the installation.
+setup_mainmenu#:#Setup mainmenu

@@ -69,6 +69,48 @@ $tpl->setVariable("TXT_SETUP", $lng->txt("setup"));
 $tpl->setVariable("TXT_SETUP_WELCOME", "This is the Install-routine of ILIAS.");
 $tpl->setVariable("VERSION", $VERSION);
 
+// header to ilias login screen & switch language to english if needed
+if ($_GET["step"] == "login")
+{
+	if (!$mySetup->readIniFile())
+	{
+		$msg = "<br/>Please set up your ini-file first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	elseif (!$mySetup->connect())
+	{
+		$msg = "<br/>Please set up your database first.";
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
+		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
+		$tpl->parseCurrentBlock();
+	}
+	else
+	{
+		session_destroy();
+		
+		$installed_langs = $mySetup->getInstalledLanguages();
+		
+		if (!in_array($_GET["lang"],$installed_langs))
+		{
+			$_GET["lang"] == "en";
+		}
+		
+		header ("Location: login.php?lang=".$_GET["lang"]);
+		exit();
+	}
+}
 
 // confirm change password
 if ($_GET["step"] == 12)
@@ -81,7 +123,7 @@ if ($_GET["step"] == 12)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -93,7 +135,7 @@ if ($_GET["step"] == 12)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -105,7 +147,7 @@ if ($_GET["step"] == 12)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -117,7 +159,7 @@ if ($_GET["step"] == 12)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -129,7 +171,7 @@ if ($_GET["step"] == 12)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -137,13 +179,13 @@ if ($_GET["step"] == 12)
 	{
 		$mySetup->setPassword($_POST["passwdnew"]);
 		
-		$msg = "<br/>Password changed.";
+		$msg = "<br/>".$lng->txt("passwd_changed");
 		$tpl->setCurrentBlock("message");
 		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -160,7 +202,7 @@ if ($_GET["step"] == 11)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -172,7 +214,7 @@ if ($_GET["step"] == 11)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -184,7 +226,7 @@ if ($_GET["step"] == 11)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -212,7 +254,7 @@ if ($_GET["step"] == 10)
 	$tpl->parseCurrentBlock();
 	
 	$tpl->setCurrentBlock("message");
-	$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+	$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 	$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 }
@@ -228,7 +270,7 @@ if ($_GET["step"] == 9)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -240,7 +282,7 @@ if ($_GET["step"] == 9)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -252,7 +294,7 @@ if ($_GET["step"] == 9)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -287,7 +329,7 @@ if ($_GET["step"] == 8)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -299,7 +341,7 @@ if ($_GET["step"] == 8)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -325,7 +367,7 @@ if ($_GET["step"] == 7)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -337,7 +379,7 @@ if ($_GET["step"] == 7)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -347,13 +389,13 @@ if ($_GET["step"] == 7)
 		$auth_setup = "yes";
 		session_register("auth_setup");
 		
-		$msg = "<br/>Password was set.";
+		$msg = "<br/>".$lng->txt("passwd_set");
 		$tpl->setCurrentBlock("message");
 		$tpl->setVariable("TXT_ERR", $lng->txt($mySetup->error).$msg);
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -371,7 +413,7 @@ if ($_GET["step"] == 6)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -383,7 +425,7 @@ if ($_GET["step"] == 6)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -392,7 +434,8 @@ if ($_GET["step"] == 6)
 		// show menu link
 		$tpl->setCurrentBlock("step6");
 		$tpl->setVariable("TXT_PASSWORD5", $lng->txt("password"));
-		$tpl->setVariable("TXT_STEP6", $lng->txt("setup"));
+		$tpl->setVariable("TXT_STEP6", $lng->txt("setup_menu"));
+		$tpl->setVariable("TXT_CHOOSE_PASSWD", $lng->txt("choose_password"));
 		$tpl->setVariable("LINK_STEP6", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -409,7 +452,7 @@ if ($_GET["step"] == 5)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -421,7 +464,7 @@ if ($_GET["step"] == 5)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -429,18 +472,18 @@ if ($_GET["step"] == 5)
 	{
 		if ($mySetup->installLanguages())
 		{
-			$msg = "languages installed.";
+			$msg = "languages_installed";
 		}
 		else
 		{
-			$msg = "An error occurred!";
+			$msg = "lang_error_occurred!";
 		}
 		
 		// show menu link
 		$tpl->setCurrentBlock("step5");
 		$tpl->setVariable("TXT_LANGUAGES5", $lng->txt("languages"));
 		$tpl->setVariable("TXT_MESSAGE", $lng->txt($msg));
-		$tpl->setVariable("TXT_STEP5", $lng->txt("setup"));
+		$tpl->setVariable("TXT_STEP5", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_STEP5", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -457,7 +500,7 @@ if ($_GET["step"] == 4)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -469,7 +512,7 @@ if ($_GET["step"] == 4)
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+		$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -500,9 +543,10 @@ if ($_GET["step"] == 4)
 		$tpl->setVariable("LANG", $_GET["lang"]);
 		$tpl->setVariable("TXT_LANG", $lng->txt("lang_en"));
 		$tpl->setVariable("TXT_OK", $OK);
-		$tpl->setVariable("TXT_REMARK", "(English is installed by default and cannot be deleted)");		
+		$tpl->setVariable("TXT_REMARK", $lng->txt("en_by_default"));		
 		$tpl->setVariable("TXT_LANGUAGES4", $lng->txt("languages"));
-		$tpl->setVariable("TXT_STEP4", $lng->txt("setup"));
+		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
+		$tpl->setVariable("TXT_STEP4", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_STEP4", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -520,7 +564,7 @@ if ($_GET["step"] == 3)
 			$tpl->parseCurrentBlock();
 
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
@@ -535,7 +579,7 @@ if ($_GET["step"] == 3)
 			$tpl->parseCurrentBlock();
 
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
@@ -550,7 +594,7 @@ if ($_GET["step"] == 3)
 			$tpl->parseCurrentBlock();
 		
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("TXT_MENU", $lng->txt("setup"));
+			$tpl->setVariable("TXT_MENU", $lng->txt("setup_menu"));
 			$tpl->setVariable("LINK_MENU", "setup.php?step=begin&amp;lang=".$_GET["lang"]);
 			$tpl->parseCurrentBlock();
 		}
@@ -587,7 +631,7 @@ if ($_GET["step"] == 2)
 
 		$tpl->setCurrentBlock("step2");
 		$tpl->setVariable("TXT_INIFILE2", $lng->txt("inifile"));
-		$tpl->setVariable("TXT_STEP2", $lng->txt("setup"));
+		$tpl->setVariable("TXT_STEP2", $lng->txt("setup_menu"));
 		$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$_GET["lang"]);
 		$tpl->parseCurrentBlock();
 	}
@@ -624,7 +668,7 @@ if ($_GET["step"] == 1)
 	}
 	else
 	{
-	    $msg = "An ini-file exists. Note that this Installation process deletes previous settings.";
+	    $msg = $lng->txt("inifile_exists");
 	}
 	
 	//check if ini-file is writable and build msg
@@ -634,12 +678,12 @@ if ($_GET["step"] == 1)
 	}
 	else
 	{
-	    $msg .= "<br>ILIAS3 setup can write your ini-file.";
+	    $msg .= "<br>".$lng->txt("inifile_can_write");
 	}
 	
 	// show menu link
 	$tpl->setCurrentBlock("step2");
-	$tpl->setVariable("TXT_STEP2", $lng->txt("setup"));
+	$tpl->setVariable("TXT_STEP2", $lng->txt("setup_menu"));
 	$tpl->setVariable("LINK_STEP2", "setup.php?step=begin&lang=".$_GET["lang"]);
 	$tpl->parseCurrentBlock();
 	
@@ -760,12 +804,15 @@ if ($_GET["step"] == "begin")
 	{
 		$tpl->setCurrentBlock("ready");
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-		$tpl->setVariable("LINK_LOGIN", "login.php?lang=".$_GET["lang"]);
+		$tpl->setVariable("TXT_SETUP_READY", $lng->txt("setup_ready"));
+		$tpl->setVariable("LINK_LOGIN", "setup.php?step=login&amp;lang=".$_GET["lang"]);
 		
 		$tpl->parseCurrentBlock();
 	}	
 	
 	$tpl->setCurrentBlock("begininstallation");
+	$tpl->setVariable("TXT_TITLE", $lng->txt("setup_mainmenu"));
+	$tpl->setVariable("TXT_SETUP_INTRO_INSTALL", $lng->txt("intro_install"));
 	$tpl->parseCurrentBlock();
 }
 
@@ -809,7 +856,7 @@ if ($_GET["step"] == "preliminaries")
 	}
 	$tpl->parseCurrentBlock();
 	
-	// Can creating new foldersr
+	// Can creating new folders
 	$tpl->setCurrentBlock("preliminary");
 	$tpl->setVariable("TXT_PRE", "New folders creatable in ILIAS3 folder");
 	if ($arCheck["create"]["status"] == true)
