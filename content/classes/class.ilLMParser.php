@@ -283,7 +283,7 @@ class ilLMParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-//echo "BEGIN_TAG:".$a_name.":<br>";
+echo "BEGIN_TAG:".$a_name.":<br>";
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -627,15 +627,15 @@ class ilLMParser extends ilSaxParser
 
 			case "MetaData":
 				$this->in_meta_data = false;
-                if(get_class($this->current_object) == "ilpageobject")
+                if(get_class($this->current_object) == "ilpageobject" && !$this->in_media_object)
 				{
-                    // Metadaten eines PageObjects sichern in NestedSet
+					// Metadaten eines PageObjects sichern in NestedSet
                     $this->page_object->createFromXML();
 
                     include_once("./classes/class.ilNestedSetXML.php");
                     $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");                    
-                } 
+                    $nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");
+                }
 				else if(get_class($this->current_object) == "ilstructureobject")
 				{    // save structure object at the end of its meta block
 					// determine parent
