@@ -1436,3 +1436,10 @@ DROP TABLE IF EXISTS cal_category;
 DROP TABLE IF EXISTS cal_priority;
 DROP TABLE IF EXISTS cal_user_group;
 DROP TABLE IF EXISTS dummy_groups;
+
+<#92>
+# add operations 'assign_user' and 'assign_role'
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('40', 'edit_userassignment', 'change userassignment of roles');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('41', 'edit_roleassignment', 'change roleassignments of user accounts');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('23', '40');
+INSERT INTO rbac_ta (typ_id,ops_id) VALUES ('22', '41');

@@ -26,7 +26,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.29 2004/01/12 15:51:42 shofmann Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.30 2004/01/12 16:30:53 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -37,6 +37,19 @@ require_once "class.ilObjectGUI.php";
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
 	/**
+	* ILIAS3 object type abbreviation
+	* @var		string
+	* @access	public
+	*/
+	var $type;
+
+	/**
+	* rolefolder ref_id where role is assigned to
+	* @var		string
+	* @access	public
+	*/
+	var $rolf_ref_id;
+	/**
 	* Constructor
 	*
 	* @access	public
@@ -45,6 +58,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		$this->type = "rolt";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->rolf_ref_id =& $this->ref_id;
 	}
 	
 	/**
@@ -56,7 +70,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("create_rolt", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -82,7 +96,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$this->type));
+																	   $this->rolf_ref_id."&new_type=".$this->type));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
@@ -104,7 +118,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
-		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("create_rolt",$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"),$this->ilias->error_obj->WARNING);
 		}
@@ -134,11 +148,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$roltObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$roltObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roltObj->create();
-		$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],'n');
+		$rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id,'n');
 		
 		sendInfo($this->lng->txt("rolt_added"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id);
 		exit();
 	}
 
@@ -151,7 +165,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 			exit();
@@ -195,7 +209,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// BEGIN CHECK_PERM
 		foreach ($rbac_objects as $key => $obj_data)
 		{
-			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $_GET["ref_id"]);
+			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
 			$arr_checked = array_intersect($arr_selected,array_keys($rbac_operations[$obj_data["obj_id"]]));
 
 			foreach ($rbac_operations[$obj_data["obj_id"]] as $operation)
@@ -228,7 +242,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		else
 		{
 			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
+			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
 
 			// sort output for correct color changing
 			ksort($parent_role_ids);
@@ -245,11 +259,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				}
 			}
 	
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
+			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 			// END ADOPT_PERMISSIONS
 		}
 
-		$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
+		$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
 
 		$this->data = $output;
 
@@ -324,7 +338,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
@@ -365,7 +379,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				{
 					if (in_array($operations["ops_id"],$rbacreview->getOperationsOnType($data["obj_id"])))
 					{
-						$selected = $rbacreview->getOperationsOfRole($this->object->getId(), $data["title"], $_GET["ref_id"]);
+						$selected = $rbacreview->getOperationsOfRole($this->object->getId(), $data["title"], $this->rolf_ref_id);
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -396,7 +410,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
 
 			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
+			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
 
 			// sort output for correct color changing
 			ksort($parent_role_ids);
@@ -410,10 +424,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 				$output["adopt"][$key]["role_name"] = $par["title"];
 			}
 			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&obj_id="
-				.$this->object->getId()."&ref_id=".$_GET["ref_id"];
+				.$this->object->getId()."&ref_id=".$this->rolf_ref_id;
 			// END ADOPT_PERMISSIONS
 
-			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".$this->object->getId()."&ref_id=".$_GET["ref_id"];
+			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".$this->object->getId()."&ref_id=".$this->rolf_ref_id;
 			$output["message_top"] = "Permission Template of Role: ".$this->object->getTitle();
 		}
 
@@ -499,19 +513,19 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
 			// Alle Template Eintraege loeschen
-			$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
+			$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
 
 			foreach ($_POST["template_perm"] as $key => $ops_array)
 			{
 				// Setzen der neuen template permissions
-				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$_GET["ref_id"]);
+				$rbacadmin->setRolePermission($this->object->getId(), $key,$ops_array,$this->rolf_ref_id);
 			}
 		}
 		
@@ -520,7 +534,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$_GET["ref_id"]."&cmd=perm");
+		header("Location: adm_object.php?obj_id=".$this->object->getId()."&ref_id=".$this->rolf_ref_id."&cmd=perm");
 		exit();
 	}
 
@@ -533,20 +547,20 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
-		if (!$rbacsystem->checkAccess('edit_permission',$_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
-		elseif ($_GET["obj_id"] == $_POST["adopt"])
+		elseif ($this->obj_id == $_POST["adopt"])
 		{
 			sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
 		}
 		else
 		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
-			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
+			$rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
+			$parentRoles = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
-										   $_GET["ref_id"],$_GET["obj_id"]);		
+										   $this->rolf_ref_id,$this->obj_id);		
 			// update object data entry (to update last modification date)
 			$this->object->update();
 
@@ -555,7 +569,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->obj_id."&cmd=perm");
 		exit();
 	}
 
@@ -569,7 +583,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// check write access
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"),$this->ilias->error_obj->WARNING);
 		}
@@ -594,7 +608,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id);
 		exit();
 	}
 } // END class.ilObjRoleTemplateGUI
