@@ -321,6 +321,8 @@ common#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 common#:#mail_entry_changed#:#Der Eintrag wurde geändert
+common#:#mail_file_name#:#Dateiname
+common#:#mail_file_size#:#Dateigröße
 common#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 common#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 common#:#mail_folder_name#:#Ordnername
@@ -360,6 +362,7 @@ common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
 common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
 common#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
+common#:#mail_system#:#Systemnachricht
 common#:#mail_to_search#:#Empfänger suchen
 common#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 common#:#mail_z_local#:#Eigene Ordner
@@ -581,6 +584,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#mail_file_name#:#Dateiname
-common#:#mail_file_size#:#Dateigröße
-common#:#mail_system#:#Systemnachricht

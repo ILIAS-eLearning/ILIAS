@@ -321,6 +321,8 @@ common#:#mail_deleted_entry#:#The entries are deleted
 common#:#mail_e_sent#:#Sent
 common#:#mail_entry_added#:#Added new Entry
 common#:#mail_entry_changed#:#The entry is changed
+common#:#mail_file_name#:#Filename
+common#:#mail_file_size#:#Filesize
 common#:#mail_folder_created#:#A new folder is created
 common#:#mail_folder_exists#:#A folder already exists with this name
 common#:#mail_folder_name#:#Folder name
@@ -360,6 +362,7 @@ common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
+common#:#mail_system#:#System Message
 common#:#mail_to_search#:#To search
 common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 common#:#mail_z_local#:#User Folders
@@ -581,6 +584,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#mail_file_name#:#Filename
-common#:#mail_file_size#:#Filesize
-common#:#mail_system#:#System Message
