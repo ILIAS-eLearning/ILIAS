@@ -575,13 +575,15 @@ class ilRbacReview
 
 	/**
 	* get all objects in which the inheritance was stopped
-	* TODO: the function returns all objects containing a role folder. So the function name should be renamed.
+	* the function returns all reference ids of objects containing a role folder.
 	* @access	public
 	* @param	integer	role_id
-	* @return	array
+	* @return	array	with ref_ids of objects
 	*/
 	function getObjectsWithStopedInheritance($a_rol_id)
 	{
+		global $tree;
+
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
@@ -594,11 +596,7 @@ class ilRbacReview
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			// exclude master role folder from list
-			if ($row->parent != ROLE_FOLDER_ID)
-			{
-				$parent[] = $row->parent;
-			}
+			$parent[] = $tree->getParentId($row->parent);
 		}
 
 		return $parent ? $parent : array();

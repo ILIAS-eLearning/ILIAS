@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.72 2004/01/31 13:11:21 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.73 2004/01/31 18:39:39 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -502,14 +502,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
 		if ($_POST["recursive"])
 		{
-			// IF PARENT NODE IS MAIN ROLE FOLDER START AT ROOT FOLDER
+			// IF ROLE IS A GLOBAL ROLE START AT ROOT FOLDER
 			if ($this->rolf_ref_id == ROLE_FOLDER_ID)
 			{
 				$node_id = ROOT_FOLDER_ID;
 			}
 			else
 			{
-				$node_id = $this->rolf_ref_id;
+				$node_id = $this->tree->getParentId($this->rolf_ref_id);
 			}
 
 			// GET ALL SUBNODES
@@ -517,11 +517,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$subtree_nodes = $this->tree->getSubTree($node_data);
 
 			// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
-			$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
+			$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 
 			// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-			$key = array_keys($all_rolf_obj,$node_id);
-			unset($all_rolf_obj[$key[0]]);
+			$key = array_keys($all_parent_obj_of_rolf,$node_id);
+			unset($all_parent_obj_of_rolf[$key[0]]);
 
 			$check = false;
 
@@ -529,7 +529,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				if (!$check)
 				{
-					if (in_array($node["child"],$all_rolf_obj))
+					if (in_array($node["child"],$all_parent_obj_of_rolf))
 					{
 						$lft = $node["lft"];
 						$rgt = $node["rgt"];
@@ -573,6 +573,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 			}
 		}// END IF RECURSIVE
+		
+
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
