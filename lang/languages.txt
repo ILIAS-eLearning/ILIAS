@@ -60,6 +60,9 @@ edit_data	edit data	Daten bearbeiten	edit data	edit data
 email	email	eMail	email	email
 employee	employee	Angestellter	impiegato	employee
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
+err_session_expired	Your Session expired. Please relogin.	Ihre Session ist abgelaufen. Bitte loggen Sie sich erneut ein.	Session Expired. Relogin!	Session Expired. Relogin!
+err_idled	You have been idle too long. Please relogin.	Sie waren zu lange untätig. Bitt loggen Sie sich erneut ein.	Idled too long. Relogin!	Idled too long. Relogin!
+err_wrong_login	Wrong Login Data.	Benutzerdaten sind nicht gültig	Wrong Login Data	Wrong Login Data
 execute	execute	ausführen	esegui	execute
 faq_exercise	faq exercise	FAQ/Übungskapitel	faq exercise	faq exercise
 feedback	feedback	Feedback	feedback	feedback
@@ -293,3 +296,5 @@ tpl_path	template path	Template-Pfad	tpl_path	tpl_path
 lang_path	language path	Sprachdateien-Pfad	lang_path	lang_path
 fill_out_all_required_fields	please fill out all required fields	Bitte füllen Sie alle benötigten Felder aus	fill_out_all_required_fields	fill_out_all_required_fields
 saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	saved_successfully	saved_successfully
+usr_style	style	Stil/Farben	style	style
+ip_address	IP address	IP-Adresse	ipaddress	ipaddress
