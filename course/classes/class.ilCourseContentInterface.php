@@ -56,6 +56,8 @@ class ilCourseContentInterface
 
 	function cci_view()
 	{
+		include_once "./classes/class.ilRepositoryExplorer.php";
+
 		global $rbacsystem;
 
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
@@ -98,9 +100,7 @@ class ilCourseContentInterface
 			{
 				if ($rbacsystem->checkAccess('read',$cont_data["ref_id"]))
 				{
-					$this->ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $cont_data["child"]);
-					$obj_link = $this->ctrl->getLinkTargetByClass("ilRepositoryGUI");
-					#$obj_link = "repository.php?ref_id=".$cont_data["ref_id"];
+					$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
 					$tpl->setCurrentBlock("crs_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
 					$tpl->setVariable("READ_LINK", $obj_link);

@@ -61,6 +61,16 @@ $frm =& $forumObj->Forum;
 
 $frm->setForumId($forumObj->getId());
 $frm->setForumRefId($forumObj->getRefId());
+
+$frm->setWhereCondition("top_frm_fk = ".$forumObj->getId());
+$topicData = $frm->getOneTopic();
+
+// REDIRECT TO forums_threads_new.php if there is no topic 
+if (!$topicData["top_num_threads"])
+{
+	ilUtil::redirect("forums_threads_new.php?ref_id=".$forumObj->getRefId());
+}
+
 $ilCtrl->getCallStructure(strtolower("ilObjForumGUI"));
 
 if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))

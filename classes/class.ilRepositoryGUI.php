@@ -228,7 +228,7 @@ class ilRepositoryGUI
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					if($obj_type == "crs")
+					if($obj_type == "crs" or $obj_type == 'fold')
 					{
 						$this->prepareOutput();
 						$this->ctrl->forwardCommand($this->gui_obj);
@@ -3202,8 +3202,7 @@ class ilRepositoryGUI
 			$this->duplicate($_POST["action"],$this->cur_ref_id,(int) $_GET["source_id"]);
 		}
 		sendInfo($this->lng->txt("copied_object"),true);
-		
-		$this->ctrl->redirect($this,'showList');
+		ilUtil::redirect("./repository.php?ref_id=".$this->cur_ref_id);
 	}
 
 	function duplicate($post,$a_target,$a_source)
@@ -3232,7 +3231,7 @@ class ilRepositoryGUI
 	function copyObject($a_target,$a_source)
 	{
 		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
-		$new_ref = $tmp_source->clone($a_target);
+		$new_ref = $tmp_source->ilClone($a_target);
 		unset($tmp_source);
 
 		return $new_ref;

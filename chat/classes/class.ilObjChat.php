@@ -72,6 +72,12 @@ class ilObjChat extends ilObject
 		$this->chat_room =& new ilChatRoom($this->getRefId());
 	}
 
+	function ilClone($a_parent_ref)
+	{
+		$tmp_obj =& ilObjectFactory::getInstanceByRefId(parent::ilClone($a_parent_ref));
+	}
+
+
 	function delete()
 	{
 		if(!parent::delete())
