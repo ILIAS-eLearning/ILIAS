@@ -847,6 +847,7 @@ common#:#choose_location#:#Choisissez l'emplacement
 common#:#choose_only_one_language#:#Veuillez ne choisir qu'une langue
 common#:#city#:#Ville
 common#:#clear#:#Effacer
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#IP client
 common#:#client_id#:#ID client
 common#:#client_ip#:#IP client
@@ -1391,6 +1392,7 @@ common#:#ingmedia_welcome#:#, bienvenue sur votre bureau personnel !
 common#:#inifile#:#Fichier ini
 common#:#input_error#:#Erreur d'entrée
 common#:#insert#:#insertion
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#Identifiant d'installation
 common#:#inst_info#:#Informations d'installation
 common#:#inst_name#:#Nom de l'installation
@@ -2386,6 +2388,7 @@ content#:#cont_autoindent#:#Auto-indententation
 content#:#cont_back#:#Retour
 content#:#cont_booktitle#:#Titre du livre
 content#:#cont_bottom#:#Bas
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Les répertoires ne peuvent pas être copiés dans le presse-papier
 content#:#cont_cant_del_full#:#Suppression du fichier plein écran impossible
 content#:#cont_cant_del_std#:#Suppression du fichier vue standard impossible

@@ -861,6 +861,7 @@ common#:#choose_location#:#Виберіть Місце Знаходження
 common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
 common#:#city#:#Місто###14 Sep 2004 content changed
 common#:#clear#:#Очистити
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID Клієнта
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, ласкаво просимо до вашого о
 common#:#inifile#:#Ini-Файл
 common#:#input_error#:#Помилка вводу
 common#:#insert#:#Вставити
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#Інсталяційне ID
 common#:#inst_info#:#Інсталяційна Інформація
 common#:#inst_name#:#Інсталяційне Ім'я
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Назад
 content#:#cont_booktitle#:#Назва книжки###14 Sep 2004 content changed
 content#:#cont_bottom#:#Низ
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.

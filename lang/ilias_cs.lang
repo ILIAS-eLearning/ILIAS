@@ -861,6 +861,7 @@ common#:#choose_location#:#Vyberte umístění
 common#:#choose_only_one_language#:#Vyberte prosím pouze jeden jazyk
 common#:#city#:#Město###14 Sep 2004 content changed
 common#:#clear#:#Vymazat
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID klienta
 common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, vítejte na své osobní pracovní ploše!!
 common#:#inifile#:#Inicializační soubor
 common#:#input_error#:#Chyba vstupu
 common#:#insert#:#Vložit
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#ID Instalace
 common#:#inst_info#:#Informace o instalaci
 common#:#inst_name#:#Název instalace
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Zpět
 content#:#cont_booktitle#:#Název knihy###14 Sep 2004 content changed
 content#:#cont_bottom#:#Dolů
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
 content#:#cont_cant_del_full#:#Není možné smazat celoobrazovkový soubor.###14 Sep 2004 content changed
 content#:#cont_cant_del_std#:#Není možné smazat soubor se standardním náhledem.

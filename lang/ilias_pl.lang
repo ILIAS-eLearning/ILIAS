@@ -861,6 +861,7 @@ common#:#choose_location#:#Wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#IP klienta
 common#:#client_id#:#ID Klienta
 common#:#client_ip#:#IP Klienta
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, witaj na swoim pulpicie!!
 common#:#inifile#:#Plik-Ini
 common#:#input_error#:#Błąd wejścia
 common#:#insert#:#Wstaw
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#ID instalacji
 common#:#inst_info#:#Informacja o instalacji
 common#:#inst_name#:#Nazwa instalacji
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Automatyczne wcięcie
 content#:#cont_back#:#Powrót
 content#:#cont_booktitle#:#Tytuł książki
 content#:#cont_bottom#:#Spód
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Foldery nie mogą być kopiowane do schowka
 content#:#cont_cant_del_full#:#Usunięcie pliku pełnoekranowego widoku nie jest możliwe.
 content#:#cont_cant_del_std#:#Usunięcie pliku standardowego widoku nie jest możliwe

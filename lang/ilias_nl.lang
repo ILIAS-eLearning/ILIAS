@@ -861,6 +861,7 @@ common#:#choose_location#:#Kies locatie
 common#:#choose_only_one_language#:#A.u.b. slechts één taal kiezen
 common#:#city#:#Stad
 common#:#clear#:#Afbreken
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Cliënt IP
 common#:#client_id#:#Cliënt-ID
 common#:#client_ip#:#Cliënt IP
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, welkom op uw persoonlijk bureaublad!!
 common#:#inifile#:#Ini-bestand
 common#:#input_error#:#Invoer fout
 common#:#insert#:#Invoegen
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#Installatie-ID
 common#:#inst_info#:#Installatie-informatie
 common#:#inst_name#:#Naam installatie
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Toewijzen vertaling
 content#:#cont_back#:#De toewijzing is gewist
 content#:#cont_booktitle#:#Automatische kantlijn
 content#:#cont_bottom#:#Terug
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Booktitel
 content#:#cont_cant_del_full#:#Onderkant
 content#:#cont_cant_del_std#:#Mappen kunnen niet naar klembord gecopiëerd worden

@@ -861,6 +861,7 @@ common#:#choose_location#:#Területválasztás
 common#:#choose_only_one_language#:#Csak egy nyelvet válasszon!
 common#:#city#:#Város
 common#:#clear#:#Törlés
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Kliens IP
 common#:#client_id#:#Kliensazonosító
 common#:#client_ip#:#Client IP###05 Nov 2004 new variable
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, üdvözöljük munkaasztalánál!!
 common#:#inifile#:#ini fájl
 common#:#input_error#:#Beviteli hiba
 common#:#insert#:#Beszúrás
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#Telepítési azonosító (ID)
 common#:#inst_info#:#Telepítési információ
 common#:#inst_name#:#Telepítési név
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Auto Indent###05 Nov 2004 new variable
 content#:#cont_back#:#Vissza
 content#:#cont_booktitle#:#Könyvcím
 content#:#cont_bottom#:#Aljára
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#A mappák nem másolhatók a vágólapra.
 content#:#cont_cant_del_full#:#A teljes képernyős fájl nem törölhető.
 content#:#cont_cant_del_std#:#A szabvány nézetű fájl nem törölhető.

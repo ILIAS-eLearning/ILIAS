@@ -849,10 +849,10 @@ common#:#check_all#:#Controlla tutto
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
 common#:#check_link#:#Verifica il link
-common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.
+common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS verranno verificati se sempre attivi.###24 Dec 2004 content changed
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
-common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
+common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.###24 Dec 2004 content changed
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -861,6 +861,7 @@ common#:#choose_location#:#Scegli la cartella
 common#:#choose_only_one_language#:#Per favore, scegli una sola lingua.
 common#:#city#:#Citt&#224;
 common#:#clear#:#Annulla
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
@@ -1410,6 +1411,7 @@ common#:#ingmedia_welcome#:#, benvenuto nel tuo desktop personale!!
 common#:#inifile#:#File ilias.ini
 common#:#input_error#:#Errore di inserimento
 common#:#insert#:#Aggiungi
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#ID dell&#039;installazione
 common#:#inst_info#:#Informazioni sull&#039;installazione
 common#:#inst_name#:#Nome dell&#039;installazione
@@ -2411,6 +2413,7 @@ content#:#cont_autoindent#:#Indentazione automatica
 content#:#cont_back#:#Indietro
 content#:#cont_booktitle#:#Titolo del libro
 content#:#cont_bottom#:#In fondo
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Le cartelle non possono essere copiate negli appunti.
 content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.
 content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.

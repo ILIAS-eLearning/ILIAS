@@ -862,6 +862,7 @@ common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#city#:#ciudad
 common#:#clear#:#-clear-
+common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#Ip Cliente
 common#:#client_id#:#ID de Cliente
 common#:#client_ip#:#Ip Cliente
@@ -1411,6 +1412,7 @@ common#:#ingmedia_welcome#:#, welcome to your personal desktop!!###01 Oct 2003 n
 common#:#inifile#:#fichero de inicialización
 common#:#input_error#:#Error de Entrada
 common#:#insert#:#Insertar
+common#:#insert_object_here#:#Insert object here###24 Dec 2004 new variable
 common#:#inst_id#:#ID de instalación
 common#:#inst_info#:#información de instalación
 common#:#inst_name#:#nombre de la instalación
@@ -2412,6 +2414,7 @@ content#:#cont_autoindent#:#Auto Indentar
 content#:#cont_back#:#Volver
 content#:#cont_booktitle#:#Título del Libro
 content#:#cont_bottom#:#Fondo
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
 content#:#cont_cant_copy_folders#:#Las Carpetas no pueden ser copiadas al portapapeles.
 content#:#cont_cant_del_full#:#No es posible eliminar el fichero de pantalla completa.
 content#:#cont_cant_del_std#:#No es posible eliminar el fichero de vista estándar.

@@ -640,8 +640,6 @@ chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
-common#:#insert_object_here#:#Insert object here
-common#:#clear_clipboard#:#Empty Clipboard
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -863,6 +861,7 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City, State
 common#:#clear#:#Clear
+common#:#clear_clipboard#:#Empty Clipboard
 common#:#client ip#:#Client IP
 common#:#client_id#:#Client ID
 common#:#client_ip#:#Client IP
@@ -1412,6 +1411,7 @@ common#:#ingmedia_welcome#:#, welcome to your personal desktop!!
 common#:#inifile#:#Ini-File
 common#:#input_error#:#Input error
 common#:#insert#:#Insert
+common#:#insert_object_here#:#Insert object here
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info
 common#:#inst_name#:#Installation Name
@@ -2402,7 +2402,6 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
-content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -2414,6 +2413,7 @@ content#:#cont_autoindent#:#Auto Indent
 content#:#cont_back#:#Back
 content#:#cont_booktitle#:#Book title
 content#:#cont_bottom#:#Bottom
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.
 content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.
 content#:#cont_cant_del_full#:#Deletion of full screen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
