@@ -112,26 +112,5 @@ class ilObjRole extends ilObject
 
 		return true;
 	}
-
-	/**
-	* update a role object
-	* @access	public
-	* @param	array	object data of role
-	* @return	boolean
-	*/
-	function update()
-	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
-
-		// check if role title is unique
-		if ($rbacreview->roleExists($this->getTitle()))
-		{
-			$this->ilias->raiseError("A role with the name '".$this->getTitle().
-				 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
-		}
-
-		parent::update();
-	}
-
 } // END class.RoleObject
 ?>
