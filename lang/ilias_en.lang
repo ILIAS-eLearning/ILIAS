@@ -34,8 +34,6 @@
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
-common#:#clipboard#:#Clipboard
-common#:#cont_object#:#Object
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
@@ -115,10 +113,12 @@ common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City
 common#:#clear#:#Clear
+common#:#clipboard#:#Clipboard
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#comment
 common#:#compose#:#Compose
 common#:#confirm#:#Confirm
+common#:#cont_object#:#Object
 common#:#contact_data#:#Contact Information
 common#:#context#:#Context
 common#:#copy#:#Copy
