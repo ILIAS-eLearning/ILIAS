@@ -516,6 +516,8 @@ common#:#msg_user_last_role2#:#Please delete the users or assign them to another
 common#:#msg_userassignment_changed#:#Userassigment changed
 common#:#multimedia#:#Multimedia
 common#:#my_frms#:#My Forums
+common#:#my_grps#:#My Groups
+common#:#my_bms#:#My Bookmarks
 common#:#my_los#:#My Learning Objects
 common#:#name#:#Name
 common#:#new#:#New
@@ -531,6 +533,8 @@ common#:#no#:#No
 common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
+common#:#no_grp_in_personal_list#:#No groups in personal list.
+common#:#no_bm_in_personal_list#:#No bookmarks defined.
 common#:#no_import_available#:#Import not available for type
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_objects#:#No objects

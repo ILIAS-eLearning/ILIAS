@@ -1422,6 +1422,7 @@ class ilObjUser extends ilObject
 	function getDesktopItems($a_type)
 	{
 		$items = array();
+
 		switch ($a_type)
 		{
 			case "lm":
@@ -1457,7 +1458,27 @@ class ilObjUser extends ilObject
 						"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
 				}
 				break;
+				
+			case "grp":
+				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					", object_data AS obj WHERE ".
+					"it.item_id = oref.ref_id AND ".
+					"oref.obj_id = obj.obj_id AND ".
+					"it.type = 'grp' AND ".
+					"it.user_id = '".$this->getId()."' ".
+					"ORDER BY title";
+				$item_set = $this->ilias->db->query($q);
+				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$items[] = array ("id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+						"link" => "group.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+				}
+				break;
+				
+			default:
+				break;
 		}
+
 		return $items;
 	}
 

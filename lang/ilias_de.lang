@@ -516,6 +516,8 @@ common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie i
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
 common#:#my_frms#:#Meine Foren
+common#:#my_grps#:#Meine Gruppen
+common#:#my_bms#:#Meine Bookmarks
 common#:#my_los#:#Meine Lernobjekte
 common#:#name#:#Name
 common#:#new#:#Neu
@@ -531,6 +533,8 @@ common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
+common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
+common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_objects#:#Keine Objekte

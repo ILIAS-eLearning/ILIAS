@@ -74,20 +74,21 @@ include "./include/inc.personaldesktop_buttons.php";
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
 $tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
-//$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
+/**
+* TEMP. DISABLED
 // SYSTEM MAILS
 $umail = new ilMail($_SESSION["AccountId"]);
 $smails = $umail->getMailsOfFolder(0);
 
-//courses
+// courses
 $courses = $ilias->account->getCourses();
 
-//forums
+// forums
 $frm_obj = ilUtil::getObjectsByOperations('frm','read');
 $frmNum = count($frm_obj);
 $lastLogin = $ilias->account->getLastLogin();
-
+*/
 
 //********************************************
 //* OUTPUT
@@ -132,7 +133,8 @@ if(count($smails))
    	$tpl->parseCurrentBlock();
 }*/
 
-// learning modules
+//********************************************
+// learning modules & courses
 $lo_items = $ilias->account->getDesktopItems("lm");
 $i = 0;
 
@@ -162,6 +164,7 @@ $tpl->setVariable("TXT_LO_HEADER",$lng->txt("my_los"));
 $tpl->setVariable("TXT_LO_TITLE",$lng->txt("title"));
 $tpl->parseCurrentBlock();
 
+//********************************************
 // forums
 $frm_items = $ilias->account->getDesktopItems("frm");
 $i = 0;
@@ -177,6 +180,7 @@ foreach ($frm_items as $frm_item)
 	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
 	$tpl->parseCurrentBlock();
 }
+
 if ($i == 0)
 {
 	$tpl->setCurrentBlock("tbl_no_frm");
@@ -184,12 +188,14 @@ if ($i == 0)
 	$tpl->setVariable("TXT_NO_FRM", $lng->txt("no_frm_in_personal_list"));
 	$tpl->parseCurrentBlock();
 }
+
 $tpl->setCurrentBlock("tbl_frm");
 $tpl->setVariable("TXT_FRM_HEADER",$lng->txt("my_frms"));
 $tpl->setVariable("TXT_FRM_TITLE",$lng->txt("title"));
 $tpl->parseCurrentBlock();
 
-// display users online
+//********************************************
+// users online
 $tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));	
 
 $users = ilUtil::getUsersOnline();
@@ -318,6 +324,66 @@ if ($_GET["cmd"] == "whoisdetail")
 		$tpl->parseCurrentBlock();
 	}
 }
+
+//********************************************
+// groups
+$grp_items = $ilias->account->getDesktopItems("grp");
+$i = 0;
+
+foreach ($grp_items as $grp_item)
+{
+	$i++;
+	$tpl->setCurrentBlock("tbl_grp_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("GRP_LINK", "group.php?ref_id=".$grp_item["id"]);
+	$tpl->setVariable("GRP_TITLE", $grp_item["title"]);
+	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=grp&id=".$grp_item["id"]);
+	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+	$tpl->parseCurrentBlock();
+}
+
+if ($i == 0)
+{
+	$tpl->setCurrentBlock("tbl_no_grp");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("TXT_NO_GRP", $lng->txt("no_grp_in_personal_list"));
+	$tpl->parseCurrentBlock();
+}
+
+$tpl->setCurrentBlock("tbl_grp");
+$tpl->setVariable("TXT_GRP_HEADER",$lng->txt("my_grps"));
+$tpl->setVariable("TXT_GRP_TITLE",$lng->txt("title"));
+$tpl->parseCurrentBlock();
+
+//********************************************
+// bookmarks
+$bm_items = $ilias->account->getDesktopItems("bm");
+$i = 0;
+
+foreach ($bm_items as $bm_item)
+{
+	$i++;
+	$tpl->setCurrentBlock("tbl_bm_row");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("BM_LINK", "target URL");
+	$tpl->setVariable("BM_TITLE", $bm_item["title"]);
+	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=bm&id=".$bm_item["id"]);
+	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+	$tpl->parseCurrentBlock();
+}
+
+if ($i == 0)
+{
+	$tpl->setCurrentBlock("tbl_no_bm");
+	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+	$tpl->setVariable("TXT_NO_BM", $lng->txt("no_bm_in_personal_list"));
+	$tpl->parseCurrentBlock();
+}
+
+$tpl->setCurrentBlock("tbl_bm");
+$tpl->setVariable("TXT_BM_HEADER",$lng->txt("my_bms"));
+$tpl->setVariable("TXT_BM_TITLE",$lng->txt("title"));
+$tpl->parseCurrentBlock();
 
 // output
 $tpl->show();
