@@ -91,6 +91,9 @@ assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new var
 assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
 assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
 assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
+assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
+assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
+assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
 common#:#3rd_party_software#:#software van derden###09 Jan 2004 content changed
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
