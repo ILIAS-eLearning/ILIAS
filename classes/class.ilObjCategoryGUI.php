@@ -463,7 +463,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		// global
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
+//		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&mode=edit&ref_id=".$_GET["ref_id"]));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -479,7 +480,6 @@ class ilObjCategoryGUI extends ilObjectGUI
 	function updateObject()
 	{
 		global $rbacsystem;
-
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
@@ -543,7 +543,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?".$this->link_params));
+		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 
 	/**
