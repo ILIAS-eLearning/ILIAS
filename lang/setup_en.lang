@@ -155,6 +155,7 @@ ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS 3 setup
 ilias_version#:#ILIAS version
+include_local#:#include local###include local language file when updating language
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asterisk must be filled out. All information is stored in your database. On the next screen you may register your installation at the ILIAS-NIC server; registration transmits this data to the ILIAS-NIC server.
 info_text_db#:#The database does not exist or is empty. Click the button below to install your database. If a database with the chosen name does not yet exist, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail (i.e. due to restricted access permissions), please contact the system administrator of the database server and ask him to create a database with desired name prior to installing ILIAS.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
