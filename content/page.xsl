@@ -249,7 +249,8 @@
 <!-- PageContent -->
 <xsl:template match="PageContent">
 	<xsl:if test="$mode = 'edit'">
-		<div class="il_editarea">
+		<div class="il_editarea"  onMouseOver="doMouseOver(this.id);" onMouseOut="doMouseOut(this.id);" onClick="doMouseClick(event,this.id);">
+        <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
 		<xsl:apply-templates>
 			<xsl:with-param name="par_counter" select ="position()" />
 		</xsl:apply-templates>
