@@ -35,6 +35,7 @@ class ilGroupExplorer extends ilExplorer
 	{
 		parent::ilExplorer($a_target);
 		
+		$this->grp_id = $a_ref_id;
 		$this->tree = new ilTree($a_ref_id,$a_ref_id);
 		$this->tree->setTableNames("grp_tree","object_data","object_reference");
 		
@@ -125,7 +126,32 @@ class ilGroupExplorer extends ilExplorer
 		} //if
 	} //function
 	
-	
+	/**
+	* method to create a forum system specific header
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	* @return	string
+	*/
+	function formatHeader()
+	{
+		global $lng, $ilias;
+
+		
+		$grp_obj =& $ilias->obj_factory->getInstanceByRefId($this->grp_id);
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		$tpl->setCurrentBlock("row");
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_grp.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_grp"));
+		$tpl->setVariable("TITLE", $grp_obj->getTitle());
+		$tpl->setVariable("TARGET","target=\"content\"");
+		$tpl->setVariable("LINK_TARGET",$this->target."?ref_id=".$this->grp_id);
+		$tpl->parseCurrentBlock();
+		
+		$this->output[] = $tpl->get();
+	}
 }
 
 
