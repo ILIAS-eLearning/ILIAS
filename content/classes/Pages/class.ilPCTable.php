@@ -408,7 +408,7 @@ class ilPCTable extends ilPageContent
 				if ($n->node_type() == XML_ELEMENT_NODE &&
 				strcasecmp($n->node_name (), "td") == 0)
 				{
-					$this->importCell ($lng, &$n, &$aRow);
+					$this->importCell ($lng, $n, $aRow);
 				}
 			}
 		}
@@ -470,7 +470,7 @@ class ilPCTable extends ilPageContent
 							strcasecmp($n->node_name (), "tr") == 0)
 							{
 
-								$this->importRow ($lng, &$n);
+								$this->importRow ($lng, $n);
 							}
 						}
 					}

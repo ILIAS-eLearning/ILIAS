@@ -275,6 +275,15 @@ class ilObjTest extends ilObject
 */
 	var $random_test;
 
+/**
+* Determines the number of questions which should be taken for a random test
+*
+* Determines the number of questions which should be taken for a random test
+*
+* @var integer
+*/
+	var $random_question_count;
+
 	/**
 	* Constructor
 	* @access	public
@@ -305,6 +314,7 @@ class ilObjTest extends ilObject
 		$this->ects_output = 0;
 		$this->ects_fx = "";
 		$this->random_test = 0;
+		$this->random_question_count = "";
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->create_simple_schema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -469,6 +479,16 @@ class ilObjTest extends ilObject
 		}
 		
 		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM tst_test_random WHERE test_id = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM tst_test_random_question WHERE test_id = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
@@ -801,6 +821,14 @@ class ilObjTest extends ilObject
 		} 
 			else 
 		{
+			if ($this->isRandomTest())
+			{
+				$arr = $this->getRandomQuestionpools();
+				if (count($arr))
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 	}
@@ -998,6 +1026,32 @@ class ilObjTest extends ilObject
 		}
 	}
 
+/**
+* Saves a random question to the database
+*
+* Saves a random question to the database
+*
+* @access public
+* @see $questions
+*/
+	function saveRandomQuestion($question_id) {
+		global $ilUser;
+		
+		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($ilUser->id . "")
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, test_fi, user_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($this->getTestId() . ""),
+			$this->ilias->db->quote($ilUser->id . ""),
+			$this->ilias->db->quote($question_id . ""),
+			$this->ilias->db->quote(($result->numRows()+1) . "")
+		);
+		$result = $this->ilias->db->query($query);
+	}
+
 	/**
 	* Saves the total amount of a tests random questions to the database
 	*
@@ -1044,6 +1098,37 @@ class ilObjTest extends ilObject
 		}
 	}
 
+/**
+* Returns an array containing the random questionpools saved to the database
+*
+* Returns an array containing the random questionpools saved to the database
+*
+* @access public
+* @return array All saved random questionpools
+* @see $questions
+*/
+	function &getRandomQuestionpools() {
+		$qpls = array();
+		$counter = 0;
+		$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+			$this->ilias->db->quote($this->getTestId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$qpls[$counter] = array(
+					"index" => $counter,
+					"count" => $row["num_of_q"],
+					"qpl"   => $row["questionpool_fi"]
+				);
+				$counter++;
+			}
+		}
+		return $qpls;
+	}
+
 	/**
 	* Loads a ilObjTest object from a database
 	*
@@ -1088,6 +1173,7 @@ class ilObjTest extends ilObject
 				);
 				$this->ects_fx = $data->ects_fx;
 				$this->random_test = $data->random_test;
+				$this->random_question_count = $data->random_question_count;
 				$this->mark_schema->flush();
 				$this->mark_schema->loadFromDb($this->test_id);
 				$this->loadQuestions();
@@ -1096,11 +1182,23 @@ class ilObjTest extends ilObject
 	}
 
 	function loadQuestions() {
+		global $ilUser;
+		
     $db = $this->ilias->db;
 		$this->questions = array();
-		$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-			$db->quote($this->test_id)
-		);
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi ORDER BY sequence",
+				$db->quote($this->test_id),
+				$db->quote($ilUser->id)
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
+				$db->quote($this->test_id)
+			);
+		}
 		$result = $db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$this->questions[$data->sequence] = $data->question_fi;
@@ -1157,6 +1255,19 @@ class ilObjTest extends ilObject
 */
   function isRandomTest() {
     return $this->random_test;
+  }
+
+/**
+* Gets the number of random questions used for a random test
+* 
+* Gets the number of random questions used for a random test
+*
+* @return integer The number of random questions
+* @access public
+* @see $random_question_count
+*/
+  function getRandomQuestionCount() {
+    return $this->random_question_count;
   }
 
 /**
@@ -1235,6 +1346,19 @@ class ilObjTest extends ilObject
 */
   function setRandomTest($a_random_test = 0) {
     $this->random_test = $a_random_test;
+  }
+
+/**
+* Sets the random question count
+* 
+* Sets the random question count
+*
+* @param integer $a_random_question_count The random question count
+* @access public
+* @see $random_question_count
+*/
+  function setRandomQuestionCount($a_random_question_count = "") {
+    $this->random_question_count = $a_random_question_count;
   }
 
 /**
@@ -1787,10 +1911,21 @@ class ilObjTest extends ilObject
 	}
 	
 	function &getExistingQuestions() {
+		global $ilUser;
 		$existing_questions = array();
-		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
-			$this->ilias->db->quote($this->getTestId())
-		);
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($ilUser->id . "")
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
+				$this->ilias->db->quote($this->getTestId())
+			);
+		}
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 			array_push($existing_questions, $data->original_id);
@@ -1913,7 +2048,18 @@ class ilObjTest extends ilObject
 */
 	function &getAllQuestions()
 	{
-		$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")";
+		global $ilUser;
+		
+		if ($this->isRandomTest())
+		{
+			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")",
+				$this->ilias->db->quote($ilUser->id . "")
+			);
+		}
+		else
+		{
+			$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($this->questions, ",") . ")";
+		}
 		$result = $this->ilias->db->query($query);
 		$result_array = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2671,7 +2817,6 @@ class ilObjTest extends ilObject
 	{
 		global $rbacsystem;
 		
-		// get all available questionpools and remove the trashed questionspools
 		$forbidden_pools = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
 		$result = $this->ilias->db->query($query);
@@ -2750,19 +2895,22 @@ class ilObjTest extends ilObject
 * @return array A random selection of questions
 * @access public
 */
-	function randomSelectQuestions($nr_of_questions, $questionpool)
+	function randomSelectQuestions($nr_of_questions, $questionpool, $use_obj_id = 0)
 	{
 		global $rbacsystem;
 		
 		if ($questionpool != 0)
 		{
 			// retrieve object id
-			$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
-				$this->ilias->db->quote("$questionpool")
-			);
-			$result = $this->ilias->db->query($query);
-			$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-			$questionpool = $row[0];
+			if (!$use_obj_id)
+			{
+				$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
+					$this->ilias->db->quote("$questionpool")
+				);
+				$result = $this->ilias->db->query($query);
+				$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
+				$questionpool = $row[0];
+			}
 		}
 		// get all questions in the test
 		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
@@ -2919,31 +3067,35 @@ class ilObjTest extends ilObject
 * @return object The question instance
 * @access public
 */
-  function &_instanciateQuestion($question_id) {
-      $question_type = ASS_Question::_getQuestionType($question_id);
-      switch ($question_type) {
-        case "qt_cloze":
-          $question = new ASS_ClozeTest();
-          break;
-        case "qt_matching":
-          $question = new ASS_MatchingQuestion();
-          break;
-        case "qt_ordering":
-          $question = new ASS_OrderingQuestion();
-          break;
+  function &_instanciateQuestion($question_id) 
+	{
+		if (strcmp($question_id, "") != 0)
+		{
+			$question_type = ASS_Question::_getQuestionType($question_id);
+			switch ($question_type) {
+				case "qt_cloze":
+					$question = new ASS_ClozeTest();
+					break;
+				case "qt_matching":
+					$question = new ASS_MatchingQuestion();
+					break;
+				case "qt_ordering":
+					$question = new ASS_OrderingQuestion();
+					break;
 				case "qt_imagemap":
 					$question = new ASS_ImagemapQuestion();
 					break;
-        case "qt_multiple_choice_sr":
-        case "qt_multiple_choice_mr":
-          $question = new ASS_MultipleChoice();
-          break;
+				case "qt_multiple_choice_sr":
+				case "qt_multiple_choice_mr":
+					$question = new ASS_MultipleChoice();
+					break;
 				case "qt_javaapplet":
 					$question = new ASS_JavaApplet();
 					break;
-      }
-      $question->loadFromDb($question_id);
+			}
+			$question->loadFromDb($question_id);
 			return $question;
+		}
   }
 
 /**
@@ -3355,6 +3507,17 @@ class ilObjTest extends ilObject
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
 		$qtiMetadata->append_child($qtiMetadatafield);
+		// random question count
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("random_question_count");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node(sprintf("%d", $this->getRandomQuestionCount()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
 		// starting time
 		if ($this->getStartingTime())
 		{
@@ -3661,6 +3824,9 @@ class ilObjTest extends ilObject
 									break;
 								case "random_test":
 									$this->setRandomTest($fieldentry->get_content());
+									break;
+								case "random_question_count":
+									$this->setRandomQuestionCount($fieldentry->get_content());
 									break;
 								case "starting_time":
 									$iso8601period = $fieldentry->get_content();
