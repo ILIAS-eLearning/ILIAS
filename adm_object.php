@@ -14,6 +14,13 @@ require_once "include/inc.header.php";
 require_once "classes/class.Object.php";	// base class for all Object Types
 require_once "classes/class.ObjectOut.php";
 
+/*
+echo "<pre>";
+var_dump($_SESSION);
+echo "</pre>";
+exit;
+*/
+
 // for security
 unset($id);
 

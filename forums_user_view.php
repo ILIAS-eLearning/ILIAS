@@ -20,7 +20,7 @@ $tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?obj_id=".$_GET["obj_id"]."&p
 $tpl->setVariable("BTN_TXT", $lng->txt("back"));
 $tpl->parseCurrentBlock();
 
-if (!$rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"])) {
+if (!$rbacsystem->checkAccess("read", $_GET["obj_id"])) {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
 
@@ -49,7 +49,7 @@ $tpl->setVariable("GENDER",$author->getGender());
 
 $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 
-if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"]))
+if ($rbacsystem->checkAccess("write", $_GET["obj_id"]))
 {
 	$tpl->setVariable("EMAIL","<a href=\"mailto:".$author->getEmail()."\">".$author->getEmail()."</a>");
 }

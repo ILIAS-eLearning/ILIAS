@@ -1,4 +1,14 @@
 <?php
+/**
+* adm_menu
+* main script for explorer window in admin console
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
+*
+* @package ilias-core
+*/
 require_once "include/inc.header.php";
 require_once "classes/class.Explorer.php";
 
@@ -7,6 +17,7 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 $explorer = new Explorer("adm_object.php");
 
 $explorer->setExpand($_GET["expand"]);
+/*
 $explorer->addFilter("root");
 $explorer->addFilter("cat");
 $explorer->addFilter("grp");
@@ -19,7 +30,8 @@ $explorer->addFilter("adm");
 $explorer->addFilter("lngf");
 $explorer->addFilter("usrf");
 $explorer->addFilter("objf");
-$explorer->setFiltered(true);
+*/
+$explorer->setFiltered(false);
 $explorer->setOutput(0);
 
 $output = $explorer->getOutput();

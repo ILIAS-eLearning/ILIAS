@@ -73,7 +73,7 @@ if ($frmNum > 0)
 			}
 			
 			// read-access	
-			if ($rbacsystem->checkAccess("read", $data["ref_id"], $data["parent"])) 
+			if ($rbacsystem->checkAccess("read", $data["ref_id"])) 
 			{			
 				// forum title
 				if ($topicData["top_num_threads"] < 1 && (!$rbacsystem->checkAccess("write", $data["ref_id"])))

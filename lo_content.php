@@ -13,22 +13,23 @@ require_once "./include/inc.sort.php";
 
 // TODO: this function is common and belongs to class util!
 /**
-* builds a string to show the context
-*
-* @param int $obj_id
-* @param int $parent_id
-* @return string
-* @access public
+* builds a path string to show the context
+* you may leave startnode blank. root node of tree is used then
+* @param	integer	endnode_id
+* @param	integer	startnode_id
+* @return	string	path
+* @access	public
 */
-function getContextPath($obj_id, $parent_id)
+function getContextPath($a_endnode_id, $a_startnode_id = 0)
 {
 	global $tree;		
 
 	$path = "";		
 	
-	$tmpPath = $tree->getPathFull($obj_id, $parent_id);		
+	$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);		
+
 	// count -1, to exclude the forum itself
-	for ($i = 0; $i < (count($tmpPath)-1); $i++)
+	for ($i = 0; $i < (count($tmpPath) - 1); $i++)
 	{
 		if ($path != "")
 		{
@@ -102,7 +103,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
@@ -135,11 +136,13 @@ switch ($_SESSION["viewmode"])
 	case "tree":
 //go through valid objects and filter out the lessons only
 $lessons = array();
-if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
+$objects = $tree->getChilds($_GET["obj_id"],"title");
+
+if (count($objects) > 0)
 {
 	foreach ($objects as $key => $object)
 	{
-		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"],$object["parent"]))
+		if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"]))
 		{
 			$lessons[$key] = $object;
 		}
@@ -150,6 +153,7 @@ if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 //$lessons = $ilias->account->getLessons();
 
 		$lr_num = count($lessons);
+
 		if ($lr_num > 0)
 		{
 			// counter for rowcolor change
@@ -174,7 +178,7 @@ if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
 				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
+				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
